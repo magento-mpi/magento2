@@ -35,10 +35,10 @@
         var url = baseUrl+'set/'+$F(setElement)+'/type/'+$F(typeElement)+'/';
         setLocation(url);
     }
-    
+
 <?if($this->getProductSetId()):?>
 	var productLinksController = Class.create();
-    
+
 	productLinksController.prototype = {
 		initialize: 			 function(fieldId, products, grid) {
 			this.saveField = $(fieldId);
@@ -72,10 +72,10 @@
 	                	element.inputElements[i].disabled = true;
 	            	}
 	            }
-	            
+
 	            this.products.remove(element.value);
 	        }
-	        
+
 	        this.saveField.value = this.serializeObject(this.products);
 	        this.grid.reloadParams = {'products[]':this.products.keys()};
 		},
@@ -84,7 +84,7 @@
 			myObject.each(function(pair) {
 				myObject[pair.key] = encode_base64(Hash.toQueryString(pair.value));
 			});
-			
+
 			return myObject.toQueryString();
 		},
 		rowClick: function(grid, event) {
@@ -122,21 +122,21 @@
 	        }
 		}
 	};
-       
-    <?if($_relatedGridJsObject=$this->getLayout()->getBlock('admin.related.products')->getJsObjectName()):?>  	
+
+    <?if($_relatedGridJsObject=$this->getLayout()->getBlock('admin.related.products')->getJsObjectName()):?>
    	Event.observe(window, 'load', function() {
 	 	 var controller = new productLinksController('_related_products', <?=$this->getRelatedProductsJSON()?>, <?=$_relatedGridJsObject?>);
-	});   
+	});
 	<?endif;?>
-	<?if($_upsellGridJsObject=$this->getLayout()->getBlock('admin.upsell.products')->getJsObjectName()):?>  	
+	<?if($_upsellGridJsObject=$this->getLayout()->getBlock('admin.upsell.products')->getJsObjectName()):?>
    	Event.observe(window, 'load', function() {
 	 	 var controller = new productLinksController('_up_sell_products', <?=$this->getUpSellProductsJSON()?>, <?=$_upsellGridJsObject?>);
-	});   
+	});
 	<?endif;?>
-	<?if($_crosssellGridJsObject=$this->getLayout()->getBlock('admin.crosssell.products')->getJsObjectName()):?>  	
+	<?if($_crosssellGridJsObject=$this->getLayout()->getBlock('admin.crosssell.products')->getJsObjectName()):?>
    	Event.observe(window, 'load', function() {
 	 	 var controller = new productLinksController('_cross_sell_products', <?=$this->getCrossSellProductsJSON()?>, <?=$_crosssellGridJsObject?>);
-	});   
+	});
 	<?endif;?>
 <?endif;?>
 </script>

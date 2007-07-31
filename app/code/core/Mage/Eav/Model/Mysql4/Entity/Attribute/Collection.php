@@ -31,9 +31,8 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
 
     public function setAttributesExcludeFilter($attributes)
     {
-        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'sort_order');
-        $this->getSelect()->where('entity_attribute.attribute_id NOT IN(?)', $attributes);
-        $this->setOrder('sort_order', 'asc');
+        #$this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'sort_order');
+        $this->getSelect()->where('main_table.attribute_id NOT IN(?)', $attributes);
         return $this;
     }
 
@@ -48,6 +47,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     public function addAttributeGrouping()
     {
         $this->getSelect()->group('entity_attribute.attribute_id');
+        return $this;
+    }
+
+    public function addVisibleFilter()
+    {
+        $this->getSelect()->where('main_table.is_visible=?', 1);
         return $this;
     }
 }

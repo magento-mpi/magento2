@@ -113,11 +113,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         return $this->getUrl('*/catalog_product_group/save', array('id' => $this->_getSetId()));
     }
 
-    public function getRedirectUrl()
-    {
-        return $this->getUrl('*/*/');
-    }
-
     public function getGroupTreeJson()
     {
         $setId = $this->_getSetId();
@@ -134,11 +129,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $item['id']  = $node->getAttributeGroupId();
             $item['cls'] = 'folder';
             $item['allowDrop'] = true;
-            $item['allowDrag'] = false;
+            $item['allowDrag'] = true;
 
             $nodeChildren = Mage::getModel('eav/entity_attribute')
                                 ->getResourceCollection()
                                 ->setAttributeGroupFilter($node->getAttributeGroupId())
+                                ->addVisibleFilter()
                                 ->load();
 
             if ( $nodeChildren->getSize() > 0 ) {
@@ -147,11 +143,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                     $tmpArr = array();
                     $tmpArr['text'] = $child->getAttributeName() . ' (' . $child->getAttributeCode() . ')';
                     $tmpArr['id']  = $child->getAttributeId();
-                    $tmpArr['entity_id'] = $child->getEntityAttributeId();
                     $tmpArr['cls'] = 'leaf';
                     $tmpArr['allowDrop'] = false;
                     $tmpArr['allowDrag'] = true;
                     $tmpArr['leaf'] = true;
+                    $tmpArr['is_user_defined'] = $child->getIsUserDefined();
+                    $tmpArr['entity_id'] = $child->getEntityAttributeId();
 
                     $item['children'][] = $tmpArr;
                 }
@@ -179,8 +176,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                             ->getResourceCollection()
                             ->setEntityTypeFilter(Mage::registry('entityType'))
                             ->setAttributesExcludeFilter($attributesIds)
-                            ->addAttributeGrouping()
+                            ->addVisibleFilter()
                             ->load();
+
         $items = array();
         foreach( $attributes as $node ) {
             $item = array();
@@ -189,6 +187,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $item['cls'] = 'leaf';
             $item['allowDrop'] = false;
             $item['allowDrag'] = true;
+            $item['leaf'] = true;
+            $item['is_user_defined'] = $node->getIsUserDefined();
 
             $items[] = $item;
         }

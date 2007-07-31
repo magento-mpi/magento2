@@ -57,7 +57,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
         $write->beginTransaction();
         try {
-
             if( !$object->getSortOrder() ) {
                 if( $attributeId > 0 ) {
                     $condition = $write->quoteInto("{$this->getMainTable()}.{$this->getIdFieldName()} = ?", $attributeId);
@@ -88,6 +87,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $write->rollback();
             throw new Exception($e->getMessage());
         }
+        return $object;
     }
 
     private function _getMaxSortOrder($object)
@@ -119,5 +119,14 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             return false;
         }
         return true;
+    }
+
+    public function deleteEntity($object)
+    {
+        $write = $this->getConnection('write');
+
+        $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.entity_attribute_id = ?", $object->getEntityAttributeId());
+        $write->delete($this->getTable('entity_attribute'), $condition);
+        return $object;
     }
 }

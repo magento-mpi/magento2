@@ -44,7 +44,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      * @var integer
      */
     protected $_storeId;
-    
+
     /**
      * Current store to retrieve entity for
      *
@@ -115,7 +115,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_write = $write ? $write : $read;
         return $this;
     }
-    
+
     /**
      * Retrieve read DB connection
      *
@@ -138,7 +138,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     /**
      * Set configuration for the entity
-     * 
+     *
      * Accepts config node or name of entity type
      *
      * @param string|Mage_Eav_Model_Entity_Type $type
@@ -236,7 +236,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     /**
      * Retrieve whether to support data sharing between stores for this entity
-     * 
+     *
      * Basically that means 2 things:
      * - entity table has store_id field which describes the originating store
      * - store_id is being filtered by all participating stores in share
@@ -308,7 +308,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         return $this->_storeId;
     }
-    
+
     public function getStore()
     {
         if (is_null($this->_store)) {
@@ -327,7 +327,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     /**
      * Unset attributes
-     * 
+     *
      * If NULL or not supplied removes configuration of all attributes
      * If string - removes only one, if array - all specified
      *
@@ -367,9 +367,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     /**
      * Retrieve attribute instance by name, id or config node
-     * 
+     *
      * This will add the attribute configuration to entity's attributes cache
-     * 
+     *
      * If attribute is not found false is returned
      *
      * @param string|integer|Mage_Core_Model_Config_Element $attribute
@@ -406,7 +406,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
 
-        if (empty($attributeInstance) 
+        if (empty($attributeInstance)
             || !($attributeInstance instanceof Mage_Eav_Model_Entity_Attribute_Abstract)
             || !$attributeInstance->getId() ) {
             return false;
@@ -427,12 +427,12 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         return $attributeInstance;
     }
-    
+
     public function addAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $attribute->setEntity($this);
         $attributeName = $attribute->getName();
-        
+
         $this->_attributesByName[$attributeName] = $attribute;
 
         if ($attribute->getBackend()->isStatic()) {
@@ -476,10 +476,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      * Walk through the attributes and run method with optional arguments
      *
      * Returns array with results for each attribute
-     * 
+     *
      * if $method is in format "part/method" will run method on specified part
      * for example: $this->walkAttributes('backend/validate');
-     * 
+     *
      * @param string $method
      * @param array $args
      * @param array $part attribute, backend, frontend, source
@@ -629,7 +629,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     /**
      * Validate all object's attributes against configuration
-     * 
+     *
      * @param Varien_Object $object
      * @return Varien_Object
      */
@@ -686,7 +686,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 ->from($table)
                 ->where("$entityIdField=?", $entityId)
                 ->where("store_id=?", $storeId);
-                
+
             $values = $this->_read->fetchAll($select);
             if (empty($values)) {
                 continue;
@@ -791,7 +791,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     /**
      * Delete entity using current object's data
-     * 
+     *
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function delete($object)
@@ -899,20 +899,20 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         /**
          * $saveData = array(
-         *  'newObject', 
-         *  'entityRow', 
-         *  'insert', 
-         *  'update', 
+         *  'newObject',
+         *  'entityRow',
+         *  'insert',
+         *  'update',
          *  'delete'
          * )
          */
         extract($saveData);
-        
+
         $insertEntity = true;
         $entityIdField = $this->getEntityIdField();
         $entityId = $newObject->getData($entityIdField);
         $condition = $this->_write->quoteInto("$entityIdField=?", $entityId);
-        
+
         if (!empty($entityId)) {
             $select = $this->_write->select()
                 ->from($this->getEntityTable(), $entityIdField)
@@ -921,7 +921,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 $insertEntity = false;
             }
         }
-        
+
         if ($insertEntity) {
             // insert entity table row
             $this->_write->insert($this->getEntityTable(), $entityRow);
@@ -957,7 +957,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         return $this;
     }
-    
+
     protected function _insertAttribute($object, $attribute, $value, $storeIds = array())
     {
         $entityIdField = $attribute->getBackend()->getEntityIdField();
@@ -980,34 +980,34 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         return $this;
     }
-    
+
     public function _updateAttribute($object, $attribute, $valueId, $value, $stores = array())
     {
         if ((bool)$attribute->getIsGlobal()) {
             $this->_write->update($attribute->getBackend()->getTable(),
-                array('value'=>$value), 
-                'entity_type_id='.(int)$object->getEntityTypeId() . ' AND 
-                 entity_id='.(int)$object->getId().' AND 
+                array('value'=>$value),
+                'entity_type_id='.(int)$object->getEntityTypeId() . ' AND
+                 entity_id='.(int)$object->getId().' AND
                  attribute_id='.(int)$attribute->getId()
             );
 
         }
         else {
             $this->_write->update($attribute->getBackend()->getTable(),
-                array('value'=>$value), 
+                array('value'=>$value),
                 'value_id='.(int)$valueId
             );
         }
         return $this;
         /*if (empty($stores)) {
             $this->_write->update($attribute->getBackend()->getTable(),
-                array('value'=>$value), 
+                array('value'=>$value),
                 "value_id=".(int)$valueId
             );
         }
         else {
             if ($attribute->getIsGlobal()) {
-                
+
             }
         }*/
     }
@@ -1049,7 +1049,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $defaultAttributes[] = 'store_id';
         }
         $defaultAttributes[] = $this->getEntityIdField();
-        
+
         $attributes = $this->getAttributesByName();
         foreach ($defaultAttributes as $attr) {
             if (empty($attributes[$attr])) {

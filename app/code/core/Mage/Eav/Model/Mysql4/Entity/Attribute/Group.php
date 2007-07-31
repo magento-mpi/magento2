@@ -26,6 +26,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
         $data = array(
             'attribute_set_id' => $object->getAttributeSetId(),
             'attribute_group_name' => $object->getAttributeGroupName(),
+            'sort_order' => ( $object->getSortOrder() > 0 ) ? $object->getSortOrder() : ($this->_getMaxSortOrder($object) + 1)
         );
 
         try {
@@ -61,5 +62,15 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
 
         $condition = $write->quoteInto('attribute_group_id = ?', $object->getId());
         $write->delete($this->getMainTable(), $condition);
+    }
+
+    private function _getMaxSortOrder($object)
+    {
+        $read = $this->getConnection('read');
+        $select = $read->select()
+            ->from($this->getMainTable(), new Zend_Db_Expr("MAX(`sort_order`)"))
+            ->where("{$this->getMainTable()}.attribute_set_id = ?", $object->getAttributeSetId());
+        $maxOrder = $read->fetchOne($select);
+        return $maxOrder;
     }
 }

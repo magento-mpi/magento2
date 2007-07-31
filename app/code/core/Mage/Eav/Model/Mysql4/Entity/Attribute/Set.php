@@ -37,8 +37,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Mysql4_
 
                 if( $object->getRemoveAttributes() ) {
                     foreach( $object->getRemoveAttributes() as $attribute ) {
-                        $attribute->setAttributeGroupId(0)
-                                  ->save();
+                        $attribute->deleteEntity();
                     }
                 }
 

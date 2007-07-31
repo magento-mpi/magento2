@@ -23,7 +23,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter( $this->getTypeId() );
+            ->setEntityTypeFilter( $this->getTypeId() )
+            ->addVisibleFilter();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -65,17 +66,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                             'header'=>__('Global'),
                             'sortable'=>true,
                             'index'=>'is_global',
-                            'type' => 'options',
-                            'options' => array(__('No'), __('Yes')),
-                            'filter' => 'adminhtml/widget_grid_column_filter_select',
-                            'align' => 'center',
-                        )
-            );
-
-        $this->addColumn('is_visible', array(
-                            'header'=>__('Visible'),
-                            'sortable'=>true,
-                            'index'=>'is_visible',
                             'type' => 'options',
                             'options' => array(__('No'), __('Yes')),
                             'filter' => 'adminhtml/widget_grid_column_filter_select',
