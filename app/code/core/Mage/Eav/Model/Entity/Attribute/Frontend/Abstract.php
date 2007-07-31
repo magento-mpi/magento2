@@ -51,7 +51,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
     
     public function getLabel()
     {
-        return $this->getAttribute()->getFrontendLabel();
+        $label = $this->getAttribute()->getFrontendLabel();
+        if (empty($label)) {
+            $label = $this->getAttribute()->getAttributeCode();
+        }
+        return $label;
     }
     
     public function getClass()

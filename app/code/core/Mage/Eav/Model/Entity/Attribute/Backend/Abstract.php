@@ -150,8 +150,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     
     public function validate($object)
     {
-        $attrName = $this->getAttribute()->getName();
-        if ($this->getAttribute()->is('required') && !$object->getData($attrName)) {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        if ($this->getAttribute()->is('required') && !$object->getData($attrCode)) {
             return false;
         }
         return true;
@@ -164,9 +164,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     
     public function beforeSave($object)
     {
-        $attrName = $this->getAttribute()->getName();
-        if (!$object->hasData($attrName) && $this->getDefaultValue()) {
-            $object->setData($attrName, $this->getDefaultValue());
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        if (!$object->hasData($attrCode) && $this->getDefaultValue()) {
+            $object->setData($attrCode, $this->getDefaultValue());
         }
     }
     

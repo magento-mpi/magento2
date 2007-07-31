@@ -4,7 +4,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 {
     protected function _getDefaultBackendModel()
     {
-        switch ($this->getAttributeName()) {
+        switch ($this->getAttributeCode()) {
             case 'created_at':
                 return 'eav/entity_attribute_backend_time_created';
 
@@ -25,7 +25,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
     protected function _getDefaultSourceModel()
     {
-        switch ($this->getAttributeName()) {
+        switch ($this->getAttributeCode()) {
             case 'store_id':
                 return 'eav/entity_attribute_source_store';
         }

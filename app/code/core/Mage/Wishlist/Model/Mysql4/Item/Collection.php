@@ -46,13 +46,13 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Enti
 		return $this;
 	}
 	
-	protected function _getAttributeFieldName($attributeName)
+	protected function _getAttributeFieldName($attributeCode)
     {
-    	if($attributeName == 'days_in_wishlist') {
-    		return $this->_joinFields[$attributeName]['field'];
+    	if($attributeCode == 'days_in_wishlist') {
+    		return $this->_joinFields[$attributeCode]['field'];
     	}
     	
-    	return parent::_getAttributeFieldName($attributeName);
+    	return parent::_getAttributeFieldName($attributeCode);
     }
     	
 }// Class Mage_Wishlist_Model_Mysql_Item_Collection END

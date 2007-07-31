@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
             ->addAttributeToSelect('real_order_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('grand_total')
-            ->addAttributeToSelect('currency_code')
+            #->addAttributeToSelect('currency_code')
             ->addAttributeToSelect('store_id')
             ->joinAttribute('shipping_entity_id', 'order_address/entity_id', 'entity_id', 'parent_id')
             ->joinAttribute('shipping_address_type', 'order_address/address_type', 'shipping_entity_id')

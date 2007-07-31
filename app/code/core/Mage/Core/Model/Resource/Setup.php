@@ -10,6 +10,7 @@ class Mage_Core_Model_Resource_Setup
     protected $_resourceConfig = null;
     protected $_connectionConfig = null;
     protected $_moduleConfig = null;
+    protected $_conn = null;
     protected $_tables = array();
     
     public function __construct($resourceName)
@@ -20,6 +21,7 @@ class Mage_Core_Model_Resource_Setup
         $this->_connectionConfig = $config->getResourceConnectionConfig($resourceName);
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
+        $this->_conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
     }
     
     public function setTable($tableName, $realTableName)
@@ -30,7 +32,11 @@ class Mage_Core_Model_Resource_Setup
     
     public function getTable($tableName) {
         if (!isset($this->_tables[$tableName])) {
-            $this->_tables[$tableName] = Mage::registry('resource')->getTableName($tableName);
+            if (Mage::registry('resource')) {
+                $this->_tables[$tableName] = Mage::registry('resource')->getTableName($tableName);
+            } else {
+                $this->_tables[$tableName] = str_replace('/', '_', $tableName);
+            }
         }
         return $this->_tables[$tableName];
     }
@@ -174,7 +180,7 @@ class Mage_Core_Model_Resource_Setup
         foreach ($arrModifyFiles as $resourceFile) {
             $sqlFile = $sqlFilesDir.DS.$resourceFile['fileName'];
             $fileType = pathinfo($resourceFile['fileName'], PATHINFO_EXTENSION);
-            $conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
+            $conn = $this->_conn;
 
             // Execute SQL
             if ($conn) {

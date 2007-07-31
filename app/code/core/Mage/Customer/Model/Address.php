@@ -165,7 +165,7 @@ class Mage_Customer_Model_Address extends Varien_Object
     {
         return $this->getResource()
             ->loadAllAttributes()
-            ->getAttributesByName();
+            ->getAttributesByCode();
     }
     
     public function getHtmlFormat()

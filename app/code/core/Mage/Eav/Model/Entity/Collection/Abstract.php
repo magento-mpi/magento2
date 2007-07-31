@@ -236,12 +236,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         return $this->_select;
     }
 
-    public function getAttribute($attributeName)
+    public function getAttribute($attributeCode)
     {
-        if (isset($this->_joinAttributes[$attributeName])) {
-            return $this->_joinAttributes[$attributeName]['attribute'];
+        if (isset($this->_joinAttributes[$attributeCode])) {
+            return $this->_joinAttributes[$attributeCode]['attribute'];
         } else {
-            return $this->getEntity()->getAttribute($attributeName);
+            return $this->getEntity()->getAttribute($attributeCode);
         }
         return false;
     }
@@ -303,7 +303,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         if (isset($this->_joinAttributes[$attribute])) {
             $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
-            $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getName();
+            $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getAttributeCode();
         } else {
             $attrInstance = $this->getEntity()->getAttribute($attribute);
             $entityField = 'e.'.$attribute;
@@ -332,9 +332,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $this->addAttribute($a);
             }
         } elseif ('*'===$attribute) {
-            $attributes = $this->getEntity()->loadAllAttributes($this->getObject())->getAttributesByName();
-            foreach ($attributes as $attrName=>$attr) {
-                $this->_selectAttributes[$attrName] = $attr->getId();
+            $attributes = $this->getEntity()->loadAllAttributes($this->getObject())->getAttributesByCode();
+            foreach ($attributes as $attrCode=>$attr) {
+                $this->_selectAttributes[$attrCode] = $attr->getId();
             }
         } else {
             if (isset($this->_joinAttributes[$attribute])) {
@@ -342,7 +342,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             } else {
                 $attrInstance = $this->getEntity()->getAttribute($attribute);
             }
-            $this->_selectAttributes[$attrInstance->getName()] = $attrInstance->getId();
+            if (empty($attrInstance)) {
+                throw Mage::exception('Mage_Eav', 'Invalid attribute requested: '.(string)$attribute);
+            }
+            $this->_selectAttributes[$attrInstance->getAttributeCode()] = $attrInstance->getId();
         }
         return $this;
     }
@@ -703,7 +706,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                     throw Mage::exception('Mage_Eav', 'Data integrity: No header row found for attribute');
                 }
                 if (!isset($attrById[$v['attribute_id']])) {
-                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getName();
+                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
                 }
                 $this->_items[$v[$entityIdField]]->setData($attrById[$v['attribute_id']], $v['value']);
             }
@@ -715,34 +718,34 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     /**
      * Get alias for attribute value table
      *
-     * @param string $attributeName
+     * @param string $attributeCode
      * @return string
      */
-    protected function _getAttributeTableAlias($attributeName)
+    protected function _getAttributeTableAlias($attributeCode)
     {
-        return '_table_'.$attributeName;
+        return '_table_'.$attributeCode;
     }
 
-    protected function _getAttributeFieldName($attributeName)
+    protected function _getAttributeFieldName($attributeCode)
     {
-        if (isset($this->_joinFields[$attributeName])) {
-            $attr = $this->_joinFields[$attributeName];
+        if (isset($this->_joinFields[$attributeCode])) {
+            $attr = $this->_joinFields[$attributeCode];
             return $attr['table'].'.'.$attr['field'];
         }
 
-        $attribute = $this->getAttribute($attributeName);
+        $attribute = $this->getAttribute($attributeCode);
         if (!$attribute) {
-            throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeName);
+            throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeCode);
         }
 
         if ($attribute->getBackend()->isStatic()) {
-            if (isset($this->_joinAttributes[$attributeName])) {
-                $fieldName = $this->_getAttributeTableAlias($attributeName).'.'.$attributeName;
+            if (isset($this->_joinAttributes[$attributeCode])) {
+                $fieldName = $this->_getAttributeTableAlias($attributeCode).'.'.$attributeCode;
             } else {
-                $fieldName = 'e.'.$attributeName;
+                $fieldName = 'e.'.$attributeCode;
             }
         } else {
-            $fieldName = $this->_getAttributeTableAlias($attributeName).'.value';
+            $fieldName = $this->_getAttributeTableAlias($attributeCode).'.value';
         }
         return $fieldName;
     }
@@ -751,49 +754,49 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Add attribute value table to the join if it wasn't added previously
      *
      * @todo REFACTOR!!!
-     * @param string $attributeName
+     * @param string $attributeCode
      * @param string $joinType inner|left
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _addAttributeJoin($attributeName, $joinType='inner')
+    protected function _addAttributeJoin($attributeCode, $joinType='inner')
     {
-        if (!empty($this->_filterAttributes[$attributeName])) {
+        if (!empty($this->_filterAttributes[$attributeCode])) {
             return $this;
         }
 
-        $attrTable = $this->_getAttributeTableAlias($attributeName);
-        if (isset($this->_joinAttributes[$attributeName])) {
-            $attribute = $this->_joinAttributes[$attributeName]['attribute'];
+        $attrTable = $this->_getAttributeTableAlias($attributeCode);
+        if (isset($this->_joinAttributes[$attributeCode])) {
+            $attribute = $this->_joinAttributes[$attributeCode]['attribute'];
             $entity = $attribute->getEntity();
             $entityIdField = $entity->getEntityIdField();
-            $fkName = $this->_joinAttributes[$attributeName]['bind'];
-            $fkAttribute = $this->_joinAttributes[$attributeName]['bindAttribute'];
+            $fkName = $this->_joinAttributes[$attributeCode]['bind'];
+            $fkAttribute = $this->_joinAttributes[$attributeCode]['bindAttribute'];
             $fkTable = $this->_getAttributeTableAlias($fkName);
             if ($fkAttribute->getBackend()->isStatic()) {
                 if (isset($this->_joinAttributes[$fkName])) {
-                    $fk = $fkTable.".".$fkAttribute->getName();
+                    $fk = $fkTable.".".$fkAttribute->getAttributeCode();
                 } else {
-                    $fk = "e.".$fkAttribute->getName();
+                    $fk = "e.".$fkAttribute->getAttributeCode();
                 }
             } else {
-                $this->_addAttributeJoin($fkAttribute->getName(), $joinType);
+                $this->_addAttributeJoin($fkAttribute->getAttributeCode(), $joinType);
                 $fk = "$fkTable.value";
             }
-            $pk = $attrTable.'.'.$this->_joinAttributes[$attributeName]['filter'];
+            $pk = $attrTable.'.'.$this->_joinAttributes[$attributeCode]['filter'];
         } else {
             $entity = $this->getEntity();
             $entityIdField = $entity->getEntityIdField();
-            $attribute = $entity->getAttribute($attributeName);
+            $attribute = $entity->getAttribute($attributeCode);
             $fk = "e.$entityIdField";
             $pk = "$attrTable.$entityIdField";
         }
 
         if (!$attribute) {
-            throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeName);
+            throw Mage::exception('Mage_Eav', 'Invalid attribute name: '.$attributeCode);
         }
 
         if ($attribute->getBackend()->isStatic()) {
-            $attrFieldName = "$attrTable.".$attribute->getName();
+            $attrFieldName = "$attrTable.".$attribute->getAttributeCode();
         } else {
             $attrFieldName = "$attrTable.value";
         }
@@ -820,12 +823,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $select->$joinMethod(
             array($attrTable => $attribute->getBackend()->getTable()),
             '('.join(') AND (', $condArr).')',
-            array($attributeName=>$attrFieldName)
+            array($attributeCode=>$attrFieldName)
         );
 
-        $this->removeAttributeToSelect($attributeName);
+        $this->removeAttributeToSelect($attributeCode);
 
-        $this->_filterAttributes[$attributeName] = $attribute->getId();
+        $this->_filterAttributes[$attributeCode] = $attribute->getId();
 
         return $this;
     }

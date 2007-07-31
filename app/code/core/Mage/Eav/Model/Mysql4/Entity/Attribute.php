@@ -7,13 +7,13 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $this->_init('eav/attribute', 'attribute_id');
     }
 
-    public function loadByName($object, $entityTypeId, $name)
+    public function loadByCode($object, $entityTypeId, $code)
     {
         $read = $this->getConnection('read');
 
         $select = $read->select()->from($this->getMainTable())
             ->where('entity_type_id=?', $entityTypeId)
-            ->where('attribute_name=?', $name);
+            ->where('attribute_code=?', $code);
         $data = $read->fetchRow($select);
 
         if (!$data) {
@@ -32,7 +32,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $read = $this->getConnection('read');
 
         $select = $read->select()->from($this->getMainTable())
-            ->where("attribute_name='{$object->getAttributeName()}'")
+            ->where("attribute_code='{$object->getAttributeCode()}'")
             ->where('attribute_id != ?', $object->getAttributeId())
             ->where('entity_type_id = ?', $object->getEntityTypeId());
 

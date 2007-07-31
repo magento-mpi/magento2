@@ -7,8 +7,8 @@ class Mage_Eav_Model_Mysql4_Entity_Type extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('eav/entity_type', 'entity_type_id');
     }
     
-    public function loadByName($object, $name)
+    public function loadByCode($object, $code)
     {
-        return $this->load($object, $name, 'entity_name');
+        return $this->load($object, $code, 'entity_type_code');
     }
 }

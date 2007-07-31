@@ -280,7 +280,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         if (!$this->_attributes) {
             $this->_attributes = $this->getResource()
                 ->loadAllAttributes($this)
-                ->getAttributesByName();
+                ->getAttributesByCode();
         }
         
         if (is_null($groupId)) {

@@ -320,7 +320,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
 
     protected function _getHeader()
     {
-        return ( $this->getAttributeId() > 0 ) ? __("Edit Attribute '{$this->getAttributeData()->getAttributeName()}'") : __('Add new Attribute') ;
+        return ( $this->getAttributeId() > 0 ) ? __("Edit Attribute '{$this->getAttributeData()->getFrontendLabel()}'") : __('Add new Attribute') ;
     }
 
 }

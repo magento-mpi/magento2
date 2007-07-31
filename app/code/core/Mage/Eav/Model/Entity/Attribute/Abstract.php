@@ -50,12 +50,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         $this->_init('eav/entity_attribute');
     }
 
-    public function loadByName($entityType, $name)
+    public function loadByCode($entityType, $code)
     {
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = Mage::getModel('eav/entity_type')->loadByName($entityType);
+            $entityType = Mage::getModel('eav/entity_type')->loadByCode($entityType);
         }
         if ($entityType instanceof Mage_Eav_Model_Entity_Type) {
             $entityTypeId = $entityType->getId();
@@ -63,7 +63,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if (empty($entityTypeId)) {
             throw Mage::exception('Mage_Eav', 'Invalid entity supplied');
         }
-        $this->getResource()->loadByName($this, $entityTypeId, $name);
+        $this->getResource()->loadByCode($this, $entityTypeId, $code);
         return $this;
     }
 
@@ -84,11 +84,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function getName()
     {
-        return $this->getData('attribute_name');
+        return $this->getData('attribute_code');
     }
 
     /**
-     * Get attribute alias as "entity_type/attribute_name"
+     * Get attribute alias as "entity_type/attribute_code"
      *
      * @param Mage_Eav_Model_Entity_Abstract $entity exclude this entity
      * @return string
@@ -99,7 +99,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if (is_null($entity) || ($entity->getType() !== $this->getEntity()->getType())) {
             $alias .= $this->getEntity()->getType() . '/';
         }
-        $alias .= $this->getName();
+        $alias .= $this->getAttributeCode();
         return  $alias;
     }
 
@@ -111,7 +111,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function setName($name)
     {
-        return $this->setData('attribute_name', $name);
+        return $this->setData('attribute_code', $name);
     }
 
     /**

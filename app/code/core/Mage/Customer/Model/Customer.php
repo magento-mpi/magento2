@@ -190,7 +190,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return $this->getResource()
             ->loadAllAttributes()
-            ->getAttributesByName();
+            ->getAttributesByCode();
     }
     
     public function setPassword($password)
@@ -226,12 +226,12 @@ class Mage_Customer_Model_Customer extends Varien_Object
     /**
      * Retrieve primary address by type(attribute)
      *
-     * @param   string $attributeName
+     * @param   string $attributeCode
      * @return  Mage_Customer_Mode_Address
      */
-    public function getPrimaryAddress($attributeName)
+    public function getPrimaryAddress($attributeCode)
     {
-        $addressId = $this->getData($attributeName);
+        $addressId = $this->getData($attributeCode);
         $primaryAddress = null;
         if ($addressId) {
             foreach ($this->getLoadedAddressCollection() as $address) {

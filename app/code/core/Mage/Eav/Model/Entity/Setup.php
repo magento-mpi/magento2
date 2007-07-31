@@ -2,13 +2,15 @@
 
 class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup 
 {
-    public function importEntities($conn, $entities)
+    public function installEntities($entities)
     {
+        $conn = $this->_conn;
+        
         foreach ($entities as $entityName=>&$entity) {
-            $conn->delete($this->getTable('eav/entity_table'), $conn->quoteInto('entity_name=?', $entityName));
+            $conn->delete($this->getTable('eav/entity_type'), $conn->quoteInto('entity_type_code=?', $entityName));
             
-            $conn->insert($this->getTable('eav/entity_table'), array(
-                'entity_name'=>$entityName, 
+            $conn->insert($this->getTable('eav/entity_type'), array(
+                'entity_type_code'=>$entityName, 
                 'entity_table'=>$entity['table'], 
                 'is_data_sharing'=>1,
             ));
@@ -29,13 +31,13 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $entity['attribute_group_id'] = $conn->lastInsertId();
             
             $i = 0;
-            foreach ($entity['attributes'] as $attrName=>&$attr) {
-                $conn->insert($$this->getTable('eav/attribute'), array(
+            foreach ($entity['attributes'] as $attrCode=>&$attr) {
+                $conn->insert($this->getTable('eav/attribute'), array(
                     'entity_type_id'=>$entity['entity_type_id'],
-                    'attribute_code'=>$attrName,
+                    'attribute_code'=>$attrCode,
                     'backend_model'=>isset($attr['backend']) ? $attr['backend'] : '',
                     'backend_type'=>isset($attr['type']) ? $attr['type'] : 'varchar',
-                    'frontend'=>isset($attr['frontend']) ? $attr['frontend'] : '',
+                    'frontend_model'=>isset($attr['frontend']) ? $attr['frontend'] : '',
                     'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
                     'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
                     'source_model'=>isset($attr['source']) ? $attr['source'] : '',

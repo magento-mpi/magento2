@@ -71,7 +71,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      *
      * @var unknown_type
      */
-    protected $_attributesByName = array();
+    protected $_attributesByCode = array();
 
     /**
      * 2-dimentional array by table name and attribute name
@@ -147,7 +147,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function setType($type)
     {
         if (is_string($type)) {
-            $config = Mage::getModel('eav/entity_type')->loadByName($type);
+            $config = Mage::getModel('eav/entity_type')->loadByCode($type);
             #Mage::getConfig()->getNode("global/entities/$type");
         } elseif ($type instanceof Mage_Eav_Model_Entity_Type) {
             $config = $type;
@@ -213,7 +213,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     public function getType()
     {
-        return $this->getConfig()->getEntityName();
+        return $this->getConfig()->getEntityTypeCode();
     }
 
     /**
@@ -337,7 +337,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function unsetAttributes($attributes=null)
     {
         if (empty($attributes)) {
-            $this->_attributesByName = array();
+            $this->_attributesByCode = array();
             $this->_attributesById = array();
             $this->_attributesByTable = array();
             return $this;
@@ -351,15 +351,15 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             throw Mage::exception('Mage_Eav', 'Unknown parameter');
         }
 
-        foreach ($attributes as $attrName) {
-            if (!isset($this->_attributesByName[$attrName])) {
+        foreach ($attributes as $attrCode) {
+            if (!isset($this->_attributesByCode[$attrCode])) {
                 continue;
             }
 
-            $attr = $this->getAttribute($attrName);
+            $attr = $this->getAttribute($attrCode);
             unset($this->_attributesById[$attr->getId()]);
-            unset($this->_attributesByTable[$attr->getBackend()->getTable()][$attrName]);
-            unset($this->_attributesByName[$attrName]);
+            unset($this->_attributesByTable[$attr->getBackend()->getTable()][$attrCode]);
+            unset($this->_attributesByCode[$attrCode]);
         }
 
         return $this;
@@ -386,23 +386,23 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
 
             $attributeInstance = Mage::getModel('eav/entity_attribute')->load($attributeId);
-            $attributeName = $attributeInstance->getAttributeName();
+            $attributeCode = $attributeInstance->getAttributeCode();
 
         } elseif (is_string($attribute)) {
 
-            $attributeName = $attribute;
+            $attributeCode = $attribute;
 
-            if (isset($this->_attributesByName[$attributeName])) {
-                return $this->_attributesByName[$attributeName];
+            if (isset($this->_attributesByCode[$attributeCode])) {
+                return $this->_attributesByCode[$attributeCode];
             }
-            $attributeInstance = Mage::getModel('eav/entity_attribute')->loadByName($this->getConfig(), $attributeName);
+            $attributeInstance = Mage::getModel('eav/entity_attribute')->loadByCode($this->getConfig(), $attributeCode);
 
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 
             $attributeInstance = $attribute;
-            $attributeName = $attributeInstance->getName();
-            if (isset($this->_attributesByName[$attributeName])) {
-                return $this->_attributesByName[$attributeName];
+            $attributeCode = $attributeInstance->getAttributeCode();
+            if (isset($this->_attributesByCode[$attributeCode])) {
+                return $this->_attributesByCode[$attributeCode];
             }
         }
 
@@ -416,8 +416,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $attributeId = $attributeInstance->getAttributeId();
         }
 
-        if (!$attributeInstance->getAttributeName()) {
-            $attributeInstance->setAttributeName($attributeName);
+        if (!$attributeInstance->getAttributeCode()) {
+            $attributeInstance->setAttributeCode($attributeCode);
         }
         if (!$attributeInstance->getAttributeModel()) {
             $attributeInstance->setAttributeModel($this->_getDefaultAttributeModel());
@@ -431,17 +431,17 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function addAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $attribute->setEntity($this);
-        $attributeName = $attribute->getName();
+        $attributeCode = $attribute->getAttributeCode();
 
-        $this->_attributesByName[$attributeName] = $attribute;
+        $this->_attributesByCode[$attributeCode] = $attribute;
 
         if ($attribute->getBackend()->isStatic()) {
-            $this->_staticAttributes[$attributeName] = $attribute;
+            $this->_staticAttributes[$attributeCode] = $attribute;
         } else {
             $this->_attributesById[$attribute->getId()] = $attribute;
 
             $attributeTable = $attribute->getBackend()->getTable();
-            $this->_attributesByTable[$attributeTable][$attributeName] = $attribute;
+            $this->_attributesByTable[$attributeTable][$attributeCode] = $attribute;
         }
         return $this;
     }
@@ -500,7 +500,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 break;
         }
         $results = array();
-        foreach ($this->getAttributesByName() as $attrName=>$attribute) {
+        foreach ($this->getAttributesByCode() as $attrCode=>$attribute) {
             switch ($part) {
                 case 'attribute':
                     $instance = $attribute;
@@ -518,7 +518,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                     $instance = $attribute->getSource();
                     break;
             }
-            $results[$attrName] = call_user_func_array(array($instance, $method), $args);
+            $results[$attrCode] = call_user_func_array(array($instance, $method), $args);
         }
         return $results;
     }
@@ -528,9 +528,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      *
      * @return array
      */
-    public function getAttributesByName()
+    public function getAttributesByCode()
     {
-        return $this->_attributesByName;
+        return $this->_attributesByCode;
     }
 
     /**
@@ -675,8 +675,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if (empty($attributes)) {
             $this->loadAllAttributes($object);
         } else {
-            foreach ($attributes as $attrName) {
-                $this->getAttribute($attrName);
+            foreach ($attributes as $attrCode) {
+                $this->getAttribute($attrCode);
             }
         }
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
@@ -693,8 +693,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
 
             foreach ($values as $v) {
-                $attributeName = $this->getAttribute($v['attribute_id'])->getName();
-                $object->setData($attributeName, $v['value']);
+                $attributeCode = $this->getAttribute($v['attribute_id'])->getAttributeCode();
+                $object->setData($attributeCode, $v['value']);
                 $this->getAttribute($v['attribute_id'])->getBackend()->setValueId($v['value_id']);
             }
         }
@@ -743,9 +743,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     }
 
 
-    public function saveAttribute(Varien_Object $object, $attributeName)
+    public function saveAttribute(Varien_Object $object, $attributeCode)
     {
-        $attribute = $this->getAttribute($attributeName);
+        $attribute = $this->getAttribute($attributeCode);
         $backend = $attribute->getBackend();
         $table = $backend->getTable();
         $entity = $attribute->getEntity();
@@ -756,7 +756,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 	        'store_id' => $object->getStoreId(),
 	        $entityIdField=> $object->getData($entityIdField),
         );
-        $newValue = $object->getData($attributeName);
+        $newValue = $object->getData($attributeCode);
         $whereArr = array();
         foreach ($row as $f=>$v) {
             $whereArr[] = $this->_read->quoteInto("$f=?", $v);
@@ -839,7 +839,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             // get current data in db for this entity
             $origObject = clone $newObject;
             $origObject->setData(array());
-            //$this->load($origObject, $entityId, array_keys($this->_attributesByName));
+            //$this->load($origObject, $entityId, array_keys($this->_attributesByCode));
             $this->load($origObject, $entityId);
             $origData = $origObject->getData();
             // drop attributes that are unknown in new data
@@ -1050,11 +1050,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         $defaultAttributes[] = $this->getEntityIdField();
 
-        $attributes = $this->getAttributesByName();
+        $attributes = $this->getAttributesByCode();
         foreach ($defaultAttributes as $attr) {
             if (empty($attributes[$attr])) {
                 $this->addAttribute(Mage::getModel('eav/entity_attribute')
-                    ->setAttributeName($attr)->setBackendType('static'));
+                    ->setAttributeCode($attr)->setBackendType('static'));
             }
         }
     }

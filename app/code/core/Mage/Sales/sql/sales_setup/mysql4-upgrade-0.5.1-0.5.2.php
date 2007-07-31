@@ -263,4 +263,4 @@ $entities = array(
     ),
 );
 
-$this->importEntities($entities);
+$this->installEntities($entities);
