@@ -55,6 +55,16 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Core_Block_Templat
         return $this;
     }
 
+    protected function _removeButton($id)
+    {
+        foreach ($this->_buttons as $level => $buttons) {
+            if (isset($buttons[$id])) {
+                unset($this->_buttons[$level][$id]);
+            }
+        }
+        return $this;
+    }
+
     protected function _updateButton($id, $key=null, $data)
     {
         foreach ($this->_buttons as $level => $buttons) {
