@@ -20,7 +20,6 @@ where attribute_id not in (select attribute_id from eav_attribute)
 
 alter table `eav_attribute`
     ,drop key `entity_type_id`
-    ,drop `attribute_name`
     ,add unique `entity_type_id` (`entity_type_id`, `attribute_code`)
     ,add constraint `FK_eav_attribute` foreign key(`entity_type_id`) references `eav_entity_type` (`entity_type_id`) on delete cascade  on update cascade
 ; 
