@@ -70,10 +70,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         try {
             $modelSet->save();
             if( $this->getRequest()->getParam('gotoEdit') == 1 ) {
-                $modelGroup = Mage::getModel('eav/entity_attribute_group')
-                    ->setAttributeGroupName('Default')
-                    ->setAttributeSetId( $modelSet->getId() )
-                    ->save();
+                $modelSet->setSkeletonId($this->getRequest()->getParam('skeleton_set'))
+                    ->initSkeleton();
+
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id' => $modelSet->getId())));
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Attribute set successfully saved.'));
             } else {
@@ -87,9 +86,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                     $this->getResponse()->setRedirect($referer);
                 }
                 Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. May be set with the same name already exists.'));
+                #Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             } else {
-                #$response->setMessage(__('Error while saving this set.'));
-                $response->setMessage($e->getMessage());
+                $response->setMessage(__('Error while saving this set.'));
                 $response->setError(1);
             }
         }

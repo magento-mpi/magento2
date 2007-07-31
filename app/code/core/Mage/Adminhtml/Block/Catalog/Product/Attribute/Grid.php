@@ -48,13 +48,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
                         )
             );
 
-        $this->addColumn('attribute_name', array(
-                            'header'=>__('Attribute Name'),
-                            'sortable'=>true,
-                            'index'=>'attribute_name'
-                        )
-            );
-
         $this->addColumn('frontend_label', array(
                             'header'=>__('Frontend Label'),
                             'sortable'=>true,

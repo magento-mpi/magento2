@@ -22,16 +22,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Attribute Properties')));
 
-        $fieldset->addField('attribute_name', 'text',
-                            array(
-                                'name' => 'attribute_name',
-                                'label' => __('Attribute Name'),
-                                'title' => __('Attribute Name Title'),
-                                'class' => 'required-entry',
-                                'required' => true,
-                            )
-        );
-
         $fieldset->addField('attribute_code', 'text',
                             array(
                                 'name' => 'attribute_code',
@@ -66,11 +56,41 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                             )
         );
 
-        $fieldset->addField('backend_type', 'text',
+        $fieldset->addField('backend_type', 'select',
                             array(
                                 'name' => 'backend_type',
                                 'label' => __('Backend Type'),
                                 'title' => __('Backend Type Title'),
+                                'values' => array(
+                                    array(
+                                        'value' => 'text',
+                                        'label' => __('Text'),
+                                    ),
+
+                                    array(
+                                        'value' => 'varchar',
+                                        'label' => __('Varchar'),
+                                    ),
+
+                                    array(
+                                        'value' => 'static',
+                                        'label' => __('Static'),
+                                    ),
+                                    array(
+                                        'value' => 'datetime',
+                                        'label' => __('Datetime'),
+                                    ),
+
+                                    array(
+                                        'value' => 'decimal',
+                                        'label' => __('Decimal'),
+                                    ),
+
+                                    array(
+                                        'value' => 'int',
+                                        'label' => __('Integer'),
+                                    ),
+                                ),
                             )
         );
 
@@ -127,15 +147,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
                                 'name' => 'is_global',
                                 'label' => __('Global'),
                                 'title' => __('Global Title'),
-                                'values' => $this->_addYesNoOptions()
-                            )
-        );
-
-        $fieldset->addField('is_visible', 'select',
-                            array(
-                                'name' => 'is_visible',
-                                'label' => __('Visible'),
-                                'title' => __('Visible Title'),
                                 'values' => $this->_addYesNoOptions()
                             )
         );
@@ -229,6 +240,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Form extends Mage_Adminhtml
             }
         } else {
             $form->getElement('is_user_defined')->setValue(1);
+            $form->getElement('frontend_input')->setValue('text');
             $this->assign('header', __('Add new Attribute'));
             $this->setAttributeData(new Varien_Object());
         }

@@ -7,6 +7,34 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         $this->_init('eav/entity_attribute_set');
     }
 
+    public function initSkeleton()
+    {
+        $groups = Mage::getModel('eav/entity_attribute_group')
+            ->getResourceCollection()
+            ->setAttributeSetFilter($this->getSkeletonId())
+            ->load();
+
+        foreach( $groups as $group ) {
+            $oldGroupId = $group->getId();
+
+            $group->unsetAttributeGroupId()
+                ->setAttributeSetId($this->getId())
+                ->save();
+
+            $groupAttributesCollection = Mage::getModel('eav/entity_attribute')
+                ->getResourceCollection()
+                ->setAttributeGroupFilter($oldGroupId)
+                ->load();
+
+            foreach( $groupAttributesCollection as $attribute ) {
+                $attribute->unsetEntityAttributeId()
+                    ->setAttributeSetId($this->getId())
+                    ->setAttributeGroupId($group->getId())
+                    ->save();
+            }
+        }
+    }
+
     public function organizeData($data)
     {
         $modelGroupArray = array();

@@ -35,6 +35,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
                 $write->update($this->getMainTable(), $data, $condition);
             } else {
                 $write->insert($this->getMainTable(), $data);
+                $object->setId($write->lastInsertId());
             }
 
             if( $object->getAttributes() ) {
@@ -49,6 +50,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+        return $this;
     }
 
     public function delete(Mage_Core_Model_Abstract $object)

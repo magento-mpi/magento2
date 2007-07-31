@@ -184,17 +184,27 @@
                             return;
                         }
 
-                        if( editSet.currentNode ) {
-                            TreePanels.root.removeChild(editSet.currentNode);
+                        var itemsMovedToFirst = 0;
 
+                        if( editSet.currentNode && editSet.currentNode.attributes.cls == 'folder' ) {
+                            TreePanels.root.removeChild(editSet.currentNode);
                             for( i in editSet.currentNode.childNodes ) {
                                 if( editSet.currentNode.childNodes[i].id ) {
                                     child = editSet.currentNode.childNodes[i];
                                     newNode = new Ext.tree.TreeNode(child.attributes);
-                                    TreePanels.root2.appendChild(newNode);
+                                    if( child.attributes.is_user_defined == 1 ) {
+                                        TreePanels.root2.appendChild(newNode);
+                                    } else {
+                                        TreePanels.root.firstChild.appendChild(newNode);
+                                        itemsMovedToFirst ++;
+                                    }
                                 }
                             }
                             editSet.req.removeGroups[editSet.currentNode.id] = editSet.currentNode.id;
+                            editSet.currentNode = false;
+                            if( itemsMovedToFirst > 0 ) {
+                                TreePanels.root.firstChild.expand();
+                            }
                         }
                     },
 
@@ -215,6 +225,7 @@
                                     allowDrag : false
                                 });
                             TreePanels.root.appendChild(newNode);
+                            newNode.addListener('click', editSet.register);
                         }
                     },
 

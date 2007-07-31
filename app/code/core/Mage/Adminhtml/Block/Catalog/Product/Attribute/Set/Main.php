@@ -141,9 +141,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                 $item['children'] = array();
                 foreach( $nodeChildren->getItems() as $child ) {
                     $tmpArr = array();
-                    $tmpArr['text'] = $child->getAttributeName() . ' (' . $child->getAttributeCode() . ')';
+                    $tmpArr['text'] = (( $child->getIsUserDefined() == 0 ) ? '*' : '') . $child->getAttributeName() . ' (' . $child->getAttributeCode() . ')';
                     $tmpArr['id']  = $child->getAttributeId();
-                    $tmpArr['cls'] = 'leaf';
+                    $tmpArr['cls'] = ( $child->getIsUserDefined() == 0 ) ? 'system-leaf' : 'leaf';
                     $tmpArr['allowDrop'] = false;
                     $tmpArr['allowDrag'] = true;
                     $tmpArr['leaf'] = true;

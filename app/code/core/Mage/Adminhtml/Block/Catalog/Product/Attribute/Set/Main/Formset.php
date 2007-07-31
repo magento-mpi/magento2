@@ -38,6 +38,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
                                     'value' => '1'
                                 )
             );
+
+            $sets = Mage::getModel('eav/entity_attribute_set')
+                ->getResourceCollection()
+                ->setEntityTypeFilter(Mage::registry('entityType'))
+                ->load()
+                ->toOptionArray();
+
+            $fieldset->addField('skeleton_set', 'select',
+                            array(
+                                'label' => __('Based On'),
+                                'name' => 'skeleton_set',
+                                'required' => true,
+                                'class' => 'required-entry',
+                                'values' => $sets,
+                            )
+            );
         }
 
         $form->setMethod('POST');
