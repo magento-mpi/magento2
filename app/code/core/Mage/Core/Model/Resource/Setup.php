@@ -10,6 +10,7 @@ class Mage_Core_Model_Resource_Setup
     protected $_resourceConfig = null;
     protected $_connectionConfig = null;
     protected $_moduleConfig = null;
+    protected $_tables = array();
     
     public function __construct($resourceName)
     {
@@ -19,6 +20,19 @@ class Mage_Core_Model_Resource_Setup
         $this->_connectionConfig = $config->getResourceConnectionConfig($resourceName);
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
+    }
+    
+    public function setTable($tableName, $realTableName)
+    {
+        $this->_tables[$tableName] = $realTableName;
+        return $this;
+    }
+    
+    public function getTable($tableName) {
+        if (!isset($this->_tables[$tableName])) {
+            $this->_tables[$tableName] = Mage::registry('resource')->getTableName($tableName);
+        }
+        return $this->_tables[$tableName];
     }
 
     /**
