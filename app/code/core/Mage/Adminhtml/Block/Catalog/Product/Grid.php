@@ -49,9 +49,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $filter = $this->getRequest()->getParam($this->getVarNameFilter());
         if (empty($filter)) {
             $this->_setFilterValues(array('stores'=>$this->getParam('store', 0)));
+            $this->getColumn('stores')->getFilter()->setValue(null);
         }
         
-        return parent::_prepareCollection();
+        parent::_prepareCollection();
+        
+        $this->getCollection()->addStoreNamesToResult();
+        return $this;
     }
 
     protected function _prepareColumns()
@@ -119,8 +123,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'header'=> __('Stores'),
                 'width' => '100px',
                 'filter'    => 'adminhtml/catalog_product_grid_filter_store',
-                //'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_visible',
-                'index' => 'stores',
+                'renderer'  => 'adminhtml/catalog_product_grid_renderer_store',
+                'sortable'  => false,
+                'index'     => 'stores',
         ));
         
         $this->addExportType('*/*/exportCsv', __('CSV'));
