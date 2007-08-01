@@ -141,7 +141,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                 $item['children'] = array();
                 foreach( $nodeChildren->getItems() as $child ) {
                     $tmpArr = array();
-                    $tmpArr['text'] = (( $child->getIsUserDefined() == 0 ) ? '*' : '') . $child->getFrontendLabel() . ' (' . $child->getAttributeCode() . ')';
+                    $tmpArr['text'] = $child->getAttributeCode();
                     $tmpArr['id']  = $child->getAttributeId();
                     $tmpArr['cls'] = ( $child->getIsUserDefined() == 0 ) ? 'system-leaf' : 'leaf';
                     $tmpArr['allowDrop'] = false;
@@ -182,7 +182,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $items = array();
         foreach( $attributes as $node ) {
             $item = array();
-            $item['text']= $node->getFrontendLabel() . ' (' . $node->getAttributeCode() . ')';
+            $item['text']= $node->getAttributeCode();
             $item['id']  = $node->getAttributeId();
             $item['cls'] = 'leaf';
             $item['allowDrop'] = false;

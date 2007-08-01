@@ -448,3 +448,11 @@ div.actions:after,
 
 
 .no-active-category a span { color:#aaa !important; }
+
+.x-tree-node .leaf .x-tree-node-icon{
+	background-image:url(images/fam/leaf.gif);
+}
+
+.x-tree-node .system-leaf .x-tree-node-icon{
+	background-image:url(images/fam/application_form_delete.png);
+}

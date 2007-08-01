@@ -40,7 +40,7 @@
                     </tbody>
                 </table>
             </div>
-            <div id="tree-div2" style="width:190px;height:400px;"></div>
+            <div id="tree-div2" style="width:320px;height:400px;margin-top:5px;overflow:auto"></div>
             <script type="text/javascript" language="javascript">
             var TreePanels = function() {
                 // shorthand
@@ -79,6 +79,9 @@
                             selectOnFocus:true,
                             cls:'folder'
                         });
+
+                        this.root.addListener('beforeinsert', editSet.leftBeforeInsert);
+                        this.root.addListener('beforeappend', editSet.leftBeforeInsert);
 
                         ge.addListener('beforeshow', editSet.editGroup);
                         //-------------------------------------------------------------
@@ -156,6 +159,8 @@
                         parent.appendChild(node);
                         node.addListener('click', editSet.register);
                         node.addListener('beforemove', editSet.groupBeforeMove);
+                        node.addListener('beforeinsert', editSet.groupBeforeInsert);
+                        node.addListener('beforeappend', editSet.groupBeforeInsert);
                         if( config[i].children ) {
                             for( j in config[i].children ) {
                                 if(config[i].children[j].id) {
@@ -184,7 +189,10 @@
                             return;
                         }
 
-                        var itemsMovedToFirst = 0;
+                        if( editSet.SystemNodesExists(editSet.currentNode) ) {
+                            alert('<?=__('This group contains system attributes.\nPlease, move system attributes to another group and try again.')?>');
+                            return;
+                        }
 
                         if( editSet.currentNode && editSet.currentNode.attributes.cls == 'folder' ) {
                             TreePanels.root.removeChild(editSet.currentNode);
@@ -192,18 +200,24 @@
                                 if( editSet.currentNode.childNodes[i].id ) {
                                     child = editSet.currentNode.childNodes[i];
                                     newNode = new Ext.tree.TreeNode(child.attributes);
+
                                     if( child.attributes.is_user_defined == 1 ) {
                                         TreePanels.root2.appendChild(newNode);
-                                    } else {
-                                        TreePanels.root.firstChild.appendChild(newNode);
-                                        itemsMovedToFirst ++;
                                     }
                                 }
                             }
                             editSet.req.removeGroups[editSet.currentNode.id] = editSet.currentNode.id;
                             editSet.currentNode = false;
-                            if( itemsMovedToFirst > 0 ) {
-                                TreePanels.root.firstChild.expand();
+                        }
+                    },
+
+                    SystemNodesExists : function(currentNode) {
+                        for( i in currentNode.childNodes ) {
+                            if( currentNode.childNodes[i].id ) {
+                                child = editSet.currentNode.childNodes[i];
+                                if( child.attributes.is_user_defined != 1 ) {
+                                    return true;
+                                }
                             }
                         }
                     },
@@ -222,7 +236,7 @@
                                     text : group_name,
                                     cls : 'folder',
                                     allowDrop : true,
-                                    allowDrag : false
+                                    allowDrag : true
                                 });
                             TreePanels.root.appendChild(newNode);
                             newNode.addListener('click', editSet.register);
@@ -275,6 +289,7 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
+                            alert('<?=__('You can not remove system attribute from this set.')?>');
                             return false;
                         }
                     },
@@ -288,6 +303,12 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
+                            return false;
+                        }
+                    },
+
+                    groupBeforeInsert : function(tree, nodeThis, node, newParent) {
+                        if( node.allowChildren ) {
                             return false;
                         }
                     },
@@ -310,6 +331,12 @@
                                     allowDrag : false
                                 });
                             TreePanels.root2.appendChild(newNode);
+                        }
+                    },
+
+                    leftBeforeInsert : function(tree, nodeThis, node, newParent) {
+                        if( node.allowChildren == false ) {
+                            return false;
                         }
                     }
                 }
