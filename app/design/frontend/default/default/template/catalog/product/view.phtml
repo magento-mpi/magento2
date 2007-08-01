@@ -1,6 +1,6 @@
-<?=$this->getChildHtml('breadcrumbs')?>
-<script src="<?=$baseJsUrl?>scriptaculous/scriptaculous.js" type="text/javascript"></script>
-<script src="<?=$baseJsUrl?>varien/product.js" type="text/javascript"></script>
+<?
+/*
+
 <div class="product-image">
     <div style="position:relative; overflow:hidden; width:245px; height:245px;">
         <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; cursor:move; z-index:999;" ondblclick="toggleFull()"/>
@@ -17,60 +17,6 @@
                 <td><img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" width="16" alt="Zoom in to product image"></td>
             </tr>
         </table>
-        <script type="text/javascript">
-            var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
-            var slider = new Control.Slider('handle1','track1', {axis:'horizontal', minimum:0, maximum:200, alignX:1, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
-
-            var origWidth = 245;
-            var origHeight = 300;
-            var floorSize = 1.0;
-            var ceilingSize = 10.0;
-            var imageX = 0;
-            var imageY = 0;
-            var imageV = 1;
-            var showFull = false;
-            var selects = document.getElementsByTagName('select');
-            
-            function toggleFull(){
-                showFull = !showFull;
-                //TODO: hide selects for IE only
-                for (i=0; i<selects.length; i++) {
-                    selects[i].style.visibility = showFull ? 'hidden' : 'visible';
-                }
-                $('track1').style.visibility = showFull ? 'hidden' : 'visible';
-                image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
-            }
-            
-            function scaleIt(v) {
-              var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
-              var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
-
-              imageV = floorSize+(v*(ceilingSize-floorSize));
-              
-              image.element.style.width = (imageV*origWidth)+'px';
-              
-              imageX = origWidth*(1-imageV)/2-centerX*imageV;
-              imageY = origHeight*(1-imageV)/2-centerY*imageV;
-              containIt(imageX, imageY, image);
-              
-              image.element.style.left = imageX+'px';
-              image.element.style.top = imageY+'px';
-            }
-            
-            function containIt(x,y,draggable) {
-                var pDim = Element.getDimensions(draggable.element.parentNode); 
-                var eDim = Element.getDimensions(draggable.element);
-                var xMin = 0, xMax = pDim.width-eDim.width;
-                var yMin = 0, yMax = pDim.height-eDim.height;
-                x = x>xMin ? xMin : x;
-                x = x<xMax ? xMax : x;
-                y = y>yMin ? yMin : y;
-                y = y<yMax ? yMax : y;
-                imageX = x;
-                imageY = y;
-                return [x,y];
-            }
-        </script>
     </div>
 </div>
 
@@ -144,7 +90,7 @@
             <?endforeach?>
             <div class="clearfix"></div>
     </div>
-<?endif*/?>
+<?endif* /?>
 <?=$this->getChildHtml('rating')?>
 <?=$tags;?>
 <p></p>
@@ -154,3 +100,309 @@
 <p></p>
 <?//=$reviewList?>
 <?=$this->getChildHtml('reviewForm')?>
+
+
+*/
+?>
+
+
+<div class="product-images-box">
+
+    <div style="position:relative; overflow:hidden; width:300px; height:300px;" class="product-image">
+        <img id="image" src="<?=$product->getImageUrl()?>" width="298" alt="<?=$product->getName()?>"/>
+    </div>
+
+    <p></p>
+
+	<div id="track1">
+		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_out.gif')?>" alt="-" class="zoom-in"/>
+        <div>
+		    <div id="handle1"></div>
+        </div>
+		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" alt="+" class="zoom-out"/>
+	</div>
+
+    <script type="text/javascript">
+        var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
+        var slider = new Control.Slider('handle1', 'track1', {axis:'horizontal', minimum:0, maximum:200, alignX:50, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt, offset:50});
+
+        var origWidth = 300;
+        var origHeight = 300;
+        var floorSize = 1.0;
+        var ceilingSize = 10.0;
+        var imageX = 0;
+        var imageY = 0;
+        var imageV = 1;
+        var showFull = false;
+        var selects = document.getElementsByTagName('select');
+        
+        function toggleFull(){
+            showFull = !showFull;
+            //TODO: hide selects for IE only
+            for (i=0; i<selects.length; i++) {
+                selects[i].style.visibility = showFull ? 'hidden' : 'visible';
+            }
+            $('track1').style.visibility = showFull ? 'hidden' : 'visible';
+            image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
+        }
+        
+        function scaleIt(v) {
+          var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
+          var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
+
+          imageV = floorSize+(v*(ceilingSize-floorSize));
+          
+          image.element.style.width = (imageV*origWidth)+'px';
+          
+          imageX = origWidth*(1-imageV)/2-centerX*imageV;
+          imageY = origHeight*(1-imageV)/2-centerY*imageV;
+          containIt(imageX, imageY, image);
+          
+          image.element.style.left = imageX+'px';
+          image.element.style.top = imageY+'px';
+        }
+        
+        function containIt(x,y,draggable) {
+            var pDim = Element.getDimensions(draggable.element.parentNode); 
+            var eDim = Element.getDimensions(draggable.element);
+            var xMin = 0, xMax = pDim.width-eDim.width;
+            var yMin = 0, yMax = pDim.height-eDim.height;
+            x = x>xMin ? xMin : x;
+            x = x<xMax ? xMax : x;
+            y = y>yMin ? yMin : y;
+            y = y<yMax ? yMax : y;
+            imageX = x;
+            imageY = y;
+            return [x,y];
+        }
+    </script>
+
+	<h4>More Views</h4>
+	<ul class="more-views">
+		<li><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+		<li><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+		<li><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+		<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+	</ul>
+</div>
+<div class="product-shop-box">
+	<h3><?=$product->getName()?></h3>
+	<div class="ratings">
+		<div class="rating-box">
+			<div class="rating" style="width:80%;">
+
+			</div>
+		</div>
+		<a href="#customer-reviews" class="no-wrap"><small>( 3 Reviews )</small></a>
+	</div>
+	<div class="product-attributes">
+		<table cellspacing="0">
+			<tr>
+				<td class="label">Color:</td>
+
+				<td><select name="">
+					<option value="">Red (+$1.00)</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td class="label">Size:</td>
+				<td><select name="">
+						<option value="">Small</option>
+
+					</select></td>
+			</tr>
+		</table>
+	</div>
+	<div class="product-pricing">
+		<ul class="bare">
+			<li>Buy 2 for <strong>$19.99</strong></li>
+			<li>Buy 3 for <strong>$18.99</strong></li>
+
+			<li>Buy 4 for <strong>$16.99</strong></li>
+			<li>Buy 5 or more for <strong>$12.99</strong></li>
+		</ul>
+	</div>
+	<table cellspacing="0" class="data-table">
+		<thead>
+			<tr>
+
+				<th>Product Name</th>
+				<th>SKU</th>
+				<th>Price</th>
+				<th>Qty</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr>
+				<td>Henckels Knife 2"</td>
+				<td>1233</td>
+				<td>$34.00</td>
+				<td><input type="text" class="input-text qty"/></td>
+			</tr>
+			<tr>
+
+				<td>Henckels Knife 2"</td>
+				<td>1233</td>
+				<td>$34.00</td>
+				<td><input type="text" class="input-text qty"/></td>
+			</tr>
+			<tr>
+				<td>Henckels Knife 2"</td>
+
+				<td>1233</td>
+				<td>$34.00</td>
+				<td><input type="text" class="input-text qty"/></td>
+			</tr>
+			<tr>
+				<td>Henckels Knife 2"</td>
+				<td>1233</td>
+
+				<td>$34.00</td>
+				<td><input type="text" class="input-text qty"/></td>
+			</tr>
+		</tbody>
+	</table>
+	<p><small>Availability: In stock. Ships within 24hours.</small></p>
+	<p class="price-box">
+		<span class="old-price"><span class="label">Regular Price:</span> $59.23</span><br/>
+
+		<span class="special-price"><span class="label">Special Price:</span> $49.99</span>
+	</p>
+	<fieldset class="add-to-box">
+		<legend>Add items to cart </legend>
+		<table cellspacing="0">
+			<tr>
+				<td><label for="qty">Qty:</label> <input type="text" class="input-text qty" id="qty"/></td>
+
+				<td><button class="form-button"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+				<td><a href="#">Add to Wishlist</a><br/><a href="#">Add to Compare</a></td>
+			</tr>
+		</table>
+	</fieldset>
+	<div class="dotted-divider"></div>
+	<div class="required-products">
+
+		<h4>Required Items</h4>
+		<p>Following are the required items for this product. By purchasing this product, the following items will automatically be added to your shopping cart.</p>
+		<ul class="disc">
+			<li>Items name goes here</li>
+			<li>Items name goes here</li>
+			<li>Items name goes here</li>
+
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="info-block">
+	<h3>Features and Specifications</h3>
+	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus convallis fermentum ante. Nam erat risus, rhoncus eu, congue sed, fringilla rutrum, risus. Etiam egestas sem quis lacus. Morbi convallis nisl placerat augue. Vestibulum at odio eu elit venenatis vestibulum. In dignissim, metus in facilisis ullamcorper, arcu lacus ultricies odio, et pharetra purus enim et libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus convallis fermentum ante. Nam erat risus, rhoncus eu, congue sed, fringilla rutrum, risus. Etiam egestas sem quis lacus. Morbi convallis nisl placerat augue. Vestibulum at odio eu elit venenatis vestibulum. In dignissim,	metus in facilisis ullamcorper, arcu lacus ultricies odio, et pharetra purus enim et libero.</p></div>
+
+<div class="info-block">
+	<h3>You may be interested in these items</h3>
+	<table cellspacing="0" class="generic-product-grid">
+		<tr class="last">
+			<td><a href="#"><img src="images/ph_product_thumb.jpg" width="100" alt="" class="image-link"></a><br/>
+				<a href="#">Product name goes here</a><br/>
+				<span class="regular-price">$29.95</span>
+
+				<div class="ratings">
+					<div class="rating-box">
+						<div class="rating" style="width:75%;"></div>
+					</div>
+					<a href="#">(3 Reviews)</a>
+				</div>
+			</td>
+			<td><a href="#"><img src="images/ph_product_thumb.jpg" width="100" alt="" class="image-link"></a><br/>
+
+				<a href="#">Product name goes here</a><br/>
+				<span class="regular-price">$29.95</span>
+				<div class="ratings">
+					<div class="rating-box">
+						<div class="rating" style="width:75%;"></div>
+					</div>
+					<a href="#">(3 Reviews)</a>
+
+				</div>
+			</td>
+			<td><a href="#"><img src="images/ph_product_thumb.jpg" width="100" alt="" class="image-link"></a><br/>
+				<a href="#">Product name goes here</a><br/>
+				<span class="regular-price">$29.95</span>
+				<div class="ratings">
+					<div class="rating-box">
+						<div class="rating" style="width:75%;"></div>
+
+					</div>
+					<a href="#">(3 Reviews)</a>
+				</div>
+			</td>
+			<td class="last"><a href="#"><img src="images/ph_product_thumb.jpg" width="100"  alt="" class="image-link"></a><br/>
+				<a href="#">Product name goes here</a><br/>
+				<span class="regular-price">$29.95</span>
+
+				<div class="ratings">
+					<div class="rating-box">
+						<div class="rating" style="width:95%;"></div>
+					</div>
+					<a href="#">(3 Reviews)</a>
+				</div>
+			</td>
+		</tr>
+
+	</table>
+</div>
+
+<div class="info-block tags fm ">
+	<h3>Product Tags</h3>
+	<p><strong>Other customers tagged this product:</strong></p>
+	<ul class="tags-list">
+		<li class="first"><a href="#"><a href="#">Shoes</a> (5)</li>
+
+		<li><a href="#"><a href="#">Shoes</a> (5)</li>
+		<li class="last"><a href="#"><a href="#">Shoes</a> (5)</li>
+	</ul>
+	<br/>
+	<h4>Add your tags:</h4>
+
+	<p><input type="text" class="input-text" style="width:300px;"/> <button class="form-button-alt"><span>Add Tags</span></button><br/>
+	<small>Use spaces to separate tags. Use single quotes(') for phrases.</small></p>
+</div>
+
+<div class="info-block" id="customer-reviews">
+	<div class="head">
+		<h3>Customer Reviews</h3><a href="#">View All</a>
+
+	</div>
+	<ol>
+		<li>
+			<div class="rating-box">
+				<div class="rating" style="width:75%;"></div>
+			</div>
+			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
+
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
+		<li>
+			<div class="rating-box">
+				<div class="rating" style="width:75%;"></div>
+			</div>
+			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
+
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
+		<li>
+			<div class="rating-box">
+				<div class="rating" style="width:75%;"></div>
+			</div>
+			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
+
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
+		<li>
+			<div class="rating-box">
+				<div class="rating" style="width:75%;"></div>
+			</div>
+			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
+
+			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
+	</ol>
+</div>
+

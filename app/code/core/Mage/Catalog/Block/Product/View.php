@@ -12,7 +12,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('catalog/product/view.phtml');
     }
 
     public function loadData()

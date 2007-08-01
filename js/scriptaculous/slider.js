@@ -47,7 +47,9 @@ Control.Slider.prototype = {
     this.alignX = parseInt(this.options.alignX || '0');
     this.alignY = parseInt(this.options.alignY || '0');
     
-    this.trackLength = this.maximumOffset() - this.minimumOffset();
+//    this.offset = this.options.offset || '0';
+
+    this.trackLength = this.maximumOffset() - this.minimumOffset() /* - this.offset */ ;
 
     this.handleLength = this.isVertical() ? 
       (this.handles[0].offsetHeight != 0 ? 

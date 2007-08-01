@@ -19,14 +19,27 @@ function setElementDisable(element, disable){
     }
 }
 
+slidedDown = false;
 function imagePreview(element){
-    Effect.SlideDown(element);
     if(!$(element).observerAdded){
+        if(slidedDown){
+            Effect.SlideUp(slidedDown);
+            $(slidedDown).observerAdded = false;
+        }
+        Effect.SlideDown(element);
         Event.observe(element,'click',function(event){
             Effect.SlideUp(Event.element(event).parentNode);
+            slidedDown = false;
+            $(element).observerAdded = false;
         });
+        slidedDown = element;
+        $(element).observerAdded = true;
     }
-    $(element).observerAdded = true;
+    else{
+        Effect.SlideUp(element);
+        slidedDown = false;
+        $(element).observerAdded = false;
+    }
 }
 
 /********** MESSAGES ***********/

@@ -2,6 +2,7 @@
 <layoutUpdate> 
 
     <block type="page/html" name="root" output="toHtml">
+        <action method="setTemplate"><template>page/3columns.phtml</template></action>
 
         <block type="core/store" name="store" as="store"/>
 

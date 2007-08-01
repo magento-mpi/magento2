@@ -17,7 +17,6 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('page/3columns.phtml');
         $this->_urls = array(
             'base'      => Mage::getBaseUrl(),
             'baseSecure'=> Mage::getBaseUrl(array('_secure'=>true)),

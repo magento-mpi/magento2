@@ -25,15 +25,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
             if (!empty($image['image'])) {
                 $url = Mage::getSingleton('core/store')->getConfig('web/url/upload').$image['image'];
                 $html .= '<tr><td style="padding-bottom:3px;">';
-                $html .= '<input type="input" name="'.parent::getName().'[position]['.$image['id'].']" value="'.$image['position'].'" id="'.$this->getHtmlId().'_position_'.$image['id'].'" size="3"/> ';
                 $html .= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image_'.$image['id'].'\');return false;"><img
-                src="'.$url.'" alt="'.$image['image'].'" width="50" align="absmiddle" class="small-image-preview"></a>
-                <div id="'.$this->getHtmlId().'_image_'.$image['id'].'" style="display:none" class="image-preview">
-                <img src="'.$url.'" alt="'.$image['image'].'">
-                </div>';
-                $html .= '<input type="checkbox" name="'.parent::getName().'[delete][]" value="'.$image['id'].'" id="'.$this->getHtmlId().'_delete_'.$image['id'].'"/>';
-                $html .= '<label class="normal" for="'.$this->getHtmlId().'_delete_'.$image['id'].'">'.__('Delete Image').'</label>';
-                $html .= '</td></tr>';
+                    src="'.$url.'" alt="'.$image['image'].'" height="22" align="absmiddle" class="small-image-preview"></a></td>';
+                $html .= '<td><input type="input" name="'.parent::getName().'[position]['.$image['id'].']" value="'.$image['position'].'" id="'.$this->getHtmlId().'_position_'.$image['id'].'" size="3"/></td>';
+                $html .= '<td><input type="checkbox" name="'.parent::getName().'[delete][]" value="'.$image['id'].'" id="'.$this->getHtmlId().'_delete_'.$image['id'].'"/></td>';
+//                $html .= '<label class="normal" for="'.$this->getHtmlId().'_delete_'.$image['id'].'">'.__('Delete Image').'</label>';
+                $html .= '<div id="'.$this->getHtmlId().'_image_'.$image['id'].'" style="display:none" class="image-preview"><img src="'.$url.'" alt="'.$image['image'].'"></div>';
+                $html .= '</tr>';
             }
         }
 

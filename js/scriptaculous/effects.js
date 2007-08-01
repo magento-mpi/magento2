@@ -696,7 +696,7 @@ Effect.Shake = function(element) {
   }}) }}) }}) }}) }}) }});
 }
 
-Effect.SlideDown = function(element) {
+Effect.SlideDown = function(element) {  
   element = $(element).cleanWhitespace();
   // SlideDown need to have the content of the element wrapped in a container element with fixed height!
   var oldInnerBottom = element.down().getStyle('bottom');
