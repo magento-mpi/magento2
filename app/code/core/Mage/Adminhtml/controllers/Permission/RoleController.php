@@ -53,6 +53,7 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/permissions_buttons')
                 ->setRoleId($roleId)
+                ->setRoleInfo(Mage::getModel('permissions/roles')->load($roleId))
                 ->setTemplate('permissions/roleinfo.phtml')
         );
 
