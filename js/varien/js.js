@@ -90,3 +90,81 @@ Varien.GlobalHandlers = {
 };
 
 Ajax.Responders.register(Varien.GlobalHandlers);
+
+
+Varien.CompareController = Class.create();
+
+Varien.CompareController.prototype = {
+	initialize: function(container, options) {
+		// Default configuration values
+		this.updateUrl = false;
+		this.removeUrl = false;
+		this.successMessage = false;
+		this.removeMessage = false;
+		this.confirmMessage = false;
+		this.useAjax = true;
+		this.container = $(container);
+		if(options) {
+			$H(options).each(function(pair) {
+				if(typeof this[pair.key] != 'function' && pair.key != 'container') {
+					if(pair.key == 'updateUrl' || pair.key == 'removeUrl') {
+						this[pair.key] = new Template(pair.value);
+					} else {
+						this[pair.key] = pair.value;
+					}
+				}
+			}.bind(this));
+		}
+	},
+	addItem: function(id) {
+		if(this.useAjax && this.container) {
+			new Ajax.Updater(this.container, this.updateUrl.evaluate({id:id}) + '?ajax=1', {
+				onComplete: function() {
+					if(this.successMessage) {
+						window.alert(this.successMessage);
+					}
+				}.bind(this)
+			});
+
+			if(this.container && this.container.getStyle('display')=='none') {
+				this.container.show();
+			}
+		} else {
+			window.location.href = this.updateUrl.evaluate({id:id});
+		}
+		
+	},
+	removeItem: function (item) {
+		var id = 0;
+		var parentItem = false
+		if(typeof item == 'object') {
+			item	= $(item);
+			parentItem = $(item.parentNode);
+			if(parentItem.hasClassName('block-compare-item')) {
+				id = parentItem.getElementsByClassName('compare-item-id')[0].value;
+				parentItem.remove();
+			} else {
+				return;
+			}
+		} else {
+			id = item;
+		}
+
+		if(!this.confirmMessage || window.confirm(this.confirmMessage)) {
+			if(this.useAjax) {
+				var removeMessage = this.removeMessage;
+				var container = this.container;
+				new Ajax.Request(this.removeUrl.evaluate({id:id}) + '?ajax=1', {onComplete: function() {
+					if(container && parentItem && container.getElementsByClassName('block-compare-item').length == 0) {
+						container.hide();
+					}
+					if(removeMessage) {
+						window.alert(removeMessage);
+					}
+				}});
+			} else {
+				window.location.href = this.updateUrl.evaluate({id:id});
+			}
+		}
+	}
+}

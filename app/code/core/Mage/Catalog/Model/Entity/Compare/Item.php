@@ -15,4 +15,25 @@ class Mage_Catalog_Model_Entity_Compare_Item extends Mage_Core_Model_Mysql4_Abst
 	{
 		$this->_init('catalog/compare_item', 'catalog_compare_item_id');
 	}
+	
+	public function loadByProduct(Mage_Core_Model_Abstract $object, Mage_Catalog_Model_Product $product)
+	{
+		$read = $this->getConnection('read');
+
+        $select = $read->select()->from($this->getMainTable())
+            ->where('product_id=?',  $product->getID())
+            ->where('customer_id=?', $object->getCustomerId())
+            ->where('visitor_id=?',  $object->getVisitorId());
+                
+        $data = $read->fetchRow($select);
+
+        if (!$data) {
+            return false;
+        }
+
+        $object->setData($data);
+
+        $this->_afterLoad($object);
+        return true;
+	}
 }// Class Mage_Catalog_Model_Entity_Compare_Item END

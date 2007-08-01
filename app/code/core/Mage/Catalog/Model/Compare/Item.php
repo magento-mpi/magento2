@@ -15,5 +15,41 @@ class Mage_Catalog_Model_Compare_Item extends Mage_Core_Model_Abstract
 	{
 		$this->_init('catalog/compare_item');
 	}
+	
+	public function addCustomerData(Mage_Customer_Model_Customer $customer)
+	{
+		$this->setCustomerId($customer->getId());
+		$this->setVisitorId(0);
+		return $this;
+	}
+	
+	public function addVisitorId($visitorId)
+	{
+		$this->setVisitorId($visitorId);
+		$this->setCustomerId(0);
+		return $this;
+	}
+	
+	public function loadByProduct(Mage_Catalog_Model_Product $product)
+	{
+		$this->getResource()->loadByProduct($this,$product);		
+		return $this;
+	}
+	
+	public function addProductData(Mage_Catalog_Model_Product $product)
+	{
+		$this->setProductId($product->getId());
+		return $this;
+	}
+	
+	public function getDataForSave()
+	{
+		$data = array();
+		$data['customer_id'] = $this->getCustomerId();
+		$data['visitor_id']	 = $this->getVisitorId();
+		$data['product_id']	 = $this->getProductId();
 		
+		return $data;
+	}
+	
 }// Class Mage_Catalog_Model_Compare_Item END

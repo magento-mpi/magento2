@@ -55,4 +55,13 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         
         return $this;
     }
+    
+    public function getCompareJsObjectName()
+    {
+    	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
+    		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
+    	} 
+    	
+    	return false;
+    }
 }
