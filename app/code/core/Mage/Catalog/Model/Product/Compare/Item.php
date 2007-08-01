@@ -54,17 +54,32 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 	
 	public function bindCustomerLogin()
 	{
-		$this->getResourceCollection()
+		$collectionVisitor = Mage::getResourceModel('catalog/product_compare_item_collection');
+		$collectionVisitor
 			->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId())
 			->load();
+		
 		$session = Mage::getSingleton('customer/session');
+			
+		$collectionCustomer = $this->getResourceCollection()
+			->setCustomerId($session->getCustomerId())
+			->load();;
+				
+		
       	
-		$this->getResourceCollection()->walk('addCustomerData', array($session->getCustomer()));
-		try {
-			$this->getResourceCollection()->walk('save'); 
-		} 
-		catch (Exception $e) {
-			//
+		$collectionVisitor->walk('addCustomerData', array($session->getCustomer()));
+		$collectionCustomerIds = $collectionCustomer->getProductIds();
+		foreach($collectionVisitor as $item) {
+			try {
+				if(in_array($item->getProductId(), $collectionCustomerIds)) {
+					$item->delete();
+				} else {
+					$item->save();
+				}
+			} 
+			catch (Exception $e) {
+				//
+			}
 		}
 		return $this;
 	}	

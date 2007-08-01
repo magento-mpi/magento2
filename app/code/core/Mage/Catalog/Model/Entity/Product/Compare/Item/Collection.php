@@ -72,5 +72,12 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Cat
     	return $this;
     }
     
-    
+    public function getProductIds() {
+    	$ids = array();
+    	foreach ($this->getItems() as $item) {
+    		$ids[] = $item->getProductId();
+    	}
+    	
+    	return $ids;
+    }
 }// Class Mage_Catalog_Model_Entity_Compare_Item_Collection END
