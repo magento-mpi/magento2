@@ -1,5 +1,7 @@
 <?php
 
+$conn->dropKey('eav_attribute', 'entity_type_id');
+
 $conn->dropForeignKey('eav_attribute', 'FK_eav_attribute');
 $conn->dropForeignKey('eav_attribute_group', 'FK_eav_attribute_group');
 $conn->dropForeignKey('eav_attribute_set', 'FK_eav_attribute_set');
@@ -33,7 +35,7 @@ where attribute_id not in (select attribute_id from eav_attribute)
 ;
 
 alter table `eav_attribute`
-    ,drop key `entity_type_id`, add unique `entity_type_id` (`entity_type_id`, `attribute_code`)
+    ,add unique `entity_type_id` (`entity_type_id`, `attribute_code`)
     ,add constraint `FK_eav_attribute` foreign key(`entity_type_id`) references `eav_entity_type` (`entity_type_id`) on delete cascade  on update cascade
 ; 
 
