@@ -22,8 +22,7 @@
  		if(is_null($this->_items)) {
  			$this->_items = Mage::getResourceModel('catalog/compare_item_collection');
  			
- 			//!!!!! WHERE IS DB UPDATE ????
- 			/*if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+ 			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
 			} else {
 				$this->_items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
@@ -32,7 +31,7 @@
 			$this->_items
 				->addAttributeToSelect('name')
 				->useProductItem()
-				->load();*/
+				->load();
  		}
  		
  		return $this->_items;
