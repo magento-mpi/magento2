@@ -7,11 +7,11 @@
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Customer_Model_Entity_Order_Status_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Customer_Model_Entity_Order_Address_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     public function __construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('sales/order_status'));
-        $this->setObject('sales/order_status');
+        $this->setEntity(Mage::getResourceSingleton('sales/order_address'));
+        $this->setObject('sales/order_address');
     }
 }
