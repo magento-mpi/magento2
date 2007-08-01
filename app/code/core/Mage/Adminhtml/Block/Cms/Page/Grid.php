@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->setId('cmsPageGrid');
         $this->setDefaultSort('identifier');
         $this->setDefaultDir('ASC');
+        $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()

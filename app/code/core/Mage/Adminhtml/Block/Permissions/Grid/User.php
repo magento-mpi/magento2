@@ -14,7 +14,9 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     {
         parent::__construct();
         $this->setId('customerGrid');
-        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
+        $this->setDefaultSort('username');
+        $this->setDefaultDir('asc');
     }
 
     protected function _prepareCollection()

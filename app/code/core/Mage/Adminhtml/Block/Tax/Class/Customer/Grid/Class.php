@@ -14,6 +14,9 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
     public function __construct()
     {
         parent::__construct();
+        $this->setSaveParametersInSession(true);
+        $this->setDefaultSort('class_customer_name');
+        $this->setDefaultDir('asc');
     }
 
     protected function _prepareCollection()

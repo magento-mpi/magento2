@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
         $this->setId('cmsBlockGrid');
         $this->setDefaultSort('block_identifier');
         $this->setDefaultDir('ASC');
+        $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()

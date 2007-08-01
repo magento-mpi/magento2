@@ -14,8 +14,9 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
     {
         parent::__construct();
         $this->setId('roleGrid');
-        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
         $this->setDefaultSort('role_name');
+        $this->setDefaultDir('asc');
     }
 
     protected function _prepareCollection()
@@ -36,7 +37,7 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
             'width'    => '50px'
         ));
 
-        $this->addColumn('rolename', array(
+        $this->addColumn('role_name', array(
             'header'    =>__('Role Name'),
             'index'     =>'role_name'
         ));

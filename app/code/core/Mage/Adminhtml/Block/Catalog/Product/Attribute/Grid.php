@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         $this->setTypeId(Mage::registry('entityType'));
         $this->setDefaultSort('attribute_code');
         $this->setDefaultDir('ASC');
+        $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()

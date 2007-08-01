@@ -14,6 +14,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
     public function __construct()
     {
         parent::__construct();
+        $this->setSaveParametersInSession(true);
         $this->setDefaultSort('class_name');
         $this->setDefaultDir('asc');
     }

@@ -4,7 +4,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultSort('rule_id');
+        $this->setDefaultSort('tax_rule_id');
+        $this->setDefaultDir('asc');
+        $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()
@@ -31,7 +33,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'header'=>__('Customer Tax Class'),
                 'align' =>'left',
                 'index' => 'customer_class',
-                'real_index' => 'cct.class_name',
+                'filter_index' => 'cct.class_name',
             )
         );
 
@@ -40,7 +42,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'header'=>__('Product Tax Class'),
                 'align' =>'left',
                 'index' => 'product_class',
-                'real_index' => 'pct.class_name',
+                'filter_index' => 'pct.class_name',
             )
         );
 
