@@ -79,7 +79,7 @@ class Mage_Customer_Block_Dashboard extends Mage_Core_Block_Template
     		return __('You are currently subscribed to our newsletter');
     	}
     	
-    	return _('You are currently not subscribed to our newsletter');
+    	return __('You are currently not subscribed to our newsletter');
     }
     
     public function getPrimaryAddresses()

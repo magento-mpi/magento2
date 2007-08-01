@@ -1,10 +1,10 @@
 	<?=$this->getMessagesBlock()->getHtml()?>
     <form action="<?=$this->getAction()?>" method="post" id="form-validate">
     <fieldset class="group-select">
-        <legend><?=_('Newsletter Subscriptions')?></legend>
+        <legend><?=__('Newsletter Subscriptions')?></legend>
         <ul>
             <li>
-                <input type="checkbox" name="is_subscribed" value="1" title="<?=_('General Subscription')?>"  <?if($this->getIsSubscribed()):?> checked<?endif?>/> <label for="subscription"><?=_('General Subscription')?></label>
+                <input type="checkbox" name="is_subscribed" value="1" title="<?=__('General Subscription')?>"  <?if($this->getIsSubscribed()):?> checked<?endif?>/> <label for="subscription"><?=__('General Subscription')?></label>
             </li>
         </ul>
     </fieldset>
