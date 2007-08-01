@@ -9,6 +9,10 @@ $conn->dropForeignKey('eav_entity_attribute', 'FK_eav_entity_attribute');
 $conn->dropForeignKey('eav_entity_attribute', 'FK_eav_entity_attribute_group');
 
 $conn->multi_query(<<<EOT
+alter table `eav_entity_type` 
+    ,change `entity_name` `entity_type_code` varchar (50)  NOT NULL  COLLATE utf8_general_ci
+; 
+
 delete from eav_attribute_set
 where entity_type_id not in (select entity_type_id from eav_entity_type)
 ;
@@ -47,14 +51,9 @@ alter table `eav_entity`
     ,add constraint `FK_eav_entity_store` foreign key(`store_id`)references `core_store` (`store_id`) on delete cascade  on update cascade
 ;
 
-
 alter table `eav_entity_attribute` 
     ,add constraint `FK_eav_entity_attribute` foreign key(`attribute_id`) references `eav_attribute` (`attribute_id`) on delete cascade  on update cascade;
     ,add constraint `FK_eav_entity_attribute_group` foreign key(`attribute_group_id`) references `eav_attribute_group` (`attribute_group_id`) on delete cascade  on update cascade 
 ;
-
-alter table `eav_entity_type` 
-    ,change `entity_name` `entity_type_code` varchar (50)  NOT NULL  COLLATE utf8_general_ci
-; 
 EOT
 );
