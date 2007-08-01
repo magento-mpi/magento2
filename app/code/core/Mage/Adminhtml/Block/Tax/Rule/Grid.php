@@ -26,27 +26,29 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
             )
         );
 
-        $this->addColumn('customer_class',
+        $this->addColumn('customer_class_name',
             array(
                 'header'=>__('Customer Tax Class'),
                 'align' =>'left',
-                'index' => 'customer_class'
+                'index' => 'customer_class',
+                'real_index' => 'cct.class_name',
             )
         );
 
-        $this->addColumn('product_class',
+        $this->addColumn('product_class_name',
             array(
                 'header'=>__('Product Tax Class'),
                 'align' =>'left',
-                'index' => 'product_class'
+                'index' => 'product_class',
+                'real_index' => 'pct.class_name',
             )
         );
 
-        $this->addColumn('tax_rate',
+        $this->addColumn('type_name',
             array(
                 'header'=>__('Tax Rate'),
                 'align' =>'left',
-                'index' => 'rate_name'
+                'index' => 'type_name'
             )
         );
 
