@@ -47,9 +47,7 @@ Control.Slider.prototype = {
     this.alignX = parseInt(this.options.alignX || '0');
     this.alignY = parseInt(this.options.alignY || '0');
     
-//    this.offset = this.options.offset || '0';
-
-    this.trackLength = this.maximumOffset() - this.minimumOffset() /* - this.offset */ ;
+    this.trackLength = this.maximumOffset() - this.minimumOffset();
 
     this.handleLength = this.isVertical() ? 
       (this.handles[0].offsetHeight != 0 ? 
@@ -175,7 +173,7 @@ Control.Slider.prototype = {
       (this.track.offsetHeight != 0 ? this.track.offsetHeight :
         this.track.style.height.replace(/px$/,"")) - this.alignY : 
       (this.track.offsetWidth != 0 ? this.track.offsetWidth : 
-        this.track.style.width.replace(/px$/,"")) - this.alignY);
+        this.track.style.width.replace(/px$/,"")) - this.alignX);
   },  
   isVertical:  function(){
     return (this.axis == 'vertical');

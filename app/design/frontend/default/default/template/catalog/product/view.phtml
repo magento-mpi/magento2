@@ -1,122 +1,14 @@
-<?
-/*
-
-<div class="product-image">
-    <div style="position:relative; overflow:hidden; width:245px; height:245px;">
-        <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="width:100%; position:absolute; top:0; left:0; cursor:move; z-index:999;" ondblclick="toggleFull()"/>
-    </div>   
-    <div style="margin-top:10px;">
-        <table border=0 cellspacing=2>
-            <tr>
-                <td><img src="<?=$this->getSkinUrl('images/magnifier_zoom_out.gif')?>" width="16" alt="Zoom in to product image"></td>
-                <td style="padding:0 4px;">
-                    <div id="track1" style="width: 200px; height:18px; background:#CCC;">
-                        <div id="handle1"" style="width: 8px; height: 18px; background:#557;"></div>
-                    </div>
-                </td>
-                <td><img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" width="16" alt="Zoom in to product image"></td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post">
-    <input type="hidden" name="product_id" value="<?=$product->getProductId()?>">
-    <div class="product-info">
-        <h1 class="page-heading"><?=$product->getName()?></h1>
-        <div class="product-description"><?=$product->getDescription()?></div>
-        <table cellspacing="0" width="100%" class="qty-list">
-            <thead>
-                <tr>
-                    <th class="align-center">Quantity</th>
-                    <th class="align-center ">Price Each</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <td colspan="3" class="bottom"></td>
-                </tr>
-            </tfoot>
-            <?$_prices=$product->getFormatedTierPrice()?>
-            <tbody>
-                <?foreach($_prices as $_price):?>
-                <tr>
-                    <td class="align-center"><?=$_price['price_qty']?></td>
-                    <td class="align-center"><?=$_price['price']?></td>
-                </tr>
-                <?endforeach?>
-            </tbody>
-        </table>
-        <input type="image" src="<?=$this->getSkinUrl('images/btn_add_to_cart.gif')?>" alt="Add to Cart" class="float-right" />
-        <ul class="product-options">
-        <!--
-            <li>
-                <a href="#" title="Tell-a-Friend"><img src="<?=$this->getSkinUrl('catalog/images/icon_tell_friend.gif')?>" alt="Request a Sample" /></a> 
-                <a href="#" title="Tell-a-Friend"><strong>Tell-a-friend</strong></a>
-            </li>
-        -->
-            <li>
-                <a href="<?=$wishlistLink?>"><strong>Add to Wishlist</strong></a>
-            </li>
-            <li>&nbsp;</li>
-        </ul>
-        
-        <h3>Satisfaction Guaranteed</h3>
-        <p>If you are not completely satisfied with your order return it for a full refund!</p>
-        <img src="<?=$this->getSkinUrl('images/icon_made_in_america.gif')?>" alt="Made in USA" />
-    </div>
-</form>
-
-<?/*$_relatedProducts=$product->getRelatedProducts()?>
-<?if($_relatedProducts->getSize()):?>
-<div class="clearfix"></div>
-    <h1>Related products</h1>
-    <div class="catalog-spacer">&nbsp;</div>
-        <div class="catalog-collection">
-            <?foreach ($_relatedProducts as $_link):?>
-            <div class="item">
-                <div class="item-image">
-                    <a href="<?=$_link->getProduct()->getProductUrl()?>"><img src="<?=$this->getSkinUrl('images/placeholder_product_small.jpg')?>" alt="product name" width="115"/></a>
-                </div>
-                <div class="item-info">
-                    <div class="product-name">
-                        <a href="<?=$_link->getProduct()->getProductUrl()?>" title="<?=$_link->getProduct()->getName()?>">
-                            <?=$_link->getProduct()->getName()?>
-                        </a>
-                    </div>
-                    <div class="product-price"><?=$_link->getProduct()->getFormatedPrice()?></div>
-                </div>
-            </div>
-            <?endforeach?>
-            <div class="clearfix"></div>
-    </div>
-<?endif* /?>
-<?=$this->getChildHtml('rating')?>
-<?=$tags;?>
-<p></p>
-<?if($reviewCount):?>
-<a href="<?=$reviewLink?>">View all review</a>
-<?endif;?>
-<p></p>
-<?//=$reviewList?>
-<?=$this->getChildHtml('reviewForm')?>
-
-
-*/
-?>
-
-
 <div class="product-images">
 
     <div style="position:relative; overflow:hidden; width:300px; height:300px;" class="product-image">
-        <img id="image" src="<?=$product->getImageUrl()?>" width="298" alt="<?=$product->getName()?>"/>
+        <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="position:relative; left:2px; top:2px; width:100%; cursor:move; z-index:999;" ondblclick="toggleFull()"/>
     </div>
 
     <p></p>
 
 	<div id="track1">
 		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_out.gif')?>" alt="-" class="zoom-in"/>
-        <div>
+        <div id="track2">
 		    <div id="handle1"></div>
         </div>
 		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" alt="+" class="zoom-out"/>
@@ -124,7 +16,7 @@
 
     <script type="text/javascript">
         var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
-        var slider = new Control.Slider('handle1', 'track1', {axis:'horizontal', minimum:0, maximum:200, alignX:50, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt, offset:50});
+        var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
 
         var origWidth = 300;
         var origHeight = 300;
@@ -187,10 +79,12 @@
 </div>
 <div class="product-shop">
 	<h3><?=$product->getName()?></h3>
+    Dynamic rating:<br/>
+    <?=$this->getChildHtml('rating')?><br/>
+    Hardcoded rating:<br/>
 	<div class="ratings">
 		<div class="rating-box">
 			<div class="rating" style="width:80%;">
-
 			</div>
 		</div>
 		<a href="#customer-reviews" class="no-wrap"><small>( 3 Reviews )</small></a>
@@ -213,15 +107,15 @@
 			</tr>
 		</table>
 	</div>
+    <?if($product->getTierPriceCount()>1):?>
 	<div class="product-pricing">
 		<ul class="bare">
-			<li>Buy 2 for <strong>$19.99</strong></li>
-			<li>Buy 3 for <strong>$18.99</strong></li>
-
-			<li>Buy 4 for <strong>$16.99</strong></li>
-			<li>Buy 5 or more for <strong>$12.99</strong></li>
+            <?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
+            <li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
+            <?endforeach?>
 		</ul>
 	</div>
+    <?endif;?>
 	<table cellspacing="0" class="data-table">
 		<thead>
 			<tr>
@@ -265,21 +159,24 @@
 	</table>
 	<p><small>Availability: In stock. Ships within 24hours.</small></p>
 	<p class="price-box">
-		<span class="old-price"><span class="label">Regular Price:</span> $59.23</span><br/>
+		<span class="old-price"><span class="label">Regular Price:</span> <?=$product->getFormatedPrice()?></span><br/>
 
-		<span class="special-price"><span class="label">Special Price:</span> $49.99</span>
+		<span class="special-price"><span class="label">Special Price:</span> <?=$product->getFormatedPrice()?></span>
 	</p>
+    <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" name="addtocart">
+    <input type="hidden" name="product_id" value="<?=$product->getProductId()?>">
 	<fieldset class="add-to-box">
 		<legend>Add items to cart </legend>
 		<table cellspacing="0">
 			<tr>
-				<td><label for="qty">Qty:</label> <input type="text" class="input-text qty" id="qty"/></td>
+				<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
 
-				<td><button class="form-button"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
-				<td><a href="#">Add to Wishlist</a><br/><a href="#">Add to Compare</a></td>
+				<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/><a href="#">Add to Compare</a></td>
 			</tr>
 		</table>
 	</fieldset>
+    </form>
 	<div class="dotted-divider"></div>
 	<div class="required-products">
 
@@ -297,15 +194,18 @@
 
 <div class="info-block">
 	<h3>Features and Specifications</h3>
-	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus convallis fermentum ante. Nam erat risus, rhoncus eu, congue sed, fringilla rutrum, risus. Etiam egestas sem quis lacus. Morbi convallis nisl placerat augue. Vestibulum at odio eu elit venenatis vestibulum. In dignissim, metus in facilisis ullamcorper, arcu lacus ultricies odio, et pharetra purus enim et libero. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus convallis fermentum ante. Nam erat risus, rhoncus eu, congue sed, fringilla rutrum, risus. Etiam egestas sem quis lacus. Morbi convallis nisl placerat augue. Vestibulum at odio eu elit venenatis vestibulum. In dignissim,	metus in facilisis ullamcorper, arcu lacus ultricies odio, et pharetra purus enim et libero.</p></div>
+	<p><?=$product->getDescription()?></p></div>
 
+<?if($product->getRelatedProducts()->getSize()):?>
 <div class="info-block">
 	<h3>You may be interested in these items</h3>
 	<table cellspacing="0" class="generic-product-grid">
-		<tr class="last">
-			<td><a href="#"><img src="images/ph_product_thumb.jpg" width="100" alt="" class="image-link"></a><br/>
-				<a href="#">Product name goes here</a><br/>
-				<span class="regular-price">$29.95</span>
+	    <tr class="last">
+
+        <?foreach ($product->getRelatedProducts() as $_link):?>
+			<td><a href="<?=$_link->getProduct()->getProductUrl()?>"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="100" alt="<?=$_link->getProduct()->getName()?>" class="image-link"></a><br/>
+				<a href="<?=$_link->getProduct()->getProductUrl()?>"><?=$_link->getProduct()->getName()?></a><br/>
+				<span class="regular-price"><?=$_link->getProduct()->getFormatedPrice()?></span>
 
 				<div class="ratings">
 					<div class="rating-box">
@@ -314,48 +214,19 @@
 					<a href="#">(3 Reviews)</a>
 				</div>
 			</td>
-			<td><a href="#"><img src="images/ph_product_thumb.jpg" width="100" alt="" class="image-link"></a><br/>
+        <?endforeach?>
 
-				<a href="#">Product name goes here</a><br/>
-				<span class="regular-price">$29.95</span>
-				<div class="ratings">
-					<div class="rating-box">
-						<div class="rating" style="width:75%;"></div>
-					</div>
-					<a href="#">(3 Reviews)</a>
-
-				</div>
-			</td>
-			<td><a href="#"><img src="images/ph_product_thumb.jpg" width="100" alt="" class="image-link"></a><br/>
-				<a href="#">Product name goes here</a><br/>
-				<span class="regular-price">$29.95</span>
-				<div class="ratings">
-					<div class="rating-box">
-						<div class="rating" style="width:75%;"></div>
-
-					</div>
-					<a href="#">(3 Reviews)</a>
-				</div>
-			</td>
-			<td class="last"><a href="#"><img src="images/ph_product_thumb.jpg" width="100"  alt="" class="image-link"></a><br/>
-				<a href="#">Product name goes here</a><br/>
-				<span class="regular-price">$29.95</span>
-
-				<div class="ratings">
-					<div class="rating-box">
-						<div class="rating" style="width:95%;"></div>
-					</div>
-					<a href="#">(3 Reviews)</a>
-				</div>
-			</td>
 		</tr>
-
 	</table>
 </div>
+<?endif?>
 
 <div class="info-block tags fm ">
 	<h3>Product Tags</h3>
 	<p><strong>Other customers tagged this product:</strong></p>
+    Dynamic tags:<br/>
+    <?=$tags;?><br/>
+    Hardcoded tags:<br/>
 	<ul class="tags-list">
 		<li class="first"><a href="#"><a href="#">Shoes</a> (5)</li>
 
@@ -371,8 +242,7 @@
 
 <div class="info-block" id="customer-reviews">
 	<div class="head">
-		<h3>Customer Reviews</h3><a href="#">View All</a>
-
+		<h3>Customer Reviews</h3><?if($reviewCount):?><a href="<?=$reviewLink?>">View all</a><?endif;?>
 	</div>
 	<ol>
 		<li>

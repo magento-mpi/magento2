@@ -109,7 +109,18 @@ class Mage_Catalog_Model_Product extends Varien_Object
         
         return ($prices) ? $prices : array();
     }
-    
+
+    /**
+     * Count how many tier prices we have for the product
+     *
+     * @return  int
+     */
+    public function getTierPriceCount()
+    {
+        $price = $this->getTierPrice();
+        return count($price);
+    }
+
     /**
      * Get formated by currency tier price
      *
@@ -127,7 +138,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         else {
             $price = Mage::getSingleton('core/store')->formatPrice($price);
         }
-        
         
         return $price;
     }

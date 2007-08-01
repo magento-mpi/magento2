@@ -11,7 +11,7 @@
     <?if($_category->getIsActive()):?>
     <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>>
         <a href="<?=$this->getCategoryUrl($_category)?>"><span><?=$_category->getName()?></span></a>
-        <?if ($_children = $_category->getChildren()):?>
+        <?if (($_children = $_category->getChildren()) && $_children->count()):?>
         <ul>
             <?foreach ($_children as $_child):?>
                 <?if($_child->getIsActive()):?>
@@ -24,4 +24,3 @@
     <?endif;?>
 <?endforeach?>
 </ul>
-

@@ -52,25 +52,25 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
     public function getAdditionalCssJs()
     {
         $lines = '';
-        foreach (@(array)$this->_additionalCssJs['css'] as $item) {
-            $lines .= '<link rel="stylesheet" type="text/css" media="all" href="' . $this->getSkinUrl('css/' . $item) . '" ></link>' . "\n";
+        if (isset($this->_additionalCssJs['css']) && is_array($this->_additionalCssJs['css'])) {
+            foreach ($this->_additionalCssJs['css'] as $item) {
+                $lines .= '<link rel="stylesheet" type="text/css" media="all" href="' . $this->getSkinUrl('css/' . $item) . '" ></link>' . "\n";
+            }
         }
-        foreach (@(array)$this->_additionalCssJs['cssIe'] as $item) {
-            $lines .= '<!--[if IE]> <link rel="stylesheet" type="text/css" media="all" href="' . $this->getSkinUrl('css/' . $item) . '" ></link> <![endif]-->' . "\n";
+        if (isset($this->_additionalCssJs['cssIe']) && is_array($this->_additionalCssJs['cssIe'])) {
+            foreach ($this->_additionalCssJs['cssIe'] as $item) {
+                $lines .= '<!--[if IE]> <link rel="stylesheet" type="text/css" media="all" href="' . $this->getSkinUrl('css/' . $item) . '" ></link> <![endif]-->' . "\n";
+            }
         }
-/*
-        foreach (@(array)$this->_additionalCssJs['js'] as $item) {
-            $lines .= '<script language="javascript" type="text/javascript" src="' . $this->getSkinUrl('js/' . $item) . '" ></script>' . "\n";
+        if (isset($this->_additionalCssJs['js']) && is_array($this->_additionalCssJs['js'])) {
+            foreach ($this->_additionalCssJs['js'] as $item) {
+                $lines .= '<script language="javascript" type="text/javascript" src="' . Mage::getBaseUrl() . 'js/' . $item . '" ></script>' . "\n";
+            }
         }
-        foreach (@(array)$this->_additionalCssJs['jsIe'] as $item) {
-            $lines .= '<!--[if IE]> <script language="javascript" type="text/javascript" src="' . $this->getSkinUrl('js/' . $item) . '" ></script> <![endif]-->' . "\n";
-        }
-*/
-        foreach (@(array)$this->_additionalCssJs['js'] as $item) {
-            $lines .= '<script language="javascript" type="text/javascript" src="/js/' . $item . '" ></script>' . "\n";
-        }
-        foreach (@(array)$this->_additionalCssJs['jsIe'] as $item) {
-            $lines .= '<!--[if IE]> <script language="javascript" type="text/javascript" src="/js/' . $item . '" ></script> <![endif]-->' . "\n";
+        if (isset($this->_additionalCssJs['jsIe']) && is_array($this->_additionalCssJs['jsIe'])) {
+            foreach ($this->_additionalCssJs['jsIe'] as $item) {
+                $lines .= '<!--[if IE]> <script language="javascript" type="text/javascript" src="' . Mage::getBaseUrl() . 'js/' . $item . '" ></script> <![endif]-->' . "\n";
+            }
         }
         return $lines;
     }
