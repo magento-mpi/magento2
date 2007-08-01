@@ -9,46 +9,70 @@
  */
 class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
-    protected function _loadCategories($parent)
+    /**
+     * Retrieve category children nodes
+     *
+     * @param   int $parent
+     * @param   int $maxChildLevel
+     * @return  Varien_Data_Tree_Node_Collection
+     */
+    public function getChildCategories($parent, $maxChildLevel=1)
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $tree->getCategoryCollection()
-            ->addAttributeToSelect('name');
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('is_active');
             
-        $parent = Mage::getSingleton('core/store')->getConfig('catalog/category/root_id');
-
-        $nodes = $tree->load($parent, 10)
+        $nodes = $tree->load($parent, $maxChildLevel)
             ->getRoot()
                 ->getChildren();
 
-        $this->assign('categories', $nodes);
+        return $nodes;
     }
     
-    protected function _loadProductManufacturers()
+    /**
+     * Retrieve current store categories
+     *
+     * @param   int $maxChildLevel
+     * @return  Varien_Data_Tree_Node_Collection
+     */
+    public function getStoreCategories($maxChildLevel=1)
     {
-        $manufacturers = array();/*Mage::getModel('catalog/product_attribute')
-            ->loadByCode('manufacturer')
-            ->getSource()
-                ->getArrOptions();*/
-
-        $this->assign('manufacturers', $manufacturers);
+        $parent = Mage::getSingleton('core/store')->getConfig('catalog/category/root_id');
+        return $this->getChildCategories($parent, $maxChildLevel);
     }
     
-    protected function _loadProductTypes()
+    /**
+     * Retrieve child categories of current category
+     *
+     * @return Varien_Data_Tree_Node_Collection
+     */
+    public function getCurrentChildCategories()
     {
-        $types = array();/*Mage::getModel('catalog/product_attribute')
-            ->loadByCode('shoe_type')
-            ->getSource()
-                ->getArrOptions();*/
-
-        $this->assign('types', $types);
+        $parent = $this->getRequest()->getParam('id');
+        return $this->getChildCategories($parent, 1);
     }
     
-    protected function _beforeToHtml()
+    
+    /**
+     * Checkin activity of category
+     *
+     * @param   Varien_Object $category
+     * @return  bool
+     */
+    public function isCategoryActive($category)
     {
-        $this->_loadCategories($this->getCategoriesParentId());
-        $this->_loadProductManufacturers();
-        $this->_loadProductTypes();
-        return true;
+        return false;
     }
-}// Class Mage_Core_Block_List END
+    
+    /**
+     * Retrieve category link
+     *
+     * @param   Varien_Object $category
+     * @return  string
+     */
+    public function getCategoryUrl($category)
+    {
+        return Mage::getUrl('catalog/category/view', array('id'=>$category->getId()));
+    }
+}

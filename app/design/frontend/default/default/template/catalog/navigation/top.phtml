@@ -1,0 +1,27 @@
+<?
+/**
+ * Top menu for store
+ * 
+ * @see Mage_Catalog_Block_Navigation
+ */
+?>
+<h4 class="no-show">Category Navigation:</h4>
+<ul id="nav">
+<?foreach ($this->getStoreCategories(2) as $_category):?>
+    <?if($_category->getIsActive()):?>
+    <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>>
+        <a href="<?=$this->getCategoryUrl($_category)?>"><span><?=$_category->getName()?></span></a>
+        <?if ($_children = $_category->getChildren()):?>
+        <ul>
+            <?foreach ($_children as $_child):?>
+                <?if($_child->getIsActive()):?>
+                <li><a href="<?=$this->getCategoryUrl($_child)?>"><?=$_child->getName()?></a></li>
+                <?endif;?>
+            <?endforeach?>
+        </ul>
+        <?endif?>
+    </li>
+    <?endif;?>
+<?endforeach?>
+</ul>
+
