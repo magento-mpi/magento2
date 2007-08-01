@@ -28,6 +28,26 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
         $this->_connection = $conn;
     }
     
+    public function raw_query($sql)
+    {
+        return $this->getConnection()->query($sql);
+    }
+    
+    public function raw_fetchRow($sql, $field=null)
+    {
+        if (!$result = $this->raw_query($sql)) {
+            return false;
+        }
+        if (!$row = $result->fetch_assoc()) {
+            return false;
+        }
+        if (empty($field)) {
+            return $row;
+        } else {
+            return isset($row[$field]) ? $row[$field] : false;
+        }
+    }
+    
     public function multi_query($sql)
 	{
 	    $this->getConnection()->autocommit(FALSE);

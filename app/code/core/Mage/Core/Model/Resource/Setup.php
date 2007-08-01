@@ -209,7 +209,7 @@ class Mage_Core_Model_Resource_Setup
                     }
                 }
                 catch (Exception $e){
-                    throw new Exception('Error in file:"'.$sqlFile.'" - '.$e->getMessage());
+                    throw Mage::exception('Mage_Core', 'Error in file: "'.$sqlFile.'" - '.$e->getMessage());
                 }
             }
             $toVersion = $resourceFile['toVersion'];
