@@ -1,32 +1,12 @@
 <?php
 
-$create = $conn->raw_fetchRow("show create table eav_attribute", 'Create Table');
-if (strpos($create, 'CONSTRAINT `FK_eav_attribute` FOREIGN KEY')!==false) {
-    $conn->raw_query('ALTER TABLE eav_attribute DROP FOREIGN KEY `FK_eav_attribute`');
-}
-
-$create = $conn->raw_fetchRow("show create table eav_attribute_group", 'Create Table');
-if (strpos($create, 'CONSTRAINT `FK_eav_attribute_group` FOREIGN KEY')!==false) {
-    $conn->raw_query('ALTER TABLE eav_attribute_group DROP FOREIGN KEY `FK_eav_attribute_group`');
-}
-
-$create = $conn->raw_fetchRow("show create table eav_attribute_set", 'Create Table');
-if (strpos($create, 'CONSTRAINT `FK_eav_attribute_set` FOREIGN KEY')!==false) {
-    $conn->raw_query('ALTER TABLE eav_attribute_set DROP FOREIGN KEY `FK_eav_attribute_set`');
-}
-
-$create = $conn->raw_fetchRow("show create table eav_entity", 'Create Table');
-if (strpos($create, 'CONSTRAINT `FK_eav_attribute` FOREIGN KEY')!==false) {
-    $conn->raw_query('ALTER TABLE eav_entity DROP FOREIGN KEY `FK_eav_attribute`');
-}
-
-$create = $conn->raw_fetchRow("show create table eav_entity_attribute", 'Create Table');
-if (strpos($create, 'CONSTRAINT `FK_eav_entity` FOREIGN KEY')!==false) {
-    $conn->raw_query('ALTER TABLE eav_entity_attribute DROP FOREIGN KEY `FK_eav_entity`');
-}
-if (strpos($create, 'CONSTRAINT `FK_eav_entity_store` FOREIGN KEY')!==false) {
-    $conn->raw_query('ALTER TABLE eav_entity_attribute DROP FOREIGN KEY `FK_eav_entity_store`');
-}
+$conn->dropForeignKey('eav_attribute', 'FK_eav_attribute');
+$conn->dropForeignKey('eav_attribute_group', 'FK_eav_attribute_group');
+$conn->dropForeignKey('eav_attribute_set', 'FK_eav_attribute_set');
+$conn->dropForeignKey('eav_entity', 'FK_eav_entity');
+$conn->dropForeignKey('eav_entity', 'FK_eav_entity_store');
+$conn->dropForeignKey('eav_entity_attribute', 'FK_eav_entity_attribute');
+$conn->dropForeignKey('eav_entity_attribute', 'FK_eav_entity_attribute_group');
 
 $conn->multi_query(<<<EOT
 delete from eav_attribute_set

@@ -65,4 +65,12 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 		$this->getConnection()->commit();
 		return true;
 	}
+	
+	public function dropForeignKey($table, $fk)
+	{
+        $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');
+        if (strpos($create, "CONSTRAINT `$fk` FOREIGN KEY")!==false) {
+            $this->raw_query("ALTER TABLE `$table` DROP FOREIGN KEY `$fk`");
+        }
+	}
 }
