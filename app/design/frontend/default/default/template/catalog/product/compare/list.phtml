@@ -11,7 +11,7 @@
 			<td>
 				<?switch ($_attribute->getAttributeCode()) {
 					case "price":?>
-				<?=$_item->getPriceFormated()?>
+				<?=$_item->getFormatedPrice()?>
 						<?break;
 					case "small_image":?>
 				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
