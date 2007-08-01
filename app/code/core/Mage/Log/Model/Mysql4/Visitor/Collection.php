@@ -111,7 +111,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         $this->_sqlSelect->joinLeft( $this->_urlInfoTable, "{$this->_urlInfoTable}.url_id = {$this->_urlTable}.url_id" );
         $this->_sqlSelect->joinLeft( $this->_quoteTable, "{$this->_quoteTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->where( "{$this->_urlTable}.visit_time >= ( ? - INTERVAL {$minutes} MINUTE)", now() );
-        $this->_sqlSelect->group("{$this->_urlTable}.visitor_id");
+        #$this->_sqlSelect->group("{$this->_urlTable}.visitor_id");
         return $this;
     }
 
