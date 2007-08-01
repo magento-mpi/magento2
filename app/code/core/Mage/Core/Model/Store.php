@@ -193,6 +193,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     
     public function processSubst($str)
     {
+        if (!is_string($str)) {
+            return $str;
+        }
         if (strpos($str, '{{base_path}}')!==false) {
             $str = str_replace('{{base_path}}', $this->getDefaultBasePath(), $str);
         }
