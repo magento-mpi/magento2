@@ -564,6 +564,7 @@ h1#logo {
 	width:33%;
 	text-align:left;
 	}
+.listing-type-grid td.empty-product { background:#f5f6f6 }
 .listing-type-grid .product-image {
 	text-align:center;
 	}
@@ -581,7 +582,6 @@ h1#logo {
 	margin-right:5px;
 	}
 .listing-type-grid .actions { margin:10px 0;text-align:center; }
-
 
 
 /*********** [FOOTER] ************/
