@@ -56,12 +56,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 return false;
             }
             if (!$config->children()) {
-                $value = (string)$config;
-                $value = $this->processSubst($value);
+                $value = $this->processSubst((string)$config);
             } else {
                 $value = array();
                 foreach ($config->children() as $k=>$v) {
-                    $value[$k] = $v;
+                    $value[$k] = $this->processSubst($v);
                 }
             }
             $this->_configCache[$path] = $value;
