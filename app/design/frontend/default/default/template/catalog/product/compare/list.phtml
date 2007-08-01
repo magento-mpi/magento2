@@ -1,0 +1,28 @@
+<table>
+	<tbody>
+	<?foreach ($this->getAttributes() as $_attribute):?>
+		<tr>
+			<?$_i=0?>
+			<?foreach($this->getItems() as $_item):?>
+			<?if($_i%10==0):?>
+			<th><?=$_attribute->getFrontendLabel()?></th>
+			<?endif;?>
+			<?$_i++?>
+			<td>
+				<?switch ($_attribute->getAttributeCode()) {
+					case "price":?>
+				<?=$_item->getPriceFormated()?>
+						<?break;
+					case "small_image":?>
+				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
+						<?break;
+					default:?>
+				<?=$_item->getData($_attribute->getAttributeCode())?>
+						<?break;
+				}?>
+			</td>	
+			<?endforeach;?>
+		</tr>
+	<?endforeach;?>
+	</tbody>
+</table>

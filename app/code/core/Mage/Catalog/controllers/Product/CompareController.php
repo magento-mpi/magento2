@@ -12,7 +12,10 @@
  {
 	public function indexAction()
 	{
-		
+		$this->loadLayout();
+		$this->getLayout()->loadUpdateFile(Mage::getDesign()->getLayoutFilename('catalog/compare.xml'));
+		$this->getLayout()->generateBlocks();
+		$this->renderLayout();
 	}
 	
 	public function addAction()

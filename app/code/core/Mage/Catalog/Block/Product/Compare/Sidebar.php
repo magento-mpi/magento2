@@ -58,4 +58,9 @@
  	{
  		return $this->getUrl('catalog/product_compare/add',array('product'=>'#{id}'));
  	}
+ 	
+ 	public function getCompareUrl()
+ 	{
+ 		return $this->getUrl('catalog/product_compare');
+ 	}
  } // Class Mage_Catalog_Block_Compare_Sidebar end
