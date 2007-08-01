@@ -6,7 +6,6 @@
  * @subpackage  Page
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      ??? <???@varien.com>
  * @author      Sergiy Lysak <sergey@varien.com>
  */
 class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
@@ -38,6 +37,7 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
     {
         $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'first', 'last'));
     	$this->_crumbs[$crumbName] = $crumbInfo;
+    	return $this;
     }
     
     function toHtml()

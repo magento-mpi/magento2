@@ -8,7 +8,7 @@
 </div>
 <?=$this->getStoreSwitcherHtml()?>
 <?if($this->getRootNode()->getId()):?>
-<div id="tree-div" style="width:190px;height:400px"></div>
+<div id="tree-div" style="width:190px;overflow:auto;"></div>
 <script type="text/javascript">
 Ext.onReady(function(){
     var tree = new Ext.tree.TreePanel('tree-div', {

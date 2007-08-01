@@ -5,48 +5,18 @@
     <h2 class="page-head"><?=$this->getHeaderTitle()?>&nbsp;</h2>
 */
 ?>
-<h2 class="page-head"><?=$category->getData('name')?></h2>
+<h2 class="page-head"><?=$this->getCurrentCategory()->getName()?></h2>
 
-<?if($category->getImage()):?>
-    <?foreach($category->getImage() as $image):?>
-        <p><img src="<?=Mage::getSingleton('core/store')->getConfig('web/url/upload').$image['image']?>" alt="<?=$category->getName()?>" width="512"/></p>
+<?if($this->getCurrentCategory()->getImage()):?>
+    <?foreach($this->getCurrentCategory()->getImage() as $image):?>
+        <p><img src="<?=Mage::getSingleton('core/store')->getConfig('web/url/upload').$image['image']?>" alt="<?=$this->getCurrentCategory()->getName()?>" width="512"/></p>
     <?endforeach;?>
 <?endif;?>
 
-<?=$this->getChildHtml('pager')?>
+<?=$this->getPagerHtml()?>
 
-<?if($this->getRequest()->getParam('listing_type')!='list'):?>
-<!-- [starts] .listing-type-grid // -->
-	<div class="listing-type-grid"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
-	    <table cellspacing="0" class="generic-product-grid">
-		    <?$i=0; foreach ($productCollection as $product):?>
-			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
-                <td<?if ($i%3==0):?> class="last"<?endif?>>
-				    <p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
-					<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a><br/>
-					<span class="regular-price"><?=$product->getFormatedPrice()?></span>
-					<div class="ratings">
-					    <div class="rating-box">
-						    <div class="rating" style="width:75%;"></div>
-						</div>
-						<a href="#"><small>(3)</small></a>
-					</div>
-					<?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;" class="add-to-compare">Add to Compare</a>
-					<?endif;?>
-					<p class="actions"><button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
-				</td>
-			<?if ($i%3==0):?></tr><?endif?>
-			<?endforeach?>
-            <?for($i;$i%3!=0;$i++):?>
-            <td class="empty-product"></td>
-            <?endfor?>
-		</table>
-	</div>
-<!-- [ends] .listing-type-grid // -->
-<?endif;?>
-
-<?if($this->getRequest()->getParam('listing_type')=='list'):?>
+<?$productCollection=$this->getLoadedProductCollection()?>
+<?if($this->getMode()=='list'):?>
 <!-- [starts] .listing-type-list // -->
 <div class="listing-type-list"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 
@@ -77,7 +47,37 @@
 
 </div>
 <!-- [ends] .listing-type-list // -->
-<?endif;?>
 
-<?=$this->getChildHtml('pager')?>
+<?else:?>
+
+<!-- [starts] .listing-type-grid // -->
+	<div class="listing-type-grid"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+	    <table cellspacing="0" class="generic-product-grid">
+		    <?$i=0; foreach ($productCollection as $product):?>
+			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
+                <td<?if ($i%3==0):?> class="last"<?endif?>>
+				    <p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
+					<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a><br/>
+					<span class="regular-price"><?=$product->getFormatedPrice()?></span>
+					<div class="ratings">
+					    <div class="rating-box">
+						    <div class="rating" style="width:75%;"></div>
+						</div>
+						<a href="#"><small>(3)</small></a>
+					</div>
+					<?if($this->getCompareJsObjectName()):?>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;" class="add-to-compare">Add to Compare</a>
+					<?endif;?>
+					<p class="actions"><button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
+				</td>
+			<?if ($i%3==0):?></tr><?endif?>
+			<?endforeach?>
+            <?for($i;$i%3!=0;$i++):?>
+            <td class="empty-product"></td>
+            <?endfor?>
+		</table>
+	</div>
+<!-- [ends] .listing-type-grid // -->
+<?endif;?>
+<?=$this->getPagerHtml()?>
 

@@ -1056,4 +1056,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         return $this;
     }
 
+    public function count()
+    {
+        return count($this->_items);
+    }
 }

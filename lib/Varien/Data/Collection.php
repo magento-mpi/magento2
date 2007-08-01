@@ -471,4 +471,9 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return new ArrayIterator($this->_items);
     }
+    
+    public function count()
+    {
+        return count($this->_items);
+    }
 }

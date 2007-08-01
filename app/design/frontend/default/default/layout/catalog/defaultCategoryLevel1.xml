@@ -2,7 +2,6 @@
 <layoutUpdate>
     <reference name="content">
         <block type="catalog/category_view" name="category.products">
-            <action method="loadData"></action>
         </block>
     </reference>
 </layoutUpdate>

@@ -23,20 +23,20 @@
 	</div>
     <?if($this->getViewBy()):?>
 	<div class="view-by">
-        <?if($this->getIsViewBy('listing_type')):?>
+        <?if($this->getIsViewBy('mode')):?>
 	    <p class="listing-type">View products as 
-            <?if($this->getIsViewBy('listing_type','grid')):?>
-                <a href="<?=$this->getFeaturedPagerUrl(array('listing_type'=>'grid'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a>
+            <?if($this->getIsViewBy('mode','grid')):?>
+                <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'grid'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a>
             <?endif?>
-            <?if($this->getIsViewBy('listing_type','list')):?>
-                <a href="<?=$this->getFeaturedPagerUrl(array('listing_type'=>'list'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format" class="v-middle"/></a>
+            <?if($this->getIsViewBy('mode','list')):?>
+                <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'list'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format" class="v-middle"/></a>
             <?endif?>
         </p>
         <?endif?>
-        <?if($this->getIsViewBy('per_page')):?>
+        <?if($this->getIsViewBy('limit')):?>
 		<p class="data-per-page">Show <select name="" onChange="location.href=this.value">
             <?for($i=3; $i <= 27; $i+=3):?>
-                <option value="<?=$this->getFeaturedPagerUrl(array('per_page'=>$i))?>"<?if($i == $this->getCollection()->getPageSize()):?> selected<?endif?>><?=$i?></option>
+                <option value="<?=$this->getFeaturedPagerUrl(array('limit'=>$i))?>"<?if($i == $this->getCollection()->getPageSize()):?> selected<?endif?>><?=$i?></option>
             <?endfor?>
             </select> per page</p>
         <?endif?>

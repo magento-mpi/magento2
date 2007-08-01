@@ -48,11 +48,6 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         return $this->_urlPrefix;
     }
     
-    public function getRequest()
-    {
-        return Mage::registry('controller')->getRequest();
-    }
-    
     public function getFirstItemNum()
     {
         return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+1;
@@ -60,7 +55,8 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     
     public function getLastItemNum()
     {
-        return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+count($this->getCollection()->getItems());
+        return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+$this->getCollection()->count();
+        //return $this->getCollection()->getSize();
     }
     
     public function getFirstPageUrl()
