@@ -303,6 +303,7 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
+                            alert('<?=__('You can not remove system attribute from this set.')?>');
                             return false;
                         }
                     },
