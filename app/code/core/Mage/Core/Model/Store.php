@@ -178,10 +178,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         
         if (empty($params['_type'])) {
             $basePath = $config['base_path'];
-echo '1: '.$basePath.'<hr>';
+#echo '1: '.$basePath.'<hr>';
         } else {
             $basePath = $this->getConfig('web/url/'.$params['_type']);
-echo '2: '.$basePath.'<hr>';
+#echo '2: '.$basePath.'<hr>';
         }
         
         $url = $protocol.'://'.$host;
