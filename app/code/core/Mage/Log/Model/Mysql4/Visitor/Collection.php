@@ -97,6 +97,14 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     public function useOnlineFilter($minutes=15)
     {
         $this->_sqlSelect->from($this->_visitorTable);
+
+        /*
+        $this->_sqlSelect->from($this->_visitorTable, new Zend_Db_Expr("COUNT({$this->_visitorTable}.visitor_id), {$this->_visitorTable}.*, CASE log_customer.visitor_id
+                                                                                                    WHEN NOT NULL
+                                                                                                        THEN 'c'
+                                                                                                    ELSE 'v'
+                                                                                                  END AS visitor_type"));
+        */
         $this->_sqlSelect->joinLeft( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" );
         $this->_sqlSelect->joinLeft( $this->_visitorInfoTable, "{$this->_visitorInfoTable}.visitor_id = {$this->_urlTable}.visitor_id" );
         $this->_sqlSelect->joinLeft( $this->_customerTable, "{$this->_customerTable}.visitor_id = {$this->_urlTable}.visitor_id AND {$this->_customerTable}.logout_at IS NULL" );
@@ -124,5 +132,16 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
 			$this->_sqlSelect->where("{$this->_summaryTable}.type_id = ? ", $type_id);
     	}
     	return $this;
+    }
+
+    public function addFieldToFilter($fieldName, $fieldValue)
+    {
+        if( $fieldName == 'type' ) {
+            if ($fieldValue == 'v') {
+            	parent::addFieldToFilter('customer_id', array('null' => 1));
+            } else {
+                parent::addFieldToFilter('customer_id', array('moreq' => 1));
+            }
+        }
     }
 }

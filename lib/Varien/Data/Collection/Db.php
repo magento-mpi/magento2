@@ -215,6 +215,15 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             elseif (!empty($condition['nin'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName not in (?)", $condition['nin']);
             }
+            elseif (!empty($condition['notnull'])) {
+                $sql = "$fieldName is NOT NULL";
+            }
+            elseif (!empty($condition['null'])) {
+                $sql = "$fieldName is NULL";
+            }
+            elseif (!empty($condition['moreq'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName >= ?", $condition['moreq']);
+            }
             else {
                 $orSql = array();
                 foreach ($condition as $orCondition) {

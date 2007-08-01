@@ -15,7 +15,6 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
         parent::__construct();
         $this->setId('onlineGrid');
         $this->setSaveParametersInSession(true);
-        $this->setUseAjax(true);
         $this->setDefaultSort('last_activity');
         $this->setDefaultDir('DESC');
     }
@@ -33,23 +32,9 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _initCollection()
     {
-        $filter = $this->getRequest()->getParam('filter_value', false);
+        $collection = Mage::getResourceSingleton('log/visitor_collection')
+            ->useOnlineFilter();
 
-        $filterOnlineOnly = ($filter == 'filterOnline') ? false : true;
-        $filterCustomersOnly = ($filter == 'filterCustomers') ? true : false;
-        $filterGuestsOnly = ($filter == 'filterGuests') ? true : false;
-
-        $collection = Mage::getResourceSingleton('log/visitor_collection');
-        $collection->useOnlineFilter();
-        /*
-        if( $filterCustomersOnly ) {
-            $collection->showCustomersOnly();
-        }
-
-        if( $filterGuestsOnly ) {
-            $collection->showGuestsOnly();
-        }
-        */
         $this->setCollection($collection);
     }
 
@@ -114,6 +99,17 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
                             'index'=>'last_visit_at')
                         );
 
+        $this->addColumn('type', array(
+                            'header'=>__('Type'),
+                            'index'=>'customer_id',
+                            'type' => 'options',
+                            'options' => array(
+                                'c' => __('Customer'),
+                                'v' => __('Visitor'),
+                            ),
+                            'renderer'=>'adminhtml/customer_online_grid_renderer_type',
+                        ));
+
         $this->addColumn('last_url', array(
                             'header'=>__('Last Url'),
                             'default' => __('n/a'),
@@ -127,5 +123,11 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
     public function getRowUrl($row)
     {
         return ( intval($row->getCustomerId()) > 0 ) ? Mage::getUrl('*/customer/edit', array('id' => $row->getCustomerId())) : '#';
+    }
+
+    protected function _addColumnFilterToCollection($column)
+    {
+        $this->getCollection()->addFieldToFilter($column->getId(), $column->getFilter()->getValue());
+        return $this;
     }
 }

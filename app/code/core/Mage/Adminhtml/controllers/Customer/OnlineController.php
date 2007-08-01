@@ -18,10 +18,4 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
 
         $this->renderLayout();
     }
-
-    public function gridAction()
-    {
-        $block = $this->getLayout()->createBlock('adminhtml/customer_online_grid');
-        $this->getResponse()->setBody($block->toHtml());
-    }
 }
