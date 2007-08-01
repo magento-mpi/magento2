@@ -57,6 +57,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
             if (!$config->children()) {
                 $value = (string)$config;
+                $value = $this->processSubst($value);
             } else {
                 $value = array();
                 foreach ($config->children() as $k=>$v) {
@@ -181,16 +182,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         } else {
             $basePath = $this->getConfig('web/url/'.$params['_type']);
         }
-        if (strpos($basePath, '{{base_path}}')!==false) {
-            $base = dirname($_SERVER['SCRIPT_NAME']);
-            if (empty($base) || "\\"==$base || "/"==$base) {
-                $base = '/';
-            } else {
-                $base .= '/';
-            }
-            
-            $basePath = str_replace('{{base_path}}', $base, $basePath);
-        }
         
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
@@ -199,6 +190,25 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $this->_urlCache[$cacheKey] = $url;
 
         return $url;
+    }
+    
+    public function processSubst($str)
+    {
+        if (strpos($str, '{{base_path}}')!==false) {
+            $str = str_replace('{{base_path}}', $this->getDefaultBasePath(), $str);
+        }
+        return $str;
+    }
+    
+    public function getDefaultBasePath()
+    {
+        $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        if (empty($basePath) || "\\"==$basePath || "/"==$basePath) {
+            $basePath = '/';
+        } else {
+            $basePath .= '/';
+        }
+        return $basePath;
     }
     
     /**
