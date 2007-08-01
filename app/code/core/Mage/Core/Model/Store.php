@@ -60,7 +60,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             } else {
                 $value = array();
                 foreach ($config->children() as $k=>$v) {
-                    $value[$k] = $this->processSubst($v);
+                    $value[$k] = $this->processSubst((string)$v);
                 }
             }
             $this->_configCache[$path] = $value;
@@ -178,8 +178,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         
         if (empty($params['_type'])) {
             $basePath = $config['base_path'];
+echo '1: '.$basePath.'<hr>';
         } else {
             $basePath = $this->getConfig('web/url/'.$params['_type']);
+echo '2: '.$basePath.'<hr>';
         }
         
         $url = $protocol.'://'.$host;
