@@ -9,11 +9,11 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Catalog_Model_Compare_Item extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 {
 	protected function _construct()
 	{
-		$this->_init('catalog/compare_item');
+		$this->_init('catalog/product_compare_item');
 	}
 	
 	public function addCustomerData(Mage_Customer_Model_Customer $customer)
@@ -52,4 +52,20 @@ class Mage_Catalog_Model_Compare_Item extends Mage_Core_Model_Abstract
 		return $data;
 	}
 	
+	public function bindCustomerLogin()
+	{
+		$this->getResourceCollection()
+			->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId())
+			->load();
+		$session = Mage::getSingleton('customer/session');
+      	
+		$this->getResourceCollection()->walk('addCustomerData', array($session->getCustomer()));
+		try {
+			$this->getResourceCollection()->walk('save'); 
+		} 
+		catch (Exception $e) {
+			//
+		}
+		return $this;
+	}	
 }// Class Mage_Catalog_Model_Compare_Item END

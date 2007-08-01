@@ -11,8 +11,8 @@
         </block>
     </reference>
     <reference name="right">
-        <block type="catalog/compare_sidebar" name="catalog.compare.sidebar">
-            <action method="setTemplate"><template>catalog/compare/sidebar.phtml</template></action>
+        <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar">
+            <action method="setTemplate"><template>catalog/product/compare/sidebar.phtml</template></action>
         </block>
     </reference>
 </layoutUpdate>

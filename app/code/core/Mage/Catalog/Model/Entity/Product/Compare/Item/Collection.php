@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Catalog_Model_Entity_Compare_Item_Collection extends Mage_Catalog_Model_Entity_Product_Collection
+class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Catalog_Model_Entity_Product_Collection
 {
 	protected $_customerId = 0;
 	protected $_visitorId  = 0;
@@ -17,7 +17,7 @@ class Mage_Catalog_Model_Entity_Compare_Item_Collection extends Mage_Catalog_Mod
 	public function __construct() 
     {
         $this->setEntity(Mage::getResourceSingleton('catalog/product'))
-           	->setObject('catalog/compare_item');   
+           	->setObject('catalog/product_compare_item');   
     }
 	
 	public function setCustomerId($customerId)

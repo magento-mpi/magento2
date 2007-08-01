@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Catalog_CompareController extends Mage_Core_Controller_Front_Action 
+ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_Action 
  {
 	public function indexAction()
 	{
@@ -23,7 +23,7 @@
 			->load($productId);
 		
 		if($product->getId()) {
-			$item = Mage::getModel('catalog/compare_item');
+			$item = Mage::getModel('catalog/product_compare_item');
 			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
 			} else {
@@ -50,7 +50,7 @@
 			->load($productId);
 				
 		if($product->getId()) {
-			$item = Mage::getModel('catalog/compare_item');
+			$item = Mage::getModel('catalog/product_compare_item');
 			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
 			} else {

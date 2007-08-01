@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Catalog_Model_Entity_Compare_Item extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Catalog_Model_Entity_Product_Compare_Item extends Mage_Core_Model_Mysql4_Abstract
 {
 	protected function _construct()
 	{

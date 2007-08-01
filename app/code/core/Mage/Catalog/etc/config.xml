@@ -316,5 +316,16 @@
       <default>
          <router>catalog</router>
       </default>
+      <events>
+         <customerLogin>
+             <observers>
+                 <catalog>
+                      <type>model</type>
+                      <class>catalog/product_compare_item</class>
+                      <method>bindCustomerLogin</method>
+                 </catalog>
+             </observers>
+          </customerLogin>
+      </events>
    </frontend>
 </config>

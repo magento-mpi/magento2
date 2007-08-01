@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Catalog_Block_Compare_Sidebar extends Mage_Core_Block_Template 
+ class Mage_Catalog_Block_Product_Compare_Sidebar extends Mage_Core_Block_Template 
  {
  	protected $_items = null;
  	
@@ -20,7 +20,7 @@
  	public function getItems()
  	{
  		if(is_null($this->_items)) {
- 			$this->_items = Mage::getResourceModel('catalog/compare_item_collection');
+ 			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection');
  			
  			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
@@ -51,11 +51,11 @@
  	
  	public function getRemoveUrlTemplate()
  	{
- 		return $this->getUrl('catalog/compare/remove',array('product'=>'#{id}'));
+ 		return $this->getUrl('catalog/product_compare/remove',array('product'=>'#{id}'));
  	}
  	
  	public function getAddUrlTemplate()
  	{
- 		return $this->getUrl('catalog/compare/add',array('product'=>'#{id}'));
+ 		return $this->getUrl('catalog/product_compare/add',array('product'=>'#{id}'));
  	}
  } // Class Mage_Catalog_Block_Compare_Sidebar end
