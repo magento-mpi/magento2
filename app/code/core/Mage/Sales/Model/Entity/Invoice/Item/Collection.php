@@ -9,11 +9,11 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Sales_Model_Entity_Invoice_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     public function __construct()
     {
-        $this->setEntity(Mage::getSingleton('sales_entity/quote_item'));
-        $this->setObject('sales/quote_item');
+        $this->setEntity(Mage::getSingleton('sales_entity/invoice_item'));
+        $this->setObject('sales/invoice_item');
     }
 }
