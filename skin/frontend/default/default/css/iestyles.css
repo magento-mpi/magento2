@@ -1,6 +1,8 @@
-
+.group-select li,
+.info-block .head,
 .clear, 
 .account-access,
+.header,
 #nav,
 .header-sub,
 #main,
@@ -14,7 +16,8 @@
 .mini-cart .sales-value,
 #nav ul a,
 .col2-set,
-.col3-set {
+.col3-set,
+.box li a {
  zoom:1;
 }
 
@@ -34,6 +37,21 @@
 	}
 .form-button span, .form-button-alt span {
 	background-image:url(../images/form_button_right.gif);
+	}
+
+.col-main { display:inline; } /* Double Margin bug */
+
+/* Form legend */
+.group-select {
+	position:expression('relative');
+	margin-top:expression('23px');
+	padding-top:expression('1.5em');
+	overflow: expression('visible');
+	}
+.group-select legend {
+	position: expression('absolute'); 
+	top: expression('-.7em');
+	left:expression('.5em');
 	}
 
 

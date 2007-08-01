@@ -1,66 +1,70 @@
+
 <div class="box shop-by">
 	<div class="head">
-		<h3><span>Shop by</span></h3>
+		<span class="corner"></span>
+		<h3>Shop by</h3>
 	</div>
-	<h4>Currently Shopping By</h4>
-	<ul class="widget-selection-list">
-		<li>
-			<a href="#" class="widget-btn"/><img src="<?=$this->getSkinUrl('images/widget_remove_btn.gif')?>" alt="Remove selection"/></a><span class="label">Price:</span> <span class="no-wrap"><a 
-			href="#">$10-$99</a> (3)</span></li>
-		<li>
-			<a href="#" class="widget-btn"/><img src="<?=$this->getSkinUrl('images/widget_remove_btn.gif')?>" alt="Remove selection"/></a><span class="label">Manufacturer:</span> <span class="no-wrap"><a 
-			href="#">Kennwood</a> (4)</span></li>
-	</ul>
-	<div class="narrow-by">
-		<h4>More Shopping options</h4>
-		<dl>
-			<dt>By Category</dt>
-			<dd>
-				<ul>
-                <?foreach ($categories as $_node):?>
-                    <li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node->getId()?>/" <?if (!empty($currentCategoryId) && $_node->getId()==$currentCategoryId):?> 
-			            class="active"<?endif?>><?=$_node->getName()?></a> (<?=$_node->getProductCount()?>)</li>
-                <?endforeach?>
-				</ul>
-			</dd>
-            <?if(!empty($manufacturers)):?>
-			<dt>By Brand</dt>
-			<dd>
-				<ul>
-                <?foreach($manufacturers as $_item):?>
-					<li><a href="<?=$baseUrl?>catalog/search/by/attr/manufacturer/value/<?=$_item['value']?>/"><?=$_item['label']?></a> (1)</li>
-                <?endforeach?>
-				</ul>
-			</dd>
-            <?endif?>
-            <?if(!empty($types)):?>
-			<dt>By Type</dt>
-			<dd>
-				<ul>
-                <?foreach($types as $_item):?>
-					<li><a href="<?=$baseUrl?>catalog/search/by/attr/shoe_type/value/<?=$_item['value']?>/"><?=$_item['label']?></a> (1)</li>
-                <?endforeach?>
-				</ul>
-			</dd>
-            <?endif?>
-			<dt>By Color</dt>
-			<dd>
-				<ul>
-					<li><a href="#">Red</a> (1)</li>
-					<li><a href="#">Red</a> (1)</li>
-					<li><a href="#">Red</a> (1)</li>
-				</ul>
-			</dd>
-			<dt>By Price</dt>
-			<dd>
-				<ul>
-					<li><a href="#">$10 - $99</a> (1)</li>
-					<li><a href="#">$10 - $99</a> (1)</li>
-					<li><a href="#">$10 - $99</a> (1)</li>
-				</ul>
-			</dd>
-		</dl>
+	<div class="box-container">
+		<h4>Currently Shopping By</h4>
+		<div class="content">
+			<ul class="widget-list">
+				<li><a href="#" class="action"/>Remove</a><span class="label">Price:</span><br/><a 
+					href="#">$10-$99</a> (3)</span></li>
+				<li><a href="#" class="action">Remove</a><span class="label">Manufacturer:</span><br/><a 
+					href="#">Kennwood</a> (4)</span></li>
+			</ul>
+			<p class="actions"><a href="#">Clear All</a></p>
+		</div>
+		<div class="narrow-by">
+			<h4>More Shopping options</h4>
+			<dl>
+				<dt>Category</dt>
+				<dd>
+					<ol>
+					<?foreach ($categories as $_node):?>
+											<li><a href="<?=$baseUrl?>catalog/category/view/id/<?=$_node->getId()?>/" <?if (!empty($currentCategoryId) && $_node->getId()==$currentCategoryId):?> 
+										class="active"<?endif?>><?=$_node->getName()?></a> (<?=$_node->getProductCount()?>)</li>
+									<?endforeach?>
+					</ul>
+				</dd>
+							<?if(!empty($manufacturers)):?>
+				<dt>Brand</dt>
+				<dd>
+					<ol>
+									<?foreach($manufacturers as $_item):?>
+						<li><a href="<?=$baseUrl?>catalog/search/by/attr/manufacturer/value/<?=$_item['value']?>/"><?=$_item['label']?></a> (1)</li>
+									<?endforeach?>
+					</ol>
+				</dd>
+							<?endif?>
+							<?if(!empty($types)):?>
+				<dt>Type</dt>
+				<dd>
+					<ol>
+									<?foreach($types as $_item):?>
+						<li><a href="<?=$baseUrl?>catalog/search/by/attr/shoe_type/value/<?=$_item['value']?>/"><?=$_item['label']?></a> (1)</li>
+									<?endforeach?>
+					</ol>
+				</dd>
+							<?endif?>
+				<dt>Color</dt>
+				<dd>
+					<ol>
+						<li><a href="#">Red</a> (1)</li>
+						<li><a href="#">Red</a> (1)</li>
+						<li><a href="#">Red</a> (1)</li>
+					</ol>
+				</dd>
+				<dt>Price</dt>
+				<dd>
+					<ul>
+						<li><a href="#">$10 - $99</a> (1)</li>
+						<li><a href="#">$10 - $99</a> (1)</li>
+						<li><a href="#">$10 - $99</a> (1)</li>
+					</ol>
+				</dd>
+			</dl>
+		</div>
 	</div>
 </div>
 <!-- [ends] .browse-by // -->
-

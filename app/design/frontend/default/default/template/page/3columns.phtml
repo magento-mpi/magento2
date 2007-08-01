@@ -48,10 +48,8 @@
 
         <!-- [start] middle -->
 		<div id="main" class="col-3-layout">
-		    <h2 class="page-head"><?=$this->getHeaderTitle()?>&nbsp;</h2>
-
             <!-- [start] left -->
-            <div class="col-left">
+            <div class="col-left side-col">
                 <?=$this->getChildHtml('store')?>
                 <?=$this->getChildHtml('left')?>
             </div>
@@ -68,7 +66,7 @@
             <!-- [end] center -->
 
             <!-- [start] right -->
-            <div class="col-right">
+            <div class="col-right side-col">
                 <?=$this->getChildHtml('right')?>
             </div>
             <!-- [end] right -->

@@ -66,6 +66,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {   
+
         $this->loadLayout('baseframe');
         
         $customerId = (int) $this->getRequest()->getParam('id');
@@ -77,6 +78,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getCustomerData(true);
+
         //$data = Mage::getSingleton('adminhtml/session')->getCustomerData(false);
         
         if (isset($data['account'])) {
