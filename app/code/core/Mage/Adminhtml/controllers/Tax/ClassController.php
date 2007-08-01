@@ -21,7 +21,9 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                     $class->save();
                     $classId = $class->getClassId();
                     $classType = $class->getClassType();
-                    $this->_redirect("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}");
+                    $classTypeString = strtolower($class->getClassType());
+                    Mage::getSingleton('adminhtml/session')->addSuccess('Tax class successfully saved.');
+                    $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classTypeString}"));
                 } catch (Exception $e) {
                     if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                         $this->getResponse()->setRedirect($referer);
@@ -55,11 +57,14 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         try {
             $classId = $this->getRequest()->getParam('classId');
             $classType = strtolower($this->getRequest()->getParam('classType'));
+            $classTypeString = strtolower($classType);
 
             $class = Mage::getSingleton('tax/class');
             $class->setClassId($classId);
             $class->delete();
-            $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classType}"));
+
+            Mage::getSingleton('adminhtml/session')->addSuccess('Tax class successfully deleted.');
+            $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classTypeString}"));
         } catch (Exception $e) {
             if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                 $this->getResponse()->setRedirect($referer);
@@ -78,7 +83,9 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 $group->save();
                 $classId = $this->getRequest()->getParam('classId');
                 $classType = $this->getRequest()->getParam('classType');
-                $this->_redirect("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}");
+                $classTypeString = strtolower($classType);
+                $this->getResponse()->setRedirect("adminhtml/tax_class_{$classTypeString}");
+                Mage::getSingleton('adminhtml/session')->addSuccess('Tax class successfully saved.');
             } catch ( Exception $e ) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
@@ -100,6 +107,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             $group->setGroupId($groupId);
             $group->delete();
             $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}"));
+            Mage::getSingleton('adminhtml/session')->addSuccess('Group successfully deleted.');
         } catch (Exception $e) {
             if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                 $this->getResponse()->setRedirect($referer);

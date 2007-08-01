@@ -45,6 +45,7 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
         $this->_addBreadcrumb(__('Permission'), __('Permission Title'));
         $this->_addBreadcrumb(__('Roles'), __('Roles Title'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
+        $this->_setActiveMenu('system/acl');
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_editroles')
@@ -63,7 +64,12 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
     public function deleteRoleAction()
     {
         $rid = $this->getRequest()->getParam('id', false);
-        Mage::getModel("permissions/roles")->setId($rid)->delete();
+        try {
+            Mage::getModel("permissions/roles")->setId($rid)->delete();
+            Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully deleted.');
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this role. Pleace try again later.');
+        }
 
         $this->_redirect("adminhtml/permission_role");
     }
@@ -71,19 +77,22 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
     public function saveRoleAction()
     {
         $rid = $this->getRequest()->getParam('role_id', false);
+        try {
+            $role = Mage::getModel("permissions/roles")
+                    ->setId($rid)
+                    ->setName($this->getRequest()->getParam('rolename', false))
+                    ->setPid($this->getRequest()->getParam('parent_id', false))
+                    ->setRoleType('G')
+                    ->save();
 
-        $role = Mage::getModel("permissions/roles")
-                ->setId($rid)
-                ->setName($this->getRequest()->getParam('role_name', false))
-                ->setPid($this->getRequest()->getParam('parent_id', false))
-                ->setRoleType('G')
-                ->save();
-
-        Mage::getModel("permissions/rules")
-            ->setRoleId($role->getId())
-            ->setResources($this->getRequest()->getParam('resource', false))
-            ->saveRel();
-
+            Mage::getModel("permissions/rules")
+                ->setRoleId($role->getId())
+                ->setResources($this->getRequest()->getParam('resource', false))
+                ->saveRel();
+            Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully saved.');
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError('Error while saving this role. Pleace try again later.');
+        }
 
         $rid = $role->getId();
         $this->getResponse()->setRedirect(Mage::getUrl("*/*/editrole/rid/$rid"));

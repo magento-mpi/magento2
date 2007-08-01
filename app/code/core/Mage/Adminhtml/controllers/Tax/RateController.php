@@ -45,11 +45,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $rateModel->setData($postData);
                 $rateModel->save();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+                Mage::getSingleton('adminhtml/session')->addSuccess('Tax rate successfully saved.');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                # FIXME !!!!
+                Mage::getSingleton('adminhtml/session')->addError('Error while saving this rate. Please try again later.');
             }
         }
     }
@@ -75,11 +77,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $rateModel->setRateId($rateId);
                 $rateModel->delete();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+                Mage::getSingleton('adminhtml/session')->addSuccess('Tax rate successfully deleted.');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                # FIXME !!!!
+                Mage::getSingleton('adminhtml/session')->addError('Error while deleting this rate. Please try again later.');
             }
         }
     }
@@ -118,9 +122,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout('baseframe')
             ->_setActiveMenu('sales/tax/tax_rates')
             ->_addBreadcrumb(__('Sales'), __('Sales Title'))
-            ->_addBreadcrumb(__('Tax'), __('Tax Title'))
-//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_rate'))
-        ;
+            ->_addBreadcrumb(__('Tax'), __('Tax Title'));
         return $this;
     }
 

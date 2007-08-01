@@ -44,6 +44,7 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
         $this->_addBreadcrumb(__('Permission'), __('Permission Title'));
         $this->_addBreadcrumb(__('Users'), __('Users Title'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
+        $this->_setActiveMenu('system/acl');
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_edituser')
@@ -63,8 +64,12 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
     public function deleteUserAction()
     {
         $uid = $this->getRequest()->getParam('id', false);
-        Mage::getModel("permissions/users")->setId($uid)->delete();
-
+        try {
+            Mage::getModel("permissions/users")->setId($uid)->delete();
+            Mage::getSingleton('adminhtml/session')->addSuccess('User successfully deleted.');
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this user. Please, try again later.');
+        }
         $this->_redirect("adminhtml/permission_user");
     }
 
@@ -80,18 +85,25 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                 ->setPassword($this->getRequest()->getParam('password', false));
 
         if( !$user->userExists() ) {
-            $user->save();
-            Mage::getModel("permissions/users")
-                ->setIds($this->getRequest()->getParam('roles', false))
-                ->setUid($this->getRequest()->getParam('user_id', false))
-                ->setFirstname($this->getRequest()->getParam('firstname', false))
-                ->saveRel();
+            try {
+                $user->save();
+                Mage::getModel("permissions/users")
+                    ->setIds($this->getRequest()->getParam('roles', false))
+                    ->setUid($this->getRequest()->getParam('user_id', false))
+                    ->setFirstname($this->getRequest()->getParam('firstname', false))
+                    ->saveRel();
 
-            $uid = $user->getId();
+                $uid = $user->getId();
+                Mage::getSingleton('adminhtml/session')->addSuccess('User successfully saved.');
+                $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError('Error while saving this user. Please try again later.');
+                $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser"));
+            }
         } else {
             Mage::getSingleton('adminhtml/session')->addError('User with the same login or email aleady exists.');
+            $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser"));
         }
-        $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
     }
 
     public function deleteuserfromroleAction()

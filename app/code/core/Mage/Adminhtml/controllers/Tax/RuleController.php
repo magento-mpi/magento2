@@ -44,6 +44,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
             try {
                 $ruleModel->save();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+                Mage::getSingleton('adminhtml/session')->addSuccess('Tax rule successfully saved.');
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError('Error while saving this tax rule. Please, try again later.');
                 $this->_returnLocation();
@@ -71,6 +73,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
             $ruleModel->setRuleId($this->getRequest()->getParam('rule'));
             $ruleModel->delete();
             $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+            Mage::getSingleton('adminhtml/session')->addSuccess('Tax rule successfully deleted.');
+            $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError('Error while deleting this tax rule. Please, try again later.');
             $this->_returnLocation();
