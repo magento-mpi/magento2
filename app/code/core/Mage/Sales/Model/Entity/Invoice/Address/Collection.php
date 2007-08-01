@@ -16,4 +16,10 @@ class Mage_Sales_Model_Entity_Invoice_Address_Collection extends Mage_Eav_Model_
         $this->setEntity(Mage::getSingleton('sales_entity/invoice_address'));
         $this->setObject('sales/invoice_address');
     }
+    
+    public function setInvoiceFilter($invoiceId)
+    {
+        $this->addAttributeToFilter('parent_id', $invoiceId);
+        return $this;
+    }
 }

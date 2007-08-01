@@ -16,4 +16,10 @@ class Mage_Sales_Model_Entity_Invoice_Payment_Collection extends Mage_Eav_Model_
         $this->setEntity(Mage::getSingleton('sales_entity/invoice_payment'));
         $this->setObject('sales/invoice_payment');
     }
+    
+    public function setInvoiceFilter($invoiceId)
+    {
+        $this->addAttributeToFilter('parent_id', $invoiceId);
+        return $this;
+    }
 }

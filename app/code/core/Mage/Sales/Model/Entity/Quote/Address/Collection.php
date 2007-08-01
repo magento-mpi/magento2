@@ -16,4 +16,10 @@ class Mage_Sales_Model_Entity_Quote_Address_Collection extends Mage_Eav_Model_En
         $this->setEntity(Mage::getSingleton('sales_entity/quote_address'));
         $this->setObject('sales/quote_address');
     }
+    
+    public function setQuoteFilter($quoteId)
+    {
+        $this->addAttributeToFilter('parent_id', $quoteId);
+        return $this;
+    }
 }

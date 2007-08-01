@@ -20,9 +20,12 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'quote_currency_code' => array('label'=>'Quote currency'),
                     'store_to_base_rate' => array('type'=>'decimal', 'label'=>'Store to Base rate'),
                     'store_to_quote_rate' => array('type'=>'decimal', 'label'=>'Store to Quote rate'),
+                    'grand_total' => array('type'=>'decimal'),
                     'orig_order_id' => array('label'=>'Original order ID'),
                     'applied_rule_ids' => array('type'=>'text', 'visible'=>false),
                     'is_virtual' => array('type'=>'int', 'visible'=>false),
+                    'is_multi_shipping' => array('type'=>'int', 'visible'=>false),
+                    'is_multi_payment' => array('type'=>'int', 'visible'=>false),
                 ),
             ), 
             'quote_address' => array(
@@ -81,7 +84,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'quote_payment' => array(
                 'table'=>'sales/quote',
                 'attributes' => array(
-                    'payment_id' => array('type'=>'int'),
+                    'customer_payment_id' => array('type'=>'int'),
                     'method' => array(),
                     'po_number' => array(),
                     'cc_type' => array(),
@@ -190,8 +193,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_approval' => array(),
                     'cc_avs_status' => array(),
                     'cc_cid_status' => array(),
-                    'cc_raw_request' => array(),
-                    'cc_raw_response' => array(),
+                    'cc_debug_request' => array(),
+                    'cc_debug_response' => array(),
                 ),
             ),
             'order_status_history' => array(

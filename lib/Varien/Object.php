@@ -33,6 +33,8 @@ class Varien_Object
      * @var array
      */
     protected static $_underscoreCache = array();
+    
+    protected $_isDeleted = false;
 
     /**
      * Constructor
@@ -55,6 +57,15 @@ class Varien_Object
     protected function _construct()
     {
         
+    }
+    
+    public function isDeleted($isDeleted=null)
+    {
+        $result = $this->_isDeleted;
+        if (!is_null($isDeleted)) {
+            $this->_isDeleted = $isDeleted;
+        }
+        return $result;
     }
     
     /**

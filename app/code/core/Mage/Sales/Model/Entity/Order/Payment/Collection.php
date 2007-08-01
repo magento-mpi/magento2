@@ -14,4 +14,10 @@ class Mage_Sales_Model_Entity_Order_Payment_Collection extends Mage_Eav_Model_En
         $this->setEntity(Mage::getResourceSingleton('sales/order_payment'));
         $this->setObject('sales/order_payment');
     }
+    
+    public function setOrderFilter($orderId)
+    {
+        $this->addAttributeToFilter('parent_id', $orderId);
+        return $this;
+    }
 }

@@ -16,4 +16,10 @@ class Mage_Sales_Model_Entity_Invoice_Shipment_Collection extends Mage_Eav_Model
         $this->setEntity(Mage::getSingleton('sales_entity/invoice_shipment'));
         $this->setObject('sales/invoice_shipment');
     }
+    
+    public function setInvoiceFilter($invoiceId)
+    {
+        $this->addAttributeToFilter('parent_id', $invoiceId);
+        return $this;
+    }
 }

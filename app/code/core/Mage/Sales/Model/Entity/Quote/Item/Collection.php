@@ -16,4 +16,10 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         $this->setEntity(Mage::getSingleton('sales_entity/quote_item'));
         $this->setObject('sales/quote_item');
     }
+    
+    public function setQuoteFilter($quoteId)
+    {
+        $this->addAttributeToFilter('parent_id', $quoteId);
+        return $this;
+    }
 }

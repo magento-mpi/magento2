@@ -16,4 +16,10 @@ class Mage_Sales_Model_Entity_Quote_Shipping_Collection extends Mage_Eav_Model_E
         $this->setEntity(Mage::getSingleton('sales_entity/quote_shipping'));
         $this->setObject('sales/quote_shipping');
     }
+    
+    public function setQuoteFilter($quoteId)
+    {
+        $this->addAttributeToFilter('parent_id', $quoteId);
+        return $this;
+    }
 }

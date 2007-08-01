@@ -14,4 +14,10 @@ class Mage_Sales_Model_Entity_Order_Status_Collection extends Mage_Eav_Model_Ent
         $this->setEntity(Mage::getResourceSingleton('sales/order_status'));
         $this->setObject('sales/order_status');
     }
+    
+    public function setOrderFilter($orderId)
+    {
+        $this->addAttributeToFilter('parent_id', $orderId);
+        return $this;
+    }
 }
