@@ -1,4 +1,41 @@
+<?php
 
+$row = $conn->fetchAll("show create table eav_attribute");
+$create = $row['Create Table'];
+if (str_pos($create, 'CONSTRAINT `FK_eav_attribute` FOREIGN KEY')!==false) {
+    $conn->query('DROP FOREIGN KEY `FK_eav_attribute`');
+}
+
+$row = $conn->fetchAll("show create table eav_attribute_group");
+$create = $row['Create Table'];
+if (str_pos($create, 'CONSTRAINT `FK_eav_attribute_group` FOREIGN KEY')!==false) {
+    $conn->query('DROP FOREIGN KEY `FK_eav_attribute_group`');
+}
+
+
+$row = $conn->fetchAll("show create table eav_attribute_set");
+$create = $row['Create Table'];
+if (str_pos($create, 'CONSTRAINT `FK_eav_attribute_set` FOREIGN KEY')!==false) {
+    $conn->query('DROP FOREIGN KEY `FK_eav_attribute_set`');
+}
+
+
+$row = $conn->fetchAll("show create table eav_entity");
+$create = $row['Create Table'];
+if (str_pos($create, 'CONSTRAINT `FK_eav_attribute` FOREIGN KEY')!==false) {
+    $conn->query('DROP FOREIGN KEY `FK_eav_attribute`');
+}
+
+$row = $conn->fetchAll("show create table eav_entity_attribute");
+$create = $row['Create Table'];
+if (str_pos($create, 'CONSTRAINT `FK_eav_entity` FOREIGN KEY')!==false) {
+    $conn->query('DROP FOREIGN KEY `FK_eav_entity`');
+}
+if (str_pos($create, 'CONSTRAINT `FK_eav_entity_store` FOREIGN KEY')!==false) {
+    $conn->query('DROP FOREIGN KEY `FK_eav_entity_store`');
+}
+
+$conn->multi_query(<<<EOT
 delete from eav_attribute_set
 where entity_type_id not in (select entity_type_id from eav_entity_type)
 ;
@@ -19,8 +56,7 @@ where attribute_id not in (select attribute_id from eav_attribute)
 ;
 
 alter table `eav_attribute`
-    ,drop key `entity_type_id`
-    ,add unique `entity_type_id` (`entity_type_id`, `attribute_code`)
+    ,drop key `entity_type_id`, add unique `entity_type_id` (`entity_type_id`, `attribute_code`)
     ,add constraint `FK_eav_attribute` foreign key(`entity_type_id`) references `eav_entity_type` (`entity_type_id`) on delete cascade  on update cascade
 ; 
 
@@ -47,3 +83,5 @@ alter table `eav_entity_attribute`
 alter table `eav_entity_type` 
     ,change `entity_name` `entity_type_code` varchar (50)  NOT NULL  COLLATE utf8_general_ci
 ; 
+EOT
+);
