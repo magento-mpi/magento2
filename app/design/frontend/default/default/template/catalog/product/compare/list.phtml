@@ -1,11 +1,36 @@
 <table>
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<?$_i=0?>
+			<?foreach($this->getItems() as $_item):?>
+			<?if($_i%10==0):?>
+			<th>&nbsp;</th>
+			<?endif;?>
+			<?$_i++?>
+			<td>
+			<div class="product-image">
+			    <a href="<?=$_item->getProductUrl()?>" title="<?=$_item->getName()?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/></a>
+		    </div>
+			<div class="product-info">
+			    <h5><a href="<?=$_item->getProductUrl()?>" title="<?=$_item->getName()?>"><?=$_item->getName()?></a></h5>
+			    <div class="actions">
+				    
+				    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>"><small>Add to My Wishlist</small></a><br />
+					    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span>Add to Cart</span></button>
+			    </div>
+		    </div>
+			</td>	
+			<?endforeach;?>
+		</tr>
+	</thead>
 	<tbody>
 	<?foreach ($this->getAttributes() as $_attribute):?>
 		<tr>
 			<?$_i=0?>
 			<?foreach($this->getItems() as $_item):?>
 			<?if($_i%10==0):?>
-			<th><?=$_attribute->getFrontendLabel()?></th>
+			<th nowrap="true"><?=$_attribute->getFrontendLabel()?></th>
 			<?endif;?>
 			<?$_i++?>
 			<td>
