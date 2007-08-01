@@ -2,11 +2,11 @@
 /**
  * Admin tax class edit page
  *
- * @package     Mage
- * @subpackage  Adminhtml
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @package         Mage
+ * @subpackage      Adminhtml
+ * @copyright       Varien (c) 2007 (http://www.varien.com)
+ * @license         http://www.opensource.org/licenses/osl-3.0.php
+ * @author          Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete class'),
-                    'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('classId' => $this->getRequest()->getParam('classId'), 'classType' => $this->getRequest()->getParam('classType'))) . '\')',,
+                    'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('classId' => $this->getRequest()->getParam('classId'), 'classType' => $this->getRequest()->getParam('classType'))) . '\')',
 					'class' => 'delete'
                 ))
         );
