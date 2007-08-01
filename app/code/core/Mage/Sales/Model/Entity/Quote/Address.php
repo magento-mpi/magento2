@@ -19,4 +19,13 @@ class Mage_Sales_Model_Entity_Quote_Address extends Mage_Eav_Model_Entity_Abstra
         );
     }
 
+    public function collectTotals(Mage_Sales_Model_Quote_Address $address)
+    {
+        
+    }
+    
+    public function getTotals(Mage_Sales_Model_Quote_Address $address)
+    {
+        
+    }
 }
