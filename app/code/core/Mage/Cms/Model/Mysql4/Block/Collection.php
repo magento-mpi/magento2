@@ -16,5 +16,9 @@ class Mage_Cms_Model_Mysql4_Block_Collection extends Mage_Core_Model_Mysql4_Coll
     {
         $this->_init('cms/block');
     }
-
+    
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('block_id', 'title');
+    }
 }
