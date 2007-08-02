@@ -1,32 +1,33 @@
 <?if($this->getCanDisplayWishlist()):?>
 <div class="box mini-wishlist">
-	<div class="head"> <!-- Gives room for control buttons -->
-		<h3><span>Wishlist</span></h3>
-		<a href="#"><img src="<?=$this->getSkinUrl('images/widget_close_btn.gif')?>" alt="Close box" class="widget-btn"/></a>
+	<div class="head">
+		<span class="corner"></span>
+		<h3>My Wishlist <span class="count"><?=__('(%d items)', $this->getWishlistItems()->getSize())?></span></h3>
+		<a href="#"><img src="<?=$this->getSkinUrl('images/widget_collapse_btn.gif')?>" alt="Close box" class="widget-btn"/></a>
 	</div>
-	<h4>Last Added Items</h4>
-  	<?if($this->getWishlistItems()->getSize()):?>
-	<table cellspacing="0">
-		<tbody>
-    <?foreach($this->getWishlistItems() as $_item):?>
-			<tr>
-				<td><a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getThumbnailImageUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32" class="image-link"/></a></td>
-				<td><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-					<p class="sales-value">
-						Price: <?=$_item->getFormatedPrice()?><br/>
-						<span class="action"><a href="<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>">Add to Cart</a></span></p>
-				</td>
-			</tr>
-    <?endforeach?>
-		</tbody>
-	</table>
- 	<?else:?>
- 	<?=__('You have not placed any product yet.')?>
- 	<?endif?>
-	<div class="actions">
-		<a href="<?=$this->getUrl('wishlist')?>">View My Wishlist</a>
-	</div>
-</div>
+	<div class="box-container">
+				<div class="content">
+					<?if($this->getWishlistItems()->getSize()):?>
+					<ol>
+					 <?$_i=1?>
+					 <?$_total=sizeof($this->getWishlistItems()->getItems())?>
+					 <?foreach($this->getWishlistItems() as $_item):?>
+					 				<li <?if($_i==$_total):?> class="last"<?endif;?>>
+										<p class="price-box"><strong><?=$_item->getFormatedPrice()?></strong></p>
+										<p><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a></p>
+										<div class="clear"></div>
+										<a href="<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>"><strong>Add to Cart</strong></a> <a href="<?=$this->getUrl('wishlist/index/remove',array('item'=>$_item->getId()))?>" onclick="return confirm('<?=__('Are You sure?')?>');"><strong>Remove</strong></a>
+									</li>
+					<?$_i++?>
+					<?endforeach;?>
+					</ol>
+					<?else:?>
+				 	<?=__('You have not placed any product yet.')?>
+				 	<?endif?>
+				</div>
+				<p class="actions"><a href="<?=$this->getUrl('wishlist')?>">View My Wishlist</a></p>
+			</div>
+		</div>
 <?endif?>
 <!-- [ends] .mini-wishlist // -->
 
