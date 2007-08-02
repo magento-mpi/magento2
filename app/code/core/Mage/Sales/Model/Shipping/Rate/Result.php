@@ -27,11 +27,11 @@ class Mage_Sales_Model_Shipping_Rate_Result
 	/**
 	 * Add a rate to the result
 	 *
-	 * @param Mage_Sales_Model_Shipping_Rate_Result_Method|Mage_Sales_Model_Shipping_Rate_Result $result
+	 * @param Mage_Sales_Model_Shipping_Rate_Result_Abstract|Mage_Sales_Model_Shipping_Rate_Result $result
 	 */
 	public function append($result)
 	{
-		if ($result instanceof Mage_Sales_Model_Shipping_Rate_Result_Method) {
+		if ($result instanceof Mage_Sales_Model_Shipping_Rate_Result_Abstract) {
 			$this->_rates[] = $result;
 		} elseif ($result instanceof Mage_Sales_Model_Shipping_Rate_Result) {
 		    $rates = $result->getAllRates();

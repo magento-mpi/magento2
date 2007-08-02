@@ -61,7 +61,18 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'grand_total' => array('type'=>'decimal', 'frontend'=>'_grand'),
                     'customer_notes' => array('type'=>'text'),
                 ),
-            ), 
+            ),             
+            'quote_address_rate' => array(
+                'table'=>'sales/quote',
+                'attributes' => array(
+                    'code' => array(),
+                    'carrier' => array(),
+                    'method' => array(),
+                    'method_description' => array(),
+                    'price' => array(),
+                    'error_message' => array(),
+                ),
+            ),
             'quote_item' => array(
                 'table'=>'sales/quote',
                 'attributes' => array(

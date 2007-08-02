@@ -124,12 +124,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $address = $this->getBillingAddress();
         if (empty($address)) {
-            $address = Mage::getModel('sales/quote_address');
-            $address->setAddressType('billing');
+            $address = Mage::getModel('sales/quote_address')
+                ->setQuote($this)
+                ->setParentId($this->getId())
+                ->setAddressType('billing');
             $this->getAddressesCollection()->addItem($address);
         }
         $address->addData($newAddress);
-        return $this;
+        return $address;
     }
     
     public function setShippingAddress(Varien_Object $newAddress)
@@ -144,15 +146,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $addNewItem = false;
             $address->addData($newAddress);
         } else {
-            $address = Mage::getModel('sales/quote_address');
-            $address->setAddressType('shipping');
+            $address = Mage::getModel('sales/quote_address')
+                ->setQuote($this)
+                ->setParentId($this->getId())
+                ->setAddressType('shipping');
         }
         
         if ($addNewItem) {
             $this->getAddressesCollection()->addItem($address);
         }
         
-        return $this;
+        return $address;
     }
 
 /*********************** ITEMS ***************************/
@@ -225,6 +229,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         
         if (!$itemFound) {
             $itemFound = Mage::getModel('sales/quote_item')
+                ->setQuote($this)
+                ->setParentId($this->getId())
                 ->addData($product->getData());
             $this->getItemsCollection()->addItem($itemFound);
         }
@@ -233,7 +239,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         
         $this->collectTotals();
         
-        return $this;
+        return $itemFound;
     }
     
     public function updateItems(array $itemsArr)
@@ -310,35 +316,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $addNewPayment = false;
             $payment->addData($newPayment);
         } else {
-            $payment = Mage::getModel('sales/quote_payment');
+            $payment = Mage::getModel('sales/quote_payment')
+                ->setQuote($this)
+                ->setParentId($this->getId());
         }
         
         if ($addNewPayment) {
             $this->getPaymentsCollection()->addItem($payment);
         }
         
-        return $this;
-    }
-    
-/*********************** SHIPPING QUOTES ***************************/
-
-    public function getShippingQuotesCollection()
-    {
-        if (empty($this->_shipping)) {
-            $this->_shipping = Mage::getModel('sales_entity/quote_shipping_collection')
-                ->setQuoteFilter($this->getId())
-                ->load();
-        }
-        return $this->_shipping;
-    }
-    
-    public function getShippingQuoteById($shippingId)
-    {
-        foreach ($this->getShippingQuotesCollection() as $shipping) {
-            if ($shipping->getId()==$shippingId) {
-                return $shipping;
-            }
-        }
-        return false;
+        return $payment;
     }
 }
