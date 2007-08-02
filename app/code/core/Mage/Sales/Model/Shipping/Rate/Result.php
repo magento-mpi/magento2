@@ -1,8 +1,8 @@
 <?php
 
-class Mage_Sales_Model_Shipping_Method_Result
+class Mage_Sales_Model_Shipping_Rate_Result
 {
-	protected $_methods = array();
+	protected $_rates = array();
 	protected $_error = null;
 	
 	/**
@@ -10,7 +10,7 @@ class Mage_Sales_Model_Shipping_Method_Result
 	 */
 	public function reset()
 	{
-	    $this->_methods = array();
+	    $this->_rates = array();
 	    return $this;
 	}
 	
@@ -25,18 +25,18 @@ class Mage_Sales_Model_Shipping_Method_Result
 	}
 	
 	/**
-	 * Add a quote to the result
+	 * Add a rate to the result
 	 *
-	 * @param Mage_Sales_Model_Shipping_Method_Service|Mage_Sales_Model_Shipping_Method_Result $result
+	 * @param Mage_Sales_Model_Shipping_Rate_Result_Method|Mage_Sales_Model_Shipping_Rate_Result $result
 	 */
 	public function append($result)
 	{
-		if ($result instanceof Mage_Sales_Model_Shipping_Method_Service) {
-			$this->_methods[] = $result;
-		} elseif ($result instanceof Mage_Sales_Model_Shipping_Method_Result) {
-		    $methods = $result->getAllMethods();
-			foreach ($methods as $method) {
-			    $this->append($method);
+		if ($result instanceof Mage_Sales_Model_Shipping_Rate_Result_Method) {
+			$this->_rates[] = $result;
+		} elseif ($result instanceof Mage_Sales_Model_Shipping_Rate_Result) {
+		    $rates = $result->getAllRates();
+			foreach ($rates as $rate) {
+			    $this->append($rate);
 			}
 		}
 		return $this;
@@ -45,9 +45,9 @@ class Mage_Sales_Model_Shipping_Method_Result
 	/**
 	 * Return all quotes in the result
 	 */
-	public function getAllMethods()
+	public function getAllRates()
 	{
-		return $this->_methods;
+		return $this->_rates;
 	}
 	
 	/**
@@ -55,12 +55,12 @@ class Mage_Sales_Model_Shipping_Method_Result
 	 *
 	 * @param string $type
 	 */
-	public function getMethodsByVendor($vendor)
+	public function getRatesByCarrier($carrier)
 	{
 		$result = array();
-		foreach ($this->_methods as $method) {
-			if ($method->vendor===$vendor) {
-				$result[] = $method;
+		foreach ($this->_rates as $rate) {
+			if ($rate->getCarrier()===$carrier) {
+				$result[] = $rate;
 			}
 		}
 		return $result;
@@ -69,27 +69,27 @@ class Mage_Sales_Model_Shipping_Method_Result
 	public function asArray()
 	{
         $currencyFilter = new Varien_Filter_Sprintf('$%s', 2);
-        $methods = array();
-        $allMethods = $this->getAllMethods();
-        foreach ($allMethods as $method) {
-            $methods[$method->getVendor()]['title'] = $method->getVendorTitle();
-            $methods[$method->getVendor()]['methods'][$method->getService()] = array(
-                'title'=>$method->getServiceTitle(),
-                'price'=>$method->getPrice(),
-                'price_formatted'=>$currencyFilter->filter($method->getPrice()),
+        $rates = array();
+        $allRates = $this->getAllRates();
+        foreach ($allRates as $rate) {
+            $rates[$rate->getCarrier()]['title'] = $rate->getCarrierTitle();
+            $rates[$rate->getCarrier()]['methods'][$rate->getMethod()] = array(
+                'title'=>$rate->getMethodTitle(),
+                'price'=>$rate->getPrice(),
+                'price_formatted'=>$currencyFilter->filter($rate->getPrice()),
             );
         }
-        return $methods;
+        return $rates;
 	}
 	
-	public function getCheapestMethod()
+	public function getCheapestRate()
 	{
 	    $cheapest = null;
 	    $minPrice = 100000;
-	    foreach ($this->getAllMethods() as $method) {
-	        if (is_numeric($method->getPrice()) && $method->getPrice()<$minPrice) {
-	            $cheapest = $method;
-	            $minPrice = $method->getPrice();
+	    foreach ($this->getAllRates() as $rate) {
+	        if (is_numeric($rate->getPrice()) && $rate->getPrice()<$minPrice) {
+	            $cheapest = $rate;
+	            $minPrice = $rate->getPrice();
 	        }
 	    }
 	    return $cheapest;

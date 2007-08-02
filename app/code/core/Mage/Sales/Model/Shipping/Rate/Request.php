@@ -24,14 +24,14 @@
  * - table (shiptable)
  *   - condition_name: package_weight
  * - limit
- *   - vendor: ups
- *   - service: 3dp
+ *   - carrier: ups
+ *   - method: 3dp
  * - ups
  *   - pickup: CC
  *   - container: CP
  *   - address: RES
  */
-class Mage_Sales_Model_Shipping_Method_Request extends Varien_Object
+class Mage_Sales_Model_Shipping_Rate_Request extends Varien_Object
 {
 
 }

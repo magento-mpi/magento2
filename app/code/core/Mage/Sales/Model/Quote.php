@@ -19,6 +19,33 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         
     }
     
+    /**
+     * Entity resource
+     *
+     * @return Mage_Eav_Model_Entity_Abstract
+     */
+    public function getResource()
+    {
+        return parent::getResource();
+    }
+    
+    public function collectTotals()
+    {
+        foreach ($this->getAllShippingAddresses() as $address) {
+            $address->collectTotals();
+        }
+        return $this;
+    }
+    
+    public function getTotals()
+    {
+        $totals = array();
+        foreach ($this->getAllShippingAddresses() as $address) {
+            $totals[$address->getId()] = $address->getTotals();
+        }
+        return $totals;
+    }
+    
 /*********************** ADDRESSES ***************************/
 
     public function getAddressesCollection()

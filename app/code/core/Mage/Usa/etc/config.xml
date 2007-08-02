@@ -40,11 +40,11 @@
     </models>
       <sales>
          <shipping>
-            <vendors>
+            <carriers>
                <ups>
                   <active>true</active>
 
-                  <class>Mage_Usa_Model_Shipping_Vendor_Ups</class>
+                  <class>Mage_Usa_Model_Shipping_Carrier_Ups</class>
 
 
                   <title>United Parcel Service</title>
@@ -70,17 +70,17 @@
                </ups>
 
                <usps>
-                  <class>Mage_Usa_Model_Shipping_Vendor_Usps</class>
+                  <class>Mage_Usa_Model_Shipping_Carrier_Usps</class>
                </usps>
 
                <fedex>
-                  <class>Mage_Usa_Model_Shipping_Vendor_Fedex</class>
+                  <class>Mage_Usa_Model_Shipping_Carrier_Fedex</class>
                </fedex>
 
                <dhl>
-                  <class>Mage_Usa_Model_Shipping_Vendor_Dhl</class>
+                  <class>Mage_Usa_Model_Shipping_Carrier_Dhl</class>
                </dhl>
-            </vendors>
+            </carriers>
          </shipping>
 
          <tax>

@@ -21,11 +21,26 @@ class Mage_Sales_Model_Entity_Quote_Address extends Mage_Eav_Model_Entity_Abstra
 
     public function collectTotals(Mage_Sales_Model_Quote_Address $address)
     {
-        
+        $attributes = $this->loadAllAttributes()->getAttributesByCode();
+        foreach ($attributes as $attrCode=>$attr) {
+            $backend = $attr->getBackend();
+            if (is_callable(array($backend, 'collectTotals'))) {
+                $backend->collectTotals($address);
+            }
+        }
+        return $this;
     }
     
     public function getTotals(Mage_Sales_Model_Quote_Address $address)
     {
-        
+        $totals = array();
+        $attributes = $this->loadAllAttributes()->getAttributesByCode();
+        foreach ($attributes as $attrCode=>$attr) {
+            $frontend = $attr->getFrontend();
+            if (is_callable(array($frontend, 'getTotals'))) {
+                $totals = array_merge_recursive($totals, $backend->getTotals($address));
+            }
+        }
+        return $totals;
     }
 }

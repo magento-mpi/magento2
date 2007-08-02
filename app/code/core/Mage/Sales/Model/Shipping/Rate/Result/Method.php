@@ -2,10 +2,10 @@
 
 /**
  * Fields:
- * - vendor: ups
- * - vendorTitle: United Parcel Service
- * - service: 2day
- * - serviceTitle: UPS 2nd Day Priority
+ * - carrier: ups
+ * - carrierTitle: United Parcel Service
+ * - method: 2day
+ * - methodTitle: UPS 2nd Day Priority
  * - price: $9.40 (cost+handling)
  * - cost: $8.00
  */

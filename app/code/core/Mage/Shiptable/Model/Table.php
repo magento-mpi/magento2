@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstract
+class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Carrier_Abstract
 {
     protected $_conditionName = 'package_weight';
     
@@ -15,36 +15,36 @@ class Mage_Shiptable_Model_Table extends Mage_Sales_Model_Shipping_Vendor_Abstra
 	 * @param Mage_Sales_Model_Shipping_Request $data
 	 * @return Mage_Sales_Model_Shipping_Result
 	 */
-	public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
+	public function collectRates(Mage_Sales_Model_Shipping_Rate_Request $request)
     {
         if (!$request->getConditionName()) {
             $request->setConditionName($this->_conditionName);
         }
 
-        $result = Mage::getModel('sales/shipping_method_result');
+        $result = Mage::getModel('sales/shipping_rate_result');
 
         $rate = $this->getRate($request);
         if (!empty($rate)) {
-	    	$quote = Mage::getModel('sales/shipping_method_service');
+	    	$method = Mage::getModel('sales/shipping_rate_result_method');
 	    	
-	    	$vendor = 'shiptable';
-	    	$vendorTitle = (string)Mage::getSingleton('sales/config')->getShippingConfig($vendor)->title;
-	    	$quote->setVendor($vendor);
-	    	$quote->setVendorTitle($vendorTitle);
+	    	$carrier = 'shiptable';
+	    	$carrierTitle = (string)Mage::getSingleton('sales/config')->getShippingConfig($carrier)->title;
+	    	$method->setVendor($carrier);
+	    	$method->setVendorTitle($carrierTitle);
 	    	
-	    	$quote->setService('best');
-	    	$quote->setServiceTitle('Best way');
+	    	$method->setService('best');
+	    	$method->setServiceTitle('Best way');
 	    	
-	    	$quote->setPrice($rate['price']);
-	    	$quote->setCost($rate['cost']);
+	    	$method->setPrice($rate['price']);
+	    	$method->setCost($rate['cost']);
     	
-    	    $result->append($quote);
+    	    $result->append($method);
         }
         
     	return $result;
     }
     
-    public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
+    public function getRate(Mage_Sales_Model_Shipping_Rate_Request $request)
     {
         return Mage::getResourceModel('shiptable/table')->getRate($request);
     }

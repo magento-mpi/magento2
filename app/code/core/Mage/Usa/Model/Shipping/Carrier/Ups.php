@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendor_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
     protected $_result = null;
@@ -11,12 +11,12 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
     public function getDefaults()
     {
         if (empty($this->_defaults)) {
-            $this->_defaults = Mage::getSingleton('sales/config')->getShippingConfig($this->_data['vendor']);
+            $this->_defaults = Mage::getSingleton('sales/config')->getShippingConfig($this->_data['carrier']);
         }
         return $this->_defaults;    
     }
     
-    public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
+    public function collectRates(Mage_Sales_Model_Shipping_Rate_Request $request)
     {
         $this->setRequest($request);
         if (!$request->getUpsRequestMethod()) {
@@ -36,17 +36,17 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
         return $this->getResult();
     }
     
-    protected function setRequest(Mage_Sales_Model_Shipping_Method_Request $request)
+    protected function setRequest(Mage_Sales_Model_Shipping_Rate_Request $request)
     {
         $this->_request = $request;
 
-        $this->_data['vendor'] = $request->getVendor();
+        $this->_data['carrier'] = $request->getCarrier();
 
         $defaults = $this->getDefaults();
 
-        if ($request->getLimitService()) {
+        if ($request->getLimitMethod()) {
             $this->_data['action'] = $this->getCode('action', 'single');
-            $this->_data['product'] = $request->getLimitService();
+            $this->_data['product'] = $request->getLimitMethod();
         } else {
             $this->_data['action'] = $this->getCode('action', 'all');
             $this->_data['product'] = 'GNDRES';
@@ -91,7 +91,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
     {
         $r = $this->_data;
         
-        $cgi = Mage::getSingleton('sales/config')->getShippingConfig($r['vendor'])->cgi;
+        $cgi = Mage::getSingleton('sales/config')->getShippingConfig($r['carrier'])->cgi;
         
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
@@ -138,31 +138,31 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
             }
         }
         
-        $result = Mage::getModel('sales/shipping_method_result');
+        $result = Mage::getModel('sales/shipping_rate_result');
         $defaults = $this->getDefaults();
         if (empty($rArr)) {
-            $error = Mage::getModel('sales/shipping_method_service_error');
+            $error = Mage::getModel('sales/shipping_rate_result_error');
             $error->setVendor($this->_data['vendor']);
             $error->setVendorTitle((string)$defaults->title);
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
             foreach ($rArr as $r) {
-                $quote = Mage::getModel('sales/shipping_method_service');
-                $quote->setVendor($this->_data['vendor']);
-                $quote->setVendorTitle((string)$defaults->title);
-                $quote->setService($r['service']);
-                $quote->setServiceTitle($this->getCode('service', $r['service']));
-                $quote->setCost($r['cost']);
-                $quote->setPrice($this->getServicePrice($r));
-                $result->append($quote);
+                $rate = Mage::getModel('sales/shipping_rate_result_method');
+                $rate->setCarrier($this->_data['carrier']);
+                $rate->setCarrierTitle((string)$defaults->title);
+                $rate->setMethod($r['method']);
+                $rate->setMethodTitle($this->getCode('method', $r['method']));
+                $rate->setCost($r['cost']);
+                $rate->setPrice($this->getMethodPrice($r));
+                $result->append($rate);
             }
         }
 
         $this->_result = $result;
     }
     
-    public function getServicePrice($r)
+    public function getMethodPrice($r)
     {
         $defaults = $this->getDefaults();
         $price = $r['cost']+(float)$defaults->handling;
@@ -177,7 +177,7 @@ class Mage_Usa_Model_Shipping_Vendor_Ups extends Mage_Sales_Model_Shipping_Vendo
                 'all'=>'4',
             ),
             
-            'service'=>array(
+            'method'=>array(
                 '1DM'    => 'Next Day Air Early AM',
                 '1DML'   => 'Next Day Air Early AM Letter',
                 '1DA'    => 'Next Day Air',

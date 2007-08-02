@@ -91,13 +91,13 @@
     </block>
     <sales>
       <shipping>
-        <vendors>
+        <carriers>
           <pickup>
             <active>true</active>
-            <class>sales/shipping_vendor_pickup</class>
+            <class>sales/shipping_carrier_pickup</class>
             <title>Pickup</title>
           </pickup>
-        </vendors>
+        </carriers>
         <rule>
           <conditions>
             <dest_country>
@@ -120,9 +120,9 @@
             </order_totalqty>
           </conditions>
           <actions>
-            <vendor>
-              <class>Mage_Sales_Model_Shipping_Rule_Action_Vendor</class>
-            </vendor>
+            <carrier>
+              <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
+            </carrier>
             <method>
               <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
             </method>
