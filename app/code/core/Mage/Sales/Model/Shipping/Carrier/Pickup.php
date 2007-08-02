@@ -8,12 +8,12 @@ class Mage_Sales_Model_Shipping_Vendor_Pickup extends Mage_Sales_Model_Shipping_
 	 * @param Mage_Sales_Model_Shipping_Request $data
 	 * @return Mage_Sales_Model_Shipping_Result
 	 */
-	public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
+	public function collectRates(Mage_Sales_Model_Shipping_Rate_Request $request)
     {
-        $result = Mage::getModel('sales/shipping_method_result');
+        $result = Mage::getModel('sales/shipping_rate_result');
 
         if (!empty($rate)) {
-	    	$quote = Mage::getModel('sales/shipping_method_service');
+	    	$rate = Mage::getModel('sales/shipping_rate_service');
 	    	
 	    	$vendor = 'pickup';
 	    	$vendorTitle = (string)Mage::getSingleton('sales/config')->getShippingConfig($vendor)->title;
