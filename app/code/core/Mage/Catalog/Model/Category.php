@@ -9,6 +9,13 @@
  */
 class Mage_Catalog_Model_Category extends Varien_Object
 {
+    /**
+     * Category display modes
+     */
+    const DM_PRODUCT= 'PRODUCTS';
+    const DM_PAGE   = 'PAGE';
+    const DM_MIXED  = 'PRODUCTS_AND_PAGE';
+    
     public function __construct() 
     {
         parent::__construct();
@@ -25,18 +32,34 @@ class Mage_Catalog_Model_Category extends Varien_Object
         return Mage::getResourceSingleton('catalog/category');
     }
     
+    /**
+     * Retrieve category tree model
+     *
+     * @return unknown
+     */
     public function getTreeModel()
     {
         return Mage::getResourceModel('catalog/category_tree');
     }
     
+    /**
+     * Set category and resource model store id
+     *
+     * @param unknown_type $storeId
+     * @return unknown
+     */
     public function setStoreId($storeId)
     {
         $this->getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
         return $this;
     }
-
+    
+    /**
+     * Retrieve category store id
+     *
+     * @return int
+     */
     public function getStoreId()
     {
         return $this->getResource()->getStoreId();
@@ -121,6 +144,11 @@ class Mage_Catalog_Model_Category extends Varien_Object
         return $arr;
     }
     
+    /**
+     * Retrieve array of store ids for category
+     *
+     * @return array
+     */
     public function getStoreIds()
     {
         if ($storeIds = $this->getData('store_ids')) {
@@ -129,5 +157,22 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $storeIds = $this->getResource()->getStoreIds($this);
         $this->setData('store_ids', $storeIds);
         return $storeIds;
+    }
+    
+    
+    public function getLayoutUpdateFileName()
+    {
+        switch ($this->getDisplayMode()) {
+            case self::DM_PAGE:
+                $layout = 'catalog/category/content.xml';
+                break;
+            case self::DM_MIXED:
+                $layout = 'catalog/category/mixed.xml';
+                break;
+            default:
+                $layout = 'catalog/category/default.xml';
+                break;
+        }
+        return $layout;
     }
 }

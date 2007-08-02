@@ -73,6 +73,10 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCategoryUrl($category)
     {
-        return Mage::getUrl('catalog/category/view', array('id'=>$category->getId()));
+        $params = array(
+            'name'  => strtolower(str_replace(' ', '-', $category->getName())),
+            'id'    => $category->getId(),
+        );
+        return Mage::getUrl('catalog/category/view', $params);
     }
 }

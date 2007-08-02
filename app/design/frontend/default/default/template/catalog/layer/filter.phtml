@@ -1,0 +1,7 @@
+                    <ol>
+                    <?foreach ($_filter->getName() as $_category):?>
+                        <li><a href="<?=$this->getCategoryUrl($_category)?>/"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>>
+                            <?=$_category->getName()?></a> <?//(=$_node->getProductCount())?>
+                        </li>
+                    <?endforeach?>
+                    </ul>

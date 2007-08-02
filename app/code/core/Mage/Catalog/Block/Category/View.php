@@ -41,6 +41,11 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->getLayout()->getBlock('head')->setTitle($this->getCurrentCategory()->getName());            
     }
     
+    /**
+     * Retrieve loaded category collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
     protected function _getProductCollection()
     {
         if (!$this->_productCollection) {
@@ -73,26 +78,51 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         return $this->_productCollection;
     }
     
+    /**
+     * Retrieve current category model object
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function getCurrentCategory()
     {
         return Mage::registry('current_category');
     }
     
+    /**
+     * Retrieve loaded category collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
     public function getLoadedProductCollection()
     {
         return $this->_getProductCollection();
     }
     
+    /**
+     * Retrieve collection pager HTML
+     *
+     * @return string
+     */
     public function getPagerHtml()
     {
         return $this->getChildHtml('pager');
     }
     
+    /**
+     * Retrieve current view mode
+     *
+     * @return string
+     */
     public function getMode()
     {
         return $this->getRequest()->getParam('mode');
     }
     
+    /**
+     * Retrieve 
+     *
+     * @return unknown
+     */
     public function getCompareJsObjectName()
     {
     	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {

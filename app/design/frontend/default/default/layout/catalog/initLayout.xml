@@ -5,14 +5,4 @@
             <action method="setTemplate"><template>catalog/navigation/top.phtml</template></action>
         </block>
     </reference>
-    <reference name="left">
-        <block type="catalog/navigation" name="catalog.leftnav" before="-">
-            <action method="setTemplate"><template>catalog/navigation/left.phtml</template></action>
-        </block>
-    </reference>
-    <reference name="right">
-        <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar">
-            <action method="setTemplate"><template>catalog/product/compare/sidebar.phtml</template></action>
-        </block>
-    </reference>
 </layoutUpdate>

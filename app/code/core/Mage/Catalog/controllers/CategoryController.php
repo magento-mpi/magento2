@@ -12,7 +12,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     /**
      * Category view
      */
-    function viewAction()
+    public function viewAction()
     {
         $category = Mage::getSingleton('catalog/category')
             ->load($this->getRequest()->getParam('id', false));
@@ -24,15 +24,11 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         
         Mage::register('current_category', $category);
         $this->loadLayout(null, '', false);
-
-        if ($category->getCustomLayout()) {
-            $this->getLayout()->loadString($category->getCustomLayout());
-        } else {
-            $this->getLayout()->loadUpdateFile(Mage::getDesign()->getLayoutFilename('catalog/defaultCategoryLevel1.xml'));
-        }
         
+        $this->getLayout()->loadUpdateFile(
+            Mage::getDesign()->getLayoutFilename($category->getLayoutUpdateFileName())
+        );
         $this->getLayout()->generateBlocks();
         $this->renderLayout();
-
     }
 }

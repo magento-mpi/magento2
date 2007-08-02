@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<layoutUpdate>
-    <reference name="content">
-        <block type="catalog/category_view" name="category.products">
-        </block>
-    </reference>
-</layoutUpdate>

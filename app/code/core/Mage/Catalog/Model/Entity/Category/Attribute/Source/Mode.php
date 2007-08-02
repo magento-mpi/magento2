@@ -15,15 +15,15 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Source_Mode extends Mage_Eav_
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'value' => 'products',
+                    'value' => Mage_Catalog_Model_Category::DM_PRODUCT,
                     'label' => __('Display products only'),
                 ),
                 array(
-                    'value' => 'page',
+                    'value' => Mage_Catalog_Model_Category::DM_PAGE,
                     'label' => __('Display only landing page'),
                 ),
                 array(
-                    'value' => 'products_and_page',
+                    'value' => Mage_Catalog_Model_Category::DM_MIXED,
                     'label' => __('Display Landing Page + Products'),
                 )
             );
