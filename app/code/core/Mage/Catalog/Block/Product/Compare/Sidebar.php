@@ -20,7 +20,8 @@
  	public function getItems()
  	{
  		if(is_null($this->_items)) {
- 			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection');
+ 			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
+ 				->setStoreId(Mage::getSingleton('core/store')->getId());
  			
  			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());

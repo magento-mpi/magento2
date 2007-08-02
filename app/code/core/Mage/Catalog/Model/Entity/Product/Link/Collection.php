@@ -67,7 +67,6 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
        
     protected function _joinLinkTable()
     {
-    	$this->resetSelect();
     	$this->joinField('link_id', 'catalog/product_link', 'link_id', 'linked_product_id=entity_id', $this->getConditionForProduct(), 'left')
         	->joinField('product_id', 'catalog/product_link', 'product_id', 'link_id=link_id', null,'left')
         	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'link_id=link_id', null,'left')
@@ -75,8 +74,7 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
         	->joinField('link_type', 'catalog/product_link_type', 'code', 'link_type_id=link_type_id', null,'left');
         
     }
-    
-   
+       
     public function addLinkAttributeToSelect($code, $linkType=null)
     {
     	 $attribute = $this->_getLinkAttribute($code, $linkType);

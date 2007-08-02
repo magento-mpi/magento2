@@ -16,7 +16,8 @@
  	public function getItems()
  	{
  		if(is_null($this->_items)) {
- 			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection');
+ 			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
+ 				->setStoreId(Mage::getSingleton('core/store')->getId());
  			
  			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
@@ -25,7 +26,8 @@
 			}
 			
 			$this->_items
-				->addAttributeToSelect('*')
+				->loadComaparableAttributes()
+				->addAttributeToSelect('name')
 				->useProductItem()
 				->load();
  		}
@@ -47,7 +49,7 @@
  		$this->_attributes = array();
  		foreach($this->getItems() as $item) {
  			foreach ($item->getAttributes() as $attribute) {
- 				if($attribute->getIsComparable() && !$this->hasAttribute($attribute->getAttributeCode())) {
+ 				if($attribute->getIsComparable() && !$this->hasAttribute($attribute->getAttributeCode()) && $item->getData($attribute->getAttributeCode())!==null) {
  					$this->_attributes[] = $attribute;
  				}
  			}

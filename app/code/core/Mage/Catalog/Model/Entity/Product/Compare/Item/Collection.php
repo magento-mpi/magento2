@@ -13,6 +13,7 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Cat
 {
 	protected $_customerId = 0;
 	protected $_visitorId  = 0;
+	protected $_storeId    = 0;
 	
 	public function __construct() 
     {
@@ -32,6 +33,17 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Cat
 		$this->_visitorId = $visitorId;
 		$this->_addJoinToSelect();
 		return $this;
+	}
+	
+	public function setStoreId($storeId) 
+	{
+		$this->_storeId = $storeId;
+		return $this;
+	}
+	
+	public function getStoreId() 
+	{
+		return $this->_storeId;
 	}
 	
 	public function getCustomerId()
@@ -63,8 +75,54 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Cat
 		$this->joinField('product_id', 'catalog/compare_item','product_id', 'catalog_compare_item_id=catalog_compare_item_id');
 		$this->joinField('customer_id', 'catalog/compare_item', 'customer_id', 'catalog_compare_item_id=catalog_compare_item_id');
 		$this->joinField('visitor_id', 'catalog/compare_item', 'visitor_id', 'catalog_compare_item_id=catalog_compare_item_id');
+		$this->joinField('store_id', 
+                    'catalog/product_store', 
+                    'store_id', 
+                    'product_id=entity_id', 
+                    '{{table}}.store_id='.(int)$this->getStoreId());
 		return $this;
 	}
+	
+	public function loadComaparableAttributes()
+    {
+    	$compareTable = Mage::getSingleton('core/resource')->getTableName('catalog/compare_item');
+    	$storeTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
+
+    	if($this->getCustomerId()) {
+			$compareCondition = 'customer_id='.$this->getCustomerId();
+		} else {
+			$compareCondition = 'visitor_id='.$this->getVisitorId();
+		}
+    	
+		
+    	
+    	$attributesCollection = $this->getEntity()->getConfig()->getAttributeCollection();    
+            	
+    	$select = $this->_read->select()
+    		->from(array('entity'=>$this->getEntity()->getEntityTable()), 'attribute_set_id')
+    		->join(array('store'=>$storeTable), 'store.product_id=entity.entity_id AND store.store_id=' . $this->getStoreId(),
+    			   array())
+    		->join(array('compare'=>$compareTable), 'compare.product_id=entity.entity_id AND compare.'.$compareCondition,
+    			   array())
+    		->group('entity.attribute_set_id');
+    			   
+    	$setIds = $this->_read->fetchCol($select);
+    	if(sizeof($setIds)==0) {
+    		return $this;
+    	}
+    	
+    	$attributesCollection->setAttributeSetsFilter($setIds)
+    		->addVisibleFilter()
+    		->addFieldToFilter('is_comparable', 1)
+    		->load();    		
+
+    	foreach ($attributesCollection->getItems() as $attribute) {
+            $this->getEntity()->getAttribute($attribute);
+            $this->addAttributeToSelect($attribute->getAttributeCode());
+        }
+    		   	
+        return $this;
+    }
 	
 	public function useProductItem()
     {
