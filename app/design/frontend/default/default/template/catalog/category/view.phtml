@@ -24,29 +24,37 @@
 	    <div class="listing-item">
 		    <div class="product-image">
 			    <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
+					<div class="ratings">
+						<div class="rating-box">
+							<div class="rating" style="width:70%;">
+							</div>
+						</div>
+						<a href="#" class="no-wrap"><small>3 Reviews</small></a>
+					</div>
 		    </div>
 		    <div class="product-info">
 			    <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-			    <p><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></p>
-			    <div class="product-reviews">
-				    <?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;" class="add-to-compare">Add to Compare</a>
-					<?endif;?>
-			    </div>
-			    <div class="actions">
-				    <p class="price-box">
-					    <span class="old-price"><span class="label">Price:</span> <?=$product->getFormatedPrice()?></span><br/>
-					    <span class="special-price"><span class="label">Special:</span> <?=$product->getFormatedPrice()?></span>
-				    </p>
-				    <p><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to My Wishlist</small></a>
-					    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button></p>
-			    </div>
-		    </div>
-	    </div>
+					<div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
+					<p class="price-box">
+							<span class="special-price"><span class="label">Special:</span> <?=$product->getFormatedPrice()?></span><br/>
+							<span class="old-price"><span class="label">Price:</span> <?=$product->getFormatedPrice()?></span>
+					</p>
+					<div class="actions">
+						<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/>
+						<ul class="add-to">
+							<li><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>">Add to My Wishlist</a></li>
+							<?if($this->getCompareJsObjectName()):?><li><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a></li><?endif;?>
+						</ul>
+					</div>
+				</div>
+			</div>
     <?endforeach;?>
 
 </div>
 <!-- [ends] .listing-type-list // -->
+
+
+
 
 <?else:?>
 
@@ -55,7 +63,7 @@
 	    <table cellspacing="0" class="generic-product-grid">
 		    <?$i=0; foreach ($productCollection as $product):?>
 			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
-                <td<?if ($i%3==0):?> class="last"<?endif?>>
+								<td<?if ($i%3==0):?> class="last"<?endif?>>
 				    <p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
 					<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a><br/>
 					<span class="regular-price"><?=$product->getFormatedPrice()?></span>
@@ -65,10 +73,12 @@
 						</div>
 						<a href="#"><small>(3)</small></a>
 					</div>
+					<p class="actions">
+					<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/>
 					<?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;" class="add-to-compare">Add to Compare</a>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;" class="add-to-compare">Add to Compare</a><br/>
 					<?endif;?>
-					<p class="actions"><button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
+					<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
 				</td>
 			<?if ($i%3==0):?></tr><?endif?>
 			<?endforeach?>
