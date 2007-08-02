@@ -134,36 +134,58 @@ Varien.CompareController.prototype = {
 		}
 		
 	},
-	removeItem: function (item) {
-		var id = 0;
-		var parentItem = false
-		if(typeof item == 'object') {
-			item	= $(item);
-			parentItem = $(item.parentNode);
-			if(parentItem.hasClassName('block-compare-item')) {
-				id = parentItem.getElementsByClassName('compare-item-id')[0].value;
-				parentItem.remove();
-			} else {
-				return;
-			}
-		} else {
-			id = item;
+	removeItem: function () {
+		var item = arguments[0];
+		var showMess = true;
+		if(arguments[1]===false) {
+			showMess = false;
 		}
-
-		if(!this.confirmMessage || window.confirm(this.confirmMessage)) {
+		if(!this.confirmMessage || !showMess || window.confirm(this.confirmMessage)) {
+			
+			var id = 0;
+			var parentItem = false
+			if(typeof item == 'object') {
+				item	= $(item);
+				parentItem = $(item.parentNode);
+				if(parentItem.hasClassName('block-compare-item')) {
+					id = parentItem.getElementsByClassName('compare-item-id')[0].value;
+					parentItem.remove();
+					if(this.container.getElementsByClassName('block-compare-item').length == 0) {
+						this.container.hide();
+					} else {
+						var items = this.container.getElementsByClassName('block-compare-item');
+						var lastItem = $(items[items.length-1]);
+						if(!lastItem.hasClassName('last')) {
+							lastItem.addClassName('last');
+						}
+					}
+				} else {
+					return;
+				}
+			} else {
+				id = item;
+			}
+			
 			if(this.useAjax) {
 				var removeMessage = this.removeMessage;
 				var container = this.container;
 				new Ajax.Request(this.removeUrl.evaluate({id:id}) + '?ajax=1', {onComplete: function() {
-					if(container && parentItem && container.getElementsByClassName('block-compare-item').length == 0) {
-						container.hide();
-					}
-					if(removeMessage) {
+					if(removeMessage && showMess) {
 						window.alert(removeMessage);
 					}
 				}});
 			} else {
 				window.location.href = this.updateUrl.evaluate({id:id});
+			}
+		}
+	},
+	removeAll: function() {
+		if(!this.confirmMessage || window.confirm(this.confirmMessage)) {
+			var items = this.container.getElementsByClassName('block-compare-item');
+			for(var i=0; i<items.length; i++) {
+				if($(items[i]).getElementsByClassName('action').length==1) {
+					this.removeItem($(items[i]).getElementsByClassName('action')[0], false);
+				}
 			}
 		}
 	}

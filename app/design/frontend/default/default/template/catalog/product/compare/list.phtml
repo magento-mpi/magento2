@@ -17,7 +17,7 @@
 			    <div class="actions">
 				    
 				    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>"><small>Add to My Wishlist</small></a><br />
-					    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span>Add to Cart</span></button>
+					    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button>
 			    </div>
 		    </div>
 			</td>	

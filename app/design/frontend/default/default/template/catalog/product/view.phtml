@@ -172,7 +172,10 @@
 				<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
 
 				<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
-				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/><a href="#">Add to Compare</a></td>
+				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+				<?if($this->getCompareJsObjectName()):?>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+					<?endif;?></td>
 			</tr>
 		</table>
 	</fieldset>

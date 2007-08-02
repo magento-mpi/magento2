@@ -13,19 +13,26 @@
 <div class="box mini-compare-products" id="<?=$this->getId()?>" <?if($this->getItems()->getSize()==0):?> style="display:none;"<?endif;?>>
 <?endif;?>
 <?if($this->getItems()->getSize()>0):?>
-	<div class="head"> <!-- Gives room for control buttons -->
-		<h3><span><?=('Compare Products')?></span></h3>
+	<div class="head">
+			<span class="corner"></span>
+			<h3><?=__('Compare Products')?> <span class="count"><?=__('(%d items)', $this->getItems()->getSize())?></span></h3>
 	</div>
-	<h4><?=('Products for Comparision')?></h4>
-	<ul class="widget-selection-list">
-		<?foreach($this->getItems() as $_item):?>
-		<li class="block-compare-item">
-				<input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"><a href="#" onclick="<?=$this->getJsObjectName()?>.removeItem(this);return false;" class="widget-btn"><img src="<?=$this->getSkinUrl('images/widget_remove_btn.gif')?>" alt="<?=('Remove comparison')?>"/></a><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a></li>
-		<?endforeach;?>
-	</ul>
-	<div class="actions">
-		<button class="form-button" onclick="window.location.href = '<?=$this->getCompareUrl()?>'"><span>Compare</span></button>
-	</div>
+	<div class="box-container">
+	<div class="content">
+		<ul class="widget-list">
+			<?$_i=1?>
+			<?foreach($this->getItems() as $_index=>$_item):?>
+			<li class="block-compare-item <?if($_i==$this->getItems()->getSize()):?>last<?endif;?>">
+					<input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"><a href="#" onclick="<?=$this->getJsObjectName()?>.removeItem(this);return false;"  class="action"><strong><?=__('Remove')?></strong></a><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a></li>
+			<?$_i++?>
+			<?endforeach;?>
+		</ul>
+		<p class="actions">
+		<button class="form-button" onclick="window.location.href = '<?=$this->getCompareUrl()?>'"><span><?=__('Compare')?></span></button>
+		<a href="#" onclick="<?=$this->getJsObjectName()?>.removeAll(); return false">Clear All</a>
+	</p>
+</div>
+</div>
 <?endif;?>
 <?if($this->getCanDisplayContainer()):?>	
 </div>
@@ -34,7 +41,8 @@
 	var <?=$this->getJsObjectName()?> = new Varien.CompareController('<?=$this->getId()?>',{
 		updateUrl: '<?=$this->getAddUrlTemplate()?>',
 		removeUrl: '<?=$this->getRemoveUrlTemplate()?>',
-		successMessage: '<?=__('Product have been successfully added to comparasion list')?>'
+		successMessage: '<?=__('Product have been successfully added to comparasion list')?>',
+		confirmMessage: '<?=__('Are you sure')?>'
 	});
 //-->
 </script>
