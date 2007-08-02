@@ -76,6 +76,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
                 return;
             }
         }
+        $this->_redirect('*/*/');
     }
 
     public function deleteAction()

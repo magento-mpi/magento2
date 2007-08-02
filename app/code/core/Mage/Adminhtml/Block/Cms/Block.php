@@ -12,11 +12,12 @@
 class Mage_Adminhtml_Block_Cms_Block extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
-    protected function _init()
+    public function __construct()
     {
-        $this->_block = 'cms_block';
-        $this->_addButtonLabel = __('Add New Block');
+        $this->_controller = 'cms_block';
         $this->_headerText = __('CMS Blocks');
+        $this->_addButtonLabel = __('Add New Block');
+        parent::__construct();
     }
 
 }

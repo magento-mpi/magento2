@@ -9,34 +9,28 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Widget_Container
 {
 
-    protected $_block = 'empty';
     protected $_addButtonLabel = 'Add New';
-    protected $_headerText = 'Grid Container Widget';
 
     public function __construct()
     {
         parent::__construct();
+
         $this->setTemplate('widget/grid/container.phtml');
-        $this->_init();
-    }
 
-    protected function _init()
-    {
-        return $this;
+        $this->_addButton('add', array(
+            'label'     => $this->getAddButtonLabel(),
+            'onclick'   => 'location.href=\''.Mage::getUrl('adminhtml/' . $this->_controller . '/new').'\'',
+            'class'     => 'add',
+        ));
     }
-
 
     protected function _initChildren()
     {
-        $this->setChild('addNewButton', $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-            'label'     => $this->_addButtonLabel,
-            'onclick'   => 'location.href=\''.Mage::getUrl('adminhtml/' . $this->_block . '/new').'\'',
-            'class'     => 'add',
-        )));
-        $this->setChild( 'grid', $this->getLayout()->createBlock( 'adminhtml/' . $this->_block . '_grid', $this->_block . '.grid' ) );
+        parent::_initChildren();
+        $this->setChild( 'grid', $this->getLayout()->createBlock( 'adminhtml/' . $this->_controller . '_grid', $this->_controller . '.grid' ) );
         return $this;
     }
 
@@ -45,24 +39,14 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Core_Block_Templat
     	return $this->getUrl('*/*/new');
     }
 
-    public function getHeaderText()
-    {
-    	return $this->_headerText;
-    }
-
     public function getGridHtml()
     {
         return $this->getChildHtml('grid');
     }
 
-    public function getAddNewButtonHtml()
+    protected function getAddButtonLabel()
     {
-        return $this->getChildHtml('addNewButton');
-    }
-
-    public function getHeaderCssClass()
-    {
-        return 'head-' . strtr($this->_block, '_', '-');
+        return $this->_addButtonLabel;
     }
 
 }

@@ -70,6 +70,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was saved succesfully'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 $this->_redirect('*/*/');
+                return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
@@ -77,6 +78,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
+        $this->_redirect('*/*/');
     }
 
     public function deleteAction()
