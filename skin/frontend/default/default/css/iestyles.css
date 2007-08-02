@@ -1,19 +1,20 @@
 .group-select li,
-.info-block .head,
 .clear, 
 .account-access,
 .header,
 #nav,
 .header-sub,
+.account-box li,
 #main,
 .pager,
 .view-by,
 .widget-selection-list li,
 .listing-type-list .listing-item,
 .listing-type-list .product-info .product-reviews,
-.box .head,
-.box .actions,
-.mini-cart .sales-value,
+.head,
+.page-head,
+.page-head-alt,
+.actions,
 #nav ul a,
 .col2-set,
 .col3-set,
@@ -39,7 +40,7 @@
 	background-image:url(../images/form_button_right.gif);
 	}
 
-.col-main { display:inline; } /* Double Margin bug */
+.col-2-right-layout .col-main, .col-2-left-layout .col-main, .col-3-layout .col-main { display:inline; } /* Double Margin bug */
 
 /* Form legend */
 .group-select {
@@ -54,6 +55,9 @@
 	left:expression('.5em');
 	}
 
+.content-box { height:250px; }
+
+.head .corner { top:-6px; right:-1px; }  /* recognition of parent's padding as zero point */
 
 #nav iframe {
 	position: absolute;
