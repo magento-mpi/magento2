@@ -1,12 +1,12 @@
 <!-- [starts] pager // -->
 <?if($this->getCollection()->getSize()):?>
-					<table class="pager">
+					<table class="pager" cellspacing="0">
 						<tr>
 							<td>Items <strong><?=$this->getFirstItemNum()?></strong> to <strong><?=$this->getLastItemNum()?></strong> of <strong><?=$this->getCollection()->getSize()?> total</strong></td>
 							<td><strong>Page:</strong>
 							<ol>
 										<?if ($this->getCollection()->getCurPage() != 1):?>
-												<li><a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Previous" class="v-middle"/></a></li>
+												<li><a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Previous"/></a></li>
 										<?endif?>
 										<?for($i=$this->getCollection()->getCurPage(-3); $i <= $this->getCollection()->getCurPage(+3); $i++):?>
 												<?if ($i == $this->getCollection()->getCurPage()):?>
@@ -16,7 +16,7 @@
 												<?endif?>
 										<?endfor?>
 										<?if ($this->getCollection()->getCurPage() < $this->getCollection()->getLastPageNumber()):?>
-												<li><a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Next" class="v-middle"/></a></li>
+												<li><a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Next"/></a></li>
 										<?endif?>
 							</ol>
 							</td>
@@ -32,24 +32,24 @@
 					
 					
     <?if($this->getViewBy()):?>
-						<table class="view-by">
+						<table class="view-by" cellspacing="0">
 						<tr>
 						<?if($this->getIsViewBy('mode')):?>
 							<td>View products as 
 								<?if($this->getIsViewBy('mode','grid')):?>
-										<a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'grid'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a>
+										<a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'grid'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" class="v-middle" alt="View listings in grid format"/></a>
 								<?endif?>
 								<?if($this->getIsViewBy('mode','list')):?>
-										<a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'list'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format" class="v-middle"/></a>
+										<a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'list'))?>"><img src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" class="v-middle" alt="View listings in list format"/></a>
 								<?endif?>
 						</td>
 						<?endif?>
 						<?if($this->getIsViewBy('order')):?>
-						<td>Sort by <select name="" onChange="location.href=this.value">
+						<td class="a-right">Sort by <select name="" onChange="location.href=this.value">
 						<?foreach($this->getViewBy('order') as $val):?>
 								<option value="<?=$this->getFeaturedPagerUrl(array('order'=>$val,'dir'=>'asc'))?>"<?if($val == $this->getRequest()->getParam('order')):?> selected<?endif;?>><?=ucfirst($val)?></option>
 						<?endforeach;?>
-						</select></td>
+						</select> <a href="#"><img src="images/sort_desc_arrow.gif" alt=""/></a></td>
 						<?endif?>
 						</tr>
 					</table><?endif?>

@@ -195,12 +195,12 @@
 </div>
 <div class="clear"></div>
 
-<div class="info-block">
+<div class="product-info-box">
 	<h3>Features and Specifications</h3>
 	<p><?=$product->getDescription()?></p></div>
 
 <?if($product->getRelatedProducts()->getSize()):?>
-<div class="info-block">
+<div class="product-info-box">
 	<h3>You may be interested in these items</h3>
 	<table cellspacing="0" class="generic-product-grid">
 	    <tr class="last">
@@ -224,7 +224,7 @@
 </div>
 <?endif?>
 
-<div class="info-block tags fm ">
+<div class="product-info-box tags fm ">
 	<h3>Product Tags</h3>
 	<p><strong>Other customers tagged this product:</strong></p>
     Dynamic tags:<br/>
@@ -243,7 +243,7 @@
 	<small>Use spaces to separate tags. Use single quotes(') for phrases.</small></p>
 </div>
 
-<div class="info-block" id="customer-reviews">
+<div class="product-info-box" id="customer-reviews">
 	<div class="head">
 		<h3>Customer Reviews</h3><?if($reviewCount):?><a href="<?=$reviewLink?>">View all</a><?endif;?>
 	</div>

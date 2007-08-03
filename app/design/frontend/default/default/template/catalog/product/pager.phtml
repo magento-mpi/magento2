@@ -1,7 +1,8 @@
 <?if($productCollection->getSize()):?>
-    <div class="pager">
-	    <div class="pages">
-		    Skip to Page:
+    <table class="pager">
+	   <tr>
+		<td>Items <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+1)?></strong> to <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+count($productCollection->getItems()))?></strong> of <strong><?=$productCollection->getSize()?> total</strong></td>
+			<td>Page:
 			<ol>
             <?if ($productCollection->getCurPage() != 1):?>
                 <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">Previous Page</a></li>
@@ -17,13 +18,15 @@
                 <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">Next Page</a></li>
             <?endif?>
 			</ol>
-		</div>
-		<p class="currently-viewing">Items <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+1)?></strong> to <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+count($productCollection->getItems()))?></strong> of <strong><?=$productCollection->getSize()?> total</strong></p>
-	</div>
-	<div class="view-by">
-	    <p class="listing-type">View products as <a href="#"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a> <a href="#"><img 
-		    src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format" class="v-middle"/></a></p>
-		<p class="data-per-page">Show <select name=""><option value="9">9</option></select> per page</p>
-		<p class="sort-by">Sort by <select name="" onChange="location.href=this.value"><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>">Name</option><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'price')->setParam('dir', 'asc')->getParams())?>">Price</option></select></p>
-	</div>
+		</td>
+			<td>Show <select name=""><option value="9">9</option></select> per page</td>
+	</tr>
+	</table>
+	<table class="view-by">
+	    <tr>
+				<td>View products as <a href="#"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a> <a href="#"><img 
+		    src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format"/></a></td>
+		<td>Sort by <select name="" onChange="location.href=this.value"><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>">Name</option><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'price')->setParam('dir', 'asc')->getParams())?>">Price</option></select></td>
+	</tr>
+	</table>
 <?endif?>

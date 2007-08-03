@@ -1,3 +1,4 @@
+.my-review-detail,
 .group-select li,
 .clear, 
 .account-access,
@@ -18,7 +19,8 @@
 #nav ul a,
 .col2-set,
 .col3-set,
-.box li a {
+.box li a,
+.box .content {
  zoom:1;
 }
 
@@ -40,12 +42,19 @@
 	background-image:url(../images/form_button_right.gif);
 	}
 
-.col-2-right-layout .col-main, .col-2-left-layout .col-main, .col-3-layout .col-main { display:inline; } /* Double Margin bug */
 
-/* Form legend */
+/* Double margin bug */
+.col-2-right-layout .col-main, 
+.col-2-left-layout .col-main, 
+.col-3-layout .col-main,
+#logo { display:inline; } 
+
+
+/* Form Legend display bug */
 .group-select {
 	position:expression('relative');
-	margin-top:expression('23px');
+	margin-top:expression('10px');
+	margin-bottom:28px;
 	padding-top:expression('1.5em');
 	overflow: expression('visible');
 	}
@@ -53,11 +62,16 @@
 	position: expression('absolute'); 
 	top: expression('-.7em');
 	left:expression('.5em');
+	padding:0 6px;
 	}
 
+/* Min-height for IE */
+.login-box .content { height:180px; }
 .content-box { height:250px; }
 
-.head .corner { top:-6px; right:-1px; }  /* recognition of parent's padding as zero point */
+
+/* recognition of parent's padding as zero point */
+.head .corner { top:-6px; right:-1px; } 
 
 #nav iframe {
 	position: absolute;

@@ -2,10 +2,17 @@
 /*
     <!--<h2 class="page-head"><?=$category->getData('name')?></h2>-->
     <!--<p><?=$category->getData('description')?></p>-->
-    <h2 class="page-head"><?=$this->getHeaderTitle()?>&nbsp;</h2>
+		<div class="page-head-alt">
+			<h2><?=$this-><?=$this->getHeaderTitle()?></h2>
+		</div>
+
 */
 ?>
-<h2 class="page-head"><?=$this->getCurrentCategory()->getName()?></h2>
+<div class="page-head-alt">
+	<h2><?=$this->getCurrentCategory()->getName()?></h2>
+</div>
+
+
 
 <?if($this->getCurrentCategory()->getImage()):?>
     <?foreach($this->getCurrentCategory()->getImage() as $image):?>
@@ -21,7 +28,7 @@
 <div class="listing-type-list"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 
     <?$i=0; foreach ($productCollection as $product):?>
-	    <div class="listing-item">
+	    <div class="listing-item <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>">
 		    <div class="product-image">
 			    <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
 					<div class="ratings">
@@ -50,6 +57,14 @@
 			</div>
     <?endforeach;?>
 
+
+
+
+
+
+
+
+
 </div>
 <!-- [ends] .listing-type-list // -->
 
@@ -65,8 +80,10 @@
 			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
 								<td<?if ($i%3==0):?> class="last"<?endif?>>
 				    <p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
-					<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a><br/>
-					<span class="regular-price"><?=$product->getFormatedPrice()?></span>
+					<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
+					<div class="price-box">
+										<span class="regular-price"><?=$product->getFormatedPrice()?></span>
+									</div>
 					<div class="ratings">
 					    <div class="rating-box">
 						    <div class="rating" style="width:75%;"></div>
@@ -76,10 +93,11 @@
 					<p class="actions">
 					<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/>
 					<?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;" class="add-to-compare">Add to Compare</a><br/>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><small>Add to Compare</small></a><br/>
 					<?endif;?>
 					<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
 				</td>
+
 			<?if ($i%3==0):?></tr><?endif?>
 			<?endforeach?>
             <?for($i;$i%3!=0;$i++):?>
