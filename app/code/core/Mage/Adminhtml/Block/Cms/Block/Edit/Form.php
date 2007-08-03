@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
     protected function _prepareForm()
     {
-        $block = Mage::registry('cms_block');
+        $model = Mage::registry('cms_block');
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
-        if( intval($block->getBlockId()) > 0 ) {
+        if ($model->getBlockId()) {
         	$fieldset->addField('block_id', 'hidden', array(
                 'name' => 'block_id',
             ));
@@ -66,16 +66,10 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'title'     => __('Status'),
             'name'      => 'is_active',
             'required' => true,
-            'values'    => array(
-                array(
-                    'value' => '1',
-                    'label' => __('Enabled'),
-                ),
-                array(
-                    'value' => '0',
-                    'label' => __('Disabled'),
-                )
-            )
+            'options'    => array(
+                '1' => __('Enabled'),
+                '0' => __('Disabled'),
+            ),
         ));
 
     	$fieldset->addField('content', 'editor', array(
@@ -89,7 +83,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'state' => 'html',
         ));
 
-        $form->setValues($block->getData());
+        $form->setValues($model->getData());
 
         $form->setUseContainer(true);
 

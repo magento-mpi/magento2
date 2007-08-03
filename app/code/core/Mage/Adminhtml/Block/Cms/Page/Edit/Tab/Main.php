@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
     protected function _prepareForm()
     {
-        $page = Mage::registry('cms_page');
+        $model = Mage::registry('cms_page');
 
         $form = new Varien_Data_Form();
 
@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
-        if( intval($page->getPageId()) > 0 ) {
+        if ($model->getPageId()) {
         	$fieldset->addField('page_id', 'hidden', array(
                 'name' => 'page_id',
             ));
@@ -58,16 +58,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'title'     => __('Page Status'),
             'name'      => 'is_active',
             'required' => true,
-            'values'    => array(
-                array(
-                    'value' => '1',
-                    'label' => __('Enabled'),
-                ),
-                array(
-                    'value' => '0',
-                    'label' => __('Disabled'),
-                )
-            )
+            'options'    => array(
+                '1' => __('Enabled'),
+                '0' => __('Disabled'),
+            ),
         ));
 
     	$fieldset->addField('content', 'editor', array(
@@ -81,7 +75,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'state' => 'html',
         ));
 
-        $form->setValues($page->getData());
+        $form->setValues($model->getData());
 
         $this->setForm($form);
 

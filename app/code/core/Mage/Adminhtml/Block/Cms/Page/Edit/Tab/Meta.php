@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta extends Mage_Adminhtml_Block_W
 
         $form->setHtmlIdPrefix('page_');
 
-        $page = Mage::registry('cms_page');
+        $model = Mage::registry('cms_page');
 
         $fieldset = $form->addFieldset('meta_fieldset', array('legend' => __('Meta Data')));
 
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta extends Mage_Adminhtml_Block_W
             'style' => 'width: 520px;',
         ));
 
-        $form->setValues($page->getData());
+        $form->setValues($model->getData());
 
         $this->setForm($form);
 
