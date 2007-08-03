@@ -118,6 +118,10 @@ class Varien_File_Uploader
             return;
         }
 
+        if( $this->_allowCreateFolders ) {
+            $this->_createDestinationFolder($destinationFolder);
+        }
+
         if( !is_writable($destinationFolder) ) {
             throw new Exception('Destination folder is not writable or does not exists.');
         }
@@ -144,10 +148,6 @@ class Varien_File_Uploader
 
         if( $this->_allowRenameFiles ) {
             $fileName = $this->_renameDestinationFile($destFile.DIRECTORY_SEPARATOR.$fileName);
-        }
-
-        if( $this->_allowCreateFolders ) {
-            $this->_createDestinationFolder($destFile);
         }
 
         $destFile.= DIRECTORY_SEPARATOR . $fileName;
