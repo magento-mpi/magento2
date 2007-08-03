@@ -33,6 +33,26 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this->getResource()->getTotals($this);
     }
     
+    public function importCustomerAddress(Mage_Customer_Model_Address $address)
+    {
+        $this
+            ->setCustomerAddressId($address->getId())
+            ->setCustomerId($address->getParentId())
+            ->setEmail($address->getCustomer()->getEmail())
+            ->setFirstname($address->getFirstname())
+            ->setLastname($address->getLastname())
+            ->setCompany($address->getCompany())
+            ->setStreet($address->getStreet())
+            ->setCity($address->getCity())
+            ->setRegion($address->getRegion())
+            ->setRegionId($address->getRegionId())
+            ->setPostcode($address->getPostcode())
+            ->setCountryId($address->getCountryId())
+            ->setTelephone($address->getTelephone())
+            ->setFax($address->getFax())
+        ;
+        return $this;
+    }
     
 /*********************** SHIPPING RATES ***************************/
 
@@ -75,23 +95,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function addShippingRate(Mage_Sales_Shipping_Rate_Result_Abstract $rate)
+    public function addShippingRate(Mage_Sales_Model_Quote_Address_Rate $rate)
     {
-        $addressRate = Mage::getModel('sales/quote_address_rate');
-        
-        if ($rate instanceof Mage_Sales_Model_Shipping_Rate_Result_Error) {
-            $addressRate->setCarrier($rate->getCarrier());
-            $addressRate->setErrorMessage($rate->getErrorMessage());
-        } else {
-            $addressRate->setParentId($this->getId());
-            $addressRate->setCode($rate->getCarrier().'_'.$rate->getMethod());
-            $addressRate->setCarrier($rate->getCarrier());
-            $addressRate->setMethod($rate->getMethod());
-            $addressRate->setMethodDescription($rate->getMethodTitle());
-            $addressRate->setPrice($rate->getPrice());
-        }
-    
-        return $addressRate;
+        $rate->setQuote($this)->setParentId($this->getId());
+        $this->getShippingRatesCollection()->addItem($rate);
+        return $this;
     }
 
     public function collectShippingRates()
@@ -109,13 +117,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         if (!$result) {
             return $this;
         }
-        $rates = $result->getAllRates();
+        $shippingRates = $result->getAllRates();
         
-        foreach ($rates as $rate) {
+        foreach ($shippingRates as $shippingRate) {
+            $rate = Mage::getModel('sales/quote_address_rate')
+                ->importShippingRate($shippingRate); 
             $this->addShippingRate($rate);
             
-            if ($this->getShippingMethod()==$addressRate->getCode()) {
-                $this->setShippingAmount($addressRate->getPrice());
+            if ($this->getShippingMethod()==$rate->getCode()) {
+                $this->setShippingAmount($rate->getPrice());
             }
         }
         
@@ -126,44 +136,16 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     public function createOrder()
     {
-        $store = Mage::getSingleton('core/store');
-        $now = now();
-        
-        $quote = $this->getQuote();
-        $order = Mage::getModel('sales/order');
-        
-        $order->setRealOrderId(Mage::getResourceModel('sales/counter')->getCounter('order'))
-            ->setCustomerId()       
-            ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
-            ->setQuoteId($quote->getId())
-            ->setCurrencyId($store->getCurrencyId())
-            ->setCurrencyBaseId($store->getCurrencyBaseId())
-            ->setCurrencyRate($store->getCurrencyRate());
-        
-        foreach (array('item', 'address', 'payment') as $entityType) {
-            $entities = $this->getEntitiesByType($entityType);
-            foreach ($entities as $quoteEntity) {
-                $entity = Mage::getModel('sales/order_entity_'.$entityType)->addData($quoteEntity->getData());
-                $order->addEntity($entity);
-            }
-        }
-        
-        $status = $this->getPayment()->getOrderStatus();
-        $order->setStatus($status);
-        $statusEntity = Mage::getModel('sales/order_entity_status')
-            ->setStatus($status)
-            ->setCreatedAt($now);
-            
-        $order->validate();
-        if ($order->getErrors()) {
-            //TODO: handle errors (exception?)
-        }
+        $order = Mage::getModel('sales/order')
+            ->createFromQuoteAddress($this);
         
         $order->save();
         
-        $this->setConvertedAt($now)->setCreatedOrderId($order->getId())->save();
-        $this->setLastCreatedOrder($order);
+        $quote
+            ->setConvertedAt($now)
+            ->setLastCreatedOrder($order);
+        $quote->save();
         
-        return $this;
+        return $order;
     }    
 }

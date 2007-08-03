@@ -9,6 +9,8 @@
  */
 class Mage_Customer_Model_Address extends Varien_Object 
 {
+    protected $_customer;
+    
     /**
      * Constructor receives $address as array of fields for new address or integer to load existing id
      *
@@ -29,6 +31,18 @@ class Mage_Customer_Model_Address extends Varien_Object
     {
         $this->getResource()->setCustomerId($this, $id);
         return $this;
+    }
+    
+    public function getCustomer()
+    {
+        if (!$this->getCustomerId()) {
+            return false;
+        }
+        if (empty($this->_customer)) {
+            $this->_customer = Mage::getModel('customer/customer')
+                ->load($this->getCustomerId());
+        }
+        return $this->_customer;
     }
     
     /**

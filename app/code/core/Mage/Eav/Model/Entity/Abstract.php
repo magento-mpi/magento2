@@ -710,10 +710,14 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      * @param Varien_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function save(Varien_Object $object)
+    public function save(Varien_Object $object, $loadAllAttributes=true)
     {
         if (!$this->_write) {
             throw Mage::exception('Mage_Eav', 'No connection available');
+        }
+        
+        if ($loadAllAttributes) {
+            $this->loadAllAttributes();
         }
 
         if (!$object->getEntityTypeId()) {

@@ -14,13 +14,24 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     
 /*********************** QUOTE ***************************/
     
-    public function loadByCustomerId()
+    public function loadByCustomerId($customerId)
     {
-        
+        $quotes = $this->getResourceCollection()
+            ->addAttributeToFilter('customer_id', $customerId)
+            ->setPage(1,1)
+            ->load();
+        if (!$quotes->count()) {
+            return false;
+        }
+        foreach ($quotes as $quote) {
+            return $quote;
+        }
     }
     
     /**
      * Entity resource
+     * 
+     * dummy function for correct zend studio autocompletion
      *
      * @return Mage_Eav_Model_Entity_Abstract
      */
@@ -29,6 +40,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return parent::getResource();
     }
     
+/*********************** CART ***************************/
+
     public function collectTotals()
     {
         foreach ($this->getAllShippingAddresses() as $address) {
@@ -46,14 +59,30 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $totals;
     }
     
+    public function createOrder()
+    {
+        if ($this->getIsVirtual()) {
+            $this->getBillingAddress()->createOrder();
+        } elseif (!$this->getIsMultiShipping()) {
+            $this->getShippingAddress()->createOrder();
+        } else {
+            foreach ($this->getAllShippingAddresses() as $address) {
+                $address->createOrder();
+            }
+        }
+        return $this;
+    }
+    
 /*********************** ADDRESSES ***************************/
 
     public function getAddressesCollection()
     {
         if (empty($this->_addresses)) {
-            $this->_addresses = Mage::getModel('sales_entity/quote_address_collection')
-                ->setQuoteFilter($this->getId())
-                ->load();
+            $this->_addresses = Mage::getModel('sales_entity/quote_address_collection');
+            
+            if ($this->getId()) {
+                $this->setQuoteFilter($this->getId())->load();
+            }
         }
         return $this->_addresses;
     }
@@ -120,58 +149,55 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function setBillingAddress(Varien_Object $newAddress)
+    public function addAddress(Mage_Sales_Model_Quote_Address $address)
     {
-        $address = $this->getBillingAddress();
-        if (empty($address)) {
-            $address = Mage::getModel('sales/quote_address')
-                ->setQuote($this)
-                ->setParentId($this->getId())
-                ->setAddressType('billing');
+        $address->setQuote($this)->setParentId($this->getId());
+        if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
         }
-        $address->addData($newAddress);
-        return $address;
+        return $this;
     }
     
-    public function setShippingAddress(Varien_Object $newAddress)
+    public function setBillingAddress(Mage_Sales_Model_Quote_Address $address)
     {
-        if ($newAddress instanceof Mage_Customer_Model_Address) {
-            $newAddress->setCustomerAddressId($newAddress->getId());
-            $newAddress->setId(null);
+        $old = $this->getBillingAddress();
+        if (!empty($old)) {
+            $address->setId($old->getId());
         }
-        
-        $addNewItem = true;
-        if (!$this->getIsMultiShipping() && ($address = $this->getShippingAddress())) {
-            $addNewItem = false;
-            $address->addData($newAddress);
-        } else {
-            $address = Mage::getModel('sales/quote_address')
-                ->setQuote($this)
-                ->setParentId($this->getId())
-                ->setAddressType('shipping');
-        }
-        
-        if ($addNewItem) {
-            $this->getAddressesCollection()->addItem($address);
-        }
-        
-        return $address;
+        $this->addAddress($address->setAddressType('billing'));
+        return $this;
     }
-
+    
+    public function setShippingAddress(Mage_Sales_Model_Quote_Address $address)
+    {
+        if (!$this->getIsMultiShipping() && ($old = $this->getShippingAddress())) {
+            $address->setId($old->getId());
+        }
+        $this->addAddress($address->setAddressType('shipping'));
+        return $this;
+    }
+    
+    public function addShippingAddress(Mage_Sales_Model_Quote_Address $address)
+    {
+        $this->setShippingAddress($address);
+        return $this;
+    }
+    
 /*********************** ITEMS ***************************/
 
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getModel('sales_entity/quote_items_collection')
-                ->setQuoteFilter($this->getId())
-                ->load();
+            $this->_items = Mage::getModel('sales_entity/quote_item_collection');
+            
+            if ($this->getId()) {
+                $this->setQuoteFilter($this->getId())->load();
+            }
         }
         return $this->_items;
     }
 
-    public function getItems()
+    public function getAllItems()
     {
         $items = array();
         foreach ($this->getItemsCollection() as $item) {
@@ -184,7 +210,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     
     public function hasItems()
     {
-        return sizeof($this->getItems())>0;
+        return sizeof($this->getAllItems())>0;
     }
     
     public function getItemById($itemId)
@@ -208,38 +234,44 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function addProduct(Varien_Object $product)
+    public function addItem(Mage_Sales_Model_Quote_Item $item)
+    {
+        $item->setQuote($this)->setParentId($this->getId());
+        if (!$item->getId()) {
+            $this->getItemsCollection()->addItem($item);
+        }
+        return $this;
+    }
+
+    public function addProduct(Mage_Catalog_Model_Product $product)
     {
         if (!$product->getQty()) {
             $product->setQty(1);
         }
         
-        $itemFound = null;
+        $item = null;
         if (!$product->getAsNewItem()) {
-            foreach ($this->getItems() as $item) {
-                if ($item->getProductId()==$product->getProductId()) {
-                    $finalQty = $item->getQty() + $product->getQty();
-                    $item->setQty($finalQty);
+            foreach ($this->getAllItems() as $quoteItem) {
+                if ($quoteItem->getProductId()==$product->getProductId()) {
+                    $finalQty = $quoteItem->getQty() + $product->getQty();
+                    $quoteItem->setQty($finalQty);
                     $product->setQty($finalQty);
-                    $itemFound = $item;
+                    $item = $quoteItem;
                     break;
                 }
             }
         }
         
-        if (!$itemFound) {
-            $itemFound = Mage::getModel('sales/quote_item')
-                ->setQuote($this)
-                ->setParentId($this->getId())
-                ->addData($product->getData());
-            $this->getItemsCollection()->addItem($itemFound);
+        if (!$item) {
+            $item = Mage::getModel('sales/quote_item')
+                ->importCatalogProduct($product);
         }
         
-        $itemFound->setPrice($product->getFinalPrice());
+        $this->addItem($item);
         
         $this->collectTotals();
         
-        return $itemFound;
+        return $item;
     }
     
     public function updateItems(array $itemsArr)
@@ -278,9 +310,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (empty($this->_payments)) {
-            $this->_payments = Mage::getModel('sales_entity/quote_payments_collection')
-                ->setQuoteFilter($this->getId())
-                ->load();
+            $this->_payments = Mage::getModel('sales_entity/quote_payment_collection');
+            
+            if ($this->getId()) {
+                $this->setQuoteFilter($this->getId())->load();
+            }
         }
         return $this->_payments;
     }
@@ -304,16 +338,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return false;
     }
     
+    public function addPayment($payment)
+    {
+        $payment->setQuote($this)->setParentId($this->getId());
+        if (!$payment->getId()) {
+            $this->getPaymentsCollection()->addItem($payment);
+        }
+        return $this;
+    }
+    
     public function setPayment($newPayment)
     {
-        if ($newPayment instanceof Mage_Customer_Model_Payment) {
-            $newPayment->setCustomerPaymentId($newPayment->getId());
-            $newPayment->setId(null);
-        }
-        
-        $addNewPayment = true;
         if (!$this->getIsMultiPayment() && ($payment = $this->getPayment())) {
-            $addNewPayment = false;
             $payment->addData($newPayment);
         } else {
             $payment = Mage::getModel('sales/quote_payment')
@@ -321,9 +357,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 ->setParentId($this->getId());
         }
         
-        if ($addNewPayment) {
-            $this->getPaymentsCollection()->addItem($payment);
-        }
+        $this->addPayment($payment);
         
         return $payment;
     }

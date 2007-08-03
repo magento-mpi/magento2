@@ -68,9 +68,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'code' => array(),
                     'carrier' => array(),
                     'method' => array(),
-                    'method_description' => array(),
-                    'price' => array(),
-                    'error_message' => array(),
+                    'method_description' => array('type'=>'text'),
+                    'price' => array('type'=>'decimal'),
+                    'error_message' => array('type'=>'text'),
                 ),
             ),
             'quote_item' => array(
@@ -126,6 +126,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'store_to_base_rate' => array('type'=>'decimal'),
                     'store_to_order_rate' => array('type'=>'decimal'),
                     'is_virtual' => array('type'=>'int'),
+                    'is_multi_payment' => array('type'=>'int'),
                     'weight' => array('type'=>'decimal'),
                     'shipping_method' => array(),
                     'shipping_description' => array(),
@@ -213,6 +214,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'attributes' => array(
                     'order_status_id' => array('type'=>'int'),
                     'comments' => array('type'=>'text'),
+                    'is_customer_notified' => array('type'=>'int'),
                 ),
             ),
             

@@ -19,4 +19,24 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
     {
         return $this->_address;
     }
+    
+    public function importShippingRate(Mage_Sales_Model_Shipping_Rate_Result_Abstract $rate)
+    {
+        if ($rate instanceof Mage_Sales_Model_Shipping_Rate_Result_Error) {
+            $this
+                ->setCarrier($rate->getCarrier())
+                ->setErrorMessage($rate->getErrorMessage())
+            ;
+        } else {
+            $this
+                ->setParentId($this->getId())
+                ->setCode($rate->getCarrier().'_'.$rate->getMethod())
+                ->setCarrier($rate->getCarrier())
+                ->setMethod($rate->getMethod())
+                ->setMethodDescription($rate->getMethodTitle())
+                ->setPrice($rate->getPrice())
+            ;
+        }
+        return $this;
+    }
 }

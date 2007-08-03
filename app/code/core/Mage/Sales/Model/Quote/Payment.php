@@ -19,4 +19,18 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
     {
         return $this->_quote;
     }
+    
+    public function importCustomerPayment(Mage_Customer_Model_Payment $payment)
+    {
+        $this
+            ->setCustomerPaymentId($payment->getId())
+            ->setMethod($payment->getMethod())
+            ->setCcType($payment->getCcType())
+            ->setCcNumberEnc($payment->getCcNumberEnc())
+            ->setCcLast4($payment->getCcLast4())
+            ->setCcOwner($payment->getCcOwner())
+            ->setCcExpMonth($payment->getCcExpMonth())
+            ->setCcExpYear($payment->getCcExpYear())
+        ;
+    }
 }
