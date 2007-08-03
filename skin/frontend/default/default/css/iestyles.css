@@ -19,8 +19,10 @@
 #nav ul a,
 .col2-set,
 .col3-set,
-.box li a,
-.box .content {
+.box,
+.box .content,
+.box li,
+.box .actions:after {
  zoom:1;
 }
 
@@ -73,13 +75,6 @@
 /* recognition of parent's padding as zero point */
 .head .corner { top:-6px; right:-1px; } 
 
-#nav iframe {
-	position: absolute;
-	left: -1px;
-	top: 0;
-	z-index: -1;
-	filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
-}
 
 .quick-access li {
 	padding-right:4px;

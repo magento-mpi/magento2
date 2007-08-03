@@ -30,9 +30,7 @@ input.form-radio { margin-right:5px;}
 .qty { width:2.5em; }
 .group-select {
 	margin-bottom:1.5em;
-	border:1px solid #d3d3d3;
-	padding:5px 12px 15px 12px;
-	background:#f9f9f9;
+	padding:5px 12px 15px 12px !important;
 	}
 .group-select legend { display:block; padding:0 8px; color:#333; font-weight:bold; font-size:1.1em; }
 .group-select li { margin:8px 8px; }
@@ -120,7 +118,7 @@ p.required { font-size:.95em; text-align:right; }
 	}
 table .odd, li.odd { background:#F6FAFF; }
 .separator { padding:0 5px;}
-.generic-box {
+.generic-box, .group-select {
 	margin-bottom:15px;
 	background:#e9f3ff; 
 	border:1px solid #d9dde3;
@@ -268,7 +266,7 @@ h1#logo {
 	margin-top:9px;
 	background:url(../images/this_is_a_demo.gif) no-repeat;
 	}
-.this-is-a-demo span { display:none; }
+.this-is-a-demo strong { display:none; }
 /* Quick Access*/
 .quick-access {
 	float:right;
@@ -336,17 +334,14 @@ h1#logo {
 
 /* Nav - Second+ level */
 #nav ul {
-	display:none;
 	position:absolute;
-	left:0;
-	border-width:0 1px 1px 1px;
-	border-style:solid;
-	border-color:#7db0e3;
+	left:-1000em;
+	border:1px solid #7db0e3;
 	background:#fff;
 	width:15.5em;
 	}
 #nav li:hover ul, #nav li.over ul {
-	display:block;
+	left:0;
 	}
 #nav ul a, #nav ul a:hover {	
 	color:#605A5A;
