@@ -71,7 +71,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 }
 
                 $model->setPollTitle($this->getRequest()->getParam('poll_title'))
-                      ->setActive($this->getRequest()->getParam('active'))
+                      ->setActive( (!$this->getRequest()->getParam('closed')) ? $this->getRequest()->getParam('active') : 0)
                       ->setClosed($this->getRequest()->getParam('closed'))
                       ->setId($this->getRequest()->getParam('id'));
 
