@@ -163,32 +163,33 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return false;
     }
     
-    public function setBillingAddress(Mage_Sales_Model_Order_Address $newAddress)
+    public function addAddress(Mage_Sales_Model_Order_Address $address)
     {
-        $address = $this->getBillingAddress();
-        if (empty($address)) {
-            $address = Mage::getModel('sales/order_address')
-                ->setOrder($this)
-                ->setParentId($this->getId())
-                ->setAddressType('billing');
+        $address->setOrder($this)->setParentId($this->getId());
+        if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
         }
-        $address->addData($newAddress);
-        return $address;
+        return $this;
     }
     
-    public function setShippingAddress(Mage_Sales_Model_Order_Address $newAddress)
+    public function setBillingAddress(Mage_Sales_Model_Order_Address $address)
     {
-        $address = $this->getShippingAddress();
-        if (empty($address)) {
-            $address = Mage::getModel('sales/order_address')
-                ->setOrder($this)
-                ->setParentId($this->getId())
-                ->setAddressType('shipping');
-            $this->getAddressesCollection()->addItem($address);
+        $old = $this->getBillingAddress();
+        if (!empty($old)) {
+            $address->setId($old->getId());
         }
-        $address->addData($newAddress);
-        return $address;
+        $this->addAddress($address->setAddressType('billing'));
+        return $this;
+    }
+    
+    public function setShippingAddress(Mage_Sales_Model_Order_Address $address)
+    {
+        $old = $this->getShippingAddress();
+        if (!empty($old)) {
+            $address->setId($old->getId());
+        }
+        $this->addAddress($address->setAddressType('shipping'));
+        return $this;
     }
     
 /*********************** ITEMS ***************************/
@@ -228,11 +229,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     
     public function addItem(Mage_Sales_Model_Order_Item $newItem)
     {
-        $item = Mage::getModel('sales/order_item');
-        if ($newItem instanceof Mage_Sales_Model_Quote_Item) {
-            $item->importQuoteItem($newItem);
+        $item->setOrder($this)->setParentId($this->getId());
+        if (!$item->getId()) {
+            $this->getItemsCollection()->addItem($item);
         }
-        return $item;
+        return $this;
     }
     
 /*********************** PAYMENTS ***************************/
@@ -268,21 +269,21 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return false;
     }
     
-    public function setPayment(Mage_Sales_Model_Order_Payment $newPayment)
+    public function addPayment(Mage_Sales_Model_Order_Payment $payment)
     {
-        $addNewPayment = true;
-        if (!$this->getIsMultiPayment() && ($payment = $this->getPayment())) {
-            $addNewPayment = false;
-            $payment->addData($newPayment);
-        } else {
-            $payment = Mage::getModel('sales/order_payment')
-                ->setQuote($this)
-                ->setParentId($this->getId());
-        }
-        
-        if ($addNewPayment) {
+        $payment->setOrder($this)->setParentId($this->getId());
+        if (!$payment->getId()) {
             $this->getPaymentsCollection()->addItem($payment);
         }
+        return $this;
+    }
+    
+    public function setPayment(Mage_Sales_Model_Order_Payment $payment)
+    {
+        if (!$this->getIsMultiPayment() && ($old = $this->getPayment())) {
+            $payment->setId($old->getId());
+        }
+        $this->addPayment($payment);
         
         return $payment;
     }
@@ -322,9 +323,21 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return false;
     }
     
-    public function addStatus(Mage_Sales_Model_Order_Status $status)
+    public function addStatusHistory(Mage_Sales_Model_Order_Status $status)
     {
+        $status->setOrder($this)->setParentId($this->getId());
         $this->setOrderStatusId($status->getOrderStatusId());
+        if (!$status->getId()) {
+            $this->getStatusHistoryCollection()->addItem($status);
+        }
+        return $this;
+    }
+    
+    public function addStatus($statusId)
+    {
+        $status = Mage::getModel('sales/order_status')
+            ->setOrderStatusId($statusId);
+        $this->addStatusHistory($status);
         return $this;
     }
 

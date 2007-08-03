@@ -338,7 +338,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return false;
     }
     
-    public function addPayment($payment)
+    public function addPayment(Mage_Sales_Model_Quote_Payment $payment)
     {
         $payment->setQuote($this)->setParentId($this->getId());
         if (!$payment->getId()) {
@@ -347,16 +347,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function setPayment($newPayment)
+    public function setPayment(Mage_Sales_Model_Quote_Payment $payment)
     {
-        if (!$this->getIsMultiPayment() && ($payment = $this->getPayment())) {
-            $payment->addData($newPayment);
-        } else {
-            $payment = Mage::getModel('sales/quote_payment')
-                ->setQuote($this)
-                ->setParentId($this->getId());
+        if (!$this->getIsMultiPayment() && ($old = $this->getPayment())) {
+            $payment->setId($old->getId());
         }
-        
         $this->addPayment($payment);
         
         return $payment;
