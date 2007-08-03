@@ -6,7 +6,7 @@
 							<td><strong>Page:</strong>
 							<ol>
 										<?if ($this->getCollection()->getCurPage() != 1):?>
-												<li><a href="<?=$this->getPreviousPageUrl()?>">Previous Page</a></li>
+												<li><a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Previous" class="v-middle"/></a></li>
 										<?endif?>
 										<?for($i=$this->getCollection()->getCurPage(-3); $i <= $this->getCollection()->getCurPage(+3); $i++):?>
 												<?if ($i == $this->getCollection()->getCurPage()):?>
@@ -16,7 +16,7 @@
 												<?endif?>
 										<?endfor?>
 										<?if ($this->getCollection()->getCurPage() < $this->getCollection()->getLastPageNumber()):?>
-												<li><a href="<?=$this->getNextPageUrl()?>">Next Page</a></li>
+												<li><a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Next" class="v-middle"/></a></li>
 										<?endif?>
 							</ol>
 							</td>
