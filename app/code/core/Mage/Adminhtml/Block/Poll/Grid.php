@@ -43,10 +43,19 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'poll_title',
         ));
 
+        $this->addColumn('votes_count', array(
+            'header'    => __('Number of responses'),
+            'align'     => 'right',
+            'width'     => '50px',
+            'type'      => 'number',
+            'index'     => 'votes_count',
+        ));
+
         $this->addColumn('date_posted', array(
             'header'    => __('Date Posted'),
             'align'     => 'left',
             'width'     => '120px',
+            'type'      => 'date',
             'index'     => 'date_posted',
         ));
 
@@ -54,6 +63,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => __('Date Closed'),
             'align'     => 'left',
             'width'     => '120px',
+            'type'      => 'date',
             'default'   => '--',
             'index'     => 'date_closed',
         ));
