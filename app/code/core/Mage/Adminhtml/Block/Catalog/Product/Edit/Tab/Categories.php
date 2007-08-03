@@ -31,7 +31,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
         return $this->_categoryIds;
     }
     
-    
+    public function getRootNode()
+    {
+        $root = parent::getRootNode();
+        if (in_array($root->getId(), $this->getCategoryIds())) {
+            $root->setChecked(true);
+        }
+        return $root;
+    }
     
     protected function _getNodeJson($node, $level=1)
     {

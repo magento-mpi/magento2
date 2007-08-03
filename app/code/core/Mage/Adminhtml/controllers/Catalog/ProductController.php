@@ -129,7 +129,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if($this->getRequest()->getPost('_cross_sell_products')) {
             	$crossSellProducts = $this->_decodeInput($this->getRequest()->getPost('_cross_sell_products'));
             } 
-            
+
         	$product = Mage::getModel('catalog/product')
                 ->setData($data['product'])
                 ->setId((int) $this->getRequest()->getParam('id'))
@@ -158,7 +158,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
         }
         if ($return = $this->getRequest()->getParam('back')) {
-            $this->_redirect('*/*/edit', array('id'=>$this->getRequest()->getParam('id'), 'store'=>$product->getStoreId()));
+            $this->_redirect('*/*/edit', array('id'=>$product->getId(), 'store'=>$product->getStoreId()));
             return;
         }
         else {

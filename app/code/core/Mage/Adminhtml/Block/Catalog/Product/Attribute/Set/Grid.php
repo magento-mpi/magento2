@@ -31,13 +31,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid extends Mage_Admin
 
     protected function _prepareColumns()
     {
-        $this->addColumn('set_id', array(
+        /*$this->addColumn('set_id', array(
             'header'    => __('ID'),
             'align'     => 'right',
             'sortable'  => true,
             'width'     => '50px',
             'index'     => 'attribute_set_id',
-        ));
+        ));*/
 
         $this->addColumn('set_name', array(
             'header'    => __('Set Name'),

@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Eav>
-            <version>0.5.8</version>
+            <version>0.5.9</version>
         </Mage_Eav>
     </modules>
     <global>
@@ -23,7 +23,8 @@
                     <attribute><table>eav_attribute</table></attribute>
                     <attribute_set><table>eav_attribute_set</table></attribute_set>
                     <attribute_group><table>eav_attribute_group</table></attribute_group>
-                    <value_option><table>eav_value_option</table></value_option>
+                    <attribute_option><table>eav_attribute_option</table></attribute_option>
+                    <attribute_option_value><table>eav_attribute_option_value</table></attribute_option_value>
                 </entities>
             </eav_mysql4>
         </models>

@@ -147,7 +147,13 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             ->load();
         
         $delete = array();
-        $insert = is_array($postedCategories) ? $postedCategories : array($postedCategories);
+        $insert = array();
+        
+        if (!is_array($postedCategories)) {
+            $postedCategories = array();
+        }
+        $categories = array();
+        
         foreach ($oldCategories as $category) {
             if ($object->getStoreId()) {
                 $stores = $category->getStoreIds();
@@ -156,12 +162,11 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
                 }
             }
             
-            $key = array_search($category->getId(), $insert);
-        	if ($key !== false) {
-        	    $delete[] = $category->getId();
-        	    unset($insert[$key]);
-        	}
+            $categories[] = $category->getId();
         }
+        
+        $delete = array_diff($categories, $postedCategories);
+        $insert = array_diff($postedCategories, $categories);
         
         // Delete unselected category
         if (!empty($delete)) {
@@ -171,6 +176,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
                 $this->getWriteConnection()->quoteInto('category_id in(?)', $delete)
             );                
         }
+        
         foreach ($insert as $categoryId) {
             if (empty($categoryId)) {
                 continue;

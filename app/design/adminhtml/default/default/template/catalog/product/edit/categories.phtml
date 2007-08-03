@@ -25,6 +25,7 @@ Ext.EventManager.onDocumentReady(function() {
     var root = new Ext.tree.TreeNode({
         text: '<?=$this->getRootNode()->getName()?>',
         draggable:false,
+        checked:'<?=$this->getRootNode()->getChecked()?>',
         id:'<?=$this->getRootNode()->getId()?>',
         uiProvider: Ext.tree.CheckboxNodeUI
     });

@@ -19,8 +19,9 @@
                 <dd>
                     <ol>
                     <?foreach ($_categories as $_category):?>
-                        <li><a href="<?=$this->getCategoryUrl($_category)?>/"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>>
-                            <?=$_category->getName()?></a> <?//(=$_node->getProductCount())?>
+                        <li>
+                            <a href="<?=$this->getCategoryUrl($_category)?>/"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>><?=$_category->getName()?></a> 
+                            (<?=$_category->getProductCount()?>)
                         </li>
                     <?endforeach?>
                     </ul>

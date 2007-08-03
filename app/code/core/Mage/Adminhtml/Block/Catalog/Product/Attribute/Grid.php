@@ -33,14 +33,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
 
     protected function _prepareColumns()
     {
-        $this->addColumn('attribute_id',array(
+        /*$this->addColumn('attribute_id',array(
                             'header'=>__('ID'),
                             'align'=>'right',
                             'sortable'=>true,
                             'width' => '50px',
                             'index'=>'attribute_id'
                         )
-            );
+            );*/
 
         $this->addColumn('attribute_code', array(
                             'header'=>__('Attribute Code'),

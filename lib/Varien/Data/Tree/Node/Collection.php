@@ -70,7 +70,7 @@ class Varien_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregate
             $node->setTree($this->_container->getTree());
         }
 
-        $this->_nodes[] = $node;
+        $this->_nodes[$node->getId()] = $node;
 
         return $node;
     }
@@ -87,10 +87,8 @@ class Varien_Data_Tree_Node_Collection implements ArrayAccess, IteratorAggregate
 
     public function searchById($nodeId)
     {
-        foreach ($this->_nodes as $node) {
-            if ($node->getId() == $nodeId) {
-                return $node;
-            }
+        if (isset($this->_nodes[$nodeId])) {
+            return $this->_nodes[$nodeId];
         }
         return null;
     }

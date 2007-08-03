@@ -16,15 +16,19 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      * @param   int $maxChildLevel
      * @return  Varien_Data_Tree_Node_Collection
      */
-    public function getChildCategories($parent, $maxChildLevel=1)
+    protected function _getChildCategories($parent, $maxChildLevel=1, $withProductCount=false)
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
         $tree->getCategoryCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
-            
-        $nodes = $tree->load($parent, $maxChildLevel)
-            ->getRoot()
+        
+        $tree->load($parent, $maxChildLevel);
+        
+        if ($withProductCount) {
+            $tree->loadProductCount();
+        }
+        $nodes = $tree->getRoot()
                 ->getChildren();
 
         return $nodes;
@@ -39,7 +43,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     public function getStoreCategories($maxChildLevel=1)
     {
         $parent = Mage::getSingleton('core/store')->getConfig('catalog/category/root_id');
-        return $this->getChildCategories($parent, $maxChildLevel);
+        return $this->_getChildCategories($parent, $maxChildLevel);
     }
     
     /**
@@ -50,7 +54,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     public function getCurrentChildCategories()
     {
         $parent = $this->getRequest()->getParam('id');
-        return $this->getChildCategories($parent, 1);
+        return $this->_getChildCategories($parent, 1, true);
     }
     
     
