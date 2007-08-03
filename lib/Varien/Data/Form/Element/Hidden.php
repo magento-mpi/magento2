@@ -15,4 +15,10 @@ class Varien_Data_Form_Element_Hidden extends Varien_Data_Form_Element_Abstract
         $this->setType('hidden');
         $this->setExtType('hiddenfield');
     }
+    
+    public function getDefaultHtml()
+    {
+        $html = $this->getElementHtml();
+        return $html;
+    }
 }
