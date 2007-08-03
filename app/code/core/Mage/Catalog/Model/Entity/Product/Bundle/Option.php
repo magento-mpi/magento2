@@ -78,9 +78,6 @@
     		$this->getConnection('write')->rollBack();
     		throw $e;
     	}
-    	
-    	// TODO: Saving links
-    	    	
     	return $this;
     }
  } // Class Mage_Catalog_Model_Entity_Product_Bundle_Option end

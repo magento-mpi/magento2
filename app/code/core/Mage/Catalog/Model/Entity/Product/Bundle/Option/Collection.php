@@ -29,7 +29,15 @@
     {
     	return (int)$this->_storeId;
     }
- 	
+    
+    public function setProductIdFilter($productId)
+    {
+    	$this->getSelect()
+    		->where('main_table.product_id = ?', $productId);    	
+    	return $this;
+    }
+     
+ 	 	
     protected function _joinValues()
     {
     	$this->getSelect()
@@ -65,5 +73,11 @@
  		}
  		
  		return $this->_linkCollection;
- 	} 	
+ 	}
+ 	
+ 	public function load($printQuery=false, $logQuery=false) {
+ 		parent::load($printQuery, $logQuery);
+ 		$this->_loadLinks();
+ 		return $this;
+ 	}
  } // Class Mage_Catalog_Model_Entity_Product_Bundle_Option_Collection end

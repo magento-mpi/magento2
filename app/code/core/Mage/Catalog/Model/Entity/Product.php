@@ -234,6 +234,17 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             ->addFieldToFilter('product_id', (int) $product->getId());
         return $collection;
     }
+    
+    
+    public function getBundleOptionCollection($product)
+    {
+    	$collection = Mage::getModel('catalog/product_bundle_option')->getResourceCollection()
+    			->setProductIdFilter($product->getId())
+    			->setStoreId($product->getStoreId());
+    	
+    	
+    	return $collection;
+    }
 
     public function getStoreCollection($product)
     {

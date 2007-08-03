@@ -12,6 +12,8 @@
  {
  	protected $_optionIds = array();
  	protected $_storeId = 0;
+ 	protected $_entitiesAlias = array();
+ 	
  	
  	public function __construct() 
     {
@@ -94,5 +96,91 @@
         	}
         }
         return $res;
+    }
+    
+    // Overrided for one time loading of links for all records, becouse same entity can be used for diferent options.
+    /**
+     * Load entities records into items
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function _loadEntities($printQuery = false, $logQuery = false)
+    {
+        $entity = $this->getEntity();
+        $entityIdField = $entity->getEntityIdField();
+
+        if ($this->_pageSize) {
+            $this->getSelect()->limitPage($this->_getPageStart(), $this->_pageSize);
+        }
+
+        $this->printLogQuery($printQuery, $logQuery);
+
+        $rows = $this->_read->fetchAll($this->getSelect());
+        if (!$rows) {
+            return $this;
+        }
+
+        foreach ($rows as $v) {
+            $object = clone $this->getObject();
+            if(!isset($this->_entitiesAlias[$v[$entityIdField]])) {
+            	$this->_entitiesAlias[$v[$entityIdField]] = array();
+            }
+            $this->_items[] = $object->setData($v);
+            $this->_entitiesAlias[$v[$entityIdField]][] = sizeof($this->_items)-1;
+        }
+        return $this;
+    }
+    
+    protected function _getEntityAlias($entityId)
+    {
+    	if(isset($this->_entitiesAlias[$entityId])) {
+    		return $this->_entitiesAlias[$entityId];
+    	}
+    	
+    	return false;
+    }
+
+    /**
+     * Load attributes into loaded entities
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function _loadAttributes($printQuery = false, $logQuery = false)
+    {
+        if (empty($this->_items) || empty($this->_selectAttributes)) {
+            return $this;
+        }
+
+        $entity = $this->getEntity();
+        $entityIdField = $entity->getEntityIdField();
+
+        $condition = "entity_type_id=".$entity->getTypeId();
+        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
+        $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
+        $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
+
+        $attrById = array();
+        foreach ($entity->getAttributesByTable() as $table=>$attributes) {
+            $sql = "select $entityIdField, attribute_id, value from $table where $condition";
+            $this->printLogQuery($printQuery, $logQuery, $sql);
+            $values = $this->_read->fetchAll($sql);
+            if (empty($values)) {
+                continue;
+            }
+
+            foreach ($values as $v) {
+                if (!$this->_getEntityAlias($v[$entityIdField])) {
+                    throw Mage::exception('Mage_Eav', 'Data integrity: No header row found for attribute');
+                }
+                if (!isset($attrById[$v['attribute_id']])) {
+                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
+                }
+                foreach ($this->_getEntityAlias($v[$entityIdField]) as $_entityIndex) {
+                	$this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
+                }
+            }
+        }
+
+        return $this;
     }
  } // Class Mage_Catalog_Model_Entity_Product_Bundle_Option_Link_Collection end

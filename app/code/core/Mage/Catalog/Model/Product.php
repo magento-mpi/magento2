@@ -12,6 +12,13 @@ class Mage_Catalog_Model_Product extends Varien_Object
 {
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
+	
+	/**
+	 * Bundle products option collection
+	 *
+	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
+	 */
+	protected $_bundleOptionCollection = array();
 	protected $_attributes;
 	
     public function __construct() 
@@ -238,6 +245,25 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getCrossSellProductsLoaded()
     {
         return $this->getLinkedProductsLoaded('cross_sell');
+    }
+    
+    public function isBundle() 
+    {
+    	// TODO: use string value
+    	return $this->getTypeId() == 2;
+    }
+    
+    public function getBundleOptionCollection()
+    {
+    	if(!$this->isBundle()) {
+    		return false;
+    	}
+    	
+    	if(is_null($this->_bundleOptionCollection)) {
+    		$this->_bundleOptionCollection = $this->getResource()->getBundleOptionCollection($this);
+    	}
+    	
+    	return $this->_bundleOptionCollection;
     }
     
     /**

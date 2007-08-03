@@ -62,6 +62,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'label'     => __('Cross-sells'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
             ));
+            
+            if(Mage::registry('product')->isBundle()) {
+            	$this->addTab('bundle', array(
+            		'label' => __('Bundle'),
+            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_bundle')->toHtml(),
+            	));
+            }
         }
         else {
             $this->addTab('set', array(
