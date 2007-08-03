@@ -26,7 +26,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
      * @param   Varien_Object $customer
      * @return  Varien_Object
      */
-    public function save(Varien_Object $customer)
+    public function save(Varien_Object $customer, $loadAllAttributes=true)
     {
         $testCustomer = clone $customer;
         $this->loadByEmail($testCustomer, $customer->getEmail(), true);
@@ -35,7 +35,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             Mage::throwException('customer email already exist');
         }
         
-        parent::save($customer);
+        parent::save($customer, $loadAllAttributes);
         return $customer;
     }
     
