@@ -21,6 +21,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Mage_Adminhtml_Blo
                     'name'      => 'answer_title',
                     'title'     => __('Answer Title'),
                     'label'     => __('Answer Title'),
+                    'maxlength' => '255',
                     'no_span'   => true,
                 )
         );

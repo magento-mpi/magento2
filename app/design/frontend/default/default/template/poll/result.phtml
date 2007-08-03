@@ -1,21 +1,26 @@
-<?if($poll) :?>
+<?if(isset($poll)) :?>
 <div class="box mini-poll">
 	<div class="head"> <!-- Gives room for control buttons -->
+	   <span class="corner"></span>
 		<h3><span>Today's Poll</span></h3>
 	</div>
+	<div class="box-container">
 	<h4><?=$poll->getPollTitle();?></h4>
-    <?if( $poll_answers ):?>
-	    <table cellspacing="0">
-		    <tbody>
-            <?foreach( $poll_answers as $answer ):?>
-                <tr>
-                    <td><?=$answer->getAnswerTitle()?></td>
-                    <td><?=$answer->getVotesCount()?> (<?=$answer->getPercent()?>%)</td>
-			    </tr>
-            <?endforeach;?>
-		    </tbody>
-	    </table>
-    <?endif;?>
+    	<div class="content">
+        <?if( $poll_answers ):?>
+    	    <table cellspacing="0">
+    		    <tbody>
+                <?foreach( $poll_answers as $answer ):?>
+                    <tr>
+                        <td><?=$answer->getAnswerTitle()?></td>
+                        <td><?=$answer->getVotesCount()?> (<?=$answer->getPercent()?>%)</td>
+    			    </tr>
+                <?endforeach;?>
+    		    </tbody>
+    	    </table>
+        <?endif;?>
+        </div>
+    </div>
 </div>
 <?endif;?>
 <!-- [ends] .mini-poll-results // -->

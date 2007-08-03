@@ -18,8 +18,12 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         parent::__construct();
 
         $pollModel = Mage::getModel('poll/poll');
-        $pollId = $pollModel->getRandomId();
+        $pollId = ( Mage::getSingleton('core/session')->getJustVotedPoll() ) ? Mage::getSingleton('core/session')->getJustVotedPoll() : $pollModel->getRandomId();
         $poll = $pollModel->load($pollId);
+
+        if( !$pollId ) {
+            return false;
+        }
 
         $pollAnswers = Mage::getModel('poll/poll_answer')
             ->getResourceCollection()
@@ -32,6 +36,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
              ->assign('action', Mage::getUrl('poll/vote/add/poll_id/'.$pollId));
 
         $this->_voted = Mage::getModel('poll/poll')->isVoted($pollId);
+        Mage::getSingleton('core/session')->setJustVotedPoll(false);
     }
 
     public function setPollTemplate($template, $type)

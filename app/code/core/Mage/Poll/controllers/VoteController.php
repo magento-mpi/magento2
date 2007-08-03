@@ -36,6 +36,8 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
             ->setPollAnswerId($answerId)
             ->addVote();
 
+        Mage::getSingleton('core/session')->setJustVotedPoll($pollId);
+
         Mage::getSingleton('poll/poll')->setVoted($pollId);
     }
 }

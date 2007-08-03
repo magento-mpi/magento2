@@ -56,8 +56,11 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         $response->setError(0);
 
         if ( $post = $this->getRequest()->getPost() ) {
+            $data = Zend_Json_Decoder::decode($post['data']);
             try {
-                $data = Zend_Json_Decoder::decode($post['data']);
+                if( trim($data['answer_title']) == '' ) {
+                    throw new Exception(__('Invalid Answer Title'));
+                }
                 $model = Mage::getModel('poll/poll_answer');
                 $model->setData($data)
                     ->save();

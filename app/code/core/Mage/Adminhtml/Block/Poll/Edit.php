@@ -44,6 +44,8 @@ class Mage_Adminhtml_Block_Poll_Edit extends Mage_Adminhtml_Block_Widget_Form_Co
                         var o = Ext.util.JSON.decode(o.responseText);
                         if( o.error ) {
                             alert(o.message);
+                            $('answer_title').value = '';
+                            $('answer_title').focus();
                         } else {
                             $('answer_title').value = '';
                             $('answer_title').focus();

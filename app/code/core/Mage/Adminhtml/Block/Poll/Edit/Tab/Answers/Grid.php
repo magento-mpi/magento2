@@ -57,6 +57,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Blo
             'type'      => 'action',
             'width'     => '10px',
             'filter'    => false,
+            'sortable'  => false,
             'actions'   => array(
                 array(
                     'caption'   => __('Delete'),
