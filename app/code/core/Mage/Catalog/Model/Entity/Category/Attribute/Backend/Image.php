@@ -56,9 +56,9 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
         $attributeId   = $this->getAttribute()->getId();
         $entityId	   = $object->getId();
         $entityIdField = $this->getEntityIdField();
-     	
+     	                                               
         $select = $this->getConnection('read')->select()
-        	->from($this->getMainTable(), array('value_id AS id', 'value AS image', 'position AS position'))
+        	->from($this->getMainTable(), array('value_id AS id', 'value AS image', 'position'))
         	->where('store_id = ?', $storeId)
         	->where($entityIdField . ' = ?', $entityId)
         	->where('attribute_id = ?', $attributeId)
@@ -69,17 +69,6 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
 
     public function afterSave($object)
     {
-        try {
-            $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
-            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
-        }
-        catch (Exception $e){
-            return;
-        }
-        
-        //$uploader->save($this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload'));
-        $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload'));
-        
     	$storeId       = $object->getStoreId();
         $attributeId   = $this->getAttribute()->getId();
         $entityId	   = $object->getId();
@@ -87,47 +76,82 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
         $entityTypeId  = $this->getAttribute()->getEntity()->getTypeId();
         
         $connection = $this->getConnection('write');
-        
+
         $values = $object->getData($this->getAttribute()->getName());
+
+        if(isset($values['position']))
+        {
+            foreach ((array)$values['position'] as $valueId => $position) {
+                if ($valueId >= 0) {
+    	            $condition = array(
+    		            $connection->quoteInto('value_id = ?', $valueId)
+    	            );
+                    $data = array();
+                    $data['position'] = $position;
+    	            $connection->update($this->getMainTable(), $data, $condition);
+                    $valueIds[$valueId] = $valueId;
+                }
+                else {
+                    $data = array();
+    		        $data[$entityIdField] 	= $entityId;
+    		        $data['attribute_id'] 	= $attributeId;
+    		        $data['store_id']	  	= $storeId;
+    		        $data['position']		= $position;
+    		        $data['entity_type_id'] = $entityTypeId;
+    	            $connection->insert($this->getMainTable(), $data);
+                    $valueIds[$valueId] = $connection->lastInsertId();
+                }
+
+                unset($uploadedFileName);
+                for ($type=0; $type<3; $type++) {
+                    try {
+                        $uploader = new Varien_File_Uploader($this->getAttribute()->getName().'_'.$type.'['.$valueId.']');
+                        $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+                    }
+                    catch (Exception $e){
+                        continue;
+                    }
+                    switch ($type) {
+                    case 0:
+                        $folder = "400";
+                        break;
+                    case 1:
+                        $folder = "200";
+                        break;
+                    case 2:
+                        $folder = "100";
+                        break;
+                    }
+                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').$folder.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
+    	            if (!isset($uploadedFileName)) {
+                        $uploadedFileName = $uploader->getUploadedFileName();
+                    }
+    	        }
+
+                if (isset($uploadedFileName)) {
+    	            $condition = array(
+    		            $connection->quoteInto('value_id = ?', $valueIds[$valueId])
+    	            );
+                    $data = array();
+    		        $data['value']		  	= $uploadedFileName;
+    	            $connection->update($this->getMainTable(), $data, $condition);
+                }
+                else {
+                    if ($valueId<0) {
+                        $values['delete'][] = $valueIds[$valueId];
+                    }
+                }
+            }
+        }
 
         if(isset($values['delete']))
         {
-            foreach ((array)$values['delete'] as $value_id) {
+            foreach ((array)$values['delete'] as $valueId) {
     	        $condition = array(
-    		        $connection->quoteInto('value_id = ?', $value_id)
+    		        $connection->quoteInto('value_id = ?', $valueId)
     	        );
     	        $connection->delete($this->getMainTable(), $condition);
     	    }
         }
-
-        if(isset($values['position']))
-        {
-            foreach ((array)$values['position'] as $value_id => $position) {
-    	        $condition = array(
-    		        $connection->quoteInto('value_id = ?', $value_id)
-    	        );
-                $data = array();
-                $data['position'] = $position;
-    	        $connection->update($this->getMainTable(), $data, $condition);
-    	    }
-        }
-
-        $i = 0;
-    	foreach ((array)$uploader->getUploadedFileName() as $uploadedFileName) {
-    		if ($uploadedFileName == '') {
-    			continue;
-    		}
-    		
-    		$data = array();
-    		$data[$entityIdField] 	= $entityId;
-    		$data['attribute_id'] 	= $attributeId;
-    		$data['store_id']	  	= $storeId;
-    		$data['position']		= (isset($values['position_new'][$i])?$values['position_new'][$i]:0);
-    		$data['value']		  	= $uploadedFileName;
-    		$data['entity_type_id'] = $entityTypeId;
-    		
-    		$connection->insert($this->getMainTable(), $data);
-            $i++;
-    	}
     }
 }

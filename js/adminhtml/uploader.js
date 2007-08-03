@@ -24,7 +24,7 @@
  *   ...to a naming convention that makes more sense to you.
  * 
  */
-function MultiSelector( list_target, field_name, max, new_element_html, delete_text ){
+function MultiSelector( list_target, field_name, max, new_element_html, delete_text, new_file_input ){
 
 	// Where to write the list
 	this.list_target = list_target;
@@ -42,6 +42,7 @@ function MultiSelector( list_target, field_name, max, new_element_html, delete_t
 	};
     this.new_element_html = new_element_html;
     this.delete_text = delete_text;
+    this.new_file_input = new_file_input;
 	
 	/**
 	 * Add a new file input element
@@ -102,8 +103,17 @@ function MultiSelector( list_target, field_name, max, new_element_html, delete_t
 	 */
 	this.addListRow = function( element ){
 
+/*
 		// Row div
 		var new_row = document.createElement( 'div' );
+*/
+
+		// Sort order input
+		var new_row_input = document.createElement( 'input' );
+		new_row_input.type = 'text';
+		new_row_input.name = 'general[position_new][]';
+		new_row_input.size = '3';
+		new_row_input.value = '0';
 
 		// Delete button
 		var new_row_button = document.createElement( 'input' );
@@ -112,9 +122,46 @@ function MultiSelector( list_target, field_name, max, new_element_html, delete_t
 
 		var new_row_span = document.createElement( 'span' );
 		new_row_span.innerHTML = this.delete_text;
+        
+        table = this.list_target;
+
+        // no of rows in the table:
+        noOfRows = table.rows.length;
+
+        // no of columns in the pre-last row:
+        noOfCols = table.rows[noOfRows-2].cells.length;
+
+        // insert row at pre-last:
+        var x=table.insertRow(noOfRows-1);
+
+        // insert cells in row.
+        for (var j = 0; j < noOfCols; j++) {
+
+            newCell = x.insertCell(j);
+            newCell.align = "center";
+            newCell.valign = "middle";
+
+//            if (j==0) {
+//                newCell.innerHTML = this.new_element_html.replace(/%file%/g, element.value).replace(/%id%/g, this.id).replace(/%j%/g, j)
+//                    + this.new_file_input.replace(/%file%/g, element.value).replace(/%id%/g, this.id).replace(/%j%/g, j);
+//            }
+            if (j==3) {
+		        newCell.appendChild( new_row_input );
+            }
+            else if (j==4) {
+		        newCell.appendChild( new_row_button );
+            }
+            else {
+//                newCell.innerHTML = this.new_file_input.replace(/%file%/g, element.value).replace(/%id%/g, this.id).replace(/%j%/g, j);
+                newCell.innerHTML = this.new_file_input.replace(/%id%/g, this.id).replace(/%j%/g, j);
+            }
+
+//            newCell.innerHTML="NEW CELL" + j;
+
+        }
 
 		// References
-		new_row.element = element;
+//		new_row.element = element;
 
 		// Delete function
 		new_row_button.onclick= function(){
@@ -138,17 +185,50 @@ function MultiSelector( list_target, field_name, max, new_element_html, delete_t
 		};
 
 		// Set row value
-		new_row.innerHTML = this.new_element_html.replace(/%file%/g, element.value).replace(/%id%/g, this.id);
+//		new_row.innerHTML = this.new_element_html.replace(/%file%/g, element.value).replace(/%id%/g, this.id);
 
 		// Add button
-		new_row.appendChild( new_row_button );
-		new_row.appendChild( new_row_span );
-
-//        new_row.innerHTML += 'Delete Image';
+//		new_row.appendChild( new_row_button );
+//		new_row.appendChild( new_row_span );
 
 		// Add it to the list
-		this.list_target.appendChild( new_row );
+//		this.list_target.appendChild( new_row );
 		
 	};
+    
+    // Insert row into table.
+    this.insRowLast = function ( table ){
+
+        // noOfRpws in table.
+        noOfRows = table.rows.length;
+        // no of columns of last row.
+        noOfCols = table.rows[noOfRows-1].cells.length;
+
+        // insert row at last.
+        var x=table.insertRow(noOfRows);
+
+        // insert cells in row.
+        for (var j = 0; j < noOfCols; j++) {
+            newCell = x.insertCell(j);
+            newCell.innerHTML="NEW CELL" + j;
+        }
+
+    };
+
+    //delete row
+    this.deleteRow = function ( table, row ){
+
+        table.deleteRow(row);
+
+    };
+
+    //delete last row
+    this.deleteRow = function ( table ){
+
+        noOfRows = table.rows.length;
+        table.deleteRow(noOfRows-1);
+
+    };
+
 
 };
