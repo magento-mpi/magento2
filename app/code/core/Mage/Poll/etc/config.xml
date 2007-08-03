@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Poll>
-            <version>0.5.0</version>
+            <version>0.5.1</version>
         </Mage_Poll>
     </modules>
     <frontend>
@@ -24,7 +24,7 @@
                 </args>
             </poll>
         </routers>
-    </frontend> 
+    </frontend>
     <global>
         <models>
             <poll>

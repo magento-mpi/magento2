@@ -7,84 +7,38 @@
  * @author      Alexander Stadnitski (hacki) alexander@varien.com
  */
 
-class Mage_Poll_Model_Mysql4_Poll
+class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
 {
-    protected $_pollTable;
-
-    protected $_read;
-    protected $_write;
-
-    protected $_pollId;
-
-    protected $_poll;
-
     function __construct()
     {
-        $this->_pollTable = Mage::getSingleton('core/resource')->getTableName('poll/poll');
-
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('poll_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('poll_write');
+        $this->_init('poll/poll', 'poll_id');
     }
 
-    function save($poll)
+    public function resetVotesCount($object)
     {
-        if( $poll->getPollId() ) {
-            $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $poll->getPollId());
-            $this->_write->update($this->_pollTable, $poll->getData(), $condition);
-        } else {
-            $poll->setDatePosted(now());
-            $this->_write->insert($this->_pollTable, $poll->getData());
-        }
-        return $this;
+        $read = $this->getConnection('read');
+        $select = $read->select();
+        $select->from($this->getTable('poll_answer'), new Zend_Db_Expr("SUM(votes_count)"))
+            ->where("poll_id = ?", $object->getPollId());
+
+        $count = $read->fetchOne($select);
+
+        $write = $this->getConnection('write');
+        $condition = $write->quoteInto("{$this->getIdFieldName()} = ?", $object->getPollId());
+        $write->update($this->getMainTable(), array('votes_count' => $count), $condition);
+        return $object;
     }
 
-    function close($poll)
+    public function getRandomId()
     {
-        $poll->setStatus(0);
-        $poll->setDateClosed(now());
-        $this->save($poll);
-        return $this;
-    }
+        $read = $this->getConnection('read');
+        $select = $read->select();
 
-    function delete($poll)
-    {
-        if( $poll->getPollId() ) {
-            $condition = $this->_write->quoteInto("{$this->_pollTable}.poll_id=?", $poll->getPollId());
-            $this->_write->delete($this->_pollTable, $condition);
-        }
+        $select->from($this->getMainTable(), $this->getIdFieldName())
+            ->where('active = ?', 1)
+            ->where('closed = ?', 0)
+            ->order(new Zend_Db_Expr('RAND()'));
 
-        return $this;
-    }
-
-    function load($pollId=null)
-    {
-        if( isset($pollId) ) {
-        	$this->setId($pollId);
-        }
-
-        if( $this->getId() ) {
-            $condition = $this->_read->quoteInto("{$this->_pollTable}.poll_id=?", $this->getId());
-            $select = $this->_read->select();
-            $select->from($this->_pollTable);
-            $select->where($condition);
-            $this->_poll = $this->_read->fetchRow($select);
-        }
-        return $this;
-    }
-
-    function setId($pollId)
-    {
-        $this->_pollId = intval($pollId);
-        return $this;
-    }
-
-    function getId()
-    {
-        return $this->_pollId;
-    }
-
-    function getPoll()
-    {
-        return $this->_poll;
+        return $read->fetchOne($select);
     }
 }

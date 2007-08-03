@@ -1,5 +1,4 @@
 <?if($poll) :?>
-<?$_poll = $poll->getPoll();?>
 <div class="box mini-poll">
 	<div class="head">
 		<span class="corner"></span>
@@ -7,15 +6,15 @@
 	</div>
 	<div class="box-container">
     <form name="pollForm" action="<?=$action?>" method="post">
-		<h4><?=$_poll['poll_title'];?></h4>
+		<h4><?=$poll->getPollTitle()?></h4>
 		<div class="content">
-			<?if( is_array($poll->getAnswers()) ):?>
+			<?if( $poll_answers ):?>
 				<table cellspacing="0">
 					<tbody>
-							<?foreach( $poll->getAnswers() as $answer ):?>
+							<?foreach( $poll_answers as $answer ):?>
 						<tr>
-							<td><input type="radio" name="vote" value="<?=$answer['answer_id']?>"/></td>
-							<td><?=$answer['answer_title']?>&nbsp;</td>
+							<td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>"/></td>
+							<td><label for="vote_<?=$answer->getId()?>"><?=$answer->getAnswerTitle()?></label>&nbsp;</td>
 						</tr>
 							<?endforeach;?>
 					</tbody>
@@ -30,4 +29,3 @@
 </div>
 <?endif;?>
 <!-- [ends] .mini-poll // -->
-

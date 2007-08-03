@@ -131,7 +131,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     public function save()
     {
+        $this->_beforeSave();
         $this->getResource()->save($this);
+        $this->_afterSave();
         return $this;
     }
 
@@ -142,7 +144,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     public function delete()
     {
+        $this->_beforeDelete();
         $this->getResource()->delete($this);
+        $this->_afterDelete();
         return $this;
     }
 
@@ -155,5 +159,25 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         $data = $this->getData();
         return $data;
+    }
+
+    protected function _beforeSave()
+    {
+        return $this;
+    }
+
+    protected function _afterSave()
+    {
+        return $this;
+    }
+
+    protected function _beforeDelete()
+    {
+        return $this;
+    }
+
+    protected function _afterDelete()
+    {
+        return $this;
     }
 }

@@ -12,30 +12,34 @@
 class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
 {
     protected $_templates, $_voted;
-    
+
     public function __construct()
     {
         parent::__construct();
 
-        $pollId = 1;
+        $pollModel = Mage::getModel('poll/poll');
+        $pollId = $pollModel->getRandomId();
+        $poll = $pollModel->load($pollId);
 
-        $poll = Mage::getModel('poll/poll')
-                        ->load($pollId)
-                        ->loadAnswers()
-                        ->calculatePercent();
+        $pollAnswers = Mage::getModel('poll/poll_answer')
+            ->getResourceCollection()
+            ->addPollFilter($pollId)
+            ->load()
+            ->countPercent($poll);
 
         $this->assign('poll', $poll)
+             ->assign('poll_answers', $pollAnswers)
              ->assign('action', Mage::getUrl('poll/vote/add/poll_id/'.$pollId));
 
         $this->_voted = Mage::getModel('poll/poll')->isVoted($pollId);
     }
-    
+
     public function setPollTemplate($template, $type)
     {
         $this->_templates[$type] = $template;
         return $this;
     }
-    
+
     public function toHtml()
     {
         if( $this->_voted === true ) {

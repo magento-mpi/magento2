@@ -1,6 +1,6 @@
 <?php
 /**
- * Poll
+ * Poll model
  *
  * @file        Poll.php
  * @copyright   Varien (c) 2007 (http://www.varien.com)
@@ -8,45 +8,19 @@
  * @author      Alexander Stadnitski (hacki) alexander@varien.com
  */
 
-class Mage_Poll_Model_Poll extends Varien_Object
+class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 {
     protected $_pollCookieDefaultName = 'poll';
 
-    public function load($pollId=null)
+    protected function _construct()
     {
-        $pollId = ( isset($pollId) ) ? $pollId : $this->getId();
-        $poll = $this->getResource()->load($pollId);
-        $this->setPoll($poll->getPoll());
-        $this->setId($pollId);
+        $this->_init('poll/poll');
+    }
+
+    public function resetVotesCount()
+    {
+        $this->getResource()->resetVotesCount($this);
         return $this;
-    }
-
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
-    public function setStoreId($storeId)
-    {
-        $this->getResource()->setStoreId($storeId);
-        return $this;
-    }
-
-    public function getCollection()
-    {
-        return Mage::getResourceModel('poll/poll_collection');
-    }
-
-    public function getResource()
-    {
-        return Mage::getResourceModel('poll/poll');
     }
 
     public function setVoted($pollId=null)
@@ -67,22 +41,8 @@ class Mage_Poll_Model_Poll extends Varien_Object
         }
     }
 
-    public function loadAnswers()
+    public function getRandomId()
     {
-        $answers = Mage::getResourceModel('poll/poll_answer')->loadAnswers($this->getId());
-        $this->setAnswers($answers);
-        return $this;
-    }
-
-    public function calculatePercent()
-    {
-        $answers = $this->getAnswers();
-        $answersResource = Mage::getResourceModel('poll/poll_answer');
-        $poll = $this->getPoll();
-        foreach( $answers as $key => $answer ) {
-            $answers[$key]['percent'] = $answersResource->getPercent($poll['votes_count'], $answer['votes_count']);
-        }
-        $this->setAnswers($answers);
-        return $this;
+        return $this->getResource()->getRandomId();
     }
 }

@@ -265,7 +265,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         if ($object->isDeleted()) {
             return $this->delete($object);
         }
-        
+
         $write = $this->getConnection('write');
         $table = $this->getMainTable();
 

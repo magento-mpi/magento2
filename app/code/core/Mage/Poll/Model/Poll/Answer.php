@@ -1,6 +1,6 @@
 <?php
 /**
- * Resource for poll answers
+ * Poll answers model
  *
  * @package     Mage
  * @subpackage  Poll
@@ -9,48 +9,35 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Poll_Model_Poll_Answer extends Varien_Object
+class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
 {
-    protected $_answer;
-
-    public function __construct($answerId=null)
+    protected function _construct()
     {
-        if( isset($answerId) ) {
-            $this->setId($answerId);
-            $this->load();
-        }
+        $this->_init('poll/poll_answer');
+    }
+
+    public function countPercent($poll)
+    {
+        $this->setPercent(round(( $poll->getVotesCount() > 0 ) ? ($this->getVotesCount() * 100 / $poll->getVotesCount()) : 0));
         return $this;
     }
 
-    public function load($answerId=null)
+    protected function _afterSave()
     {
-        if( isset($answerId) ) {
-            $this->setId($answerId);
-        }
-        $this->_answer = $this->getResource()->load();
-        return $this;
+        Mage::getModel('poll/poll')
+            ->setId($this->getPollId())
+            ->resetVotesCount();
     }
 
-    public function save()
+    protected function _beforeDelete()
     {
-        $this->getResource()->save($this);
-        return $this;
+        $this->setPollId($this->load($this->getId())->getPollId());
     }
 
-    public function delete()
+    protected function _afterDelete()
     {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('poll/answer');
-    }
-
-    protected function setId($id)
-    {
-        $this->getResource()->setId($id);
-        return $this;
+        Mage::getModel('poll/poll')
+            ->setId($this->getPollId())
+            ->resetVotesCount();
     }
 }

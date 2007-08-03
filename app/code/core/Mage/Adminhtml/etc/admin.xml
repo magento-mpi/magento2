@@ -198,6 +198,10 @@
                     <title>Static Blocks</title>
                     <action>adminhtml/cms_block</action>
                 </block>
+                <poll>
+                    <title>Poll Manager</title>
+                    <action>adminhtml/poll</action>
+                </poll>
             	<!--<config>
                     <title>Configuration</title>
                     <action>adminhtml/cms_config/</action>
