@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
     protected function _initChildren()
     {
         parent::_initChildren();
-        $this->setChild( 'grid', $this->getLayout()->createBlock( 'adminhtml/' . $this->_controller . '_grid', $this->_controller . '.grid' ) );
+        $this->setChild( 'grid', $this->getLayout()->createBlock( 'adminhtml/' . $this->_controller . '_grid', $this->_controller . '.grid' )->setSaveParametersInSession(true) );
         return $this;
     }
 

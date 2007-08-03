@@ -5,6 +5,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
     protected function _construct()
     {
         $this->_init('eav/attribute', 'attribute_id');
+        $this->_uniqueFields = array( array('field' => array('attribute_code','entity_type_id'), 'title' => __('Attribute with the same code') ) );
     }
 
     public function loadByCode($object, $entityTypeId, $code)
@@ -27,29 +28,13 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return true;
     }
 
-    public function itemExists($object)
-    {
-        $read = $this->getConnection('read');
-
-        $select = $read->select()->from($this->getMainTable())
-            ->where("attribute_code='{$object->getAttributeCode()}'")
-            ->where('attribute_id != ?', $object->getAttributeId())
-            ->where('entity_type_id = ?', $object->getEntityTypeId());
-
-        $data = $read->fetchRow($select);
-
-        if (!$data) {
-            return false;
-        }
-        return true;
-    }
-
     public function save(Mage_Core_Model_Abstract $object)
     {
         $write = $this->getConnection('write');
         $attributeId = $object->getId();
 
         $data = $object->getData();
+
         unset($data['attribute_set_id']);
         unset($data['attribute_group_id']);
         unset($data['sort_order']);
@@ -57,6 +42,11 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
         $write->beginTransaction();
         try {
+
+            $this->_beforeSave($object);
+
+            $this->_checkUnique($object);
+
             if( !$object->getSortOrder() ) {
                 if( $attributeId > 0 ) {
                     $condition = $write->quoteInto("{$this->getMainTable()}.{$this->getIdFieldName()} = ?", $attributeId);
@@ -82,12 +72,19 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                 $write->insert($this->getTable('entity_attribute'), $data);
             }
 
+            $this->_afterSave($object);
             $write->commit();
-        } catch (Exception $e) {
-            $write->rollback();
-            throw new Exception($e->getMessage());
         }
-        return $object;
+        catch (Mage_Core_Exception $e) {
+            $write->rollBack();
+            Mage::throwException($e->getMessage());
+        }
+        catch (Exception $e) {
+            $write->rollBack();
+            Mage::throwException('Exception while saving the object:' . $e->getMessage());
+        }
+
+        return $this;
     }
 
     private function _getMaxSortOrder($object)
@@ -127,6 +124,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
         $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.entity_attribute_id = ?", $object->getEntityAttributeId());
         $write->delete($this->getTable('entity_attribute'), $condition);
-        return $object;
+        return $this;
     }
 }

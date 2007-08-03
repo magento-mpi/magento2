@@ -98,4 +98,5 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         return Mage::getUrl('*/*/edit', array('page_id' => $row->getId()));
     }
+
 }

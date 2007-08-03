@@ -32,16 +32,6 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
         return parent::_getDefaultSourceModel();
     }
 
-    public function itemExists()
-    {
-        return $this->getResource()->itemExists($this);
-    }
-
-    public function saveAttributes()
-    {
-        return $this->getResource()->saveAttributes($this);
-    }
-
     public function deleteEntity()
     {
         return $this->getResource()->deleteEntity($this);

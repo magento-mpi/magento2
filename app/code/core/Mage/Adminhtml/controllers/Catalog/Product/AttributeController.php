@@ -9,109 +9,139 @@
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
+
 class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_Controller_Action
 {
+
+    protected $_entityTypeId;
+
+    public function _construct()
+    {
+        parent::_construct();
+        $this->_entityTypeId = Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId();
+    }
+
+    protected function _initAction()
+    {
+        $this->loadLayout('baseframe')
+            ->_setActiveMenu('catalog/attributes')
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(__('Manage Product Attributes'), __('Manage Product Attributes'))
+        ;
+        return $this;
+    }
+
     public function indexAction()
     {
-        $this->_setTypeId();
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog/categories');
-        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+        $this->_initAction()
+            ->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute'))
+            ->renderLayout();
+    }
 
-        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
-        $this->_addBreadcrumb(__('Manage Product Attributes'), __('Manage Product Attributes Title'));
-
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_toolbar_add'));
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_grid'));
-
-        $this->renderLayout();
+    public function newAction()
+    {
+        $this->_forward('edit');
     }
 
     public function editAction()
     {
-        $this->loadLayout('baseframe');
-        $this->_setActiveMenu('catalog/categories');
-        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+        $id = $this->getRequest()->getParam('attribute_id');
+        $model = Mage::getModel('eav/entity_attribute');
 
-        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
-        $this->_addBreadcrumb(__('Manage Product Attributes'), __('Manage Product Attributes Title'), Mage::getUrl('*/*/'));
-        $this->_addBreadcrumb(__('Edit Product Attribute'), __('Edit Product Attribute Title'));
+        if ($id) {
+            $model->load($id);
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_form'));
+            // entity type check
+            if ($model->getEntityTypeId() != $this->_entityTypeId) {
+                Mage::getSingleton('adminhtml/session')->addError(__('You cannot edit this attribute'));
+                $this->_redirect('*/*/');
+                return;
+            }
+        }
 
-        $this->renderLayout();
+        // set entered data if was error when we do save
+        $data = Mage::getSingleton('adminhtml/session')->getAttributeData(true);
+        if (! empty($data)) {
+            $model->setData($data);
+        }
+
+        Mage::register('entity_attribute', $model);
+
+        $this->_initAction()
+            ->_addBreadcrumb($id ? __('Edit Product Attribute') : __('New Product Attribute'), $id ? __('Edit Product Attribute') : __('New Product Attribute'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit')->setData('action', Mage::getUrl('adminhtml', array('controller' => 'catalog_product_attribute', 'action' => 'save'))))
+            ->renderLayout();
     }
 
     public function saveAction()
     {
-        $this->_setTypeId();
+        if ($data = $this->getRequest()->getPost()) {
+            $model = Mage::getModel('eav/entity_attribute');
 
-        $data = $this->getRequest()->getPost();
-        foreach( $data as $key => $value ) {
-            if( !$value ) {
-                unset($data[$key]);
+            if ($id = $this->getRequest()->getParam('attribute_id')) {
+                // entity type check
+                $model->load($id);
+                if ($model->getEntityTypeId() != $this->_entityTypeId) {
+                    Mage::getSingleton('adminhtml/session')->addError(__('You cannot update this attribute'));
+                    Mage::getSingleton('adminhtml/session')->setAttributeData($data);
+                    $this->_redirect('*/*/');
+                    return;
+                }
+                $data['attribute_code'] = $model->getAttributeCode();
+                $data['is_user_defined'] = $model->getIsUserDefined();
+                $data['is_global'] = $model->getIsGlobal();
             }
-        }
 
-        $model = Mage::getModel('eav/entity_attribute')
-            ->setData($data)
-            ->setEntityTypeId(Mage::registry('entityType'));
+            $model->setData($data);
 
-        if( $this->getRequest()->getParam('attribute_id') > 0 ) {
-            $model->setId($this->getRequest()->getParam('attribute_id') );
-        }
+            if (! $id) {
+                $model->setEntityTypeId($this->_entityTypeId);
+                $model->setIsUserDefined(1);
+            }
 
-        if( $model->itemExists() === false ) {
             try {
                 $model->save();
-
-                Mage::getSingleton('adminhtml/session')->addSuccess('Product attribute successfully saved.');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product attribute was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->setAttributeData(false);
                 $this->_redirect('*/*/');
+                return;
             } catch (Exception $e) {
-                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                    $this->getResponse()->setRedirect($referer);
-                }
-                Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Please, try again later.');
-                $this->_returnLocation();
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setAttributeData($data);
+                $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
+                return;
             }
-        } else {
-            Mage::getSingleton('adminhtml/session')->addError('Error while saving this attribute. Attribute with the same Name already exists.');
-            $this->_returnLocation();
         }
+        $this->_redirect('*/*/');
     }
 
     public function deleteAction()
     {
-        $attributeId = $this->getRequest()->getParam('attributeId');
-        try {
-            Mage::getModel('eav/entity_attribute')
-                ->setId($attributeId)
-                ->delete();
-            $this->_redirect('*/*/');
-        } catch (Exception $e) {
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
+        if ($id = $this->getRequest()->getParam('attribute_id')) {
+            $model = Mage::getModel('eav/entity_attribute');
+
+            // entity type check
+            $model->load($id);
+            if ($model->getEntityTypeId() != $this->_entityTypeId) {
+                Mage::getSingleton('adminhtml/session')->addError(__('You cannot delete this attribute'));
+                $this->_redirect('*/*/');
+                return;
             }
-            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this attribute. Please, try again later.');
-            $this->_returnLocation();
+
+            try {
+                $model->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product attribute was deleted succesfully'));
+                $this->_redirect('*/*/');
+                return;
+            }
+            catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
+                return;
+            }
         }
+        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find an attribute to delete'));
+        $this->_redirect('*/*/');
     }
 
-    public function attributeGridAction()
-    {
-        $this->_setTypeId();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_grid')->toHtml());
-    }
-
-    protected function _returnLocation()
-    {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
-    }
-
-    protected function _setTypeId()
-    {
-        Mage::register('entityType', 10);
-    }
 }

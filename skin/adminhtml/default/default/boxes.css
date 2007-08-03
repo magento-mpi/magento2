@@ -251,7 +251,7 @@
 .head-tag { background-image:url(images/fam_tag_orange.gif); }
 .head-orders { background-image:url(images/fam_folder_table.gif); }
 .head-categories { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
-.head-product-attributes { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
+.head-catalog-product-attribute { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
 .head-product-attribute-sets { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
 .head-tax { background-image:url(images/fam_money_add.gif); }
 .head-cms-page, .head-cms-block { background-image:url(images/application_view_tile.gif); }
