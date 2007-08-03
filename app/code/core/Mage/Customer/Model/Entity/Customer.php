@@ -21,25 +21,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     }
     
     /**
-     * Save customer
-     * 
-     * @param   Varien_Object $customer
-     * @return  Varien_Object
-     */
-    public function save(Varien_Object $customer, $loadAllAttributes=true)
-    {
-        $testCustomer = clone $customer;
-        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
-
-        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
-            Mage::throwException('customer email already exist');
-        }
-        
-        parent::save($customer, $loadAllAttributes);
-        return $customer;
-    }
-    
-    /**
      * Save customer addresses and set default addresses in attributes backend
      *
      * @param   Varien_Object $customer
@@ -53,10 +34,17 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         return parent::_afterSave($customer);
     }
     
-    protected function _beforeSave(Varien_Object $object)
+    protected function _beforeSave(Varien_Object $customer)
     {
-        parent::_beforeSave($object);
-        $object->setParentId(null);
+        parent::_beforeSave($customer);
+        $customer->setParentId(null);
+
+        $testCustomer = clone $customer;
+        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
+
+        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
+            Mage::throwException('customer email already exist');
+        }
         return $this;
     }
     
