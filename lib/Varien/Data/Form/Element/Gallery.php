@@ -9,7 +9,7 @@
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_Element_Abstract
+class Varien_Data_Form_Element_Gallery extends Varien_Data_Form_Element_Abstract
 {
     public function __construct($data)
     {
@@ -17,33 +17,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
         $this->setType('file');
     }
 
-/*
-    protected function _getStructuredArray($associativeArray)
-    {
-        $outputArray = array();
-        if (is_array($associativeArray)) {
-            foreach ($associativeArray as $element) {
-                $outputArray[$element['image_id']][$element['type']]=array('id'=>$element['id'], 'image'=>$element['image'], 'position'=>$element['position']);
-            }
-            return $outputArray;
-        }
-        else {
-            return false;
-        }
-    }
-*/
-
     public function getElementHtml()
     {
-        $html = '<table id="image_list" border="0" cellspacing="3" cellpadding="0" width="80%">';
+        $gallery = $this->getValue();
+
+        $html = '<table id="image_list" border="0" cellspacing="3" cellpadding="0">';
         $html .= '<tr><td valign="middle" align="center">Big Image</td><td valign="middle" align="center">Thumbnail</td><td valign="middle" align="center">Small Thumb</td><td valign="middle" align="center">Sort Order</td><td valign="middle" align="center">Delete</td></tr>';
 
-//        $images = $this->_getStructuredArray($this->getValue());
-
-//        if (is_array($images)) {
-            foreach ((array)$this->getValue() as $image) {
+        if (!is_null($this->getValue())) {
+            foreach ($this->getValue() as $image) {
                 $html .= '<tr>';
-                foreach ($this->getValue()->getImageTypes() as $type) {
+                foreach ($this->getValue()->getAttributeBackend()->getImageTypes() as $type) {
                     $url = $image->setType($type)->getSourceUrl();
                     $html .= '<td align="center" style="vertical-align:bottom;">';
                     $html .= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'\');return false;"><img
@@ -55,8 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
                 $html .= '<td align="center" style="vertical-align:bottom;"><input type="checkbox" name="'.parent::getName().'[delete]['.$image->getValueId().']" value="'.$image->getValueId().'" id="'.$this->getHtmlId().'_delete_'.$image->getValueId().'"/></td>';
                 $html .= '</tr>';
             }
-
-//        }
+        }
 
         $html .= '<tr>';
 //          $html .= '<td valign="middle" align="left" colspan="3"><input id="'.$this->getHtmlId().'" name="'.$this->getName().'" value="" '.$this->serialize($this->getHtmlAttributes()).' size="20"/></td>';
@@ -81,6 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
 */
 
         $name = $this->getName();
+        $parentName = parent::getName();
 
         $html .= <<<EndSCRIPT
 
@@ -95,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
 		    // Sort order input
 		    var new_row_input = document.createElement( 'input' );
 		    new_row_input.type = 'text';
-		    new_row_input.name = 'general[image][position]['+id+']';
+		    new_row_input.name = '{$parentName}[position]['+id+']';
 		    new_row_input.size = '3';
 		    new_row_input.value = '0';
 

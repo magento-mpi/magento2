@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $form->setHtmlIdPrefix('_general');
         
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
-        $fieldset->addType('image', Mage::getConfig()->getBlockClassName('adminhtml/catalog_category_form_image'));
+//        $fieldset->addType('image', Mage::getConfig()->getBlockClassName('adminhtml/widget_form_element'));
         
         $this->_setFieldset($this->getCategory()->getAttributes(), $fieldset);
         

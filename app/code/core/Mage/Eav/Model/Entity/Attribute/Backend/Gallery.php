@@ -81,7 +81,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
         	->where('attribute_id = ?', $attributeId)
             ->order('position', 'asc');
 
-        $object->setData($this->getAttribute()->getName(), $this->_images->load());
+        $object->setData($this->getAttribute()->getName(), $this->_images->setAttributeBackend($this)->load());
     }
 
     public function afterSave($object)
@@ -95,7 +95,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
         $connection = $this->getConnection('write');
 
         $values = $object->getData($this->getAttribute()->getName());
-
+        
         if(isset($values['position']))
         {
             foreach ((array)$values['position'] as $valueId => $position) {
