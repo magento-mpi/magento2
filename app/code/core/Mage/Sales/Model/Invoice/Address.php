@@ -24,12 +24,4 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
     {
         return $this;
     }
-    
-    protected function _beforeSave()
-    {
-        if ($this->getInvoice()) {
-            $this->setParentId($this->getInvoice()->getId());
-        }
-        parent::_beforeSave();
-    }
 }

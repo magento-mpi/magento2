@@ -6,6 +6,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
     protected $_rates;
     
+    protected $_totals = array();
+    
     protected function _construct()
     {
         $this->_init('sales/quote_address');
@@ -24,31 +26,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
 /*********************** ADDRESS ***************************/
 
-    protected function _beforeSave()
-    {
-        if ($this->getQuote()) {
-            $this->setParentId($this->getQuote()->getId());
-        }
-        parent::_beforeSave();
-    }
-    
-    public function _afterSave()
-    {
-        $this->getShippingRatesCollection()->save();
-        parent::_afterSave();
-    }
-
-    public function collectTotals()
-    {
-        $this->getResource()->collectTotals($this);
-        return $this;
-    }
-    
-    public function getTotals()
-    {
-        return $this->getResource()->getTotals($this);
-    }
-    
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
         $this
@@ -74,18 +51,40 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         $arr = parent::toArray();
         $arr['rates'] = $this->getShippingRatesCollection()->toArray($arrAttributes);
+        foreach ($this->getTotals() as $k=>$total) {
+            $arr['totals'][$k] = $total->toArray();
+        }
         return $arr;
     }
     
+/*********************** ITEMS ***************************/
+
+    public function getAllItems()
+    {
+        $items = array();
+        if ($this->getQuote()) {
+            foreach ($this->getQuote()->getItemsCollection() as $item) {
+                if (!$item->isDeleted() 
+                    && (!$this->getId() || $this->getId()==$item->getQuoteAddressId())) {
+                    $items[] = $item;
+                }
+            }
+        }
+        return $items;
+    }
+
 /*********************** SHIPPING RATES ***************************/
 
     public function getShippingRatesCollection()
     {
         if (empty($this->_rates)) {
-            $this->_rates = Mage::getModel('sales_entity/quote_address_rate_collection')
-                ->addAttributeToSelect('*')
-                ->setAddressFilter($this->getId())
-                ->load();
+            $this->_rates = Mage::getResourceModel('sales/quote_address_rate_collection');
+            if ($this->getId()) {
+                $this->_rates
+                    ->addAttributeToSelect('*')
+                    ->setAddressFilter($this->getId())
+                    ->load();
+            }
         }
         return $this->_rates;
     }
@@ -156,6 +155,34 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this;
     }
     
+/*********************** TOTALS ***************************/
+
+    public function collectTotals()
+    {
+        $this->getResource()->collectTotals($this);
+        return $this;
+    }
+    
+    public function getTotals()
+    {
+        if (empty($this->_totals)) {
+            $this->getResource()->fetchTotals($this);
+        }
+        return $this->_totals;
+    }
+    
+    public function addTotal($total)
+    {
+        if (is_array($total)) {
+            $totalInstance = Mage::getModel('sales/quote_address_total')
+                ->setData($total);
+        } elseif ($total instanceof Mage_Sales_Model_Quote_Total) {
+            $totalInstance = $total;
+        }
+        $this->_totals[$totalInstance->getCode()] = $totalInstance;
+        return $this;
+    }
+    
 /*********************** ORDERS ***************************/
 
     public function createOrder()
@@ -171,5 +198,5 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $quote->save();
         
         return $order;
-    }    
+    }
 }

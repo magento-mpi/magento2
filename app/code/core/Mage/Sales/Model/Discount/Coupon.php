@@ -1,11 +1,15 @@
 <?php
 
-class Mage_Sales_Model_Discount_Coupon extends Varien_Object
+class Mage_Sales_Model_Discount_Coupon extends Mage_Core_Model_Abstract
 {
+    protected function _construct()
+    {
+        $this->_init('sales/discount_coupon');
+    }
+    
     public function loadByCode($code)
     {
-        $data = Mage::getResourceModel('sales/discount_coupon')->loadByCode($code);
-        $this->setData($data);
+        $this->getResource()->loadByCode($this, $code);
         return $this;
     }
     
@@ -26,7 +30,7 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Object
         return true;
     }
     
-    public function isValidForQuoteItem(Mage_Sales_Model_Quote_Entity_Item $item)
+    public function isValidForQuoteAddressItem(Mage_Sales_Model_Quote_Item $item)
     {
         $products = $this->getLimitProducts();
         $categories = $this->getLimitCategories();
@@ -57,22 +61,22 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Object
         return false;
     }
     
-    public function setQuoteDiscount(Mage_Sales_Model_Quote $quote)
+    public function setQuoteAddressDiscount(Mage_Sales_Model_Quote_Address $address)
     {
         if ($this->getDiscountPercent()) {
-            return $this->_setQuoteDiscountPercent($quote);
+            return $this->_setQuoteAddressDiscountPercent($address);
         } elseif ($this->getDiscountFixed()) {
-            return $this->_setQuoteDiscountFixed($quote);
+            return $this->_setQuoteAddressDiscountFixed($address);
         }
         return $this;
     }
         
-    protected function _setQuoteDiscountPercent(Mage_Sales_Model_Quote $quote)
+    protected function _setQuoteAddressDiscountPercent(Mage_Sales_Model_Quote_Address $address)
     {
         $quote->setDiscountPercent($this->getDiscountPercent());
         
-        foreach ($quote->getEntitiesByType('item') as $item) {
-            if (!$this->isValidForQuoteItem($item)) {
+        foreach ($address->getAllItems() as $item) {
+            if (!$this->isValidForQuoteAddressItem($item)) {
                 continue;
             }
             $item->setDiscountPercent($quote->getDiscountPercent());
@@ -83,13 +87,13 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Object
         return $this;
     }    
     
-    protected function _setQuoteDiscountFixed(Mage_Sales_Model_Quote $quote)
+    protected function _setQuoteAddressDiscountFixed(Mage_Sales_Model_Quote_Address $address)
     {
         // first pass - collect valid items for discount
         $couponSubtotal = 0;
         $validItems = array();
-        foreach ($quote->getEntitiesByType('item') as $item) {
-            if ($this->isValidForQuoteItem($item)) {
+        foreach ($address->getAllItems() as $item) {
+            if ($this->isValidForQuoteAddressItem($item)) {
                 $validItems[] = $item;
                 $couponSubtotal += $item->getRowTotal();
             }
@@ -98,13 +102,13 @@ class Mage_Sales_Model_Discount_Coupon extends Varien_Object
             return $this;
         }
 
-        $quote->setDiscountAmount(min($this->getDiscountFixed(), $couponSubtotal));
+        $quote->setDiscountAmount(min($address->getDiscountFixed(), $couponSubtotal));
         
-        $quote->setDiscountPercent($quote->getDiscountAmount() / $couponSubtotal * 100);
+        $quote->setDiscountPercent($address->getDiscountAmount() / $couponSubtotal * 100);
         
         // second pass - set calculated percentages for items
         foreach ($validItems as $item) {
-            $item->setDiscountPercent($quote->getDiscountPercent());
+            $item->setDiscountPercent($address->getDiscountPercent());
             $item->setDiscountAmount($item->getRowTotal() * $item->getDiscountPercent() / 100);
         }
         

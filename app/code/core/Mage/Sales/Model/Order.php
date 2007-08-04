@@ -124,7 +124,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getAddressesCollection()
     {
         if (empty($this->_addresses)) {
-            $this->_addresses = Mage::getModel('sales_entity/order_address_collection');
+            $this->_addresses = Mage::getResourceModel('sales/order_address_collection');
             
             if ($this->getId()) {
                 $this->_addresses
@@ -200,7 +200,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getModel('sales_entity/order_item_collection');
+            $this->_items = Mage::getResourceModel('sales/order_item_collection');
             
             if ($this->getId()) {
                 $this->_items
@@ -247,7 +247,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (empty($this->_payments)) {
-            $this->_payments = Mage::getModel('sales_entity/order_payment_collection');
+            $this->_payments = Mage::getResourceModel('sales/order_payment_collection');
             
             if ($this->getId()) {
                 $this->_payments
@@ -302,7 +302,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getStatusHistoryCollection()
     {
         if (empty($this->_statusHistory)) {
-            $this->_statusHistory = Mage::getModel('sales_entity/order_status_collection');
+            $this->_statusHistory = Mage::getResourceModel('sales/order_status_collection');
             
             if ($this->getId()) {
                 $this->_statusHistory

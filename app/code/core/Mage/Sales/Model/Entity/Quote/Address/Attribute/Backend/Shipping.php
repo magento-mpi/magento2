@@ -20,7 +20,7 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
         
         $address->setWeight(0);
 
-        foreach ($address->getEntitiesByType('item') as $item) {
+        foreach ($address->getAllItems() as $item) {
             $item->setRowWeight($item->getWeight() * $item->getQty());
             $address->setWeight($address->getWeight() + $item->getRowWeight());
         }

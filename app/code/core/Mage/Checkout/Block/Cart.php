@@ -36,7 +36,7 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     
     public function getTotals()
     {
-        $totalsFilter = new Varien_Filter_Array_Grid();
+        $totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter($this->_priceFilter, 'value');
         return $totalsFilter->filter($this->_quote->getTotals());
     }

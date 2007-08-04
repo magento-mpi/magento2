@@ -15,9 +15,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function initNewQuote()
     {
-        $address = Mage::getModel('sales/quote_address');
-        $this->setBillingAddress($address->setAddressType('billing'));
-        $this->setShippingAddress($address->setAddressType('billing'));
+        $this->setBillingAddress(Mage::getModel('sales/quote_address'));
+        $this->setShippingAddress(Mage::getModel('sales/quote_address'));
         return $this;
     }
 
@@ -34,15 +33,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         foreach ($quotes as $quote) {
             return $quote;
         }
-    }
-    
-    protected function _afterSave()
-    {
-        $this->getAddressesCollection()->save();
-        $this->getItemsCollection()->save();
-        $this->getPaymentsCollection()->save();
-        
-        parent::_afterSave();
     }
     
     /**
@@ -79,12 +69,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     
     public function getTotals()
     {
-        $totals = array();
-        foreach ($this->getAllShippingAddresses() as $address) {
-            $totals[$address->getId()] = $address->getTotals();
-        }
-
-        return $totals;
+        return $this->getShippingAddress()->getTotals();
     }
     
     public function createOrder()
@@ -106,7 +91,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAddressesCollection()
     {
         if (empty($this->_addresses)) {
-            $this->_addresses = Mage::getModel('sales_entity/quote_address_collection');
+            $this->_addresses = Mage::getResourceModel('sales/quote_address_collection');
             
             if ($this->getId()) {
                 $this->_addresses
@@ -141,7 +126,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAllShippingAddresses()
     {
         $addresses = array();
-        foreach ($this->getAddressesCollection()->getItems() as $address) {
+        foreach ($this->getAddressesCollection() as $address) {
             if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
                 $addresses[] = $address;
             }
@@ -219,7 +204,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getModel('sales_entity/quote_item_collection');
+            $this->_items = Mage::getResourceModel('sales/quote_item_collection');
             
             if ($this->getId()) {
                 $this->_items
@@ -344,7 +329,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (empty($this->_payments)) {
-            $this->_payments = Mage::getModel('sales_entity/quote_payment_collection');
+            $this->_payments = Mage::getResourceModel('sales/quote_payment_collection');
             
             if ($this->getId()) {
                 $this->_payments

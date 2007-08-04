@@ -33,12 +33,5 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
-    protected function _beforeSave()
-    {
-        if ($this->getQuote()) {
-            $this->setParentId($this->getQuote()->getId());
-        }
-        parent::_beforeSave();
-    }
+
 }

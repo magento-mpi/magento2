@@ -27,8 +27,8 @@
 				<tfoot>
         <?foreach($this->getTotals() as $total):?>
         <tr>
-            <td colspan=<?if($this->isWishlistActive()):?>5<?else:?>4<?endif?> class="align-right"><?=$total['title']?>:</td>
-						<td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
+            <td colspan=<?if($this->isWishlistActive()):?>5<?else:?>4<?endif?> class="align-right"><?=$total->getTitle()?>:</td>
+						<td class="align-right" style="<?=$total->getStyle()?>"><?=$total->getValue()?></td>
         </tr>
         <?endforeach?>
 				<tr>

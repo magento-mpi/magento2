@@ -7,7 +7,7 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Subtotal
     {
         $address->setSubtotal(0);
 
-        foreach ($address->getEntitiesByType('item') as $item) {
+        foreach ($address->getAllItems() as $item) {
             $item->setRowTotal($item->getPrice() * $item->getQty());
             $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
         }

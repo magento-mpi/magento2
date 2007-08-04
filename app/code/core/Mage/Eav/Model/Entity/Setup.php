@@ -43,13 +43,33 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $sourcePrefix = isset($entity['source_prefix']) ? $entity['source_prefix'] : '';
             
             foreach ($entity['attributes'] as $attrCode=>&$attr) {
+                $backend = '';
+                if (isset($attr['backend'])) {
+                    if ('_'===$attr['backend']) {
+                        $backend = $backendPrefix;
+                    } elseif ('_'===$attr['backend']{0}) {
+                        $backend = $backendPrefix.$attr['backend'];
+                    } else {
+                        $backend = $attr['backend'];
+                    }
+                }
+                $frontend = '';
+                if (isset($attr['frontend'])) {
+                    if ('_'===$attr['frontend']) {
+                        $frontend = $frontendPrefix;
+                    } elseif ('_'===$attr['frontend']{0}) {
+                        $frontend = $frontendPrefix.$attr['frontend'];
+                    } else {
+                        $frontend = $attr['frontend'];
+                    }
+                }
                 $conn->insert($this->getTable('eav/attribute'), array(
                     'entity_type_id'=>$entity['entity_type_id'],
                     'attribute_code'=>$attrCode,
-                    'backend_model'=>$backendPrefix.(isset($attr['backend']) ? $attr['backend'] : ''),
+                    'backend_model'=>$backend,
                     'backend_type'=>isset($attr['type']) ? $attr['type'] : 'varchar',
                     'backend_table'=>isset($attr['table']) ? $attr['table'] : '',
-                    'frontend_model'=>$frontendPrefix.(isset($attr['frontend']) ? $attr['frontend'] : ''),
+                    'frontend_model'=>$frontend,
                     'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
                     'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
                     'source_model'=>$sourcePrefix.(isset($attr['source']) ? $attr['source'] : ''),

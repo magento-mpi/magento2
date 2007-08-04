@@ -88,7 +88,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             if (empty($this->_resourceName)) {
                 throw Mage::exception('Mage_Core', 'Resource is not set');
             }
-            $this->_resource = Mage::getResourceModel($this->_resourceName);
+            $this->_resource = Mage::getResourceSingleton($this->_resourceName);
         }
         return $this->_resource;
     }

@@ -39,12 +39,4 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
-    protected function _beforeSave()
-    {
-        if ($this->getAddress()) {
-            $this->setParentId($this->getAddress()->getId());
-        }
-        parent::_beforeSave();
-    }
 }

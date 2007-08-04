@@ -764,8 +764,12 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $object->setEntityTypeId($this->getTypeId());
         }
 
-        if ($this->getUseDataSharing() && is_null($object->getStoreId())) {
+        if ($this->getUseDataSharing() && !$object->getStoreId()) {
             $object->setStoreId($this->getStoreId());
+        }
+        
+        if (is_null($object->getParentId())) {
+            $object->setParentId(0);
         }
 
         $this->_write->beginTransaction();
