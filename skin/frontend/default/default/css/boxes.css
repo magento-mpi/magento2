@@ -563,6 +563,9 @@ h1#logo {
 	width:33%;
 	text-align:left;
 	}
+.listing-type-grid td.empty-product {
+    background:#f5f6f6
+    }
 .listing-type-grid .product-image {
 	text-align:center;
 	}
@@ -618,6 +621,7 @@ h1#logo {
 #track1 { position:relative; width:284px; height:27px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat;}
 .zoom-in { position:absolute; left:10px; top:7px; }
 .zoom-out { position:absolute; right:10px; top:7px;}
+#track2 { position:relative; left:28px; width:228px; height:27px;}
 #handle1 { position:absolute; left:30px; top:5px; width:9px; height:19px;background:url(../images/magnifier_handle.gif) no-repeat ;  }
 
 .product-shop { float:right; width:55%; }
