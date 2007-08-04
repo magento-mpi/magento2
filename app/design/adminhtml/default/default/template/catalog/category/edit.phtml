@@ -1,11 +1,5 @@
 
-<table cellspacing="0" width="100%">
-    <tr>
-        <td class="content-left-nav">
-            <?=$this->getTabsHtml()?>
-        </td>
-        <td>
-            <div class="content-header">
+<div class="content-header">
                 <table cellspacing="0" class="grid-header"> 
                     <tr>
                         <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
@@ -19,13 +13,18 @@
                     </tr>
                 </table>
             </div>
+						<?=$this->getTabsHtml()?>
+
+
+
             <form id="category_edit_form" action="<?=$this->getSaveUrl()?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="category_products" id="in_category_products" value=""/>
             <div id="category_tab_content"></div>
             </form>
-        </td>
-    </tr>
-</table>
+
+
+
+
 <script type="text/javascript" language="javascript">
     var categoryForm = new varienForm('category_edit_form');
     

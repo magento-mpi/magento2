@@ -16,6 +16,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
         $this->setId('category_info_tabs');
         $this->setDestElementId('category_tab_content');
         $this->setTitle(__('Category Data'));
+				$this->setTemplate('widget/tabshoriz.phtml');
         
         //$this->setDestElementId('category_tab_content');
     }

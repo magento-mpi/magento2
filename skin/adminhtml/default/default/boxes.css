@@ -424,6 +424,7 @@ img.attribute-global {
 
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+ul.tabs-horiz:after,
 .header-top:after,
 dl.accordion dt:after,
 .entry-edit fieldset li:after,
