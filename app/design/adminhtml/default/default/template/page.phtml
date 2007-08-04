@@ -70,6 +70,7 @@
 <?endif?>
 </head>
 <body>
+    <table style="width: 100%;"><tr><td>
         <div class="header">
         <?=$this->getChildHtml('header')?>
         <div class="clear"></div>
@@ -104,6 +105,7 @@
         <div class="footer">
             <?=$this->getChildHtml('footer')?>
         </div>
+    </td></tr></table>
 <?//=$this->getChildHtml('profiler')?>
 <div id="loading-process" style="display:none"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..." align="absmiddle" height="16"/></div>
 </body>
