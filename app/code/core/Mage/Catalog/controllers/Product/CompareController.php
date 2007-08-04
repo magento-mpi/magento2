@@ -70,7 +70,7 @@
 		if($this->getRequest()->getParam('ajax')) {
 			$this->getResponse()->setBody('ok');
 		} else {
-			$this->_redirect('adminhtml/catalog');
+			$this->_redirect('catalog/product_compare');
 		}
 	}
 	 		

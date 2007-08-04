@@ -36,42 +36,9 @@
     <?=$this->getChildHtml('head')?>
 </head>
 
-<body>
-    <!-- [start] container -->
-    <div class="container">
-    
-        <!-- [start] header -->
-        <div class="header">
-            <?=$this->getChildHtml('header')?>
-        </div>
-        <!-- [end] header -->
-
-        <!-- [start] middle -->
-        <?=$this->getChildHtml('store')?>
-
-			<div id="main" class="col-2-right-layout">
-
-            <!-- [start] center -->
-				<div class="col-main">
-
+<body class="page-popup">
                 <!-- [start] content -->
                     <?=$this->getChildHtml('content')?>
                 <!-- [end] content -->
-
-				</div>
-            <!-- [end] center -->
-
-			</div>
-        <!-- [end] middle -->
-
-        <!-- [start] footer -->
-        <div class="footer">
-            <?=$this->getChildHtml('footer')?>
-        </div>
-        <!-- [end] footer -->
-
-    </div>
-    <!-- [end] container -->
-
     </body>
 </html>
