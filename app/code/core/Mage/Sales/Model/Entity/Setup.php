@@ -7,6 +7,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
         return array(
             'quote'=>array(
                 'table'=>'sales/quote',
+                'increment_model'=>'eav/entity_increment_alphanum',
+                'increment_per_store'=>true,
                 'attributes' => array(
                     'customer_id' => array('type'=>'int', 'visible'=>false),
                     'remote_ip' => array('visible'=>false),
@@ -63,7 +65,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),             
             'quote_address_rate' => array(
-                'table'=>'sales/quote',
+                'table'=>'sales/quote_rate',
                 'attributes' => array(
                     'code' => array(),
                     'carrier' => array(),
@@ -109,6 +111,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             
             'order' => array(
                 'table'=>'sales/order',
+                'increment_model'=>'eav/entity_increment_numeric',
+                'increment_per_store'=>true,
                 'attributes' => array(
                     'real_order_id' => array(),
                     'customer_id' => array('type'=>'int'),
@@ -220,6 +224,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             
             'invoice' => array(
                 'table'=>'sales/invoice',
+                'increment_model'=>'eav/entity_increment_numeric',
+                'increment_per_store'=>true,
                 'attributes' => array(
                     'customer_id' => array('type'=>'int'),
                     'order_id' => array('type'=>'int'),

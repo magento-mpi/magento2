@@ -9,7 +9,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
         $this->_init('sales/quote_item');
     }
     
-    public function setQuote(Mage_Core_Model_Quote $quote)
+    public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -23,7 +23,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
     public function importCatalogProduct(Mage_Catalog_Model_Product $product)
     {
         $this
-            ->setProductId($product->getProductId())
+            ->setProductId($product->getId())
             ->setSku($product->getSku())
             ->setImage($product->getImage())
             ->setName($product->getName())
@@ -32,5 +32,13 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
             ->setPrice($product->getFinalPrice())
         ;
         return $this;
+    }
+    
+    protected function _beforeSave()
+    {
+        if ($this->getQuote()) {
+            $this->setParentId($this->getQuote()->getId());
+        }
+        parent::_beforeSave();
     }
 }

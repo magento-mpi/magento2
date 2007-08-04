@@ -164,7 +164,7 @@
 		<span class="special-price"><span class="label">Special Price:</span> <?=$product->getFormatedPrice()?></span>
 	</p>
     <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" name="addtocart">
-    <input type="hidden" name="product_id" value="<?=$product->getProductId()?>">
+    <input type="hidden" name="product" value="<?=$product->getId()?>">
 	<fieldset class="add-to-box">
 		<legend>Add items to cart </legend>
 		<table cellspacing="0">

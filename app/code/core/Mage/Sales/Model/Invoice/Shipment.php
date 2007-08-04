@@ -19,4 +19,12 @@ class Mage_Sales_Model_Invoice_Shipment extends Mage_Core_Model_Abstract
     {
         return $this->_invoice;
     }
+    
+    protected function _beforeSave()
+    {
+        if ($this->getInvoice()) {
+            $this->setParentId($this->getInvoice()->getId());
+        }
+        parent::_beforeSave();
+    }
 }

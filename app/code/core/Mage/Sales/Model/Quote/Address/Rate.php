@@ -9,7 +9,7 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
         $this->_init('sales/quote_address_rate');
     }
     
-    public function setAddress(Mage_Core_Model_Quote_Address $address)
+    public function setAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $this->_address = $address;
         return $this;
@@ -24,12 +24,12 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
     {
         if ($rate instanceof Mage_Sales_Model_Shipping_Rate_Result_Error) {
             $this
+                ->setCode($rate->getCarrier().'_error')
                 ->setCarrier($rate->getCarrier())
                 ->setErrorMessage($rate->getErrorMessage())
             ;
-        } else {
+        } elseif ($rate instanceof Mage_Sales_Model_Shipping_Rate_Result_Method) {
             $this
-                ->setParentId($this->getId())
                 ->setCode($rate->getCarrier().'_'.$rate->getMethod())
                 ->setCarrier($rate->getCarrier())
                 ->setMethod($rate->getMethod())
@@ -38,5 +38,13 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
             ;
         }
         return $this;
+    }
+    
+    protected function _beforeSave()
+    {
+        if ($this->getAddress()) {
+            $this->setParentId($this->getAddress()->getId());
+        }
+        parent::_beforeSave();
     }
 }

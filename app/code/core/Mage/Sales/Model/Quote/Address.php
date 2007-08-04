@@ -11,7 +11,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this->_init('sales/quote_address');
     }
     
-    public function setQuote(Mage_Core_Model_Quote $quote)
+    public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -22,6 +22,22 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this->_quote;
     }
     
+/*********************** ADDRESS ***************************/
+
+    protected function _beforeSave()
+    {
+        if ($this->getQuote()) {
+            $this->setParentId($this->getQuote()->getId());
+        }
+        parent::_beforeSave();
+    }
+    
+    public function _afterSave()
+    {
+        $this->getShippingRatesCollection()->save();
+        parent::_afterSave();
+    }
+
     public function collectTotals()
     {
         $this->getResource()->collectTotals($this);
@@ -54,12 +70,20 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this;
     }
     
+    public function toArray(array $arrAttributes = array())
+    {
+        $arr = parent::toArray();
+        $arr['rates'] = $this->getShippingRatesCollection()->toArray($arrAttributes);
+        return $arr;
+    }
+    
 /*********************** SHIPPING RATES ***************************/
 
     public function getShippingRatesCollection()
     {
         if (empty($this->_rates)) {
             $this->_rates = Mage::getModel('sales_entity/quote_address_rate_collection')
+                ->addAttributeToSelect('*')
                 ->setAddressFilter($this->getId())
                 ->load();
         }

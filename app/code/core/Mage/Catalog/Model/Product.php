@@ -154,6 +154,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return Mage::getSingleton('core/store')->formatPrice($this->getPrice());
     }
     
+    public function getFinalPrice()
+    {
+        $price = $this->getPrice();
+        $tierPrice = $this->getTierPrice();
+        $finalPrice = min($price, $tierPrice);
+        return $finalPrice;
+    }
+    
     public function getLinkedProducts($linkType)
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {

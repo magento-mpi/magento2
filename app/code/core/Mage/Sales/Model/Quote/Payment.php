@@ -9,7 +9,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
         $this->_init('sales/quote_payment');
     }
     
-    public function setQuote(Mage_Core_Model_Quote $quote)
+    public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -32,5 +32,13 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear())
         ;
+    }
+    
+    protected function _beforeSave()
+    {
+        if ($this->getQuote()) {
+            $this->setParentId($this->getQuote()->getId());
+        }
+        parent::_beforeSave();
     }
 }

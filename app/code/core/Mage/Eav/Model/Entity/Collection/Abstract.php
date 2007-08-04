@@ -551,7 +551,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if (!$this->_read) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
-
+        
         $this->_loadEntities($printQuery, $logQuery);
         $this->_loadAttributes($printQuery, $logQuery);
 
@@ -1059,5 +1059,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     public function count()
     {
         return count($this->_items);
+    }
+    
+    public function toArray(array $arrAttributes = array())
+    {
+        $arr = array();
+        foreach ($this->_items as $k=>$item) {
+            $arr[$k] = $item->toArray($arrAttributes);
+        }
+        return $arr;
     }
 }

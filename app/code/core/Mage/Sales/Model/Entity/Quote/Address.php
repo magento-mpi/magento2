@@ -41,6 +41,7 @@ class Mage_Sales_Model_Entity_Quote_Address extends Mage_Eav_Model_Entity_Abstra
                 $totals = array_merge_recursive($totals, $backend->getTotals($address));
             }
         }
+
         return $totals;
     }
 }

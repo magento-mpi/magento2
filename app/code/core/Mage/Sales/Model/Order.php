@@ -127,7 +127,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->_addresses = Mage::getModel('sales_entity/order_address_collection');
             
             if ($this->getId()) {
-                $this->setOrderFilter($this->getId())->load();
+                $this->_addresses
+                    ->addAttributeToSelect('*')
+                    ->setOrderFilter($this->getId())
+                    ->load();
             }
         }
         return $this->_addresses;
@@ -200,7 +203,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->_items = Mage::getModel('sales_entity/order_item_collection');
             
             if ($this->getId()) {
-                $this->setOrderFilter($this->getId())->load();
+                $this->_items
+                    ->addAttributeToSelect('*')
+                    ->setOrderFilter($this->getId())
+                    ->load();
             }
         }
         return $this->_items;
@@ -244,7 +250,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->_payments = Mage::getModel('sales_entity/order_payment_collection');
             
             if ($this->getId()) {
-                $this->setOrderFilter($this->getId())->load();
+                $this->_payments
+                    ->addAttributeToSelect('*')
+                    ->setOrderFilter($this->getId())
+                    ->load();
             }
         }
         return $this->_payments;
@@ -296,7 +305,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->_statusHistory = Mage::getModel('sales_entity/order_status_collection');
             
             if ($this->getId()) {
-                $this->setOrderFilter($this->getId())->load();
+                $this->_statusHistory
+                    ->addAttributeToSelect('*')
+                    ->setOrderFilter($this->getId())
+                    ->load();
             }
         }
         return $this->_statusHistory;

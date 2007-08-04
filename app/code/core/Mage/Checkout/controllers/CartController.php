@@ -8,71 +8,44 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         return $this;
     }
     
-    function indexAction()
+    public function indexAction()
     {
         $this->loadLayout();
         $data = array();
         
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-        
-        if (!$quote->hasItems()) {
-            $cartView = 'checkout/cart/noItems.phtml';
-        } else {
-            $cartView = 'checkout/cart/view.phtml';
-            $itemsFilter = new Varien_Filter_Object_Grid();
-            $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-            $itemsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
-            $itemsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'row_total');
-            $cartData['items'] = $itemsFilter->filter($quote->getItems());
-
-            $totalsFilter = new Varien_Filter_Array_Grid();
-            $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
-            $cartData['totals'] = $totalsFilter->filter($quote->getTotals());
-            
-            $alnumFilter = new Zend_Filter_Alnum();
-            $cartData['estimate_postcode'] = $alnumFilter->filter($quote->getEstimatePostcode());
-            $cartData['coupon_code'] = $alnumFilter->filter($quote->getCouponCode());
-            $cartData['giftcert_code'] = $alnumFilter->filter($quote->getGiftcertCode());
-            
-            $estimateFilter = new Varien_Filter_Object_Grid();
-            $estimateFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'amount');
-            $cartData['estimate_methods'] = $estimateFilter->filter($quote->getEntitiesByType('shipping'));
-            $cartData['estimate_method'] = $quote->getShippingMethod();
-
-            $data['cart'] = $cartData;
-        }        
-        
-        $block = $this->getLayout()->createBlock('core/template', 'cart.view')
-            ->setTemplate($cartView)
-            ->assign('data', $data)
-            ->assign('wishlistActive', Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive'))
-            ->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
-            
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('checkout/cart', 'cart.view')
+        );
         
         $this->renderLayout();
     }
     
-    function addAction()
+    public function addAction()
     {
         $intFilter = new Zend_Filter_Int();
-        $productId = $intFilter->filter($this->getRequest()->getPost('product_id'));
-        $qty = $intFilter->filter($this->getRequest()->getPost('qty', 1));
+        $productId = $intFilter->filter($this->getRequest()->getParam('product'));
+        
+        if (empty($productId)) {
+            $this->_backToCart();
+            return;
+        }
+        
+        $qty = $intFilter->filter($this->getRequest()->getParam('qty', 1));
 
         $quote = Mage::getSingleton('checkout/session')->getQuote();
 
         $product = Mage::getModel('catalog/product')->load($productId);
-        $quote->addProduct($product->setQty($qty));
+        if ($product->getId()) {
+            $quote->addCatalogProduct($product->setQty($qty));
+            $quote->save();
+        }
         
-        $quoteSession = Mage::getSingleton('checkout/session');
-        $quote->save();
-        
-        Mage::getSingleton('checkout/session')->setQuoteId($quote->getQuoteId());
-        
+        Mage::getSingleton('checkout/session')->setQuoteId($quote->getId());
+                
         $this->_backToCart();
     }
     
-    function updatePostAction()
+    public function updatePostAction()
     {
         $cart = $this->getRequest()->getPost('cart');
         
@@ -83,12 +56,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_backToCart();
     }
     
-    function cleanAction()
+    public function cleanAction()
     {
         
     }
     
-    function estimatePostAction()
+    public function estimatePostAction()
     {
         $postcode = $this->getRequest()->getPost('estimate_postcode');
         $quote = Mage::getSingleton('checkout/session')->getQuote();
@@ -99,7 +72,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_backToCart();
     }
     
-    function estimateUpdatePostAction()
+    public function estimateUpdatePostAction()
     {
         $code = $this->getRequest()->getPost('estimate_method');
         Mage::getSingleton('checkout/session')->getQuote()->setShippingMethod($code)->save();
@@ -107,7 +80,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_backToCart();
     }
     
-    function couponPostAction()
+    public function couponPostAction()
     {
         if ($this->getRequest()->getPost('do')==__('Clear')) {
             $couponCode = '';

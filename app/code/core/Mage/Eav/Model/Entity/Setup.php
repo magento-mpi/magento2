@@ -11,7 +11,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             
             $conn->insert($this->getTable('eav/entity_type'), array(
                 'entity_type_code'=>$entityName, 
-                'entity_table'=>$entity['table'], 
+                'entity_table'=>$entity['table'],
+                'increment_model'=>isset($entity['increment_model']) ? $entity['increment_model'] : '',
+                'increment_per_store'=>isset($entity['increment_per_store']) ? $entity['increment_per_store'] : '',
                 'is_data_sharing'=>1,
             ));
             $entity['entity_type_id'] = $conn->lastInsertId();
@@ -22,6 +24,10 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 'sort_order'=>1,
             ));
             $entity['attribute_set_id'] = $conn->lastInsertId();
+            
+            $conn->update($this->getTable('eav/entity_type'), array(
+                'default_attribute_set_id'=>$entity['attribute_set_id']
+            ), $conn->quoteInto('entity_type_id=?', $entity['entity_type_id']));
             
             $conn->insert($this->getTable('eav/attribute_group'), array(
                 'attribute_set_id'=>$entity['attribute_set_id'],
@@ -42,6 +48,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     'attribute_code'=>$attrCode,
                     'backend_model'=>$backendPrefix.(isset($attr['backend']) ? $attr['backend'] : ''),
                     'backend_type'=>isset($attr['type']) ? $attr['type'] : 'varchar',
+                    'backend_table'=>isset($attr['table']) ? $attr['table'] : '',
                     'frontend_model'=>$frontendPrefix.(isset($attr['frontend']) ? $attr['frontend'] : ''),
                     'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
                     'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',

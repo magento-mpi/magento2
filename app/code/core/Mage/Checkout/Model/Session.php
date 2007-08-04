@@ -25,6 +25,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 $quote->load($this->getQuoteId());
                 if (!$quote->getId()) {
                     $this->setQuoteId(null);
+                    $quote->initNewQuote();
                 }
             }
             if (!$this->getQuoteId()) {
@@ -43,38 +44,25 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         return $this->_quote;
     }
 
-    public function getProcessedQuote()
-    {
-        if (!$this->_processedQuote) {
-            $this->_processedQuote = Mage::getModel('sales/quote_processed');
-            if ($this->getQuote()->getProcessedQuoteId()) {
-                $this->_processedQuote->load($this->getQuote()->getProcessedQuoteId());
-            } else {
-                $this->_processedQuote->importQuote($this->getQuote())->save();
-            }
-        }
-        return $this->_processedQuote;
-    }
-
     public function loadCustomerQuote()
     {
         // coment until quote fix
-        /*$customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         $customerQuote = Mage::getModel('sales/quote');
         if ($customerQuote->loadByCustomerId($customerId)) {
             if ($this->getQuoteId()) {
-                foreach ($this->getQuote()->getEntitiesByType('item') as $item) {
-                    $item->setEntityId(null);
-                    $customerQuote->addProduct($item);
+                foreach ($this->getQuote()->getAllItems() as $item) {
+                    $item->setParentId(null);
+                    $customerQuote->addItem($item);
                 }
                 $customerQuote->save();
             }
-            $this->setQuoteId($customerQuote->getQuoteId());
+            $this->setQuoteId($customerQuote->getId());
             if ($this->_quote) {
                 $this->_quote->delete();
             }
             $this->_quote = $customerQuote;
-        }*/
+        }
         return $this;
     }
 

@@ -94,6 +94,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected $_valueEntityIdField;
 
     protected $_valueTablePrefix;
+    
+    protected $_isPartialLoad = false;
+    
+    protected $_isPartialSave = false;
 
     /**
      * Success/error messages
@@ -134,6 +138,16 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function getWriteConnection()
     {
         return $this->_write;
+    }
+    
+    /**
+     * For compatibility with Mage_Core_Model_Abstract
+     *
+     * @return string
+     */
+    public function getIdFieldName()
+    {
+        return $this->_entityIdField;
     }
 
     /**
@@ -445,6 +459,24 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         return $this;
     }
+    
+    public function isPartialLoad($flag=null)
+    {
+        $result = $this->_isPartialLoad;
+        if (!is_null($flag)) {
+            $this->_isPartialLoad = $flag;
+        }
+        return $result;
+    }    
+    
+    public function isPartialSave($flag=null)
+    {
+        $result = $this->_isPartialSave;
+        if (!is_null($flag)) {
+            $this->_isPartialSave = $flag;
+        }
+        return $result;
+    }
 
     /**
      * Retrieve configuration for all attributes
@@ -458,13 +490,17 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $object = $this->getObject();
         }
         */
+        $attributes = $this->getConfig()->getAttributeCollection();
+        
         if ($object && $object->getAttributeSetId()) {
             $setId = $object->getAttributeSetId();
         } else {
             $setId = $this->getConfig()->getDefaultAttributeSetId();
         }
-        $attributes = $this->getConfig()->getAttributeCollection()
-            ->setAttributeSetFilter($setId)->load();
+        if ($setId) {
+            $attributes->setAttributeSetFilter($setId);
+        }
+        $attributes->load();
 
         foreach ($attributes->getItems() as $attribute) {
             $this->getAttribute($attribute);
@@ -646,10 +682,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      *
      * @param Varien_Object $object
      * @param integer $entityId
-     * @param array $attributes
+     * @param array|null $attributes
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function load($object, $entityId, array $attributes=array())
+    public function load($object, $entityId, $attributes=array())
     {
         if (!$this->_read) {
             throw Mage::exception('Mage_Eav', 'No connection available');
@@ -710,13 +746,17 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      * @param Varien_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function save(Varien_Object $object, $loadAllAttributes=true)
+    public function save(Varien_Object $object)
     {
         if (!$this->_write) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
         
-        if ($loadAllAttributes) {
+        if ($object->isDeleted()) {
+            return $this->delete($object);
+        }
+        
+        if (!$this->isPartialSave()) {
             $this->loadAllAttributes();
         }
 
@@ -830,6 +870,21 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         $this->_write->commit();
 
+        return $this;
+    }
+    
+    public function setNewIncrementId(Varien_Object $object)
+    {
+        if ($object->getIncrementId()) {
+            return $this;
+        }
+
+        $incrementId = $this->getConfig()->fetchNewIncrementId($object->getStoreId());
+        
+        if (false!==$incrementId) {
+            $object->setIncrementId($incrementId);
+        }
+        
         return $this;
     }
 
@@ -1048,7 +1103,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     protected function _afterSetConfig()
     {
-        $defaultAttributes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id');
+        $defaultAttributes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
         if ($this->getConfig()->getIsDataSharing()) {
             $defaultAttributes[] = 'store_id';
         }

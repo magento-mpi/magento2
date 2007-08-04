@@ -4,7 +4,7 @@
     <table cellspacing="0" class="data-table">
         <tr>
             <th class="align-left">Product Name</th>
-<?if(!empty($wishlistActive) && $customerIsLogin):?>            
+<?if($this->isWishlistActive()):?>            
             <th style="width:60px;" class="align-center">Wishlist</th>
 <?endif?>
             <th style="width:50px;" class="align-center">Remove</th>
@@ -12,27 +12,27 @@
             <th style="width:40px;" class="align-center">Qty</th>
             <th style="width:60px;" class="align-center">Total</th>
         </tr>
-        <?foreach($data['cart']['items'] as $item):?>
+        <?foreach($this->getItems() as $item):?>
         <tr>
-            <td><a href="<?=$this->getUrl('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
-<?if(!empty($wishlistActive) && $customerIsLogin):?>            
-            <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][wishlist]"/></td>
+            <td><a href="<?=$this->getUrl('catalog/product/view/id/'.$item->getProductId())?>"><?=$item->getName()?></a></td>
+<?if($this->isWishlistActive()):?>            
+            <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][wishlist]"/></td>
 <?endif?>
-            <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item['entity_id']?>][remove]"/></td>
-            <td class="align-center"><?=$item['price']?></td>
-            <td class="align-center"><input name="cart[<?=$item['entity_id']?>][qty]" value="<?=$item['qty']?>" size="2" class="input-text qty"/></td>
-            <td class="align-right"><?=$item['row_total']?></td>
+            <td class="align-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][remove]"/></td>
+            <td class="align-center"><?=$item->getPrice()?></td>
+            <td class="align-center"><input name="cart[<?=$item->getId()?>][qty]" value="<?=$item->getQty()?>" size="2" class="input-text qty"/></td>
+            <td class="align-right"><?=$item->getRowTotal()?></td>
         </tr>
         <?endforeach?>
 				<tfoot>
-        <?foreach($data['cart']['totals'] as $total):?>
+        <?foreach($this->getTotals() as $total):?>
         <tr>
-            <td colspan=<?if(!empty($wishlistActive) && $customerIsLogin):?>5<?else:?>4<?endif?> class="align-right"><?=$total['title']?>:</td>
+            <td colspan=<?if($this->isWishlistActive()):?>5<?else:?>4<?endif?> class="align-right"><?=$total['title']?>:</td>
 						<td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
         </tr>
         <?endforeach?>
 				<tr>
-					<td colspan=<?if(!empty($wishlistActive) && $customerIsLogin):?>6<?else:?>5<?endif?> class="align-right">
+					<td colspan=<?if($this->isWishlistActive()):?>6<?else:?>5<?endif?> class="align-right">
 						<p><input type="submit" value="Update Cart" class="input-button" name="do"/></p></td>
 				</tfoot>
     </table>
@@ -42,26 +42,25 @@
 	<h2>Estimate</h2>
 	<fieldset>
 	<form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
-			<p><label for="">Zip Code:</label><br/>
-			<input class="input-text" name="estimate_postcode" value="<?=$data['cart']['estimate_postcode']?>" style="width:6em;"/> <input type="submit" value="Estimate" class="input-button" 
-			name="do"/></p>
+			<p><label for="estimate_postcode">Zip Code:</label><br/>
+			<input class="input-text" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>" style="width:6em;"/> <input type="submit" value="Estimate" class="input-button" name="do"/></p>
 	</form>
-	<?if (!empty($data['cart']['estimate_methods'])):?>
+	<?if ($this->getEstimateRates()):?>
 			<form action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>" method="post">
 					<table cellspacing="1" width="100%" style="margin-bottom:7px;">
-					<?foreach ($data['cart']['estimate_methods'] as $method):?>
-						 <?if (isset($method['error_message'])):?>
+					<?foreach ($this->getEstimateRates() as $rate):?>
+						 <?if ($rate->getErrorMessage()):?>
 						<tr>
 							<td colspan="2">
-								<strong class="error-text"><?=$method['vendor']?>: <?=$method['error_message']?></strong>
+								<strong class="error-text"><?=$rate->getCarrier()?>: <?=$rate->getErrorMessage()?></strong>
 							</td>
 						</tr>
 								 <?else:?>
 						<tr>
-							<td style="width:15px;"><input id="estimate_method_<?=$method['code']?>" name="estimate_method" type="radio" value="<?=$method['code']?>" 
-							<?if($method['code']===$data['cart']['estimate_method'])echo"checked"?> /></td>
-							<td><label for="estimate_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
-								<strong><?=$method['amount']?></strong></td>
+							<td style="width:15px;"><input id="estimate_method_<?=$rate->getCode()?>" name="estimate_method" type="radio" value="<?=$rate->getCode()?>" 
+							<?if($rate->getCode()===$this->getEstimateMethod())echo"checked"?> /></td>
+							<td><label for="estimate_method_<?=$rate->getCode()?>"><?=$rate->getCarrier()?>: <?=$rate->getMethodDescription()?></label>:
+								<strong><?=$rate->getPrice()?></strong></td>
 						</tr>
 						<?endif?>
 						<?endforeach?>
@@ -76,14 +75,14 @@
 	<form action="<?=$this->getUrl('checkout/cart/couponPost')?>" method="post">
 		<fieldset>
 			<p><label for="coupon_code">Coupon code:</label><br />
-			<input class="input-text" id="coupon_code" name="coupon_code" value="<?=$data['cart']['coupon_code']?>" name="do"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" 
+			<input class="input-text" id="coupon_code" name="coupon_code" value="<?=$this->getCouponCode()?>" name="do"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" 
 			class="input-button-sub" name="do"/></p>
 		</fieldset>
 	</form>
 	<form action="<?=$this->getUrl('checkout/cart/giftCertPost')?>" method="post">
 		<fieldset>
 			<p><label for="giftcert_code">Gift certificate:</label><br />
-			<input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$data['cart']['giftcert_code']?>"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" class="input-button-sub" name="do"/></p>
+			<input class="input-text" id="giftcert_code" name="giftcert_code" value="<?=$this->getGiftcertCode()?>"/><br/><input type="submit" value="Apply" class="input-button" name="do"/> <input type="submit" value="Clear" class="input-button-sub" name="do"/></p>
 		</fieldset>
 	</form>
 </div>
