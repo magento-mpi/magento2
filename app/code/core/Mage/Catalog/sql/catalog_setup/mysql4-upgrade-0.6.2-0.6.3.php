@@ -1,7 +1,7 @@
 <?php
 
-//$conn->query("DROP TABLE `catalog_category_entity_gallery`");
-   /*
+$conn->query("DROP TABLE `catalog_category_entity_gallery`");
+
 $conn->query("
 
     CREATE TABLE `catalog_product_entity_gallery` (
@@ -23,7 +23,6 @@ $conn->query("
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 ");
-      */
 
 $sql = $conn->select()
     ->from('eav_entity_type', array('entity_type_id'))
