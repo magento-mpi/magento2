@@ -11,12 +11,12 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_Element_Abstract
 {
-    public function __construct($data) 
+    public function __construct($data)
     {
         parent::__construct($data);
         $this->setType('file');
     }
-    
+
 /*
     protected function _getStructuredArray($associativeArray)
     {
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
         }
     }
 */
-    
+
     public function getElementHtml()
     {
         $html = '<table id="image_list" border="0" cellspacing="3" cellpadding="0" width="80%">';
@@ -43,32 +43,21 @@ class Mage_Adminhtml_Block_Catalog_Category_Form_Image extends Varien_Data_Form_
 //        if (is_array($images)) {
             foreach ((array)$this->getValue() as $image) {
                 $html .= '<tr>';
-                for ($type=0; $type<3; $type++) {
-                    switch ($type) {
-                    case 0:
-                        $folder = "400";
-                        break;
-                    case 1:
-                        $folder = "200";
-                        break;
-                    case 2:
-                        $folder = "100";
-                        break;
-                    }
-                    $url = Mage::getSingleton('core/store')->getConfig('web/url/upload').$folder.'/'.$image['image'];
+                foreach ($this->getValue()->getImageTypes() as $type) {
+                    $url = $image->setType($type)->getSourceUrl();
                     $html .= '<td align="center" style="vertical-align:bottom;">';
-                    $html .= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image_'.$type.'_'.$image['id'].'\');return false;"><img
-                        src="'.$url.'" alt="'.$image['image'].'" height="25" align="absmiddle" class="small-image-preview"></a><br/>';
-                    $html .= '<input type="file" name="'.$this->getName().'_'.$type.'['.$image['id'].']" size="1"></td>';
-                    $html .= '<div id="'.$this->getHtmlId().'_image_'.$type.'_'.$image['id'].'" style="display:none" class="image-preview"><img src="'.$url.'" alt="'.$image['image'].'"></div>';
+                    $html .= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'\');return false;"><img
+                        src="'.$url.'" alt="'.$image->getValue().'" height="25" align="absmiddle" class="small-image-preview"></a><br/>';
+                    $html .= '<input type="file" name="'.$this->getName().'_'.$type.'['.$image->getValueId().']" size="1"></td>';
+                    $html .= '<div id="'.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'" style="display:none" class="image-preview"><img src="'.$url.'" alt="'.$image->getValue().'"></div>';
                 }
-                $html .= '<td align="center" style="vertical-align:bottom;"><input type="input" name="'.parent::getName().'[position]['.$image['id'].']" value="'.$image['position'].'" id="'.$this->getHtmlId().'_position_'.$image['id'].'" size="3"/></td>';
-                $html .= '<td align="center" style="vertical-align:bottom;"><input type="checkbox" name="'.parent::getName().'[delete]['.$image['id'].']" value="'.$image['id'].'" id="'.$this->getHtmlId().'_delete_'.$image['id'].'"/></td>';
+                $html .= '<td align="center" style="vertical-align:bottom;"><input type="input" name="'.parent::getName().'[position]['.$image->getValueId().']" value="'.$image->getPosition().'" id="'.$this->getHtmlId().'_position_'.$image->getValueId().'" size="3"/></td>';
+                $html .= '<td align="center" style="vertical-align:bottom;"><input type="checkbox" name="'.parent::getName().'[delete]['.$image->getValueId().']" value="'.$image->getValueId().'" id="'.$this->getHtmlId().'_delete_'.$image->getValueId().'"/></td>';
                 $html .= '</tr>';
             }
 
 //        }
-             
+
         $html .= '<tr>';
 //          $html .= '<td valign="middle" align="left" colspan="3"><input id="'.$this->getHtmlId().'" name="'.$this->getName().'" value="" '.$this->serialize($this->getHtmlAttributes()).' size="20"/></td>';
         $html .= '<td valign="middle" align="left" colspan="3"><a href="#" onclick="addNewImg();return false;">Add New Image</a></td>';

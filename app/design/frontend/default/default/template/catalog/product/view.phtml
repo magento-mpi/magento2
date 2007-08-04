@@ -27,7 +27,7 @@
         var imageV = 1;
         var showFull = false;
         var selects = document.getElementsByTagName('select');
-        
+
         function toggleFull(){
             showFull = !showFull;
             //TODO: hide selects for IE only
@@ -37,25 +37,25 @@
             $('track1').style.visibility = showFull ? 'hidden' : 'visible';
             image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
         }
-        
+
         function scaleIt(v) {
           var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
           var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
 
           imageV = floorSize+(v*(ceilingSize-floorSize));
-          
+
           image.element.style.width = (imageV*origWidth)+'px';
-          
+
           imageX = origWidth*(1-imageV)/2-centerX*imageV;
           imageY = origHeight*(1-imageV)/2-centerY*imageV;
           containIt(imageX, imageY, image);
-          
+
           image.element.style.left = imageX+'px';
           image.element.style.top = imageY+'px';
         }
-        
+
         function containIt(x,y,draggable) {
-            var pDim = Element.getDimensions(draggable.element.parentNode); 
+            var pDim = Element.getDimensions(draggable.element.parentNode);
             var eDim = Element.getDimensions(draggable.element);
             var xMin = 0, xMax = pDim.width-eDim.width;
             var yMin = 0, yMax = pDim.height-eDim.height;
@@ -71,10 +71,10 @@
 
 	<h4>More Views</h4>
 	<ul class="more-views">
-		<li><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
-		<li><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
-		<li><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
-		<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+        <?foreach ($this->getGalleryImages() as $_image):?>
+    		<li><a href="<?=$_image->setType(0)->getSourceUrl();?>" target="_blank"><img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/></a></li>
+		<?endforeach;?>
+      	<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
 	</ul>
 </div>
 <div class="product-shop">
