@@ -17,8 +17,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `shiptable_data`;
 
-DROP TABLE IF EXISTS `shipping_data`;
-CREATE TABLE `shiptable_data` (
+DROP TABLE IF EXISTS `shipping_table`;
+CREATE TABLE `shipping_table` (
   `pk` int(10) unsigned NOT NULL auto_increment,
   `dest_country_id` int(10) NOT NULL default '0',
   `dest_region_id` int(10) NOT NULL default '0',
@@ -33,7 +33,7 @@ CREATE TABLE `shiptable_data` (
 
 /*Data for the table `shiptable_data` */
 
-insert into `shipping_data` (`pk`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`,`price`,`cost`) values (1,223,1,'','package_weight',100.0000,10.0000,5.0000),(2,223,1,'','package_weight',1000.0000,20.0000,10.0000);
+insert into `shipping_table` (`pk`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`,`price`,`cost`) values (1,223,1,'','package_weight',100.0000,10.0000,5.0000),(2,223,1,'','package_weight',1000.0000,20.0000,10.0000);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

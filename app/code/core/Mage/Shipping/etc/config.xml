@@ -17,9 +17,9 @@
             <class>Mage_Shipping_Model_Mysql4</class>
 
             <entities>
-               <shipping>
-                  <table>shipping_data</table>
-               </shipping>
+               <shiptable>
+                  <table>shipping_table</table>
+               </shiptable>
             </entities>
          </shipping_mysql4>
       </models>
@@ -50,14 +50,52 @@
       <sales>
          <shipping>
             <carriers>
-               <shipping>
+               <table>
                   <active>true</active>
 
                   <class>shipping/table</class>
 
                   <title>Table rate</title>
-               </shipping>
+               </table>
+              <pickup>
+                <active>true</active>
+                <class>sales/shipping_carrier_pickup</class>
+                <title>Pickup</title>
+              </pickup>
             </carriers>
+    
+            <rule>
+              <conditions>
+                <dest_country>
+                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Country</class>
+                </dest_country>
+                <dest_region>
+                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Region</class>
+                </dest_region>
+                <dest_zip>
+                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Zip</class>
+                </dest_zip>
+                <package_weight>
+                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Package_Weight</class>
+                </package_weight>
+                <order_subtotal>
+                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Subtotal</class>
+                </order_subtotal>
+                <order_totalqty>
+                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Totalqty</class>
+                </order_totalqty>
+              </conditions>
+              <actions>
+                <carrier>
+                  <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
+                </carrier>
+                <method>
+                  <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
+                </method>
+              </actions>
+            </rule>
+
+
          </shipping>
       </sales>
    </global>

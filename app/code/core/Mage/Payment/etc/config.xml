@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Payment>
+         <version>0.1.0</version>
+      </Mage_Payment>
+   </modules>
+
+   <global>
+      <models>
+         <payment>
+            <class>Mage_Payment_Model</class>
+         </payment>
+      </models>
+
+      <payment>
+        <methods>
+          <checkmo>
+            <class>Mage_Sales_Model_Payment_Checkmo</class>
+            <orderStatus>pending</orderStatus>
+          </checkmo>
+          <ccsave>
+            <class>Mage_Sales_Model_Payment_Ccsave</class>
+            <orderStatus>pending</orderStatus>
+          </ccsave>
+          <purchaseorder>
+            <class>Mage_Sales_Model_Payment_Purchaseorder</class>
+            <orderStatus>pending</orderStatus>
+          </purchaseorder>
+        </methods>
+      </payment>
+   </global>
+
+</config>
