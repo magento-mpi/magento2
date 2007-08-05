@@ -349,17 +349,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $payment;
     }
     
+/*********************** TOTALS ***************************/
     public function collectTotals()
     {
-
         foreach ($this->getAllShippingAddresses() as $address) {
             $address->collectTotals();
         }
         return $this;
     }
 
-/*********************** TOTALS ***************************/
-    
     public function getTotals()
     {
         return $this->getShippingAddress()->getTotals();

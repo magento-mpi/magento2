@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Mage_Sales>
-      <version>0.5.4</version>
+      <version>0.5.5</version>
       <depends>
         <Mage_Catalog />
         <Mage_Customer />
@@ -21,9 +21,9 @@
           <quote>
             <table>sales_quote_entity</table>
           </quote>
-          <quote_rate>
-            <table>sales_quote_rate</table>
-          </quote_rate>
+          <quote_temp>
+            <table>sales_quote_temp</table>
+          </quote_temp>
           <order>
             <table>sales_order_entity</table>
           </order>
@@ -32,20 +32,6 @@
           </invoice>
         </entities>
       </sales_entity>
-      <sales_mysql4>
-        <class>Mage_Sales_Model_Mysql4</class>
-        <entities>
-          <discount_coupon>
-            <table>sales_discount_coupon</table>
-          </discount_coupon>
-          <giftcert>
-            <table>sales_giftcert</table>
-          </giftcert>
-          <counter>
-            <table>sales_counter</table>
-          </counter>
-        </entities>
-      </sales_mysql4>
     </models>
     <resources>
       <sales_setup>
@@ -119,30 +105,6 @@
           </actions>
         </rule>
       </quote>
-      <order>
-        <statuses>
-          <pending>
-            <title>Pending</title>
-          </pending>
-          <backordered>
-            <title>Backordered</title>
-          </backordered>
-          <part_back>
-            <title>Partially Backordered</title>
-          </part_back>
-          <cancelled>
-            <title>Cancelled</title>
-          </cancelled>
-          <void>
-            <title>Void</title>
-          </void>
-          <shipped>
-            <title>Shipped</title>
-          </shipped>
-        </statuses>
-      </order>
-      <invoice>
-      </invoice>
     </sales>
   </global>
 </config>

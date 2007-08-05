@@ -59,19 +59,31 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
 /*********************** ITEMS ***************************/
 
+    public function getItemsCollection()
+    {
+        if (empty($this->_items)) {
+            $this->_items = Mage::getResourceModel('sales/quote_address_item_collection');
+            
+            if ($this->getId()) {
+                $this->_items
+                    ->addAttributeToSelect('*')
+                    ->setAddressFilter($this->getId())
+                    ->load();
+            }
+        }
+        return $this->_items;
+    }
+    
     public function getAllItems()
     {
         $items = array();
-        if ($this->getQuote()) {
-            foreach ($this->getQuote()->getItemsCollection() as $item) {
-                if (!$item->isDeleted() 
-                    && (!$item->getQuoteAddressId() || $item->getQuoteAddressId()==$this->getId())) {
-                    $items[] = $item;
-                }
+        foreach ($this->getItemsCollection() as $item) {
+            if (!$item->isDeleted()) {
+                $items[] =  $item;
             }
         }
         return $items;
-    }
+    } 
 
 /*********************** SHIPPING RATES ***************************/
 

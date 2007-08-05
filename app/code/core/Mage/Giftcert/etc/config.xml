@@ -24,7 +24,6 @@
       <giftcert_setup>
         <setup>
           <module>Mage_Giftcert</module>
-          <class>Mage_Giftcert_Model_Entity_Setup</class>
         </setup>
         <connection>
           <use>core_setup</use>
@@ -41,4 +40,5 @@
         </connection>
       </giftcert_read>
     </resources>
+  </global>
 </config>
