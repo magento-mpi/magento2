@@ -93,7 +93,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['is_global'] = $model->getIsGlobal();
             }
 
-            $model->setData($data);
+            $model->addData($data);
 
             if (! $id) {
                 $model->setEntityTypeId($this->_entityTypeId);

@@ -5,17 +5,6 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
 {
     public function collectTotals(Mage_Sales_Model_Quote_Address $address)
     {
-        /*
-        $addressEntities = $quote->getEntitiesByType('address');
-        $method = $quote->getShippingMethod();
-        if ($method) {
-            $amount = $quote->getShippingAmount();
-            if (!$amount) {
-                
-                $quote->setShippingAmount($amount);
-            }
-        }
-        */ 
         $oldWeight = $address->getWeight();
         
         $address->setWeight(0);
@@ -25,8 +14,18 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
             $address->setWeight($address->getWeight() + $item->getRowWeight());
         }
         
-        if ($address->getEstimatePostcode() && $oldWeight!=$address->getWeight()) {
-            $address->estimateShippingMethods();
+        if ($address->getShippingPostcode() && $oldWeight!=$address->getWeight()) {
+            $address->collectShippingRates();
+        }
+        
+        $method = $address->getShippingMethod();
+        if ($method) {
+            foreach ($address->getAllShippingRates() as $rate) {
+                if ($rate->getMethod()==$method) {
+                    $address->setShippingAmount($rate->getPrice());
+                    break;
+                }
+            }
         }
         
         $address->setGrandTotal($address->getGrandTotal() + $address->getShippingAmount());

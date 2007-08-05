@@ -80,7 +80,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $code = $this->getRequest()->getPost('estimate_method');
         
-        $this->getQuote()->setShippingMethod($code)->save();
+        $this->getQuote()->getShippingAddress()->setShippingMethod($code)->collectTotals()->save();
         
         $this->_backToCart();
     }

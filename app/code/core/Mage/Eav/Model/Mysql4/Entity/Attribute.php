@@ -33,13 +33,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $write = $this->getConnection('write');
         $attributeId = $object->getId();
 
-        $data = $object->getData();
-
-        unset($data['attribute_set_id']);
-        unset($data['attribute_group_id']);
-        unset($data['sort_order']);
-        unset($data['force_update']);
-
         $write->beginTransaction();
         try {
 
@@ -48,28 +41,20 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $this->_checkUnique($object);
 
             if( !$object->getSortOrder() ) {
+                $data = $object->getData();
+        
+                unset($data['attribute_set_id']);
+                unset($data['attribute_group_id']);
+                unset($data['sort_order']);
+                unset($data['force_update']);
+                
                 if( $attributeId > 0 ) {
                     $condition = $write->quoteInto("{$this->getMainTable()}.{$this->getIdFieldName()} = ?", $attributeId);
                     $write->update($this->getMainTable(), $data, $condition);
                 } else {
                     $write->insert($this->getMainTable(), $data);
+                    $object->setId($write->lastInsertId());
                 }
-            }
-
-            $data = array(
-                'entity_type_id' => ( $object->getEntityTypeId() > 0 ) ? $object->getEntityTypeId() : 0,
-                'attribute_set_id' => ( $object->getAttributeSetId() > 0 && $object->getAttributeGroupId() > 0 ) ? $object->getAttributeSetId() : 0,
-                'attribute_group_id' => ( $object->getAttributeGroupId() > 0 ) ? $object->getAttributeGroupId() : 0,
-                'attribute_id' => ( $object->getId() ) ? $object->getId() : $write->lastInsertId(),
-                'sort_order' => ( ( $object->getSortOrder() ) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1 ),
-            );
-
-            $condition = "({$this->getTable('entity_attribute')}.attribute_set_id = '{$object->getAttributeSetId()}' AND {$this->getTable('entity_attribute')}.attribute_id = '{$object->getId()}')";
-            $condition.= "OR ({$this->getTable('entity_attribute')}.attribute_group_id = '0' AND {$this->getTable('entity_attribute')}.attribute_id = '{$object->getId()}')";
-            $write->delete($this->getTable('entity_attribute'), $condition);
-
-            if( $this->_attributeInZeroSet($object) == false ) {
-                $write->insert($this->getTable('entity_attribute'), $data);
             }
 
             $this->_afterSave($object);
@@ -125,5 +110,33 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.entity_attribute_id = ?", $object->getEntityAttributeId());
         $write->delete($this->getTable('entity_attribute'), $condition);
         return $this;
+    }
+    
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        $write = $this->getConnection('write');
+        
+        $table = $this->getTable('entity_attribute');
+        
+        $attrId = $object->getId();
+        $setId = $object->getAttributeSetId();
+        $groupId = $object->getAttributeGroupId();
+
+        $data = array(
+            'entity_type_id' => ( $object->getEntityTypeId() > 0 ) ? $object->getEntityTypeId() : 0,
+            'attribute_set_id' => ( $setId > 0 && $groupId > 0 ) ? $setId : 0,
+            'attribute_group_id' => ( $groupId > 0 ) ? $groupId : 0,
+            'attribute_id' => $attrId,
+            'sort_order' => ( ( $object->getSortOrder() ) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1 ),
+        );
+
+        $condition = "$table.attribute_id = '$attrId' AND ($table.attribute_set_id = '$setId' OR $table.attribute_group_id = '0')";
+        $write->delete($table, $condition);
+
+        if( $this->_attributeInZeroSet($object) == false ) {
+            $write->insert($table, $data);
+        }
+        
+        parent::_afterSave($object);
     }
 }

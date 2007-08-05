@@ -49,22 +49,30 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     
     public function getEstimateRates()
     {
-        
+        $rates = $this->getQuote()->getShippingAddress()->getAllShippingRates();
+        $ratesFilter = new Varien_Filter_Object_Grid();
+        $ratesFilter->addFilter($this->_priceFilter, 'price');
+        return $ratesFilter->filter($rates);
     }
     
     public function getEstimatePostcode()
     {
-        return $this->_alnumFilter->filter($this->getQuote()->getShippingAddress()->getPostcode());
+        return $this->getQuote()->getShippingAddress()->getPostcode();
+    }    
+    
+    public function getEstimateMethod()
+    {
+        return $this->getQuote()->getShippingAddress()->getShippingMethod();
     }
     
     public function getCouponCode()
     {
-        return $this->_alnumFilter->filter($this->getQuote()->getCouponCode());
+        return $this->getQuote()->getCouponCode();
     }
     
     public function getGiftcertCode()
     {
-        return $this->_alnumFilter->filter($this->getQuote()->getGiftcertCode());
+        return $this->getQuote()->getGiftcertCode();
     }
     
     public function isWishlistActive()

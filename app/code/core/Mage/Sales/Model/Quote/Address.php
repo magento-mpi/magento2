@@ -51,6 +51,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         $arr = parent::toArray();
         $arr['rates'] = $this->getShippingRatesCollection()->toArray($arrAttributes);
+        $arr['items'] = $this->getItemsCollection()->toArray($arrAttributes);
         foreach ($this->getTotals() as $k=>$total) {
             $arr['totals'][$k] = $total->toArray();
         }

@@ -18,6 +18,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'converted_at' => array('type'=>'datetime', 'visible'=>false),
                     'coupon_code' => array('label'=>'Coupon'),
                     'giftcert_code' => array('label'=>'Gift certificate'),
+                    'custbalance_amount' => array('type'=>'decimal'),
                     'base_currency_code' => array('label'=>'Base currency'),
                     'store_currency_code' => array('label'=>'Store currency'),
                     'quote_currency_code' => array('label'=>'Quote currency'),
