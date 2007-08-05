@@ -20,7 +20,7 @@ alter table `eav_entity_type`
 
 alter table `eav_entity` 
     ,add column `attribute_set_id` smallint (5)UNSIGNED   NOT NULL  after `entity_type_id`
-    ,add column `increment_id` varchar (50) NOT NULL  after `increment_int_id`
+    ,add column `increment_id` varchar (50) NOT NULL  after `attribute_set_id`
     ,add column `parent_id` int (11)UNSIGNED   NOT NULL  after `increment_id`
 ;
 
