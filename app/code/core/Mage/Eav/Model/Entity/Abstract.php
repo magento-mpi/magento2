@@ -1115,7 +1115,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         $attributes = $this->getAttributesByCode();
         foreach ($defaultAttributes as $attr) {
-            if (empty($attributes[$attr])) {
+            if (empty($attributes[$attr]) && !$this->getAttribute($attr)) {
                 $this->addAttribute(Mage::getModel('eav/entity_attribute')
                     ->setAttributeCode($attr)->setBackendType('static'));
             }
