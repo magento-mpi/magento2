@@ -12,7 +12,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Category
 {
     public function afterSave(Varien_Object $configData)
     {
-        if ($configData->getScope() == 'store') {
+        if ($configData->getScope() == 'stores') {
             $rootId     = $configData->getValue();
             $oldRootId  = $configData->getOldValue();
             $storeId    = $configData->getScopeId();
@@ -21,7 +21,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Category
             $tree       = $category->getTreeModel()->getTree();
             
             // Create copy of categories attributes for choosed store
-            $tree->load($rootId);
+            $tree->load($rootId, 100);
             foreach ($tree->getNodes() as $node) {
             	$category->setStoreId(0)
             	   ->load($node->getId());

@@ -162,15 +162,19 @@ class Mage_Catalog_Model_Category extends Varien_Object
     
     public function getLayoutUpdateFileName()
     {
+        $layout = 'catalog/category/';
+        if ($this->getIsAnchor()) {
+            $layout.= 'layered/';
+        }
         switch ($this->getDisplayMode()) {
             case self::DM_PAGE:
-                $layout = 'catalog/category/content.xml';
+                $layout.= 'content.xml';
                 break;
             case self::DM_MIXED:
-                $layout = 'catalog/category/mixed.xml';
+                $layout.= 'mixed.xml';
                 break;
             default:
-                $layout = 'catalog/category/default.xml';
+                $layout.= 'default.xml';
                 break;
         }
         return $layout;

@@ -167,6 +167,15 @@ class Varien_Data_Tree_Node extends Varien_Object
         return $this->_childNodes;
     }
     
+    public function getAllChildNodes(&$nodes = array())
+    {
+        foreach ($this->_childNodes as $node) {
+        	$nodes[] = $node;
+        	$node->getAllChildNodes($nodes);
+        }
+        return $nodes;
+    }
+    
     public function getLastChild()
     {
         return $this->_childNodes->lastNode();
@@ -202,9 +211,9 @@ class Varien_Data_Tree_Node extends Varien_Object
         return $this;
     }
     
-    public function remove()
+    public function removeChild($childNode)
     {
-        $this->_tree->removeNode($this);
+        $this->_childNodes->delete($childNode);
         return $this;
     }
     

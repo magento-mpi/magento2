@@ -78,19 +78,29 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $prevNodeId     = $this->getRequest()->getPost('aid', false);
 
         try {
-            $tree = Mage::getResourceModel('catalog/category_tree')->getTree();
-            $node = $tree->loadNode($nodeId);
-            $parentNode = $tree->loadNode($parentNodeId)->loadChildren();
-            $prevNode = $tree->loadNode($prevNodeId);
-            if ($prevNode->isEmpty()) {
-                $prevNode = $parentNode->getLastChild();
+            $tree = Mage::getResourceModel('catalog/category_tree')->getTree()
+                ->load();
+            
+            $node = $tree->getNodeById($nodeId);
+            $parentNode = $node->getParent();
+            $newParentNode = $tree->getNodeById($parentNodeId);
+            $prevNode = $tree->getNodeById($prevNodeId);
+            if (!$prevNode || !$prevNode->getId()) {
+                $prevNode = null;
             }
 
-            $tree->moveNodeTo($node, $parentNode, $prevNode);
+            $tree->moveNodeTo($node, $newParentNode, $prevNode);
+            
+            $parentCategory = Mage::getModel('catalog/category')
+                ->load($parentNode->getId())
+                ->setParentId($parentNode->getId())
+                ->save();
+
             $category = Mage::getModel('catalog/category')
                 ->load($nodeId)
                 ->setParentId($parentNode->getId())
                 ->save();
+
         }
         catch (Exception $e){
             $this->getResponse()->setBody(__('Category move error'));

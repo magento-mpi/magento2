@@ -16,7 +16,39 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
         $this->setTemplate('catalog/layer/view.phtml');
     }
     
-    public function getFilterGroups()
+    public function _initChildren()
+    {
+        $this->setChild('category_filter',
+            $this->getLayout()->createBlock('catalog/layer_filter_category'));
+        $this->setChild('price_filter',
+            $this->getLayout()->createBlock('catalog/layer_filter_price'));
+    }
+    
+    public function getFilters()
+    {
+        $filters = array();
+        if ($categoryFilter = $this->_getCategoryFilter()) {
+            $filters[] = $categoryFilter;
+        }
+
+        if ($priceFilter = $this->_getPriceFilter()) {
+            $filters[] = $priceFilter;
+        }
+        
+        return $filters;
+    }
+    
+    protected function _getCategoryFilter()
+    {
+        return $this->getChild('category_filter');
+    }
+    
+    protected function _getPriceFilter()
+    {
+        return $this->getChild('price_filter');
+    }
+    
+    protected function _getAttributesFilter()
     {
         
     }

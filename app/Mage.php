@@ -38,11 +38,12 @@ final class Mage {
      */
     public static function register($key, $value)
     {
-/* // why? - moshe
+        // why? - moshe
+        // We can not have 2 object for one key - dmitriy
         if(isset(self::$_registry[$key])){
-            throw new Exception('Mage registry key "'.$key.'" already exists');
+            Mage::throwException('Mage registry key "'.$key.'" already exists');
         }
-*/
+        
         self::$_registry[$key] = $value;
     }
 
@@ -57,6 +58,7 @@ final class Mage {
         if (isset(self::$_registry[$key])) {
             return self::$_registry[$key];
         }
+        //Mage::throwException('Mage registry key "'.$key.'" do not exists');
         return null;
     }
 

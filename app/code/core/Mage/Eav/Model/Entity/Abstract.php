@@ -818,8 +818,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $origValue = $this->_read->fetchOne($select);
 
             if ($origValue === false && !is_null($newValue)) {
-                $row['value'] = $newValue;
-                $this->_write->insert($table, $row);
+                $this->_insertAttribute($object, $attribute, $newValue);
                 $backend->setValueId($this->_write->lastInsertId());
 
             } elseif ($origValue !== false && !is_null($newValue)) {
@@ -939,7 +938,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
 
             if (isset($origData[$k])) {
-                if (empty($v)) {
+                if (is_null($v) || strlen($v)==0) {
                     $delete[$attribute->getBackend()->getTable()][] = $attribute->getBackend()->getValueId();
                 } elseif ($v!==$origData[$k]) {
                     $update[$attrId] = array(
@@ -1038,7 +1037,24 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         else {
             foreach ($storeIds as $storeId) {
             	$row['store_id'] = $storeId;
-            	$this->_write->insert($attribute->getBackend()->getTable(), $row);
+            	// Check existing of value for store
+            	$select = $this->_write->select()
+            	   ->from($attribute->getBackend()->getTable())
+            	   ->where($this->_write->quoteInto($entityIdField.'=?', $object->getId()))
+            	   ->where($this->_write->quoteInto('entity_type_id=?', $object->getEntityTypeId()))
+            	   ->where($this->_write->quoteInto('store_id=?', $storeId))
+            	   ->where($this->_write->quoteInto('attribute_id=?', $attribute->getId()));
+            	
+                if ($this->_write->fetchOne($select)) {
+                    $this->_write->update(
+                        $attribute->getBackend()->getTable(), 
+                        array('value'=>$value), 
+                        implode(' ', $select->getPart(Zend_Db_Select::WHERE))
+                    );
+            	}
+            	else {
+            	    $this->_write->insert($attribute->getBackend()->getTable(), $row);
+            	}
             }
         }
         return $this;
@@ -1062,17 +1078,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             );
         }
         return $this;
-        /*if (empty($stores)) {
-            $this->_write->update($attribute->getBackend()->getTable(),
-                array('value'=>$value),
-                "value_id=".(int)$valueId
-            );
-        }
-        else {
-            if ($attribute->getIsGlobal()) {
-
-            }
-        }*/
     }
 
     protected function _afterLoad(Varien_Object $object)

@@ -23,7 +23,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
         $options = array();
         
         $options[] = array(
-            'label' => __('Choose category...'),
+            'label' => '',
             'value' => ''
         );
         foreach ($nodes as $node) {

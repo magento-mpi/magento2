@@ -26,17 +26,32 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             ->setViewBy('limit')
             ->setViewBy('order', array('name', 'price'));
         $this->setChild('pager', $pager);
-        
-        // Init breadcrumbs
-        $this->getLayout()->getBlock('breadcrumbs')
+
+        // add Home breadcrumb
+    	$this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
                 array('label'=>__('Home'),
                     'title'=>__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
-                )
-            ->addCrumb('category',
-                array('label'=>$this->getCurrentCategory()->getName())
-            );
+                );
+        
+        $path = $this->getCurrentCategory()->getTreePath();
+        $pathIds = array_reverse(explode(',', $path));
+        
+        $categories = Mage::getResourceModel('catalog/category_collection')
+            ->addAttributeToSelect('name')
+            ->addFieldToFilter('entity_id', array('in'=>$pathIds))
+            ->load()
+            ->getItems();
+        // add category path breadcrumb
+        foreach ($pathIds as $categoryId) {
+            if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
+                $breadcrumb = array('label'=>$categories[$categoryId]->getName());
+                $this->getLayout()->getBlock('breadcrumbs')
+                    ->addCrumb('category'.$categoryId, $breadcrumb);
+            }
+        }
+
         
         $this->getLayout()->getBlock('head')->setTitle($this->getCurrentCategory()->getName());            
     }
@@ -48,34 +63,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
      */
     protected function _getProductCollection()
     {
-        if (!$this->_productCollection) {
-            $request = $this->getRequest();
-            $store   = Mage::getSingleton('core/store');
-            
-            $this->_productCollection = $this->getCurrentCategory()->getProductCollection()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('image')
-                ->addAttributeToSelect('small_image')
-                ->addAttributeToSelect('description')
-                ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
-                ->setCurPage($request->getParam('p', 1))
-                ->setPageSize($request->getParam('limit', 9))
-                ->joinField('store_id', 
-                    'catalog/product_store', 
-                    'store_id', 
-                    'product_id=entity_id', 
-                    '{{table}}.store_id='.(int) $store->getId())
-                ->joinField('position', 
-                    'catalog/category_product', 
-                    'position', 
-                    'product_id=entity_id', 
-                    'category_id='.(int) $this->getCurrentCategory()->getId());
-                    
-            $this->_productCollection->getEntity()->setStore($store->getId());
-            $this->_productCollection->load();
-        }
-        return $this->_productCollection;
+        return Mage::getSingleton('catalog/layer')->getProductCollection();
     }
     
     /**
@@ -95,7 +83,14 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
      */
     public function getLoadedProductCollection()
     {
-        return $this->_getProductCollection();
+        $collection = $this->_getProductCollection();
+        /**
+         * @todo isLoaded for collection
+         */
+        if (!$collection->getSize()) {
+            $collection->load();
+        }
+        return $collection;
     }
     
     /**

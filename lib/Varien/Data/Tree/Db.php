@@ -165,7 +165,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         $this->_conn->insert($this->_table, $data);
         $data[$this->_idField] = $this->_conn->lastInsertId();
         
-        return new Varien_Data_Tree_Node($data, $this->_idField, $this);
+        return parent::appendChild($data, $parentNode, $prevNode); 
     }
     
     /**
@@ -255,6 +255,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
             $this->_conn->rollBack();
             throw new Exception('Can\'t remove tree node');
         }
+        parent::removeNode($node);
         return $this;
     }
 }

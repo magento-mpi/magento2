@@ -30,13 +30,18 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
      */
     protected function _getTree()
     {
-        return Mage::getResourceModel('catalog/category_tree')->getTree();
+        if (!$this->_tree) {
+            $this->_tree = Mage::getResourceModel('catalog/category_tree')->getTree()
+                ->load();
+        }
+        return $this->_tree;
     }
     
     protected function _afterDelete(Varien_Object $object){
         parent::_afterDelete($object);
-        $node = $this->_getTree()->loadNode($object->getId());
+        $node = $this->_getTree()->getNodeById($object->getId());
         $this->_getTree()->removeNode($node);
+        $this->_updateCategoryPath($object);
         return $this;
     }
     
@@ -48,7 +53,7 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
             $object->setIsActive(0);
         }
         
-        $parentNode = $this->_getTree()->loadNode($object->getParentId());
+        $parentNode = $this->_getTree()->getNodeById($object->getParentId());
         if ($object->getId()) {
             
         }
@@ -62,13 +67,21 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $object)
     {
         parent::_afterSave($object);
-        $products = $object->getPostedProducts();
+        $this->_saveCategoryProducts($object)
+            ->_updateCategoryPath($object);
+            
+        return $this;
+    }
+    
+    protected function _saveCategoryProducts($category)
+    {
+        $products = $category->getPostedProducts();
         if (!is_null($products)) {
-            $oldProducts = $object->getProductsPosition();
+            $oldProducts = $category->getProductsPosition();
             if (!empty($oldProducts)) {
                 $this->getWriteConnection()->delete($this->_categoryProductTable, 
                     $this->getWriteConnection()->quoteInto('product_id in(?)', array_keys($oldProducts)) . ' AND ' .
-                    $this->getWriteConnection()->quoteInto('category_id=?', $object->getId())
+                    $this->getWriteConnection()->quoteInto('category_id=?', $category->getId())
                 );
             }
             
@@ -77,11 +90,23 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
                     continue;
                 }
             	$data = array(
-            	   'category_id'   => $object->getId(),
+            	   'category_id'   => $category->getId(),
             	   'product_id'    => $productId,
             	   'position'      => $productPosition
             	);
             	$this->getWriteConnection()->insert($this->_categoryProductTable, $data);
+            }
+        }
+        return $this;
+    }
+    
+    protected function _updateCategoryPath($category)
+    {
+        foreach ($this->_getTree()->getPath($category->getId()) as $pathItem) {
+            if ($category->getId() != $pathItem->getId()) {
+                $category = Mage::getModel('catalog/category')
+                    ->load($pathItem->getId())
+                    ->save();
             }
         }
         return $this;
@@ -99,7 +124,6 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         }
         
         $nodePath = $this->_getTree()
-            ->load()
             ->getNodeById($category->getId())
                 ->getPath();
         $nodes = array();
@@ -108,7 +132,13 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         }
         
         $stores = array_keys(Mage::getConfig()->getStoresByPath('catalog/category/root_id', $nodes));
-        array_unshift($stores, 0);
+        $entityStoreId = $this->getStoreId();
+        if (!in_array($entityStoreId, $stores)) {
+            array_unshift($stores, $entityStoreId);
+        }
+        if (!in_array(0, $stores)) {
+            array_unshift($stores, 0);
+        }
         return $stores;
     }
     

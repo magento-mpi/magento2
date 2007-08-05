@@ -7,6 +7,8 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Sergiy Lysak <sergey@varien.com>
+ * 
+ * @todo        separate order, mode and pager
  */
 class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
 {
@@ -123,9 +125,15 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         return false;
     }
     
-    public function toHtml()
+    public function _beforeToHtml()
     {
-        return parent::toHtml();
+        $request = $this->getRequest();
+        $this->getCollection()
+            ->setOrder($request->getParam('order', 'position'), $request->getParam('dir', 'asc'))
+            ->setCurPage($request->getParam('p', 1))
+            ->setPageSize($request->getParam('limit', 9))
+            ->load();        
+        return parent::_beforeToHtml();
     }
 }
 
