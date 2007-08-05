@@ -43,10 +43,4 @@ class Mage_Sales_Model_Entity_Quote_Address extends Mage_Eav_Model_Entity_Abstra
 
         return $this;
     }
-    
-    protected function _afterSave(Varien_Object $object)
-    {
-        parent::_afterSave($object);
-        $object->getShippingRatesCollection()->save();
-    }
 }

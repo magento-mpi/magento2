@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Giftcert
+class Mage_Giftcert_Model_Entity_Quote_Address_Attribute_Backend_Giftcert
     extends Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend
 {
     public function collectTotals(Mage_Sales_Model_Quote_Address $address)

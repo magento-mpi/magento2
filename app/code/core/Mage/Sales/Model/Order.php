@@ -131,6 +131,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
+                foreach ($this->_addresses as $address) {
+                    $address->setOrder($this);
+                }
             }
         }
         return $this->_addresses;
@@ -207,6 +210,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
+                foreach ($this->_items as $item) {
+                    $item->setOrder($this);
+                }
             }
         }
         return $this->_items;
@@ -254,6 +260,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
+                foreach ($this->_payments as $payment) {
+                    $payment->setOrder($this);
+                }
             }
         }
         return $this->_payments;
@@ -309,6 +318,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
+                foreach ($this->_statusHistory as $status) {
+                    $status->setOrder($this);
+                }
             }
         }
         return $this->_statusHistory;

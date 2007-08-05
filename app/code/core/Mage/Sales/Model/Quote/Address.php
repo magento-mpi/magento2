@@ -69,6 +69,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setAddressFilter($this->getId())
                     ->load();
+                foreach ($this->_items as $item) {
+                    $item->setAddress($this);
+                }
             }
         }
         return $this->_items;
@@ -77,7 +80,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     public function getAllItems()
     {
         $items = array();
-        foreach ($this->getItemsCollection() as $item) {
+        if ($this->getQuote()->getIsMultiShipping()) {
+            $itemsCollection = $this->getItemsCollection();
+        } else {
+            $itemsCollection = $this->getQuote()->getItemsCollection();
+        }
+        foreach ($itemsCollection as $item) {
             if (!$item->isDeleted()) {
                 $items[] =  $item;
             }
@@ -112,9 +120,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function addItem(Mage_Sales_Model_Quote_Item $item)
+    public function addItem(Mage_Sales_Model_Quote_Address_Item $item)
     {
-        $item->setQuote($this)->setParentId($this->getId());
+        $item->setAddress($this)->setParentId($this->getId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
@@ -133,6 +141,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setAddressFilter($this->getId())
                     ->load();
+                foreach ($this->_rates as $rate) {
+                    $rate->setAddress($this);
+                }
             }
         }
         return $this->_rates;

@@ -68,6 +68,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setQuoteFilter($this->getId())
                     ->load();
+                foreach ($this->_addresses as $address) {
+                    $address->setQuote($this);
+                }
             }
         }
         return $this->_addresses;
@@ -181,6 +184,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setQuoteFilter($this->getId())
                     ->load();
+                foreach ($this->_items as $item) {
+                    $item->setQuote($this);
+                }
             }
         }
         return $this->_items;
@@ -306,6 +312,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('*')
                     ->setQuoteFilter($this->getId())
                     ->load();
+                foreach ($this->_payments as $payment) {
+                    $payment->setQuote($this);
+                }
             }
         }
         return $this->_payments;
