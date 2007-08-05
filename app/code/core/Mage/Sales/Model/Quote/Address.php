@@ -83,7 +83,44 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
             }
         }
         return $items;
-    } 
+    }
+    
+    
+    public function hasItems()
+    {
+        return sizeof($this->getAllItems())>0;
+    }
+    
+    public function getItemById($itemId)
+    {
+        foreach ($this->getItemsCollection() as $item) {
+            if ($item->getId()==$itemId) {
+                return $item;
+            }
+        }
+        return false;
+    }
+    
+    public function removeItem($itemId)
+    {
+        foreach ($this->getItemsCollection() as $item) {
+            if ($item->getId()==$itemId) {
+                $item->isDeleted(true);
+                break;
+            }
+        }
+        return $this;
+    }
+    
+    public function addItem(Mage_Sales_Model_Quote_Item $item)
+    {
+        $item->setQuote($this)->setParentId($this->getId());
+        if (!$item->getId()) {
+            $this->getItemsCollection()->addItem($item);
+        }
+        return $this;
+    }
+
 
 /*********************** SHIPPING RATES ***************************/
 
