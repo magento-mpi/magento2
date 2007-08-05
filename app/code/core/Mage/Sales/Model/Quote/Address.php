@@ -189,14 +189,14 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         $this->removeAllShippingRates();
         
-        $request = Mage::getModel('sales/shipping_rate_request');
+        $request = Mage::getModel('shipping/rate_request');
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
         $request->setDestPostcode($this->getPostcode());
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
         
-        $result = Mage::getModel('sales/shipping')->collectRates($request);
+        $result = Mage::getModel('shipping/shipping')->collectRates($request);
         if (!$result) {
             return $this;
         }

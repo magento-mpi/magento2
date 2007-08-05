@@ -8,6 +8,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         return $this;
     }
     
+    public function getQuote()
+    {
+        if (empty($this->_quote)) {
+            $this->_quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
+        return $this->_quote;
+    }
+    
     public function indexAction()
     {
         $this->loadLayout();
@@ -32,15 +40,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         
         $qty = $intFilter->filter($this->getRequest()->getParam('qty', 1));
 
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-
         $product = Mage::getModel('catalog/product')->load($productId);
         if ($product->getId()) {
-            $quote->addCatalogProduct($product->setQty($qty));
-            $quote->save();
+            $this->getQuote()->addCatalogProduct($product->setQty($qty))->save();
         }
         
-        Mage::getSingleton('checkout/session')->setQuoteId($quote->getId());
+        Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
                 
         $this->_backToCart();
     }
@@ -48,10 +53,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function updatePostAction()
     {
         $cart = $this->getRequest()->getPost('cart');
-        
-        //foreach ($cart as )
-        
-        Mage::getSingleton('checkout/session')->getQuote()->updateItems($cart)->save();
+
+        $this->getQuote()->updateItems($cart)->save();
 
         $this->_backToCart();
     }
@@ -64,10 +67,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function estimatePostAction()
     {
         $postcode = $this->getRequest()->getPost('estimate_postcode');
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-        $quote->setEstimatePostcode($postcode);
-        $quote->estimateShippingMethods();
-        $quote->save();
+
+        $this->getQuote()->getShippingAddress()
+            ->setPostcode($postcode)->collectShippingRates();
+            
+        $this->getQuote()->save();
         
         $this->_backToCart();
     }
@@ -75,7 +79,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function estimateUpdatePostAction()
     {
         $code = $this->getRequest()->getPost('estimate_method');
-        Mage::getSingleton('checkout/session')->getQuote()->setShippingMethod($code)->save();
+        
+        $this->getQuote()->setShippingMethod($code)->save();
         
         $this->_backToCart();
     }
@@ -88,7 +93,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $couponCode = $this->getRequest()->getPost('coupon_code');
         }
         
-        Mage::getSingleton('checkout/session')->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
+        $this->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
         
         $this->_backToCart();
     }
@@ -101,7 +106,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $giftCode = $this->getRequest()->getPost('giftcert_code');
         }
         
-        Mage::getSingleton('checkout/session')->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();
+        $this->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();
         
         $this->_backToCart();
     }

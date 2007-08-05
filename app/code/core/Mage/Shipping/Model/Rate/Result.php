@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Shipping_Rate_Result
+class Mage_Shipping_Model_Rate_Result
 {
 	protected $_rates = array();
 	protected $_error = null;
@@ -27,13 +27,13 @@ class Mage_Sales_Model_Shipping_Rate_Result
 	/**
 	 * Add a rate to the result
 	 *
-	 * @param Mage_Sales_Model_Shipping_Rate_Result_Abstract|Mage_Sales_Model_Shipping_Rate_Result $result
+	 * @param Mage_Shipping_Model_Rate_Result_Abstract|Mage_Shipping_Model_Rate_Result $result
 	 */
 	public function append($result)
 	{
-		if ($result instanceof Mage_Sales_Model_Shipping_Rate_Result_Abstract) {
+		if ($result instanceof Mage_Shipping_Model_Rate_Result_Abstract) {
 			$this->_rates[] = $result;
-		} elseif ($result instanceof Mage_Sales_Model_Shipping_Rate_Result) {
+		} elseif ($result instanceof Mage_Shipping_Model_Rate_Result) {
 		    $rates = $result->getAllRates();
 			foreach ($rates as $rate) {
 			    $this->append($rate);

@@ -1,32 +1,36 @@
 <?php
 
-class Mage_Sales_Model_Shipping_Carrier_Pickup extends Mage_Sales_Model_Shipping_Carrier_Abstract
+class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abstract
 {
 	/**
 	 * Enter description here...
 	 *
-	 * @param Mage_Sales_Model_Shipping_Request $data
-	 * @return Mage_Sales_Model_Shipping_Result
+	 * @param Mage_Shipping_Model_Rate_Request $data
+	 * @return Mage_Shipping_Model_Rate_Result
 	 */
-	public function collectRates(Mage_Sales_Model_Shipping_Rate_Request $request)
+	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        $result = Mage::getModel('sales/shipping_rate_result');
+        if (!Mage::getStoreConfig('carriers/pickup/active')) {
+            return false;
+        }
+        
+        $result = Mage::getModel('shipping/rate_result');
 
         if (!empty($rate)) {
-	    	$rate = Mage::getModel('sales/shipping_rate_service');
+	    	$method = Mage::getModel('shipping/rate_result_method');
 	    	
 	    	$carrier = 'pickup';
-	    	$carrierTitle = (string)Mage::getSingleton('sales/config')->getShippingConfig($carrier)->title;
-	    	$rate->setCarrier($carrier);
-	    	$rate->setCarrierTitle($vendorTitle);
+	    	$carrierTitle = Mage::getStoreConfig('carriers/pickup/title');
+	    	$method->setCarrier($carrier);
+	    	$method->setCarrierTitle($carrierTitle);
 	    	
-	    	$rate->setMethod('store');
-	    	$rate->setMethodTitle('Store Pickup');
+	    	$method->setMethod('store');
+	    	$method->setMethodTitle('Store Pickup');
 	    	
-	    	$rate->setPrice(0);
-	    	$rate->setCost(0);
+	    	$method->setPrice(0);
+	    	$method->setCost(0);
     	
-    	    $result->append($rate);
+    	    $result->append($method);
         }
         
     	return $result;

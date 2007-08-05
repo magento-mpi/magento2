@@ -10,9 +10,7 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     
     public function _construct()
     {
-        $this->_quote = Mage::getSingleton('checkout/session')->getQuote();
-        
-        if (!$this->_quote->hasItems()) {
+        if (!$this->getQuote()->hasItems()) {
             $this->setTemplate('checkout/cart/noItems.phtml');
         } else {
             $this->setTemplate('checkout/cart/view.phtml');
@@ -25,20 +23,28 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
             && Mage::getSingleton('customer/session')->isLoggedIn();
     }
     
+    public function getQuote()
+    {
+        if (empty($this->_quote)) {
+            $this->_quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
+        return $this->_quote;
+    }
+    
     public function getItems()
     {
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter($this->_qtyFilter, 'qty');
         $itemsFilter->addFilter($this->_priceFilter, 'price');
         $itemsFilter->addFilter($this->_priceFilter, 'row_total');
-        return $itemsFilter->filter($this->_quote->getAllItems());
+        return $itemsFilter->filter($this->getQuote()->getAllItems());
     }
     
     public function getTotals()
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter($this->_priceFilter, 'value');
-        return $totalsFilter->filter($this->_quote->getTotals());
+        return $totalsFilter->filter($this->getQuote()->getTotals());
     }
     
     public function getEstimateRates()
@@ -48,17 +54,17 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     
     public function getEstimatePostcode()
     {
-        return $this->_alnumFilter->filter($this->_quote->getEstimatePostcode());
+        return $this->_alnumFilter->filter($this->getQuote()->getShippingAddress()->getPostcode());
     }
     
     public function getCouponCode()
     {
-        return $this->_alnumFilter->filter($this->_quote->getCouponCode());
+        return $this->_alnumFilter->filter($this->getQuote()->getCouponCode());
     }
     
     public function getGiftcertCode()
     {
-        return $this->_alnumFilter->filter($this->_quote->getGiftcertCode());
+        return $this->_alnumFilter->filter($this->getQuote()->getGiftcertCode());
     }
     
     public function isWishlistActive()

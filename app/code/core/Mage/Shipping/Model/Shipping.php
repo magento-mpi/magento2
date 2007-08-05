@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Shipping
+class Mage_Shipping_Model_Shipping
 {
     /**
      * Default shipping orig for requests
@@ -32,7 +32,7 @@ class Mage_Sales_Model_Shipping
      */
     public function __construct()
     {
-        $this->_result = new Mage_Sales_Model_Shipping_Method_Result();
+        $this->_result = new Mage_Shipping_Model_Rate_Result();
     }
     
     /**
@@ -42,59 +42,55 @@ class Mage_Sales_Model_Shipping
     {
         $this->_orig = $data;
     }
-    
-    public function getOrigData()
-    {
-        if (!isset($this->_orig)) {
-            $this->setOrigData(Mage::getSingleton('sales/config')->getShippingOrig());
-        }
-        return $this->_orig;
-    }
-    
+
     /**
      * Retrieve all methods for supplied shipping data
      * 
      * @param Mage_Sales_Model_Shipping_Method_Request $data
      * @return Mage_Sales_Model_Shipping_Method_Result
      */
-    public function collectMethods(Mage_Sales_Model_Shipping_Method_Request $request)
+    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!$request->getOrig()) {
-            $request->addData($this->getOrigData());
+            $request
+                ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id'))
+                ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id'))
+                ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode'))
+            ;
         }
 
-        if (!$request->limitVendor) { 
-            $vendors = Mage::getConfig()->getNode('global/sales/shipping/vendors')->children();
+        if (!$request->getLimitCarrier()) { 
+            $carriers = Mage::getConfig()->getNode('global/sales/shipping/carriers')->children();
 
-            foreach ($vendors as $vendor) {
-                if (!$vendor->is('active')) {
+            foreach ($carriers as $carrier) {
+                if (!$carrier->is('active')) {
                     continue;
                 }
-                $request->setVendor($vendor->getName());
-                $className = $vendor->getClassName();
+                $request->setVendor($carrier->getName());
+                $className = $carrier->getClassName();
                 $obj = new $className();
-                $result = $obj->collectMethods($request);
+                $result = $obj->collectRates($request);
                 $this->_result->append($result);
             }
         } else {
-            $className = Mage::getConfig()->getNode('global/sales/shipping/vendors/'.$request->limitVendor)->getClassName();
+            $className = Mage::getConfig()->getNode('global/sales/shipping/carriers/'.$request->getLimitCarrier())->getClassName();
             $obj = new $className();
-            $result = $obj->collectMethods($request);
+            $result = $obj->collectRates($request);
             $this->_result->append($result);
         }
         
         return $this->_result;
     }
     
-    public function collectMethodsByAddress(Varien_Object $address)
+    public function collectRatesByAddress(Varien_Object $address)
     {
-        $request = Mage::getModel('sales/shipping_method_request');
+        $request = Mage::getModel('shipping/rate_request');
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
         $request->setDestPostcode($address->getPostcode());
         $request->setPackageValue($address->getSubtotal());
         $request->setPackageWeight($address->getWeight());
 
-        return $this->collectMethods($request);
+        return $this->collectRates($request);
     }
 }

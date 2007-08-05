@@ -31,7 +31,7 @@
  *   - container: CP
  *   - address: RES
  */
-class Mage_Sales_Model_Shipping_Rate_Request extends Varien_Object
+class Mage_Shipping_Model_Rate_Request extends Varien_Object
 {
 
 }

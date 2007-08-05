@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Sales_Model_Shipping_Rate_Result_Error extends Mage_Sales_Model_Shipping_Rate_Result_Abstract
+class Mage_Shipping_Model_Rate_Result_Error extends Mage_Shipping_Model_Rate_Result_Abstract
 {
     
 }

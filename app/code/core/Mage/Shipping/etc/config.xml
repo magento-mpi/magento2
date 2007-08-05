@@ -17,9 +17,9 @@
             <class>Mage_Shipping_Model_Mysql4</class>
 
             <entities>
-               <shiptable>
-                  <table>shipping_table</table>
-               </shiptable>
+               <tablerate>
+                  <table>shipping_tablerate</table>
+               </tablerate>
             </entities>
          </shipping_mysql4>
       </models>
@@ -50,16 +50,14 @@
       <sales>
          <shipping>
             <carriers>
-               <table>
+               <tablerate>
                   <active>true</active>
-
-                  <class>shipping/table</class>
-
+                  <class>shipping/carrier_tablerate</class>
                   <title>Table rate</title>
-               </table>
+               </tablerate>
               <pickup>
                 <active>true</active>
-                <class>sales/shipping_carrier_pickup</class>
+                <class>shipping/carrier_pickup</class>
                 <title>Pickup</title>
               </pickup>
             </carriers>

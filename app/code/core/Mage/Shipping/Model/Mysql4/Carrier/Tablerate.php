@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Shiptable_Model_Mysql4_Table
+class Mage_Shipping_Model_Mysql4_Carrier_Tablerate
 {
     protected $_read;
     protected $_write;
@@ -8,12 +8,12 @@ class Mage_Shiptable_Model_Mysql4_Table
     
     public function __construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('shiptable_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('shiptable_write');
-        $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shiptable/shiptable');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('shipping_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('shipping_write');
+        $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
     }
     
-    public function getRate(Mage_Sales_Model_Shipping_Method_Request $request)
+    public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
         $select = $this->_read->select()->from($this->_shipTable);
         $select->where('dest_country_id=?', $request->getDestCountryId());

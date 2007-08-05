@@ -1,23 +1,16 @@
 <?php
 
-class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Abstract
 {
     protected $_request = null;
     protected $_result = null;
 
-    protected $_defaults = null;
-    protected $_data = array();
-    
-    public function getDefaults()
+    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (empty($this->_defaults)) {
-            $this->_defaults = Mage::getSingleton('sales/config')->getShippingConfig($this->_data['carrier']);
+        if (!Mage::getStoreConfig('carriers/ups/active')) {
+            return false;
         }
-        return $this->_defaults;    
-    }
-    
-    public function collectRates(Mage_Sales_Model_Shipping_Rate_Request $request)
-    {
+        
         $this->setRequest($request);
         if (!$request->getUpsRequestMethod()) {
             $request->setUpsRequestMethod('cgi');
@@ -36,50 +29,72 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carr
         return $this->getResult();
     }
     
-    protected function setRequest(Mage_Sales_Model_Shipping_Rate_Request $request)
+    public function setRequest(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
 
-        $this->_data['carrier'] = $request->getCarrier();
-
-        $defaults = $this->getDefaults();
-
+        $r = new Varien_Object();
+        
         if ($request->getLimitMethod()) {
-            $this->_data['action'] = $this->getCode('action', 'single');
-            $this->_data['product'] = $request->getLimitMethod();
+            $r->setAction($this->getCode('action', 'single'));
+            $r->setProduct($request->getLimitMethod());
         } else {
-            $this->_data['action'] = $this->getCode('action', 'all');
-            $this->_data['product'] = 'GNDRES';
+            $r->setAction($this->getCode('action', 'all'));
+            $r->setProduct('GNDRES');
         }
         
         if ($request->getUpsPickup()) {
             $pickup = $request->getUpsPickup();
         } else {
-            $pickup = (string)$defaults->pickup;
+            $pickup = Mage::getStoreConfig('carriers/ups/pickup');
         }
-        $this->_data['pickup'] = $this->getCode('pickup', $pickup);
+        $r->setPickup($this->getCode('pickup', $pickup));
         
         if ($request->getUpsContainer()) {
             $container = $request->getUpsContainer();
         } else {
-            $container = (string)$defaults->container;
+            $container = Mage::getStoreConfig('carriers/ups/container');
         }
-        $this->_data['container'] = $this->getCode('container', $container);
+        $r->setContainer($this->getCode('container', $container));
         
         if ($request->getUpsDestType()) {
             $destType = $request->getUpsDestType();
         } else {
-            $destType = (string)$defaults->destType;
+            $destType = Mage::getStoreConfig('carriers/ups/dest_type');
         }
-        $this->_data['destType'] = $this->getCode('destType', $destType);
-                
-        $this->_data['origCountry'] = 'US';#Mage::registry('directory')->getCountryById($request->getOrigCountry(), 'iso_code_2');
-        $this->_data['origPostal'] = $request->getOrigPostcode();
+        $r->setDestType($this->getCode('dest_type', $destType));
+
+        if ($request->getOrigCountry()) {
+            $origCountry = $request->getOrigCountry();
+        } else {
+            $origCountry = Mage::getStoreConfig('shipping/origin/country_id');
+        }
+        $r->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
+
+        if ($request->getOrigPostcode()) {
+            $r->setOrigPostal($request->getOrigPostcode());
+        } else {
+            $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
+        }
         
-        $this->_data['destCountry'] = 'US';#Mage::registry('directory')->getCountryById($request->getDestCountry(), 'iso_code_2');
-        $this->_data['destPostal'] = $request->getDestPostcode();
+        if ($request->getDestCountry()) {
+            $destCountry = $request->getDestCountry();
+        } else {
+            $destCountry = 223;
+        }
+        $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
+
+        if ($request->getDestPostcode()) {
+            $r->setDestPostal($request->getDestPostcode());
+        } else {
+            $r->setDestPostal('90034');
+        }
         
-        $this->_data['weight'] = $request->getPackageWeight();
+        $r->setWeight($request->getPackageWeight());
+        
+        $this->_rawRequest = $r;
+        
+        return $this;
     }
     
     public function getResult()
@@ -89,27 +104,24 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carr
 
     protected function _getCgiQuotes()
     {
-        $r = $this->_data;
-        
-        $cgi = Mage::getSingleton('sales/config')->getShippingConfig($r['carrier'])->cgi;
+        $r = $this->_rawRequest;
         
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
-            '10_action'      => $r['action'],
-            '13_product'     => $r['product'],
-            '14_origCountry' => $r['origCountry'],
-            '15_origPostal'  => $r['origPostal'],
-            '19_destPostal'  => $r['destPostal'],
-            '22_destCountry' => $r['destCountry'],
-            '23_weight'      => $r['weight'],
-            '47_rate_chart'  => $r['pickup'],
-            '48_container'   => $r['container'],
-            '49_residential' => $r['destType'],
+            '10_action'      => $r->getAction(),
+            '13_product'     => $r->getProduct(),
+            '14_origCountry' => $r->getOrigCountry(),
+            '15_origPostal'  => $r->getOrigPostal(),
+            '19_destPostal'  => $r->getDestPostal(),
+            '22_destCountry' => $r->getDestCountry(),
+            '23_weight'      => $r->getWeight(),
+            '47_rate_chart'  => $r->getPickup(),
+            '48_container'   => $r->getContainer(),
+            '49_residential' => $r->getDestType(),
         );
 
         $client = new Zend_Http_Client();
-        $uri = ((string)$cgi->protocol).'://'.((string)$cgi->host).':'.((string)$cgi->port).((string)$cgi->url);
-        $client->setUri($uri);
+        $client->setUri(Mage::getStoreConfig('carriers/ups/gateway_url'));
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
         $client->setParameterGet($params);
         $response = $client->request();
@@ -127,45 +139,44 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carr
             $r = explode('%', $rRow);
             switch (substr($r[0],-1)) {
                 case 3: case 4:
-                    $rArr[] = array('service'=>$r[1], 'cost'=>$r[8]);
+                    $rArr[] = array('method'=>$r[1], 'cost'=>$r[8]);
                     break;
                 case 5:
                     $errorTitle = $r[1];
                     break;
                 case 6:
-                    $rArr[] = array('service'=>$r[3], 'cost'=>$r[10]);
+                    $rArr[] = array('method'=>$r[3], 'cost'=>$r[10]);
                     break;
             }
         }
-        
-        $result = Mage::getModel('sales/shipping_rate_result');
+   
+        $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($rArr)) {
-            $error = Mage::getModel('sales/shipping_rate_result_error');
-            $error->setVendor($this->_data['vendor']);
-            $error->setVendorTitle((string)$defaults->title);
+            $error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier('ups');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
             foreach ($rArr as $r) {
-                $rate = Mage::getModel('sales/shipping_rate_result_method');
-                $rate->setCarrier($this->_data['carrier']);
-                $rate->setCarrierTitle((string)$defaults->title);
+                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate->setCarrier('ups');
+                $rate->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
                 $rate->setMethod($r['method']);
                 $rate->setMethodTitle($this->getCode('method', $r['method']));
                 $rate->setCost($r['cost']);
-                $rate->setPrice($this->getMethodPrice($r));
+                $rate->setPrice($this->getMethodPrice($r['cost']));
                 $result->append($rate);
             }
         }
-
+#echo "<pre>".print_r($result,1)."</pre>";
         $this->_result = $result;
     }
     
-    public function getMethodPrice($r)
+    public function getMethodPrice($cost)
     {
-        $defaults = $this->getDefaults();
-        $price = $r['cost']+(float)$defaults->handling;
+        $price = $cost+Mage::getStoreConfig('carriers/ups/handling');
         return $price;
     }
 
@@ -218,14 +229,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carr
                 'UW10'   => '25', //UPS Worldwide 10 kilo
             ),
             
-            'destType'=>array(
+            'dest_type'=>array(
                 'RES'    => '1', // Residential
                 'COM'    => '2', // Commercial
             ),
         );
         
         if (!isset($codes[$type])) {
-            Mage::exception('Invalid UPS CGI code type: '.$type);
+            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code type: '.$type);
         }
         
         if (''===$code) {
@@ -233,7 +244,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Sales_Model_Shipping_Carr
         }
         
         if (!isset($codes[$type][$code])) {
-            Mage::exception('Invalid UPS CGI code for type '.$type.': '.$code);
+            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code for type '.$type.': '.$code);
         }
         
         return $codes[$type][$code];
