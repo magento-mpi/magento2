@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <modules>
+    <Mage_Giftcert>
+      <version>0.1.0</version>
+    </Mage_Giftcert>
+  </modules>
+  <global>
+    <models>
+      <giftcert>
+        <class>Mage_Giftcert_Model</class>
+        <resourceModel>giftcert_mysql4</resourceModel>
+      </giftcert>
+      <giftcert_mysql4>
+        <class>Mage_Giftcert_Model_Mysql4</class>
+        <entities>
+          <code>
+            <table>giftcert_code</table>
+          </code>
+        </entities>
+      </giftcert_mysql4>
+    </models>
+    <resources>
+      <giftcert_setup>
+        <setup>
+          <module>Mage_Giftcert</module>
+          <class>Mage_Giftcert_Model_Entity_Setup</class>
+        </setup>
+        <connection>
+          <use>core_setup</use>
+        </connection>
+      </giftcert_setup>
+      <giftcert_write>
+        <connection>
+          <use>core_write</use>
+        </connection>
+      </giftcert_write>
+      <giftcert_read>
+        <connection>
+          <use>core_read</use>
+        </connection>
+      </giftcert_read>
+    </resources>
+</config>
