@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('sales/order_collection')
-            ->addAttributeToSelect('real_order_id')
+            ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('grand_total')
             #->addAttributeToSelect('currency_code')
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
             'header' => __('Order #'),
 //            'width' => 5,
             'align' => 'center',
-            'index' => 'real_order_id',
+            'index' => 'increment_id',
             'sortable' => false,
         ));
         $this->addColumn('created_at', array(

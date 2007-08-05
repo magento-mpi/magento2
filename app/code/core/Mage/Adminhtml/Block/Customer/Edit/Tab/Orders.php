@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('sales/order_collection')
-            ->addAttributeToSelect('real_order_id')
+            ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('store_id')
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
 //            'width' => 5,
             'align' => 'center',
             'sortable' => true,
-            'index' => 'real_order_id',
+            'index' => 'increment_id',
         ));
         $this->addColumn('created_at', array(
             'header'    => __('Date'),

@@ -12,7 +12,7 @@ class Mage_Sales_Model_Admin_Search extends Varien_Object
         }
         
         $collection = Mage::getResourceModel('sales/order_collection')
-            ->addAttributeSelect('self/real_order_id')
+            ->addAttributeToSelect('increment_id')
             ->addAttributeSelect('address/address_type')
             ->addAttributeSelect('address/firstname')
             ->addAttributeSelect('address/lastname')

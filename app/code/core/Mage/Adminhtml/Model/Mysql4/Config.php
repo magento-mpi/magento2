@@ -111,6 +111,9 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                             break;
                     }
                 }
+                if (!isset($fieldData['value'])) {
+                    $fieldData['value'] = '';
+                }
                 if (!isset($old[$path])
                     || $fieldData['value']!=$old[$path]['value']
                     || isset($fieldData['inherit']) && $fieldData['inherit']!=$old[$path]['inherit']) {

@@ -21,11 +21,11 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('sales/order_collection')
-            ->addAttributeToSelect('real_order_id')
+            ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('grand_total')
-            ->addAttributeToSelect('currency_code')
-            ->addAttributeToSelect('status')
+            ->addAttributeToSelect('store_currency_code')
+            ->addAttributeToSelect('order_status_id')
             ->joinAttribute('shipping_entity_id', 'order_address/entity_id', 'entity_id', 'parent_id')
             ->joinAttribute('shipping_address_type', 'order_address/address_type', 'shipping_entity_id')
             ->addAttributeToFilter('shipping_address_type', 'shipping')
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'width' => 5,
             'align' => 'center',
             'sortable' => true,
-            'index' => 'real_order_id',
+            'index' => 'increment_id',
         ));
         $this->addColumn('created_at', array(
             'header'    => __('Created At'),
@@ -68,9 +68,9 @@ class Mage_Adminhtml_Block_Sales_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index' => 'grand_total',
             'type'  => 'currency',
         ));
-        $this->addColumn('status', array(
+        $this->addColumn('order_status_id', array(
             'header' => __('Status'),
-            'index' => 'status',
+            'index' => 'order_status_id',
         ));
         $this->addColumn('action', array(
             'header' => __('Action'),

@@ -65,32 +65,7 @@
                </verisign>
             </methods>
          </payment>
-         <order>
-            <entities>
-               <payment>
-                  <attributes>
-                     <anet_trans_method>
-                        <type>varchar</type>
-                     </anet_trans_method>
-                     <echeck_routing_number>
-                        <type>varchar</type>
-                     </echeck_routing_number>
-                     <echeck_bank_name>
-                        <type>varchar</type>
-                     </echeck_bank_name>
-                     <echeck_account_type>
-                        <type>varchar</type>
-                     </echeck_account_type>
-                     <echeck_account_name>
-                        <type>varchar</type>
-                     </echeck_account_name>
-                     <echeck_type>
-                        <type>varchar</type>
-                     </echeck_type>
-                  </attributes>
-               </payment>
-            </entities>
-         </order>
+
       </sales>
    </global>
 </config>

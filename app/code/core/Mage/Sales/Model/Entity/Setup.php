@@ -221,8 +221,16 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_cid_status' => array(),
                     'cc_debug_request' => array(),
                     'cc_debug_response' => array(),
+                    
+                    'anet_trans_method' => array(),
+                    'echeck_routing_number' => array(),
+                    'echeck_bank_name' => array(),
+                    'echeck_account_type' => array(),
+                    'echeck_account_name' => array(),
+                    'echeck_type' => array(),
                 ),
             ),
+
             'order_status_history' => array(
                 'table'=>'sales/order',
                 'attributes' => array(
