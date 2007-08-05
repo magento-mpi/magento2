@@ -33,16 +33,15 @@ class Mage_Sales_Model_Entity_Quote_Address extends Mage_Eav_Model_Entity_Abstra
     
     public function fetchTotals(Mage_Sales_Model_Quote_Address $address)
     {
-        $totals = array();
         $attributes = $this->loadAllAttributes()->getAttributesByCode();
         foreach ($attributes as $attrCode=>$attr) {
             $frontend = $attr->getFrontend();
-            if (is_callable(array($frontend, 'getTotals'))) {
-                $totals = array_merge_recursive($totals, $frontend->fetchTotals($address));
+            if (is_callable(array($frontend, 'fetchTotals'))) {
+                $frontend->fetchTotals($address);
             }
         }
 
-        return $totals;
+        return $this;
     }
     
     protected function _afterSave(Varien_Object $object)

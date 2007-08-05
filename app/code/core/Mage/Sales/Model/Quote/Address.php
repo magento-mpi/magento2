@@ -65,7 +65,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         if ($this->getQuote()) {
             foreach ($this->getQuote()->getItemsCollection() as $item) {
                 if (!$item->isDeleted() 
-                    && (!$this->getId() || $this->getId()==$item->getQuoteAddressId())) {
+                    && (!$item->getQuoteAddressId() || $item->getQuoteAddressId()==$this->getId())) {
                     $items[] = $item;
                 }
             }

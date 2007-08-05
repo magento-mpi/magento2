@@ -9,8 +9,8 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Tax
         $address->setTaxAmount(0);
         
         foreach ($address->getAllItems() as $item) {
-            $item->setTaxPercent($address->getTaxPercent());
-            $item->setTaxAmount($item->getRowTotal() * $item->getTaxPercent()/100);
+            $item->setTaxPercent($address->getTaxPercent());//NONO
+            $item->calcTaxAmount();
             $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
         }
         

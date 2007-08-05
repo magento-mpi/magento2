@@ -56,36 +56,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $arr;
     }
     
-/*********************** CART ***************************/
-
-    public function collectTotals()
-    {
-
-        foreach ($this->getAllShippingAddresses() as $address) {
-            $address->collectTotals();
-        }
-        return $this;
-    }
-    
-    public function getTotals()
-    {
-        return $this->getShippingAddress()->getTotals();
-    }
-    
-    public function createOrder()
-    {
-        if ($this->getIsVirtual()) {
-            $this->getBillingAddress()->createOrder();
-        } elseif (!$this->getIsMultiShipping()) {
-            $this->getShippingAddress()->createOrder();
-        } else {
-            foreach ($this->getAllShippingAddresses() as $address) {
-                $address->createOrder();
-            }
-        }
-        return $this;
-    }
-    
 /*********************** ADDRESSES ***************************/
 
     public function getAddressesCollection()
@@ -378,4 +348,37 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         
         return $payment;
     }
+    
+    public function collectTotals()
+    {
+
+        foreach ($this->getAllShippingAddresses() as $address) {
+            $address->collectTotals();
+        }
+        return $this;
+    }
+
+/*********************** TOTALS ***************************/
+    
+    public function getTotals()
+    {
+        return $this->getShippingAddress()->getTotals();
+    }
+
+/*********************** ORDER ***************************/
+
+    public function createOrder()
+    {
+        if ($this->getIsVirtual()) {
+            $this->getBillingAddress()->createOrder();
+        } elseif (!$this->getIsMultiShipping()) {
+            $this->getShippingAddress()->createOrder();
+        } else {
+            foreach ($this->getAllShippingAddresses() as $address) {
+                $address->createOrder();
+            }
+        }
+        return $this;
+    }
+       
 }

@@ -153,10 +153,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Checkout>
-        <Mage_Shiptable>
+        <Mage_Shipping>
             <active>true</active>
             <codePool>core</codePool>
-        </Mage_Shiptable>
+        </Mage_Shipping>
         <Mage_Usa>
             <active>true</active>
             <codePool>core</codePool>

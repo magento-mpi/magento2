@@ -33,5 +33,22 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
+    
+    public function calcRowTotal()
+    {
+        $this->setRowTotal($this->getPrice()*$this->getQty());
+        return $this;
+    }
+    
+    public function calcRowWeight()
+    {
+        $this->setRowWeight($this->getWeight()*$this->getQty());
+        return $this;
+    }
 
+    public function calcTaxAmount()
+    {
+        $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
+        return $this;
+    }
 }

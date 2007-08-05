@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_Shipping>
+         <version>0.1.0</version>
+      </Mage_Shipping>
+   </modules>
+
+   <global>
+      <models>
+         <shipping>
+            <class>Mage_Shipping_Model</class>
+            <resourceModel>shipping_mysql4</resourceModel>
+         </shipping>
+
+         <shipping_mysql4>
+            <class>Mage_Shipping_Model_Mysql4</class>
+
+            <entities>
+               <shipping>
+                  <table>shipping_data</table>
+               </shipping>
+            </entities>
+         </shipping_mysql4>
+      </models>
+
+      <resources>
+         <shipping_setup>
+            <setup>
+               <module>Mage_Shipping</module>
+            </setup>
+            <connection>
+               <use>core_setup</use>
+            </connection>
+         </shipping_setup>
+
+         <shipping_write>
+            <connection>
+               <use>core_write</use>
+            </connection>
+         </shipping_write>
+
+         <shipping_read>
+            <connection>
+               <use>core_read</use>
+            </connection>
+         </shipping_read>
+      </resources>
+
+      <sales>
+         <shipping>
+            <carriers>
+               <shipping>
+                  <active>true</active>
+
+                  <class>shipping/table</class>
+
+                  <title>Table rate</title>
+               </shipping>
+            </carriers>
+         </shipping>
+      </sales>
+   </global>
+</config>
