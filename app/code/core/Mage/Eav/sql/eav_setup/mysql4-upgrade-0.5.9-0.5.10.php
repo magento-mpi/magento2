@@ -10,19 +10,18 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
 
-alter table `eav_entity_type` 
-	,change `is_data_sharing` `is_data_sharing` tinyint (4) UNSIGNED  DEFAULT '1' NOT NULL 
-	,add column `increment_model` varchar (255)  NOT NULL  after `default_attribute_set_id`
-    ,add column `increment_per_store` tinyint (1)UNSIGNED  DEFAULT '0' NOT NULL  after `increment_model`
-	,add column `increment_pad_length` tinyint (8) UNSIGNED  DEFAULT '8' NOT NULL after `increment_per_store`
-	,add column `increment_pad_char` char (1) DEFAULT '0' NOT NULL  after `increment_pad_length`
-;
+alter table `eav_entity_type` change `is_data_sharing` `is_data_sharing` tinyint (4) UNSIGNED  DEFAULT '1' NOT NULL ;
 
-alter table `eav_entity` 
-    ,add column `attribute_set_id` smallint (5)UNSIGNED   NOT NULL  after `entity_type_id`
-    ,add column `increment_id` varchar (50) NOT NULL  after `attribute_set_id`
-    ,add column `parent_id` int (11)UNSIGNED   NOT NULL  after `increment_id`
-;
+alter table `eav_entity_type` add column `increment_model` varchar (255)  NOT NULL  after `default_attribute_set_id`;
+alter table `eav_entity_type` add column `increment_per_store` tinyint (1)UNSIGNED  DEFAULT '0' NOT NULL  after `increment_model`;
+alter table `eav_entity_type` add column `increment_pad_length` tinyint (8) UNSIGNED  DEFAULT '8' NOT NULL after `increment_per_store`;
+alter table `eav_entity_type` add column `increment_pad_char` char (1) DEFAULT '0' NOT NULL  after `increment_pad_length`;
+
+
+alter table `eav_entity` add column `attribute_set_id` smallint (5)UNSIGNED   NOT NULL  after `entity_type_id`;
+alter table `eav_entity` add column `increment_id` varchar (50) NOT NULL  after `attribute_set_id`;
+alter table `eav_entity` add column `parent_id` int (11)UNSIGNED   NOT NULL  after `increment_id`;
+
 
 drop table if exists `eav_entity_store`;
 CREATE TABLE `eav_entity_store` (
