@@ -17,7 +17,7 @@ class Mage_Core_Model_Mysql4_Config_Field_Collection extends Mage_Core_Model_Mys
     public function loadRecursive($section)
     {
         $this->addFieldToFilter('path', array($section, array('like'=>$section.'/%')));
-        $this->setOrder('path', 'asc')->setOrder('sort_order', 'asc');
+        $this->setOrder('level', 'asc')->setOrder('sort_order', 'asc');
         $this->loadData();
         return $this;
     }

@@ -23,7 +23,8 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $current = $this->getRequest()->getParam('section');
 
         $sections = Mage::getResourceModel('core/config_field_collection')
-            ->addFieldToFilter('path', array('nlike'=>'%/%'))
+            ->addFieldToFilter('level', 1)
+            ->setOrder('sort_order', 'asc')
             ->loadData();
         
         foreach ($sections as $section) {
