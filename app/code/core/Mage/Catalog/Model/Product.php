@@ -261,6 +261,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	return $this->getTypeId() == 2;
     }
     
+    public function isAviableBundle() 
+    {
+    	foreach ($this->getBundleOptionCollection() as $bundleOption) {
+    		if(sizeof($bundleOption->getLinkCollection()->getItems())==0) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
+    
     public function getBundleOptionCollection()
     {
     	if(!$this->isBundle()) {

@@ -21,12 +21,24 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $productId  = $this->getRequest()->getParam('id');
 
         if(!$product = Mage::registry('product')) {
+        	$storeId = (int) Mage::getSingleton('core/store')->getId();
         	$product = Mage::getModel('catalog/product')
+        		->setStoreId($storeId)
             	->load($productId)
-            	->setCategoryId($categoryId);
+            	->setCategoryId($categoryId)
+            	->setStoreId($storeId);
+            
            	Mage::register('product', $product);
         }
 
+        if($product->isBundle()) {
+        	$product->getBundleOptionCollection()->useProductItem()->getLinkCollection()
+        		->addAttributeToSelect('name')
+        		->addAttributeToSelect('price');
+        	$product->getBundleOptionCollection()
+        		->load();
+        }
+        
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb('home',
             array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())

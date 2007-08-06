@@ -12,6 +12,8 @@
  {
  	protected $_linkCollection = null;
  	protected $_storeId = 0;
+ 	protected $_useProductItemFlag = false;
+ 	
  	
  	protected function _construct()
  	{
@@ -61,6 +63,12 @@
  		if(sizeof($optionsIds)==0) {
  			return $this;
  		}
+ 		
+ 		if($this->_useProductItemFlag) {
+ 			$this->getLinkCollection()
+ 				->useProductItem();
+ 		}
+ 		
 		$this->getLinkCollection()
 			->setOptionIds($optionsIds)
 			->setStoreId($this->getStoreId())
@@ -69,6 +77,10 @@
 			
 		foreach($this->getItems() as $item) {
 			foreach ($this->getLinkCollection() as $link) {
+				if($this->_useProductItemFlag) {
+		 			$item->getLinkCollection()
+		 				->useProductItem();
+		 		}
 				if($item->getId()==$link->getOptionId()) {
 					$item->getLinkCollection()->addItem($link);
 				}
@@ -96,6 +108,12 @@
  	public function getItemModel()
     {        
         return new $this->_itemObjectClass;
+    }
+    
+    public function useProductItem()
+    {        
+    	$this->_useProductItemFlag = true;
+        return $this;
     }
     
      /**

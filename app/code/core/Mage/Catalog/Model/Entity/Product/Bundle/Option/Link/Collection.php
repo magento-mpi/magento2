@@ -111,6 +111,15 @@
     }
     
     
+    public function getFirstItem()
+    {
+        
+        foreach ($this as $item) {
+        	return $item;
+        }
+        return false;
+    }
+    
     
     // Overrided for one time loading of links for all records, becouse same entity can be used for diferent options.
     /**
