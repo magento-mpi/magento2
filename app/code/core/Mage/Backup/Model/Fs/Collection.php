@@ -49,7 +49,7 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
     	if($this->getPageSize()) {
     		$this->_items = array_slice($this->_items, ($this->getCurPage()-1)*$this->getPageSize(), $this->getPageSize());
     	}
-    	    	
+    	    	    	
     	return $this;
     }
         

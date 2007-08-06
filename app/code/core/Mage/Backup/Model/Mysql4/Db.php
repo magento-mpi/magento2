@@ -37,7 +37,7 @@ class Mage_Backup_Model_Mysql4_Db
             }
             $sql = 'SHOW CREATE TABLE '.$tableName;
             $data = $this->_read->fetchRow($sql);
-            $script.= isset($data['Create Table']) ? $data['Create Table']."\n" : '';
+            $script.= isset($data['Create Table']) ? $data['Create Table'].";\n" : '';
         }
         
         return $script;

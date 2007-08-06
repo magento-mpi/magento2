@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
     
     protected function _construct()
     {
-        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
         $this->setId('backupsGrid');
 		$this->setDefaultSort('time', 'desc');       
     }
