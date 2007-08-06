@@ -225,14 +225,28 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'ULE'    => '01', // UPS Letter Envelope
                 'UT'     => '03', // UPS Tube
                 'UEB'    => '21', // UPS Express Box
-                'UW25'   =>' 24', // UPS Worldwide 25 kilo
+                'UW25'   => '24', // UPS Worldwide 25 kilo
                 'UW10'   => '25', //UPS Worldwide 10 kilo
+            ),
+            
+            'container_description'=>array(
+                'CP'     => 'Customer Packaging',
+                'ULE'    => 'UPS Letter Envelope',
+                'UT'     => 'UPS Tube',
+                'UEB'    => 'UPS Express Box',
+                'UW25'   => 'UPS Worldwide 25 kilo',
+                'UW10'   => 'UPS Worldwide 10 kilo',
             ),
             
             'dest_type'=>array(
                 'RES'    => '1', // Residential
                 'COM'    => '2', // Commercial
             ),
+            
+            'dest_type_description'=>array(
+                'RES'    => 'Residential',
+                'COM'    => 'Commercial',
+            )
         );
         
         if (!isset($codes[$type])) {

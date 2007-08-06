@@ -110,6 +110,8 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                             $fieldData['inherit'] = 0;
                             break;
                     }
+                } else {
+                    $fieldData['inherit'] = 0;
                 }
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = '';
@@ -121,7 +123,7 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                     if (isset($old[$path]) && $fieldData['value']!=$old[$path]['value']) {
                         $fieldData['old_value'] = $old[$path]['value'];
                     } else {
-                        #$fieldData['old_value'] = '';
+                        $fieldData['old_value'] = '';
                     }
 
                     $data = array(

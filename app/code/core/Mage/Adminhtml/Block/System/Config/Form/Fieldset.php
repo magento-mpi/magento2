@@ -22,33 +22,11 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         $html.= '<legend>'.$element->getLegend().'</legend>';
         
         // field label column
-        $html.= '<table cellspacing=0>';
-        $html.= '<col class="label"/><col class="custom"/>';
+        $html.= '<table cellspacing=0><colgroup class="label"/><colgroup class="value"/>';
         if (!$default) {
-            $html .= '<col class="inherit"/>';
+            $html.= '<colgroup class="default"/>';
         }
-        $html.= '<col class="old"/>';
-        $html.= '<thead><tr><th>&nbsp;</th><th>';
-        
-        // custom column
-        $html.= '<input id="'.$id.'_custom" name="groups['.$id.'][inherit]" type="radio" value="0" class="input-radio">'; 
-        $html.= '<label for="'.$id.'_custom">'.__('Specific').'</label>';
-        
-        if (!$default) {
-            $html.= '</th><th>';
-
-            // default column
-            $html.= '<input id="'.$id.'_inherit" name="groups['.$id.'][inherit]" type="radio" value="1" class="input-radio">'; 
-            $html.= '<label for="'.$id.'_inherit">'.__('Default').'</label>';
-        }
-
-        $html.= '</th><th>';
-        
-        // old column
-        $html.= '<input id="'.$id.'_old" name="groups['.$id.'][inherit]" type="radio" value="-1" class="input-radio">'; 
-        $html.= '<label for="'.$id.'_old">'.__('Previous').'</label>';
-        
-        $html.= '</th></tr></thead><tbody>';
+        $html.= '<tbody>';
         
         foreach ($element->getElements() as $field) {
         	$html.= $field->toHtml();

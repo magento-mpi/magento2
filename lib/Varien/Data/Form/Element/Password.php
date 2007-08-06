@@ -15,4 +15,10 @@ class Varien_Data_Form_Element_Password extends Varien_Data_Form_Element_Abstrac
         $this->setType('password');
         $this->setExtType('textfield');
     }
+    
+    public function getHtml()
+    {
+        $this->addClass('input-text');
+        return parent::getHtml();
+    }
 }

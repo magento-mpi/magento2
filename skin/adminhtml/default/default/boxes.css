@@ -355,28 +355,27 @@ div.autocomplete ul li {
 .address-type .address-type-line input { margin-right:3px; }
 
 /* Config */
-fieldset.config th {
-    border-bottom:dotted 1px #888;
+
+fieldset.config td {
+    padding-top:5px;
+    padding-bottom:5px;
     }
-fieldset.config th, fieldset.config td {
-    border-right:dotted 1px #888;
-    padding:2px 5px;
+fieldset.config td.label {
+    padding-right:10px;
     }
-fieldset.config col.default, fieldset.config col.old {
-    width:150px;
-    }
-fieldset.config col.custom {
-    white-space:nowrap;
+fieldset.config td.value {
+    padding-right:5px;
     }
 fieldset.config label {
     float:none;
     }
-fieldset.config input.input-radio {
-    margin-right:5px;
+fieldset.config input.input-text {
+    width:250px;
     }
-fieldset.config input.input-text, fieldset.config select.select {
-    width:150px;
+fieldset.config select.select {
+    width:256px;
     }
+    
 div.tree_item, div.tree_item_last{
     background-position: left;
     background-repeat: no-repeat;
