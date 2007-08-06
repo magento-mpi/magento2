@@ -15,10 +15,10 @@
 	<tbody>
 	 <tr>
 	  	<td>
-		<label for="new__id__label" class="bold"><?=__('Name')?></label> <input type="text" id="new__id__label" disabled="no-validation" tabindex="1111#{index}" onkeyup="<?=$this->getJsObjectName()?>.update(#{index})" value="#{label}" class="<?=$this->getElement()->getClass()?> option-label" />
+		<label for="new__id__label" class="bold"><?=__('Name')?></label> <input type="text" id="new__id__label" disabled="no-validation" tabindex="'1111#{index}'" onkeyup="'<?=$this->getJsObjectName()?>.update(#{index})'" value="'#{label}'" class="'<?=$this->getElement()->getClass()?> option-label'" />
 		</td>
 		<td>
-		<label for="new__id__position" class="bold"><?=__('Position')?></label> <input type="text"  id="new__id__position" disabled="no-validation" tabindex="1111#{index}" onkeyup="<?=$this->getJsObjectName()?>.update(#{index})" value="#{position}" class="<?=$this->getElement()->getClass()?> option-position validate-number" />
+		<label for="new__id__position" class="bold"><?=__('Position')?></label> <input type="text"  id="new__id__position" disabled="no-validation" tabindex="'1111#{index}'" onkeyup="'<?=$this->getJsObjectName()?>.update(#{index})'" value="'#{position}'" class="'<?=$this->getElement()->getClass()?> option-position validate-number'" />
 		</td>
 		<td>
 		<?=$this->getDeleteButtonHtml()?>

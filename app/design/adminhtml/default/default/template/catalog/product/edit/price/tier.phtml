@@ -9,15 +9,15 @@
 <table cellspacing="0">
 	<tbody>
 	 <tr>
-	  	<td class="a-center">
-		<label for="<?=$this->getElement()->getHtmlId()?>_row___index__price_qty" class="bold"><?=('Qty')?></label>
-		<input id="<?=$this->getElement()->getHtmlId()?>_row___index__price_qty" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty validate-number validate-greater-than-zero" type="text" name="<?=$this->getElement()->getName()?>[__index__][price_qty]" value="#{qty}">
+	  	<td class="a-left">
+		<strong><?=('Qty')?></strong>&nbsp;
+		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'">
 		</td>
-		<td class="a-center">
-		<label for="<?=$this->getElement()->getHtmlId()?>_row___index__price" class="bold"><?=('and above. Price')?></label>
-		<input id="<?=$this->getElement()->getHtmlId()?>_row___index__price" disabled="no-template" class="<?=$this->getElement()->getClass()?> price validate-number validate-greater-than-zero" type="text" name="<?=$this->getElement()->getName()?>[__index__][price]" value="#{price}">
+		<td class="a-left">&nbsp;
+		<strong><?=('and above. Price')?></strong>&nbsp;
+		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
 		</td>
-		<td class="a-center">
+		<td class="a-left">
 		<?=$this->getDeleteButtonHtml()?>
 		</td>
 	  </tr>
@@ -28,7 +28,7 @@
 <script type="text/javascript">
 <!--
 	var tierPriceControl = {
-		template : new Template($('<?=$this->getElement()->getHtmlId()?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="no-template"/g, '')),
+		template : new Template($('<?=$this->getElement()->getHtmlId()?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"')),
 		itemsCount : 0,
 		deleteButton: false,
 		addItem	 : function () {

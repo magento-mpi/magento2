@@ -177,7 +177,7 @@ Bundle.Options.prototype = {
 		this.container = $(this.containerId);
 		this.field = $(this.fieldId);
 		
-		this.addTemplate = new Template($(addTemplateHtmlId).innerHTML.replace(/new__id__/g, "#{id}").replace(/ disabled="no-validation"/g, ''));
+		this.addTemplate = new Template($(addTemplateHtmlId).innerHTML.replace(/new__id__/g, "#{id}").replace(/ disabled="no-validation"/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"'));
 		this.validItemsField = $(addTemplateHtmlId + '_count_of_items');
         this.gridUrl = gridUrl;
 		this.tabObject = tabObject;
