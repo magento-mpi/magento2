@@ -28,6 +28,7 @@
 			$this->_items
 				->loadComaparableAttributes()
 				->addAttributeToSelect('name')
+				->addAttributeToSelect('price')
 				->useProductItem()
 				->load();
  		}
