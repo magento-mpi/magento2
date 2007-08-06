@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
     	$finalValue = array();
     	
     	foreach ($tierPrices as $tierPrice) {
-    		if (!isset($tierPrice['price_qty']) || !isset($tierPrice['price'])) {
+    		if (!isset($tierPrice['price_qty']) || !isset($tierPrice['price']) || strlen($storeId)==0) {
     			continue;
     		}
     		
