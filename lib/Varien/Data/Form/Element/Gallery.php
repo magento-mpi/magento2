@@ -21,38 +21,52 @@ class Varien_Data_Form_Element_Gallery extends Varien_Data_Form_Element_Abstract
     {
         $gallery = $this->getValue();
 
-        $html = '<table id="image_list" border="0" cellspacing="3" cellpadding="0">';
-        $html .= '<tr><td valign="middle" align="center">Big Image</td><td valign="middle" align="center">Thumbnail</td><td valign="middle" align="center">Small Thumb</td><td valign="middle" align="center">Sort Order</td><td valign="middle" align="center">Delete</td></tr>';
+        $html = '<table id="gallery" class="gallery" border="0" cellspacing="3" cellpadding="0">';
+        $html .= '<thead id="gallery_thead" class="gallery"><tr class="gallery"><td class="gallery" valign="middle" align="center">Big Image</td><td class="gallery" valign="middle" align="center">Thumbnail</td><td class="gallery" valign="middle" align="center">Small Thumb</td><td class="gallery" valign="middle" align="center">Sort Order</td><td class="gallery" valign="middle" align="center">Delete</td></tr></thead>';
+$widgetButton = $this->getForm()->getParent()->getLayout();
+$buttonHtml = $widgetButton->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+					    'label'     => __('Add New Image'),
+                        'onclick'   => 'addNewImg()',
+                        'class'     => 'add'))
+                ->toHtml();
 
+        $html .= '<tfoot class="gallery">';
+        $html .= '<tr class="gallery">';
+        $html .= '<td class="gallery" valign="middle" align="left" colspan="5">'.$buttonHtml.'</td>';
+        $html .= '</tr>';
+        $html .= '</tfoot>';
+
+        $html .= '<tbody class="gallery">';
+
+        $i = 0;
         if (!is_null($this->getValue())) {
             foreach ($this->getValue() as $image) {
-                $html .= '<tr>';
+                $i++;
+                $html .= '<tr class="gallery">';
                 foreach ($this->getValue()->getAttributeBackend()->getImageTypes() as $type) {
                     $url = $image->setType($type)->getSourceUrl();
-                    $html .= '<td align="center" style="vertical-align:bottom;">';
+                    $html .= '<td class="gallery" align="center" style="vertical-align:bottom;">';
                     $html .= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'\');return false;"><img
                         src="'.$url.'" alt="'.$image->getValue().'" height="25" align="absmiddle" class="small-image-preview"></a><br/>';
                     $html .= '<input type="file" name="'.$this->getName().'_'.$type.'['.$image->getValueId().']" size="1"></td>';
                     $html .= '<div id="'.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'" style="display:none" class="image-preview"><img src="'.$url.'" alt="'.$image->getValue().'"></div>';
                 }
-                $html .= '<td align="center" style="vertical-align:bottom;"><input type="input" name="'.parent::getName().'[position]['.$image->getValueId().']" value="'.$image->getPosition().'" id="'.$this->getHtmlId().'_position_'.$image->getValueId().'" size="3"/></td>';
-                $html .= '<td align="center" style="vertical-align:bottom;"><input type="checkbox" name="'.parent::getName().'[delete]['.$image->getValueId().']" value="'.$image->getValueId().'" id="'.$this->getHtmlId().'_delete_'.$image->getValueId().'"/></td>';
+                $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="input" name="'.parent::getName().'[position]['.$image->getValueId().']" value="'.$image->getPosition().'" id="'.$this->getHtmlId().'_position_'.$image->getValueId().'" size="3"/></td>';
+                $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="checkbox" name="'.parent::getName().'[delete]['.$image->getValueId().']" value="'.$image->getValueId().'" id="'.$this->getHtmlId().'_delete_'.$image->getValueId().'"/></td>';
                 $html .= '</tr>';
             }
         }
+        if ($i==0) {
+            $html .= '<script language="javascript">document.getElementById("gallery_thead").style.visibility="hidden";</script>';
+        }
 
-        $html .= '<tr>';
-//          $html .= '<td valign="middle" align="left" colspan="3"><input id="'.$this->getHtmlId().'" name="'.$this->getName().'" value="" '.$this->serialize($this->getHtmlAttributes()).' size="20"/></td>';
-        $html .= '<td valign="middle" align="left" colspan="3"><a href="#" onclick="addNewImg();return false;">Add New Image</a></td>';
-        $html .= '<td></td>';
-        $html .= '<td></td>';
-        $html .= '</tr>'."\n";
-
-        $html .= '</table>';
-
+        $html .= '</tbody></table>';
+        
 /*
         $html .= '<script language="javascript">
-                    var multi_selector = new MultiSelector( document.getElementById( "image_list" ),
+                    var multi_selector = new MultiSelector( document.getElementById( "gallery" ),
                     "'.$this->getName().'",
                     -1,
                         \'<a href="file:///%file%" target="_blank" onclick="imagePreview(\\\''.$this->getHtmlId().'_image_new_%id%\\\');return false;"><img src="file:///%file%" width="50" align="absmiddle" class="small-image-preview" style="padding-bottom:3px; width:"></a> <div id="'.$this->getHtmlId().'_image_new_%id%" style="display:none" class="image-preview"><img src="file:///%file%"></div>\',
@@ -73,6 +87,8 @@ class Varien_Data_Form_Element_Gallery extends Varien_Data_Form_Element_Abstract
 
         function addNewImg(){
 
+            document.getElementById("gallery_thead").style.visibility="visible";
+
             id--;
             new_file_input = '<input type="file" name="{$name}_%j%[%id%]" size="1">';
 
@@ -88,7 +104,7 @@ class Varien_Data_Form_Element_Gallery extends Varien_Data_Form_Element_Abstract
 		    new_row_button.type = 'checkbox';
 		    new_row_button.value = 'Delete';
 
-            table = document.getElementById( "image_list" );
+            table = document.getElementById( "gallery" );
 
             // no of rows in the table:
             noOfRows = table.rows.length;
@@ -139,6 +155,11 @@ EndSCRIPT;
 
     public function getName()
     {
-        return  $this->getData('name');
+        return $this->getData('name');
+    }
+
+    public function getParentName()
+    {
+        return parent::getName();
     }
 }

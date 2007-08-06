@@ -29,7 +29,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                     $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_tier')
                 );          
             }
-            
+
+            if ($gallery = $form->getElement('gallery')) {
+                $gallery->setRenderer(
+                    $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_gallery')
+                );          
+            }
+
             $form->addValues(Mage::registry('product')->getData());
             $form->setFieldNameSuffix('product');
             $this->setForm($form);

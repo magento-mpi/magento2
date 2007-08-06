@@ -95,7 +95,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
         $connection = $this->getConnection('write');
 
         $values = $object->getData($this->getAttribute()->getName());
-        
+
         if(isset($values['position']))
         {
             foreach ((array)$values['position'] as $valueId => $position) {
@@ -130,7 +130,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                     catch (Exception $e){
                         continue;
                     }
-                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
+                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
     	            if (!isset($uploadedFileName)) {
                         $uploadedFileName = $uploader->getUploadedFileName();
                     }
@@ -155,10 +155,12 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
         if(isset($values['delete']))
         {
             foreach ((array)$values['delete'] as $valueId) {
-    	        $condition = array(
-    		        $connection->quoteInto('value_id = ?', $valueId)
-    	        );
-    	        $connection->delete($this->getTable(), $condition);
+                if ($valueId != '') {
+    	            $condition = array(
+    		            $connection->quoteInto('value_id = ?', $valueId)
+    	            );
+    	            $connection->delete($this->getTable(), $condition);
+                }
     	    }
         }
     }
