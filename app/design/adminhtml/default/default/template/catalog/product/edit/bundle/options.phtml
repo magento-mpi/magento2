@@ -1,158 +1,39 @@
+<input type="hidden" id="<?=$this->getId()?>_raw_options" name="_options_json">
 <table cellspacing="0" width="100%">
     <tr>
         <td class="content-left-nav">
 			<ul id="<?=$this->getId()?>" class="tabs">
 				<li>
 					<a href="#" id="<?=$this->getId()?>_options" title="<?=__('Options')?>" class="option-item-link">
-						<span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please correct before saving.')?>"></div><?=__('Options')?></span>
+						<span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please correct before saving.')?>"></div><div class="option-label-text"><?=__('Options')?></div></span>
 					</a>
-					<div id="<?=$this->getId()?>_options_content" style="display:none">Bla bla bla</div>
+					<div id="<?=$this->getId()?>_options_content" style="display:none">
+						<?=$this->getChildHtml('option_form')?>
+					</div>
 				</li>
 			</ul>
 			<ul id="<?=$this->getId()?>_template" class="no-display">
 				<li>
 					<a href="_url_" id="_id_" title="#{label}" class="option-item-link">
-						<span>#{label}</span>
+						<span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please correct before saving.')?>"></div><div class="option-label-text">#{label}</div></span>
 					</a>
 					<div id="_id__content" style="display:none">#{content}</div>
 				</li>
 			</ul>
         </td>
         <td>
-            <div class="content" id="<?=$this->getId()?>_destanation"></div>
+            <div class="content" id="<?=$this->getId()?>_destanation">
+            	
+            </div>
         </td>
     </tr>
 </table>
 <script>
-var optionTabs = new Class.create();
-optionTabs.prototype = {
-    initialize : function(containerId, destElementId,  activeTabId, addTemplateId){
-        this.containerId    = containerId;
-        this.destElementId  = destElementId;
-        this.addTemplate = new Template($(addTemplateId).innerHTML.replace(/_id_/g, "#{id}").replace(/_url_/g, "#{url}"));
-        this.activeTab = null;
-        
-        this.tabOnClick     = this.tabMouseClick.bindAsEventListener(this);
-        
-        this.tabs = $$('#'+this.containerId+' li a.option-item-link');
-                
-        this.hideAllTabsContent();
-        for(var tab in this.tabs){
-        	Event.observe(this.tabs[tab],'click',this.tabOnClick);
-            // move tab contents to destination element
-            if($(this.destElementId)){
-                var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));               
-                if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
-                	$(this.destElementId).appendChild(tabContentElement);
-                    tabContentElement.container = this;
-                    tabContentElement.statusBar = this.tabs[tab];
-                    tabContentElement.tabObject  = this.tabs[tab];
-                    this.tabs[tab].contentMoved = true;
-                    this.tabs[tab].container = this;
-                    this.tabs[tab].show = function(){
-                        this.container.showTabContent(this);
-                    }
-                }
-            }
-        }
-        
-        this.showTabContent($(activeTabId));
-        Event.observe(window,'load',this.moveTabContentInDest.bind(this));
-    },
-    
-    moveTabContentInDest : function(){
-        for(var tab in this.tabs){
-            if($(this.destElementId) &&  !this.tabs[tab].contentMoved){
-                var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
-                if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
-                    $(this.destElementId).appendChild(tabContentElement);
-                    tabContentElement.container = this;
-                    tabContentElement.statusBar = this.tabs[tab];
-                    tabContentElement.tabObject  = this.tabs[tab];
-                    this.tabs[tab].container = this;
-                    this.tabs[tab].show = function(){
-                        this.container.showTabContent(this);
-                    }
-                    this.tabs[tab].remove = function(){
-                    	if(this.container.getTabContentElementId(this)) {
-                    		Element.remove($(this.container.getTabContentElementId(this)));
-                    	}
-                        Element.remove(this.parentNode);
-                    }
-                }
-            }
-        }
-    },
-    
-    
-    
-    getTabContentElementId : function(tab){
-        if(tab){
-            return tab.id+'_content';
-        }
-        return false;
-    },
-    
-    tabMouseClick : function(event){
-        var tab = Event.findElement(event, 'a');
-        if(tab.href.indexOf('#') != tab.href.length-1){
-           	// Implement Ajax
-        }
-        else {
-            this.showTabContent(tab);
-        }
-        
-        Event.stop(event);
-    },
-    
-    hideAllTabsContent : function(){
-        for(var tab in this.tabs){
-            this.hideTabContent(this.tabs[tab]);
-        }
-    },
-    
-    showTabContent : function(tab){
-        this.hideAllTabsContent();
-        var tabContentElement = $(this.getTabContentElementId(tab));
-        if(tabContentElement){
-            Element.show(tabContentElement);
-            Element.addClassName(tab, 'active');
-            this.activeTab = tab;
-        }
-        
-    },
-    
-    hideTabContent : function(tab){
-        var tabContentElement = $(this.getTabContentElementId(tab));
-        if($(this.destElementId) && tabContentElement){
-           Element.hide(tabContentElement);
-           Element.removeClassName(tab, 'active');
-        }
-      
-    },
-    addTab		: function(options) {
-    	options.id = this.getUniqueId();
-    	options.url = '#';
-    	options.content = options.label + ' Content';
-    	
-    	var tabHtml = this.addTemplate.evaluate(options);
-    	new Insertion.Bottom(this.containerId, tabHtml);
-    	
-    	this.tabs.push($(options.id));
-    	Event.observe(options.id,'click',this.tabOnClick);
-    	this.moveTabContentInDest();
-    	return this.tabs[this.tabs.length-1];
-    },
-    getUniqueId : function() {
-    	if (!this.uniqueCount) {
-    		this.uniqueCount = 1;
-    	} else {
-    		this.uniqueCount++;	
-    	}    	
-    	return this.containerId + '_tab_' + this.uniqueCount;
-    }
-}
-
-var optionsController = new optionTabs('<?=$this->getId()?>','<?=$this->getId()?>_destanation','<?=$this->getId()?>_options','<?=$this->getId()?>_template');
-
+var <?=$this->getTabJsObjectName()?> = new Bundle.Tabs('<?=$this->getId()?>','<?=$this->getId()?>_destanation','<?=$this->getId()?>_options','<?=$this->getId()?>_template');
+var <?=$this->getJsObjectName()?> = new Bundle.Options('<?=$this->getJsContainerHtmlId()?>',<?=$this->getTabJsObjectName()?>,'<?=$this->getUrl('*/*/bundle')?>', '<?=$this->getId()?>_raw_options', '<?=$this->getJsTemplateHtmlId()?>');
+<?=$this->getJsObjectName()?>.jsController = '<?=$this->getJsObjectName()?>';
+<?=$this->getJsObjectName()?>.optionLabelNewText = '<?=__('Option')?> ';
+<?foreach ($this->getBundleOptions() as $_option):?>
+<?=$this->getJsObjectName()?>.addItem('<?=$_option->getId()?>','<?=$this->getEscaped($_option->getLabel())?>','<?=$_option->getPosition()?>',<?=$this->getOptionProductsJSON($_option)?>);
+<?endforeach;?>
 </script>

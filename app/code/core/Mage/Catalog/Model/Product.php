@@ -18,7 +18,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	 *
 	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
 	 */
-	protected $_bundleOptionCollection = array();
+	protected $_bundleOptionCollection = null;
 	protected $_attributes;
 	
     public function __construct() 

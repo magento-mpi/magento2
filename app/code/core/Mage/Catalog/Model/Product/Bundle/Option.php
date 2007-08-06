@@ -27,4 +27,30 @@
  		
  		return $this->_linkCollection;
  	}
+ 	
+ 	public function toArray(array $arrAttributes = array()) 
+ 	{
+ 		return $this->getResource()->toArray($this);
+ 	}
+ 	
+ 	public function getDataForSave()
+ 	{
+ 		$data = array();
+ 		$data['product_id'] = $this->getProductId();
+ 		return $data;
+ 	}
+ 	
+ 	public function getPosition() {
+ 		if(strlen($this->getData('position')) > 0 || $this->getData('position')) {
+ 			return $this->getData('position');
+ 		}
+ 		return $this->getDefaultPosition();
+ 	}
+ 	
+ 	public function getLabel() {
+ 		if(strlen($this->getData('label')) > 0 || $this->getData('label')) {
+ 			return $this->getData('label');
+ 		}
+ 		return $this->getDefaultLabel();
+ 	}
  } // Class Mage_Catalog_Model_Product_Bundle_Option end

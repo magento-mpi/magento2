@@ -22,6 +22,7 @@
     {
     	$this->_storeId = $storeId;
     	$this->_joinValues();
+    	
     	return $this;
     }
     
@@ -41,7 +42,16 @@
     protected function _joinValues()
     {
     	$this->getSelect()
-    		->join(array('value'=>$this->getTable('product_bundle_option_value')), 'value.option_id=main_table.option_id AND value.store_id='.(int)$this->getStoreId(), array('label', 'position', 'store_id'));
+    		->joinLeft(array('value'=>$this->getTable('product_bundle_option_value')),
+    				  'value.option_id=main_table.option_id AND value.store_id='.(int)$this->getStoreId(), 
+    				  array('label', 'position', 'store_id'));
+    	
+    	if($this->getStoreId()>0) {
+    		$this->getSelect()
+    			->joinLeft(array('default_value'=>$this->getTable('product_bundle_option_value')),
+    					   'default_value.option_id=main_table.option_id AND default_value.store_id=0',
+    					   array('label AS default_label', 'position AS default_position'));
+    	}
     }
     
  	protected function _loadLinks()
@@ -53,12 +63,15 @@
  		}
 		$this->getLinkCollection()
 			->setOptionIds($optionsIds)
-			->addFieldToFilter('option_id', array('notnull'=>1))
+			->setStoreId($this->getStoreId())
+			->addFieldToFilter('option_id', array('in'=>$optionsIds))
 			->load();
 			
 		foreach($this->getItems() as $item) {
 			foreach ($this->getLinkCollection() as $link) {
-				$item->getLinkCollection()->addItem($link);
+				if($item->getId()==$link->getOptionId()) {
+					$item->getLinkCollection()->addItem($link);
+				}
 			}
 		}
 		
@@ -68,16 +81,34 @@
  	public function getLinkCollection()
  	{
  		if(is_null($this->_linkCollection)) {
- 			$this->_linkCollection = Mage::getResourceModel('catalog/product_bundle_option_link_collection')
- 				->setStoreId($this->getStoreId());
+ 			$this->_linkCollection = Mage::getResourceModel('catalog/product_bundle_option_link_collection');
  		}
  		
  		return $this->_linkCollection;
  	}
- 	
+ 	 	 	
  	public function load($printQuery=false, $logQuery=false) {
  		parent::load($printQuery, $logQuery);
  		$this->_loadLinks();
  		return $this;
  	}
+ 	
+ 	public function getItemModel()
+    {        
+        return new $this->_itemObjectClass;
+    }
+    
+     /**
+     * Convert collection to array
+     *
+     * @return array
+     */
+    public function toArray($arrRequiredFields = array())
+    {
+    	$array = array();
+    	foreach ($this->_items as $item) {
+	        $array[] = $item->toArray();
+        }
+        return $array;
+    }
  } // Class Mage_Catalog_Model_Entity_Product_Bundle_Option_Collection end

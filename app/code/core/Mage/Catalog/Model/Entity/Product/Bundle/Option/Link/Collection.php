@@ -53,6 +53,7 @@
     {
     	$this->_storeId = $storeId;
     	$this->_joinLinkTable();
+    	$this->addFieldToFilter('store_id', (int)$this->getStoreId());
     	return $this;
     }
     
@@ -72,7 +73,7 @@
                     'catalog/product_store', 
                     'store_id', 
                     'product_id=entity_id', 
-                    '{{table}}.store_id='.(int)$this->getStoreId());
+                    '{{table}}.store_id='.(int)$this->getStoreId(), 'left');
     	return $this;
     }
     
@@ -97,6 +98,19 @@
         }
         return $res;
     }
+    
+    public function getItemByColumnValue($column, $value)
+    {
+        
+        foreach ($this as $item) {
+        	if ($item->getData($column)==$value) {
+        	    return $item;
+        	}
+        }
+        return false;
+    }
+    
+    
     
     // Overrided for one time loading of links for all records, becouse same entity can be used for diferent options.
     /**
@@ -183,4 +197,21 @@
 
         return $this;
     }
+    
+    public function useProductItem()
+    {
+    	$this->setObject('catalog/product');
+    	return $this;
+    }
+    
+    public function toArray(array $arrAttributes = array())
+    {
+    	$array = array();
+ 		
+ 		foreach ($this->getItems() as $item) {
+ 			$array[$item->getProductId()] = $item->toArray(array('discount'));
+ 		}
+ 		 		
+ 		return $array;
+ 	}
  } // Class Mage_Catalog_Model_Entity_Product_Bundle_Option_Link_Collection end

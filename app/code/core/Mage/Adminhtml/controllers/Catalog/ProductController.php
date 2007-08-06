@@ -71,7 +71,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function relatedAction()
     {
-        $this->_initProduct('related');
+        $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related')->toHtml()
         );       
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function upsellAction()
     {
-        $this->_initProduct('up_sell');
+        $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell')->toHtml()
         );       
@@ -87,20 +87,38 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function crosssellAction()
     {
-        $this->_initProduct('cross_sell');
+        $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell')->toHtml()
         );       
     }
     
-    protected function _initProduct($type)
+    public function bundleAction()
+    {
+        $this->_initProduct();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_bundle_option_grid')->toHtml()
+        );       
+    }
+    
+    protected function _initProduct()
     {
     	$productId  = (int) $this->getRequest()->getParam('id');
-        $product    = Mage::getModel('catalog/product');
+        $product    = Mage::getModel('catalog/product')
+        	->setStoreId($this->getRequest()->getParam('store', 0));     
+        	
+        if ($setId = (int) $this->getRequest()->getParam('set')) {
+            $product->setAttributeSetId($setId);
+        }
+        
+        if ($typeId = (int) $this->getRequest()->getParam('type'))
+        {
+        	$product->setTypeId($typeId);	
+        }
         
         if ($productId) {
             $product->load($productId);
-        }        
+        }
                
         Mage::register('product', $product);
     }
@@ -145,6 +163,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setRelatedProducts($relatedProducts)
                 ->setUpSellProducts($upSellProducts)
                 ->setCrossSellProducts($crossSellProducts);
+                
+            if($product->isBundle()) {
+            	$options = array();
+            	if($optionsJson = $this->getRequest()->getParam('_options_json')) {
+            		$options = Zend_Json_Decoder::decode($optionsJson);
+            	} else {
+            		$options = array();
+            	}
+            	
+            	$product->setBundleOptions($options);
+            }
             
             if ($set = (int) $this->getRequest()->getParam('set')) {
                 $product->setAttributeSetId($set);

@@ -400,6 +400,23 @@ img.attribute-global {
     vertical-align:middle;
     }
 
+/* Products bundles */
+.bundle-option-row table tbody td {
+    white-space: nowrap;
+}
+
+.bundle-option-row table tbody td label {
+    float: left;
+}
+
+.bundle-option-row INPUT.option-label { 
+    width: 50% !important;
+}
+
+.bundle-option-row INPUT.option-position { 
+    width: 70px !important;
+}
+
 
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 

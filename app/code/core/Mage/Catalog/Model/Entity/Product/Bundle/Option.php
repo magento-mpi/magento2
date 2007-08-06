@@ -22,7 +22,7 @@
      * @param integer $id
      * @return boolean
      */
-    public function load(Mage_Core_Model_Abstract $object, $value)
+    public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
     {
         if (is_null($field)) {
             $field = $this->getIdFieldName();
@@ -34,7 +34,7 @@
         	->joinLeft(array('value'=>$this->getTable('product_bundle_option_value')),
         			   'main.option_id=value.option_id AND value.store_id='.(int) $object->getStoreId(),
         			   array('position','label','store_id'))
-            ->where($field.'=?', $value);
+            ->where("main.$field=?", $value);
         $data = $read->fetchRow($select);
 
         if (!$data) {
@@ -79,5 +79,13 @@
     		throw $e;
     	}
     	return $this;
+    }
+    
+    public function toArray(Mage_Core_Model_Abstract $object) {
+    	return array(
+    				 'label'	=>	$object->getLabel(),
+    				 'position'	=>	$object->getPosition(),
+    				 'id'		=>	$object->getId(),
+    				 'products' =>	$object->getLinkCollection()->toArray());
     }
  } // Class Mage_Catalog_Model_Entity_Product_Bundle_Option end

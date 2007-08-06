@@ -118,6 +118,7 @@
 	            	inputs[i].disabled = !checkbox.checked;
 	            	inputs[i].tabIndex = this.tabIndex++;
 	                Event.observe(inputs[i],'keyup', this.inputChange.bind(this));
+	                Event.observe(inputs[i],'change', this.inputChange.bind(this));
 	            }
 	        }
 		}

@@ -58,6 +58,20 @@
                 <table>catalog_product_link_type</table>
               </product_link_type>
               
+              <product_bundle_option>
+                <table>catalog_product_bundle_option</table>
+              </product_bundle_option>
+              
+              <product_bundle_option_value>
+                <table>catalog_product_bundle_option_value</table>
+              </product_bundle_option_value>
+              
+              <product_bundle_option_link>
+                <table>catalog_product_bundle_option_link</table>
+              </product_bundle_option_link>
+              
+              
+              
               <product_link_attribute>
                 <table>catalog_product_link_attribute</table>
               </product_link_attribute>

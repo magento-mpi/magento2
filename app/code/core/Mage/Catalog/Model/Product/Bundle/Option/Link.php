@@ -17,5 +17,13 @@
  		$this->_init('catalog/product_bundle_option_link');
  	}
  	
- 	
+ 	public function getDataForSave()
+ 	{
+ 		$data = array();
+ 		$data['product_id'] = $this->getProductId();
+ 		$data['option_id'] = $this->getOptionId();
+ 		$data['discount'] = ( $this->getDiscount()=='' ? null : $this->getDiscount() );
+ 		
+ 		return $data;
+ 	}
  } // Class Mage_Catalog_Model_Product_Bundle_Option_Link end

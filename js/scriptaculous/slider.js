@@ -1,6 +1,6 @@
-// script.aculo.us slider.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+// script.aculo.us slider.js v1.7.1_beta3, Fri May 25 17:19:41 +0200 2007
 
-// Copyright (c) 2005, 2006 Marty Haught, Thomas Fuchs 
+// Copyright (c) 2005-2007 Marty Haught, Thomas Fuchs 
 //
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
@@ -173,7 +173,7 @@ Control.Slider.prototype = {
       (this.track.offsetHeight != 0 ? this.track.offsetHeight :
         this.track.style.height.replace(/px$/,"")) - this.alignY : 
       (this.track.offsetWidth != 0 ? this.track.offsetWidth : 
-        this.track.style.width.replace(/px$/,"")) - this.alignX);
+        this.track.style.width.replace(/px$/,"")) - this.alignY);
   },  
   isVertical:  function(){
     return (this.axis == 'vertical');
@@ -242,8 +242,7 @@ Control.Slider.prototype = {
    if(this.active) {
       if(!this.dragging) this.dragging = true;
       this.draw(event);
-      // fix AppleWebKit rendering
-      if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+      if(Prototype.Browser.WebKit) window.scrollBy(0,0);
       Event.stop(event);
    }
   },
