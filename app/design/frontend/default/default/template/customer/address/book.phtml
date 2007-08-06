@@ -9,25 +9,25 @@
     <tr>
         <td style="width:50%;height:100%;"><h3>Default Billing</h3>
             <table width="100%" cellspacing="0"> 
-            <?if($_pAddsses = $this->getDefaultBilling()):?>    
+            <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
                 <tr>
                     <td>
                     <address>
-                        <?=$this->getAddressHtml($_pAddsses)?>
+                        <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
-            <?elseif($_pAddsses = $this->getDefaultShipping()):?>    
+            <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
                 <tr>
                     <td>
                     <address>
-                        <?=$this->getAddressHtml($_pAddsses)?>
+                        <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -68,25 +68,25 @@
     <tr>
         <td style="width:50%;" valign="top"><h3>Default Shipping</h3>
             <table width="100%" cellspacing="0"> 
-            <?if($_pAddsses = $this->getDefaultShipping()):?>    
+            <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
                 <tr>
                     <td>
                     <address>
-                        <?=$this->getAddressHtml($_pAddsses)?>
+                        <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
-            <?elseif($_pAddsses = $this->getDefaultBilling()):?>    
+            <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
                 <tr>
                     <td>
                     <address>
-                        <?=$this->getAddressHtml($_pAddsses)?>
+                        <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getAddressEditUrl($_pAddsses)?>" class="red-link">Edit</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
