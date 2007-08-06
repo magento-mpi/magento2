@@ -6,16 +6,16 @@
  * @subpackage Adminhtml
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  * @license    http://www.opensource.org/licenses/osl-3.0.php
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author	   Sergiy Lysak <sergey@varien.com>
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Gallery extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Adminhtml_Block_Widget_Form_Element_Gallery extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
 	protected $_element = null;
 	
 	public function __construct() 
 	{
-		$this->setTemplate('catalog/product/edit/gallery.phtml');
+		$this->setTemplate('widget/form/element/gallery.phtml');
 	}
 	
 	public function render(Varien_Data_Form_Element_Abstract $element)
@@ -37,11 +37,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Gallery extends Mage_Core_Bl
 	
 	public function getValues()
 	{
-/*
-		if(!is_array($this->getElement()->getValue())) {
-			return array();
-		}
-*/		
 		return $this->getElement()->getValue();
 	}
 	

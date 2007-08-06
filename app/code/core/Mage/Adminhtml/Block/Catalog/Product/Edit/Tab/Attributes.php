@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
 
             if ($gallery = $form->getElement('gallery')) {
                 $gallery->setRenderer(
-                    $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_gallery')
+                    $this->getLayout()->createBlock('adminhtml/widget_form_element_gallery')
                 );          
             }
 
