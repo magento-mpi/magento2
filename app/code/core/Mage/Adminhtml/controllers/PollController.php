@@ -60,30 +60,48 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
     {
         if ( $this->getRequest()->getPost() ) {
             try {
-                $model = Mage::getModel('poll/poll');
+                $pollModel = Mage::getModel('poll/poll');
 
                 if( !$this->getRequest()->getParam('id') ) {
-                    $model->setDatePosted(now());
+                    $pollModel->setDatePosted(now());
                 }
 
                 if( $this->getRequest()->getParam('closed') && !$this->getRequest()->getParam('was_closed') ) {
-                    $model->setDateClosed(now());
+                    $pollModel->setDateClosed(now());
                 }
 
-                $model->setPollTitle($this->getRequest()->getParam('poll_title'))
-                      ->setActive( (!$this->getRequest()->getParam('closed')) ? $this->getRequest()->getParam('active') : 0)
+                $pollModel->setPollTitle($this->getRequest()->getParam('poll_title'))
                       ->setClosed($this->getRequest()->getParam('closed'))
-                      ->setId($this->getRequest()->getParam('id'));
+                      ->setId($this->getRequest()->getParam('id'))
+                      ->save();
 
-                $model->save();
+                $answers = $this->getRequest()->getParam('answer');
+                if( is_array($answers) ) {
+                    foreach( $answers as $key => $answer ) {
+                        $answerModel = Mage::getModel('poll/poll_answer');
+                        if( intval($key) > 0 ) {
+                            $answerModel->setId($key);
+                        }
+                        $answerModel->setAnswerTitle($answer['title'])
+                            ->setVotesCount($answer['votes'])
+                            ->setPollId($pollModel->getId())
+                            ->save();
+                    }
+                }
+
+                $answersDelete = $this->getRequest()->getParam('deleteAnswer');
+                if( is_array($answersDelete) ) {
+                    foreach( $answersDelete as $answer ) {
+                        $answerModel = Mage::getModel('poll/poll_answer');
+                        $answerModel->setId($answer)
+                            ->delete();
+                    }
+                }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll succesfully saved.'));
                 Mage::getSingleton('adminhtml/session')->setPollData(false);
 
-                if( !$this->getRequest()->getParam('id') ) {
-                    $this->_redirect('*/*/edit', array('id' => $model->getId(), 'tab' => 'answers_section'));
-                } else {
-                    $this->_redirect('*/*/');
-                }
+                $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

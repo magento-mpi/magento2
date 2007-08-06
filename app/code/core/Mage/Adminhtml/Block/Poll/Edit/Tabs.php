@@ -28,17 +28,14 @@ class Mage_Adminhtml_Block_Poll_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Ta
         ))
         ;
 
-        if( Mage::registry('poll_data') ) {
-            $this->addTab('answers_section', array(
+        $this->addTab('answers_section', array(
                 'label'     => __('Poll Answers'),
                 'title'     => __('Poll Answers'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/poll_edit_tab_answers')
-                                ->append($this->getLayout()->createBlock('adminhtml/poll_edit_tab_answers_grid'))
-                                ->append($this->getLayout()->createBlock('adminhtml/poll_edit_tab_answers_form'))
+                                ->append($this->getLayout()->createBlock('adminhtml/poll_edit_tab_answers_list'))
                                 ->toHtml(),
                 'active'    => ( $this->getRequest()->getParam('tab') == 'answers_section' ) ? true : false,
             ));
-        }
         return parent::_beforeToHtml();
     }
 }

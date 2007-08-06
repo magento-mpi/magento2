@@ -45,4 +45,23 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->getRandomId();
     }
+
+    public function getVotedPollsIds()
+    {
+        $idsArray = array();
+        foreach( $_COOKIE as $cookieName => $cookieValue ) {
+            $pattern = "/^" . $this->_pollCookieDefaultName . "([0-9]*?)$/";
+            if( preg_match($pattern, $cookieName, $m) ) {
+                if( $m[1] != Mage::getSingleton('core/session')->getJustVotedPoll() ) {
+                    $idsArray[$m[1]] = $m[1];
+                }
+            }
+        }
+        return $idsArray;
+    }
+
+    public function setExcludeFilter($array) {
+        $this->getResource()->setExcludeFilter($array);
+        return $this;
+    }
 }

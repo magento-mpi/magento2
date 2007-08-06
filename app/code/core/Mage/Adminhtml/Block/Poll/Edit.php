@@ -26,46 +26,6 @@ class Mage_Adminhtml_Block_Poll_Edit extends Mage_Adminhtml_Block_Widget_Form_Co
                 ->load($this->getRequest()->getParam($this->_objectId));
             Mage::register('poll_data', $pollData);
         }
-
-        $this->_formScripts[] = "
-            var answers = function() {
-                return {
-                    add : function() {
-                        var req = { data : Ext.util.JSON.encode({
-                                        answer_title : $('answer_title').value,
-                                        poll_id : $('poll_id').value
-                                        })
-                                  };
-
-                        var con = new Ext.lib.Ajax.request('POST', '" . Mage::getUrl('*/poll_answer/jsonSave') . "', {success:this.success,failure:this.failure}, req);
-                    },
-
-                    success : function(o) {
-                        var o = Ext.util.JSON.decode(o.responseText);
-                        if( o.error ) {
-                            alert(o.message);
-                            $('answer_title').value = '';
-                            $('answer_title').focus();
-                        } else {
-                            $('answer_title').value = '';
-                            $('answer_title').focus();
-                            answersGridJsObject.reload();
-                        }
-                    },
-
-                    delete : function(id) {
-                        if( id > 0 ) {
-                            if( confirm('" . __('Are you sure you want to do this?') . "') == true ) {
-                                var req = \$H({id : id});
-
-                                var con = new Ext.lib.Ajax.request('POST', '" . Mage::getUrl('*/poll_answer/jsonDelete') . "', {success:this.success,failure:this.failure}, req);
-                            }
-                        }
-                        return false;
-                    }
-                }
-            }();
-        ";
     }
 
     public function getHeaderText()

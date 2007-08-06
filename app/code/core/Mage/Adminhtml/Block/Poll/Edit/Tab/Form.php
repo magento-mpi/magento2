@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
                                 'name'      => 'poll_title',
                             )
         );
-
+        /*
         $fieldset->addField('active', 'select', array(
                                 'label'     => __('Active'),
                                 'name'      => 'active',
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
                                 ),
                             )
         );
-
+        */
         $fieldset->addField('closed', 'select', array(
                                 'label'     => __('Closed'),
                                 'name'      => 'closed',
@@ -67,11 +67,8 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
                                 'value'     => Mage::registry('poll_data')->getClosed()
                                 )
             );
-        } else {
-            $form->getElement('active')->setValue(1);
         }
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
 }

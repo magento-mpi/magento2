@@ -473,3 +473,6 @@ div.actions:after,
 .x-tree-node .system-leaf .x-tree-node-icon{
 	background-image:url(images/fam/application_form_delete.png);
 }
+.delete-poll-answer {
+    float:right;
+}

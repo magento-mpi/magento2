@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'default'   => '--',
             'index'     => 'date_closed',
         ));
-
+        /*
         $this->addColumn('active', array(
             'header'    => __('Status'),
             'align'     => 'left',
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 0 => 'Inactive',
             ),
         ));
-
+        */
         $this->addColumn('closed', array(
             'header'    => __('Closed'),
             'align'     => 'left',

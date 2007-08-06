@@ -1,39 +1,16 @@
 <?if(!empty($collection) && $collection->getSize()):?>
-<h1 class="page-heading">Product Reviews</h1>
+	<div class="head">
+		<h3><?=__('Customer Reviews')?></h3><?if($reviewCount):?> ( <a href="<?=$reviewLink?>"><?=__('View all')?></a> ) <?endif;?>
+	</div>
+	<ol>
     <?foreach ($collection as $_review):?>
-    <p>
-        <h3><?=$_review->getNickname()?>: <?=$_review->getTitle()?></h3>
-        <div><?=nl2br($_review->getDetail())?></div>
-    </p>
+        <li>
+            <div class="rating-box">
+                <div class="rating" style="width:75%;<?#FIXME!!!?>"></div>
+            </div>
+            <a href="#<?=$_review->getTitle()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
+            <p><?=nl2br($_review->getDetail())?></p>
+        </li>
     <?endforeach;?>
-    <div class="clearfix"></div><br/>
-    <div class="category-pager">
-        <ul>
-            <li><strong><?=__("Page")?></strong></li>
-            <?if ($collection->getCurPage() != 1):?>
-            <li>
-                <a href="<?=$this->getUrl('review/*/*', $pageUrl->setParam('p', $collection->getCurPage(-1))->getParams())?>">&laquo;</a>
-            </li>
-            <?endif?>
-            <?for($i=$collection->getCurPage(-3); $i <= $collection->getCurPage(+3); $i++):?>
-                <?if ($i == $collection->getCurPage()):?>
-                    <li><strong><?=$i?></strong>&nbsp;|</li>
-                <?else:?>
-                    <li><a href="<?=Mage::getUrl('review/*/*', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a>&nbsp;|</li>
-                <?endif?>
-            <?endfor?>
-            <?if ($collection->getCurPage() < $collection->getLastPageNumber()):?>
-            <li>
-                <a href="<?=Mage::getUrl('review/*/*', $pageUrl->setParam('p', $collection->getCurPage(1))->getParams())?>">&raquo;</a>
-            </li>
-            <?endif?>
-            <li style="padding-left:10px;">
-             <?=__("Total: <strong>%s items</strong>", $collection->getSize())?>
-            </li>
-        </ul>
-        <div class="clearfix"></div>
-    </div>
-    <div class="buttons-container">
-            <a href="<?=$backLink?>" class="float-left">&laquo; Back</a>
-    </div>    
+	</ol>
 <?endif;?>

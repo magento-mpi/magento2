@@ -8,41 +8,13 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Rating_Model_Rating extends Varien_Object 
+class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
 {
-    public function __construct() 
+    public function __construct()
     {
-        parent::__construct();
+        $this->_init('rating/rating');
     }
-    
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('rating/rating');
-    }
-    
-    public function getId()
-    {
-        return $this->getRatingId();
-    }
-    
-    public function load($ratingId)
-    {
-        $this->setData($this->getResource()->load($ratingId));
-        return $this;
-    }
-    
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-    
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-    
+
     public function addOptionVote($optionId, $entityPkValue)
     {
         Mage::getModel('rating/rating_option')->setOptionId($optionId)
@@ -51,7 +23,7 @@ class Mage_Rating_Model_Rating extends Varien_Object
             ->addVote();
         return $this;
     }
-    
+
     /**
      * retrieve rating options
      *
@@ -71,14 +43,10 @@ class Mage_Rating_Model_Rating extends Varien_Object
         }
         return array();
     }
-    
+
     /**
      * Get rating collection object
      *
      * @return Varien_Data_Collection_Db
      */
-    public function getCollection()
-    {
-        return Mage::getResourceModel('rating/rating_collection');
-    }
 }

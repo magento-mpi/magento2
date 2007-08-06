@@ -93,6 +93,10 @@
                     <title>Reviews</title>
                     <action>adminhtml/catalog_product_review/</action>
                 </reviews>
+                <ratings>
+                    <title>Ratings</title>
+                    <action>adminhtml/rating/</action>
+                </ratings>
                 <tag>
                     <title>Tags</title>
                     <children>

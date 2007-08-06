@@ -295,38 +295,6 @@
 </div>
 
 <div class="product-info-box" id="customer-reviews">
-	<div class="head">
-		<h3>Customer Reviews</h3><?if($reviewCount):?><a href="<?=$reviewLink?>">View all</a><?endif;?>
-	</div>
-	<ol>
-		<li>
-			<div class="rating-box">
-				<div class="rating" style="width:75%;"></div>
-			</div>
-			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
-
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
-		<li>
-			<div class="rating-box">
-				<div class="rating" style="width:75%;"></div>
-			</div>
-			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
-
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
-		<li>
-			<div class="rating-box">
-				<div class="rating" style="width:75%;"></div>
-			</div>
-			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
-
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
-		<li>
-			<div class="rating-box">
-				<div class="rating" style="width:75%;"></div>
-			</div>
-			<a href="#"><strong>John Doe</strong></a> from <em>Los Angeles, CA</em>
-
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla cursus felis in lacus. Vivamus porta vestibulum augue. In tempor. Nulla neque sapien, pellentesque eu, sodales a, elementum et, urna. Proin eget dui sit amet libero hendrerit mattis. Fusce eleifend lorem et tellus. Ut ut felis feugiat diam mollis ultricies. Vestibulum mollis mi et neque fermentum pulvinar. Morbi sit amet nibh a velit nonummy feugiat. (posted on June 15, 2007)</p></li>
-	</ol>
+<?=$this->getChildHtml('reviewList')?>
+<?#=$this->getChildHtml('reviewForm')?>
 </div>
-

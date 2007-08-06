@@ -1,0 +1,94 @@
+<div id="options_container">
+<?if( !$options ):?>
+<h4><?=__('Please, add new questions.')?></h4>
+<?elseif( $options->getSize() > 0 ):?>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Assigned options')?></h4>
+    <?foreach($options->getItems() as $_item):?>
+        <fieldset id="option_values_<?=$_item->getId()?>_fieldset">
+        <span class="field-row">
+            <label for="option_<?=$_item->getId()?>">Option Title:</label>
+            <input id="option_<?=$_item->getId()?>" name="option[<?=$_item->getId()?>][code]" value="<?=$_item->getCode()?>" class="input-text" type="text" />
+        </span>
+        <?=$this->getDeleteButtonHtml()?>
+        <span class="field-row">
+            <label for="option_values_<?=$_item->getId()?>">Option Value:</label>
+            <input id="option_values_<?=$_item->getId()?>" value="<?=$_item->getValue()?>" class="input-text" type="text" disabled="true" />
+        </span>
+        <input type="hidden" id="option_values_<?=$_item->getId()?>_fieldset_hidden" name="option[<?=$_item->getId()?>][value]" value="<?=$_item->getValue()?>" />
+        </fieldset>
+    <?endforeach;?>
+    <script type="text/javascript">
+        var maxValue = <?=$_item->getValue();?>;
+    </script>
+<?endif;?>
+</div>
+<?=$this->getAddButtonHtml();?>
+
+<script type="text/javascript">
+    var lastId = 0;
+
+    if( !maxValue ) {
+        var maxValue = 0;
+    }
+
+    var option = function() {
+        return {
+            del : function(obj) {
+                if( confirm('<?=__('Are you sure you want to do this?')?>') ) {
+                    if( $(obj.parentNode.id + '_hidden') ) {
+                        var itemId = $(obj.parentNode.id + '_hidden').value;
+                        var newElement = document.createElement('input');
+                        newElement.type = 'hidden';
+                        newElement.value = itemId;
+                        newElement.name = 'deleteOption[]';
+                        $('options_container').appendChild(newElement);
+                    }
+                    obj.parentNode.remove();
+                    this.resetValues();
+                }
+            },
+
+            add : function(obj) {
+                var newElement = document.createElement('div');
+                newElement.innerHTML = this.getTemplate();
+                $('options_container').appendChild(newElement);
+            },
+
+            getTemplate : function() {
+                var id = this.createId();
+                return  '<fieldset id="option_values_' + id + '_fieldset">'
+                       +'<span class="field-row">'
+                       +    '<label for="option_' + id + '">Option Title:</label>'
+                       +    '<input id="option_' + id + '" name="option[' + id + '][code]" value="" class="input-text" type="text" />'
+                       +'</span>'
+                       +'<?=$this->getDeleteButtonHtml()?>'
+                       +'<span class="field-row">'
+                       +    '<label for="option_values_' + id + '">Option Value:</label>'
+                       +    '<input id="option_values_' + id + '" name="option[' + id + '][value]" value="'+(++maxValue)+'" class="input-text" type="text" disabled="true" />'
+                       +'</span>'
+                       +'<input type="hidden" id="option_values_' + id + '_fieldset_hidden_new" name="option[' + id + '][value]" value="'+ maxValue +'" />'
+                       +'</fieldset>';
+            },
+
+            createId : function () {
+                return --lastId;
+            },
+
+            resetValues : function() {
+                var iterator = 0;
+                var inputs = $('options_container').getElementsByTagName('input');
+                for( i in inputs ) {
+                    if(inputs[i].id && inputs[i].id.match("^option_values_([\-0-9]*?)$")) {
+                        inputs[i].value = ++iterator;
+                        if( $(inputs[i].id + '_fieldset_hidden_new') ) {
+                            $(inputs[i].id + '_fieldset_hidden_new').value = iterator;
+                        } else {
+                            $(inputs[i].id + '_fieldset_hidden').value = iterator;
+                        }
+                    }
+                }
+                maxValue = iterator;
+            }
+        }
+    }();
+</script>

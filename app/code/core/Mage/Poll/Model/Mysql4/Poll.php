@@ -35,10 +35,16 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
         $select = $read->select();
 
         $select->from($this->getMainTable(), $this->getIdFieldName())
-            ->where('active = ?', 1)
+            #->where('active = ?', 1)
             ->where('closed = ?', 0)
             ->order(new Zend_Db_Expr('RAND()'));
 
         return $read->fetchOne($select);
+    }
+
+    public function setExcludeFilter($array) {
+        $read = $this->getConnection('read');
+        $select = $read->select();
+        $select->where('poll_id NOT IN(?)', $array);
     }
 }

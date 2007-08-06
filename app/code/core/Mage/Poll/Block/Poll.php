@@ -10,10 +10,9 @@
 
 class Mage_Poll_Block_Poll extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('poll/poll.phtml');
-        
     }
 }

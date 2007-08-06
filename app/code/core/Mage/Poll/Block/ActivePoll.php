@@ -18,10 +18,11 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         parent::__construct();
 
         $pollModel = Mage::getModel('poll/poll');
-        $pollId = ( Mage::getSingleton('core/session')->getJustVotedPoll() ) ? Mage::getSingleton('core/session')->getJustVotedPoll() : $pollModel->getRandomId();
+        $votedIds = $pollModel->getVotedPollsIds();
+        $pollId = ( Mage::getSingleton('core/session')->getJustVotedPoll() ) ? Mage::getSingleton('core/session')->getJustVotedPoll() : $pollModel->setExcludeFilter($votedIds)->getRandomId();
         $poll = $pollModel->load($pollId);
 
-        if( !$pollId ) {
+        if( !$pollId || in_array($pollId, $votedIds) ) {
             return false;
         }
 
