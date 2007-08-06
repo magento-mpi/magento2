@@ -56,10 +56,11 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
      */
     public function getConnection($type)
     {
+/*
     	if (!isset($this->_connections[$type])) {
     		$this->_connections[$type] = Mage::getSingleton('core/resource')->getConnection('catalog_' . $type);
     	}
-
+*/
     	return $this->_connections[$type];
     }
 
@@ -73,6 +74,14 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
 
         // TOFIX
         $this->_images = new Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image_Collection($this->getConnection('read'));
+//        $this->_images = Mage::getResourceModel('eav/')
+/*
+    protected function _construct()
+    {
+        $this->_init('core/store');
+    }
+[11:54:25 PM] Dmitriy говорит: Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+*/
 
         $this->_images->getSelectSql()
         	->from($this->getTable(), array('value_id', 'value', 'position'))
@@ -82,6 +91,74 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
             ->order('position', 'asc');
 
         $object->setData($this->getAttribute()->getName(), $this->_images->setAttributeBackend($this)->load());
+    }
+    
+
+   /**
+    * 
+    * especially developed for copying when we get incoming data as an image collection
+    * instead of plain post...
+    * 
+    */ 
+    public function beforeSave($object)
+    {
+    	$storeId       = $object->getStoreId();
+        $attributeId   = $this->getAttribute()->getId();
+        $entityId	   = $object->getId();
+        $entityIdField = $this->getEntityIdField();
+        $entityTypeId  = $this->getAttribute()->getEntity()->getTypeId();
+
+        $connection = $this->getConnection('write');
+
+        $values = $object->getData($this->getAttribute()->getName());
+
+        if(!is_array($values) && is_object($values)) {
+            foreach ((array)$values->getItems() as $image) {
+                // TOFIX
+                $io = new Varien_Io_File(); 
+
+                $value = $image->getData();
+
+                $data = array();
+    		    $data[$entityIdField] 	= $entityId;
+    		    $data['attribute_id'] 	= $attributeId;
+    		    $data['store_id']	  	= $storeId;
+    		    $data['position']		= $value['position'];
+    		    $data['entity_type_id'] = $entityTypeId;
+    	        $connection->insert($this->getTable(), $data);
+                $lastInsertId = $connection->lastInsertId();
+
+                unset($newFileName);
+                $types = $this->getImageTypes();
+                foreach ($types as  $type) {
+                    try {
+                        $io->open();
+                        $io->cp($this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload').'/'.$type.'/'.'image_'.$entityId.'_'.$value['value_id'].'.'.'jpg', $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload').'/'.$type.'/'.'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg');
+                        $io->close();
+                    }
+                    catch (Exception $e){
+                        continue;
+                    }
+                    $newFileName = 'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg';
+    	        }
+
+                if (isset($newFileName)) {
+    	            $condition = array(
+    		            $connection->quoteInto('value_id = ?', $lastInsertId)
+    	            );
+                    $data = array();
+    		        $data['value']		  	= $newFileName;
+    	            $connection->update($this->getTable(), $data, $condition);
+                }
+                else {
+    	            $condition = array(
+    		            $connection->quoteInto('value_id = ?', $lastInsertId)
+    	            );
+    	            $connection->delete($this->getTable(), $condition);
+                }
+            }
+            $object->setData($this->getAttribute()->getName(), array());
+        }
     }
 
     public function afterSave($object)
@@ -130,7 +207,8 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                     catch (Exception $e){
                         continue;
                     }
-                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
+//                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
+                    $uploader->save($this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
     	            if (!isset($uploadedFileName)) {
                         $uploadedFileName = $uploader->getUploadedFileName();
                     }

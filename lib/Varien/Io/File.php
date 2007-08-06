@@ -207,6 +207,21 @@ class Varien_Io_File extends Varien_Io_Abstract
         chdir($this->_iwd);
         return $result;
     }
+
+    /**
+     * Copy a file
+     *
+     * @param string $src
+     * @param string $dest
+     * @return boolean
+     */
+    public function cp($src, $dest)
+    {
+        chdir($this->_cwd);
+        $result = @copy($src, $dest);
+        chdir($this->_iwd);
+        return $result;
+    }
     
     /**
      * Change mode of a directory or a file

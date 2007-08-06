@@ -7,8 +7,12 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image extends Varien_Objec
 
     public function getSourceUrl()
     {
-
-        $url = Mage::getBaseUrl() . Mage::getSingleton('core/store')->getConfig('web/url/upload') . $this->getType() . '/' . $this->getValue();
+        if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
+            $url = Mage::getBaseUrl() . Mage::getSingleton('core/store')->getConfig('web/url/upload') . $this->getType() . '/' . $this->getValue();
+        }
+        else {
+            $url = Mage::getBaseUrl() . $this->getAttribute()->getEntity()->getStore()->getConfig('web/url/upload') . $this->getType() . '/' . $this->getValue();
+        }
         return $url;
     }
 
