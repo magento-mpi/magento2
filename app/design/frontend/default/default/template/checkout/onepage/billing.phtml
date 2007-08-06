@@ -8,8 +8,7 @@
             <option value=""><?=__('New address')?></option>
         <?foreach($this->getAddresses() as $_addressId=>$_address):?>
             <option value="<?=$_address->getId()?>" <?if($_address->getId() == $this->getAddress()->getId()):?> selected<?endif?>>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet(-1)?>] 
-								[<?=$_address->getTelephone()?>]
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?> [<?=$_address->getPostcode()?>, <?=$_address->getCity()?>, <?=$_address->getStreet(-1)?>] [<?=$_address->getTelephone()?>]
             </option>
         <?endforeach?>
         </select>
@@ -23,8 +22,7 @@
                 <li>
                     <div class="input-left">
                         <label for="billing:firstname"><?=__('First Name')?> <span class="required">*</span></label><br/>
-                        <input type="text" id="billing:firstname" name="billing[firstname]" value="<?=$this->getAddress()->getFirstname()?>" title="<?=__('First Name')?>" class="required-entry 
-												input-text"/>
+                        <input type="text" id="billing:firstname" name="billing[firstname]" value="<?=$this->getAddress()->getFirstname()?>" title="<?=__('First Name')?>" class="required-entry input-text"/>
                     </div>
                     <div class="input-right">
                         <label for="billing:lastname"><?=__('Last Name')?> <span class="required">*</span></label><br/>
@@ -39,8 +37,7 @@
                     <?if(!$this->isCustomerLoggedIn()):?>
                     <div class="input-right">
                         <label for="billing:email"><?=__('Email')?> <span class="required">*</span></label><br/>
-                        <input type="text" name="billing[email]" id="billing:email" value="<?=$this->getAddress()->getEmail()?>" title="<?=__('Email Address')?>" class="validate-email required-entry 
-												input-text"/>
+                        <input type="text" name="billing[email]" id="billing:email" value="<?=$this->getAddress()->getEmail()?>" title="<?=__('Email Address')?>" class="validate-email required-entry input-text"/>
                     </div>
                     <?endif?>
                 </li>
@@ -76,8 +73,7 @@
                 <li>
                     <div class="input-left">
                         <label for="billing:telephone"><?=__('Telephone')?> <span class="required">*</span></label><br/>
-                        <input type="text" name="billing[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry validate-phoneStrict input-text" 
-												id="billing:telephone"/></div>
+                        <input type="text" name="billing[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry validate-phoneStrict input-text" id="billing:telephone"/></div>
                     <div class="input-right">
                         <label for="billing:fax"><?=__('Fax')?></label><br/>
                         <input type="text" name="billing[fax]" value="<?=$this->getAddress()->getFax()?>" title="<?=__('Fax')?>" class="validate-fax input-text" id="billing:fax"/>
@@ -97,8 +93,7 @@
                     </div>
                     <div class="input-right">
                         <label for="confirmation"><?=__('Confirm Password')?> <span class="required">*</span></label><br/>
-                        <input type="password" name="billing[confirm_password]" title="<?=__('Confirm Password')?>" id="billing:confirm_password" class="required-entry validate-password 
-												input-text"/>
+                        <input type="password" name="billing[confirm_password]" title="<?=__('Confirm Password')?>" id="billing:confirm_password" class="required-entry validate-password input-text"/>
                     </div>
                 </li>
             </ul>
@@ -118,5 +113,5 @@
 <script type="text/javascript">
     var billing = new Billing('co-billing-form', '<?=$this->getUrl('checkout/onepage/getAddress')?>address/', '<?=$this->getUrl('checkout/onepage/saveBilling')?>');
     var billingForm = new VarienForm('co-billing-form');
-    billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$this->getUrl('directory/json/childRegion/')?>', '<?=__('Select State/Province...')?>');
+    billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=__('Select State/Province...')?>');
 </script>

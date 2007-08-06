@@ -36,14 +36,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     {
         return $this->getQuote()->getCheckoutMethod();
     }
-    
-    public function getRegions()
-    {
-        return Mage::getResourceModel('directory/country_collection')->getDefault(
-            $this->getQuote()->getBillingAddress()->getCountryId()
-        )->getRegions();
-    }
-    
+
     public function getAddresses()
     {
         if ($this->isCustomerLoggedIn()) {

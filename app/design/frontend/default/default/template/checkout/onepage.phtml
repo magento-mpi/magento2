@@ -1,23 +1,25 @@
-<script type="text/javascript" src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>/varien/accordion.js"></script>
-<script type="text/javascript" src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>/varien/opcheckout.js"></script>
-<div class="content page-checkout">
-    <div id="checkoutSteps">
-    <?foreach($this->getSteps() as $_stepId => $_stepInfo):?>
-        <div class="section<?if(!empty($_stepInfo['allow'])):?> allow<?endif?>" id="<?=$_stepId?>">
-            <h3><?=$_stepInfo['label']?></h3>
-            <div class="a-item" style="display:none;" id="checkout-step-<?=$_stepId?>">
-                <?=$this->getChildHtml($_stepId)?>
-            </div>
+<script type="text/javascript" src="<?=$baseJsUrl?>/varien/accordion.js"></script>
+<script type="text/javascript" src="<?=$baseJsUrl?>/varien/opcheckout.js"></script>
+
+<ol id="checkoutSteps" class="one-page-checkout">
+<?foreach($this->getSteps() as $_stepId => $_stepInfo):?>
+    <li id="opc-<?=$_stepId?>" class="section <?=!empty($_stepInfo['allow'])?'allow':''?>">
+        <div class="head">
+            <h3><?=$_stepInfo['label']?></h3><a href="#">Edit</a>
         </div>
-    <?endforeach?>
-    </div>
-    <script type="text/javascript">
-        var accordion = new Accordion('checkoutSteps','h3',true);
-        <?if($this->getActiveStep()):?>
-        accordion.openSection('<?=$this->getActiveStep()?>');
-        <?endif?>
-        
-        var checkout = new Checkout(accordion, '<?=$this->getUrl('checkout/onepage/status')?>', '<?=$this->getUrl('checkout/onepage/review')?>', 
-				'<?=$this->getUrl('checkout/onepage/saveMethod')?>');
-    </script>
-</div>
+        <div id="checkout-step-<?=$_stepId?>" class="box a-item" style="display:none;">
+            <?=$this->getChildHtml($_stepId)?>
+        </div>
+    </li>
+<?endforeach?>
+</ol>
+
+<script type="text/javascript">
+    var accordion = new Accordion('checkoutSteps','.head',true);
+    <?if($this->getActiveStep()):?>
+    accordion.openSection('<?=$this->getActiveStep()?>');
+    <?endif?>
+    
+    var checkout = new Checkout(accordion, '<?=$this->getUrl('checkout/onepage/status')?>', '<?=$this->getUrl('checkout/onepage/review')?>', 
+			'<?=$this->getUrl('checkout/onepage/saveMethod')?>');
+</script>

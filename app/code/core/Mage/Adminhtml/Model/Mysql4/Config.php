@@ -97,6 +97,9 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         $rows = array();
         foreach ($groups as $group=>$groupData) {
             foreach ($groupData['fields'] as $field=>$fieldData) {
+                if (!isset($fieldData['value'])) {
+                    $fieldData['value'] = null;
+                }
                 if (is_array($fieldData['value'])) {
                     $fieldData['value'] = join(',', $fieldData['value']);
                 }
@@ -116,9 +119,6 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 } else {
                     $fieldData['inherit'] = 0;
                 }
-                if (!isset($fieldData['value'])) {
-                    $fieldData['value'] = '';
-                }
                 if (!isset($old[$path])
                     || $fieldData['value']!=$old[$path]['value']
                     || isset($fieldData['inherit']) && $fieldData['inherit']!=$old[$path]['inherit']) {
@@ -134,10 +134,12 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                         'scope'     => $scope,
                         'scope_id'  => $scopeId,
                         'path'      => $path,
-                        'value'     => $fieldData['value'],
                         'old_value' => $fieldData['old_value'],
                         'inherit'   => $fieldData['inherit'],
                     );
+                    if (!is_null($fieldData['value'])) {
+                        $data['value'] = $fieldData['value'];
+                    }
                     $dataModel->setData($data)->save();
                 }
             }

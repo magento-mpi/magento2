@@ -10,5 +10,9 @@
  */
 class Mage_Checkout_Block_Onepage_Review extends Mage_Checkout_Block_Onepage_Abstract
 {
-
+    protected function _construct()
+    {
+        $this->getCheckout()->setStepData('review', array('label'=>__('Order Review')));
+        parent::_construct();
+    }
 }

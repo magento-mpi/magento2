@@ -55,13 +55,12 @@
                 </li>
                 <li>
                     <label for="shipping:city"><?=__('City')?> <span class="required">*</span></label><br/>
-                    <input type="text" title="<?=__('City')?>" name="shipping[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="shipping:city" 
-										onchange="shipping.setSameAsBilling(false);"/>
+                    <input type="text" title="<?=__('City')?>" name="shipping[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);"/>
                 </li>
                 <li>
                     <div class="input-left">
                         <label for="shipping:zone_id"><?=__('State/Province')?> <span class="required">*</span></label><br/>
-                        <?if($this->getRegions()->getSize()):?>
+                        <?if($this->getRegionCollection()->getSize()):?>
                             <?=$this->getRegionHtmlSelect()?>
                         <?else:?>
                             <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" onchange="shipping.setSameAsBilling(false);"/>

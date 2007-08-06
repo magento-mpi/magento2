@@ -11,7 +11,7 @@ Accordion.prototype = {
     },
     
     sectionClicked: function(event) {
-        this.openSection(Event.element(event).parentNode);
+        this.openSection($(Event.element(event)).up('.section'));
     },
     
     openSection: function(section) {
