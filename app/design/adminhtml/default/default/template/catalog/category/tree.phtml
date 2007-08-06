@@ -2,12 +2,12 @@
     <table cellspacing="0" class="grid-header"> 
         <tr>
             <td><h3 class="icon-head head-categories"><?=__('Categories')?></h3></td>
-            <td class="a-right"><?if($this->getRootNode()->getId()):?><?=$this->getAddButtonHtml()?><?endif;?></td>
+            <td class="a-right"><?if($this->getRoot()):?><?=$this->getAddButtonHtml()?><?endif;?></td>
         </tr>
     </table>
 </div>
 <?=$this->getStoreSwitcherHtml()?>
-<?if($this->getRootNode()->getId()):?>
+<?if($this->getRoot()):?>
 <div id="tree-div" style="width:190px;overflow:auto;"></div>
 <script type="text/javascript">
 Ext.onReady(function(){
@@ -16,14 +16,14 @@ Ext.onReady(function(){
         loader: false,
         enableDD:true,
         containerScroll: true,
-        rootVisible: '<?=$this->getRootNode()->getIsVisible()?>'
+        rootVisible: '<?=$this->getRoot()->getIsVisible()?>'
     });
 
     // set the root node
     var root = new Ext.tree.TreeNode({
-        text: '<?=$this->getRootNode()->getName()?>',
+        text: '<?=$this->getRoot()->getName()?>',
         draggable:false,
-        id:'<?=$this->getRootNode()->getId()?>'
+        id:'<?=$this->getRoot()->getId()?>'
     });
     
     tree.setRootNode(root);

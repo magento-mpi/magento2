@@ -100,6 +100,16 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
     
     /**
+     * Retrieve default attribute set id
+     *
+     * @return int
+     */
+    public function getDefaultAttributeSetId()
+    {
+        return $this->getResource()->getConfig()->getDefaultAttributeSetId();
+    }
+    
+    /**
      * Get category products collection
      *
      * @return Varien_Data_Collection_Db

@@ -13,12 +13,21 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Tree_Children extends
     public function afterSave($object)
     {
         parent::afterSave($object);
-        $tree = $object->getTreeModel()->getTree()
+        $tree = $object->getTreeModel()
             ->load();
-        $arrChildNodes = $tree->getNodeById($object->getId())
-            ->getAllChildNodes();
+
+        $nodeIds = array();
+        if ($this->getAttribute()->getAttributeCode() == 'all_children') {
+            $arrChildNodes = $tree->getNodeById($object->getId())
+                ->getAllChildNodes();
+            $nodeIds[] = $object->getId();
+        }
+        else {
+            $arrChildNodes = $tree->getNodeById($object->getId())
+                ->getChildren()
+                ->getNodes();
+        }
         
-        $nodeIds = array($object->getId());
         
         foreach ($arrChildNodes as $node) {
         	$nodeIds[] = $node->getId();

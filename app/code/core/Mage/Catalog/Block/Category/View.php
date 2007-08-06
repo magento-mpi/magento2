@@ -35,7 +35,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
                     'link'=>Mage::getBaseUrl())
                 );
         
-        $path = $this->getCurrentCategory()->getTreePath();
+        $path = $this->getCurrentCategory()->getPathInStore();
         $pathIds = array_reverse(explode(',', $path));
         
         $categories = Mage::getResourceModel('catalog/category_collection')

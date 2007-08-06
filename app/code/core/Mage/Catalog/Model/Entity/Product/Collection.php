@@ -11,6 +11,7 @@
 class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     protected $_productStoreTable;
+    protected $_categoryProductTable;
     protected $_storeTable;
     
     public function __construct() 
@@ -18,10 +19,17 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $this->setEntity(Mage::getResourceSingleton('catalog/product'));
         $this->setObject('catalog/product');
         
-        $this->_productStoreTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
-        $this->_storeTable        = Mage::getSingleton('core/resource')->getTableName('core/store');
+        $resource = Mage::getSingleton('core/resource');
+        $this->_productStoreTable = $resource->getTableName('catalog/product_store');
+        $this->_storeTable        = $resource->getTableName('core/store');
+        $this->_categoryProductTable = $resource->getTableName('catalog/category_product');
     }
     
+    /**
+     * Adding product store names to result collection
+     *
+     * @return Mage_Catalog_Model_Entity_Product_Collection
+     */
     public function addStoreNamesToResult()
     {
         $productStores = array();
@@ -50,6 +58,12 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return $this;
     }
     
+    /**
+     * Retrieve max value by attribute
+     *
+     * @param   string $attribute
+     * @return  mixed
+     */
     public function getMaxAttributeValue($attribute)
     {
         $select     = clone $this->getSelect();
@@ -75,6 +89,13 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return null;
     }
     
+    /**
+     * Retrieve ranging product count for arrtibute range
+     *
+     * @param   string $attribute
+     * @param   int $range
+     * @return  array
+     */
     public function getAttributeValueCountByRange($attribute, $range)
     {
         $select     = clone $this->getSelect();
@@ -90,12 +111,12 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
                 array(
-                        'count_'.$attributeCode=>new Zend_Db_Expr('COUNT('.$tableAlias.'.value)'),
+                        'count_'.$attributeCode=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
                         'range_'.$attributeCode=>new Zend_Db_Expr('CEIL('.$tableAlias.'.value/'.$range.')')
                      )
             )
             ->group('range_'.$attributeCode);
-        
+
         $data   = $this->_read->fetchAll($select);
         $res    = array();
         
@@ -104,9 +125,55 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         }
         return $res;
     }
-
+    
+    /**
+     * Retrieve product count by some value of attribute
+     *
+     * @param string $attribute
+     */
     public function getAttributeValueCount($attribute)
     {
         
+    }
+    
+    /**
+     * Render SQL for retrieve product count
+     *
+     * @return string
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        $sql = $countSelect->__toString();
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT e.entity_id) from ', $sql);
+        return $sql;
+    }
+    
+    public function addCountToCategories($categoryCollection)
+    {
+        foreach ($categoryCollection as $category) {
+        	$select     = clone $this->getSelect();
+        	$select->reset(Zend_Db_Select::COLUMNS);
+        	$select->distinct(false);
+            $select->join(
+                    array('category_count_table' => $this->_categoryProductTable),
+                    'category_count_table.product_id=e.entity_id',
+                    array('count_in_category'=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'))
+                );
+                
+            if ($category->getIsAnchor()) {
+                $select->where($this->_read->quoteInto('category_count_table.category_id IN(?)', explode(',', $category->getAllChildren())));
+            }
+            else {
+                $select->where($this->_read->quoteInto('category_count_table.category_id=?', $category->getId()));
+            }
+
+        	$category->setProductCount((int) $this->_read->fetchOne($select));
+        }
+        return $this;
     }
 }

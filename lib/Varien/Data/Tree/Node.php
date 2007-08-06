@@ -170,7 +170,7 @@ class Varien_Data_Tree_Node extends Varien_Object
     public function getAllChildNodes(&$nodes = array())
     {
         foreach ($this->_childNodes as $node) {
-        	$nodes[] = $node;
+        	$nodes[$node->getId()] = $node;
         	$node->getAllChildNodes($nodes);
         }
         return $nodes;

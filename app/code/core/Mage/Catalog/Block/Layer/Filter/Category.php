@@ -10,8 +10,20 @@
  */
 class Mage_Catalog_Block_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter
 {
+    protected function _initFilter()
+    {
+        $this->_filter = Mage::getModel('catalog/layer_filter_category')
+            ->apply($this->getRequest());
+        return $this;
+    }
+    
     public function getName()
     {
         return __('Category');
+    }
+    
+    public function getItems()
+    {
+        return $this->_filter->getItems();
     }
 }

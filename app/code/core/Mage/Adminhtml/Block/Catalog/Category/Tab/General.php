@@ -36,35 +36,20 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         
         $this->_setFieldset($this->getCategory()->getAttributes(), $fieldset);
         
-        $fieldset->addField('parent_id', 'select', array(
-            'name'  => 'parent_id',
-            'label' => __('Parent Category'),
-            'value' => $this->getRequest()->getParam('parent'),
-            'values'=> $this->_getParentCategoryOptions(),
-            'required' => true,
-            'class' => 'required-entry'
-            ), 
-            'name'
-        );
+        if (!$this->getCategory()->getId()) {
+            $fieldset->addField('parent_id', 'select', array(
+                'name'  => 'parent_id',
+                'label' => __('Parent Category'),
+                'value' => $this->getRequest()->getParam('parent'),
+                'values'=> $this->_getParentCategoryOptions(),
+                //'required' => true,
+                //'class' => 'required-entry'
+                ), 
+                'name'
+            );
+        }
 
         $form->addValues($this->getCategory()->getData());
-        
-        $fieldset->addField('is_active', 'select', array(
-            'name'      => 'is_active',
-            'label'     => __('Is Active'),
-            'value'     => $this->getCategory()->getIsActive(),
-            'values'    => array(
-                    array(
-                        'label' => __('Yes'),
-                        'value' =>  1
-                    ),
-                    array(
-                        'label' => __('No'),
-                        'value' =>  0
-                    ),
-                )
-            )
-        );
         
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
@@ -74,14 +59,16 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     
     protected function _getParentCategoryOptions()
     {
-        $root = $this->getLayout()->getBlock('category.tree')->getRootNode();
+        $root = $this->getLayout()->getBlock('category.tree')->getRoot();
         $options = array();
-        foreach ($root->getTree()->getNodes() as $node) {
-            $options[] = array(
-               'value' => $node->getId(),
-               'label' => $node->getName(),
-               'style' => 'padding-left:'.(10*($node->getLevel()-$root->getLevel())).'px',
-            );
+        if ($root) {
+            foreach ($root->getTree()->getNodes() as $node) {
+                $options[] = array(
+                   'value' => $node->getId(),
+                   'label' => $node->getName(),
+                   'style' => 'padding-left:'.(10*($node->getLevel()-$root->getLevel())).'px',
+                );
+            }
         }
         return $options;
     }

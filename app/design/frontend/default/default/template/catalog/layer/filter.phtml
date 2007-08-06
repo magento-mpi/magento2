@@ -8,8 +8,8 @@
 <ol>
 <?foreach ($this->getItems() as $_item):?>
     <li>
-        <a href="/"><?=$_item->getLabel()?></a>
+        <a href="<?=$_item->getUrl()?>"><?=$_item->getLabel()?></a>
         (<?=$_item->getCount()?>)
     </li>
 <?endforeach?>
-</ul>
+</ol>

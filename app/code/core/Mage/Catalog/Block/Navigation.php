@@ -18,18 +18,17 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     protected function _getChildCategories($parent, $maxChildLevel=1, $withProductCount=false)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
-        $tree->getCategoryCollection()
+        $collection = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
-            ->addAttributeToSelect('is_active');
+            ->addAttributeToSelect('is_active')
+            ->setLoadProductCount($withProductCount);
+            
+        $tree = Mage::getResourceModel('catalog/category_tree');
         
-        $tree->load($parent, $maxChildLevel);
-        
-        if ($withProductCount) {
-            $tree->loadProductCount();
-        }
-        $nodes = $tree->getRoot()
-                ->getChildren();
+        $nodes = $tree->loadNode($parent)
+            ->loadChildren($maxChildLevel-1)
+            ->getChildren();
+        $tree->addCollectionData($collection);
 
         return $nodes;
     }
@@ -77,10 +76,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCategoryUrl($category)
     {
-        $params = array(
-            'name'  => strtolower(str_replace(' ', '-', $category->getName())),
-            'id'    => $category->getId(),
-        );
+        $params = array('id'    => $category->getId());
         return Mage::getUrl('catalog/category/view', $params);
     }
 }

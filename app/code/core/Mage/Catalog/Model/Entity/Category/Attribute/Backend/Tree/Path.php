@@ -13,12 +13,12 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Tree_Path extends Mag
     public function afterSave($object)
     {
         parent::afterSave($object);
-        $tree = $object->getTreeModel()->getTree()
+        $tree = $object->getTreeModel()
             ->load();
 
         $store = $this->getAttribute()->getEntity()->getStore();
         $lastNodeId = $store->getConfig('catalog/category/root_id');
-        
+
         $nodeIds = array();
         $path = $tree->getPath($object->getId());
         foreach ($path as $node) {

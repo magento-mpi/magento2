@@ -16,7 +16,12 @@ class Mage_Catalog_Block_Layer_Filter extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('catalog/layer/filter.phtml');
+    }
+    
+    protected function _initChildren()
+    {
         $this->_initFilter();
+        return parent::_initChildren();
     }
     
     protected function _initFilter()
@@ -27,6 +32,11 @@ class Mage_Catalog_Block_Layer_Filter extends Mage_Core_Block_Template
     public function getItems()
     {
         return array();
+    }
+    
+    public function getItemsCount()
+    {
+        return $this->_filter->getItemsCount();
     }
     
     public function getHtml()

@@ -13,25 +13,27 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
     public function toOptionArray()
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
-        $tree->getCategoryCollection()
-                ->addAttributeToSelect('name')
-                ->getEntity()
-                    ->setStore(0); // Default store id by categories
-        $nodes = $tree->load(1, 1)
-            ->getRoot()
-            ->getChildren();
+        
+        $collection = Mage::getResourceModel('catalog/category_collection');
+        $collection->getEntity()
+            ->setStore(0);
+        $collection->addAttributeToSelect('name')
+            ->addFieldToFilter('parent_id', 1)
+            ->load();
+
         $options = array();
         
         $options[] = array(
             'label' => '',
             'value' => ''
         );
-        foreach ($nodes as $node) {
+        foreach ($collection as $category) {
             $options[] = array(
-               'label' => $node->getName(),
-               'value' => $node->getId()
+               'label' => $category->getName(),
+               'value' => $category->getId()
             );
         }
+        
         return $options;
     }
 }

@@ -10,8 +10,20 @@
  */
 class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
 {
+    /**
+     * Category tree object
+     *
+     * @var Varien_Data_Tree_Db
+     */
     protected $_tree;
+    
+    /**
+     * Catalog products table name
+     *
+     * @var string
+     */
     protected $_categoryProductTable;
+    
     public function __construct() 
     {
         $resource = Mage::getSingleton('core/resource');
@@ -31,7 +43,7 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _getTree()
     {
         if (!$this->_tree) {
-            $this->_tree = Mage::getResourceModel('catalog/category_tree')->getTree()
+            $this->_tree = Mage::getResourceModel('catalog/category_tree')
                 ->load();
         }
         return $this->_tree;
@@ -40,20 +52,18 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _afterDelete(Varien_Object $object){
         parent::_afterDelete($object);
         $node = $this->_getTree()->getNodeById($object->getId());
+        $path = $this->_getTree()->getPath($object->getId());
+        
         $this->_getTree()->removeNode($node);
-        $this->_updateCategoryPath($object);
+        $this->_updateCategoryPath($object, $path);
         return $this;
     }
     
     protected function _beforeSave(Varien_Object $object)
     {
         parent::_beforeSave($object);
-        $isActive = $object->getIsActive();
-        if (is_null($isActive)) {
-            $object->setIsActive(0);
-        }
-        
         $parentNode = $this->_getTree()->getNodeById($object->getParentId());
+        
         if ($object->getId()) {
             
         }
@@ -67,8 +77,9 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $object)
     {
         parent::_afterSave($object);
+        
         $this->_saveCategoryProducts($object)
-            ->_updateCategoryPath($object);
+            ->_updateCategoryPath($object, $this->_getTree()->getPath($object->getId()));
             
         return $this;
     }
@@ -100,9 +111,9 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         return $this;
     }
     
-    protected function _updateCategoryPath($category)
+    protected function _updateCategoryPath($category, $path)
     {
-        foreach ($this->_getTree()->getPath($category->getId()) as $pathItem) {
+        foreach ($path as $pathItem) {
             if ($category->getId() != $pathItem->getId()) {
                 $category = Mage::getModel('catalog/category')
                     ->load($pathItem->getId())

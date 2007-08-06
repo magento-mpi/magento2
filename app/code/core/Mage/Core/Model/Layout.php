@@ -387,8 +387,8 @@ echo "TEST:".$i;
         
         $block->setType($type)
             ->setName($name)
-            ->setLayout($this)
-            ->addData($attributes);
+            ->addData($attributes)
+            ->setLayout($this);
         
         $this->_blocks[$name] = $block;
         

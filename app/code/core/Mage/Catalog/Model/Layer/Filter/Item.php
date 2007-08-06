@@ -10,5 +10,8 @@
  */
 class Mage_Catalog_Model_Layer_Filter_Item extends Varien_Object
 {
-    
+    public function getUrl()
+    {
+        return Mage::getUrl('*/*/*', array('_current'=>true, $this->getFilter()->getRequestVar()=>$this->getValue()));
+    }
 }

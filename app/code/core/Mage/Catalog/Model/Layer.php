@@ -19,13 +19,6 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     {
         $collection = $this->getData('product_collection');
         if (is_null($collection)) {
-            if ($this->getCurrentCategory()->getIsAnchor()) {
-                $categoryCondition = 'category_id in ('.$this->getCurrentCategory()->getTreeChildren().')';
-            }
-            else {
-                $categoryCondition = 'category_id='.(int) $this->getCurrentCategory()->getId();
-            }
-            
             $collection = $this->getCurrentCategory()->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
@@ -36,8 +29,16 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                     'catalog/product_store', 
                     'store_id', 
                     'product_id=entity_id', 
-                    '{{table}}.store_id='.(int) $this->getCurrentStore()->getId())
-                ->joinField('position', 
+                    '{{table}}.store_id='.(int) $this->getCurrentStore()->getId());
+                    
+            if ($this->getCurrentCategory()->getIsAnchor()) {
+                $categoryCondition = '{{table}}.category_id in ('.$this->getCurrentCategory()->getAllChildren().')';
+                $collection->getSelect()->distinct(true);
+            }
+            else {
+                $categoryCondition = '{{table}}.category_id='.(int) $this->getCurrentCategory()->getId();
+            }
+            $collection->joinField('position', 
                     'catalog/category_product', 
                     'position', 
                     'product_id=entity_id', 
@@ -79,4 +80,17 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         return Mage::getSingleton('core/store');
     }
     
+    public function getFilterableAttributes()
+    {
+        $entity = $this->getProductCollection()->getEntity();
+        $collection = Mage::getResourceModel('eav/entity_attribute_collection')
+            ->setEntityTypeFilter($entity->getConfig()->getId())
+            ->addIsFilterableFilter()
+            ->load();
+        foreach ($collection as $item) {
+        	$item->setEntity($entity);
+        }
+        
+        return $collection;
+    }
 }

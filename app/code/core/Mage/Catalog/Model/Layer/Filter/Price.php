@@ -8,12 +8,12 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Layer_Filter_Price extends Varien_Object 
+class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Abstract 
 {
     public function __construct()
     {
         parent::__construct();
-        $this->_apply();
+        $this->_requestVar = 'price';
     }
     
     /**
@@ -21,8 +21,17 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Varien_Object
      *
      * @return Mage_Catalog_Model_Layer_Filter_Price
      */
-    protected function _apply()
+    public function apply(Zend_Controller_Request_Abstract $request) 
     {
+        $filter = (int) $request->getParam($this->getRequestVar());
+        if ($filter) {
+            $range = $this->getPriceRange();
+            Mage::getSingleton('catalog/layer')->getProductCollection()
+                ->addFieldToFilter('price', array(
+                    'from'  => ($filter-1)*$range,
+                    'to'    => $filter*$range,
+                ));
+        }
         return $this;
     }
     
@@ -39,7 +48,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Varien_Object
                 ->getMaxAttributeValue('price');
             
             $range = pow(10, (strlen(floor($maxPrice))-1));
-            $this->setData('price_range');
+            $this->setData('price_range', $range);
         }
         return $range;
     }
@@ -49,7 +58,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Varien_Object
      *
      * @return array
      */
-    public function getItems()
+    protected function _initItems()
     {
         $range = $this->getPriceRange();
         $dbRanges = Mage::getSingleton('catalog/layer')->getProductCollection()
@@ -60,12 +69,14 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Varien_Object
         for ($i=1;$i<=10;$i++) {
             if (isset($dbRanges[$i])) {
                 $items[] = Mage::getModel('catalog/layer_filter_item')
+                    ->setFilter($this)
                     ->setLabel($store->formatPrice(($i-1)*$range).' - '.$store->formatPrice($i*$range))
                     ->setValue($i)
                     ->setCount($dbRanges[$i]);
             }
         }
         
-        return $items;
+        $this->_items = $items;
+        return $this;
     }
 }

@@ -61,6 +61,7 @@ class Varien_Data_Tree
         if ($node->getParent()) {
             $node->getParent()->removeChild($node);
         }
+        unset($node);
         return $this;
     }
     

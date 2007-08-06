@@ -814,16 +814,17 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_write->beginTransaction();
 
         try {
-            $select = $this->_read->select()->from($table, 'value')->where($where);
-            $origValue = $this->_read->fetchOne($select);
+            $select = $this->_read->select()->from($table, 'value_id')->where($where);
+            $origValueId = $this->_read->fetchOne($select);
 
-            if ($origValue === false && !is_null($newValue)) {
+            if ($origValueId === false && !is_null($newValue)) {
                 $this->_insertAttribute($object, $attribute, $newValue);
                 $backend->setValueId($this->_write->lastInsertId());
 
-            } elseif ($origValue !== false && !is_null($newValue)) {
-                $this->_write->update($table, array('value'=>$newValue), $where);
-            } elseif ($origValue !== false && is_null($newValue)) {
+            } elseif ($origValueId !== false && !is_null($newValue)) {
+                $this->_updateAttribute($object, $attribute, $origValueId, $newValue);
+                //$this->_write->update($table, array('value'=>$newValue), $where);
+            } elseif ($origValueId !== false && is_null($newValue)) {
                 $this->_write->delete($table, $where);
             }
 
@@ -1060,7 +1061,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
-    public function _updateAttribute($object, $attribute, $valueId, $value, $stores = array())
+    public function _updateAttribute($object, $attribute, $valueId, $value)
     {
         if ((bool)$attribute->getIsGlobal()) {
             $this->_write->update($attribute->getBackend()->getTable(),

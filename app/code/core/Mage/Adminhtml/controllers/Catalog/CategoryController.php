@@ -78,13 +78,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $prevNodeId     = $this->getRequest()->getPost('aid', false);
 
         try {
-            $tree = Mage::getResourceModel('catalog/category_tree')->getTree()
+            $tree = Mage::getResourceModel('catalog/category_tree')
                 ->load();
             
             $node = $tree->getNodeById($nodeId);
-            $parentNode = $node->getParent();
-            $newParentNode = $tree->getNodeById($parentNodeId);
-            $prevNode = $tree->getNodeById($prevNodeId);
+            $parentNode     = $node->getParent();
+            $newParentNode  = $tree->getNodeById($parentNodeId);
+            $prevNode       = $tree->getNodeById($prevNodeId);
             if (!$prevNode || !$prevNode->getId()) {
                 $prevNode = null;
             }
@@ -93,12 +93,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             
             $parentCategory = Mage::getModel('catalog/category')
                 ->load($parentNode->getId())
-                ->setParentId($parentNode->getId())
                 ->save();
 
             $category = Mage::getModel('catalog/category')
                 ->load($nodeId)
-                ->setParentId($parentNode->getId())
+                ->setParentId($newParentNode->getId())
                 ->save();
 
         }
@@ -137,8 +136,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $category = Mage::getModel('catalog/category')
                 ->setData($data['general'])
                 ->setId($this->getRequest()->getParam('id'))
-                ->setStoreId($storeId)
-                ->setAttributeSetId(12);
+                ->setStoreId($storeId);
+            $category->setAttributeSetId($category->getDefaultAttributeSetId());
             
             if (isset($data['category_products'])) {
                 $products = array();

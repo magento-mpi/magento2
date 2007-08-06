@@ -17,10 +17,12 @@
             <!--h4>More Shopping options</h4-->
             <dl>
             <?foreach ($_filters as $_filter):?>
+            <?if($_filter->getItemsCount()):?>
                 <dt><?=$_filter->getName()?></dt>
                 <dd>
                     <?=$_filter->getHtml()?>
                 </dd>
+            <?endif;?>
             <?endforeach;?>
             </dl>
         </div>

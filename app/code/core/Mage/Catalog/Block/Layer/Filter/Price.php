@@ -12,7 +12,8 @@ class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Fil
 {
     protected function _initFilter()
     {
-        $this->_filter = Mage::getModel('catalog/layer_filter_price');
+        $this->_filter = Mage::getModel('catalog/layer_filter_price')
+            ->apply($this->getRequest());
         return $this;
     }
     

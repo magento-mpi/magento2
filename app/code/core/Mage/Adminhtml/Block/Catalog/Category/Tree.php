@@ -10,8 +10,6 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Template 
 {
-    protected $_rootNode;
-    
     public function __construct() 
     {
         parent::__construct();
@@ -37,6 +35,28 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/store_switcher')
                 ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
         );
+    }
+    
+    protected function _getDefaultStoreId()
+    {
+        return 0;
+    }
+    
+    public function getCategoryCollection($storeId=null)
+    {
+        if (is_null($storeId)) {
+            $storeId = $this->_getDefaultStoreId();
+        }
+        
+        $collection = $this->getData('category_collection_'.$storeId);
+        if (is_null($collection)) {
+            $collection = Mage::getResourceModel('catalog/category_collection')
+                ->addAttributeToSelect('name');
+            $collection->getEntity()
+                ->setStore($storeId);
+            $this->setData('category_collection_'.$storeId, $collection);
+        }
+        return $collection;
     }
     
     public function getAddButtonHtml()
@@ -77,36 +97,58 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         return $this->getUrl('*/catalog_category/move');
     }
     
-    public function getRootNode()
+    public function getRoot()
     {
-        if (!$this->_rootNode) {
-            $tree = Mage::getResourceModel('catalog/category_tree');
+        $root = $this->getData('root');
+        if (is_null($root)) {
             $storeId = (int) $this->getRequest()->getParam('store');
             
             if ($storeId) {
                 $store = Mage::getModel('core/store')->load($storeId);
-                $parentNodeId = (int) $store->getConfig('catalog/category/root_id');
+                $rootId = (int) $store->getConfig('catalog/category/root_id');
             }
             else {
-                $parentNodeId = 1;
+                $rootId = 1;
+            }
+
+            $tree = Mage::getResourceSingleton('catalog/category_tree')
+                ->load();
+                
+            $root = $tree->getNodeById($rootId);
+            if ($root && $rootId != 1) {
+                $root->setIsVisible(true);
             }
             
-            $tree->getCategoryCollection()->addAttributeToSelect('name')
-                ->getEntity()
-                    ->setStore(0);
-            $this->_rootNode = $tree->load($parentNodeId)
-                ->getRoot()
-                ->setIsVisible($parentNodeId!=1);
+            $this->_addCategoryInfo($root);
+            $this->setData('root', $root);
         }
-        return $this->_rootNode;
+        
+        return $root;
     }
     
     public function getTreeJson()
     {
-                        
-        $rootArray = $this->_getNodeJson($this->getRootNode());
+        $rootArray = $this->_getNodeJson($this->getRoot());
         $json = Zend_Json::encode(isset($rootArray['children']) ? $rootArray['children'] : array());
         return $json;
+    }
+    
+    protected function _addCategoryInfo($node)
+    {
+        if ($node) {
+            $children = $node->getAllChildNodes();
+            
+            $children[$node->getId()] = $node;
+            
+            $collection = $this->getCategoryCollection()
+                ->addIdFilter(array_keys($children))
+                ->load();
+            foreach ($collection as $category) {
+            	$children[$category->getId()]->addData($category->getData());
+            }
+        }
+        
+        return $this;
     }
     
     protected function _getNodeJson($node, $level=1)
