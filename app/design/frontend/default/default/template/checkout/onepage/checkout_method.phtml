@@ -1,0 +1,52 @@
+<div class="step-body">
+    <h4 class="login">Login</h4>
+    <div class="note-box">
+    <?=$messages->toHtml()?>
+    <form action="<?=$this->getPostAction()?>" method="post">
+        <fieldset class="group-select">
+        <p>
+            <strong><?=__('Already Registered?')?></strong><br/>
+            <?=__('Log in below to take advantage of Express Checkout:')?>
+        </p>
+        <ul>
+            <li>
+                <div class="input-left">
+                    <label for="email"><?=__('Email Address')?></label></br>
+                    <input type="text" class="input-text" id="email" name="login[username]"/>
+                </div>
+            </li>
+            <li>
+                <div class="input-left">
+                    <label for="password"><?=__('Password')?></label></br>
+                    <input type="password" class="input-text" id="password" name="login[password]" />
+                </div>
+                <div class="input-right" style="padding-top:20px;">&nbsp;<a href="<?=$this->getUrl('customer/account/forgotpassword')?>"><?=__('Forgot your password?')?></a></div>
+            </li>
+        </ul>
+        </fieldset>
+        <div class="buttons"><input type="submit" class="input-button" value="<?=__('Login')?>"/></div>
+    </form>
+    </div>
+
+    <h4 class="login"><?=__('Checkout as a Guest or Register')?></h4>
+    <div class="note-box">
+    <form id="checkout_method">
+        <fieldset>
+        <p><?=__('You may check out as a guest or register with us for future convenience:')?></p>
+        <p>
+            <input type="radio" name="checkout_method" id="checkout_method:guest" value="1"<?if($this->getCheckoutMethod()=='guest'):?> checked<?endif?>/> 
+            <label for="checkout_method:guest"><strong><?=__('Checkout as Guest')?></strong></label><br/>
+            <input type="radio" name="checkout_method" id="checkout_method:register" value="2"<?if($this->getCheckoutMethod()=='register'):?> checked<?endif?>/> 
+            <label for="checkout_method:register"><strong><?=__('Register')?></strong></label>
+        </p>
+        <strong><?=__('Register and save time!')?></strong><br/>
+        <ul class="disc">
+            <li><?=__('Fast and easy check out')?></li>
+            <li><?=__('Easy access to your order history and status')?></li>
+        </ul>
+        </fieldset>
+        <div class="buttons"><input type="button" class="input-button" value="<?=__('Continue')?>" onclick="checkout.setMethod();"/></div>
+    </form>
+    </div>
+
+</div>

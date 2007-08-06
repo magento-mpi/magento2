@@ -1,23 +1,23 @@
-<script type="text/javascript" src="<?=$baseJsUrl?>/varien/accordion.js"></script>
-<script type="text/javascript" src="<?=$baseJsUrl?>/varien/opcheckout.js"></script>
+<script type="text/javascript" src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>/varien/accordion.js"></script>
+<script type="text/javascript" src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>/varien/opcheckout.js"></script>
 <div class="content page-checkout">
     <div id="checkoutSteps">
-    <?foreach($steps as $_stepId => $_stepInfo):?>
+    <?foreach($this->getSteps() as $_stepId => $_stepInfo):?>
         <div class="section<?if(!empty($_stepInfo['allow'])):?> allow<?endif?>" id="<?=$_stepId?>">
             <h3><?=$_stepInfo['label']?></h3>
             <div class="a-item" style="display:none;" id="checkout-step-<?=$_stepId?>">
-            <?=$$_stepId?>
+                <?=$this->getChildHtml($_stepId)?>
             </div>
         </div>
     <?endforeach?>
     </div>
     <script type="text/javascript">
         var accordion = new Accordion('checkoutSteps','h3',true);
-        <?if($_activeStep=$currentBlock->getLastAllowStep()):?>
-        accordion.openSection('<?=$_activeStep?>');
+        <?if($this->getActiveStep()):?>
+        accordion.openSection('<?=$this->getActiveStep()?>');
         <?endif?>
         
-        var checkout = new Checkout(accordion, '<?=$baseSecureUrl?>checkout/onepage/status/', '<?=$baseSecureUrl?>checkout/onepage/review/', 
-				'<?=$baseSecureUrl?>checkout/onepage/saveMethod/');
+        var checkout = new Checkout(accordion, '<?=$this->getUrl('checkout/onepage/status')?>', '<?=$this->getUrl('checkout/onepage/review')?>', 
+				'<?=$this->getUrl('checkout/onepage/saveMethod')?>');
     </script>
 </div>

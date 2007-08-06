@@ -3,10 +3,10 @@
         <td style="padding:10px 15px;">
             <h4><?=__('Billing Address')?></h4>
             <div class="step-body">
-                <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br/>
-                <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br/>
-                <?=nl2br($billing->getStreet(-1))?><br/>
-                <?=$billing->getCity()?>, <?=$billing->getRegionId()?> <?=$billing->getPostcode()?>
+                <?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br/>
+                <?if ($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><?endif?><br/>
+                <?=nl2br($this->getBilling()->getStreet(-1))?><br/>
+                <?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegionId()?> <?=$this->getBilling()->getPostcode()?>
                 <br/><strong><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;"><?=__('Edit')?></a></strong>
             </div>
         </td>
@@ -14,10 +14,10 @@
         <td style="padding:10px 15px;">
             <h4><?=__('Shipping Address')?></h4>
             <div class="step-body">
-                <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br/>
-                <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br/>
-                <?=nl2br($shipping->getStreet(-1))?><br/>
-                <?=$shipping->getCity()?>, <?=$shipping->getRegionId()?> <?=$shipping->getPostcode()?>
+                <?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br/>
+                <?if ($this->getShipping()->getCompany()):?><?=$this->getShipping()->getCompany()?><?endif?><br/>
+                <?=nl2br($this->getShipping()->getStreet(-1))?><br/>
+                <?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegionId()?> <?=$this->getShipping()->getPostcode()?>
                 <br/><strong><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;"><?=__('Edit')?></a></strong>
             </div>
         </td>
@@ -48,7 +48,7 @@
         <th style="width:40px;" class="align-center"><?=__('Qty')?></th>
         <th style="width:70px;" class="align-center"><?=__('Total')?></th>
     </tr>
-    <?foreach($items as $item):?>
+    <?foreach($this->getItems() as $item):?>
     <tr>
         <td><a href="<?=$this->getUrl('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
         <td class="align-center"><?=$item['price']?></td>
@@ -56,7 +56,7 @@
         <td class="align-right"><?=$item['row_total']?></td>
     </tr>
     <?endforeach?>
-    <?foreach($totals as $total):?>
+    <?foreach($this->getTotals() as $total):?>
 		<tfoot>
 			<tr>
 					<td colspan="3" class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>

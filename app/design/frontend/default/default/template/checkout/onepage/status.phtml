@@ -1,62 +1,62 @@
 <div class="page-checkout-left">
-    <h3>Checkout Status</h3>
+    <h3><?=__('Checkout Status')?></h3>
     <ol>
-    <?if($checkout->getCompletedBilling()):?>
+    <?if($this->getCheckout()->getStepData('billing', 'complete')):?>
         <li class="complete">
-            <h4>Billing Address</h4>
+            <h4><?=__('Billing Address')?></h4>
             <div class="step-body">
-                <?=$billing->getFirstname()?> <?=$billing->getLastname()?><br />
-                <?if ($billing->getCompany()):?><?=$billing->getCompany()?><?endif?><br />
-                <?=nl2br($billing->getStreet(-1))?><br />
-                <?=$billing->getCity()?>, <?=$billing->getRegionId()?> <?=$billing->getPostcode()?>
-                <p><strong><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">Edit</a></strong></p>
+                <?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br />
+                <?if ($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><?endif?><br />
+                <?=nl2br($this->getBilling()->getStreet(-1))?><br />
+                <?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegionId()?> <?=$this->getBilling()->getPostcode()?>
+                <p><strong><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;"><?=__('Edit')?></a></strong></p>
             </div>
         </li>
     <?else:?>
         <li>
-            <h4>Billing Address</h4>
+            <h4><?=__('Billing Address')?></h4>
         </li>
     <?endif?>
-    <?if($checkout->getCompletedPayment()):?>
+    <?if($this->getCheckout()->getCompletedPayment()):?>
         <li class="complete">
-            <h4>Payment Method</h4>
+            <h4><?=__('Payment Method')?></h4>
             <div class="step-body">
                 <?=$this->getChildHtml('payment')?>
-                <p><strong><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">Edit</a></strong></p>
+                <p><strong><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;"><?=__('Edit')?></a></strong></p>
             </div>
         </li>
     <?else:?>
         <li>
-            <h4>Payment Method</h4>
+            <h4><?=__('Payment Method')?></h4>
         </li>
     <?endif?>
-    <?if($checkout->getCompletedShipping()):?>
+    <?if($this->getCheckout()->getCompletedShipping()):?>
         <li class="complete">
-            <h4>Shipping Address</h4>
+            <h4><?=__('Shipping Address')?></h4>
             <div class="step-body">
-                <?=$shipping->getFirstname()?> <?=$shipping->getLastname()?><br />
-                <?if ($shipping->getCompany()):?><?=$shipping->getCompany()?><?endif?><br />
-                <?=nl2br($shipping->getStreet(-1))?><br />
-                <?=$shipping->getCity()?>, <?=$shipping->getRegionId()?> <?=$shipping->getPostcode()?>
-                <p><strong><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;">Edit</a></strong></p>
+                <?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br />
+                <?if ($this->getShipping()->getCompany()):?><?=$this->getShipping()->getCompany()?><?endif?><br />
+                <?=nl2br($this->getShipping()->getStreet(-1))?><br />
+                <?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegionId()?> <?=$this->getShipping()->getPostcode()?>
+                <p><strong><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;"><?=__('Edit')?></a></strong></p>
             </div>
         </li>
     <?else:?>
         <li>
-            <h4>Shipping Address</h4>
+            <h4><?=__('Shipping Address')?></h4>
         </li>
     <?endif?>
-    <?if($checkout->getCompletedShippingMethod()):?>
+    <?if($this->getCheckout()->getCompletedShippingMethod()):?>
         <li class="complete">
-            <h4>Shipping Method</h4>
+            <h4><?=__('Shipping Method')?></h4>
             <div class="step-body">
-                <?=$this->getChildHtml('shippingDescription')?>
-                <p><strong><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">Edit</a></strong></p>
+                <?=$this->getChildHtml('shipping_description')?>
+                <p><strong><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;"><?=__('Edit')?></a></strong></p>
             </div>
         </li>
     <?else:?>
         <li>
-            <h4>Shipping Method</h4>
+            <h4><?=__('Shipping Method')?></h4>
         </li>
     <?endif?>
     </ol>

@@ -89,7 +89,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template
             ->setId('state')
             ->setClass('required-entry validate-state input-text')
             ->setValue($this->getAddress()->getRegionId())
-            ->setOptions($this->getREgionCollection()->toOptionArray())
+            ->setOptions($this->getRegionCollection()->toOptionArray())
             ->getHtml();
     }
     

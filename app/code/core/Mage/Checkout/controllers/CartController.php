@@ -42,7 +42,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $product = Mage::getModel('catalog/product')->load($productId);
         if ($product->getId()) {
-            $this->getQuote()->addCatalogProduct($product->setQty($qty))->save();
+            $this->getQuote()->addCatalogProduct($product->setQty($qty));
+            $this->getQuote()->collectTotals()->save();
         }
         
         Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
@@ -54,7 +55,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $cart = $this->getRequest()->getPost('cart');
 
-        $this->getQuote()->updateItems($cart)->save();
+        $this->getQuote()->processCartPost($cart)->collectTotals()->save();
 
         $this->_backToCart();
     }

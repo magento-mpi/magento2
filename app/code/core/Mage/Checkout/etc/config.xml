@@ -17,49 +17,6 @@
             <class>Mage_Checkout_Model</class>
          </checkout>
       </models>
-      <resources>
-         <checkout_setup>
-            <setup>
-               <module>Mage_Checkout</module>
-            </setup>
-            <connection>
-               <use>core_setup</use>
-            </connection>
-         </checkout_setup>
-         <checkout_write>
-            <connection>
-               <use>core_write</use>
-            </connection>
-         </checkout_write>
-         <checkout_read>
-            <connection>
-               <use>core_read</use>
-            </connection>
-         </checkout_read>
-      </resources>
-      <sales>
-         <quote>
-            <entities>
-               <self>
-                 <attributes>
-                  <method>
-                     <type>varchar</type>
-                  </method>
-                  <password_hash>
-                     <type>varchar</type>
-                  </password_hash>
-                 </attributes>
-               </self>
-               <address>
-                 <attributes>
-                  <same_as_billing>
-                    <type>int</type>
-                  </same_as_billing>
-                 </attributes>
-               </address>
-            </entities>
-         </quote>
-      </sales>
    </global>
    <frontend>
       <layouts>
@@ -70,13 +27,13 @@
                </checkout>
             </updates>
          </default>
-         <checkout>
+         <onepage>
             <updates>
-               <checkout>
-                  <file>checkout/page.xml</file>
-               </checkout>
+               <default>
+                  <file>checkout/onepage.xml</file>
+               </default>
             </updates>
-         </checkout>
+         </onepage>
       </layouts>
       <events>
          <customerLogin>
@@ -98,10 +55,6 @@
             </observers>
          </customerLogout>
       </events>
-      <urls>
-         <cart_view>checkout/cart</cart_view>
-         <checkout_start>checkout</checkout_start>
-      </urls>
       <routers>
          <checkout>
             <use>standard</use>

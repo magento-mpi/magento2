@@ -19,7 +19,7 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
         $this->_alnumFilter = new Zend_Filter_Alnum();
         $this->_priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
         $this->_qtyFilter = new Varien_Filter_Sprintf('%d');
-        $this->_isWishlistActive = Mage::getConfig()->getModuleConfig('Mage_Customer')->is('wishlistActive') 
+        $this->_isWishlistActive = Mage::getStoreConfig('wishlist/general/active')
             && Mage::getSingleton('customer/session')->isLoggedIn();
     }
     

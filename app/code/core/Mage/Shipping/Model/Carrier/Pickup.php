@@ -19,10 +19,8 @@ class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abs
         if (!empty($rate)) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
 	    	
-	    	$carrier = 'pickup';
-	    	$carrierTitle = Mage::getStoreConfig('carriers/pickup/title');
-	    	$method->setCarrier($carrier);
-	    	$method->setCarrierTitle($carrierTitle);
+	    	$method->setCarrier('pickup');
+	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/pickup/title'));
 	    	
 	    	$method->setMethod('store');
 	    	$method->setMethodTitle('Store Pickup');

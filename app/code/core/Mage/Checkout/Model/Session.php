@@ -64,6 +64,55 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return $this;
     }
+    
+    public function setStepData($step, $data, $value=null)
+    {
+        $steps = $this->getSteps();
+        if (is_null($value)) {
+            if (is_array($data)) {
+                $steps[$step] = $data;
+            }
+        } else {
+            if (!isset($steps[$step])) {
+                $steps[$step] = array();
+            }
+            if (is_string($data)) {
+                $steps[$step][$data] = $value;
+            }
+        }
+        $this->setSteps($steps);
+        
+        return $this;
+    }
+    
+    public function getStepData($step=null, $data=null)
+    {
+        $steps = $this->getSteps();
+        if (is_null($step)) {
+            return $steps;
+        }
+        if (!isset($steps[$step])) {
+            return false;
+        }
+        if (is_null($data)) {
+            return $steps[$step];
+        }
+        if (!is_string($data) || !isset($steps[$step][$data])) {
+            return false;
+        }
+        return $steps[$step][$data];
+    }
+    
+    public function getLastAllowedStep()
+    {
+        $step = false;
+        foreach ($this->getStepData() as $stepId=>$stepInfo) {
+            if(!empty($stepInfo['allow'])){
+                $step = $stepId;
+            }
+        }
+        return $step;
+    }
 
     public function clear()
     {

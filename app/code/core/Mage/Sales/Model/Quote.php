@@ -105,6 +105,16 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
         return $addresses;
+    }    
+    public function getAllAddresses()
+    {
+        $addresses = array();
+        foreach ($this->getAddressesCollection() as $address) {
+            if (!$address->isDeleted()) {
+                $addresses[] = $address;
+            }
+        }
+        return $addresses;
     }
 
     public function getAddressById($addressId)
@@ -263,15 +273,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         
         $this->addItem($item);
-        
-        $this->collectTotals();
-        
+
         return $item;
     }
     
-    public function updateItems(array $itemsArr)
+    public function processCartPost(array $cart)
     {
-        foreach ($itemsArr as $id=>$itemUpd) {
+        foreach ($cart as $id=>$itemUpd) {
             if (empty($itemUpd['qty']) || !is_numeric($itemUpd['qty']) || intval($itemUpd['qty'])<=0) {
                 continue;
             }
@@ -296,7 +304,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 $item->setPrice($product->getFinalPrice($item->getQty()));
             }
         }
-        $this->collectTotals();
+
         return $this;
     }
     
@@ -361,7 +369,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 /*********************** TOTALS ***************************/
     public function collectTotals()
     {
-        foreach ($this->getAllShippingAddresses() as $address) {
+        foreach ($this->getAllAddresses() as $address) {
             $address->collectTotals();
         }
         return $this;

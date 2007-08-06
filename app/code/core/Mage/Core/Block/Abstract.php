@@ -165,7 +165,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             }
         }
         
-        $block->setData('parent', array('var'=>$name, 'block'=>$this));
+        $block->setParentBlock($this);
+        $block->setBlockAlias($name);
+        
+        $block->setData('parent', array('var'=>$name, 'block'=>$this)); //deprecated
         $this->_children[$name] = $block;
 
         return $this;

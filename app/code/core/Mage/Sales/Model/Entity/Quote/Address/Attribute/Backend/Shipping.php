@@ -14,15 +14,17 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
             $address->setWeight($address->getWeight() + $item->getRowWeight());
         }
         
-        if ($address->getShippingPostcode() && $oldWeight!=$address->getWeight()) {
+        if ($address->getPostcode() && $oldWeight!=$address->getWeight()) {
             $address->collectShippingRates();
         }
         
+        $address->setShippingAmount(0);
         $method = $address->getShippingMethod();
         if ($method) {
             foreach ($address->getAllShippingRates() as $rate) {
-                if ($rate->getMethod()==$method) {
+                if ($rate->getCode()==$method) {
                     $address->setShippingAmount($rate->getPrice());
+                    $address->setShippingDescription($rate->getCarrierTitle().' - '.$rate->getMethodDescription());
                     break;
                 }
             }

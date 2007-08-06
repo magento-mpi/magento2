@@ -32,6 +32,7 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
             $this
                 ->setCode($rate->getCarrier().'_'.$rate->getMethod())
                 ->setCarrier($rate->getCarrier())
+                ->setCarrierTitle($rate->getCarrierTitle())
                 ->setMethod($rate->getMethod())
                 ->setMethodDescription($rate->getMethodTitle())
                 ->setPrice($rate->getPrice())

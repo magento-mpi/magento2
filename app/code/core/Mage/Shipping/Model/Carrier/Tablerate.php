@@ -31,10 +31,8 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
         if (!empty($rate)) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
 	    	
-	    	$carrier = 'tablerate';
-	    	$carrierTitle = (string)Mage::getStoreConfig('carriers/tablerate/title');
-	    	$method->setCarrier($carrier);
-	    	$method->setCarrierTitle($carrierTitle);
+	    	$method->setCarrier('tablerate');
+	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/tablerate/title'));
 	    	
 	    	$method->setMethod('bestway');
 	    	$method->setMethodTitle('Best way');

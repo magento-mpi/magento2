@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+<!--
+    <reference name="left">
+        <action method="unsetChildren"></action>
+        <block type="checkout/onepage_status" name="checkout.status" before="-"/>
+    </reference>
+-->    
+    <reference name="content">
+        <block type="checkout/onepage" name="checkout.onepage">
+            <action method="setTemplate"><template>checkout/onepage.phtml</template></action>
+            <block type="checkout/onepage_checkoutMethod" name="checkout.onepage.checkoutMethod" as="checkoutMethod">
+                <action method="setTemplate"><template>checkout/onepage/checkout_method.phtml</template></action>
+            </block>
+            <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing">
+                <action method="setTemplate"><template>checkout/onepage/billing.phtml</template></action>
+            </block>
+            <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping">
+                <action method="setTemplate"><template>checkout/onepage/shipping.phtml</template></action>
+            </block>
+            <block type="checkout/onepage_shippingMethod" name="checkout.onepage.shippingMethod" as="shipping">
+                <action method="setTemplate"><template>checkout/onepage/shipping_method.phtml</template></action>
+                <block type="checkout/onepage_shippingMethod_available" name="checkout.onepage.shippingMethod.available" as="available">
+                    <action method="setTemplate"><template>checkout/onepage/shipping_method/available.phtml</template></action>
+                </block>
+            </block>
+            <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment">
+                <action method="setTemplate"><template>checkout/onepage/payment.phtml</template></action>
+                <block type="core/text_list" name="checkout.payment.methods" as="methods"/>
+            </block>
+            <block type="checkout/onepage_review" name="checkout.onepage.review" as="review">
+                <action method="setTemplate"><template>checkout/onepage/review.phtml</template></action>
+                <block type="checkout/onepage_review_info" name="checkout.onepage.review.info" as="info">
+                    <action method="setTemplate"><template>checkout/onepage/review/info.phtml</template></action>
+                </block>
+            </block>
+        </block>
+    </reference>
+</layoutUpdate>

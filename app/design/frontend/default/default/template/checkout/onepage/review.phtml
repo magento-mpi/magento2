@@ -7,7 +7,7 @@ Review.prototype = {
     
     save: function(){
         var request = new Ajax.Request(
-            '<?=$baseSecureUrl?>checkout/onepage/saveOrder/',
+            '<?=$this->getUrl('checkout/onepage/saveOrder')?>',
             {
                 method:'post',
                 parameters:{save:true},
@@ -25,7 +25,7 @@ Review.prototype = {
                 responce = {};
             }
             if (responce.success) {
-                window.location='<?=$baseUrl?>checkout/onepage/success/';
+                window.location='<?=$this->getUrl('checkout/onepage/success', array('_secure'=>false))?>';
             }
             else{
                 alert('error');
@@ -41,8 +41,8 @@ Review.prototype = {
     </div>
     
     <div class="note-box">
-        <a href="javascript:checkout.back();" class="float-left">&laquo; Back</a>
-			<a href="javascript:review.save();" class="float-right"><img src="<?=$this->getSkinUrl('images/btn_submit_order.gif')?>" alt="Continue"/></a>
+        <a href="javascript:checkout.back();" class="float-left">&laquo; <?=__('Back')?></a>
+			<a href="javascript:review.save();" class="float-right"><img src="<?=$this->getSkinUrl('images/btn_submit_order.gif')?>" alt="<?=__('Continue')?>"/></a>
         <div class="clearfix"></div>
     </div>
 </div>

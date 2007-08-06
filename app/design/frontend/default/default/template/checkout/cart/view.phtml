@@ -51,14 +51,14 @@
 						 <?if ($rate->getErrorMessage()):?>
 						<tr>
 							<td colspan="2">
-								<strong class="error-text"><?=$rate->getCarrier()?>: <?=$rate->getErrorMessage()?></strong>
+								<strong class="error-text"><?=$rate->getCarrierTitle()?>: <?=$rate->getErrorMessage()?></strong>
 							</td>
 						</tr>
 								 <?else:?>
 						<tr>
 							<td style="width:15px;"><input id="estimate_method_<?=$rate->getCode()?>" name="estimate_method" type="radio" value="<?=$rate->getCode()?>" 
 							<?if($rate->getCode()===$this->getEstimateMethod())echo"checked"?> /></td>
-							<td><label for="estimate_method_<?=$rate->getCode()?>"><?=$rate->getCarrier()?>: <?=$rate->getMethodDescription()?></label>:
+							<td><label for="estimate_method_<?=$rate->getCode()?>"><?=$rate->getCarrierTitle()?>: <?=$rate->getMethodDescription()?></label>:
 								<strong><?=$rate->getPrice()?></strong></td>
 						</tr>
 						<?endif?>
@@ -91,5 +91,3 @@
 	<a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; Continue Shopping</a>
 	<a href="<?=$this->getUrl('checkout')?>"><img src="<?=$this->getSkinUrl('images/btn_checkout.gif')?>" alt="Checkout"/></a>
 </div>
-
-<pre><?print_r($this->getQuote()->toArray())?></pre>
