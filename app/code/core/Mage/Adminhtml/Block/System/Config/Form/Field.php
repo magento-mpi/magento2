@@ -25,7 +25,9 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 
         $html = '<tr><td class="label">'.$element->getLabel().'</td>';
 
-        // custom value
+        if ($element->getExtType()==='multiple') {
+            $element->setName($element->getName().'[]');
+        }
         $html.= '<td class="value">'.$element->getElementHtml().'</td>';
 
         if (!$default) {

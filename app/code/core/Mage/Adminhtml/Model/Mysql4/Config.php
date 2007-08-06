@@ -97,6 +97,9 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         $rows = array();
         foreach ($groups as $group=>$groupData) {
             foreach ($groupData['fields'] as $field=>$fieldData) {
+                if (is_array($fieldData['value'])) {
+                    $fieldData['value'] = join(',', $fieldData['value']);
+                }
                 $path = $section.'/'.$group.'/'.$field;
                 if (isset($fieldData['inherit'])) {
                     switch ($fieldData['inherit']) {

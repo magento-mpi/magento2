@@ -13,7 +13,7 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
     {
         parent::__construct($attributes);
         $this->setType('select');
-        $this->setExtType('combobox');
+        $this->setExtType('multiple');
     }
 
     public function getElementHtml()
@@ -23,7 +23,7 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
 
         $value = $this->getValue();
         if (!is_array($value)) {
-            $value = array($value);
+            $value = explode(',', $value);
         }
 
         if ($values = $this->getValues()) {
