@@ -8,7 +8,7 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Checkout_Block_Onepage_CheckoutMethod extends Mage_Checkout_Block_Onepage_Abstract
+class Mage_Checkout_Block_Onepage_Checkout_Method extends Mage_Checkout_Block_Onepage_Abstract
 {
     protected function _construct()
     {

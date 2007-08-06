@@ -48,7 +48,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function updatePostAction()
     {
-        $cart = $this->getRequest()->getPost('cart');
+        $cart = $this->getRequest()->getParam('cart');
 
         $this->getQuote()->processCartPost($cart)->collectTotals()->save();
 
@@ -62,7 +62,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function estimatePostAction()
     {
-        $postcode = $this->getRequest()->getPost('estimate_postcode');
+        $postcode = $this->getRequest()->getParam('estimate_postcode');
 
         $this->getQuote()->getShippingAddress()
             ->setPostcode($postcode)->collectShippingRates();
@@ -74,7 +74,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function estimateUpdatePostAction()
     {
-        $code = $this->getRequest()->getPost('estimate_method');
+        $code = $this->getRequest()->getParam('estimate_method');
         
         $this->getQuote()->getShippingAddress()->setShippingMethod($code)->collectTotals()->save();
         
@@ -83,10 +83,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function couponPostAction()
     {
-        if ($this->getRequest()->getPost('do')==__('Clear')) {
+        if ($this->getRequest()->getParam('do')==__('Clear')) {
             $couponCode = '';
         } else {
-            $couponCode = $this->getRequest()->getPost('coupon_code');
+            $couponCode = $this->getRequest()->getParam('coupon_code');
         }
         
         $this->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
@@ -96,10 +96,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function giftCertPostAction()
     {
-        if ($this->getRequest()->getPost('do')==__('Clear')) {
+        if ($this->getRequest()->getParam('do')==__('Clear')) {
             $giftCode = '';
         } else {
-            $giftCode = $this->getRequest()->getPost('giftcert_code');
+            $giftCode = $this->getRequest()->getParam('giftcert_code');
         }
         
         $this->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();

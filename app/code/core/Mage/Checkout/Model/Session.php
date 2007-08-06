@@ -25,11 +25,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 $quote->load($this->getQuoteId());
                 if (!$quote->getId()) {
                     $this->setQuoteId(null);
-                    $quote->initNewQuote();
                 }
             }
             if (!$this->getQuoteId()) {
-                $quote->save();
+                $quote->initNewQuote()->save();
                 Mage::dispatchEvent('initQuote', array('quote'=>$quote));
                 $this->setQuoteId($quote->getId());
             }

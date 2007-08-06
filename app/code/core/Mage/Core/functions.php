@@ -1,5 +1,7 @@
 <?php
 
+include "Varien/Profiler.php";
+
 /**
  * Class autoload
  *
@@ -9,7 +11,10 @@
 function __autoload($class)
 {
     $classFile = uc_words($class, DS).'.php';
+    
+    Varien_Profiler::start('AUTOLOAD');
     include ($classFile);
+    Varien_Profiler::stop('AUTOLOAD');
 }
 
 /**

@@ -14,58 +14,10 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 {
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $id = $element->getHtmlId();
+        $html = $element->getDefaultHtml();
+        
+        $html.= 
 
-        // replace [value] with [inherit]
-        $namePrefix = substr($element->getName(), 0, strlen($element->getName())-7);
-
-        $custom = $element->getInherit()==0 ? 'checked' : '';
-        $inherit = $element->getInherit()==1 ? 'checked' : '';
-        $options = $element->getValues();
-
-        $html = '<tr><td class="label">'.$element->getLabel().'</td><td>';
-
-        // custom value
-        $html.= '<input id="'.$id.'_custom" name="'.$namePrefix.'[inherit]" type="radio" value="0" class="input-radio" '.$custom.'>';
-        $html.= $element->getElementHtml();
-
-        if ($this->getRequest()->getParam('website') || $this->getRequest()->getParam('store')) {
-            $html.= '</td><td>';
-
-            $defText = $element->getDefaultValue();
-            if ($options) {
-                foreach ($options as $k=>$v) {
-                    if ($v['value']==$element->getDefaultValue()) {
-                        $defText = $v['label'];
-                        break;
-                    }
-                }
-            }
-
-            // default value
-            $html.= '<input id="'.$id.'_inherit" name="'.$namePrefix.'[inherit]" type="radio" value="1" class="input-radio" '.$inherit.'>';
-            $html.= '<label for="'.$id.'_inherit" class="inherit">'.$defText.'</label>';
-            $html.= '<input type="hidden" name="'.$namePrefix.'[default_value]" value="'.$element->getDefaultValue().'">';
-        }
-
-        $html.= '</td><td>';
-
-        $oldText = $element->getOldValue();
-        if ($options) {
-            foreach ($options as $k=>$v) {
-                if ($v['value']==$element->getOldValue()) {
-                    $oldText = $v['label'];
-                    break;
-                }
-            }
-        }
-
-        // old value
-        $html.= '<input id="'.$id.'_old" name="'.$namePrefix.'[inherit]" type="radio" value="-1" class="input-radio">';
-        $html.= '<label for="'.$id.'_old" class="old">'.$oldText.'</label>';
-        $html.= '<input type="hidden" name="'.$namePrefix.'[old_value]" value="'.$element->getOldValue().'">';
-
-        $html.= '</td></tr>';
         return $html;
     }
 }

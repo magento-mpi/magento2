@@ -14,11 +14,18 @@ class Mage_Adminhtml_Block_Page extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('page.phtml');
+        
+        $this->_baseUrl = Mage::getBaseUrl();
+        $this->_jsUrl = Mage::getBaseUrl(array('_type'=>'js'));
     }
     
-    public function _beforeToHtml()
+    public function getBaseUrl()
     {
-        $this->assign('baseUrl', Mage::getBaseUrl());
-        return parent::_beforeToHtml();
+        return $this->_baseUrl;
+    }
+    
+    public function getJsUrl()
+    {
+        return $this->_jsUrl;
     }
 }

@@ -8,17 +8,17 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Checkout_Block_Onepage_ShippingMethod_Available extends Mage_Checkout_Block_Onepage_Abstract 
+class Mage_Checkout_Block_Onepage_Shipping_Method_Available extends Mage_Checkout_Block_Onepage_Abstract 
 {
     public function fetchEnabledMethods()
     {
-        $address = $this->getQuote()->getAllShippingAddresses();
+        $address = $this->getQuote()->getShippingAddress();
 
-        $methodEntities = $quote->getEntitiesByType('shipping'); 
-        if (!empty($methodEntities) && !empty($address)) {
+        $rates = $address->getAllShippingRates(); 
+        if (!empty($rates)) {
             $estimateFilter = new Varien_Filter_Object_Grid();
             $estimateFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'amount');
-            $methods = $estimateFilter->filter($methodEntities);
+            $methods = $estimateFilter->filter($rates);
             $selectedMethod = $quote->getShippingMethod();
             $this->assign('methods', $methods)->assign('selectedMethod', $selectedMethod);
         } else {

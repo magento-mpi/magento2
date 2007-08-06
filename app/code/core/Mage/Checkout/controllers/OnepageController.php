@@ -197,7 +197,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $payment = Mage::getModel('sales/quote_entity_payment')->addData($data);
+            $payment = Mage::getModel('sales/quote_payment')->addData($data);
             $this->getQuote()->setPayment($payment)->save();
             
             $this->getCheckout()
@@ -220,7 +220,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('sales/quote_entity_address')->addData($data);
+            $address = Mage::getModel('sales/quote_address')->addData($data);
             $address->implodeStreetAddress();
             $this->getQuote()->setShippingAddress($address);
             $this->getQuote()->getShippingAddress()->collectShippingMethods();

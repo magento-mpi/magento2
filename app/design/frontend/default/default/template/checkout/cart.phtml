@@ -96,11 +96,11 @@
         </tfoot>
     </table>
     <ul class="checkout-types">
-        <li><a href="#"><img src="images/btn_proceed_to_checkout.png" alt="Proceed to Checkout"/></a></li>
-        <li><a href="#"><big>Checkout with Multiple Addresses</big></a></li>
+        <li><a href="<?=$this->getCheckoutUrl()?>"><img src="images/btn_proceed_to_checkout.png" alt="Proceed to Checkout"/></a></li>
+        <li><a href="<?=$this->getMultiShippingUrl()?>"><big>Checkout with Multiple Addresses</big></a></li>
 
-        <li><a href="#"><img src="images/btn_paypal_checkout.gif" alt="Paypal Checkout"/></a></li>
-        <li><a href="#"><img src="images/btn_google_checkout.gif" alt="Google Checkout"/></a></li>
+        <li><a href="<?=$this->getPaypalUrl()?>"><img src="images/btn_paypal_checkout.gif" alt="Paypal Checkout"/></a></li>
+        <li><a href="<?=$this->getGoogleUrl()?>"><img src="images/btn_google_checkout.gif" alt="Google Checkout"/></a></li>
     </ul>
 </div>
 <div class="clear"></div>

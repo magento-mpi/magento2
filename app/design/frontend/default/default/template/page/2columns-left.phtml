@@ -50,8 +50,14 @@
         <!-- [start] middle -->
         <?=$this->getChildHtml('store')?>
 
-			<div id="main" class="col-2-right-layout">
-
+			<div id="main" class="col-2-left-layout">
+			
+            <!-- [start] left -->
+            <div class="col-left side-col">
+                <?=$this->getChildHtml('left')?>
+            </div>
+            <!-- [end] left -->
+            
             <!-- [start] center -->
 				<div class="col-main">
 
@@ -61,12 +67,6 @@
 
 				</div>
             <!-- [end] center -->
-
-            <!-- [start] right -->
-            <div class="col-right side-col">
-                <?=$this->getChildHtml('right')?>
-            </div>
-            <!-- [end] right -->
 
         </div>
         <!-- [end] middle -->

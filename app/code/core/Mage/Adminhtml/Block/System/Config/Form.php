@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 case 2: // group
                     $fieldset[$pathArr[1]] = $form->addFieldset($pathArr[1], array(
                         'legend'=>__($e->getFrontendLabel())
-                    ))->setRenderer($fieldsetRenderer);
+                    ));#->setRenderer($fieldsetRenderer);
                     break;
                     
                 case 3: // field

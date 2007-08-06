@@ -1,36 +1,23 @@
 <?php
 
-class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template 
+class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract 
 {
-    protected $_quote;
-    protected $_alnumFilter;
-    protected $_priceFilter;
-    protected $_qtyFilter;
-    protected $_isWishlistActive;
     protected $_totals;
     
-    public function _construct()
+    protected function _construct()
     {
-        if (!$this->getQuote()->hasItems()) {
-            $this->setTemplate('checkout/cart/noItems.phtml');
-        } else {
-            $this->setTemplate('checkout/cart/view.phtml');
-        }
-        
-        $this->_alnumFilter = new Zend_Filter_Alnum();
-        $this->_priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
-        $this->_qtyFilter = new Varien_Filter_Sprintf('%d');
-        $this->_isWishlistActive = Mage::getStoreConfig('wishlist/general/active')
-            && Mage::getSingleton('customer/session')->isLoggedIn();
         $this->_totals = $this->getQuote()->getTotals();
+        
+        parent::_construct();
     }
     
-    public function getQuote()
+    public function chooseTemplate()
     {
-        if (empty($this->_quote)) {
-            $this->_quote = Mage::getSingleton('checkout/session')->getQuote();
+        if ($this->getQuote()->hasItems()) {
+            $this->setTemplate($this->getCartTemplate());
+        } else {
+            $this->setTemplate($this->getEmptyTemplate());
         }
-        return $this->_quote;
     }
     
     public function getItems()
@@ -49,29 +36,6 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
         return $totalsFilter->filter($this->_totals);
     }
     
-    public function getEstimateRates()
-    {
-        $rates = $this->getQuote()->getShippingAddress()->getAllShippingRates();
-        $ratesFilter = new Varien_Filter_Object_Grid();
-        $ratesFilter->addFilter($this->_priceFilter, 'price');
-        return $ratesFilter->filter($rates);
-    }
-    
-    public function getEstimatePostcode()
-    {
-        return $this->getQuote()->getShippingAddress()->getPostcode();
-    }    
-    
-    public function getEstimateMethod()
-    {
-        return $this->getQuote()->getShippingAddress()->getShippingMethod();
-    }
-    
-    public function getCouponCode()
-    {
-        return $this->getQuote()->getCouponCode();
-    }
-    
     public function getGiftcertCode()
     {
         return $this->getQuote()->getGiftcertCode();
@@ -80,5 +44,25 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     public function isWishlistActive()
     {
         return $this->_isWishlistActive;
+    }
+    
+    public function getCheckoutUrl()
+    {
+        return $this->getUrl('checkout/onepage', array('_secure'=>true));
+    }
+    
+    public function getMultiShippingUrl()
+    {
+        return $this->getUrl('checkout/multishipping', array('_secure'=>true));
+    }
+    
+    public function getPaypalUrl()
+    {
+        return $this->getUrl('checkout/paypal');
+    }
+    
+    public function getGoogleUrl()
+    {
+        return $this->getUrl('checkout/google');
     }
 }

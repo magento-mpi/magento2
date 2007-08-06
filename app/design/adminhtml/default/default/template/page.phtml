@@ -16,23 +16,23 @@
 <head>
     <title><?=__('Magento Admin')?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
-    <script type="text/javascript" src="<?=$baseJsUrl?>prototype/prototype.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>scriptaculous/scriptaculous.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>prototype/validation.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/hash.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/events.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/loader.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/grid.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tabs.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/form.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/accordion.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/tools.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/bundle.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/uploader.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>firebug/firebug.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>scriptaculous/scriptaculous.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/hash.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/events.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/loader.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/grid.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/tabs.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/form.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/accordion.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/tools.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/bundle.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/uploader.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>firebug/firebug.js"></script>
 
     <script type="text/javascript">
-        var BASE_URL = '<?=$baseUrl?>adminhtml/';
+        var BASE_URL = '<?=$this->getUrl('adminhtml')?>';
         var SKIN_URL = '<?=$this->getSkinUrl()?>';
     </script>
 
@@ -42,32 +42,32 @@
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all" /> <![endif]-->
     <!--[if lt IE 7]>
-    	<script defer type="text/javascript" src="<?=$baseUrl?>js/lib/ds-sleight.js"></script>
-    	<script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/iehover-fix.js"></script>
+    	<script defer type="text/javascript" src="<?=$this->getJsUrl()?>js/lib/ds-sleight.js"></script>
+    	<script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js"></script>
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>"/>
 <?//if($this->getCanLoadCalendarJs()):?>
-    <link rel="stylesheet" type="text/css" media="all" href="<?=$baseJsUrl?>calendar/calendar-win2k-1.css" title="win2k-1" />
-    <script type="text/javascript" src="<?=$baseJsUrl?>calendar/calendar.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>calendar/lang/calendar-en.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>calendar/calendar-setup.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="<?=$this->getJsUrl()?>calendar/calendar-win2k-1.css" title="win2k-1" />
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/calendar.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/lang/calendar-en.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/calendar-setup.js"></script>
 <?//endif;?>
 
 <?if($this->getCanLoadExtJs()):?>
-    <script type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-tree.js"></script>
-    <script type="text/javascript" src="<?=$baseJsUrl?>extjs/ext-tree-checkbox.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ext-all.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>extjs/resources/css/ytheme-magento.css"/>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>extjs/ext-tree.js"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>extjs/ext-tree-checkbox.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getJsUrl()?>extjs/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getJsUrl()?>extjs/resources/css/ytheme-magento.css"/>
     <script type="text/javascript">
-        Ext.BLANK_IMAGE_URL = '<?=$baseJsUrl?>extjs/resources/images/default/s.gif';
+        Ext.BLANK_IMAGE_URL = '<?=$this->getJsUrl()?>extjs/resources/images/default/s.gif';
         Ext.UpdateManager.defaults.loadScripts = false;
         Ext.UpdateManager.defaults.disableCaching = true;
     </script>
 <?endif;?>
 
 <?if($this->getCanLoadRulesJs()):?>
-	<script type="text/javascript" src="<?=$baseJsUrl?>adminhtml/rules.js" ></script>
+	<script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/rules.js" ></script>
 <?endif?>
 </head>
 <body>
@@ -81,21 +81,21 @@
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
                 <div class="simple-container-left">
-									<div class="container">
-											<div class="main">
-													<div class="content-container">
-															<div class="content" id="content">
-																	<?=$this->getMessagesBlock()->getGroupedHtml()?>
-																	<?=$this->getChildHtml('content')?>
-															</div>
-													</div>
-													<div class="section-menu">
-															<?=$this->getChildHtml('left')?>
-															<div class="bottom"></div>
-													</div>
+					<div class="container">
+							<div class="main">
+									<div class="content-container">
+											<div class="content" id="content">
+												<?=$this->getMessagesBlock()->getGroupedHtml()?>
+												<?=$this->getChildHtml('content')?>
 											</div>
 									</div>
-								</div>
+									<div class="section-menu">
+										<?=$this->getChildHtml('left')?>
+										<div class="bottom"></div>
+									</div>
+							</div>
+					</div>
+				</div>
                 <?else:?>
                 <div class="simple-container">
                     <?=$this->getMessagesBlock()->getGroupedHtml()?>
@@ -107,7 +107,7 @@
             <?=$this->getChildHtml('footer')?>
         </div>
     </td></tr></table>
-<?//=$this->getChildHtml('profiler')?>
+<?=$this->getChildHtml('profiler')?>
 <div id="loading-process" style="display:none"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..." align="absmiddle" height="16"/></div>
 </body>
 </html>

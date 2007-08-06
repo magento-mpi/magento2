@@ -317,6 +317,13 @@
                </catalog>
             </updates>
          </default>
+         <catalog_compare>
+            <updates>
+                <default>
+                    <file>catalog/compare.xml</file>
+                </default>
+            </updates>
+         </catalog_compare>
       </layouts>
       <routers>
          <catalog>

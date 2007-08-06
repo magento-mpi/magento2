@@ -130,7 +130,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             }
             $paramsStr = '';
             foreach ($params as $key=>$value) {
-                if (!isset($reservedKeys[$key]) && '_'!==$key{0} && !empty($value)) {
+                if (!empty($key) && !isset($reservedKeys[$key]) && '_'!==$key{0} && !empty($value)) {
                     $paramsStr .= $key.'/'.$value.'/';
                 }
             }

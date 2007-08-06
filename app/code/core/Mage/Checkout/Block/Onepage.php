@@ -11,7 +11,11 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 {
     public function getSteps()
     {
-        return $this->getCheckout()->getStepData();
+        $steps = array();
+        foreach (array('checkout_method', 'billing', 'shipping', 'shipping_method', 'payment', 'review') as $step) {
+            $steps[$step] = $this->getCheckout()->getStepData($step);
+        }
+        return $steps;
     }
     
     public function getActiveStep()
