@@ -20,7 +20,7 @@ class Mage_Checkout_Block_Onepage_Payment extends Mage_Checkout_Block_Onepage_Ab
     {
         $payment = $this->getQuote()->getPayment();
         if (empty($payment)) {
-            $payment = Mage::getModel('sales/quote_entity_payment');
+            $payment = Mage::getModel('sales/quote_payment');
         } else {
             $payment->setCcNumber(null)->setCcCid(null);
         }

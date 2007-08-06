@@ -13,6 +13,8 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_customer;
     protected $_checkout;
     protected $_quote;
+    protected $_countryCollection;
+    protected $_regionCollection;
     
     public function getCustomer()
     {
@@ -42,7 +44,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
-
+    
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
@@ -51,19 +53,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         }
         return $this->_countryCollection;
     }
-    
-    public function getCountryHtmlSelect()
-    {
-        return $this->getLayout()->createBlock('core/html_select')
-            ->setName('country_id')
-            ->setId('country')
-            ->setTitle('Country')
-            ->setClass('validate-select')
-            ->setValue($this->getAddress()->getCountryId())
-            ->setOptions($this->getCountryCollection()->toOptionArray())
-            ->getHtml();
-    }
-    
+        
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
@@ -72,17 +62,5 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 ->load();
         }
         return $this->_regionCollection;
-    }
-    
-    public function getRegionHtmlSelect()
-    {
-        return $this->getLayout()->createBlock('core/html_select')
-            ->setName('region')
-            ->setTitle('State/Province')
-            ->setId('state')
-            ->setClass('required-entry validate-state input-text')
-            ->setValue($this->getAddress()->getRegionId())
-            ->setOptions($this->getRegionCollection()->toOptionArray())
-            ->getHtml();
     }
 }

@@ -57,15 +57,11 @@
                 </li>
                 <li>
                     <div class="input-left">
-                        <label for="billing:zone_id"><?=__('State/Province')?> <span class="required">*</span></label><br/>
-                        <?if($this->getRegions()->getSize()):?>
-                            <select title="<?=__('State/Province')?>" id="billing:region" name="billing[region]" class="required-entry">
-                                <option value=""><?=__('Select State/Province...')?></option>
-                                <?=$this->getRegions()->toHtmlOptions($this->getAddress()->getRegion())?>
-                            </select>
+                        <label for="billing:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+                        <?if($this->getRegionCollection()->getSize()):?>
+                            <?=$this->getRegionHtmlSelect()?>
                         <?else:?>
-                            <input type="text" id="billing:region" name="billing[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry 
-														input-text"/>
+                            <input type="text" id="billing:region" name="billing[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text"/>
                         <?endif?>
                     </div>
                     <div class="input-right">
@@ -75,9 +71,7 @@
                 </li>
                 <li>
                     <label for="billing:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
-                    <select id="billing:country_id" name="billing[country_id]" title="<?=__('Country')?>">
-                        <?=$this->getCountries()->toHtmlOptions($this->getAddress()->getCountryId())?>
-                    </select>
+                    <?=$this->getCountryHtmlSelect()?>
                 </li>
                 <li>
                     <div class="input-left">

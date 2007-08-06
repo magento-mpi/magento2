@@ -62,10 +62,7 @@
                     <div class="input-left">
                         <label for="shipping:zone_id"><?=__('State/Province')?> <span class="required">*</span></label><br/>
                         <?if($this->getRegions()->getSize()):?>
-                            <select title="<?=__('State/Province')?>" id="shipping:region" name="shipping[region]" class="required-entry" onchange="shipping.setSameAsBilling(false);">
-                                <option value=""><?=__('Select State/Province...')?></option>
-                                <?=$this->getRegions()->toHtmlOptions($this->getAddress()->getRegion())?>
-                            </select>
+                            <?=$this->getRegionHtmlSelect()?>
                         <?else:?>
                             <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" onchange="shipping.setSameAsBilling(false);"/>
                         <?endif?>
@@ -78,9 +75,7 @@
                 </li>
                 <li>
                     <label for="shipping:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
-                    <select id="shipping:country_id" name="shipping[country_id]" title="Country" onchange="shipping.setSameAsBilling(false);">
-                        <?=$this->getCountries()->toHtmlOptions($this->getAddress()->getCountryId())?>
-                    </select>
+                    <?=$this->getCountryHtmlSelect()?>
                 </li>
                 <li>
                     <div class="input-left">

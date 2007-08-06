@@ -21,7 +21,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     
     public function getUseForShipping()
     {
-        if ($this->getQuote()->isVirtual()) {
+        if ($this->getQuote()->getIsVirtual()) {
             return false;
         }
         return $this->getQuote()->getShippingAddress()->getSameAsBilling();
@@ -55,5 +55,30 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     public function getAddress()
     {
         return $this->getQuote()->getBillingAddress();
+    }
+    
+    public function getCountryHtmlSelect()
+    {
+        return $this->getLayout()->createBlock('core/html_select')
+            ->setName('billing[country_id]')
+            ->setId('billing:country_id')
+            ->setTitle(__('Country'))
+            ->setClass('validate-select')
+            ->setValue($this->getAddress()->getCountryId())
+            ->setOptions($this->getCountryCollection()->toOptionArray())
+            ->getHtml();
+    }
+    
+
+    public function getRegionHtmlSelect()
+    {
+        return $this->getLayout()->createBlock('core/html_select')
+            ->setName('billing[region]')
+            ->setId('billing:region')
+            ->setTitle(__('State/Province'))
+            ->setClass('required-entry validate-state input-text')
+            ->setValue($this->getAddress()->getRegionId())
+            ->setOptions($this->getRegionCollection()->toOptionArray())
+            ->getHtml();
     }
 }

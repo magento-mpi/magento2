@@ -1,0 +1,106 @@
+<div class="page-head-alt">
+    <h2><?=__('Shopping Cart')?></h2>
+</div>
+<form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
+<table cellspacing="0" class="data-table box-table shopping-cart">
+    <col width="75"/>
+    <col/>
+    <col width="80"/>
+    <col width="140"/>
+
+    <col width="120"/>
+    <col width="140"/>
+    <thead>
+        <tr>
+            <th></th>
+            <th><?=__('Product Name')?></th>
+            <th class="a-center"><?=__('Remove')?></th>
+<?if($this->isWishlistActive()):?> 
+            <th class="a-center"><?=__('Wishlist')?></th>
+<?endif?>
+            <th class="a-right"><?=__('Unit Price')?></th>
+
+            <th class="a-center"><?=__('Qty')?></th>
+            <th class="a-right"><?=__('Subtotal')?></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+<?if($this->isWishlistActive()):?> 
+            <td></th>
+<?endif?>
+            <td></td>
+            <td class="a-center"><button class="form-button-alt"><span><?=__('Update Qty')?></span></button></td>
+            <td class="last"></td>
+        </tr>
+    </tfoot>
+    <tbody>
+<?$l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++?>
+        <tr class="<?$i%2==1?'odd':''?> <?=$i==$l?'last':''?>">
+            <td><a href="#"><img src="<?#=$item->getImageUrl()?><?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" alt="" width="75"/></td>
+            <td class="attributes-col"><a href="<?=$this->getUrl('catalog/product/view/id/'.$item->getProductId())?>"><strong><?=$item->getName()?></strong></a>
+                <ul>
+                    <li>Color: Black</li>
+                    <li>Size: Small</li>
+                </ul>
+            </td>
+<?if($this->isWishlistActive()):?>            
+            <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][wishlist]"/></td>
+<?endif?>
+            <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][remove]"/><!--<a href="#"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" alt="Remove item"/>--></td>
+            <td class="a-right"><?=$item->getPrice()?></td>
+            <td class="a-center"><input name="cart[<?=$item->getId()?>][qty]" value="<?=$item->getQty()?>" size="2" class="input-text qty"/></td>
+            <td class="a-right last"><?=$item->getRowTotal()?></td>
+        </tr>
+<?endforeach?>
+    </tbody>
+</table>
+</form>
+
+<div class="shopping-cart-collaterals">
+    <div class="col2-set">
+        <div class="col-1">
+            <?=$this->getChildHtml('coupon')?>
+        </div>
+
+        <div class="col-2">
+            <?=$this->getChildHtml('shipping')?>
+        </div>
+    </div>
+</div>
+
+<div class="shopping-cart-totals">
+    <table cellspacing="0">
+        <tbody>
+<?$l=sizeof($this->getItems()); $i=0; foreach($this->getTotals() as $total): $i++?>
+    <?if(!$total->getArea()):?>
+            <tr class="<?=$i==$l?'last':''?>">
+                <td style="<?=$total->getStyle()?>"><?=$total->getTitle()?></td>
+                <td style="<?=$total->getStyle()?>"><?=$total->getValue()?></td>
+            </tr>
+    <?endif?>
+<?endforeach?>
+        </tbody>
+        <tfoot>
+<?foreach($this->getTotals() as $total):?>
+    <?if($total->getArea()=='footer'):?>
+            <tr>
+                <td><strong><?=$total->getTitle()?></strong></td>
+                <td><strong><?=$total->getValue()?></strong></td>
+            </tr>
+    <?endif?>
+<?endforeach?>
+        </tfoot>
+    </table>
+    <ul class="checkout-types">
+        <li><a href="#"><img src="images/btn_proceed_to_checkout.png" alt="Proceed to Checkout"/></a></li>
+        <li><a href="#"><big>Checkout with Multiple Addresses</big></a></li>
+
+        <li><a href="#"><img src="images/btn_paypal_checkout.gif" alt="Paypal Checkout"/></a></li>
+        <li><a href="#"><img src="images/btn_google_checkout.gif" alt="Google Checkout"/></a></li>
+    </ul>
+</div>
+<div class="clear"></div>

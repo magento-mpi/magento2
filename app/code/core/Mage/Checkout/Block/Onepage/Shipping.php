@@ -48,4 +48,28 @@ class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_A
     {
         return $this->getQuote()->getShippingAddress();
     }
+    
+    public function getCountryHtmlSelect()
+    {
+        return $this->getLayout()->createBlock('core/html_select')
+            ->setName('shipping[country_id]')
+            ->setId('shipping:country_id')
+            ->setTitle(__('Country'))
+            ->setClass('validate-select')
+            ->setValue($this->getAddress()->getCountryId())
+            ->setOptions($this->getCountryCollection()->toOptionArray())
+            ->getHtml();
+    }
+    
+    public function getRegionHtmlSelect()
+    {
+        return $this->getLayout()->createBlock('core/html_select')
+            ->setName('shipping[region]')
+            ->setId('shipping:region')
+            ->setTitle(__('State/Province'))
+            ->setClass('required-entry validate-state input-text')
+            ->setValue($this->getAddress()->getRegionId())
+            ->setOptions($this->getRegionCollection()->toOptionArray())
+            ->getHtml();
+    }
 }

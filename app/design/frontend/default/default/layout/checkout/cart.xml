@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="left">
+        <action method="unsetChildren"></action>
+    </reference>
+    
+    <reference name="content">
+        <block type="checkout/cart" name="checkout.cart">
+            <action method="setTemplate"><template>checkout/cart.phtml</template></action>
+            <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon">
+                <action method="setTemplate"><template>checkout/cart/coupon.phtml</template></action>
+            </block>
+            <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping">
+                <action method="setTemplate"><template>checkout/cart/shipping.phtml</template></action>
+            </block>
+        </block>
+    </reference>
+</layoutUpdate>

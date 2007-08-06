@@ -7,6 +7,7 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     protected $_priceFilter;
     protected $_qtyFilter;
     protected $_isWishlistActive;
+    protected $_totals;
     
     public function _construct()
     {
@@ -21,6 +22,7 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
         $this->_qtyFilter = new Varien_Filter_Sprintf('%d');
         $this->_isWishlistActive = Mage::getStoreConfig('wishlist/general/active')
             && Mage::getSingleton('customer/session')->isLoggedIn();
+        $this->_totals = $this->getQuote()->getTotals();
     }
     
     public function getQuote()
@@ -44,7 +46,7 @@ class Mage_Checkout_Block_Cart extends Mage_Core_Block_Template
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter($this->_priceFilter, 'value');
-        return $totalsFilter->filter($this->getQuote()->getTotals());
+        return $totalsFilter->filter($this->_totals);
     }
     
     public function getEstimateRates()

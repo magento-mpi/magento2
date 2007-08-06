@@ -1,0 +1,23 @@
+<div class="col-2">
+	<h5><?=__('Estimate Shipping')?></h5>
+	<form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
+    	<p><label for="estimate_postcode"><?=__('Enter your zip code to get a shipping quote.')?></label></p>
+    	<p><input class="input-text" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
+    	<button class="form-button"><span><?=__('Get Quote')?></span></button>
+    	</p>
+	</form>
+	<?if ($this->getEstimateRates()):?>
+	<form action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>" method="post">
+    	<ul class="bare-list">
+        <?foreach ($this->getEstimateRates() as $rate):?>
+            <?if ($rate->getErrorMessage()):?>
+                <li><strong class="error-text"><?=$rate->getCarrierTitle()?>: <?=$rate->getErrorMessage()?></strong></li>
+            <?else:?>
+                <li><input id="estimate_method_<?=$rate->getCode()?>" name="estimate_method" type="radio" class="form-radio" value="<?=$rate->getCode()?>" <?if($rate->getCode()===$this->getEstimateMethod())echo"checked"?> /> <label for="estimate_method_<?=$rate->getCode()?>"><?=__($rate->getCarrierTitle())?>: <?=__($rate->getMethodDescription())?>: <strong><?=$rate->getPrice()?></strong></label></li>
+    		<?endif?>
+        <?endforeach?>
+    	</ul>
+    	<button class="form-button" name="do" value="<?=__('Update')?>"><span><?=__('Update totals')?></span></button>
+    </form>
+	<?endif?>
+</div>

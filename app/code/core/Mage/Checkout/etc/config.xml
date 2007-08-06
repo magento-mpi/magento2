@@ -27,6 +27,13 @@
                </checkout>
             </updates>
          </default>
+         <cart>
+            <updates>
+               <default>
+                  <file>checkout/cart.xml</file>
+               </default>
+            </updates>
+         </cart>         
          <onepage>
             <updates>
                <default>

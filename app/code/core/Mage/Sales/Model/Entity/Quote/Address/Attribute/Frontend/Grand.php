@@ -9,7 +9,7 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Frontend_Grand
             'code'=>'grand_total', 
             'title'=>__('Grand Total'), 
             'value'=>$address->getGrandTotal(),
-            'style'=>'font-weight:bold'
+            'area'=>'footer',
         ));
         return $this;
     }
