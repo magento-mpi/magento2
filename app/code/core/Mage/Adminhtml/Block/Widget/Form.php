@@ -42,6 +42,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     public function setForm(Varien_Data_Form $form)
     {
         $this->_form = $form;
+        $this->_form->setParent($this);
         $this->_form->setBaseUrl(Mage::getBaseUrl());
         return $this;
     }
@@ -88,13 +89,13 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                         'required' => $attribute->getIsRequired(),
                     )
                 );
-                
+
                 if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
                     $element->setAfterElementHtml(
                         '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('This attribute shares the same value in all the stores').'" class="attribute-global"/>'
                     );
                 }
-                
+
                 if ($inputType == 'select') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
                 }

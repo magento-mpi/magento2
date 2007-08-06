@@ -135,7 +135,6 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
 
     public function getLabelHtml()
     {
-        $html = '';
         if ($this->getLabel()) {
             $html = '<label for="'.$this->getHtmlId().'">'.$this->getLabel().( $this->getRequired() ? ' <span class="required">*</span>' : '' ).'</label>'."\n";
         }

@@ -51,6 +51,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
      */
     public function addElement(Varien_Data_Form_Element_Abstract $element, $after=null)
     {
+        $element->setForm($this);
         $this->getElements()->add($element, $after);
         return $this;
     }
@@ -94,8 +95,7 @@ class Varien_Data_Form_Abstract extends Varien_Object
     public function addFieldset($elementId, $config, $after=false)
     {
         $element = new Varien_Data_Form_Element_Fieldset($config);
-        $element->setForm($this)
-            ->setId($elementId);
+        $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
     }
