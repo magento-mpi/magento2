@@ -152,18 +152,28 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if($this->getRequest()->getPost('_cross_sell_products')) {
             	$crossSellProducts = $this->_decodeInput($this->getRequest()->getPost('_cross_sell_products'));
             } 
-
+            
         	$product = Mage::getModel('catalog/product')
-                ->setData($data['product'])
-                ->setId((int) $this->getRequest()->getParam('id'))
+        		->setStoreId((int) $storeId)
+        		->load((int) $this->getRequest()->getParam('id'))
+           		->addData($data['product'])
                 ->setStoreId((int) $storeId)
-                ->setTypeId((int) $this->getRequest()->getParam('type'))
                 ->setPostedStores($stores)
                 ->setPostedCategories($categories)
                 ->setRelatedProducts($relatedProducts)
                 ->setUpSellProducts($upSellProducts)
                 ->setCrossSellProducts($crossSellProducts);
-                
+            
+            if(!$product->getId()) {
+	            if ($set = (int) $this->getRequest()->getParam('set')) {
+	                $product->setAttributeSetId($set);
+	            }
+	            
+	            if ($type = (int) $this->getRequest()->getParam('type')) {
+	                $product->setTypeId($type);
+	            }
+            }
+                        
             if($product->isBundle()) {
             	$options = array();
             	if($optionsJson = $this->getRequest()->getParam('_options_json')) {
@@ -171,14 +181,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             	} else {
             		$options = array();
             	}
-            	
+
             	$product->setBundleOptions($options);
             }
-            
-            if ($set = (int) $this->getRequest()->getParam('set')) {
-                $product->setAttributeSetId($set);
-            }
-            
+                       
             try {
                 $product->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Product saved');
