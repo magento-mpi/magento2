@@ -1,20 +1,34 @@
 <?=$this->getAddButtonHtml()?>
 <span class="field-row" id="<?=$this->getElement()->getHtmlId()?>_container"></span>
 <span id="<?=$this->getElement()->getHtmlId()?>_delete_button" style="display:none">
-<?=$this->getDeleteButtonHtml()?>
+
 </span>
+
+<div id="<?=$this->getElement()->getHtmlId()?>_add_template" style="display:none">
+<div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row___index__">
+<table cellspacing="0">
+	<tbody>
+	 <tr>
+	  	<td class="a-center">
+		<label for="<?=$this->getElement()->getHtmlId()?>_row___index__price_qty" class="bold"><?=('Qty')?></label>
+		<input id="<?=$this->getElement()->getHtmlId()?>_row___index__price_qty" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty validate-number validate-greater-than-zero" type="text" name="<?=$this->getElement()->getName()?>[__index__][price_qty]" value="#{qty}">
+		</td>
+		<td class="a-center">
+		<label for="<?=$this->getElement()->getHtmlId()?>_row___index__price" class="bold"><?=('and above. Price')?></label>
+		<input id="<?=$this->getElement()->getHtmlId()?>_row___index__price" disabled="no-template" class="<?=$this->getElement()->getClass()?> price validate-number validate-greater-than-zero" type="text" name="<?=$this->getElement()->getName()?>[__index__][price]" value="#{price}">
+		</td>
+		<td class="a-center">
+		<?=$this->getDeleteButtonHtml()?>
+		</td>
+	  </tr>
+	</tbody>
+</table>
+</div>
+</div>
 <script type="text/javascript">
 <!--
 	var tierPriceControl = {
-		template : new Template(
-			'<'+'div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row_#{index}"'
-			+'> <?=__('Qty')?>'+' <'
-			+'input class="<?=$this->getElement()->getClass()?> qty validate-number" type="text" name="<?=$this->getElement()->getName()?>[#{index}][price_qty]" value="#{qty}"'
-			+'> <?=('and above. Price')?> <'
-			+'input class="<?=$this->getElement()->getClass()?> price validate-number" type="text" name="'
-			+'<?=$this->getElement()->getName()?>[#{index}][price]" value="#{price}"'
-			+'>#{delete_button}<'
-			+'/div>'),
+		template : new Template($('<?=$this->getElement()->getHtmlId()?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="no-template"/g, '')),
 		itemsCount : 0,
 		deleteButton: false,
 		addItem	 : function () {
@@ -26,15 +40,7 @@
 				data.price = arguments[1];
 				data.qty   = arguments[0];
 			}
-			
-			if(!this.deleteButton) {
-				this.deleteButton = new Template(
-					$('<?=$this->getElement()->getHtmlId()?>_delete_button').innerHTML
-				);
-			}
-			
-			data.delete_button = this.deleteButton.evaluate(data);
-			
+						
 			new Insertion.Bottom(
 				$('<?=$this->getElement()->getHtmlId()?>_container'),
 				this.template.evaluate(data)
@@ -44,7 +50,10 @@
 			$('<?=$this->getElement()->getHtmlId()?>_row_' + item).remove();
 		}
 	}
-	
+	Validation.addAllThese([
+    ['validate-greater-than-zero', '<?=__('Please enter a number greater than 0 in this field.')?>', function(v) {
+                return parseFloat(v) > 0;
+            }]]);
 	<?foreach ($this->getValues() as $_item):?>
 	tierPriceControl.addItem('<?=$_item['price_qty']?>','<?=$_item['price']?>');
 	<?endforeach;?>
