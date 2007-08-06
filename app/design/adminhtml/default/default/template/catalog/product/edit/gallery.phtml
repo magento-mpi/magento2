@@ -16,7 +16,7 @@
         <tr id="<?=$this->getElement()->getHtmlId()?>_tr_<?=$image->getValueId()?>" class="gallery">
         <?foreach ($this->getValues()->getAttributeBackend()->getImageTypes() as $type):?>
             <td class="gallery" align="center" style="vertical-align:bottom;">
-            <a href="<?=$image->setType($type)->getSourceUrl()?>" target="_blank" onclick="imagePreview(\'<?=$this->getElement()->getHtmlId()?>_image_<?=$type?>_<?=$image->getValueId()?>\');return false;"><img
+            <a href="<?=$image->setType($type)->getSourceUrl()?>" target="_blank" onclick="imagePreview('<?=$this->getElement()->getHtmlId()?>_image_<?=$type?>_<?=$image->getValueId()?>');return false;"><img
                 src="<?=$image->setType($type)->getSourceUrl()?>" alt="<?=$image->getValue()?>" height="25" align="absmiddle" class="small-image-preview"></a><br/>
             <input type="file" name="<?=$this->getElement()->getName()?>_<?=$type?>[<?=$image->getValueId()?>]" size="1"></td>
             <div id="<?=$this->getElement()->getHtmlId()?>_image_<?=$type?>_<?=$image->getValueId()?>" style="display:none" class="image-preview"><img src="<?=$image->setType($type)->getSourceUrl()?>" alt="<?=$image->getValue()?>"></div>
