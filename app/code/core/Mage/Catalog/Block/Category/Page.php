@@ -31,6 +31,10 @@ class Mage_Catalog_Block_Category_Page extends Mage_Core_Block_Template
     
     public function getTitle()
     {
+        $category = Mage::registry('current_category');
+        if ($category->getDisplayMode()==Mage_Catalog_Model_Category::DM_MIXED) {
+            return $category->getName();
+        }
         return $this->_cmsBlock->getTitle();
     }
 }

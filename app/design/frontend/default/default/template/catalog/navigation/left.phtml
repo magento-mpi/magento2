@@ -5,6 +5,9 @@
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
+<?$_categories=$this->getCurrentChildCategories()?>
+<?if($_categories->count()):?>
+<?var_dump($_categories->count());?>
 <div class="box shop-by">
     <div class="head">
         <span class="corner"></span>
@@ -13,8 +16,6 @@
     <div class="box-container">
         <div class="narrow-by">
             <dl>
-            <?$_categories=$this->getCurrentChildCategories()?>
-            <?if($_categories->count()):?>
                 <dt>Category</dt>
                 <dd>
                     <ol>
@@ -26,8 +27,8 @@
                     <?endforeach?>
                     </ul>
                 </dd>
-            <?endif;?>
         </div>
     </div>
 </div>
+<?endif;?>
 <!-- [ends] .browse-by // -->

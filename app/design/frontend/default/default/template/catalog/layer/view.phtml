@@ -5,8 +5,7 @@
  * @see Mage_Catalog_Block_Layer_View
  */
 ?>
-<?$_filters = $this->getFilters()?>
-<?if(!empty($_filters)):?>
+<?if($this->canShowBlock()):?>
 <div class="box shop-by">
     <div class="head">
         <span class="corner"></span>
@@ -18,6 +17,7 @@
         <div class="narrow-by">
             <h4>Shopping options</h4>
             <dl>
+            <?$_filters = $this->getFilters()?>
             <?foreach ($_filters as $_filter):?>
             <?if($_filter->getItemsCount()):?>
                 <dt><?=$_filter->getName()?></dt>

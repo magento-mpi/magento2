@@ -63,16 +63,6 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
         return $filters;
     }
     
-    public function canShowOptions()
-    {
-        foreach ($this->getFilters() as $filter) {
-        	if ($filter->getItemsCount()) {
-        	    return true;
-        	}
-        }
-        return false;
-    }
-    
     protected function _getCategoryFilter()
     {
         return $this->getChild('category_filter');
@@ -91,5 +81,20 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
             $this->setData('_filterable_attributes', $attributes);
         }
         return $attributes;
+    }
+    
+    public function canShowOptions()
+    {
+        foreach ($this->getFilters() as $filter) {
+        	if ($filter->getItemsCount()) {
+        	    return true;
+        	}
+        }
+        return false;
+    }
+    
+    public function canShowBlock()
+    {
+        return $this->canShowOptions() || count(Mage::getSingleton('catalog/layer')->getState()->getFilters());
     }
 }

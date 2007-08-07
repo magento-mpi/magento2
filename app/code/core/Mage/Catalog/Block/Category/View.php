@@ -131,4 +131,9 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     	
     	return false;
     }
+    
+    public function getCanShowName()
+    {
+        return $this->getCurrentCategory()->getDisplayMode()!=Mage_Catalog_Model_Category::DM_MIXED;
+    }
 }
