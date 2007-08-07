@@ -409,7 +409,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if (!$entity || !$entity->getTypeId()) {
             throw Mage::exception('Mage_Eav', 'Invalid entity type');
         }
-        
+
         if ($storeId) {
             $entity->setStore($storeId);
         }
@@ -551,9 +551,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if (!$this->_read) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
-        
+
+        $this->_beforeLoad();
+
         $this->_loadEntities($printQuery, $logQuery);
         $this->_loadAttributes($printQuery, $logQuery);
+
+        $this->_afterLoad();
 
         return $this;
     }
@@ -1060,7 +1064,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     {
         return count($this->_items);
     }
-    
+
     public function toArray(array $arrAttributes = array())
     {
         $arr = array();
@@ -1069,4 +1073,15 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         return $arr;
     }
+
+    protected function _beforeLoad()
+    {
+        return $this;
+    }
+
+    protected function _afterLoad()
+    {
+        return $this;
+    }
+
 }
