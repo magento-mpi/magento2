@@ -15,9 +15,7 @@
 
 
 <?if($this->getCurrentCategory()->getImage()):?>
-    <?foreach($this->getCurrentCategory()->getImage() as $image):?>
-        <p><img src="<?=Mage::getSingleton('core/store')->getConfig('web/url/upload').$image['image']?>" alt="<?=$this->getCurrentCategory()->getName()?>" width="512"/></p>
-    <?endforeach;?>
+    <p><img src="<?=/*TOFIX*/Mage::getSingleton('core/store')->getConfig('web/url/upload').$this->getCurrentCategory()->getImage()?>" alt="<?=$this->getCurrentCategory()->getName()?>" width="512"/></p>
 <?endif;?>
 
 <?=$this->getPagerHtml()?>
