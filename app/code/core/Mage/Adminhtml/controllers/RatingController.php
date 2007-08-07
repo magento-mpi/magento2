@@ -43,39 +43,32 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
 
     public function saveAction()
     {
+        $this->_initEnityId();
+
         if ( $this->getRequest()->getPost() ) {
             try {
                 $ratingModel = Mage::getModel('rating/rating');
 
-                if( !$this->getRequest()->getParam('id') ) {
-                    $ratingModel->setDatePosted(now());
-                }
-
                 $ratingModel->setRatingCode($this->getRequest()->getParam('rating_code'))
                       ->setId($this->getRequest()->getParam('id'))
+                      ->setEntityId(Mage::registry('entityId'))
                       ->save();
 
-                $options = $this->getRequest()->getParam('option');
+                $options = $this->getRequest()->getParam('option_title');
 
                 if( is_array($options) ) {
-                    foreach( $options as $key => $option ) {
+                    $i = 1;
+                    foreach( $options as $key => $optionCode ) {
                         $optionModel = Mage::getModel('rating/rating_option');
-                        if( intval($key) > 0 ) {
+                        if( !preg_match("/^add_([0-9]*?)$/", $key) ) {
                             $optionModel->setId($key);
                         }
-                        $optionModel->setCode($option['code'])
-                            ->setValue($option['value'])
+
+                        $optionModel->setCode($optionCode)
+                            ->setValue($i)
                             ->setRatingId($ratingModel->getId())
                             ->save();
-                    }
-                }
-
-                $optionsDelete = $this->getRequest()->getParam('deleteOption');
-                if( is_array($optionsDelete) ) {
-                    foreach( $optionsDelete as $option ) {
-                        $optionModel = Mage::getModel('rating/rating_option');
-                        $optionModel->setId($option)
-                            ->delete();
+                        $i++;
                     }
                 }
 
@@ -89,6 +82,23 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->setRatingData($this->getRequest()->getPost());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
+            }
+        }
+        $this->_redirect('*/*/');
+    }
+
+    public function deleteAction()
+    {
+        if( $this->getRequest()->getParam('id') > 0 ) {
+            try {
+                Mage::getModel('rating/rating')
+                    ->setId($this->getRequest()->getParam('id'))
+                    ->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rating succesfully deleted.'));
+                $this->_redirect('*/*/');
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             }
         }
         $this->_redirect('*/*/');

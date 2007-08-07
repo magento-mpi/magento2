@@ -7,57 +7,44 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Rating_Edit_Tab_Options extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Rating_Edit_Tab_Options extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
+    protected function _prepareForm()
     {
-        $this->setTemplate('ratings/options.phtml');
-    }
+        $form = new Varien_Data_Form();
 
-    public function toHtml()
-    {
-        if( !Mage::registry('rating_data') ) {
-            $this->assign('options', false);
-            return parent::toHtml();
+        $fieldset = $form->addFieldset('options_form', array('legend'=>__('Assigned Options')));
+
+        if( Mage::registry('rating_data') ) {
+            $collection = Mage::getModel('rating/rating_option')
+                ->getResourceCollection()
+                ->addRatingFilter(Mage::registry('rating_data')->getId())
+                ->load();
+
+            $i = 1;
+            foreach( $collection->getItems() as $item ) {
+                $fieldset->addField('option_code_' . $item->getId() , 'text', array(
+                                        'label'     => __('Option Title'),
+                                        'required'  => true,
+                                        'name'      => 'option_title[' . $item->getId() . ']',
+                                        'value'     => ( $item->getCode() ) ? $item->getCode() : $i,
+                                    )
+                );
+                $i ++;
+            }
+        } else {
+            for( $i=1;$i<=5;$i++ ) {
+                $fieldset->addField('option_code_' . $i, 'text', array(
+                                        'label'     => __('Option Title'),
+                                        'required'  => true,
+                                        'name'      => 'option_title[add_' . $i . ']',
+                                        'value'     => $i,
+                                    )
+                );
+            }
         }
 
-        $collection = Mage::getModel('rating/rating_option')
-            ->getResourceCollection()
-            ->addRatingFilter(Mage::registry('rating_data')->getId())
-            ->load();
-        $this->assign('options', $collection);
-
-        return parent::toHtml();
-    }
-
-    protected function _initChildren()
-    {
-        $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Delete'),
-                    'onclick'   => 'option.del(this)',
-					'class' => 'delete delete-poll-answer'
-                ))
-        );
-
-        $this->setChild('addButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Add New Option'),
-                    'onclick'   => 'option.add(this)',
-					'class' => 'add'
-                ))
-        );
-    }
-
-    public function getDeleteButtonHtml()
-    {
-        return $this->getChildHtml('deleteButton');
-    }
-
-    public function getAddButtonHtml()
-    {
-        return $this->getChildHtml('addButton');
+        $this->setForm($form);
+        return parent::_prepareForm();
     }
 }

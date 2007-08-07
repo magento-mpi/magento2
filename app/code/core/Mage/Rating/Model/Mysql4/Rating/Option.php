@@ -28,11 +28,11 @@ class Mage_Rating_Model_Mysql4_Rating_Option
     public function save($object)
     {
         if( $object->getId() ) {
-            $object->unsetOptionId();
-            $this->_write->update($this->_ratingOptionTable, $object->getData());
-        } else {
             $condition = $this->_write->quoteInto('option_id = ?', $object->getId());
-            $this->_write->insert($this->_ratingOptionTable, $object->getData(), $condition);
+            $object->unsetData('option_id');
+            $this->_write->update($this->_ratingOptionTable, $object->getData(), $condition);
+        } else {
+            $this->_write->insert($this->_ratingOptionTable, $object->getData());
         }
         return $object;
     }
