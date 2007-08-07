@@ -16,7 +16,8 @@ class Mage_Rating_Block_Product extends Mage_Core_Block_Template
         $this->setTemplate('rating/product.phtml');
         
         $productId = Mage::registry('action')->getRequest()->getParam('id');
-        $ratingCollection = Mage::getModel('rating/rating')->getCollection()
+        $ratingCollection = Mage::getModel('rating/rating')
+            ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()
             ->load();
