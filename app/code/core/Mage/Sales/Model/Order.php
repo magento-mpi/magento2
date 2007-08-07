@@ -3,18 +3,20 @@
 class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 {
     protected $_addresses;
-    
+
     protected $_items;
-    
+
     protected $_payment;
-    
+
     protected $_statusHistory;
-    
+
+    protected $_orderCurrency = null;
+
     protected function _construct()
     {
         $this->_init('sales/order');
     }
-    
+
 /*********************** ORDER ***************************/
 
     public function initNewOrder()
@@ -25,57 +27,57 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
+
 /*********************** QUOTES ***************************/
 
     public function createFromQuoteAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $quote = $address->getQuote();
-        
+
         $this->initNewOrder()
             ->importQuoteAttributes($quote)
             ->importQuoteAddressAttributes($address);
-            
+
         $billing = Mage::getModel('sales/order_address')
             ->importQuoteBillingAddress($quote->getBillingAddress());
         $this->setBillingAddress($billing);
-        
+
         $shipping = Mage::getModel('sales/order_address')
             ->importQuoteShippingAddress($address);
         $this->setShippingAddress($shipping);
-        
+
         if (!$quote->getIsMultiPayment()) {
             $payment = Mage::getModel('sales/order_payment')
                 ->importQuotePayment($quote->getPayment());
         }
         $this->setPayment($payment);
-                
+
         foreach ($quote->getAllItems() as $quoteItem) {
             $item = Mage::getModel('sales/order_item')
                 ->importQuoteItem($quoteItem);
             $this->addItem($item);
         }
-        
+
         $this->setInitialStatus();
-        
+
         $status = $this->getPayment()->getOrderStatus();
         $order->setStatus($status);
         $statusEntity = Mage::getModel('sales/order_entity_status')
             ->setStatus($status)
             ->setCreatedAt($now);
-            
+
         $order->validate();
         if ($order->getErrors()) {
             //TODO: handle errors (exception?)
         }
-        
+
         return $this;
     }
-    
+
     public function importQuoteAttributes(Mage_Sales_Model_Quote $quote)
     {
         $this
-            ->setCustomerId($quote->getCustomerId())       
+            ->setCustomerId($quote->getCustomerId())
             ->setQuoteId($quote->getId())
             ->setCouponCode($quote->getCouponCode())
             ->setGiftcertCode($quote->getGiftcertCode())
@@ -90,7 +92,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
+
     public function importQuoteAddressAttributes(Mage_Sales_Model_Quote_Address $address)
     {
         $this
@@ -106,26 +108,26 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
+
     public function getSourceQuote()
     {
         $quote = Mage::getModel('sales/quote')->load($this->getQuoteId());
         return $quote;
     }
-    
+
     public function getSourceQuoteAddress()
     {
         $address = Mage::getModel('sales/quote_address')->load($this->getQuoteAddressId());
         return $address;
     }
-    
+
 /*********************** ADDRESSES ***************************/
 
     public function getAddressesCollection()
     {
         if (empty($this->_addresses)) {
             $this->_addresses = Mage::getResourceModel('sales/order_address_collection');
-            
+
             if ($this->getId()) {
                 $this->_addresses
                     ->addAttributeToSelect('*')
@@ -148,7 +150,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function getShippingAddress()
     {
         foreach ($this->getAddressesCollection() as $address) {
@@ -158,7 +160,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function getAddressById($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {
@@ -168,7 +170,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function addAddress(Mage_Sales_Model_Order_Address $address)
     {
         $address->setOrder($this)->setParentId($this->getId());
@@ -177,7 +179,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function setBillingAddress(Mage_Sales_Model_Order_Address $address)
     {
         $old = $this->getBillingAddress();
@@ -187,7 +189,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addAddress($address->setAddressType('billing'));
         return $this;
     }
-    
+
     public function setShippingAddress(Mage_Sales_Model_Order_Address $address)
     {
         $old = $this->getShippingAddress();
@@ -197,14 +199,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addAddress($address->setAddressType('shipping'));
         return $this;
     }
-    
+
 /*********************** ITEMS ***************************/
 
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_item_collection');
-            
+
             if ($this->getId()) {
                 $this->_items
                     ->addAttributeToSelect('*')
@@ -227,8 +229,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             }
         }
         return $items;
-    }    
-    
+    }
+
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -238,7 +240,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function addItem(Mage_Sales_Model_Order_Item $newItem)
     {
         $item->setOrder($this)->setParentId($this->getId());
@@ -247,14 +249,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
 /*********************** PAYMENTS ***************************/
 
     public function getPaymentsCollection()
     {
         if (empty($this->_payments)) {
             $this->_payments = Mage::getResourceModel('sales/order_payment_collection');
-            
+
             if ($this->getId()) {
                 $this->_payments
                     ->addAttributeToSelect('*')
@@ -267,8 +269,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this->_payments;
     }
-    
-    
+
+
     public function getPayment()
     {
         foreach ($this->getPaymentsCollection() as $payment) {
@@ -276,7 +278,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function getPaymentById($paymentId)
     {
         foreach ($this->getPaymentsCollection() as $payment) {
@@ -286,7 +288,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function addPayment(Mage_Sales_Model_Order_Payment $payment)
     {
         $payment->setOrder($this)->setParentId($this->getId());
@@ -295,24 +297,24 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function setPayment(Mage_Sales_Model_Order_Payment $payment)
     {
         if (!$this->getIsMultiPayment() && ($old = $this->getPayment())) {
             $payment->setId($old->getId());
         }
         $this->addPayment($payment);
-        
+
         return $payment;
     }
-    
+
 /*********************** STATUSES ***************************/
 
     public function getStatusHistoryCollection()
     {
         if (empty($this->_statusHistory)) {
             $this->_statusHistory = Mage::getResourceModel('sales/order_status_collection');
-            
+
             if ($this->getId()) {
                 $this->_statusHistory
                     ->addAttributeToSelect('*')
@@ -325,7 +327,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this->_statusHistory;
     }
-    
+
     public function getAllStatusHistory()
     {
         $history = array();
@@ -336,7 +338,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $history;
     }
-    
+
     public function getStatusHistoryById($statusId)
     {
         foreach ($this->getStatusHistoryCollection() as $status) {
@@ -346,7 +348,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function addStatusHistory(Mage_Sales_Model_Order_Status $status)
     {
         $status->setOrder($this)->setParentId($this->getId());
@@ -356,7 +358,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function addStatus($statusId)
     {
         $status = Mage::getModel('sales/order_status')
@@ -371,4 +373,18 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addStatus($statusId);
         return $this;
     }
+
+    public function getRealOrderId()
+    {
+        return $this->getIncrementId();
+    }
+
+    public function getOrderCurrency()
+    {
+        if (is_null($this->_orderCurrency)) {
+            $this->_orderCurrency = Mage::getModel('directory/currency')->load($this->getOrderCurrencyCode());
+        }
+        return $this->_orderCurrency;
+    }
+
 }

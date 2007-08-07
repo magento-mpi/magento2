@@ -33,7 +33,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'is_multi_shipping' => array('type'=>'int', 'visible'=>false),
                     'is_multi_payment' => array('type'=>'int', 'visible'=>false),
                 ),
-            ), 
+            ),
             'quote_address' => array(
                 'table'=>'sales/quote',
                 'backend_prefix'=>'sales_entity/quote_address_attribute_backend',
@@ -69,7 +69,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'grand_total' => array('type'=>'decimal', 'frontend'=>'_grand'),
                     'customer_notes' => array('type'=>'text'),
                 ),
-            ),             
+            ),
             'quote_address_rate' => array(
                 'table'=>'sales/quote_temp',
                 'attributes' => array(
@@ -133,7 +133,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_cid' => array(),
                 ),
             ),
-            
+
             'order' => array(
                 'table'=>'sales/order',
                 'increment_model'=>'eav/entity_increment_numeric',
@@ -169,7 +169,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_paid' => array('type'=>'decimal'),
                     'total_due' => array('type'=>'decimal'),
                     'customer_notes' => array('type'=>'text'),
-        
+                    'total_qty_ordered' => array('type'=>'decimal'),
                 ),
             ),
             'order_address' => array(
@@ -192,7 +192,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'country_id' => array('type'=>'int'),
                     'telephone' => array(),
                     'fax' => array(),
-        
+
                 ),
             ),
             'order_item' => array(
@@ -219,7 +219,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'row_total' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
                 ),
-            ),    
+            ),
             'order_payment' => array(
                 'table'=>'sales/order',
                 'attributes' => array(
@@ -241,7 +241,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_cid_status' => array(),
                     'cc_debug_request' => array(),
                     'cc_debug_response' => array(),
-                    
+
                     'anet_trans_method' => array(),
                     'echeck_routing_number' => array(),
                     'echeck_bank_name' => array(),
@@ -260,7 +260,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'is_customer_notified' => array('type'=>'int'),
                 ),
             ),
-            
+
             'invoice' => array(
                 'table'=>'sales/invoice',
                 'increment_model'=>'eav/entity_increment_numeric',
@@ -341,6 +341,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'=>'sales/invoice',
                 'attributes' => array(
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/invoice_attribute_backend_child'),
+                    'order_id' => array('type'=>'int'),
                     'shipping_method' => array(),
                     'tracking_id' => array(),
                     'shipment_status_id' => array('type'=>'int'),
