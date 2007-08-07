@@ -30,10 +30,10 @@ input.form-radio { margin-right:5px;}
 .qty { width:2.5em; }
 .group-select {
 	margin-bottom:1.5em;
-	padding:5px 12px 15px 12px !important;
+	padding:5px 12px 15px 12px;
 	}
 .group-select legend { display:block; padding:0 8px; color:#333; font-weight:bold; font-size:1.1em; }
-.group-select li { padding:4px 8px; }
+.group-select li { padding:4px 8px !important; }
 .group-select li .input-box { float:left; width:275px; }
 .group-select li .input-text,
 .group-select li select,
@@ -41,11 +41,12 @@ input.form-radio { margin-right:5px;}
 .group-select li .input-box .input-text,
 .group-select li .input-box select,
 .group-select li .input-box textarea { width:240px; }
+.group-select label, .form-list label, .payment-methods label { font-weight:bold;}
 
-.form-list li { margin: 10px 0; }
+.form-list li { margin-bottom:6px; }
 .form-buttons {
 	margin-top:2em;
-	border-top:1px solid #e1e0e0;
+	border-top:1px solid #d2d0d0;
 	padding-top:8px;
 	text-align:right; 
 	}
@@ -236,8 +237,8 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
 .col-left { float:left; width:195px; }
 .col-main { float:left; }
 .col-1-layout .col-main { float:none; margin: 0 25px;}
-.col-2-right-layout .col-main { float:left; width:730px; margin-top:10px; }
-.col-2-left-layout .col-main { float:right; width:730px; margin-top:10px;  }
+.col-2-right-layout .col-main { float:left; width:740px; margin-top:10px; }
+.col-2-left-layout .col-main { float:right; width:740px; margin-top:10px;  }
 .col-3-layout .col-main { width:515px; margin-left:25px; }
 .col-right { float:right; width:195px; }
 
@@ -690,6 +691,44 @@ h1#logo {
 	width:560px;
 	padding:25px 15px 15px 15px;
 	}
+.one-page-checkout { margin-top:-10px; border-top:1px solid #D9DDE3;}
+.one-page-checkout .box {
+	border:1px solid #D9DDE3;
+	border-top:0;
+	padding:15px 20px; 
+	background:#f6faff;
+	display:none;
+	}
+.one-page-checkout .head {
+	margin-bottom:0 ;
+	padding:4px 8px 6px 8px;
+	background:url(../images/opc_off_head_bg.gif) repeat-x 0 100% #eee;
+	border-width:0 1px 0 1px;
+	border-color:#D9DDE3;
+	border-style:solid;
+	border-top:1px solid #fff;
+	}
+.one-page-checkout h3 { color:#999; font-size:1.05em; }
+.one-page-checkout .step-count { background:#fff; font-size:.9em; padding:0 4px; line-height:1em; }
+.one-page-checkout #opc-review .box { border:0; padding:0; }
+.one-page-checkout #opc-review .content { border:1px solid #D9DDE3; border-top:0; }
+.one-page-checkout #opc-login h3 { margin:0; background:#7DB0E3; padding:4px 8px; color:#fff; }
+.one-page-checkout .content { padding: 10px 20px; }
+.one-page-checkout label.label { font-size:1.05em; color:#2f2f2f; }
+.one-page-checkout .group-select { margin:0; padding:0; background:none; border:0; }
+.one-page-checkout .group-select li { margin:0; padding-left:0 !important; padding-right:0 !important;}
+.one-page-checkout .active .head { margin-bottom:0; border-bottom:1px solid #c2c2c2; border-color:#c2c2c2; background:#fff; padding-bottom:5px; }
+.one-page-checkout .active h3 { color:#605a5a; }
+.one-page-checkout .active .step-count { color:#fff; background:#7DB0E3 }
+.one-page-checkout .active .box { display:block; border-color:#c2c2c2; background-image:url(../images/opc_on_box_bg.gif); background-repeat:repeat-x; }
+
+.one-page-checkout-progress ol { 
+	padding:10px 5px; 
+	background:#e9f3ff; 
+	border:1px solid #d9e0eb;
+	}
+.one-page-checkout-progress h3 { text-transform:uppercase; }
+.one-page-checkout-progress li { margin-bottom:6px; }
 
 
 /* Customer Account */
@@ -792,6 +831,9 @@ tbody.remove-buttons td img { float:right; }
 /* Customer Reviews */
 .my-review-detail .product-image { float:left; width:100px; }
 .my-review-detail .details { float:right; width:610px; }
+
+
+
 
 
 

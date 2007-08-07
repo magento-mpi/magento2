@@ -42,7 +42,7 @@ q:before, q:after{content:'';}
 form { display:inline;}
 fieldset { border:none; }
 legend {display:none;}
-label { color:#505050; font-size:.95em; font-weight:bold; }
+label { color:#666; /*font-size:.95em;*/  }
 input, select, button { vertical-align:middle; }
 
 /* Lists */
