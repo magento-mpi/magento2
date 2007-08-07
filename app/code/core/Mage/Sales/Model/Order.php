@@ -313,7 +313,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getStatusHistoryCollection()
     {
         if (empty($this->_statusHistory)) {
-            $this->_statusHistory = Mage::getResourceModel('sales/order_status_collection');
+            $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection');
 
             if ($this->getId()) {
                 $this->_statusHistory
@@ -385,6 +385,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->_orderCurrency = Mage::getModel('directory/currency')->load($this->getOrderCurrencyCode());
         }
         return $this->_orderCurrency;
+    }
+
+    public function getStatus()
+    {
+        return Mage::getModel('sales/order_status')->load($this->getOrderStatusId());
     }
 
 }

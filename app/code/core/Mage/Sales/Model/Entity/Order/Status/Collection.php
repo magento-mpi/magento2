@@ -22,4 +22,9 @@ class Mage_Sales_Model_Entity_Order_Status_Collection extends Varien_Data_Collec
         return $this->_toOptionArray('order_status_id', 'frontend_label');
     }
 
+    public function toOptionHash()
+    {
+        return $this->_toOptionHash('order_status_id', 'frontend_label');
+    }
+
 }
