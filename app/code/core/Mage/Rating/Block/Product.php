@@ -10,11 +10,11 @@
  */
 class Mage_Rating_Block_Product extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('rating/product.phtml');
-        
+
         $productId = Mage::registry('action')->getRequest()->getParam('id');
         $ratingCollection = Mage::getModel('rating/rating')
             ->getResourceCollection()
@@ -25,7 +25,7 @@ class Mage_Rating_Block_Product extends Mage_Core_Block_Template
         if ($productId) {
             $ratingCollection->addEntitySummaryToItem($productId);
         }
-        
+
         $this->assign('collection', $ratingCollection);
     }
 }

@@ -81,16 +81,10 @@
 </div>
 <div class="product-shop">
 	<h3><?=$product->getName()?></h3>
-    Dynamic rating:<br/>
     <?=$this->getChildHtml('rating')?><br/>
-    Hardcoded rating:<br/>
-	<div class="ratings">
-		<div class="rating-box">
-			<div class="rating" style="width:80%;">
-			</div>
-		</div>
-		<a href="#customer-reviews" class="no-wrap"><small>( 3 Reviews )</small></a>
-	</div>
+	<?if( $reviewCount ):?>
+		<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
+	<?endif;?>
 	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" name="addtocart">
     <input type="hidden" name="product" value="<?=$product->getId()?>">
 	<?if($product->isBundle()):?>
@@ -229,7 +223,7 @@
 		</table>
 	</fieldset>
 	<?endif;?>
-    
+
     </form>
 	<div class="dotted-divider"></div>
 	<div class="required-products">
@@ -296,5 +290,5 @@
 
 <div class="product-info-box" id="customer-reviews">
 <?=$this->getChildHtml('reviewList')?>
-<?#=$this->getChildHtml('reviewForm')?>
+<?=$this->getChildHtml('reviewForm')?>
 </div>

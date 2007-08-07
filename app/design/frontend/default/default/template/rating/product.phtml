@@ -1,7 +1,13 @@
 <?if(!empty($collection) && $collection->getSize()):?>
     <?foreach ($collection as $_rating):?>
     <?if($_rating->getSummary()):?>
-        <div><?=__($_rating->getRatingCode())?>:<?=$_rating->getSummary()?></div>
+    	<div class="ratings">
+    	   <?=__($_rating->getRatingCode())?>
+    		<div class="rating-box">
+    			<div class="rating" style="width:<?=ceil($_rating->getSummary())?>%;">
+    			</div>
+    		</div>
+    	</div>
     <?endif;?>
     <?endforeach;?>
 <?endif;?>

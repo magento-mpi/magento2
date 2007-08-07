@@ -41,7 +41,9 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         $page       = $request->getParam('p',1);
 
         $this->_collection->setCurPage($page)
-            ->load();
+            ->load()
+            ->addRateVotes();
+
         $this->assign('collection', $this->_collection);
 
         $backUrl = Mage::getUrl('catalog/product/view/id/'.$productId);

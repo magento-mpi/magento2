@@ -27,7 +27,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
             	->load($productId)
             	->setCategoryId($categoryId)
             	->setStoreId($storeId);
-            
+
            	Mage::register('product', $product);
         }
 
@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         	$product->getBundleOptionCollection()
         		->load();
         }
-        
+
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb('home',
             array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
@@ -49,8 +49,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $breadcrumbs->addCrumb('product',
             array('label'=>$product->getName())
         );
-
-        //$this->setChild('breadcrumbs', $breadcrumbs);
 
         $this->getLayout()->getBlock('root')->setHeaderTitle($product->getName());
 
@@ -64,6 +62,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$productId)));
         $this->setChild('rating', $this->getLayout()->createBlock('rating/product'));
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
+        $this->setChild('reviewList', $this->getLayout()->createBlock('review/list'));
 
         return $this;
     }

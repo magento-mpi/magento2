@@ -14,7 +14,7 @@ class Mage_Review_Model_Mysql4_Review
     protected $_reviewDetailTable;
     protected $_reviewStatusTable;
     protected $_reviewEntityTable;
-    
+
     /**
      * Read connection
      *
@@ -28,28 +28,28 @@ class Mage_Review_Model_Mysql4_Review
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_write;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         $resources = Mage::getSingleton('core/resource');
-        
+
         $this->_reviewTable         = $resources->getTableName('review/review');
         $this->_reviewDetailTable   = $resources->getTableName('review/review_detail');
         $this->_reviewStatusTable   = $resources->getTableName('review/review_status');
         $this->_reviewEntityTable   = $resources->getTableName('review/review_entity');
-        
+
         $this->_read    = $resources->getConnection('review_read');
         $this->_write   = $resources->getConnection('review_write');
     }
-    
+
     public function load($reviewId)
     {
-        
+
     }
-    
+
     public function save(Mage_Review_Model_Review $review)
     {
-        
+
         $this->_write->beginTransaction();
         try {
             if ($review->getId()) {
@@ -59,10 +59,11 @@ class Mage_Review_Model_Mysql4_Review
                 $data = $this->_prepareInsertData($review);
                 $data['base']['created_at'] = now();
                 $this->_write->insert($this->_reviewTable, $data['base']);
-                
+
                 $review->setReviewId($this->_write->lastInsertId());
                 $data['detail']['review_id'] = $review->getId();
                 $this->_write->insert($this->_reviewDetailTable, $data['detail']);
+                $review->setId($this->_write->lastInsertId());
             }
             $this->_write->commit();
         }
@@ -71,7 +72,7 @@ class Mage_Review_Model_Mysql4_Review
             throw $e;
         }
     }
-    
+
     /**
      * Prepare data for review insert
      *
@@ -94,17 +95,17 @@ class Mage_Review_Model_Mysql4_Review
                 'nickname'  => strip_tags($review->getNickname())
             )
         );
-        
+
         return $data;
     }
-    
+
     public function _prepareUpdateData(Mage_Review_Model_Review $review)
     {
-        
+
     }
-    
+
     public function delete(Mage_Review_Model_Review $review)
     {
-        
+
     }
 }

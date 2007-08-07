@@ -67,6 +67,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                         $optionModel->setCode($optionCode)
                             ->setValue($i)
                             ->setRatingId($ratingModel->getId())
+                            ->setPosition($i)
                             ->save();
                         $i++;
                     }
