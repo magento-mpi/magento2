@@ -40,6 +40,9 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
 
     protected function _getValue(Varien_Object $row)
     {
+        if ($getter = $this->getColumn()->getGetter()) {
+            return $row->$getter();
+        }
         return $row->getData($this->getColumn()->getIndex());
     }
 

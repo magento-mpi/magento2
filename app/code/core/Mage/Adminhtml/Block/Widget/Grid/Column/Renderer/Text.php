@@ -22,18 +22,17 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text extends Mage_Adminht
      * Renders grid column
      *
      * @param Varien_Object $row
-     * @param string $index
-     * @param string $format
+     * @return mixed
      */
     public function _getValue(Varien_Object $row)
     {
-        $index  = $this->getColumn()->getIndex();
         $format = ( $this->getColumn()->getFormat() ) ? $this->getColumn()->getFormat() : $row->getFormat();
         $defaultValue = $this->getColumn()->getDefault();
 
         if (is_null($format)) {
             // If no format and it column not filtered specified return data as is.
-            $string = is_null($row->getData($index)) ? $defaultValue : $row->getData($index);
+            $data = parent::_getValue($row);
+            $string = is_null($data) ? $defaultValue : $data;
             return htmlspecialchars($string);
         }
         elseif (preg_match_all($this->_variablePattern, $format, $matches)) {

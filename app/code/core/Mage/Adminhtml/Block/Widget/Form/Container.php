@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
         $this->_addButton('back', array(
             'label'     => __('Back'),
-            'onclick'   => 'window.location.href=\'' . Mage::getUrl('*/*/') . '\'',
+            'onclick'   => 'window.location.href=\'' . $this->getBackUrl() . '\'',
             'class'     => 'back',
         ));
         $this->_addButton('reset', array(
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
             $this->_addButton('delete', array(
                 'label'     => __('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \''.Mage::getUrl('*/*/delete/' . $this->_objectId . '/'. $objId) . '\')',
+                'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
@@ -52,6 +52,16 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
         parent::_initChildren();
         $this->setChild('form', $this->getLayout()->createBlock('adminhtml/' . $this->_controller . '_edit_form'));
         return $this;
+    }
+
+    public function getBackUrl()
+    {
+        return Mage::getUrl('*/*/');
+    }
+
+    public function getDeleteUrl()
+    {
+        return Mage::getUrl('*/*/delete', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
     }
 
     public function getSaveUrl()

@@ -38,15 +38,15 @@ $numColumns = sizeof($this->getColumns());
             <?else:?>
                 <img src="<?=$this->getSkinUrl('images/pager_arrow_left_off.gif')?>" alt="Go to Previous page" class="arrow"/>
             <?endif;?>
-            
+
             <input type="text" name="<?=$this->getVarNamePage()?>" value="<?=$_curPage?>" class="input-text page" onkeypress="<?=$this->getId()?>JsObject.inputPage(event, '<?=$_lastPage?>')"/>
-            
+
             <?if($_curPage < $_lastPage):?>
                 <a href="#" title="<?=__('Next page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage+1)?>');return false;"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Go to Next page" class="arrow"/></a>
             <?else:?>
                 <img src="<?=$this->getSkinUrl('images/pager_arrow_right_off.gif')?>" alt="Go to Previous page" class="arrow"/>
             <?endif;?>
-            
+
             <?=__('of')?> &nbsp;<strong><?=$this->getCollection()->getLastPageNumber()?></strong>
             <span class="spacer">|</span>
             <?=__('View')?>
@@ -58,7 +58,7 @@ $numColumns = sizeof($this->getColumns());
                 <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
             </select>
             <?=__('per page')?><span class="spacer">|</span>
-            <?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong> 
+            <?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong>
             <?=__('records found')?>
         </td>
     <?endif?>
@@ -85,20 +85,24 @@ $numColumns = sizeof($this->getColumns());
     <col <?=$_column->getHtmlProperty()?>></col>
     <?endforeach;?>
     <col/>
-    <thead>
-        <tr class="headings">
-        <?foreach ($this->getColumns() as $_column):?>
-            <th <?=$_column->getHeaderHtmlProperty()?>><nobr><?=$_column->getHeaderHtml()?></nobr></th>
-        <?endforeach;?>
-        </tr>
-        <?if ($this->getFilterVisibility()):?>
-        <tr class="filter">
-        <?$i=0;foreach ($this->getColumns() as $_column):?>
-            <th <?=$_column->getHeaderHtmlProperty()?>><?=$_column->getFilterHtml()?></th>
-        <?endforeach;?>
-        </tr>
-        <?endif?>
-    </thead>
+    <?if ($this->getHeadersVisibility() || $this->getFilterVisibility()):?>
+        <thead>
+            <?if ($this->getHeadersVisibility()):?>
+                <tr class="headings">
+                <?foreach ($this->getColumns() as $_column):?>
+                    <th <?=$_column->getHeaderHtmlProperty()?>><nobr><?=$_column->getHeaderHtml()?></nobr></th>
+                <?endforeach;?>
+                </tr>
+            <?endif;?>
+            <?if ($this->getFilterVisibility()):?>
+                <tr class="filter">
+                <?$i=0;foreach ($this->getColumns() as $_column):?>
+                    <th <?=$_column->getHeaderHtmlProperty()?>><?=$_column->getFilterHtml()?></th>
+                <?endforeach;?>
+                </tr>
+            <?endif?>
+        </thead>
+    <?endif;?>
     <tbody>
     <?if ($this->getCollection()->getSize()>0):?>
     <?foreach ($this->getCollection() as $_index=>$_item):?>

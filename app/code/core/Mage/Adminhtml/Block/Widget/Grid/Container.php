@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 
         $this->_addButton('add', array(
             'label'     => $this->getAddButtonLabel(),
-            'onclick'   => 'location.href=\''.Mage::getUrl('adminhtml/' . $this->_controller . '/new').'\'',
+            'onclick'   => 'location.href=\'' . $this->getCreateUrl() .'\'',
             'class'     => 'add',
         ));
     }
