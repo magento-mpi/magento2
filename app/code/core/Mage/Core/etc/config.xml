@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.5.10</version>
+             <version>0.5.11</version>
         </Mage_Core>
     </modules>
 
@@ -48,13 +48,13 @@
             </default>
         </layouts>
         <routers>
-         <core>
-            <use>standard</use>
-            <args>
-               <module>Mage_Core</module>
-               <frontName>core</frontName>
-            </args>
-         </core>
+            <core>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Core</module>
+                    <frontName>core</frontName>
+                </args>
+            </core>
         </routers>
     </frontend>
 </config>

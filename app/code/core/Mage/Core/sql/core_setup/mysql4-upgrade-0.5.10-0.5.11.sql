@@ -1,0 +1,1 @@
+update `core_config_field` set `source_model` = 'adminhtml/system_config_source_order_status' where `path` in ('paygate/authorizenet/order_status', 'paygate/paypal/order_status', 'paygate/verisign/order_status');

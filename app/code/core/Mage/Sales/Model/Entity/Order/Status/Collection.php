@@ -7,17 +7,19 @@
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Sales_Model_Entity_Order_Status_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+
+class Mage_Sales_Model_Entity_Order_Status_Collection extends Varien_Data_Collection_Db
 {
+
     public function __construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('sales/order_status'));
-        $this->setObject('sales/order_status');
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
+        $this->_sqlSelect->from(Mage::getSingleton('core/resource')->getTableName('sales/order_status'))->order('order_status_id');
     }
-    
-    public function setOrderFilter($orderId)
+
+    public function toOptionArray()
     {
-        $this->addAttributeToFilter('parent_id', $orderId);
-        return $this;
+        return $this->_toOptionArray('order_status_id', 'frontend_label');
     }
+
 }
