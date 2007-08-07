@@ -10,7 +10,7 @@
                     <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?></div></li>
             <li><div class="input-box"><label for="cc_number"><?=__('Card Number')?> <span class="required">*</span></label><br/>
-                <input type="text" id="cc_number" name="payment[cc_number]" title="<?=__('Card Number')?>" class="required-entry input-text" value="<?=$this->getPayment()->getCcNumber()?>"/></div></li>
+                <input type="text" id="cc_number" name="payment[cc_number]" title="<?=__('Card Number')?>" class="required-entry input-text" value=""/></div></li>
             <li><div class="input-box"><label for="name_on_card"><?=__('Name on Card')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=__('Name on Card')?>" class="required-entry input-text" id="cc_owner" name="payment[cc_owner]" value="<?=$this->getPayment()->getCcOwner()?>"/></div></li>
             <li><div class="input-box"><label for="expiration"><?=__('Expiration Date')?> <span class="required">*</span></label><br/>
@@ -25,7 +25,7 @@
                 <?endforeach?>
                 </select></div></li>
             <li><div class="input-box"><label for="cc_cid"><?=__('Card Verification Number')?> <span class="required">*</span></label><br/>
-                <input type="text" title="<?=__('Card Verification Number')?>" class="required-entry input-text" id="cc_cid" name="payment[cc_cid]" style="width:3em;" value="<?=$this->getPayment()->getCcCid()?>"/> &nbsp; <a href="#"><?=__('What is this?')?></a></div></li>
+                <input type="text" title="<?=__('Card Verification Number')?>" class="required-entry input-text" id="cc_cid" name="payment[cc_cid]" style="width:3em;" value=""/> &nbsp; <a href="#"><?=__('What is this?')?></a></div></li>
         </ul>
     </fieldset>
 </dd>

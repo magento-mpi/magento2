@@ -12,9 +12,9 @@
 
 			<div class="content">
 				<address><?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br/>
-				<?if ($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><br/><?endif?>
+				<?if($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><br/><?endif?>
 				<?=$this->getBilling()->getStreet(1)?><br/>
-				<?=$this->getBilling()->getStreet(2)?><br/>
+				<?if($this->getBilling()->getStreet(2)):?><?=$this->getBilling()->getStreet(2)?><br/><?endif?>
 				<?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegion()?> <?=$this->getBilling()->getPostcode()?><br/>
 				<?=$this->getBilling()->getCountry()?></address></div></li>
 <?endif?>
@@ -25,7 +25,7 @@
 				<address><?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br/>
 				<?if ($this->getShipping()->getCompany()):?><?=$this->getShipping()->getCompany()?><br/><?endif?>
 				<?=$this->getShipping()->getStreet(1)?><br/>
-				<?=$this->getShipping()->getStreet(2)?><br/>
+				<?if($this->getShipping()->getStreet(2)):?><?=$this->getShipping()->getStreet(2)?><br/><?endif?>
 				<?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegion()?> <?=$this->getShipping()->getPostcode()?><br/>
 				<?=$this->getShipping()->getCountry()?></address></div></li>
 <?endif?>
