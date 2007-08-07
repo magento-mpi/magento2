@@ -22,9 +22,13 @@
 .box,
 .box .content,
 .box li,
-.box .actions:after {
+.box .actions,
+.one-page-checkout,
+.one-page-checkout li {
  zoom:1;
 }
+
+.one-page-checkout { position:relative; }
 
 .clear {
 	display:block;
@@ -59,6 +63,9 @@
 	margin-bottom:28px;
 	padding-top:expression('1.5em');
 	overflow: expression('visible');
+	}
+.group-select ul {
+	margin-top:20px;
 	}
 .group-select legend {
 	position: expression('absolute'); 
