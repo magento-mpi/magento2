@@ -57,6 +57,86 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $arr;
     }
+
+/*********************** STREET LINES ***************************/
+
+    /**
+     * get address street
+     *
+     * @param   int $line address line index
+     * @return  string
+     */
+    public function getStreet($line=0)
+    {
+        $street = parent::getData('street');
+        if (-1===$line) {
+            return $street;
+        } else {
+            $arr = is_array($street) ? $street : explode("\n", $street);
+            if (0===$line) {
+                return $arr;
+            } elseif (isset($arr[$line-1])) {
+                return $arr[$line-1];
+            } else {
+                return '';
+            }
+        }
+    }
+    
+    /**
+     * set address street informa
+     *
+     * @param unknown_type $street
+     * @return unknown
+     */
+    public function setStreet($street)
+    {
+        if (is_array($street)) {
+            $street = trim(implode("\n", $street));
+        }
+        $this->setData('street', $street);
+        return $this;
+    }
+    
+    /**
+     * get address data
+     *
+     * @param   string $key
+     * @param   int $index
+     * @return  mixed
+     */
+    public function getData($key='', $index=null)
+    {
+        if (strncmp($key, 'street', 6)) {
+            $index = substr($key, 6);
+            if (!is_numeric($index)) {
+                $index = null;
+            }
+        }
+        return parent::getData($key, $index);
+    }
+    
+    /**
+     * Create fields street1, street2, etc.
+     * 
+     * To be used in controllers for views data
+     *
+     */
+    public function explodeStreetAddress()
+    {
+        $streetLines = $this->getStreet();
+        foreach ($streetLines as $i=>$line) {
+            $this->setData('street'.($i+1), $line);
+        }
+    }
+    
+    /**
+     * To be used when processing _POST
+     */
+    public function implodeStreetAddress()
+    {
+        $this->setStreet($this->getData('street'));
+    }
     
 /*********************** ITEMS ***************************/
 

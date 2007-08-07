@@ -2,10 +2,10 @@
 <script type="text/javascript" src="<?=$baseJsUrl?>/varien/opcheckout.js"></script>
 
 <ol id="checkoutSteps" class="one-page-checkout">
-<?foreach($this->getSteps() as $_stepId => $_stepInfo):?>
-    <li id="opc-<?=$_stepId?>" class="section <?=!empty($_stepInfo['allow'])?'allow':''?>">
+<?$i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): $i++?>
+    <li id="opc-<?=$_stepId?>" class="section <?=!empty($_stepInfo['allow'])?'allow':''?> <?=!empty($_stepInfo['complete'])?'saved':''?>">
         <div class="head">
-            <h3><?=$_stepInfo['label']?></h3><a href="#">Edit</a>
+            <h3><span class="step-count"><?=$i?></span> &nbsp;<?=$_stepInfo['label']?></h3><a href="#">Edit</a>
         </div>
         <div id="checkout-step-<?=$_stepId?>" class="box a-item" style="display:none;">
             <?=$this->getChildHtml($_stepId)?>
@@ -15,11 +15,11 @@
 </ol>
 
 <script type="text/javascript">
-    var accordion = new Accordion('checkoutSteps','.head',true);
+    var accordion = new Accordion('checkoutSteps', '.head', true);
     <?if($this->getActiveStep()):?>
-    accordion.openSection('<?=$this->getActiveStep()?>');
+    accordion.openSection('opc-<?=$this->getActiveStep()?>');
     <?endif?>
     
-    var checkout = new Checkout(accordion, '<?=$this->getUrl('checkout/onepage/status')?>', '<?=$this->getUrl('checkout/onepage/review')?>', 
+    var checkout = new Checkout(accordion, '<?=$this->getUrl('checkout/onepage/progress')?>', '<?=$this->getUrl('checkout/onepage/review')?>', 
 			'<?=$this->getUrl('checkout/onepage/saveMethod')?>');
 </script>

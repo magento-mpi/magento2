@@ -16,7 +16,6 @@ Accordion.prototype = {
     
     openSection: function(section) {
         var section = $(section);
-        
         // Check allow
         if (this.checkAllow && !Element.hasClassName(section, 'allow')){
             return;
@@ -32,6 +31,7 @@ Accordion.prototype = {
     },
     
     openNextSection: function(setAllow){
+        console.log('test');
         for (section in this.sections) {
             var nextIndex = parseInt(section)+1;
             if (this.sections[section].id == this.currentSection && this.sections[nextIndex]){

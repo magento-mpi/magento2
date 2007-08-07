@@ -6,16 +6,16 @@
     
     <reference name="left">
         <action method="unsetChildren"></action>
-        <block type="checkout/onepage_status" name="checkout.status" before="-">
-            <action method="setTemplate"><template>checkout/onepage/status.phtml</template></action>
+        <block type="checkout/onepage_progress" name="checkout.progress" before="-">
+            <action method="setTemplate"><template>checkout/onepage/progress.phtml</template></action>
         </block>
     </reference>
 
     <reference name="content">
         <block type="checkout/onepage" name="checkout.onepage">
             <action method="setTemplate"><template>checkout/onepage.phtml</template></action>
-            <block type="checkout/onepage_checkout_method" name="checkout.onepage.checkout_method" as="checkout_method">
-                <action method="setTemplate"><template>checkout/onepage/checkout_method.phtml</template></action>
+            <block type="checkout/onepage_login" name="checkout.onepage.login" as="login">
+                <action method="setTemplate"><template>checkout/onepage/login.phtml</template></action>
             </block>
             <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing">
                 <action method="setTemplate"><template>checkout/onepage/billing.phtml</template></action>

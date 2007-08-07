@@ -12,7 +12,10 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
     public function getSteps()
     {
         $steps = array();
-        foreach (array('checkout_method', 'billing', 'shipping', 'shipping_method', 'payment', 'review') as $step) {
+        if (!$this->isCustomerLoggedIn()) {
+            $steps['login'] = $this->getCheckout()->getStepData('login');
+        }
+        foreach (array('billing', 'shipping', 'shipping_method', 'payment', 'review') as $step) {
             $steps[$step] = $this->getCheckout()->getStepData($step);
         }
         return $steps;
@@ -20,6 +23,6 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
     
     public function getActiveStep()
     {
-        return $this->getCheckout()->getLastAllowedStep();
+        return $this->isCustomerLoggedIn() ? 'billing' : 'login';
     }
 }

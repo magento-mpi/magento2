@@ -15,26 +15,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function initNewQuote()
     {
-        $this->setBillingAddress(Mage::getModel('sales/quote_address'));
-        $this->setShippingAddress(Mage::getModel('sales/quote_address'));
+        #$this->setBillingAddress(Mage::getModel('sales/quote_address'));
+        #$this->setShippingAddress(Mage::getModel('sales/quote_address'));
         return $this;
     }
 
-    public function loadByCustomerId($customerId)
-    {
-        $quotes = $this->getResourceCollection()
-            ->addAttributeToSelect('*')
-            ->addAttributeToFilter('customer_id', $customerId)
-            ->setPage(1,1)
-            ->load();
-        if (!$quotes->count()) {
-            return false;
-        }
-        foreach ($quotes as $quote) {
-            return $quote;
-        }
-    }
-    
     /**
      * Entity resource
      * 
@@ -83,7 +68,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 return $address;
             }
         }
-        return false;
+        $address = Mage::getModel('sales/quote_address')->setAddressType('billing');
+        $this->addAddress($address);
+        return $address;
     }
     
     public function getShippingAddress()
@@ -93,7 +80,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 return $address;
             }
         }
-        return false;
+        $address = Mage::getModel('sales/quote_address')->setAddressType('shipping');
+        $this->addAddress($address);
+        return $address;
     }
     
     public function getAllShippingAddresses()
@@ -160,19 +149,24 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function setBillingAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $old = $this->getBillingAddress();
+        
         if (!empty($old)) {
-            $address->setId($old->getId());
+            $old->addData($address->getData());
+        } else {
+            $this->addAddress($address->setAddressType('billing'));
         }
-        $this->addAddress($address->setAddressType('billing'));
         return $this;
     }
     
     public function setShippingAddress(Mage_Sales_Model_Quote_Address $address)
     {
-        if (!$this->getIsMultiShipping() && ($old = $this->getShippingAddress())) {
-            $address->setId($old->getId());
+        $old = $this->getShippingAddress();
+        
+        if (!empty($old)) {
+            $old->addData($address->getData());
+        } else {
+            $this->addAddress($address->setAddressType('shipping'));
         }
-        $this->addAddress($address->setAddressType('shipping'));
         return $this;
     }
     

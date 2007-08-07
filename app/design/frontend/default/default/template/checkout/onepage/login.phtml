@@ -1,0 +1,39 @@
+<h4>Login</h4>
+
+<div class="box">
+<?=$this->getMessagesHtml()?>
+    <form action="<?=$this->getPostAction()?>" method="post">
+        <p><strong><?=__('Already registered?')?></strong><br/>
+        <?=__('Log in below to take advantage of Express Checkout:')?></p>
+        <ul class="form-list">
+            <li><label for="email"><?=__('Email Address')?></label><br/>
+                <input type="text" class="input-text" id="email" name="login[username]"/></li>
+            <li><label for="password"><?=__('Password')?> </label><br/>
+
+                <input type="password" class="input-text" id="password" name="login[password]" />
+                &nbsp; <a href="<?=$this->getUrl('customer/account/forgotpassword')?>"><?=__('Forgot your password?')?></a></li>
+        </ul>
+        <div class="form-buttons">
+            <button class="form-button"><span><?=__('Login')?></span></button>
+        </div>
+    </form>
+</div>
+<h4><?=__('Checkout as a Guest or Register')?></h4>
+
+<div class="box">
+    <p><?=__('You may check out as a guest or register with us for future convenience:')?></p>
+    <ul class="form-list">
+        <li><input type="radio" name="checkout_method" id="login:guest" value="guest"<?if($this->getCheckoutMethod()=='guest'):?> checked<?endif?>/> <label for="login:guest"><?=__('Checkout as Guest')?></label></li>
+        <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getCheckoutMethod()=='register'):?> checked<?endif?>/> <label for="login:register"><?=__('Register')?></label></li>
+    </ul>
+
+    <strong><?=__('Register and save time!')?></strong><br/>
+    <ul class="disc">
+        <li><?=__('Fast and easy check out')?></li>
+        <li><?=__('Easy access to your order history and status')?></li>
+    </ul>
+    <div class="form-buttons">
+        <button class="form-button" onclick="checkout.setMethod();"><span><?=__('Continue')?></span></button>
+
+    </div>
+</div>

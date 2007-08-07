@@ -7,8 +7,14 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Checkout_Block_Onepage_Status extends Mage_Checkout_Block_Onepage_Abstract
+class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_Abstract
 {
+    protected function _construct()
+    {
+        $this->setTemplate('checkout/onepage/progress.phtml');
+        parent::_construct();
+    }
+    
     public function getBilling()
     {
         return $this->getQuote()->getBillingAddress();

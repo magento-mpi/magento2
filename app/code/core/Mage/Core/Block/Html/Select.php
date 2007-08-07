@@ -23,6 +23,12 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         return $this;
     }
     
+    public function addOption($value, $label, $params=array())
+    {
+        $this->_options[] = array('value'=>$value, 'label'=>$label);
+        return $this;
+    }
+    
     public function setName($name)
     {
         $this->setData('name', $name);
@@ -69,7 +75,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
     
     public function toHtml()
     {
-        $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'.$this->getClass().'" title="'.$this->getTitle().'">';
+        $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'.$this->getClass().'" title="'.$this->getTitle().'" '.$this->getExtraParams().'>';
         $value = $this->getValue();
         foreach ($this->getOptions() as $option) {
             $selected = ($option['value']==$value) ? ' selected' : '';

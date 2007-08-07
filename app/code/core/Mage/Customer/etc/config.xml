@@ -112,6 +112,13 @@
                     </customer>
                 </updates>
             </default>
+            <customer_login>
+                <updates>
+                    <default>
+                        <file>customer/login.xml</file>
+                    </default>
+                </updates>
+            </customer_login>
         </layouts>
         <events>
             <beforeGenerateLayoutBlocks>

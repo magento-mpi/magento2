@@ -15,4 +15,19 @@ class Mage_Sales_Model_Entity_Quote_Collection extends Mage_Eav_Model_Entity_Col
         $this->setEntity(Mage::getResourceSingleton('sales/quote'));
         $this->setObject('sales/quote');
     }
+    
+    public function loadByCustomerId($customerId)
+    {
+        $quotes = $this->addAttributeToSelect('*')
+            ->addAttributeToFilter('customer_id', $customerId)
+            ->setPage(1,1)
+            ->load();
+        if (!$quotes->count()) {
+            return false;
+        }
+        foreach ($quotes as $quote) {
+            return $quote;
+        }
+    }
+    
 }

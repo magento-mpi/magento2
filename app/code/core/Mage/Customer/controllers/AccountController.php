@@ -46,13 +46,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
      */
     public function loginAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(array('default', 'customer_login'), 'customer_login');
         $this->_initLayoutMessages('customer/session');
-        
-        $block = $this->getLayout()->createBlock('customer/login')
-            ->assign('postAction', Mage::getUrl('customer/account/loginPost', array('_secure'=>true)));
-        $this->getLayout()->getBlock('content')->append($block);
-        
+                
         $this->renderLayout();
     }
     

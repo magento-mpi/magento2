@@ -15,4 +15,9 @@ class Mage_Customer_Block_Login extends Mage_Core_Block_Template
         $this->setTemplate('customer/form/login.phtml');
         Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('Login'));
     }
+    
+    public function getPostAction()
+    {
+        return Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
+    }
 }

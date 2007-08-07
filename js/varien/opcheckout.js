@@ -1,8 +1,8 @@
 var Checkout = Class.create();
 Checkout.prototype = {
-    initialize: function(accordion, statusUrl, reviewUrl, saveMethodUrl){
+    initialize: function(accordion, progressUrl, reviewUrl, saveMethodUrl){
         this.accordion = accordion;
-        this.statusUrl = statusUrl;
+        this.progressUrl = progressUrl;
         this.reviewUrl = reviewUrl;
         this.saveMethodUrl = saveMethodUrl;
         this.billingForm = false;
@@ -14,8 +14,8 @@ Checkout.prototype = {
         this.onSetMethod = this.nextStep.bindAsEventListener(this);
     }, 
     
-    reloadStatusBlock: function(){
-        var updater = new Ajax.Updater('column-left', this.statusUrl, {method: 'get'});
+    reloadProgressBlock: function(){
+        var updater = new Ajax.Updater($$('.col-left')[0], this.progressUrl, {method: 'get'});
     },
         
     reloadReviewBlock: function(){
@@ -23,14 +23,14 @@ Checkout.prototype = {
     },
     
     setMethod: function(){
-        if ($('checkout_method:guest') && $('checkout_method:guest').checked) {
+        if ($('login:guest') && $('login:guest').checked) {
             this.method = 'guest';
             var request = new Ajax.Request(
                 this.saveMethodUrl,
                 {method: 'post', onSuccess: this.onSetMethod, parameters: {method:'guest'}}
             );
         }
-        else if($('checkout_method:register') && $('checkout_method:register').checked) {
+        else if($('login:register') && $('login:register').checked) {
             this.method = 'register';
             var request = new Ajax.Request(
                 this.saveMethodUrl,
@@ -61,12 +61,12 @@ Checkout.prototype = {
         } else {
             $('shipping:same_as_billing').checked = false;
         }
-        this.reloadStatusBlock();
+        this.reloadProgressBlock();
         this.accordion.openNextSection(true);
     },
 
     setPayment: function() {
-        this.reloadStatusBlock();
+        this.reloadProgressBlock();
         this.accordion.openNextSection(true);
     },
 
@@ -77,13 +77,13 @@ Checkout.prototype = {
         
     setShippingMethod: function() {
         if ($('billing:use_for_shipping') && !$('billing:use_for_shipping').checked) {
-            this.reloadStatusBlock();
+            this.reloadProgressBlock();
         }
         this.accordion.openNextSection(true);
     },
     
     setReview: function() {
-        this.reloadStatusBlock();
+        this.reloadProgressBlock();
         this.reloadReviewBlock();
         this.accordion.openNextSection(true);
     },

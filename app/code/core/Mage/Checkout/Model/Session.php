@@ -47,8 +47,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         // coment until quote fix
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $customerQuote = Mage::getModel('sales/quote');
-        if ($customerQuote->loadByCustomerId($customerId)) {
+        $customerQuote = Mage::getResourceModel('sales/quote_collection')
+            ->loadByCustomerId($customerId);
+        if ($customerQuote) {
             if ($this->getQuoteId()) {
                 foreach ($this->getQuote()->getAllItems() as $item) {
                     $customerQuote->addItem($item);
@@ -102,17 +103,6 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         return $steps[$step][$data];
     }
     
-    public function getLastAllowedStep()
-    {
-        $step = false;
-        foreach ($this->getStepData() as $stepId=>$stepInfo) {
-            if(!empty($stepInfo['allow'])){
-                $step = $stepId;
-            }
-        }
-        return $step;
-    }
-
     public function clear()
     {
         Mage::dispatchEvent('destoryQuote', array('quote'=>$quote));

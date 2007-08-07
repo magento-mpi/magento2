@@ -8,12 +8,12 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Checkout_Block_Onepage_Checkout_Method extends Mage_Checkout_Block_Onepage_Abstract
+class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abstract
 {
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
-            $this->getCheckout()->setStepData('checkout_method', array('label'=>__('Checkout method'), 'allow'=>true));
+            $this->getCheckout()->setStepData('login', array('label'=>__('Checkout method'), 'allow'=>true));
         }
         parent::_construct();
     }

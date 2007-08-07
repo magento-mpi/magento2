@@ -1,6 +1,6 @@
 <?php
 /**
- * One page abstract child block
+ * One page common functionality block
  *
  * @category   Mage
  * @package    Mage_Checkout
@@ -15,6 +15,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_quote;
     protected $_countryCollection;
     protected $_regionCollection;
+    protected $_addressesCollection;
     
     public function getCustomer()
     {
@@ -62,5 +63,67 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 ->load();
         }
         return $this->_regionCollection;
+    }
+    
+    public function customerHasAddresses()
+    {
+        return $this->getCustomer()->getAddressCollection()->count()>0;
+    }
+    
+    public function getAddressesHtmlSelect($type)
+    {
+        if ($this->isCustomerLoggedIn()) {
+            $options = array();
+            foreach ($this->getCustomer()->getAddressCollection() as $address) {
+                $options[] = array('value'=>$address->getId(), 'label'=>
+                    $address->getFirstname().' '.$address->getLastname().
+                    ' ['.$address->getPostcode().', '.$address->getCity().', '.$address->getStreet(-1).']'.
+                    ' ['.$address->getTelephone().']'
+                );
+            }
+            
+            $select = $this->getLayout()->createBlock('core/html_select')
+                ->setName($type.'_address_id')
+                ->setId($type.'-address-select')
+                ->setExtraParams('onchange="'.$type.'.setAddress(this.value)"')
+                ->setValue($this->getAddress()->getId())
+                ->setOptions($options);
+                
+            $select->addOption('', 'New Address');
+            
+            return $select->getHtml();
+        }
+        return '';
+    }
+    
+    public function getCountryHtmlSelect($type)
+    {
+        $select = $this->getLayout()->createBlock('core/html_select')
+            ->setName($type.'[country_id]')
+            ->setId($type.':country_id')
+            ->setTitle(__('Country'))
+            ->setClass('validate-select')
+            ->setValue($this->getAddress()->getCountryId())
+            ->setOptions($this->getCountryCollection()->toOptionArray());
+            
+        if ($type==='shipping') {
+            $select->setExtraParams('onchange="shipping.setSameAsBilling(false);"');
+        }
+        
+        return $select->getHtml();
+    }
+    
+
+    public function getRegionHtmlSelect($type)
+    {
+        $select = $this->getLayout()->createBlock('core/html_select')
+            ->setName($type.'[region]')
+            ->setId($type.':region')
+            ->setTitle(__('State/Province'))
+            ->setClass('required-entry validate-state input-text')
+            ->setValue($this->getAddress()->getRegionId())
+            ->setOptions($this->getRegionCollection()->toOptionArray());
+            
+        return $select->getHtml();
     }
 }
