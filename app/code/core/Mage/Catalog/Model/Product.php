@@ -255,10 +255,34 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this->getLinkedProductsLoaded('cross_sell');
     }
     
+    public function setSuperGroupProducts(array $linkAttibutes)
+    {
+        return $this->setLinkedProducts('super', $linkAttibutes);
+    }
+    
+    public function getSuperGroupProducts()
+    {
+        return $this->getLinkedProducts('super');
+    }
+     
+    public function getSuperGroupProductsLoaded()
+    {
+    	if(!$this->getSuperGroupProducts()->getIsLoaded()) {
+    		$this->getSuperGroupProducts()->load();
+    	}
+        return $this->getSuperGroupProducts();
+    }
+    
     public function isBundle() 
     {
     	// TODO: use string value
     	return $this->getTypeId() == 2;
+    }
+    
+    public function isSuperGroup() 
+    {
+    	// TODO: use string value
+    	return $this->getTypeId() == 4;
     }
     
     public function isAviableBundle() 

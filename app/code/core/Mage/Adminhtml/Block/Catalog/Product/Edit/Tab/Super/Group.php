@@ -1,19 +1,19 @@
 <?php
 /**
- * Upsell products admin grid
+ * Product in category grid
  *
- * @package     Mage
+ * @package     MAge
  * @subpackage  Adminhmtl
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Ivan Chepurnryi <mitch@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adminhtml_Block_Widget_Grid 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setId('up_sell_product_grid');
+        $this->setId('super_product_grid');
         $this->setDefaultFilter(array('in_products'=>1));
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         else {
             parent::_addColumnFilterToCollection($column);
         }
+        
         return $this;
     }
     
@@ -44,13 +45,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
     {
        
         $collection = Mage::getResourceModel('catalog/product_link_collection')
-        	->setLinkType('up_sell')
-        	->setProductId(Mage::registry('product')->getId())
-        	->setStoreId(Mage::registry('product')->getStoreId())
-            ->addAttributeToSelect('name')
+            ->setLinkType('super')
+            ->setProductId(Mage::registry('product')->getId())
+            ->setStoreId(Mage::registry('product')->getStoreId())
+        	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addLinkAttributeToSelect('position')
+            ->addLinkAttributeToSelect('qty')
             ->useProductItem();
 
         $this->setCollection($collection);
@@ -93,15 +95,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'index'     => 'price'
         ));
         
-                
+        $this->addColumn('qty', array(
+            'header'    => __('Qty'),
+            'name'    	=> 'qty',            
+            'align'     => 'center',
+            'type'      => 'number',
+            'validate_class' => 'validate-number',
+            'index'     => 'qty',
+            'width'     => '60px',
+            'editable'  => true
+        ));
+        
         $this->addColumn('position', array(
             'header'    => __('Position'),
             'name'    	=> 'position',
             'align'     => 'center',
             'type'      => 'number',
-            'width'     => '60px',
             'validate_class' => 'validate-number',
             'index'     => 'position',
+            'width'     => '60px',
             'editable'  => true
         ));
         
@@ -112,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/upsell', array('_current'=>true));
+        return Mage::getUrl('*/*/superGroup', array('_current'=>true));
     }
     
     protected function _getSelectedProducts()
@@ -120,7 +132,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         $products = $this->getRequest()->getPost('products', null);
         
         if (!is_array($products)) {
-            $products = Mage::registry('product')->getUpSellProductsLoaded()->getColumnValues('entity_id');
+            $products = Mage::registry('product')->getSuperGroupProductsLoaded()->getColumnValues('entity_id');
         }
         
         return $products;

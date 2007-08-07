@@ -39,6 +39,21 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         		->load();
         }
 
+        $product->getRelatedProducts()
+			->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
+			->addAttributeToSort('position', 'asc')
+			->useProductItem();
+        
+		$product->getSuperGroupProducts()
+			->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('sku')            
+			->addAttributeToSort('position', 'asc')
+			->useProductItem();
+			
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb('home',
             array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())

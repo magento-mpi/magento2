@@ -70,6 +70,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_bundle')->toHtml(),
             	));
             }
+            
+            if(Mage::registry('product')->isSuperGroup()) {
+            	$this->addTab('super', array(
+            		'label' => __('Super Products'),
+            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml(),
+            	));
+            }
         }
         else {
             $this->addTab('set', array(

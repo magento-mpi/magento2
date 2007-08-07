@@ -101,6 +101,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );       
     }
     
+    public function superGroupAction()
+    {
+        $this->_initProduct();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group')->toHtml()
+        );       
+    }
+    
     protected function _initProduct()
     {
     	$productId  = (int) $this->getRequest()->getParam('id');
@@ -164,6 +172,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setUpSellProducts($upSellProducts)
                 ->setCrossSellProducts($crossSellProducts);
             
+            
             if(!$product->getId()) {
 	            if ($set = (int) $this->getRequest()->getParam('set')) {
 	                $product->setAttributeSetId($set);
@@ -173,7 +182,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 	                $product->setTypeId($type);
 	            }
             }
-                        
+            
+            if($product->isSuperGroup()) {
+            	if($this->getRequest()->getPost('_super_group_product')) {
+            		$product->setSuperGroupProducts($this->_decodeInput($this->getRequest()->getPost('_super_group_product')));
+            	}
+            }
+                
             if($product->isBundle()) {
             	$options = array();
             	if($optionsJson = $this->getRequest()->getParam('_options_json')) {

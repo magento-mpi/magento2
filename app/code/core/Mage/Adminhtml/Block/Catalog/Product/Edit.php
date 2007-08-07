@@ -161,6 +161,29 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return '{}';
     }
     
+    public function getSuperGroupProductJSON()
+    {
+    	$result = array();
+    	
+        foreach (Mage::registry('product')->getSuperGroupProductsLoaded() as $product) {
+        	$result[$product->getEntityId()] = $product->toArray(
+        		$product->getAttributeCollection()->getAttributeCodes()
+        	);
+        }
+        
+        if(!empty($result)) {
+        	return Zend_Json_Encoder::encode($result);
+        }
+        
+        return '{}';
+    }
+    
+    
+    public function getIsSuperGroup() 
+    {
+    	return Mage::registry('product')->isSuperGroup();
+    }
+    
     public function getDeleteUrl()
     {
         return $this->getUrl('*/*/delete', array('_current'=>true));

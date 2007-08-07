@@ -25,6 +25,7 @@
 <input type="hidden" name="_related_products" id="_related_products" value="">
 <input type="hidden" name="_up_sell_products" id="_up_sell_products" value="">
 <input type="hidden" name="_cross_sell_products" id="_cross_sell_products" value="">
+<input type="hidden" name="_super_group_product" id="_super_group_product" value="">
 </form>
 <script type="text/javascript" language="javascript">
     var productForm = new varienForm('product_edit_form');
@@ -137,6 +138,11 @@
 	<?if($_crosssellGridJsObject=$this->getLayout()->getBlock('admin.crosssell.products')->getJsObjectName()):?>
    	Event.observe(window, 'load', function() {
 	 	 var controller = new productLinksController('_cross_sell_products', <?=$this->getCrossSellProductsJSON()?>, <?=$_crosssellGridJsObject?>);
+	});
+	<?endif;?>
+	<?if($this->getIsSuperGroup() && $_superGroupGridJsObject=$this->getLayout()->getBlock('admin.super.group.product')->getJsObjectName()):?>
+   	Event.observe(window, 'load', function() {
+	 	 var controller = new productLinksController('_super_group_product', <?=$this->getSuperGroupProductJSON()?>, <?=$_superGroupGridJsObject?>);
 	});
 	<?endif;?>
 <?endif;?>

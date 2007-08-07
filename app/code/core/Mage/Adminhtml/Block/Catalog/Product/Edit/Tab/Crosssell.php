@@ -1,12 +1,12 @@
 <?php
 /**
- * Product in category grid
+ * Crossell products admin grid
  *
- * @package     MAge
+ * @package     Mage
  * @subpackage  Adminhmtl
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Ivan Chepurnryi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Adminhtml_Block_Widget_Grid 
 {

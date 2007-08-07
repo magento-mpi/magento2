@@ -145,7 +145,8 @@
 		</ul>
 	</div>
     <?endif;?>
-	<table cellspacing="0" class="data-table">
+	<?if($product->isSuperGroup()):?>
+    <table cellspacing="0" class="data-table">
 		<thead>
 			<tr>
 
@@ -156,36 +157,18 @@
 			</tr>
 		</thead>
 		<tbody>
-
+		<?foreach ($product->getSuperGroupProductsLoaded() as $_item):?>
 			<tr>
-				<td>Henckels Knife 2"</td>
-				<td>1233</td>
-				<td>$34.00</td>
+				<td><?=$_item->getName()?></td>
+				<td><?=$_item->getSku()?></td>
+				<td><?=$_item->getFormatedPrice()?></td>
 				<td><input type="text" class="input-text qty"/></td>
 			</tr>
-			<tr>
-
-				<td>Henckels Knife 2"</td>
-				<td>1233</td>
-				<td>$34.00</td>
-				<td><input type="text" class="input-text qty"/></td>
-			</tr>
-			<tr>
-				<td>Henckels Knife 2"</td>
-
-				<td>1233</td>
-				<td>$34.00</td>
-				<td><input type="text" class="input-text qty"/></td>
-			</tr>
-			<tr>
-				<td>Henckels Knife 2"</td>
-				<td>1233</td>
-
-				<td>$34.00</td>
-				<td><input type="text" class="input-text qty"/></td>
-			</tr>
+		<?endforeach;?>
 		</tbody>
 	</table>
+	<?endif;?>
+	<?if(!$product->isSuperGroup()):?>
 	<?if(!$product->isBundle() || $product->isAviableBundle()):?>
 	<p><small>Availability: In stock. Ships within 24hours.</small></p>
 	<p class="price-box">
@@ -223,7 +206,21 @@
 		</table>
 	</fieldset>
 	<?endif;?>
-
+	<?else:?>
+	<p><small>Availability: In stock. Ships within 24hours.</small></p>
+	<fieldset class="add-to-box">
+		<legend>Add items to cart </legend>
+		<table cellspacing="0">
+			<tr>
+				<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+				<?if($this->getCompareJsObjectName()):?>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+					<?endif;?></td>
+			</tr>
+		</table>
+	</fieldset>
+    <?endif;?>
     </form>
 	<div class="dotted-divider"></div>
 	<div class="required-products">
@@ -244,16 +241,24 @@
 	<h3>Features and Specifications</h3>
 	<p><?=$product->getDescription()?></p></div>
 
-<?if($product->getRelatedProducts()->getSize()):?>
+<?if($product->getRelatedProductsLoaded()->getSize()):?>
 <div class="product-info-box">
 	<h3>You may be interested in these items</h3>
 	<table cellspacing="0" class="generic-product-grid">
-	    <tr class="last">
-
+		<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
+		<?$_relatedPerRow=4?>
+		<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>
+		<?$_relatedCurrentRow=1?>
+		<?$_relatedCurrentCell=1?>
+		<?$_relatedCurrentItem=1?>
+	    
         <?foreach ($product->getRelatedProducts() as $_link):?>
-			<td><a href="<?=$_link->getProduct()->getProductUrl()?>"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="100" alt="<?=$_link->getProduct()->getName()?>" class="image-link"></a><br/>
-				<a href="<?=$_link->getProduct()->getProductUrl()?>"><?=$_link->getProduct()->getName()?></a><br/>
-				<span class="regular-price"><?=$_link->getProduct()->getFormatedPrice()?></span>
+        <?if($_relatedCurrentCell==1):?>
+        <tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
+        <?endif?>
+			<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"></a><br/>
+				<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
+				<span class="regular-price"><?=$_link->getFormatedPrice()?></span>
 
 				<div class="ratings">
 					<div class="rating-box">
@@ -262,9 +267,23 @@
 					<a href="#">(3 Reviews)</a>
 				</div>
 			</td>
-        <?endforeach?>
-
-		</tr>
+		
+        <?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
+	       	<?if($_relatedCurrentItem==$_relatedTotal):?>
+	    	   	<?while($_relatedCurrentCell++<$_relatedPerRow):?>
+		    	   	<td class="empty-product <?if($_relatedCurrentCell==$_relatedPerRow):?>last<?endif?>">
+		    	   	&nbsp;
+					</td>
+	    	   	<?endwhile;?>
+	       	<?endif?>
+	    </tr>
+        <?$_relatedCurrentRow++?>
+        <?$_relatedCurrentCell=1?>
+        <?else:?>
+        <?$_relatedCurrentCell++?>
+        <?endif?>  
+        <?$_relatedCurrentItem++?>      
+		<?endforeach?>	
 	</table>
 </div>
 <?endif?>
