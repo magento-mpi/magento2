@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
         $html = '<tr><td class="label">'.$element->getLabel().'</td>';
         
         $id = $element->getHtmlId();
-        $isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
+        //$isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
         $isMultiple = $element->getExtType()==='multiple';
 
         // replace [value] with [inherit]
@@ -36,7 +36,17 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 
         $html.= '<td class="value">'.$element->getElementHtml().'</td>';
         
-        if (!$isDefault) {
+        $addInheritCheckbox = false;
+        if ($element->getCanUseWebsiteValue()) {
+            $addInheritCheckbox = true;
+            $checkboxLabel = __('Use website');
+        }
+        elseif ($element->getCanUseDefaultValue()) {
+            $addInheritCheckbox = true;
+            $checkboxLabel = __('Use default');
+        }
+        
+        if ($addInheritCheckbox) {
             $defText = $element->getDefaultValue();
             if ($options) {
                 $defTextArr = array();
@@ -56,7 +66,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
             // default value
             $html.= '<td class="default">';
             $html.= '<input id="'.$id.'_inherit" name="'.$namePrefix.'[inherit]" type="checkbox" value="1" class="input-checkbox config-inherit" '.$inherit.' onclick="$(\''.$id.'\').disabled = this.checked">';
-            $html.= '<label for="'.$id.'_inherit" class="inherit" title="'.htmlspecialchars($defText).'">'.__('Use default').'</label>';
+            $html.= '<label for="'.$id.'_inherit" class="inherit" title="'.htmlspecialchars($defText).'">'.$checkboxLabel.'</label>';
             $html.= '<input type="hidden" name="'.$namePrefix.'[default_value]" value="'.htmlspecialchars($element->getDefaultValue()).'">';
             $html.= '<input type="hidden" name="'.$namePrefix.'[old_value]" value="'.htmlspecialchars($element->getOldValue()).'">';
             $html.= '</td>';

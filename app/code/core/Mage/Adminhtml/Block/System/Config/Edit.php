@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     protected function _initChildren()
     {
-        $this->setChild('saveButton', 
+        $this->setChild('save_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save config'),
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     public function getSaveButtonHtml()
     {
-        return $this->getChildHtml('saveButton');
+        return $this->getChildHtml('save_button');
     }
     
     public function getSaveUrl()
