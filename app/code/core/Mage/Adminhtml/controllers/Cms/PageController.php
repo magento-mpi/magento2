@@ -43,6 +43,11 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
         if ($id) {
             $model->load($id);
+            if (! $model->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError(__('This page no longer exists'));
+                $this->_redirect('*/*/');
+                return;
+            }
         }
 
         // set entered data if was error when we do save
@@ -64,6 +69,15 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         if ($data = $this->getRequest()->getPost()) {
             $model = Mage::getModel('cms/page');
+//            if ($id = $this->getRequest()->getParam('page_id')) {
+//                $model->load($id);
+//                if ($id != $model->getId()) {
+//                    Mage::getSingleton('adminhtml/session')->addError('The page you are trying to save no longer exists');
+//                    Mage::getSingleton('adminhtml/session')->setPageData($data);
+//                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+//                    return;
+//                }
+//            }
             $model->setData($data);
             try {
                 $model->save();

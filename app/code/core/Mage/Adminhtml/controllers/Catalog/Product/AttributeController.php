@@ -51,6 +51,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         if ($id) {
             $model->load($id);
 
+            if (! $model->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError(__('This attribute no longer exists'));
+                $this->_redirect('*/*/');
+                return;
+            }
+
             // entity type check
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
                 Mage::getSingleton('adminhtml/session')->addError(__('You cannot edit this attribute'));
@@ -80,8 +86,17 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             $model = Mage::getModel('eav/entity_attribute');
 
             if ($id = $this->getRequest()->getParam('attribute_id')) {
-                // entity type check
+
                 $model->load($id);
+
+//                if ($id != $model->getId()) {
+//                    Mage::getSingleton('adminhtml/session')->addError('The attribute you are trying to save no longer exists');
+//                    Mage::getSingleton('adminhtml/session')->setAttributeData($data);
+//                    $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
+//                    return;
+//                }
+
+                // entity type check
                 if ($model->getEntityTypeId() != $this->_entityTypeId) {
                     Mage::getSingleton('adminhtml/session')->addError(__('You cannot update this attribute'));
                     Mage::getSingleton('adminhtml/session')->setAttributeData($data);
