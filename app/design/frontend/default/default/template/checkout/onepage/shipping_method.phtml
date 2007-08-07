@@ -1,13 +1,10 @@
-<div id="checkout-shipping-method" class="step-body">
-  	<div id="checkout-shipping-method-load" class="default-box" style="padding:10px;">
-  	    <?=$this->getChildHtml('available')?>
-  	</div>
-
-    <div class="note-box buttons">
-    	<a href="javascript:checkout.back();" class="float-left">&laquo; <?=__('Back')?></a>
-    	<a href="javascript:shippingMethod.save();" class="float-right"><img src="<?=$this->getSkinUrl('images/btn_continue.gif')?>" alt="<?=__('Continue')?>"/></a>
-    	<div class="clearfix"></div>
-    </div>
+<div id="checkout-shipping-method-load" class="default-box" style="padding:10px;">
+    <?=$this->getChildHtml('available')?>
+</div>
+  	
+<div class="form-buttons">
+    <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
+    <button class="form-button" onclick="shippingMethod.save()"><span><?=__('Continue')?></span></button>
 </div>
 <script type="text/javascript">
     var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?=$this->getUrl('checkout/onepage/saveShippingMethod')?>");

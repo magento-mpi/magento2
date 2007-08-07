@@ -37,8 +37,11 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
         return $this->getQuote()->getCheckoutMethod();
     }
     
-    public function getAddress()
-    {
-        return $this->getQuote()->getBillingAddress();
+    function getAddress() {
+        if (!$this->isCustomerLoggedIn()) {
+            return $this->getQuote()->getBillingAddress();
+        } else {
+            return Mage::getModel('sales/quote_address');
+        }
     }
 }

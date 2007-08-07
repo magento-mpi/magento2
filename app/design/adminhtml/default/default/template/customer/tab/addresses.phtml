@@ -376,9 +376,9 @@ addressesModel.prototype = {
             }
         }
     },
-    refreshRegionField : function(serverResponce){
-        if(serverResponce){
-            var data = eval('(' + serverResponce + ')');
+    refreshRegionField : function(serverResponse){
+        if(serverResponse){
+            var data = eval('(' + serverResponse + ')');
             var value = this.regionElement.value;
             var reqLabel = this.regionElement.previous(0).getElementsByClassName('required');
             if (data.length) {

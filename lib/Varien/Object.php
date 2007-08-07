@@ -399,7 +399,7 @@ class Varien_Object
                 break;
 
             case 'uns' :
-                $key = $this->_underscore(substr($method,5));
+                $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
                 return call_user_func_array(array($this, 'unsetData'), $args);
                 break;

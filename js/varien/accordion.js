@@ -24,6 +24,7 @@ Accordion.prototype = {
         if(section.id != this.currentSection) {
             this.closeExistingSection();
             this.currentSection = section.id;
+            $(this.currentSection).addClassName('active');
             var contents = document.getElementsByClassName('a-item',section);
             contents[0].show();
             //Effect.SlideDown(contents[0]);
@@ -31,7 +32,6 @@ Accordion.prototype = {
     },
     
     openNextSection: function(setAllow){
-        console.log('test');
         for (section in this.sections) {
             var nextIndex = parseInt(section)+1;
             if (this.sections[section].id == this.currentSection && this.sections[nextIndex]){
@@ -59,6 +59,7 @@ Accordion.prototype = {
     
     closeExistingSection: function() {
         if(this.currentSection) {
+            $(this.currentSection).removeClassName('active');
             var contents = document.getElementsByClassName('a-item',this.currentSection);
             contents[0].hide();
             //Effect.SlideUp(contents[0]);

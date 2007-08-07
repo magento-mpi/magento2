@@ -46,10 +46,10 @@
                     <li>Size: Small</li>
                 </ul>
             </td>
+            <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][remove]"/><!--<a href="#"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" alt="Remove item"/>--></td>
 <?if($this->isWishlistActive()):?>            
             <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][wishlist]"/></td>
 <?endif?>
-            <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$item->getId()?>][remove]"/><!--<a href="#"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" alt="Remove item"/>--></td>
             <td class="a-right"><?=$item->getPrice()?></td>
             <td class="a-center"><input name="cart[<?=$item->getId()?>][qty]" value="<?=$item->getQty()?>" size="2" class="input-text qty"/></td>
             <td class="a-right last"><?=$item->getRowTotal()?></td>

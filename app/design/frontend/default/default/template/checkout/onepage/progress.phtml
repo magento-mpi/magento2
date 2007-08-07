@@ -8,35 +8,35 @@
 	
 <?if($this->getCheckout()->getStepData('billing', 'complete')):?>
 		<li>
-			<h4>Billing Address<span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;">Edit</a></h4>
+			<h4>Billing Address<span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('opc-billing');return false;">Edit</a></h4>
 
 			<div class="content">
 				<address><?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br/>
 				<?if ($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><br/><?endif?>
 				<?=$this->getBilling()->getStreet(1)?><br/>
 				<?=$this->getBilling()->getStreet(2)?><br/>
-				<?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegionName()?> <?=$this->getBilling()->getPostcode()?><br/>
-				<?=$this->getBilling()->getCountryName()?></address></div></li>
+				<?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegion()?> <?=$this->getBilling()->getPostcode()?><br/>
+				<?=$this->getBilling()->getCountry()?></address></div></li>
 <?endif?>
 				
 <?if($this->getCheckout()->getStepData('shipping', 'complete')):?>
-		<li><h4>Shipping Address<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">Edit</a></h4>	
+		<li><h4>Shipping Address<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-shipping');return false;">Edit</a></h4>	
 			<div class="content">
 				<address><?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br/>
 				<?if ($this->getShipping()->getCompany()):?><?=$this->getShipping()->getCompany()?><br/><?endif?>
 				<?=$this->getShipping()->getStreet(1)?><br/>
 				<?=$this->getShipping()->getStreet(2)?><br/>
-				<?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegionName()?> <?=$this->getShipping()->getPostcode()?><br/>
-				<?=$this->getShipping()->getCountryName()?></address></div></li>
+				<?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegion()?> <?=$this->getShipping()->getPostcode()?><br/>
+				<?=$this->getShipping()->getCountry()?></address></div></li>
 <?endif?>
 
 <?if($this->getCheckout()->getStepData('shipping_method', 'complete')):?>
-        <li><h4>Shipping Method<span class="separator">|</span><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;">Edit</a></h4>	
-			<div class="content"><?=$this->getChildHtml('shipping_description')?></div></li>
+        <li><h4>Shipping Method<span class="separator">|</span><a href="#shipping_method" onclick="checkout.accordion.openSection('opc-shipping_method');return false;">Edit</a></h4>	
+			<div class="content"><?=$this->getShippingDescription()?>: <?=$this->getShippingAmount()?></div></li>
 <?endif?>
 				
-<?if($this->getCheckout()->getStepData('shipping_payment', 'complete')):?>
-		<li><h4>Payment<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;">Edit</a></h4>	
+<?if($this->getCheckout()->getStepData('payment', 'complete')):?>
+		<li><h4>Payment<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-payment');return false;">Edit</a></h4>	
 			<div class="content"><?=$this->getChildHtml('payment')?>
 				<ul class="bare">
 					<li><strong>CC Type:</strong> <span class="nowrap">Visa</span></li>

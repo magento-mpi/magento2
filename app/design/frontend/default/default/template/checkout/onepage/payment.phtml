@@ -1,27 +1,6 @@
 <form id="co-payment-form">
     <dl class="payment-methods">
-        <dt><input type="radio" value="" id="payment_cc"/> &nbsp;<label for="payment_cc" class="label">Credit Card</label></dt>
-        <dd>
-            <fieldset class="group-select">
-                <ul>
-                    <li><div class="input-box"><label for="cc_type">Credit Card Type <span class="required">*</span></label><br/>
-    
-                        <select name="" id="cc_type"/><option value="">Visa</option></select></div></li>
-                    <li><div class="input-box"><label for="cc_number">Card Number <span class="required">*</span></label><br/>
-                        <input type="text" class="input-text" name="" id="cc_number"/></div></li>
-                    <li><div class="input-box"><label for="name_on_card">Name on Card <span class="required">*</span></label><br/>
-                        <input type="text" class="input-text" name="" id="name_on_card"/></div></li>
-                    <li><div class="input-box"><label for="expiration">Expiration Date <span class="required">*</span></label><br/>
-    
-                        <select name="" id="expiration" style="width:40%;"><option value="">01 - January</option></select> <select name="" id="expiration_year" style="width:40%;"/><option value="">2007</option></select></div></li>
-                    <li><div class="input-box"><label for="cvn">Card Verification Number <span class="required">*</span></label><br/>
-                        <input type="text" class="input-text" name="" id="cvn"/> &nbsp; <a href="#">What is this?</a></div></li>
-                </ul>
-            </fieldset>
-    
-        </dd>
-        <dt><input type="radio" value="" id="payment_money_order"/> <label for="payment_money_order" class="label">Check/Money Order</label></dt>
-        <dt><input type="radio" value="" id="payment_money_order"/> <label for="payment_money_order" class="label">Other Payment Type</label></dt>
+        <?=$this->getChildHtml('methods')?>
     </dl>
 </form>
 <div class="form-buttons">
@@ -29,21 +8,7 @@
     <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
     <button class="form-button" onclick="payment.save()"><span><?=__('Continue')?></span></button>
 </div>
-<!--
-<div class="step-body">
-    <div class="default-box" style="padding:10px 15px;">
-        <form id="co-payment-form">
-            <?=$this->getChildHtml('methods')?>
-        </form>
-    </div>
-    <div class="note-box buttons">
-                <p class="required">* <?=__("Required Fields")?></p>
-        <a href="javascript:checkout.back();" class="float-left">&laquo; <?=__('Back')?></a>
-        <a href="javascript:payment.save();" class="float-right"><img src="<?=$this->getSkinUrl('images/btn_continue.gif')?>" alt="<?=__('Continue')?>"/></a>
-        <div class="clearfix"></div>
-    </div>
-</div>
--->
+
 <script type="text/javascript">
     var payment = new Payment('co-payment-form', '<?=$this->getUrl('checkout/onepage/savePayment')?>');
     payment.currentMethod = "<?=$this->getPayment()->getMethod()?>";

@@ -308,22 +308,24 @@ echo "TEST:".$i;
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
         }
-        $args = (array)$node->children();
-        unset($args['@attributes']);
-        if (isset($node['json'])) {
-            $json = explode(' ', (string)$node['json']);
-            foreach ($json as $arg) {
-                $args[$arg] = Zend_Json::decode($args[$arg]);
+        if (!empty($block)) {
+            $args = (array)$node->children();
+            unset($args['@attributes']);
+            if (isset($node['json'])) {
+                $json = explode(' ', (string)$node['json']);
+                foreach ($json as $arg) {
+                    $args[$arg] = Zend_Json::decode($args[$arg]);
+                }
             }
-        }
-        if (isset($node['translate'])) {
-            $items = explode(' ', (string)$node['translate']);
-            foreach ($items as $arg) {
-                $args[$arg] = __($args[$arg]);
+            if (isset($node['translate'])) {
+                $items = explode(' ', (string)$node['translate']);
+                foreach ($items as $arg) {
+                    $args[$arg] = __($args[$arg]);
+                }
             }
+    
+            call_user_func_array(array($block, $method), $args);
         }
-
-        call_user_func_array(array($block, $method), $args);
         
         Varien_Profiler::stop($_profilerKey);
         

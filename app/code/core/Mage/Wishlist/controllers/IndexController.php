@@ -114,7 +114,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 			 try {        
 	            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
 	            $quote = Mage::getSingleton('checkout/session')->getQuote();
-	            $quote->addProduct($product)->save();
+	            $quote->addCatalogProduct($product)->save();
             	$item->delete();
             } 
 			catch(Exception $e) {
@@ -133,7 +133,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		foreach ($wishlist->getItemCollection() as $item) {
  			 try {        
 	            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
-	            $quote->addProduct($product)->save();
+	            $quote->addCatalogProduct($product)->save();
             	$item->delete();
             }
 			catch(Exception $e) {

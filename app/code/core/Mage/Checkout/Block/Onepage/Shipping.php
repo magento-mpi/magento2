@@ -24,7 +24,11 @@ class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_A
     
     public function getAddress()
     {
-        return $this->getQuote()->getShippingAddress();
+        if (!$this->isCustomerLoggedIn()) {
+            return $this->getQuote()->getShippingAddress();
+        } else {
+            return Mage::getModel('sales/quote_address');
+        }
     }
     
 }

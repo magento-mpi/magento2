@@ -9,12 +9,6 @@
  */
 class Mage_Checkout_Block_Onepage_Review_Info extends Mage_Checkout_Block_Onepage_Abstract
 {    
-    protected function _construct()
-    {
-        $this->setTemplate('checkout/onepage/review/info.phtml');
-        parent::_construct();
-    }
-    
     public function getBilling()
     {
         return $this->getQuote()->getBillingAddress();

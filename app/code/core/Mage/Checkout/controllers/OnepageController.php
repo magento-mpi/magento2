@@ -56,20 +56,20 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function progressAction()
     {
-        $block = $this->getLayout()->createBlock('checkout/onepage_progress');
-        $this->getResponse()->setBody($block->toHtml());
+        $this->loadLayout('onepage_progress');
+        $this->renderLayout();
     }
 
     public function shippingMethodAction()
     {
-        $block = $this->getLayout()->createBlock('checkout/shipping_method');
-        $this->getResponse()->setBody($block->toHtml());
+        $this->loadLayout('onepage_shipping');
+        $this->renderLayout();
     }
     
     public function reviewAction()
     {
-        $block = $this->getLayout()->createBlock('checkout/onepage_review');
-        $this->getResponse()->setBody($block->toHtml());
+        $this->loadLayout('onepage_review');
+        $this->renderLayout();
     }
     
     public function successAction()
@@ -154,7 +154,18 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             else {
                 $data['use_for_shipping'] = 1;
             }
-            $address = Mage::getModel('sales/quote_address')->addData($data);
+            
+            $address = $this->getQuote()->getBillingAddress();
+            
+            $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
+            if (!empty($customerAddressId)) {
+                $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
+                if ($customerAddress->getId()) {
+                    $address->importCustomerAddress($customerAddress);
+                }
+            } else {
+                $address->addData($data);
+            }
             if (!$this->getQuote()->getCustomerId() && 'register' == $this->getQuote()->getCheckoutMethod()) {
                 $email = $address->getEmail();
                 $customer = Mage::getModel('customer/customer')->loadByEmail($email);
@@ -169,21 +180,22 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             }
             
             $address->implodeStreetAddress();
-            $this->getQuote()->setBillingAddress($address);
-
-            if ($address->getUseForShipping()) {
-                $address->setSameAsBilling(1);
-                $this->getQuote()->setShippingAddress($address);
-                $this->getQuote()->getShippingAddress()->collectShippingRates();
+            
+            if (!empty($data['use_for_shipping'])) {
+                $billing = clone $address;
+                $billing->unsEntityId()->unsAddressType();
+                $shipping = $this->getQuote()->getShippingAddress();
+                $shipping->addData($billing->getData())->setSameAsBilling(1);
+                $this->getQuote()->save();
+                $shipping->collectShippingRates();
+                $this->getCheckout()->setStepData('shipping', 'complete', true);
             } else {
                 $shipping = $this->getQuote()->getShippingAddress();
-                if ($shipping instanceof Mage_Sales_Model_Quote_Address) {
-                    $shipping->setSameAsBilling(0);
-                }
+                $shipping->setSameAsBilling(0);
             }
             if ($address->getCustomerPassword()) {
-                $customerResource = Mage::getResourceModel('customer/customer');
-                $this->getQuote()->setPasswordHash($customerResource->hashPassword($address->getCustomerPassword()));
+                $customer = Mage::getModel('customer/customer');
+                $this->getQuote()->setPasswordHash($customer->hashPassword($address->getCustomerPassword()));
             }
             $this->getQuote()->collectTotals()->save();
             
@@ -202,10 +214,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $address = Mage::getModel('sales/quote_address')->addData($data);
+            $address = $this->getQuote()->getShippingAddress();
+            
+            $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
+            if (!empty($customerAddressId)) {
+                $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
+                if ($customerAddress->getId()) {
+                    $address->importCustomerAddress($customerAddress);
+                }
+            } else {
+                $address->addData($data);
+            }
             $address->implodeStreetAddress();
-            $this->getQuote()->setShippingAddress($address);
-            $this->getQuote()->getShippingAddress()->collectShippingRates();
+            $address->collectShippingRates();
             $this->getQuote()->save();
 
             $this->getCheckout()
@@ -223,8 +244,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $this->getQuote()->setShippingMethod($data);
-            $this->getQuote()->save();
+            $this->getQuote()->getShippingAddress()->setShippingMethod($data)->collectTotals()->save();
             
             $this->getCheckout()
                 ->setStepData('shipping_method', 'complete', true)
@@ -299,7 +319,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 //$res['error']   = true;
             }
             catch (Exception $e){
-                // TODO: create responce for open checkout card with error
+                // TODO: create response for open checkout card with error
                 echo $e;
             }
         }

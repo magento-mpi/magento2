@@ -270,38 +270,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
         return $item;
     }
-    
-    public function processCartPost(array $cart)
-    {
-        foreach ($cart as $id=>$itemUpd) {
-            if (empty($itemUpd['qty']) || !is_numeric($itemUpd['qty']) || intval($itemUpd['qty'])<=0) {
-                continue;
-            }
-            
-            $itemUpd['qty'] = (int) $itemUpd['qty'];
-            
-            if (!empty($itemUpd['remove'])) {
-                $this->removeItem($id);
-            } else {
-                $item = $this->getItemById($id);
-                if (!$item) {
-                    continue;
-                }
-                if (!empty($itemUpd['wishlist'])) {
-                    Mage::getModel('customer/wishlist')->setProductId($item->getProductId())->save();
-                    $this->removeItem($id);
-                    continue;
-                }
-                
-                $product = Mage::getModel('catalog/product')->load($item->getProductId());
-                $item->setQty($itemUpd['qty']);
-                $item->setPrice($product->getFinalPrice($item->getQty()));
-            }
-        }
 
-        return $this;
-    }
-    
 /*********************** PAYMENTS ***************************/
 
     public function getPaymentsCollection()

@@ -1,51 +1,13 @@
-<script type="text/javascript">
-var Review = Class.create();
-Review.prototype = {
-    initialize: function(){
-        this.onSave = this.nextStep.bindAsEventListener(this);
-    },
-    
-    save: function(){
-        var request = new Ajax.Request(
-            '<?=$this->getUrl('checkout/onepage/saveOrder')?>',
-            {
-                method:'post',
-                parameters:{save:true},
-                onSuccess: this.onSave
-            }
-        );
-    },
-
-    nextStep: function(transport){
-        if (transport && transport.responseText) {
-            try{
-                responce = eval('(' + transport.responseText + ')');
-            }
-            catch (e) { 
-                responce = {};
-            }
-            if (responce.success) {
-                window.location='<?=$this->getUrl('checkout/onepage/success', array('_secure'=>false))?>';
-            }
-            else{
-                alert('error');
-            }
-        }
-    }
-}
-</script>
-
-<div class="step-body" id="co-review-cont">
-    <div id="checkout-review-load" class="default-box">
-        <?=$this->getChildHtml('reviewInformation')?>
-    </div>
-    
-    <div class="note-box">
-        <a href="javascript:checkout.back();" class="float-left">&laquo; <?=__('Back')?></a>
-			<a href="javascript:review.save();" class="float-right"><img src="<?=$this->getSkinUrl('images/btn_submit_order.gif')?>" alt="<?=__('Continue')?>"/></a>
-        <div class="clearfix"></div>
-    </div>
+<div id="checkout-review-load" class="default-box">
+    <?=$this->getChildHtml('info')?>
 </div>
+
+<div class="content">
+	<div class="form-buttons">
+		<p class="left">Forgot an item in the cart? <a href="javascript:checkout.back();">Edit your cart</a></p>
+		<p><button class="form-button" onclick="review.save();"><span>Place Order</span></button></p>
+</div>
+
 <script type="text/javascript">
     var review = new Review();
 </script>

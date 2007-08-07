@@ -41,6 +41,27 @@
                </default>
             </updates>
          </onepage>
+         <onepage_progress>
+            <updates>
+               <default>
+                  <file>checkout/onepage/progress.xml</file>
+               </default>
+            </updates>
+         </onepage_progress>         
+         <onepage_shipping>
+            <updates>
+               <default>
+                  <file>checkout/onepage/shipping.xml</file>
+               </default>
+            </updates>
+         </onepage_shipping>
+         <onepage_review>
+            <updates>
+               <default>
+                  <file>checkout/onepage/review.xml</file>
+               </default>
+            </updates>
+         </onepage_review>
       </layouts>
       <events>
          <customerLogin>

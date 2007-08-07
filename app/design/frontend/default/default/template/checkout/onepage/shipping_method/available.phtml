@@ -1,16 +1,16 @@
-<?if (empty($methods)):?>
+<?if (!$this->getRates()):?>
 	<b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
 <?else:?>
     <form id="co-shipping-method-form">
     	<fieldset>
             <?$_first=true?>
-	        <?foreach ($methods as $method):?>
-	           <?if (isset($method['error_message'])):?>
-        		    <strong><?=$method['vendor']?>: <?=$method['error_message']?></strong>
+	        <?foreach ($this->getRates() as $rate):?>
+	           <?if ($rate->getErrorMessage()):?>
+        		    <strong><?=$rate->getCarrierTitle()?>: <?=$rate->getErrorMessage()?></strong>
 	           <?else:?>
-        		    <input id="shipping_method_<?=$method['code']?>" name="shipping_method" type="radio" value="<?=$method['code']?>" <?if($method['code']===$selectedMethod)echo"checked"?><?if($_first):?> class="validate-one-required"<?endif?>/>
-        		    <label for="shipping_method_<?=$method['code']?>"><?=$method['vendor']?>: <?=$method['service_description']?></label>:
-        		    <strong><?=$method['amount']?></strong><br/>
+        		    <input id="shipping_method_<?=$rate->getCode()?>" name="shipping_method" type="radio" value="<?=$rate->getCode()?>" <?if($rate->getCode()===$this->getSelectedMethod())echo"checked"?><?if($_first):?> class="validate-one-required"<?endif?>/>
+        		    <label for="shipping_method_<?=$rate->getCode()?>"><?=$rate->getCarrierTitle()?>: <?=$rate->getMethodDescription()?></label>:
+        		    <strong><?=$rate->getPrice()?></strong><br/>
         	   <?endif?>
             <?$_first=false?>
     		<?endforeach?>

@@ -126,6 +126,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if (!$this->_beforeToHtml()) {
             return '';
         }
+        
+        if (!$this->getTemplateName()) {
+            return '';
+        }
 
         $html = $this->renderView();
         $this->_saveCache($html);

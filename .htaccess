@@ -1,11 +1,10 @@
 php_flag magic_quotes_gpc off
+php_flag short_open_tag on
+
 DirectoryIndex index.php
 
 RewriteEngine on
 
-RewriteCond %{REQUEST_URI} !^/media/
-RewriteCond %{REQUEST_URI} !^/skins/
-RewriteCond %{REQUEST_URI} !^/js/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l

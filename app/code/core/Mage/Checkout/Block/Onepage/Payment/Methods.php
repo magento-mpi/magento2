@@ -25,4 +25,10 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_L
         }
         return $this;
     }
+    
+    public function getHtml()
+    {
+        $this->fetchEnabledMethods();
+        return parent::getHtml();
+    }
 }

@@ -9,12 +9,6 @@
  */
 class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_Abstract
 {
-    protected function _construct()
-    {
-        $this->setTemplate('checkout/onepage/progress.phtml');
-        parent::_construct();
-    }
-    
     public function getBilling()
     {
         return $this->getQuote()->getBillingAddress();
@@ -28,6 +22,13 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
     public function getShippingDescription()
     {
         return $this->getQuote()->getShippingAddress()->getShippingDescription();
+    }
+    
+    public function getShippingAmount()
+    {
+        $amount = $this->getQuote()->getShippingAddress()->getShippingAmount();
+        $filter = new Varien_Filter_Sprintf('$%s', 2);
+        return $filter->filter($amount);
     }
     
     public function getPaymentBlock()

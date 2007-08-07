@@ -97,7 +97,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $content    = $this->getLayout()->createBlock('adminhtml/tax_rate_grid')
             ->getCsv();
 
-        $this->_sendUploadResponce($fileName, $content);
+        $this->_sendUploadResponse($fileName, $content);
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $content    = $this->getLayout()->createBlock('adminhtml/tax_rate_grid')
             ->getXml();
 
-        $this->_sendUploadResponce($fileName, $content);
+        $this->_sendUploadResponse($fileName, $content);
     }
 
     /**
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     }
 
 
-    protected function _sendUploadResponce($fileName, $content)
+    protected function _sendUploadResponse($fileName, $content)
     {
         header('HTTP/1.1 200 OK');
         header('Content-Disposition: attachment; filename='.$fileName);

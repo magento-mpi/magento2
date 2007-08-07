@@ -38,7 +38,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $product = Mage::getModel('catalog/product')->load($productId);
         if ($product->getId()) {
             $this->getQuote()->addCatalogProduct($product->setQty($qty));
-            $this->getQuote()->collectTotals()->save();
+            $this->getQuote()->getShippingAddress()->collectTotals();
+            $this->getQuote()->save();
         }
         
         Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
@@ -49,8 +50,38 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function updatePostAction()
     {
         $cart = $this->getRequest()->getParam('cart');
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
 
-        $this->getQuote()->processCartPost($cart)->collectTotals()->save();
+        foreach ($cart as $id=>$itemUpd) {
+            if (empty($itemUpd['qty']) || !is_numeric($itemUpd['qty']) || intval($itemUpd['qty'])<=0) {
+                continue;
+            }
+            
+            $itemUpd['qty'] = (int) $itemUpd['qty'];
+            
+            if (!empty($itemUpd['remove'])) {
+                $this->getQuote()->removeItem($id);
+            } else {
+                $item = $this->getQuote()->getItemById($id);
+                if (!$item) {
+                    continue;
+                }
+                if (!empty($itemUpd['wishlist']) && !empty($customer)) {
+                    if (empty($wishlist)) {
+                        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($customer, true);
+                    }
+                    $wishlist->addNewItem($item->getProductId())->save();
+                    $this->getQuote()->removeItem($id);
+                    continue;
+                }
+                
+                $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                $item->setQty($itemUpd['qty']);
+                $item->setPrice($product->getFinalPrice($item->getQty()));
+            }
+        }
+        $this->getQuote()->getShippingAddress()->collectTotals();
+        $this->getQuote()->save();
 
         $this->_backToCart();
     }
