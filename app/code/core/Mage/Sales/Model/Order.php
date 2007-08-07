@@ -22,9 +22,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function initNewOrder()
     {
         $this
-            ->setRealOrderId(Mage::getResourceModel('sales/counter')->getCounter('order'))
             ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
         ;
+        return $this;
+    }
+    
+    public function validate()
+    {
+        $this->setErrors(array());
         return $this;
     }
 
@@ -39,11 +44,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->importQuoteAddressAttributes($address);
 
         $billing = Mage::getModel('sales/order_address')
-            ->importQuoteBillingAddress($quote->getBillingAddress());
+            ->importQuoteAddress($quote->getBillingAddress());
         $this->setBillingAddress($billing);
 
         $shipping = Mage::getModel('sales/order_address')
-            ->importQuoteShippingAddress($address);
+            ->importQuoteAddress($address);
         $this->setShippingAddress($shipping);
 
         if (!$quote->getIsMultiPayment()) {
@@ -59,17 +64,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
 
         $this->setInitialStatus();
-
-        $status = $this->getPayment()->getOrderStatus();
-        $order->setStatus($status);
-        $statusEntity = Mage::getModel('sales/order_entity_status')
-            ->setStatus($status)
-            ->setCreatedAt($now);
-
-        $order->validate();
-        if ($order->getErrors()) {
-            //TODO: handle errors (exception?)
-        }
 
         return $this;
     }
@@ -241,7 +235,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return false;
     }
 
-    public function addItem(Mage_Sales_Model_Order_Item $newItem)
+    public function addItem(Mage_Sales_Model_Order_Item $item)
     {
         $item->setOrder($this)->setParentId($this->getId());
         if (!$item->getId()) {

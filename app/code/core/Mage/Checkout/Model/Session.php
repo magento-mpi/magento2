@@ -105,7 +105,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     
     public function clear()
     {
-        Mage::dispatchEvent('destoryQuote', array('quote'=>$quote));
+        Mage::dispatchEvent('destoryQuote', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
     }

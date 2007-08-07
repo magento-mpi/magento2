@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * Order item entity resource model
  *

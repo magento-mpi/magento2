@@ -326,10 +326,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         
         $order->save();
         
-        $quote
-            ->setConvertedAt($now)
-            ->setLastCreatedOrder($order);
-        $quote->save();
+        $this->getQuote()
+            ->setConvertedAt(now())
+            ->setLastCreatedOrder($order)
+            ->save();
         
         return $order;
     }

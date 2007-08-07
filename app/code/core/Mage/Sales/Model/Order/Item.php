@@ -33,8 +33,11 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this->_order;
     }
 
-    public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteItem)
     {
+        $item = clone $quoteItem;
+        $item->unsEntityId()->unsParentId();
+        $this->addData($item->getData());
         return $this;
     }
 

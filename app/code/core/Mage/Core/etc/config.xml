@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.5.13</version>
+             <version>0.5.14</version>
         </Mage_Core>
     </modules>
 

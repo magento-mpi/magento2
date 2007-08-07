@@ -20,8 +20,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
         return $this->_order;
     }
     
-    public function importQuotePayment(Mage_Sales_Model_Quote_Payment $payment)
+    public function importQuotePayment(Mage_Sales_Model_Quote_Payment $newPayment)
     {
+        $payment = clone $newPayment;
+        $payment->unsEntityId()->unsParentId();
+        $this->addData($payment->getData());
         return $this;
     }
 }

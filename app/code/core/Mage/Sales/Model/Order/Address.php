@@ -20,8 +20,11 @@ class Mage_Sales_Model_Order_Address extends Mage_Core_Model_Abstract
         return $this->_order;
     }
     
-    public function importQuoteAddress(Mage_Sales_Model_Quote_Address $address)
+    public function importQuoteAddress(Mage_Sales_Model_Quote_Address $newAddress)
     {
+        $address = clone $newAddress;
+        $address->unsEntityId()->unsParentId();
+        $this->addData($address->getData());
         return $this;
     }
 }

@@ -93,7 +93,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         }
         */
         $order = Mage::getModel('sales/order');
-        $order->load($this->_checkout->getLastOrderId());
+        $order->load($this->getCheckout()->getLastOrderId());
         if (!$order->getIncrementId()) {
             $this->_redirect('checkout/cart');
             return;
@@ -278,7 +278,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $res = array('error'=>1);
         if ($this->getRequest()->isPost()) {
             try {
-                if ('register' == $this->getQuote()->getMethod()) {
+                switch ($this->getQuote()->getCheckoutMethod()) {
+                case 'register':
                     $customer = $this->_createCustomer();
                     $mailer = Mage::getModel('customer/email')
                         ->setTemplate('email/welcome.phtml')
@@ -287,27 +288,36 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                         ->send();
                     $email  = $customer->getEmail();
                     $name   = $customer->getName();
-                }
-                elseif ('register' == $this->getQuote()->getCheckoutMethod()) {
+                    break;
+                    
+                case 'guest':
                     $billing = $this->getQuote()->getBillingAddress();
                     $email  = $billing->getEmail();
                     $name   = $billing->getFirstname().' '.$billing->getLastname();
-                }
-                else {
+                    break;
+                    
+                default:
                     $customer = Mage::getSingleton('customer/session')->getCustomer();
                     $email  = $customer->getEmail();
                     $name   = $customer->getName();
                 }
                 
-                $this->getQuote()->createOrder();
-                $orderId = $this->getQuote()->getCreatedOrderId();
+                $shipping = $this->getQuote()->getShippingAddress();
+                $order = $shipping->createOrder();
+                
+                $order->validate();
+                if ($order->getErrors()) {
+                    //TODO: handle errors (exception?)
+                }
+
+                $orderId = $order->getIncrementId();
                 $this->getCheckout()->clear();
-                $this->getCheckout()->setLastOrderId($orderId);
+                $this->getCheckout()->setLastOrderId($order->getId());
                 
                 $mailer = Mage::getModel('core/email')
                         ->setTemplate('email/order.phtml')
                         ->setType('html')
-                        ->setTemplateVar('order', $this->getQuote()->getLastCreatedOrder())
+                        ->setTemplateVar('order', $order)
                         ->setTemplateVar('quote', $this->getQuote())
                         ->setTemplateVar('name', $name)
                         ->setToName($name)
