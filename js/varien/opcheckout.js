@@ -409,13 +409,15 @@ Payment.prototype = {
 
 var Review = Class.create();
 Review.prototype = {
-    initialize: function(){
+    initialize: function(saveUrl, successUrl){
+        this.saveUrl = saveUrl;
+        this.successUrl = successUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
     },
     
     save: function(){
         var request = new Ajax.Request(
-            '<?=$this->getUrl('checkout/onepage/saveOrder')?>',
+            this.saveUrl,
             {
                 method:'post',
                 parameters:{save:true},
@@ -433,7 +435,7 @@ Review.prototype = {
                 response = {};
             }
             if (response.success) {
-                window.location='<?=$this->getUrl('checkout/onepage/success', array('_secure'=>false))?>';
+                window.location=this.successUrl;
             }
             else{
                 alert('error');

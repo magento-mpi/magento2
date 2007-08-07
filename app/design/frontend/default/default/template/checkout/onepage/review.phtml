@@ -9,5 +9,5 @@
 </div>
 
 <script type="text/javascript">
-    var review = new Review();
+    var review = new Review('<?=$this->getUrl('checkout/onepage/saveOrder')?>', '<?=$this->getUrl('checkout/onepage/success', array('_secure'=>false))?>');
 </script>
