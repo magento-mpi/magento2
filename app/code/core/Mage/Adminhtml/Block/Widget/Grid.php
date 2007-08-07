@@ -74,6 +74,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_pagerVisibility = true;
 
     /**
+     * Column headers visibility
+     *
+     * @var boolean
+     */
+    protected $_headersVisibility = true;
+
+    /**
      * Filter visibility
      *
      * @var boolean
@@ -370,6 +377,26 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function setVarNameFilter($name)
     {
         return $this->_varNameFilter = $name;
+    }
+
+    /**
+     * Set visibility of column headers
+     *
+     * @param boolean $visible
+     */
+    public function setHeadersVisibility($visible=true)
+    {
+        $this->_headersVisibility = $visible;
+    }
+
+    /**
+     * Return visibility of column headers
+     *
+     * @return boolean
+     */
+    public function getHeadersVisibility()
+    {
+        return $this->_headersVisibility;
     }
 
     /**

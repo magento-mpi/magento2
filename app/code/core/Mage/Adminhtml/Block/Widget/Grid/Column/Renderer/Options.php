@@ -15,7 +15,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options extends Mage_Admi
     {
         $options = $this->getColumn()->getOptions();
         if (!empty($options) && is_array($options)) {
-            return $options[$row->getData($this->getColumn()->getIndex())];
+            $value = $row->getData($this->getColumn()->getIndex());
+            if (isset($options[$value])) {
+                return $options[$value];
+            }
+            return '';
         }
     }
 

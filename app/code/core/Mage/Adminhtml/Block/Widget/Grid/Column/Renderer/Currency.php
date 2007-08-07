@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
     public function render(Varien_Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
-        	$currency_code = $row->getData('currency_code');
+        	$currency_code = $row->getData($this->getColumn()->getCurrency());
         	if (!$currency_code) return $data;
         	if (!isset(self::$_currencies[$currency_code])) {
         		self::$_currencies[$currency_code] = Mage::getSingleton('directory/currency')->load($currency_code);
@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
         }
         return null;
     }
-    
+
     public function renderProperty()
     {
         $out = parent::renderProperty();

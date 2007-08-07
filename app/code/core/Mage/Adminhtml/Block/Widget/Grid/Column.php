@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     {
         return $this->_grid;
     }
-    
+
     public function isLast()
     {
         return $this->getId() == $this->getGrid()->getLastColumnId();
@@ -62,15 +62,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     public function getHeaderCssClass()
     {
         $class = $this->getData('header_css_class');
-        if ($this->getSortable()===false) {
-            $class.= ' no-link';
+        if (($this->getSortable()===false) || ($this->getGrid()->getSortable()===false)) {
+            $class .= ' no-link';
         }
         if ($this->isLast()) {
-            $class = ' last';
+            $class .= ' last';
         }
         return $class;
     }
-    
+
     public function getHeaderHtmlProperty()
     {
         $str = '';
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         if ($this->getEditable()) {
             $str.= ' colspan="2"';
         }
-        
+
         return $str;
     }
 
@@ -110,6 +110,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'datetime':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_datetime';
                 break;
+            case 'number':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_number';
+                break;
             case 'currency':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_currency';
                 break;
@@ -118,9 +121,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
                 break;
             case 'action':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_action';
-                break;
-            case 'boolean':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_boolean';
                 break;
             case 'options':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_options';
