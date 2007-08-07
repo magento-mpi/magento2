@@ -64,9 +64,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             if (!empty($login)) {
                 extract($login);
                 if (!empty($username) && !empty($password)) {
-                    if (!$session->login($username, $password)) {
-                        // _('invalid login or password')
-                        $session->addError('Invalid login or password');
+                    if (strlen($password) < 6)
+                    {
+                        $session->addError('Please enter 6 or more characters.');
+                        Mage::getSingleton('customer/session')->setLoginData($username);
+                    } else {
+                        if (!$session->login($username, $password)) {
+                            // _('invalid login or password')
+                            $session->addError('Invalid login or password');
+                            Mage::getSingleton('customer/session')->setLoginData($username);
+                        }
                     }
                 }
             }

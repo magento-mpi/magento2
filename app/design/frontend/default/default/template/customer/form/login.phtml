@@ -27,7 +27,7 @@
 									<p>If you have an account with us, please log in.</p>
 									<ul class="form-list">
 										<li><label for="email">Your Email Address <span class="required">*</span></label><br/>
-											<input name="login[username]" value="" title="email" id="email" type="text" class="input-text required-entry" style="width:250px;"/></li>
+											<input name="login[username]" value="<?=Mage::getSingleton('customer/session')->getLoginData(true)?>" title="email" id="email" type="text" class="input-text required-entry" style="width:250px;"/></li>
 										<li><label for="pass">Your Password <span class="required">*</span></label><br/>
 											 <input name="login[password]" type="password" class="input-text required-entry" id="pass" style="width:250px;"/></li>
 									</ul>
