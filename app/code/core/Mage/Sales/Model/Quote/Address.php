@@ -99,44 +99,37 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     }
     
     /**
-     * get address data
-     *
-     * @param   string $key
-     * @param   int $index
-     * @return  mixed
-     */
-    public function getData($key='', $index=null)
-    {
-        if (strncmp($key, 'street', 6)) {
-            $index = substr($key, 6);
-            if (!is_numeric($index)) {
-                $index = null;
-            }
-        }
-        return parent::getData($key, $index);
-    }
-    
-    /**
-     * Create fields street1, street2, etc.
-     * 
-     * To be used in controllers for views data
-     *
-     */
-    public function explodeStreetAddress()
-    {
-        $streetLines = $this->getStreet();
-        foreach ($streetLines as $i=>$line) {
-            $this->setData('street'.($i+1), $line);
-        }
-    }
-    
-    /**
      * To be used when processing _POST
      */
     public function implodeStreetAddress()
     {
         $this->setStreet($this->getData('street'));
     }
+    
+    /**
+     * set address data
+     *
+     * @param   string $key
+     * @param   mixed $value
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function setData($key, $value='')
+    {
+        switch ($key) {
+            case 'region':
+                if (is_numeric($value)) {
+                    $region = Mage::getModel('directory/region')->load((int)$value);
+                    if ($region->getId()) {
+                        $this->setRegionId($value);
+                        $this->setRegion($region->getCode());
+                    }
+                    return $this;
+                }
+                break;
+        }
+        return parent::setData($key, $value);
+    }
+
     
 /*********************** ITEMS ***************************/
 

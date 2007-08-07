@@ -31,16 +31,15 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
         return $filter->filter($amount);
     }
     
-    public function getPaymentBlock()
+    public function getPaymentHtml()
     {
-        $payment = $quote->getPayment();
+        $payment = $this->getQuote()->getPayment();
         
-        $paymentMethodConfig = Mage::getConfig()->getNode('global/sales/payment/methods/'.$payment->getMethod());
-        if (!empty($paymentMethodConfig)) {
-            $className = $paymentMethodConfig->getClassName();
-            $paymentMethod = new $className();
-            $paymentBlock = $paymentMethod->setPayment($payment)->createInfoBlock($this->getData('name').'.payment');
-        }
-        return $paymentBlock;
+        $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
+        $block = Mage::getModel($model)
+            ->setPayment($payment)
+            ->createInfoBlock($this->getData('name').'.payment');
+        
+        return $block->getHtml();
     }
 }

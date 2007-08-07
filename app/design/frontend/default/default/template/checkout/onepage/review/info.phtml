@@ -9,92 +9,21 @@
 		</tr>
 	</thead>
 	<tfoot>
-		<tr>
-			<td class="a-right" colspan="3">Order Subtotal</td>
-			<td class="last a-right">$41.97</td>
-
+<?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
+        <tr class="<?=$i==$l?'last':''?>">
+            <td style="<?=$total->getStyle()?>" class="a-right" colspan="3"><?=$total->getTitle()?></td>
+            <td style="<?=$total->getStyle()?>" class="last a-right"><?=$total->getValue()?></td>
+        </tr>
+<?endforeach?>
 	</tfoot>
 	<tbody>
-		<tr class="odd">
-			<td><a href="#">Product name goes here</td>
-			<td class="a-right">$29.99</td>
-			<td class="a-center">1</td>
-			<td class="last a-right">$29.99</td>
-
+<?$l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++?>
+        <tr class="<?$i%2==1?'odd':''?> <?=$i==$l?'last':''?>">
+			<td><?=$item->getName()?></td>
+			<td class="a-right"><?=$item->getPrice()?></td>
+			<td class="a-center"><?=$item->getQty()?></td>
+			<td class="last a-right"><?=$item->getRowTotal()?></td>
 		</tr>
-		<tr class="last">
-			<td><a href="#">Product name goes here</td>
-			<td class="a-right">$29.99</td>
-			<td class="a-center">1</td>
-			<td class="last a-right">$29.99</td>
-		</tr>
-
+<?endforeach?>
 	</tbody>
-</table>
-
-<table width="100%" cellspacing="0" class="data-table">
-    <tr>
-        <td style="padding:10px 15px;">
-            <h4><?=__('Billing Address')?></h4>
-            <div class="step-body">
-                <?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br/>
-                <?if ($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><?endif?><br/>
-                <?=nl2br($this->getBilling()->getStreet(-1))?><br/>
-                <?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegionId()?> <?=$this->getBilling()->getPostcode()?>
-                <br/><strong><a href="#billing" onclick="checkout.accordion.openSection('billing');return false;"><?=__('Edit')?></a></strong>
-            </div>
-        </td>
-    
-        <td style="padding:10px 15px;">
-            <h4><?=__('Shipping Address')?></h4>
-            <div class="step-body">
-                <?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br/>
-                <?if ($this->getShipping()->getCompany()):?><?=$this->getShipping()->getCompany()?><?endif?><br/>
-                <?=nl2br($this->getShipping()->getStreet(-1))?><br/>
-                <?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegionId()?> <?=$this->getShipping()->getPostcode()?>
-                <br/><strong><a href="#shipping" onclick="checkout.accordion.openSection('shipping');return false;"><?=__('Edit')?></a></strong>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding:10px 15px;">
-            <h4><?=__('Payment Method')?></h4>
-            <div class="step-body">
-                <?=$this->getChildHtml('payment')?>
-                <br/><strong><a href="#payment" onclick="checkout.accordion.openSection('payment');return false;"><?=__('Edit')?></a></strong>
-            </div>
-        </td>
-
-
-        <td style="padding:10px 15px;">
-            <h4><?=__('Shipping Method')?></h4>
-            <div class="step-body">
-                <?=$this->getChildHtml('shippingDescription')?>
-                <br/><strong><a href="#shipping_method" onclick="checkout.accordion.openSection('shipping_method');return false;"><?=__('Edit')?></a></strong>
-            </div>
-        </td>
-    </tr>
-</table>
-<table cellspacing="0" width="100%" class="data-table">
-    <tr>
-        <th class="align-left"><?=__('Product Name')?></th>
-        <th style="width:70px;" class="align-center"><?=__('Unit Price')?></th>
-        <th style="width:40px;" class="align-center"><?=__('Qty')?></th>
-        <th style="width:70px;" class="align-center"><?=__('Total')?></th>
-    </tr>
-    <?foreach($this->getItems() as $item):?>
-    <tr>
-        <td><a href="<?=$this->getUrl('catalog/product/view/id/'.$item['product_id'])?>"><?=$item['name']?></a></td>
-        <td class="align-center"><?=$item['price']?></td>
-        <td class="align-center"><?=$item['qty']?></td>
-        <td class="align-right"><?=$item['row_total']?></td>
-    </tr>
-    <?endforeach?>
-    <?foreach($this->getTotals() as $total):?>
-		<tfoot>
-			<tr>
-					<td colspan="3" class="align-right"><?=$total['title']?>:</th><td class="align-right" style="<?=isset($total['style'])?$total['style']:''?>"><?=$total['value']?></td>
-			</tr>
-		</tfoot>
-    <?endforeach?>
 </table>

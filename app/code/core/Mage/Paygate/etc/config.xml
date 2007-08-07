@@ -39,33 +39,5 @@
             </connection>
          </paygate_read>
       </resources>
-      <sales>
-         <payment>
-            <methods>
-               <authorizenet>
-                  <class>Mage_Paygate_Model_Authorizenet</class>
-                  <orderStatus>pending</orderStatus>
-                  <test>True</test>
-                  <login>irub782</login>
-                  <transKey>3Ryyz3x99mZ68Z94</transKey>
-                  <cgi>
-                     <protocol>https</protocol>
-                     <host>secure.authorize.net</host>
-                     <port>443</port>
-                     <url>/gateway/transact.dll</url>
-                  </cgi>
-               </authorizenet>
-               <paypal>
-                  <class>Mage_Paygate_Model_Paypal</class>
-                  <orderStatus>pending</orderStatus>
-               </paypal>
-               <verisign>
-                  <class>Mage_Paygate_Model_Verisign</class>
-                  <orderStatus>pending</orderStatus>
-               </verisign>
-            </methods>
-         </payment>
-
-      </sales>
    </global>
 </config>

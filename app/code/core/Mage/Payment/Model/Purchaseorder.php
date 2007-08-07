@@ -1,22 +1,27 @@
 <?php
 
-class Mage_Sales_Model_Payment_PurchaseOrder extends Mage_Sales_Model_Payment_Abstract 
+class Mage_Payment_Model_PurchaseOrder extends Mage_Payment_Model_Abstract 
 {
     public function createFormBlock($name)
     {        
-        $block = $this->getLayout()->createBlock('core/template', $name)
-            ->setTemplate('sales/payment/purchaseorder.phtml')
-            ->assign('payment', $this->_payment);
+        $block = $this->getLayout()->createBlock('payment/form', $name)
+            ->setMethod('purchaseorder')
+            ->setPayment($this->getPayment())
+            ->setTemplate('payment/form/purchaseorder.phtml');
         
         return $block;
     }
     
+    public function processFormPost($post)
+    {
+        
+    }
+    
     public function createInfoBlock($name)
     {
-        $out = __('Purchase Order')."\n".
-            __('PO Number').': '.$this->_payment->getPoNumber();
-            
-        $block = $this->getLayout()->createBlock('core/text', $name)->setText(nl2br($out));
+        $block = $this->getLayout()->createBlock('payment/info', $name)
+            ->setPayment($this->getPayment())
+            ->setTemplate('payment/info/purchaseorder.phtml');
         
         return $block;
     }

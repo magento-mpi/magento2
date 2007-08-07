@@ -297,7 +297,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         foreach ($this->getPaymentsCollection() as $payment) {
             return $payment;
         }
-        return false;
+        $address = Mage::getModel('sales/quote_payment');
+        $this->addPayment($address);
+        return $address;
     }
     
     public function getPaymentById($paymentId)

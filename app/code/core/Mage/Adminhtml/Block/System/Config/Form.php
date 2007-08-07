@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             ->loadSectionData($sectionCode, $websiteCode, $storeCode);
             
         $configFields = Mage::getResourceModel('core/config_field_collection')
-            ->loadRecursive($sectionCode);
+            ->loadRecursive($sectionCode, $websiteCode, $storeCode);
 
         $form = new Varien_Data_Form();
         
@@ -57,6 +57,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     break;
                     
                 case 3: // field
+                    if (!isset($fieldset[$pathArr[1]])) {
+                        continue;
+                    }
                     if (isset($configData[$path])) {
                         $data = $configData[$path];
                     } else {

@@ -74,7 +74,7 @@
 <div class="shopping-cart-totals">
     <table cellspacing="0">
         <tbody>
-<?$l=sizeof($this->getItems()); $i=0; foreach($this->getTotals() as $total): $i++?>
+<?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
     <?if(!$total->getArea()):?>
             <tr class="<?=$i==$l?'last':''?>">
                 <td style="<?=$total->getStyle()?>"><?=$total->getTitle()?></td>

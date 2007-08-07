@@ -34,11 +34,17 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
         ;
     }
     
-    protected function _beforeSave()
+    public function importPostData(array $data)
     {
-        if ($this->getQuote()) {
-            $this->setParentId($this->getQuote()->getId());
-        }
-        parent::_beforeSave();
+        $payment = Mage::getModel('customer/payment')->setData($data);
+        $this
+            ->setMethod($payment->getMethod())
+            ->setCcType($payment->getCcType())
+            ->setCcNumberEnc($payment->encrypt($payment->getCcNumber()))
+            ->setCcLast4(substr($payment->getCcNumber(), -4))
+            ->setCcExpMonth($payment->getCcExpMonth())
+            ->setCcExpYear($payment->getCcExpYear())
+            ->setCcCid($payment->encrypt($payment->getCcCid()));
+        return $this;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-class Mage_Payment_Block_Cc_Form extends Mage_Core_Block_Template 
+class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form 
 {
-    public function isCurrent()
+    protected function _construct()
     {
-        return $this->getPayment() && $this->getMethod() 
-            && $this->getPayment()->getMethod() == $this->getMethod();
+        $this->setTemplate('payment/form/ccsave.phtml');
+        parent::_construct();
     }
     
     public function getCcTypes()

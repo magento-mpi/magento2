@@ -10,25 +10,31 @@
  */
 class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_List
 {
+    public function getQuote()
+    {
+        return Mage::getSingleton('checkout/session')->getQuote();
+    }
+    
     public function fetchEnabledMethods()
     {
-        $methods = Mage::getConfig()->getNode('global/sales/payment/methods')->children();
+        $methods = Mage::getStoreConfig('payment');
+
         foreach ($methods as $methodConfig) {
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();
-            $method = new $className();
-            $method->setPayment($payment);
+            $method = Mage::getModel($className)
+                ->setPayment($this->getQuote()->getPayment());
             $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
             if (!empty($methodBlock)) {
-                $listBlock->append($methodBlock);
+                $this->append($methodBlock);
             }
         }
         return $this;
     }
     
-    public function getHtml()
+    public function toHtml()
     {
         $this->fetchEnabledMethods();
-        return parent::getHtml();
+        return parent::toHtml();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
+class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
 {
     const REQUEST_METHOD_CC = 'CC';
     const REQUEST_METHOD_ECHECK = 'ECHECK';
@@ -28,31 +28,23 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     const RESPONSE_CODE_ERROR = 3;
     const RESPONSE_CODE_HELD = 4;
     
-    protected $_config;
-    
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_config = Mage::getSingleton('sales/config')->getPaymentConfig('authorizenet');
-    }
-
     public function createFormBlock($name)
     {
         $hidden = array(
             'anet_trans_method'=>self::REQUEST_METHOD_CC,
         );
         
-        $block = $this->getLayout()->createBlock('sales/payment_cc_form', $name)
-            ->assign('method', 'authorizenet')
-            ->assign('hidden', $hidden)
-            ->init($this->_payment);
+        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
+            ->setMethod('authorizenet')
+            ->setPayment($this->getPayment())
+            ->setHidden($hidden);
         return $block;
     }
     
     public function createInfoBlock($name)
     {
-        $block = $this->getLayout()->createBlock('sales/payment_cc_info', $name)
-            ->init($this->_payment);
+        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
+            ->setPayment($this->getPayment());
         return $block;
     }
     
@@ -67,7 +59,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
             ->setCcAvsStatus($result->getAvsResultCode())
             ->setCcCidStatus($result->getCardCodeResponseCode());
         
-        if ($this->_config->is('test')) {
+        if (Mage::getStoreConfig('paygate/authorizenet/test')) {
             $payment->setCcRawRequest($result->getRawRequest())
                 ->setCcRawResponse($result->getRawResponse());
         }
@@ -88,7 +80,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
     
     public function onInvoiceCreate(Mage_Sales_Model_Invoice_Entity_Payment $payment)
     {
-        foreach ($order->getEntitiesByType('transaction') as $transaction) {
+        foreach ($order->getAllPayments() as $transaction) {
             break;
         }
         if ($transaction->getAnetTransId()) {
@@ -122,10 +114,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
             ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
             ->setXRelayResponse('False');
         
-        $request->setXTestRequest($this->_config->is('test') ? 'TRUE' : 'FALSE');
+        $request->setXTestRequest(Mage::getStoreConfig('paygate/authorizenet/test') ? 'TRUE' : 'FALSE');
             
-        $request->setXLogin((string)$this->_config->login)
-            ->setXTranKey((string)$this->_config->transKey)
+        $request->setXLogin(Mage::getStoreConfig('paygate/authorizenet/login'))
+            ->setXTranKey(Mage::getStoreConfig('paygate/authorizenet/trans_key'))
             ->setXAmount($document->getGrandTotal())
             ->setXType($payment->getAnetTransType())
             ->setXMethod($payment->getAnetTransMethod());
@@ -143,38 +135,38 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Sales_Model_Payment_Abstract
         }
             
         if (!empty($document)) {
-            $request->setXInvoiceNum($document->getId());
+            $request->setXInvoiceNum($document->getIncrementId());
             
-            $billing = $document->getAddressByType('billing');
+            $billing = $document->getBillingAddress();
             if (!empty($billing)) {
                 $request->setXFirstName($billing->getFirstname())
                     ->setXLastName($billing->getLastname())
                     ->setXCompany($billing->getCompany())
                     ->setXAddress($billing->getStreet(1))
                     ->setXCity($billing->getCity())
-                    ->setXState($billing->getRegionName())
+                    ->setXState($billing->getRegion())
                     ->setXZip($billing->getPostcode())
-                    ->setXCountry($billing->getCountryName())
+                    ->setXCountry($billing->getCountry())
                     ->setXPhone($billing->getPhone())
                     ->setXFax($billing->getFax())
                     ->setXCustId($billing->getCustomerId())
                     ->setXCustomerIp($billing->getRemoteIp())
                     ->setXCustomerTaxId($billing->getTaxId())
                     ->setXEmail($billing->getEmail())
-                    ->setXEmailCustomer($this->_config->is('emailCustomer'))
-                    ->setXMerchantEmail((string)$this->_config->merchantEmail);
+                    ->setXEmailCustomer(Mage::getStoreConfig('paygate/authorizenet/email_customer'))
+                    ->setXMerchantEmail(Mage::getStoreConfig('paygate/authorizenet/merchant_email'));
             }
             
-            $shipping = $document->getAddressByType('shipping');
+            $shipping = $document->getShippingAddress();
             if (!empty($shipping)) {
                 $request->setXShipToFirstName($shipping->getFirstname())
                     ->setXShipToLastName($shipping->getLastname())
                     ->setXShipToCompany($shipping->getCompany())
                     ->setXShipToAddress($shipping->getStreet(1))
                     ->setXShipToCity($shipping->getCity())
-                    ->setXShipToState($shipping->getRegionName())
+                    ->setXShipToState($shipping->getRegion())
                     ->setXShipToZip($shipping->getPostcode())
-                    ->setXShipToCountry($shipping->getCountryName());
+                    ->setXShipToCountry($shipping->getCountry());
             }
             
             /** TODO: itemized order information

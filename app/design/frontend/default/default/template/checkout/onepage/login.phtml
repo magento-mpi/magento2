@@ -1,7 +1,9 @@
 <h4>Login</h4>
 
 <div class="box">
-<?=$this->getMessagesHtml()?>
+
+<?=$this->getMessagesBlock()->getHtml()?>
+
     <form action="<?=$this->getPostAction()?>" method="post">
         <p><strong><?=__('Already registered?')?></strong><br/>
         <?=__('Log in below to take advantage of Express Checkout:')?></p>
@@ -23,8 +25,8 @@
 <div class="box">
     <p><?=__('You may check out as a guest or register with us for future convenience:')?></p>
     <ul class="form-list">
-        <li><input type="radio" name="checkout_method" id="login:guest" value="guest"<?if($this->getCheckoutMethod()=='guest'):?> checked<?endif?>/> <label for="login:guest"><?=__('Checkout as Guest')?></label></li>
-        <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getCheckoutMethod()=='register'):?> checked<?endif?>/> <label for="login:register"><?=__('Register')?></label></li>
+        <li><input type="radio" name="checkout_method" id="login:guest" value="guest"<?if($this->getQuote()->getCheckoutMethod()=='guest'):?> checked<?endif?>/> <label for="login:guest"><?=__('Checkout as Guest')?></label></li>
+        <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getQuote()->getCheckoutMethod()=='register'):?> checked<?endif?>/> <label for="login:register"><?=__('Register')?></label></li>
     </ul>
 
     <strong><?=__('Register and save time!')?></strong><br/>

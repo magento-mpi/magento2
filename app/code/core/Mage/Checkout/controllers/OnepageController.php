@@ -262,8 +262,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             if (empty($data)) {
                 return;
             }
-            $payment = Mage::getModel('sales/quote_payment')->addData($data);
-            $this->getQuote()->setPayment($payment)->save();
+            $payment = $this->getQuote()->getPayment();
+            $payment->importPostData($data)->save();
             
             $this->getCheckout()
                 ->setStepData('payment', 'complete', true)

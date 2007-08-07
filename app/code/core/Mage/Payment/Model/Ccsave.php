@@ -1,19 +1,19 @@
 <?php
 
-class Mage_Sales_Model_Payment_Ccsave extends Mage_Sales_Model_Payment_Abstract 
+class Mage_Payment_Model_Ccsave extends Mage_Payment_Model_Abstract 
 {
     public function createFormBlock($name)
     {
-        $block = $this->getLayout()->createBlock('sales/payment_cc_form', $name)
-            ->assign('method', 'ccsave')
-            ->init($this->_payment);
+        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
+            ->setPayment($this->getPayment())
+            ->setMethod('ccsave');
         return $block;
     }
     
     public function createInfoBlock($name)
     {
-        $block = $this->getLayout()->createBlock('sales/payment_cc_info', $name)
-            ->init($this->_payment);
+        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
+            ->setPayment($this->getPayment());
         return $block;
     }
 }

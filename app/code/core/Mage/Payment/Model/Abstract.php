@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mage_Sales_Model_Payment_Abstract
+abstract class Mage_Payment_Model_Abstract extends Varien_Object
 {
     protected $_payment = null;
     
@@ -17,17 +17,6 @@ abstract class Mage_Sales_Model_Payment_Abstract
     public function createInfoBlock($name) 
     {
         return false;
-    }
-    
-    public function setPayment($payment)
-    {
-        $this->_payment = $payment;
-        return $this;
-    }
-    
-    public function getPayment()
-    {
-        return $this->_payment;
     }
     
     public function getLayout()

@@ -12,20 +12,25 @@
             <class>Mage_Payment_Model</class>
          </payment>
       </models>
+      
+      <block>
+        <groups>
+            <payment>
+                <class>Mage_Payment_Block</class>
+            </payment>
+        </groups>
+      </block>
 
       <payment>
         <methods>
           <checkmo>
-            <class>Mage_Sales_Model_Payment_Checkmo</class>
-            <orderStatus>pending</orderStatus>
+            <class>Mage_Payment_Model_Checkmo</class>
           </checkmo>
           <ccsave>
-            <class>Mage_Sales_Model_Payment_Ccsave</class>
-            <orderStatus>pending</orderStatus>
+            <class>Mage_Payment_Model_Ccsave</class>
           </ccsave>
           <purchaseorder>
-            <class>Mage_Sales_Model_Payment_Purchaseorder</class>
-            <orderStatus>pending</orderStatus>
+            <class>Mage_Payment_Model_Purchaseorder</class>
           </purchaseorder>
         </methods>
       </payment>

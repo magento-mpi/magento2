@@ -60,7 +60,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             } else {
                 $value = array();
                 foreach ($config->children() as $k=>$v) {
-                    $value[$k] = $this->processSubst((string)$v);
+                    if ($v->children()) {
+                        $value[$k] = $v;
+                    } else {
+                        $value[$k] = $this->processSubst((string)$v);
+                    }
                 }
             }
             $this->_configCache[$path] = $value;
@@ -166,7 +170,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         
         if (!empty($_SERVER['HTTPS'])) {
-            if (!empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
+            if (empty($params['_secure']) || !empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
                 $params['_secure'] = true;
             }
         }

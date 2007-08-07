@@ -31,7 +31,7 @@
             </block>
             <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment">
                 <action method="setTemplate"><template>checkout/onepage/payment.phtml</template></action>
-                <block type="core/text_list" name="checkout.payment.methods" as="methods"/>
+                <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods"/>
             </block>
             <block type="checkout/onepage_review" name="checkout.onepage.review" as="review">
                 <action method="setTemplate"><template>checkout/onepage/review.phtml</template></action>

@@ -4,8 +4,8 @@
 
 <div class="content">
 	<div class="form-buttons">
-		<p class="left">Forgot an item in the cart? <a href="javascript:checkout.back();">Edit your cart</a></p>
-		<p><button class="form-button" onclick="review.save();"><span>Place Order</span></button></p>
+		<p class="left"><?=__('Forgot an item in the cart?')?> <a href="<?=$this->getUrl('checkout/cart', array('_secure'=>false))?>"><?=__('Edit your cart')?></a></p>
+		<p><button class="form-button" onclick="review.save();"><span><?=__('Place Order')?></span></button></p>
 </div>
 
 <script type="text/javascript">
