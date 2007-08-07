@@ -133,7 +133,14 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                 foreach ($types as  $type) {
                     try {
                         $io->open();
-                        $io->cp($this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload').'/'.$type.'/'.'image_'.$entityId.'_'.$value['value_id'].'.'.'jpg', $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload').'/'.$type.'/'.'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg');
+                        // TOFIX
+                        if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
+                            $path = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload');
+                        }
+                        else {
+                            $path = $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload');
+                        }
+                        $io->cp($path.'/'.$type.'/'.'image_'.$entityId.'_'.$value['value_id'].'.'.'jpg', $path.'/'.$type.'/'.'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg');
                         $io->close();
                     }
                     catch (Exception $e){
@@ -208,7 +215,13 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                         continue;
                     }
 //                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
-                    $uploader->save($this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
+                    if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
+                        $path = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload');
+                    }
+                    else {
+                        $path = $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload');
+                    }
+                    $uploader->save($path.'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
     	            if (!isset($uploadedFileName)) {
                         $uploadedFileName = $uploader->getUploadedFileName();
                     }
