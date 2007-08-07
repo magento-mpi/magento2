@@ -122,8 +122,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
                     if ($region->getId()) {
                         $this->setRegionId($value);
                         $this->setRegion($region->getCode());
+                        return $this;
                     }
-                    return $this;
                 }
                 break;
         }
