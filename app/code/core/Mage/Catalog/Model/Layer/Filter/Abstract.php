@@ -45,7 +45,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
      *
      * @param  Zend_Controller_Request_Abstract $request
      */
-    public function apply(Zend_Controller_Request_Abstract $request) 
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
     {
         
     }
@@ -67,5 +67,39 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     {
         $this->_items = array();
         return $this;
+    }
+    
+    /**
+     * Retrieve layer object
+     *
+     * @return Mage_Catalog_Model_Layer
+     */
+    public function getLayer()
+    {
+        $layer = $this->getData('layer');
+        
+        if (is_null($layer)) {
+            $layer = Mage::getSingleton('catalog/layer');
+            $this->setData('layer', $layer);
+        }
+        
+        return $layer;
+    }
+    
+    /**
+     * Create filter item object
+     *
+     * @param   string $label
+     * @param   mixed $value
+     * @param   int $count
+     * @return  Mage_Catalog_Model_Layer_Filter_Item
+     */
+    protected function _createItem($label, $value, $count=0)
+    {
+        return Mage::getModel('catalog/layer_filter_item')
+            ->setFilter($this)
+            ->setLabel($label)
+            ->setValue($value)
+            ->setCount($count);
     }
 }

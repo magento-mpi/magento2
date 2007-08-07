@@ -22,7 +22,8 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Tree_Path extends Mag
         $nodeIds = array();
         $path = $tree->getPath($object->getId());
         foreach ($path as $node) {
-            if ($node->getId() == $lastNodeId) {
+            // $node->getLevel()<=1 - need fix
+            if ($node->getId() == $lastNodeId || $node->getLevel()<=1) {
                 break;
             }
             $nodeIds[] = $node->getId();

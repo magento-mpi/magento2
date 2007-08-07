@@ -43,10 +43,15 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             ->addFieldToFilter('entity_id', array('in'=>$pathIds))
             ->load()
             ->getItems();
+            
         // add category path breadcrumb
         foreach ($pathIds as $categoryId) {
             if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
-                $breadcrumb = array('label'=>$categories[$categoryId]->getName());
+                $breadcrumb = array(
+                    'label' => $categories[$categoryId]->getName(),
+                    'link'  => ($categories[$categoryId]->getId()==$this->getCurrentCategory()->getId()) 
+                        ? '' : Mage::getUrl('*/*/*', array('id'=>$categories[$categoryId]->getId()))
+                );
                 $this->getLayout()->getBlock('breadcrumbs')
                     ->addCrumb('category'.$categoryId, $breadcrumb);
             }

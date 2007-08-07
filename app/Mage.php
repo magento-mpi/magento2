@@ -286,7 +286,7 @@ final class Mage {
         Varien_Profiler::stop('init');
 
         if ($conn = Mage::getSingleton('core/resource')->getConnection('core_write')) {
-            $conn->getProfiler()->setEnabled(true);
+            //$conn->getProfiler()->setEnabled(true);
         }
     }
 

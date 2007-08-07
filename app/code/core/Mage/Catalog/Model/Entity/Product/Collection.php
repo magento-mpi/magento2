@@ -25,6 +25,31 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $this->_categoryProductTable = $resource->getTableName('catalog/category_product');
     }
     
+    public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
+    {
+        if ($category->getIsAnchor()) {
+            $categoryCondition = $this->_read->quoteInto('{{table}}.category_id IN (?)', explode(',', $category->getAllChildren()));
+            $this->getSelect()->distinct(true);
+        }
+        else {
+            $categoryCondition = $this->_read->quoteInto('{{table}}.category_id=?', $category->getId());
+        }
+        if ($renderAlias) {
+            $alias = 'category_'.$category->getId();
+        }
+        else {
+            $alias = 'position';
+        }
+        
+        $this->joinField($alias, 
+                'catalog/category_product', 
+                'position', 
+                'product_id=entity_id', 
+                $categoryCondition);
+                
+        return $this;
+    }
+    
     /**
      * Adding product store names to result collection
      *
@@ -129,11 +154,37 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
     /**
      * Retrieve product count by some value of attribute
      *
-     * @param string $attribute
+     * @param   string $attribute
+     * @return  array($value=>$count)
      */
     public function getAttributeValueCount($attribute)
     {
+        $select     = clone $this->getSelect();
+        $attribute  = $this->getEntity()->getAttribute($attribute);
+        $attributeCode = $attribute->getAttributeCode();
+        $tableAlias = $attributeCode.'_value_count';
         
+        $condition  = 'e.entity_id='.$tableAlias.'.entity_id 
+            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
+            AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
+        
+        $select->join(
+                array($tableAlias => $attribute->getBackend()->getTable()),
+                $condition,
+                array(
+                        'count_'.$attributeCode=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
+                        'value_'.$attributeCode=>new Zend_Db_Expr($tableAlias.'.value')
+                     )
+            )
+            ->group('value_'.$attributeCode);
+
+        $data   = $this->_read->fetchAll($select);
+        $res    = array();
+        
+        foreach ($data as $row) {
+        	$res[$row['value_'.$attributeCode]] = $row['count_'.$attributeCode];
+        }
+        return $res;
     }
     
     /**

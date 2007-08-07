@@ -13,12 +13,35 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     public function __construct()
     {
         parent::__construct();
-        $this->_requestVar = 'id';
+        $this->_requestVar = 'cat';
     }
     
-    public function apply(Zend_Controller_Request_Abstract $request) 
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
     {
+        $filter = (int) $request->getParam($this->getRequestVar());
+        $category = Mage::getModel('catalog/category')->load($filter);
+        
+        if ($this->_isValidCategory($category)) {
+            $this->getLayer()->getProductCollection()
+                ->addCategoryFilter($category, true);
+            
+            $this->getLayer()->getState()->addFilter(
+                $this->_createItem($category->getName(), $filter)
+            );
+            $this->_items = array();
+        }
+        
         return $this;
+    }
+    
+    protected function _isValidCategory($category)
+    {
+        return $category->getId();
+    }
+    
+    public function getName()
+    {
+        return __('Category');
     }
     
     protected function _initItems()

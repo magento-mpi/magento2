@@ -8,22 +8,11 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Block_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter
+class Mage_Catalog_Block_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract 
 {
-    protected function _initFilter()
+    public function __construct()
     {
-        $this->_filter = Mage::getModel('catalog/layer_filter_category')
-            ->apply($this->getRequest());
-        return $this;
-    }
-    
-    public function getName()
-    {
-        return __('Category');
-    }
-    
-    public function getItems()
-    {
-        return $this->_filter->getItems();
+        parent::__construct();
+        $this->_filterModelName = 'catalog/layer_filter_category';
     }
 }

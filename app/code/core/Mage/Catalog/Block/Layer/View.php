@@ -18,21 +18,33 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     
     public function _initChildren()
     {
+        $this->setChild('layer_state',
+            $this->getLayout()->createBlock('catalog/layer_state'));
+            
         $this->setChild('category_filter',
-            $this->getLayout()->createBlock('catalog/layer_filter_category'));
+            $this->getLayout()->createBlock('catalog/layer_filter_category')->init());
         $this->setChild('price_filter',
-            $this->getLayout()->createBlock('catalog/layer_filter_price'));
+            $this->getLayout()->createBlock('catalog/layer_filter_price')->init());
         
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
         	$this->setChild($attribute->getAttributeCode().'_filter',
-                $this->getLayout()->createBlock('catalog/layer_filter_attribute',
-                    '',
-                    array('attribute_model'=>$attribute)
-                ));
+                $this->getLayout()->createBlock('catalog/layer_filter_attribute')
+                    ->setAttributeModel($attribute)
+                    ->init());
         }
     }
     
+    public function getStateHtml()
+    {
+        return $this->getChildHtml('layer_state');
+    }
+    
+    /**
+     * Retrieve filters
+     *
+     * @return array
+     */
     public function getFilters()
     {
         $filters = array();
@@ -51,6 +63,16 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
         return $filters;
     }
     
+    public function canShowOptions()
+    {
+        foreach ($this->getFilters() as $filter) {
+        	if ($filter->getItemsCount()) {
+        	    return true;
+        	}
+        }
+        return false;
+    }
+    
     protected function _getCategoryFilter()
     {
         return $this->getChild('category_filter');
@@ -59,11 +81,6 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     protected function _getPriceFilter()
     {
         return $this->getChild('price_filter');
-    }
-    
-    protected function _getAttributeFilters()
-    {
-        
     }
     
     protected function _getFilterableAttributes()

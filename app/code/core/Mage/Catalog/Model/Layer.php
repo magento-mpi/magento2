@@ -25,24 +25,13 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('description')
+                ->addCategoryFilter($this->getCurrentCategory())
                 ->joinField('store_id', 
                     'catalog/product_store', 
                     'store_id', 
                     'product_id=entity_id', 
                     '{{table}}.store_id='.(int) $this->getCurrentStore()->getId());
                     
-            if ($this->getCurrentCategory()->getIsAnchor()) {
-                $categoryCondition = '{{table}}.category_id in ('.$this->getCurrentCategory()->getAllChildren().')';
-                $collection->getSelect()->distinct(true);
-            }
-            else {
-                $categoryCondition = '{{table}}.category_id='.(int) $this->getCurrentCategory()->getId();
-            }
-            $collection->joinField('position', 
-                    'catalog/category_product', 
-                    'position', 
-                    'product_id=entity_id', 
-                    $categoryCondition);
             
             $collection->getEntity()->setStore((int) $this->getCurrentStore()->getId());
             $this->setData('product_collection', $collection);
@@ -92,5 +81,20 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         }
         
         return $collection;
+    }
+    
+    /**
+     * Retrieve layer state object
+     *
+     * @return Mage_Catalog_Model_Layer_State
+     */
+    public function getState()
+    {
+        $state = $this->getData('state');
+        if (is_null($state)) {
+            $state = Mage::getModel('catalog/layer_state');
+            $this->setData('state', $state);
+        }
+        return $state;
     }
 }

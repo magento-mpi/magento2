@@ -124,7 +124,7 @@
                 </datafeed>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/system_config/</action>
+                    <action>adminhtml/system_config/edit/section/catalog/</action>
                 </config>
             </children>
          </catalog>
@@ -206,7 +206,7 @@
                     <title>Poll Manager</title>
                     <action>adminhtml/poll</action>
                 </poll>
-            	<!--<config>
+                <!--<config>
                     <title>Configuration</title>
                     <action>adminhtml/cms_config/</action>
                     <resource>cms/config</resource>
@@ -298,8 +298,11 @@
                 </acl>
                 <config>
                     <title>Configuration</title>
-                    <action>adminhtml/system_config</action>
                     <children>
+                        <stores>
+                            <title>Stores</title>
+                            <action>adminhtml/system_config</action>
+                        </stores>
                         <modules>
                             <title>Modules</title>
                             <action>adminhtml/moduleConfig</action>

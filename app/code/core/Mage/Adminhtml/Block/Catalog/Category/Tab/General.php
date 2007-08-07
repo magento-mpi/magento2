@@ -57,17 +57,21 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         return $this;
     }
     
-    protected function _getParentCategoryOptions()
+    protected function _getParentCategoryOptions($node=null, &$options=array())
     {
-        $root = $this->getLayout()->getBlock('category.tree')->getRoot();
-        $options = array();
-        if ($root) {
-            foreach ($root->getTree()->getNodes() as $node) {
-                $options[] = array(
-                   'value' => $node->getId(),
-                   'label' => $node->getName(),
-                   'style' => 'padding-left:'.(10*($node->getLevel()-$root->getLevel())).'px',
-                );
+        if (is_null($node)) {
+            $node = $this->getLayout()->getBlock('category.tree')->getRoot();
+        }
+        
+        if ($node) {
+            $options[] = array(
+               'value' => $node->getId(),
+               'label' => $node->getName(),
+               'style' => 'padding-left:'.(10*$node->getLevel()).'px',
+            );
+            
+            foreach ($node->getChildren() as $child) {
+                $this->_getParentCategoryOptions($child, $options);
             }
         }
         return $options;

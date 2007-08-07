@@ -13,8 +13,10 @@
         <h3><?=__('Shop by')?></h3>
     </div>
     <div class="box-container">
+        <?=$this->getStateHtml()?>
+        <?if($this->canShowOptions()):?>
         <div class="narrow-by">
-            <!--h4>More Shopping options</h4-->
+            <h4>Shopping options</h4>
             <dl>
             <?foreach ($_filters as $_filter):?>
             <?if($_filter->getItemsCount()):?>
@@ -26,6 +28,7 @@
             <?endforeach;?>
             </dl>
         </div>
+        <?endif;?>
     </div>
 </div>
 <?endif;?>

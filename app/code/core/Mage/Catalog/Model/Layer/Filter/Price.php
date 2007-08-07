@@ -21,20 +21,29 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      *
      * @return Mage_Catalog_Model_Layer_Filter_Price
      */
-    public function apply(Zend_Controller_Request_Abstract $request) 
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
     {
         $filter = (int) $request->getParam($this->getRequestVar());
-        if ($filter) {
+        if ($filter && $filter<=10) {
             $range = $this->getPriceRange();
-            Mage::getSingleton('catalog/layer')->getProductCollection()
+            $this->getLayer()->getProductCollection()
                 ->addFieldToFilter('price', array(
                     'from'  => ($filter-1)*$range,
                     'to'    => $filter*$range,
                 ));
+            $this->getLayer()->getState()->addFilter(
+                $this->_createItem($this->_renderItemLabel($range, $filter), $filter)
+            );
+            $this->_items = array();
         }
         return $this;
     }
     
+    public function getName()
+    {
+        return __('Price');
+    }
+
     /**
      * Retrieve price range for build filter
      *
@@ -65,18 +74,19 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
             ->getAttributeValueCountByRange('price', $range);
         
         $items = array();
-        $store = Mage::getSingleton('core/store');
         for ($i=1;$i<=10;$i++) {
             if (isset($dbRanges[$i])) {
-                $items[] = Mage::getModel('catalog/layer_filter_item')
-                    ->setFilter($this)
-                    ->setLabel($store->formatPrice(($i-1)*$range).' - '.$store->formatPrice($i*$range))
-                    ->setValue($i)
-                    ->setCount($dbRanges[$i]);
+                $items[] = $this->_createItem($this->_renderItemLabel($range, $i), $i, $dbRanges[$i]);
             }
         }
         
         $this->_items = $items;
         return $this;
+    }
+    
+    protected function _renderItemLabel($range, $value)
+    {
+        $store = Mage::getSingleton('core/store');
+        return $store->formatPrice(($value-1)*$range).' - '.$store->formatPrice($value*$range);
     }
 }

@@ -5,13 +5,19 @@
  * @see Mage_Catalog_Block_Layer_State
  */
 ?>
+<?$_filters = $this->getActiveFilters()?>
+<?if(!empty($_filters)):?>
 <h4>Currently Shopping By</h4>
 <div class="content">
     <ul class="widget-list">
-        <li><a href="#" class="action"/>Remove</a><span class="label">Price:</span><br/><a 
-            href="#">$10-$99</a> (3)</span></li>
-        <li><a href="#" class="action">Remove</a><span class="label">Manufacturer:</span><br/><a 
-            href="#">Kennwood</a> (4)</span></li>
+    <?foreach ($_filters as $_filter):?>
+        <li>
+            <a href="<?=$_filter->getRemoveUrl()?>" class="action"/><?=__('Remove')?></a>
+            <span class="label"><?=$_filter->getName()?>:</span><br/>
+            <span><?=$_filter->getLabel()?></span>
+        </li>
+    <?endforeach;?>
     </ul>
-    <p class="actions"><a href="#">Clear All</a></p>
+    <p class="actions"><a href="<?=$this->getClearUrl()?>"><?=__('Clear All')?></a></p>
 </div>
+<?endif;?>

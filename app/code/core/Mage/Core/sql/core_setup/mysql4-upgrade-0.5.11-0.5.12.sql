@@ -1,0 +1,1 @@
+update `core_config_field` set backend_model='adminhtml/system_config_backend_category' where path='catalog/category/root_id';

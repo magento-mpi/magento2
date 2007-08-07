@@ -36,6 +36,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
         return $this;
     }
     
+    public function setIdFilter($id)
+    {
+        $this->getSelect()->where('main_table.option_id=?', $id);
+        return $this;
+    }
+    
     public function toOptionArray()
     {
         return $this->_toOptionArray('option_id', 'value');

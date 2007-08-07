@@ -81,4 +81,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
     {
         return $this->getAttribute()->getSource()->getAllOptions();
     }
+    
+    public function getOption($optionId)
+    {
+        if ($source = $this->getAttribute()->getSource()) {
+            return $source->getOptionText($optionId);
+        }
+        return false;
+    }
 }

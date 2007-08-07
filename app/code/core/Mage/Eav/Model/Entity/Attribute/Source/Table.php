@@ -16,4 +16,23 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
         }
         return $this->_options;
     }
+    
+    /**
+     * Get a text for option value
+     *
+     * @param string|integer $value
+     * @return string
+     */
+    public function getOptionText($value)
+    {
+        $collection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                ->setAttributeFilter($this->getAttribute()->getId())
+                ->setStoreFilter($this->getAttribute()->getEntity()->getStoreId())
+                ->setIdFilter($value)
+                ->load();
+        if ($item = $collection->getFirstItem()) {
+            return $item->getValue();
+        }
+        return false;
+    }
 }

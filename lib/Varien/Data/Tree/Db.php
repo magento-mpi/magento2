@@ -88,7 +88,6 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         
         $this->_select  = $this->_conn->select();
         $this->_select->from($this->_table, array_values($fields));
-        $this->_select->order("$this->_table.$this->_orderField");
     }
     
     public function getDbSelect()
@@ -126,6 +125,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         }
         
         $select = clone $this->_select;
+        $this->_select->order($this->_table.'.'.$this->_orderField);
         $condition = $this->_conn->quoteInto("$this->_table.$this->_parentField=?", $parentId);
         $select->where($condition);
         
@@ -222,9 +222,11 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
     protected function _loadFullTree()
     {
         $select = clone $this->_select;
-        $select->order($this->_table . '.' . $this->_levelField);
-        
+        $select->order($this->_table . '.' . $this->_levelField)
+            ->order($this->_table.'.'.$this->_orderField);
+
         $arrNodes = $this->_conn->fetchAll($select);
+        
         foreach ($arrNodes as $nodeInfo) {
             $node = new Varien_Data_Tree_Node($nodeInfo, $this->_idField, $this);
             $parentNode = $this->getNodeById($nodeInfo[$this->_parentField]);
