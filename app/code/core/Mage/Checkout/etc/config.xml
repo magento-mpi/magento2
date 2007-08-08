@@ -69,20 +69,20 @@
                </default>
             </updates>
          </standard>
-         <multiaddress>
+         <multishipping>
             <updates>
                <default>
-                  <file>checkout/multiaddress.xml</file>
+                  <file>checkout/multishipping.xml</file>
                </default>
             </updates>
-         </multiaddress>
-         <multiaddress_addresses>
+         </multishipping>
+         <multishipping_addresses>
             <updates>
                <default>
-                  <file>checkout/multiaddress/addresses.xml</file>
+                  <file>checkout/multishipping/addresses.xml</file>
                </default>
             </updates>
-         </multiaddress_addresses>
+         </multishipping_addresses>
       </layouts>
       <events>
          <customerLogin>

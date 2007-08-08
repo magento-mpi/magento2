@@ -115,6 +115,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'tax_amount' => array('type'=>'decimal'),
                     'row_total' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
+                    'shipping_addresses'=> array('type'=>'varchar'),
                 ),
             ),
             'quote_payment' => array(

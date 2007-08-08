@@ -28,14 +28,14 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Billing extends Mage
              * this is $_POST array index for address
              */
             foreach ($object->getAddressCollection() as $address) {
-            	if ($address->getPostIndex() == $defaultBilling) {
-            	    $addressId = $address->getId();
-            	}
+                if ($address->getPostIndex() == $defaultBilling) {
+                    $addressId = $address->getId();
+                }
             }
             if ($addressId) {
                 $object->setDefaultBilling($addressId);
                 $this->getAttribute()->getEntity()
-                    ->saveAttribute($object, $this->getAttribute()->getName());
+                    ->saveAttribute($object, $this->getAttribute()->getAttributeCode());
             }
         }
     }

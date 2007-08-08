@@ -10,6 +10,8 @@
 </div>
 <?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post" id="form-validate">
+    <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
+    <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
     <fieldset class="group-select">
         <legend>Personal Information</legend>
         <ul>
@@ -34,47 +36,55 @@
         </ul>
     </fieldset>
 <?if($this->getShowAddressFields()):?>
+    <input type="hidden" name="create_address" value="1"/>
     <fieldset class="group-select">
         <legend>Address Information</legend>
         <ul>
             <li>
                 <div class="input-box">
                     <label for="company">Company</label><br/>
-                    <input type="text" name="company" id="company" value="" title="Company" class="required-entry input-text"/>
+                    <input type="text" name="company" id="company" value="<?=$this->getFormData()->getCompany()?>" title="Company" class="required-entry input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="lastname">Telephone <span class="required">*</span></label><br/>
-                    <input type="text" name="telephone" id="telephone" value="" title="Telephone" class="required-entry input-text"/>
+                    <input type="text" name="telephone" id="telephone" value="<?=$this->getFormData()->getTelephone()?>" title="Telephone" class="required-entry input-text"/>
                 </div>
             </li>
             <li>
-                <label for="street_address">Street Address <span class="required">*</span></label><br/>
-                <input type="text" name="street_address" id="street_address" value="" title="Street Address"  class="input-text"/></li>
+                <label for="street_1">Street Address <span class="required">*</span></label><br/>
+                <input type="text" name="street[]" value="<?=$this->getFormData()->getStreet(0)?>" title="Street Address" id="street_1" class="required-entry input-text"/>
+            </li>
             <li>
-                <input type="text" name="street_address2" id="street_address2" value="" title="Street Address 2"  class="input-text"/>
+                <input type="text" name="street[]" value="<?=$this->getFormData()->getStreet(1)?>" title="Street Address 2" id="street_2" class="input-text"/>
             </li>
             <li>
                 <div class="input-box">
                     <label for="city">City <span class="required">*</span></label><br/>
-                    <input type="text" name="city" id="city" value="" title="city" class="input-text"/>
+                    <input type="text" name="city" value="<?=$this->getFormData()->getCity()?>"  title="City" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
-                    <label for="state">State/Province <span class="required">*</span></label><br/>
-                    <input type="text" name="state" id="state" value="" title="State" class="input-text"/>
+                    <label for="country">Country <span class="required">*</span></label><br/>
+                    <?=$this->getCountryHtmlSelect()?>
                 </div>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="zip">Zip/Postal Code <span class="required">*</span></label><br/>
-                    <input type="text" name="zip" id="zip" value="" title="Zip/Postal Code" class="input-text"/>
+                    <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="<?=$this->getFormData()->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
                 <div class="input-box">
-                    <label for="country">Country <span class="required">*</span></label><br/>
-                    <input type="text" name="country" id="country" value="" title="Country" class="input-text"/>
+                    <label for="state">State / Province <span class="required">*</span></label><br/>
+                <?if($this->getRegionCollection()->getSize()):?>
+                    <?=$this->getRegionHtmlSelect()?>
+                <?else:?>
+                    <input type="text" name="region" value="<?=$this->getFormData()->getRegion()?>"  title="State/Province" id="state" class="validate-state input-text"/>
+                <?endif?>
                 </div>
             </li>
         </ul>
     </fieldset>
+    <input type="hidden" name="default_billing" value="1"/>
+    <input type="hidden" name="default_shipping" value="1"/>
 <?endif;?>
     <fieldset class="group-select">
         <legend>Login Information</legend>
@@ -99,5 +109,5 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
-    dataForm.setElementsRelation('country', 'state', '<?=$baseSecureUrl?>directory/json/childRegion/');
+    dataForm.setElementsRelation('country', 'state', '<?=$this->getLoadrRegionUrl()?>');
 </script>

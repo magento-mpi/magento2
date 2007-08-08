@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<layoutUpdate>
-    <reference name="content">
-        <block type="checkout/multiaddress_addresses" name="checkout_addresses">
-            <action method="setTemplate"><template>checkout/multiaddress/addresses.phtml</template></action>
-        </block>
-    </reference>
-</layoutUpdate>

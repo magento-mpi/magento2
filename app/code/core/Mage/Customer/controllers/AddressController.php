@@ -75,8 +75,12 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $address->save();
                 Mage::getSingleton('customer/session')
                     ->addSuccess('The address has been successfully saved');
-
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                
+                $successUrl = $this->getRequest()->getParam('success_url');
+                if (empty($successUrl)) {
+                    $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
+                }
+                $this->getResponse()->setRedirect($successUrl);
                 return;
             }
             catch (Exception $e) {

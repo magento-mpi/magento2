@@ -1,6 +1,6 @@
 <?php
 /**
- * Multiple address shipping checkout
+ * Multishipping checkout
  *
  * @package     Mage
  * @subpackage  Checkout
@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Action
+class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Action predispatch
@@ -28,7 +28,7 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
-     * Index action of Multiaddress checkout
+     * Index action of Multishipping checkout
      */
     public function indexAction()
     {
@@ -36,7 +36,7 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
-     * Multiaddress checkout login page
+     * Multishipping checkout login page
      */
     public function loginAction()
     {
@@ -56,7 +56,7 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
-     * Multiaddress checkout login page
+     * Multishipping checkout login page
      */
     public function registerAction()
     {
@@ -70,23 +70,49 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
         
         if ($registerForm = $this->getLayout()->getBlock('customer_form_register')) {
             $registerForm->setShowAddressFields(true)
-                ->setBackUrl(Mage::getUrl('*/*/login'));
+                ->setBackUrl(Mage::getUrl('*/*/login'))
+                ->setSuccessUrl(Mage::getUrl('*/*/addresses'))
+                ->setErrorUrl(Mage::getUrl('*/*/*'));
         }
         
         $this->renderLayout();
     }
 
     /**
-     * Multiaddress checkout select address page
+     * Multishipping checkout select address page
      */
     public function addressesAction()
     {
-        $this->loadLayout(array('default', 'multiaddress', 'multiaddress_addresses'), 'multiaddress_addresses');
+        // If customer do not have addresses
+        if (!Mage::getSingleton('checkout/type_multishipping')->getCustomerDefaultShippingAddress()) {
+            $this->_redirect('*/multishipping_address/newShipping');
+            return;
+        }
+        
+        $this->loadLayout(array('default', 'multishipping', 'multishipping_addresses'), 'multishipping_addresses');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
     
     /**
-     * Multiaddress checkout shipping information page
+     * Multishipping checkout process posted addresses
+     */
+    public function addressesPostAction()
+    {
+        
+    }
+
+    /**
+     * Multishipping checkout remove item action
+     */
+    public function removeItemAction()
+    {
+        $this->_back();
+    }
+    
+    /**
+     * Multishipping checkout shipping information page
      */
     public function shippingAction()
     {
@@ -94,7 +120,7 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
-     * Multiaddress checkout billing information page
+     * Multishipping checkout billing information page
      */
     public function paymentAction()
     {
@@ -102,7 +128,7 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
-     * Multiaddress checkout place order page
+     * Multishipping checkout place order page
      */
     public function overviewAction()
     {
@@ -110,7 +136,7 @@ class Mage_Checkout_MultiaddressController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
-     * Multiaddress checkout succes page
+     * Multishipping checkout succes page
      */
     public function successAction()
     {

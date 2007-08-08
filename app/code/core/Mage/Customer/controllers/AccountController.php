@@ -106,9 +106,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function createPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            
             $customer = Mage::getModel('customer/customer')
                 ->setData($this->getRequest()->getPost());
+            if ($this->getRequest()->getPost('create_address')) {
+                $address = Mage::getModel('customer/address')
+                    ->setData($this->getRequest()->getPost())
+                    ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+                $customer->addAddress($address);
+            }
 
             try {
                 $customer->save();
@@ -122,8 +128,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     ->setType('html')
                     ->setCustomer($customer)
                     ->send();
-                        
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                
+                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
             }
             catch (Exception $e) {
@@ -133,7 +139,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             }
         }
         
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/create', array('_secure'=>true)));
+        $this->_redirectError(Mage::getUrl('*/*/create', array('_secure'=>true)));
     }
     
     /**

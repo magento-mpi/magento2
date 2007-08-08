@@ -126,6 +126,13 @@
                     </default>
                 </updates>
             </customer_register>
+            <customer_address>
+                <updates>
+                    <default>
+                        <file>customer/address.xml</file>
+                    </default>
+                </updates>
+            </customer_address>
         </layouts>
         <events>
             <beforeGenerateLayoutBlocks>

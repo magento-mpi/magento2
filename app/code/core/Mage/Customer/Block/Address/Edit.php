@@ -35,14 +35,24 @@ class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template
         }
     }
     
+    public function getTitle()
+    {
+        return $this->getData('title');
+    }
+    
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/index', array('_secure'=>true));
+        $url = $this->getData('back_url');
+        if (is_null($url)) {
+            $url = Mage::getUrl('*/*/index', array('_secure'=>true));
+            $this->setData('back_url', $url);
+        }
+        return $url;
     }
     
     public function getSaveUrl()
     {
-        return Mage::getUrl('*/*/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+        return Mage::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
     }
     
     public function getAddress()
@@ -93,23 +103,36 @@ class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template
             ->getHtml();
     }
     
+    public function getCustomerAddressCount()
+    {
+        return Mage::getSingleton('customer/session')->getCustomer()
+            ->getLoadedAddressCollection()
+            ->getSize();
+    }
+    
     public function canSetAsDefaultBilling()
     {
-        if (!Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
-            return false;
         if (!$this->getAddress()->getId()) {
-            return true;
+            return $this->getCustomerAddressCount();
         }
-        return !($this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling());
+        return !$this->isDefaultBilling();
     }
     
     public function canSetAsDefaultShipping()
     {
-        if (!Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
-            return false;
         if (!$this->getAddress()->getId()) {
-            return true;
+            return $this->getCustomerAddressCount();
         }
-        return !($this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping());
+        return !$this->isDefaultShipping();;
+    }
+    
+    public function isDefaultBilling()
+    {
+        return $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+    }
+    
+    public function isDefaultShipping()
+    {
+        return $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
     }
 }

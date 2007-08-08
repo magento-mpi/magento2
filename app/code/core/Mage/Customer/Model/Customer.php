@@ -232,7 +232,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     public function getPrimaryAddress($attributeCode)
     {
         $addressId = $this->getData($attributeCode);
-        $primaryAddress = null;
+        $primaryAddress = false;
         if ($addressId) {
             foreach ($this->getLoadedAddressCollection() as $address) {
             	if ($addressId == $address->getId()) {
@@ -253,6 +253,11 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return $this->getPrimaryAddress('default_billing');
     }
     
+    public function getDefaultBillingAddress()
+    {
+        return $this->getPrimaryBillingAddress();
+    }
+    
     /**
      * Retrieve primary customer shipping address
      *
@@ -261,6 +266,11 @@ class Mage_Customer_Model_Customer extends Varien_Object
     public function getPrimaryShippingAddress()
     {
         return $this->getPrimaryAddress('default_shipping');
+    }
+    
+    public function getDefaultShippingAddress()
+    {
+        return $this->getPrimaryShippingAddress();
     }
     
     /**

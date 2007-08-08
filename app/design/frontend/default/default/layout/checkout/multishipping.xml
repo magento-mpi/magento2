@@ -4,8 +4,8 @@
         <action method="setTemplate"><template>page/1column.phtml</template></action>
     </reference>
     <reference name="content">
-        <block type="checkout/multiaddress_state" name="checkout_state">
-            <action method="setTemplate"><template>checkout/multiaddress/state.phtml</template></action>
+        <block type="checkout/multishipping_state" name="checkout_state">
+            <action method="setTemplate"><template>checkout/multishipping/state.phtml</template></action>
         </block>
     </reference>
 </layoutUpdate>

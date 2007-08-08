@@ -300,7 +300,35 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
     }
+    
+    /**
+     * Redirect to success page
+     *
+     * @param string $defaultUrl
+     */
+    protected function _redirectSuccess($defaultUrl)
+    {
+        $successUrl = $this->getRequest()->getParam('success_url');
+        if (empty($successUrl)) {
+            $successUrl = $defaultUrl;
+        }
+        $this->getResponse()->setRedirect($successUrl);
+    }
 
+    /**
+     * Redirect to error page
+     *
+     * @param string $defaultUrl
+     */
+    protected function _redirectError($defaultUrl)
+    {
+        $errorUrl = $this->getRequest()->getParam('error_url');
+        if (empty($errorUrl)) {
+            $errorUrl = $defaultUrl;
+        }
+        $this->getResponse()->setRedirect($errorUrl);
+    }
+    
     protected function _initLayoutMessages($messagesStorage)
     {
         if ($storage = Mage::getSingleton($messagesStorage)) {

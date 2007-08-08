@@ -1,6 +1,6 @@
 <?php
 /**
- * Multiaddress checkout model
+ * Multishipping checkout state
  *
  * @package     Mage
  * @subpackage  Checkout
@@ -8,7 +8,10 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Checkout_Model_Type_Multiaddress extends Varien_Object
+class Mage_Checkout_Block_Multishipping_State extends Mage_Core_Block_Template
 {
-        
+    public function getSteps()
+    {
+        return array();
+    }
 }

@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Block_Form_Register extends Mage_Core_Block_Template
+class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
 {
     protected function _initChildren()
     {
@@ -47,7 +47,21 @@ class Mage_Customer_Block_Form_Register extends Mage_Core_Block_Template
      */
     public function getFormData()
     {
-        $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
-        return new Varien_Object($data);
+        $data = $this->getData('form_data');
+        if (is_null($data)) {
+            $data = new Varien_Object(Mage::getSingleton('customer/session')->getCustomerFormData(true));
+            $this->setData('form_data', $data);
+        }
+        return $data;
+    }
+    
+    public function getCountryId()
+    {
+        return $this->getFormData()->getCountryId();
+    }
+
+    public function getRegionId()
+    {
+        return $this->getFormData()->getRegion();
     }
 }

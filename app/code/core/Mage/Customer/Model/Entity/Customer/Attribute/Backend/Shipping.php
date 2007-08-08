@@ -28,15 +28,15 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Shipping extends Mag
              * this is $_POST array index for address
              */
             foreach ($object->getAddressCollection() as $address) {
-            	if ($address->getPostIndex() == $defaultShipping) {
-            	    $addressId = $address->getId();
-            	}
+                if ($address->getPostIndex() == $defaultShipping) {
+                    $addressId = $address->getId();
+                }
             }
             
             if ($addressId) {
                 $object->setDefaultShipping($addressId);
                 $this->getAttribute()->getEntity()
-                    ->saveAttribute($object, $this->getAttribute()->getName());
+                    ->saveAttribute($object, $this->getAttribute()->getAttributeCode());
             }
         }
     }
