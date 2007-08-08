@@ -29,11 +29,6 @@ ul.tabs li { height:1%; } /* IE version of clearing */
     overflow:hidden;
     }
 
-/* Set min-height */
-.icon-head { height:18px;}
-.footer .powered-by { height:19px;}
-.simple-container { height:350px; }
-
 
 /* Scalable Button Override */
 button.scalable {
