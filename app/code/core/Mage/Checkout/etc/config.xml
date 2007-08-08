@@ -10,7 +10,7 @@
    </modules>
    <global>
       <block>
-	     <groups><checkout><class>Mage_Checkout_Block</class></checkout></groups>
+         <groups><checkout><class>Mage_Checkout_Block</class></checkout></groups>
       </block>
       <models>
          <checkout>
@@ -62,6 +62,27 @@
                </default>
             </updates>
          </onepage_review>
+         <standard>
+            <updates>
+               <default>
+                  <file>checkout/standard.xml</file>
+               </default>
+            </updates>
+         </standard>
+         <multiaddress>
+            <updates>
+               <default>
+                  <file>checkout/multiaddress.xml</file>
+               </default>
+            </updates>
+         </multiaddress>
+         <multiaddress_addresses>
+            <updates>
+               <default>
+                  <file>checkout/multiaddress/addresses.xml</file>
+               </default>
+            </updates>
+         </multiaddress_addresses>
       </layouts>
       <events>
          <customerLogin>

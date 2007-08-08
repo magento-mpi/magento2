@@ -119,16 +119,23 @@
                     </default>
                 </updates>
             </customer_login>
+            <customer_register>
+                <updates>
+                    <default>
+                        <file>customer/register.xml</file>
+                    </default>
+                </updates>
+            </customer_register>
         </layouts>
         <events>
             <beforeGenerateLayoutBlocks>
-            	<observers>
-            		<accountIsLoggedIn>
-            			<type>singleton</type>
-            			<class>customer/observer</class>
-            			<method>beforeGenerateLayoutBlocks</method>
-            		</accountIsLoggedIn>
-            	</observers>
+                <observers>
+                    <accountIsLoggedIn>
+                        <type>singleton</type>
+                        <class>customer/observer</class>
+                        <method>beforeGenerateLayoutBlocks</method>
+                    </accountIsLoggedIn>
+                </observers>
             </beforeGenerateLayoutBlocks>
         </events>
         <routers>

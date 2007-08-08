@@ -1,0 +1,103 @@
+<?
+/**
+ * Create account form template
+ * 
+ * @see Mage_Customer_Block_Form_Register
+ */
+?>
+<div class="page-head">
+    <h2>Create Account</h2>
+</div>
+<?=$this->getMessagesBlock()->getHtml()?>
+<form action="<?=$this->getPostActionUrl()?>" method="post" id="form-validate">
+    <fieldset class="group-select">
+        <legend>Personal Information</legend>
+        <ul>
+            <li>
+                <div class="input-box">
+                    <label for="firstname">First Name <span class="required">*</span></label><br/>
+                    <input type="text" name="firstname" id="firstname" value="<?=$this->getFormData()->getFirstname()?>" title="First Name" class="required-entry input-text"/>
+                </div>
+                <div class="input-box">
+                    <label for="lastname">Last Name <span class="required">*</span></label><br/>
+                    <input type="text" name="lastname" id="lastname" value="<?=$this->getFormData()->getLastname()?>" title="Last Name" class="required-entry input-text"/>
+                </div>
+            </li>
+            <li>
+                <label for="email_address">Email <span class="required">*</span></label><br/>
+                <input type="text" name="email" id="email_address" value="<?=$this->getFormData()->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
+            </li>
+            <li>
+                <input type="checkbox" name="is_subscribed" title="Sign up for newsletter" value="1" id="is_subscribed" <?if($this->getFormData()->getIsSubscribed()):?> checked<?endif?>/>
+                <label for="is_subscribed"><?=__('Sign up for newsletter')?></label>
+            </li>
+        </ul>
+    </fieldset>
+<?if($this->getShowAddressFields()):?>
+    <fieldset class="group-select">
+        <legend>Address Information</legend>
+        <ul>
+            <li>
+                <div class="input-box">
+                    <label for="company">Company</label><br/>
+                    <input type="text" name="company" id="company" value="" title="Company" class="required-entry input-text"/>
+                </div>
+                <div class="input-box">
+                    <label for="lastname">Telephone <span class="required">*</span></label><br/>
+                    <input type="text" name="telephone" id="telephone" value="" title="Telephone" class="required-entry input-text"/>
+                </div>
+            </li>
+            <li>
+                <label for="street_address">Street Address <span class="required">*</span></label><br/>
+                <input type="text" name="street_address" id="street_address" value="" title="Street Address"  class="input-text"/></li>
+            <li>
+                <input type="text" name="street_address2" id="street_address2" value="" title="Street Address 2"  class="input-text"/>
+            </li>
+            <li>
+                <div class="input-box">
+                    <label for="city">City <span class="required">*</span></label><br/>
+                    <input type="text" name="city" id="city" value="" title="city" class="input-text"/>
+                </div>
+                <div class="input-box">
+                    <label for="state">State/Province <span class="required">*</span></label><br/>
+                    <input type="text" name="state" id="state" value="" title="State" class="input-text"/>
+                </div>
+            </li>
+            <li>
+                <div class="input-box">
+                    <label for="zip">Zip/Postal Code <span class="required">*</span></label><br/>
+                    <input type="text" name="zip" id="zip" value="" title="Zip/Postal Code" class="input-text"/>
+                </div>
+                <div class="input-box">
+                    <label for="country">Country <span class="required">*</span></label><br/>
+                    <input type="text" name="country" id="country" value="" title="Country" class="input-text"/>
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+<?endif;?>
+    <fieldset class="group-select">
+        <legend>Login Information</legend>
+        <ul>
+            <li>
+                <div class="input-box">
+                    <label for="password">Password <span class="required">*</span></label><br/>
+                    <input type="password" name="password" id="password" title="Password"  class="required-entry validate-password input-text"/>
+                </div>
+                <div class="input-box">
+                    <label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
+                    <input type="password" name="confirmation" title="Password Confirmation" id="confirmation" class="required-entry validate-cpassword input-text"/>
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    <div class="form-buttons">
+        <p class="required">* Required Fields</p>
+        <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back</a>
+        <button class="form-button" type="submit"/><span>Submit</span></button>
+    </div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+    dataForm.setElementsRelation('country', 'state', '<?=$baseSecureUrl?>directory/json/childRegion/');
+</script>

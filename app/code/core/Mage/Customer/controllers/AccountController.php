@@ -67,12 +67,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     if (!$session->login($username, $password)) {
                         // _('invalid login or password')
                         $session->addError('Invalid login or password');
-                        Mage::getSingleton('customer/session')->setLoginData($username);
+                        Mage::getSingleton('customer/session')->setUsername($username);
                     }
                 }
             }
         }
-        $this->getResponse()->setRedirect($session->getUrlBeforeAuthentication());
+        $this->getResponse()->setRedirect($session->getBeforeAuthUrl());
     }
     
     /**
@@ -95,20 +95,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             return;
         }
         
-        $this->loadLayout();        
+        $this->loadLayout(array('default', 'customer_register'), 'customer_register');
         $this->_initLayoutMessages('customer/session');
-
-        $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
-        $data = new Varien_Object($data);
-        
-        $block = $this->getLayout()->createBlock('core/template')
-            ->setTemplate('customer/form/registration.phtml')
-            ->assign('action',      Mage::getUrl('*/*/createPost', array('_secure'=>true)))
-            ->assign('data',        $data);
-            
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Registration'));
-
-        $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
     }
     
@@ -156,7 +144,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     {
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
-        
+        $this->getLayout()->getBlock('root')
+            ->setTemplate('page/1column.phtml');
         $block = $this->getLayout()->createBlock('core/template')
             ->setTemplate('customer/form/forgotpassword.phtml')
             ->assign('action', Mage::getUrl('*/*/forgotpasswordpost'));
@@ -292,16 +281,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     }
     
     public function mytagsAction() {
-    	$this->loadLayout();
+        $this->loadLayout();
         
-    	$collection = Mage::getModel('tag/tag')->getCollection();
+        $collection = Mage::getModel('tag/tag')->getCollection();
         $collection->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addStatusFilter(1)
             ->addEntityFilter('customer', Mage::getSingleton('customer/session')->getCustomerId())
             ->load();
             
         $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
-        	->assign('collection', $collection->getItems())
+            ->assign('collection', $collection->getItems())
             ->setTemplate('tag/mytags.phtml');
 
         $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Tags'));

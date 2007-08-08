@@ -133,13 +133,14 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      * @param   Mage_Core_Controller_Varien_Action $action
      * @return  bool
      */
-    public function authenticate(Mage_Core_Controller_Varien_Action $action)
+    public function authenticate(Mage_Core_Controller_Varien_Action $action, $loginUrl = null)
     {
         if (!$this->isLoggedIn()) {
-            Mage::getSingleton('customer/session')->setUrlBeforeAuthentication(
-                $action->getRequest()->getRequestUri()
-            );
-            $action->getResponse()->setRedirect(Mage::getUrl('customer/account/login', array('_secure'=>true)));
+            $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
+            if (is_null($loginUrl)) {
+                $loginUrl = Mage::getUrl('customer/account/login', array('_secure'=>true));
+            }
+            $action->getResponse()->setRedirect($loginUrl);
             return false;
         }
         return true;

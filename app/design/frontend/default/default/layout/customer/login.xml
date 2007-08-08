@@ -5,7 +5,7 @@
     </reference>
     
     <reference name="content">
-        <block type="customer/login" name="customer.login">
+        <block type="customer/form_login" name="customer_form_login">
             <action method="setTemplate"><template>customer/form/login.phtml</template></action>
         </block>
     </reference>
