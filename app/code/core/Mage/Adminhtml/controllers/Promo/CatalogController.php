@@ -52,6 +52,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Rule') : __('New Rule'), $id ? __('Edit Rule') : __('New Rule'))
             ->_addContent($block)
+            ->_addLeft($this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tabs'))
             ->renderLayout();
         
     }

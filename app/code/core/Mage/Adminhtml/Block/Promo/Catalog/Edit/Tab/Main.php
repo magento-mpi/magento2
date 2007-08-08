@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
         
         $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionArray();
 
-    	$fieldset->addField('store_ids', 'multiselect', array(
+    	$fieldset->addField('store_ids1', 'multiselect', array(
             'name'      => 'store_ids',
             'label'     => __('Stores'),
             'title'     => __('Stores'),
@@ -96,3 +96,4 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
 
         return parent::_prepareForm();
     }
+}
