@@ -11,7 +11,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         $this->setForm(new Varien_Data_Form());
     }
 
-    public function resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
+    public function _resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
     {
         if (is_null($conditions)) {
             $conditions = Mage::getModel('rule/condition_combine');
@@ -22,12 +22,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function getConditionInstance($type)
-    {
-    	throw Mage::exception('Please overload getConditionInstance');
-    }
-    
-    public function resetActions(Mage_Rule_Model_Action_Interface $actions=null)
+    public function _resetActions(Mage_Rule_Model_Action_Interface $actions=null)
     {
         if (is_null($actions)) {
             $actions = Mage::getModel('rule/action_collection');
@@ -38,11 +33,6 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function getActionInstance($type)
-    {
-    	throw Mage::exception('Please overload getActionInstance');
-    }
-    
     public function asString($format='')
     {
         $str = "Name: ".$this->getName()."\n"

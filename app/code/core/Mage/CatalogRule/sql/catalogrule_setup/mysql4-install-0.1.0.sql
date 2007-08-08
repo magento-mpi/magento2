@@ -12,8 +12,8 @@ alter table `customer_group`
 DROP TABLE IF EXISTS `catalogrule`;
 CREATE TABLE `catalogrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment,
-  `rule_name` varchar(255) not null,
-  `rule_description` text not null,
+  `name` varchar(255) not null,
+  `description` text not null,
   `from_date` date NOT NULL default '0000-00-00',
   `to_date` date NOT NULL default '0000-00-00',
   `store_ids` varchar(255) NOT NULL default '',

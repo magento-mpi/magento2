@@ -125,6 +125,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Rule>
+        <Mage_CatalogRule>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_CatalogRule>
         <Mage_Adminhtml>
             <active>true</active>
             <codePool>core</codePool>

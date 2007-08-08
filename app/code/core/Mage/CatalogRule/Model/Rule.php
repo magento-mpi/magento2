@@ -1,6 +1,6 @@
 <?php
 
-class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
+class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     protected function _construct()
     {
@@ -28,27 +28,18 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
     
     public function resetConditions()
     {
-        parent::resetConditions(Mage::getModel('catalog/product_rule_condition_combine'));
+        parent::_resetConditions(Mage::getModel('rule/condition_combine'));
         
         return $this;
     }
-    
-    public function getConditionInstance($type)
-    {
-        return Mage::getSingleton('catalog/config')->getProductRuleConditionInstance($type);
-    }
-    
+
     public function resetActions()
     {
-        parent::resetActions(Mage::getModel('catalog/product_rule_action_collection'));
+        parent::_resetActions(Mage::getModel('rule/action_collection'));
         
         return $this;
     }
-    
-    public function getActionInstance($type)
-    {
-        return Mage::getSingleton('catalog/config')->getProductRuleActionInstance($type);
-    }
+
 
     public function toString($format='')
     {
