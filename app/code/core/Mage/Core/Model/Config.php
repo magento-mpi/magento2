@@ -485,7 +485,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getModelInstance($modelClass='', $constructArguments=array())
     {
         $className = $this->getModelClassName($modelClass);
-        return new $className($constructArguments);
+        if (class_exists($className)) {
+            $model = new $className($constructArguments);
+        } else {
+            throw Mage::exception('Mage_Core', 'Model class does not exist: '.$modelClass);
+        }
+        return $model;
     }
     
     public function getNodeClassInstance($path)
