@@ -1,3 +1,4 @@
+.checkout-progress,
 .my-review-detail,
 .group-select li,
 .clear, 
@@ -24,7 +25,8 @@
 .box li,
 .box .actions,
 .one-page-checkout,
-.one-page-checkout li {
+.one-page-checkout li,
+.col2-alt-set {
  zoom:1;
 }
 
@@ -87,3 +89,5 @@
 	padding-right:4px;
 	padding-left:6px;
 	}
+
+.payment-methods dd { padding-left:25px; }
