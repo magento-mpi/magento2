@@ -48,6 +48,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'name' => 'from_date',
             'label' => __('From Date'),
             'title' => __('From Date'),
+            'image' => $this->getSkinUrl('images/grid-cal.gif'),
             'required' => true,
         ));
         
@@ -55,6 +56,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'name' => 'from_date',
             'label' => __('From Date'),
             'title' => __('From Date'),
+            'image' => $this->getSkinUrl('images/grid-cal.gif'),
             'required' => true,
         ));
 
