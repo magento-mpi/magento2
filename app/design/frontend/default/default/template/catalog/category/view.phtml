@@ -14,7 +14,7 @@
 </div>
 <?endif;?>
 
-<?if($this->getCurrentCategory()->getImage() && is_array($this->getCurrentCategory()->getImage())):?>
+<?if($this->getCurrentCategory()->getImage()):?>
     <p><img src="<?=/*TOFIX*/Mage::getSingleton('core/store')->getConfig('web/url/upload').$this->getCurrentCategory()->getImage()?>" alt="<?=$this->getCurrentCategory()->getName()?>" width="512"/></p>
 <?endif;?>
 
