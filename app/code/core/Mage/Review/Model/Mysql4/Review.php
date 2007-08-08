@@ -92,6 +92,7 @@ class Mage_Review_Model_Mysql4_Review
                 'title'     => strip_tags($review->getTitle()),
                 'detail'    => strip_tags($review->getDetail()),
                 'store_id'=> $review->getStoreId(),
+                'customer_id' => $review->getCustomerId(),
                 'nickname'  => strip_tags($review->getNickname())
             )
         );

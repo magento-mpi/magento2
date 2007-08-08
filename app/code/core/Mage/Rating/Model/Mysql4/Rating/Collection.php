@@ -8,25 +8,18 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_Db
+class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+    /*
     protected $_ratingTable;
     protected $_ratingEntityTable;
     protected $_ratingOptionTable;
     protected $_ratingVoteTable;
+    */
 
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('rating_read'));
-
-        $this->_ratingTable         = Mage::getSingleton('core/resource')->getTableName('rating/rating');
-        $this->_ratingEntityTable   = Mage::getSingleton('core/resource')->getTableName('rating/rating_entity');
-        $this->_ratingOptionTable   = Mage::getSingleton('core/resource')->getTableName('rating/rating_option');
-        $this->_ratingVoteTable     = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
-
-        $this->_sqlSelect->from($this->_ratingTable);
-
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('rating/rating'));
+        $this->_init('rating/rating');
     }
 
     /**
@@ -37,17 +30,17 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_
      */
     public function addEntityFilter($entity)
     {
-    	$this->_sqlSelect->join($this->_ratingEntityTable,
-    	   $this->_ratingTable.'.entity_id='.$this->_ratingEntityTable.'.entity_id');
+    	$this->_sqlSelect->join($this->getTable('rating_entity'),
+    	   'main_table.entity_id='.$this->getTable('rating_entity').'.entity_id');
 
         if (is_numeric($entity)) {
             $this->addFilter('entity',
-                $this->getConnection()->quoteInto($this->_ratingEntityTable.'.entity_id=?', $entity),
+                $this->getConnection()->quoteInto($this->getTable('rating_entity').'.entity_id=?', $entity),
                 'string');
         }
         elseif (is_string($entity)) {
             $this->addFilter('entity',
-                $this->getConnection()->quoteInto($this->_ratingEntityTable.'.entity_code=?', $entity),
+                $this->getConnection()->quoteInto($this->getTable('rating_entity').'.entity_code=?', $entity),
                 'string');
         }
         return $this;
@@ -61,7 +54,7 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_
      */
     public function setPositionOrder($dir='ASC')
     {
-        $this->setOrder($this->_ratingTable.'.position', $dir);
+        $this->setOrder('main_table.position', $dir);
         return $this;
     }
 
@@ -92,16 +85,16 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Varien_Data_Collection_
     {
         $arrRatingId = $this->getColumnValues('rating_id');
         $sql = "SELECT
-                    {$this->_ratingVoteTable}.rating_id as rating_id,
-                    SUM({$this->_ratingVoteTable}.percent) as sum,
+                    {$this->getTable('rating_vote')}.rating_id as rating_id,
+                    SUM({$this->getTable('rating_vote')}.percent) as sum,
                     COUNT(*) as count
                 FROM
-                    {$this->_ratingVoteTable}
+                    {$this->getTable('rating_vote')}
                 WHERE
-                    {$this->getConnection()->quoteInto($this->_ratingVoteTable.'.rating_id IN (?)', $arrRatingId)}
-                    AND {$this->getConnection()->quoteInto($this->_ratingVoteTable.'.entity_pk_value=?', $entityPkValue)}
+                    {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.rating_id IN (?)', $arrRatingId)}
+                    AND {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $entityPkValue)}
                 GROUP BY
-                    {$this->_ratingVoteTable}.rating_id";
+                    {$this->getTable('rating_vote')}.rating_id";
 
         $data = $this->getConnection()->fetchAll($sql);
 

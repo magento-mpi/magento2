@@ -3,53 +3,53 @@
 
 
 /**
- * Base html block 
+ * Base html block
  *
  * @package    Mage
  * @subpackage Core
  * @copyright  Varien, 2007
- * @version    1.0 
+ * @version    1.0
  * @author     Soroka Dmitriy <dmitriy@varien.com>
  * @date       Thu Feb 08 05:56:43 EET 2007
  */
 
-class Mage_Core_Block_Template extends Mage_Core_Block_Abstract 
+class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 {
     protected $_viewDir = '';
     protected $_viewVars = array();
-    
+
     /**
      * Set block template
-     * 
+     *
      * @param     string $file
      * @return    none
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
-    
+
     public function setTemplate($templateName)
     {
         $this->setTemplateName($templateName);
         return $this;
     }
-    
+
     public function assign($key, $value=null)
     {
         if (is_array($key)) {
             foreach ($key as $k=>$v) {
                 $this->assign($k, $v);
             }
-        } 
+        }
         else {
             $this->_viewVars[$key] = $value;
         }
         return $this;
     }
-    
+
     public function setScriptPath($dir)
     {
         $this->_viewDir = $dir;
     }
-    
+
     public function fetchView($fileName)
     {
         extract ($this->_viewVars);
@@ -57,7 +57,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         include $this->_viewDir.DS.$fileName;
         return ob_get_clean();
     }
-    
+
     /**
      * Render block
      *
@@ -68,7 +68,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         Varien_Profiler::start(__METHOD__);
         #$templatesDir = Mage::getSingleton('core/store')->getDir('template');
 		#$this->setScriptPath($templatesDir.DS);
-		
+
         $this->assign('baseUrl', Mage::getBaseUrl());
         $this->assign('baseSecureUrl', Mage::getBaseUrl(array('_secure'=>true)));
         $this->assign('baseSkinUrl', Mage::getBaseUrl(array('_type'=>'skin')));
@@ -76,32 +76,32 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         #$this->assign('templatesDir', $templatesDir);
         $this->assign('currentUrl', Mage::registry('controller')->getRequest()->getRequestUri());
         $this->assign('currentBlock', $this);
-        
+
 
         $this->setScriptPath(Mage::getBaseDir('design'));
         $params = array('_relative'=>true);
         if ($area = $this->getArea()) {
             $params['_area'] = $area;
         }
-        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);  
+        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);
         $html = $this->fetchView($templateName);
         Varien_Profiler::stop(__METHOD__);
-        
+
         return $html;
     }
-    
+
     /**
      * Before rendering html, but after trying to load cache
      *
      * If returns false html is rendered empty and cache is not saved
-     * 
+     *
      * @return boolean
      */
     protected function _beforeToHtml()
     {
         return true;
     }
-    
+
     /**
      * Before assign child block actions
      *
@@ -111,7 +111,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     {
         // before assign child block actions
     }
-    
+
     /**
      * Render block HTML
      *
@@ -122,21 +122,21 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if ($html = $this->_loadCache()) {
             return $html;
         }
-        
+
         if (!$this->_beforeToHtml()) {
             return '';
         }
-        
+
         if (!$this->getTemplateName()) {
             return '';
         }
 
         $html = $this->renderView();
         $this->_saveCache($html);
-        
+
         return $html;
     }
-    
+
     public function tpl($tplName, array $assign=array())
     {
         $block = $this->getLayout()->createBlock('core/template');

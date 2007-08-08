@@ -46,14 +46,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
             ->addAttributeToSelect('small_image')
 			->addAttributeToSort('position', 'asc')
 			->useProductItem();
-        
+
 		$product->getSuperGroupProducts()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
-            ->addAttributeToSelect('sku')            
+            ->addAttributeToSelect('sku')
 			->addAttributeToSort('position', 'asc')
 			->useProductItem();
-			
+
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         $breadcrumbs->addCrumb('home',
             array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
@@ -72,12 +72,12 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
         $this->assign('tags', $this->getLayout()->createBlock('tag/list')->toHtml());
 
-        $this->assign('reviewCount', $this->getLayout()->createBlock('review/list')->count());
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
         $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$productId)));
         $this->setChild('rating', $this->getLayout()->createBlock('rating/product'));
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
-        $this->setChild('reviewList', $this->getLayout()->createBlock('review/list'));
+        $this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
+        $this->assign('reviewCount', $this->getLayout()->getBlock('review_list')->count());
 
         return $this;
     }

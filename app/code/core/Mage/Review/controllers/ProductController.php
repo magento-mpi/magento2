@@ -21,6 +21,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 $review->setEntityId(1) // product
                     ->setEntityPkValue($productId)
                     ->setStatusId(1) // approved
+                    ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                     ->setStoreId(Mage::getSingleton('core/store')->getId())
                     ->save();
 
@@ -29,6 +30,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 	Mage::getModel('rating/rating')
                 	   ->setRatingId($ratingId)
                 	   ->setReviewId($review->getId())
+                	   ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                 	   ->addOptionVote($optionId, $productId);
                 }
 
@@ -52,6 +54,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('review/list')
                 ->setUseBackLink(true)
+                ->setUsePager(true)
         );
 
         $this->renderLayout();

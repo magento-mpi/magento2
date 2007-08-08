@@ -81,7 +81,7 @@
 </div>
 <div class="product-shop">
 	<h3><?=$product->getName()?></h3>
-    <?=$this->getChildHtml('rating')?><br/>
+    <?=$this->getChildHtml('rating')?>
 	<?if( $reviewCount ):?>
 		<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
 	<?endif;?>
@@ -251,7 +251,7 @@
 		<?$_relatedCurrentRow=1?>
 		<?$_relatedCurrentCell=1?>
 		<?$_relatedCurrentItem=1?>
-	    
+
         <?foreach ($product->getRelatedProducts() as $_link):?>
         <?if($_relatedCurrentCell==1):?>
         <tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
@@ -267,7 +267,7 @@
 					<a href="#">(3 Reviews)</a>
 				</div>
 			</td>
-		
+
         <?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
 	       	<?if($_relatedCurrentItem==$_relatedTotal):?>
 	    	   	<?while($_relatedCurrentCell++<$_relatedPerRow):?>
@@ -281,9 +281,9 @@
         <?$_relatedCurrentCell=1?>
         <?else:?>
         <?$_relatedCurrentCell++?>
-        <?endif?>  
-        <?$_relatedCurrentItem++?>      
-		<?endforeach?>	
+        <?endif?>
+        <?$_relatedCurrentItem++?>
+		<?endforeach?>
 	</table>
 </div>
 <?endif?>

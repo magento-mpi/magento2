@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_Db
 {
@@ -32,6 +33,14 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('review/review'));
     }
 
+    public function addCustomerFilter($customerId)
+    {
+        $this->addFilter('customer',
+            $this->getConnection()->quoteInto($this->_reviewDetailTable.'.customer_id=?', $customerId),
+            'string');
+        return $this;
+    }
+
     /**
      * Add store filter
      *
@@ -40,7 +49,6 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
      */
     public function addStoreFilter($storeId)
     {
-        Mage::log('Add store filter to review collection');
         $this->addFilter('store',
             $this->getConnection()->quoteInto($this->_reviewDetailTable.'.store_id=?', $storeId),
             'string');
@@ -101,7 +109,6 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
                 $this->getConnection()->quoteInto($this->_reviewStatusTable.'.status_code=?', $status),
                 'string');
         }
-
         return $this;
     }
 

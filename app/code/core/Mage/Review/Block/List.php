@@ -19,7 +19,8 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
 
         $this->_collection = Mage::getModel('review/review')->getCollection();
-        $this->_collection->setPageSize(10)
+
+        $this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addStatusFilter('approved')
             ->addEntityFilter('product', $productId)
@@ -38,10 +39,8 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
     {
         $request    = Mage::registry('controller')->getRequest();
         $productId  = $request->getParam('id', false);
-        $page       = $request->getParam('p',1);
 
-        $this->_collection->setCurPage($page)
-            ->load()
+        $this->_getCollection()
             ->addRateVotes();
 
         $this->assign('collection', $this->_collection);
@@ -53,5 +52,36 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         $this->assign('pageUrl', $pageUrl);
 
         return parent::toHtml();
+    }
+
+    public function getPagerHtml()
+    {
+        if( $this->getUsePager() ) {
+            return $this->getChildHtml('pager');
+        } else {
+            $this->getChildHtml('pager');
+        }
+    }
+
+    protected function _initChildren()
+    {
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'pager')
+            ->setCollection($this->_getCollection())
+            ->setUrlPrefix('review')
+            ->setViewBy('limit')
+            ->setParam('limit', 10);
+        $this->setChild('pager', $pager);
+    }
+
+    protected function _getCollection()
+    {
+        return $this->_collection;
+    }
+
+    public function getCollection()
+    {
+        $this->_getCollection()
+            ->addRateVotes();
+        return $this->_getCollection();
     }
 }

@@ -19,19 +19,31 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             $data = new Varien_Object();
         }
 
-        $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
         $this->setTemplate('review/form.phtml')
-            ->assign('action', Mage::getUrl('review/product/post/id/'.$productId))
             ->assign('data', $data)
             ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
+    }
 
+    public function getProductInfo()
+    {
+        $product = Mage::getModel('catalog/product');
+        return $product->load($this->getRequest()->getParam('id'));
+    }
+
+    public function getAction()
+    {
+        $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
+        return Mage::getUrl('review/product/post', array('id' => $productId));
+    }
+
+    public function getRatings()
+    {
         $ratingCollection = Mage::getModel('rating/rating')
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()
             ->load()
             ->addOptionToItems();
-
-        $this->assign('ratings', $ratingCollection);
+        return $ratingCollection;
     }
 }
