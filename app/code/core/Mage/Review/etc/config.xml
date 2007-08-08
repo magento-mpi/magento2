@@ -61,6 +61,15 @@
         </block>
     </global>
     <frontend>
+        <layouts>
+            <default>
+                <updates>
+                    <default>
+                        <file>review/initLayout.xml</file>
+                    </default>
+                </updates>
+            </default>
+        </layouts>
       <routers>
          <review>
             <use>standard</use>

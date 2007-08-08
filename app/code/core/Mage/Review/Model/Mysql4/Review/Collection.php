@@ -127,5 +127,21 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
                 ->load();
             $item->setRatingVotes( $votesCollection );
         }
+
+        return $this;
     }
+
+    public function addReviewsTotalCount()
+    {
+        $this->_sqlSelect->joinLeft(array('r' => $this->_reviewTable), "{$this->_reviewTable}.entity_pk_value = r.entity_pk_value", 'COUNT(r.review_id) as total_reviews');
+        $this->_sqlSelect->group("{$this->_reviewTable}.review_id");
+
+        return $this;
+    }
+    /*
+    public function load($a=false, $b=false)
+    {
+        parent::load(1);
+    }
+    */
 }

@@ -23,6 +23,7 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
         $this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+            ->addReviewsTotalCount()
             ->setDateOrder();
     }
 
@@ -66,5 +67,10 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
     public function getReviewLink()
     {
         return Mage::getUrl('customer/review_detailed/');
+    }
+
+    public function getProductLink()
+    {
+        return Mage::getUrl('catalog/product/view');
     }
 }
