@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 array(
                     'label' => __('New Password'),
                     'name'  => 'new_password',
-                    'class' => 'validate-password'
+                    'class' => 'validate-new-password'
                 )
             );
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));

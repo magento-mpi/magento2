@@ -312,5 +312,10 @@ Validation.addAllThese([
             }],
     ['validate-state', 'Please select State/Province.', function(v) {
                 return (v!=0 || v == '');
+            }],
+    ['validate-new-password', 'Please enter valid password.', function(v) {
+                if (!Validation.get('validate-password').test(v)) return false;
+                if (Validation.get('IsEmpty').test(v) && v != '') return false;
+                return true;
             }]
 ]);
