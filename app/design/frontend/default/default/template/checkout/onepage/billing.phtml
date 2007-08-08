@@ -1,14 +1,13 @@
 <form id="co-billing-form">
 <?if ($this->customerHasAddresses()):?>
-<fieldset class="group-select">
     <p><?=__('Select a billing address from your address book or enter a %s.', '<a href="#" onclick="billing.newAddress(true); return false;">'.__('New Address').'</a>')?></p>
     <ul><li><p><?=$this->getAddressesHtmlSelect('billing')?></p></li></ul>
-</fieldset>
+
 <?endif?>
 
-<fieldset class="group-select">
-    <p/><p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/> <label for="billing:use_for_shipping"><?=__('Ship to this address')?></label></p>
-</fieldset>
+
+    <p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?=__('Ship to this address')?></label></p>
+
 
     <fieldset class="group-select" id="billing-new-address-form" <?if ($this->customerHasAddresses()):?>style="display:none"<?endif?>>
         <input type="hidden" name="billing[address_id]" value="<?=$this->getAddress()->getId()?>" id="billing:address_id"/>

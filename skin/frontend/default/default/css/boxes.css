@@ -770,9 +770,10 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 
 .checkout-progress { position:relative; background:url(../images/checkout_progress_bg.gif) no-repeat 0 100%; margin:0 25px 20px 15px; padding-left:25px; font-size:.9em; }
 .checkout-progress dt { float:left; padding:5px 15px 15px 0; text-transform:uppercase; }
-.checkout-progress dd { float:left; margin:0 4px; padding:5px 17px 15px 17px; color:#ddd; font-weight:bold; text-transform:uppercase; }
+.checkout-progress dd { float:left; margin:0 4px;  color:#ddd; font-weight:bold; text-transform:uppercase; }
 .checkout-progress dd.active { background:url(../images/checkout_progress_active_bg.gif) repeat-x 0 100%; color:#738fb6; }
 .checkout-progress .corner { display:none; background:url(../images/checkout_progress_corner.gif) no-repeat; width:11px; height:20px; position:absolute; right:-2px; bottom:0; }
+.one-page-checkout .form-buttons { margin-top:2em;}
 
 .shipment-methods dd { margin-bottom:13px; }
 

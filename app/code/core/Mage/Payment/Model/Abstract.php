@@ -24,12 +24,12 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return Mage::registry('action')->getLayout();
     }
     
-    public function onOrderValidate(Mage_Sales_Model_Order_Entity_Payment $payment)
+    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         return $this;
     }
     
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Entity_Payment $payment)
+    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
     {
         return $this;
     }

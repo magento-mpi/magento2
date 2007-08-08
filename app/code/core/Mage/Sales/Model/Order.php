@@ -6,7 +6,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     protected $_items;
 
-    protected $_payment;
+    protected $_payments;
 
     protected $_statusHistory;
 
@@ -30,6 +30,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function validate()
     {
         $this->setErrors(array());
+
+        $this->processPayments();
+        
         return $this;
     }
 
@@ -62,8 +65,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 ->importQuoteItem($quoteItem);
             $this->addItem($item);
         }
-
-        $this->setInitialStatus();
 
         return $this;
     }
@@ -264,6 +265,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this->_payments;
     }
 
+    public function getAllPayments()
+    {
+        $payments = array();
+        foreach ($this->getPaymentsCollection() as $payment) {
+            if (!$payment->isDeleted()) {
+                $payments[] =  $payment;
+            }
+        }
+        return $payments;
+    }
 
     public function getPayment()
     {
@@ -300,6 +311,28 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addPayment($payment);
 
         return $payment;
+    }
+    
+    public function processPayments()
+    {
+        $method = $this->getPayment()->getMethod();
+        
+        if (!($modelName = Mage::getStoreConfig('payment/'.$method.'/model'))
+            ||!($model = Mage::getModel($modelName))) {
+            return $this;
+        }
+            
+        $this->setDocument($this->getOrder());
+        
+        $model->onOrderValidate($this->getPayment());
+        
+        if ($this->getStatus()!=='APPROVED') {
+            $errors = $this->getErrors();
+            $errors[] = $this->getStatusDescription();
+            $this->setErrors($errors);
+        }
+        
+        return $this;
     }
 
 /*********************** STATUSES ***************************/

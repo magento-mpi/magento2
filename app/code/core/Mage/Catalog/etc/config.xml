@@ -241,27 +241,6 @@
                   </date>
                </savers>
             </attribute>
-            <rule>
-              <conditions>
-                <combine>
-                  <class>rule/condition_combine</class>
-                </combine>
-                <system>
-                  <class>rule/condition_system</class>
-                </system>
-                <product>
-                  <class>catalog/product_rule_condition_product</class>
-                </product>
-              </conditions>
-              <actions>
-                <product>
-                  <class>catalog/product_rule_action_product</class>
-                </product>
-                <stop>
-                  <class>rule/action_stop</class>
-                </stop>
-              </actions>
-            </rule>
          </product>
          <!-- TODO: move atributes in this section -->
          <category>

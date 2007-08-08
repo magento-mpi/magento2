@@ -3,7 +3,7 @@
 <label for="payment_method_<?=$this->getMethod()?>"><?=__("Use Purchase Order")?></label>
 </dt>
 <dd>
-<fieldset class="group-select">
+<fieldset class="form-list">
     <ul id="payment_form_<?=$this->getMethod()?>" style="<?if(!$this->isCurrent()):?>display:none<?endif?>">
         <li><div class="input-box"><label for="po_number"><?=__('Purchase order number')?> <span class="required">*</span></label><br/>
             <input type="text" id="po_number" name="payment[po_number]" title="<?=__("PO Number")?>" class="required-entry input-text" value="<?=$this->getPayment()->getPoNumber()?>"/></div></li>

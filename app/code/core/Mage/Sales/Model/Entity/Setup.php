@@ -228,19 +228,26 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_payment_id' => array('type'=>'int'),
                     'amount' => array('type'=>'decimal'),
                     'method' => array(),
+                    
                     'po_number' => array(),
+                    
                     'cc_type' => array(),
                     'cc_number_enc' => array(),
                     'cc_last4' => array(),
                     'cc_owner' => array(),
-                    'cc_exp_month' => array('type'=>'int'),
-                    'cc_exp_year' => array('type'=>'int'),
+                    'cc_exp_month' => array(),
+                    'cc_exp_year' => array(),
+                    
+                    'cc_status' => array(),
+                    'cc_status_description' => array(),
                     'cc_trans_id' => array(),
                     'cc_approval' => array(),
                     'cc_avs_status' => array(),
                     'cc_cid_status' => array(),
-                    'cc_debug_request' => array(),
-                    'cc_debug_response' => array(),
+                    
+                    'cc_debug_request_body' => array(),
+                    'cc_debug_response_body' => array(),
+                    'cc_debug_response_serialized' => array(),
 
                     'anet_trans_method' => array(),
                     'echeck_routing_number' => array(),

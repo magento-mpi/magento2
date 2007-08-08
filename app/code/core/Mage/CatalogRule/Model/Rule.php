@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Catalog_Model_Product_Rule extends Mage_Rule_Model_Abstract
+class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
 {
     public function getId()
     {

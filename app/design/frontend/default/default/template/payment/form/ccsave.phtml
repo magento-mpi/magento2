@@ -3,7 +3,7 @@
     &nbsp;<label for="payment_method_<?=$this->getMethod()?>"><?=__('Pay by Credit Card')?> (<?=$this->getMethod()?>)</label>
 </dt>
 <dd>
-    <fieldset class="group-select">
+    <fieldset class="form-list">
         <ul id="payment_form_<?=$this->getMethod()?>" style="display:none">
             <li><div class="input-box"><label for="cc_type"><?=__('Credit Card Type')?> <span class="required">*</span></label><br/>
                 <?foreach ($this->getCcTypes() as $k=>$v):?>

@@ -25,6 +25,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
         $payment = clone $newPayment;
         $payment->unsEntityId()->unsParentId();
         $this->addData($payment->getData());
+        $this->setAmount($payment->getQuote()->getGrandTotal());
         return $this;
+    }
+    
+    public function getCcNumber()
+    {
+        if (!$this->getData('cc_number') && $this->getData('cc_number_enc')) {
+            $customerPayment = Mage::getModel('customer/payment');
+            $this->setData('cc_number', $customerPayment->decrypt($this->getData('cc_number_enc')));
+        }
+        return $this->getData('cc_number');
     }
 }

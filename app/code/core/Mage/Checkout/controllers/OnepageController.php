@@ -276,24 +276,22 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function saveOrderAction()
     {
         $res = array('error'=>1);
-        if ($this->getRequest()->isPost()) {
+        #if ($this->getRequest()->isPost()) {
             try {
+                $billing = $this->getQuote()->getBillingAddress();
+                $shipping = $this->getQuote()->getShippingAddress();
+                
                 switch ($this->getQuote()->getCheckoutMethod()) {
-                case 'register':
-                    $customer = $this->_createCustomer();
-                    $mailer = Mage::getModel('customer/email')
-                        ->setTemplate('email/welcome.phtml')
-                        ->setType('html')
-                        ->setCustomer($customer)
-                        ->send();
-                    $email  = $customer->getEmail();
-                    $name   = $customer->getName();
-                    break;
-                    
                 case 'guest':
-                    $billing = $this->getQuote()->getBillingAddress();
                     $email  = $billing->getEmail();
                     $name   = $billing->getFirstname().' '.$billing->getLastname();
+                    break;
+                    
+                case 'register':
+                    $customer = $this->_createCustomer();
+                    $this->_emailCustomerRegistration();
+                    $email  = $customer->getEmail();
+                    $name   = $customer->getName();
                     break;
                     
                 default:
@@ -302,27 +300,21 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                     $name   = $customer->getName();
                 }
                 
-                $shipping = $this->getQuote()->getShippingAddress();
-                $order = $shipping->createOrder();
+                $order = Mage::getModel('sales/order')->createFromQuoteAddress($shipping);
                 
                 $order->validate();
+                
                 if ($order->getErrors()) {
                     //TODO: handle errors (exception?)
                 }
+                
+                $order->save();
 
                 $orderId = $order->getIncrementId();
-                $this->getCheckout()->clear();
+                #$this->getCheckout()->clear();
                 $this->getCheckout()->setLastOrderId($order->getId());
                 
-                $mailer = Mage::getModel('core/email')
-                        ->setTemplate('email/order.phtml')
-                        ->setType('html')
-                        ->setTemplateVar('order', $order)
-                        ->setTemplateVar('quote', $this->getQuote())
-                        ->setTemplateVar('name', $name)
-                        ->setToName($name)
-                        ->setToEmail($email)
-                        ->send();
+                $this->_emailOrderConfirmation($email, $name, $order);
 
                 $res['success'] = true;
                 $res['error']   = false;
@@ -332,10 +324,32 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 // TODO: create response for open checkout card with error
                 echo $e;
             }
-        }
+        #}
         
-        $this->getResponse()->setHeader('Content-type', 'application/x-json');
+        #$this->getResponse()->setHeader('Content-type', 'application/x-json');
         $this->getResponse()->appendBody(Zend_Json::encode($res));
+    }
+    protected function _emailCustomerRegistration()
+    {
+        $customer = $this->_createCustomer();
+        $mailer = Mage::getModel('customer/email')
+            ->setTemplate('email/welcome.phtml')
+            ->setType('html')
+            ->setCustomer($customer)
+            ->send();
+    }
+    
+    protected function _emailOrderConfirmation($email, $name, $order)
+    {
+        $mailer = Mage::getModel('core/email')
+            ->setTemplate('email/order.phtml')
+            ->setType('html')
+            ->setTemplateVar('order', $order)
+            ->setTemplateVar('quote', $this->getQuote())
+            ->setTemplateVar('name', $name)
+            ->setToName($name)
+            ->setToEmail($email)
+            ->send();
     }
     
     protected function _createCustomer()
