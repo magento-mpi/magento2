@@ -9,7 +9,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tabs_Main extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Block_Widget_Form
 {
 
     protected function _prepareForm()
