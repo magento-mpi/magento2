@@ -11,7 +11,7 @@
  */
  
 
-class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Conditions extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminhtml_Block_Widget_Form
 {
 
 }

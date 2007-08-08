@@ -67,14 +67,14 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'values'    => $stores,
         ));
         
-        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionArray();
+        $customerGroups = Mage::getResourceModel('customer/group_collection')->load()->toOptionArray();
 
-    	$fieldset->addField('store_ids1', 'multiselect', array(
-            'name'      => 'store_ids',
-            'label'     => __('Stores'),
-            'title'     => __('Stores'),
+    	$fieldset->addField('customer_group_ids', 'multiselect', array(
+            'name'      => 'customer_group_ids',
+            'label'     => __('Customer Groups'),
+            'title'     => __('Customer Groups'),
             'required'  => true,
-            'values'    => $stores,
+            'values'    => $customerGroups,
         ));
 
     	$fieldset->addField('is_active', 'select', array(
