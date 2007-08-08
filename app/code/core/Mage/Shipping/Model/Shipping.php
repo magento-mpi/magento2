@@ -16,23 +16,13 @@ class Mage_Shipping_Model_Shipping
      */
     protected $_result = null;
     
-    /**
-     * Reset cached result
-     */
-    public function resetResult()
+
+    public function getResult()
     {
-        $this->_result->reset();
-        return $this;
-    }
-    
-    /**
-     * Constructor
-     *
-     * Initializes $_result object
-     */
-    public function __construct()
-    {
-        $this->_result = new Mage_Shipping_Model_Rate_Result();
+        if (empty($this->_result)) {
+            $this->_result = Mage::getModel('shipping/rate_result');
+        }
+        return $this->_result;
     }
     
     /**
@@ -44,10 +34,19 @@ class Mage_Shipping_Model_Shipping
     }
 
     /**
+     * Reset cached result
+     */
+    public function resetResult()
+    {
+        $this->getResult()->reset();
+        return $this;
+    }
+
+    /**
      * Retrieve all methods for supplied shipping data
      * 
-     * @param Mage_Sales_Model_Shipping_Method_Request $data
-     * @return Mage_Sales_Model_Shipping_Method_Result
+     * @param Mage_Shipping_Model_Shipping_Method_Request $data
+     * @return Mage_Shipping_Model_Shipping
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -60,26 +59,38 @@ class Mage_Shipping_Model_Shipping
         }
 
         if (!$request->getLimitCarrier()) { 
-            $carriers = Mage::getConfig()->getNode('global/sales/shipping/carriers')->children();
+            $carriers = Mage::getStoreConfig('carriers');
 
-            foreach ($carriers as $carrier) {
-                if (!$carrier->is('active')) {
+            foreach ($carriers as $carrierCode=>$carrierConfig) {
+                if (!$carrierConfig->is('active', 1)) {
                     continue;
                 }
-                $request->setVendor($carrier->getName());
-                $className = $carrier->getClassName();
-                $obj = new $className();
+                $className = $carrierConfig->getClassName();
+                if (!$className) {
+                    continue;
+                }
+                $obj = Mage::getModel($className);
+                if (!$obj) {
+                    continue;
+                }
+                
+                $request->setCarrier($carrierCode);
                 $result = $obj->collectRates($request);
-                $this->_result->append($result);
+                
+                $this->getResult()->append($result);
             }
         } else {
-            $className = Mage::getConfig()->getNode('global/sales/shipping/carriers/'.$request->getLimitCarrier())->getClassName();
-            $obj = new $className();
+            $carrierConfig = Mage::getStoreConfig('carriers/'.$request->getLimitCarrier());
+            if (!$carrierConfig) {
+                return $this;
+            }
+            $className = $carrierConfig->getClassName();
+            $obj = Mage::getModel($className);
             $result = $obj->collectRates($request);
-            $this->_result->append($result);
+            $this->getResult()->append($result);
         }
         
-        return $this->_result;
+        return $this;
     }
     
     public function collectRatesByAddress(Varien_Object $address)

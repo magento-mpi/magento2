@@ -270,7 +270,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
         
-        $result = Mage::getModel('shipping/shipping')->collectRates($request);
+        $result = Mage::getModel('shipping/shipping')
+            ->collectRates($request)->getResult();
         if (!$result) {
             return $this;
         }

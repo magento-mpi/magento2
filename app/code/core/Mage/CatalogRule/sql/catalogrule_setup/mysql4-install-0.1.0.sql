@@ -9,14 +9,16 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 alter table `customer_group` 
 	,change `customer_group_id` `customer_group_id` smallint (3)UNSIGNED   NOT NULL AUTO_INCREMENT;
 
-
 DROP TABLE IF EXISTS `catalogrule`;
 CREATE TABLE `catalogrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment,
+  `rule_name` varchar(255) not null,
+  `rule_description` text not null,
   `from_date` date NOT NULL default '0000-00-00',
   `to_date` date NOT NULL default '0000-00-00',
   `store_ids` varchar(255) NOT NULL default '',
   `customer_group_ids` varchar(255) NOT NULL default '',
+  `is_active` tinyint(1) not null default 0,
   `conditions` text NOT NULL,
   `actions` text NOT NULL,
   PRIMARY KEY  (`rule_id`),

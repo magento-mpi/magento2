@@ -2,6 +2,12 @@
 
 class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
 {
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->_init('catalogrule/rule');
+    }
+    
     public function getId()
     {
         return $this->getProductRuleId();
@@ -107,8 +113,8 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
         return $this;
     }
     
-    public function getResource()
+    public function getResourceCollection()
     {
-        return Mage::getResourceModel('catalog/product_rule');
+        return Mage::getResourceModel('catalogrule/rule_collection');
     }
 }
