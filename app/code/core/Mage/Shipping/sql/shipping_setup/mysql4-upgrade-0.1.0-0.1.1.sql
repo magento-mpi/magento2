@@ -4,4 +4,4 @@ replace into core_config_data (`path`, `value`) values
 ('carriers/usps/model', 'usa/shipping_carrier_usps'),
 ('carriers/fedex/model', 'usa/shipping_carrier_fedex'),
 ('carriers/pickup/model', 'shipping/carrier_pickup'),
-('carriers/rablerate/model', 'shipping/carrier_tablerate');
+('carriers/tablerate/model', 'shipping/carrier_tablerate');
