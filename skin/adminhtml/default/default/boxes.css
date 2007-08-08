@@ -417,6 +417,32 @@ img.attribute-global {
 }
 
 
+/* login page*/
+#page-login {
+	background:#f8f8f8;
+	text-align:center;
+	}
+.login-container {
+	width:581px;
+	padding-left:32px;
+	background:url(images/login_logo.gif) no-repeat;
+	margin:170px auto;
+	text-align:center;
+	}
+.login-box {
+	position:relative;
+	}
+.login-form { padding:27px 57px 35px 57px; background:url(images/login_box_bg.jpg) no-repeat; text-align:left; }
+.login-form .input-box { float:left; width:50%; }
+.login-form .input-box .input-text { width:90%; }
+.login-form h2 { font-size:1.7em; font-weight:normal; }
+.login-form h2 em { font-style:italic; color:#d24403; font-weight:bold; }
+.login-form label { color:#444444; font-weight:bold; }
+.login-form .form-buttons { margin-top:15px; text-align:right;}
+.login-box .bottom { background:url(images/login_box_bottom.jpg) no-repeat; width:581px; height:5px; position:absolute; bottom:0; right:0; overflow:hidden;}
+.login-container .legal { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 10px 8px; font-size:.95em; }
+
+
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 
 /* Directional and spacial */
@@ -440,6 +466,7 @@ img.attribute-global {
 
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.login-box .form-buttons:after,
 ul.tabs-horiz:after,
 .header-top:after,
 dl.accordion dt:after,

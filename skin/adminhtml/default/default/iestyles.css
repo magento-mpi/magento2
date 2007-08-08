@@ -70,7 +70,7 @@ dl.accordion dt a {
     }
 
 
-
+.login-box .bottom { right:1px;}
 
 #nav ul li { background:none !important; padding:0 !important; }
 #nav ul { border:1px solid #b6b6b6; border-top:1px solid #4d5255 !imporant; padding-top:0 !important; padding-bottom:0 !important; }
