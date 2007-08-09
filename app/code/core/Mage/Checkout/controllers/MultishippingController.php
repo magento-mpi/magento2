@@ -140,15 +140,18 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     
     public function shippingPostAction()
     {
-        
+        $this->_redirect('*/*/billing');
     }
     
     /**
      * Multishipping checkout billing information page
      */
-    public function paymentAction()
+    public function billingAction()
     {
-        
+        $this->loadLayout(array('default', 'multishipping', 'multishipping_billing'), 'multishipping_billing');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
     }
     
     /**

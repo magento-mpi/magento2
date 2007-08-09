@@ -45,6 +45,11 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
         $this->renderLayout();
     }
     
+    public function changeBillingAction()
+    {
+        
+    }
+    
     public function editBillingAction()
     {
         
