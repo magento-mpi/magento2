@@ -163,7 +163,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 			$emails = explode(',', $this->getRequest()->getParam('email'));
 
-			$template = Mage::getModel('newsletter/template')
+			$template = Mage::getModel('core/email_template')
 				->load(Mage::getStoreConfig('email/templates/wishlist_share_message'));
 			$wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
@@ -173,6 +173,13 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 			$wishlistBlock = $this->getLayout()->createBlock('wishlist/share_email_items')->toHtml();
 
+			foreach($emails as $key => $email) {
+				$email = trim($email);
+				$emails[$key] = $email;
+			}
+			
+			$emails = array_unique($emails);
+			
 			foreach($emails as $email) {
 				$template->send($email,
 					array(
