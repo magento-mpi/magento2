@@ -19,11 +19,6 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
-        
-        $this->_addButton('apply_rules', array(
-            'label'     => __('Apply rules'),
-            'onclick'   => 'applyCatalogRules()',
-        ), 1);
     }
 
     protected function _prepareCollection()

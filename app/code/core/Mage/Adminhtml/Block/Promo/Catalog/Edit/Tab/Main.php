@@ -40,12 +40,8 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'name' => 'description',
             'label' => __('Description'),
             'title' => __('Description'),
-<<<<<<< .mine
             'style' => 'width: 98%; height: 600px;',
             'required' => true,
-=======
-            'style' => 'width: 320px; height: 100px;',
->>>>>>> .r10138
         ));
         
     	$fieldset->addField('is_active', 'select', array(
