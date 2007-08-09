@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="customer_account_navigation">
+        <action method="addLink" translate="label"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
+    </reference>
+</layoutUpdate>

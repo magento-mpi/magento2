@@ -46,7 +46,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_grid')->toHtml());
     }
-    
+
     public function testAction()
     {
         Mage::getSingleton('adminhtml/session')->addSuccess('Test success message 1');
@@ -65,22 +65,22 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      * Customer edit action
      */
     public function editAction()
-    {   
+    {
 
         $this->loadLayout('baseframe');
-        
+
         $customerId = (int) $this->getRequest()->getParam('id');
         $customer = Mage::getModel('customer/customer');
-        
+
         if ($customerId) {
             $customer->load($customerId);
         }
-        
+
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getCustomerData(true);
 
         //$data = Mage::getSingleton('adminhtml/session')->getCustomerData(false);
-        
+
         if (isset($data['account'])) {
             $customer->addData($data['account']);
         }
@@ -93,7 +93,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
             $customer->setLoadedAddressCollection($collection);
         }
-        
+
         Mage::register('customer', $customer);
 
         /**
@@ -163,13 +163,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            
+
             // Prepare customer saving data
             if (isset($data['account'])) {
                 $customer = Mage::getModel('customer/customer')
                     ->addData($data['account']);
             }
-            
+
 
             if ($customerId = (int) $this->getRequest()->getParam('id')) {
                 $customer->setId($customerId);
@@ -201,7 +201,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             } else {
                 $customer->setIsSubscribed(false);
             }
-            
+
             $isNewCustomer = empty($customerId);
             try {
                 $customer->save();
@@ -212,7 +212,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         ->setCustomer($customer)
                         ->send();
                 }
-                
+
                 if ($newPassword = $customer->getNewPassword()) {
                     if ($newPassword == 'auto') {
                         $newPassword = $customer->generatePassword();
@@ -224,7 +224,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         ->setCustomer($customer)
                         ->send();
                 }
-                
+
                 Mage::getSingleton('adminhtml/session')->addSuccess('Customer was saved');
             }
             catch (Exception $e){
@@ -277,26 +277,32 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      *
      */
     public function ordersAction() {
+        $customerId = (int) $this->getRequest()->getParam('id');
+        $customer = Mage::getModel('customer/customer');
+        if ($customerId) {
+            $customer->load($customerId);
+        }
+        Mage::register('customer', $customer);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml());
     }
-    
+
     /**
      * Customer newsletter grid
      *
      */
-    public function newsletterAction() 
+    public function newsletterAction()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
         $customer = Mage::getModel('customer/customer');
         if ($customerId) {
             $customer->load($customerId);
-        }  
+        }
         $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
         Mage::register('subscriber', $subscriber);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
     }
-    
-    public function wishlistAction() 
+
+    public function wishlistAction()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
         $customer = Mage::getModel('customer/customer');
@@ -306,12 +312,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             	try {
 	            	Mage::getModel('wishlist/item')->load($itemId)
 	            		->delete();
-            	} 
+            	}
             	catch (Exception $e) {
             		//
             	}
             }
-        }  
+        }
         Mage::register('customer', $customer);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
     }

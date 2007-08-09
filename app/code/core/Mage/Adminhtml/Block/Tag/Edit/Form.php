@@ -1,74 +1,66 @@
 <?php
 /**
- * Tag edit block
+ * Adminhtml tag edit form
  *
  * @package     Mage
  * @subpackage  Adminhtml
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
+
 class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+
     public function __construct()
     {
         parent::__construct();
-        $this->setDestElementId('tag_edit_form');
+        $this->setId('tag_form');
+        $this->setTitle(__('Block Information'));
     }
 
     protected function _prepareForm()
     {
-        $tag = Mage::registry('tag');
+        $model = Mage::registry('tag_tag');
 
-        $form = new Varien_Data_Form();
+        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Tag Information')));
+//        $form->setHtmlIdPrefix('block_');
 
-        $fieldset->addField('name', 'text', array(
-            'name'  => 'name',
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+
+        if ($model->getTagId()) {
+        	$fieldset->addField('tag_id', 'hidden', array(
+                'name' => 'tag_id',
+            ));
+        }
+
+    	$fieldset->addField('name', 'text', array(
+            'name' => 'name',
             'label' => __('Tag Name'),
-            'title' => __('Tag Name Title'),
-            'class' => 'required-entry',
+            'title' => __('Tag Name'),
             'required' => true,
-            'value' => $tag->getName(),
         ));
-        $fieldset->addField('status', 'checkbox', array(
-            'name'  => 'status',
-            'label' => __('Approved'),
-            'title' => __('Approved Title'),
-            'value' => 1,
-        ))->setIsChecked($tag->getStatus());
-        $fieldset->addField('store_id', 'hidden', array(
-            'name'  => 'store_id',
-            'value' => $tag->getStoreId(),
+
+    	$fieldset->addField('status', 'select', array(
+            'label' => __('Status'),
+            'title' => __('Status'),
+            'name' => 'status',
+            'required' => true,
+            'options' => array(
+                '1' => __('Enabled'),
+                '0' => __('Disabled'),
+            ),
         ));
+
+        $form->setValues($model->getData());
+
+        $form->setUseContainer(true);
 
         $this->setForm($form);
+
+        return parent::_prepareForm();
     }
 
-    public function getSaveUrl()
-    {
-        return $this->getUrl('*/*/save', array('_current'=>true));
-    }
-
-    public function getTagId()
-    {
-        return Mage::registry('tag')->getId();
-    }
-
-    public function getDeleteUrl()
-    {
-        return $this->getUrl('*/*/delete', array('_current'=>true));
-    }
-
-    public function getHeader()
-    {
-        if (Mage::registry('tag')->getId()) {
-            return Mage::registry('tag')->getName();
-        }
-        else {
-            return __('New Tag');
-        }
-    }
 }

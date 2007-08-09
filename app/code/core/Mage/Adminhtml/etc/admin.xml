@@ -100,22 +100,22 @@
                 <tag>
                     <title>Tags</title>
                     <children>
-                        <tag_all>
+                        <all>
                             <title>All Tags</title>
-                            <action>adminhtml/tag/all</action>
-                        </tag_all>
-                        <tag_pending>
+                            <action>adminhtml/tag</action>
+                        </all>
+                        <pending>
                             <title>Pending Tags</title>
                             <action>adminhtml/tag/pending</action>
-                        </tag_pending>
-                        <tag_customers>
+                        </pending>
+                        <customer>
                             <title>Customers' Tags</title>
-                            <action>adminhtml/tag/customers</action>
-                        </tag_customers>
-                        <tag_products>
+                            <action>adminhtml/tag/customer</action>
+                        </customer>
+                        <product>
                             <title>Products' Tags</title>
-                            <action>adminhtml/tag/products</action>
-                        </tag_products>
+                            <action>adminhtml/tag/product</action>
+                        </product>
                     </children>
                 </tag>
                 <datafeed>
@@ -133,14 +133,14 @@
             <!-- action>adminhtml/sales</action -->
             <depends><module>Mage_Sales</module></depends>
             <children>
-                <orders>
+                <order>
                     <title>Orders</title>
-                    <action>adminhtml/sales</action>
-                </orders>
-                <invoices>
+                    <action>adminhtml/sales_order</action>
+                </order>
+                <invoice>
                     <title>Invoices</title>
                     <action>adminhtml/sales_invoice</action>
-                </invoices>
+                </invoice>
                 <tax>
                     <title>Tax</title>
                     <children>

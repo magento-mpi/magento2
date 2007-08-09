@@ -46,6 +46,13 @@
                     </page>
                 </updates>
             </default>
+            <print>
+                <updates>
+                    <page>
+                        <file>core/print.xml</file>
+                    </page>
+                </updates>
+            </print>
         </layouts>
         <routers>
             <core>

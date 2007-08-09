@@ -8,168 +8,135 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action {
+class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
+{
 
-    /**
-     * Tags index action
-     *
-     */
+    protected function _initAction()
+    {
+        $this->loadLayout('baseframe')
+            ->_setActiveMenu('catalog/tag')
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(__('Tags'), __('Tags'))
+        ;
+        return $this;
+    }
+
     public function indexAction()
     {
-        $this->_forward('all');
-    }
-
-    /**
-     * Create/Edit tag form
-     *
-     */
-    public function editAction()
-    {
-        $tagId = (int) $this->getRequest()->getParam('id');
-        $tag = Mage::getModel('tag/tag');
-
-        if ($tagId) {
-            $tag->load($tagId);
-        }
-
-        Mage::register('tag', $tag);
-
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_edit'));
-
-        if ($tagId) {
-            $this->_addBreadcrumb(__('Edit Tag').' '.$tag->getTagname(), __('Edit Tag').' '.$tag->getTagname());
-        }
-        else {
-            $this->_addBreadcrumb(__('New Tag'), __('New Tag Title'));
-        }
-
-        $this->renderLayout();
+            ->_addBreadcrumb(__('All Tags'), __('All Tags'))
+            ->_setActiveMenu('catalog/tag/all')
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag'))
+            ->renderLayout();
     }
 
-    /**
-     * Create new tag action
-     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
-    /**
-     * Save tag action
-     *
-     */
-    public function saveAction()
+    public function editAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $id = $this->getRequest()->getParam('tag_id');
+        $model = Mage::getModel('tag/tag');
 
-//            print_r($data);
-
-            $tag = Mage::getModel('tag/tag')
-                ->setData($data);
-
-            if ($tagId = (int) $this->getRequest()->getParam('id')) {
-                $tag->setId($tagId);
-            }
-
-            $tag->setStoreId(Mage::getSingleton('core/store')->getId());
-
-            try {
-                $tag->save();
-            }
-            catch (Exception $e){
-                echo $e;
-            }
+        if ($id) {
+            $model->load($id);
         }
 
-        $this->_redirect('adminhtml/tag/all');
-    }
-
-    /**
-     * Delete tag action
-     *
-     */
-    public function deleteAction()
-    {
-        if ($tagId = (int) $this->getRequest()->getParam('id')) {
-            $tag = Mage::getModel('tag/tag');
-            $tag->setId($tagId);
-
-            // $tag->setStoreId(Mage::getSingleton('core/store')->getId());
-
-            try {
-                $tag->delete();
-            }
-            catch (Exception $e){
-                echo $e;
-            }
+        // set entered data if was error when we do save
+        $data = Mage::getSingleton('adminhtml/session')->getTagData(true);
+        if (! empty($data)) {
+            $model->setData($data);
         }
 
-        $this->_redirect('adminhtml/tag/all');
-    }
+        Mage::register('tag_tag', $model);
 
-    /**
-     * All tags grid
-     *
-     */
-    public function allAction()
-    {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_all')->assign('header', __('Tags List')))
-            ->_addBreadcrumb(__('All Tags'), __('Products Tags Title'))
+            ->_addBreadcrumb($id ? __('Edit Tag') : __('New Tag'), $id ? __('Edit Tag') : __('New Tag'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_edit')->setData('action', Mage::getUrl('adminhtml', array('controller' => 'tag_edit', 'action' => 'save'))))
             ->renderLayout();
     }
 
+    public function saveAction()
+    {
+        if ($data = $this->getRequest()->getPost()) {
+            $model = Mage::getModel('tag/tag');
+            $model->setData($data);
+            // $tag->setStoreId(Mage::getSingleton('core/store')->getId());
+            try {
+                $model->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->setTagData(false);
+                $this->_redirect('*/*/');
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setTagData($data);
+                $this->_redirect('*/*/edit', array('tag_id' => $this->getRequest()->getParam('tag_id')));
+                return;
+            }
+        }
+        $this->_redirect('*/*/');
+    }
+
+    public function deleteAction()
+    {
+        if ($id = $this->getRequest()->getParam('tag_id')) {
+            try {
+                $model = Mage::getModel('tag/tag');
+                $model->setId($id);
+                $model->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was deleted succesfully'));
+                $this->_redirect('*/*/');
+                return;
+            }
+            catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('tag_id' => $this->getRequest()->getParam('tag_id')));
+                return;
+            }
+        }
+        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a tag to delete'));
+        $this->_redirect('*/*/');
+    }
+
     /**
-     * Pending tags grid
+     * Pending tags
      *
      */
     public function pendingAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_pending')->assign('header', __('Pending Tags')))
-            ->_addBreadcrumb(__('Pending Tags'), __('Products Tags Title'))
+            ->_addBreadcrumb(__('Pending Tags'), __('Pending Tags'))
+            ->_setActiveMenu('catalog/tag/pending')
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_pending'))
             ->renderLayout();
     }
 
     /**
-     * Tagged products grid
+     * Tagged products
      *
      */
-    public function productsAction()
+    public function productAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_products'))
-            ->_addBreadcrumb(__('Products'), __('Products Tags Title'))
+            ->_addBreadcrumb(__('Products'), __('Products'))
+            ->_setActiveMenu('catalog/tag/product')
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_product'))
             ->renderLayout();
     }
 
     /**
-     * Customers grid
+     * Customers
      *
      */
-    public function customersAction()
+    public function customerAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_customers')->assign('header', __('Customers')))
-            ->_addBreadcrumb(__('Customers'), __('Products Tags Title'))
+            ->_addBreadcrumb(__('Customers'), __('Customers'))
+            ->_setActiveMenu('catalog/tag/customer')
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_customer'))
             ->renderLayout();
-    }
-
-    /**
-     * Initialize action
-     *
-     * @return Mage_Adminhtml_Controller_Action
-     */
-    protected function _initAction()
-    {
-        $this->loadLayout('baseframe')
-            ->_setActiveMenu('catalog/tags')
-            ->_addBreadcrumb(__('Catalog'), __('Catalog Title'))
-            ->_addBreadcrumb(__('Tags'), __('Products Tags Title'))
-//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tag_tabs', 'tag_tabs')->setActiveTab($this->getRequest()->getActionName()))
-        ;
-        return $this;
     }
 
 }

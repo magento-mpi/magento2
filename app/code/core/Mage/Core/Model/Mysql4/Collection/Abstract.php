@@ -138,7 +138,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     public function join($table, $cond, $cols='*')
     {
         if (!isset($this->_joinedTables[$table])) {
-            $this->getSelect()->join(array($table=>$this->getTable($table)), $cond, '*');
+            $this->getSelect()->join(array($table=>$this->getTable($table)), $cond, $cols);
             $this->_joinedTables[$table] = true;
         }
         return $this;
