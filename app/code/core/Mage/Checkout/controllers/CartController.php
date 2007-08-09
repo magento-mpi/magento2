@@ -18,6 +18,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     
     public function indexAction()
     {
+        Mage::getSingleton('checkout/session')->resetCheckout();
         $this->loadLayout(array('default', 'cart'), 'cart');
         
         $this->renderLayout();

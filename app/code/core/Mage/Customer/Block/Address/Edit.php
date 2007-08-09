@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template 
+class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 {
     protected $_address;
     protected $_countryCollection;
@@ -60,47 +60,14 @@ class Mage_Customer_Block_Address_Edit extends Mage_Core_Block_Template
         return $this->_address;
     }
     
-    public function getCountryCollection()
+    public function getCountryId()
     {
-        if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getModel('directory/country')->getResourceCollection()
-                ->load();
-        }
-        return $this->_countryCollection;
+        return $this->getAddress()->getCountryId();
     }
     
-    public function getCountryHtmlSelect()
+    public function getRegionId()
     {
-        return $this->getLayout()->createBlock('core/html_select')
-            ->setName('country_id')
-            ->setId('country')
-            ->setTitle('Country')
-            ->setClass('validate-select')
-            ->setValue($this->getAddress()->getCountryId())
-            ->setOptions($this->getCountryCollection()->toOptionArray())
-            ->getHtml();
-    }
-    
-    public function getRegionCollection()
-    {
-        if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
-                ->addCountryFilter($this->getAddress()->getCountryId())
-                ->load();
-        }
-        return $this->_regionCollection;
-    }
-    
-    public function getRegionHtmlSelect()
-    {
-        return $this->getLayout()->createBlock('core/html_select')
-            ->setName('region')
-            ->setTitle('State/Province')
-            ->setId('state')
-            ->setClass('required-entry validate-state input-text')
-            ->setValue($this->getAddress()->getRegionId())
-            ->setOptions($this->getRegionCollection()->toOptionArray())
-            ->getHtml();
+        return $this->getAddress()->getRegionId();
     }
     
     public function getCustomerAddressCount()

@@ -16,7 +16,8 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Shipping Address'))
-                ->setSuccessUrl(Mage::getUrl('*/multishipping/addresses'));
+                ->setSuccessUrl(Mage::getUrl('*/multishipping/addresses'))
+                ->setErrorUrl(Mage::getUrl('*/*/*'));
             
             if (Mage::getSingleton('checkout/type_multishipping')->getCustomerDefaultShippingAddress()) {
                 $addressForm->setBackUrl(Mage::getUrl('*/multishipping/addresses'));

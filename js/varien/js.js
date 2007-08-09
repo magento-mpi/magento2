@@ -25,44 +25,48 @@ function popWin(url,win,para) { window.open(url,win,para); }
 
 
 function fieldset_highlight(obj,state) {
-	for (var i=0, fieldset=obj.parentNode; i<10 && fieldset && fieldset.tagName!='FIELDSET'; i++, fieldset=fieldset.parentNode);
-	if (fieldset && fieldset.tagName=='FIELDSET' && fieldset.className.indexOf('group-select')!=-1) {
-		if (state) fieldset.className += ' highlight'; 
-		else fieldset.className = fieldset.className.replace(/ highlight/,'');
-	}
+    for (var i=0, fieldset=obj.parentNode; i<10 && fieldset && fieldset.tagName!='FIELDSET'; i++, fieldset=fieldset.parentNode);
+    if (fieldset && fieldset.tagName=='FIELDSET' && fieldset.className.indexOf('group-select')!=-1) {
+        if (state) fieldset.className += ' highlight'; 
+        else fieldset.className = fieldset.className.replace(/ highlight/,'');
+    }
 }
 
 
 function fieldset_highlight_event(e) {
-	if (!e) e = window.event;
-	var obj = e.srcElement ? e.srcElement : e.target;
-	var state = e.type=='focus';
-	fieldset_highlight(obj,state);
+    if (!e) e = window.event;
+    var obj = e.srcElement ? e.srcElement : e.target;
+    var state = e.type=='focus';
+    fieldset_highlight(obj,state);
 }
 
 function fieldset_init(fs) {
-	var f = fs.getElementsByTagName('INPUT'), i;
-	for (i=0; i<f.length; i++) {
-		f[i].onfocus = fieldset_highlight_event;
-		f[i].onblur = fieldset_highlight_event;
-	}
-	f = fs.getElementsByTagName('SELECT');
-	for (i=0; i<f.length; i++) {
-		f[i].onfocus = fieldset_highlight_event;
-		f[i].onblur = fieldset_highlight_event;
-	}
-	f = fs.getElementsByTagName('TEXTAREA');
-	for (i=0; i<f.length; i++) {
-		f[i].onfocus = fieldset_highlight_event;
-		f[i].onblur = fieldset_highlight_event;
-	}
+    var f = fs.getElementsByTagName('INPUT'), i;
+    for (i=0; i<f.length; i++) {
+        f[i].onfocus = fieldset_highlight_event;
+        f[i].onblur = fieldset_highlight_event;
+    }
+    f = fs.getElementsByTagName('SELECT');
+    for (i=0; i<f.length; i++) {
+        f[i].onfocus = fieldset_highlight_event;
+        f[i].onblur = fieldset_highlight_event;
+    }
+    f = fs.getElementsByTagName('TEXTAREA');
+    for (i=0; i<f.length; i++) {
+        f[i].onfocus = fieldset_highlight_event;
+        f[i].onblur = fieldset_highlight_event;
+    }
 }
 
 function fieldset_init_all() {
-	var fs = document.getElementsByTagName('FIELDSET'), i;
-	for (i=0; i<fs.length; i++) {
-		fieldset_init(fs[i]);
-	}
+    var fs = document.getElementsByTagName('FIELDSET'), i;
+    for (i=0; i<fs.length; i++) {
+        fieldset_init(fs[i]);
+    }
+}
+
+function setLocation(url){
+    window.location.href = url;
 }
 
 // Version 1.0
@@ -95,98 +99,98 @@ Ajax.Responders.register(Varien.GlobalHandlers);
 Varien.CompareController = Class.create();
 
 Varien.CompareController.prototype = {
-	initialize: function(container, options) {
-		// Default configuration values
-		this.updateUrl = false;
-		this.removeUrl = false;
-		this.successMessage = false;
-		this.removeMessage = false;
-		this.confirmMessage = false;
-		this.useAjax = true;
-		this.container = $(container);
-		if(options) {
-			$H(options).each(function(pair) {
-				if(typeof this[pair.key] != 'function' && pair.key != 'container') {
-					if(pair.key == 'updateUrl' || pair.key == 'removeUrl') {
-						this[pair.key] = new Template(pair.value);
-					} else {
-						this[pair.key] = pair.value;
-					}
-				}
-			}.bind(this));
-		}
-	},
-	addItem: function(id) {
-		if(this.useAjax && this.container) {
-			new Ajax.Updater(this.container, this.updateUrl.evaluate({id:id}) + '?ajax=1', {
-				onComplete: function() {
-					if(this.successMessage) {
-						window.alert(this.successMessage);
-					}
-				}.bind(this)
-			});
+    initialize: function(container, options) {
+        // Default configuration values
+        this.updateUrl = false;
+        this.removeUrl = false;
+        this.successMessage = false;
+        this.removeMessage = false;
+        this.confirmMessage = false;
+        this.useAjax = true;
+        this.container = $(container);
+        if(options) {
+            $H(options).each(function(pair) {
+                if(typeof this[pair.key] != 'function' && pair.key != 'container') {
+                    if(pair.key == 'updateUrl' || pair.key == 'removeUrl') {
+                        this[pair.key] = new Template(pair.value);
+                    } else {
+                        this[pair.key] = pair.value;
+                    }
+                }
+            }.bind(this));
+        }
+    },
+    addItem: function(id) {
+        if(this.useAjax && this.container) {
+            new Ajax.Updater(this.container, this.updateUrl.evaluate({id:id}) + '?ajax=1', {
+                onComplete: function() {
+                    if(this.successMessage) {
+                        window.alert(this.successMessage);
+                    }
+                }.bind(this)
+            });
 
-			if(this.container && this.container.getStyle('display')=='none') {
-				this.container.show();
-			}
-		} else {
-			window.location.href = this.updateUrl.evaluate({id:id});
-		}
-		
-	},
-	removeItem: function () {
-		var item = arguments[0];
-		var showMess = true;
-		if(arguments[1]===false) {
-			showMess = false;
-		}
-		if(!this.confirmMessage || !showMess || window.confirm(this.confirmMessage)) {
-			
-			var id = 0;
-			var parentItem = false
-			if(typeof item == 'object') {
-				item	= $(item);
-				parentItem = $(item.parentNode);
-				if(parentItem.hasClassName('block-compare-item')) {
-					id = parentItem.getElementsByClassName('compare-item-id')[0].value;
-					parentItem.remove();
-					if(this.container.getElementsByClassName('block-compare-item').length == 0) {
-						this.container.hide();
-					} else {
-						var items = this.container.getElementsByClassName('block-compare-item');
-						var lastItem = $(items[items.length-1]);
-						if(!lastItem.hasClassName('last')) {
-							lastItem.addClassName('last');
-						}
-					}
-				} else {
-					return;
-				}
-			} else {
-				id = item;
-			}
-			
-			if(this.useAjax) {
-				var removeMessage = this.removeMessage;
-				var container = this.container;
-				new Ajax.Request(this.removeUrl.evaluate({id:id}) + '?ajax=1', {onComplete: function() {
-					if(removeMessage && showMess) {
-						window.alert(removeMessage);
-					}
-				}});
-			} else {
-				window.location.href = this.updateUrl.evaluate({id:id});
-			}
-		}
-	},
-	removeAll: function() {
-		if(!this.confirmMessage || window.confirm(this.confirmMessage)) {
-			var items = this.container.getElementsByClassName('block-compare-item');
-			for(var i=0; i<items.length; i++) {
-				if($(items[i]).getElementsByClassName('action').length==1) {
-					this.removeItem($(items[i]).getElementsByClassName('action')[0], false);
-				}
-			}
-		}
-	}
+            if(this.container && this.container.getStyle('display')=='none') {
+                this.container.show();
+            }
+        } else {
+            window.location.href = this.updateUrl.evaluate({id:id});
+        }
+        
+    },
+    removeItem: function () {
+        var item = arguments[0];
+        var showMess = true;
+        if(arguments[1]===false) {
+            showMess = false;
+        }
+        if(!this.confirmMessage || !showMess || window.confirm(this.confirmMessage)) {
+            
+            var id = 0;
+            var parentItem = false
+            if(typeof item == 'object') {
+                item    = $(item);
+                parentItem = $(item.parentNode);
+                if(parentItem.hasClassName('block-compare-item')) {
+                    id = parentItem.getElementsByClassName('compare-item-id')[0].value;
+                    parentItem.remove();
+                    if(this.container.getElementsByClassName('block-compare-item').length == 0) {
+                        this.container.hide();
+                    } else {
+                        var items = this.container.getElementsByClassName('block-compare-item');
+                        var lastItem = $(items[items.length-1]);
+                        if(!lastItem.hasClassName('last')) {
+                            lastItem.addClassName('last');
+                        }
+                    }
+                } else {
+                    return;
+                }
+            } else {
+                id = item;
+            }
+            
+            if(this.useAjax) {
+                var removeMessage = this.removeMessage;
+                var container = this.container;
+                new Ajax.Request(this.removeUrl.evaluate({id:id}) + '?ajax=1', {onComplete: function() {
+                    if(removeMessage && showMess) {
+                        window.alert(removeMessage);
+                    }
+                }});
+            } else {
+                window.location.href = this.updateUrl.evaluate({id:id});
+            }
+        }
+    },
+    removeAll: function() {
+        if(!this.confirmMessage || window.confirm(this.confirmMessage)) {
+            var items = this.container.getElementsByClassName('block-compare-item');
+            for(var i=0; i<items.length; i++) {
+                if($(items[i]).getElementsByClassName('action').length==1) {
+                    this.removeItem($(items[i]).getElementsByClassName('action')[0], false);
+                }
+            }
+        }
+    }
 }

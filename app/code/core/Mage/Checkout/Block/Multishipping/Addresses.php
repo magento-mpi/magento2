@@ -12,15 +12,56 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Core_Block_Templa
 {
     public function getItems()
     {
-        $items = Mage::getSingleton('checkout/type_multishipping')->getQuoteSplittedItems();
+        $items = Mage::getSingleton('checkout/type_multishipping')->getQuoteShippingAddressesItems();
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
     
-    public function getShippingAddressesSelect($item)
+    /**
+     * Retrieve HTML for addresses dropdown
+     * 
+     * @param  $item
+     * @return string
+     */
+    public function getAddressesHtmlSelect($item)
     {
-        
+        $select = $this->getLayout()->createBlock('core/html_select')
+            ->setName('shipto['.$item->getProductId().']')
+            ->setValue($item->getCustomerAddressId())
+            ->setOptions($this->getAddressOptions());
+            
+        return $select->getHtml();
+    }
+    
+    /**
+     * Retrieve options for addresses dropdown
+     * 
+     * @return array
+     */
+    public function getAddressOptions()
+    {
+        $options = $this->getData('address_options');
+        if (is_null($options)) {
+            $options = array();
+            foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
+                $options[] = array(
+                    'value'=>$address->getId(), 
+                    'label'=>$address->getFirstname().' '.$address->getLastname().', '.
+                        $address->getStreet(-1).', '.
+                        $address->getCity().', '.
+                        $address->getRegion().' '.
+                        $address->getPostcode(),
+                );
+            }
+            $this->setData('address_options', $options);
+        }
+        return $options;
+    }
+    
+    public function getCustomer()
+    {
+        return Mage::getSingleton('checkout/type_multishipping')->getCustomerSession()->getCustomer();
     }
     
     public function getItemUrl($item)
@@ -28,9 +69,9 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Core_Block_Templa
         return $this->getUrl('catalog/product/view/id/'.$item->getProductId());
     }
     
-    public function getItemDeleteUrl()
+    public function getItemDeleteUrl($item)
     {
-        
+        return $this->getUrl('*/*/removeItem', array('address'=>$item->getParentId(), 'id'=>$item->getId()));
     }
     
     public function getPostActionUrl()
@@ -40,7 +81,7 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Core_Block_Templa
     
     public function getNewAddressUrl()
     {
-        
+        return Mage::getUrl('*/multishipping_address/newShipping');
     }
     
     public function getBackUrl()

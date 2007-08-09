@@ -60,6 +60,11 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
         return $customer;
     }
     
+    public function getCustomer()
+    {
+        return $this->getCustomerSession()->getCustomer();
+    }
+    
     /**
      * Retrieve customer default shipping address
      *
@@ -69,7 +74,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         $address = $this->getData('customer_default_shipping_address');
         if (is_null($address)) {
-            $address = $this->getCustomerSession()->getCustomer()->getDefaultShippingAddress();
+            $address = $this->getCustomer()->getDefaultShippingAddress();
             $this->setData('customer_default_shipping_address', $address);
         }
         return $address;
@@ -84,7 +89,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         $address = $this->getData('customer_default_billing_address');
         if (is_null($address)) {
-            $address = $this->getCustomerSession()->getCustomer()->getDefaultBillingAddress();
+            $address = $this->getCustomer()->getDefaultBillingAddress();
             $this->setData('customer_default_billing_address', $address);
         }
         return $address;

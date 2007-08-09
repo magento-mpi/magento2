@@ -2,6 +2,8 @@
 
 class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 {
+    const CHECKOUT_STATE_BEGIN = 'begin';
+    
     protected $_quote = null;
     protected $_processedQuote = null;
 
@@ -108,5 +110,11 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         Mage::dispatchEvent('destoryQuote', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
+    }
+    
+    public function resetCheckout()
+    {
+        $this->setCheckoutState(self::CHECKOUT_STATE_BEGIN);
+        return $this;
     }
 }

@@ -13,6 +13,7 @@
 <?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="form-validate">
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
+    <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
     <fieldset class="group-select">
         <legend>Contact Information</legend>
         <ul>
@@ -80,7 +81,7 @@
                     <input type="checkbox" id="primary_billing" name="default_billing" value="1"/>&nbsp;
                     <label for="primary_billing">Use as my default <strong>billing</strong> address</label>
                 <?else:?>
-                    <input type="hidden" id="primary_billing" name="default_billing" value="1"/>
+                    <input type="hidden" name="default_billing" value="1"/>
                 <?endif;?>
             </li>
             <li>
@@ -88,9 +89,9 @@
                     <strong>Default shipping address</strong>
                 <?elseif($this->canSetAsDefaultShipping()):?>
                     <input type="checkbox" id="primary_billing" name="default_shipping" value="1"/>&nbsp;
-                    <label for="primary_shipping">Use as my default <strong>shipping</strong> address</label>
+                    <label for="primary_billing">Use as my default <strong>shipping</strong> address</label>
                 <?else:?>
-                    <input type="hidden" id="primary_billing" name="default_shipping" value="1"/>
+                    <input type="hidden" name="default_shipping" value="1"/>
                 <?endif;?>
             </li>
         </ul>

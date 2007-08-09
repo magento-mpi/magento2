@@ -88,7 +88,6 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             $this->_redirect('*/multishipping_address/newShipping');
             return;
         }
-        
         $this->loadLayout(array('default', 'multishipping', 'multishipping_addresses'), 'multishipping_addresses');
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
@@ -108,7 +107,13 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function removeItemAction()
     {
-        $this->_back();
+        $itemId     = $this->getRequest()->getParam('id');
+        $addressId  = $this->getRequest()->getParam('address');
+        if ($addressId && $itemId) {
+            Mage::getSingleton('checkout/type_multishipping')
+                ->removeAddressItem($addressId, $itemId);
+        }
+        $this->_redirect('*/*/addresses');
     }
     
     /**

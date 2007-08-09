@@ -196,7 +196,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
     public function addItem(Mage_Sales_Model_Quote_Address_Item $item)
     {
-        $item->setAddress($this)->setParentId($this->getId());
+        $item->setAddress($this)
+            ->setParentId($this->getId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }

@@ -76,11 +76,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer/session')
                     ->addSuccess('The address has been successfully saved');
                 
-                $successUrl = $this->getRequest()->getParam('success_url');
-                if (empty($successUrl)) {
-                    $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
-                }
-                $this->getResponse()->setRedirect($successUrl);
+                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
             }
             catch (Exception $e) {
@@ -89,7 +85,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     ->addError($e->getMessage());
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id'=>$address->getId())));
+        $this->_redirectError(Mage::getUrl('*/*/edit', array('id'=>$address->getId())));
     }
     
     public function deleteAction()
