@@ -125,7 +125,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         return false;
     }
 
-    public function _beforeToHtml()
+    protected function _beforeToHtml()
     {
         $request = $this->getRequest();
         $this->getCollection()

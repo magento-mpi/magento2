@@ -1,7 +1,7 @@
 <div class="head">
 	<h2><?=__('My Product Reviews')?></h2>
 </div>
-<?if( $this->getCollection() && $this->getCollection()->getSize()):?>
+<?if( $this->getCollection() && $this->count()):?>
     <?=$this->getPagerHtml()?>
         <table class="data-table box-table" cellspacing="0">
         	<col width="60">
@@ -12,8 +12,8 @@
         	<tbody>
         	    <?foreach ($this->getCollection() as $_review):?>
                 <tr class="odd">
-                	<td><?=$_review->getCreatedAt()?></td>
-                	<td><a href="#">Product name goes here</a></td>
+                	<td><?=$this->dateFormat($_review->getCreatedAt())?></td>
+                	<td><a href="<?=$this->getProductLink()?>id/<?=$_review->getEntityPkValue()?>"><?=$_review->getName()?></a></td>
                 	<td>
                     <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
                         <?$avarage = 0;?>
@@ -27,7 +27,7 @@
                             </div>
                         <?endif;?>
                     <?endif;?>
-                		<span class="no-wrap"><a href="<?=$this->getProductLink()?>id/<?=$_review->getEntityPkValue()?>#customer-reviews"><?=__('%d Reviews', $_review->getTotalReviews())?></a></span></td>
+                    </td>
                 	<td><?=$_review->getDetail()?></td>
                 	<td class="last a-center"><a href="<?=$this->getReviewLink()?>id/<?=$_review->getId()?>"><?=__('View Details')?></a></td>
                 </tr>

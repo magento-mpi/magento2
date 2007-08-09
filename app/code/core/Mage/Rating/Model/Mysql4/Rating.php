@@ -15,4 +15,22 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('rating/rating', 'rating_id');
     }
+
+    public function getEntitySummary($object)
+    {
+        $read = $this->getConnection('read');
+        $sql = "SELECT
+                    SUM({$this->getTable('rating_vote')}.percent) as sum,
+                    COUNT(*) as count
+                FROM
+                    {$this->getTable('rating_vote')}
+                WHERE
+                    {$read->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $object->getEntityPkValue())}
+                GROUP BY
+                    {$this->getTable('rating_vote')}.entity_pk_value";
+        $data = $read->fetchRow($sql);
+
+        $object->addData($data);
+        return $object;
+    }
 }

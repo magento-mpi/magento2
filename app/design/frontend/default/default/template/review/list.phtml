@@ -1,13 +1,11 @@
 <?if(!empty($collection) && $collection->getSize()):?>
 	<div class="head">
 		<h3><?=__('Customer Reviews')?></h3><?if($reviewCount):?>
-		(
 		<?if( $this->getUseBackLink() ):?>
-		<a href="<?=$backLink?>"><?=__('Back')?></a>
+		&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a>
 		<?else:?>
-		<a href="<?=$reviewLink?>"><?=__('View all')?></a>
+		( <a href="<?=$reviewLink?>"><?=__('View all')?></a> )
 		<?endif;?>
-		)
 <?endif;?>
 	</div>
 

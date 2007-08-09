@@ -87,6 +87,12 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         return $this;
     }
 
+    public function addEntityInfo($entityName)
+    {
+
+        return $this;
+    }
+
     /**
      * Add status filter
      *

@@ -44,7 +44,12 @@ class Mage_Review_Model_Mysql4_Review
 
     public function load($reviewId)
     {
+        $select = $this->_read->select();
+        $select->from($this->_reviewTable)
+            ->join($this->_reviewDetailTable, "{$this->_reviewTable}.review_id = {$this->_reviewDetailTable}.review_id")
+            ->where("{$this->_reviewTable}.review_id = ?", $reviewId);
 
+        return $this->_read->fetchRow($select);
     }
 
     public function save(Mage_Review_Model_Review $review)
@@ -108,5 +113,14 @@ class Mage_Review_Model_Mysql4_Review
     public function delete(Mage_Review_Model_Review $review)
     {
 
+    }
+
+    public function getTotalReviews($entityPkValue)
+    {
+        $read = clone $this->_read;
+        $select = $read->select();
+        $select->from($this->_reviewTable, "COUNT(*)")
+            ->where("{$this->_reviewTable}.entity_pk_value = ?", $entityPkValue);
+        return $read->fetchOne($select);
     }
 }

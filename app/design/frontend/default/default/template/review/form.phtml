@@ -6,7 +6,6 @@
 					<form action="<?=$this->getAction()?>" method="post" id="review-form">
                         <?if( $this->getRatings() && $this->getRatings()->getSize()):?>
 						<strong><?=__('How do you rate this product?')?></strong><br>
-
 						<table class="data-table product-review-box" cellspacing="0">
 							<thead>
 								<tr>
@@ -25,7 +24,7 @@
 									<td class="label"><?=__($_rating->getRatingCode())?></td>
 							    <?$_iterator = 1;?>
 							    <?foreach ($_rating->getOptions() as $_option):?>
-									<td <?if($_iterator == 5): $_iterator=0;?>class="last"<?endif;?>><input type="radio" name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>
+									<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" <?if($_iterator == 5): $_iterator=0;?>class="validate-one-required-by-name"<?endif;?> name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>
 								<?$_iterator++?>
 				                <?endforeach;?>
 								</tr>

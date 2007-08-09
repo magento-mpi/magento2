@@ -18,7 +18,19 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
 
     public function setReviewFilter($reviewId)
     {
-        $this->_sqlSelect->where("review_id = ?", $reviewId);
+        $this->_sqlSelect->where("main_table.review_id = ?", $reviewId);
+        return $this;
+    }
+
+    public function setEntityPkFilter($entityId)
+    {
+        $this->_sqlSelect->where("entity_pk_value = ?", $entityId);
+        return $this;
+    }
+
+    public function addRatingInfo()
+    {
+        $this->_sqlSelect->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*");
         return $this;
     }
 }
