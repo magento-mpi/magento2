@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'theme' => 'advanced',
             'state' => 'html',
             'value' => $template->getTemplateText(),
-           	'style' => 'width: 720px; height: 300px;',
+           	'style' => 'width:98%; height: 600px;',
         ));
 
         if ($template->getId()) {

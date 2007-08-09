@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'name' => 'content',
             'label' => __('Content'),
             'title' => __('Content'),
-            'style' => 'width: 520px; height: 300px;',
+            'style' => 'width: 98%; height: 600px;',
             'wysiwyg' => true,
             'required' => true,
             'theme' => 'advanced',

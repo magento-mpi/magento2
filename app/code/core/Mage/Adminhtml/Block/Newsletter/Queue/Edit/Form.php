@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'class'	  =>    'required-entry',
             	'required'=>    true,
            		'value'	  =>    $queue->getTemplate()->getTemplateTextPreprocessed(),
-           		'style'   => 'width: 720px; height: 300px;',
+           		'style'   => 'width:98%; height: 600px;',
 			));
         } else {
         	$fieldset->addField('text','text', array(
