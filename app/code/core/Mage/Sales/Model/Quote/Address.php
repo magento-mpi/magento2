@@ -162,17 +162,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
                 if ($aItem->isDeleted()) {
                     continue;
                 }
-                if (!$aItem->getIsCompletedFromQuoteItem()) {
-                    foreach ($quoteItems as $qItem) {
-                        if ($aItem->getQuoteItemId()==$qItem->getId()) {
-                            foreach ($qItem->getData() as $k=>$v) {
-                                if (!$aItem->hasData($k)) {
-                                    $aItem->setData($k, $v);
-                                }
-                            }
-                            $aItem->setIsCompletedFromQuoteItem(true);
-                            break;
-                        }
+                if (!$aItem->getQuoteItemImported()) {
+                    if ($qItem = $this->getQuote()->getItemById($aItem->getQuoteItemId())) {
+                        $aItem->importQuoteItem($qItem);
                     }
                 }
                 $items[] = $aItem;
