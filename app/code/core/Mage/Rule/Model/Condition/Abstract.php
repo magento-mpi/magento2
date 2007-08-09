@@ -140,6 +140,19 @@ abstract class Mage_Rule_Model_Condition_Abstract
         return $value;
     }
     
+    public function getNewChildSelectOptions()
+    {
+        return array(
+            array('value'=>'', 'label'=>'Please choose a condition to add...'),
+        );
+    }
+    
+    public function getNewChildName()
+    {
+        $options = $this->getNewChildSelectOptions();
+        return $options[0]['label'];
+    }
+    
     public function asHtml()
     {
     	$form = $this->getRule()->getForm();

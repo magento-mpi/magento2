@@ -16,6 +16,10 @@
 <head>
     <title><?=__('Magento Admin')?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+    
+    <link rel="icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon">
+    
     <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js"></script>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>scriptaculous/scriptaculous.js"></script>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js"></script>
@@ -66,10 +70,6 @@
         Ext.UpdateManager.defaults.disableCaching = true;
     </script>
 <?endif;?>
-
-<?if($this->getCanLoadRulesJs()):?>
-	<script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/rules.js" ></script>
-<?endif?>
 </head>
 <body>
     <table style="width: 100%;"><tr><td>

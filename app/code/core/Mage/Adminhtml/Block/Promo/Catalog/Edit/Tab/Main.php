@@ -40,46 +40,9 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'name' => 'description',
             'label' => __('Description'),
             'title' => __('Description'),
-            'style' => 'width: 520px; height: 300px;',
-            'required' => true,
+            'style' => 'width: 320px; height: 100px;',
         ));
         
-    	$fieldset->addField('from_date', 'date', array(
-            'name' => 'from_date',
-            'label' => __('From Date'),
-            'title' => __('From Date'),
-            'image' => $this->getSkinUrl('images/grid-cal.gif'),
-            'required' => true,
-        ));
-        
-    	$fieldset->addField('to_date', 'date', array(
-            'name' => 'from_date',
-            'label' => __('From Date'),
-            'title' => __('From Date'),
-            'image' => $this->getSkinUrl('images/grid-cal.gif'),
-            'required' => true,
-        ));
-
-        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionArray();
-
-    	$fieldset->addField('store_ids', 'multiselect', array(
-            'name'      => 'store_ids',
-            'label'     => __('Stores'),
-            'title'     => __('Stores'),
-            'required'  => true,
-            'values'    => $stores,
-        ));
-        
-        $customerGroups = Mage::getResourceModel('customer/group_collection')->load()->toOptionArray();
-
-    	$fieldset->addField('customer_group_ids', 'multiselect', array(
-            'name'      => 'customer_group_ids',
-            'label'     => __('Customer Groups'),
-            'title'     => __('Customer Groups'),
-            'required'  => true,
-            'values'    => $customerGroups,
-        ));
-
     	$fieldset->addField('is_active', 'select', array(
             'label'     => __('Status'),
             'title'     => __('Status'),
@@ -89,6 +52,44 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
                 '1' => __('Enabled'),
                 '0' => __('Disabled'),
             ),
+        ));
+        
+        $stores = Mage::getResourceModel('core/store_collection')
+            ->addFieldToFilter('store_id', array('neq'=>0))
+            ->load()->toOptionArray();
+
+    	$fieldset->addField('store_ids', 'multiselect', array(
+            'name'      => 'store_ids',
+            'label'     => __('Stores'),
+            'title'     => __('Stores'),
+            'required'  => true,
+            'values'    => $stores,
+        ));
+        
+        $customerGroups = Mage::getResourceModel('customer/group_collection')
+            ->load()->toOptionArray();
+        array_unshift($customerGroups, array('value'=>0, 'label'=>'* Not logged in customers'));
+
+    	$fieldset->addField('customer_group_ids', 'multiselect', array(
+            'name'      => 'customer_group_ids',
+            'label'     => __('Customer Groups'),
+            'title'     => __('Customer Groups'),
+            'required'  => true,
+            'values'    => $customerGroups,
+        ));
+        
+    	$fieldset->addField('from_date', 'date', array(
+            'name' => 'from_date',
+            'label' => __('From Date'),
+            'title' => __('From Date'),
+            'image' => $this->getSkinUrl('images/grid-cal.gif'),
+        ));
+        
+    	$fieldset->addField('to_date', 'date', array(
+            'name' => 'from_date',
+            'label' => __('From Date'),
+            'title' => __('From Date'),
+            'image' => $this->getSkinUrl('images/grid-cal.gif'),
         ));
 
         $form->setValues($model->getData());

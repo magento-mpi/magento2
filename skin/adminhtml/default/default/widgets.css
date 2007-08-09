@@ -438,6 +438,7 @@ select.countries option { background-repeat:no-repeat; }
 
 .rule-param .label { font-weight:bold; color:black; }
 .rule-param .element { display:none; }
+.rule-param input, .rule-param select { width:auto !important; }
 
 .rule-param-edit .label { display:none; }
 .rule-param-edit .element { display:inline; }

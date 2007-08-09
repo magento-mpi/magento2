@@ -17,25 +17,17 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         return $this->setProductRuleId($id);
     }
-    
-    public function getEnv()
-    {
-        if (!$this->getData('env')) {
-            $this->setData('env', Mage::getModel('catalog/product_rule_environment'));
-        }
-        return $this->getData('env');
-    }
-    
+
     public function resetConditions()
     {
-        parent::_resetConditions(Mage::getModel('rule/condition_combine'));
+        parent::_resetConditions(Mage::getModel('catalogrule/rule_condition_combine'));
         
         return $this;
     }
 
     public function resetActions()
     {
-        parent::_resetActions(Mage::getModel('rule/action_collection'));
+        parent::_resetActions(Mage::getModel('catalogrule/rule_action_collection'));
         
         return $this;
     }

@@ -95,6 +95,20 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return $this->getValue();
     }
     
+    public function getNewChildSelectOptions()
+    {
+        return array(
+            array('value'=>'', 'label'=>'Please choose an action to add...'),
+            array('value'=>'rule/action_stop', 'label'=>'Stop rules processing'),
+        );
+    }
+    
+    public function getNewChildName()
+    {
+        $options = $this->getNewChildSelectOptions();
+        return $options[0]['label'];
+    }
+    
     public function asHtml()
     {
         return '';

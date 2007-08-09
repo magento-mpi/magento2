@@ -5,7 +5,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function __construct()
     {
         parent::__construct();
-        $this->setType('combine')
+        $this->setType('rule/condition_combine')
             ->setAttribute('all')
             ->setValue(true)
             ->setConditions(array());
@@ -133,17 +133,24 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     		'value_name'=>$this->getValueName(),
     	))->setRenderer($renderer);
     	
-       	$html = $typeEl->getHtml()."If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml();
+    	$newChildEl = $form->addField('cond:'.$this->getId().':new_child', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][new_child]',
+    		'values'=>$this->getNewChildSelectOptions(),
+    		'value_name'=>$this->getNewChildName(),
+    	))->setRenderer(new Mage_Rule_Block_Newchild());
+    	
+       	$html = $typeEl->getHtml()."If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml().': ';
+       	$html.= '('.$newChildEl->getHtml().'):';
     	return $html;
     }
     
     public function asHtmlRecursive()
     {
-        $html = '<li>'.$this->asHtml().'<ul>';
+        $html = $this->asHtml().'<ul id="cond:'.$this->getId().':children">';
         foreach ($this->getConditions() as $cond) {
             $html .= $cond->asHtmlRecursive();
         }
-        $html .= '</ul></li>';
+        $html .= '</ul>';
         return $html;
     }
         

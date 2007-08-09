@@ -19,8 +19,8 @@ CREATE TABLE `catalogrule` (
   `store_ids` varchar(255) NOT NULL default '',
   `customer_group_ids` varchar(255) NOT NULL default '',
   `is_active` tinyint(1) not null default 0,
-  `conditions` text NOT NULL,
-  `actions` text NOT NULL,
+  `conditions_serialized` text NOT NULL,
+  `actions_serialized` text NOT NULL,
   PRIMARY KEY  (`rule_id`),
   KEY `to_date` (`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

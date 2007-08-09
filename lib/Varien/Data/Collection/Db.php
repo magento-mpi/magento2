@@ -200,28 +200,28 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                     $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $to);
                 }
             }
-            elseif (!empty($condition['neq'])) {
+            elseif (isset($condition['neq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName != ?", $condition['neq']);
             }
-            elseif (!empty($condition['like'])) {
+            elseif (isset($condition['like'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName like ?", $condition['like']);
             }
-            elseif (!empty($condition['nlike'])) {
+            elseif (isset($condition['nlike'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName not like ?", $condition['nlike']);
             }
-            elseif (!empty($condition['in'])) {
+            elseif (isset($condition['in'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName in (?)", $condition['in']);
             }
-            elseif (!empty($condition['nin'])) {
+            elseif (isset($condition['nin'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName not in (?)", $condition['nin']);
             }
-            elseif (!empty($condition['notnull'])) {
+            elseif (isset($condition['notnull'])) {
                 $sql = "$fieldName is NOT NULL";
             }
-            elseif (!empty($condition['null'])) {
+            elseif (isset($condition['null'])) {
                 $sql = "$fieldName is NULL";
             }
-            elseif (!empty($condition['moreq'])) {
+            elseif (isset($condition['moreq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName >= ?", $condition['moreq']);
             }
             else {

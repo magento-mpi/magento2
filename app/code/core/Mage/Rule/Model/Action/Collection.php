@@ -58,18 +58,26 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     }
     
     public function asHtml()
-    {
-    	$html = 'Perform following actions';
+    {    	
+        $form = $this->getRule()->getForm();
+        $newChildEl = $form->addField('action:'.$this->getId().':new_child', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][new_child]',
+    		'values'=>$this->getNewChildSelectOptions(),
+    		'value_name'=>$this->getNewChildName(),
+    	))->setRenderer(new Mage_Rule_Block_Newchild());
+    	
+    	$html = 'Perform following actions:';
+    	$html.= '('.$newChildEl->getHtml().'):';
         return $html;	
     }
     
     public function asHtmlRecursive()
     {
-        $html = '<li>'.$this->asHtml().'<ul>';
+        $html = $this->asHtml().'<ul id="action:'.$this->getId().':children">';
         foreach ($this->getActions() as $cond) {
             $html .= $cond->asHtmlRecursive();
         }
-        $html .= '</ul></li>';
+        $html .= '</ul>';
         return $html;
     }
     

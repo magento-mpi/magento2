@@ -129,10 +129,14 @@ echo '<pre>'.print_r($arr,1).'</pre>';
 
     protected function _beforeSave()
     {
-        $conditions = serialize($this->getConditions()->asArray());
-        $this->setConditionsSerialized($conditions);
+        if ($this->getConditions()) {
+            $conditions = serialize($this->getConditions()->asArray());
+            $this->setConditionsSerialized($conditions);
+        }
 
-        $actions = serialize($this->getActions()->asArray());
-        $this->setActionsSerialized($actions);
+        if ($this->getActions()) {
+            $actions = serialize($this->getActions()->asArray());
+            $this->setActionsSerialized($actions);
+        }
     }
 }

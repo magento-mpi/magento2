@@ -1,0 +1,9 @@
+<script type="text/javascript" src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>adminhtml/rules.js" ></script>
+
+<div class="entry-edit">
+<?=$this->getFormHtml()?>
+</div>
+
+<script type="text/javascript">
+    var rulesForm = new VarienRulesForm('<?=$this->getRuleNewChildUrl()?>');
+</script>

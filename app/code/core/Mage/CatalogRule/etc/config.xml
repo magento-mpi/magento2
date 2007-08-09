@@ -51,11 +51,8 @@
             <rule>
               <conditions>
                 <combine>
-                  <class>rule/condition_combine</class>
+                  <class>catalogrule/rule_condition_combine</class>
                 </combine>
-                <system>
-                  <class>rule/condition_system</class>
-                </system>
                 <product>
                   <class>catalogrule/rule_condition_product</class>
                 </product>
