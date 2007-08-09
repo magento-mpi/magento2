@@ -13,7 +13,7 @@
             <?if ($rate->getErrorMessage()):?>
                 <li><strong class="error-text"><?=$rate->getCarrierTitle()?>: <?=$rate->getErrorMessage()?></strong></li>
             <?else:?>
-                <li><input id="estimate_method_<?=$rate->getCode()?>" name="estimate_method" type="radio" class="form-radio" value="<?=$rate->getCode()?>" <?if($rate->getCode()===$this->getEstimateMethod())echo"checked"?> /> <label for="estimate_method_<?=$rate->getCode()?>"><?=__($rate->getCarrierTitle())?>: <?=__($rate->getMethodDescription())?>: <strong><?=$rate->getPrice()?></strong></label></li>
+                <li><input id="estimate_method_<?=$rate->getCode()?>" name="estimate_method" type="radio" class="form-radio" value="<?=$rate->getCode()?>" <?if($rate->getCode()===$this->getEstimateMethod())echo"checked"?> /> <label for="estimate_method_<?=$rate->getCode()?>"><?=$rate->getCarrierTitle()?>: <?=__($rate->getMethodDescription())?>: <strong><?=$rate->getPrice()?></strong></label></li>
     		<?endif?>
         <?endforeach?>
     	</ul>

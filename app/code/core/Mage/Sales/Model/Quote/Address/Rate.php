@@ -26,6 +26,7 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Core_Model_Abstract
             $this
                 ->setCode($rate->getCarrier().'_error')
                 ->setCarrier($rate->getCarrier())
+                ->setCarrierTitle($rate->getCarrierTitle())
                 ->setErrorMessage($rate->getErrorMessage())
             ;
         } elseif ($rate instanceof Mage_Shipping_Model_Rate_Result_Method) {
