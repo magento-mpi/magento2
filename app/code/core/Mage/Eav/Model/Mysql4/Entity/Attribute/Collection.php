@@ -15,7 +15,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
 
     public function setAttributeSetFilter($setId)
     {
-        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'sort_order');
+        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
         $this->getSelect()->where('entity_attribute.attribute_set_id=?', $setId);
         $this->setOrder('sort_order', 'asc');
         return $this;
@@ -23,7 +23,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
 
     public function setAttributeSetsFilter(array $setIds)
     {
-        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'sort_order');
+        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
         $this->getSelect()->where('entity_attribute.attribute_set_id IN(?)', $setIds);
         $this->setOrder('sort_order', 'asc');
         return $this;
@@ -31,7 +31,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     
     public function setAttributeSetExcludeFilter($setId)
     {
-        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'sort_order');
+        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
         $this->getSelect()->where('entity_attribute.attribute_set_id != ?', $setId);
         $this->setOrder('sort_order', 'asc');
         return $this;
@@ -46,7 +46,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
 
     public function setAttributeGroupFilter($groupId)
     {
-        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'sort_order');
+        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
         $this->getSelect()->where('entity_attribute.attribute_group_id=?', $groupId);
         $this->setOrder('sort_order', 'asc');
         return $this;
