@@ -2,7 +2,7 @@ var VarienRulesForm = new Class.create();
 VarienRulesForm.prototype = {
     initialize : function(parent, newChildUrl){
         this.newChildUrl = newChildUrl;
-        var elems = $$('.rule-param');
+        var elems = $(parent).getElementsByClassName('rule-param');
         for (var i=0; i<elems.length; i++) {
             this.initParam(elems[i]);
         }
@@ -10,11 +10,23 @@ VarienRulesForm.prototype = {
     
     initParam: function (container) {
         container.rulesObject = this;
-		var label = Element.down(container, '.label');
-		var elem = Element.down(container, '.element').down();
-		Event.observe(label, 'click', this.showParamInputField.bind(this, container));
-		Event.observe(elem, 'change', this.hideParamInputField.bind(this, container));
-		Event.observe(elem, 'blur', this.hideParamInputField.bind(this, container));
+		
+        var label = Element.down(container, '.label');
+        if (label) {
+		  Event.observe(label, 'click', this.showParamInputField.bind(this, container));
+        }
+
+		var elem = Element.down(container, '.element');
+		if (elem) {
+		    elem = elem.down();
+		    Event.observe(elem, 'change', this.hideParamInputField.bind(this, container));
+		    Event.observe(elem, 'blur', this.hideParamInputField.bind(this, container));
+		}
+		
+		var remove = Element.down(container, '.rule-param-remove');
+		if (remove) {
+		    Event.observe(remove, 'click', this.removeRuleEntry.bind(this, container));
+		}
     },
     
     showParamInputField: function (container, event) {
@@ -29,7 +41,7 @@ VarienRulesForm.prototype = {
     	var elem = Element.down(elemContainer, 'select');
     	if (elem) {
     	   elem.focus();
-    	   // trying to emulate enter
+    	   // trying to emulate enter to open dropdown
     	   /*
     	   if (document.createEventObject) {
         	   var event = document.createEventObject();
@@ -55,10 +67,10 @@ VarienRulesForm.prototype = {
         	if (elem) {
         		label.innerHTML = elem.options[elem.selectedIndex].text;
         	}
-    
+        	
         	elem = Element.down(container, 'input.input-text');
         	if (elem) {
-        		label.innerHTML = elem.value;
+        		label.innerHTML = elem.value!='' ? elem.value : '...';
         	}
     	} else {
     	    elem = Element.down(container, 'select');
@@ -98,9 +110,14 @@ VarienRulesForm.prototype = {
     },
     
     onAddNewChildComplete: function (new_elem) {
-        var elems = new_elem.getElementsByClassName('rule-param'); //TODO: only in the received element
+        var elems = new_elem.getElementsByClassName('rule-param');
         for (var i=0; i<elems.length; i++) {
             this.initParam(elems[i]);
         }
+    },
+    
+    removeRuleEntry: function (container, event) {
+        var li = Element.up(container, 'li');
+        li.parentNode.removeChild(li);
     }
 }

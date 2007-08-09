@@ -16,8 +16,6 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
         foreach ($this->getAttributeOption() as $attr=>$dummy) { $this->setAttribute($attr); break; }
         foreach ($this->getOperatorOption() as $operator=>$dummy) { $this->setOperator($operator); break; }
-        
-        $this->setValue('...');
     }
     
     public function asArray(array $arrAttributes = array())
@@ -137,8 +135,11 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getValueName()
     {
         $value = $this->getValue();
+        if (is_null($value)) {
+            return '...';
+        }
         if (is_string($value)) {
-            return $value;
+            return $value!=='' ? $value : '...';
         }
         if (is_bool($value)) {
             return $this->getValueOption($value);
@@ -189,13 +190,19 @@ abstract class Mage_Rule_Model_Condition_Abstract
     		'value_name'=>$this->getValueName(),
     	))->setRenderer(Mage::getHelper('rule/editable'));
     	
-    	$html = $typeEl->getHtml().$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
+    	$html = $typeEl->getHtml().$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml().$this->getRemoveLinkHtml();
     	return $html;
     }
     
     public function asHtmlRecursive()
     {
         $html = $this->asHtml();
+        return $html;
+    }
+    
+    public function getRemoveLinkHtml()
+    {
+        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove">[x]</a></span>';
         return $html;
     }
     

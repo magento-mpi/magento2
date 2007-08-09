@@ -17,8 +17,6 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         
         foreach ($this->getAttributeOption() as $attr=>$dummy) { $this->setAttribute($attr); break; }
         foreach ($this->getOperatorOption() as $operator=>$dummy) { $this->setOperator($operator); break; }
-        
-        $this->setValue('...');
     }
     
     public function asArray(array $arrAttributes = array())
@@ -97,14 +95,14 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     
     public function getValueName()
     {
-        return $this->getValue();
+        $value = $this->getValue();
+        return !empty($value) || 0===$value ? $value : '...';;
     }
     
     public function getNewChildSelectOptions()
     {
         return array(
             array('value'=>'', 'label'=>'Please choose an action to add...'),
-            array('value'=>'rule/action_stop', 'label'=>'Stop rules processing'),
         );
     }
     
@@ -123,7 +121,14 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     {
         $str = $this->asHtml();
         return $str;
-    }    
+    }
+    
+    public function getRemoveLinkHtml()
+    {
+        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove">[x]</a></span>';
+        return $html;
+    }
+    
     public function asString($format='')
     {
         return "";

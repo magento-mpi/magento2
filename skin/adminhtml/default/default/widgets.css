@@ -443,8 +443,12 @@ select.countries option { background-repeat:no-repeat; }
     }
 
 .rule-param .label { font-weight:bold; color:black; }
+.rule-param .label:hover { font-weight:bold; color:blue; }
 .rule-param .element { display:none; }
 .rule-param input, .rule-param select { width:auto !important; }
 
 .rule-param-edit .label { display:none; }
 .rule-param-edit .element { display:inline; }
+
+.rule-param-remove { font-weight:normal; color:red; text-decoration:none; }
+.rule-param-remove:hover { font-weight:normal; color:blue; text-decoration:none; }

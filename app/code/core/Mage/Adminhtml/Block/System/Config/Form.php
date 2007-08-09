@@ -88,8 +88,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                             'can_use_default_value' => $this->_canUseDefaultValue($e),
                             'can_use_website_value' => $this->_canUseWebsiteValue($e),
                         ))->setRenderer($fieldRenderer);
-                    if ($e->getSourceModel()) {
-                        $field->setValues(Mage::getModel($e->getSourceModel())->toOptionArray());
+                    if ($srcModel = $e->getSourceModel()) {
+                        $field->setValues(Mage::getSingleton($srcModel)->toOptionArray());
                     }
                     break;
             }

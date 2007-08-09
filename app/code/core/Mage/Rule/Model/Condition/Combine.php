@@ -144,6 +144,9 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     	
        	$html = $typeEl->getHtml()."If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml().': ';
        	$html.= '('.$newChildEl->getHtml().')';
+       	if ($this->getId()!='1') {
+       	    $html.= $this->getRemoveLinkHtml();
+       	}
     	return $html;
     }
     

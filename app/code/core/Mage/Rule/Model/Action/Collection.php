@@ -73,6 +73,9 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     	
     	$html = 'Perform following actions: ';
     	$html.= '('.$newChildEl->getHtml().')';
+    	if ($this->getId()!='1') {
+    	    $html.= $this->getRemoveLinkHtml();
+    	}
         return $html;	
     }
     
