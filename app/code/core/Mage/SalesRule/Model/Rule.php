@@ -1,22 +1,22 @@
 <?php
 
-class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
+class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('catalogrule/rule');
+        $this->_init('salesrule/rule');
         $this->setIdFieldName('rule_id');
     }
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_condition_combine');
+        return Mage::getModel('salesrule/rule_condition_combine');
     }
 
     public function getActionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_action_collection');
+        return Mage::getModel('salesrule/rule_action_collection');
     }
 
 
@@ -54,13 +54,13 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         return $out;
     }
     
-    public function processProduct(Mage_Catalog_Model_Product $product)
+    public function processProduct(Mage_Sales_Model_Product $product)
     {
         $this->validateProduct($product) && $this->updateProduct($product);
         return $this;
     }
     
-    public function validateProduct(Mage_Catalog_Model_Product $product)
+    public function validateProduct(Mage_Sales_Model_Product $product)
     {
         if (!$this->getIsCollectionValidated()) {
             $env = $this->getEnv();
@@ -85,11 +85,11 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     
     public function getResourceCollection()
     {
-        return Mage::getResourceModel('catalogrule/rule_collection');
+        return Mage::getResourceModel('salesrule/rule_collection');
     }
     
     protected function _afterSave()
     {
-        $this->getResource()->updateRuleProductData($this);
+        
     }
 }

@@ -6,4 +6,9 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('catalogrule/rule', 'rule_id');
     }
+    
+    public function updateRuleProductData(Mage_CatalogRule_Model_Rule $rule)
+    {
+        #$this->getConnection('write')->
+    }
 }

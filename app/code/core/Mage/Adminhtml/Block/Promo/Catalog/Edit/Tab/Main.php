@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'name' => 'description',
             'label' => __('Description'),
             'title' => __('Description'),
-            'style' => 'width: 98%; height: 600px;',
+            'style' => 'width: 98%; height: 100px;',
             'required' => true,
         ));
         

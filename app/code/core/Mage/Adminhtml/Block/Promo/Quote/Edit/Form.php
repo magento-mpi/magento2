@@ -9,7 +9,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Promo__Quote_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Promo_Quote_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
     public function __construct()
