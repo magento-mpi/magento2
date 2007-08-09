@@ -183,6 +183,16 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return false;
     }
     
+    public function getItemByQuoteItemId($itemId)
+    {
+        foreach ($this->getItemsCollection() as $item) {
+            if ($item->getQuoteItemId()==$itemId) {
+                return $item;
+            }
+        }
+        return false;
+    }
+    
     public function removeItem($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {

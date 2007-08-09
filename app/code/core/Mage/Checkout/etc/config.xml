@@ -83,6 +83,34 @@
                </default>
             </updates>
          </multishipping_addresses>
+         <multishipping_shipping>
+            <updates>
+               <default>
+                  <file>checkout/multishipping/shipping.xml</file>
+               </default>
+            </updates>
+         </multishipping_shipping>
+         <multishipping_billing>
+            <updates>
+               <default>
+                  <file>checkout/multishipping/billing.xml</file>
+               </default>
+            </updates>
+         </multishipping_billing>
+         <multishipping_overview>
+            <updates>
+               <default>
+                  <file>checkout/multishipping/overview.xml</file>
+               </default>
+            </updates>
+         </multishipping_overview>
+         <multishipping_success>
+            <updates>
+               <default>
+                  <file>checkout/multishipping/success.xml</file>
+               </default>
+            </updates>
+         </multishipping_success>
       </layouts>
       <events>
          <customerLogin>

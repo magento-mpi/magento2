@@ -99,10 +99,18 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function addressesPostAction()
     {
+        /*echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';die();*/
         if ($shipToInfo = $this->getRequest()->getPost('ship')) {
             Mage::getSingleton('checkout/type_multishipping')->setShippingItemsInformation($shipToInfo);
         }
-        $this->_redirect('*/*/addresses');
+        if ($this->getRequest()->getParam('continue')) {
+            $this->_redirect('*/*/shipping');
+        }
+        else {
+            $this->_redirect('*/*/addresses');
+        }
     }
 
     /**
@@ -123,6 +131,14 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      * Multishipping checkout shipping information page
      */
     public function shippingAction()
+    {
+        $this->loadLayout(array('default', 'multishipping', 'multishipping_shipping'), 'multishipping_shipping');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
+    }
+    
+    public function shippingPostAction()
     {
         
     }

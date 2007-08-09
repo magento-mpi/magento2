@@ -1,0 +1,73 @@
+<?
+/**
+ * Multishipping checkout shipping template
+ * 
+ * @see Mage_Checkout_Block_Multishipping_Shipping
+ */
+?>
+<form action="<?=$this->getPostActionUrl()?>" method="post">
+<?foreach ($this->getAddresses() as $_index => $_address):?>
+<h3>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getAddressCount()?></h3>
+<div class="generic-box col2-alt-set">
+    <div class="col-1">
+        <div class="head">
+            <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a></h4>
+        </div>
+        <address>
+            <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+            <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
+            <?=$_address->getStreet(1)?><br/>
+            <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
+            <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
+            <?=$_address->getCountry()?>
+            <strong>T</strong> | <?=$_address->getTelephone()?>
+        </address>
+        <br/>
+        <div class="head">
+            <h4>Shipping Method</h4>
+        </div>
+        <?if (!($_shippingMethods = $this->getShippingMethods($_address))):?>
+            <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
+        <?else:?>
+        <dl class="shipment-methods">
+            <?foreach ($_shippingMethods as $_method):?>
+            <dt>USPS</dt>
+            <dd><ul>
+                <li><input type="radio" id="" value=""/> &nbsp;Shipping Method - $3.95</li>
+                <li><input type="radio" id="" value=""/> &nbsp;Shipping Method - $3.95</li>
+                <li><input type="radio" id="" value=""/> &nbsp;Shipping Method - $3.95</li></ul>
+            </dd>
+            <?endforeach;?>
+        </dl>
+        <?endif;?>
+    </div>
+    <div class="col-2">
+        <div class="head">
+            <h4>Items<span class="separator">|</span><a href="<?=$this->getItemsEditUrl($_address)?>">Edit</a></h4>
+        </div>
+        <table cellspacing="0" class="data-table nested-table">
+            <col/>
+            <col width="30"/>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th class="a-center">Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?foreach ($this->getAddressItems($_address) as $_item):?>
+                <tr class="odd">
+                    <td><?=$_item->getQuoteItem()->getName()?></td>
+                    <td class="last a-center"><?=$_item->getQty()?></td>
+                </tr>
+            <?endforeach;?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?endforeach;?>
+<div class="form-buttons">
+    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Select Addresses</a>
+    <button class="form-button"><span>Continue</span></button>
+</div>
+</form>

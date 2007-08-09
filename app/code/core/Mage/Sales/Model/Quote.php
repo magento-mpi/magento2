@@ -119,7 +119,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAddressByCustomerAddressId($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getCustomerAddressId()==$addressId) {
+            if (!$address->isDeleted() && $address->getCustomerAddressId()==$addressId) {
+                return $address;
+            }
+        }
+        return false;
+    }
+    
+    public function getShippingAddressByCustomerAddressId($addressId)
+    {
+        foreach ($this->getAddressesCollection() as $address) {
+            if (!$address->isDeleted() && $address->getAddressType()=='shipping' && $address->getCustomerAddressId()==$addressId) {
                 return $address;
             }
         }
@@ -160,12 +170,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     
     public function setShippingAddress(Mage_Sales_Model_Quote_Address $address)
     {
-        $old = $this->getShippingAddress();
-        
-        if (!empty($old)) {
-            $old->addData($address->getData());
-        } else {
+        if ($this->getIsMultiShipping()) {
             $this->addAddress($address->setAddressType('shipping'));
+        }
+        else {
+            $old = $this->getShippingAddress();
+            
+            if (!empty($old)) {
+                $old->addData($address->getData());
+            } else {
+                $this->addAddress($address->setAddressType('shipping'));
+            }
         }
         return $this;
     }
