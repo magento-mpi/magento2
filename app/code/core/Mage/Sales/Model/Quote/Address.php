@@ -157,7 +157,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $addressItems = $this->getItemsCollection();
 
         $items = array();
-        if ($this->getQuote()->getIsMultiShipping() && !$addressItems->count()==0) {
+        if ($this->getQuote()->getIsMultiShipping() && $addressItems->count()>0) {
             foreach ($addressItems as $aItem) {
                 if ($aItem->isDeleted()) {
                     continue;
