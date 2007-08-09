@@ -153,15 +153,36 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
     public function getAllItems()
     {
+        $quoteItems = $this->getQuote()->getItemsCollection();
+        $addressItems = $this->getItemsCollection();
+
         $items = array();
-        if ($this->getQuote()->getIsMultiShipping()) {
-            $itemsCollection = $this->getItemsCollection();
+        if ($this->getQuote()->getIsMultiShipping() && !$addressItems->count()==0) {
+            foreach ($addressItems as $aItem) {
+                if ($aItem->isDeleted()) {
+                    continue;
+                }
+                if (!$aItem->getIsCompletedFromQuoteItem()) {
+                    foreach ($quoteItems as $qItem) {
+                        if ($aItem->getQuoteItemId()==$qItem->getId()) {
+                            foreach ($qItem->getData() as $k=>$v) {
+                                if (!$aItem->hasData($k)) {
+                                    $aItem->setData($k, $v);
+                                }
+                            }
+                            $aItem->setIsCompletedFromQuoteItem(true);
+                            break;
+                        }
+                    }
+                }
+                $items[] = $aItem;
+            }
         } else {
-            $itemsCollection = $this->getQuote()->getItemsCollection();
-        }
-        foreach ($itemsCollection as $item) {
-            if (!$item->isDeleted()) {
-                $items[] =  $item;
+            foreach ($quoteItems as $qItem) {
+                if ($qItem->isDeleted()) {
+                    continue;
+                }
+                $items[] = $qItem;
             }
         }
         return $items;
