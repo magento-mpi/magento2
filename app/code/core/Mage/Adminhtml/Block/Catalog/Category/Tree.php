@@ -10,10 +10,13 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Template 
 {
+    protected $_withProductCount;
+    
     public function __construct() 
     {
         parent::__construct();
         $this->setTemplate('catalog/category/tree.phtml');
+        $this->_withProductCount = true;
     }
     
     protected function _initChildren()
@@ -51,7 +54,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $collection = $this->getData('category_collection_'.$storeId);
         if (is_null($collection)) {
             $collection = Mage::getResourceModel('catalog/category_collection')
-                ->addAttributeToSelect('name');
+                ->addAttributeToSelect('name')
+                ->setLoadProductCount($this->_withProductCount)
+                ->setProductStoreId($this->getRequest()->getParam('store', $this->_getDefaultStoreId()));
             $collection->getEntity()
                 ->setStore($storeId);
             $this->setData('category_collection_'.$storeId, $collection);
@@ -154,7 +159,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     protected function _getNodeJson($node, $level=1)
     {
         $item = array();
-        $item['text']= $node->getName(); //.'(id #'.$child->getId().')';
+        $item['text']= $node->getName();
+        if ($this->_withProductCount) {
+             $item['text'].= ' ('.$node->getProductCount().')';
+        } 
         $item['id']  = $node->getId();
         $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
         //$item['allowDrop'] = ($level<3) ? true : false;

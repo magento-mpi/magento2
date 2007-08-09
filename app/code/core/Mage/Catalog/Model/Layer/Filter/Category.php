@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
             
         $items=array();
         foreach ($collection as $category) {
-            if ($category->getProductCount()) {
+            if ($category->getIsActive() && $category->getProductCount()) {
                 $items[] = Mage::getModel('catalog/layer_filter_item')
                     ->setFilter($this)
                     ->setLabel($category->getName())

@@ -14,10 +14,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      */
     public function viewAction()
     {
-        $category = Mage::getSingleton('catalog/category')
+        $category = Mage::getModel('catalog/category')
             ->load($this->getRequest()->getParam('id', false));
         
-        if (!$category->getIsActive()) {
+        if (!$this->_canShowCategory($category)) {
             $this->_forward('noRoute');
             return;
         }
@@ -30,5 +30,20 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         );
         $this->getLayout()->generateBlocks();
         $this->renderLayout();
+    }
+    
+    protected function _canShowCategory($category)
+    {
+        if (!$category->getIsActive()) {
+            return false;
+        }
+        
+        $rootCategory = Mage::getModel('catalog/category')
+            ->load(Mage::getSingleton('core/store')->getConfig('catalog/category/root_id'));
+            
+        if (!in_array($category->getId(), explode(',', $rootCategory->getAllChildren()))) {
+            return false;
+        }
+        return true;
     }
 }

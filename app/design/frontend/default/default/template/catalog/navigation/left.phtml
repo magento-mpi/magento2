@@ -19,10 +19,12 @@
                 <dd>
                     <ol>
                     <?foreach ($_categories as $_category):?>
+                        <?if($_category->getIsActive()):?>
                         <li>
-                            <a href="<?=$this->getCategoryUrl($_category)?>/"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>><?=$_category->getName()?></a> 
+                            <a href="<?=$this->getCategoryUrl($_category)?>"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>><?=$_category->getName()?></a> 
                             (<?=$_category->getProductCount()?>)
                         </li>
+                        <?endif;?>
                     <?endforeach?>
                     </ul>
                 </dd>

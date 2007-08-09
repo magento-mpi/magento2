@@ -11,6 +11,7 @@
 class Mage_Catalog_Model_Entity_Category_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     protected $_productTable;
+    protected $_productStoreId;
     protected $_storeTable;
     
     protected $_loadWithProductCount = false;
@@ -50,6 +51,20 @@ class Mage_Catalog_Model_Entity_Category_Collection extends Mage_Eav_Model_Entit
     {
         $this->_loadWithProductCount = $flag;
         return $this;
+    }
+    
+    public function setProductStoreId($storeId)
+    {
+        $this->_productStoreId = $storeId;
+        return $this;
+    }
+    
+    public function getProductStoreId()
+    {
+        if (is_null($this->_productStoreId)) {
+            $this->_productStoreId = $this->getEntity()->getStoreId();
+        }
+        return $this->_productStoreId;
     }
     
     public function load($printQuery = false, $logQuery = false)
@@ -95,7 +110,7 @@ class Mage_Catalog_Model_Entity_Category_Collection extends Mage_Eav_Model_Entit
                 )
                 ->join($this->_storeTable, $this->_storeTable.'.product_id='.$this->_productTable.'.product_id')
                 ->where($this->_read->quoteInto($this->_productTable.'.category_id IN(?)', $regularIds))
-                ->where($this->_read->quoteInto($this->_storeTable.'.store_id=?', $this->getEntity()->getStoreId()))
+                ->where($this->_read->quoteInto($this->_storeTable.'.store_id=?', $this->getProductStoreId()))
                 ->group($this->_productTable.'.category_id');
             $counts = $this->_read->fetchPairs($select);
             foreach ($regular as $item) {
@@ -114,7 +129,7 @@ class Mage_Catalog_Model_Entity_Category_Collection extends Mage_Eav_Model_Entit
                 $select->from($this->_productTable, new Zend_Db_Expr('COUNT( DISTINCT '.$this->_productTable.'.product_id)'))
                     ->join($this->_storeTable, $this->_storeTable.'.product_id='.$this->_productTable.'.product_id')
                     ->where($this->_read->quoteInto($this->_productTable.'.category_id IN(?)', explode(',', $item->getAllChildren())))
-                    ->where($this->_read->quoteInto($this->_storeTable.'.store_id=?', $this->getEntity()->getStoreId()))
+                    ->where($this->_read->quoteInto($this->_storeTable.'.store_id=?', $this->getProductStoreId()))
                     ->group($this->_storeTable.'.store_id');
 
                 $item->setProductCount((int) $this->_read->fetchOne($select));
