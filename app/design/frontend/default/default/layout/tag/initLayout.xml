@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <reference name="left">
-        <block type="tag/popular" name="left.tags">
+        <block type="tag/popular" name="tags_popular">
             <action method="setTemplate"><template>tag/popular.phtml</template></action>
         </block>
     </reference>

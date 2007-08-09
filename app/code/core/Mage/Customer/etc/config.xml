@@ -16,13 +16,11 @@
         <block>
             <groups><customer><class>Mage_Customer_Block</class></customer></groups>
         </block>
-        
         <models>
             <customer>
                 <class>Mage_Customer_Model</class>
                 <resourceModel>customer_entity</resourceModel>
             </customer>
-            
             <customer_entity>
                 <class>Mage_Customer_Model_Entity</class>
                 <entities>
@@ -37,7 +35,6 @@
                     </customer_group>
                 </entities>
             </customer_entity>
-            
             <customer_mysql4>
                 <class>Mage_Customer_Model_Mysql4</class>
                 <entities>
@@ -80,7 +77,6 @@
                 </entities>
             </customer_mysql4>
         </models>
-        
         <resources>
             <customer_setup>
                 <setup>
@@ -102,7 +98,6 @@
             </customer_read>
         </resources>
     </global>
-    
     <frontend>
         <layouts>
             <default>
@@ -126,6 +121,20 @@
                     </default>
                 </updates>
             </customer_register>
+            <customer_account>
+                <updates>
+                    <default>
+                        <file>customer/account.xml</file>
+                    </default>
+                </updates>
+            </customer_account>
+            <customer_dashboard>
+                <updates>
+                    <default>
+                        <file>customer/dashboard.xml</file>
+                    </default>
+                </updates>
+            </customer_dashboard>
             <customer_address>
                 <updates>
                     <default>
@@ -133,6 +142,13 @@
                     </default>
                 </updates>
             </customer_address>
+            <wishlist>
+                <updates>
+                    <default>
+                        <file>customer/wishlist.xml</file>
+                    </default>
+                </updates>
+            </wishlist>
         </layouts>
         <events>
             <beforeGenerateLayoutBlocks>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="customer_account_dashboard_info1">
+        <action method="setTemplate"><template>review/customer/recent.phtml</template></action>
+    </reference>
+</layoutUpdate>

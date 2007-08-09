@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="root">
+        <action method="unsetChild" name="right" />
+    </reference>
+</layoutUpdate>

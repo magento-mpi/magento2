@@ -4,7 +4,7 @@
         <Mage_Wishlist>
             <version>0.5.1</version>
             <depends>
-                <Mage_Customer />                                
+                <Mage_Customer />
                 <Mage_Catalog />
             </depends>
         </Mage_Wishlist>
@@ -60,15 +60,22 @@
                     </wishlist>
                 </updates>
             </default>
+            <customer_account>
+                <updates>
+                    <wishlist_account>
+                        <file>wishlist/account.xml</file>
+                    </wishlist_account>
+                </updates>
+            </customer_account>
         </layouts>
-       <routers>
-         <wishlist>
-            <use>standard</use>
-            <args>
-               <module>Mage_Wishlist</module>
-               <frontName>wishlist</frontName>
-            </args>
-         </wishlist>
-      </routers>
+        <routers>
+            <wishlist>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Wishlist</module>
+                    <frontName>wishlist</frontName>
+                </args>
+            </wishlist>
+        </routers>
     </frontend>
 </config>

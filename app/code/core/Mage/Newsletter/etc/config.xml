@@ -33,7 +33,7 @@
                     </queue_link>
                     <queue_store_link>
                         <table>newsletter_queue_store_link</table>
-                    </queue_store_link>                    
+                    </queue_store_link>
                     <template>
                         <table>newsletter_template</table>
                     </template>
@@ -65,14 +65,23 @@
         </resources>
     </global>
     <frontend>
-       <routers>
-         <newsletter>
-            <use>standard</use>
-            <args>
-               <module>Mage_Newsletter</module>
-               <frontName>newsletter</frontName>
-            </args>
-         </newsletter>
-      </routers>
+        <layouts>
+            <customer_account>
+                <updates>
+                    <newsletter_account>
+                        <file>newsletter/account.xml</file>
+                    </newsletter_account>
+                </updates>
+            </customer_account>
+        </layouts>
+        <routers>
+            <newsletter>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Newsletter</module>
+                    <frontName>newsletter</frontName>
+                </args>
+            </newsletter>
+        </routers>
     </frontend>
 </config>

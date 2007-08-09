@@ -12,7 +12,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     public function preDispatch()
     {
         parent::preDispatch();
-        
+
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
@@ -21,45 +21,47 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     /**
      * Customer addresses list
      */
-    public function indexAction() 
-    {   
+    public function indexAction()
+    {
         if (Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
         {
-            $this->loadLayout();
+            $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+
             $this->_initLayoutMessages('customer/session');
-                 
+
             $this->getLayout()->getBlock('content')->append(
                 $this->getLayout()->createBlock('customer/address_book')
             );
-            $this->renderLayout(); 
+            $this->renderLayout();
         } else $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
     }
-    
+
     public function editAction()
     {
         $this->_forward('form');
     }
-    
+
     public function newAction()
     {
         $this->_forward('form');
     }
-    
+
     /**
      * Address book form
      */
     public function formAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+
         $this->_initLayoutMessages('customer/session');
-        
+
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('customer/address_edit')
         );
-        
+
         $this->renderLayout();
     }
-    
+
     public function formPostAction()
     {
         // Save data
@@ -70,12 +72,12 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                 ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
                 ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-            
+
             try {
                 $address->save();
                 Mage::getSingleton('customer/session')
                     ->addSuccess('The address has been successfully saved');
-                
+
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
             }
@@ -87,14 +89,14 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
         $this->_redirectError(Mage::getUrl('*/*/edit', array('id'=>$address->getId())));
     }
-    
+
     public function deleteAction()
     {
         $addressId = $this->getRequest()->getParam('id', false);
-        
+
         if ($addressId) {
             $address = Mage::getModel('customer/address')->load($addressId);
-            
+
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != Mage::getSingleton('customer/session')->getCustomerId()) {
                 Mage::getSingleton('customer/session')
@@ -102,7 +104,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                 return;
             }
-            
+
             try {
                 $address->delete();
                 Mage::getSingleton('customer/session')

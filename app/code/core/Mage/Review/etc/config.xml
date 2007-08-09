@@ -62,22 +62,36 @@
     </global>
     <frontend>
         <layouts>
-            <default>
+            <customer_dashboard>
                 <updates>
-                    <default>
-                        <file>review/initLayout.xml</file>
-                    </default>
+                    <review_dashboard>
+                        <file>review/dashboard.xml</file>
+                    </review_dashboard>
                 </updates>
-            </default>
+            </customer_dashboard>
+            <reviews>
+                <updates>
+                    <reviews>
+                        <file>review/reviews.xml</file>
+                    </reviews>
+                </updates>
+            </reviews>
+            <customer_account>
+                <updates>
+                    <review_account>
+                        <file>review/account.xml</file>
+                    </review_account>
+                </updates>
+            </customer_account>
         </layouts>
-      <routers>
-         <review>
-            <use>standard</use>
-            <args>
-               <module>Mage_Review</module>
-               <frontName>review</frontName>
-            </args>
-         </review>
-      </routers>
+        <routers>
+            <review>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Review</module>
+                    <frontName>review</frontName>
+                </args>
+            </review>
+        </routers>
     </frontend>
 </config>

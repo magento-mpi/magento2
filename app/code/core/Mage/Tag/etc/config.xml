@@ -61,19 +61,32 @@
         <layouts>
             <default>
                 <updates>
-                    <tags>
+                    <tag_init>
                         <file>tag/initLayout.xml</file>
-                    </tags>
+                    </tag_init>
                 </updates>
             </default>
+            <customer_account>
+                <updates>
+                    <tag_account>
+                        <file>tag/account.xml</file>
+                    </tag_account>
+                </updates>
+            </customer_account>
+            <customer_dashboard>
+                <updates>
+                    <tag_dashboard>
+                        <file>tag/dashboard.xml</file>
+                    </tag_dashboard>
+                </updates>
+            </customer_dashboard>
         </layouts>
         <routers>
             <tag>
-                <default>true</default>
-                <class>Mage_Core_Controller_Front_Router</class>
+                <use>standard</use>
                 <args>
                     <module>Mage_Tag</module>
-                    <frontName>catalog</frontName>
+                    <frontName>tag</frontName>
                 </args>
             </tag>
         </routers>

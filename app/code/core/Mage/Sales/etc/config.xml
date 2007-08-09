@@ -111,6 +111,22 @@
         </sales>
     </global>
     <frontend>
+        <layouts>
+            <customer_account>
+                <updates>
+                    <sales_account>
+                        <file>sales/account.xml</file>
+                    </sales_account>
+                </updates>
+            </customer_account>
+            <customer_dashboard>
+                <updates>
+                    <sales_dashboard>
+                        <file>sales/dashboard.xml</file>
+                    </sales_dashboard>
+                </updates>
+            </customer_dashboard>
+        </layouts>
         <routers>
             <sales>
                 <use>standard</use>

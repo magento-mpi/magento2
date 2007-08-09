@@ -16,7 +16,6 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('review/customer/list.phtml');
 
         $this->_collection = Mage::getModel('review/review')->getCollection();
 
