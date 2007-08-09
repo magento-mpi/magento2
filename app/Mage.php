@@ -238,6 +238,11 @@ final class Mage {
         }
         return Mage::registry($registryKey);
     }
+    
+    public static function getHelper($type)
+    {
+        return Mage::registry('action')->getLayout()->getHelper($type);
+    }
 
     /**
      * Return new exception by module to be thrown

@@ -488,7 +488,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (class_exists($className)) {
             $model = new $className($constructArguments);
         } else {
-            throw Mage::exception('Mage_Core', 'Model class does not exist: '.$modelClass);
+            #throw Mage::exception('Mage_Core', 'Model class does not exist: '.$modelClass);
+            return false;
         }
         return $model;
     }

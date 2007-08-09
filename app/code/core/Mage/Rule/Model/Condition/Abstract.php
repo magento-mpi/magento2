@@ -11,7 +11,13 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function __construct()
     {
         parent::__construct();
+        
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
+
+        foreach ($this->getAttributeOption() as $attr=>$dummy) { $this->setAttribute($attr); break; }
+        foreach ($this->getOperatorOption() as $operator=>$dummy) { $this->setOperator($operator); break; }
+        
+        $this->setValue('...');
     }
     
     public function asArray(array $arrAttributes = array())
@@ -156,7 +162,6 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function asHtml()
     {
     	$form = $this->getRule()->getForm();
-    	$renderer = new Mage_Rule_Block_Editable();
     	
     	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
     		'name'=>'rule[conditions]['.$this->getId().'][type]',
@@ -169,20 +174,20 @@ abstract class Mage_Rule_Model_Condition_Abstract
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
-    	))->setRenderer($renderer);
+    	))->setRenderer(Mage::getHelper('rule/editable'));
     	
     	$operEl = $form->addField('cond:'.$this->getId().':operator', 'select', array(
     		'name'=>'rule[conditions]['.$this->getId().'][operator]',
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
-    	))->setRenderer($renderer);
+    	))->setRenderer(Mage::getHelper('rule/editable'));
     	
     	$valueEl = $form->addField('cond:'.$this->getId().':value', 'text', array(
     		'name'=>'rule[conditions]['.$this->getId().'][value]',
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
-    	))->setRenderer($renderer);
+    	))->setRenderer(Mage::getHelper('rule/editable'));
     	
     	$html = $typeEl->getHtml().$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml();
     	return $html;
@@ -190,7 +195,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     
     public function asHtmlRecursive()
     {
-        $html = '<li>'.$this->asHtml().'</li>';
+        $html = $this->asHtml();
         return $html;
     }
     

@@ -40,6 +40,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var Mage_Core_Block_Messages
      */
     protected $_messagesBlock = null;
+    
+    protected $_helpers = array();
 
     /**
      * Constructor
@@ -388,5 +390,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         $this->_messagesBlock = $block;
         return $this;
+    }
+    
+    public function getHelper($type)
+    {
+        return $this->getLayout()->getHelper($type);
     }
 }// Class Mage_Home_ContentBlock END

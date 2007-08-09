@@ -9,13 +9,14 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Condact extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
-        $this->setRuleNewChildUrl($this->getUrl('adminhtml/promo_catalog/newConditionHtml'));
+        $this->setNewConditionChildUrl($this->getUrl('adminhtml/promo_catalog/newConditionHtml'));
+        $this->setNewActionChildUrl($this->getUrl('adminhtml/promo_catalog/newActionHtml'));
     }
 
     protected function _prepareForm()
@@ -35,6 +36,15 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
             'title' => __('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
+        
+        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
+
+    	$fieldset->addField('actions', 'text', array(
+            'name' => 'actions',
+            'label' => __('Actions'),
+            'title' => __('Actions'),
+            'required' => true,
+        ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
         
 
         $form->setValues($model->getData());

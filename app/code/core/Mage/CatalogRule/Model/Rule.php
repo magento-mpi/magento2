@@ -6,30 +6,17 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         parent::_construct();
         $this->_init('catalogrule/rule');
-    }
-    
-    public function getId()
-    {
-        return $this->getProductRuleId();
-    }
-    
-    public function setId($id)
-    {
-        return $this->setProductRuleId($id);
+        $this->setIdFieldName('rule_id');
     }
 
-    public function resetConditions()
+    public function getConditionsInstance()
     {
-        parent::_resetConditions(Mage::getModel('catalogrule/rule_condition_combine'));
-        
-        return $this;
+        return Mage::getModel('catalogrule/rule_condition_combine');
     }
 
-    public function resetActions()
+    public function getActionsInstance()
     {
-        parent::_resetActions(Mage::getModel('catalogrule/rule_action_collection'));
-        
-        return $this;
+        return Mage::getModel('catalogrule/rule_action_collection');
     }
 
 

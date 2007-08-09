@@ -1,8 +1,8 @@
 <?php
 
-class Mage_Catalog_Model_Product_Rule_Condition_Product extends Mage_Rule_Model_Condition_Abstract
+class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condition_Abstract
 {
-    public function loadAttributes()
+    public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
             'product_id'=>'Product ID',

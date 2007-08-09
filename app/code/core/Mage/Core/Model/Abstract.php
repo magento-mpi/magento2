@@ -59,6 +59,25 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return parent::getIdFieldName();
     }
+    
+    public function getId()
+    {
+        if ($this->getIdFieldName()) {
+            return $this->getData($this->getIdFieldName());
+        } else {
+            return $this->getData('id');
+        }
+    }
+    
+    public function setId($id)
+    {
+        if ($this->getIdFieldName()) {
+            $this->setData($this->getIdFieldName(), $id);
+        } else {
+            $this->setData('id', $id);
+        }
+        return $this;
+    }
 
     /**
      * Set resource names
@@ -121,6 +140,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     public function load($id, $field=null)
     {
         $this->getResource()->load($this, $id, $field);
+        $this->_afterLoad();
         return $this;
     }
 
@@ -159,6 +179,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         $data = $this->getData();
         return $data;
+    }
+    
+    protected function _afterLoad()
+    {
+        return $this;
     }
 
     protected function _beforeSave()

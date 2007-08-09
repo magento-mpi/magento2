@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
-        $this->setRuleNewChildUrl($this->getUrl('adminhtml/promo_catalog/getNewCondition'));
+        $this->setRuleNewChildUrl($this->getUrl('adminhtml/promo_catalog/newActionHtml'));
     }
     
     protected function _prepareForm()
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
             'label' => __('Actions'),
             'title' => __('Actions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getModel('rule/renderer_actions'));
+        ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
         
 
         $form->setValues($model->getData());

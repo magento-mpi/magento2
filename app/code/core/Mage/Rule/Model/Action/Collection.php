@@ -34,10 +34,15 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     {
         $salesConfig = Mage::getSingleton('sales/config');
         
-        foreach ($arr as $actArr) {
-            $action = $this->getRule()->getActionInstance($actArr['type']);
-            $action->loadArray($actArr);
-            $this->addAction($action);
+        if (!empty($arr) && is_array($arr)) {
+            foreach ($arr as $actArr) {
+                if (empty($actArr['type'])) {
+                    continue;
+                }
+                $action = Mage::getModel($actArr['type']);
+                $action->loadArray($actArr);
+                $this->addAction($action);
+            }
         }
         return $this;
     }
@@ -64,10 +69,10 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     		'name'=>'rule[actions]['.$this->getId().'][new_child]',
     		'values'=>$this->getNewChildSelectOptions(),
     		'value_name'=>$this->getNewChildName(),
-    	))->setRenderer(new Mage_Rule_Block_Newchild());
+    	))->setRenderer(Mage::getHelper('rule/newchild'));
     	
-    	$html = 'Perform following actions:';
-    	$html.= '('.$newChildEl->getHtml().'):';
+    	$html = 'Perform following actions: ';
+    	$html.= '('.$newChildEl->getHtml().')';
         return $html;	
     }
     
@@ -75,7 +80,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     {
         $html = $this->asHtml().'<ul id="action:'.$this->getId().':children">';
         foreach ($this->getActions() as $cond) {
-            $html .= $cond->asHtmlRecursive();
+            $html .= '<li>'.$cond->asHtmlRecursive().'</li>';
         }
         $html .= '</ul>';
         return $html;

@@ -1,7 +1,8 @@
-<div class="entry-edit">
+<div class="entry-edit rule-tree" id="<?=$this->getForm()->getId()?>-container">
 <?=$this->getFormHtml()?>
 </div>
 
 <script type="text/javascript">
-    var rulesForm = new VarienRulesForm('<?=$this->getRuleNewChildUrl()?>');
+    var conditionsForm = new VarienRulesForm('<?=$this->getForm()->getId()?>-container', '<?=$this->getNewConditionChildUrl()?>');
+    var actionsForm = new VarienRulesForm('<?=$this->getForm()->getId()?>-container', '<?=$this->getNewActionChildUrl()?>');
 </script>

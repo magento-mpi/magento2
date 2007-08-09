@@ -432,9 +432,15 @@ input.validation-failed, textarea.validation-failed {
 .left-col-block { width:190px; overflow:hidden; } 
 select.countries option { background-repeat:no-repeat; }
 
+.image-preview{position:absolute;cursor:pointer}
+.entry-edit .tree li {margin:0}
+
 /************* RULES ***************/
 
-.rule-conditions li, .rule-actions li { margin-left:16px; }
+.rule-tree ul { 
+    padding-left:16px !important; 
+    border-left:dotted 1px #888;
+    }
 
 .rule-param .label { font-weight:bold; color:black; }
 .rule-param .element { display:none; }
@@ -442,5 +448,3 @@ select.countries option { background-repeat:no-repeat; }
 
 .rule-param-edit .label { display:none; }
 .rule-param-edit .element { display:inline; }
-.image-preview{position:absolute;cursor:pointer}
-.entry-edit .tree li {margin:0}

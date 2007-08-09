@@ -82,10 +82,14 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         $this->setAttribute($arr['attribute'])
             ->setValue($arr['value']);
 
-        foreach ($arr['conditions'] as $condArr) {
-            $cond = $this->getRule()->getConditionInstance($condArr['type']);
-            $this->addCondition($cond);            
-            $cond->loadArray($condArr);
+        if (!empty($arr['conditions']) && is_array($arr['conditions'])) {
+            foreach ($arr['conditions'] as $condArr) {
+                $cond = Mage::getModel($condArr['type']);
+                if (!empty($cond)) {
+                    $this->addCondition($cond);            
+                    $cond->loadArray($condArr);
+                }
+            }
         }
         return $this;
     }
@@ -111,7 +115,6 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asHtml()
     {
     	$form = $this->getRule()->getForm();
-    	$renderer = new Mage_Rule_Block_Editable();
     	
     	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
     		'name'=>'rule[conditions]['.$this->getId().'][type]',
@@ -124,31 +127,31 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
-    	))->setRenderer($renderer);
+    	))->setRenderer(Mage::getHelper('rule/editable'));
     	
     	$valueEl = $form->addField('cond:'.$this->getId().':value', 'select', array(
     		'name'=>'rule[conditions]['.$this->getId().'][value]',
     		'values'=>$this->getValueSelectOptions(),
     		'value'=>$this->getValue(),
     		'value_name'=>$this->getValueName(),
-    	))->setRenderer($renderer);
+    	))->setRenderer(Mage::getHelper('rule/editable'));
     	
     	$newChildEl = $form->addField('cond:'.$this->getId().':new_child', 'select', array(
     		'name'=>'rule[conditions]['.$this->getId().'][new_child]',
     		'values'=>$this->getNewChildSelectOptions(),
     		'value_name'=>$this->getNewChildName(),
-    	))->setRenderer(new Mage_Rule_Block_Newchild());
+    	))->setRenderer(Mage::getHelper('rule/newchild'));
     	
        	$html = $typeEl->getHtml()."If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml().': ';
-       	$html.= '('.$newChildEl->getHtml().'):';
+       	$html.= '('.$newChildEl->getHtml().')';
     	return $html;
     }
     
     public function asHtmlRecursive()
     {
-        $html = $this->asHtml().'<ul id="cond:'.$this->getId().':children">';
+        $html = $this->asHtml().'<ul id="cond:'.$this->getId().':children" class="rule-param-children">';
         foreach ($this->getConditions() as $cond) {
-            $html .= $cond->asHtmlRecursive();
+            $html .= '<li>'.$cond->asHtmlRecursive().'</li>';
         }
         $html .= '</ul>';
         return $html;

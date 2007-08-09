@@ -14,6 +14,11 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     {
         parent::__construct();
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
+        
+        foreach ($this->getAttributeOption() as $attr=>$dummy) { $this->setAttribute($attr); break; }
+        foreach ($this->getOperatorOption() as $operator=>$dummy) { $this->setOperator($operator); break; }
+        
+        $this->setValue('...');
     }
     
     public function asArray(array $arrAttributes = array())
@@ -116,7 +121,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     
     public function asHtmlRecursive()
     {
-        $str = '<li>'.$this->asHtml().'</li>';
+        $str = $this->asHtml();
         return $str;
     }    
     public function asString($format='')

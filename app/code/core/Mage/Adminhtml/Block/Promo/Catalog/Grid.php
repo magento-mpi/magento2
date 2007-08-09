@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
     {
         parent::__construct();
         $this->setId('promo_catalog_grid');
-        $this->setDefaultSort('rule_title');
+        $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
     }
@@ -35,13 +35,13 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
             'header'    => __('ID'),
             'align'     =>'right',
             'width'     => '50px',
-            'index'     => 'poll_id',
+            'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
             'header'    => __('Rule Name'),
             'align'     =>'left',
-            'index'     => 'poll_title',
+            'index'     => 'name',
         ));
 
         $this->addColumn('from_date', array(
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
-            'index'     => 'date_posted',
+            'index'     => 'from_date',
         ));
 
         $this->addColumn('to_date', array(
@@ -58,14 +58,14 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
             'width'     => '120px',
             'type'      => 'date',
             'default'   => '--',
-            'index'     => 'date_closed',
+            'index'     => 'to_date',
         ));
 
         $this->addColumn('is_active', array(
             'header'    => __('Status'),
             'align'     => 'left',
             'width'     => '80px',
-            'index'     => 'active',
+            'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
                 1 => 'Active',
@@ -78,6 +78,6 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id' => $row->getId()));
+        return Mage::getUrl('*/*/edit', array('id' => $row->getRuleId()));
     }
 }

@@ -26,12 +26,12 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     
     public function editAction()
     {
-        $id = $this->getRequest()->getParam('rule_id');
+        $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('catalogrule/rule');
 
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (! $model->getRuleId()) {
                 Mage::getSingleton('adminhtml/session')->addError(__('This rule does not longer exist'));
                 $this->_redirect('*/*');
                 return;
@@ -39,15 +39,15 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getCurrentPromoCatalogRuleData(true);
+        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
         if (!empty($data)) {
-            $model->setData($data);
+            $model->addData($data);
         }
         
         Mage::register('current_promo_catalog_rule', $model);
 
         $block = $this->getLayout()->createBlock('adminhtml/promo_catalog_edit')
-            ->setData('action', Mage::getUrl('adminhtml', array('controller' => 'cms_page', 'action' => 'save')));
+            ->setData('action', Mage::getUrl('adminhtml/promo_catalog/save'));
         
         $this->_initAction();
         
@@ -78,7 +78,8 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             $data['actions'] = $data['rule']['actions'];
             unset($data['rule']);
             
-            $model->setData($data);
+            $model->loadPost($data);
+            Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was saved succesfully'));
@@ -88,7 +89,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
-                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
@@ -97,7 +98,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('page_id')) {
+        if ($id = $this->getRequest()->getParam('id')) {
             try {
                 $model = Mage::getModel('catalogrule/rule');
                 $model->setId($id);
@@ -108,7 +109,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             }
             catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
@@ -116,14 +117,35 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_redirect('*/*/');
     }
 
-    public function getNewConditionAction()
+    public function newConditionHtmlAction()
     {
-        $parent = $this->getRequest()->getParam('parent');
+        $id = $this->getRequest()->getParam('id');
+        $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
         
+        $model = Mage::getModel($type)->setId($id)->setType($type)
+            ->setRule(Mage::getModel('catalogrule/rule'));
+            
+        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+            $html = $model->asHtmlRecursive();
+        } else {
+            $html = '';
+        }
+        $this->getResponse()->setBody($html);        
     }
     
-    public function getNewActionAction()
+    public function newActionHtmlAction()
     {
+        $id = $this->getRequest()->getParam('id');
+        $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
         
+        $model = Mage::getModel($type)->setId($id)->setType($type)
+            ->setRule(Mage::getModel('catalogrule/rule'));
+            
+        if ($model instanceof Mage_Rule_Model_Action_Abstract) {
+            $html = $model->asHtmlRecursive();
+        } else {
+            $html = '';
+        }
+        $this->getResponse()->setBody($html);
     }
 }

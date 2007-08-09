@@ -60,6 +60,8 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      * @var string
      */
     protected $_idFieldName;
+    
+    protected $_mainTableFields;
 
     /**
      * Main table unique keys field names
@@ -307,7 +309,19 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      */
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
     {
-        return $object->getDataForSave();
+        $data = $object->getDataForSave();
+        /*
+        if (empty($this->_mainTableFields)) {
+            $read = $this->getConnection('read');
+            $this->_mainTableFields = $read->fetchAssoc('show fields from '.$this->getMainTable());
+        }
+        foreach ($data as $k=>$v) {
+            if (!is_scalar($v) || !isset($this->_mainTableFields[$k])) {
+                unset($data[$k]);
+            }
+        }
+        */
+        return $data;
     }
 
     /**

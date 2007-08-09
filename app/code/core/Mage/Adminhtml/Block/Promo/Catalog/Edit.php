@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
     public function __construct()
     {
-        $this->_objectId = 'rule_id';
+        $this->_objectId = 'id';
         $this->_controller = 'promo_catalog';
 
         parent::__construct();
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
     public function getHeaderText()
     {
         $rule = Mage::registry('current_promo_catalog_rule');
-        if ($rule->getId()) {
+        if ($rule->getRuleId()) {
             return __('Edit Rule') . " '" . $rule->getName() . "'";
         }
         else {

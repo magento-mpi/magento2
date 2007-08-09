@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             ->load()->toOptionArray();
 
     	$fieldset->addField('store_ids', 'multiselect', array(
-            'name'      => 'store_ids',
+            'name'      => 'store_ids[]',
             'label'     => __('Stores'),
             'title'     => __('Stores'),
             'required'  => true,
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
         array_unshift($customerGroups, array('value'=>0, 'label'=>'* Not logged in customers'));
 
     	$fieldset->addField('customer_group_ids', 'multiselect', array(
-            'name'      => 'customer_group_ids',
+            'name'      => 'customer_group_ids[]',
             'label'     => __('Customer Groups'),
             'title'     => __('Customer Groups'),
             'required'  => true,
@@ -86,12 +86,23 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
         ));
         
     	$fieldset->addField('to_date', 'date', array(
-            'name' => 'from_date',
-            'label' => __('From Date'),
-            'title' => __('From Date'),
+            'name' => 'to_date',
+            'label' => __('To Date'),
+            'title' => __('To Date'),
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
         ));
-
+    	
+        $fieldset->addField('stop_rules_processing', 'select', array(
+            'label'     => __('Stop further rules processing'),
+            'title'     => __('Stop further rules processing'),
+            'name'      => 'stop_rules_processing',
+            'required' => true,
+            'options'    => array(
+                '1' => __('Yes'),
+                '0' => __('No'),
+            ),
+        ));
+        
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);

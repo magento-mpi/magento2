@@ -36,6 +36,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     
     protected $_area;
     
+    protected $_helpers = array();
+    
     public function __construct($data=array())
     {
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
@@ -485,5 +487,16 @@ echo "TEST:".$i;
             return $block;
         }
         return $this->createBlock('core/messages', 'messages');
+    }
+    
+    public function getHelper($type)
+    {
+        if (!isset($this->_helpers[$type])) {
+            if (!$className = Mage::getConfig()->getBlockClassName($type)) {
+                Mage::exception('Mage_Core', 'Invalid block type ' . $type);
+            }
+            $this->_helpers[$type] = new $className();
+        }
+        return $this->_helpers[$type];
     }
 }

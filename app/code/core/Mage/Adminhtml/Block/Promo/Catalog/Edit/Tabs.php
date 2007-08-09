@@ -29,17 +29,18 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tabs extends Mage_Adminhtml_Block_
             'active'    => true
         ));
 
-        $this->addTab('conditions_section', array(
-            'label'     => __('Conditions'),
-            'title'     => __('Conditions'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_conditions')->toHtml(),
+        $this->addTab('condact_section', array(
+            'label'     => __('Conditions and Actions'),
+            'title'     => __('Conditions and Actions'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_condact')->toHtml(),
         ));
-        
+        /*
         $this->addTab('actions_section', array(
             'label'     => __('Actions'),
             'title'     => __('Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_actions')->toHtml(),
         ));
+        */
         return parent::_beforeToHtml();
     }
 

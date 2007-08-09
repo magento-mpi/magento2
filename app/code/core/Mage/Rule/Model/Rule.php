@@ -2,19 +2,25 @@
 
 class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 {
+    protected $_conditions;
+    protected $_actions;
+    protected $_form;
+    
     protected function _construct()
     {
     	$this->_init('rule/rule');
-        $this->setStopProcessingRules(false);
-        $this->resetConditions();
-        $this->resetActions();
-        $this->setForm(new Varien_Data_Form());
+        parent::_construct();
     }
 
+    public function getConditionsInstance()
+    {
+        return Mage::getModel('rule/condition_combine');
+    }
+    
     public function _resetConditions(Mage_Rule_Model_Condition_Interface $conditions=null)
     {
         if (is_null($conditions)) {
-            $conditions = Mage::getModel('rule/condition_combine');
+            $conditions = $this->getConditionsInstance();
         }
         $conditions->setRule($this)->setId('1');
         $this->setConditions($conditions);
@@ -22,15 +28,56 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         return $this;
     }
     
+    public function setConditions(Mage_Rule_Model_Condition_Interface $conditions)
+    {
+        $this->_conditions = $conditions;
+        return $this;
+    }
+    
+    public function getConditions()
+    {
+        if (empty($this->_conditions)) {
+            $this->_resetConditions();
+        }
+        return $this->_conditions;
+    }
+    
+    public function getActionsInstance()
+    {
+        return Mage::getModel('rule/action_collection');
+    }
+    
     public function _resetActions(Mage_Rule_Model_Action_Interface $actions=null)
     {
         if (is_null($actions)) {
-            $actions = Mage::getModel('rule/action_collection');
+            $actions = $this->getActionsInstance();
         }
         $actions->setRule($this)->setId('1');
         $this->setActions($actions);
         
         return $this;
+    }
+    
+    public function setActions(Mage_Rule_Model_Action_Interface $actions)
+    {
+        $this->_actions = $actions;
+        return $this;
+    }
+    
+    public function getActions()
+    {
+        if (!$this->_actions) {
+            $this->_resetActions();
+        }
+        return $this->_actions;
+    }
+    
+    public function getForm()
+    {
+        if (!$this->_form) {
+            $this->_form = new Varien_Data_Form();
+        }
+        return $this->_form;
     }
 
     public function asString($format='')
@@ -58,24 +105,31 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     public function loadPost(array $rule)
     {
     	$arr = array();
-    	foreach (array('conditions', 'actions') as $component) {
-	    	foreach ($rule[$component] as $id=>$data) {
-	    		$path = explode('.', $id);
-	    		$node =& $arr;
-	    		for ($i=0, $l=sizeof($path); $i<$l; $i++) {
-	    			if (!isset($node[$component][$path[$i]])) {
-	    				$node[$component][$path[$i]] = array();
-	    			}
-	    			$node =& $node[$component][$path[$i]];
-	    		}
-	    		foreach ($data as $k=>$v) {
-	    			$node[$k] = $v;
-	    		}
-	    	}
+    	foreach ($rule as $key=>$value) {
+    	    if ($key==='conditions' || $key==='actions') {
+    	    	foreach ($value as $id=>$data) {
+    	    		$path = explode('.', $id);
+    	    		$node =& $arr;
+    	    		for ($i=0, $l=sizeof($path); $i<$l; $i++) {
+    	    			if (!isset($node[$key][$path[$i]])) {
+    	    				$node[$key][$path[$i]] = array();
+    	    			}
+    	    			$node =& $node[$key][$path[$i]];
+    	    		}
+    	    		foreach ($data as $k=>$v) {
+    	    			$node[$k] = $v;
+    	    		}
+    	    	}
+    	    } else {
+    	        $this->setData($key, $value);
+    	    }
     	}
-echo '<pre>'.print_r($arr,1).'</pre>';
+#echo "<pre>".print_r($rule,1)."</pre>";
+#echo "<pre>".print_r($arr,1)."</pre>";
     	$this->getConditions()->loadArray($arr['conditions'][1]);
     	$this->getActions()->loadArray($arr['actions'][1]);
+#echo "<pre>".print_r($this->getConditions()->asArray(),1)."</pre>"; die;
+
     	return $this;
     }
     
@@ -120,23 +174,38 @@ echo '<pre>'.print_r($arr,1).'</pre>';
     
     protected function _afterLoad()
     {
+        parent::_afterLoad();
 		$conditionsArr = unserialize($this->getConditionsSerialized());
-        $this->getConditions()->loadArray($conditionsArr);
+		if (!empty($conditionsArr) && is_array($conditionsArr)) {
+            $this->getConditions()->loadArray($conditionsArr);
+		}
         
         $actionsArr = unserialize($this->getActionsSerialized());
-        $this->getActions()->loadArray($actionsArr);
+        if (!empty($actionsArr) && is_array($actionsArr)) {
+            $this->getActions()->loadArray($actionsArr);
+        }
+        
+        $this->setStoreIds(explode(',',$this->getStoreIds()));
+        $this->setCustomerGroupIds(explode(',',$this->getCustomerGroupIds()));
     }
 
     protected function _beforeSave()
     {
         if ($this->getConditions()) {
-            $conditions = serialize($this->getConditions()->asArray());
-            $this->setConditionsSerialized($conditions);
+            $this->setConditionsSerialized(serialize($this->getConditions()->asArray()));
+            $this->unsConditions();
         }
 
         if ($this->getActions()) {
-            $actions = serialize($this->getActions()->asArray());
-            $this->setActionsSerialized($actions);
+            $this->setActionsSerialized(serialize($this->getActions()->asArray()));
+            $this->unsActions();
         }
+        if (is_array($this->getStoreIds())) {
+            $this->setStoreIds(join(',', $this->getStoreIds()));
+        }
+        if (is_array($this->getCustomerGroupIds())) {
+            $this->setCustomerGroupIds(join(',', $this->getCustomerGroupIds()));
+        }
+        parent::_beforeSave();
     }
 }
