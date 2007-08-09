@@ -181,7 +181,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 			$emails = array_unique($emails);
 			
 			foreach($emails as $email) {
-				$template->send($email,
+				$template->send($email, $email,
 					array(
 						'items'		 		=> &$wishlistBlock,
 						'addAllLink' 		=> Mage::getUrl('*/shared/tocart',array('code'=>$wishlist->getSharingCode())),
