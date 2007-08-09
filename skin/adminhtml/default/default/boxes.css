@@ -248,7 +248,7 @@
 .head-newsletter-queue { background-image:url(images/fam_newspaper_go.gif); }
 .head-newsletter-list { background-image:url(images/fam_newspaper.gif); }
 .head-newsletter-report { background-image:url(images/fam_newspaper_error.gif); }
-.head-tag { background-image:url(images/fam_tag_orange.gif); }
+.head-tag-tag { background-image:url(images/fam_tag_orange.gif); }
 .head-sales-order, .head-sales-invoice { background-image:url(images/fam_folder_table.gif); }
 .head-categories { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
 .head-catalog-product-attribute { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
@@ -384,7 +384,7 @@ fieldset.config input.input-text {
 fieldset.config select.select {
     width:256px;
     }
-    
+
 div.tree_item, div.tree_item_last{
     background-position: left;
     background-repeat: no-repeat;
@@ -417,11 +417,11 @@ img.attribute-global {
     float: left;
 }
 
-.bundle-option-row INPUT.option-label { 
+.bundle-option-row INPUT.option-label {
     width: 50% !important;
 }
 
-.bundle-option-row INPUT.option-position { 
+.bundle-option-row INPUT.option-position {
     width: 70px !important;
 }
 

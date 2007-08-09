@@ -10,19 +10,20 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tagAllGrid');
+        $this->setId('tag_tag_grid');
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tag/tag_collection');
+        $collection = Mage::getResourceModel('tag/tag_collection')
+            ->addPopularity();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -40,7 +41,7 @@ class Mage_Adminhtml_Block_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => __('# of Uses'),
             'width'     => '140px',
             'align'     => 'center',
-            'index'     => 'total_used',
+            'index'     => 'popularity',
             'type'      => 'number',
         ));
         $this->addColumn('status', array(

@@ -34,13 +34,44 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function addPopularity($limit=null)
     {
         $this->getSelect()
-            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id', array('*', 'popularity' => 'COUNT('.$this->_tagRelTable.'.tag_relation_id)'))
+            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id', array('tag_relation_id', 'popularity' => 'COUNT('.$this->_tagRelTable.'.tag_relation_id)'))
             ->group('main_table.tag_id');
         if (! is_null($limit)) {
             $this->getSelect()->limit($limit);
         }
-        $this->setOrder('popularity', 'DESC');
         return $this;
+    }
+
+    public function addFieldToFilter($field, $condition)
+    {
+        if ('popularity' == $field) {
+            // TOFIX
+            $this->_sqlSelect->having($this->_getConditionSql('count(' . $this->_tagRelTable . '.tag_relation_id)', $condition));
+        } else {
+            parent::addFieldToFilter($field, $condition);
+        }
+        return $this;
+    }
+
+    /**
+     * Get sql for get record count
+     *
+     * @return  string
+     */
+    public function getSelectCountSql()
+    {
+        $this->_renderFilters();
+
+        $countSelect = clone $this->_sqlSelect;
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+
+        $sql = $countSelect->__toString();
+        // TOFIX
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
+        return $sql;
     }
 
 }

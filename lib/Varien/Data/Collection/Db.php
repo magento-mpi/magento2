@@ -66,7 +66,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             $sql = $this->getSelectCountSql();
             $this->_totalRecords = $this->_conn->fetchOne($sql);
         }
-        return $this->_totalRecords;
+        return intval($this->_totalRecords);
     }
 
     /**

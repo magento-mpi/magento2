@@ -20,7 +20,13 @@ class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
     {
         if (empty($this->_tags)) {
             $this->_tags = array();
-            $tags = Mage::getResourceModel('tag/tag_collection')->addPopularity(20)->setStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)->load()->getItems();
+            $tags = Mage::getResourceModel('tag/tag_collection')
+                ->addPopularity(20)
+                ->setOrder('popularity', 'DESC')
+                ->setStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
+                ->load()
+                ->getItems()
+            ;
         }
         $this->_maxPopularity = $tags[0]->getPopularity();
         $this->_minPopularity = $tags[count($tags)-1]->getPopularity();
