@@ -426,11 +426,15 @@ die;
     {
         $xml = simplexml_load_string($response);
         $rArr = array();
-        $errorTitle = (is_object($xml->Error)?$xml->Error->Message:'Unknown error');
-        foreach ($xml->Entry as $entry) {
-            $rArr[] = array('method'=>(string)$entry->Service, 'cost'=>(string)$entry->EstimatedCharges->DiscountedCharges->NetCharge);
+        $errorTitle = 'Unknown error';
+        if (is_object($xml)) {
+            $errorTitle = (is_object($xml->Error) && is_object($xml->Error->Message))?(string)$xml->Error->Message:'Unknown error';
+            foreach ($xml->Entry as $entry) {
+                $rArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+            }
+            arsort($rArr);
         }
-   
+
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($rArr)) {
@@ -440,34 +444,29 @@ die;
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
-            foreach ($rArr as $r) {
+            foreach ($rArr as $method=>$cost) {
                 $rate = Mage::getModel('shipping/rate_result_method');
                 $rate->setCarrier('fedex');
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
-                $rate->setMethod($r['method']);
-                $rate->setMethodTitle($this->getCode('method', $r['method']));
-                $rate->setCost($r['cost']);
-                $rate->setPrice($this->getMethodPrice($r['cost']));
+                $rate->setMethod($method);
+                $rate->setMethodTitle($this->getCode('method', $method));
+                $rate->setCost($cost);
+                $rate->setPrice($this->getMethodPrice($cost));
                 $result->append($rate);
             }
         }
-#echo "<pre>".print_r($result,1)."</pre>";
         $this->_result = $result;
     }
     
     public function getMethodPrice($cost)
     {
-        $price = $cost+Mage::getStoreConfig('carriers/ups/handling');
+        $price = $cost+Mage::getStoreConfig('carriers/fedex/handling');
         return $price;
     }
 
     public function getCode($type, $code='')
     {
         static $codes = array(
-            'action'=>array(
-                'single'=>'3',
-                'all'=>'4',
-            ),
             
             'method'=>array(
                 'PRIORITYOVERNIGHT'                => 'Priority Overnight',
@@ -488,45 +487,28 @@ die;
                 'EUROPEFIRSTINTERNATIONALPRIORITY' => 'Europe First Priority',
             ),
             
-            'pickup'=>array(
-                'RDP'    => 'Regular Daily Pickup',
-                'OCA'    => 'On Call Air',
-                'OTP'    => 'One Time Pickup',
-                'LC'     => 'Letter Center',
-                'CC'     => 'Customer Counter',
+            'dropoff'=>array(
+                'REGULARPICKUP'         => 'Regular Pickup',
+                'REQUESTCOURIER'        => 'Request Courier',
+                'DROPBOX'               => 'Drop Box',
+                'BUSINESSSERVICECENTER' => 'Business Service Center',
+                'STATION'               => 'Station',
             ),
             
-            'container'=>array(
-                'CP'     => '00', // Customer Packaging
-                'ULE'    => '01', // UPS Letter Envelope
-                'UT'     => '03', // UPS Tube
-                'UEB'    => '21', // UPS Express Box
-                'UW25'   => '24', // UPS Worldwide 25 kilo
-                'UW10'   => '25', //UPS Worldwide 10 kilo
+            'packaging'=>array(
+                'FEDEXENVELOPE' => 'FedEx Envelope',
+                'FEDEXPAK'      => 'FedEx Pak',
+                'FEDEXBOX'      => 'FedEx Box',
+                'FEDEXTUBE'     => 'FedEx Tube',
+                'FEDEX10KGBOX'  => 'FedEx 10kg Box',
+                'FEDEX25KGBOX'  => 'FedEx 25kg Box',
+                'YOURPACKAGING' => 'Your Packaging',
             ),
             
-            'container_description'=>array(
-                'CP'     => 'Customer Packaging',
-                'ULE'    => 'UPS Letter Envelope',
-                'UT'     => 'UPS Tube',
-                'UEB'    => 'UPS Express Box',
-                'UW25'   => 'UPS Worldwide 25 kilo',
-                'UW10'   => 'UPS Worldwide 10 kilo',
-            ),
-            
-            'dest_type'=>array(
-                'RES'    => '1', // Residential
-                'COM'    => '2', // Commercial
-            ),
-            
-            'dest_type_description'=>array(
-                'RES'    => 'Residential',
-                'COM'    => 'Commercial',
-            )
         );
         
         if (!isset($codes[$type])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code type: '.$type);
+            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code type: '.$type);
         }
         
         if (''===$code) {
@@ -534,7 +516,7 @@ die;
         }
         
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code for type '.$type.': '.$code);
+            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code for type '.$type.': '.$code);
         }
         
         return $codes[$type][$code];
