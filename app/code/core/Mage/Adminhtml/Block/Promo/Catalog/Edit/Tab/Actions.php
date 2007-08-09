@@ -11,7 +11,13 @@
  */
 class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml_Block_Widget_Form
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('promo/form.phtml');
+        $this->setRuleNewChildUrl($this->getUrl('adminhtml/promo_catalog/getNewCondition'));
+    }
+    
     protected function _prepareForm()
     {
         $model = Mage::registry('current_promo_catalog_rule');

@@ -70,6 +70,10 @@
         Ext.UpdateManager.defaults.disableCaching = true;
     </script>
 <?endif;?>
+
+<?if($this->getCanLoadRulesJs()):?>
+	<script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/rules.js" ></script>
+<?endif?>
 </head>
 <body>
     <table style="width: 100%;"><tr><td>

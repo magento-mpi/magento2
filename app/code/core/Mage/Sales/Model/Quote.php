@@ -64,7 +64,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getBillingAddress()
     {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='billing') {
+            if ($address->getAddressType()=='billing' && !$address->isDeleted()) {
                 return $address;
             }
         }
@@ -76,7 +76,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getShippingAddress()
     {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='shipping') {
+            if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
                 return $address;
             }
         }

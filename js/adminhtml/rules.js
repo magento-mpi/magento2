@@ -48,20 +48,24 @@ VarienRulesForm.prototype = {
     addRuleNewChild: function (elem) {
         var parent_id = elem.id.replace(/^.*:(.*):.*$/, '$1');
         var children_ul = $(elem.id.replace(/[^:]*$/, 'children'));
+        
+        var max_id = 0;
         var children_inputs = Selector.findChildElements(children_ul, $A('input[type=hidden]'));
         if (children_inputs.length) {
-            var new_id = '';
             children_inputs.each(function(el){
                 if (el.id.match(/:type$/)) {
-                    new_id = el.id.replace(/^.*:(.*):.*$/, '$1');
+                    max_id = Math.max(max_id, 1*el.id.replace(/^.*:.*([0-9]+):.*$/, '$1'));
                 }
             });
-        } else {
-            new_id = parent_id+'.1';
         }
+        var new_id = parent_id+'.'+(max_id+1);
         var new_type = elem.value;
         
-        Ajax.Request(self.newChildUrl, {
+        //children_ul
+
+        console.log(new_id, new_type);
+        
+        new Ajax.Request(this.newChildUrl+'new_type/'+encodeURIComponent(new_type)+'/new_id/'+encodeURIComponent(new_id), {
             method: 'get',
             onSuccess: function (transport) {
                 console.log('success');
@@ -70,6 +74,5 @@ VarienRulesForm.prototype = {
                 console.log('failure');
             }
         });
-        console.log(new_id, new_type);
     }
 }

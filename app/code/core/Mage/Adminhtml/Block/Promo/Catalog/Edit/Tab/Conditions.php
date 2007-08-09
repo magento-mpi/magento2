@@ -15,6 +15,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
+        $this->setRuleNewChildUrl($this->getUrl('adminhtml/promo_catalog/getNewCondition'));
     }
 
     protected function _prepareForm()
