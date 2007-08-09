@@ -10,7 +10,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             ->setValue(true)
             ->setConditions(array());
     }
-    
+
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
@@ -19,26 +19,35 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         ));
         return $this;
     }
-    
+
+    public function loadOperatorOptions()
+    {
+        $this->setOperatorOption(array(
+            true => __('TRUE'),
+            false => __('FALSE'),
+        ));
+        return $this;
+    }
+
     public function addCondition(Mage_Rule_Model_Condition_Interface $condition)
     {
         $condition->setRule($this->getRule());
         $condition->setObject($this->getObject());
 
-        $conditions = $this->getConditions();        
+        $conditions = $this->getConditions();
         $conditions[] = $condition;
-        
+
         if (!$condition->getId()) {
             $condition->setId($this->getId().'.'.sizeof($conditions));
         }
-        
+
         $this->setConditions($conditions);
         return $this;
     }
-    
+
     /**
      * Returns array containing conditions in the collection
-     * 
+     *
      * Output example:
      * array(
      *   'type'=>'combine',
@@ -50,25 +59,25 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
      *     {quote_item_combine::asArray}
      *   )
      * )
-     * 
+     *
      * @return array
      */
     public function asArray(array $arrAttributes = array())
     {
         $out = parent::asArray();
-        
+
         foreach ($this->getConditions() as $condition) {
             $out['conditions'][] = $condition->asArray();
         }
-        
+
         return $out;
     }
-    
+
     public function asXml()
     {
         extract($this->asArray());
         $xml = "<attribute>".$this->getAttribute()."</attribute>"
-            ."<value>".$this->getValue()."</value>"
+            ."<operator>".$this->getOperator()."</operator>"
             ."<conditions>";
         foreach ($this->getConditions() as $condition) {
             $xml .= "<condition>".$condition->asXml()."</condition>";
@@ -76,24 +85,24 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         $xml .= "</conditions>";
         return $xml;
     }
-    
+
     public function loadArray($arr)
     {
         $this->setAttribute($arr['attribute'])
-            ->setValue($arr['value']);
+            ->setValue($arr['operator']);
 
         if (!empty($arr['conditions']) && is_array($arr['conditions'])) {
             foreach ($arr['conditions'] as $condArr) {
                 $cond = Mage::getModel($condArr['type']);
                 if (!empty($cond)) {
-                    $this->addCondition($cond);            
+                    $this->addCondition($cond);
                     $cond->loadArray($condArr);
                 }
             }
         }
         return $this;
     }
-    
+
     public function loadXml($xml)
     {
         if (is_string($xml)) {
@@ -106,11 +115,11 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         $this->loadArray($arr);
         return $this;
     }
-    
+
     public function asHtml()
     {
        	$html = $this->getTypeElement()->getHtml().
-       	    __("If %s of these conditions are %s:", $this->getAttributeElement()->getHtml(), $this->getValueElement()->getHtml());
+       	    __("If %s of these conditions are %s:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml());
        	$html.= ' ('.$this->getNewChildElement()->getHtml().')';
        	if ($this->getId()!='1') {
        	    $html.= $this->getRemoveLinkHtml();
@@ -126,7 +135,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     		'value_name'=>$this->getNewChildName(),
     	))->setRenderer(Mage::getHelper('rule/newchild'));
     }
-    
+
     public function asHtmlRecursive()
     {
         $html = $this->asHtml().'<ul id="cond:'.$this->getId().':children" class="rule-param-children">';
@@ -136,13 +145,13 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         $html .= '</ul>';
         return $html;
     }
-        
+
     public function asString($format='')
     {
-        $str = __("If %s of these conditions are %", $this->getAttributeName(), $this->getValueName());
+        $str = __("If %s of these conditions are %", $this->getAttributeName(), $this->getOperatorName());
         return $str;
     }
-    
+
     public function asStringRecursive($level=0)
     {
         $str = parent::asStringRecursive($level);
@@ -151,11 +160,11 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         }
         return $str;
     }
-    
+
     public function validate()
     {
         $all = $this->getAttribute()==='all';
-        $true = (bool)$this->getValue();
+        $true = (bool)$this->getOperator();
         foreach ($this->getConditions() as $cond) {
             if ($all && $cond->validate()!==$true) {
                 return false;
