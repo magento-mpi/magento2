@@ -4,13 +4,6 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 {
     protected $_totals;
     
-    protected function _construct()
-    {
-        $this->_totals = $this->getQuote()->getTotals();
-        
-        parent::_construct();
-    }
-    
     public function chooseTemplate()
     {
         if ($this->getQuote()->hasItems()) {
@@ -33,7 +26,15 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter($this->_priceFilter, 'value');
-        return $totalsFilter->filter($this->_totals);
+        return $totalsFilter->filter($this->getTotalsCache());
+    }
+    
+    public function getTotalsCache()
+    {
+        if (empty($this->_totals)) {
+            $this->_totals = $this->getQuote()->getTotals();
+        }
+        return $this->_totals;
     }
     
     public function getGiftcertCode()

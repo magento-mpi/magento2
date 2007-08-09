@@ -332,7 +332,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
     public function getTotals()
     {
-        if (is_null($this->_totals)) {
+        if (empty($this->_totals)) {
             $this->getResource()->fetchTotals($this);
         }
         return $this->_totals;
