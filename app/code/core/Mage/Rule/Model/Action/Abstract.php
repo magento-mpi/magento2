@@ -19,19 +19,43 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         foreach ($this->getOperatorOption() as $operator=>$dummy) { $this->setOperator($operator); break; }
     }
     
+    public function getForm()
+    {
+        return $this->getRule()->getForm();
+    }
+    
     public function asArray(array $arrAttributes = array())
     {
-        return array();
+        $out = array(
+            'type'=>$this->getType(),
+            'attribute'=>$this->getAttribute(),
+            'operator'=>$this->getOperator(),
+            'value'=>$this->getValue(),
+        );
+        return $out;
     }
     
     public function asXml()
     {
-    	return '';
+        extract($this->toArray());
+        $xml = "<type>".$this->getType()."</type>"
+            ."<attribute>".$this->getAttribute()."</attribute>"
+            ."<operator>".$this->getOperator()."</operator>"
+            ."<value>".$this->getValue()."</value>";
+        return $xml;
     }
     
     public function loadArray(array $arr)
     {
-        $this->setType($arr['type']);
+        $this->addData(array(
+            'type'=>$arr['type'],
+            'attribute'=>$arr['attribute'],
+            'operator'=>$arr['operator'],
+            'value'=>$arr['value'],
+        ));
+        $this->loadAttributeOptions();
+        $this->loadOperatorOptions();
+        $this->loadValueOptions();
         return $this;
     }
     
@@ -122,6 +146,45 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         $str = $this->asHtml();
         return $str;
     }
+    
+    public function getTypeElement()
+    {
+    	return $this->getForm()->addField('action:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[sction]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    }
+    
+    public function getAttributeElement()
+    {
+    	return $this->getForm()->addField('action:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][attribute]',
+    		'values'=>$this->getAttributeSelectOptions(),
+    		'value'=>$this->getAttribute(),
+    		'value_name'=>$this->getAttributeName(),
+    	))->setRenderer(Mage::getHelper('rule/editable'));
+    }
+    
+    public function getOperatorElement()
+    {
+        return $this->getForm()->addField('action:'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule[actions]['.$this->getId().'][operator]',
+    		'values'=>$this->getOperatorSelectOptions(),
+    		'value'=>$this->getOperator(),
+    		'value_name'=>$this->getOperatorName(),
+    	))->setRenderer(Mage::getHelper('rule/editable'));
+    }
+    
+    public function getValueElement()
+    {
+        return $this->getForm()->addField('action:'.$this->getId().':value', 'text', array(
+    		'name'=>'rule[actions]['.$this->getId().'][value]',
+    		'value'=>$this->getValue(),
+    		'value_name'=>$this->getValueName(),
+    	))->setRenderer(Mage::getHelper('rule/editable'));
+    }
+    
     
     public function getRemoveLinkHtml()
     {

@@ -21,10 +21,10 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
      */
     public function asArray(array $arrAttributes = array())
     {
-        $out = array();
+        $out = parent::asArray();
         
         foreach ($this->getActions() as $item) {
-            $out[] = $item->asArray();
+            $out['actions'][] = $item->asArray();
         }
         
         return $out;
@@ -64,21 +64,22 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     
     public function asHtml()
     {    	
-        $form = $this->getRule()->getForm();
-        $newChildEl = $form->addField('action:'.$this->getId().':new_child', 'select', array(
-    		'name'=>'rule[actions]['.$this->getId().'][new_child]',
-    		'values'=>$this->getNewChildSelectOptions(),
-    		'value_name'=>$this->getNewChildName(),
-    	))->setRenderer(Mage::getHelper('rule/newchild'));
-    	
-    	$html = 'Perform following actions: ';
-    	$html.= '('.$newChildEl->getHtml().')';
+    	$html = $this->getTypeElement()->toHtml().'Perform following actions: ';
+    	$html.= '('.$this->getNewChildElement()->getHtml().')';
     	if ($this->getId()!='1') {
     	    $html.= $this->getRemoveLinkHtml();
     	}
         return $html;	
     }
-    
+   public function getNewChildElement()
+   {
+       return $this->getForm()->addField('action:'.$this->getId().':new_child', 'select', array(
+           'name'=>'rule[actions]['.$this->getId().'][new_child]',
+           'values'=>$this->getNewChildSelectOptions(),
+           'value_name'=>$this->getNewChildName(),
+       ))->setRenderer(Mage::getHelper('rule/newchild'));
+    }
+ 
     public function asHtmlRecursive()
     {
         $html = $this->asHtml().'<ul id="action:'.$this->getId().':children">';

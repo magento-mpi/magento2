@@ -101,6 +101,7 @@ VarienRulesForm.prototype = {
         var new_type = elem.value;
         
         var new_elem = document.createElement('LI');
+        new_elem.innerHTML = 'Please wait, loading...';
         children_ul.appendChild(new_elem);
 
         new Ajax.Updater(new_elem, this.newChildUrl, {

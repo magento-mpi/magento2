@@ -18,6 +18,11 @@ abstract class Mage_Rule_Model_Condition_Abstract
         foreach ($this->getOperatorOption() as $operator=>$dummy) { $this->setOperator($operator); break; }
     }
     
+    public function getForm()
+    {
+        return $this->getRule()->getForm();
+    }
+    
     public function asArray(array $arrAttributes = array())
     {
         $out = array(
@@ -86,16 +91,16 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=='  => 'is',
-            '!='  => 'is not',
-            '>='  => 'equals or greater than',
-            '<='  => 'equals or less than',
-            '>'   => 'greater than',
-            '<'   => 'less than',
-            '{}'  => 'contains',
-            '!{}' => 'does not contain',
-            '()'  => 'is one of',
-            '!()' => 'is not one of',
+            '=='  => __('is'),
+            '!='  => __('is not'),
+            '>='  => __('equals or greater than'),
+            '<='  => __('equals or less than'),
+            '>'   => __('greater than'),
+            '<'   => __('less than'),
+            '{}'  => __('contains'),
+            '!{}' => __('does not contain'),
+            '()'  => __('is one of'),
+            '!()' => __('is not one of'),
         ));
         return $this;
     }
@@ -117,8 +122,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            true  => 'TRUE',
-            false => 'FALSE',
+            true  => __('TRUE'),
+            false => __('FALSE'),
         ));
         return $this;
     }
@@ -150,7 +155,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>'Please choose a condition to add...'),
+            array('value'=>'', 'label'=>__('Please choose a condition to add...')),
         );
     }
     
@@ -162,35 +167,11 @@ abstract class Mage_Rule_Model_Condition_Abstract
     
     public function asHtml()
     {
-    	$form = $this->getRule()->getForm();
-    	
-    	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][type]',
-    		'value'=>$this->getType(),
-    		'no_span'=>true,
-    	));
-    	    	
-    	$attrEl = $form->addField('cond:'.$this->getId().':attribute', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
-    		'values'=>$this->getAttributeSelectOptions(),
-    		'value'=>$this->getAttribute(),
-    		'value_name'=>$this->getAttributeName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
-    	
-    	$operEl = $form->addField('cond:'.$this->getId().':operator', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][operator]',
-    		'values'=>$this->getOperatorSelectOptions(),
-    		'value'=>$this->getOperator(),
-    		'value_name'=>$this->getOperatorName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
-    	
-    	$valueEl = $form->addField('cond:'.$this->getId().':value', 'text', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][value]',
-    		'value'=>$this->getValue(),
-    		'value_name'=>$this->getValueName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
-    	
-    	$html = $typeEl->getHtml().$attrEl->getHtml().' '.$operEl->getHtml().' '.$valueEl->getHtml().$this->getRemoveLinkHtml();
+    	$html = $this->getTypeElement()->getHtml()
+    	   .$this->getAttributeElement()->getHtml().' '
+    	   .$this->getOperatorElement()->getHtml().' '
+    	   .$this->getValueElement()->getHtml()
+    	   .$this->getRemoveLinkHtml();
     	return $html;
     }
     
@@ -198,6 +179,44 @@ abstract class Mage_Rule_Model_Condition_Abstract
     {
         $html = $this->asHtml();
         return $html;
+    }
+    
+    public function getTypeElement()
+    {
+    	return $this->getForm()->addField('cond:'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][type]',
+    		'value'=>$this->getType(),
+    		'no_span'=>true,
+    	));
+    }
+    
+    public function getAttributeElement()
+    {
+    	return $this->getForm()->addField('cond:'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
+    		'values'=>$this->getAttributeSelectOptions(),
+    		'value'=>$this->getAttribute(),
+    		'value_name'=>$this->getAttributeName(),
+    	))->setRenderer(Mage::getHelper('rule/editable'));
+    }
+    
+    public function getOperatorElement()
+    {
+        return $this->getForm()->addField('cond:'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][operator]',
+    		'values'=>$this->getOperatorSelectOptions(),
+    		'value'=>$this->getOperator(),
+    		'value_name'=>$this->getOperatorName(),
+    	))->setRenderer(Mage::getHelper('rule/editable'));
+    }
+    
+    public function getValueElement()
+    {
+        return $this->getForm()->addField('cond:'.$this->getId().':value', 'text', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][value]',
+    		'value'=>$this->getValue(),
+    		'value_name'=>$this->getValueName(),
+    	))->setRenderer(Mage::getHelper('rule/editable'));
     }
     
     public function getRemoveLinkHtml()

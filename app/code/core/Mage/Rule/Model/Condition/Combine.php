@@ -14,8 +14,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'all' => 'ALL',
-            'any' => 'ANY',
+            'all' => __('ALL'),
+            'any' => __('ANY'),
         ));
         return $this;
     }
@@ -107,47 +107,24 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         return $this;
     }
     
-    public function getValueName()
-    {
-        return $this->getValueOption((int)$this->getValue());
-    }
-    
     public function asHtml()
     {
-    	$form = $this->getRule()->getForm();
-    	
-    	$typeEl = $form->addField('cond:'.$this->getId().':type', 'hidden', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][type]',
-    		'value'=>$this->getType(),
-    		'no_span'=>true,
-    	));
-    	
-    	$attrEl = $form->addField('cond:'.$this->getId().':attribute', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
-    		'values'=>$this->getAttributeSelectOptions(),
-    		'value'=>$this->getAttribute(),
-    		'value_name'=>$this->getAttributeName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
-    	
-    	$valueEl = $form->addField('cond:'.$this->getId().':value', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][value]',
-    		'values'=>$this->getValueSelectOptions(),
-    		'value'=>$this->getValue(),
-    		'value_name'=>$this->getValueName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
-    	
-    	$newChildEl = $form->addField('cond:'.$this->getId().':new_child', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][new_child]',
-    		'values'=>$this->getNewChildSelectOptions(),
-    		'value_name'=>$this->getNewChildName(),
-    	))->setRenderer(Mage::getHelper('rule/newchild'));
-    	
-       	$html = $typeEl->getHtml()."If ".$attrEl->getHtml()." of these conditions are ".$valueEl->getHtml().': ';
-       	$html.= '('.$newChildEl->getHtml().')';
+       	$html = $this->getTypeElement()->getHtml().
+       	    __("If %s of these conditions are %s:", $this->getAttributeElement()->getHtml(), $this->getValueElement()->getHtml());
+       	$html.= ' ('.$this->getNewChildElement()->getHtml().')';
        	if ($this->getId()!='1') {
        	    $html.= $this->getRemoveLinkHtml();
        	}
     	return $html;
+    }
+
+    public function getNewChildElement()
+    {
+    	return $this->getForm()->addField('cond:'.$this->getId().':new_child', 'select', array(
+    		'name'=>'rule[conditions]['.$this->getId().'][new_child]',
+    		'values'=>$this->getNewChildSelectOptions(),
+    		'value_name'=>$this->getNewChildName(),
+    	))->setRenderer(Mage::getHelper('rule/newchild'));
     }
     
     public function asHtmlRecursive()
@@ -162,7 +139,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         
     public function asString($format='')
     {
-        $str = "If ".$this->getAttributeName()." of these conditions are ".$this->getValueName();
+        $str = __("If %s of these conditions are %", $this->getAttributeName(), $this->getValueName());
         return $str;
     }
     
