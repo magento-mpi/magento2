@@ -129,10 +129,9 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     {
         $request = $this->getRequest();
         $this->getCollection()
-            /* DEPRECATED!!! FIXME!!! TOFIX!!! */
-            #->setOrder($request->getParam('order', 'position'), $request->getParam('dir', 'asc'))
-            ->setPageSize($request->getParam('limit', 9))
+//            ->setOrder($request->getParam('order', 'position'), $request->getParam('dir', 'asc'))
             ->setCurPage($request->getParam('p', 1))
+            ->setPageSize($request->getParam('limit', 10))
             ->load();
         return parent::_beforeToHtml();
     }

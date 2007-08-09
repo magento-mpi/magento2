@@ -33,8 +33,7 @@ ul.more-views * { display:inline !important; }
 th, td { color:#2f2f2f !important; }
 td { border-color:#ccc !important; }
 .add-to-box { display:none; }
-.head h1, .head h2, .head h3, .head h4, .head h5, .page-head h1, .page-head h2, .page-head h3, .page-head h4, .page-head h5, .page-head-alt h1, .page-head-alt h2, .page-head-alt h3, 
-.page-head-alt h4, .page-head-alt h5 { display:block !important; }
+.head h1, .head h2, .head h3, .head h4, .head h5, .page-head h1, .page-head h2, .page-head h3, .page-head h4, .page-head h5, .page-head-alt h1, .page-head-alt h2, .page-head-alt h3, .page-head-alt h4, .page-head-alt h5 { display:block !important; }
 .step-count { display:inline !important; }
 .one-page-checkout .active .step-count { color:#2f2f2f; }
 .login-box td { border-bottom:0; }
@@ -51,3 +50,5 @@ body.page-popup .data-table td, body.page-popup .data-table th { border-right:1p
 body.page-popup .data-table th.last, body.page-popup .data-table td.last { border-right:0 !important; }
 body.page-popup .data-table tfoot td { border-bottom:none !important; }
 body.page-popup .data-table td, body.page-popup .data-table th { border-color:#bbb; }
+hr{ visibility:visible; height:1px; margin:20px 0; }
+.page-popup h1#logo {  display:block; margin-bottom:10px; }

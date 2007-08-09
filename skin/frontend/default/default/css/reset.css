@@ -6,7 +6,7 @@
 
 body {
 	background:#fff;
-	color:#605a5a;
+	color:#444;
 	font:12px/1.55em arial, helvetica, sans-serif;
 	}
 
@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6, .head {
 	color:#2f2f2f;
 	}
 h2 { font-size:1.5em; }
-h3 { font-size:1.25em; }
+h3 { font-size:1.2em; }
 h3.alt { margin-top:1.2em; border-bottom:1px solid #ccc; }
 h4 { font-size:1em; }
 h5 { font-size:1em; }
@@ -42,15 +42,15 @@ q:before, q:after{content:'';}
 form { display:inline;}
 fieldset { border:none; }
 legend {display:none;}
-label { color:#666; /*font-size:.95em;*/ font-weight:bold; }
+label { color:#666; /*font-size:.95em;*/  font-weight:bold; }
 input, select, button { vertical-align:middle; }
 
 /* Lists */
-dt { display:block; }
+dt { display:block; font-weight:bold; }
 li { list-style:none; }
 
 /* Size */
-small { font-size:.95em; }
+small { font-size:.9em; }
 big { font-size:1.1em; }
 
 hr { height:0; margin:8px 0; overflow:hidden; visibility:hidden; }
