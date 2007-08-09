@@ -148,4 +148,11 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         }
         $this->getResponse()->setBody($html);
     }
+    
+    public function applyRulesAction()
+    {
+        $this->_initAction();
+        
+        $this->renderLayout();
+    }
 }

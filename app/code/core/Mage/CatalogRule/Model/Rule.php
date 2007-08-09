@@ -87,4 +87,9 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         return Mage::getResourceModel('catalogrule/rule_collection');
     }
+    
+    protected function _afterSave()
+    {
+        
+    }
 }
