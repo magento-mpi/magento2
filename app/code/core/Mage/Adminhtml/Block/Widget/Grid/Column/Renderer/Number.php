@@ -20,11 +20,13 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Admin
         }
         return null;
     }
-    
+
     public function renderProperty()
     {
         $out = parent::renderProperty();
-        $out.= ' width="140px" ';
+        if ($this->getColumn()->getGrid()->getFilterVisibility()) {
+            $out.= ' width="140px" ';
+        }
         return $out;
     }
 

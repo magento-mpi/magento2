@@ -42,7 +42,16 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         $this->addColumn('real_order_id', array(
             'header' => __('Order #'),
             'align' => 'center',
-            'index' => 'increment_id', // TODO ? real_order_id
+            'index' => 'increment_id',
+        ));
+
+        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+
+        $this->addColumn('store_id', array(
+            'header' => __('Purchased from (store)'),
+            'index' => 'store_id',
+            'type' => 'options',
+            'options' => $stores,
         ));
 
         $this->addColumn('created_at', array(
@@ -61,16 +70,6 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'index' => 'billing_lastname',
         ));
 
-        $this->addColumn('billing_telephone', array(
-            'header' => __('Bill to Phone #'),
-            'index' => 'billing_telephone',
-        ));
-
-        $this->addColumn('billing_postcode', array(
-            'header' => __('Bill to ZIP'),
-            'index' => 'billing_postcode',
-        ));
-
         $this->addColumn('shipping_firstname', array(
             'header' => __('Ship to Firstname'),
             'index' => 'shipping_firstname',
@@ -81,27 +80,11 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'index' => 'shipping_lastname',
         ));
 
-        $this->addColumn('shipping_telephone', array(
-            'header' => __('Ship to Phone #'),
-            'index' => 'shipping_telephone',
-        ));
-
-        $this->addColumn('shipping_postcode', array(
-            'header' => __('Ship to ZIP'),
-            'index' => 'shipping_postcode',
-        ));
-
         $this->addColumn('grand_total', array(
             'header' => __('Grand Total'),
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
-        ));
-
-        $this->addColumn('total_qty_ordered', array(
-            'header' => __('# of Items'),
-            'index' => 'total_qty_ordered',
-            'type' => 'number',
         ));
 
         $statuses = Mage::getResourceModel('sales/order_status_collection')->load()->toOptionHash();
@@ -111,21 +94,6 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'index' => 'order_status_id',
             'type'  => 'options',
             'options' => $statuses,
-        ));
-
-// TODO
-        $this->addColumn('track_numbers', array(
-            'header' => __('Tracking Numbers'),
-            'index' => 'real_order_id',
-        ));
-
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
-
-        $this->addColumn('store_id', array(
-            'header' => __('Store'),
-            'index' => 'store_id',
-            'type' => 'options',
-            'options' => $stores,
         ));
 
         $this->addColumn('actions', array(
