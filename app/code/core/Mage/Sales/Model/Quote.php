@@ -45,7 +45,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function getAddressesCollection()
     {
-        if (empty($this->_addresses)) {
+        if (is_null($this->_addresses)) {
             $this->_addresses = Mage::getResourceModel('sales/quote_address_collection');
             
             if ($this->getId()) {
@@ -180,7 +180,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function getItemsCollection()
     {
-        if (empty($this->_items)) {
+        if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/quote_item_collection');
             
             if ($this->getId()) {
@@ -275,7 +275,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function getPaymentsCollection()
     {
-        if (empty($this->_payments)) {
+        if (is_null($this->_payments)) {
             $this->_payments = Mage::getResourceModel('sales/quote_payment_collection');
             
             if ($this->getId()) {

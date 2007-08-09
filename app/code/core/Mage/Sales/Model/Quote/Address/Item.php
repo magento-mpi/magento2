@@ -19,4 +19,26 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Core_Model_Abstract
     {
         return $this->_address;
     }
+
+    public function calcRowTotal()
+    {
+        return $this;
+    }
+
+    public function calcTaxAmount()
+    {
+        return $this;
+    }
+
+    public function calcRowWeight()
+    {
+        return $this;
+    }
+    
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
+    {
+        $this->setQuoteItemId($item->getId())
+            ->setQty($item->getQty());
+        return $this;
+    }
 }

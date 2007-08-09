@@ -21,6 +21,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         /**
          * reset quote shipping addresses and items
          */
+        $this->getQuote()->setIsMultiShipping(true);
         if ($this->getCheckoutSession()->getCheckoutState() === Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $this->getCheckoutSession()->setCheckoutState(true);
             $addresses  = $this->getQuote()->getAllShippingAddresses();
@@ -34,7 +35,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 
                 foreach ($this->getQuoteItems() as $item) {
                     $addressItem = Mage::getModel('sales/quote_address_item')
-                        ->setData($item->getData());
+                        ->importQuoteItem($item);
+                        
                 	$quoteShippingAddress->addItem($addressItem);
                 }
             }
@@ -50,10 +52,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	foreach ($address->getAllItems() as $item) {
         		for ($i=0;$i<$item->getQty();$i++){
         		    $addressItem = clone $item;
-        		    echo '<pre>';
-        		    print_r($addressItem->getData());
-        		    echo '</pre>';
         		    $addressItem->setQty(1)
+                        ->setQuoteItem($this->getQuote()->getItemById($item->getQuoteItemId()))
                         ->setCustomerAddressId($address->getCustomerAddressId());
         		    $items[] = $addressItem;
         		}
@@ -65,14 +65,65 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     public function removeAddressItem($addressId, $itemId)
     {
         $address = $this->getQuote()->getAddressById($addressId);
-        //var_dump($address);
         if ($address) {
-            $item = $address->getItemById($itemId);
-            /*echo '<pre>';
-            print_r($item->getData());
-            echo '</pre>';
-            die();*/
+            if ($item = $address->getItemById($itemId)) {
+                if ($item->getQty()>1) {
+                    $item->setQty($item->getQty()-1);
+                }
+                else {
+                    $address->removeItem($item->getId());
+                }
+                
+                if ($quoteItem = $this->getQuote()->getItemById($item->getQuoteItemId())) {
+                    $quoteItem->setQty($quoteItem->getQty()-1);
+                }
+                
+                $this->getQuote()->save();
+            }
         }
+        return $this;
+    }
+    
+    public function setShippingItemsInformation($info)
+    {
+        if (is_array($info)) {
+            $addresses  = $this->getQuote()->getAllShippingAddresses();
+            foreach ($addresses as $address) {
+            	$this->getQuote()->removeAddress($address->getId());
+            }
+            
+            foreach ($info as $addressItemId => $itemData) {
+                foreach ($itemData as $quoteItemId => $data) {
+                	$this->_addShippingItem($quoteItemId, $data);
+                }
+            }
+            
+            $this->getQuote()->save();
+        }
+        return $this;
+    }
+    
+    protected function _addShippingItem($quoteItemId, $data)
+    {
+    	$qty       = isset($data['qty']) ? (int) $data['qty'] : 0;
+    	$addressId = isset($data['address']) ? (int) $data['address'] : false;
+    	$quoteItem = $this->getQuote()->getItemById($quoteItemId);
+    	if ($addressId && $qty > 0) {
+    	    $quoteItem->setQty($qty);
+    	    $address = $this->getCustomer()->getAddressById($addressId);
+    	    if ($address) {
+    	        if (!$quoteAddress = $this->getQuote()->getAddressByCustomerAddressId($addressId)) {
+        	        $quoteAddress = Mage::getModel('sales/quote_address')
+        	           ->importCustomerAddress($address)
+        	           ->save();
+    	        }
+    	        
+                $quoteAddressItem = Mage::getModel('sales/quote_address_item')
+                    ->importQuoteItem($quoteItem);
+                $quoteAddress->addItem($quoteAddressItem);
+                $this->getQuote()->addShippingAddress($quoteAddress);
+    	    }
+    	}
         return $this;
     }
 }

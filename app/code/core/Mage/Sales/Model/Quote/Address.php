@@ -135,7 +135,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     public function getItemsCollection()
     {
-        if (empty($this->_items)) {
+        if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/quote_address_item_collection');
             
             if ($this->getId()) {
@@ -209,7 +209,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     public function getShippingRatesCollection()
     {
-        if (empty($this->_rates)) {
+        if (is_null($this->_rates)) {
             $this->_rates = Mage::getResourceModel('sales/quote_address_rate_collection');
             if ($this->getId()) {
                 $this->_rates
@@ -301,7 +301,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
     public function getTotals()
     {
-        if (empty($this->_totals)) {
+        if (is_null($this->_totals)) {
             $this->getResource()->fetchTotals($this);
         }
         return $this->_totals;

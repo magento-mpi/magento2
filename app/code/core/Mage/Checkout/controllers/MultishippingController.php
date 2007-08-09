@@ -99,7 +99,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function addressesPostAction()
     {
-        
+        if ($shipToInfo = $this->getRequest()->getPost('ship')) {
+            Mage::getSingleton('checkout/type_multishipping')->setShippingItemsInformation($shipToInfo);
+        }
+        $this->_redirect('*/*/addresses');
     }
 
     /**

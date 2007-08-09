@@ -60,6 +60,11 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
         return $customer;
     }
     
+    /**
+     * Retrieve customer object
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     public function getCustomer()
     {
         return $this->getCustomerSession()->getCustomer();
