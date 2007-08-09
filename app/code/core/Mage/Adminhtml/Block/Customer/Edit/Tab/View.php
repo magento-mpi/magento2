@@ -40,21 +40,20 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
         $accordion->addItem('lastOrders', array(
             'title'     => __('Recent Orders'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders')->setId('last5orders'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders'),
             'open'      => true
         ));
 
         $accordion->addItem('shopingCart', array(
-            'title'         => __('Shopping Cart'),
-            //'content_url'   => Mage::getBaseUrl(),
-            //'ajax'          => true,
-            'content'       => '<p class="empty-text a-center">There are no items in customer\'s shopping cart at the moment</p>',
+            'title' => __('Shopping Cart'),
+            'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart'),
         ));
 
         $accordion->addItem('wishlist', array(
-            'title'     => __('Wishlist'),
-            'content'   => '<p class="empty-text a-center">There are no items in customer\'s wishlist at the moment</p>',
+            'title' => __('Wishlist'),
+            'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_wishlist'),
         ));
+
         $this->setChild('accordion', $accordion);
     }
 

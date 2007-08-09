@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customerOrdersGrid');
+        $this->setId('customer_orders_grid');
         $this->setDefaultSort('created_at', 'desc');
         $this->setUseAjax(true);
     }
@@ -25,20 +25,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('grand_total')
+            ->addAttributeToSelect('order_currency_code')
             ->addAttributeToSelect('store_id')
-            ->joinAttribute('shipping_entity_id', 'order_address/entity_id', 'entity_id', 'parent_id')
-            ->joinAttribute('shipping_address_type', 'order_address/address_type', 'shipping_entity_id')
-            ->addAttributeToFilter('shipping_address_type', 'shipping')
-            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_entity_id')
-            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_entity_id')
-
-        // the following line works, it is commented just to show some orders for any customers
-        // because we haven't enough orders to show for each customer now
-        // uncomment it to show only selected customer's orders
-
-        // ->addAttributeToFilter('customer_id', $this->getRequest()->id)
-
-            ->joinField('store_name', 'core/store', 'name', 'store_id=store_id', array('language_code'=>'en'));
+            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
+            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
+            ->addAttributeToFilter('customer_id', Mage::registry('customer')->getEntityId())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -46,61 +37,71 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
 
     protected function _prepareColumns()
     {
-        // Order Number, Date, Shipped To, Total, Status
-        $this->addColumn('id', array(
+
+        $this->addColumn('increment_id', array(
             'header' => __('Order #'),
-//            'width' => 5,
             'align' => 'center',
-            'sortable' => true,
             'index' => 'increment_id',
         ));
+
         $this->addColumn('created_at', array(
-            'header'    => __('Date'),
-//            'width'     => 20,
-            'index'     => 'created_at',
-            'type'      => 'date',
+            'header' => __('Purchased at'),
+            'index' => 'created_at',
+            'type' => 'datetime',
         ));
-        $this->addColumn('shipped_to', array(
-            'header' => __('Ship To'),
-            'index' => array('shipping_firstname','shipping_lastname'),
-            'type' => 'concat',
-            'separator' => ' ',
+
+        $this->addColumn('shipping_firstname', array(
+            'header' => __('Ship to Firstname'),
+            'index' => 'shipping_firstname',
         ));
+
+        $this->addColumn('shipping_lastname', array(
+            'header' => __('Ship to Lastname'),
+            'index' => 'shipping_lastname',
+        ));
+
         $this->addColumn('grand_total', array(
             'header' => __('Order Total'),
             'index' => 'grand_total',
             'type'  => 'currency',
-        ));
-        $this->addColumn('store', array(
-            'header' => __('Bought From'),
-            'index' => 'store_name',
-        ));
-        $this->addColumn('action', array(
-            'header' => '&nbsp;',
-            'align' => 'center',
-            'format' => '<a href="'.Mage::getUrl('*/sales_order/view/id/$entity_id').'">'.__('View').'</a>',
-            'index' => 'entity_id',
-            'sortable' => false,
-            'filter' => false,
+            'currency' => 'order_currency_code',
         ));
 
-//        $this->addExportType('*/*/exportCsv', __('CSV'));
-//        $this->addExportType('*/*/exportXml', __('XML'));
+        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+
+        $this->addColumn('store_id', array(
+            'header' => __('Bought From'),
+            'index' => 'store_id',
+            'type' => 'options',
+            'options' => $stores,
+        ));
+
+        $this->addColumn('actions', array(
+            'header' => __('Action'),
+            'width' => 10,
+            'sortable' => false,
+            'filter' => false,
+            'index' => 'entity_id',
+            'type' => 'action',
+            'actions' => array(
+                array(
+                    'url' => Mage::getUrl('*/sales_order/edit') . 'order_id/$entity_id',
+                    'caption' => __('Edit'),
+                ),
+            )
+        ));
 
         return parent::_prepareColumns();
     }
 
-    public function getGridUrl()
+    public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/orders', array('_current'=>true));
+        return Mage::getUrl('*/sales_order/view', array('order_id' => $row->getId()));
     }
 
-    protected function _addColumnFilterToCollection($column)
+    public function getGridUrl()
     {
-        if ($this->getCollection() && $column->getFilter()->getValue()) {
-            $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
-        }
-        return $this;
+        return Mage::getUrl('*/*/orders', array('_current' => true));
     }
-    
+
 }

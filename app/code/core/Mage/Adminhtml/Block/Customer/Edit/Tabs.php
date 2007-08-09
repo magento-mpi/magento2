@@ -40,31 +40,31 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         ));
 
         if (Mage::registry('customer')->getId()) {
-            $this->addTab('orders', array(
-                'label'     => __('Orders'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
-            ));
-    
+             $this->addTab('orders', array(
+                 'label'     => __('Orders'),
+                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
+             ));
+
             $this->addTab('cart', array(
                 'label'     => __('Shopping Cart'),
                 'content'   => '<h3>Shopping cart</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
             ));
-    
+
             $this->addTab('wishlist', array(
                 'label'     => __('Wishlist'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml(),
             ));
-    
+
             $this->addTab('newsletter', array(
                 'label'     => __('Newsletter'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter')->initForm()->toHtml()
             ));
-    
+
             $this->addTab('tags', array(
                 'label'     => __('Product Tags'),
                 'content'   => '<h3>Product Tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
             ));
-    
+
             $this->addTab('reviews', array(
                 'label'     => __('Product Reviews'),
                 'content'   => '<h3>Product Reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
