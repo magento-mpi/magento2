@@ -36,6 +36,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
             $r->setService($request->getLimitMethod());
         }
 
+        if ($request->getFedexAccount()) {
+            $account = $request->getFedexAccount();
+        } else {
+            $account = Mage::getStoreConfig('carriers/fedex/account');
+        }
+        $r->setAccount($account);
+
         if ($request->getFedexDropoff()) {
             $dropoff = $request->getFedexDropoff();
         } else {
@@ -102,7 +109,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 
         $requestHeader = $xml->addChild('RequestHeader');
 //          $requestHeader->addChild('CustomerTransactionIdentifier', 'CTIString');
-            $requestHeader->addChild('AccountNumber', '329311708');
+            $requestHeader->addChild('AccountNumber', $r->getAccount());
 //          $requestHeader->addChild('MeterNumber', '2436351');  -- my own meter number
             $requestHeader->addChild('MeterNumber', '0');
 //          $requestHeader->addChild('CarrierCode', 'FDXE');
