@@ -21,19 +21,32 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 
     public function addStoreFilter($storeId)
     {
-        $this->addFieldToFilter('store_id', $storeId);
+        $this->getSelect()
+            ->where('e.store_id = ?', $storeId);
         return $this;
     }
 
 	public function addCustomerFilter($customerId)
 	{
-	    $this->addFieldToFilter('customer_id', $customerId);
+        $this->getSelect()
+            ->where('rdt.customer_id = ?', $customerId);
 		return $this;
 	}
 
     public function setDateOrder($dir='DESC')
     {
-        $this->addAttributeToSort('created_at', $dir);
+        $this->getSelect()
+            ->order('rt.created_at', $dir);
+        return $this;
+    }
+
+    public function addReviewSummary()
+    {
+        foreach( $this->getItems() as $item ) {
+            $model = Mage::getModel('rating/rating');
+            $model->getReviewSummary($item->getReviewId());
+            $item->addData($model->getData());
+        }
         return $this;
     }
 
@@ -58,20 +71,14 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 
     protected function _joinFields()
     {
-        $this->addAttributeToSelect('name')
-		  ->joinField('review_id', 'review/review', 'review_id',  'entity_pk_value=entity_id')
-		  ->joinField('review_entity_id', 'review/review', 'entity_id',  'review_id=review_id')
-		  ->joinField('created_at', 'review/review', 'created_at',  'review_id=review_id')
-		  ->joinField('entity_pk_value', 'review/review', 'entity_pk_value',  'review_id=review_id')
-		  ->joinField('status_id', 'review/review', 'status_id',  'review_id=review_id')
+        $reviewTable = Mage::getSingleton('core/resource')->getTableName('review/review');
+        $reviewDetailTable = Mage::getSingleton('core/resource')->getTableName('review/review_detail');
 
-		  ->joinField('detail_review_id', 'review/review_detail', 'review_id',  'review_id=review_id')
-		  ->joinField('detail_id', 'review/review_detail', 'detail_id',  'review_id=review_id')
-		  ->joinField('store_id', 'review/review_detail', 'store_id',  'review_id=review_id')
-		  ->joinField('title', 'review/review_detail', 'title',  'review_id=review_id')
-		  ->joinField('detail', 'review/review_detail', 'detail',  'review_id=review_id')
-		  ->joinField('nickname', 'review/review_detail', 'nickname',  'review_id=review_id')
-		  ->joinField('customer_id', 'review/review_detail', 'customer_id',  'review_id=review_id');
+        $this->addAttributeToSelect('name');
+
+        $this->getSelect()
+            ->join(array('rt' => $reviewTable), "rt.entity_pk_value = e.entity_id", array('review_id', 'created_at', 'entity_pk_value', 'status_id'))
+            ->join(array('rdt' => $reviewDetailTable), "rdt.review_id = rt.review_id");
     }
 
     /**
@@ -174,7 +181,6 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 }
             }
         }
-
         return $this;
     }
 
@@ -186,4 +192,4 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         echo "</pre>";
     }
     */
-}
+ }

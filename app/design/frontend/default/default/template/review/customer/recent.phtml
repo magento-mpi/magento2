@@ -1,71 +1,25 @@
 <div class="head">
-    <h4>My Recent Reviews</h4>
-    <a href="#">Edit</a>
+    <h4><?=__('My Recent Reviews')?></h4>
+    <a href="#"><?=__('Edit')?></a>
 </div>
-<ol class="recent-reviews">
-    <li class="odd">
-        <div class="count">1</div>
-        <div class="content">
-            <a href="#">Product name goes here</a>
-            <div class="ratings">
-                <small>YOUR RATING:</small>
-                <div class="rating-box">
-                    <div class="rating" style="width:70%;">
-                    </div>
-                </div>
+<?if( $this->getCollection() && $this->count()):?>
+    <?$iterator = 0?>
+    <?foreach ($this->getCollection() as $_review):?>
+    <ol class="recent-reviews">
+        <li class="odd">
+            <div class="count"><?=++$iterator?></div>
+            <div class="content">
+                <a href="<?=$this->getProductLink()?>id/<?=$_review->getEntityPkValue()?>"><?=$_review->getName()?></a>
+                <div class="ratings">
+                    <small><?=__('RATING')?>:</small>
+                    <?if($_review->getSum()):?>
+                        <div class="rating-box">
+                            <div class="rating" style="width:<?=( $_review->getSum() / $_review->getCount() )?>%;"></div>
+                        </div>
+                    <?endif;?>
+                 </div>
             </div>
-        </div>
-    </li>
-    <li>
-        <div class="count">2</div>
-        <div class="content">
-            <a href="#">Product name goes here</a>
-            <div class="ratings">
-                <small>YOUR RATING:</small>
-                <div class="rating-box">
-                    <div class="rating" style="width:70%;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-    <li class="odd">
-        <div class="count">3</div>
-        <div class="content">
-            <a href="#">Product name goes here</a>
-            <div class="ratings">
-                <small>YOUR RATING:</small>
-                <div class="rating-box">
-                    <div class="rating" style="width:70%;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="count">4</div>
-        <div class="content">
-            <a href="#">Product name goes here</a>
-            <div class="ratings">
-                <small>YOUR RATING:</small>
-                <div class="rating-box">
-                    <div class="rating" style="width:70%;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-    <li class="odd">
-        <div class="count">5</div>
-        <div class="content">
-            <a href="#">Product name goes here</a>
-            <div class="ratings">
-                <small>YOUR RATING:</small>
-                <div class="rating-box">
-                    <div class="rating" style="width:70%;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-</ol>
+        </li>
+    </ol>
+    <?endforeach;?>
+<?endif;?>

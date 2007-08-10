@@ -13,9 +13,7 @@ class Mage_Customer_ReviewController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
-        #$this->loadLayout('review/reviews');
-        $this->loadLayout();
-
+        $this->loadLayout(array('default', 'reviews'), 'reviews');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('review/customer_list')
                 ->setUsePager(true)
@@ -26,8 +24,7 @@ class Mage_Customer_ReviewController extends Mage_Core_Controller_Front_Action
 
     public function viewAction()
     {
-        $this->loadLayout();
-
+        $this->loadLayout(array('default', 'reviews'), 'reviews');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('review/customer_view')
         );

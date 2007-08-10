@@ -15,17 +15,10 @@
                 	<td><?=$this->dateFormat($_review->getCreatedAt())?></td>
                 	<td><a href="<?=$this->getProductLink()?>id/<?=$_review->getEntityPkValue()?>"><?=$_review->getName()?></a></td>
                 	<td>
-                    <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
-                        <?$avarage = 0;?>
-                        <?foreach( $_review->getRatingVotes()->getItems() as $_vote ):?>
-                        <?$avarage+= $_vote->getPercent();?>
-                        <?endforeach;?>
-                        <?if($_review->getRatingVotes()->getSize()):?>
-                            <?$avarage = ceil($avarage / $_review->getRatingVotes()->getSize())?>
-                            <div class="rating-box">
-                                <div class="rating" style="width:<?=$avarage?>%;"></div>
-                            </div>
-                        <?endif;?>
+                    <?if($_review->getSum()):?>
+                        <div class="rating-box">
+                            <div class="rating" style="width:<?=( $_review->getSum() / $_review->getCount() )?>%;"></div>
+                        </div>
                     <?endif;?>
                     </td>
                 	<td><?=$_review->getDetail()?></td>

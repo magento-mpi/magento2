@@ -1,18 +1,16 @@
 <?php
 /**
- * Customer Reviews list block
+ * Recent Customer Reviews Block
  *
  * @package     Mage
- * @subpackage  Customer
+ * @subpackage  Review
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
+class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
 {
-    protected $_collection;
-
     public function __construct()
     {
         parent::__construct();
@@ -23,32 +21,15 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
         $this->_collection
             ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
-            ->setDateOrder();
+            ->setDateOrder()
+            ->setPageSize(5)
+            ->load()
+            ->addReviewSummary();
     }
 
     public function count()
     {
         return $this->_collection->getSize();
-    }
-
-    public function getPagerHtml()
-    {
-        if( $this->getUsePager() ) {
-            return $this->getChildHtml('pager');
-        } else {
-            $this->getChildHtml('pager');
-        }
-    }
-
-    protected function _initChildren()
-    {
-        $this->setChild('pager',
-            $this->getLayout()->createBlock('page/html_pager', 'pager')
-                        ->setCollection($this->_getCollection())
-                        ->setUrlPrefix('customer')
-                        ->setViewBy('limit')
-                        ->setParam('limit', 10)
-        );
     }
 
     protected function _getCollection()
@@ -58,8 +39,6 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
 
     public function getCollection()
     {
-        $this->_getCollection()
-            ->addReviewSummary();
         return $this->_getCollection();
     }
 
