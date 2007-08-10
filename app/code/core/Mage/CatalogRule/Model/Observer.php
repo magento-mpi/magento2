@@ -45,8 +45,8 @@ class Mage_CatalogRule_Model_Observer
     {
         $resource = Mage::getResourceSingleton('catalogrule/rule');
         $resource->applyAllRulesForDateRange(
-            $resource->formatDate(mktime(0,0,0,date('m'),date('d')+1)),
-            $resource->formatDate(mktime(0,0,0,date('m'),date('d')+2))
+            $resource->formatDate(mktime(0,0,0)),
+            $resource->formatDate(mktime(0,0,0,date('m'),date('d')+1))
         );
     }
 }

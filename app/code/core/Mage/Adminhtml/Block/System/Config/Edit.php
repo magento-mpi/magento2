@@ -33,7 +33,8 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Save config'),
-                    'onclick'   => 'configForm.submit()'
+                    'onclick'   => 'configForm.submit()',
+                    'class' => 'save',
                 ))
         );
     }
@@ -50,10 +51,12 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
     
     public function initForm()
     {
+        /*
         $this->setChild('dwstree', 
             $this->getLayout()->createBlock('adminhtml/system_config_dwstree')
                 ->initTabs()
         );
+        */
         
         $blockName = (string)$this->_section->getFrontendModel();
         if (empty($blockName)) {

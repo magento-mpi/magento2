@@ -46,5 +46,5 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $this->getRequest()->getPost('groups')
         );
         $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
-    }
+    }    
 }

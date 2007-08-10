@@ -404,14 +404,14 @@ ul.tabs-horiz li a.active {
 	}
 
 /************* SWITCHER **************/
-p.switcher { 
+.switcher { 
     background:#eee; 
     padding:10px; 
     }
-.section-menu p.switcher {
+.section-menu .switcher {
     width:170px;
     }
-.section-menu p.switcher select{
+.section-menu .switcher select {
     width:150px;
     }
     
@@ -459,3 +459,10 @@ select.countries option { background-repeat:no-repeat; }
     background-repeat:no-repeat;
     background-position:0 50%;
     }
+/*
+.system-config-store-switcher option {
+    padding-top:.2em;
+    padding-bottom:.2em;
+    vertical-align:bottom;
+    }
+*/

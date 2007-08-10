@@ -7,27 +7,18 @@
  *  getForm() - html
  */
 ?>
-<table cellspacing="0" width="100%">
-	<tr>
-		<td class="content-left-nav">
-			<h3><?=$this->getTitle()?></h3>
-			<?=$this->getChildHtml('dwstree')?>
-		</td>
-		<td>
-			<div class="content-header">
-				<table cellspacing="0" class="grid-header"> 
-						<tr>
-								<td></td>
-								<td class="form-buttons"><?=$this->getSaveButtonHtml()?></td>
-						 </tr>
-				</table>
-			</div>
-			<form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
-			<?=$this->getChildHtml('form')?>
-			</form>
-		</td>
-	</tr>
-</table>
+
+<div class="content-header">
+	<table cellspacing="0" class="grid-header"> 
+		<tr>
+			<td><h3><?=$this->getTitle()?></h3></td><td class="form-buttons"><?=$this->getSaveButtonHtml()?></td>
+		 </tr>
+	</table>
+</div>
+<form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form">
+<?=$this->getChildHtml('form')?>
+</form>
+
 
 
 <script type="text/javascript" language="javascript">
