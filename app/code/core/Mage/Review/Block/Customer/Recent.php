@@ -56,4 +56,14 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
     {
          return strftime(Mage::getStoreConfig('general/local/date_format_short'), strtotime($date));
     }
+
+    public function getAllReviewsUrl()
+    {
+        return Mage::getUrl('customer/review');
+    }
+
+    public function getReviewUrl($id)
+    {
+        return Mage::getUrl('customer/review/view', array('id' => $id));
+    }
 }

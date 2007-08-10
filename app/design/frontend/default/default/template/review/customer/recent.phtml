@@ -1,6 +1,6 @@
 <div class="head">
     <h4><?=__('My Recent Reviews')?></h4>
-    <a href="#"><?=__('Edit')?></a>
+    <a href="<?=$this->getAllReviewsUrl()?>"><?=__('View All')?></a>
 </div>
 <?if( $this->getCollection() && $this->count()):?>
     <?$iterator = 0?>
@@ -9,7 +9,7 @@
         <li class="odd">
             <div class="count"><?=++$iterator?></div>
             <div class="content">
-                <a href="<?=$this->getProductLink()?>id/<?=$_review->getEntityPkValue()?>"><?=$_review->getName()?></a>
+                <a href="<?=$this->getReviewUrl($_review->getId())?>"><?=$_review->getName()?></a>
                 <div class="ratings">
                     <small><?=__('RATING')?>:</small>
                     <?if($_review->getSum()):?>
