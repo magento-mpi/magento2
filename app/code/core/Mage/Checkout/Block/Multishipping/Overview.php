@@ -72,8 +72,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     public function getTotal()
     {
         $filter = new Varien_Filter_Sprintf('$%s', 2);
-        //$this->getCheckout()->getQuote()->getGra
-        return $filter->filter(1);
+        return $filter->filter($this->getCheckout()->getQuote()->getGrandTotal());
     }
     
     public function getAddressesEditUrl()
