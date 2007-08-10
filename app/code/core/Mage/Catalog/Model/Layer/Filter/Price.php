@@ -53,13 +53,41 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     {
         $range = $this->getData('price_range');
         if (is_null($range)) {
-            $maxPrice  = Mage::getSingleton('catalog/layer')->getProductCollection()
-                ->getMaxAttributeValue('price');
+            $maxPrice = $this->getMaxPriceInt();
+            $index = 1;
+            do {
+                $range = pow(10, (strlen(floor($maxPrice))-$index));
+                $items = $this->getRangeItemCounts($range);
+                $index++;
+            }
+            while($range>1 && count($items)<=2);
             
-            $range = pow(10, (strlen(floor($maxPrice))-1));
             $this->setData('price_range', $range);
         }
         return $range;
+    }
+    
+    public function getMaxPriceInt()
+    {
+        $maxPrice = $this->getData('max_price_int');
+        if (is_null($maxPrice)) {
+            $maxPrice = Mage::getSingleton('catalog/layer')->getProductCollection()
+                ->getMaxAttributeValue('price');
+            $maxPrice = floor($maxPrice);
+            $this->setData('max_price_int', $maxPrice);
+        }
+        return $maxPrice;
+    }
+    
+    public function getRangeItemCounts($range)
+    {
+        $items = $this->getData('range_item_counts_'.$range);
+        if (is_null($items)) {
+            $items = Mage::getSingleton('catalog/layer')->getProductCollection()
+                ->getAttributeValueCountByRange('price', $range);
+            $this->setData('range_item_counts_'.$range, $items);
+        }
+        return $items;
     }
     
     /**
@@ -69,15 +97,12 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      */
     protected function _initItems()
     {
-        $range = $this->getPriceRange();
-        $dbRanges = Mage::getSingleton('catalog/layer')->getProductCollection()
-            ->getAttributeValueCountByRange('price', $range);
-        
+        $range      = $this->getPriceRange();
+        $dbRanges   = $this->getRangeItemCounts($range);
         $items = array();
-        for ($i=1;$i<=10;$i++) {
-            if (isset($dbRanges[$i])) {
-                $items[] = $this->_createItem($this->_renderItemLabel($range, $i), $i, $dbRanges[$i]);
-            }
+        
+        foreach ($dbRanges as $index=>$count) {
+        	$items[] = $this->_createItem($this->_renderItemLabel($range, $index), $index, $count);
         }
         
         $this->_items = $items;
