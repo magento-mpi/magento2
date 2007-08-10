@@ -459,10 +459,9 @@ select.countries option { background-repeat:no-repeat; }
     background-repeat:no-repeat;
     background-position:0 50%;
     }
-/*
-.system-config-store-switcher option {
-    padding-top:.2em;
-    padding-bottom:.2em;
-    vertical-align:bottom;
+.system-config-store-switcher {
+    font-weight:bold;
     }
-*/
+.system-config-store-switcher option{
+    font-weight:normal;
+    }

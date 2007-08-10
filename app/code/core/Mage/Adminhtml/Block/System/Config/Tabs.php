@@ -80,13 +80,16 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 'selected' => !$curStore && $curWebsite==$wCode,
                 'style'    => 'padding-left:16px; background:#DDD; font-weight:bold;',
             );
-            foreach ($wConfig->descend('system/stores')->children() as $sCode=>$sId) {
-                $options['store_'.$sCode] = array(
-                    'label'    => (string)$storesConfig->descend($sCode.'/system/store/name'),
-                    'url'      => Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode, 'store'=>$sCode)),
-                    'selected' => $curStore==$sCode,
-                    'style'    => 'padding-left:32px;',
-                );
+            $websiteStores = $wConfig->descend('system/stores');
+            if ($websiteStores) {
+                foreach ($websiteStores->children() as $sCode=>$sId) {
+                    $options['store_'.$sCode] = array(
+                        'label'    => (string)$storesConfig->descend($sCode.'/system/store/name'),
+                        'url'      => Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode, 'store'=>$sCode)),
+                        'selected' => $curStore==$sCode,
+                        'style'    => 'padding-left:32px;',
+                    );
+                }
             }
         }
         return $options;

@@ -60,7 +60,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
-                $this->_redirect('*/*/edit', array('store' => $this->getRequest()->getParam('store')));
+                $this->_redirect('*/*/edit', array('store'=>$this->getRequest()->getParam('store')));
                 return;
             }
         }
