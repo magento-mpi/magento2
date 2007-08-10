@@ -26,13 +26,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
+
     public function validate()
     {
         $this->setErrors(array());
 
         $this->processPayments();
-        
+
         return $this;
     }
 
@@ -133,6 +133,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 }
             }
         }
+
         return $this->_addresses;
     }
 
@@ -314,26 +315,26 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $payment;
     }
-    
+
     public function processPayments()
     {
         $method = $this->getPayment()->getMethod();
-        
+
         if (!($modelName = Mage::getStoreConfig('payment/'.$method.'/model'))
             ||!($model = Mage::getModel($modelName))) {
             return $this;
         }
-            
+
         $this->setDocument($this->getOrder());
-        
+
         $model->onOrderValidate($this->getPayment());
-        
+
         if ($this->getStatus()!=='APPROVED') {
             $errors = $this->getErrors();
             $errors[] = $this->getStatusDescription();
             $this->setErrors($errors);
         }
-        
+
         return $this;
     }
 
