@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Review_Model_Mysql4_Review
 {
@@ -54,27 +55,30 @@ class Mage_Review_Model_Mysql4_Review
 
     public function save(Mage_Review_Model_Review $review)
     {
-
         $this->_write->beginTransaction();
         try {
             if ($review->getId()) {
                 $data = $this->_prepareUpdateData($review);
+                $condition = $this->_write->quoteInto('review_id = ?', $review->getId());
+
+                $this->_write->update($this->_reviewTable, $data['base'], $condition);
+                $this->_write->update($this->_reviewDetailTable, $data['detail'], $condition);
             }
             else {
                 $data = $this->_prepareInsertData($review);
+
                 $data['base']['created_at'] = now();
                 $this->_write->insert($this->_reviewTable, $data['base']);
 
-                $review->setReviewId($this->_write->lastInsertId());
+                $review->setId($this->_write->lastInsertId());
                 $data['detail']['review_id'] = $review->getId();
                 $this->_write->insert($this->_reviewDetailTable, $data['detail']);
-                $review->setId($this->_write->lastInsertId());
             }
             $this->_write->commit();
         }
         catch (Exception $e){
             $this->_write->rollBack();
-            throw $e;
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -107,12 +111,32 @@ class Mage_Review_Model_Mysql4_Review
 
     public function _prepareUpdateData(Mage_Review_Model_Review $review)
     {
+        $data = array(
+            'detail'=> array(
+                'title'     => strip_tags($review->getTitle()),
+                'detail'    => strip_tags($review->getDetail()),
+                'nickname'  => strip_tags($review->getNickname())
+            ),
+            'base' => array(
+                'status_id' => $review->getStatusId()
+            )
+        );
 
+        return $data;
     }
 
     public function delete(Mage_Review_Model_Review $review)
     {
-
+        if( $review->getId() ) {
+            try {
+                $this->_write->beginTransaction();
+                $condition = $this->_write->quoteInto('review_id = ?', $review->getId());
+                $this->_write->delete($this->_reviewTable, $condition);
+                $this->_write->commit();
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
+            }
+        }
     }
 
     public function getTotalReviews($entityPkValue)

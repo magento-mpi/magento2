@@ -33,4 +33,23 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $object->addData($data);
         return $object;
     }
+
+    public function getReviewSummary($object)
+    {
+        $read = $this->getConnection('read');
+        $sql = "SELECT
+                    SUM({$this->getTable('rating_vote')}.percent) as sum,
+                    COUNT(*) as count
+                FROM
+                    {$this->getTable('rating_vote')}
+                WHERE
+                    {$read->quoteInto($this->getTable('rating_vote').'.review_id=?', $object->getReviewId())}
+                GROUP BY
+                    {$this->getTable('rating_vote')}.review_id";
+
+        $data = $read->fetchRow($sql);
+
+        $object->addData($data);
+        return $object;
+    }
 }

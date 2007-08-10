@@ -56,4 +56,10 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
         $this->setEntityPkValue($entityPkValue);
         return $this->getResource()->getEntitySummary($this);
     }
+
+    public function getReviewSummary($reviewId)
+    {
+        $this->setReviewId($reviewId);
+        return $this->getResource()->getReviewSummary($this);
+    }
 }

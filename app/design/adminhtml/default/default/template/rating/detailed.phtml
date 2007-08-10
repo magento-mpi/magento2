@@ -1,0 +1,14 @@
+<div class="ratings-container">
+    <?if( $this->getRating() && $this->getRating()->getSize()):?>
+        <?foreach ($this->getRating() as $_rating):?>
+        <?if($_rating->getPercent()):?>
+        	<div class="ratings">
+        	   <?=__($_rating->getRatingCode())?>
+        		<div class="rating-box">
+        			<div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
+        		</div>
+        	</div>
+        <?endif;?>
+        <?endforeach;?>
+    <?endif;?>
+</div>

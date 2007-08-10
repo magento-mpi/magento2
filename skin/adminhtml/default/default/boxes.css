@@ -520,3 +520,37 @@ div.actions:after,
 .order-totals { width: 250px; margin-left: auto; padding: 10px 0px; }
 .order-totals table { border: none; background: none; }
 .order-totals table td { padding:2px 20px; text-align: right; }
+
+/* Ratings */
+
+.ratings {
+    margin:0px 0;
+    }
+
+.rating-box {
+    float:left;
+    position:relative;
+    width:90px;
+    height:16px;
+    margin:0 5px 3px 0;
+    background:url(images/product_rating_blank_star.gif) repeat-x;
+    }
+
+.rating-box .rating {
+    position:absolute;
+    top:0;
+    left:0;
+    height:16px;
+    background:url(images/product_rating_full_star.gif) repeat-x;
+    }
+
+.field-row .ratings {
+    width: 120px;
+    float:left;
+    clear:right;
+}
+
+.field-row .ratings-container {
+    width: 250px;
+    float:left;
+}

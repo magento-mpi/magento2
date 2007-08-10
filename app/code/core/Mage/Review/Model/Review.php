@@ -21,6 +21,12 @@ class Mage_Review_Model_Review extends Varien_Object
         return $this->getReviewId();
     }
 
+    public function setId($reviewId)
+    {
+        $this->setReviewId($reviewId);
+        return $this;
+    }
+
     public function load($reviewId)
     {
         $this->setData($this->getResource()->load($reviewId));
@@ -47,6 +53,11 @@ class Mage_Review_Model_Review extends Varien_Object
     public function getProductCollection()
     {
         return Mage::getResourceModel('review/review_product_collection');
+    }
+
+    public function getStatusCollection()
+    {
+        return Mage::getResourceModel('review/review_status_collection');
     }
 
     public function getTotalReviews($entityPkValue)

@@ -296,7 +296,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
                 $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
                 $this->_columns[$columnId]->setDir($dir);
-                $this->getCollection()->setOrder($this->_columns[$columnId]->getIndex(), $dir);
+                $this->getCollection()->setOrder( ( $this->_columns[$columnId]->getFilterIndex() ) ? $this->_columns[$columnId]->getFilterIndex() : $this->_columns[$columnId]->getIndex(), $dir);
             }
 
             $this->getCollection()->load();
