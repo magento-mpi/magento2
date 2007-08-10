@@ -22,25 +22,29 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Core_Model_Abstract
 
     public function calcRowTotal()
     {
+        $this->setRowTotal($this->getPrice()*$this->getQty());
+        return $this;
+    }
+    
+    public function calcRowWeight()
+    {
+        $this->setRowWeight($this->getWeight()*$this->getQty());
         return $this;
     }
 
     public function calcTaxAmount()
     {
+        $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
         return $this;
     }
 
-    public function calcRowWeight()
-    {
-        return $this;
-    }
-    
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
     {
         $this->setQuoteItemId($item->getId())
             ->_importQuoteItemProperty($item, 'name')
             ->_importQuoteItemProperty($item, 'weight')
             ->_importQuoteItemProperty($item, 'sku')
+            ->_importQuoteItemProperty($item, 'price')
             ->_importQuoteItemProperty($item, 'qty');
             
         $this->setQuoteItemImported(true);

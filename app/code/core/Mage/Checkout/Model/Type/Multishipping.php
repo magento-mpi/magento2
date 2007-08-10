@@ -40,6 +40,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 	$quoteShippingAddress->addItem($addressItem);
                 }
             }
+            if ($this->getCustomerDefaultBillingAddress()) {
+                $this->getQuote()->getBillingAddress()
+                    ->importCustomerAddress($this->getCustomerDefaultBillingAddress());
+            }
+            
             $this->getQuote()->save();
         }
     }
@@ -98,8 +103,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             }
             $addresses  = $this->getQuote()->getAllShippingAddresses();
             foreach ($addresses as $address) {
-            	$address->collectTotals()
-            	   ->collectShippingRates();
+            	$address->collectTotals();
             }
 
             $this->getQuote()->save();
@@ -138,6 +142,55 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     	        }
     	    }
     	}
+        return $this;
+    }
+    
+    public function updateQuoteCustomerShippingAddress($addressId)
+    {
+        if ($address = $this->getCustomer()->getAddressById($addressId)) {
+            $this->getQuote()->getShippingAddressByCustomerAddressId($addressId)
+                ->importCustomerAddress($address)
+                ->collectTotals();
+            $this->getQuote()->save();
+        }
+        return $this;
+    }
+    
+    public function setQuoteCustomerBillingAddress($addressId)
+    {
+        if ($address = $this->getCustomer()->getAddressById($addressId)) {
+            $this->getQuote()->getBillingAddress($addressId)
+                ->importCustomerAddress($address)
+                ->collectTotals();
+            $this->getQuote()->save();
+        }
+        return $this;
+    }
+    
+    public function setShippingMethods($methods)
+    {
+        $addresses = $this->getQuote()->getAllShippingAddresses();
+        foreach ($addresses as $address) {
+        	if (isset($methods[$address->getId()])) {
+        	    $address->setShippingMethod($methods[$address->getId()]);
+        	}
+        	elseif (!$address->getShippingMethod()) {
+        	    Mage::throwException('Address shipping method do not defined');
+        	}
+        }
+        $addresses = $this->getQuote()->save();
+        return $this;
+    }
+    
+    public function setPaymentMethod($payment)
+    {
+        if (!isset($payment['method'])) {
+            Mage::throwException('Payment method do not defined');
+        }
+        
+        $this->getQuote()->getPayment()
+            ->importPostData($payment)
+            ->save();
         return $this;
     }
 }

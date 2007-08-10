@@ -99,4 +99,9 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
         }
         return $address;
     }
+    
+    public function hasQuoteItems()
+    {
+        return $this->getQuote()->hasItems();
+    }
 }

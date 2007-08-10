@@ -36,12 +36,31 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
         return $itemsFilter->filter($items);        
     }
     
-    public function getShippingMethods($address)
+    public function getAddressShippingMethod($address)
     {
-        $items = $address->getAllShippingRates();
-        echo '<pre>';
-        print_r($items);
-        echo '</pre>';
+        return $address->getShippingMethod();
+    }
+    
+    public function getShippingRates($address)
+    {
+        $groups = $address->getGroupedAllShippingRates();
+        if (!empty($groups)) {
+            $ratesFilter = new Varien_Filter_Object_Grid();
+            $ratesFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
+            
+            foreach ($groups as $code => $groupItems) {
+            	$groups[$code] = $ratesFilter->filter($groupItems);
+            }
+        }
+        return $groups;
+    }
+    
+    public function getCarrierName($carrierCode)
+    {
+        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+            return $name;
+        }
+        return $carrierCode;
     }
     
     public function getAddressEditUrl($address)
@@ -51,7 +70,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
     
     public function getItemsEditUrl()
     {
-        
+        return $this->getUrl('*/*/addresses');
     }
     
     public function getPostActionUrl()

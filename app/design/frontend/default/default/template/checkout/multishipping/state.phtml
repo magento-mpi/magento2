@@ -8,11 +8,7 @@
 <dl class="checkout-progress">
     <span class="corner"></span>
     <dt>Your Checkout:</dt>    
-<?foreach ($this->getSteps() as $_state):?>
-    <dd class="active">Select Addresses</dd>
-    <dd>Shipping Information</dd>
-    <dd>Billing Information</dd>
-    <dd>Place Order</dd>
-    <dd>Order Success</dd>
+<?foreach ($this->getSteps() as $_step):?>
+    <dd<?if($_step->getIsActive()):?> class="active"<?endif?>><?=$_step->getLabel()?></dd>
 <?endforeach;?>
 </dl>

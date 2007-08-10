@@ -97,6 +97,13 @@
                </default>
             </updates>
          </multishipping_billing>
+         <multishipping_address_select>
+            <updates>
+               <default>
+                  <file>checkout/multishipping/address/select.xml</file>
+               </default>
+            </updates>
+         </multishipping_address_select>
          <multishipping_overview>
             <updates>
                <default>

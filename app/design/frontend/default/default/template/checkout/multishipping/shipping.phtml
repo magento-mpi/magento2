@@ -5,6 +5,10 @@
  * @see Mage_Checkout_Block_Multishipping_Shipping
  */
 ?>
+<div class="page-head">
+    <h2>Select Shipping Method</h2>
+</div>
+<?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
 <?foreach ($this->getAddresses() as $_index => $_address):?>
 <h3>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getAddressCount()?></h3>
@@ -26,17 +30,26 @@
         <div class="head">
             <h4>Shipping Method</h4>
         </div>
-        <?if (!($_shippingMethods = $this->getShippingMethods($_address))):?>
+        <?if (!($_shippingRateGroups = $this->getShippingRates($_address))):?>
             <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
         <?else:?>
         <dl class="shipment-methods">
-            <?foreach ($_shippingMethods as $_method):?>
-            <dt>USPS</dt>
-            <dd><ul>
-                <li><input type="radio" id="" value=""/> &nbsp;Shipping Method - $3.95</li>
-                <li><input type="radio" id="" value=""/> &nbsp;Shipping Method - $3.95</li>
-                <li><input type="radio" id="" value=""/> &nbsp;Shipping Method - $3.95</li></ul>
-            </dd>
+            <?foreach ($_shippingRateGroups as $code => $_rates):?>
+                <dt><?=$this->getCarrierName($code)?></dt>
+                <dd>
+                    <ul>
+                    <?foreach ($_rates as $_rate):?>
+                        <li>
+                           <?if ($_rate->getErrorMessage()):?>
+                                <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
+                           <?else:?>
+                                <input name="shipping_method[<?=$_address->getId()?>]" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod($_address)) echo ' checked'?>/>
+                                <label for="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?></label>-<?=$_rate->getPrice()?>
+                           <?endif?>
+                        </li>
+                    <?endforeach;?>
+                    </ul>
+                </dd>
             <?endforeach;?>
         </dl>
         <?endif;?>

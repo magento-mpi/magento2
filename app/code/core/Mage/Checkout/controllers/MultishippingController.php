@@ -25,6 +25,11 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
                 $this->setFlag('', 'no-dispatch', true);
             }
         }
+        
+        if (!Mage::getSingleton('checkout/type_multishipping')->hasQuoteItems()) {
+            $this->_redirect('*/cart/');
+            $this->setFlag('', 'no-dispatch', true);
+        }
     }
     
     /**
@@ -99,13 +104,12 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function addressesPostAction()
     {
-        /*echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';die();*/
         if ($shipToInfo = $this->getRequest()->getPost('ship')) {
             Mage::getSingleton('checkout/type_multishipping')->setShippingItemsInformation($shipToInfo);
         }
         if ($this->getRequest()->getParam('continue')) {
+            Mage::getSingleton('checkout/type_multishipping_state')
+                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
             $this->_redirect('*/*/shipping');
         }
         else {
@@ -133,14 +137,25 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function shippingAction()
     {
         $this->loadLayout(array('default', 'multishipping', 'multishipping_shipping'), 'multishipping_shipping');
-        $this->_initLayoutMessages('customer/session');
+        //$this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
     
     public function shippingPostAction()
     {
-        $this->_redirect('*/*/billing');
+        $shippingMethods = $this->getRequest()->getPost('shipping_method');
+        try {
+            Mage::getSingleton('checkout/type_multishipping')
+                ->setShippingMethods($shippingMethods);
+            Mage::getSingleton('checkout/type_multishipping_state')                
+                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
+            $this->_redirect('*/*/billing');
+        }
+        catch (Exception $e){
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $this->_redirect('*/*/shipping');
+        }
     }
     
     /**
@@ -154,12 +169,38 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->renderLayout();
     }
     
+    public function billingPostAction()
+    {
+        $payment = $this->getRequest()->getPost('payment');
+        try {
+            Mage::getSingleton('checkout/type_multishipping')
+                ->setPaymentMethod($payment);
+            Mage::getSingleton('checkout/type_multishipping_state')
+                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW);
+            $this->_redirect('*/*/overview');
+        }
+        catch (Exception $e) {
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $this->_redirect('*/*/billing');
+        }
+    }
+    
     /**
      * Multishipping checkout place order page
      */
     public function overviewAction()
     {
-        
+        $this->loadLayout(array('default', 'multishipping', 'multishipping_overview'), 'multishipping_overview');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
+    }
+    
+    public function overviewPostAction()
+    {
+        Mage::getSingleton('checkout/type_multishipping_state')
+                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS);
+        $this->_redirect('*/*/success');
     }
     
     /**
@@ -167,6 +208,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function successAction()
     {
-        
+        $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
     }
 }

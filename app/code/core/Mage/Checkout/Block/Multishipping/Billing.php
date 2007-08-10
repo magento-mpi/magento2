@@ -39,9 +39,9 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
         return $listBlock->toHtml();
     }
     
-    public function getChangeAddressUrl()
+    public function getSelectAddressUrl()
     {
-        return $this->getUrl('*/multishipping_address/changeBilling');
+        return $this->getUrl('*/multishipping_address/selectBilling');
     }
     
     public function getPostActionUrl()

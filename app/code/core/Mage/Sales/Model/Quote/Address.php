@@ -257,11 +257,35 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $rates;
     }
+
+    public function getGroupedAllShippingRates()
+    {
+        $rates = array();
+        foreach ($this->getShippingRatesCollection() as $rate) {
+            if (!$rate->isDeleted()) {
+                if (!isset($rates[$rate->getCarrier()])) {
+                    $rates[$rate->getCarrier()] = array();
+                }
+                $rates[$rate->getCarrier()][] = $rate;
+            }
+        }
+        return $rates;
+    }
     
     public function getShippingRateById($rateId)
     {
         foreach ($this->getShippingRatesCollection() as $rate) {
             if ($rate->getId()==$rateId) {
+                return $rate;
+            }
+        }
+        return false;
+    }
+
+    public function getShippingRateByCode($code)
+    {
+        foreach ($this->getShippingRatesCollection() as $rate) {
+            if ($rate->getCode()==$code) {
                 return $rate;
             }
         }
@@ -278,7 +302,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     
     public function addShippingRate(Mage_Sales_Model_Quote_Address_Rate $rate)
     {
-        $rate->setQuote($this)->setParentId($this->getId());
+        $rate->setAddress($this)
+            ->setParentId($this->getId());
+            //var_dump($rate->getParentId());
         $this->getShippingRatesCollection()->addItem($rate);
         return $this;
     }
@@ -296,6 +322,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         
         $result = Mage::getModel('shipping/shipping')
             ->collectRates($request)->getResult();
+            
         if (!$result) {
             return $this;
         }

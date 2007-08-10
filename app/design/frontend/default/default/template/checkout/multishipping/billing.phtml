@@ -8,13 +8,15 @@
 <div class="page-head">
     <h2>Billing Information</h2>
 </div>
-<form action="<?=$this->getPostAction()?>" method="post">
+<?=$this->getMessagesBlock()->getHtml()?>
+<script src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>varien/payment.js" type="text/javascript"></script>
+<form action="<?=$this->getPostActionUrl()?>" method="post" id="multishipping-billing-form">
 <div class="content-box">
 <div class="col2-set">
     <div class="col-1">
         <h3 class="bar-head">
             Billing Address<span class="separator">|</span>
-            <small><a href="<?=$this->getChangeAddressUrl()?>">Change</a></small>
+            <small><a href="<?=$this->getSelectAddressUrl()?>">Change</a></small>
         </h3>
         <div class="content">
             <?$_address=$this->getAddress()?>
@@ -44,4 +46,6 @@
     <button class="form-button" type="submit"><span>Continue</span></button>
 </div>
 <script type="text/javascript">
+    // Need to fix payment JS
+    var payment = new paymentForm('multishipping-billing-form');
 </script>
