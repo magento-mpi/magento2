@@ -151,7 +151,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getFormatedPrice()
     {
-        return Mage::getSingleton('core/store')->formatPrice($this->getPrice());
+        return Mage::getSingleton('core/store')->formatPrice($this->getFinalPrice());
     }
     
     public function getFinalPrice()

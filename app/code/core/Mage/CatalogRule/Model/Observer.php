@@ -9,7 +9,7 @@ class Mage_CatalogRule_Model_Observer
         if ($observer->hasDate()) {
             $date = $observer->getDate();
         } else {
-            $date = now();
+            $date = mktime(0,0,0);
         }
         
         if ($observer->hasStoreId()) {
@@ -22,19 +22,23 @@ class Mage_CatalogRule_Model_Observer
             $gId = $observer->getCustomerGroupId();
         } else {
             $custSession = Mage::getSingleton('customer/session');
-            $gId = $custSession->isLoggedIn() ? $custSession->getCustomer()->getCustomerGroupId() : 0;
+            $gId = $custSession->isLoggedIn() ? $custSession->getCustomer()->getCustomerGroup() : 0;
         }
         
         $product = $observer->getEvent()->getProduct();
         $pId = $product->getId();
         
-        if (!isset($this->_rulePrices[$date][$sId][$gId][$pId])) {
+        $key = "$date|$sId|$gId|$pId";
+        if (!isset($this->_rulePrices[$key])) {
             $rulePrice = Mage::getResourceModel('catalogrule/rule')
                 ->getRulePrice($date, $sId, $gId, $pId);
-            $this->_rulePrices[$date][$sId][$gId][$pId] = $rulePrice;
+            $this->_rulePrices[$key] = $rulePrice;
         }
-        $finalPrice = min($product->getFinalPrice(), $this->_rulePrices[$id]);
-        $product->setFinalPrice($finalPrice);
+        if ($this->_rulePrices[$key]!==false) {
+            $finalPrice = min($product->getData('final_price'), $this->_rulePrices[$key]);
+            $product->setFinalPrice($finalPrice);
+        }
+        return $this;
     }
     
     public function dailyCatalogUpdate($observer)

@@ -16,4 +16,4 @@ alter table `salesrule_product` drop key `from_date`, add unique `sort_order` (`
 alter table `salesrule_product` change `from_date` `from_time` int UNSIGNED   NOT NULL ;
 alter table `salesrule_product` change `to_date` `to_time` int UNSIGNED   NOT NULL ;
 
-replace into `customer_group` values (0,'Not logged in');
+replace into `customer_group` values (0,'NOT LOGGED IN');

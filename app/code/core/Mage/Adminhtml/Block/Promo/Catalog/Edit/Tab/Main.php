@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
         
         $customerGroups = Mage::getResourceModel('customer/group_collection')
             ->load()->toOptionArray();
-        array_unshift($customerGroups, array('value'=>0, 'label'=>'* Not logged in customers'));
+        #array_unshift($customerGroups, array('value'=>0, 'label'=>'* Not logged in customers'));
 
     	$fieldset->addField('customer_group_ids', 'multiselect', array(
             'name'      => 'customer_group_ids[]',

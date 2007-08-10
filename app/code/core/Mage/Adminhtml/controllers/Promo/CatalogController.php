@@ -153,7 +153,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     {
         try {
             $resource = Mage::getResourceSingleton('catalogrule/rule');
-            $resource->applyAllRulesForDateRange($resource->formatDate(now()));
+            $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
             Mage::getSingleton('adminhtml/session')->addSuccess(__('Rules were applied successfully'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(__('Unable to apply rules'));

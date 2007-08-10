@@ -69,6 +69,19 @@
           </product>
         </catalog>
     </global>
+    <frontend>
+        <events>
+            <catalog_product_get_final_price>
+                <observers>
+                    <catalogrule>
+                        <type>singleton</type>
+                        <class>catalogrule/observer</class>
+                        <method>getFinalPrice</method>
+                    </catalogrule>
+                </observers>
+            </catalog_product_get_final_price>
+        </events>
+    </frontend>
     <crontab>
         <events>
             <crontab>
