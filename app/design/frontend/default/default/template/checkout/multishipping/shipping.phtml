@@ -58,7 +58,7 @@
         <div class="head">
             <h4>Items<span class="separator">|</span><a href="<?=$this->getItemsEditUrl($_address)?>">Edit</a></h4>
         </div>
-        <table cellspacing="0" class="data-table nested-table">
+        <table cellspacing="0" id="shipping-table-<?=$_address->getId()?>" class="data-table nested-table">
             <col/>
             <col width="30"/>
             <thead>
@@ -69,13 +69,14 @@
             </thead>
             <tbody>
             <?foreach ($this->getAddressItems($_address) as $_item):?>
-                <tr class="odd">
+                <tr>
                     <td><?=$_item->getQuoteItem()->getName()?></td>
-                    <td class="last a-center"><?=$_item->getQty()?></td>
+                    <td class="a-center"><?=$_item->getQty()?></td>
                 </tr>
             <?endforeach;?>
             </tbody>
         </table>
+        <script type="text/javascript">decorateTable('shipping-table-<?=$_address->getId()?>')</script>
     </div>
 </div>
 <?endforeach;?>

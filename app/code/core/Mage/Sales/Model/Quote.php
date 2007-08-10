@@ -250,7 +250,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     
     public function addItem(Mage_Sales_Model_Quote_Item $item)
     {
-        $item->setQuote($this)->setParentId($this->getId());
+        $item->setQuote($this)
+            ->setParentId($this->getId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
@@ -354,7 +355,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setGrandTotal(0);
         foreach ($this->getAllShippingAddresses() as $address) {
             $address->collectTotals();
-            $this->setGrandTotal($this->getGrandTotal()+$address->getGrandTotal());
+            $this->setGrandTotal((float) $this->getGrandTotal()+$address->getGrandTotal());
         }
         return $this;
     }

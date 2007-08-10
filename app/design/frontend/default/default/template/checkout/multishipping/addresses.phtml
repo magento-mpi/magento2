@@ -11,7 +11,7 @@
 </div>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
 <div class="content-box">
-    <table cellspacing="0" class="data-table box-table">
+    <table cellspacing="0" id="multiship-addresses-table" class="data-table box-table">
         <col width="300"/>
         <col width="30"/>
         <col/>
@@ -32,7 +32,7 @@
             </tr>
         <tbody>
         <?foreach ($this->getItems() as $_index => $_item):?>
-            <tr class="odd">
+            <tr>
                 <td class="attributes-col"><a href="<?=$this->getItemUrl($_item)?>"><strong><?=$_item->getName()?></strong></a></td>
                 <td class="a-center"><input name="ship[<?=$_index?>][<?=$_item->getQuoteItemId()?>][qty]" value="<?=$_item->getQty()?>" size="2" class="input-text qty"/></td>
                 <td><?=$this->getAddressesHtmlSelect($_item, $_index)?></td>
@@ -41,6 +41,7 @@
         <?endforeach;?>
         </tbody>
     </table>
+    <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
 </div>
 <div class="form-buttons">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Shopping Cart</a>

@@ -11,6 +11,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'increment_per_store'=>true,
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_parent'),
+                    'is_active' => array('type'=>'static', 'visible'=>false),
                     'customer_id' => array('type'=>'int', 'visible'=>false),
                     'remote_ip' => array('visible'=>false),
                     'checkout_method' => array(),

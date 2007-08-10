@@ -26,7 +26,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             }
         }
         
-        if (!Mage::getSingleton('checkout/type_multishipping')->hasQuoteItems()) {
+        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
             $this->_redirect('*/cart/');
             $this->setFlag('', 'no-dispatch', true);
         }
@@ -46,7 +46,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function loginAction()
     {
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+            $this->_redirect('*/*/addresses');
             return;
         }
         
@@ -218,6 +218,6 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
-        Mage::getSingleton('checkout/type_multishipping')->getCheckoutSession()->unsetAll();
+        Mage::getSingleton('checkout/type_multishipping')->getCheckoutSession()->clear();
     }
 }

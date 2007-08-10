@@ -54,6 +54,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($customerQuote) {
             if ($this->getQuoteId()) {
                 foreach ($this->getQuote()->getAllItems() as $item) {
+                    $item->setId(null);
                     $customerQuote->addItem($item);
                 }
                 $customerQuote->save();

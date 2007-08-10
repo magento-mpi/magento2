@@ -100,11 +100,6 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
         return $address;
     }
     
-    public function hasQuoteItems()
-    {
-        return $this->getQuote()->hasItems();
-    }
-    
     protected function _createOrderFromAddress($address)
     {
         $order = Mage::getModel('sales/order')->createFromQuoteAddress($address)

@@ -17,6 +17,7 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
     const STEP_SUCCESS          = 'multishipping_success';
     
     protected $_steps;
+    protected $_checkout;
     
     public function __construct()
     {
@@ -39,7 +40,13 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
             )),
         );
         
+        $this->_checkout = Mage::getSingleton('checkout/type_multishipping');
         $this->_steps[$this->getActiveStep()]->setIsActive(true);
+    }
+    
+    public function getCheckout()
+    {
+        return $this->_checkout;
     }
     
     /**

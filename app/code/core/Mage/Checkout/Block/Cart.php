@@ -19,7 +19,31 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         $itemsFilter->addFilter($this->_qtyFilter, 'qty');
         $itemsFilter->addFilter($this->_priceFilter, 'price');
         $itemsFilter->addFilter($this->_priceFilter, 'row_total');
-        return $itemsFilter->filter($this->getQuote()->getAllItems());
+        $items = $this->getQuote()->getAllItems();
+        $this->_addProductToItems($items);
+        return $itemsFilter->filter($items);
+    }
+    
+    protected function _addProductToItems($items)
+    {
+        $productIds = array();
+        foreach ($items as $item) {
+        	$productIds[$item->getProductId()] = $item;
+        }
+        
+        if (!empty($productIds)) {
+            $productCollection = Mage::getResourceSingleton('catalog/product_collection')
+                ->addAttributeToSelect('image')
+                ->addAttributeToSelect('small_image')
+                ->addAttributeToSelect('description')
+                ->addIdFilter(array_keys($productIds))
+                ->load();
+            foreach ($productCollection as $product) {
+            	$productIds[$product->getId()]->setProduct($product);
+            }
+        }
+        
+        return $this;
     }
     
     public function getTotals()

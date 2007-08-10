@@ -2,8 +2,14 @@
     <h2>Order Success</h2>
 </div>
 <div class="content-box">
-    <p><strong>Thank you for your purchase!</strong><br/>Your order number is: #1234</p>
-    <p>We are processing your order and you will soon receive an email with details of the order.<br/>Once the order has shipped you will receive another email with a link to track its progress.</p>
+    <p><strong>Thank you for your purchase!</strong><br/></p>
+    <p>
+        We are processing your order and you will soon receive an email with details of the order.<br/>
+        Once the order has shipped you will receive another email with a link to track its progress.
+    </p>
+    <p>
+        <a href="<?=$this->getUrl('customer/account/')?>">My Account</a>
+    </p>
 </div>
 <div class="form-buttons">
     <button class="form-button" onclick="setLocation('<?=$this->getContinueUrl()?>')"><span>Continue Shopping</span></button>

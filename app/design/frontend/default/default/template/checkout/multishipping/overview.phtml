@@ -56,7 +56,7 @@
             <div class="head">
                 <h4>Items<span class="separator">|</span><a href="<?=$this->getAddressesEditUrl()?>">Edit</a></h4>
             </div>
-            <table cellspacing="0" class="data-table nested-data-table">
+            <table cellspacing="0" id="overview-table-<?=$_address->getId()?>" class="data-table nested-data-table">
                 <col/>
                 <col width="70"/>
                 <col width="30"/>
@@ -71,11 +71,11 @@
                 </thead>
                 <tbody>
                 <?foreach ($this->getShippingAddressItems($_address) as $_item):?>
-                    <tr class="odd">
+                    <tr>
                         <td><?=$_item->getName()?></td>
                         <td class="a-right"><?=$_item->getPrice()?></td>
                         <td class="a-center"><?=$_item->getQty()?></td>
-                        <td class="last a-right"><?=$_item->getRowTotal()?></td>
+                        <td class="a-right"><?=$_item->getRowTotal()?></td>
                     </tr>
                 <?endforeach;?>
                 </tbody>
@@ -83,11 +83,12 @@
                 <?foreach ($this->getShippingAddressTotals($_address) as $_total):?>
                     <tr>
                         <td colspan="3" class="a-right"><?=$_total->getTitle()?></td>
-                        <td class="last a-right"><?=$_total->getValue()?></td>
+                        <td class="a-right"><?=$_total->getValue()?></td>
                     </tr>
                 <?endforeach;?>
                 </tfoot>
             </table>
+            <script type="text/javascript">decorateTable('overview-table-<?=$_address->getId()?>')</script>
         </div>
     </div>
 <?endforeach;?>

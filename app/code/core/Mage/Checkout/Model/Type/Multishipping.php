@@ -45,7 +45,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     ->importCustomerAddress($this->getCustomerDefaultBillingAddress());
             }
             
-            $this->getQuote()->save();
+            $this->getQuote()
+                ->collectTotals()
+                ->save();
         }
     }
     
@@ -82,7 +84,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     $quoteItem->setQty($quoteItem->getQty()-1);
                 }
                 
-                $this->getQuote()->save();
+                $this->getQuote()
+                    ->collectTotals()
+                    ->save();
             }
         }
         return $this;
@@ -214,6 +218,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	   $order
             );
         }
+        $this->getQuote()
+            ->setIsActive(false)
+            ->save();
         
         return $this;
     }

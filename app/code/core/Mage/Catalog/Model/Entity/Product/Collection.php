@@ -25,6 +25,18 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $this->_categoryProductTable = $resource->getTableName('catalog/category_product');
     }
     
+    public function addIdFilter($productId)
+    {
+        if (is_array($productId)) {
+            $condition = array('in'=>$productId);
+        }
+        else {
+            $condition = $productId;
+        }
+        $this->addFieldToFilter('entity_id', $condition);
+        return $this;
+    }
+    
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {
         if ($category->getIsAnchor()) {
