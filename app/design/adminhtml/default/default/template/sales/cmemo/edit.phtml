@@ -1,0 +1,76 @@
+<div>
+    <form id="edit_form" method="POST" action="<?=$this->getSaveUrl()?>">
+        <? $_cmemo = $this->getCmemo() ?>
+        <div class="box-left">
+            <div class="entry-view">
+                <h4 class="icon-head head-order-date"><?=__('Invoice Date')?>: <?=$this->getCmemoDateFormatted()?></h4>
+            </div>
+            <div class="entry-view">
+                <h4 class="icon-head head-shipping-address"><?=__('Shipping Address')?></h4>
+                <div class="box customer-personal-brief">
+                    <?$_shipping = $_cmemo->getShippingAddress()?>
+                    <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
+                    <?=$_shipping->getCompany()?><br/>
+                    <?=$_shipping->getStreet()?><br/>
+                    <?=$_shipping->getCity()?>, <?=$_shipping->getRegion()?> <?=$_shipping->getPostcode()?><br/>
+                    <strong>T</strong> | <?=$_shipping->getTelephone();
+                    if ($_shipping->getFax()):?><br /><strong>F</strong> | <?=$_shipping->getFax()?><?endif;?>
+                    </address>
+                </div>
+            </div>
+            <div class="entry-view">
+                <h4 class="icon-head head-shipping-method"><?=__('Shipping Method')?></h4>
+                <div class="box customer-personal-brief">
+                    <?=$_cmemo->getInvoice()->getOrder()->getShippingMethod()?> <?=$_cmemo->getInvoice()->getOrder()->getShippingDescription()?>
+                </div>
+            </div>
+        </div>
+        <div class="box-right">
+            <div class="entry-view">
+                <h4 class="icon-head head-customer-view"><?=__('Invoice Status')?>: <?=$_cmemo->getStatusName($_cmemo->getInvoiceStatusId())?></h4>
+            </div>
+            <div class="entry-view">
+                <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>
+                <div class="box customer-personal-brief">
+                    <?$_billing = $_cmemo->getBillingAddress()?>
+                    <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
+                    <?=$_billing->getCompany()?><br/>
+                    <?=$_billing->getStreet()?><br/>
+                    <?=$_billing->getCity()?>, <?=$_billing->getRegion()?> <?=$_billing->getPostcode()?><br/>
+                    <strong>T</strong> | <?=$_billing->getTelephone();
+                    if ($_billing->getFax()):?><br /><strong>F</strong> | <?=$_billing->getFax()?><?endif;?></address>
+                </div>
+            </div>
+            <div class="entry-view">
+                <h4 class="icon-head head-payment-method"><?=__('Payment Method')?></h4>
+                <div class="box customer-personal-brief">
+                    <?$_payment = $_cmemo->getInvoice()->getOrder()->getPayment()?>
+                    <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
+                    <?if (! $_cmemo->getPayment()):?><br/><strong><?=__('Not Charged Yet')?></strong><?endif;?>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="entry-view">
+            <h4 class="icon-head head-order-items"><?=__('Items Shipped')?></h4>
+        </div>
+        <div>
+            <?=$this->getItemsHtml()?>
+        </div>
+        <div class="box order-totals">
+            <table cellspacing="0">
+                <tfoot>
+                    <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getGrandTotal())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=__('Total Payed')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTotalPaid())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTotalDue())?></strong></td></tr>
+                </tfoot>
+                <tbody>
+                    <tr><td><?=__('Subtotal')?></td><td><?=$_cmemo->getOrderCurrency()->format($_cmemo->getSubtotal())?></td></tr>
+                    <?if ($_cmemo->getTaxAmount()):?><tr><td><?=__('Tax')?></td><td><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTaxAmount())?></td></tr><?endif;?>
+                    <?if ($_cmemo->getShippingAmount()):?><tr><td><?=__('Shipping')?></td><td><?=$_cmemo->getOrderCurrency()->format($_cmemo->getShippingAmount())?></td></tr><?endif;?>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <?=$this->getFormScripts()?>
+</div>

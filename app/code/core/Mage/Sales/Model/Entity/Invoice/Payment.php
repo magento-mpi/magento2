@@ -13,7 +13,7 @@ class Mage_Sales_Model_Entity_Invoice_Payment extends Mage_Eav_Model_Entity_Abst
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-	    $this->setType('quote_invoice')->setConnection(
+	    $this->setType('invoice_payment')->setConnection(
             $resource->getConnection('sales_read'),
             $resource->getConnection('sales_write')
         );

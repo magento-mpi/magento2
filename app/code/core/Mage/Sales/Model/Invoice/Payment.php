@@ -23,6 +23,11 @@ class Mage_Sales_Model_Invoice_Payment extends Mage_Core_Model_Abstract
 
     public function importOrderPayment(Mage_Sales_Model_Order_Payment $payment)
     {
+        $this->setParentId($this->getInvoice()->getId())
+            ->setOrderPaymentId($payment->getId())
+            ->setMethod($payment->getMethod())
+            ->setCcTransId($payment->getCcTransId())
+            ->setAmount($this->getInvoice()->getTotalDue());
         return $this;
     }
 

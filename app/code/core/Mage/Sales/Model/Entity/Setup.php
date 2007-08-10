@@ -138,6 +138,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'=>'sales/order',
                 'increment_model'=>'eav/entity_increment_numeric',
                 'increment_per_store'=>true,
+                'backend_prefix'=>'sales_entity/order_attribute_backend',
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_parent'),
                     'customer_id' => array('type'=>'int'),
@@ -145,8 +146,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'order_status_id' => array('type'=>'int'),
                     'quote_id' => array('type'=>'int'),
                     'quote_address_id' => array('type'=>'int'),
-                    'billing_address_id' => array('type'=>'int'),
-                    'shipping_address_id' => array('type'=>'int'),
+                    'billing_address_id' => array('type'=>'int', 'backend'=>'_billing'),
+                    'shipping_address_id' => array('type'=>'int', 'backend'=>'_shipping'),
                     'coupon_code' => array(),
                     'giftcert_code' => array(),
                     'base_currency_code' => array(),
@@ -228,23 +229,23 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_payment_id' => array('type'=>'int'),
                     'amount' => array('type'=>'decimal'),
                     'method' => array(),
-                    
+
                     'po_number' => array(),
-                    
+
                     'cc_type' => array(),
                     'cc_number_enc' => array(),
                     'cc_last4' => array(),
                     'cc_owner' => array(),
                     'cc_exp_month' => array(),
                     'cc_exp_year' => array(),
-                    
+
                     'cc_status' => array(),
                     'cc_status_description' => array(),
                     'cc_trans_id' => array(),
                     'cc_approval' => array(),
                     'cc_avs_status' => array(),
                     'cc_cid_status' => array(),
-                    
+
                     'cc_debug_request_body' => array(),
                     'cc_debug_response_body' => array(),
                     'cc_debug_response_serialized' => array(),
@@ -272,13 +273,16 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'=>'sales/invoice',
                 'increment_model'=>'eav/entity_increment_numeric',
                 'increment_per_store'=>true,
+                'backend_prefix'=>'sales_entity/order_attribute_backend',
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/invoice_attribute_backend_parent'),
+                    'invoice_type' => array('type'=>'int'),
                     'customer_id' => array('type'=>'int'),
                     'order_id' => array('type'=>'int'),
+                    'real_order_id' => array('type'=>'varchar'),
                     'invoice_status_id' => array('type'=>'int'),
-                    'billing_address_id' => array('type'=>'int'),
-                    'shipping_address_id' => array('type'=>'int'),
+                    'billing_address_id' => array('type'=>'int', 'backend'=>'_billing'),
+                    'shipping_address_id' => array('type'=>'int', 'backend'=>'_shipping'),
                     'base_currency_code' => array(),
                     'store_currency_code' => array(),
                     'order_currency_code' => array(),
@@ -322,7 +326,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/invoice_attribute_backend_child'),
                     'order_item_id' => array('type'=>'int'),
                     'product_id' => array('type'=>'int'),
-                    'product_name' => array(),
+                    'name' => array(),
                     'description' => array('type'=>'text'),
                     'sku' => array(),
                     'qty' => array('type'=>'decimal'),

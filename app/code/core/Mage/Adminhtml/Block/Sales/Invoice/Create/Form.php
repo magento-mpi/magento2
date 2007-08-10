@@ -1,0 +1,81 @@
+<?php
+/**
+ * Adminhtml invoice create form
+ *
+ * @package     Mage
+ * @subpackage  Adminhtml
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Michael Bessolov <michael@varien.com>
+ */
+
+class Mage_Adminhtml_Block_Sales_Invoice_Create_Form extends Mage_Adminhtml_Block_Widget_Form
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setId('invoice_form');
+        $this->setTitle(__('Invoice Information'));
+        $this->setTemplate('sales/invoice/create.phtml');
+    }
+
+    public function getInvoice()
+    {
+        return Mage::registry('sales_invoice');
+    }
+
+    public function getOrder()
+    {
+        return Mage::registry('sales_invoice')->getOrder();
+    }
+
+    protected function _initChildren()
+    {
+        parent::_initChildren();
+        $this->setChild('items', $this->getLayout()->createBlock( 'adminhtml/sales_invoice_create_items', 'sales_invoice_create_items'));
+        return $this;
+    }
+
+    public function getItemsHtml()
+    {
+        return $this->getChildHtml('items');
+    }
+
+    public function getOrderDateFormatted($format='short')
+    {
+        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getOrder()->getCreatedAt()));
+        return $dateFormatted;
+    }
+
+    public function getSaveUrl()
+    {
+        return Mage::getUrl('*/*/savenew', array('order_id' => $this->getRequest()->getParam('order_id')));
+    }
+
+    protected function _prepareForm()
+    {
+        $model = Mage::registry('sales_invoice');
+
+        $form = new Varien_Data_Form();
+
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+
+        if ($model->getEntityId()) {
+        	$fieldset->addField('entity_id', 'hidden', array(
+                'name' => 'entity_id',
+            ));
+        } else {
+        	$fieldset->addField('order_id', 'hidden', array(
+                'name' => 'order_id',
+            ));
+        }
+
+        $form->setUseContainer(true);
+
+        $this->setForm($form);
+
+        return parent::_prepareForm();
+    }
+
+}

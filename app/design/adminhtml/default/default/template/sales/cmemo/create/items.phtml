@@ -1,0 +1,36 @@
+<div id="invoice_items_grid">
+    <div class="grid">
+        <table cellspacing="0" class="data" id="invoice_items_grid_table">
+            <thead>
+                <tr class="headings">
+                    <th class="no-link"><nobr><?=__('Product ID')?></nobr></th>
+                    <th class="no-link"><nobr><?=__('SKU')?></nobr></th>
+                    <th class="no-link"><nobr><?=__('Product Name')?></nobr></th>
+                    <th class="no-link"><nobr><?=__('Item Status')?></nobr></th>
+                    <th class="no-link"><nobr><?=__('Qty Ordered')?></nobr></th>
+                    <th class="no-link"><nobr><?=__('Qty Backordered')?></nobr></th>
+                    <th class="no-link" colspan="2"><nobr><?=__('Qty Shipped')?></nobr></th>
+                    <th class="no-link"><nobr><?=__('Qty Returned')?></nobr></th>
+                    <th class="no-link last"><nobr><?=__('Qty Cancelled')?></nobr></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?$_items = $this->getOrder()->getItemsCollection()?>
+                <?foreach ($_items as $_item):?>
+                    <tr>
+                        <td class="a-center"><em><small><?=$_item->getId()?></small></em> <?=$_item->getProductId()?></td>
+                        <td><?=$_item->getSku()?></td>
+                        <td><?=$_item->getName()?></td>
+                        <td><?=$_item->getStatus()?></td>
+                        <td><?=$_item->getQtyOrdered()?></td>
+                        <td><?=$_item->getQtyBackordered()?></td>
+                        <td><?=$_item->getQtyShipped()?></td>
+                        <td><?if ($_item->getQtyToShip()):?><input type="text" class="input-text validate-number" name="items[<?=$_item->getId()?>]" value="<?=(!is_null($this->getItemData($_item->getId())) ? $this->getItemData($_item->getId()) : $_item->getQtyToShip())?>" style="width: 40px;"/><?endif;?></td>
+                        <td><?=$_item->getQtyReturned()?></td>
+                        <td class="last"><?=$_item->getQtyCanceled()?></td>
+                    </tr>
+                <?endforeach;?>
+            </tbody>
+        </table>
+    </div>
+</div>

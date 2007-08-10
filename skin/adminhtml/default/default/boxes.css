@@ -515,3 +515,8 @@ div.actions:after,
 
 /****** VIEWS *********/
 .entry-view { padding-top: 5px; }
+
+
+.order-totals { width: 250px; margin-left: auto; padding: 10px 0px; }
+.order-totals table { border: none; background: none; }
+.order-totals table td { padding:2px 20px; text-align: right; }

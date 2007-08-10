@@ -62,6 +62,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 
     public function getStatus()
     {
+        // echo ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) . ' == ' .  $this->getQtyShipped() . ' ? ' . $this->getStatusId() . ':' . $this->getStatusName($this->getStatusId()) . '<br>';
         return $this->getStatusName($this->getStatusId());
     }
 
@@ -90,6 +91,43 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             return self::$_statuses[$statusId];
         }
         return __('Unknown Status');
+    }
+
+//    public function canBeShipped()
+//    {
+//        $canBeShipped = array(
+//            self::STATUS_PENDING,
+//            self::STATUS_BACKORDERED,
+//            self::STATUS_PARTIAL,
+//            self::STATUS_MIXED,
+//        );
+//        if (in_array($this->getStatusId(), $canBeShipped)) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+    public function getQtyToShip()
+    {
+        return max($this->getQtyOrdered() - $this->getQtyShipped() - $this->getQtyReturned() - $this->getQtyCanceled(), 0);
+    }
+
+    public function calcRowTotal()
+    {
+        $this->setRowTotal($this->getPrice()*$this->getQty());
+        return $this;
+    }
+
+    public function calcRowWeight()
+    {
+        $this->setRowWeight($this->getWeight()*$this->getQty());
+        return $this;
+    }
+
+    public function calcTaxAmount()
+    {
+        $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
+        return $this;
     }
 
 }

@@ -23,10 +23,10 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
     {
         $collection = Mage::getResourceModel('sales/invoice_collection')
             ->addAttributeToSelect('*')
-            ->joinAttribute('billing_firstname', 'invoice_address/firstname', 'billing_address_id')
-            ->joinAttribute('billing_lastname', 'invoice_address/lastname', 'billing_address_id')
-            ->joinAttribute('shipping_firstname', 'invoice_address/firstname', 'shipping_address_id')
-            ->joinAttribute('shipping_lastname', 'invoice_address/lastname', 'shipping_address_id')
+             ->joinAttribute('billing_firstname', 'invoice_address/firstname', 'billing_address_id')
+             ->joinAttribute('billing_lastname', 'invoice_address/lastname', 'billing_address_id')
+             ->joinAttribute('shipping_firstname', 'invoice_address/firstname', 'shipping_address_id')
+             ->joinAttribute('shipping_lastname', 'invoice_address/lastname', 'shipping_address_id')
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         $this->addColumn('type', array(
             'header' => __('Type'),
             'align' => 'center',
-            'index' => 'type',
+            'index' => 'invoice_type',
             'type' => 'options',
             'options' => $types,
         ));

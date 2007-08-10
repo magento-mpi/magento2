@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml invoice edit form
+ * Adminhtml invoice view form
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,7 +9,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Sales_Invoice_View_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
     public function __construct()
@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_
         parent::__construct();
         $this->setId('invoice_form');
         $this->setTitle(__('Invoice Information'));
-        $this->setTemplate('sales/invoice/edit.phtml');
+        $this->setTemplate('sales/invoice/view.phtml');
     }
 
     public function getInvoice()
@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_
     protected function _initChildren()
     {
         parent::_initChildren();
-        $this->setChild('items', $this->getLayout()->createBlock( 'adminhtml/sales_invoice_edit_items', 'sales_invoice_edit_items'));
+        $this->setChild('items', $this->getLayout()->createBlock( 'adminhtml/sales_invoice_view_items', 'sales_invoice_view_items'));
         return $this;
     }
 
@@ -41,11 +41,6 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_
     {
         $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getInvoice()->getCreatedAt()));
         return $dateFormatted;
-    }
-
-    public function getSaveUrl()
-    {
-        return Mage::getUrl('*/*/save', array('invoice_id' => $this->getRequest()->getParam('invoice_id')));
     }
 
 }
