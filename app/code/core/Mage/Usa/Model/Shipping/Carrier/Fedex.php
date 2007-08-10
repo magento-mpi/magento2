@@ -363,17 +363,21 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
     {
         $rArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        $xml = simplexml_load_string($response);
-        if (is_object($xml)) {
-            if (is_object($xml->Error) && is_object($xml->Error->Message)) {
-                $errorTitle = (string)$xml->Error->Message;
-            } else {
-                $errorTitle = 'Unknown error';
+        try {
+            $xml = simplexml_load_string($response);
+            if (is_object($xml)) {
+                if (is_object($xml->Error) && is_object($xml->Error->Message)) {
+                    $errorTitle = (string)$xml->Error->Message;
+                } else {
+                    $errorTitle = 'Unknown error';
+                }
+                foreach ($xml->Entry as $entry) {
+                    $rArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+                }
+                arsort($rArr);
             }
-            foreach ($xml->Entry as $entry) {
-                $rArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
-            }
-            arsort($rArr);
+        } catch (Exception $e) {
+            $errorTitle = 'Unknown error';
         }
 
         $result = Mage::getModel('shipping/rate_result');

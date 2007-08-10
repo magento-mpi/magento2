@@ -128,19 +128,23 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     {
         $rArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        $xml = simplexml_load_string($response);
-        if (is_object($xml)) {
-            if (is_object($xml->Number) && is_object($xml->Description)) {
-                $errorTitle = (string)$xml->Description;
-            } else {
-                $errorTitle = 'Unknown error';
-            }
-            if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
-                foreach ($xml->Package->Postage as $postage) {
-                    $rArr[(string)$postage->MailService] = (string)$postage->Rate;
+        try {
+            $xml = simplexml_load_string($response);
+            if (is_object($xml)) {
+                if (is_object($xml->Number) && is_object($xml->Description)) {
+                    $errorTitle = (string)$xml->Description;
+                } else {
+                    $errorTitle = 'Unknown error';
                 }
-                arsort($rArr);
+                if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
+                    foreach ($xml->Package->Postage as $postage) {
+                        $rArr[(string)$postage->MailService] = (string)$postage->Rate;
+                    }
+                    arsort($rArr);
+                }
             }
+        } catch (Exception $e) {
+            $errorTitle = 'Unknown error';
         }
 
         $result = Mage::getModel('shipping/rate_result');
