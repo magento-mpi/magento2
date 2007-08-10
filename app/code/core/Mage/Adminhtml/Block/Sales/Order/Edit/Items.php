@@ -59,31 +59,31 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Items extends Mage_Adminhtml_Block_W
         $this->addColumn('qty_ordered', array(
             'header' => __('Qty Ordered'),
             'index' => 'qty_ordered',
-            'type' => 'range',
+            'type' => 'number',
         ));
 
         $this->addColumn('qty_backordered', array(
             'header' => __('Qty Backordered'),
             'index' => 'qty_backordered',
-            'type' => 'range',
+            'type' => 'number',
         ));
 
         $this->addColumn('qty_shipped', array(
             'header' => __('Qty Shipped'),
             'index' => 'qty_shipped',
-            'type' => 'range',
+            'type' => 'number',
         ));
 
         $this->addColumn('qty_returned', array(
             'header' => __('Qty Returned'),
             'index' => 'qty_returned',
-            'type' => 'range',
+            'type' => 'number',
         ));
 
         $this->addColumn('qty_canceled', array(
             'header' => __('Qty Cancelled'),
             'index' => 'qty_canceled',
-            'type' => 'range',
+            'type' => 'number',
         ));
 
         return parent::_prepareColumns();
