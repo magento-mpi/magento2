@@ -31,16 +31,16 @@
             <label for="shipping:city"><?=__('City')?> <span class="required">*</span></label><br/>
             <input type="text" title="<?=__('City')?>" name="shipping[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
-            <label for="shipping:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
-            <?if($this->getRegionCollection()->getSize()):?><?=$this->getRegionHtmlSelect('shipping')?><?else:?>
-                <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" onchange="shipping.setSameAsBilling(false);"/>
-            <?endif?></div></li>
+            <label for="shipping:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
+            <?=$this->getCountryHtmlSelect('shipping')?></div></li>
         <li><div class="input-box">
             <label for="shipping:postcode"><?=__('Zip')?> <span class="required">*</span></label><br/>
             <input type="text" title="<?=__('ZIP/Postal Code')?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip required-entry input-text" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
-            <label for="shipping:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
-            <?=$this->getCountryHtmlSelect('shipping')?></div></li>
+            <label for="shipping:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+            <?if($this->getRegionCollection()->getSize()):?><?=$this->getRegionHtmlSelect('shipping')?><?else:?>
+                <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" onchange="shipping.setSameAsBilling(false);"/>
+            <?endif?></div></li>
         <li><div class="input-box">
             <label for="shipping:telephone"><?=__('Telephone')?> <span class="required">*</span></label><br/>
             <input type="text" name="shipping[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry validate-phoneStrict input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);"/></div>
@@ -52,8 +52,13 @@
 </form>
 <div class="form-buttons">
     <p class="required">* <?=__('Required')?></p>
-    <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
-    <button class="form-button" onclick="shipping.save()"><span><?=__('Continue')?></span></button>
+    <span id="shipping-please-wait" style="display:none;" class="opc-please-wait">
+        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Loading next step... &nbsp; 
+    </span>
+    <span id="shipping-buttons-container">
+        <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
+        <button class="form-button" onclick="shipping.save()"><span><?=__('Continue')?></span></button>
+    </span>
 </div>
 
 <script type="text/javascript">

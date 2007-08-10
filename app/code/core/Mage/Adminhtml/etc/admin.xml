@@ -298,20 +298,7 @@
                 </acl>
                 <config>
                     <title>Configuration</title>
-                    <children>
-                        <stores>
-                            <title>Stores</title>
-                            <action>adminhtml/system_config</action>
-                        </stores>
-                        <modules>
-                            <title>Modules</title>
-                            <action>adminhtml/moduleConfig</action>
-                        </modules>
-                        <resources>
-                            <title>Resources</title>
-                            <action>adminhtml/resources</action>
-                        </resources>
-                    </children>
+                    <action>adminhtml/system_config</action>
                 </config>
             </children>
          </system>

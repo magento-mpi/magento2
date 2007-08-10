@@ -10,8 +10,11 @@ Checkout.prototype = {
         this.syncBillingShipping = false;
         this.method = '';
         this.payment = '';
+        this.loadWaiting = false;
 
         this.onSetMethod = this.nextStep.bindAsEventListener(this);
+        
+        this.accordion.disallowAccessToNextSections = true;
     }, 
     
     reloadProgressBlock: function(){
@@ -22,22 +25,40 @@ Checkout.prototype = {
         var updater = new Ajax.Updater('checkout-review-load', this.reviewUrl, {method: 'get'});
     },
     
+    setLoadWaiting: function(step) {
+        if (step) {
+            if (this.loadWaiting) {
+                this.setLoadWaiting(false);
+            }
+            $(step+'-buttons-container').setStyle({opacity:.5});
+            $(step+'-please-wait').setStyle({display:''});
+        } else {
+            if (this.loadWaiting) {
+                $(this.loadWaiting+'-buttons-container').setStyle({opacity:1});
+                $(this.loadWaiting+'-please-wait').setStyle({display:'none'});
+            }
+        }
+        this.loadWaiting = step;
+    },
+    
     setMethod: function(){
         if ($('login:guest') && $('login:guest').checked) {
             this.method = 'guest';
             var request = new Ajax.Request(
                 this.saveMethodUrl,
-                {method: 'post', onSuccess: this.onSetMethod, parameters: {method:'guest'}}
+                {method: 'post', /*onSuccess: this.onSetMethod, */parameters: {method:'guest'}}
             );
             $('register-customer-password').style.display = 'none';
+            this.nextStep();
         }
         else if($('login:register') && $('login:register').checked) {
             this.method = 'register';
             var request = new Ajax.Request(
                 this.saveMethodUrl,
-                {method: 'post', onSuccess: this.onSetMethod, parameters: {method:'register'}}
+                {method: 'post', /*onSuccess: this.onSetMethod, */parameters: {method:'register'}}
             );
             $('register-customer-password').style.display = 'block';
+            this.nextStep();
         }
         else{
             alert('Choose checkout type');
@@ -60,7 +81,8 @@ Checkout.prototype = {
     setBilling: function() {
         if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
             shipping.syncWithBilling();
-            this.setShipping();
+            //this.setShipping();
+            shipping.nextStep();
         } else {
             $('shipping:same_as_billing').checked = false;
             this.reloadProgressBlock();
@@ -90,6 +112,7 @@ Checkout.prototype = {
     },
     
     back: function(){
+        if (this.loadWaiting) return;
         this.accordion.openPrevSection(true);
     }
 }
@@ -103,6 +126,7 @@ Billing.prototype = {
         this.saveUrl = saveUrl;
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
         this.onSave = this.nextStep.bindAsEventListener(this);
+        this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
 
     setAddress: function(addressId){
@@ -163,8 +187,11 @@ Billing.prototype = {
     },
     
     save: function(){
+        if (checkout.loadWaiting) return;
+        
         var validator = new Validation(this.form);
         if (validator.validate()) {
+            checkout.setLoadWaiting('billing');
             if (checkout.method=='register' && $('billing:customer_password').value != $('billing:confirm_password').value) {
                 alert('Error: Passwords do not match');
                 return;
@@ -174,9 +201,18 @@ Billing.prototype = {
             }
             var request = new Ajax.Request(
                 this.saveUrl,
-                {method: 'post', onSuccess: this.onSave, parameters: Form.serialize(this.form)}
+                {
+                    method: 'post', 
+                    onComplete: this.onComplete,
+                    onSuccess: this.onSave, 
+                    parameters: Form.serialize(this.form)
+                }
             );
         }
+    },
+    
+    resetLoadWaiting: function(transport){
+        checkout.setLoadWaiting(false);
     },
 
     nextStep: function(transport){
@@ -206,6 +242,7 @@ Shipping.prototype = {
         this.methodsUrl = methodsUrl;
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
         this.onSave = this.nextStep.bindAsEventListener(this);
+        this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
 
     setAddress: function(addressId){
@@ -296,11 +333,21 @@ Shipping.prototype = {
     save: function(){
         var validator = new Validation(this.form);
         if (validator.validate()) {
+            checkout.setLoadWaiting('shipping');
             var request = new Ajax.Request(
                 this.saveUrl,
-                {method:'post', onSuccess: this.onSave, parameters: Form.serialize(this.form)}
+                {
+                    method:'post', 
+                    onComplete: this.onComplete,
+                    onSuccess: this.onSave, 
+                    parameters: Form.serialize(this.form)
+                }
             );
         }
+    },
+    
+    resetLoadWaiting: function(transport){
+        checkout.setLoadWaiting(false);
     },
 
     nextStep: function(){
@@ -320,24 +367,31 @@ ShippingMethod.prototype = {
         this.form = form;
         this.saveUrl = saveUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
+        this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
 
     save: function(){
         var validator = new Validation(this.form);
         if (validator.validate()) {
+            checkout.setLoadWaiting('shipping-method');
             var request = new Ajax.Request(
                 this.saveUrl,
                 {
                     method:'post',
+                    onComplete: this.onComplete,
                     onSuccess: this.onSave,
                     parameters: Form.serialize(this.form)
                 }
             );
         }
     },
+    
+    resetLoadWaiting: function(transport){
+        checkout.setLoadWaiting(false);      
+    },
 
     nextStep: function(){
-        checkout.setReview();
+        checkout.setPayment();
     }
 }
 
@@ -349,6 +403,7 @@ Payment.prototype = {
         this.form = form;
         this.saveUrl = saveUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
+        this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
         var elements = Form.getElements(form);
         var method = null;
         for (var i=0; i<elements.length; i++) {
@@ -387,23 +442,25 @@ Payment.prototype = {
     save: function(){
         var validator = new Validation(this.form);
         if (validator.validate()) {
+            checkout.setLoadWaiting('payment');
             var request = new Ajax.Request(
                 this.saveUrl,
                 {
                     method:'post',
+                    onComplete: this.onComplete,
                     onSuccess: this.onSave,
                     parameters: Form.serialize(this.form)
                 }
             );
         }
     },
+    
+    resetLoadWaiting: function(){
+        checkout.setLoadWaiting(false);   
+    },
 
     nextStep: function(){
-        checkout.setShipping();
-        if ($('billing:use_for_shipping').checked) {
-            //checkout.setShippingMethod();
-            shipping.nextStep();
-        }
+        checkout.setReview();
     }
 }
 
@@ -413,17 +470,24 @@ Review.prototype = {
         this.saveUrl = saveUrl;
         this.successUrl = successUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
+        this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
     
     save: function(){
+        checkout.setLoadWaiting('review');
         var request = new Ajax.Request(
             this.saveUrl,
             {
                 method:'post',
                 parameters:{save:true},
+                onComplete: this.onComplete,
                 onSuccess: this.onSave
             }
         );
+    },
+    
+    resetLoadWaiting: function(transport){ 
+        checkout.setLoadWaiting(false);     
     },
 
     nextStep: function(transport){

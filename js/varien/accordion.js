@@ -3,6 +3,7 @@ Accordion.prototype = {
     initialize: function(elem, clickableEntity, checkAllow) {
         this.container = $(elem);
         this.checkAllow = checkAllow || false;
+        this.disallowAccessToNextSections = false;
         this.sections = $$('#' + elem + ' .section');
         var headers = $$('#' + elem + ' .section ' + clickableEntity);
         headers.each(function(header) {
@@ -27,8 +28,27 @@ Accordion.prototype = {
             $(this.currentSection).addClassName('active');
             var contents = document.getElementsByClassName('a-item',section);
             contents[0].show();
-            //Effect.SlideDown(contents[0]);
+            //Effect.SlideDown(contents[0], {duration:.2});
+            
+            if (this.disallowAccessToNextSections) {
+                var pastCurrentSection = false;
+                for (var i=0; i<this.sections.length; i++) {
+                    if (pastCurrentSection) {
+                        Element.removeClassName(this.sections[i], 'allow')
+                    }
+                    if (this.sections[i].id==section.id) {
+                        pastCurrentSection = true;
+                    }
+                }
+            }
         }
+    },
+    
+    closeSection: function(section) {
+        $(section).removeClassName('active');
+        var contents = document.getElementsByClassName('a-item',section);
+        contents[0].hide();
+        //Effect.SlideUp(contents[0]);
     },
     
     openNextSection: function(setAllow){
@@ -59,10 +79,7 @@ Accordion.prototype = {
     
     closeExistingSection: function() {
         if(this.currentSection) {
-            $(this.currentSection).removeClassName('active');
-            var contents = document.getElementsByClassName('a-item',this.currentSection);
-            contents[0].hide();
-            //Effect.SlideUp(contents[0]);
+            this.closeSection(this.currentSection);
         }
     }
 }

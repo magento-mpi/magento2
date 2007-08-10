@@ -1,6 +1,6 @@
 <dt>
-<input type="radio" title="<?=__("Purchase Order")?>" id="payment_method_<?=$this->getMethod()?>" name="payment[method]" value="<?=$this->getMethod()?>" <?if($this->isCurrent()):?>checked<?endif?> onclick="payment.switchMethod('<?=$this->getMethod()?>')"  class1="validate-one-required"/>
-<label for="payment_method_<?=$this->getMethod()?>"><?=__("Use Purchase Order")?></label>
+<input type="radio" title="<?=$this->getTitle()?>" id="payment_method_<?=$this->getMethod()?>" name="payment[method]" value="<?=$this->getMethod()?>" <?if($this->isCurrent()):?>checked<?endif?> onclick="payment.switchMethod('<?=$this->getMethod()?>')"  class1="validate-one-required"/>
+<label for="payment_method_<?=$this->getMethod()?>"><?=$this->getTitle()?></label>
 </dt>
 <dd>
 <fieldset class="form-list">

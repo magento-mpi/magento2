@@ -156,10 +156,18 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getFinalPrice()
     {
-        $price = $this->getPrice();
-        $tierPrice = $this->getTierPrice();
-        $finalPrice = min($price, $tierPrice);
-        return $finalPrice;
+        $finalPrice = $this->getPrice();
+        if (is_numeric($this->getTierPrice())) {
+            $finalPrice = min($finalPrice, $this->getTierPrice());
+        }
+        if (is_numeric($this->getSpecialPrice())) {
+            $finalPrice = min($finalPrice, $this->getSpecialPrice());
+        }
+        $this->setFinalPrice($finalPrice);
+        
+        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$this));
+        
+        return $this->getData('final_price');
     }
     
     public function getLinkedProducts($linkType)

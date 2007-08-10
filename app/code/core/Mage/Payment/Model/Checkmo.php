@@ -14,11 +14,8 @@ class Mage_Payment_Model_Checkmo extends Mage_Payment_Model_Abstract
     
     public function createInfoBlock($name)
     {
-        $out = __('Check / MO');
-            
         $block = $this->getLayout()->createBlock('payment/info', $name)
-            ->setPayment($this->getPayment())
-            ->setText(nl2br($out));
+            ->setPayment($this->getPayment());
         
         return $block;
     }
