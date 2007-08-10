@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
     {
         $filter = (int) $request->getParam($this->getRequestVar());
-        if ($filter && $filter<=10) {
+        if ($filter) {
             $range = $this->getPriceRange();
             $this->getLayer()->getProductCollection()
                 ->addFieldToFilter('price', array(
