@@ -363,7 +363,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
     {
         $rArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        try {
+        if (strpos($response, '<?xml')===0)
+        {
             $xml = simplexml_load_string($response);
             if (is_object($xml)) {
                 if (is_object($xml->Error) && is_object($xml->Error->Message)) {
@@ -376,8 +377,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
                 }
                 arsort($rArr);
             }
-        } catch (Exception $e) {
-            $errorTitle = 'Unknown error';
+        } else {
+            $errorTitle = 'Response is in the wrong format';
         }
 
         $result = Mage::getModel('shipping/rate_result');

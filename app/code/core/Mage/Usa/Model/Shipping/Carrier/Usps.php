@@ -95,7 +95,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     {
         $r = $this->_rawRequest;
 
-        $xml = new SimpleXMLElement('<RateV2Request/>');
+        $xml = new SimpleXMLElement('<RateV3Request/>');
 
         $xml->addAttribute('USERID', $r->getUserId());
 
@@ -116,7 +116,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         $client = new Zend_Http_Client();
         $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-        $client->setParameterGet('API', 'RateV2');
+        $client->setParameterGet('API', 'RateV3');
         $client->setParameterGet('XML', $request);
         $response = $client->request();
         $responseBody = $response->getBody();
@@ -128,7 +128,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     {
         $rArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        try {
+        if (strpos($response, '<?xml')===0)
+        {
             $xml = simplexml_load_string($response);
             if (is_object($xml)) {
                 if (is_object($xml->Number) && is_object($xml->Description)) {
@@ -143,8 +144,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                     arsort($rArr);
                 }
             }
-        } catch (Exception $e) {
-            $errorTitle = 'Unknown error';
+        } else {
+            $errorTitle = 'Response is in the wrong format';
         }
 
         $result = Mage::getModel('shipping/rate_result');
