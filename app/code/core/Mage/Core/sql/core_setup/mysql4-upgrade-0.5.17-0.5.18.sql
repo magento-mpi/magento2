@@ -9,12 +9,12 @@ replace into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type
 ('3','payment/purchaseorder/title','Title','text',1);
 
 replace into `core_config_data` (`scope`, `scope_id`, `path`, `value`) values
-('default', 0, 'path/ccsave/title', 'Credit Card'),
-('default', 0, 'path/checkmo/title', 'Credit Card'),
-('default', 0, 'path/purchaseorder/title', 'Credit Card'),
-('default', 0, 'path/authorizenet/title', 'Credit Card (Authorize.net)'),
-('default', 0, 'path/paypal/title', 'Credit Card (Paypal)'),
-('default', 0, 'path/verisign/title', 'Credit Card (Verisign)');
+('default', 0, 'payment/ccsave/title', 'Credit Card'),
+('default', 0, 'payment/checkmo/title', 'Credit Card'),
+('default', 0, 'payment/purchaseorder/title', 'Credit Card'),
+('default', 0, 'payment/authorizenet/title', 'Credit Card (Authorize.net)'),
+('default', 0, 'payment/paypal/title', 'Credit Card (Paypal)'),
+('default', 0, 'payment/verisign/title', 'Credit Card (Verisign)');
 
 replace into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`sort_order`) values
 ('3','payment/authorizenet/sort_order','Sort order','text',100),
