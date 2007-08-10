@@ -46,6 +46,8 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Condact extends Mage_Adminhtml
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
         
+        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>__('Options')));
+        
         $fieldset->addField('stop_rules_processing', 'select', array(
             'label'     => __('Stop further rules processing'),
             'title'     => __('Stop further rules processing'),

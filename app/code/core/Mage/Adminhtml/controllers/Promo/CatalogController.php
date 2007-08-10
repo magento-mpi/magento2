@@ -89,7 +89,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
         }
@@ -151,8 +151,15 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     
     public function applyRulesAction()
     {
-        $this->_initAction();
-        
-        $this->renderLayout();
+        try {
+            $resource = Mage::getResourceSingleton('catalogrule/rule');
+            $resource->applyAllRulesForDateRange($resource->formatDate(now()));
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Rules were applied successfully'));
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError(__('Unable to apply rules'));
+            throw $e;
+        }
+
+        $this->_redirect('*/*');
     }
 }

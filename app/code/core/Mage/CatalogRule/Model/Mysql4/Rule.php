@@ -25,6 +25,10 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $write = $this->getConnection('write');
         $write->delete($this->getTable('catalogrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
         
+        if (!$rule->getIsActive()) {
+            return $this;
+        }
+        
         $productIds = $rule->getMatchingProductIds();
         $storeIds = explode(',', $rule->getStoreIds());
         $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
@@ -38,21 +42,32 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $rows = array();
         $header = 'insert into '.$this->getTable('catalogrule/rule_product').' (rule_id, from_time, to_time, store_id, customer_group_id, product_id, action_operator, action_amount, action_stop, sort_order) values ';
-        foreach ($productIds as $productId) {
-            foreach ($storeIds as $storeId) {
-                foreach ($customerGroupIds as $customerGroupId) {
-                    $rows[] = "($ruleId, $fromTime, $toTime, $storeId, $customerGroupId, $productId, '$actionOperator', $actionAmount, $actionStop, $sortOrder)";
-                    if (sizeof($rows)==100) {
-                        $sql = $header.join(',', $rows);
-                        $write->query($sql);
-                        $rows = array();
+        try {
+            $write->beginTransaction();
+            
+            foreach ($productIds as $productId) {
+                foreach ($storeIds as $storeId) {
+                    foreach ($customerGroupIds as $customerGroupId) {
+                        $rows[] = "($ruleId, $fromTime, $toTime, $storeId, $customerGroupId, $productId, '$actionOperator', $actionAmount, $actionStop, $sortOrder)";
+                        if (sizeof($rows)==100) {
+                            $sql = $header.join(',', $rows);
+                            $write->query($sql);
+                            $rows = array();
+                        }
                     }
                 }
             }
-        }
-        if (!empty($rows)) {
-            $sql = $header.join(',', $rows);
-            $write->query($sql);
+            if (!empty($rows)) {
+                $sql = $header.join(',', $rows);
+                $write->query($sql);
+            }
+            
+            $write->commit();
+        } catch (Exception $e) {
+            
+            $write->rollback();
+            throw $e;
+            
         }
         
         return $this;
@@ -97,6 +112,9 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $this->removeCatalogPricesForDateRange($fromDate, $toDate);
         
         $ruleProducts = $this->getRuleProductsForDateRange($fromDate, $toDate);
+        if (empty($ruleProducts)) {
+            return $this;
+        }
             
         $productIds = array();
         foreach ($ruleProducts as $r) {
@@ -154,19 +172,33 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         
         $write = $this->getConnection('write');
         $header = 'insert into '.$this->getTable('catalogrule/rule_product_price').' (rule_date, store_id, customer_group_id, product_id, rule_price) values ';
-        foreach ($prices as $key=>$value) {
-            $k = explode('|', $key);
-            $rows[] = "('{$k[0]}', {$k[1]}, {$k[2]}, {$k[3]}, {$value})";
-            if (sizeof($rows)==100) {
+        
+        try {
+            $write->beginTransaction();
+            
+            foreach ($prices as $key=>$value) {
+                $k = explode('|', $key);
+                $rows[] = "('{$k[0]}', {$k[1]}, {$k[2]}, {$k[3]}, {$value})";
+                if (sizeof($rows)==100) {
+                    $sql = $header.join(',', $rows);
+                    $write->query($sql);
+                    $rows = array();
+                }
+            }
+            if (!empty($rows)) {
                 $sql = $header.join(',', $rows);
                 $write->query($sql);
-                $rows = array();
             }
+            
+            $write->commit();
+            
+        } catch (Exception $e) {
+            
+            $write->rollback();
+            throw $e;
+            
         }
-        if (!empty($rows)) {
-            $sql = $header.join(',', $rows);
-            $write->query($sql);
-        }
+        
         return $this;
     }
     
