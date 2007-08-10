@@ -128,7 +128,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     {
         $rArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        if (strpos($response, '<?xml')===0)
+        if (strpos(trim($response), '<?xml')===0)
         {
             $xml = simplexml_load_string($response);
             if (is_object($xml)) {
