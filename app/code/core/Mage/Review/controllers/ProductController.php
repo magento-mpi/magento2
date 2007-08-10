@@ -50,7 +50,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function listAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(array('default', 'reviews'), 'reviews');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('review/list')
                 ->setUseBackLink(true)
