@@ -47,6 +47,7 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Core_Model_Abstract
         $item->unsEntityId()
             ->unsAttributeSetId()
             ->unsEntityTypeId()
+            ->unsQty()
             ->unsParentId();
             
         $this->addData($item->getData());
