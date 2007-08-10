@@ -5,7 +5,7 @@ class Mage_CatalogRule_Model_Rule_Action_Product extends Mage_Rule_Model_Action_
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'rule_price'=>__('Special price'),
+            'rule_price'=>__('Rule price'),
         ));
         return $this;
     }

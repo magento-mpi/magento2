@@ -17,4 +17,12 @@ class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Cond
         ));
         return $conditions;
     }
+        
+    public function collectValidatedAttributes($productCollection)
+    {
+        foreach ($this->getConditions() as $condition) {
+            $condition->collectValidatedAttributes($productCollection);
+        }
+        return $this;
+    }
 }

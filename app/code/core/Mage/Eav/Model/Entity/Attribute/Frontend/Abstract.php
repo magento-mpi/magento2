@@ -58,6 +58,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         return $label;
     }
     
+    public function isVisible()
+    {
+        return $this->getConfigField('frontend_visible');
+    }
+    
     public function getClass()
     {
         $out = $this->getAttribute()->getFrontendClass();

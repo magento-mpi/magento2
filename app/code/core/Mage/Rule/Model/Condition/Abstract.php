@@ -268,7 +268,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
                 
             case '{}': case '!{}':
-                $result = strpos((string)$validatedValue, (string)$this->getValue())!==false;
+                $result = stripos((string)$validatedValue, (string)$this->getValue())!==false;
                 break;
 
             case '()': case '!()':
@@ -283,8 +283,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
         return $result;
     }
 
-    public function validate()
+    public function validate(Varien_Object $object)
     {
-        return $this->validateAttribute($this->getObject()->getData($this->getAttribute()));
+        return $this->validateAttribute($object->getData($this->getAttribute()));
     }
 }

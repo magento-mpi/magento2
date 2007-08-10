@@ -70,7 +70,13 @@ VarienRulesForm.prototype = {
         	
         	elem = Element.down(container, 'input.input-text');
         	if (elem) {
-        		label.innerHTML = elem.value!='' ? elem.value : '...';
+        	    var str = elem.value;
+        	    if (str=='') {
+        	        str = '...';
+        	    } else if (str.length>30) {
+        	        str = str.substr(0, 30)+'...';
+        	    }
+        		label.innerHTML = str;
         	}
     	} else {
     	    elem = Element.down(container, 'select');
@@ -101,6 +107,7 @@ VarienRulesForm.prototype = {
         var new_type = elem.value;
         
         var new_elem = document.createElement('LI');
+        new_elem.className = 'rule-param-wait';
         new_elem.innerHTML = 'Please wait, loading...';
         children_ul.appendChild(new_elem);
 
@@ -111,6 +118,7 @@ VarienRulesForm.prototype = {
     },
     
     onAddNewChildComplete: function (new_elem) {
+        $(new_elem).removeClassName('rule-param-wait');
         var elems = new_elem.getElementsByClassName('rule-param');
         for (var i=0; i<elems.length; i++) {
             this.initParam(elems[i]);

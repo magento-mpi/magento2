@@ -2,6 +2,10 @@
 
 class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 {
+    protected $_productIds = array();
+    
+    protected $_now;
+    
     protected function _construct()
     {
         parent::_construct();
@@ -19,7 +23,19 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         return Mage::getModel('catalogrule/rule_action_collection');
     }
 
-
+    public function getNow()
+    {
+        if (!$this->_now) {
+            return now();
+        }
+        return $this->_now;
+    }
+    
+    public function setNow($now)
+    {
+        $this->_now = $now;
+    }
+    
     public function toString($format='')
     {
         $str = "Name: ".$this->getName()."\n"
@@ -63,10 +79,9 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     public function validateProduct(Mage_Catalog_Model_Product $product)
     {
         if (!$this->getIsCollectionValidated()) {
-            $env = $this->getEnv();
             $result = $result && $this->getIsActive()
-                && (strtotime($this->getStartAt()) <= $env->getNow())
-                && (strtotime($this->getExpireAt()) >= $env->getNow())
+                && (strtotime($this->getFromDate()) <= $this->getNow())
+                && (strtotime($this->getToDate()) >= $this->getNow())
                 && ($this->getCustomerRegistered()==2 || $this->getCustomerRegistered()==$env->getCustomerRegistered())
                 && ($this->getCustomerNewBuyer()==2 || $this->getCustomerNewBuyer()==$env->getCustomerNewBuyer())
                 && $this->getConditions()->validateProduct($product);
@@ -91,5 +106,24 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _afterSave()
     {
         $this->getResource()->updateRuleProductData($this);
+    }
+    
+    public function getMatchingProductIds()
+    {
+        if (empty($this->_productIds)) {
+            $this->_productIds = array();
+            $conditions = $this->getConditions();
+
+            $productCollection = Mage::getResourceModel('catalog/product_collection');
+            $conditions->collectValidatedAttributes($productCollection);
+            $productCollection->load();
+            
+            foreach ($productCollection as $product) {
+                if ($conditions->validate($product)) {
+                    $this->_productIds[] = $product->getId();
+                }
+            }
+        }
+        return $this->_productIds;
     }
 }

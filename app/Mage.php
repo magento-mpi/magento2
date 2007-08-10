@@ -175,9 +175,12 @@ final class Mage {
      * @param array $arguments
      * @param string $observerName
      */
-    public static function addObserver($eventName, $callback, $data=array(), $observerName='')
+    public static function addObserver($eventName, $callback, $data=array(), $observerName='', $observerClass='')
     {
-        $observer = new Varien_Event_Observer();
+        if ($observerClass=='') {
+            $observerClass = 'Varien_Event_Observer';
+        }
+        $observer = new $observerClass();
         $observer->setName($observerName)->addData($data)->setEventName($eventName)->setCallback($callback);
         return Mage::registry('events')->addObserver($observer);
     }
@@ -341,6 +344,13 @@ final class Mage {
             }
         }
         Mage::log('===================== FINISH ==========================');
+    }
+    
+    public static function cron()
+    {
+        Mage::init();
+        Mage::getConfig()->loadEventObservers('crontab');
+        Mage::dispatchEvent('crontab');
     }
 
     /**

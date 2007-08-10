@@ -136,7 +136,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
         return $this->_entity;
     }
-
+    
     /**
      * Set template object for the collection
      *
@@ -186,6 +186,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     public function getItems()
     {
         return $this->_items;
+    }
+    
+    public function getItemById($id)
+    {
+        if (isset($this->_items[$id])) {
+            return $this->_items[$id];
+        }
+        return false;
     }
 
     /**

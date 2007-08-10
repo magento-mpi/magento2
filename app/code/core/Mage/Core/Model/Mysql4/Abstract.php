@@ -442,4 +442,12 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         return $this;
     }
+    
+    public function formatDate($date) 
+    {
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
+        return date('Y-m-d H:i:s', $date);
+    }
 }

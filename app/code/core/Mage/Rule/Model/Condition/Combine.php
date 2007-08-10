@@ -161,14 +161,14 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         return $str;
     }
 
-    public function validate()
+    public function validate(Varien_Object $object)
     {
         $all = $this->getAttribute()==='all';
         $true = (bool)$this->getOperator();
         foreach ($this->getConditions() as $cond) {
-            if ($all && $cond->validate()!==$true) {
+            if ($all && $cond->validate($object)!==$true) {
                 return false;
-            } elseif (!$all && $cond->validate()===$true) {
+            } elseif (!$all && $cond->validate($object)===$true) {
                 return true;
             }
         }

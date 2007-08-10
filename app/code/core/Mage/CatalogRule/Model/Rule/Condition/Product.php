@@ -4,12 +4,26 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 {
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
-            'product_id'=>'Product ID',
-            'sku'=>'SKU',
-            'brand'=>'Brand',
-            'weight'=>'Weight',
-        ));
+        $productAttributes = Mage::getResourceSingleton('catalog/product')
+            ->loadAllAttributes()->getAttributesByCode();
+            
+        $attributes = array();
+        foreach ($productAttributes as $attr) {
+            if (!$attr->getIsVisible()) {
+                continue;
+            }
+            $attributes[$attr->getAttributeCode()] = $attr->getFrontend()->getLabel();
+        }
+
+        asort($attributes);
+        $this->setAttributeOption($attributes);
+        
+        return $this;
+    }
+    
+    public function collectValidatedAttributes($productCollection)
+    {
+        $productCollection->addAttributeToSelect($this->getAttribute());
         return $this;
     }
 }

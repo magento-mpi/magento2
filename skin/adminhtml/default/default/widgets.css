@@ -452,3 +452,10 @@ select.countries option { background-repeat:no-repeat; }
 
 .rule-param-remove { font-weight:normal; color:red; text-decoration:none; }
 .rule-param-remove:hover { font-weight:normal; color:blue; text-decoration:none; }
+
+.rule-param-wait { 
+    padding-left:20px; 
+    background-image:url('images/rule-ajax-loader.gif'); 
+    background-repeat:no-repeat;
+    background-position:0 50%;
+    }

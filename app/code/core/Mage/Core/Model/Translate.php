@@ -57,6 +57,9 @@ class Mage_Core_Model_Translate
     
     public function getLanguage()
     {
+        if (empty($this->_language)) {
+            return 'en';
+        }
         return $this->_language;
     }
     

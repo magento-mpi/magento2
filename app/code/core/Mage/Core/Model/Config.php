@@ -393,8 +393,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                         break;
                 }
                 #$args = array_values((array)$observer->args);
-                $args = array($observer->args);
-                Mage::addObserver($eventName, $callback, $args, $observer->getName());
+                $args = (array)$observer->args;
+                $observerClass = $observer->observer_class ? (string)$observer->observer_class : '';
+                Mage::addObserver($eventName, $callback, $args, $observer->getName(), $observerClass);
             }
         }
         return true;
