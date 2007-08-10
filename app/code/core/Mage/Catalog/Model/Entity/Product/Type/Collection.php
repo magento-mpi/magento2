@@ -17,6 +17,14 @@ class Mage_Catalog_Model_Entity_Product_Type_Collection extends Mage_Core_Model_
     
     public function toOptionArray()
     {
-        return $this->_toOptionArray('type_id', 'code');
+    	$options = $this->_toOptionArray('type_id', 'code');
+    	    	
+    	foreach($options as $key=>$option) {
+    		if($option['value']==2) {
+    			unset($options[$key]);
+    		}
+    	}
+    	
+        return $options;
     }
 }

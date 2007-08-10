@@ -281,6 +281,60 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this->getSuperGroupProducts();
     }
     
+    public function getSuperAttributesIds()
+    {
+    	return $this->getData('super_attributes_ids');
+    }
+    
+    public function setSuperAttributesIds(array $attributesIds)
+    {
+    	$resultAttributesIds = array();
+    	foreach ($attributesIds as $attributeId) {
+    		foreach ($this->getAttributes() as $attribute) {
+    			if($attribute->getAttributeId()==$attributeId 
+    				&& !$attribute->getIsRequired() 
+    				&& $attribute->getIsGlobal() 
+    				&& $attribute->getIsVisible() 
+    				&& $attribute->getIsUserDefined() 
+    				&& ($attribute->getSourceModel() || $attribute->getBackendType()=='int' )) {
+    				$resultAttributesIds[] = $attributeId;		
+    			}
+    		}
+    	}
+    	
+    	if(count($resultAttributesIds)>0) {
+    		$this->setData('super_attributes_ids', $resultAttributesIds);
+    	} else {
+    		$this->setData('super_attributes_ids', null);
+    	}
+    	    	
+    	return $this;
+    }
+    
+    public function getSuperAttributes($asObject=false)
+    {
+    	if(!$this->getId()) {
+    		$result = array();
+    		$position = 0;
+    		foreach ($this->getAttributes() as $attribute) {
+    			if(in_array($attribute->getAttributeId(), $this->getSuperAttributesIds())) {
+    				if(!$asObject) {
+						$row = $attribute->toArray(array('label','attribute_id','attribute_code','id','frontend_label'));
+						$row['values'] = array();
+						$row['label'] = $row['frontend_label'];
+						$row['position'] = $position++;
+    				} else {
+    					$row = $attribute;
+    				}    				
+    				$result[] = $row;
+    			}
+    		}
+    		return $result;
+    	} else {
+    		// Implement
+    	}
+    }
+    
     public function isBundle() 
     {
     	// TODO: use string value
@@ -291,6 +345,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
     	// TODO: use string value
     	return $this->getTypeId() == 4;
+    }
+    
+    public function isSuperConfig() 
+    {
+    	// TODO: use string value
+    	return $this->getTypeId() == 3;
     }
     
     public function isAviableBundle() 
@@ -362,7 +422,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      * @param   int $groupId
      * @return  array
      */
-    public function getAttributes($groupId = null)
+    public function getAttributes($groupId = null, $skipSuper=false)
     {
         if (!$this->_attributes) {
             $this->_attributes = $this->getResource()
@@ -376,8 +436,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
         
         $attributes = array();
         foreach ($this->_attributes as $attribute) {
-        	if ($attribute->getAttributeGroupId() == $groupId) {
-        	    $attributes[] = $attribute;
+        	if ($attribute->getAttributeGroupId() == $groupId 
+        		// Skip super product attributes
+        		&& (!$skipSuper || ! $this->getSuperAttributesIds() || !in_array($attribute->getAttributeId(), $this->getSuperAttributesIds()))) {
+        		$attributes[] = $attribute;
         	}
         }
         return $attributes;

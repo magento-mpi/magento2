@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>__($group->getAttributeGroupName())));
             $fieldset->addType('image', Mage::getConfig()->getBlockClassName('adminhtml/catalog_category_form_image'));
             
-            $this->_setFieldset(Mage::registry('product')->getAttributes($group->getId()), $fieldset);
+            $this->_setFieldset(Mage::registry('product')->getAttributes($group->getId(),true), $fieldset);
             
             if ($tierPrice = $form->getElement('tier_price')) {
                 $tierPrice->setRenderer(

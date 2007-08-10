@@ -23,8 +23,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
         if (!($setId = Mage::registry('product')->getAttributeSetId())) {
             $setId = $this->getRequest()->getParam('set', null);
         }
+                
+        if (!($superAttributes = Mage::registry('product')->getSuperAttributesIds())) {
+            $superAttributes = false;
+        } 
         
-        if ($setId) {
+        if ($setId && (!Mage::registry('product')->isSuperConfig() || $superAttributes !== false ) ) {
             $groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
                 ->setAttributeSetFilter($setId)
                 ->load();
@@ -63,7 +67,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
             ));
            
-            if(Mage::registry('product')->isBundle()) {
+            if (Mage::registry('product')->isBundle()) {
             	
             	$this->addTab('bundle', array(
             		'label' => __('Bundle'),
@@ -71,12 +75,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             	));
             }
             
-            if(Mage::registry('product')->isSuperGroup()) {
+            if (Mage::registry('product')->isSuperGroup()) {
             	$this->addTab('super', array(
             		'label' => __('Super Products'),
-            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml(),
+            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml()
+            	));
+            } 
+            elseif (Mage::registry('product')->isSuperConfig()) {
+            	$this->addTab('super', array(
+            		'label' => __('Super Products'),
+            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config', 'admin.super.config.product')->toHtml()
             	));
             }
+        }
+        elseif ($setId) {
+        	$this->addTab('super_settings', array(
+                'label'     => __('Super Product Settings'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_settings')->toHtml(),
+                'active'    => true
+            ));
         }
         else {
             $this->addTab('set', array(

@@ -53,6 +53,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         	$product->setTypeId($typeId);	
         }
         
+        if ($attributes = $this->getRequest()->getParam('attributes'))
+        {
+        	$product->setSuperAttributesIds(explode(",", base64_decode(urldecode($attributes))));
+        }
+                
         if ($productId) {
             $product->load($productId);
             $this->_addLeft(
@@ -109,6 +114,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );       
     }
     
+    public function superConfigAction()
+    {
+        $this->_initProduct();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid')->toHtml()
+        );       
+    }
+    
     protected function _initProduct()
     {
     	$productId  = (int) $this->getRequest()->getParam('id');
@@ -122,6 +135,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($typeId = (int) $this->getRequest()->getParam('type'))
         {
         	$product->setTypeId($typeId);	
+        }
+        
+        if ($attributes = $this->getRequest()->getParam('attributes'))
+        {
+        	$product->setSuperAttributesIds(explode(",", base64_decode(urldecode($attributes))));
         }
         
         if ($productId) {

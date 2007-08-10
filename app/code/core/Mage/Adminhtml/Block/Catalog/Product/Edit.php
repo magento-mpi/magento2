@@ -199,4 +199,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         }
     }
     
+    public function getIsConfigured()
+    {
+    	if (!($superAttributes = Mage::registry('product')->getSuperAttributesIds())) {
+            $superAttributes = false;
+        }
+                
+    	return !Mage::registry('product')->isSuperConfig() || $superAttributes !== false;
+    }
+    
 }

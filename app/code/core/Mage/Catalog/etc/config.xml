@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.6.5</version> 
+         <version>0.6.6</version> 
          <depends>
             <Mage_Customer />
          </depends>
@@ -61,6 +61,30 @@
               <product_bundle_option>
                 <table>catalog_product_bundle_option</table>
               </product_bundle_option>
+              
+              <product_bundle_option_value>
+                <table>catalog_product_bundle_option_value</table>
+              </product_bundle_option_value>
+              
+              <product_bundle_option_link>
+                <table>catalog_product_bundle_option_link</table>
+              </product_bundle_option_link>
+              
+              <product_super_attribute>
+                <table>catalog_product_super_attribute</table>
+              </product_super_attribute>
+              
+              <product_super_attribute_label>
+                <table>catalog_product_super_attribute_label</table>
+              </product_super_attribute_label>
+              
+              <product_super_attribute_pricing>
+                <table>catalog_product_super_attribute_pricing</table>
+              </product_super_attribute_pricing>
+              
+              <product_super_link>
+                <table>catalog_product_super_link</table>
+              </product_super_link>
               
               <product_bundle_option_value>
                 <table>catalog_product_bundle_option_value</table>
