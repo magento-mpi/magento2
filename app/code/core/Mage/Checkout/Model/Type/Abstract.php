@@ -104,4 +104,29 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         return $this->getQuote()->hasItems();
     }
+    
+    protected function _createOrderFromAddress($address)
+    {
+        $order = Mage::getModel('sales/order')->createFromQuoteAddress($address)
+            ->setCustomerId($this->getCustomer()->getId())
+            ->setBaseCurrencyCode('USD')
+            ->setStoreCurrencyCode('USD')
+            ->setOrderCurrencyCode('USD')
+            ->setStoreToBaseRate(1)
+            ->setStoreToOrderRate(1);
+        return $order;
+    }
+    
+    protected function _emailOrderConfirmation($email, $name, $order)
+    {
+        $mailer = Mage::getModel('core/email')
+            ->setTemplate('email/order.phtml')
+            ->setType('html')
+            ->setTemplateVar('order', $order)
+            ->setTemplateVar('quote', $this->getQuote())
+            ->setTemplateVar('name', $name)
+            ->setToName($name)
+            ->setToEmail($email)
+            ->send();
+    }
 }

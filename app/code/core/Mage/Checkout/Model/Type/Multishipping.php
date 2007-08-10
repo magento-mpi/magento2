@@ -101,12 +101,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 	$this->_addShippingItem($quoteItemId, $data);
                 }
             }
-            $addresses  = $this->getQuote()->getAllShippingAddresses();
-            foreach ($addresses as $address) {
-            	$address->collectTotals();
-            }
-
-            $this->getQuote()->save();
+            $this->getQuote()
+                ->collectTotals()
+                ->save();
         }
         return $this;
     }
@@ -178,7 +175,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	    Mage::throwException('Address shipping method do not defined');
         	}
         }
-        $addresses = $this->getQuote()->save();
+        $addresses = $this->getQuote()
+            ->collectTotals()
+            ->save();
         return $this;
     }
     
@@ -191,6 +190,31 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->getQuote()->getPayment()
             ->importPostData($payment)
             ->save();
+        return $this;
+    }
+    
+    public function createOrders()
+    {
+        $shippingAddresses = $this->getQuote()->getAllShippingAddresses();
+        $orders = array();
+        foreach ($shippingAddresses as $address) {
+        	$order = $this->_createOrderFromAddress($address);
+            $order->validate();
+            if ($errors = $order->getErrors()) {
+                //Mage::throwException('Order validation error');
+            }
+            $orders[] = $order;
+        }
+
+        foreach ($orders as $order) {
+        	$order->save();
+        	$this->_emailOrderConfirmation(
+        	   $this->getCustomer()->getEmail(),
+        	   $this->getCustomer()->getName(),
+        	   $order
+            );
+        }
+        
         return $this;
     }
 }

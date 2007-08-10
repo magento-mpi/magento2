@@ -36,11 +36,25 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteItem)
     {
         $item = clone $quoteItem;
-        $item->unsEntityId()->unsParentId();
+        $item->unsEntityId()
+            ->unsAttributeSetId()
+            ->unsEntityTypeId()
+            ->unsParentId();
         $this->addData($item->getData());
         return $this;
     }
 
+    public function importQuoteAddressItem(Mage_Sales_Model_Quote_Address_Item $addressItem)
+    {
+        $item = clone $addressItem;
+        $item->unsEntityId()
+            ->unsAttributeSetId()
+            ->unsEntityTypeId()
+            ->unsParentId();
+        $this->addData($item->getData());
+        return $this;
+    }
+    
     public function getStatusId()
     {
         if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned()) {

@@ -21,9 +21,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function initNewOrder()
     {
-        $this
-            ->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'))
-        ;
+        $this->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'));
         return $this;
     }
 
@@ -60,9 +58,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         $this->setPayment($payment);
 
-        foreach ($quote->getAllItems() as $quoteItem) {
+        foreach ($address->getAllItems() as $addressItem) {
             $item = Mage::getModel('sales/order_item')
-                ->importQuoteItem($quoteItem);
+                ->importQuoteAddressItem($addressItem);
             $this->addItem($item);
         }
 

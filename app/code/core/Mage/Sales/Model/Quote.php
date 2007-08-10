@@ -351,8 +351,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 /*********************** TOTALS ***************************/
     public function collectTotals()
     {
-        foreach ($this->getAllAddresses() as $address) {
+        $this->setGrandTotal(0);
+        foreach ($this->getAllShippingAddresses() as $address) {
             $address->collectTotals();
+            $this->setGrandTotal($this->getGrandTotal()+$address->getGrandTotal());
         }
         return $this;
     }

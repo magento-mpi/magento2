@@ -191,16 +191,23 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function overviewAction()
     {
         $this->loadLayout(array('default', 'multishipping', 'multishipping_overview'), 'multishipping_overview');
-        $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
     
     public function overviewPostAction()
     {
-        Mage::getSingleton('checkout/type_multishipping_state')
-                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS);
-        $this->_redirect('*/*/success');
+        try {
+            Mage::getSingleton('checkout/type_multishipping')
+                ->createOrders();
+            Mage::getSingleton('checkout/type_multishipping_state')
+                    ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS);
+            $this->_redirect('*/*/success');
+        }
+        catch (Exception $e){
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $this->_redirect('*/*/overview');
+        }
     }
     
     /**
@@ -211,5 +218,6 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
+        Mage::getSingleton('checkout/type_multishipping')->getCheckoutSession()->unsetAll();
     }
 }

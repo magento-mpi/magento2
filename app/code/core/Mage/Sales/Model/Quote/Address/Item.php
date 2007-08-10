@@ -38,24 +38,24 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteIten)
     {
-        $this->setQuoteItemId($item->getId())
-            ->_importQuoteItemProperty($item, 'name')
-            ->_importQuoteItemProperty($item, 'weight')
-            ->_importQuoteItemProperty($item, 'sku')
-            ->_importQuoteItemProperty($item, 'price')
-            ->_importQuoteItemProperty($item, 'qty');
+        $item = clone $quoteIten;
+        $item->setQuoteItemId($item->getId());
+        $qty = $item->getQty();
+        
+        $item->unsEntityId()
+            ->unsAttributeSetId()
+            ->unsEntityTypeId()
+            ->unsParentId();
             
-        $this->setQuoteItemImported(true);
-        return $this;
-    }
-    
-    protected function _importQuoteItemProperty($item, $property)
-    {
-        if (!$this->hasData($property)) {
-            $this->setData($property, $item->getData($property));
+        $this->addData($item->getData());
+
+        if (!$this->hasQty()) {
+            $this->setQty($qty);
         }
+        
+        $this->setQuoteItemImported(true);
         return $this;
     }
 }

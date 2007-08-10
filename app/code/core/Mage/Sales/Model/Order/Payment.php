@@ -23,7 +23,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
     public function importQuotePayment(Mage_Sales_Model_Quote_Payment $newPayment)
     {
         $payment = clone $newPayment;
-        $payment->unsEntityId()->unsParentId();
+        $payment->unsEntityId()
+            ->unsAttributeSetId()
+            ->unsEntityTypeId()
+            ->unsParentId();
+            
         $this->addData($payment->getData());
         $this->setAmount($payment->getQuote()->getGrandTotal());
         return $this;

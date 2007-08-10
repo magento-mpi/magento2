@@ -18,14 +18,13 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     public function getPaymentHtml()
     {
         $payment = $this->getCheckout()->getQuote()->getPayment();
-        //var_dump($payment->getData);
         $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
         
         $block = Mage::getModel($model)
             ->setPayment($payment)
             ->createInfoBlock($this->getData('name').'.payment');
             
-        return $block->toHtml();
+        return $block->getTitle();
     }
     
     public function getShippingAddresses()
