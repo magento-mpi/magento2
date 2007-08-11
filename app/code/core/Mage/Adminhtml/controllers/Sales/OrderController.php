@@ -29,11 +29,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             ->renderLayout();
     }
 
-    public function newAction()
-    {
-        $this->_forward('edit');
-    }
-
     public function editAction()
     {
         $id = $this->getRequest()->getParam('order_id');

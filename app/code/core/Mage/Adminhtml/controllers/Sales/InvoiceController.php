@@ -34,14 +34,8 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         if ($orderId = $this->getRequest()->getParam('order_id')) {
             $order = Mage::getModel('sales/order');
 
-            if ($orderId) {
-                $order->load($orderId);
-                if (! $order->getId()) {
-                    Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-                    $this->_redirect('*/*/');
-                    return;
-                }
-            } else {
+            $order->load($orderId);
+            if (! $order->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
                 $this->_redirect('*/*/');
                 return;

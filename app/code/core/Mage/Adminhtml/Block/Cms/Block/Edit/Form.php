@@ -50,7 +50,8 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'required' => true,
         ));
 
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
+        $stores[0] = __('All Stores');
 
     	$fieldset->addField('store_id', 'select', array(
             'name'      => 'store_id',
