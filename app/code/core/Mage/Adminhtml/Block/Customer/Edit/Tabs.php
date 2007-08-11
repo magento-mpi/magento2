@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     {
         parent::__construct();
         $this->setId('customer_info_tabs');
-        $this->setDestElementId('customer_edit_form');
+        $this->setDestElementId('edit_form');
         $this->setTitle(__('Customer Information'));
     }
 

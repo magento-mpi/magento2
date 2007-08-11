@@ -30,7 +30,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
          * Append customers block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/customers', 'customers')
+            $this->getLayout()->createBlock('adminhtml/customer', 'customer')
         );
 
         /**
@@ -69,7 +69,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         $this->loadLayout('baseframe');
 
-        $customerId = (int) $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
         $customer = Mage::getModel('customer/customer');
 
         if ($customerId) {
@@ -142,7 +142,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function deleteAction()
     {
-        $customerId = (int) $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
         if ($customerId) {
             try {
                 $customer = Mage::getModel('customer/customer')
@@ -171,7 +171,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
 
 
-            if ($customerId = (int) $this->getRequest()->getParam('id')) {
+            if ($customerId = (int) $this->getRequest()->getParam('customer_id')) {
                 $customer->setId($customerId);
             }
 
@@ -230,7 +230,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setCustomerData($data);
-                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit', array('_current'=>true)));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit', array('customer_id'=>$this->getRequest()->getParam('customer_id'))));
                 return;
             }
         }
@@ -277,7 +277,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      *
      */
     public function ordersAction() {
-        $customerId = (int) $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
         $customer = Mage::getModel('customer/customer');
         if ($customerId) {
             $customer->load($customerId);
@@ -292,7 +292,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function newsletterAction()
     {
-        $customerId = (int) $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
         $customer = Mage::getModel('customer/customer');
         if ($customerId) {
             $customer->load($customerId);
@@ -304,7 +304,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     public function wishlistAction()
     {
-        $customerId = (int) $this->getRequest()->getParam('id');
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
         $customer = Mage::getModel('customer/customer');
         if ($customerId) {
             $customer->load($customerId);

@@ -15,8 +15,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         parent::__construct();
         $this->setId('customerGrid');
         $this->setDefaultSort('id');
-        $this->setSaveParametersInSession(true);
-        //$this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
@@ -99,9 +97,9 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
     }
-    
+
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+        return Mage::getUrl('*/*/edit', array('customer_id'=>$row->getId()));
     }
 }

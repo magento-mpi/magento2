@@ -8,75 +8,30 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
+        $this->_objectId = 'customer_id';
+        $this->_controller = 'customer';
+
         parent::__construct();
-        $this->setTemplate('customer/edit.phtml');
-        $this->setId('customerEdit');
+
+        $this->_updateButton('save', 'label', __('Save Customer'));
+        $this->_updateButton('delete', 'label', __('Delete Customer'));
+
+        if ($this->getCustomerId()) {
+            $this->_addButton('order', array(
+                'label' => __('Create Order'),
+                'onclick' => 'window.location.href=\'' . $this->getCreateOrderUrl() . '\'',
+                'class' => 'add',
+            ), 1);
+        }
     }
 
-    protected function _initChildren()
+    public function getCreateOrderUrl()
     {
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
-                    'class'   => 'back'
-                ))
-        );
-
-        $this->setChild('cancel_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Reset'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\'',
-                ))
-        );
-
-        $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Save Customer'),
-                    'onclick'   => 'customerForm.submit()',
-                    'class'   => 'save'
-                ))
-        );
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Delete Customer'),
-                    'onclick'   => 'customerDelete()',
-                    'class'   => 'delete'
-                ))
-        );
-    }
-
-    public function getBackButtonHtml()
-    {
-        return $this->getChildHtml('back_button');
-    }
-
-    public function getCancelButtonHtml()
-    {
-        return $this->getChildHtml('cancel_button');
-    }
-
-    public function getSaveButtonHtml()
-    {
-        return $this->getChildHtml('save_button');
-    }
-
-    public function getDeleteButtonHtml()
-    {
-        return $this->getChildHtml('delete_button');
-    }
-
-    public function getSaveUrl()
-    {
-        return $this->getUrl('*/*/save', array('_current'=>true));
+        return Mage::getUrl('*/sales_order_create', array('customer_id' => $this->getRequest()->getParam('customer_id')));
     }
 
     public function getCustomerId()
@@ -84,12 +39,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
         return Mage::registry('customer')->getId();
     }
 
-    public function getDeleteUrl()
-    {
-        return $this->getUrl('*/*/delete', array('_current'=>true));
-    }
-
-    public function getHeader()
+    public function getHeaderText()
     {
         if (Mage::registry('customer')->getId()) {
             return Mage::registry('customer')->getName();
@@ -98,4 +48,5 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget
             return __('New Customer');
         }
     }
+
 }
