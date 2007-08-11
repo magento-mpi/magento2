@@ -131,7 +131,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_owner' => array(),
                     'cc_exp_month' => array('type'=>'int'),
                     'cc_exp_year' => array('type'=>'int'),
-                    'cc_cid' => array(),
+                    'cc_cid_enc' => array(),
                 ),
             ),
 

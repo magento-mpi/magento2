@@ -41,4 +41,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
         }
         return $this->getData('cc_number');
     }
+    
+    public function getCcCid()
+    {
+        if (!$this->getData('cc_cid') && $this->getData('cc_cid_enc')) {
+            $customerPayment = Mage::getModel('customer/payment');
+            $this->setData('cc_cid', $customerPayment->decrypt($this->getData('cc_cid_enc')));
+        }
+        return $this->getData('cc_cid');
+    }
 }

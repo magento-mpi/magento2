@@ -327,7 +327,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         $model->onOrderValidate($this->getPayment());
 
-        if ($this->getPayment()!=='APPROVED') {
+        if ($this->getPayment()->getStatus()!=='APPROVED') {
             $errors = $this->getErrors();
             $errors[] = $this->getPayment()->getStatusDescription();
             $this->setErrors($errors);

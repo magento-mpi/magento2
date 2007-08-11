@@ -28,6 +28,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
             ->setCcType($payment->getCcType())
             ->setCcNumberEnc($payment->getCcNumberEnc())
             ->setCcLast4($payment->getCcLast4())
+            ->setCcCidEnc($payment->getCcCidEnc())
             ->setCcOwner($payment->getCcOwner())
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear())
@@ -47,8 +48,9 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
         if($payment->getCcNumber()){
             $this->setCcNumberEnc($payment->encrypt($payment->getCcNumber()));
         }
+        
         if($payment->getCcCid()){
-            $this->setCcCid($payment->encrypt($payment->getCcCid()));
+            $this->setCcCidEnc($payment->encrypt($payment->getCcCid()));
         }
         
         if (!$this->getCcType()) {
