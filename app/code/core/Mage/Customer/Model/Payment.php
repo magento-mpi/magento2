@@ -4,12 +4,38 @@ class Mage_Customer_Model_Payment extends Varien_Object
 {
     public function setData($var, $value='', $isChanged=true)
     {
-        if ('cc_number'===$var) {
-            $this->setCcLast4(substr($value,-4));
-            if (!empty($value)) {
-                $this->setCcNumberEnc($this->encrypt($value));
-            } else {
-                $this->setCcNumberEnc('');
+        if (is_array($var)) {
+            if (isset($var['cc_number'])) {
+                $var['cc_last4'] = substr($var['cc_number'],-4);
+                if (!empty($var['cc_number'])) {
+                    $var['cc_number_enc'] = $this->encrypt($var['cc_number']);
+                } else {
+                    $var['cc_number_enc'] = '';
+                }
+            }
+            if (isset($var['cc_cid'])) {
+                if (!empty($var['cc_cid'])) {
+                    $var['cc_cid_enc'] = $this->encrypt($var['cc_cid']);
+                } else {
+                    $var['cc_cid_enc'] = '';
+                }
+            }
+        }
+        else {
+            if ('cc_number'===$var) {
+                $this->setCcLast4(substr($value,-4));
+                if (!empty($value)) {
+                    $this->setCcNumberEnc($this->encrypt($value));
+                } else {
+                    $this->setCcNumberEnc('');
+                }
+            }
+            if ('cc_cid'===$var) {
+                if (!empty($value)) {
+                    $this->setCcCidEnc($this->encrypt($value));
+                } else {
+                    $this->setCcCidEnc('');
+                }
             }
         }
         return parent::setData($var, $value, $isChanged);
@@ -20,6 +46,11 @@ class Mage_Customer_Model_Payment extends Varien_Object
         if ('cc_number'===$key) {
             if (empty($this->_data['cc_number']) && !empty($this->_data['cc_number_enc'])) {
                 $this->_data['cc_number'] = $this->decrypt($this->getCcNumberEnc());
+            }
+        }
+        if ('cc_cid'===$key) {
+            if (empty($this->_data['cc_cid']) && !empty($this->_data['cc_cid_enc'])) {
+                $this->_data['cc_cid'] = $this->decrypt($this->getCcCidEnc());
             }
         }
         return parent::getData($key, $index);

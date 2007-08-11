@@ -76,7 +76,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
                 $payment->setStatus('DECLINED');
                 $payment->setStatusDescription($result->getResponseReasonText());
                 break;
-                
+            case self::RESPONSE_CODE_ERROR:
+                $payment->setStatus('ERROR');
+                $payment->setStatusDescription($result->getResponseReasonText());
+                break;
             default:
                 $payment->setStatus('UNKNOWN');
                 $payment->setStatusDescription($result->getResponseReasonText());
@@ -213,14 +216,17 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
     
     public function postRequest(Varien_Object $request)
     {
-        $client = new Zend_Http_Client();
+        $client = new Varien_Http_Client();
         $uri = Mage::getStoreConfig('payment/authorizenet/cgi_url');
         $client->setUri($uri);
-        $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+        $client->setConfig(array(
+            'maxredirects'=>0, 
+            'timeout'=>30,
+            //'ssltransport' => 'tcp',
+        ));
         $client->setParameterPost($request->getData());
         $client->setMethod(Zend_Http_Client::POST);
         $response = $client->request();
-        
         $result = Mage::getModel('paygate/authorizenet_result');
         
         $requestArr = array();

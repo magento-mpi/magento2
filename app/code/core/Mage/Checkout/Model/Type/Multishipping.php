@@ -205,7 +205,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	$order = $this->_createOrderFromAddress($address);
             $order->validate();
             if ($errors = $order->getErrors()) {
-                //Mage::throwException('Order validation error');
+                Mage::throwException(implode(',', $errors));
             }
             $orders[] = $order;
         }
