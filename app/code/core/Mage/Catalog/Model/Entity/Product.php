@@ -341,7 +341,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     
     public function getSuperAttributeCollection() 
     {
-    	$this->
+    	
     }
     
     public function getStoreIds($product)
