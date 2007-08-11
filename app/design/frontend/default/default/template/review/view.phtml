@@ -1,0 +1,39 @@
+<?if($this->getRating()):?>
+    <div class="page-head">
+        <h2><?=__('Review Details')?></h2>
+    </div>
+
+    <div class="my-review-detail">
+        <div class="product-image">
+            <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="100" width="100"></a><br>
+            <small><?=__('Average Customer Rating')?>:</small></p>
+
+            <div class="rating-box">
+                <div class="rating" style="width: <?=ceil($this->getRatingSummary()->getSum() / ($this->getRatingSummary()->getCount()))?>%;"></div>
+            </div>
+        <span class="no-wrap">( <a href="<?=$this->getProductData()->getProductUrl()?>#customer-reviews"><?=__('%d Reviews', $this->getTotalReviews())?></a> )</span>
+    </div>
+    <div class="details">
+        <h3><?=$this->getProductData()->getName()?></h3>
+        <strong><?=__('YOUR RATING:')?></strong>
+        <?if( $this->getRating() && $this->getRating()->getSize()):?>
+            <?foreach ($this->getRating() as $_rating):?>
+            <?if($_rating->getPercent()):?>
+            	<div class="ratings">
+            	   <?=__($_rating->getRatingCode())?>
+            		<div class="rating-box">
+            			<div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
+            		</div>
+            	</div>
+            <?endif;?>
+            <?endforeach;?>
+        <?endif;?>
+        <div class="clear"></div>
+        <strong><?=__('YOUR REVIEW')?></strong> ( <?=__('submitted on')?> <?=$this->dateFormat($this->getReviewData()->getCreatedAt())?>):
+            <div class="description">
+                <p><?=nl2br($this->getReviewData()->getDetail())?></p>
+            </div>
+        </div>
+    </div>
+    <div class="form-buttons"><a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back to Product Reviews')?></a></div><br />
+<?endif;?>

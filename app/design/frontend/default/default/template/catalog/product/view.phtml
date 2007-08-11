@@ -169,43 +169,42 @@
 	</table>
 	<?endif;?>
 	<?if(!$product->isSuperGroup()):?>
-	<?if(!$product->isBundle() || $product->isAviableBundle()):?>
-	<p><small>Availability: In stock. Ships within 24hours.</small></p>
-	<p class="price-box">
-		<span class="old-price"><span class="label">Regular Price:</span> <?=$product->getFormatedPrice()?></span><br/>
-
-		<span class="special-price"><span class="label">Special Price:</span> <?=$product->getFormatedPrice()?></span>
-	</p>
-	<fieldset class="add-to-box">
-		<legend>Add items to cart </legend>
-		<table cellspacing="0">
-			<tr>
-				<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
-
-				<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
-				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
-				<?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-					<?endif;?></td>
-			</tr>
-		</table>
-	</fieldset>
-	<?else:?>
-	<p><small>Availability: Out of stock.</small></p>
-	<p class="price-box">
-	</p>
-	<fieldset class="add-to-box">
-		<legend>Add items to cart </legend>
-		<table cellspacing="0">
-			<tr>
-				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
-				<?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-					<?endif;?></td>
-			</tr>
-		</table>
-	</fieldset>
-	<?endif;?>
+		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
+		<p><small>Availability: In stock. Ships within 24hours.</small></p>
+		<p class="price-box">
+			<span class="old-price"><span class="label">Regular Price:</span> <?=$product->getFormatedPrice()?></span><br/>
+			<span class="special-price"><span class="label">Special Price:</span> <?=$product->getFormatedPrice()?></span>
+		</p>
+		<fieldset class="add-to-box">
+			<legend>Add items to cart </legend>
+			<table cellspacing="0">
+				<tr>
+					<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
+	
+					<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+					<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+					<?if($this->getCompareJsObjectName()):?>
+						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+						<?endif;?></td>
+				</tr>
+			</table>
+		</fieldset>
+		<?else:?>
+		<p><small>Availability: Out of stock.</small></p>
+		<p class="price-box">
+		</p>
+		<fieldset class="add-to-box">
+			<legend>Add items to cart </legend>
+			<table cellspacing="0">
+				<tr>
+					<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+					<?if($this->getCompareJsObjectName()):?>
+						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+						<?endif;?></td>
+				</tr>
+			</table>
+		</fieldset>
+		<?endif;?>
 	<?else:?>
 	<p><small>Availability: In stock. Ships within 24hours.</small></p>
 	<fieldset class="add-to-box">

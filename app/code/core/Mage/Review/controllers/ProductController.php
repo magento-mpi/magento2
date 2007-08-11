@@ -20,7 +20,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             try {
                 $review->setEntityId(1) // product
                     ->setEntityPkValue($productId)
-                    ->setStatusId(1) // approved
+                    ->setStatusId(2) // pending
                     ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                     ->setStoreId(Mage::getSingleton('core/store')->getId())
                     ->save();
@@ -50,9 +50,17 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function listAction()
     {
-        $this->loadLayout(array('default', 'reviews'), 'reviews');
+        $productId = $this->getRequest()->getParam('id');
+        if( !$productId ) {
+            $this->getResponse()->setRedirect(Mage::getBaseUrl());
+        }
+
+        $this->loadLayout(array('default', 'productReviews'), 'reviews');
+
+        Mage::register('productId', $productId);
+
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('review/list')
+            $this->getLayout()->createBlock('review/list_detailed')
                 ->setUseBackLink(true)
                 ->setUsePager(true)
         );
@@ -62,6 +70,11 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function viewAction()
     {
+        $this->loadLayout(array('default', 'reviews'), 'reviews');
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('review/view')
+        );
 
+        $this->renderLayout();
     }
 }

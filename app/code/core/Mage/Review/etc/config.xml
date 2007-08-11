@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Review>
-            <version>0.5.3</version>
+            <version>0.5.4</version>
             <depends>
                 <Mage_Core />
             </depends>
@@ -76,6 +76,13 @@
                     </reviews>
                 </updates>
             </reviews>
+            <productReviews>
+                <updates>
+                    <productReviews>
+                        <file>review/reviewsLeft.xml</file>
+                    </productReviews>
+                </updates>
+            </productReviews>
             <customer_account>
                 <updates>
                     <review_account>
