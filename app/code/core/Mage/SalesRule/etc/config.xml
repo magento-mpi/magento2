@@ -46,27 +46,5 @@
                 </connection>
             </salesrule_read>
         </resources>
-        <sales>
-          <product>
-            <rule>
-              <conditions>
-                <combine>
-                  <class>salesrule/rule_condition_combine</class>
-                </combine>
-                <product>
-                  <class>salesrule/rule_condition_product</class>
-                </product>
-              </conditions>
-              <actions>
-                <product>
-                  <class>salesrule/rule_action_product</class>
-                </product>
-                <stop>
-                  <class>rule/action_stop</class>
-                </stop>
-              </actions>
-            </rule>
-          </product>
-        </sales>
     </global>
 </config>

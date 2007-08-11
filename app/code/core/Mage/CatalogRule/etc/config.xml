@@ -46,28 +46,6 @@
                 </connection>
             </catalogrule_read>
         </resources>
-        <catalog>
-          <product>
-            <rule>
-              <conditions>
-                <combine>
-                  <class>catalogrule/rule_condition_combine</class>
-                </combine>
-                <product>
-                  <class>catalogrule/rule_condition_product</class>
-                </product>
-              </conditions>
-              <actions>
-                <product>
-                  <class>catalogrule/rule_action_product</class>
-                </product>
-                <stop>
-                  <class>rule/action_stop</class>
-                </stop>
-              </actions>
-            </rule>
-          </product>
-        </catalog>
     </global>
     <frontend>
         <events>
