@@ -335,6 +335,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
     }
     
+    public function setSuperAttributes(array $superAttributes)
+    {
+    	$this->setSuperAttributesForSave($superAttributes);
+    	return $this;
+    }
+    
     public function isBundle() 
     {
     	// TODO: use string value
