@@ -19,6 +19,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
 
         $pollModel = Mage::getModel('poll/poll');
         $votedIds = $pollModel->getVotedPollsIds();
+
         $pollId = ( Mage::getSingleton('core/session')->getJustVotedPoll() ) ? Mage::getSingleton('core/session')->getJustVotedPoll() : $pollModel->setExcludeFilter($votedIds)->getRandomId();
         $poll = $pollModel->load($pollId);
 

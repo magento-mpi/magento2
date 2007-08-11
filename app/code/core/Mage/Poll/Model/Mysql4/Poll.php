@@ -29,10 +29,14 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
         return $object;
     }
 
-    public function getRandomId()
+    public function getRandomId($object)
     {
         $read = $this->getConnection('read');
         $select = $read->select();
+
+        if( $object->getExcludeFilter() ) {
+            $select->where('poll_id NOT IN(?)', $object->getExcludeFilter());
+        }
 
         $select->from($this->getMainTable(), $this->getIdFieldName())
             #->where('active = ?', 1)
@@ -42,9 +46,4 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
         return $read->fetchOne($select);
     }
 
-    public function setExcludeFilter($array) {
-        $read = $this->getConnection('read');
-        $select = $read->select();
-        $select->where('poll_id NOT IN(?)', $array);
-    }
 }

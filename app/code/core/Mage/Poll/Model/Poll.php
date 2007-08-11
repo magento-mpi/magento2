@@ -43,7 +43,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 
     public function getRandomId()
     {
-        return $this->getResource()->getRandomId();
+        return $this->getResource()->getRandomId($this);
     }
 
     public function getVotedPollsIds()
@@ -58,10 +58,5 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
             }
         }
         return $idsArray;
-    }
-
-    public function setExcludeFilter($array) {
-        $this->getResource()->setExcludeFilter($array);
-        return $this;
     }
 }
