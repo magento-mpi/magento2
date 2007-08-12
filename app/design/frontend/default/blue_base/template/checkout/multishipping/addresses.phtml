@@ -1,0 +1,50 @@
+<?
+/**
+ * Ship to multiple address template
+ * 
+ * @see Mage_Checkout_Block_Multishipping_Addresses
+ */
+?>
+<div class="page-head button-level">
+    <h2>Ship to Multiple Addresses</h2>
+    <button class="form-button" type="button" onclick="setLocation('<?=$this->getNewAddressUrl()?>')"><span>Enter a New Address</span></button>
+</div>
+<form action="<?=$this->getPostActionUrl()?>" method="post">
+<div class="content-box">
+    <table cellspacing="0" id="multiship-addresses-table" class="data-table box-table">
+        <col width="300"/>
+        <col width="30"/>
+        <col/>
+        <col width="30"/>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th class="a-center">Qty</th>
+                <th>Sent to</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="a-center"><button class="form-button" type="submit" name="update" value="1"><span>Update Qty</span></button></td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        <tbody>
+        <?foreach ($this->getItems() as $_index => $_item):?>
+            <tr>
+                <td class="attributes-col"><a href="<?=$this->getItemUrl($_item)?>"><strong><?=$_item->getName()?></strong></a></td>
+                <td class="a-center"><input name="ship[<?=$_index?>][<?=$_item->getQuoteItemId()?>][qty]" value="<?=$_item->getQty()?>" size="2" class="input-text qty"/></td>
+                <td><?=$this->getAddressesHtmlSelect($_item, $_index)?></td>
+                <td class="last a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
+            </tr>
+        <?endforeach;?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
+</div>
+<div class="form-buttons">
+    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Shopping Cart</a>
+    <button class="form-button" type="submit" name="continue" value="1"><span>Continue</span></button>
+</div>
+</form>

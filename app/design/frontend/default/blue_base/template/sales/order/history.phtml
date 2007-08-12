@@ -1,0 +1,31 @@
+<?$_orders = $this->getOrders();?>
+<div class="page-head">
+    <h2><?=__('My Orders')?></h2>
+</div>
+<?=$this->getPagerHtml();?>
+<table cellspacing="0" class="data-table">
+    <thead>
+        <tr>
+            <th><?=__('Order #')?></th>
+            <th><?=__('Date')?></th>
+            <th><?=__('Ship to')?></th>
+            <th><?=__('Order Total')?></th>
+            <th><?=__('Status')?></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?$_odd = '';?>
+        <?foreach ($_orders as $_order):?>
+            <tr class="<?=($_odd = ($_odd ? 'odd' : ''))?>">
+                <td><?=$_order->getRealOrderId()?></td>
+                <td><?=$this->getOrderDateFormatted($_order)?></td>
+                <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
+                <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
+                <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
+                <td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a></td>
+            </tr>
+        <?endforeach;?>
+    </tbody>
+</table>
+<?=$this->getPagerHtml();?>

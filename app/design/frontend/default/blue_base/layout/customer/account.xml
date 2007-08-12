@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+
+    <reference name="root">
+        <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+    </reference>
+
+    <reference name="left">
+        <block type="customer/account_navigation" name="customer_account_navigation" before="-">
+            <action method="setTemplate"><template>customer/account/navigation.phtml</template></action>
+            <action method="addLink" translate="label"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
+            <action method="addLink" translate="label"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+            <action method="addLink" translate="label"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label><base>{{baseSecureUrl}}</base></action>
+        </block>
+    </reference>
+
+</layoutUpdate>

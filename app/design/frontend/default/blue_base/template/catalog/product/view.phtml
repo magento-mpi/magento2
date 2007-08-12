@@ -1,0 +1,312 @@
+<div class="product-images">
+
+    <div style="position:relative; overflow:hidden; width:300px; height:300px;" class="product-image">
+        <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="position:relative; left:2px; top:2px; width:100%; cursor:move; z-index:999;" ondblclick="toggleFull()"/>
+    </div>
+
+    <p></p>
+
+	<div id="track1">
+		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_out.gif')?>" alt="-" class="zoom-in"/>
+        <div id="track2">
+		    <div id="handle1"></div>
+        </div>
+		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" alt="+" class="zoom-out"/>
+	</div>
+
+    <script type="text/javascript">
+        var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
+        var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
+
+        var origWidth = 300;
+        var origHeight = 300;
+        var floorSize = 1.0;
+        var ceilingSize = 10.0;
+        var imageX = 0;
+        var imageY = 0;
+        var imageV = 1;
+        var showFull = false;
+        var selects = document.getElementsByTagName('select');
+
+        function toggleFull(){
+            showFull = !showFull;
+            //TODO: hide selects for IE only
+            for (i=0; i<selects.length; i++) {
+                selects[i].style.visibility = showFull ? 'hidden' : 'visible';
+            }
+            $('track1').style.visibility = showFull ? 'hidden' : 'visible';
+            image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
+        }
+
+        function scaleIt(v) {
+          var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
+          var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
+
+          imageV = floorSize+(v*(ceilingSize-floorSize));
+
+          image.element.style.width = (imageV*origWidth)+'px';
+
+          imageX = origWidth*(1-imageV)/2-centerX*imageV;
+          imageY = origHeight*(1-imageV)/2-centerY*imageV;
+          containIt(imageX, imageY, image);
+
+          image.element.style.left = imageX+'px';
+          image.element.style.top = imageY+'px';
+        }
+
+        function containIt(x,y,draggable) {
+            var pDim = Element.getDimensions(draggable.element.parentNode);
+            var eDim = Element.getDimensions(draggable.element);
+            var xMin = 0, xMax = pDim.width-eDim.width;
+            var yMin = 0, yMax = pDim.height-eDim.height;
+            x = x>xMin ? xMin : x;
+            x = x<xMax ? xMax : x;
+            y = y>yMin ? yMin : y;
+            y = y<yMax ? yMax : y;
+            imageX = x;
+            imageY = y;
+            return [x,y];
+        }
+    </script>
+
+    <?if (!is_null($this->getGalleryImages())):?>
+	<h4>More Views</h4>
+	<ul class="more-views">
+        <?foreach ($this->getGalleryImages() as $_image):?>
+    		<li><a href="<?=$_image->setType(0)->getSourceUrl();?>" target="_blank"><img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/></a></li>
+		<?endforeach;?>
+      	<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+	</ul>
+    <?endif;?>
+</div>
+<div class="product-shop">
+	<h3><?=$product->getName()?></h3>
+    <?=$this->getChildHtml('rating')?>
+	<?if( $reviewCount ):?>
+		<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
+	<?endif;?>
+	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" name="addtocart">
+    <input type="hidden" name="product" value="<?=$product->getId()?>">
+	<?if($product->isBundle()):?>
+	<div class="product-attributes">
+		<?if($product->isAviableBundle()):?>
+		<table cellspacing="0">
+		<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
+			<tr>
+				<td class="label"><?=$_bundleOption->getLabel()?>:</td>
+
+				<td>
+				<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
+				<select name="bundle_option[<?=$_bundleOption->getId()?>]">
+					<?foreach ($_bundleOption->getLinkCollection() as $_option):?>
+					<option value="<?=$_option->getProductId()?>"><?=$_option->getName()?></option>
+					<?endforeach;?>
+				</select>
+				<?elseif(sizeof($_bundleOption->getLinkCollection()->getItems())==1):?>
+				<?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
+				<input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
+				<?else:?>
+				<?=__('Out of stock')?>
+				<?endif;?>
+				</td>
+			</tr>
+		<?endforeach;?>
+		</table>
+		<?else:?>
+		<?=__('Bundle is out of stock')?>
+		<?endif;?>
+	</div>
+	<?else:?>
+	<div class="product-attributes">
+		<table cellspacing="0">
+			<tr>
+				<td class="label">Color:</td>
+
+				<td><select name="">
+					<option value="">Red (+$1.00)</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td class="label">Size:</td>
+				<td><select name="">
+						<option value="">Small</option>
+
+					</select></td>
+			</tr>
+		</table>
+	</div>
+	<?endif;?>
+    <?if($product->getTierPriceCount()>1):?>
+	<div class="product-pricing">
+		<ul class="bare">
+            <?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
+            <li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
+            <?endforeach?>
+		</ul>
+	</div>
+    <?endif;?>
+	<?if($product->isSuperGroup()):?>
+    <table cellspacing="0" class="data-table">
+		<thead>
+			<tr>
+
+				<th>Product Name</th>
+				<th>SKU</th>
+				<th>Price</th>
+				<th>Qty</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?foreach ($product->getSuperGroupProductsLoaded() as $_item):?>
+			<tr>
+				<td><?=$_item->getName()?></td>
+				<td><?=$_item->getSku()?></td>
+				<td><?=$_item->getFormatedPrice()?></td>
+				<td><input type="text" class="input-text qty"/></td>
+			</tr>
+		<?endforeach;?>
+		</tbody>
+	</table>
+	<?endif;?>
+	<?if(!$product->isSuperGroup()):?>
+		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
+		<p><small>Availability: In stock. Ships within 24hours.</small></p>
+		<p class="price-box">
+			<span class="old-price"><span class="label">Regular Price:</span> <?=$product->getFormatedPrice()?></span><br/>
+			<span class="special-price"><span class="label">Special Price:</span> <?=$product->getFormatedPrice()?></span>
+		</p>
+		<fieldset class="add-to-box">
+			<legend>Add items to cart </legend>
+			<table cellspacing="0">
+				<tr>
+					<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
+	
+					<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+					<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+					<?if($this->getCompareJsObjectName()):?>
+						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+						<?endif;?></td>
+				</tr>
+			</table>
+		</fieldset>
+		<?else:?>
+		<p><small>Availability: Out of stock.</small></p>
+		<p class="price-box">
+		</p>
+		<fieldset class="add-to-box">
+			<legend>Add items to cart </legend>
+			<table cellspacing="0">
+				<tr>
+					<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+					<?if($this->getCompareJsObjectName()):?>
+						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+						<?endif;?></td>
+				</tr>
+			</table>
+		</fieldset>
+		<?endif;?>
+	<?else:?>
+	<p><small>Availability: In stock. Ships within 24hours.</small></p>
+	<fieldset class="add-to-box">
+		<legend>Add items to cart </legend>
+		<table cellspacing="0">
+			<tr>
+				<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+				<?if($this->getCompareJsObjectName()):?>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+					<?endif;?></td>
+			</tr>
+		</table>
+	</fieldset>
+    <?endif;?>
+    </form>
+	<div class="dotted-divider"></div>
+	<div class="required-products">
+
+		<h4>Required Items</h4>
+		<p>Following are the required items for this product. By purchasing this product, the following items will automatically be added to your shopping cart.</p>
+		<ul class="disc">
+			<li>Items name goes here</li>
+			<li>Items name goes here</li>
+			<li>Items name goes here</li>
+
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="product-info-box">
+	<h3>Features and Specifications</h3>
+	<p><?=$product->getDescription()?></p></div>
+
+<?if($product->getRelatedProductsLoaded()->getSize()):?>
+<div class="product-info-box">
+	<h3>You may be interested in these items</h3>
+	<table cellspacing="0" class="generic-product-grid">
+		<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
+		<?$_relatedPerRow=4?>
+		<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>
+		<?$_relatedCurrentRow=1?>
+		<?$_relatedCurrentCell=1?>
+		<?$_relatedCurrentItem=1?>
+
+        <?foreach ($product->getRelatedProducts() as $_link):?>
+        <?if($_relatedCurrentCell==1):?>
+        <tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
+        <?endif?>
+			<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"></a><br/>
+				<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
+				<span class="regular-price"><?=$_link->getFormatedPrice()?></span>
+
+				<div class="ratings">
+					<div class="rating-box">
+						<div class="rating" style="width:75%;"></div>
+					</div>
+					<a href="#">(3 Reviews)</a>
+				</div>
+			</td>
+
+        <?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
+	       	<?if($_relatedCurrentItem==$_relatedTotal):?>
+	    	   	<?while($_relatedCurrentCell++<$_relatedPerRow):?>
+		    	   	<td class="empty-product <?if($_relatedCurrentCell==$_relatedPerRow):?>last<?endif?>">
+		    	   	&nbsp;
+					</td>
+	    	   	<?endwhile;?>
+	       	<?endif?>
+	    </tr>
+        <?$_relatedCurrentRow++?>
+        <?$_relatedCurrentCell=1?>
+        <?else:?>
+        <?$_relatedCurrentCell++?>
+        <?endif?>
+        <?$_relatedCurrentItem++?>
+		<?endforeach?>
+	</table>
+</div>
+<?endif?>
+
+<div class="product-info-box tags fm ">
+	<h3>Product Tags</h3>
+	<p><strong>Other customers tagged this product:</strong></p>
+    Dynamic tags:<br/>
+    <?=$tags;?><br/>
+    Hardcoded tags:<br/>
+	<ul class="tags-list">
+		<li class="first"><a href="#"><a href="#">Shoes</a> (5)</li>
+
+		<li><a href="#"><a href="#">Shoes</a> (5)</li>
+		<li class="last"><a href="#"><a href="#">Shoes</a> (5)</li>
+	</ul>
+	<br/>
+	<h4>Add your tags:</h4>
+
+	<p><input type="text" class="input-text" style="width:300px;"/> <button class="form-button-alt"><span>Add Tags</span></button><br/>
+	<small>Use spaces to separate tags. Use single quotes(') for phrases.</small></p>
+</div>
+
+<div class="product-info-box" id="customer-reviews">
+<?=$this->getChildHtml('reviewList')?>
+<?=$this->getChildHtml('reviewForm')?>
+</div>

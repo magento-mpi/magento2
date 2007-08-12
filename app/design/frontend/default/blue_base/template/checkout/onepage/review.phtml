@@ -1,0 +1,19 @@
+<div id="checkout-review-load" class="default-box">
+    <?=$this->getChildHtml('info')?>
+</div>
+
+<div class="content form-buttons">
+	<p class="left"><?=__('Forgot an item in the cart?')?> <a href="<?=$this->getUrl('checkout/cart', array('_secure'=>false))?>"><?=__('Edit your cart')?></a></p>
+	<p>
+    <span id="review-please-wait" style="display:none;" class="opc-please-wait">
+        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Submitting order information... &nbsp; 
+    </span>
+    <span id="review-buttons-container">
+		<button class="form-button" onclick="review.save();"><span><?=__('Place Order')?></span></button>
+	</span>
+	</p>
+</div>
+
+<script type="text/javascript">
+    var review = new Review('<?=$this->getUrl('checkout/onepage/saveOrder')?>', '<?=$this->getUrl('checkout/onepage/success', array('_secure'=>false))?>');
+</script>

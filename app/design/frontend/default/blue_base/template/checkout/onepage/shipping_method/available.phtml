@@ -1,0 +1,27 @@
+<?if (!($_shippingRateGroups = $this->getShippingRates())):?>
+    <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
+<?else:?>
+<form id="co-shipping-method-form">
+<dl class="shipment-methods">
+    <?foreach ($_shippingRateGroups as $code => $_rates):?>
+        <dt><?=$this->getCarrierName($code)?></dt>
+        <dd>
+            <ul>
+            <?foreach ($_rates as $_rate):?>
+                <li>
+                   <?if ($_rate->getErrorMessage()):?>
+                        <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
+                   <?else:?>
+                        <input name="shipping_method" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked'?>/>
+                        <label for="s_method_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>
+                   <?endif?>
+                </li>
+            <?endforeach;?>
+            </ul>
+        </dd>
+    <?endforeach;?>
+</dl>
+</form>
+<?endif;?>
+
+

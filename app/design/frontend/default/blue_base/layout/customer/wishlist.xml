@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="right">
+        <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
+    </reference>
+</layoutUpdate>

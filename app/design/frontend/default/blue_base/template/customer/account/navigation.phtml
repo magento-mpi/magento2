@@ -1,0 +1,23 @@
+<div class="box account-nav">
+    <div class="head">
+        <span class="corner"></span>
+        <h3><?=__('My Account');?></h3>
+    </div>
+    <div class="box-container">
+        <div class="content">
+            <ul>
+                <?$_links = $this->getLinks();?>
+                <?$_index = 1;?>
+                <?$_count = count($_links);?>
+                <?foreach ($_links as $_link):?>
+                    <?$_last = ($_index++ >= $_count);?>
+                    <?if ($this->isActive($_link)):?>
+                        <li class="on<?=($_last ? ' last' : '')?>"><?=$_link->getLabel()?></li>
+                    <?else:?>
+                        <li<?=($_last ? ' class="last"' : '')?>><a href="<?=$_link->getUrl()?>"><?=$_link->getLabel()?></a></li>
+                    <?endif;?>
+                <?endforeach;?>
+            </ul>
+        </div>
+    </div>
+</div>

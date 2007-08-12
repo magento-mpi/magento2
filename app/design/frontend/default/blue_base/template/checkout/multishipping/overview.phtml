@@ -1,0 +1,103 @@
+<div class="page-head">
+    <h2>Review Order</h2>
+</div>
+<?=$this->getMessagesBlock()->getHtml()?>
+<form action="<?=$this->getPostActionUrl()?>" method="post">
+<div class="content-box">
+    <div class="generic-box col2-set">
+        <div class="col-1">
+            <div class="head">
+                <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+            </div>
+            <?$_address=$this->getBillingAddress()?>
+            <address>
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
+                <?=$_address->getStreet(1)?><br/>
+                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
+                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
+                <?=$_address->getCountry()?>
+                <strong>T</strong> | <?=$_address->getTelephone()?>
+            </address>
+        </div>
+        <div class="col-2">
+            <div class="head">
+                <h4>Payment Method<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+            </div>
+            <?=$this->getPaymentHtml()?>
+        </div>
+    </div>
+
+<?foreach ($this->getShippingAddresses() as $_index => $_address):?>
+    <h3>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getShippingAddressCount()?></h3>
+    <div class="generic-box col2-alt-set">
+        <div class="col-1">
+            <div class="head">
+                <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>">Edit</a></h4>
+            </div>
+            <address>
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
+                <?=$_address->getStreet(1)?><br/>
+                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
+                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
+                <?=$_address->getCountry()?>
+                <strong>T</strong> | <?=$_address->getTelephone()?>
+            </address>
+            <br/>
+            <div class="head">
+                <h4>Shipping Method<span class="separator">|</span><a href="<?=$this->getEditShippingUrl()?>">Edit</a></h4>
+            </div>
+            <?if($_rate=$this->getShippingAddressRate($_address)):?>
+            <p><?=$_rate->getCarrierTitle()?> (<?=$_rate->getMethodDescription()?>) - <?=$_rate->getPrice()?></p>
+            <?endif;?>
+        </div>
+        <div class="col-2">
+            <div class="head">
+                <h4>Items<span class="separator">|</span><a href="<?=$this->getAddressesEditUrl()?>">Edit</a></h4>
+            </div>
+            <table cellspacing="0" id="overview-table-<?=$_address->getId()?>" class="data-table nested-data-table">
+                <col/>
+                <col width="70"/>
+                <col width="30"/>
+                <col width="70"/>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th class="a-right">Price</th>
+                        <th class="a-center">Qty</th>
+                        <th class="a-right">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?foreach ($this->getShippingAddressItems($_address) as $_item):?>
+                    <tr>
+                        <td><?=$_item->getName()?></td>
+                        <td class="a-right"><?=$_item->getPrice()?></td>
+                        <td class="a-center"><?=$_item->getQty()?></td>
+                        <td class="a-right"><?=$_item->getRowTotal()?></td>
+                    </tr>
+                <?endforeach;?>
+                </tbody>
+                <tfoot>
+                <?foreach ($this->getShippingAddressTotals($_address) as $_total):?>
+                    <tr>
+                        <td colspan="3" class="a-right"><?=$_total->getTitle()?></td>
+                        <td class="a-right"><?=$_total->getValue()?></td>
+                    </tr>
+                <?endforeach;?>
+                </tfoot>
+            </table>
+            <script type="text/javascript">decorateTable('overview-table-<?=$_address->getId()?>')</script>
+        </div>
+    </div>
+<?endforeach;?>
+
+
+    <p class="a-right .grand_total">Grand Total: <?=$this->getTotal()?></p>
+</div>
+<div class="form-buttons">
+    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Billing Information</a>
+    <button class="form-button" type="submit"><span>Place Order</span></button>
+</div>
+</form>

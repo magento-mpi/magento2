@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config>
+	<page>
+        <head>
+            <title>Magento Commerce</title>
+            <media_type>text/html</media_type>
+            <charset>utf8</charset>
+            <description>Default Description</description>
+            <keywords>Magento, Varien, E-commerce</keywords>
+            <robots>*</robots>
+        </head>
+        <header>
+            <logo_src>images/logo.gif</logo_src>
+            <logo_alt>Magento Commerce</logo_alt>
+            <welcome>Default welcome msg!</welcome>
+        </header>
+        <footer>
+            <copyright><![CDATA[&copy; 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
+        </footer>
+	</page>
+</config>

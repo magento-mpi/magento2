@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="content">
+        <block type="checkout/multishipping_overview" name="checkout_overview">
+            <action method="setTemplate"><template>checkout/multishipping/overview.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

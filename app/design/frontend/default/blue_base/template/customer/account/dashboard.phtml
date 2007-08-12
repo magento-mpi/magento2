@@ -1,0 +1,23 @@
+<div class="page-head-alt">
+    <h2><?=__('My Account')?></h2>
+</div>
+<?=$this->getChildHtml('hello')?>
+<?=$this->getChildHtml('top')?>
+<div class="account-box">
+    <div class="head">
+        <h4>Account Information</h4>
+    </div>
+    <?=$this->getChildHtml('info')?>
+    <?=$this->getChildHtml('address')?>
+</div>
+
+<div class="account-box">
+    <div class="col2-set">
+        <div class="col-1">
+            <?=$this->getChildHtml('info1')?>
+        </div>
+        <div class="col-2">
+            <?=$this->getChildHtml('info2')?>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div id="checkout-shipping-method-load" class="default-box" style="padding:10px;">
+    <?=$this->getChildHtml('available')?>
+</div>
+  	
+<div class="form-buttons">
+    <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
+        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Loading next step... &nbsp; 
+    </span>
+    <span id="shipping-method-buttons-container">
+        <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
+        <button class="form-button" onclick="shippingMethod.save()"><span><?=__('Continue')?></span></button>
+    </span>
+</div>
+<script type="text/javascript">
+    var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?=$this->getUrl('checkout/onepage/saveShippingMethod')?>");
+</script>

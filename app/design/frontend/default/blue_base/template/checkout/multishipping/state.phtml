@@ -1,0 +1,14 @@
+<?
+/**
+ * Mustishipping state
+ * 
+ * @see Mage_Checkout_Block_Multishipping_State
+ */
+?>
+<dl class="checkout-progress">
+    <span class="corner"></span>
+    <dt>Your Checkout:</dt>    
+<?foreach ($this->getSteps() as $_step):?>
+    <dd<?if($_step->getIsActive()):?> class="active"<?endif?>><?=$_step->getLabel()?></dd>
+<?endforeach;?>
+</dl>

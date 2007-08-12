@@ -1,0 +1,33 @@
+<div class="page-head button-level">
+    <h2>Change Billing Address</h2>
+    <button class="form-button" onclick="setLocation('<?=$this->getAddNewUrl()?>')"><span>Add New Address</span></button>
+</div>
+<div class="content-box">
+<?$_index=0?>
+<?foreach ($this->getAddressCollection() as $_address):?>
+    <?if($_index%3==0):?><div class="col3-set box-set"><?endif;?>
+    <div class="col-<?=($_index%3+1)?>">
+        <div class="box">
+            <p class="actions">
+                <a href="<?=$this->getEditAddressUrl($_address)?>">Edit</a><span class="separator">|</span>
+                <a href="<?=$this->getSetAddressUrl($_address)?>"><strong>Select</strong></a>
+            </p>
+            <address>
+                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
+                <?=$_address->getStreet(1)?><br/>
+                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
+                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
+                <?=$_address->getCountry()?>
+                <strong>T</strong> | <?=$_address->getTelephone()?>
+            </address>
+        </div>
+    </div>
+    <?if($_index && $_index%3==0):?></div><br/><?endif;?>
+<?$_index++?>
+<?endforeach;?>
+<?if(!$_index || $_index%3!=0):?></div><br/><?endif;?>
+</div>
+<div class="form-buttons">
+    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Billing Information</a>
+</div>

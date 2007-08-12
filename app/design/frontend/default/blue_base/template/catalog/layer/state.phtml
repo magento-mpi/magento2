@@ -1,0 +1,23 @@
+<?
+/**
+ * Category layered navigation state
+ * 
+ * @see Mage_Catalog_Block_Layer_State
+ */
+?>
+<?$_filters = $this->getActiveFilters()?>
+<?if(!empty($_filters)):?>
+<h4>Currently Shopping By</h4>
+<div class="content">
+    <ul class="widget-list">
+    <?foreach ($_filters as $_filter):?>
+        <li>
+            <a href="<?=$_filter->getRemoveUrl()?>" class="action"/><?=__('Remove')?></a>
+            <span class="label"><?=$_filter->getName()?>:</span><br/>
+            <span><?=$_filter->getLabel()?></span>
+        </li>
+    <?endforeach;?>
+    </ul>
+    <p class="actions"><a href="<?=$this->getClearUrl()?>"><?=__('Clear All')?></a></p>
+</div>
+<?endif;?>

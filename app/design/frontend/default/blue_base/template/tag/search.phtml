@@ -1,0 +1,15 @@
+<h1>Products tagged with '<?=$query;?>' (<a href="/tag/index/xml?tag=<?=$query;?>">rss</a>)</h1>
+<?php if (!empty($collection)) {?>
+<ol>
+<?php foreach ($collection as $item) { ?>
+	<li>
+		<?=$item['name'];?>
+		<div style="font-color:999; font-size:12px">Tags: 
+			<?php foreach ($item['tags'] as $tag) { ?>
+				<A href="/tag/index/search?q=<?=$tag['tagname'];?>"><?=$tag['tagname'];?></a> 
+			<?php } ?>
+		</div>
+	</li>
+<?php } ?>
+</ol>
+<?php } ?>

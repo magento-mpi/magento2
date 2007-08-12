@@ -1,0 +1,34 @@
+<?if(!empty($collection) && $collection->getSize()):?>
+	<div class="head">
+		<h3><?=__('Customer Reviews')?></h3><?if($reviewCount):?>
+		<?if( $this->getUseBackLink() ):?>
+		&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a>
+		<?else:?>
+		( <a href="<?=$reviewLink?>"><?=__('View all')?></a> )
+		<?endif;?>
+<?endif;?>
+	</div>
+
+    <?=$this->getPagerHtml()?>
+	<ol>
+    <?foreach ($this->getCollection() as $_review):?>
+        <li>
+        <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
+            <?$avarage = 0;?>
+            <?foreach( $_review->getRatingVotes()->getItems() as $_vote ):?>
+            <?$avarage+= $_vote->getPercent();?>
+            <?endforeach;?>
+            <?if($_review->getRatingVotes()->getSize()):?>
+            <?$avarage = ceil($avarage / $_review->getRatingVotes()->getSize())?>
+            <div class="rating-box">
+                <div class="rating" style="width:<?=$avarage?>%;"></div>
+            </div>
+            <?endif;?>
+        <?endif;?>
+            <a href="#<?=$_review->getTitle()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
+            <p class="no-padding"><?=nl2br($_review->getDetail())?></p>
+        </li>
+    <?endforeach;?>
+	</ol>
+	<?=$this->getPagerHtml()?>
+<?endif;?>

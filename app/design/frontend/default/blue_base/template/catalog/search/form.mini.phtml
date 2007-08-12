@@ -1,0 +1,25 @@
+<form action="<?=$this->getUrl('catalog/search/result')?>" method="get" onsubmit="if (getElementById('search').value == '<?=__('Search entire store here...')?>' || getElementById('search').value == '') return false;">
+    <fieldset class="mini-search">
+	<legend><?=__('Search Site')?></legend>
+	<input id="search" type="text" class="input-text" name="q" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search entire store here...')?><?endif?>" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/> <button class="form-button"><span><?=__('Search')?></span></button>
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script type="text/javascript">
+        new Ajax.Autocompleter(
+            'search', 
+            'search_autocomplete', 
+            '<?=$baseUrl?>catalog/search/ajaxSuggest/', 
+            {
+                paramName:"query", 
+                minChars:2,
+                //indicator:"search_indicator", 
+                updateElement:getSelectionId
+            }
+        );
+        
+        function getSelectionId(li) {
+            $('search').value = li.title;
+            $('search_mini_form').submit();
+        }
+    </script>
+	</fieldset>
+</form>

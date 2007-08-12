@@ -1,0 +1,23 @@
+<?if($this->getItems()->getSize()):?>
+<div class="box up-sell">
+	<div class="head"> <!-- Gives room for control buttons -->
+		<h3><span><?=__('Up-sell')?></span></h3>
+		<a href="#"><img src="<?=$this->getSkinUrl('images/widget_close_btn.gif')?>" alt="Close box" class="widget-btn"/></a>
+	</div>
+	<table cellspacing="0">
+		<tbody>
+    <?foreach($this->getItems() as $_item):?>
+			<tr>
+				<td><a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32" class="image-link"/></a></td>
+				<td><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+					<p class="sales-value">
+						Price: <?=$_item->getFormatedPrice()?><br/>
+						<span class="action"><a href="<?=$this->getUrl('checkout/cart/add',array('product_id'=>$_item->getId()))?>">Add to Cart</a></span></p>
+						<span class="action"><a href="<?=$this->getUrl('wishlist/index/add', array('product'=>$_item->getId()))?>">Add to Wishlist</a></span></p>
+				</td>
+			</tr>
+    <?endforeach?>
+		</tbody>
+	</table>
+</div>
+<?endif?>

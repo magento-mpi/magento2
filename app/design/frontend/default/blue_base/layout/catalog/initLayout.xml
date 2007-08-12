@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="top.menu">
+        <block type="catalog/navigation" name="catalog.topnav">
+            <action method="setTemplate"><template>catalog/navigation/top.phtml</template></action>
+        </block>
+    </reference>
+    <reference name="right">
+        <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar" before="-">
+            <action method="setTemplate"><template>catalog/product/compare/sidebar.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

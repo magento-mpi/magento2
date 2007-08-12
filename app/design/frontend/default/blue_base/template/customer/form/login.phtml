@@ -1,0 +1,55 @@
+<?
+/**
+ * Customer login form template
+ * 
+ * @see Mage_Customer_Block_Form_Login
+ */
+?>
+<div class="page-head">
+    <h2>Login or Create an Account</h2>
+</div>
+<?=$this->getMessagesBlock()->getHtml()?>
+<form action="<?=$this->getPostActionUrl()?>" method="post" id="login-form">
+<table cellspacing="0" class="col2-set login-box">
+    <tr>
+		<td>
+            <div class="bar-head">
+                <h3>New Customers</h3>
+            </div>
+			<div class="content">
+				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas gravida augue eget ipsum. Nulla facilisi. Nulla nulla mauris, placerat nec, gravida iaculis, feugiat eget, sapien. Nulla magna erat, gravida at, egestas ut, sodales vitae, ante. Vestibulum ut turpis sit amet ante fermentum scelerisque.</p>
+			</div>
+			<div class="form-buttons">
+				<button class="form-button" onclick="window.location='<?=$this->getCreateAccountUrl()?>';" type="button"><span>Create an Account</span></button>
+			</div>
+		</td>
+		<td class="spacer"></td>
+		<td class="col-2">
+            <div class="bar-head">
+                <h3>Registered Customers</h3>
+            </div>
+			<div class="content">
+				<p>If you have an account with us, please log in.</p>
+				<ul class="form-list">
+					<li>
+                        <label for="email">Your Email Address <span class="required">*</span></label><br/>
+                        <input name="login[username]" value="<?=$this->getUsername()?>" title="email" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
+                    </li>
+                    <li>
+                        <label for="pass">Your Password <span class="required">*</span></label><br/>
+                        <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" style="width:250px;"/>
+                    </li>
+				</ul>
+                <p class="required">* Required Fields</p>
+			</div>
+			<div class="form-buttons">
+				<a href="<?=$this->getForgotPasswordUrl()?>" class="left">Forgot your password?</a>
+				<button class="form-button" name="send" id="send2" type="submit"><span>Login</span></button>
+			</div>
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('login-form', true);
+</script>

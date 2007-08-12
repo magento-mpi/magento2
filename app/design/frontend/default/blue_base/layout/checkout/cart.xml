@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="root">
+        <action method="setTemplate"><template>page/1column.phtml</template></action>
+    </reference>
+    
+    <reference name="content">
+        <block type="checkout/cart" name="checkout.cart">
+            <action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
+            <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+            <action method="chooseTemplate"/>
+            
+            <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon">
+                <action method="setTemplate"><template>checkout/cart/coupon.phtml</template></action>
+            </block>
+            <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping">
+                <action method="setTemplate"><template>checkout/cart/shipping.phtml</template></action>
+            </block>
+        </block>
+    </reference>
+</layoutUpdate>

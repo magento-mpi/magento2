@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="customer_account_dashboard">
+        <action method="unsetChild"><name>top</name></action>
+        <block type="sales/order_recent" name="customer_account_dashboard_top" as="top">
+            <action method="setTemplate"><template>sales/order/recent.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

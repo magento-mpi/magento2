@@ -1,0 +1,5 @@
+<?if($productCollection->getSize()):?>
+    <?include Mage::getDesign()->getTemplateFilename('catalog/category/view.phtml')?>
+<?else:?>
+    <p>There are no products under search term "<?=$query?>"</p>
+<?endif;?>

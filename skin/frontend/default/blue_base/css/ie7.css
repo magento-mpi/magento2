@@ -1,0 +1,6 @@
+
+/* Override IE7- height setting */
+.login-box .content, .content-box { height:auto !important; }
+
+/* Override IE7- recognition of parent's padding as zero point */
+.head .corner { top:0; right:0; } 

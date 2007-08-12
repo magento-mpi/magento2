@@ -1,0 +1,93 @@
+.checkout-progress,
+.my-review-detail,
+.group-select li,
+.clear, 
+.account-access,
+.header,
+#nav,
+.header-sub,
+.account-box li,
+#main,
+.pager,
+.view-by,
+.widget-selection-list li,
+.listing-type-list .listing-item,
+.listing-type-list .product-info .product-reviews,
+.head,
+.page-head,
+.page-head-alt,
+.actions,
+#nav ul a,
+.col2-set,
+.col3-set,
+.box,
+.box .content,
+.box li,
+.box .actions,
+.one-page-checkout,
+.one-page-checkout li,
+.col2-alt-set {
+ zoom:1;
+}
+
+.one-page-checkout { position:relative; }
+
+.clear {
+	display:block;
+	clear:both;
+	height:0;
+	font-size:0;
+	line-height:0;
+	}
+
+.form-button, .form-button-alt {
+	margin-left:4px;
+	padding-left:4px;
+	background-image:url(../images/form_button_left.gif);
+	background-position:0 0; 
+	}
+.form-button span, .form-button-alt span {
+	background-image:url(../images/form_button_right.gif);
+	}
+
+
+/* Double margin bug */
+.col-2-right-layout .col-main, 
+.col-2-left-layout .col-main, 
+.col-3-layout .col-main,
+#logo { display:inline; } 
+
+
+/* Form Legend display bug */
+.group-select {
+	position:expression('relative');
+	margin-top:expression('10px');
+	margin-bottom:28px;
+	padding-top:expression('1.5em');
+	overflow: expression('visible');
+	}
+.group-select ul {
+	margin-top:20px;
+	}
+.group-select legend {
+	position: expression('absolute'); 
+	top: expression('-.7em');
+	left:expression('.5em');
+	padding:0 6px;
+	}
+
+/* Min-height for IE */
+.login-box .content { height:180px; }
+.content-box { height:250px; }
+
+
+/* recognition of parent's padding as zero point */
+.head .corner { top:-6px; right:-1px; } 
+
+
+.quick-access li {
+	padding-right:4px;
+	padding-left:6px;
+	}
+
+.payment-methods dd { padding-left:25px; }

@@ -1,0 +1,29 @@
+<table cellspacing="0" class="data-table">
+	<thead>
+		<tr>
+			<th>Product Name</th>
+			<th class="a-right">Price</th>
+			<th class="a-center">Qty</th>
+
+			<th class="a-right">Subtotal</th>
+		</tr>
+	</thead>
+	<tfoot>
+<?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
+        <tr class="<?=$i==$l?'last':''?>">
+            <td style="<?=$total->getStyle()?>" class="a-right" colspan="3"><?=$total->getTitle()?></td>
+            <td style="<?=$total->getStyle()?>" class="last a-right"><?=$total->getValue()?></td>
+        </tr>
+<?endforeach?>
+	</tfoot>
+	<tbody>
+<?$l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++?>
+        <tr class="<?$i%2==1?'odd':''?> <?=$i==$l?'last':''?>">
+			<td><?=$item->getName()?></td>
+			<td class="a-right"><?=$item->getPrice()?></td>
+			<td class="a-center"><?=$item->getQty()?></td>
+			<td class="last a-right"><?=$item->getRowTotal()?></td>
+		</tr>
+<?endforeach?>
+	</tbody>
+</table>

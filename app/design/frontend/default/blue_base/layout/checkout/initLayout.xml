@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+<!--
+    <reference name="head">
+        <action method="addCss"><name>opcheckout.css</name></action>
+    </reference>
+-->
+    <reference name="top.right.links">
+        <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}checkout/cart/"</a><label>My Cart</label></action>
+        <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}wishlist/"</a><label>My Wishlist</label></action>
+        <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}checkout/" class="checkout"</a><label>Checkout</label></action>
+    </reference>
+</layoutUpdate>

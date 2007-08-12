@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="left">
+        <action method="unsetChildren"></action>
+        <block type="checkout/onepage_status" name="checkout.status" before="-"/>
+    </reference>
+    
+    <reference name="content">
+        <block type="checkout/onepage" name="checkout.onepage">
+            <action method="init"/>
+        </block>
+    </reference>
+</layoutUpdate>

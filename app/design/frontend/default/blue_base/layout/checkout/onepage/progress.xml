@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <block type="checkout/onepage_progress" name="root" output="toHtml">
+        <action method="setTemplate"><template>checkout/onepage/progress.phtml</template></action>
+    </block>
+</layoutUpdate>

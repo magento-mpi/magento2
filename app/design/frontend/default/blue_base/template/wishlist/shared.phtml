@@ -1,0 +1,39 @@
+<?=$this->getMessagesBlock()->getHtml()?>
+<?if($this->getWishlist()->getSize()):?>
+<form action="<?=$this->getUrl('*/*/update')?>" method="post">
+    <table cellspacing="0" width="100%" class="data-table">
+        <tr>
+            <th class="align-left"><?=__('Product')?></th>
+            
+            <th class="align-center"><?=__('Comment')?></th>
+            <th class="align-center">&nbsp;</th>
+            
+        </tr>
+        <?foreach($this->getWishlist() as $item):?>
+        <tr>
+            <td>
+                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
+            	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
+            </td>            
+            <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
+            <td class="align-center">
+            	<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('checkout/cart/add',array('product_id'=>$item->getProductId()))?>')" class="input-button" /><br/>
+            	<input type="button" value="<?=__('Add to My Wishlist')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/index/add',array('product'=>$item->getProductId()))?>')" class="input-button" /><br/>
+            </td>
+        </tr>
+        <?endforeach?>
+    </table>
+    <div class="buttons-container">
+        <input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart', array('_current'=>true))?>')" value="<?=__('Add all to cart')?>" class="input-button" />    	
+    </div>
+</form>
+<?else:?>
+    <p><?=__('You have not placed any product yet.')?></p>
+<?endif?>
+<script type="text/javascript">
+var wishlistControl = {
+	navigateToUrl: function (url) {
+		window.location.href = url;
+	}	
+}
+</script>

@@ -1,0 +1,32 @@
+<?if($productCollection->getSize()):?>
+    <table class="pager">
+	   <tr>
+		<td>Items <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+1)?></strong> to <strong><?=($productCollection->getPageSize()*($productCollection->getCurPage()-1)+count($productCollection->getItems()))?></strong> of <strong><?=$productCollection->getSize()?> total</strong></td>
+			<td>Page:
+			<ol>
+            <?if ($productCollection->getCurPage() != 1):?>
+                <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(-1))->getParams())?>">Previous Page</a></li>
+            <?endif?>
+            <?for($i=$productCollection->getCurPage(-3); $i <= $productCollection->getCurPage(+3); $i++):?>
+                <?if ($i == $productCollection->getCurPage()):?>
+				    <li><span class="on"><?=$i?></span></li>
+                <?else:?>
+				    <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $i)->getParams())?>"><?=$i?></a></li>
+                <?endif?>
+            <?endfor?>
+            <?if ($productCollection->getCurPage() < $productCollection->getLastPageNumber()):?>
+                <li><a href="<?=$this->getUrl('catalog/*/*', $pageUrl->setParam('p', $productCollection->getCurPage(1))->getParams())?>">Next Page</a></li>
+            <?endif?>
+			</ol>
+		</td>
+			<td>Show <select name=""><option value="9">9</option></select> per page</td>
+	</tr>
+	</table>
+	<table class="view-by">
+	    <tr>
+				<td>View products as <a href="#"><img src="<?=$this->getSkinUrl('images/listing_type_grid.gif')?>" alt="View listings in grid format" class="v-middle"/></a> <a href="#"><img 
+		    src="<?=$this->getSkinUrl('images/listing_type_list.gif')?>" alt="View listings in list format"/></a></td>
+		<td>Sort by <select name="" onChange="location.href=this.value"><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'name')->setParam('dir', 'asc')->getParams())?>">Name</option><option value="<?=$this->getUrl('catalog/*/*', $sortUrl->setParam('order', 'price')->setParam('dir', 'asc')->getParams())?>">Price</option></select></td>
+	</tr>
+	</table>
+<?endif?>

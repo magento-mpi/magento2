@@ -1,0 +1,34 @@
+<h5><?=__('Estimate Shipping')?></h5>
+<form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
+	<p><label for="estimate_postcode"><?=__('Enter your zip code to get a shipping quote.')?></label></p>
+	<p><input class="input-text" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
+	<button class="form-button"><span><?=__('Get Quote')?></span></button>
+	</p>
+</form>
+
+<?if (!($_shippingRateGroups = $this->getEstimateRates())):?>
+    <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
+<?else:?>
+<form id="co-shipping-method-form" action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>">
+    <dl class="shipment-methods">
+        <?foreach ($_shippingRateGroups as $code => $_rates):?>
+            <dt><?=$this->getCarrierName($code)?></dt>
+            <dd>
+                <ul>
+                <?foreach ($_rates as $_rate):?>
+                    <li>
+                       <?if ($_rate->getErrorMessage()):?>
+                            <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
+                       <?else:?>
+                            <input name="estimate_method" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked'?>/>
+                            <label for="s_method_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>
+                       <?endif?>
+                    </li>
+                <?endforeach;?>
+                </ul>
+            </dd>
+        <?endforeach;?>
+    </dl>
+    <button class="form-button" name="do" value="<?=__('Update')?>"><span><?=__('Update totals')?></span></button>
+</form>
+<?endif;?>

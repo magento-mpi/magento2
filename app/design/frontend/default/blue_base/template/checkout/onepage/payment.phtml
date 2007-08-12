@@ -1,0 +1,20 @@
+<form id="co-payment-form">
+    <dl class="payment-methods">
+        <?=$this->getChildHtml('methods')?>
+    </dl>
+</form>
+<div class="form-buttons">
+    <p class="required">* Required Fields</p>
+    <span id="payment-please-wait" style="display:none;" class="opc-please-wait">
+        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Loading next step... &nbsp; 
+    </span>
+    <span id="payment-buttons-container">
+        <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
+        <button class="form-button" onclick="payment.save()"><span><?=__('Continue')?></span></button>
+    </span>
+</div>
+
+<script type="text/javascript">
+    var payment = new Payment('co-payment-form', '<?=$this->getUrl('checkout/onepage/savePayment')?>');
+    payment.currentMethod = "<?=$this->getPayment()->getMethod()?>";
+</script>

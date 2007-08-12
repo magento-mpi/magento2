@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="root">
+        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+    </reference>
+    <reference name="head">
+        <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
+        <action method="addJs"><script>varien/product.js</script></action>
+    </reference>
+    <reference name="content">
+        <block type="catalog/product_view" name="product.info">
+            <action method="setTemplate"><template>catalog/product/view.phtml</template></action>
+            <action method="loadData"></action>
+        </block>
+    </reference>
+    <reference name="right">
+        <block type="catalog/product_link_upsell" name="catalog.product.upsell" before="-">
+            <action method="setTemplate"><template>catalog/product/upsell.phtml</template></action>
+        </block>
+    </reference>
+    <reference name="right">
+        <block type="catalog/product_link_crosssell" name="catalog.product.crosssell" before="-">
+            <action method="setTemplate"><template>catalog/product/crosssell.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

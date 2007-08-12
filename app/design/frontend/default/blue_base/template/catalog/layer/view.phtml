@@ -1,0 +1,35 @@
+<?
+/**
+ * Category layered navigation
+ * 
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?if($this->canShowBlock()):?>
+<div class="box shop-by">
+    <div class="head">
+        <span class="corner"></span>
+        <h3><?=__('Shop by')?></h3>
+    </div>
+    <div class="box-container">
+        <?=$this->getStateHtml()?>
+        <?if($this->canShowOptions()):?>
+        <div class="narrow-by">
+            <h4>Shopping options</h4>
+            <dl>
+            <?$_filters = $this->getFilters()?>
+            <?foreach ($_filters as $_filter):?>
+            <?if($_filter->getItemsCount()):?>
+                <dt><?=$_filter->getName()?></dt>
+                <dd>
+                    <?=$_filter->getHtml()?>
+                </dd>
+            <?endif;?>
+            <?endforeach;?>
+            </dl>
+        </div>
+        <?endif;?>
+    </div>
+</div>
+<?endif;?>
+<!-- [ends] .browse-by // -->

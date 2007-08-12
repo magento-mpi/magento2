@@ -1,0 +1,55 @@
+<?=$this->getMessagesBlock()->getHtml()?>
+<div class="input-left">
+    <h3>Personal Information</h3>
+    <p>
+        <?=$this->getCustomer()->toString('<b>{{firstname}} {{lastname}}</b><br/>{{email}}')?>
+        <br/>
+        <a href="<?=$this->getAccountUrl()?>">Edit</a>
+    </p>
+    <h3>Newsletters</h3>
+    <?=$this->getSubscriptionText()?>
+    <p><a href="<?=$this->getManageNewsletterUrl()?>">Edit</a></p>
+</div>
+<div class="input-right">
+<h3>Addresses</h3>
+<?if($_addresses = $this->getPrimaryAddresses()):?>
+    <?foreach ($_addresses as $_address):?>
+    <address>
+        <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+        <br/><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
+    </address>
+    <?endforeach;?>
+<?endif;?>
+<a href="<?=$this->getAddressesUrl()?>">Go to address book</a>
+</div>
+<div class="clearfix"></div>
+
+<div>
+    <h3>Last 5 Orders</h3>
+    <p>
+    Order list...<br/>
+    <a href="">View</a>
+    </p>
+</div>
+
+
+<div class="input-left">
+    <h3>Personal Information</h3>
+</div>
+<div class="input-right">
+    <h3>Wishlist</h3>
+</div>
+
+<div class="input-left">
+    <h3>My Reviews</h3>
+</div>
+<div class="input-right">
+    <h3>My Tags</h3>
+</div>
+
+<div class="input-left">
+    <h3>Last Viewed Items</h3>
+</div>
+<div class="input-right">
+    <h3>Shoppping Cart</h3>
+</div>
