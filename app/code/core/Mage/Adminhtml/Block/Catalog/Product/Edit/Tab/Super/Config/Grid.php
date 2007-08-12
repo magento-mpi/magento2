@@ -31,7 +31,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
-                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+                if($productIds) {
+                	$this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+            	}
             }
         }
         else {
@@ -47,15 +49,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
        		->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->addFieldToFilter('attribute_set_id',$product->getAttributeSetId());
-            
+            ->addFieldToFilter('attribute_set_id',$product->getAttributeSetId())
+            ->addFieldToFilter('type_id',1);
+        
+        $oldStoreId = $collection->getEntity()->getStoreId();  
+        $collection->getEntity()->setStore(0);
+        
        	foreach ($product->getSuperAttributesIds() as $attributeId) {
        		$collection->addAttributeToSelect($attributeId);
        	}
-
+		
+       	
+       	
         $this->setCollection($collection);
         
-        return parent::_prepareCollection();
+        parent::_prepareCollection();
+        
+        $collection->getEntity()->setStore($oldStoreId);  
+        return $this;
     }
 	
     protected function _getSelectedProducts()
@@ -63,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $products = $this->getRequest()->getPost('products', null);
                         
         if (!is_array($products)) {
-            $products = null;
+            $products =  array_keys(Mage::registry('product')->getSuperLinks());
         }
         
         return $products;

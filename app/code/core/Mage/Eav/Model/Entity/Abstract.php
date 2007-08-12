@@ -1110,13 +1110,20 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         return Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL;
     }
+    
+    protected function _getDefaultAttributes()
+    {
+    	return array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
+    }
 
     protected function _afterSetConfig()
     {
-        $defaultAttributes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
+        $defaultAttributes = $this->_getDefaultAttributes();
+        
         if ($this->getConfig()->getIsDataSharing()) {
             $defaultAttributes[] = 'store_id';
         }
+        
         $defaultAttributes[] = $this->getEntityIdField();
 
         $attributes = $this->getAttributesByCode();

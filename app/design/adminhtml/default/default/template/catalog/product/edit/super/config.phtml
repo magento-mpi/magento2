@@ -26,7 +26,7 @@
 
 <div class="attribute-values-container">
 <?=__('Price')?>:
-<input id="__id___pricing" type="text" name="pricing" class="input-text attribute-price validate-number template no-display" value="'{{pricing}}'">
+<input id="__id___pricing" type="text" name="pricing_value" class="input-text attribute-price validate-number template no-display" value="'{{pricing_value}}'">
 </div>
 <div class="attribute-values-container">
 <select class="attribute-price-type">
@@ -66,15 +66,19 @@ SuperProductModel.prototype = {
 			var li = $(Builder.node('li', {className:'attribute'}));
 			li.id = this.idPrefix + '_attribute_' + index;
 			attribute.html_id = li.id;
+			if(attribute.label.blank()) {
+				attribute.label = '&nbsp;'
+			} 
 			li.update(this.addAttributeTemplate.evaluate(attribute));
 			li.attributeObject = attribute;
 			
 			this.container.appendChild(li);
+			li.attributeValues = li.getElementsByClassName('attribute-values')[0];	
 			attribute.values.each(function(value){
 				this.createValueRow(li, value);
 			}.bind(this));
 		
-			li.attributeValues = li.getElementsByClassName('attribute-values')[0];			
+				
 			Event.observe(li.getElementsByClassName('attribute-label')[0],'change', this.onLabelUpdate);
 			Event.observe(li.getElementsByClassName('attribute-label')[0],'keyup',  this.onLabelUpdate);
 		}.bind(this));
@@ -151,10 +155,9 @@ SuperProductModel.prototype = {
 		var result = true;
 		this.links.each(function(pair) {
 			var fail = false;
-			for(var i = 0; i < pair.value.length && !fail; i++) {
-				var keys = $H(pair.value[i]).keys();
-				for(var j = 0; j < keys.length && !fail; j ++) {
-					if(pair.value[i][keys[j]] != attributes[i][keys[j]]) {
+			for(var i = 0; i < pair.value.length && !fail; i++) {				
+				for(var j = 0; j < attributes.length && !fail; j ++) {
+					if(pair.value[i].attribute_id == attributes[j].attribute_id && pair.value[i].value_index != attributes[j].value_index) {
 						fail = true;
 					}
 				}
@@ -220,11 +223,24 @@ SuperProductModel.prototype = {
 		li.id = templateVariables.html_id;
 		li.update(this.addValueTemplate.evaluate(templateVariables));
 		li.valueObject = value;
+		if (typeof li.valueObject.is_percent == 'undefined') {
+			li.valueObject.is_percent = 0;
+		}
+		
+		if (typeof li.valueObject.pricing_value == 'undefined') {
+			li.valueObject.pricing_value = null;
+		}
+		
 		container.attributeValues.appendChild(li);
 		var priceField = li.getElementsByClassName('attribute-price')[0];
 		var priceTypeField = li.getElementsByClassName('attribute-price-type')[0];
-		if(value.is_percent) {
+		
+		if(parseInt(value.is_percent)) {
 			priceTypeField.options[1].selected = true;
+			priceTypeField.options[0].selected = false;
+		} else {
+			priceTypeField.options[1].selected = false;
+			priceTypeField.options[0].selected = true;
 		}
 		Event.observe(priceField, 'keyup', this.onValuePriceUpdate);
 		Event.observe(priceField, 'change', this.onValuePriceUpdate);
@@ -232,12 +248,12 @@ SuperProductModel.prototype = {
 	},
 	updateValuePrice: function(event) {
 		var li = Event.findElement(event, 'LI');
-		li.valueObject.pricing = Event.element(event).value;
+		li.valueObject.pricing_value = (Event.element(event).value.blank() ? null : Event.element(event).value);
 		this.updateSaveInput();
 	},
 	updateValueType:  function(event) {
 		var li = Event.findElement(event, 'LI');
-		li.valueObject.is_percent = Event.element(event).value;
+		li.valueObject.is_percent = (Event.element(event).value.blank() ? null : Event.element(event).value);
 		this.updateSaveInput();
 	},
 	updateSaveInput: function() {

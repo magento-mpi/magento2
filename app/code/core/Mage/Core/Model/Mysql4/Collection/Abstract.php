@@ -42,7 +42,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
         $this->_resource = $resource;
 
         parent::__construct($this->getResource()->getConnection('read'));
-
+        
         $this->getSelect()->from(array('main_table'=>$this->getResource()->getMainTable()));
     }
 
@@ -54,7 +54,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     {
 
     }
-
+    
     /**
      * Standard resource collection initalization
      *

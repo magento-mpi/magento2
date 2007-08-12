@@ -31,7 +31,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
             	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
-                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+            	if($productIds) {
+                	$this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+            	}
             }
         }
         else {

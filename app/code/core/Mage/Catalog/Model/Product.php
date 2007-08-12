@@ -19,6 +19,21 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
 	 */
 	protected $_bundleOptionCollection = null;
+	
+	/**
+	 * Super product attribute collection
+	 *
+	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
+	 */
+	protected $_superAttributeCollection = null;
+	
+	/**
+	 * Super product links collection
+	 *
+	 * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
+	 */
+	protected $_superLinkCollection = null;
+	
 	protected $_attributes;
 	
     public function __construct() 
@@ -283,6 +298,15 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getSuperAttributesIds()
     {
+    	if(!$this->getData('super_attributes_ids') && $this->getId() && $this->isSuperConfig()) {
+    		$superAttributesIds = array();
+    		$superAttributes = $this->getSuperAttributes(true);
+    		foreach ($superAttributes as $superAttribute) {
+    			$superAttributesIds[] = $superAttribute->getAttributeId();
+    		}
+    		$this->setData('super_attributes_ids', $superAttributesIds);
+    	}
+    	
     	return $this->getData('super_attributes_ids');
     }
     
@@ -311,34 +335,56 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	return $this;
     }
     
-    public function getSuperAttributes($asObject=false)
+    public function getSuperAttributes($asObject=false, $useLinkFilter=false)
     {
-    	if(!$this->getId()) {
-    		$result = array();
-    		$position = 0;
-    		foreach ($this->getAttributes() as $attribute) {
-    			if(in_array($attribute->getAttributeId(), $this->getSuperAttributesIds())) {
-    				if(!$asObject) {
-						$row = $attribute->toArray(array('label','attribute_id','attribute_code','id','frontend_label'));
-						$row['values'] = array();
-						$row['label'] = $row['frontend_label'];
-						$row['position'] = $position++;
-    				} else {
-    					$row = $attribute;
-    				}    				
-    				$result[] = $row;
-    			}
-    		}
-    		return $result;
-    	} else {
-    		// Implement
-    	}
+    	return $this->getResource()->getSuperAttributes($this, $asObject, $useLinkFilter);
     }
     
     public function setSuperAttributes(array $superAttributes)
     {
     	$this->setSuperAttributesForSave($superAttributes);
     	return $this;
+    }
+    
+    public function getSuperLinks()
+    {
+    	return $this->getResource()->getSuperLinks($this);
+    }
+    
+    public function setSuperLinks(array $superLinks)
+    {
+    	$this->setSuperLinksForSave($superLinks);
+    	return $this;
+    }
+    
+    public function getSuperAttributesForSave()
+    {
+    	if(!$this->getData('super_attributes_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
+    		return $this->getSuperAttributes(false);
+    	}
+    	
+    	return $this->getData('super_attributes_for_save');
+    }
+    
+    public function getSuperLinksForSave()
+    {
+    	if(!$this->getData('super_links_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
+    		return $this->getSuperLinks();
+    	}    	
+    	
+    	return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
+    }
+    
+    public function getPricingValue($value)
+    {
+    	if($value['is_percent']) {
+    		$ratio = $value['pricing_value']/100;
+    		$price = $this->getPrice() * $ratio;
+    	} else {
+    		$price = $value['pricing_value'];
+    	}
+    	
+    	return $price;
     }
     
     public function isBundle() 
@@ -381,6 +427,50 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
     	
     	return $this->_bundleOptionCollection;
+    }
+    
+    public function getSuperAttributeCollection()
+    {
+    	if(!$this->isSuperConfig())	{
+    		return false;
+    	}
+    	
+    	if(is_null($this->_superAttributeCollection)) {
+    		$this->_superAttributeCollection = $this->getResource()->getSuperAttributeCollection($this);
+    	}
+    	
+    	return $this->_superAttributeCollection;
+    }
+    
+    public function getSuperAttributeCollectionLoaded()
+    {
+    	if(!$this->getSuperAttributeCollection()->getIsLoaded()) {
+    		$this->getSuperAttributeCollection()->load();
+    	}
+    	
+    	return $this->getSuperAttributeCollection();
+    }
+    
+    public function getSuperLinkCollection()
+    {
+    	if(!$this->isSuperConfig())	{
+    		return false;
+    	}
+    	
+    	if(is_null($this->_superLinkCollection)) {
+    		$this->_superLinkCollection = $this->getResource()->getSuperLinkCollection($this);
+    	}
+    	
+    	return $this->_superLinkCollection;
+    }
+    
+    public function getSuperLinkCollectionLoaded()
+    {
+    	if(!$this->getSuperLinkCollection()->getIsLoaded()) {
+    		$this->getSuperLinkCollection()->load();
+    	}
+    	
+    	return $this->getSuperLinkCollection();
     }
     
     /**

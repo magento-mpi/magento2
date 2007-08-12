@@ -15,4 +15,15 @@ class Mage_Catalog_Model_Product_Super_Link extends Mage_Core_Model_Abstract
 	{
 		$this->_init('catalog/product_super_link');
 	}
+	
+	public function getDataForSave()
+	{
+		return $this->toArray(array('product_id','parent_id'));
+	}
+	
+	public function loadByProduct($producId, $parentId)
+	{
+		$this->getResource()->loadByProduct($this, $producId, $parentId);
+		return $this;
+	}
 }// Class Mage_Catalog_Model_Product_Super_Link END

@@ -116,23 +116,24 @@
 		<?=__('Bundle is out of stock')?>
 		<?endif;?>
 	</div>
-	<?else:?>
-	<div class="product-attributes">
+	<?elseif($product->isSuperConfig()):?>
+	<div class="product-attributes" id="super_product_attributes">
 		<table cellspacing="0">
+		<?foreach ($product->getSuperAttributes(false, true) as $_attribute):?>
 			<tr>
-				<td class="label">Color:</td>
+				<td class="label"><?=$_attribute['label']?>:</td>
 
-				<td><select name="">
-					<option value="">Red (+$1.00)</option>
+				<td><select name="super_attribute[<?=$_attribute['attribute_id']?>]">
+					<?foreach ($_attribute['values'] as $_value):?>
+					<option value="">
+					<?=$_value['label']?>
+					<?if($_value['pricing_value']):?>
+					(<?=$this->getPricingValue($_value)?>)
+					<?endif;?></option>
+					<?endforeach;?>
 				</select></td>
 			</tr>
-			<tr>
-				<td class="label">Size:</td>
-				<td><select name="">
-						<option value="">Small</option>
-
-					</select></td>
-			</tr>
+		<?endforeach;?>
 		</table>
 	</div>
 	<?endif;?>
@@ -162,7 +163,7 @@
 				<td><?=$_item->getName()?></td>
 				<td><?=$_item->getSku()?></td>
 				<td><?=$_item->getFormatedPrice()?></td>
-				<td><input type="text" class="input-text qty"/></td>
+				<td><input type="text" class="input-text qty" value="<?=$_item->getQty()?>"/></td>
 			</tr>
 		<?endforeach;?>
 		</tbody>

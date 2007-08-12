@@ -211,7 +211,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      * Get connection by name or type
      *
      * @param string $connectionName
-     * @return string
+     * @return Zend_Db_Adapter_Abstract
      */
     public function getConnection($connectionName)
     {

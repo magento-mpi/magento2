@@ -158,6 +158,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $relatedProducts = array();
             $upSellProducts = array();
             $crossSellProducts = array();
+            $superAttributes = array();
+            $superLinks = array();
             
             if(isset($data['categories'])) {
                 $categories = explode(',', $data['categories']);
@@ -179,6 +181,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             	$crossSellProducts = $this->_decodeInput($this->getRequest()->getPost('_cross_sell_products'));
             } 
             
+            if($this->getRequest()->getParam('_super_attributes_json')) {
+            	$superAttributes = Zend_Json::decode($this->getRequest()->getParam('_super_attributes_json'));
+            }
+            
+            if($this->getRequest()->getParam('_super_links_json')) {
+            	$superLinks = Zend_Json::decode($this->getRequest()->getParam('_super_links_json'));
+            }
+            
         	$product = Mage::getModel('catalog/product')
         		->setStoreId((int) $storeId)
         		->load((int) $this->getRequest()->getParam('id'))
@@ -187,6 +197,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setPostedStores($stores)
                 ->setPostedCategories($categories)
                 ->setRelatedProducts($relatedProducts)
+                ->setSuperAttributes($superAttributes)
+                ->setSuperLinks($superLinks)
                 ->setUpSellProducts($upSellProducts)
                 ->setCrossSellProducts($crossSellProducts);
             
@@ -211,8 +223,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             	$options = array();
             	if($optionsJson = $this->getRequest()->getParam('_options_json')) {
             		$options = Zend_Json_Decoder::decode($optionsJson);
-            	} else {
-            		$options = array();
             	}
 
             	$product->setBundleOptions($options);
