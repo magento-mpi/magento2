@@ -152,6 +152,9 @@ class Varien_Simplexml_Config
     
     public function updateCacheChecksum($data)
     {
+    	if (false===$this->getCacheChecksum()) {
+    		return $this;
+    	}
     	if (false===$data || 0===$data) {
     		$this->_cacheChecksum = false;
     	} else {
