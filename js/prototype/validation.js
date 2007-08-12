@@ -127,6 +127,27 @@ Object.extend(Validation, {
             return test;
         });
     },
+    showAdvice : function(elm, advice){
+        var container = elm.up('.field-row');
+        if(container){
+            new Insertion.After(container, advice);
+        }
+        else {
+            switch (elm.type.toLowerCase()) {
+                case 'checkbox':
+                case 'radio':
+                    var p = elm.parentNode;
+                    if(p) {
+                        new Insertion.Bottom(p, advice);
+                    } else {
+                        new Insertion.After(elm, advice);
+                    }
+                    break;
+                default:
+                    new Insertion.After(elm, advice);
+            }
+        }
+    },
     test : function(name, elm, useTitle) {
         var v = Validation.get(name);
         var prop = '__advice'+name.camelize();
@@ -137,19 +158,7 @@ Object.extend(Validation, {
                 if(advice == null) {
                     var errorMsg = useTitle ? ((elm && elm.title) ? elm.title : v.error) : v.error;
                     advice = '<div class="validation-advice" id="advice-' + name + '-' + Validation.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
-                    switch (elm.type.toLowerCase()) {
-                        case 'checkbox':
-                        case 'radio':
-                            var p = elm.parentNode;
-                            if(p) {
-                                new Insertion.Bottom(p, advice);
-                            } else {
-                                new Insertion.After(elm, advice);
-                            }
-                            break;
-                        default:
-                            new Insertion.After(elm, advice);
-                    }
+                    this.showAdvice(elm, advice);
                     advice = Validation.getAdvice(name, elm);
                 }
                 if(typeof Effect == 'undefined') {
