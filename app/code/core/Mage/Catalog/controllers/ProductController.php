@@ -8,9 +8,9 @@
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
-    public function viewAction()
+	protected function _initProductLayout()
     {
-        $this->loadLayout(null, '', false);
+    	$this->loadLayout(null, '', false);
         $categoryId = $this->getRequest()->getParam('category', false);
         $productId  = $this->getRequest()->getParam('id');
 
@@ -28,6 +28,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->getLayout()->loadUpdateFile(Mage::getDesign()->getLayoutFilename('catalog/defaultProduct.xml'));
         }
         $this->getLayout()->generateBlocks();
+    }
+	
+	public function viewAction()
+    {
+        $this->_initProductLayout();
 
         $this->renderLayout();
     }
@@ -38,5 +43,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $product->load($this->getRequest()->getParam('id'));
         $this->getLayout()->createBlock('core/template', 'root')->setTemplate('catalog/product/large.image.phtml')
             ->assign('product', $product);
+    }
+        
+    public function superConfigAction()
+    {
+    	$this->_initProductLayout();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('product.super.config')->toHtml());
+    }
+    
+    public function priceAction()
+    {
+    	$this->_initProductLayout();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('product.info.price')->toHtml());
     }
 }

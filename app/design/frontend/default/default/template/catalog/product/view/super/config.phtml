@@ -1,0 +1,27 @@
+<?if($this->canDisplayContainer()):?>
+<div class="product-attributes" id="super_product_attributes">
+<?endif?>
+		<table cellspacing="0">
+		<?foreach($this->getAttributes() as $_attribute):?>
+			<tr>
+				<td class="label"><?=$_attribute['label']?>:</td>
+
+				<td><select name="super_attribute[<?=$_attribute['attribute_id']?>]" class="required-entry super-attribute">
+					<option value=""></option>
+					<?foreach ($_attribute['values'] as $_value):?>
+					<option value="<?=$_value['value_index']?>" <?if($this->isSelectedOption($_value,$_attribute)):?> selected<?endif;?>>
+					<?=$_value['label']?>
+					<?if($_value['pricing_value']):?>
+					(<?=$this->getPricingValue($_value)?>)
+					<?endif;?></option>
+					<?endforeach;?>
+				</select></td>
+			</tr>
+		<?endforeach;?>
+		</table>
+<?if($this->canDisplayContainer()):?>
+</div>
+<script type="text/javascript">
+	var configurableController = new Product.Super.Configurable('super_product_attributes', 'super-attribute', '<?=$this->getUpdateUrl()?>', '<?=$this->getUpdatePriceUrl()?>', 'product_price');
+</script>
+<?endif?>

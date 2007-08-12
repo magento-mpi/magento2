@@ -8,6 +8,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         return $this;
     }
     
+    protected function _backToProduct($productId)
+    {
+        $this->_redirect('catalog/product/view', array('id'=>$productId));
+        return $this;
+    }
+    
     public function getQuote()
     {
         if (empty($this->_quote)) {
@@ -52,11 +58,20 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 		            	$this->getQuote()->getShippingAddress()->collectTotals();
 		            	$this->getQuote()->save();
         			}
-        		}
+        		} else {
+        			$this->_backToProduct($product->getId());
+        			return;
+        		}     		
+        		
         	} else if($product->isSuperGroup()) {
         		$superGroupProducts = $this->getRequest()->getParam('super_group', array());
         		if(!is_array($superGroupProducts)) {
         			$superGroupProducts = array();
+        		}
+        		
+        		if(sizeof($superGroupProducts)==0) {
+        			$this->_backToProduct($product->getId());
+        			return;
         		}
         		
         		foreach($product->getSuperGroupProductsLoaded() as $superProductLink) {

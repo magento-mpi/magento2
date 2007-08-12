@@ -85,7 +85,7 @@
 	<?if( $reviewCount ):?>
 		<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
 	<?endif;?>
-	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" name="addtocart">
+	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
     <input type="hidden" name="product" value="<?=$product->getId()?>">
 	<?if($product->isBundle()):?>
 	<div class="product-attributes">
@@ -117,25 +117,7 @@
 		<?endif;?>
 	</div>
 	<?elseif($product->isSuperConfig()):?>
-	<div class="product-attributes" id="super_product_attributes">
-		<table cellspacing="0">
-		<?foreach ($product->getSuperAttributes(false, true) as $_attribute):?>
-			<tr>
-				<td class="label"><?=$_attribute['label']?>:</td>
-
-				<td><select name="super_attribute[<?=$_attribute['attribute_id']?>]">
-					<?foreach ($_attribute['values'] as $_value):?>
-					<option value="">
-					<?=$_value['label']?>
-					<?if($_value['pricing_value']):?>
-					(<?=$this->getPricingValue($_value)?>)
-					<?endif;?></option>
-					<?endforeach;?>
-				</select></td>
-			</tr>
-		<?endforeach;?>
-		</table>
-	</div>
+	<?=$this->getChildHtml('super_config')?>
 	<?endif;?>
     <?if($product->getTierPriceCount()>1):?>
 	<div class="product-pricing">
@@ -163,7 +145,7 @@
 				<td><?=$_item->getName()?></td>
 				<td><?=$_item->getSku()?></td>
 				<td><?=$_item->getFormatedPrice()?></td>
-				<td><input type="text" class="input-text qty" value="<?=$_item->getQty()?>"/></td>
+				<td><input type="text" class="input-text qty" name="super_group[<?=$_item->getLinkedProductId()?>]" value="<?=$_item->getQty()?>"/></td>
 			</tr>
 		<?endforeach;?>
 		</tbody>
@@ -172,17 +154,14 @@
 	<?if(!$product->isSuperGroup()):?>
 		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
 		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<p class="price-box">
-			<span class="old-price"><span class="label">Regular Price:</span> <?=$product->getFormatedPrice()?></span><br/>
-			<span class="special-price"><span class="label">Special Price:</span> <?=$product->getFormatedPrice()?></span>
-		</p>
+		<?=$this->getChildHtml('price')?>
 		<fieldset class="add-to-box">
 			<legend>Add items to cart </legend>
 			<table cellspacing="0">
 				<tr>
 					<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
 	
-					<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+					<td><button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
 					<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
 					<?if($this->getCompareJsObjectName()):?>
 						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
@@ -212,7 +191,7 @@
 		<legend>Add items to cart </legend>
 		<table cellspacing="0">
 			<tr>
-				<td><button class="form-button" onclick="addtocart.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+				<td><button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
 				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
 				<?if($this->getCompareJsObjectName()):?>
 					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
@@ -222,6 +201,14 @@
 	</fieldset>
     <?endif;?>
     </form>
+    <script type="text/javascript">
+    	var productAddToCartForm = new VarienForm('product_addtocart_form');
+    	productAddToCartForm.submit = function() {
+    		if(this.validator.validate()) {
+    			this.form.submit();
+    		}
+    	}.bind(productAddToCartForm);
+    </script>
 	<div class="dotted-divider"></div>
 	<div class="required-products">
 

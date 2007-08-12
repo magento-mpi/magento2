@@ -206,6 +206,21 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this->getData('final_price');
     }
     
+    public function getCalculatedPrice(array $options)
+    {
+    	$price = $this->getPrice();
+    	foreach ($this->getSuperAttributes() as $attribute) {
+    		if(isset($options[$attribute['attribute_id']])) {
+	    		if($value = $this->_getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
+	    			if($value['pricing_value'] != 0) {
+	    				$price += $this->getPricingValue($value);
+	    			}
+	    		}
+    		}
+    	}
+    	return $price;
+    }
+    
     protected function _getValueByIndex($values, $index) {
     	foreach ($values as $value) {
     		if($value['value_index'] == $index) {
@@ -381,8 +396,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	return $this->getResource()->getSuperLinks($this);
     }
     
-    public function getSuperLinkIdByOptions(array $options)
+    public function getSuperLinkIdByOptions(array $options = null)
     {
+    	if(is_null($options)) {
+    		return false;
+    	}
+    	
     	foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
     		$have_it = true;
     		foreach ($linkAttributes as $attribute) {

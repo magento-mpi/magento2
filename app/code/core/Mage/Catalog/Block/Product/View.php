@@ -91,14 +91,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
     	return false;
     }
-
-    public function getPricingValue($value)
-    {
-    	$value = Mage::registry('product')->getPricingValue($value);
-    	$numberSign = $value >= 0 ? '+' : '-';
-    	return ' ' . $numberSign . ' ' . Mage::getSingleton('core/store')->formatPrice(abs($value));
-    }
-    
+        
     public function getGalleryImages()
     {
         return Mage::registry('product')->getGallery();

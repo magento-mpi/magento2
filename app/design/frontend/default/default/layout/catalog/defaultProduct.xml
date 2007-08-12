@@ -11,6 +11,12 @@
         <block type="catalog/product_view" name="product.info">
             <action method="setTemplate"><template>catalog/product/view.phtml</template></action>
             <action method="loadData"></action>
+            <block type="catalog/product_view_super_config" name="product.super.config" as="super_config">
+            	<action method="setTemplate"><template>catalog/product/view/super/config.phtml</template></action>
+            </block>
+            <block type="catalog/product_view_price" name="product.info.price" as="price">
+            	<action method="setTemplate"><template>catalog/product/view/price.phtml</template></action>
+            </block>
         </block>
     </reference>
     <reference name="right">
