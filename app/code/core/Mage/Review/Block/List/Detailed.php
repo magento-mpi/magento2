@@ -79,6 +79,7 @@ class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
             $this->_collection
                 ->addStoreFilter(Mage::getSingleton('core/store')->getId())
                 ->addEntityFilter('product', $this->getProductId())
+                ->addStatusFilter('approved')
                 ->setDateOrder();
         }
         return $this->_collection;

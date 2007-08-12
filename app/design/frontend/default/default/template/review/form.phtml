@@ -6,7 +6,8 @@
 					<form action="<?=$this->getAction()?>" method="post" id="review-form">
                         <?if( $this->getRatings() && $this->getRatings()->getSize()):?>
 						<strong><?=__('How do you rate this product?')?></strong><br>
-						<table class="data-table product-review-box" cellspacing="0">
+						<span id="input-message-box"></span>
+						<table class="data-table product-review-box field-row" cellspacing="0">
 							<thead>
 								<tr>
 									<th>&nbsp;</th>
