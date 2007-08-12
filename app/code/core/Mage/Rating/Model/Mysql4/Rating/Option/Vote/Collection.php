@@ -33,4 +33,30 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
         $this->_sqlSelect->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*");
         return $this;
     }
+
+    public function addOptionInfo()
+    {
+        $this->_sqlSelect->join($this->getTable('rating/rating_option'), "main_table.option_id = {$this->getTable('rating/rating_option')}.option_id", "{$this->getTable('rating/rating_option')}.*");
+        return $this;
+    }
+
+    public function addRatingOptions()
+    {
+        if( !$this->getSize() ) {
+            return;
+        }
+        foreach( $this->getItems() as $item ) {
+            $options = Mage::getModel('rating/rating_option')
+                    ->getResourceCollection()
+                    ->addRatingFilter($item->getRatingId())
+                    ->load();
+
+            if( $item->getRatingId() ) {
+                $item->setRatingOptions($options);
+            } else {
+                return;
+            }
+        }
+        return $this;
+    }
 }

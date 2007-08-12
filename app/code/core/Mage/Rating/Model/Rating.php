@@ -25,6 +25,16 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    public function updateOptionVote($optionId)
+    {
+        Mage::getModel('rating/rating_option')->setOptionId($optionId)
+            ->setVoteId($this->getVoteId())
+            ->setReviewId($this->getReviewId())
+            ->setDoUpdate(1)
+            ->addVote();
+        return $this;
+    }
+
     /**
      * retrieve rating options
      *

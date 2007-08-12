@@ -1,14 +1,32 @@
-<div class="ratings-container">
-    <?if( $this->getRating() && $this->getRating()->getSize()):?>
-        <?foreach ($this->getRating() as $_rating):?>
-        <?if($_rating->getPercent()):?>
-        	<div class="ratings">
-        	   <?=__($_rating->getRatingCode())?>
-        		<div class="rating-box">
-        			<div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
-        		</div>
-        	</div>
-        <?endif;?>
-        <?endforeach;?>
-    <?endif;?>
-</div>
+<?if( $this->getRating() && $this->getRating()->getSize()):?>
+    <div style="width:600px;">
+	<table cellspacing="0" border="0" class="data-table product-review-box">
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th><?=__('1 star')?></th>
+				<th><?=__('2 stars')?></th>
+				<th><?=__('3 stars')?></th>
+				<th><?=__('4 stars')?></th>
+				<th><?=__('5 stars')?></th>
+			</tr>
+		</thead>
+    <?$_oddIterator = 1;?>
+		<tbody>
+		<?foreach ($this->getRating() as $_rating):?>
+			<tr class="odd<?if($_oddIterator == $this->getRating()->getSize()): $_oddIterator = 0;?> last<?endif;?>">
+				<td class="label"><?=__($_rating->getRatingCode())?></td>
+			<?$_iterator = 1;?>
+		    <?foreach ($_rating->getRatingOptions() as $_option):?>
+				<td style="width:60px;" <?if($_iterator == 5):?>class="last"<?endif;?>><input type="radio" class="validate-one-required-by-name" name="ratings[<?=$_rating->getVoteId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>" <?if( $_option->getId() == $_rating->getOptionId() ):?>checked="true"<?endif;?> /></td>
+            <?$_iterator++?>
+			<?endforeach;?>
+			</tr>
+        <?$_oddIterator ++;?>
+		<?endforeach;?>
+		</tbody>
+	</table>
+    </div>
+<?else:?>
+    <?=__('Rating Not Alvaliable')?>
+<?endif;?>

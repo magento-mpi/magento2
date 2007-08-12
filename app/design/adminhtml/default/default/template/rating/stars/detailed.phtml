@@ -1,0 +1,16 @@
+<?if( $this->getRating() && $this->getRating()->getSize()):?>
+    <div class="ratings-container">
+        <?foreach ($this->getRating() as $_rating):?>
+        <?if($_rating->getPercent()):?>
+        	<div class="ratings">
+        	   <?=__($_rating->getRatingCode())?>
+        		<div class="rating-box">
+        			<div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
+        		</div>
+        	</div>
+        <?endif;?>
+        <?endforeach;?>
+    </div>
+<?else:?>
+    <?=__('Rating Not Alvaliable')?>
+<?endif;?>

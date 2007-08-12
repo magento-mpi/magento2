@@ -17,12 +17,12 @@ class Mage_Rating_Model_Rating_Option extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getResourceSingleton('rating/rating_option');
+        return Mage::getResourceModel('rating/rating_option');
     }
 
     public function getResourceCollection()
     {
-        return Mage::getResourceSingleton('rating/rating_option_collection');
+        return Mage::getResourceModel('rating/rating_option_collection');
     }
 
     public function load($optionId)

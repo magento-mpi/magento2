@@ -44,6 +44,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
         $fieldset->addField('detailed_rating', 'note', array(
                                 'label'     => __('Detailed Rating'),
+                                'required'  => true,
                                 'text'      => $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml(),
                             )
         );

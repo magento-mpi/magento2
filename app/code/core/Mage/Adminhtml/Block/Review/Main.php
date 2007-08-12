@@ -13,9 +13,9 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
 {
     public function __construct()
     {
-        parent::__construct();
         $this->_controller = 'review';
         $this->_headerText = __('Reviews');
-        $this->_removeButton('add');
+        $this->_addButtonLabel = __('Add New Review');
+        parent::__construct();
     }
 }

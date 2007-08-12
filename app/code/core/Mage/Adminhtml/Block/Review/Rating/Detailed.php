@@ -24,7 +24,10 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Core_Block_Templa
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
-                ->load();
+                ->addOptionInfo()
+                ->load()
+                ->addRatingOptions();
+
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }
         return $this->getRatingCollection();

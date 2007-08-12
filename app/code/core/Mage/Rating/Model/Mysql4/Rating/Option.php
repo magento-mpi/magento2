@@ -53,27 +53,36 @@ class Mage_Rating_Model_Mysql4_Rating_Option
     {
         $action = Mage::registry('action');
 
-        if ($action instanceof Mage_Core_Controller_Front_Action) {
+        if ($action instanceof Mage_Core_Controller_Front_Action || $action instanceof Mage_Adminhtml_Controller_Action) {
             $optionData = $this->load($option->getId());
             $data = array(
                 'option_id'     => $option->getId(),
-                'remote_ip'     => $action->getRequest()->getServer('REMOTE_ADDR'),
-                'remote_ip_long'=> ip2long($action->getRequest()->getServer('REMOTE_ADDR')),
-                'customer_id'   => Mage::getSingleton('customer/session')->getCustomerId(),
-                'entity_pk_value' => $option->getEntityPkValue(),
-                'rating_id'     => $option->getRatingId(),
                 'review_id'     => $option->getReviewId(),
                 'percent'       => (($optionData['value'] / 5) * 100)
             );
+
+            if( !$option->getDoUpdate() ) {
+                $data['remote_ip'] = $action->getRequest()->getServer('REMOTE_ADDR');
+                $data['remote_ip_long'] = ip2long($action->getRequest()->getServer('REMOTE_ADDR'));
+                $data['customer_id'] = Mage::getSingleton('customer/session')->getCustomerId();
+                $data['entity_pk_value'] = $option->getEntityPkValue();
+                $data['rating_id'] = $option->getRatingId();
+            }
+
             $this->_write->beginTransaction();
             try {
-                $this->_write->insert($this->_ratingVoteTable, $data);
-                $this->aggregate($option);
+                if( $option->getDoUpdate() ) {
+                    $condition = "vote_id = '{$option->getVoteId()}' AND review_id = '{$option->getReviewId()}'";
+                    $this->_write->update($this->_ratingVoteTable, $data, $condition);
+                } else {
+                    $this->_write->insert($this->_ratingVoteTable, $data);
+                    $this->aggregate($option);
+                }
                 $this->_write->commit();
             }
             catch (Exception $e){
                 $this->_write->rollback();
-                throw $e;
+                throw new Exception($e->getMessage());
             }
         }
         return $this;

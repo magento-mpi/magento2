@@ -42,6 +42,14 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 $review->setId($reviewId)
                     ->save();
 
+                $arrRatingId = $this->getRequest()->getParam('ratings', array());
+                foreach ($arrRatingId as $voteId=>$optionId) {
+                	Mage::getModel('rating/rating')
+                	   ->setVoteId($voteId)
+                	   ->setReviewId($review->getId())
+                	   ->updateOptionVote($optionId);
+                }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Review successfully saved.'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 return;

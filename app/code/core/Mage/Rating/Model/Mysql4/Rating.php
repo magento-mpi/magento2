@@ -49,7 +49,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         $data = $read->fetchRow($sql);
 
-        $object->addData($data);
+        $object->addData( (is_array($data)) ? $data : array() );
         return $object;
     }
 }
