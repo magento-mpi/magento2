@@ -1,6 +1,6 @@
 <?php
 
-$conn->query("DROP TABLE `catalog_category_entity_gallery`");
+$conn->query("DROP TABLE if exists `catalog_category_entity_gallery`");
 
 $conn->query("
 

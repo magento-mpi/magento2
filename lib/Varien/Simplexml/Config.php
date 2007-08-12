@@ -142,13 +142,21 @@ class Varien_Simplexml_Config
     
     public function setCacheChecksum($data)
     {
-        $this->_cacheChecksum = md5($data);
+    	if (false===$data || 0===$data) {
+    		$this->_cacheChecksum = false;
+    	} else {
+        	$this->_cacheChecksum = md5($data);
+    	}
         return $this;
     }
     
     public function updateCacheChecksum($data)
     {
-        $this->setCacheChecksum($this->getCacheChecksum().':'.$data);
+    	if (false===$data || 0===$data) {
+    		$this->_cacheChecksum = false;
+    	} else {
+        	$this->setCacheChecksum($this->getCacheChecksum().':'.$data);
+    	}
         return $this;
     }
     
@@ -165,6 +173,9 @@ class Varien_Simplexml_Config
     public function validateCacheChecksum()
     {
         $newChecksum = $this->getCacheChecksum();
+        if (false===$newChecksum) {
+        	return false;
+        }
         if (is_null($newChecksum)) {
             return true;
         }
@@ -190,10 +201,12 @@ class Varien_Simplexml_Config
     
     public function saveCache($tags=array())
     {
-        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
-        
-        $xmlString = $this->getNode()->asXml();
-        $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
+    	if ($this->getCacheChecksum()) {
+	        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
+	        
+	        $xmlString = $this->getNode()->asXml();
+	        $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
+    	}
         return $this;
     }
     
