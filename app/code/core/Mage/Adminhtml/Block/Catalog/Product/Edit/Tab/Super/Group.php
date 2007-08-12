@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
         
         $this->addColumn('qty', array(
-            'header'    => __('Qty'),
+            'header'    => __('Default Qty'),
             'name'    	=> 'qty',            
             'align'     => 'center',
             'type'      => 'number',
@@ -115,9 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             'index'     => 'position',
             'width'     => '60px',
             'editable'  => true
-        ));
-        
-         
+        ));         
         
         return parent::_prepareColumns();
     }

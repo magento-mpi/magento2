@@ -29,8 +29,12 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
             ->setName($product->getName())
             ->setWeight($product->getWeight())
             ->setQty($product->getQty())
-            ->setPrice($product->getFinalPrice())
-        ;
+            ->setPrice($product->getFinalPrice($product->getQty()));
+        
+        if($product->getParentProduct()) {
+        	$this->setParentProductId($product->getParentProduct()->getId());
+        }
+        
         return $this;
     }
     

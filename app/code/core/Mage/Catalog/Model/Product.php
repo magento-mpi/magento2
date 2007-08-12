@@ -169,20 +169,50 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return Mage::getSingleton('core/store')->formatPrice($this->getFinalPrice());
     }
     
-    public function getFinalPrice()
+    public function getFinalPrice($qty=null)
     {
-        $finalPrice = $this->getPrice();
-        if (is_numeric($this->getTierPrice())) {
-            $finalPrice = min($finalPrice, $this->getTierPrice());
+        
+        
+        if($this->getParentProduct() && $this->getParentProduct()->isSuperConfig()) {
+        	$finalPrice = $this->getParentProduct()->getPrice();
+	        if (is_numeric($this->getParentProduct()->getTierPrice($qty))) {
+	            $finalPrice = min($finalPrice, $this->getParentProduct()->getTierPrice($qty));
+	        }
+	        if (is_numeric($this->getParentProduct()->getSpecialPrice())) {
+	            $finalPrice = min($finalPrice, $this->getParentProduct()->getSpecialPrice());
+	        }
+	        
+        	foreach ($this->getParentProduct()->getSuperAttributes() as $attribute) {
+        		if($value = $this->_getValueByIndex($attribute['values'], $this->getData($attribute['attribute_code']))) {
+        			if($value['pricing_value'] != 0) {
+        				$finalPrice += $this->getParentProduct()->getPricingValue($value);
+        			}
+        		}
+        	}
+        } else {
+        	$finalPrice = $this->getPrice();
+	        if (is_numeric($this->getTierPrice($qty))) {
+	            $finalPrice = min($finalPrice, $this->getTierPrice($qty));
+	        }
+	        if (is_numeric($this->getSpecialPrice())) {
+	            $finalPrice = min($finalPrice, $this->getSpecialPrice());
+	        }
         }
-        if (is_numeric($this->getSpecialPrice())) {
-            $finalPrice = min($finalPrice, $this->getSpecialPrice());
-        }
+        
         $this->setFinalPrice($finalPrice);
         
         Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$this));
         
         return $this->getData('final_price');
+    }
+    
+    protected function _getValueByIndex($values, $index) {
+    	foreach ($values as $value) {
+    		if($value['value_index'] == $index) {
+    			return $value;
+    		}
+    	}
+    	return false;
     }
     
     public function getLinkedProducts($linkType)
@@ -349,6 +379,23 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getSuperLinks()
     {
     	return $this->getResource()->getSuperLinks($this);
+    }
+    
+    public function getSuperLinkIdByOptions(array $options)
+    {
+    	foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
+    		$have_it = true;
+    		foreach ($linkAttributes as $attribute) {
+    			if(isset($options[$attribute['attribute_id']]) && $options[$attribute['attribute_id']]!=$attribute['value_index']) {
+    				$have_it = false;
+    			}
+    		}
+    		if($have_it) {
+    			return $linkId;
+    		}
+    	}
+    	
+    	return false;
     }
     
     public function setSuperLinks(array $superLinks)

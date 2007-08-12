@@ -37,10 +37,48 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $qty = $intFilter->filter($this->getRequest()->getParam('qty', 1));
 
         $product = Mage::getModel('catalog/product')->load($productId);
+        
+        
+        
         if ($product->getId()) {
-            $this->getQuote()->addCatalogProduct($product->setQty($qty));
-            $this->getQuote()->getShippingAddress()->collectTotals();
-            $this->getQuote()->save();
+        	if($product->isSuperConfig()) {
+        		$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
+        		if($productId) {
+        			$superProduct = Mage::getModel('catalog/product')
+        				->load($productId)
+        				->setParentProduct($product);
+        			if($superProduct->getId()) {
+        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
+		            	$this->getQuote()->getShippingAddress()->collectTotals();
+		            	$this->getQuote()->save();
+        			}
+        		}
+        	} else if($product->isSuperGroup()) {
+        		$superGroupProducts = $this->getRequest()->getParam('super_group', array());
+        		if(!is_array($superGroupProducts)) {
+        			$superGroupProducts = array();
+        		}
+        		
+        		foreach($product->getSuperGroupProductsLoaded() as $superProductLink) {
+        			
+        			if(isset($superGroupProducts[$superProductLink->getLinkedProductId()]) && $qty =  $intFilter->filter($superGroupProducts[$superProductLink->getLinkedProductId()])) {
+      				   $superProduct = Mage::getModel('catalog/product')
+	        				->load($superProductLink->getLinkedProductId())
+	        				->setParentProduct($product);
+	        			if($superProduct->getId()) {
+	        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
+			            	$this->getQuote()->getShippingAddress()->collectTotals();
+			            	$this->getQuote()->save();
+	        			}		
+        			}        			
+        		}
+        		
+        		
+        	} else {
+        	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
+            	$this->getQuote()->getShippingAddress()->collectTotals();
+            	$this->getQuote()->save();
+        	}
         }
         
         Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
@@ -77,8 +115,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 }
                 
                 $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                if($item->getParentProductId()) {
+                	$parentProduct = Mage::getModel('catalog/product')->load($item->getParentProductId());
+                	$product->setParentProduct($parentProduct);
+                }
                 $item->setQty($itemUpd['qty']);
                 $item->setPrice($product->getFinalPrice($item->getQty()));
+                
             }
         }
         $this->getQuote()->getShippingAddress()->collectTotals();
