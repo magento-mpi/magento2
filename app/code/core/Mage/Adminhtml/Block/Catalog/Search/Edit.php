@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit extends Mage_Adminhtml_Block_Widg
 
     public function __construct()
     {
-        $this->_objectId = 'search_id';
+        $this->_objectId = 'id';
         $this->_controller = 'catalog_search';
 
         parent::__construct();
@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit extends Mage_Adminhtml_Block_Widg
     public function getHeaderText()
     {
         if (Mage::registry('current_catalog_search')->getId()) {
-            return __('Edit Search') . " '" . Mage::registry('current_catalog_search')->getName() . "'";
+            return __('Edit Search') . " '" . Mage::registry('current_catalog_search')->getSearchQuery() . "'";
         }
         else {
             return __('New Search');

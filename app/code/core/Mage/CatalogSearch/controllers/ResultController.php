@@ -10,9 +10,17 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
 {
     public function indexAction() 
     {
+        $searchQuery = $this->getRequest()->getParam('q', false);
+
+        if ($search = Mage::getModel('catalogsearch/search')->loadByQuery($searchQuery)) {
+        	if ($search->getRedirect()) {
+        		$this->getResponse()->setRedirect($search->getRedirect());
+        		return;
+        	}
+        }
+        
         $this->loadLayout();
             
-        $searchQuery = $this->getRequest()->getParam('q', false);
         if ($searchQuery) {
             $this->getLayout()->getBlock('top.search')->assign('query', $searchQuery);
             $searchResBlock = $this->getLayout()->createBlock('catalogsearch/search', 'search.result', array('query'=>$searchQuery));

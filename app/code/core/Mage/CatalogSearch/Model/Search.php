@@ -7,6 +7,12 @@ class Mage_CatalogSearch_Model_Search extends Mage_Core_Model_Abstract
         $this->_init('catalogsearch/search');
     }
     
+    public function loadByQuery($query)
+    {
+    	$this->getResource()->loadByQuery($this, $query);
+    	return $this;
+    }
+    
     public function updateSearch($query, $numResults)
     {
         $this->getResource()->loadByQuery($this, $query);
