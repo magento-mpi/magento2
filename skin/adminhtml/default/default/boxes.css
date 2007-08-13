@@ -249,6 +249,7 @@
 .head-customer, .head-customer-groups { background-image:url(images/fam_group.gif); }
 .head-online-visitors { background-image:url(images/fam_monitor.gif); }
 .head-products { background-image:url(images/fam_package.gif); }
+.head-catalog-product { background-image:url(images/fam_package.gif); }
 .head-newsletter-queue { background-image:url(images/fam_newspaper_go.gif); }
 .head-newsletter-list { background-image:url(images/fam_newspaper.gif); }
 .head-newsletter-report { background-image:url(images/fam_newspaper_error.gif); }
@@ -269,6 +270,7 @@
 .head-order-date { background-image:url(images/fam/calendar.png); }
 .head-order-items { background-image:url(images/fam/table_multiple.png); }
 .head-customer-sales-statistics { background-image:url(images/fam/money.png); }
+.head-promo-quote { background-image:url(images/fam/money.png); }
 
 /************* DATA MANIPULATION ************/
 
@@ -580,3 +582,134 @@ div.actions:after,
 .data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
 .data-table td.last { border-right:0; }
 .data-table tr.last td { border-bottom:0; }
+
+/*############# Dashboard #############*/
+
+.graph-container { /*width:1190px;*/ }
+.graph-container li.section { float:left; width:580px; list-style:none; margin:0 40px 30px 0; }
+
+.db-top { margin:0; padding:0; width:580px; height:25px; margin:5px 0 5px 0; }
+.db-top dt { font-size:1.15em; float:left; font-weight:bold; padding-left:28px; background:transparent url(images/db-header-bg.png) no-repeat left; color:#d86303; }
+.db-top dd { float:right; font-size:11px; }
+.db-menu {
+	background:transparent url(images/db-menu-bg.png) repeat-x bottom right; width:580px; height:34px;
+}
+.db-menu ul { background:transparent url(images/db-menu-start.png) no-repeat bottom left; height:34px; padding-left:8px; }
+.db-menu ul li, .db-menu ul li.last {
+	float:left;
+	list-style:none;
+	height:34px;
+	background:transparent url(images/db-menu-sep.png) no-repeat bottom right;
+}
+.db-menu ul li.last {
+	background:transparent url(images/db-menu-sep-last.png) no-repeat bottom right;
+}
+.db-menu ul li a{
+	background:transparent url(images/db-menu-bg-up.png) repeat-x bottom;
+	font:bold 11px/11px Verdana, sans-serif;
+	color:#7c9591;
+	text-decoration: none;
+	display:Block;
+	padding:7px 10px 2px 10px;
+	margin:5px 5px 0 0;
+	height:20px;
+	border:0;
+}
+.db-menu ul li a:focus {  -moz-outline-style: none; }
+.db-menu ul li a:active { outline: none; }
+.db-menu ul li a:hover, .db-menu ul li a.hover {
+	background:transparent url(images/db-menu-bg-hov.png) repeat-x bottom;
+	color:Black;
+	text-decoration: none;
+}
+.db-menu ul li.last a { margin-right:1px; }
+
+.graph-cont, .tab-cont { width:579px; border:0; }
+.bottom-bg { background:transparent url(images/db-graph-bottom-bg.png) repeat-x bottom; }
+.graph-block { border:1px solid #cbcbcb; width:580px; min-height:460px; background:#f7f7f7; }
+.graph-cont table { font:bold 10px/14px Verdana, sans-serif; margin:15px; background:transparent; }
+.graph-cont table td.yHeading { width:60px; text-align:center; }
+.graph-cont table td.y { height:50px; text-align:right; padding-right:5px; vertical-align:bottom; }
+.graph-cont table td.x { padding:2px 3px; width:29px;}
+.graph-cont table td.g {
+	vertical-align:bottom;
+	text-align:center;
+	background:transparent url(images/db-graph-bg.png) repeat bottom;
+	padding-bottom:6px;
+}
+.graph-cont table td.g div.gr { width:15px; margin:0 auto; background:#fa8c20 url(images/db-graph-line-bg.png) repeat-x bottom; }
+
+.graph-cont table td.g dl.gr1 { width:25px;  margin:0 auto; }
+.graph-cont table td.g dl.gr1 dt { width:12px; background:#fa8c20 url(images/db-graph-line-bg.png) repeat-x bottom; float: left; }
+.graph-cont table td.g dl.gr1 dd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.png) repeat-x bottom; float: left; }
+
+.empty_tr { height:0; font-size:0; }
+
+/* REMOVE */
+.tab-cont table { margin:20px; border:1px solid #787879; }
+.tab-cont table td { padding:3px 6px; border:1px solid #ccc; text-align:center; }
+.tab-cont .header td { background:#787879; color:White; font-weight:bold; text-align:center; border:0; }
+.tab-cont .totals td { background:#eee; font-weight:bold; text-align:right; border:0; }
+/* REMOVE */
+
+
+.graph-table { margin:25px 25px 0 25px; width:520px; background:transparent url(images/db-tab-left.png) repeat-y left; padding-left:2px; }
+
+
+.tab-head, .tab-footer { width:518px; }
+.tab-right { padding-right:px; background:transparent url(images/db-tab-right.png) repeat-y right; }
+.tab-body { width:520px; }
+
+.col2 .tab-head .header, .col2 .tab-body .tab-item, .col2 .tab-footer .tab-foot { width:240px; float:left; text-align:left; padding:3px 6px; }
+.col2 .tab-body .tab-item { width:238px; margin:0 1px 1px 0; padding:3px 10px 3px 10px; }
+.col2 .tab-head .header { width:247px; background:transparent url(images/db-tab-header-sep.png) no-repeat right; margin:0; color:White; font-weight:bold; text-align:left; border:0; padding:3px 2px 4px 10px; }
+.col2 .tab-footer .tab-foot { text-align:right; width:500px; }
+
+.col3 .tab-head .header, .col3 .tab-body .tab-item, .col3 .tab-footer .tab-foot { width:160px; float:left; text-align:left; padding:3px 6px; }
+.col3 .tab-body .tab-item { width:152px; margin:0 1px 1px 0; padding:3px 10px 3px 10px; }
+.col3 .tab-head .header { width:161px; background:transparent url(images/db-tab-header-sep.png) no-repeat right; margin:0; color:White; font-weight:bold; text-align:left; border:0; padding:3px 2px 4px 10px; }
+.col3 .tab-footer .tab-foot { text-align:right; width:500px; }
+
+.tab-head { background:#868686 url(images/db-tab-header.png) repeat-x bottom; height:25px; border-top:1px solid #b2b1b1; }
+.tab-body .row, .tab-body .row2 { clear:both; background:#c9c9c9 url(images/db-tab-right.png) repeat-y right; height:25px; width:520px; }
+.tab-body .row div { background:White; }
+.tab-body .row2 div { background:#f0f6f5; }
+
+.tab-footer { background:#dcebf5 url(images/db-tab-footer.png) repeat-x top; height:40px; }
+.tab-footer .tab-foot dl { float:right; margin:5px 2px 0 0; }
+.tab-footer .tab-foot dl dt, .tab-footer .tab-foot dl dd { float:left; font-weight: bold; font-size:13px; }
+.tab-footer .tab-foot dl dt { padding:3px 6px; }
+.tab-footer .tab-foot dl dd { width:auto; padding:2px 6px; background:#faf2de; border:1px solid #b2b0aa; color:#137a41; }
+
+.tab-footer-bottom { margin-left:25px; background:transparent url(images/db-tab-bottom-mid-bg.png) repeat-x top; width:522px; }
+.tab-footer-left { width:3px; float:left; background:transparent url(images/db-tab-bottom-left-bg.png) no-repeat top; }
+.tab-footer-right { width:2px; float:right; background:transparent url(images/db-tab-bottom-right-bg.png) no-repeat top; }
+.tab-footer-bottom, .tab-footer-left, .tab-footer-right { font-size:1px; height:3px; }
+
+/*********************** SCROLLERS ***********************/
+
+.scroll-cont { position: absolute; top:-25px; left: 503px; width:16px; height:265px; background:transparent url(images/db-scroll-bg.png) no-repeat top; }
+
+.root{ position:relative; height: 260px; margin:0; width:1px;  }
+.thumb { position: absolute; height: 40px; width: 16px; margin-top:-28px; }
+.up { margin-top:254px; height:16px; }
+.dn { margin-top:0px; padding:0; height:15px; }
+.up a, .up a img, .dn a, .dn a img, .thumb a , .thumb a img{
+	border: 0;
+}
+.up a:focus, .dn a:focus {  -moz-outline-style: none; }
+.up a:active, .dn a:active { outline: none; }
+
+.scrollContainer {
+	position: absolute;
+	left: 0;
+	top: 19px;
+	clip: rect(0 467 200 0);
+	overflow: auto;
+	border:0;
+}
+.scrollContent {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
