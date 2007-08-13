@@ -70,4 +70,9 @@
  		return false;
  	}
  	
+ 	public function getPrintUrl()
+ 	{
+ 		return $this->getUrl('*/*/*', array('_current'=>true, 'print'=>1));
+ 	}
+ 	
  } // Class Mage_Catalog_Block_Product_Compare_List end

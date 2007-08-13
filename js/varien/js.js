@@ -81,9 +81,7 @@ Varien.CompareController.prototype = {
                 }.bind(this)
             });
 
-            if(this.container && this.container.getStyle('display')=='none') {
-                this.container.show();
-            }
+            
         } else {
             window.location.href = this.updateUrl.evaluate({id:id});
         }
@@ -106,7 +104,7 @@ Varien.CompareController.prototype = {
                     id = parentItem.getElementsByClassName('compare-item-id')[0].value;
                     parentItem.remove();
                     if(this.container.getElementsByClassName('block-compare-item').length == 0) {
-                        this.container.hide();
+                        
                     } else {
                         var items = this.container.getElementsByClassName('block-compare-item');
                         var lastItem = $(items[items.length-1]);
@@ -124,24 +122,19 @@ Varien.CompareController.prototype = {
             if(this.useAjax) {
                 var removeMessage = this.removeMessage;
                 var container = this.container;
-                new Ajax.Request(this.removeUrl.evaluate({id:id}) + '?ajax=1', {onComplete: function() {
-                    if(removeMessage && showMess) {
-                        window.alert(removeMessage);
-                    }
-                }});
+                new Ajax.Updater(this.container, this.removeUrl.evaluate({id:id}) + '?ajax=1', {});
             } else {
-                window.location.href = this.updateUrl.evaluate({id:id});
+                window.location.href = this.removeUrl.evaluate({id:id});
             }
         }
     },
     removeAll: function() {
         if(!this.confirmMessage || window.confirm(this.confirmMessage)) {
-            var items = this.container.getElementsByClassName('block-compare-item');
-            for(var i=0; i<items.length; i++) {
-                if($(items[i]).getElementsByClassName('action').length==1) {
-                    this.removeItem($(items[i]).getElementsByClassName('action')[0], false);
-                }
-            }
+            new Ajax.Updater(this.container, this.removeUrl.evaluate({}) + '?ajax=1&all=1', {});
         }
-    }
+    },
+	openCompare: function(link) {
+		this.compareWindow = window.open(link,'compareWindow','resizable=yes,width=800,height=600');
+		this.compareWindow.focus();
+	}
 }

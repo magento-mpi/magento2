@@ -7,7 +7,7 @@
 	</div>
 	<div class="box-container">
 				<div class="content">
-					<?if($this->getWishlistItems()->getSize()):?>
+					<?if($this->getWishlistItems()->getSize()>0):?>
 					<ol>
 					 <?$_i=1?>
 					 <?$_total=sizeof($this->getWishlistItems()->getItems())?>

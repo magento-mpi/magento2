@@ -1,6 +1,6 @@
 <div class="page-head button-level">
 	<h2><?=__('Compare Products')?></h2>
-	<button class="form-button"><span><?=__('Print')?></span></button>
+	<button class="form-button" onclick="setLocation('<?=$this->getPrintUrl()?>')"><span><?=__('Print')?></span></button>
 </div>
 <?$_total=count($this->getItems())?>
 <div class="compare-products">
@@ -66,7 +66,11 @@
 				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
 						<?break;
 					default:?>
+				<?if($_attribute->getSourceModel()):?>
+				<?=$_attribute->getSource()->getOptionText($_item->getData($_attribute->getAttributeCode()))?>
+				<?else:?>
 				<?=$_item->getData($_attribute->getAttributeCode())?>
+				<?endif;?>
 						<?break;
 				}?>
 			</td>	

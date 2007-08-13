@@ -63,10 +63,28 @@
 			if($item->getId()) {
 				$item->delete();
 			}
+		} 
+		
+		if($this->getRequest()->getParam('all')) {
+			$items = Mage::getResourceModel('catalog/product_compare_item_collection')
+ 				->setStoreId(Mage::getSingleton('core/store')->getId());
+ 			
+ 			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+				$items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+			} else {
+				$items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
+			}
+			
+			$items->load();
+			
+			$items->walk('delete');
 		}
 		
 		if($this->getRequest()->getParam('ajax')) {
-			$this->getResponse()->setBody('ok');
+			$this->loadLayout();
+			$this->getResponse()->setBody(
+				$this->getLayout()->getBlock('catalog.compare.sidebar')->toHtml()
+			);
 		} else {
 			$this->_redirect('catalog/product_compare');
 		}

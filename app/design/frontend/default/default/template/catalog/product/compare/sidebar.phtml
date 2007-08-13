@@ -10,15 +10,15 @@
  */
 ?>
 <?if($this->getCanDisplayContainer()):?>
-<div class="box mini-compare-products" id="<?=$this->getId()?>" <?if($this->getItems()->getSize()==0):?> style="display:none;"<?endif;?>>
+<div class="box mini-compare-products" id="<?=$this->getId()?>">
 <?endif;?>
-<?if($this->getItems()->getSize()>0):?>
 	<div class="head">
 			<span class="corner"></span>
 			<h3><?=__('Compare Products')?> <span class="count"><?=__('(%d items)', $this->getItems()->getSize())?></span></h3>
 	</div>
 	<div class="box-container">
 	<div class="content">
+	<?if($this->getItems()->getSize()>0):?>
 		<ul class="widget-list">
 			<?$_i=1?>
 			<?foreach($this->getItems() as $_index=>$_item):?>
@@ -28,14 +28,16 @@
 			<?endforeach;?>
 		</ul>
 		<p class="actions">
-		<button class="form-button" onclick="window.location.href = '<?=$this->getCompareUrl()?>'"><span><?=__('Compare')?></span></button>
+		<button class="form-button" onclick="<?=$this->getJsObjectName()?>.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button>
 		<a href="#" onclick="<?=$this->getJsObjectName()?>.removeAll(); return false">Clear All</a>
+	<?else:?>
+	<?=__('You have not placed any product yet.')?>
+	<?endif;?>
 	</p>
 </div>
 </div>
-<?endif;?>
+<?if($this->getCanDisplayContainer()):?>
 </div>
-<?if($this->getCanDisplayContainer()):?>	
 <script type="text/javascript">
 <!--
 	var <?=$this->getJsObjectName()?> = new Varien.CompareController('<?=$this->getId()?>',{
