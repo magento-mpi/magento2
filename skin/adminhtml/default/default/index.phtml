@@ -78,14 +78,13 @@
 			</div>
 			<div class="tab-cont" id="orders-3-tab">
 				<?if($data['summary']['conType'] == 'tab'){?>
-				<div class="graph-table col3">
-					<div class="tab-right">
+				<div class="graph-table">
 					<div class="tab-head">
 						<?foreach ($data['summary']['yValues'] as $yKey => $yVal) {?>
-						<div class="header"<?=($yKey == 2 ? ' style="background:none;width:160px;"' : '')?><?=($yKey == 1 ? ' style="text-align:right;"' : '')?>><?=$yVal?>&nbsp;&nbsp;&nbsp;</div>
+						<div class="header"><?=$yVal?></div>
 						<?}?>
 					</div><div class="clear"></div>
-					<?if(count($data['summary']['gValues']) > 10){?>
+					<?if(count($data['summary']['gValues']) > 100){?>
 					<script type="text/javascript"> instantiateScroller(0, "scroll0", 7, 0, 490, 248, 248); </script>
 					<div class="root" id="root0">
 					<div class="scrollContainer" id="scroll0Container">
@@ -95,27 +94,24 @@
 						<?foreach ($data['summary']['gValues'] as $gKey => $gVal) {?>
 							<div class="row<?=( $gKey % 2 ? '2': '')?>">
 							<?foreach ($gVal as $k => $gValue) {?>
-								<div class="tab-item"<?=( $k=='1' ? ' style="text-align:right;"' : '')?>><?=$gValue?></div>
+								<div class="tab-item"><?=$gValue?></div>
 							<?}?>
 							</div>
 						<?}?>
 						</div>
-					<?if(count($data['summary']['gValues']) > 10){?>
+					<?if(count($data['summary']['gValues']) > 100){?>
 					</div>
 					</div>
 					</div>
 					<?}?>
 					<div class="clear"></div>
 					<div class="tab-footer">
-						<div class="tab-foot">
-							<dl>
-								<dt><?=$data['summary']['xValues']['total']?>:</dt>
-								<dd><?=$data['summary']['xValues']['sum']?></dd>
-							</dl>
-						</div>
+						<?foreach ($data['summary']['xValues'] as $xKey => $xVal) {?>
+						<div class="tab-foot"><?=$xVal?></div>
+						<?}?>
 					</div><div class="clear"></div>
-				</div></div>
-				<div class="tab-footer-bottom"><div class="tab-footer-right"></div><div class="tab-footer-left"></div></div>
+					<div class="tab-footer-bottom">&nbsp;</div>
+				</div>
 				<?}?>
 			</div>
 		</div>
@@ -133,11 +129,11 @@
 		<div class="graph-block">
 			<div class="db-menu">
 				<ul>
-					<li><a id="analytics1Tab" href="javascript:void(0);" onclick="showTab('1', 'analytics', 2);">Site Visits</a></li>
-					<li class="last"><a class="hover" id="analytics2Tab" href="javascript:void(0);" onclick="showTab('2', 'analytics', 2);">Who's Online</a></li>
+					<li><a target="_top" class="hover" id="analytics1Tab" href="javascript:void(0);" onclick="showTab('1', 'analytics', 2);">Site Visits</a></li>
+					<li class="last"><a id="analytics2Tab" href="javascript:void(0);" onclick="showTab('2', 'analytics', 2);">Who's Online</a></li>
 				</ul>
 			</div><div class="clear"></div>
-			<div class="graph-cont" id="analytics-1-tab" style="display:none;">
+			<div class="graph-cont" id="analytics-1-tab">
 				<?if($data['analytics']['conType'] == 'graph'){?>
 				<table cellpadding="0" cellspacing="0" border="0" id="<?=$data['analytics']['tId']?>">
 					<tr>
@@ -170,46 +166,25 @@
 				</table>
 				<?}?>
 			</div>
-			<div class="tab-cont" id="analytics-2-tab">
+			<div class="tab-cont" id="analytics-2-tab" style="display:none;">
 				<?if($data['online']['conType'] == 'tab'){?>
-				<div class="graph-table col2">
-					<div class="tab-right">
-					<div class="tab-head">
+				<table cellpadding="3" cellspacing="1" border="0" id="<?=$data['online']['tId']?>" width="93%">
+					<tr class="header">
 						<?foreach ($data['online']['yValues'] as $yKey => $yVal) {?>
-						<div class="header"<?=($yKey == 1 ? ' style="background:none;width:160px;"' : '' )?>><?=$yVal?>&nbsp;&nbsp;&nbsp;</div>
+						<td><?=$yVal?></td>
 						<?}?>
-					</div><div class="clear"></div>
-					<?if(count($data['online']['gValues']) > 10){?>
-					<script type="text/javascript"> instantiateScroller(1, "scroll1", 7, 0, 490, 248, 248); </script>
-					<div class="root" id="root1">
-					<div class="scrollContainer" id="scroll1Container">
-					<div class="scrollContent" id="scroll1Content">
+					</tr>
+					<tr>
+					<?foreach ($data['online']['gValues'] as $gKey => $gVal) {?>
+						<td><?=$gVal?></td>
 					<?}?>
-						<div class="tab-body">
-						<?foreach ($data['online']['gValues'] as $gKey => $gVal) {?>
-							<div class="row<?=( $gKey % 2 ? '2': '')?>">
-							<?foreach ($gVal as $k => $gValue) {?>
-								<div class="tab-item"><?=$gValue?></div>
-							<?}?>
-							</div>
+					</tr>
+					<tr class="totals">
+						<?foreach ($data['online']['xValues'] as $xKey => $xVal) {?>
+						<td><?=$xVal?></td>
 						<?}?>
-						</div>
-					<?if(count($data['online']['gValues']) > 10){?>
-					</div>
-					</div>
-					</div>
-					<?}?>
-					<div class="clear"></div>
-					<div class="tab-footer">
-						<div class="tab-foot">
-							<dl>
-								<dt><?=$data['online']['xValues']['total']?>:</dt>
-								<dd><?=$data['online']['xValues']['sum']?></dd>
-							</dl>
-						</div>
-					</div><div class="clear"></div>
-				</div></div>
-				<div class="tab-footer-bottom"><div class="tab-footer-right"></div><div class="tab-footer-left"></div></div>
+					</tr>
+				</table>
 				<?}?>
 			</div>
 		</div>
