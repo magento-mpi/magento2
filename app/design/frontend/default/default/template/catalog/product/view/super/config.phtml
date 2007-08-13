@@ -6,8 +6,8 @@
 			<tr>
 				<td class="label"><?=$_attribute['label']?>:</td>
 
-				<td><select name="super_attribute[<?=$_attribute['attribute_id']?>]" class="required-entry super-attribute">
-					<option value=""></option>
+				<td><select name="super_attribute[<?=$_attribute['attribute_id']?>]" class="required-entry super-attribute select">
+					<option value=""><?=__('Choose option...')?></option>
 					<?foreach ($_attribute['values'] as $_value):?>
 					<option value="<?=$_value['value_index']?>" <?if($this->isSelectedOption($_value,$_attribute)):?> selected<?endif;?>>
 					<?=$_value['label']?>

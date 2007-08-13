@@ -1,0 +1,21 @@
+<table cellspacing="0" class="data-table">
+	<thead>
+		<tr>
+
+			<th>Product Name</th>
+			<th>SKU</th>
+			<th>Price</th>
+			<th>Qty</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?foreach ($this->getItems() as $_item):?>
+		<tr>
+			<td><?=$_item->getName()?></td>
+			<td><?=$_item->getSku()?></td>
+			<td><?=$_item->getFormatedPrice()?></td>
+			<td><input type="text" class="input-text qty" name="super_group[<?=$_item->getLinkedProductId()?>]" value="<?=$this->filterQty($_item->getQty())?>"/></td>
+		</tr>
+	<?endforeach;?>
+	</tbody>
+</table>

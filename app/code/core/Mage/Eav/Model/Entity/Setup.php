@@ -20,7 +20,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'entity_type_code'=>$code,
             'entity_table'=>isset($params['table']) ? $params['table'] : 'eav/entity',
             'increment_model'=>isset($params['increment_model']) ? $params['increment_model'] : '',
-            'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : '',
+            'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : 0,
             'is_data_sharing'=>isset($params['is_data_sharing']) ? $params['is_data_sharing'] : 1,
         );
 
@@ -248,7 +248,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
             'source_model'=>isset($attr['source']) ? $attr['source'] : '',
             'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
-            'is_visible'=>isset($attr['visible']) ? $attr['visible'] : 1,
+            'is_visible'=>isset($attr['visible']) ? (int) $attr['visible'] : 1,
             'is_required'=>isset($attr['required']) ? $attr['required'] : 0,
             'is_user_defined'=>isset($attr['required']) ? $attr['required'] : 0,
             'default_value'=>isset($attr['default']) ? $attr['default'] : '',
