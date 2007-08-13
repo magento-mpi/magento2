@@ -1,12 +1,10 @@
 <div class="content-header">
-<table cellspacing="0" class="grid-header">
-    <tr>
-        <td style="width:50%;"><h3 class="icon-head <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h3></td>
-        <td class="a-right">
-            <?=$this->getButtonsHtml()?>
-        </td>
-    </tr>
-</table>
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td style="<?=$this->getHeaderWidth()?>"><?=$this->getHeaderHtml()?></td>
+            <td class="a-right"><?=$this->getButtonsHtml()?></td>
+        </tr>
+    </table>
 </div>
 <div>
     <?=$this->getGridHtml()?>

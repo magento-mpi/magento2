@@ -81,4 +81,9 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Core_Block_Template
         return 'head-' . strtr($this->_controller, '_', '-');
     }
 
+    public function getHeaderHtml()
+    {
+        return '<h3 class="' . $this->getHeaderCssClass() . '">' . $this->getHeaderText() . '</h3>';
+    }
+
 }

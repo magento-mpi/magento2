@@ -49,5 +49,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
         return $this->_addButtonLabel;
     }
 
+    public function getHeaderCssClass()
+    {
+        return 'icon-head ' . parent::getHeaderCssClass();
+    }
+
+    public function getHeaderWidth()
+    {
+        return 'width:50%;';
+    }
+
 }
 
