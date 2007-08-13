@@ -1,6 +1,6 @@
 <?php
 
-#$conn->delete('core_config_field', "path like 'email%'");
+$conn->delete('core_config_field', "path like 'email%'");
 
 $this->addConfigField('trans_email', 'Transactional emails');
 

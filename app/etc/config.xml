@@ -125,10 +125,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Rule>
-        <Mage_CatalogRule>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_CatalogRule>
         <Mage_Adminhtml>
             <active>true</active>
             <codePool>core</codePool>
@@ -152,7 +148,11 @@
         <Mage_CatalogSearch>
             <active>true</active>
             <codePool>core</codePool>
-        </Mage_CatalogSearch>      
+        </Mage_CatalogSearch>    
+        <Mage_CatalogRule>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_CatalogRule>
         <Mage_Giftcert>
             <active>true</active>
             <codePool>core</codePool>
