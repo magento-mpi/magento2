@@ -21,7 +21,7 @@
 <?=$this->getPagerHtml()?>
 
 <?$productCollection=$this->getLoadedProductCollection()?>
-<?if($this->getMode()=='list'):?>
+<?if($this->getMode()!='grid'):?>
 <!-- [starts] .listing-type-list // -->
 <div class="listing-type-list"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 
