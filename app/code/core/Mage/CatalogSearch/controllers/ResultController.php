@@ -12,7 +12,7 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
     {
         $searchQuery = $this->getRequest()->getParam('q', false);
 
-        if ($search = Mage::getModel('catalogsearch/search')->loadByQuery($searchQuery)) {
+        if ($searchQuery && ($search = Mage::getModel('catalogsearch/search')->loadByQuery($searchQuery))) {
         	if ($search->getRedirect()) {
         		$this->getResponse()->setRedirect($search->getRedirect());
         		return;
