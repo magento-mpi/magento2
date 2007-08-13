@@ -1,10 +1,10 @@
 <?php
 
-class Mage_Catalog_Model_Search extends Mage_Core_Model_Abstract 
+class Mage_CatalogSearch_Model_Search extends Mage_Core_Model_Abstract 
 {
     protected function _construct()
     {
-        $this->_init('catalog/search');
+        $this->_init('catalogsearch/search');
     }
     
     public function updateSearch($query, $numResults)
@@ -19,5 +19,10 @@ class Mage_Catalog_Model_Search extends Mage_Core_Model_Abstract
         $this->save();
         
         return $this;
+    }
+    
+    public function getResourceCollection()
+    {
+    	return Mage::getResourceModel('catalogsearch/search_collection');
     }
 }

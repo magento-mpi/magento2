@@ -899,6 +899,32 @@ tbody.remove-buttons td img { float:right; }
 .my-review-detail .details { float:right; width:610px; }
 
 
+/* Autocomplete */
+div.search-autocomplete {
+    z-index:10000;
+    position:absolute;
+    width:250px;
+    background-color:white;
+    border:1px solid #888;
+    margin:0px;
+    padding:0px;
+    }
+div.search-autocomplete ul {
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+    }
+div.search-autocomplete ul li.selected {
+    background-color: #FFC;
+    }
+div.search-autocomplete ul li {
+    list-style-type:none;
+    padding:.5em .7em;
+    cursor:pointer;
+    text-align:left;
+    color:#2f2f2f;
+    line-height:1.3em;
+}
 
 /*********** [OVERRIDES] ************/
 

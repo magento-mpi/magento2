@@ -118,6 +118,10 @@
                         </product>
                     </children>
                 </tag>
+                <search>
+                    <title>Search</title>
+                    <action>adminhtml/catalog_search/</action>
+                </search>                
                 <datafeed>
                     <title>Datafeeds</title>
                     <action>adminhtml/catalog_datafeed/</action>

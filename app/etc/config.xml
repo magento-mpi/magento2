@@ -149,6 +149,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Catalog>        
+        <Mage_CatalogSearch>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_CatalogSearch>      
         <Mage_Giftcert>
             <active>true</active>
             <codePool>core</codePool>
