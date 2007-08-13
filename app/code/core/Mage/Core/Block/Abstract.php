@@ -222,7 +222,22 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return false;
     }
 
-    public function getChildHtml($name, $useCache=true)
+    public function getChildHtml($name='', $useCache=true)
+    {
+        if ('' === $name) {
+            $children = $this->getChild();
+            $out = '';
+            foreach ($children as $child) {
+                $out .= $this->_getChildHtml($child->getBlockAlias(), $useCache);
+            }
+            return $out;
+        } else {
+            return $this->_getChildHtml($name, $useCache);
+        }
+
+    }
+
+    protected function _getChildHtml($name, $useCache=true)
     {
         if ($useCache && isset($this->_childrenHtmlCache[$name])) {
             return $this->_childrenHtmlCache[$name];
@@ -408,4 +423,5 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->getLayout()->getHelper($type);
     }
+
 }// Class Mage_Home_ContentBlock END
