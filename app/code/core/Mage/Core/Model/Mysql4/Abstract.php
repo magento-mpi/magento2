@@ -309,18 +309,16 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      */
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
     {
-        $data = $object->getDataForSave();
-        /*
-        if (empty($this->_mainTableFields)) {
-            $read = $this->getConnection('read');
-            $this->_mainTableFields = $read->fetchAssoc('show fields from '.$this->getMainTable());
+        /*$data = $object->getDataForSave();
+        return $data;*/
+        $data = array();
+        $fields = $this->getConnection('write')->describeTable($this->getMainTable());
+        foreach (array_keys($fields) as $field) {
+            $fieldValue = $object->getData($field);
+        	if (!is_null($fieldValue)) {
+        	    $data[$field] = $fieldValue;
+        	}
         }
-        foreach ($data as $k=>$v) {
-            if (!is_scalar($v) || !isset($this->_mainTableFields[$k])) {
-                unset($data[$k]);
-            }
-        }
-        */
         return $data;
     }
 
