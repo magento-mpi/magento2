@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Entity_Product_Super_Attribute_Collection extends Mage_
 		}
 		
 		$this->getPricingCollection()
-			->addFieldToFilter($this->getResource()->getIdFieldName(),
+			->addFieldToFilter('main_table.' . $this->getResource()->getIdFieldName(),
 							   array(
 							   		'in'=>$this->getColumnValues($this->getResource()->getIdFieldName())
 							   ))

@@ -375,17 +375,19 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     		}
     	} else {
     		if($applyLinkFilter) {
-    			if($product->getSuperLinkCollection()->getIsLoaded()) {
+    			if(!$product->getSuperLinkCollection()->getIsLoaded()) {
 	    			$product->getSuperLinkCollection()
 	    				->joinField('store_id', 
 					                'catalog/product_store', 
 					                'store_id', 
 					                'product_id=entity_id', 
 					                '{{table}}.store_id='.(int) $product->getStoreId());
-	    			foreach($product->getSuperLinks() as $product) {
-	    				$product->getSuperAttributeCollection()->getPricingCollection()
-	    					->addLinkFilter($product);
-	    			}
+	    			$product->getSuperAttributeCollection()->getPricingCollection()
+	    					->addLinksFilter($product->getSuperLinks());
+	    			$product->getSuperAttributeCollection()->clear();
+	    			$product->getSuperAttributeCollection()->getPricingCollection()->clear();
+	    			$product->getSuperAttributeCollection()->load();
+	    			
     			}
     		}
     		
