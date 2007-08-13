@@ -55,7 +55,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     {
         $data = array(
             'entity_type_code'=>$code,
-            'entity_table'=>isset($params['entity_table']) ? $params['entity_table'],
+            'entity_table'=>isset($params['entity_table']) ? $params['entity_table'] : 'eav/entity',
             'increment_model'=>isset($params['increment_model']) ? $params['increment_model'] : '',
             'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : '',
             'is_data_sharing'=>isset($params['is_data_sharing']) ? $params['is_data_sharing'] : 1,
@@ -65,6 +65,10 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $this->updateEntityType($code, $data);
         } else {
             $this->_conn->insert($this->getTable('eav/entity_type'), $data);
+            
+            $entityTypeId = $this->getEntityTypeId($code);
+            $this->addAttributeSet($entityTypeId, 'Default');
+            $this->addAttributeGroup($entityTypeId, 'Default', 'General');
         }
 
         return $this;
@@ -107,19 +111,33 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     }
 
 /******************* ATTRIBUTE SETS *****************/
+	
+	public function getAttributeSetSortOrder($entityTypeId, $sortOrder=null)
+	{
+		if (!is_numeric($sortOrder)) {
+			$sortOrder = $this->_conn->fetchOne("select max(sort_order)
+				from ".$this->getTable('eav/attribute_set')." 
+				where entity_type_id=".$this->getEntityTypeId($entityTypeId)
+			);
+			$sortOrder++;
+		}
+		return $sortOrder;
+	}
 
-    public function addAttributeSet($entityTypeId, $name, $sortOrder=1)
+    public function addAttributeSet($entityTypeId, $name, $sortOrder=null)
     {
         $data = array(
             'entity_type_id'=>$this->getEntityTypeId($entityTypeId),
             'attribute_set_name'=>$name,
-            'sort_order'=>$sortOrder,
+            'sort_order'=>$this->getAttributeSetSortOrder($entityTypeId, $sortOrder),
         );
 
         if ($id = $this->getAttributeSetId($entityTypeId, $name)) {
             $this->updateAttributeSet($entityTypeId, $id, $data);
         } else {
             $this->_conn->insert($this->getTable('eav/attribute_set'), $data);
+            
+            $this->addAttributeGroup($entityTypeId, $name, 'General');
         }
 
         return $this;
@@ -140,14 +158,14 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         return $this->getTableRow('eav/attribute_set',
             is_numeric($id) ? 'attribute_set_id' : 'attribute_set_name', $id,
             $field,
-            'entity_type_id', $this->getEntityTypeId($entityTypeId))
+            'entity_type_id', $this->getEntityTypeId($entityTypeId)
         );
     }
 
     public function getAttributeSetId($entityTypeId, $setId)
     {
         if (!is_numeric($setId)) {
-            $setId = $this->getAttributeSet($entityTypeId, 'entity_set_id');
+            $setId = $this->getAttributeSet($entityTypeId, $setId, 'entity_set_id');
         }
         if (!is_numeric($setId)) {
             throw Mage::exception('Mage_Eav', 'wrong attribute set id');
@@ -165,13 +183,25 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* ATTRIBUTE GROUPS *****************/
 
-    public function addAttributeGroup($entityTypeId, $setId, $name, $sortOrder=1)
+	public function getAttributeGroupSortOrder($entityTypeId, $setId, $sortOrder=null)
+	{
+		if (!is_numeric($sortOrder)) {
+			$sortOrder = $this->_conn->fetchOne("select max(sort_order)
+				from ".$this->getTable('eav/attribute_group')." 
+				where attribute_set_id=".$this->getAttributeSetId($entityTypeId, $setId)
+			);
+			$sortOrder++;
+		}
+		return $sortOrder;
+	}
+	
+    public function addAttributeGroup($entityTypeId, $setId, $name, $sortOrder=null)
     {
         $setId = $this->getAttributeSetId($entityTypeId, $setId);
         $data = array(
             'attribute_set_id'=>$setId,
             'attribute_group_name'=>$name,
-            'sort_order'=>$sortOrder,
+            'sort_order'=>$this->getAttributeGroupSortOrder($entityTypeId, $setId, $sortOrder),
         );
 
         if ($id = $this->getAttributeGroupId($entityTypeId, $setId, $name)) {
@@ -212,6 +242,14 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
         return $groupId;
     }
+    
+    public function removeAttributeGroup($entityTypeId, $setId, $id)
+    {
+        $this->_conn->delete($this->getTable('eav/attribute_group'),
+            $this->_conn->quoteInto('attribute_group_id=?', $this->getAttributeGroupId($entityTypeId, $setId, $id))
+        );
+        return $this;
+    }
 
 /******************* ATTRIBUTES *****************/
 
@@ -242,9 +280,74 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
         return $this;
     }
-
-    public function removeAttribute($code)
+    
+    public function updateAttribute($entityTypeId, $id, $field, $value=null)
     {
+        $this->updateTableRow('eav/attribute',
+            'attribute_id', $this->getAttributeId($entityTypeId, $id),
+            $field, $value,
+            'entity_type_id', $this->getEntityTypeId($entityTypeId)
+        );
+        return $this;
+    }
+
+    public function getAttribute($entityTypeId, $id, $field=null)
+    {
+        return $this->getTableRow('eav/attribute',
+            is_numeric($id) ? 'attribute_id' : 'attribute_code', $id,
+            $field,
+            'entity_type_id', $this->getEntityTypeId($entityTypeId)
+        );
+    }
+    
+    public function getAttributeId($entityTypeId, $code)
+    {
+        if (!is_numeric($code)) {
+            $code = $this->getAttribute($entityTypeId, $code, 'entity_set_id');
+        }
+        if (!is_numeric($code)) {
+            throw Mage::exception('Mage_Eav', 'wrong attribute id');
+        }
+        return $code;
+    }
+    
+    public function removeAttribute($entityTypeId, $code)
+    {
+        $this->_conn->delete($this->getTable('eav/attribute_set'),
+            $this->_conn->quoteInto('attribute_id=?', $this->getAttributeId($entityTypeId, $code))
+        );
+        return $this;
+    }
+    
+    public function getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder=null)
+	{
+		if (!is_numeric($sortOrder)) {
+			$sortOrder = $this->_conn->fetchOne("select max(sort_order)
+				from ".$this->getTable('eav/entity_attribute')." 
+				where attribute_group_id=".$this->getAttributeGroupId($entityTypeId, $setId, $groupId)
+			);
+			$sortOrder++;
+		}
+		return $sortOrder;
+	}
+    
+    public function addAttributeToSet($entityTypeId, $setId, $groupId, $attributeId, $sortOrder=null)
+    {
+    	$entityTypeId = $this->getEntityTypeId($entityTypeId);
+    	$setId = $this->getAttributeSetId($entityTypeId, $setId);
+    	$groupId = $this->getAttributeGroupId($entityTypeId, $setId, $groupId);
+    	$attributeId = $this->getAttributeId($entityTypeId, $attributeId);
+    	
+    	if ($this->_conn->fetchRow("select * from ".$this->getTable('eav/entity_attribute')." where attribute_set_id=$setId and attribute_id=$attributeId")) {
+    		return $this;
+    	}
+    	$this->_conn->insert($this->getTable('eav/entity_attribute'), array(
+    		'entity_type_id'=>$entityTypeId,
+    		'attribute_set_id'=>$setId,
+    		'attribute_group_id'=>$groupId,
+    		'attribute_id'=>$attributeId,
+    		'sort_order'=>$this->getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder),
+    	));
     }
 
 /******************* BULK INSTALL *****************/
