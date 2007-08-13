@@ -90,10 +90,11 @@
 					</div>
 					<p class="actions">
 					<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/>
+					<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a><br/>
 					<?if($this->getCompareJsObjectName()):?>
-					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><small>Add to Compare</small></a><br/>
-					<?endif;?>
-					<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a></p>
+					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><small>Add to Compare</small></a>
+					<?endif;?></p>
+					
 				</td>
 
 			<?if ($i%3==0):?></tr><?endif?>
