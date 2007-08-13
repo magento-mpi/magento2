@@ -30,9 +30,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $this->_conn->insert($this->getTable('eav/entity_type'), $data);
             
             $entityTypeId = $this->getEntityTypeId($code);
-            $this->addAttributeSet($entityTypeId, 'Default');
-            $this->addAttributeGroup($entityTypeId, 'Default', 'General');
         }
+        $this->addAttributeSet($code, 'Default');
+        $this->addAttributeGroup($code, 'Default', 'General');
 
         return $this;
     }
@@ -103,7 +103,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'sort_order'=>$this->getAttributeSetSortOrder($entityTypeId, $sortOrder),
         );
 
-        if ($id = $this->getAttributeSetId($entityTypeId, $name)) {
+        if ($id = $this->getAttributeSet($entityTypeId, $name, 'attribute_set_id')) {
             $this->updateAttributeSet($entityTypeId, $id, $data);
         } else {
             $this->_conn->insert($this->getTable('eav/attribute_set'), $data);
@@ -136,7 +136,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     public function getAttributeSetId($entityTypeId, $setId)
     {
         if (!is_numeric($setId)) {
-            $setId = $this->getAttributeSet($entityTypeId, $setId, 'entity_set_id');
+            $setId = $this->getAttributeSet($entityTypeId, $setId, 'attribute_set_id');
         }
         if (!is_numeric($setId)) {
             throw Mage::exception('Mage_Eav', 'wrong attribute set id');
@@ -175,7 +175,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'sort_order'=>$this->getAttributeGroupSortOrder($entityTypeId, $setId, $sortOrder),
         );
 
-        if ($id = $this->getAttributeGroupId($entityTypeId, $setId, $name)) {
+        if ($id = $this->getAttributeGroup($entityTypeId, $setId, $name, 'attribute_group_id')) {
             $this->updateAttributeGroup($entityTypeId, $setId, $id, $data);
         } else {
             $this->_conn->insert($this->getTable('eav/attribute_group'), $data);
@@ -206,7 +206,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     public function getAttributeGroupId($entityTypeId, $setId, $groupId)
     {
         if (!is_numeric($groupId)) {
-            $groupId = $this->getAttributeGroup($entityTypeId, $setId, $groupId, 'entity_group_id');
+            $groupId = $this->getAttributeGroup($entityTypeId, $setId, $groupId, 'attribute_group_id');
         }
         if (!is_numeric($groupId)) {
             throw Mage::exception('Mage_Eav', 'wrong attribute group id');
@@ -224,19 +224,29 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* ATTRIBUTES *****************/
 
-    public function addAttribute($entityTypeId, $code, $attr)
+	/**
+	 * Add attribute to an entity type
+	 * 
+	 * If attribute is system will add to all existing attribute sets
+	 *
+	 * @param string|integer $entityTypeId
+	 * @param string $code
+	 * @param array $attr
+	 * @return Mage_Eav_Model_Entity_Setup
+	 */
+    public function addAttribute($entityTypeId, $code, array $attr)
     {
         $entityTypeId = $this->getEntityTypeId($entityTypeId);
         $data = array(
             'entity_type_id'=>$entityTypeId,
             'attribute_code'=>$code,
-            'backend_model'=>$backend,
+            'backend_model'=>isset($attr['backend']) ? $attr['backend'] : '',
             'backend_type'=>isset($attr['type']) ? $attr['type'] : 'varchar',
             'backend_table'=>isset($attr['table']) ? $attr['table'] : '',
-            'frontend_model'=>$frontend,
+            'frontend_model'=>isset($attr['frontend']) ? $attr['frontend'] : '',
             'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
             'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
-            'source_model'=>$sourcePrefix.(isset($attr['source']) ? $attr['source'] : ''),
+            'source_model'=>isset($attr['source']) ? $attr['source'] : '',
             'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
             'is_visible'=>isset($attr['visible']) ? $attr['visible'] : 1,
             'is_required'=>isset($attr['required']) ? $attr['required'] : 0,
@@ -244,10 +254,16 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'default_value'=>isset($attr['default']) ? $attr['default'] : '',
         );
 
-        if ($id = $this->getAttribute($entityTypeId, $code)) {
+        if ($id = $this->getAttribute($entityTypeId, $code, 'attribute_id')) {
             $this->updateAttribute($entityTypeId, $id, $data);
         } else {
-            $conn->insert($this->getTable('eav/attribute'), $data);
+            $this->_conn->insert($this->getTable('eav/attribute'), $data);
+        }
+        if (empty($attr['is_user_defined'])) {
+        	$sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
+        	foreach ($sets as $set) {
+        		$this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], 'General', $code);
+        	}
         }
         return $this;
     }
@@ -271,15 +287,15 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         );
     }
     
-    public function getAttributeId($entityTypeId, $code)
+    public function getAttributeId($entityTypeId, $id)
     {
-        if (!is_numeric($code)) {
-            $code = $this->getAttribute($entityTypeId, $code, 'entity_set_id');
+        if (!is_numeric($id)) {
+            $id = $this->getAttribute($entityTypeId, $id, 'attribute_id');
         }
-        if (!is_numeric($code)) {
+        if (!is_numeric($id)) {
             throw Mage::exception('Mage_Eav', 'wrong attribute id');
         }
-        return $code;
+        return $id;
     }
     
     public function removeAttribute($entityTypeId, $code)
@@ -326,7 +342,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 	public function installEntities($entities)
 	{
 		foreach ($entities as $entityName=>$entity) {
-			$this->addEntity($entityName, $entity);
+			$this->addEntityType($entityName, $entity);
 			
             $sortOrder = 1;
 
@@ -335,29 +351,36 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $sourcePrefix = isset($entity['source_prefix']) ? $entity['source_prefix'] : '';
 
             foreach ($entity['attributes'] as $attrCode=>$attr) {
-                $backend = '';
                 if (isset($attr['backend'])) {
                     if ('_'===$attr['backend']) {
-                        $backend = $backendPrefix;
+                        $attr['backend'] = $backendPrefix;
                     } elseif ('_'===$attr['backend']{0}) {
-                        $backend = $backendPrefix.$attr['backend'];
+                        $attr['backend'] = $backendPrefix.$attr['backend'];
                     } else {
-                        $backend = $attr['backend'];
+                        $attr['backend'] = $attr['backend'];
                     }
                 }
-                $frontend = '';
                 if (isset($attr['frontend'])) {
                     if ('_'===$attr['frontend']) {
-                        $frontend = $frontendPrefix;
+                        $attr['frontend'] = $frontendPrefix;
                     } elseif ('_'===$attr['frontend']{0}) {
-                        $frontend = $frontendPrefix.$attr['frontend'];
+                        $attr['frontend'] = $frontendPrefix.$attr['frontend'];
                     } else {
-                        $frontend = $attr['frontend'];
+                        $attr['frontend'] = $attr['frontend'];
+                    }
+                }
+                if (isset($attr['source'])) {
+                    if ('_'===$attr['source']) {
+                        $attr['source'] = $sourcePrefix;
+                    } elseif ('_'===$attr['source']{0}) {
+                        $attr['source'] = $sourcePrefix.$attr['source'];
+                    } else {
+                        $attr['source'] = $attr['source'];
                     }
                 }
                 
                 $this->addAttribute($entityName, $attrCode, $attr);
-                $this->addAttributeToSet($entityName, 'Default', 'General');
+                #$this->addAttributeToSet($entityName, 'Default', 'General');
             }
 		}
 	}
