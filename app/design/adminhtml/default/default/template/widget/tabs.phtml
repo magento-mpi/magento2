@@ -4,7 +4,7 @@
 <?if(!empty($tabs)):?>
 <ul id="<?=$this->getId()?>" class="tabs">
 <?foreach ($tabs as $_tab):?>
-    <li>
+    <li <?if($_tab->getIsHidden()):?> style="display:none"<?endif;?>>
         <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
             <span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please correct before saving.')?>"></div><?=$_tab->getLabel()?></span>
         </a>

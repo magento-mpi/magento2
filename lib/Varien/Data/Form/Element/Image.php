@@ -21,24 +21,34 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         $html = '';
         
         if ($this->getValue()) {
-            $url = Mage::getSingleton('core/store')->getConfig('web/url/upload').$this->getValue();
-            $html.= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
-            <img src="'.$url.'" alt="'.$this->getValue().'" height="22" align="absmiddle" class="small-image-preview">
+            $url = $this->_getUrl();
+            $html = '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
+            <img src="'.$url.'" alt="'.$this->getValue().'" height="22" width="22" align="absmiddle" class="small-image-preview">
             </a>
             <div id="'.$this->getHtmlId().'_image" style="display:none" class="image-preview">
             <img src="'.$url.'" alt="'.$this->getValue().'">
             </div>';
         }
-
+        $this->setClass(null);
         $html.= parent::getElementHtml();
-        
+        $html.= $this->_getDeleteCheckbox();
+        return $html;
+    }
+    
+    protected function _getDeleteCheckbox()
+    {
+        $html = '';
         if ($this->getValue()) {
             $html.= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" id="'.$this->getHtmlId().'_delete"/>';
             $html.= '<label class="normal" for="'.$this->getHtmlId().'_delete">'.__('Delete Image').'</label>';
         }
         return $html;
     }
-
+    
+    protected function _getUrl()
+    {
+        return $this->getValue();        
+    }
     
     public function getName()
     {

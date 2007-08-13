@@ -7,32 +7,39 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         $this->_init('eav/entity_attribute_set');
     }
 
-    public function initSkeleton()
+    public function initFromSkeleton($skeletonId)
     {
         $groups = Mage::getModel('eav/entity_attribute_group')
             ->getResourceCollection()
-            ->setAttributeSetFilter($this->getSkeletonId())
+            ->setAttributeSetFilter($skeletonId)
             ->load();
-
+        
+        $newGroups = array();
         foreach( $groups as $group ) {
-            $oldGroupId = $group->getId();
-
-            $group->unsetAttributeGroupId()
-                ->setAttributeSetId($this->getId())
-                ->save();
+            $newGroup = clone $group;
+            $newGroup->setId('new_'.$group->getId())
+                ->setAttributeSetId($this->getId());
 
             $groupAttributesCollection = Mage::getModel('eav/entity_attribute')
                 ->getResourceCollection()
-                ->setAttributeGroupFilter($oldGroupId)
+                ->setAttributeGroupFilter($group->getId())
                 ->load();
-
+            
+            $newAttributes = array();
             foreach( $groupAttributesCollection as $attribute ) {
-                $attribute->unsetEntityAttributeId()
+                $newAttribute = Mage::getModel('eav/entity_attribute')
+                    ->setId($attribute->getId())
+                    //->setAttributeGroupId($newGroup->getId())
                     ->setAttributeSetId($this->getId())
-                    ->setAttributeGroupId($group->getId())
-                    ->save();
+                    ->setEntityTypeId(Mage::registry('entityType'))
+                    ->setSortOrder($attribute->getSortOrder());
+                $newAttributes[] = $newAttribute;
             }
+            $newGroup->setAttributes($newAttributes);
+            $newGroups[] = $newGroup;
         }
+        $this->setGroups($newGroups);
+        return $this;
     }
 
     public function organizeData($data)

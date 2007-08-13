@@ -16,8 +16,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
     {
         $model = Mage::registry('entity_attribute');
 
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
-
+        $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('System Properties')));
 
         if ($model->getAttributeId()) {
@@ -26,9 +25,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
             ));
         }
 
-        $yesno = array(array('value' => 0, 'label' => __('No')), array('value' => 1, 'label' => __('Yes')));
+        $yesno = array(
+            array(
+                'value' => 0, 
+                'label' => __('No')
+            ), 
+            array(
+                'value' => 1, 
+                'label' => __('Yes')
+            ));
 
-        $fieldset->addField('attribute_model', 'text', array(
+        /*$fieldset->addField('attribute_model', 'text', array(
             'name' => 'attribute_model',
             'label' => __('Attribute Model'),
             'title' => __('Attribute Model'),
@@ -38,23 +45,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
             'name' => 'backend_model',
             'label' => __('Backend Model'),
             'title' => __('Backend Model'),
-        ));
+        ));*/
 
         $fieldset->addField('backend_type', 'select', array(
             'name' => 'backend_type',
-            'label' => __('Backend Type'),
-            'title' => __('Backend Type'),
+            'label' => __('Data Type'),
+            'title' => __('Data Type'),
             'options' => array(
-                'text' => __('Text'),
-                'varchar' => __('Varchar'),
-                'static' => __('Static'),
-                'datetime' => __('Datetime'),
-                'decimal' => __('Decimal'),
-                'int' => __('Integer'),
+                'text'      => __('Text'),
+                'varchar'   => __('Varchar'),
+                'static'    => __('Static'),
+                'datetime'  => __('Datetime'),
+                'decimal'   => __('Decimal'),
+                'int'       => __('Integer'),
             ),
         ));
 
-        $fieldset->addField('backend_table', 'text', array(
+        /*$fieldset->addField('backend_table', 'text', array(
             'name' => 'backend_table',
             'label' => __('Backend Table'),
             'title' => __('Backend Table Title'),
@@ -64,26 +71,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
             'name' => 'frontend_model',
             'label' => __('Frontend Model'),
             'title' => __('Frontend Model'),
-        ));
+        ));*/
 
-        $fieldset->addField('is_visible', 'select', array(
+        /*$fieldset->addField('is_visible', 'select', array(
             'name' => 'is_visible',
             'label' => __('Visible'),
             'title' => __('Visible'),
             'values' => $yesno,
-        ));
+        ));*/
 
-        $fieldset->addField('source_model', 'text', array(
+        /*$fieldset->addField('source_model', 'text', array(
             'name' => 'source_model',
             'label' => __('Source Model'),
             'title' => __('Source Model'),
-        ));
+        ));*/
 
         $fieldset->addField('is_global', 'select', array(
-            'name' => 'is_global',
+            'name'  => 'is_global',
             'label' => __('Global'),
             'title' => __('Global'),
-            'values' => $yesno,
+            'values'=> $yesno,
         ));
 
         $fieldset->addField('is_required', 'select', array(
@@ -108,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
             }
         } else {
             // TOFIX
-            $form->getElement('is_visible')->setValue(1);
+            //$form->getElement('is_visible')->setValue(1);
         }
 
         $this->setForm($form);

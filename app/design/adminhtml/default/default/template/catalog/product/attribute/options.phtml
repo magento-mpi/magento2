@@ -1,0 +1,111 @@
+<?
+/**
+ * Attribute otions control
+ * 
+ * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
+ */
+?>
+<div>If you do not specify option value for store, then will be used default value</div>
+<div class="entity-edit">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Options')?></h4>
+    <div class="box" style="padding:10px">
+        <table class="dynamic-grid" cellspacing="0" id="attribute-options-table">
+            <tr>
+            <?foreach ($this->getStores() as $_store):?>
+                <th><?=$_store->getName()?></th>
+            <?endforeach;?>
+                <th><?=__('Position')?></th>
+                <th><?=$this->getAddNewButtonHtml()?></th>
+            </tr>
+        </table>
+        
+        <div class="no-display template" id="row-template">
+        <table class="dynamic-grid" cellspacing="0">
+    	    <tr>
+                <?foreach ($this->getStores() as $_store):?>
+                <td>
+                    <input class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text" name="option[value][#{id}][<?=$_store->getId()?>]" value="#{store<?=$_store->getId()?>}">
+                </td>
+                <?endforeach;?>
+                <td>
+                    <input class="input-text" type="text" name="option[order][#{id}]" value="#{sort_order}">
+                </td>
+                <td class="a-left">
+                    <input type="hidden" class="delete-flag" name="option[delete][#{id}]" value="">
+                    <?=$this->getDeleteButtonHtml()?>
+                </td>
+            </tr>
+        </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+var attributeOption = {
+    table : $('attribute-options-table'),
+    template : new Template($('row-template').innerHTML),
+    itemCount : 0,
+    add : function(data) {
+        if(!data.id){
+    		data = {};
+    		data.id  = 'option_'+this.itemCount;
+        }
+        new Insertion.After(
+				this.table,
+				this.template.evaluate(data)
+			);
+        this.bindRemoveButtons();
+        this.itemCount++;
+    },
+    remove : function(event){
+        var element = Event.findElement(event, 'table');
+        if(element){
+            var flags = element.getElementsByClassName('delete-flag')
+            if(flags[0]){
+                flags[0].value=1;
+            }
+            element.hide();
+        }
+    },
+    bindRemoveButtons : function(){
+        var buttons = $$('.delete-option');
+        for(var i=0;i<buttons.length;i++){
+            if(!buttons[i].binded){
+                buttons[i].binded = true;
+                Event.observe(buttons[i], 'click', this.remove.bind(this));
+            }
+        }
+    }
+}
+if($('row-template')){
+    $('row-template').remove();
+}
+attributeOption.bindRemoveButtons();
+
+if($('add_new_option_button')){
+    Event.observe('add_new_option_button', 'click', attributeOption.add.bind(attributeOption));
+}
+Validation.addAllThese([
+    ['required-option', '<?=__('Failed')?>', function(v) {
+        return !Validation.get('IsEmpty').test(v);
+}]]);
+<?foreach ($this->getOptionValues() as $_value):?>
+    attributeOption.add(<?=$_value->toJson()?>);
+<?endforeach;?>
+
+function checkOptionsTabVisibility(){
+    if($('product_attribute_tabs_options_section')){
+        var tab = $('product_attribute_tabs_options_section').up('li');
+        if($('frontend_input') && $('frontend_input').value=='select'){
+            tab.show();
+        }
+        else {
+            tab.hide();
+        }
+    }
+}
+if($('frontend_input')){
+    Event.observe($('frontend_input'), 'change', checkOptionsTabVisibility);
+}
+checkOptionsTabVisibility();
+</script>

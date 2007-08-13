@@ -22,22 +22,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('set_name', array('legend'=>__('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text',
-                            array(
-                                'label' => __('Name'),
-                                'name' => 'attribute_set_name',
-                                'required' => true,
-                                'class' => 'required-entry',
-                                'value' => $data->getAttributeSetName()
-                            )
-        );
+            array(
+                'label' => __('Name'),
+                'name' => 'attribute_set_name',
+                'required' => true,
+                'class' => 'required-entry',
+                'value' => $data->getAttributeSetName()
+        ));
 
         if( !$this->getRequest()->getParam('id', false) ) {
             $fieldset->addField('gotoEdit', 'hidden',
-                                array(
-                                    'name' => 'gotoEdit',
-                                    'value' => '1'
-                                )
-            );
+                array(
+                    'name' => 'gotoEdit',
+                    'value' => '1'
+            ));
 
             $sets = Mage::getModel('eav/entity_attribute_set')
                 ->getResourceCollection()
@@ -46,14 +44,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
                 ->toOptionArray();
 
             $fieldset->addField('skeleton_set', 'select',
-                            array(
-                                'label' => __('Based On'),
-                                'name' => 'skeleton_set',
-                                'required' => true,
-                                'class' => 'required-entry',
-                                'values' => $sets,
-                            )
-            );
+                array(
+                    'label' => __('Based On'),
+                    'name' => 'skeleton_set',
+                    'required' => true,
+                    'class' => 'required-entry',
+                    'values' => $sets,
+            ));
         }
 
         $form->setMethod('POST');

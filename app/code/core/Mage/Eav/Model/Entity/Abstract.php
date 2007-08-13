@@ -1134,4 +1134,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
     }
+    
+    public function getDefaultAttributeSourceModel()
+    {
+        return Mage_Eav_Model_Entity::DEFAULT_SOURCE_MODEL;
+    }
 }

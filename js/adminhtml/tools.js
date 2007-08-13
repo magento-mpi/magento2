@@ -66,3 +66,12 @@ Event.observe(window, 'load', function() {
         new Effect.Highlight(el, {startcolor:'#507477', endcolor:'#f2fafb', duration:1});
     });
 });
+
+function syncOnchangeValue(baseElem, distElem){
+    var compare = {baseElem:baseElem, distElem:distElem}
+    Event.observe(baseElem, 'change', function(){
+        if($(this.baseElem) && $(this.distElem)){
+            $(this.distElem).value = $(this.baseElem).value;
+        }
+    }.bind(compare));
+}

@@ -384,28 +384,30 @@ ul.tabs a.changed {
 
 /* Horizontal Tabs */
 ul.tabs-horiz {
-	margin:1em 0 1.5em 0;
-	background:url(images/horiz_tabs_ul_bg.gif) repeat-x 0 100% #f8f8f8;
-	padding:8px 0 0 5px;
-	}
-ul.tabs-horiz li {
-	float:left;
-	list-style:none;
-	margin:0 4px;
-	}
-ul.tabs-horiz li a {
-	display:block;
-	background:#e2e2e2;
-	border:1px solid #ccc;
-	padding:2px 10px;
-	color:#333;
-	text-decoration:none;
-	}
-ul.tabs-horiz li a.active {
-	border-bottom:1px solid #fff;
-	background:#fff;
+    margin:1em 0 1.5em 0;
+    background:url(images/horiz_tabs_ul_bg.gif) repeat-x 0 100% #f8f8f8;
+    padding:8px 0 0 5px;
+    }
 
-	}
+ul.tabs-horiz li {
+    float:left;
+    list-style:none;
+    margin:0 4px;
+    }
+
+ul.tabs-horiz li a {
+    display:block;
+    background:#e2e2e2;
+    border:1px solid #ccc;
+    padding:2px 10px;
+    color:#333;
+    text-decoration:none;
+    }
+ul.tabs-horiz li a.active {
+    border-bottom:1px solid #fff;
+    background:#fff;
+
+    }
 
 /************* SWITCHER **************/
 .switcher {
@@ -422,14 +424,17 @@ ul.tabs-horiz li a.active {
 
 /************* FORMS ***************/
 .validation-advice {
-    margin:2px 0 0 10em;
     color:#d6340e;
     font-style:italic;
-    margin-right:20px;
     padding-left:16px;
     background:url(images/fam_bullet_error.gif) no-repeat;
     }
-input.validation-failed, textarea.validation-failed {
+
+fieldset .validation-advice{
+    margin:2px 0 0 10em;
+    margin-right:20px;
+}
+input.validation-failed, textarea.validation-failed { 
     background:#fef0ed;
     border: 1px dashed #d6340e;
     }
@@ -469,3 +474,13 @@ select.countries option { background-repeat:no-repeat; }
 .system-config-store-switcher option{
     font-weight:normal;
     }
+
+.dynamic-grid th {
+    padding:2px;width:100px;
+}
+.dynamic-grid td {
+    padding:2px;
+}
+.dynamic-grid td input{
+    width:94px;
+}

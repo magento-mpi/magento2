@@ -36,13 +36,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Mage_Admi
 
         $model = Mage::registry('entity_attribute');
 
-        if ('select' == $model->getFrontendInput()) {
+        $this->addTab('options_section', array(
+            'label'     => __('Options Control'),
+            'title'     => __('Options Control'),
+            'is_hidden' => true,
+            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_options')->toHtml(),
+        ));
+        
+        /*if ('select' == $model->getFrontendInput()) {
             $this->addTab('options_section', array(
                 'label'     => __('Options Control'),
                 'title'     => __('Options Control'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_options')->toHtml(),
             ));
-        }
+        }*/
 
         return parent::_beforeToHtml();
     }

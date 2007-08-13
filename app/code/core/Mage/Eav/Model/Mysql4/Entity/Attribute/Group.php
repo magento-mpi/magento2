@@ -37,7 +37,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
                 $write->insert($this->getMainTable(), $data);
                 $object->setId($write->lastInsertId());
             }
-
             if( $object->getAttributes() ) {
                 $insertId = $write->lastInsertId();
                 foreach( $object->getAttributes() as $attribute ) {

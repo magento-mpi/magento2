@@ -27,7 +27,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
         } else {
             $this->_updateButton('delete', 'label', __('Delete Attribute'));
         }
-
     }
 
     public function getHeaderText()

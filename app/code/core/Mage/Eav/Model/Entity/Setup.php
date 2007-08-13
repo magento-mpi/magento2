@@ -151,6 +151,14 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         );
         return $this;
     }
+    
+    public function setDefaultSetToEntityType($entityType)
+    {
+        $entityTypeId = $this->getEntityTypeId($entityType);
+        $setId = $this->getAttributeSetId($entityTypeId, 'Default');
+        $this->updateEntityType($entityTypeId, 'default_attribute_set_id', $setId);
+        return $this;
+    }
 
 /******************* ATTRIBUTE GROUPS *****************/
 
@@ -250,14 +258,27 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
             'is_visible'=>isset($attr['visible']) ? (int) $attr['visible'] : 1,
             'is_required'=>isset($attr['required']) ? $attr['required'] : 0,
-            'is_user_defined'=>isset($attr['required']) ? $attr['required'] : 0,
+            'is_user_defined'=>isset($attr['user_defined']) ? $attr['user_defined'] : 0,
             'default_value'=>isset($attr['default']) ? $attr['default'] : '',
+            'is_searchable'=>isset($attr['searchable']) ? $attr['searchable'] : 0,
+            'is_filterable'=>isset($attr['filterable']) ? $attr['filterable'] : 0,
+            'is_comparable'=>isset($attr['comparable']) ? $attr['comparable'] : 0,
+            'is_visible_on_front'=>isset($attr['visible_on_front']) ? $attr['visible_on_front'] : 0,
+            'is_unique'=>isset($attr['unique']) ? $attr['unique'] : 0,
         );
 
         if ($id = $this->getAttribute($entityTypeId, $code, 'attribute_id')) {
             $this->updateAttribute($entityTypeId, $id, $data);
         } else {
             $this->_conn->insert($this->getTable('eav/attribute'), $data);
+        }
+        
+        if (!empty($attr['group'])) {
+        	$sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
+        	foreach ($sets as $set) {
+        	    $this->addAttributeGroup($entityTypeId, $set['attribute_set_id'], $attr['group']);
+        		$this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], $attr['group'], $code);
+        	}
         }
         if (empty($attr['is_user_defined'])) {
         	$sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
@@ -351,7 +372,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $sourcePrefix = isset($entity['source_prefix']) ? $entity['source_prefix'] : '';
 
             foreach ($entity['attributes'] as $attrCode=>$attr) {
-                if (isset($attr['backend'])) {
+                if (!empty($attr['backend'])) {
                     if ('_'===$attr['backend']) {
                         $attr['backend'] = $backendPrefix;
                     } elseif ('_'===$attr['backend']{0}) {
@@ -360,7 +381,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                         $attr['backend'] = $attr['backend'];
                     }
                 }
-                if (isset($attr['frontend'])) {
+                if (!empty($attr['frontend'])) {
                     if ('_'===$attr['frontend']) {
                         $attr['frontend'] = $frontendPrefix;
                     } elseif ('_'===$attr['frontend']{0}) {
@@ -369,7 +390,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                         $attr['frontend'] = $attr['frontend'];
                     }
                 }
-                if (isset($attr['source'])) {
+                if (!empty($attr['source'])) {
                     if ('_'===$attr['source']) {
                         $attr['source'] = $sourcePrefix;
                     } elseif ('_'===$attr['source']{0}) {
@@ -382,6 +403,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 $this->addAttribute($entityName, $attrCode, $attr);
                 #$this->addAttributeToSet($entityName, 'Default', 'General');
             }
+            $this->setDefaultSetToEntityType($entityName);
 		}
 	}
 
@@ -427,7 +449,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
             foreach ($entity['attributes'] as $attrCode=>&$attr) {
                 $backend = '';
-                if (isset($attr['backend'])) {
+                if (!empty($attr['backend'])) {
                     if ('_'===$attr['backend']) {
                         $backend = $backendPrefix;
                     } elseif ('_'===$attr['backend']{0}) {
@@ -437,7 +459,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     }
                 }
                 $frontend = '';
-                if (isset($attr['frontend'])) {
+                if (!empty($attr['frontend'])) {
                     if ('_'===$attr['frontend']) {
                         $frontend = $frontendPrefix;
                     } elseif ('_'===$attr['frontend']{0}) {
@@ -455,12 +477,18 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     'frontend_model'=>$frontend,
                     'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
                     'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
+                    'frontend_class'=>isset($attr['class']) ? $attr['class'] : '',
                     'source_model'=>$sourcePrefix.(isset($attr['source']) ? $attr['source'] : ''),
                     'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
                     'is_visible'=>isset($attr['visible']) ? $attr['visible'] : 1,
                     'is_required'=>isset($attr['required']) ? $attr['required'] : 0,
-                    'is_user_defined'=>isset($attr['required']) ? $attr['required'] : 0,
+                    'is_user_defined'=>isset($attr['user_defined']) ? $attr['user_defined'] : 0,
                     'default_value'=>isset($attr['default']) ? $attr['default'] : '',
+                    'is_searchable'=>isset($attr['searchable']) ? $attr['searchable'] : 0,
+                    'is_filterable'=>isset($attr['filterable']) ? $attr['filterable'] : 0,
+                    'is_comparable'=>isset($attr['comparable']) ? $attr['comparable'] : 0,
+                    'is_visible_on_front'=>isset($attr['visible_on_front']) ? $attr['visible_on_front'] : 0,
+                    'is_unique'=>isset($attr['unique']) ? $attr['unique'] : 0,
                 ));
                 $attr['attribute_id'] = $conn->lastInsertId();
 

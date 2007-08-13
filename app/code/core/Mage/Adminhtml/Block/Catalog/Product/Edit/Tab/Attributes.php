@@ -20,7 +20,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
         if ($group = $this->getGroup()) {
             $form = new Varien_Data_Form();
             $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>__($group->getAttributeGroupName())));
-            $fieldset->addType('image', Mage::getConfig()->getBlockClassName('adminhtml/catalog_category_form_image'));
             
             $this->_setFieldset(Mage::registry('product')->getAttributes($group->getId(),true), $fieldset);
             
@@ -40,5 +39,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             $form->setFieldNameSuffix('product');
             $this->setForm($form);
         }
+    }
+    
+    protected function _getAdditionalElementTypes()
+    {
+        return array(
+            'price' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
+            'image' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image')
+        );
     }
 }

@@ -58,24 +58,9 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
-    /*protected function _getElementBlock()
+    protected function _setFieldset($attributes, $fieldset)
     {
-        if (!$this->_elementBlock) {
-            $this->_elementBlock = $this->getLayout()->createBlock('adminhtml/widget_form_element');
-        }
-        return $this->_elementBlock;
-    }*/
-
-    /*public function drawElement(Varien_Data_Form_Abstract $element)
-    {
-        return $this->_getElementBlock()->setForm($this->getForm())
-            ->setElement($element)
-            ->setFormBlock($this)
-            ->toHtml();
-    }*/
-
-    public function _setFieldset($attributes, $fieldset)
-    {
+        $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
             if (!$attribute->getIsVisible()) {
                 continue;
@@ -88,7 +73,8 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                         'class' => $attribute->getFrontend()->getClass(),
                         'required' => $attribute->getIsRequired(),
                     )
-                );
+                )
+                ->setEntityAttribute($attribute);
 
                 if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
                     $element->setAfterElementHtml(
@@ -101,5 +87,18 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 }
             }
         }
+    }
+    
+    protected function _addElementTypes(Varien_Data_Form_Abstract $baseElement)
+    {
+        $types = $this->_getAdditionalElementTypes();
+        foreach ($types as $code => $className) {
+        	$baseElement->addType($code, $className);
+        }
+    }
+    
+    protected function _getAdditionalElementTypes()
+    {
+        return array();
     }
 }

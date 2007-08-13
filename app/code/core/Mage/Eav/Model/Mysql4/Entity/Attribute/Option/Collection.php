@@ -24,15 +24,30 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
         return $this;
     }
     
-    public function setStoreFilter($storeId=null)
+    public function setStoreFilter($storeId=null, $useDefaultValue=true)
     {
         if (is_null($storeId)) {
             $storeId = Mage::getSingleton('core/store')->getId();
         }
-        $this->getSelect()->join($this->_optionValueTable, $this->_optionValueTable.'.option_id=main_table.option_id', 'value')
-            ->where(
-                $this->getConnection()->quoteInto($this->_optionValueTable.'.store_id=?', $storeId)
-            );
+        if ($useDefaultValue) {
+            $this->getSelect()
+                ->join(array('store_default_value'=>$this->_optionValueTable), 
+                    'store_default_value.option_id=main_table.option_id', 
+                    array('default_value'=>'value'))                
+                ->joinLeft(array('store_value'=>$this->_optionValueTable), 
+                    'store_value.option_id=main_table.option_id AND '.$this->getConnection()->quoteInto('store_value.store_id=?', $storeId), 
+                    array('store_value'=>'value',
+                    'value' => new Zend_Db_Expr('IFNULL(store_value.value,store_default_value.value)')))
+                ->where($this->getConnection()->quoteInto('store_default_value.store_id=?', 0));
+        }
+        else {
+            $this->getSelect()
+                ->joinLeft(array('store_value'=>$this->_optionValueTable), 
+                    'store_value.option_id=main_table.option_id AND '.$this->getConnection()->quoteInto('store_value.store_id=?', $storeId), 
+                    'value')
+                ->where($this->getConnection()->quoteInto('store_value.store_id=?', $storeId));
+        }
+            
         return $this;
     }
     
@@ -45,5 +60,11 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
     public function toOptionArray()
     {
         return $this->_toOptionArray('option_id', 'value');
+    }
+    
+    public function setPositionOrder($dir='asc')
+    {
+        $this->setOrder('main_table.sort_order', $dir);
+        return $this;
     }
 }

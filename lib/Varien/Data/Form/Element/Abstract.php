@@ -94,7 +94,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
 
     public function getHtmlAttributes()
     {
-        return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled');
+        return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'readonly');
     }
 
     public function addClass($class)
@@ -131,6 +131,11 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
              .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
         $html.= $this->getAfterElementHtml();
         return $html;
+    }
+    
+    public function getAfterElementHtml()
+    {
+        return $this->getData('after_element_html');
     }
 
     public function getLabelHtml()
