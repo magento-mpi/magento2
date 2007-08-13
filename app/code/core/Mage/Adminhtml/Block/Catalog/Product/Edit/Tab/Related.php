@@ -8,9 +8,9 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnryi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setId('related_product_grid');
@@ -41,10 +41,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         }
         return $this;
     }
-    
+
     protected function _prepareCollection()
     {
-       
+
         $collection = Mage::getResourceModel('catalog/product_link_collection')
             ->setLinkType('relation')
             ->setProductId(Mage::registry('product')->getId())
@@ -57,12 +57,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             ->useProductItem();
 
         $this->setCollection($collection);
-        
-        
+
+
 
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
         $this->addColumn('in_products', array(
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'align'     => 'center',
             'index'     => 'entity_id'
         ));
-        
+
         $this->addColumn('id', array(
             'header'    => __('ID'),
             'sortable'  => true,
@@ -95,10 +95,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'type'      => 'currency',
             'index'     => 'price'
         ));
-        
+
         $this->addColumn('qty', array(
-            'header'    => __('Qty'),
-            'name'    	=> 'qty',            
+            'header'    => __('Default Qty'),
+            'name'    	=> 'qty',
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'width'     => '60px',
             'editable'  => true
         ));
-        
+
         $this->addColumn('position', array(
             'header'    => __('Position'),
             'name'    	=> 'position',
@@ -117,9 +117,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'width'     => '60px',
             'editable'  => true
         ));
-        
-         
-        
+
+
+
         return parent::_prepareColumns();
     }
 
@@ -127,16 +127,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     {
         return Mage::getUrl('*/*/related', array('_current'=>true));
     }
-    
+
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-        
-                
+
+
         if (!is_array($products)) {
             $products = Mage::registry('product')->getRelatedProductsLoaded()->getColumnValues('entity_id');
         }
-        
+
         return $products;
     }
 }

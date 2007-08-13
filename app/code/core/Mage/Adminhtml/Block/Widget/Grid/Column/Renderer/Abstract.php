@@ -33,7 +33,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
     public function render(Varien_Object $row)
     {
         if ($this->getColumn()->getEditable()) {
-            return $this->_getValue($row).'</td><td>'.$this->_getInputValueElement($row);
+            return $this->_getValue($row) . ( $this->getColumn()->getEditOnly() ? '' : '</td><td>' ) . $this->_getInputValueElement($row);
         }
         return $this->_getValue($row);
     }
@@ -79,7 +79,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
     public function renderProperty()
     {
         $out = ' ';
-        if ($this->getColumn()->getEditable()) {
+        if ($this->getColumn()->getEditable() && !$this->getColumn()->getEditOnly()) {
             $out .=' span="2"';
         }
 

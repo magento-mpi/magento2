@@ -104,7 +104,7 @@ $numColumns = sizeof($this->getColumns());
         </thead>
     <?endif;?>
     <tbody>
-    <?if ($this->getCollection()->getSize()>0):?>
+    <?if (($this->getCollection()->getSize()>0) && (!$this->getIsCollapsed())):?>
     <?foreach ($this->getCollection() as $_index=>$_item):?>
         <tr id="<?=$this->getRowId($_item)?>">
         <?$i=0;foreach ($this->getColumns() as $_column):?>
@@ -126,7 +126,14 @@ $numColumns = sizeof($this->getColumns());
     <?=$this->getJsObjectName()?> = new varienGrid('<?=$this->getId()?>', '<?=$this->getGridUrl()?>', '<?=$this->getVarNamePage()?>', '<?=$this->getVarNameSort()?>', '<?=$this->getVarNameDir()?>', '<?=$this->getVarNameFilter()?>');
     <?=$this->getJsObjectName()?>.useAjax = '<?=$this->getUseAjax()?>';
     <?if($this->getRowClickCallback()):?>
-    <?=$this->getJsObjectName()?>.rowClickCallback = <?=$this->getRowClickCallback()?>;
+        <?=$this->getJsObjectName()?>.rowClickCallback = <?=$this->getRowClickCallback()?>;
+    <?endif;?>
+    <?if($this->getCheckboxCheckCallback()):?>
+        <?=$this->getJsObjectName()?>.checkboxCheckCallback = <?=$this->getCheckboxCheckCallback()?>;
+    <?endif;?>
+    <?if($this->getRowInitCallback()):?>
+        <?=$this->getJsObjectName()?>.initRowCallback = <?=$this->getRowInitCallback()?>;
+        <?=$this->getJsObjectName()?>.rows.each(function(row){<?=$this->getRowInitCallback()?>(<?=$this->getJsObjectName()?>, row)});
     <?endif;?>
 </script>
 <?endif;?>

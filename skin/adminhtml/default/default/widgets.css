@@ -36,7 +36,7 @@ button.scalable td.tl {
     background-repeat:no-repeat;
     }
 button.scalable td.tr {
-    width:5px; 
+    width:5px;
     height:4px;
     background-position:100% 0;
     background-repeat:no-repeat;
@@ -84,7 +84,7 @@ button.back td { background-image:url(images/btn_back_bg.gif); }
 button.delete td { background-image:url(images/btn_delete_bg.gif); }
 button.save td,
 button.add td {
-    background-image:url(images/btn_task_bg.gif); 
+    background-image:url(images/btn_task_bg.gif);
     }
 button.back td.ml { color:#838383; }
 
@@ -143,7 +143,7 @@ table.actions td {
 /* Pager */
 .pager .spacer { padding:0 .6em; color:#cfcfcf; }
 .pager select { width:4em; margin:0 4px; }
-.pager input.page { width:2em; }
+.pager input.page { width:2em !important; }
 .pager .arrow { margin: 0 3px; vertical-align:middle; }
 
 /* Headings aka Sort By */
@@ -180,9 +180,9 @@ table.actions td {
     border-right:1px solid #fff;
     padding-bottom:2px;
     }
-.grid tr.headings th a.sort-arrow-asc, 
+.grid tr.headings th a.sort-arrow-asc,
 .grid tr.headings th a.sort-arrow-asc:hover,
-.grid tr.headings th a.sort-arrow-desc, 
+.grid tr.headings th a.sort-arrow-desc,
 .grid tr.headings  th a.sort-arrow-desc:hover { /* Due to IE :hover has to be styled */
     text-decoration:none;
     }
@@ -195,9 +195,9 @@ table.actions td {
 .grid .sort-arrow-asc span.sort-title { background-image: url(images/grid_sort_asc.gif); }
 
 /* Filter */
-.grid tr.filter { 
+.grid tr.filter {
     background:url(images/filter_row_bg.gif) repeat-x #e3eff1;
-    cursor: default; 
+    cursor: default;
     }
 .grid tr.filter th {
     padding-top:5px;
@@ -214,7 +214,7 @@ table.actions td {
 .grid tr.filter .range div.range-line { margin-bottom:4px; }
 .grid tr.filter .range div.date { width: 12em; }
 .grid tr.filter .range input {
-    width: 5.5em;
+    width: 5.5em !important;
     margin-bottom:-1px;
     margin-top:0;
     }
@@ -237,7 +237,7 @@ table.actions td {
     }
 
 /* The REAL MEAT of Grid */
-.grid tr .input-text { width: 95%; font:normal 12px Arial; }
+.grid tr .input-text { width: 95% !important; font:normal 12px Arial; }
 .grid table td {
     border-width:0 1px 1px 0;
     border-color:#d9dbdc;
@@ -247,8 +247,8 @@ table.actions td {
 .grid table tr.even { /* Zebra rows */
     background:#f4f4f4;
     }
-.grid table tr.on-mouse { /* Row mouse-over */ 
-    background:#fcf5dd; 
+.grid table tr.on-mouse { /* Row mouse-over */
+    background:#fcf5dd;
     }
 .grid table td.product {
     text-align:right;
@@ -357,8 +357,8 @@ ul.tabs li a.active span, ul.tabs li a:hover.active span {
     background:#fff;
     font-weight:bold;
     }
-ul.tabs a.subitem { 
-    padding-left:2.2em; 
+ul.tabs a.subitem {
+    padding-left:2.2em;
     }
 ul.tabs div.changed, ul.tabs div.error {
     float:right;
@@ -384,12 +384,12 @@ ul.tabs-horiz {
 	background:url(images/horiz_tabs_ul_bg.gif) repeat-x 0 100% #f8f8f8;
 	padding:8px 0 0 5px;
 	}
-ul.tabs-horiz li { 
-	float:left; 
+ul.tabs-horiz li {
+	float:left;
 	list-style:none;
 	margin:0 4px;
 	}
-ul.tabs-horiz li a { 
+ul.tabs-horiz li a {
 	display:block;
 	background:#e2e2e2;
 	border:1px solid #ccc;
@@ -404,9 +404,9 @@ ul.tabs-horiz li a.active {
 	}
 
 /************* SWITCHER **************/
-.switcher { 
-    background:#eee; 
-    padding:10px; 
+.switcher {
+    background:#eee;
+    padding:10px;
     }
 .section-menu .switcher {
     width:170px;
@@ -414,7 +414,7 @@ ul.tabs-horiz li a.active {
 .section-menu .switcher select {
     width:150px;
     }
-    
+
 
 /************* FORMS ***************/
 .validation-advice {
@@ -425,11 +425,11 @@ ul.tabs-horiz li a.active {
     padding-left:16px;
     background:url(images/fam_bullet_error.gif) no-repeat;
     }
-input.validation-failed, textarea.validation-failed { 
+input.validation-failed, textarea.validation-failed {
     background:#fef0ed;
     border: 1px dashed #d6340e;
     }
-.left-col-block { width:190px; overflow:hidden; } 
+.left-col-block { width:190px; overflow:hidden; }
 select.countries option { background-repeat:no-repeat; }
 
 .image-preview{position:absolute;cursor:pointer}
@@ -437,8 +437,8 @@ select.countries option { background-repeat:no-repeat; }
 
 /************* RULES ***************/
 
-.rule-tree ul { 
-    padding-left:16px !important; 
+.rule-tree ul {
+    padding-left:16px !important;
     border-left:dotted 1px #888;
     }
 
@@ -453,9 +453,9 @@ select.countries option { background-repeat:no-repeat; }
 .rule-param-remove { font-weight:normal; color:red; text-decoration:none; }
 .rule-param-remove:hover { font-weight:normal; color:blue; text-decoration:none; }
 
-.rule-param-wait { 
-    padding-left:20px; 
-    background-image:url('images/rule-ajax-loader.gif'); 
+.rule-param-wait {
+    padding-left:20px;
+    background-image:url('images/rule-ajax-loader.gif');
     background-repeat:no-repeat;
     background-position:0 50%;
     }

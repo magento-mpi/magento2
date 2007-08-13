@@ -11,7 +11,7 @@
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     protected $_values;
-    
+
     /**
      * Renders grid column
      *
@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Input extends Mage_Adminh
      */
     public function render(Varien_Object $row)
     {
-        return '<input type="text" name="'.$this->getColumn()->getName().'['.$row->getId().']" value="' 
+        return '<input type="text" name="'.( $this->getColumn()->getName() ? $this->getColumn()->getName() : $this->getColumn()->getId() ).'" value="'
                . $row->getData($this->getColumn()->getIndex()) . '" class="input-text"/>';
     }
 }
