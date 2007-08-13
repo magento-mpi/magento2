@@ -180,6 +180,17 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $items;
     }
     
+    public function getItemQty($itemId=0) {
+        if ($itemId == 0) {
+            $qty = 0;
+            foreach ($this->getAllItems() as $item) {
+                $qty += $item->getQty();
+            }
+        } else {
+            $qty = $this->getItemById($itemId)->getQty();
+        }
+        return $qty;
+    }
     
     public function hasItems()
     {
@@ -319,6 +330,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $request->setDestPostcode($this->getPostcode());
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
+        $request->setPackageQty($this->getItemQty());
         
         $result = Mage::getModel('shipping/shipping')
             ->collectRates($request)->getResult();

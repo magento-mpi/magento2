@@ -101,6 +101,7 @@ class Mage_Shipping_Model_Shipping
         $request->setDestPostcode($address->getPostcode());
         $request->setPackageValue($address->getSubtotal());
         $request->setPackageWeight($address->getWeight());
+        $request->setPackageQty($address->getItemQty());
 
         return $this->collectRates($request);
     }
