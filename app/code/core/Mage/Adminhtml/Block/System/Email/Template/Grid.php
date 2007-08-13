@@ -60,14 +60,14 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
                 'header'=>__('Subject'),
                 'index'=>'template_subject'
         ));
-        
+        /*
         $this->addColumn('sender',
             array(
                 'header'=>__('Sender'),
                 'index'=>'template_sender_email',
                 'renderer' => 'adminhtml/system_email_template_grid_renderer_sender'
         ));
-        
+        */
         $this->addColumn('type',
             array(
                 'header'=>__('Template Type'),

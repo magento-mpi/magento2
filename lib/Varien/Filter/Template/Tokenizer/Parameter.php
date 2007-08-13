@@ -46,10 +46,10 @@ class Varien_Filter_Template_Tokenizer_Parameter extends Varien_Filter_Template_
         if($this->isWhiteSpace()) { 
             return $value;
         }
-        $qouteStart = $this->char() == "'" || $this->char() == '"';
+        $quoteStart = $this->char() == "'" || $this->char() == '"';
         
         
-        if($qouteStart) {
+        if($quoteStart) {
            $breakSymbol = $this->char();
         } else { 
            $breakSymbol = false;

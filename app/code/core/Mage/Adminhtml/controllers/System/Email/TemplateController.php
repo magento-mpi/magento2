@@ -64,8 +64,10 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         try {
             $template->setTemplateSubject($request->getParam('subject'))
                 ->setTemplateCode($request->getParam('code'))
+/*
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
+*/
                 ->setTemplateText($request->getParam('text'))
 				->setModifiedAt(now());
 				

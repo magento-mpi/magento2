@@ -233,7 +233,7 @@ class Mage_Core_Model_Resource_Setup
 
         switch ($actionType) {
             case 'install':
-                ksort($arrFiles);
+                uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
                     if (version_compare($version, $toVersion)!==self::VERSION_COMPARE_GREATER) {
                         $arrRes[0] = array('toVersion'=>$version, 'fileName'=>$file);
@@ -242,7 +242,7 @@ class Mage_Core_Model_Resource_Setup
                 break;
                 
             case 'upgrade':
-                ksort($arrFiles);
+                uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
                     $version_info = explode('-', $version);
                     
@@ -307,8 +307,8 @@ class Mage_Core_Model_Resource_Setup
      * @param string $table
      * @param string $idField
      * @param string|integer $id
-     * @param string $field
-     * @param mixed $value
+     * @param string|array $field
+     * @param mixed|null $value
      * @param string $parentField
      * @param string|integer $parentId
      * @return Mage_Eav_Model_Entity_Setup
@@ -343,6 +343,17 @@ class Mage_Core_Model_Resource_Setup
 		if ($id = $this->getTableRow('core/config_field', 'path', $path, 'field_id')) {
 			$this->updateTableRow('core/config_field', 'field_id', $id, $data);
 		} else {
+			if (empty($data['sort_order'])) {
+				if ($data['level']===1) {
+					$parentWhere = '';
+				} else {
+					$parentWhere = $this->_conn->quoteInto(" and path like ?", dirname($path).'/%');
+				}
+				
+				$data['sort_order'] = $this->_conn->fetchOne("select max(sort_order) 
+					from ".$this->getTable('core/config_field')." 
+					where level=?".$parentWhere, $data['level'])+1;
+			}
 			$this->_conn->insert($this->getTable('core/config_field'), $data);
 		}
 		
@@ -354,7 +365,7 @@ class Mage_Core_Model_Resource_Setup
 	
 	public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
 	{
-		$this->_conn->query("replace into (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
+		$this->_conn->query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
 		return $this;
 	}
 }

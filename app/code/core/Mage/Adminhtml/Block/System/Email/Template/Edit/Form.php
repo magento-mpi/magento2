@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'required' => true,
             'value' => $template->getTemplateSubject()
         ));
-
+/*
         $fieldset->addField('sender_name', 'text', array(
             'name'=>'sender_name',
             'label' => __('Sender Name'),
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'required' => true,
             'value' => $template->getTemplateSenderEmail()
         ));
-
+*/
         $txtType = constant(Mage::getConfig()->getModelClassName('core/email_template') . '::TYPE_TEXT');
 
         $fieldset->addField('text', 'editor', array(
