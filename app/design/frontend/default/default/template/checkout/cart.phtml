@@ -51,6 +51,7 @@
             </td>
             <td class="attributes-col">
                 <a href="<?=$this->getUrl('catalog/product/view/id/'.$_item->getProductId())?>"><strong><?=$_item->getName()?></strong></a>
+                <?=$_item->getDescription();?>                
             </td>
             <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][remove]"/><!--<a href="#"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" alt="Remove item"/>--></td>
 <?if($this->isWishlistActive()):?>            

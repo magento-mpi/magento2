@@ -54,9 +54,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         				->load($productId)
         				->setParentProduct($product);
         			if($superProduct->getId()) {
-        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
+        				$item = $this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
+        				$item->setDescription(
+		            		$this->getLayout()->createBlock('checkout/cart_item_super')->setSuperProduct($superProduct)->toHtml()
+		            	);
+		            	$item->setName($product->getName());
 		            	$this->getQuote()->getShippingAddress()->collectTotals();
 		            	$this->getQuote()->save();
+		            	
         			}
         		} else {
         			$this->_backToProduct($product->getId());
