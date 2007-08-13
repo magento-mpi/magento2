@@ -1,3 +1,3 @@
 <?php
 
-$this->installEntities($this->getDefaultEntities());
+#$this->installEntities($this->getDefaultEntities());
