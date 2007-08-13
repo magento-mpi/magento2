@@ -12,6 +12,8 @@ class Mage_Core_Model_Resource_Setup
     protected $_moduleConfig = null;
     protected $_conn = null;
     protected $_tables = array();
+    protected $_setupCache = array();
+
     
     public function __construct($resourceName)
     {
@@ -265,4 +267,94 @@ class Mage_Core_Model_Resource_Setup
         }
         return $arrRes;
     }
+    
+
+/******************* UTILITY METHODS *****************/
+
+	/**
+	 * Retrieve row or field from table by id or string and parent id
+	 *
+	 * @param string $table
+	 * @param string $idField
+	 * @param string|integer $id
+	 * @param string $field
+	 * @param string $parentField
+	 * @param string|integer $parentId
+	 * @return mixed|boolean
+	 */
+    public function getTableRow($table, $idField, $id, $field=null, $parentField=null, $parentId=0)
+    {
+        if (strpos($table, '/')!==false) {
+            $table = $this->getTable($table);
+        }
+
+        if (empty($this->_setupCache[$table][$parentId][$id])) {
+            $sql = "select * from $table where $idField=?";
+            if (!is_null($parentField)) {
+                $sql .= $this->_conn->quoteInto(" and $parentField=?", $parentId);
+            }
+            $this->_setupCache[$table][$parentId][$id] = $this->_conn->fetchRow($sql, $id);
+        }
+        if (is_null($field)) {
+            return $this->_setupCache[$table][$parentId][$id];
+        }
+        return isset($this->_setupCache[$table][$parentId][$id][$field]) ? $this->_setupCache[$table][$parentId][$id][$field] : false;
+    }
+
+    /**
+     * Update one or more fields of table row
+     *
+     * @param string $table
+     * @param string $idField
+     * @param string|integer $id
+     * @param string $field
+     * @param mixed $value
+     * @param string $parentField
+     * @param string|integer $parentId
+     * @return Mage_Eav_Model_Entity_Setup
+     */
+    public function updateTableRow($table, $idField, $id, $field, $value=null, $parentField=null, $parentId=0)
+    {
+        if (is_array($field)) {
+            foreach ($field as $f=>$v) {
+                $this->updateTableRow($table, $idField, $id, $f, $v, $parentField, $parentId);
+            }
+            return $this;
+        }
+        if (strpos($table, '/')!==false) {
+            $table = $this->getTable($table);
+        }
+        $sql = "update $table set ".$this->_conn->quoteInto("$field=?", $value)." where ".$this->_conn->quoteInto("$idField=?", $id);
+        if (!is_null($parentField)) {
+            $sql .= $this->_conn->quoteInto(" and $parentField=?", $parentId);
+        }
+        $this->_conn->query($sql);
+
+        return $this;
+    }
+    
+/******************* CONFIG *****************/
+	
+	public function addConfigField($path, $label, array $data=array(), $default=null)
+	{
+		$data['level'] = sizeof(explode('/', $path));
+		$data['path'] = $path;
+		$data['frontend_label'] = $label;
+		if ($id = $this->getTableRow('core/config_field', 'path', $path, 'field_id')) {
+			$this->updateTableRow('core/config_field', 'field_id', $id, $data);
+		} else {
+			$this->_conn->insert($this->getTable('core/config_field'), $data);
+		}
+		
+		if (!is_null($default)) {
+			$this->setConfigData($path, $default);
+		}
+		return $this;
+	}
+	
+	public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
+	{
+		$this->_conn->query("replace into (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
+		return $this;
+	}
 }

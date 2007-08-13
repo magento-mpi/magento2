@@ -2,60 +2,23 @@
 
 class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 {
-    protected $_cache = array();
-    protected $_entityTypes = array();
-    protected $_attributeSets = array();
-    protected $_attributeGroups = array();
-    protected $_attributes = array();
-
-/******************* UTILITY METHODS *****************/
-
-    public function getTableRow($table, $idField, $id, $field=null, $parentField=null, $parentId=0)
-    {
-        if (strpos($table, '/')!==false) {
-            $table = $this->getTable($table);
-        }
-
-        if (empty($this->_cache[$table][$parentId][$id])) {
-            $sql = "select * from $table where $idField=?";
-            if (!is_null($parentField)) {
-                $sql .= $this->_conn->quoteInto(" and $parentField=?", $parentId);
-            }
-            $this->_cache[$table][$parentId][$id] = $this->_conn->fetchRow($sql, $id);
-        }
-        if (is_null($field)) {
-            return $this->_cache[$table][$parentId][$id];
-        }
-        return isset($this->_cache[$table][$parentId][$id][$field]) ? $this->_cache[$table][$parentId][$id][$field] : false;
-    }
-
-    public function updateTableRow($table, $idField, $id, $field, $value=null, $parentField=null, $parentId=0)
-    {
-        if (is_array($field)) {
-            foreach ($field as $f=>$v) {
-                $this->updateTableRow($table, $idField, $id, $f, $v, $parentField, $parentId);
-            }
-            return $this;
-        }
-        if (strpos($table, '/')!==false) {
-            $table = $this->getTable($table);
-        }
-        $sql = "update $table set ".$this->_conn->quoteInto("$field=?", $value)." where ".$this->_conn->quoteInto("$idField=?", $id);
-        if (!is_null($parentField)) {
-            $sql .= $this->_conn->quoteInto(" and $parentField=?", $parentId);
-        }
-        $this->_conn->query($sql);
-
-        return $this;
-    }
 
 /******************* ENTITY TYPES *****************/
 
-    public function addEntityType($code, $params)
+	/**
+	 * Add an entity type
+	 * 
+	 * If already exists updates the entity type with params data
+	 *
+	 * @param string $code
+	 * @param array $params
+	 * @return Mage_Eav_Model_Entity_Setup
+	 */
+    public function addEntityType($code, array $params)
     {
         $data = array(
             'entity_type_code'=>$code,
-            'entity_table'=>isset($params['entity_table']) ? $params['entity_table'] : 'eav/entity',
+            'entity_table'=>isset($params['table']) ? $params['table'] : 'eav/entity',
             'increment_model'=>isset($params['increment_model']) ? $params['increment_model'] : '',
             'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : '',
             'is_data_sharing'=>isset($params['is_data_sharing']) ? $params['is_data_sharing'] : 1,
@@ -74,6 +37,14 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         return $this;
     }
 
+    /**
+     * Update entity row
+     *
+     * @param unknown_type $code
+     * @param unknown_type $field
+     * @param unknown_type $value
+     * @return unknown
+     */
     public function updateEntityType($code, $field, $value=null)
     {
         $this->updateTableRow('eav/entity_type',
@@ -352,7 +323,46 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* BULK INSTALL *****************/
 
-    public function installEntities($entities)
+	public function installEntities($entities)
+	{
+		foreach ($entities as $entityName=>$entity) {
+			$this->addEntity($entityName, $entity);
+			
+            $sortOrder = 1;
+
+            $frontendPrefix = isset($entity['frontend_prefix']) ? $entity['frontend_prefix'] : '';
+            $backendPrefix = isset($entity['backend_prefix']) ? $entity['backend_prefix'] : '';
+            $sourcePrefix = isset($entity['source_prefix']) ? $entity['source_prefix'] : '';
+
+            foreach ($entity['attributes'] as $attrCode=>$attr) {
+                $backend = '';
+                if (isset($attr['backend'])) {
+                    if ('_'===$attr['backend']) {
+                        $backend = $backendPrefix;
+                    } elseif ('_'===$attr['backend']{0}) {
+                        $backend = $backendPrefix.$attr['backend'];
+                    } else {
+                        $backend = $attr['backend'];
+                    }
+                }
+                $frontend = '';
+                if (isset($attr['frontend'])) {
+                    if ('_'===$attr['frontend']) {
+                        $frontend = $frontendPrefix;
+                    } elseif ('_'===$attr['frontend']{0}) {
+                        $frontend = $frontendPrefix.$attr['frontend'];
+                    } else {
+                        $frontend = $attr['frontend'];
+                    }
+                }
+                
+                $this->addAttribute($entityName, $attrCode, $attr);
+                $this->addAttributeToSet($entityName, 'Default', 'General');
+            }
+		}
+	}
+
+    public function installEntities1($entities)
     {
         $conn = $this->_conn;
 
