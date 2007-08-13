@@ -480,6 +480,11 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         return $stores;
     }
     
+    public function getDefaultAttributeSourceModel()
+    {
+        return 'eav/entity_attribute_source_table';
+    }
+    
     protected function _getDefaultAttributes()
     {
     	$attributes = parent::_getDefaultAttributes();

@@ -27,10 +27,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('qty')
             ->addAttributeToSelect('price')
-            ->joinField('store_id',
-                'catalog/product_store',
-                'store_id',
-                'product_id=entity_id',
+            ->addAttributeToSelect('status')
+            ->joinField('store_id', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
                 '{{table}}.store_id='.$storeId)
             ->joinField('stores',
                 'catalog/product_store',
@@ -99,11 +100,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'type'  => 'number',
                 'index' => 'qty',
         ));
+        
+        $statuses = Mage::getResourceModel('catalog/product_status_collection')
+            ->load()
+            ->toOptionHash();
+            
         $this->addColumn('status',
             array(
                 'header'=> __('Status'),
-                'width' => '50px',
+                'width' => '90px',
                 'index' => 'status',
+                'type'  => 'options',
+                'options' => $statuses,
         ));
         /*$this->addColumn('rating',
             array(
@@ -118,6 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'filter'=> false,
                 'index' => 'category',
         ));*/
+
         $this->addColumn('stores',
             array(
                 'header'=> __('Stores'),
