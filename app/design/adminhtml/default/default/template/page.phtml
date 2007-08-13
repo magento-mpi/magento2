@@ -16,10 +16,10 @@
 <head>
     <title><?=__('Magento Admin')?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
-    
+
     <link rel="icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon">
-    
+
     <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js"></script>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>scriptaculous/scriptaculous.js"></script>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js"></script>
@@ -86,7 +86,7 @@
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
                 <div class="simple-container-left">
-					<div class="container">
+					<div class="container<?=($this->getChild('left')->getIsCollapsed()?'-collapsed' : '')?>">
 							<div class="main">
 									<div class="content-container">
 											<div class="content" id="content">

@@ -56,10 +56,14 @@
     padding:0 0 85px 0;
     }
 .container { /* created to browser-compatible liquid-layout */
-    border-left:17.48em solid #fff;
+	border-left:17.48em solid #fff;
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
+.container-collapsed {
+    padding:1.8em 2.2em 1.8em 2em;
+    padding-top:0;
+	}
 .simple-container, .simple-container-left { /* Main area below the breadcrumb and above the footer */
     min-height:350px;
     padding:1.8em 2.3em 6em 2.3em;
