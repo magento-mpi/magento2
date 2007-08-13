@@ -30,7 +30,16 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $this->_setTypeId();
-
+        $attributeSet = Mage::getModel('eav/entity_attribute_set')
+            ->load($this->getRequest()->getParam('id'));
+        
+        if (!$attributeSet->getId()) {
+            $this->_redirect('*/*/index');
+            return;
+        }
+        
+        Mage::register('current_attribute_set', $attributeSet);
+        
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/sets');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
@@ -70,8 +79,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         try {
             $modelSet->save();
             if( $this->getRequest()->getParam('gotoEdit') == 1 ) {
-                $modelSet->setSkeletonId($this->getRequest()->getParam('skeleton_set'))
-                    ->initSkeleton();
+                $modelSet->initFromSkeleton($this->getRequest()->getParam('skeleton_set'))
+                    ->save();
 
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('id' => $modelSet->getId())));
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Attribute set successfully saved.'));
@@ -85,8 +94,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. May be set with the same name already exists.'));
-                #Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                //Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. May be set with the same name already exists.'));
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             } else {
                 $response->setMessage(__('Error while saving this set.'));
                 $response->setError(1);
