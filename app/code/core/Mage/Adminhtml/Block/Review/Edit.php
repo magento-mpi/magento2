@@ -21,6 +21,14 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $this->_updateButton('save', 'label', __('Save Review'));
         $this->_updateButton('delete', 'label', __('Delete Review'));
 
+        if( $this->getRequest()->getParam('productId', false) ) {
+            $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/catalog_product/edit', array('id' => $this->getRequest()->getParam('productId', false))) .'\')' );
+        }
+
+        if( $this->getRequest()->getParam('customerId', false) ) {
+            $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/customer/edit', array('customer_id' => $this->getRequest()->getParam('customerId', false))) .'\')' );
+        }
+
         if( $this->getRequest()->getParam($this->_objectId) ) {
             $reviewData = Mage::getModel('review/review')
                 ->load($this->getRequest()->getParam($this->_objectId));

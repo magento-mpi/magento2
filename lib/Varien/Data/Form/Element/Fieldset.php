@@ -7,14 +7,14 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstract 
+class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstract
 {
-    public function __construct($attributes=array()) 
+    public function __construct($attributes=array())
     {
         parent::__construct($attributes);
         $this->setType('fieldset');
     }
-    
+
     public function getElementHtml()
     {
         $html = '<fieldset id="'.$this->getHtmlId().'"'.$this->serialize(array('class')).'>'."\n";
@@ -24,14 +24,14 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         foreach ($this->getElements() as $element) {
         	$html.= $element->toHtml();
         }
-        $html.= '</fieldset>'."\n";
+        $html.= '</fieldset></div>'."\n";
         return $html;
     }
-    
+
     public function getDefaultHtml()
     {
-        $html = '<h4 class="icon-head head-edit-form fieldset-legend">'.$this->getLegend().'</h4>'."\n";
-        $html.= $this->getElementHtml();            
+        $html = '<div><h4 class="icon-head head-edit-form fieldset-legend">'.$this->getLegend().'</h4>'."\n";
+        $html.= $this->getElementHtml();
         return $html;
     }
 }

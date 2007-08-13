@@ -14,19 +14,30 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Core_Block_Templa
     public function __construct()
     {
         $this->setTemplate('rating/detailed.phtml');
-        $this->setReviewId(Mage::registry('review_data')->getId());
+        if( Mage::registry('review_data') ) {
+            $this->setReviewId(Mage::registry('review_data')->getId());
+        }
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('rating/rating_option_vote')
-                ->getResourceCollection()
-                ->setReviewFilter($this->getReviewId())
-                ->addRatingInfo()
-                ->addOptionInfo()
-                ->load()
-                ->addRatingOptions();
+            if( Mage::registry('review_data') ) {
+                $ratingCollection = Mage::getModel('rating/rating_option_vote')
+                    ->getResourceCollection()
+                    ->setReviewFilter($this->getReviewId())
+                    ->addRatingInfo()
+                    ->addOptionInfo()
+                    ->load()
+                    ->addRatingOptions();
+            } else {
+                $ratingCollection = Mage::getModel('rating/rating')
+                    ->getResourceCollection()
+                    ->addEntityFilter('product')
+                    ->setPositionOrder()
+                    ->load()
+                    ->addOptionToItems();
+            }
 
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }

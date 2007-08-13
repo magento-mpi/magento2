@@ -1,16 +1,21 @@
-<?=$this->getFormInitScripts()?>
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeaderText()?></h3></td>
             <td class="a-right">
-                <?=$this->getButtonsHtml()?>
+                <?=$this->getBackButtonHtml()?>
+                <?=$this->getResetButtonHtml()?>
+                <span style="display:none;" id="formButtons">
+                <?=$this->getSaveButtonHtml()?>
+                </span>
             </td>
         </tr>
     </table>
 </div>
+
+<div style="display:none;" id="formContainer">
 <?=$this->getFormHtml()?>
+</div>
 <script type="text/javascript" language="javascript">
     var editForm = new varienForm('edit_form');
 </script>
-<?=$this->getFormScripts()?>

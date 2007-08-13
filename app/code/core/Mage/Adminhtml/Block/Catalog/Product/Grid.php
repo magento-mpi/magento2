@@ -21,28 +21,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
-        
+
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('qty')
             ->addAttributeToSelect('price')
-            ->joinField('store_id', 
-                'catalog/product_store', 
-                'store_id', 
-                'product_id=entity_id', 
+            ->joinField('store_id',
+                'catalog/product_store',
+                'store_id',
+                'product_id=entity_id',
                 '{{table}}.store_id='.$storeId)
-            ->joinField('stores', 
-                'catalog/product_store', 
-                'store_id', 
-                'product_id=entity_id', 
+            ->joinField('stores',
+                'catalog/product_store',
+                'store_id',
+                'product_id=entity_id',
                 null,
                 'left');
-                
+
         if ($storeId) {
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
         }
-        
+
         $collection->getEntity()->setStore(0);
         $this->setCollection($collection);
 
@@ -51,74 +51,74 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             $this->_setFilterValues(array('stores'=>$this->getParam('store', 0)));
             $this->getColumn('stores')->getFilter()->setValue(null);
         }
-        
+
         parent::_prepareCollection();
-        
+
         $this->getCollection()->addStoreNamesToResult();
         return $this;
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', 
+        $this->addColumn('id',
             array(
-                'header'=> __('ID'), 
-                'width' => '50px', 
+                'header'=> __('ID'),
+                'width' => '50px',
                 'index' => 'entity_id',
         ));
-        $this->addColumn('name', 
+        $this->addColumn('name',
             array(
-                'header'=> __('Name'), 
+                'header'=> __('Name'),
                 'index' => 'name',
         ));
-        
+
         if ((int) $this->getRequest()->getParam('store', 0)) {
-            $this->addColumn('custom_name', 
+            $this->addColumn('custom_name',
                 array(
-                    'header'=> __('Name In Store'), 
+                    'header'=> __('Name In Store'),
                     'index' => 'custom_name',
             ));
         }
-        
-        $this->addColumn('sku', 
+
+        $this->addColumn('sku',
             array(
                 'header'=> __('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
         ));
-        $this->addColumn('price', 
+        $this->addColumn('price',
             array(
                 'header'=> __('Price'),
                 'type'  => 'currency',
                 'index' => 'price',
         ));
-        $this->addColumn('qty', 
+        $this->addColumn('qty',
             array(
                 'header'=> __('Qty'),
                 'width' => '130px',
                 'type'  => 'number',
                 'index' => 'qty',
         ));
-        $this->addColumn('status', 
+        $this->addColumn('status',
             array(
                 'header'=> __('Status'),
                 'width' => '50px',
                 'index' => 'status',
         ));
-        /*$this->addColumn('rating', 
+        /*$this->addColumn('rating',
             array(
                 'header'=> __('Rating'),
                 'width' => '100px',
                 'index' => 'rating',
         ));*/
-        /*$this->addColumn('category', 
+        /*$this->addColumn('category',
             array(
                 'header'=> __('Categories'),
                 'width' => '150px',
                 'filter'=> false,
                 'index' => 'category',
         ));*/
-        $this->addColumn('stores', 
+        $this->addColumn('stores',
             array(
                 'header'=> __('Stores'),
                 'width' => '100px',
@@ -127,13 +127,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'sortable'  => false,
                 'index'     => 'stores',
         ));
-        
+
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportXml', __('XML'));
 
         return parent::_prepareColumns();
     }
-    
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/edit', array('id'=>$row->getId(), 'store'=>$this->getRequest()->getParam('store',0)));

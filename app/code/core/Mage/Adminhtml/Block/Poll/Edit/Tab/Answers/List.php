@@ -1,7 +1,5 @@
 <?php
 /**
- * description
- *
  * @package     Mage
  * @subpackage  Adminhtml
  * @copyright   Varien (c) 2007 (http://www.varien.com)

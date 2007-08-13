@@ -23,6 +23,17 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         $collection = Mage::getModel('review/review')
             ->getCollection();
+
+        if( $this->getProductId() || $this->getRequest()->getParam('productId', false) ) {
+            $this->setProductId( ( $this->getProductId() ? $this->getProductId() : $this->getRequest()->getParam('productId') ) );
+            $collection->addEntityFilter('product', $this->getProductId());
+        }
+
+        if( $this->getCustomerId() || $this->getRequest()->getParam('customerId', false) ) {
+            $this->setCustomerId( ( $this->getCustomerId() ? $this->getCustomerId() : $this->getRequest()->getParam('customerId') ) );
+            $collection->addCustomerFilter($this->getCustomerId());
+        }
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -92,6 +103,19 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id' => $row->getId()));
+        return Mage::getUrl('*/catalog_product_review/edit', array(
+            'id' => $row->getId(),
+            'productId' => $this->getProductId(),
+            'customerId' => $this->getCustomerId(),
+        ));
+    }
+
+    public function getGridUrl()
+    {
+        return Mage::getUrl('*/catalog_product_review/reviewGrid', array(
+            '_current' => true,
+            'productId' => $this->getProductId(),
+            'customerId' => $this->getCustomerId(),
+        ));
     }
 }

@@ -13,6 +13,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 {
     protected $_objectId = 'id';
     protected $_formScripts = array();
+    protected $_formInitScripts = array();
     protected $_mode = 'edit';
 
     public function __construct()
@@ -74,6 +75,14 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
     {
         $this->getChild('form')->setData('action', $this->getSaveUrl());
         return $this->getChildHtml('form');
+    }
+
+    public function getFormInitScripts()
+    {
+        if ( !empty($this->_formInitScripts) && is_array($this->_formInitScripts) ) {
+            return '<script type="text/javascript">' . implode("\n", $this->_formInitScripts) . '</script>';
+        }
+        return '';
     }
 
     public function getFormScripts()

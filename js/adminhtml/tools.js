@@ -19,6 +19,15 @@ function setElementDisable(element, disable){
     }
 }
 
+function toggleParentVis(obj) {
+    obj = $(obj).parentNode;
+    if( obj.style.display == 'none' ) {
+        obj.style.display = '';
+    } else {
+        obj.style.display = 'none';
+    }
+}
+
 slidedDown = false;
 function imagePreview(element){
     if(!$(element).observerAdded){

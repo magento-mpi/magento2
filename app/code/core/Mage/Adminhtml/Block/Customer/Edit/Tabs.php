@@ -67,7 +67,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
 
             $this->addTab('reviews', array(
                 'label'     => __('Product Reviews'),
-                'content'   => '<h3>Product Reviews</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.customer.reviews')
+                        ->setCustomerId(Mage::registry('customer')->getId())
+                        ->setUseAjax(true)
+                        ->toHtml(),
             ));
         }
         Varien_Profiler::stop('customer/tabs');
