@@ -1,8 +1,8 @@
-<div class="head">
-    <h4><?=__('My Recent Reviews')?></h4>
-    <a href="<?=$this->getAllReviewsUrl()?>"><?=__('View All')?></a>
-</div>
 <?if( $this->getCollection() && $this->count()):?>
+    <div class="head">
+        <h4><?=__('My Recent Reviews')?></h4>
+        <a href="<?=$this->getAllReviewsUrl()?>"><?=__('View All')?></a>
+    </div>
     <?$iterator = 0?>
     <?foreach ($this->getCollection() as $_review):?>
     <ol class="recent-reviews">

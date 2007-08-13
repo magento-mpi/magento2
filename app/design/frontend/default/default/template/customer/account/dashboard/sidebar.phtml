@@ -1,61 +1,43 @@
-<div class="account-box">
-    <div class="head">
-        <h4>Shopping Cart</h4>
+<?if( $this->getCartItemsCount() ):?>
+    <div class="account-box">
+        <div class="head">
+            <h4><?=__('Shopping Cart')?></h4>
+        </div>
+        <p><?=__('You have <a href="' . $this->getShoppingCartUrl() . '"><strong>%d items</strong></a> in your shopping cart.', $this->getCartItemsCount())?></p>
     </div>
-    <p>You have <a href="#"><strong>3 items</strong></a> in your shopping cart.</p>
-</div>
+<?endif;?>
 
-
+<?if( $this->getWishlistCount() > 0 ):?>
 <div class="account-box">
     <div class="head">
-        <h4>Wishlist</h4>
-        <a href="<?=$baseUrl?>wishlist/">View All</a>
+        <h4><?=__('Wishlist')?></h4>
+        <a href="<?=$baseUrl?>wishlist/"><?=__('View All')?></a>
     </div>
     <div class="box-container">
+        <?if($this->getWishlistCount()):?>
         <div class="content">
             <ol>
+            <?foreach($this->getWishlist() as $_item):?>
                 <li>
                     <div class="product-images">
-                        <a href="#"><img src="images/ph_product_thumb.jpg" alt="Warm Weather Polyethelene Clogs" width="55" height="55"/></a>
+                        <a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="55" height="55"/></a>
                     </div>
                     <div class="product-details">
-                        <a href="#">Warm Weather Polyethelene Clogs</a>
+                        <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
                         <div class="price-box">
-                            $109.45
+                            <?=$_item->getFormatedPrice()?>
                         </div>
-                        <a href="#"><strong>Add to Cart</strong></a>
+                        <a href="<?=$this->getWishlistAddToCartLink($_item)?>"><strong><?=__('Add to Cart')?></strong></a>
                     </div>
                 </li>
-                <li>
-                    <div class="product-images">
-                        <a href="#"><img src="images/ph_product_thumb.jpg" alt="Warm Weather Polyethelene Clogs" width="55" height="55"/></a>
-                    </div>
-                    <div class="product-details">
-                        <a href="#">Warm Weather Polyethelene Clogs</a>
-                        <div class="price-box">
-                            $109.45
-                        </div>
-                        <a href="#"><strong>Add to Cart</strong></a>
-                    </div>
-                </li>
-                <li>
-                    <div class="product-images">
-                        <a href="#"><img src="images/ph_product_thumb.jpg" alt="Warm Weather Polyethelene Clogs" width="55" height="55"/></a>
-                    </div>
-                    <div class="product-details">
-                        <a href="#">Warm Weather Polyethelene Clogs</a>
-                        <div class="price-box">
-                            $109.45
-                        </div>
-                        <a href="#"><strong>Add to Cart</strong></a>
-                    </div>
-                </li>
+            <?endforeach;?>
             </ol>
         </div>
+        <?endif;?>
     </div>
 </div>
-
-
+<?endif;?>
+<!--
 <div class="account-box">
     <div class="head">
         <h4>Last Viewed Items</h4>
@@ -104,25 +86,41 @@
         </div>
     </div>
 </div>
-
-
-<div class="account-box mini-compare-products">
+-->
+<?if($this->getCompareItems()->getSize() > 0):?>
+<div class="account-box mini-compare-products" id="dashboardSidebarCompare">
     <div class="head">
-        <h4>Compare Products</h4>
-        <a href="#">View All</a>
+        <h4><?=__('Compare Products')?></h4>
+        <a href="#"><?=__('View All')?></a>
     </div>
     <div class="box-container">
         <div class="content">
             <ul class="widget-list">
-                <li><a href="#" class="action"><strong>Remove</strong></a><a href="#">Women's Nike Sports Socks</a></li>
-                <li><a href="#" class="action"><strong>Remove</strong></a><a href="#">Women's Nike Sports Socks</a></li>
-                <li><a href="#" class="action"><strong>Remove</strong></a><a href="#">Women's Nike Sports Socks</a></li>
-                <li class="last"><a href="#" class="action"><strong>Remove</strong></a><a href="#">Women's Nike Sports Socks</a></li>
+			<?$_i=1?>
+			<?foreach($this->getCompareItems() as $_index => $_item):?>
+                <li <?if($_i==$this->getCompareItems()->getSize()):?>class="last"<?endif;?>>
+                    <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>">
+                    <a href="#" onclick="<?=$this->getCompareJsObjectName()?>.removeItem(this);return false;" class="action"><strong><?=__('Remove')?></strong></a>
+                    <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+                </li>
+			<?$_i++?>
+            <?endforeach;?>
             </ul>
         </div>
         <p class="actions">
-            <button class="form-button"><span>Compare</span></button>
-            <a href="#">Clear All</a>
+            <button class="form-button" onclick="window.location.href = '<?=$this->getCompareUrl()?>'"><span><?=__('Compare')?></span></button>
+            <a href="#" onclick="<?=$this->getCompareJsObjectName()?>.removeAll(); return false"><?=__('Clear All')?></a>
         </p>
     </div>
 </div>
+<script type="text/javascript">
+<!--
+	var <?=$this->getCompareJsObjectName()?> = new Varien.CompareController('dashboardSidebarCompare',{
+		updateUrl: '<?=$this->getCompareAddUrlTemplate()?>',
+		removeUrl: '<?=$this->getCompareRemoveUrlTemplate()?>',
+		successMessage: '<?=__('Product have been successfully added to comparasion list')?>',
+		confirmMessage: '<?=__('Are you sure')?>'
+	});
+//-->
+</script>
+<?endif;?>

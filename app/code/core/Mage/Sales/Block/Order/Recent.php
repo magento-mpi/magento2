@@ -20,6 +20,9 @@ class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
             ->addAttributeToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
+            ->addAttributeToSort('created_at', $dir='desc')
+            ->setPageSize('5')
+            ->load()
         ;
 
         $this->setOrders($orders);
@@ -27,12 +30,12 @@ class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
 
     public function getViewUrl($order)
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
     }
 
     public function getTrackUrl($order)
     {
-        return $this->getUrl('*/*/track', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/track', array('order_id' => $order->getId()));
     }
 
     public function getOrderDateFormatted($order, $format='short')

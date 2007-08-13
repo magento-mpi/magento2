@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Paygate_Model_Verisign extends Mage_Payment_Model_Abstract
+class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Abstract
 {
     public function createFormBlock($name)
     {

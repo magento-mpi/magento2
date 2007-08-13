@@ -4,21 +4,17 @@
             <h5><?=__('Primary Billing Address')?></h5>
             <a href="<?=$baseUrl?>customer/address/edit"><?=__('Edit')?></a>
         </div>
-        <address>Minu Oh<br/>
-            3402 Motor Ave.,<br/>
-            Suite B<br/>
-            Los Angeles, CA 90034<br/>
-            <strong>T</strong><span class="separator">|</span>(310123-1234</address>
+        <address>
+            <?=$this->getPrimaryBillingAddress()?>
+        </address>
     </div>
     <div class="col-2">
         <div class="head bar-head">
             <h5><?=__('Primary Shipping Address')?></h5>
             <a href="<?=$baseUrl?>customer/address/edit"><?=__('Edit')?></a>
         </div>
-        <address>Minu Oh<br/>
-            3402 Motor Ave.,<br/>
-            Suite B<br/>
-            Los Angeles, CA 90034<br/>
-            <strong>T</strong><span class="separator">|</span>(310123-1234</address>
+        <address>
+            <?=$this->getPrimaryShippingAddress()?>
+        </address>
     </div>
 </div>

@@ -1,17 +1,27 @@
 <div class="col2-set">
     <div class="col-1">
         <div class="head bar-head">
-            <h5>Contact Information</h5>
+            <h5><?=__('Contact Information')?></h5>
             <a href="<?=$baseUrl?>customer/account/edit">Edit</a>
         </div>
-        <p>Minu Oh<br/>minu@varien.com<br/>
-        <a href="#" class="edit-password">Change Password</a></p>
+        <p>
+        <?=$this->getCustomer()->toString('{{firstname}} {{lastname}}<br />{{email}}')?>
+        </p>
+        <a href="<?=$this->getChangePasswordUrl()?>" class="edit-password"><?=__('Change Password')?></a>
+        </p>
     </div>
+
     <div class="col-2">
         <div class="head bar-head">
-            <h5>Newsletters</h5>
+            <h5><?=__('Newsletters')?></h5>
             <a href="<?=$baseUrl?>newsletter/manage/">Edit</a>
         </div>
-        <p>You are currently subscribed to our newsletter.</p>
+        <p>
+            <?if( $this->getIsSubscribed() ):?>
+                <?=__('You are currently subscribed to \'General Subscription\'.')?>
+            <?else:?>
+                <?=__('You are currently not subscribed to any newsletter.')?>
+            <?endif;?>
+        </p>
     </div>
 </div>

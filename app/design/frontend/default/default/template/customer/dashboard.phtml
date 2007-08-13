@@ -6,12 +6,12 @@
         <br/>
         <a href="<?=$this->getAccountUrl()?>">Edit</a>
     </p>
-    <h3>Newsletters</h3>
+    <h3><?=_('Newsletters')?></h3>
     <?=$this->getSubscriptionText()?>
     <p><a href="<?=$this->getManageNewsletterUrl()?>">Edit</a></p>
 </div>
 <div class="input-right">
-<h3>Addresses</h3>
+<h3><?=__('Addresses')?></h3>
 <?if($_addresses = $this->getPrimaryAddresses()):?>
     <?foreach ($_addresses as $_address):?>
     <address>

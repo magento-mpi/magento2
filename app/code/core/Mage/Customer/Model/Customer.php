@@ -10,20 +10,20 @@
 class Mage_Customer_Model_Customer extends Varien_Object
 {
     protected $_addressCollection;
-    
+
     /**
      * Customer subscription model
      *
      * @var Mage_Newsletter_Subscriber
      */
     protected $_subscriber = null;
-    
-    public function __construct($customer=false) 
+
+    public function __construct($customer=false)
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
-    
+
     /**
      * Retrieve customer resource model
      *
@@ -33,7 +33,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return Mage::getResourceSingleton('customer/customer');
     }
-    
+
     /**
      * Authenticate customer
      *
@@ -48,7 +48,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return false;
     }
-    
+
     /**
      * Load customer by customer id
      *
@@ -60,7 +60,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         $this->getResource()->load($this, $customerId);
         return $this;
     }
-    
+
     /**
      * Load customer by email
      *
@@ -72,7 +72,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         $this->getResource()->loadByEmail($this, $customerEmail);
         return $this;
     }
-    
+
     /**
      * Save customer
      *
@@ -85,7 +85,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
             ->save($this);
         return $this;
     }
-    
+
     /**
      * Change customer password
      * $data = array(
@@ -93,7 +93,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
      *      ['confirmation']
      *      ['current_password']
      * )
-     * 
+     *
      * @param   array $data
      * @param   bool $checkCurrent
      * @return  this
@@ -103,9 +103,9 @@ class Mage_Customer_Model_Customer extends Varien_Object
         $this->getResource()->changePassword($this, $newPassword, $checkCurrent);
         return $this;
     }
-    
+
     /**
-     * Delete customer  
+     * Delete customer
      *
      * @return Mage_Customer_Model_Customer
      */
@@ -114,7 +114,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-    
+
     /**
      * Get full customer name
      *
@@ -124,7 +124,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
-    
+
     /**
      * Add address to address collection
      *
@@ -136,7 +136,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         $this->getAddressCollection()->addItem($address);
         return $this;
     }
-    
+
     /**
      * Retrieve customer address by address id
      *
@@ -148,7 +148,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         return Mage::getModel('customer/address')
             ->load($addressId);
     }
-    
+
     /**
      * Retrieve not loaded address collection
      *
@@ -161,7 +161,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return $this->_addressCollection;
     }
-    
+
     /**
      * Retrieve loaded customer address collection
      *
@@ -177,10 +177,10 @@ class Mage_Customer_Model_Customer extends Varien_Object
                 ->load();
             $this->setData('loaded_address_collection', $collection);
         }
-        
+
         return $collection;
     }
-    
+
     /**
      * Retrieve all customer attributes
      *
@@ -192,26 +192,26 @@ class Mage_Customer_Model_Customer extends Varien_Object
             ->loadAllAttributes()
             ->getAttributesByCode();
     }
-    
+
     public function setPassword($password)
     {
         $this->setData('password', $password);
         $this->setPasswordHash($this->hashPassword($password));
         return $this;
     }
-    
+
     public function getWishlistCollection()
     {
         if ($this->_wishlist && !$reload) {
             return $this->_wishlist;
         }
-        
+
         $this->_wishlist = Mage::getResourceModel('customer/wishlist_collection');
         $this->_wishlist->addCustomerFilter($this->getId());
 
         return $this->_wishlist;
     }
-    
+
     /**
      * Hach customer password
      *
@@ -222,7 +222,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return md5($password);
     }
-    
+
     /**
      * Retrieve primary address by type(attribute)
      *
@@ -242,7 +242,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return $primaryAddress;
     }
-    
+
     /**
      * Retrieve customer primary billing address
      *
@@ -252,12 +252,12 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return $this->getPrimaryAddress('default_billing');
     }
-    
+
     public function getDefaultBillingAddress()
     {
         return $this->getPrimaryBillingAddress();
     }
-    
+
     /**
      * Retrieve primary customer shipping address
      *
@@ -267,12 +267,12 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return $this->getPrimaryAddress('default_shipping');
     }
-    
+
     public function getDefaultShippingAddress()
     {
         return $this->getPrimaryShippingAddress();
     }
-    
+
     /**
      * Retrieve ids of primary addresses
      *
@@ -289,7 +289,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return $ids;
     }
-    
+
     /**
      * Retrieve all customer primary addresses
      *
@@ -303,7 +303,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
             $addresses[] = $primaryBilling;
             $primaryBilling->setIsPrimaryBilling(true);
         }
-        
+
         $primaryShipping = $this->getPrimaryShippingAddress();
         if ($primaryShipping) {
             if ($primaryBilling->getId() == $primaryShipping->getId()) {
@@ -316,7 +316,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return $addresses;
     }
-    
+
     /**
      * Retrieve not primary addresses
      *
@@ -333,7 +333,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return $addresses;
     }
-    
+
     public function isAddressPrimary(Mage_Customer_Model_Address $address)
     {
         if (!$address->getId()) {
@@ -341,7 +341,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
         }
         return ($address->getId() == $this->getDefaultBilling()) || ($address->getId() == $this->getDefaultShipping());
     }
-    
+
     public function generatePassword($length=6)
     {
         return substr(md5(uniqid(rand(), true)), 0, $length);
