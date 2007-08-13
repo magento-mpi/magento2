@@ -290,7 +290,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Wrapper for compatibility with Varien_Data_Collection_Db
      *
      * @param mixed $attribute
-     * @param array $condition
+     * @param mixed $condition
      */
     public function addFieldToFilter($attribute, $condition=null){
         return $this->addAttributeToFilter($attribute, $condition);

@@ -1,0 +1,73 @@
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header"> 
+        <tr>
+            <td style="width:30%;"><h3><?=$this->getHeader()?></h3></td>
+            <td class="a-right">
+                <?=$this->getResetButtonHtml()?>
+                <?if($this->getRuleId()):?>
+                        <?=$this->getDeleteButtonHtml()?>
+                <?endif;?>
+                <?=$this->getSaveButtonHtml()?>
+            </td>
+        </tr>
+    </table>
+</div>
+<?=$this->getTabsHtml()?>
+
+
+<form id="rule_edit_form" action="<?=$this->getSaveUrl()?>" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="rule_products" id="in_rule_products" value=""/>
+<div id="rule_tab_content"></div>
+</form>
+
+
+
+
+<script type="text/javascript" language="javascript">
+    var ruleForm = new varienForm('rule_edit_form');
+    
+    function ruleDelete(){
+        if(confirm('<?=__('Are you sure?')?>')){
+            location.href = '<?=$this->getDeleteUrl()?>'
+        }
+    }
+<?if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()):?>
+    var ruleProducts = $H(<?=$this->getProductsJson()?>);
+    $('in_rule_products').value = ruleProducts.toQueryString();
+    
+    function registerRuleProduct(grid, element, checked){
+        if(checked){
+            if(element.positionElement){
+                element.positionElement.disabled = false;
+                ruleProducts[element.value] = element.positionElement.value;
+            }
+        }
+        else{
+            if(element.positionElement){
+                element.positionElement.disabled = true;
+            }
+            ruleProducts.remove(element.value);
+        }
+        $('in_rule_products').value = ruleProducts.toQueryString();
+        grid.reloadParams = {'selected_products[]':ruleProducts.keys()};
+    }
+    function ruleProductRowClick(grid, event){
+        var trElement = Event.findElement(event, 'tr');
+        var isInput   = Event.element(event).tagName == 'INPUT';
+        if(trElement){
+            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            if(checkbox[0]){
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                <?=$_gridJsObject?>.setCheckboxChecked(checkbox[0], checked);
+            }
+        }
+    }
+
+    
+    var tabIndex = 1000;
+    <?=$_gridJsObject?>.rowClickCallback = ruleProductRowClick;
+    <?=$_gridJsObject?>.initRowCallback = ruleProductRowInit;
+    <?=$_gridJsObject?>.checkboxCheckCallback = registerRuleProduct;
+<?endif;?>
+</script>

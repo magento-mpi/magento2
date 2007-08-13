@@ -85,5 +85,16 @@
             </observers>
          </action_preDispatch_adminhtml>
       </events>
+      <global_search>
+		   <products>
+		      <class>adminhtml/search_catalog</class>
+		   </products>
+		   <customers>
+		      <class>adminhtml/search_customer</class>
+		   </customers>
+		   <sales>
+		      <class>adminhtml/search_order</class>
+		   </sales>
+      </global_search>
    </adminhtml>
 </config>

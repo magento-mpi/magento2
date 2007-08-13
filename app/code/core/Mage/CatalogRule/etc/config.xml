@@ -30,6 +30,7 @@
             <catalogrule_setup>
                 <setup>
                     <module>Mage_CatalogRule</module>
+                    <class>Mage_CatalogRule_Model_Entity_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

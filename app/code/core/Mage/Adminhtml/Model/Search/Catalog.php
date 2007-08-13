@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Catalog_Model_Admin_Search extends Varien_Object 
+class Mage_Adminhtml_Model_Search_Catalog extends Varien_Object 
 {
     public function load()
     {
@@ -17,14 +17,15 @@ class Mage_Catalog_Model_Admin_Search extends Varien_Object
             ->addSearchFilter($this->getQuery())
             ->setCurPage($this->getStart())
             ->setPageSize($this->getLimit())
-            ->loadData();
+            ->load();
         
         foreach ($collection as $product) {
             $arr[] = array(
-                'id'            => 'product/1/'.$product->getProductId(),
+                'id'            => 'product/1/'.$product->getId(),
                 'type'          => 'Product',
                 'name'          => $product->getName(),
                 'description'   => substr($product->getDescription(), 0, 50),
+                'url'           => Mage::getUrl('adminhtml/catalog_product/edit', array('id'=>$product->getId())),
             );
         }
         

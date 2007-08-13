@@ -24,23 +24,20 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
     {
         $this->addTab('main_section', array(
             'label'     => __('Rule Information'),
-            'title'     => __('Rule Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
+        $this->addTab('products_section', array(
+            'label'     => __('Matching Products'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_product', 'promo.quote.grid')->toHtml(),
+        ));
+        
         $this->addTab('condact_section', array(
             'label'     => __('Conditions and Actions'),
-            'title'     => __('Conditions and Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_condact')->toHtml(),
         ));
-        /*
-        $this->addTab('actions_section', array(
-            'label'     => __('Actions'),
-            'title'     => __('Actions'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_actions')->toHtml(),
-        ));
-        */
+
         return parent::_beforeToHtml();
     }
 

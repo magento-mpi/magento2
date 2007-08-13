@@ -22,6 +22,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
 
         $this->_updateButton('save', 'label', __('Save Rule'));
         $this->_updateButton('delete', 'label', __('Delete Rule'));
+        
+        #$this->setTemplate('promo/quote/edit.phtml');
     }
 
     public function getHeaderText()
@@ -34,5 +36,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
             return __('New Rule');
         }
     }
-
+    
+    public function getProductsJson()
+    {
+        return '{}';
+    }
 }

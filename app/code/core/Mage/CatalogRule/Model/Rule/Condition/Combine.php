@@ -14,6 +14,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Cond
         $conditions = array_merge_recursive($conditions, array(
             array('value'=>'catalogrule/rule_condition_product', 'label'=>'Product attribute'),
             array('value'=>'catalogrule/rule_condition_combine', 'label'=>'Conditions combination'),
+            array('value'=>'catalogrule/rule_condition_true', 'label'=>'Match any product'),
         ));
         return $conditions;
     }

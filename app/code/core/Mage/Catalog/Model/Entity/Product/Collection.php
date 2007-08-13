@@ -62,6 +62,15 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return $this;
     }
     
+    public function addSearchFilter($query)
+    {
+    	$this->addAttributeToFilter(array(
+            array('attribute'=>'name', 'like'=>$query.'%'),
+            array('attribute'=>'description', 'like'=>$query.'%')
+        ));
+    	return $this;
+    }
+    
     /**
      * Adding product store names to result collection
      *

@@ -51,7 +51,7 @@
             categoryProducts.remove(element.value);
         }
         $('in_category_products').value = categoryProducts.toQueryString();
-        grid.reloadParams = {'selected_proudcts[]':categoryProducts.keys()};
+        grid.reloadParams = {'selected_products[]':categoryProducts.keys()};
     }
     function categoryProductRowClick(grid, event){
         var trElement = Event.findElement(event, 'tr');

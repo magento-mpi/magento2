@@ -48,9 +48,9 @@ abstract class Mage_Rule_Model_Condition_Abstract
     {
         $this->addData(array(
             'type'=>$arr['type'],
-            'attribute'=>$arr['attribute'],
-            'operator'=>$arr['operator'],
-            'value'=>$arr['value'],
+            'attribute'=>isset($arr['attribute']) ? $arr['attribute'] : false,
+            'operator'=>isset($arr['operator']) ? $arr['operator'] : false,
+            'value'=>isset($arr['value']) ? $arr['value'] : false,
         ));
         $this->loadAttributeOptions();
         $this->loadOperatorOptions();

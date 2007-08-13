@@ -2,6 +2,15 @@
 
 class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Action
 {
+	protected function _initRule()
+	{
+		Mage::register('rule', Mage::getModel('salesrule/rule'));
+        if ($id = (int) $this->getRequest()->getParam('id')) {
+            Mage::registry('rule')
+                ->load($id);
+        }
+	}
+	
     protected function _initAction()
     {
         $this->loadLayout('baseframe')
@@ -154,5 +163,13 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         $this->_initAction();
         
         $this->renderLayout();
+    }
+    
+    public function gridAction()
+    {
+        $this->_initRule();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_product')->toHtml()
+        );
     }
 }

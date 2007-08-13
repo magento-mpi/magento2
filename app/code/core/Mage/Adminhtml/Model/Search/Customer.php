@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Customer_Model_Admin_Search extends Varien_Object 
+class Mage_Adminhtml_Model_Search_Customer extends Varien_Object 
 {
     public function load()
     {
@@ -24,6 +24,7 @@ class Mage_Customer_Model_Admin_Search extends Varien_Object
                 'type'          => 'Customer',
                 'name'          => $customer->getFirstname().' '.$customer->getLastname(),
                 'description'   => 'No description',
+                'url'           => Mage::getUrl('adminhtml/customer/edit', array('customer_id'=>$customer->getId())),
             );
         }
         

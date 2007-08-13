@@ -41,7 +41,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function globalSearchAction()
     {
-        $searchModules = Mage::getSingleton('admin/config')->getNode("admin/search/global/collections");
+        $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
         $items = array();
         if (empty($searchModules)) {
             $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>'No search modules registered', 'description'=>'Please make sure that all global admin search modules are installed and activated.');

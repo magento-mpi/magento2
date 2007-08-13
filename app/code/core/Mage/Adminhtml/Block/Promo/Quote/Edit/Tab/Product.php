@@ -8,12 +8,12 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid 
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setId('catalog_category_products');
+        $this->setId('promo_quote_grid');
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
     }
@@ -113,15 +113,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'type'      => 'currency',
             'index'     => 'price'
         ));
-        $this->addColumn('position', array(
-            'header'    => __('Position'),
-            'width'     => '70px',
-            'align'     => 'center',
-            'type'      => 'number',
-            'index'     => 'position',
-            'editable'  => true
-            //'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
-        ));
         
         return parent::_prepareColumns();
     }
@@ -135,7 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
     {
         $products = $this->getRequest()->getPost('selected_products');
         if (is_null($products)) {
-            $products = Mage::registry('category')->getProductsPosition();
+            $products = array();#Mage::registry('category')->getProductsPosition();
             return array_keys($products);
         }
         /*else {
