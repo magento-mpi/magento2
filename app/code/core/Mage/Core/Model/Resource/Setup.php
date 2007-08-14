@@ -192,6 +192,8 @@ class Mage_Core_Model_Resource_Setup
                 			$sql = file_get_contents($sqlFile);
                 			if ($sql!='') {
                 				$result = $conn->multi_query($sql);
+                			} else {
+                				$result = true;
                 			}
                 			break;
                 			
