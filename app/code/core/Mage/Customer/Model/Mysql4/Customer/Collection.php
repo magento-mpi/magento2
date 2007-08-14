@@ -22,7 +22,8 @@ class Mage_Customer_Model_Mysql4_Customer_Collection extends Varien_Data_Collect
         return $this;
     }
 
-    public function setNameFilter($q) {
+    public function setNameFilter($q)
+    {
     	$this->_sqlSelect->where("firstname LIKE ? OR lastname LIKE ?", "%{$q}%");
 
     	return $this;

@@ -2,13 +2,15 @@
 
 class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_Abstract
 {
-    protected $_conditionName = 'package_weight';
-    
-    public function setConditionName($name)
+    protected $_conditionNames = array();
+
+    public function __construct()
     {
-        $this->_conditionName = $name;
+        foreach ($this->getCode('condition_name') as $k=>$v) {
+            $this->_conditionNames[] = $k;
+        }
     }
-    
+
 	/**
 	 * Enter description here...
 	 *
@@ -20,9 +22,9 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
         if (!Mage::getStoreConfig('carriers/tablerate/active')) {
             return false;
         }
-        
+
         if (!$request->getConditionName()) {
-            $request->setConditionName($this->_conditionName);
+            $request->setConditionName(Mage::getStoreConfig('carriers/tablerate/condition_name'));
         }
 
         $result = Mage::getModel('shipping/rate_result');
@@ -41,12 +43,39 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
 
     	    $result->append($method);
         }
-        
+
     	return $result;
     }
-    
+
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
         return Mage::getResourceModel('shipping/carrier_tablerate')->getRate($request);
+    }
+
+    public function getCode($type, $code='')
+    {
+        static $codes = array(
+
+            'condition_name'=>array(
+                'package_weight' => 'Weight vs. Destination',
+                'package_value'  => 'Price vs. Destination',
+                'package_qty'    => '# of Items vs. Destination',
+            ),
+
+        );
+
+        if (!isset($codes[$type])) {
+            throw Mage::exception('Mage_Shipping', 'Invalid TableRate code type: '.$type);
+        }
+
+        if (''===$code) {
+            return $codes[$type];
+        }
+
+        if (!isset($codes[$type][$code])) {
+            throw Mage::exception('Mage_Shipping', 'Invalid TableRate code for type '.$type.': '.$code);
+        }
+
+        return $codes[$type][$code];
     }
 }
