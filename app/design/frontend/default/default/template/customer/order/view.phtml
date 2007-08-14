@@ -55,7 +55,7 @@
         <tfoot>
             <tr class="data-row-foot">
                 <td class="align-right" colspan="4">
-                    Grand Total:&nbsp;<strong><?=sprintf('$%.2f',$order->getGrandTotal())?></strong>
+                    Grand Total:&nbsp;<strong><?=$order->getGrandTotal()?></strong>
                 </td>
             </tr>
         </tfoot>
@@ -63,9 +63,9 @@
             <?foreach($_items as $_item):?>     
             <tr>
                 <td><?=$_item->getName()?></td>
-                <td class="align-center"><?=sprintf('%d',$_item->getQty())?></td>
-                <td class="align-center"><?=sprintf('$%.2f',$_item->getPrice())?></td>
-                <td class="align-right"><?=sprintf('$%.2f', $_item->getRowTotal())?></td>
+                <td class="align-center"><?=$_item->getQty()?></td>
+                <td class="align-center"><?=$_item->getPrice()?></td>
+                <td class="align-right"><?=$_item->getRowTotal()?></td>
             </tr>   
             <?endforeach?> 
         </tbody>

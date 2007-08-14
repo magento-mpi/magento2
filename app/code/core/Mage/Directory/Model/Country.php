@@ -32,4 +32,28 @@ class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
         $collection->addCountryFilter($this->getId());
         return $collection;
     }
+    
+    public function formatAddress(Varien_Object $address, $html=false)
+    {
+    	$address->getRegion();
+    	$address->getCountry();
+    	
+    	$template = $this->getData('address_template_'.($html ? 'html' : 'plain'));
+    	if (empty($template)) {
+    		if ($html) {
+    			$template = "{{firstname}} {{lastname}}
+{{company}}
+{{street1}}
+{{street2}}
+{{city}}, {{region}} {{postcode}}";
+    		} else {
+    			$template = "<b>{{firstname}} {{lastname}}</b><br/>
+{{street}}<br/>
+{{city}}, {{region}} {{postcode}}<br/>
+T: {{telephone}}";
+    		}
+    	}
+    	$filter = new Varien_Filter_Template_Simple();
+    	return $filter->setData($this->getData())->filter($template);
+    }
 }

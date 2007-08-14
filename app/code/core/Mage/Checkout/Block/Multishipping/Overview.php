@@ -45,7 +45,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     public function getShippingAddressRate($address)
     {
         if ($rate = $address->getShippingRateByCode($address->getShippingMethod())) {
-            $filter = new Varien_Filter_Sprintf('$%s', 2);
+            $filter = Mage::getSingleton('core/store')->getPriceFilter();
             $rate->setPrice($filter->filter($rate->getPrice()));
             return $rate;
         }
@@ -54,23 +54,24 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     
     public function getShippingAddressItems($address)
     {
+		$priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-        $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
-        $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
+        $itemsFilter->addFilter($priceFilter, 'price');
+        $itemsFilter->addFilter($priceFilter, 'row_total');
         return $itemsFilter->filter($address->getAllItems());
     }
     
     public function getShippingAddressTotals($address)
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
-        $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
+        $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
         return $totalsFilter->filter($address->getTotals());
     }
     
     public function getTotal()
     {
-        $filter = new Varien_Filter_Sprintf('$%s', 2);
+        $filter = Mage::getSingleton('core/store')->getPriceFilter();
         return $filter->filter($this->getCheckout()->getQuote()->getGrandTotal());
     }
     

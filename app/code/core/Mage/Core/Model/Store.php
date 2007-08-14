@@ -275,14 +275,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * @param   double $price
      * @return  double
      */
-    public function convertPrice($price)
+    public function convertPrice($price, $format=false)
     {
         if ($this->getCurrentCurrency() && $this->getDefaultCurrency()) {
-            return $this->getDefaultCurrency()->convert($price, $this->getCurrentCurrency());
+            $value = $this->getDefaultCurrency()->convert($price, $this->getCurrentCurrency());
+            if ($format) {
+            	$value = $this->getCurrentCurrency()->format($value);
+            }
+        } else {
+            $value = $price;
         }
-        else {
-            return $price;
-        }
+        return $value;
     }
     
     /**

@@ -18,7 +18,7 @@
                 <td class="align-center"><?=$order->getRealOrderId()?></td>
                 <td class="align-center"><?=date("D, j M, Y", strtotime($order->getCreatedAt()))?></td>
                 <!--<td class="align-center">{$page.orders[io].customer}</td>-->
-                <td class="align-center"><?=sprintf('$%.2f', $order->getGrandTotal())?></td>
+                <td class="align-center"><?=$order->getGrandTotal()?></td>
                 <td class="align-center"><?=$order->getStatus()?></td>
                 <td class="align-center"><a href="<?=$baseUrl?>customer/order/view/order/<?=$order->getOrderId()?>">View</a></td>
             </tr>

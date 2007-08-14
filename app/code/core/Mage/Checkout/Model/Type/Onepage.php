@@ -200,7 +200,8 @@ class Mage_Checkout_Model_Type_Onepage
                 
             case 'register':
                 $customer = $this->_createCustomer();
-                $this->_emailCustomerRegistration();
+                $customer->sendNewAccountEmail();
+                #$this->_emailCustomerRegistration();
                 $email  = $customer->getEmail();
                 $name   = $customer->getName();
                 break;
@@ -226,7 +227,8 @@ class Mage_Checkout_Model_Type_Onepage
             $orderId = $order->getIncrementId();
             $this->getCheckout()->setLastOrderId($order->getId());
             
-            $this->_emailOrderConfirmation($email, $name, $order);
+            $order->sendNewOrderEmail();
+            #$this->_emailOrderConfirmation($email, $name, $order);
 
             $res['success'] = true;
             $res['error']   = false;

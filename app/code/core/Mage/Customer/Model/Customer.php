@@ -346,4 +346,18 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return substr(md5(uniqid(rand(), true)), 0, $length);
     }
+    
+    public function sendNewAccountEmail()
+    {
+    	Mage::getModel('core/email_template')
+    		->sendTransactional('new_customer', $this->getEmail(), $this->getName(), array('customer'=>$this));
+    	return $this;
+    }
+    
+    public function sendPasswordReminderEmail()
+    {
+    	Mage::getModel('core/email_template')
+    		->sendTransactional('new_password', $this->getEmail(), $this->getName(), array('customer'=>$this));
+    	return $this;
+    }
 }

@@ -21,7 +21,7 @@ class Varien_Filter_Template_Tokenizer_Variable extends Varien_Filter_Template_T
     {
         $actions = array();
         $parameterName = '';
-        $variableSetted = false;
+        $variableSet = false;
         while($this->next()) {
             if($this->isWhiteSpace()) {
                 // Ignore white spaces
@@ -38,11 +38,11 @@ class Varien_Filter_Template_Tokenizer_Variable extends Varien_Filter_Template_T
                 $parameterName = '';
             } else if($parameterName!='') {
                 // Property or variable declaration
-                if($variableSetted) {
+                if($variableSet) {
                     $actions[] = array('type'=>'property',
                                        'name'=>$parameterName);
                 } else {
-                    $variableSetted = true;
+                    $variableSet = true;
                     $actions[] = array('type'=>'variable',
                                        'name'=>$parameterName);
                 }
@@ -51,7 +51,7 @@ class Varien_Filter_Template_Tokenizer_Variable extends Varien_Filter_Template_T
         }
         
         if($parameterName != '' ) {
-            if($variableSetted) {
+            if($variableSet) {
                     $actions[] = array('type'=>'property',
                                        'name'=>$parameterName);
             } else {

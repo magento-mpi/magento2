@@ -114,7 +114,7 @@ final class Mage {
         if (empty($id)) {
             $store = Mage::getSingleton('core/store');
         } elseif (is_numeric($id)) {
-            $store = Mage::getModel('core/store')->findById($id);
+            $store = Mage::getModel('core/store')->load($id);
             if (!$store->getCode()) {
                 throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
             }
@@ -267,6 +267,11 @@ final class Mage {
             $storage->addError($message);
         }
         throw new Exception($message);
+    }
+    
+    public static function currency($value, $format=false)
+    {
+    	return Mage::getSingleton('core/store')->convertPrice($value, $format);
     }
 
     /**

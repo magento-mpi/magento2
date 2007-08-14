@@ -46,7 +46,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
         $groups = $address->getGroupedAllShippingRates();
         if (!empty($groups)) {
             $ratesFilter = new Varien_Filter_Object_Grid();
-            $ratesFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
+            $ratesFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
             
             foreach ($groups as $code => $groupItems) {
             	$groups[$code] = $ratesFilter->filter($groupItems);

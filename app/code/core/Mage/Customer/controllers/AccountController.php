@@ -128,12 +128,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     // _('customer is registered')
                     ->addSuccess('Customer is registered');
 
-                $mailer = Mage::getModel('customer/email')
+                $customer->sendNewAccountEmail();
+                /*
+                $mailer = Mage::getModel('customer/email_template')
                     ->setTemplate('email/welcome.phtml')
                     ->setType('html')
                     ->setCustomer($customer)
                     ->send();
-
+				*/
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
             }
@@ -178,14 +180,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     $newPassword = $customer->generatePassword();
 
                     $customer->changePassword($newPassword, false);
-
-                    $mailer = Mage::getModel('customer/email')
-                        ->setTemplate('email/forgot_password.phtml')
-                        ->setCustomer($customer)
-                        ->send();
+                    
+                    $customer->sendPasswordReminderEmail();
 
                     Mage::getSingleton('customer/session')
-                        ->addError('New password was sended');
+                        ->addError(__('New password was sent'));
 
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                     return;

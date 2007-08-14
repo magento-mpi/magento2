@@ -1,6 +1,6 @@
 <?php
 
-$this->delete("delete from core_config_data where path like 'catalog%'");
+$conn->query("delete from core_config_data where path like 'catalog%'");
 $this->addConfigField('catalog', 'Catalog', array());
 $this->addConfigField('catalog/category', 'Category', array('show_in_default'=>false,'show_in_website'=>false));
 $this->addConfigField('catalog/category/root_id', 'Root category', array('show_in_default'=>false,'show_in_website'=>false));

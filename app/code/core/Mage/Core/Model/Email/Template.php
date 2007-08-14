@@ -2,6 +2,17 @@
 /**
  * Template model
  *
+ * Example:
+ * 
+ * // Loading of template
+ * $emailTemplate  = Mage::getModel('core/email_template')
+ *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
+ * $variables = array(
+ *    'someObject' => Mage::getSingleton('some_model')
+ *    'someString' => 'Some string value'
+ * );
+ * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);
+ * 
  * @package     Mage
  * @subpackage  Newsletter
  * @copyright   Varien (c) 2007 (http://www.varien.com)
@@ -78,7 +89,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
      */
     public function isValidForSend()
     {
-        return $this->getTemplateSenderName() && $this->getTemplateSenderEmail() && $this->getTemplateSubject();
+        return $this->getSenderName() && $this->getSenderEmail() && $this->getTemplateSubject();
     }
     
     /**
@@ -161,7 +172,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
                     
         $mail->setSubject($this->getProcessedTemplateSubject($variables));
-        $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
+        $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
         try {
             $mail->send();
         }
@@ -171,6 +182,20 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         
         return true;
     }
+    
+    public function sendTransactional($transCode, $email, $name, $vars=array(), $storeId=null)
+    {
+    	if (is_null($storeId)) {
+    		$storeId = Mage::getSingleton('core/store')->getId();
+    	}
+    	$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
+    	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);
+    	$this->load($templateId);
+    	$this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$identity.'/name', $storeId));
+    	$this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$identity.'/email', $storeId));
+    	$this->send($email, $name, $vars);
+    	return $this;
+	}
     
     /**
      * Delete template from DB

@@ -182,11 +182,33 @@ class Mage_Customer_Model_Address extends Varien_Object
             ->getAttributesByCode();
     }
     
+    
+    public function getRegion()
+    {
+    	if ($this->getData('region_id') && !$this->getData('region')) {
+    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getCode());
+    	}
+    	return $this->getData('region');
+    }
+    
+    public function getCountry()
+    {
+    	if ($this->getData('country_id') && !$this->getData('country')) {
+    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id')->getIso2Code()));
+    	}
+    	return $this->getData('country');
+    }
+    
     public function getHtmlFormat()
     {
         return "<b>{{firstname}} {{lastname}}</b><br/>
             {{street}}<br/>
             {{city}}, {{regionName}} {{postcode}}<br/>
             T: {{telephone}}";
+    }
+    
+    public function getFormated($html=false)
+    {
+    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 }

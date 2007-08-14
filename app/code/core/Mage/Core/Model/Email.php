@@ -13,7 +13,7 @@
  */
 class Mage_Core_Model_Email extends Varien_Object
 {
-    protected $_tplVars = array();
+	protected $_tplVars = array();
     protected $_block;
     
     public function __construct()

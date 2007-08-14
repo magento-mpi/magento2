@@ -60,9 +60,9 @@ Thanks for your order!
             <?foreach($order->getAllItems() as $_item):?>     
             <tr>
                 <td><?=$_item->getName()?></td>
-                <td class="align-center"><?=sprintf('%d',$_item->getQty())?></td>
-                <td class="align-center"><?=sprintf('$%.2f',$_item->getPrice())?></td>
-                <td class="align-right"><?=sprintf('$%.2f', $_item->getRowTotal())?></td>
+                <td class="align-center"><?=$_item->getQty()?></td>
+                <td class="align-center"><?=$_item->getPrice()?></td>
+                <td class="align-right"><?=$_item->getRowTotal()?></td>
             </tr>   
             <?endforeach?> 
         </tbody>

@@ -56,6 +56,11 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
             'name' => 'redirect',
             'label' => __('Redirect URL'),
         ));
+        
+        $fieldset->addField('synonims', 'textarea', array(
+            'name' => 'synonims',
+            'label' => __('Synonims'),
+        ));
 
 
         $form->setValues($model->getData());

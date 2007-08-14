@@ -64,5 +64,30 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
+    
+    public function getName()
+    {
+    	return $this->getFirstname().' '.$this->getLastname();
+    }
+    
+    public function getRegion()
+    {
+    	if ($this->getData('region_id') && !$this->getData('region')) {
+    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getCode());
+    	}
+    	return $this->getData('region');
+    }
+    
+    public function getCountry()
+    {
+    	if ($this->getData('country_id') && !$this->getData('country')) {
+    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id')->getIso2Code()));
+    	}
+    	return $this->getData('country');
+    }
 
+    public function getFormated($html=false)
+    {
+    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+    }
 }

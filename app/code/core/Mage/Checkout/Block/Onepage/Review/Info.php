@@ -11,17 +11,18 @@ class Mage_Checkout_Block_Onepage_Review_Info extends Mage_Checkout_Block_Onepag
 {    
     public function getItems()
     {
+		$priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-        $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
-        $itemsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'row_total');
+        $itemsFilter->addFilter($priceFilter, 'price');
+        $itemsFilter->addFilter($priceFilter, 'row_total');
         return $itemsFilter->filter($this->getQuote()->getAllItems());
     }
     
     public function getTotals()
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
-        $totalsFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'value');
+        $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
         return $totalsFilter->filter($this->getQuote()->getTotals());
     }
 }

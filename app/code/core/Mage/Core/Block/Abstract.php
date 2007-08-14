@@ -423,5 +423,4 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->getLayout()->getHelper($type);
     }
-
 }// Class Mage_Home_ContentBlock END

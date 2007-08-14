@@ -19,7 +19,7 @@ class Mage_Checkout_Block_Onepage_Shipping_Method_Available extends Mage_Checkou
             $groups = $this->getAddress()->getGroupedAllShippingRates();
             if (!empty($groups)) {
                 $ratesFilter = new Varien_Filter_Object_Grid();
-                $ratesFilter->addFilter(new Varien_Filter_Sprintf('$%s', 2), 'price');
+                $ratesFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
                 
                 foreach ($groups as $code => $groupItems) {
                 	$groups[$code] = $ratesFilter->filter($groupItems);

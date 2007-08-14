@@ -33,6 +33,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $this;
     }
+    
+    public function sendNewOrderEmail()
+    {
+    	$billing = $this->getBillingAddress();
+    	Mage::getModel('sales/email_template')
+    		->sendTransactional('new_order', $billing->getEmail(), $billing->getName(), array('order'=>$this, 'billing'=>$billing));
+    	return $this;
+    }
 
 /*********************** QUOTES ***************************/
 
