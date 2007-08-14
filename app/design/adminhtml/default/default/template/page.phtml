@@ -86,7 +86,7 @@
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
                 <div class="simple-container-left">
-					<div class="container<?=($this->getChild('left')->getIsCollapsed()?'-collapsed' : '')?>">
+					<div class="container<?=($this->getChild('left')->getIsCollapsed()?'-collapsed' : '')?> <?=$this->getContainerCssClass()?>">
 							<div class="main">
 									<div class="content-container">
 											<div class="content" id="content">

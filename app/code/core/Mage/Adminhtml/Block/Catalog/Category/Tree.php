@@ -159,7 +159,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         return $this;
     }
     
-    protected function _getNodeJson($node, $level=1)
+    protected function _getNodeJson($node, $level=0)
     {
         $item = array();
         $item['text']= $node->getName();
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
         //$item['allowDrop'] = ($level<3) ? true : false;
         $item['allowDrop'] = true;
-        $item['allowDrag'] = true;
+        $item['allowDrag'] = ($node->getLevel()==1) ? false : true;
         if ($node->hasChildren()) {
             $item['children'] = array();
             foreach ($node->getChildren() as $child) {

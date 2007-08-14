@@ -211,12 +211,31 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
             $this->_conn->update($this->_table, $data, $condition);
             // Update old node branch
             $this->_conn->update($this->_table, $dataReorderOld, $conditionReorderOld);
+            $this->_updateChildLevels($node->getId(), $data[$this->_levelField]);
             $this->_conn->commit();
         }
         catch (Exception $e){
             $this->_conn->rollBack();
             throw new Exception('Can\'t move tree node');
         }
+    }
+    
+    protected function _updateChildLevels($parentId, $parentLevel)
+    {
+        $select = $this->_conn->select()
+            ->from($this->_table, $this->_idField)
+            ->where($this->_parentField.'=?', $parentId);
+        $ids = $this->_conn->fetchCol($select);
+        
+        if (!empty($ids)) {
+            $this->_conn->update($this->_table, 
+                array($this->_levelField=>$parentLevel+1), 
+                $this->_conn->quoteInto($this->_idField.' IN (?)', $ids));
+            foreach ($ids as $id) {
+            	$this->_updateChildLevels($id, $parentLevel+1);
+            }
+        }
+        return $this;
     }
     
     protected function _loadFullTree()
