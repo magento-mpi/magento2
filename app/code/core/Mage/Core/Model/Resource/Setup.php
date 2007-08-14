@@ -190,7 +190,9 @@ class Mage_Core_Model_Resource_Setup
                 	switch ($fileType) {
                 		case 'sql':
                 			$sql = file_get_contents($sqlFile);
-                			$result = $conn->multi_query($sql);
+                			if ($sql!='') {
+                				$result = $conn->multi_query($sql);
+                			}
                 			break;
                 			
                 		case 'php':
