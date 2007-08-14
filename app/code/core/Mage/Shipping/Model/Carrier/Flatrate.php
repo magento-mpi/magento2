@@ -23,7 +23,6 @@ class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_A
         }
 
         $result = Mage::getModel('shipping/rate_result');
-        $rate = $this->getRate($request);
         if (Mage::getStoreConfig('carriers/flatrate/type') == 'O') { // per order
             $shippingPrice = Mage::getStoreConfig('carriers/flatrate/price');
         } elseif (Mage::getStoreConfig('carriers/flatrate/type') == 'I') { // per item
@@ -39,7 +38,7 @@ class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_A
 	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/flatrate/title'));
 	    	
 	    	$method->setMethod('flatrate');
-	    	$method->setMethodTitle(Mage::getStoreConfig('carriers/flatrate/title'));
+	    	$method->setMethodTitle(Mage::getStoreConfig('carriers/flatrate/name'));
 	    	
 	    	$method->setPrice($shippingPrice);
 	    	$method->setCost($shippingPrice);
