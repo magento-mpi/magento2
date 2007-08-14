@@ -55,7 +55,7 @@ class Mage_Tax_Model_Mysql4_Rule
         $ruleArray = array(
             'tax_customer_class_id' => $ruleObject->getTaxCustomerClassId(),
             'tax_product_class_id' => $ruleObject->getTaxProductClassId(),
-            'tax_rate_type_id' => $ruleObject->getTaxRateTypeId()
+            'tax_rate_id' => $ruleObject->getRateTypeId()
         );
 
         if( $ruleObject->getTaxRuleId() > 0 ) {

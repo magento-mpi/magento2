@@ -47,7 +47,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addSuccess('Tax rule successfully saved.');
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError('Error while saving this tax rule. Please, try again later.');
+                #Mage::getSingleton('adminhtml/session')->addError('Error while saving this tax rule. Please, try again later.');
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_returnLocation();
             }
         }

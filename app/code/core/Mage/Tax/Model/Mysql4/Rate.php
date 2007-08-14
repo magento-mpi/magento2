@@ -74,7 +74,7 @@ class Mage_Tax_Model_Mysql4_Rate
         $rateArray = array(
             'tax_county_id' => $rateObject->getTaxCountyId(),
             'tax_region_id' => $rateObject->getTaxRegionId(),
-            'tax_postcode' => $rateObject->getTaxPostcode()
+            'tax_zip_code' => $rateObject->getTaxZipCode()
         );
         if( intval($rateObject->getTaxRateId()) <= 0 ) {
             $this->_write->insert($this->_rateTable, $rateArray);

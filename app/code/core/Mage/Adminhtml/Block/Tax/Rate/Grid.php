@@ -22,25 +22,29 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'=>__('State'),
                 'align' =>'left',
-                'index' => 'region_name'
+                'index' => 'region_name',
+                'filter_index' => 'name',
             )
         );
 
         $this->addColumn('county_name',
             array(
-                'header'=>__('County'),
-                'align' =>'left',
-                'index' => 'county_name',
-                'default' => __('*')
+                'header'        =>__('County'),
+                'align'         =>'left',
+                'index'         => 'county_name',
+                'filter_index'  => 'county',
+                'sortable'      => false,
+                'filter'        => false,
+                'default'       => __('*'),
             )
         );
 
-        $this->addColumn('postcode',
+        $this->addColumn('tax_zip_code',
             array(
                 'header'=>__('Zip/Post Code'),
                 'align' =>'left',
-                'index' => 'tax_postcode',
-                'default' => __('*')
+                'index' => 'tax_zip_code',
+                'default' => __('*'),
             )
         );
 

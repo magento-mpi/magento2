@@ -49,8 +49,7 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
         }
 
         $this->_sqlSelect->joinLeft($this->_regionTable, "{$this->_rateTable}.tax_region_id = {$this->_regionTable}.region_id", array('region_name' => 'name'));
-        //$this->_sqlSelect->joinLeft($this->_postcodeTable, "{$this->_postcodeTable}.county = {$this->_rateTable}.tax_county_id", array('county_name' => 'county')); /* FIXME!!! */
-
+        #$this->_sqlSelect->joinLeft($this->_postcodeTable, "{$this->_postcodeTable}.county = {$this->_rateTable}.tax_county_id", array('county_name' => 'county')); /* FIXME!!! */
         return $this;
     }
 

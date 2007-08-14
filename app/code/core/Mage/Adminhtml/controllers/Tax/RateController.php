@@ -51,7 +51,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                Mage::getSingleton('adminhtml/session')->addError('Error while saving this rate. Please try again later.');
+                #Mage::getSingleton('adminhtml/session')->addError('Error while saving this rate. Please try again later.');
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
     }
