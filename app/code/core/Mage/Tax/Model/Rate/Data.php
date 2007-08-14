@@ -25,7 +25,6 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
 			|| !$this->getRegionId()
 			|| !$this->getCustomerClassId()
 			|| !$this->getProductClassId()) {
-print_r($this->getData());
 			return 0;
 			#throw Mage::exception('Mage_Tax', 'Invalid data for tax rate calculation');	
 		}
