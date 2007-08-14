@@ -13,62 +13,62 @@
 
 /* Widget Buttons - Scalable!! */
 button.scalable {
-    margin:0 !important;
-    border:none !important;
-    padding:0 !important;
-    background:none !important;
-    cursor:pointer !important;
-    font:bold 12px Arial, sans-serif !important;
-    vertical-align:middle !important;
-    font-size:12px !important;
-    width:auto !important;
-    overflow:visible !important;
+    margin:0;
+    border:none;
+    padding:0 ;
+    background:none;
+    cursor:pointer;
+    font:bold 12px Arial, sans-serif;
+    vertical-align:middle;
+    font-size:12px;
+    width:auto;
+    overflow:visible;
     }
 button.scalable table {
     border: none !important;
     }
 button.scalable td {
-    border: none !important;
-    background-image:url(images/btn_task_bg.gif) !important;
+    border: none;
+    background-image:url(images/btn_task_bg.gif);
     }
 button.scalable td span {
-    display:block !important;
+    display:block;
     }
 button.scalable td.tl {
-    height:4px !important;
-    background-position:0 0 !important;
-    background-repeat:no-repeat !important;
+    height:4px;
+    background-position:0 0;
+    background-repeat:no-repeat;
     }
 button.scalable td.tr {
-    width:5px !important;
-    height:4px !important;
-    background-position:100% 0 !important;
-    background-repeat:no-repeat !important;
+    width:5px;
+    height:4px;
+    background-position:100% 0;
+    background-repeat:no-repeat;
     }
 button.scalable td.ml {
-    background-position:0 -5px !important;
-    background-repeat:no-repeat !important;
-    padding:1px 7px 2px 14px !important;
-    color:#fff !important;
-    vertical-align:middle !important;
-    line-height:12px !important;
-        white-space:nowrap !important;
+    background-position:0 -5px;
+    background-repeat:no-repeat;
+    padding:1px 7px 2px 14px;
+    color:#fff;
+    vertical-align:middle;
+    line-height:12px;
+	white-space:nowrap;
     }
 button.scalable td.mr {
-    width:6px !important;
-    background-position:100% -5px !important;
-    background-repeat:no-repeat !important;
+    width:6px;
+    background-position:100% -5px;
+    background-repeat:no-repeat;
     }
 button.scalable td.bl {
-    height:5px !important;
-    background-position:0 100% !important;
-    background-repeat:no-repeat !important;
+    height:5px;
+    background-position:0 100%;
+    background-repeat:no-repeat;
     }
 button.scalable td.br {
-    width:6px !important;
-    height:5px !important;
-    background-position:100% 100% !important;
-    background-repeat:no-repeat !important;
+    width:6px;
+    height:5px;
+    background-position:100% 100%;
+    background-repeat:no-repeat;
     }
 
 button.back td.ml,
@@ -434,7 +434,7 @@ fieldset .validation-advice{
     margin:2px 0 0 10em;
     margin-right:20px;
 }
-input.validation-failed, textarea.validation-failed { 
+input.validation-failed, textarea.validation-failed {
     background:#fef0ed;
     border: 1px dashed #d6340e;
     }

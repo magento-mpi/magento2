@@ -713,3 +713,12 @@ div.actions:after,
 	left: 0px;
 	top: 0px;
 }
+
+/*********************** Sales create order ***********************/
+#sc_addresses .entry-edit fieldset .input-text {
+    width: 220px;
+}
+#sc_addresses .entry-edit fieldset label {
+    width: 8em;
+}
+
