@@ -15,7 +15,7 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
     {
         $value = $object->getData($this->getAttribute()->getName());
 
-        if (!empty($value['delete'])) {
+        if (is_array($value) && !empty($value['delete'])) {
             $object->setData($this->getAttribute()->getName(), '');
             $this->getAttribute()->getEntity()
                 ->saveAttribute($object, $this->getAttribute()->getName());

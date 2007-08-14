@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     
     public function getMoveUrl()
     {
-        return $this->getUrl('*/catalog_category/move');
+        return $this->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
     }
     
     public function getRoot()

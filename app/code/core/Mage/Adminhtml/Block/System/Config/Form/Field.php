@@ -23,19 +23,12 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
         // replace [value] with [inherit]
         $namePrefix = substr($element->getName(), 0, strlen($element->getName())-7);
 
-        $inherit = $element->getInherit()==1 ? 'checked' : '';
         $options = $element->getValues();
-        
-        if ($inherit) {
-            $element->setDisabled(true);
-        }
 
         if ($isMultiple) {
             $element->setName($element->getName().'[]');
         }
 
-        $html.= '<td class="value">'.$element->getElementHtml().'</td>';
-        
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {
             $addInheritCheckbox = true;
@@ -47,6 +40,15 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
         }
         
         if ($addInheritCheckbox) {
+            $inherit = $element->getInherit()==1 ? 'checked' : '';
+            if ($inherit) {
+                $element->setDisabled(true);
+            }
+        }
+        
+        $html.= '<td class="value">'.$element->getElementHtml().'</td>';
+        if ($addInheritCheckbox) {
+            
             $defText = $element->getDefaultValue();
             if ($options) {
                 $defTextArr = array();

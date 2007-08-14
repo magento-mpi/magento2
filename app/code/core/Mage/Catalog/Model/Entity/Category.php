@@ -77,10 +77,27 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $object)
     {
         parent::_afterSave($object);
+        //$this->_saveInStores($object);
         
         $this->_saveCategoryProducts($object)
             ->_updateCategoryPath($object, $this->_getTree()->getPath($object->getId()));
             
+        return $this;
+    }
+    
+    protected function _saveInStores(Varien_Object $object)
+    {
+        if (!$object->getMultistoreSaveFlag()) {
+            $stores = $object->getStoreIds();
+            foreach ($stores as $storeId) {
+                if ($object->getStoreId() != $storeId) {
+                	$newObject = clone $object;
+                	$newObject->setStoreId($storeId)
+                	   ->setMultistoreSaveFlag(true)
+                	   ->save();
+                }
+            }
+        }
         return $this;
     }
     
@@ -186,5 +203,49 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         	$products[$product->getId()] = $product->getPosition();
         }
         return $products;
+    }
+    
+    public function move(Mage_Catalog_Model_Category $category, $newParentId)
+    {
+        $oldStoreId = $category->getStoreId();
+        $parent = Mage::getModel('catalog/category')
+            ->setStoreId($category->getStoreId())
+            ->load($category->getParentId());
+            
+        $newParent = Mage::getModel('catalog/category')
+            ->setStoreId($category->getStoreId())
+            ->load($newParentId);
+            
+        $oldParentStores = $parent->getStoreIds();
+        $newParentStores = $newParent->getStoreIds();
+        
+        $category->setParentId($newParentId)
+            ->save();
+        $parent->save();
+        $newParent->save();
+        
+        // Add to new stores
+        $addToStores = array_diff($newParentStores, $oldParentStores);
+        foreach ($addToStores as $storeId) {
+        	$newCategory = clone $category;
+        	$newCategory->setStoreId($storeId)
+        	   ->save();
+            $children = $category->getAllChildren();
+            
+            if ($children && $arrChildren = explode(',', $children)) {
+                foreach ($arrChildren as $childId) {
+                    if ($childId == $category->getId()) {
+                        continue;
+                    }
+
+                	$child = Mage::getModel('catalog/category')
+                	   ->setStoreId($oldStoreId)
+                	   ->load($childId)
+                	   ->setStoreId($storeId)
+                	   ->save();
+                }
+            }
+        }
+        return $this;
     }
 }

@@ -100,6 +100,17 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
     
     /**
+     * Move category
+     *
+     * @return Mage_Catalog_Model_Category
+     */
+    public function move($parentId)
+    {
+        $this->getResource()->move($this, $parentId);
+        return $this;
+    }
+
+    /**
      * Retrieve default attribute set id
      *
      * @return int
