@@ -58,11 +58,6 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
         return parent::_prepareColumns();
     }
 
-    public function getGridUrl()
-    {
-        return $this->getUrl('*/*/userGrid', array('_current'=>true));
-    }
-
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/edituser', array('id' => $row->getUserId()));
