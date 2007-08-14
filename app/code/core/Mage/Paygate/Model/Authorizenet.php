@@ -60,12 +60,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
             ->setCcTransId($result->getTransactionId())
             ->setCcAvsStatus($result->getAvsResultCode())
             ->setCcCidStatus($result->getCardCodeResponseCode());
-        
-        if (Mage::getStoreConfig('payment/authorizenet/debug')) {
-            $payment->setCcDebugRequestBody($result->getRequestBody())
-                ->setCcDebugResponseBody($result->getResponseBody())
-                ->setCcDebugResponseSerialized(serialize($result));
-        }
             
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
@@ -253,10 +247,18 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
             ->setTransactionType($r[11])
             ->setCustomerId($r[12])
             ->setMd5Hash($r[37])
-            ->setCardCodeResponseCode($r[39])
+            ->setCardCodeResponseCode($r[39]);
             
-            ->setRequestBody($requestBody)
-            ->setResponseBody($responseBody);
+        if (Mage::getStoreConfig('payment/authorizenet/debug')) {
+        	Mage::getModel('paygate/authorizenet_debug')
+        		->setRequestBody($requestBody)
+        		->setResponseBody($responseBody)
+        		->setRequestSerialized(serialize($request->getData()))
+        		->setResultSerialized(serialize($result->getData()))
+        		->setRequestDump(print_r($request->getData(),1))
+        		->setResultDump(print_r($result->getData(),1))
+        		->save();
+        }
             
         return $result;
     }
