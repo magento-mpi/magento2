@@ -33,6 +33,8 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     
     protected function _afterSave(Varien_Object $object)
     {
+        parent::_afterSave($object);
+        
         $this
         	->_saveBundle($object)
         	->_saveSuperConfig($object)
@@ -40,7 +42,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
             ->_saveCategories($object)
             ->_saveLinkedProducts($object);
             
-    	return parent::_afterSave($object);
+    	return $this;
     }
     
     /**

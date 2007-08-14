@@ -27,7 +27,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('qty')
             ->addAttributeToSelect('price')
-            ->addAttributeToSelect('status')
             ->joinField('store_id', 
                 'catalog/product_store', 
                 'store_id', 
@@ -42,6 +41,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         if ($storeId) {
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
+            $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $storeId);
+        }
+        else {
+            $collection->addAttributeToSelect('status');
         }
 
         $collection->getEntity()->setStore(0);
@@ -91,6 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header'=> __('Price'),
                 'type'  => 'currency',
+                'currency_code' => 'USD',
                 'index' => 'price',
         ));
         $this->addColumn('qty',
@@ -137,8 +141,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
         ));
 
-        $this->addExportType('*/*/exportCsv', __('CSV'));
-        $this->addExportType('*/*/exportXml', __('XML'));
+        //$this->addExportType('*/*/exportCsv', __('CSV'));
+        //$this->addExportType('*/*/exportXml', __('XML'));
 
         return parent::_prepareColumns();
     }

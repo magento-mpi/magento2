@@ -123,6 +123,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
             if ($root && $rootId != 1) {
                 $root->setIsVisible(true);
             }
+            elseif($root && $root->getId() == 1) {
+                $root->setName(__('Root'));
+            }
             
             $this->_addCategoryInfo($root);
             $this->setData('root', $root);

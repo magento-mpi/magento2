@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     /**
      * Retrieve product resource model
      *
-     * @return mixed
+     * @return Mage_Eav_Model_Entity_Abstract
      */
     public function getResource()
     {
@@ -638,15 +638,21 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getImageUrl()
     {
-        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
-        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
+        //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
+        $url = false;
+        if ($attribute = $this->getResource()->getAttribute('image')) {
+            $url = $attribute->getFrontend()->getUrl($this);            
+        }
         return $url;
     }
         
     public function getSmallImageUrl()
     {
-        #$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).'catalog/product/'.($this->getProductId()%977).'/'.$this->getProductId().'.orig.'.$this->getImage();
-        $url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
+        //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
+        $url = false;
+        if ($attribute = $this->getResource()->getAttribute('small_image')) {
+            $url = $attribute->getFrontend()->getUrl($this);            
+        }
         return $url;
     }
     

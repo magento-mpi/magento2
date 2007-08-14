@@ -64,6 +64,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append($block);
         
         $this->renderLayout();
+        Mage::getSingleton('checkout/session')->clear();
     }
 
     /**
@@ -133,8 +134,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function saveOrderAction()
     {
         $result = $this->getOnepage()->saveOrder();
-        
-        #$this->getResponse()->setHeader('Content-type', 'application/x-json');
         $this->getResponse()->setBody(Zend_Json::encode($result));
     }
 }

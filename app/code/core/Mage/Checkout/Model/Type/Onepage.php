@@ -220,9 +220,10 @@ class Mage_Checkout_Model_Type_Onepage
             }
             
             $order->save();
+            $this->getQuote()->setIsActive(false);
+            $this->getQuote()->save();
 
             $orderId = $order->getIncrementId();
-            #$this->getCheckout()->clear();
             $this->getCheckout()->setLastOrderId($order->getId());
             
             $this->_emailOrderConfirmation($email, $name, $order);

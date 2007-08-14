@@ -5,6 +5,7 @@
         <div id="tree-div" class="tree"></div>
     </fieldset>
 </div>
+<?if($this->getRootNode() && $this->getRootNode()->hasChildren()):?>
 <script type="text/javascript">
 Ext.EventManager.onDocumentReady(function() {
 	var tree = new Ext.tree.TreePanel('tree-div', {
@@ -44,7 +45,8 @@ Ext.EventManager.onDocumentReady(function() {
 
 function bildCategoryTree(parent, config){
     if (!config) return null;
-	if (parent && config && config.length){
+	
+    if (parent && config && config.length){
         for (var i = 0; i < config.length; i++){
             config[i].uiProvider = Ext.tree.CheckboxNodeUI;
             var node = new Ext.tree.TreeNode(config[i]);
@@ -61,3 +63,4 @@ function categoryClick(node, e){
     varienElementMethods.setHasChanges(Event.element(e), e);
 };
 </script>
+<?endif;?>
