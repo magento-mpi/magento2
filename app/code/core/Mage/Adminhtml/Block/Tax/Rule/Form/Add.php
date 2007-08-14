@@ -38,9 +38,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                         ->load()
                         ->toOptionArray();
 
-        $fieldset->addField('customer_tax_class', 'select',
+        $fieldset->addField('tax_customer_class_id', 'select',
                             array(
-                                'name' => 'customer_tax_class',
+                                'name' => 'tax_customer_class_id',
                                 'label' => __('Customer Tax Class'),
                                 'title' => __('Please, select Customer Tax Class'),
                                 'class' => 'required-entry',
@@ -50,9 +50,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                             )
         );
 
-        $fieldset->addField('product_tax_class', 'select',
+        $fieldset->addField('tax_product_class_id', 'select',
                             array(
-                                'name' => 'product_tax_class',
+                                'name' => 'tax_product_class_id',
                                 'label' => __('Product Tax Class'),
                                 'title' => __('Please, select Product Tax Class'),
                                 'class' => 'required-entry',
@@ -62,21 +62,21 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
                             )
         );
 
-        $fieldset->addField('rate_type', 'select',
+        $fieldset->addField('tax_rate_type_id', 'select',
                             array(
-                                'name' => 'rate_type',
+                                'name' => 'tax_rate_type_id',
                                 'label' => __('Rate'),
                                 'title' => __('Please, select Rate'),
                                 'class' => 'required-entry',
                                 'values' => $rateTypeCollection,
-                                'value' => $ruleObject->getTaxRateId()
+                                'value' => $ruleObject->getTaxRateTypeId()
                             )
         );
 
         if( $ruleId > 0 ) {
-            $fieldset->addField('rule_id', 'hidden',
+            $fieldset->addField('tax_rule_id', 'hidden',
                                 array(
-                                    'name' => 'rule_id',
+                                    'name' => 'tax_rule_id',
                                     'value' => $ruleId,
                                     'no_span' => true
                                 )

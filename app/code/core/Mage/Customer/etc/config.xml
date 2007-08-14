@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.5.1</version>
+            <version>0.5.2</version>
             <depends>
                 <Mage_Eav />
             </depends>
@@ -81,6 +81,7 @@
             <customer_setup>
                 <setup>
                     <module>Mage_Customer</module>
+                    <class>Mage_Customer_Model_Entity_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

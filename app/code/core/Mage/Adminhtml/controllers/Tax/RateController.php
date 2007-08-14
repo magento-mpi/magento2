@@ -74,7 +74,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         if( $rateId = $this->getRequest()->getParam('rate') ) {
             try {
                 $rateModel = Mage::getSingleton('tax/rate');
-                $rateModel->setRateId($rateId);
+                $rateModel->setTaxRateId($rateId);
                 $rateModel->delete();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
                 Mage::getSingleton('adminhtml/session')->addSuccess('Tax rate successfully deleted.');

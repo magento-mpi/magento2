@@ -33,17 +33,17 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax Rate Information')));
 
         if( $rateObject->getTaxRateId() > 0 ) {
-            $fieldset->addField('rate_id', 'hidden',
+            $fieldset->addField('tax_rate_id', 'hidden',
                                 array(
-                                    'name' => "rate_id",
+                                    'name' => "tax_rate_id",
                                     'value' => $rateObject->getTaxRateId()
                                 )
             );
         }
 
-        $fieldset->addField('region', 'select',
+        $fieldset->addField('tax_region_id', 'select',
                             array(
-                                'name' => 'region',
+                                'name' => 'tax_region_id',
                                 'label' => __('State'),
                                 'title' => __('Please, select State'),
                                 'class' => 'required-entry',
@@ -54,9 +54,9 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         );
 
         /* FIXME!!! {*/
-        $fieldset->addField('county', 'select',
+        $fieldset->addField('tax_county_id', 'select',
                             array(
-                                'name' => 'county',
+                                'name' => 'tax_county_id',
                                 'label' => __('County'),
                                 'title' => __('Please, select County'),
                                 'values' => array(
@@ -70,12 +70,12 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         );
         /*} */
 
-        $fieldset->addField('zip_code', 'text',
+        $fieldset->addField('tax_postcode', 'text',
                             array(
-                                'name' => 'zip_code',
+                                'name' => 'tax_postcode',
                                 'label' => __('Zip/Post Code'),
                                 'title' => __('Zip/Post Code Title'),
-                                'value' => $rateObject->getTaxZipCode()
+                                'value' => $rateObject->getTaxPostcode()
                             )
         );
 

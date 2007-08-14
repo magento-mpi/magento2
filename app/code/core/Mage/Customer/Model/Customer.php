@@ -360,4 +360,21 @@ class Mage_Customer_Model_Customer extends Varien_Object
     		->sendTransactional('new_password', $this->getEmail(), $this->getName(), array('customer'=>$this));
     	return $this;
     }
+    
+    public function getCustomerGroup()
+    {
+    	if (!$this->getData('customer_group')) {
+    		$storeId = $this->getStoreId() ? $this->getStoreId() : Mage::getSingleton('core/store')->getId();
+    		$this->setCustomerGroup(Mage::getStoreConfig('customer/default/group', $storeId));
+    	}
+    	return $this->getData('customer_group');
+    }
+    
+    public function getTaxClassId()
+    {
+    	if (!$this->getData('tax_class_id')) {
+			$this->setTaxClassId(Mage::getModel('customer/group')->load($this->getCustomerGroup())->getTaxClassId());
+    	}
+    	return $this->getData('tax_class_id');
+    }
 }

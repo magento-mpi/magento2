@@ -72,15 +72,15 @@ class Mage_Tax_Model_Mysql4_Rate
     public function save($rateObject)
     {
         $rateArray = array(
-            'tax_county_id' => $rateObject->getCountyId(),
-            'tax_region_id' => $rateObject->getRegion(),
-            'tax_zip_code' => $rateObject->getZipCode()
+            'tax_county_id' => $rateObject->getTaxCountyId(),
+            'tax_region_id' => $rateObject->getTaxRegionId(),
+            'tax_postcode' => $rateObject->getTaxPostcode()
         );
-        if( intval($rateObject->getRateId()) <= 0 ) {
+        if( intval($rateObject->getTaxRateId()) <= 0 ) {
             $this->_write->insert($this->_rateTable, $rateArray);
             $rateId = $this->_write->lastInsertId();
         } else {
-            $rateId = $rateObject->getRateId();
+            $rateId = $rateObject->getTaxRateId();
             $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateId);
             $this->_write->update($this->_rateTable, $rateArray, $condition);
 
@@ -100,7 +100,7 @@ class Mage_Tax_Model_Mysql4_Rate
 
     public function delete($rateObject)
     {
-        $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateObject->getRateId());
+        $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateObject->getTaxRateId());
         $this->_write->delete($this->_rateTable, $condition);
     }
 }

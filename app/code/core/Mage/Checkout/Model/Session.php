@@ -37,7 +37,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             if ($this->getQuoteId() && !$quote->getCustomerId()) {
                 $customerSession = Mage::getSingleton('customer/session');
                 if ($customerSession->isLoggedIn()) {
-                    $quote->setCustomerId($customerSession->getCustomerId())->save();
+                    $quote->setCustomer($customerSession->getCustomer())->save();
                 }
             }
             $this->_quote = $quote;

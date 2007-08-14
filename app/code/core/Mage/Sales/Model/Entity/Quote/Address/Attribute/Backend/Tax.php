@@ -5,11 +5,16 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Tax
 {
     public function collectTotals(Mage_Sales_Model_Quote_Address $address)
     {
-        $address->setTaxPercent(8.25);
         $address->setTaxAmount(0);
         
+        $tax = Mage::getModel('tax/rate_data')
+        	->setRegionId($address->getRegionId())
+        	->setPostcode($address->getPostcode())
+        	->setCustomerClassId($address->getQuote()->getCustomerTaxClassId());
+        
         foreach ($address->getAllItems() as $item) {
-            $item->setTaxPercent($address->getTaxPercent());//NONO
+        	$tax->setProductClassId($item->getTaxClassId());
+            $item->setTaxPercent($tax->getRate());
             $item->calcTaxAmount();
             $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
         }

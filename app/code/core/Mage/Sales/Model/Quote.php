@@ -2,6 +2,7 @@
 
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
+	protected $_customer;
     protected $_addresses;
     protected $_items;
     protected $_payments;
@@ -40,6 +41,21 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $arr['payments'] = $this->getPaymentsCollection()->toArray();
         return $arr;
     }
+
+/*********************** CUSTOMER ***************************/
+
+	public function setCustomer(Mage_Customer_Model_Customer $customer) 
+	{
+		$this->_customer = $customer;
+		$this->setCustomerId($customer->getId());
+		$this->setCustomerTaxClassId($customer->getTaxClassId());
+		return $this;
+	}
+	
+	public function getCustomer()
+	{
+		return $this->_customer;
+	}
 
 /*********************** ADDRESSES ***************************/
 
