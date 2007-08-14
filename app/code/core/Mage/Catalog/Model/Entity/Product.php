@@ -317,6 +317,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     			->save();
     	}
     	
+    	$linkExistsProductIds = array();
     	$links = $object->getSuperLinksForSave();
     	foreach (array_keys($links) as $productId) {
     		$linkModel = Mage::getModel('catalog/product_super_link')
@@ -324,6 +325,16 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     			->setProductId($productId)
     			->setParentId($object->getId())
     			->save();
+    		
+    		$linkExistsProductIds[] = $productId;
+    	}
+    	
+    	$linkCollection = $this->getSuperLinkCollection($object)->load();
+    	
+    	foreach($linkCollection as $item) {
+    		if(!in_array($item->getProductId(), $linkExistsProductIds)) {
+    			$item->delete();
+    		}
     	}
     	
     	return $this;
