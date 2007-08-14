@@ -28,6 +28,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
             ->setImage($product->getImage())
             ->setName($product->getName())
             ->setWeight($product->getWeight())
+            ->setTaxClassId($product->getTaxClassId())
             ->setQty($product->getQty())
             ->setPrice($product->getFinalPrice($product->getQty()));
         

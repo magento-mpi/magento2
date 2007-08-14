@@ -1,0 +1,1 @@
+update customer_group set tax_class_id=1;

@@ -1,0 +1,1 @@
+ALTER TABLE `usa_postcode` ADD INDEX `postcode` (`postcode`);

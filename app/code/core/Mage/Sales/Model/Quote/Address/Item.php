@@ -38,9 +38,9 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteIten)
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteItem)
     {
-        $item = clone $quoteIten;
+        $item = clone $quoteItem;
         $item->setQuoteItemId($item->getId());
         $qty = $item->getQty();
         
