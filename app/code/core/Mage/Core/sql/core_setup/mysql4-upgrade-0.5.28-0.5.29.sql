@@ -18,7 +18,7 @@ INSERT INTO `core_config_field` (`field_id`, `level`, `path`, `frontend_label`, 
 DELETE FROM `core_config_data` WHERE `path` IN('payment/verisign','payment/verisign/active','payment/verisign/order_status','payment/verisign/title','payment/verisign/sort_order','payment/verisign/user','payment/verisign/vendor','payment/verisign/partner','payment/verisign/pwd','payment/verisign/tender','payment/verisign/trxtype','payment/verisign/verbosity','payment/verisign/url', 'payment/verisign/model');
 
 INSERT INTO `core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value`, `old_value`, `inherit`) VALUES 
-(349, 'default', 0, 'payment/verisign/active', '1', '0', 0),
+(349, 'default', 0, 'payment/verisign/active', '0', '0', 0),
 (350, 'default', 0, 'payment/verisign/order_status', '1', '', 0),
 (383, 'default', 0, 'payment/verisign/model', 'paygate/payflow_pro', '', 0),
 (442, 'default', 0, 'payment/verisign/title', 'Credit Card (Verisign)', '', 0),
