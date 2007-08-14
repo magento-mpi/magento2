@@ -31,6 +31,7 @@ class Mage_Tax_Model_Mysql4_Rate_Data extends Mage_Core_Model_Mysql4_Abstract
 			$select->where('rate.tax_county_id is null or rate.tax_county_id=?', $request->getCountyId());
 		}
 		// retrieve all found rate data rows
+		Mage::log($select->__toString());
 		$rows = $this->getConnection('read')->fetchAll($select);
 
 		return $rows ? $rows[0]['value'] : 0;

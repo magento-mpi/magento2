@@ -44,8 +44,11 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
 
 	public function getRegionId()
 	{
-		if (!$this->getData('region_id') && $this->getPostcode()) {
-			$this->setRegionId(Mage::getModel('usa/postcode')->load($this->getPostcode())->getRegionId());
+		if ($this->getPostcode()) {
+			$regionId = Mage::getModel('usa/postcode')->load($this->getPostcode())->getRegionId();
+			if ($regionId) {
+				$this->setRegionId($regionId);
+			}
 		}
 		return $this->getData('region_id');
 	}

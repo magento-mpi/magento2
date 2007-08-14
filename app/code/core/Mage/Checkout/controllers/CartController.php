@@ -162,7 +162,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->getQuote()->getShippingAddress()
             ->setPostcode($postcode)->collectShippingRates();
             
-        $this->getQuote()->save();
+        $this->getQuote()->collectTotals()->save();
         
         $this->_backToCart();
     }
