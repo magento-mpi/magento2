@@ -22,7 +22,7 @@
                 <paygate>
                    <authorizenet />
                    <paypal />
-                   <verisign />
+                   <payflow_pro />
                 </paygate>
                 <sales>
                    <orders />

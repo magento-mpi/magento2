@@ -15,21 +15,27 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
     {
         $address = Mage::getModel('customer/customer')
             ->load(Mage::getSingleton('customer/session')->getCustomerId())
-            ->getPrimaryShippingAddress()
-            ->getData();
+            ->getPrimaryShippingAddress();
 
-        $this->setData($address);
-        return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
+        if( $address instanceof Varien_Object ) {
+            $this->setData($address->getData());
+            return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
+        } else {
+            return __('Please, add new ddress');
+        }
     }
 
     public function getPrimaryBillingAddress()
     {
         $address = Mage::getModel('customer/customer')
             ->load(Mage::getSingleton('customer/session')->getCustomerId())
-            ->getPrimaryBillingAddress()
-            ->getData();
+            ->getPrimaryBillingAddress();
 
-        $this->setData( $address );
-        return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
+        if( $address instanceof Varien_Object ) {
+            $this->setData($address->getData());
+            return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
+        } else {
+            return __('Please, add new ddress');
+        }
     }
 }

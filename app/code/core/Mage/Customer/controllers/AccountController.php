@@ -32,11 +32,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function indexAction()
     {
         $this->loadLayout(array('default', 'customer_dashboard'), 'customer_dashboard');
-
         $this->_initLayoutMessages('customer/session');
 
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('customer/account_dashboard'));
-
         $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
 
         $this->renderLayout();

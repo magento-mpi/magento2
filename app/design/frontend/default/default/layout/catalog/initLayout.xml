@@ -6,7 +6,7 @@
         </block>
     </reference>
     <reference name="right">
-        <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar" before="-">
+        <block type="catalog/product_compare_sidebar" name="catalog_compare_sidebar" >
             <action method="setTemplate"><template>catalog/product/compare/sidebar.phtml</template></action>
         </block>
     </reference>

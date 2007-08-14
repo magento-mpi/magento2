@@ -71,6 +71,11 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         elseif ($method == Zend_Http_Client::GET) {
         	curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
         }
+        
+        if( is_array($headers) ) {
+            curl_setopt($this->_getResource(), CURLOPT_HTTPHEADER, $headers);
+        }
+
         curl_setopt($this->_getResource(), CURLOPT_HEADER, true);
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYHOST, 0);
