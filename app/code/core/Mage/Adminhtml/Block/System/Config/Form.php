@@ -41,8 +41,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
         $form = new Varien_Data_Form();
         
-        $fieldsetRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset');
-        $fieldRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_field');
+        $defaultFieldsetRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset');
+        $defaultFieldRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_field');
         $fieldset = array();
         
         foreach ($configFields->getItems() as $e) {
@@ -58,6 +58,11 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     break;
                     
                 case 2: // group
+                	if ($e->getFrontendModel()) {
+                		$fieldsetRenderer = Mage::getSingleton($e->getFrontendModel());
+                	} else {
+                		$fieldsetRenderer = $defaultFieldsetRenderer;
+                	}
                     $fieldset[$pathArr[1]] = $form->addFieldset($pathArr[1], array(
                         'legend'=>__($e->getFrontendLabel())
                     ))->setRenderer($fieldsetRenderer);
@@ -72,7 +77,11 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     } else {
                         $data = array('value'=>'', 'default_value'=>'', 'old_value'=>'', 'inherit'=>'');
                     }
-                    
+                	if ($e->getFrontendModel()) {
+                		$fieldRenderer = Mage::getSingleton($e->getFrontendModel());
+                	} else {
+                		$fieldRenderer = $defaultFieldRenderer;
+                	}
                     $fieldType = $e->getFrontendType();
                     
                     $field = $fieldset[$pathArr[1]]->addField(
