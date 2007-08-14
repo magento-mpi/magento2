@@ -113,7 +113,4 @@ categoryMove = function(obj){
     var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:success,failure:failure, scope:obj}, pd.join(""));
 }
 </script>
-<?else:?>
-<br/><br/>
-<strong><?=__('Set root category in configuration')?></strong>
 <?endif;?>

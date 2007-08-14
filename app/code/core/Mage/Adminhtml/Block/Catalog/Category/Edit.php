@@ -49,6 +49,27 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         );
     }
     
+    public function hasStoreRootCategory()
+    {
+        $root = $this->getLayout()->getBlock('category.tree')->getRoot();
+        if ($root && $root->getId()) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function getStoreConfigurationUrl()
+    {
+        $storeId = (int) $this->getRequest()->getParam('store');
+        $params = array('section'=>'catalog');
+        if ($storeId) {
+            $store = Mage::getModel('core/store')->load($storeId);
+            $params['website'] = '';
+            $params['store']   = $store->getCode();
+        }
+        return $this->getUrl('*/system_config/edit', $params);
+    }
+    
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('_current'=>true));
@@ -71,12 +92,18 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     
     public function getSaveButtonHtml()
     {
-        return $this->getChildHtml('save_button');
+        if ($this->hasStoreRootCategory()) {
+            return $this->getChildHtml('save_button');
+        }
+        return '';
     }
     
     public function getResetButtonHtml()
     {
-        return $this->getChildHtml('reset_button');
+        if ($this->hasStoreRootCategory()) {
+            return $this->getChildHtml('reset_button');
+        }
+        return '';
     }
 
     public function getTabsHtml()
@@ -86,7 +113,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     
     public function getHeader()
     {
-        return $this->getCategoryId() ? $this->getCategoryName() : __('New Category');
+        if ($this->hasStoreRootCategory()) {
+            return $this->getCategoryId() ? $this->getCategoryName() : __('New Category');
+        }
+        return __('Set Root Category For Store');
     }
     
     public function getDeleteUrl()
