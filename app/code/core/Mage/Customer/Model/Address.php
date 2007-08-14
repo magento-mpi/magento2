@@ -194,7 +194,7 @@ class Mage_Customer_Model_Address extends Varien_Object
     public function getCountry()
     {
     	if ($this->getData('country_id') && !$this->getData('country')) {
-    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id')->getIso2Code()));
+    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
     	}
     	return $this->getData('country');
     }

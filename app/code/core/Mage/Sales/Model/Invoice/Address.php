@@ -81,7 +81,7 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
     public function getCountry()
     {
     	if ($this->getData('country_id') && !$this->getData('country')) {
-    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id')->getIso2Code()));
+    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
     	}
     	return $this->getData('country');
     }

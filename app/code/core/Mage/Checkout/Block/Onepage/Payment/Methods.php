@@ -22,11 +22,13 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_L
         foreach ($methods as $methodConfig) {
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();
-            $method = Mage::getModel($className)
-                ->setPayment($this->getQuote()->getPayment());
-            $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
-            if (!empty($methodBlock)) {
-                $this->append($methodBlock);
+            $method = Mage::getModel($className);
+            if ($method) {
+                $method->setPayment($this->getQuote()->getPayment());
+            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
+            	if (!empty($methodBlock)) {
+	                $this->append($methodBlock);
+    	        }
             }
         }
         return $this;
