@@ -4,6 +4,9 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
 {
     public function toHtml()
     {
+    	if (!Mage::getStoreConfig('dev/debug/profiler')) {
+    		return '';
+    	}
         $timers = Varien_Profiler::getTimers();
 
         $out = '<div style1="position:fixed;bottom:5px;right:5px;opacity:.1;background:white" onmouseover1="this.style.opacity=1" onmouseout1="this.style.opacity=.1">';
