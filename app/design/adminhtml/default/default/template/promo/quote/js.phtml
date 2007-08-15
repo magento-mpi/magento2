@@ -3,15 +3,21 @@
     
 <?if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()):?>
     function registerRuleProduct(grid, element, checked){
-        if(checked){
-            alert('add pr to field');
+    	var product_ids = $('rule_product_ids');
+    	var ids_arr = product_ids.value!='' ? product_ids.value.split(',') : [];
+    	var id = element.value;
+
+        if (checked){
+        	ids_arr[ids_arr.length] = id;
+        	console.log(ids_arr);
+        	ids_arr = ids_arr.uniq();
+        } else {
+			ids_arr = ids_arr.without(id);
         }
-        else{
-            alert('remove pr from field');
-        }
-        alert('set new values');
-        //$('product_ids').value = 
-        grid.reloadParams = {'selected_products':''}; // add ids to request
+        console.log(ids_arr);
+        product_ids.value = ids_arr.join(',');
+        console.log(product_ids.value);
+        grid.reloadParams = {'selected_products':product_ids.value}; // add ids to request
     }
     
     function ruleProductRowClick(grid, event){

@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
     
     protected function _prepareColumns()
     {
-        $this->addColumn('in_category', array(
+        $this->addColumn('product_in_category', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
             'name'      => 'in_category',
@@ -92,22 +92,22 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
             'align'     => 'center',
             'index'     => 'entity_id'
         ));
-        $this->addColumn('id', array(
+        $this->addColumn('product_id', array(
             'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
-        $this->addColumn('name', array(
+        $this->addColumn('product_name', array(
             'header'    => __('Name'),
             'index'     => 'name'
         ));
-        $this->addColumn('sku', array(
+        $this->addColumn('product_sku', array(
             'header'    => __('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
-        $this->addColumn('price', array(
+        $this->addColumn('product_price', array(
             'header'    => __('Price'),
             'align'     => 'center',
             'type'      => 'currency',
@@ -124,14 +124,15 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
     
     protected function _getSelectedProducts()
     {
+    	$model = Mage::registry('current_promo_quote_rule');
         $products = $this->getRequest()->getPost('selected_products');
         if (is_null($products)) {
-            $products = array();#Mage::registry('category')->getProductsPosition();
-            return array_keys($products);
+        	if ($model) {
+	           	return explode(',', $model->getProductIds());
+        	}
+        } else {
+            return explode(',', $products);
         }
-        /*else {
-            $products = explode(',', $products);
-        }*/
-        return $products;
+        return array();
     }
 }

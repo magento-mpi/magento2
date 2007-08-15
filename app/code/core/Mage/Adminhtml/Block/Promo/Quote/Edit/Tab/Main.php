@@ -48,11 +48,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'required' => true,
         ));
 
-        $fieldset->addField('coupon_code', 'text', array(
-            'name' => 'coupon_code',
-            'label' => __('Coupon code'),
-        ));
-        
     	$fieldset->addField('is_active', 'select', array(
             'label'     => __('Status'),
             'title'     => __('Status'),
@@ -87,6 +82,11 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'values'    => $customerGroups,
         ));
         
+        $fieldset->addField('coupon_code', 'text', array(
+            'name' => 'coupon_code',
+            'label' => __('Coupon code'),
+        ));
+        
     	$fieldset->addField('from_date', 'date', array(
             'name' => 'from_date',
             'label' => __('From Date'),
@@ -105,7 +105,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'label'     => __('Stop further rules processing'),
             'title'     => __('Stop further rules processing'),
             'name'      => 'stop_rules_processing',
-            'required' => true,
             'options'    => array(
                 '1' => __('Yes'),
                 '0' => __('No'),
