@@ -51,6 +51,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
+            ->addFieldFilter('type_id', 1) // Todo: remove harcoded value
             ->addLinkAttributeToSelect('position')
             ->addLinkAttributeToSelect('qty')
             ->useProductItem();
