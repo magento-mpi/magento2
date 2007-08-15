@@ -146,7 +146,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 
             }
         }
-        $this->getQuote()->getShippingAddress()->collectTotals();
+        #$this->getQuote()->getShippingAddress()->collectTotals();
         $this->getQuote()->save();
 
         $this->_backToCart();
@@ -164,7 +164,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->getQuote()->getShippingAddress()
             ->setPostcode($postcode)->collectShippingRates();
             
-        $this->getQuote()->collectTotals()->save();
+        $this->getQuote()/*->collectTotals()*/->save();
         
         $this->_backToCart();
     }
@@ -173,7 +173,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $code = $this->getRequest()->getParam('estimate_method');
         
-        $this->getQuote()->getShippingAddress()->setShippingMethod($code)->collectTotals()->save();
+        $this->getQuote()->getShippingAddress()->setShippingMethod($code)/*->collectTotals()*/->save();
         
         $this->_backToCart();
     }
@@ -186,7 +186,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $couponCode = $this->getRequest()->getParam('coupon_code');
         }
         
-        $this->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
+        $this->getQuote()->setCouponCode($couponCode)/*->collectTotals()*/->save();
         
         $this->_backToCart();
     }
@@ -199,7 +199,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $giftCode = $this->getRequest()->getParam('giftcert_code');
         }
         
-        $this->getQuote()->setGiftcertCode($giftCode)->collectTotals()->save();
+        $this->getQuote()->setGiftcertCode($giftCode)/*->collectTotals()*/->save();
         
         $this->_backToCart();
     }

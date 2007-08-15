@@ -67,12 +67,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     if (!$session->login($username, $password)) {
                         // _('invalid login or password')
                         $session->addError('Invalid login or password');
-                        Mage::getSingleton('customer/session')->setUsername($username);
+                        $session->setUsername($username);
                     }
                 }
             }
         }
-        $this->getResponse()->setRedirect($session->getBeforeAuthUrl());
+        if ($this->getBeforeAuthPost()) {
+        	$this->_redirectPost($session->getBeforeAuthUrl(), array(), $session->getBeforeAuthPost());
+        } else {
+        	$this->getResponse()->setRedirect($session->getBeforeAuthUrl());
+        }
     }
 
     /**

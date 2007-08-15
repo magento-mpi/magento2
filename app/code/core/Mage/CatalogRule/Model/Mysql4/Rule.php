@@ -41,7 +41,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $actionStop = $rule->getStopRulesProcessing();
 
         $rows = array();
-        $header = 'insert into '.$this->getTable('catalogrule/rule_product').' (rule_id, from_time, to_time, store_id, customer_group_id, product_id, action_operator, action_amount, action_stop, sort_order) values ';
+        $header = 'replace into '.$this->getTable('catalogrule/rule_product').' (rule_id, from_time, to_time, store_id, customer_group_id, product_id, action_operator, action_amount, action_stop, sort_order) values ';
         try {
             $write->beginTransaction();
             

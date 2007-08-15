@@ -300,6 +300,11 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
     }
+    
+    protected function _redirectPost($path, $arguments, array $post)
+    {
+    	$this->_redirect($path, $arguments);
+    }
 
     /**
      * Redirect to success page
