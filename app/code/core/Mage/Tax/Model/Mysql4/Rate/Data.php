@@ -24,7 +24,7 @@ class Mage_Tax_Model_Mysql4_Rate_Data extends Mage_Core_Model_Mysql4_Abstract
 		// join rate table with conditions
 		$select->join(array('rate'=>$this->getTable('tax_rate')), 'rate.tax_rate_id=data.tax_rate_id', array());
 		$select->where('rate.tax_region_id=?', $request->getRegionId());
-		$select->where('rate.tax_postcode is null or rate.tax_postcode=?', $request->getPostcode());
+		$select->where("rate.tax_postcode is null or rate.tax_postcode='' or rate.tax_postcode=?", $request->getPostcode());
 		// for future county handling 
 		if ($request->getCountyId()) {
 			// TODO: make it play nice with zip
