@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
 {
     public function getId()
     {
@@ -17,12 +17,12 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
         }
         return $this->getData('id');
     }
-    
+
     public function getHtmlId()
     {
         return $this->getId();
     }
-    
+
     public function getCurrentUrl($params=array())
     {
         return Mage::getUrl('*/*/*', array('_current'=>true));
@@ -32,4 +32,9 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
     }
+
+    public function getButtonHtml($label, $onclick) {
+        return $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array('label' => $label, 'onclick' => $onclick))->toHtml();
+    }
+
 }
