@@ -28,7 +28,11 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
                 'name' => 'rule_id',
             ));
         }
-
+        
+    	$fieldset->addField('product_ids', 'hidden', array(
+            'name' => 'product_ids',
+        ));
+        
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
             'label' => __('Rule Name'),
@@ -42,6 +46,11 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'title' => __('Description'),
             'style' => 'width: 98%; height: 100px;',
             'required' => true,
+        ));
+
+        $fieldset->addField('coupon_code', 'text', array(
+            'name' => 'coupon_code',
+            'label' => __('Coupon code'),
         ));
         
     	$fieldset->addField('is_active', 'select', array(
@@ -58,7 +67,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
         $stores = Mage::getResourceModel('core/store_collection')
             ->addFieldToFilter('store_id', array('neq'=>0))
             ->load()->toOptionArray();
-
+            
     	$fieldset->addField('store_ids', 'multiselect', array(
             'name'      => 'store_ids[]',
             'label'     => __('Stores'),
