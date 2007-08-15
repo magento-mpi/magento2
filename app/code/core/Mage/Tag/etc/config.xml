@@ -81,14 +81,5 @@
                 </updates>
             </customer_dashboard>
         </layouts>
-        <routers>
-            <tag>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Tag</module>
-                    <frontName>tag</frontName>
-                </args>
-            </tag>
-        </routers>
     </frontend>
 </config>
