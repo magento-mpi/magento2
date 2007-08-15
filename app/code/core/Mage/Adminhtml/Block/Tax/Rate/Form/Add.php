@@ -70,12 +70,12 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         );
         /*} */
 
-        $fieldset->addField('tax_zip_code', 'text',
+        $fieldset->addField('tax_postcode', 'text',
                             array(
-                                'name' => 'tax_zip_code',
+                                'name' => 'tax_postcode',
                                 'label' => __('Zip/Post Code'),
                                 'title' => __('Zip/Post Code Title'),
-                                'value' => $rateObject->getTaxZipCode()
+                                'value' => $rateObject->getTaxPostcode()
                             )
         );
 

@@ -39,11 +39,11 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             )
         );
 
-        $this->addColumn('tax_zip_code',
+        $this->addColumn('tax_postcode',
             array(
                 'header'=>__('Zip/Post Code'),
                 'align' =>'left',
-                'index' => 'tax_zip_code',
+                'index' => 'tax_postcode',
                 'default' => __('*'),
             )
         );
