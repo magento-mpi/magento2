@@ -663,6 +663,11 @@ p.grand_total { padding-right:15px; }
 .zoom-out { position:absolute; right:10px; top:7px;}
 #handle1 { position:absolute; left:30px; top:5px; width:9px; height:19px;background:url(../images/magnifier_handle.gif) no-repeat ;  }
 
+.related-items li .product-images { float:left; width:80px; }
+.related-items li .product-images img { margin-left:4px; }
+.related-items li .product-details { float:right; width:80px; }
+
+
 .product-shop { float:right; width:55%; }
 .product-attributes, .product-pricing {
     margin:10px 0;
