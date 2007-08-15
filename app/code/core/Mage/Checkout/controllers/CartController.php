@@ -25,7 +25,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         Mage::getSingleton('checkout/session')->resetCheckout();
-        $this->getQuote()->collectTotals()->save();
+        if ($this->getQuote()->hasItems()) {
+        	$this->getQuote()->collectTotals()->save();
+        }
         
         $this->loadLayout(array('default', 'cart'), 'cart');
         
