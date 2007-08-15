@@ -1,0 +1,33 @@
+<script type="text/javascript">
+    var ruleForm = new varienForm('rule_edit_form');
+    
+<?if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()):?>
+    function registerRuleProduct(grid, element, checked){
+        if(checked){
+            alert('add pr to field');
+        }
+        else{
+            alert('remove pr from field');
+        }
+        alert('set new values');
+        //$('product_ids').value = 
+        grid.reloadParams = {'selected_products':''}; // add ids to request
+    }
+    
+    function ruleProductRowClick(grid, event){
+        var trElement = Event.findElement(event, 'tr');
+        var isInput   = Event.element(event).tagName == 'INPUT';
+        if(trElement){
+            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            if(checkbox[0]){
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                <?=$_gridJsObject?>.setCheckboxChecked(checkbox[0], checked);
+            }
+        }
+    }
+
+    <?=$_gridJsObject?>.rowClickCallback = ruleProductRowClick;
+    //<?=$_gridJsObject?>.initRowCallback = ruleProductRowInit;
+    <?=$_gridJsObject?>.checkboxCheckCallback = registerRuleProduct;
+<?endif;?>
+</script>

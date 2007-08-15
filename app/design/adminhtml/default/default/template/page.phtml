@@ -47,8 +47,8 @@
     <!--[if lt IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('below_ie7.css')?>" type="text/css" media="all" /> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all" /> <![endif]-->
     <!--[if lt IE 7]>
-    	<script defer type="text/javascript" src="<?=$this->getJsUrl()?>js/lib/ds-sleight.js"></script>
-    	<script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js"></script>
+        <script defer type="text/javascript" src="<?=$this->getJsUrl()?>js/lib/ds-sleight.js"></script>
+        <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js"></script>
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>"/>
@@ -72,7 +72,7 @@
 <?endif;?>
 
 <?if($this->getCanLoadRulesJs()):?>
-	<script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/rules.js" ></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/rules.js" ></script>
 <?endif?>
 </head>
 <body>
@@ -86,21 +86,21 @@
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
                 <div class="simple-container-left">
-					<div class="container<?=($this->getChild('left')->getIsCollapsed()?'-collapsed' : '')?> <?=$this->getContainerCssClass()?>">
-							<div class="main">
-									<div class="content-container">
-											<div class="content" id="content">
-												<?=$this->getMessagesBlock()->getGroupedHtml()?>
-												<?=$this->getChildHtml('content')?>
-											</div>
-									</div>
-									<div class="section-menu">
-										<?=$this->getChildHtml('left')?>
-										<div class="bottom"></div>
-									</div>
-							</div>
-					</div>
-				</div>
+                    <div class="container<?=($this->getChild('left')->getIsCollapsed()?'-collapsed' : '')?> <?=$this->getContainerCssClass()?>">
+                            <div class="main">
+                                    <div class="content-container">
+                                            <div class="content" id="content">
+                                                <?=$this->getMessagesBlock()->getGroupedHtml()?>
+                                                <?=$this->getChildHtml('content')?>
+                                            </div>
+                                    </div>
+                                    <div class="section-menu">
+                                        <?=$this->getChildHtml('left')?>
+                                        <div class="bottom"></div>
+                                    </div>
+                            </div>
+                    </div>
+                </div>
                 <?else:?>
                 <div class="simple-container">
                     <?=$this->getMessagesBlock()->getGroupedHtml()?>
@@ -111,6 +111,7 @@
         <div class="footer">
             <?=$this->getChildHtml('footer')?>
         </div>
+        <?=$this->getChildHtml('js')?>
     </td></tr></table>
 <?=$this->getChildHtml('profiler')?>
 <div id="loading-process" style="display:none"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..." align="absmiddle" height="16"/></div>
