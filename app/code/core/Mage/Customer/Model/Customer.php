@@ -7,7 +7,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Customer extends Varien_Object
+class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Model_Shared_Interface
 {
     protected $_addressCollection;
 
@@ -17,6 +17,8 @@ class Mage_Customer_Model_Customer extends Varien_Object
      * @var Mage_Newsletter_Subscriber
      */
     protected $_subscriber = null;
+
+    protected $_store = null;
 
     public function __construct($customer=false)
     {
@@ -346,21 +348,21 @@ class Mage_Customer_Model_Customer extends Varien_Object
     {
         return substr(md5(uniqid(rand(), true)), 0, $length);
     }
-    
+
     public function sendNewAccountEmail()
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional('new_customer', $this->getEmail(), $this->getName(), array('customer'=>$this));
     	return $this;
     }
-    
+
     public function sendPasswordReminderEmail()
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional('new_password', $this->getEmail(), $this->getName(), array('customer'=>$this));
     	return $this;
     }
-    
+
     public function getCustomerGroup()
     {
     	if (!$this->getData('customer_group')) {
@@ -369,7 +371,7 @@ class Mage_Customer_Model_Customer extends Varien_Object
     	}
     	return $this->getData('customer_group');
     }
-    
+
     public function getTaxClassId()
     {
     	if (!$this->getData('tax_class_id')) {
@@ -377,4 +379,32 @@ class Mage_Customer_Model_Customer extends Varien_Object
     	}
     	return $this->getData('tax_class_id');
     }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        if (is_null($this->_store)) {
+            if ($this->getStoreId() == Mage::getSingleton('core/store')->getId()) {
+                $this->_store = Mage::getSingleton('core/store');
+            } else {
+                $this->_store = Mage::getModel('core/store')->load($this->getStoreId());
+            }
+        }
+        return $this->_store;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
+    public function getDatashareStoreIds()
+    {
+        return $this->getStore()->getDatashareStores('customer');
+    }
+
 }

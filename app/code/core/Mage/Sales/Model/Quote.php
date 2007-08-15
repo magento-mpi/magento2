@@ -14,6 +14,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
 /*********************** QUOTE ***************************/
 
+    /**
+     * Init new quote
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function initNewQuote()
     {
         #$this->setBillingAddress(Mage::getModel('sales/quote_address'));
@@ -44,16 +49,27 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
 /*********************** CUSTOMER ***************************/
 
-	public function setCustomer(Mage_Customer_Model_Customer $customer) 
+	public function setCustomer(Mage_Customer_Model_Customer $customer)
 	{
 		$this->_customer = $customer;
 		$this->setCustomerId($customer->getId());
 		$this->setCustomerTaxClassId($customer->getTaxClassId());
 		return $this;
 	}
-	
+
 	public function getCustomer()
 	{
+	    if (is_null($this->_customer)) {
+	        $customer = Mage::getModel('customer/customer');
+	        /* @var $customer Mage_Customer_Model_Customer */
+	        if ($customerId = $this->getCustomerId()) {
+	            $customer->load($customerId);
+	            if (! $customer->getId()) {
+	                $this->setCustomerId(null);
+	            }
+	        }
+	        $this->_customer = $customer;
+	    }
 		return $this->_customer;
 	}
 
@@ -243,6 +259,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return sizeof($this->getAllItems())>0;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param int $itemId
+     * @return Mage_Sales_Model_Quote_Item
+     */
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -393,6 +415,56 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             foreach ($this->getAllShippingAddresses() as $address) {
                 $address->createOrder();
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        if (is_null($this->_store)) {
+            if ($storeId = $this->getStoreId()) {
+                $store = Mage::getModel('core/store')->load($this->getStoreId());
+                /* @var $store Mage_Core_Model_Store */
+                if ($store->getId()) {
+                    $this->setStore($store);
+                }
+            }
+            if (is_null($this->_store)) {
+                $this->setStore(Mage::getSingleton('core/store'));
+            }
+        }
+        return $this->_store;
+    }
+
+    /**
+     * Set store
+     *
+     * @param Mage_Core_Model_Store $store
+     * @return Mage_Sales_Model_Quote
+     */
+    public function setStore(Mage_Core_Model_Store $store)
+    {
+        $this->_store = $store;
+        $this->setStoreId($store->getId());
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param int $storeId
+     * @return Mage_Sales_Model_Quote
+     */
+    public function setStoreId($storeId)
+    {
+        $this->setData('store_id', $storeId);
+        if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
+            $this->_store = null;
         }
         return $this;
     }
