@@ -187,7 +187,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if(isset($data['categories'])) {
                 $categories = explode(',', $data['categories']);
             }
-            var_dump($categories);die();
+            
             if (isset($data['stores'])) {
                 $stores = $data['stores'];
             }
