@@ -1,18 +1,21 @@
-<div class="product-images">
 
-    <div style="position:relative; overflow:hidden; width:300px; height:300px;" class="product-image">
-        <img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" style="position:relative; left:2px; top:2px; width:100%; cursor:move; z-index:999;" ondblclick="toggleFull()"/>
-    </div>
 
-    <p></p>
 
-	<div id="track1">
-		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_out.gif')?>" alt="-" class="zoom-in"/>
-        <div id="track2">
-		    <div id="handle1"></div>
-        </div>
-		<img src="<?=$this->getSkinUrl('images/magnifier_zoom_in.gif')?>" alt="+" class="zoom-out"/>
-	</div>
+
+<div class="product-info-box">
+	<div class="product-essential">
+		<div class="product-img-box">
+			<p class="main-product-img">
+					<img id="image" src="<?=$product->getImageUrl()?>" width="265" alt="<?=$product->getName()?>"ondblclick="toggleFull()"/>
+			</p>
+			<div class="image-zoom">
+				<div id="track1">
+					<div id="track2">
+						<div id="handle1"></div>
+					</div>
+				</div>
+			</div>
+
 
     <script type="text/javascript">
         var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
@@ -70,17 +73,20 @@
     </script>
 
     <?if (!is_null($this->getGalleryImages())):?>
-	<h4>More Views</h4>
-	<ul class="more-views">
-        <?foreach ($this->getGalleryImages() as $_image):?>
-    		<li><a href="<?=$_image->setType(0)->getSourceUrl();?>" target="_blank"><img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/></a></li>
-		<?endforeach;?>
-      	<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
-	</ul>
+			<div class="more-views">
+				<h4>More Views</h4>
+				<ul>
+							<?foreach ($this->getGalleryImages() as $_image):?>
+							<li><a href="<?=$_image->setType(0)->getSourceUrl();?>" target="_blank"><img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/></a></li>
+					<?endforeach;?>
+							<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
+				</ul>
     <?endif;?>
-</div>
+			</div>
+		</div>
+
 <div class="product-shop">
-	<h3><?=$product->getName()?></h3>
+<h3 class="product-name"><?=$product->getName()?></h3>
     <?=$this->getChildHtml('rating')?>
 	<?if( $reviewCount ):?>
 		<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
@@ -141,7 +147,7 @@
 				<tr>
 					<td><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></td>
 	
-					<td><button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+					<td><a class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></a>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
 					<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
 					<?if($this->getCompareJsObjectName()):?>
 						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
@@ -151,8 +157,6 @@
 		</fieldset>
 		<?else:?>
 		<p><small>Availability: Out of stock.</small></p>
-		<p class="price-box">
-		</p>
 		<fieldset class="add-to-box">
 			<legend>Add items to cart </legend>
 			<table cellspacing="0">
@@ -171,7 +175,7 @@
 		<legend>Add items to cart </legend>
 		<table cellspacing="0">
 			<tr>
-				<td><button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
+				<td><a class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></a>&nbsp;&nbsp;<strong>or</strong>&nbsp;</td>
 				<td><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
 				<?if($this->getCompareJsObjectName()):?>
 					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
@@ -189,7 +193,8 @@
     		}
     	}.bind(productAddToCartForm);
     </script>
-	<div class="dotted-divider"></div>
+		<div class="clear"></div>
+	<div class="divider"></div>
 	<div class="required-products">
 
 		<h4>Required Items</h4>
@@ -198,19 +203,19 @@
 			<li>Items name goes here</li>
 			<li>Items name goes here</li>
 			<li>Items name goes here</li>
-
-		</ul>
+								</ul>
+							</div>
+						</div>
 	</div>
-</div>
-<div class="clear"></div>
-
-<div class="product-info-box">
-	<h3>Features and Specifications</h3>
+					</div>
+					<div class="product-collateral">
+						<div class="collateral-box">
+	<div class="head"><h4>Features and Specifications</h4></div>
 	<p><?=$product->getDescription()?></p></div>
 
 <?if($product->getRelatedProductsLoaded()->getSize()):?>
-<div class="product-info-box">
-	<h3>You may be interested in these items</h3>
+<div class="collateral-box">
+	<div class="head"><h4>You may be interested in these items</h4></h4></div>
 	<table cellspacing="0" class="generic-product-grid">
 		<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
 		<?$_relatedPerRow=4?>
@@ -257,7 +262,8 @@
 
 <?=$this->getChildHtml('tagList')?>
 
-<div class="product-info-box" id="customer-reviews">
+<div class="collateral-box" id="customer-reviews">
 <?=$this->getChildHtml('reviewList')?>
 <?=$this->getChildHtml('reviewForm')?>
+</div>
 </div>

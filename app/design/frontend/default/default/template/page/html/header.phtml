@@ -5,26 +5,24 @@
 						<p class="this-is-a-demo"><strong>This is a demo store. Any orders placed through this store will not be logged or fulfilled.</strong></p>
 						<p class="no-show"><a href="#main"><strong>Skip to main content &raquo;</strong></a></p>
 <?=$this->getChildHtml('topSearch')?>
-					</div>
-				</div>
-		
 
-<!-- // .quick-access -->
-				<!--<div class="quick-access">
-					<div class="account-access">
-						<p><strong><?=$this->getWelcome()?></strong></p>
-                        <?=$this->getChildHtml('topLeftLinks')?>
-					</div>
-					<div class="shop-access">
-						<p class="cart-count">These are currently <strong>3 items</strong> in your cart.</p>
-                        <?=$this->getChildHtml('topRightLinks')?>
-					</div>
-				</div>
-				<div class="clear"></div>-->
 
+					<div class="quick-access">
+						<div class="account-access">
+							<p><strong><?=$this->getWelcome()?></strong> <?=$this->getChildHtml('topLeftLinks')?>
+							<!-- <span class="links"><a href="#">My Account</a><span class="pipe">|</span><a href="#">Log out</a></span> -->
+							<?=$this->getChildHtml('topLeftLinks')?></p>
+						</div>
+						<div class="shop-access">
+							<?=$this->getChildHtml('topRightLinks')?>
+						</div>
+					</div>
 <!-- [ends] .quick-access // -->
 
 
+					</div>
+				</div>
+		
 
 
                 <?=$this->getChildHtml('topMenu')?>

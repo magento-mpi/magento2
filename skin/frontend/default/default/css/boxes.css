@@ -573,7 +573,7 @@ h1#logo {
 
 .base-mini {border:1px solid #d0cbc1; background:#fff; line-height:1.3em;  font-size:.95em;  }
 .base-mini .head { margin:0 1px; border-bottom:1px solid #ddd; background:url(../images/base_mini_head_bg.gif) repeat-x #fff; padding:2px 8px; }
-.base-mini .head h4 { padding:1px 0 1px 21px;  }
+.base-mini .head h4 { padding:1px 0 1px 21px; text-align:left; }
 .base-mini .head h4 .count { text-transform:none; color:#2f2f2f; }
 .base-mini .tabs {  margin-top:.5em; padding:0 8px 0 8px; background:url(../images/base_mini_tabs_bg.gif) repeat-x 0 100%; }
 .base-mini .tabs li { float:left; margin-right:3px; padding:0; }
@@ -776,6 +776,20 @@ p.grand_total { padding-right:15px; }
 	font-size:1.2em;
 	}
 .product-img-box { float:left; width:267px; }
+.product-img-box .main-product-img {
+	position:relative; 
+	overflow:hidden; 
+	width:265px; 
+	height:265px;
+	}
+.product-img-box .main-product-img img {
+	position:relative; 
+	left:2px; 
+	top:2px; 
+	width:100%; 
+	cursor:move; 
+	z-index:999;
+	}
 .product-img-box .more-views h4 { border-bottom:1px solid #ccc; margin-bottom:.8em; font-size:.95em; text-transform:uppercase; }
 .product-img-box .more-views li { float:left; margin-right:6px;}
 .product-img-box .more-views li.last { margin-right:0; }
@@ -785,7 +799,7 @@ p.grand_total { padding-right:15px; }
 .product-info-box .price-box { margin:10px 0;}
 
 /* Product Info */
-.image-zoom { height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat; padding:0 28px 0 25px;}
+.image-zoom { height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat; padding:0 34px 0 25px;}
 #track1 { position:relative; }
 #handle1 { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat ;  }
 
@@ -804,8 +818,7 @@ p.grand_total { padding-right:15px; }
 
 #customer-reviews li { margin-bottom:25px; }
 #customer-reviews li p { clear:both; }
-.product-collateral .tags .col-2 { background:#; }
-.product-collateral .tags .col-2 .input-text { width:200px; }
+.product-collateral .add-tag-box .input-text { float:left; width:300px; margin-right:5px; }
 .tags-list li {
 	display:inline;
 	background:url(../images/separator.gif) no-repeat 100% .4em;

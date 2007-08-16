@@ -1,26 +1,26 @@
-<div class="product-info-box tags fm ">
-	<h3><?=__('Product Tags')?></h3>
-	<?if( $this->getCount() ):?>
-	<p><strong><?=__('Other customers tagged this product')?>:</strong></p>
-	<ul class="tags-list">
-		<?$_iterator = 0;?>
-		<?foreach( $this->getTags() as $_tag ):?>
-			<li <?if( 1 == ++$_iterator && $this->getCount() != 1 ):?>class="first"<?elseif($_iterator == $this->getCount()):?>class="last"<?endif;?>><a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a> (<?=$_tag->getPopularity()?>)</li>
-		<?endforeach;?>
-	</ul>
-	<br/>
-	<?endif;?>
-	<h4><?=__('Add your tags')?>:</h4>
-
-	<p>
+<div class="collateral-box tags">
+	<div class="head">
+		<h4><?=__('Product Tags')?></h4>
+	</div>
+		<?if( $this->getCount() ):?>
+			<p><strong><?=__('Other customers tagged this product')?>:</strong></p>
+			<ul class="tags-list">
+				<?$_iterator = 0;?>
+				<?foreach( $this->getTags() as $_tag ):?>
+					<li <?if( 1 == ++$_iterator && $this->getCount() != 1 ):?>class="first"<?elseif($_iterator == $this->getCount()):?>class="last"<?endif;?>><a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a> (<?=$_tag->getPopularity()?>)</li>
+				<?endforeach;?>
+			</ul>
+		<?endif;?>
+	<h5><?=__('Add your tags')?>:</h5>
+	<div class="add-tag-box">
 		<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="POST">
-			<input type="text" class="input-text required-entry" style="width:300px;" name="tagName" />
-			<button class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Add Tags')?></span></button>
+			<input type="text" class="input-text required-entry" name="tagName" />
+			<a class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Add Tags')?></span></a>
 		</form>
 		<script type="text/javascript">
 			var tagForm = new VarienForm('addTagForm');
 		</script>
-		<br/>
+		<div class="clear"></div>
 		<small><?=__('Use spaces to separate tags. Use single quotes(\') for phrases')?>.</small>
-	</p>
+	</div>
 </div>
