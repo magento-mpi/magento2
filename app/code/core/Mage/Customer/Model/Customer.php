@@ -409,61 +409,10 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         return $this->getResource()->getSharedStoreIds();
     }
 
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function __clone()
-    {
-//        echo 'cloning customer' . "\n<br>";
-//        if (self::$_cloneCounter++ > 0) {
-//            throw new Exception();
-//        }
-        $customer = Mage::getModel('customer/customer');
-        /* @var $customer Mage_Customer_Model_Customer */
-        $customer->unsetData('entity_id');
-        foreach ($this->getLoadedAddressCollection() as $address) {
-            /* @var $address Mage_Customer_Model_Address */
-            $newAddress = clone $address;
-            $newAddress->unsetData('entity_id')
-                ->unsetData('customer_id')
-                ->unsetData('parent_id');
-            $customer->addAddress($newAddress);
-        }
-        return $customer;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param Mage_Core_Model_Store $store
-     * @return Mage_Customer_Model_Customer
-     */
-    public function setStore(Mage_Core_Model_Store $store)
-    {
-        $this->_store = $store;
-        $storeId = $store->getId();
-        $this->setStoreId($storeId);
-        foreach ($this->getLoadedAddressCollection() as $address) {
-            /* @var $address Mage_Customer_Model_Address */
-            $address->setStoreId($storeId);
-        }
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param int $storeId
-     * @return Mage_Customer_Model_Customer
-     */
     public function setStoreId($storeId)
     {
+        $this->getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
-        if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
-            $this->_store = null;
-        }
         return $this;
     }
 
