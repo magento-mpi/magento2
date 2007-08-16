@@ -66,6 +66,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     $fieldset[$pathArr[1]] = $form->addFieldset($pathArr[1], array(
                         'legend'=>__($e->getFrontendLabel())
                     ))->setRenderer($fieldsetRenderer);
+                    $this->_addElementTypes($fieldset[$pathArr[1]]);
                     break;
                     
                 case 3: // field
@@ -103,7 +104,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     break;
             }
         }
-
+        
+        $form->setEnctype('multipart/form-data');
+        
         $this->setForm($form);
         return $this;
     }
@@ -178,5 +181,12 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         }
         
         return $scope;
+    }
+
+    protected function _getAdditionalElementTypes()
+    {
+        return array(
+            'export' => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_export'),
+        );
     }
 }

@@ -132,8 +132,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         {
             $xml = simplexml_load_string($response);
             if (is_object($xml)) {
-                if (is_object($xml->Number) && is_object($xml->Description)) {
+                if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
                     $errorTitle = (string)$xml->Description;
+                } elseif (is_object($xml->Package) && is_object($xml->Package->Error) && is_object($xml->Package->Error->Description) && (string)$xml->Package->Error->Description!='') {
+                    $errorTitle = (string)$xml->Package->Error->Description;
                 } else {
                     $errorTitle = 'Unknown error';
                 }
