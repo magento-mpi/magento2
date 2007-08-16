@@ -1,0 +1,17 @@
+<div class="box order-totals">
+    <table cellspacing="0">
+        <?$_store = $this->getStore()?>
+        <tbody>
+            <?$_totals = $this->getTotals();?>
+            <?$_count = count($_totals);?>
+            <?$_i = 0;?>
+            <?foreach ($_totals as $_total):?>
+                <?$_i++;?>
+                <tr<?=($_i >= $_count ? ' class="last"' : '' )?>>
+                    <td class="a-right" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
+                    <td class="last a-right" style="<?=$_total->getStyle()?>"><?=$this->getSession()->formatPrice($_total->getValue())?></td>
+                </tr>
+            <?endforeach;?>
+        </tbody>
+    </table>
+</div>

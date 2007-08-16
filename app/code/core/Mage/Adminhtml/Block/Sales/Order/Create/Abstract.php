@@ -38,6 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Bl
     }
 
     /**
+     * Enter description here...
      *
      * @return Mage_Adminhtml_Model_Quote
      */
@@ -72,11 +73,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Bl
     public function getStoreId()
     {
         return $this->getSession()->getStoreId();
-    }
-
-    public function getStore()
-    {
-        return $this->getSession()->getStore();
     }
 
     public function formatPrice($price)

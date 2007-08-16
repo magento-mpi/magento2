@@ -1,0 +1,41 @@
+<?$_items = $this->getItems()?>
+<?if (! empty($_items)):?>
+    <div id="sc_items_grid">
+        <div class="grid">
+            <table cellspacing="0" class="data" id="invoice_items_grid_table">
+                <thead>
+                    <tr class="headings">
+                        <th class="no-link"><nobr><?=__('Product ID')?></nobr></th>
+                        <th class="no-link"><nobr><?=__('SKU')?></nobr></th>
+                        <th class="no-link"><nobr><?=__('Product Name')?></nobr></th>
+                        <th class="no-link"><nobr><?=__('Price')?></nobr></th>
+                        <th class="no-link"><nobr><?=__('Qty')?></nobr></th>
+                        <th class="no-link"><nobr><?=__('Total')?></nobr></th>
+                        <th class="no-link">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?foreach ($_items as $_item):?>
+                        <tr>
+                            <td class="a-center"><em><small><?=$_item->getId()?></small></em> <?=$_item->getProductId()?></td>
+                            <td><?=$_item->getSku()?></td>
+                            <td><?=$_item->getName()?></td>
+                            <td><nobr><?=$this->getSession()->formatPrice($_item->getPrice())?></nobr></td>
+                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text sc_items_grid" style="width: 30px !important;" value="<?=$_item->getQty()*1?>"/></td>
+                            <td><nobr><?=$this->getSession()->formatPrice($_item->getRowTotal())?></nobr></td>
+                            <td><nobr>
+                                <a href="javascript: void(0);" onclick="sc_itemRemove(<?=$_item->getId()?>)"><?=__('Remove')?></a><?if ($this->getIsOldCustomer()):?> | <?=__('Move to:')?>
+                                <select onchange="sc_itemMove(<?=$_item->getId()?>,this.options[this.selectedIndex].value)">
+                                    <option value=""></option>
+                                    <option value="cart"><?=__('Shopping Cart')?></option>
+                                    <option value="wishlist"><?=__('Wishlist')?></option>
+                                </select><?endif;?>
+                            </nobr></td>
+                        </tr>
+                    <?endforeach;?>
+                </tbody>
+            </table>
+        </div>
+        <div class="a-center"><?=$this->getButtonHtml(__('Update Qty'),'sc_itemsUpdate()');?></div>
+    </div>
+<?endif;?>

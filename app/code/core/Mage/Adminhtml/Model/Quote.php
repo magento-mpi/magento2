@@ -174,7 +174,7 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
         if ($this->getIsOldCustomer()) {
             $quote = Mage::getModel('sales/quote');
             /* @var $quote Mage_Sales_Model_Quote */
-            $loadedQuote = $quote->getResourceCollection()->loadByCustomerId($this->getSession()->getCustomerId());
+            $loadedQuote = $quote->getResourceCollection()->loadByCustomerId($this->getCustomerId());
             if ($loadedQuote) {
                 return $loadedQuote;
             }
