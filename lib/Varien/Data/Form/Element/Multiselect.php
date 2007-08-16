@@ -15,7 +15,16 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         $this->setType('select');
         $this->setExtType('multiple');
     }
-
+    
+    public function getName()
+    {
+        $name = parent::getName();
+        if (strpos($name, '[]') === false) {
+            $name.= '[]';
+        }
+        return $name;
+    }
+    
     public function getElementHtml()
     {
         $this->addClass('select');

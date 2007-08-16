@@ -25,6 +25,7 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
                         ->load();
             $this->setData('stores', $stores);
         }
+        
         return $stores;
     }
     

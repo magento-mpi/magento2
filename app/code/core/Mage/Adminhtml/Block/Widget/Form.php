@@ -82,8 +82,12 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                     );
                 }
 
-                if ($inputType == 'select') {
+                if ($inputType == 'select' || $inputType == 'multiselect') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
+                }
+                
+                if ($inputType == 'date') {
+                    $element->setImage($this->getSkinUrl('images/grid-cal.gif'));
                 }
             }
         }

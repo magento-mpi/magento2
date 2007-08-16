@@ -169,6 +169,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getUrl($params)
     {
+        if (!is_array($params)) {
+            $params = array();
+        }
         $cacheKey = md5(serialize($params));
         if (isset($this->_urlCache[$cacheKey])) {
             return $this->_urlCache[$cacheKey];

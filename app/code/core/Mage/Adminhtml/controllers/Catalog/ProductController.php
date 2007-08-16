@@ -212,6 +212,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             	$superLinks = Zend_Json::decode($this->getRequest()->getParam('_super_links_json'));
             }
             
+            foreach ($data['product'] as $index=>$value) {
+            	if (is_array($value)) {
+            	    $data['product'][$index] = implode(',', $value);
+            	}
+            }
+            
         	$product = Mage::getModel('catalog/product')
         		->setStoreId((int) $storeId)
         		->load((int) $this->getRequest()->getParam('id'))
