@@ -67,7 +67,8 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
     public function addNewItem($productId)
     {
         $item = Mage::getModel('wishlist/item');
-        $item->loadByProductWishlist($this->getId(), $productId, $this->getDatashareStoreIds());
+
+        $item->loadByProductWishlist($this->getId(), $productId, $this->getSharedStoreIds());
 
         if($item->getId()) {
             return $item;

@@ -9,16 +9,16 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template 
+class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 {
 	protected $_wishlistLoaded = false;
-	
-	public function __construct() 
+
+	public function __construct()
 	{
 		parent::__construct();
 		$this->setTemplate('wishlist/email/items.phtml');
 	}
-	
+
 	public function getWishlist()
 	{
 		if(!$this->_wishlistLoaded) {
@@ -27,20 +27,20 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
 	            ->addAttributeToSelect('small_image')
-	            ->addAttributeToFilter('store_id', array('in'=>Mage::getSingleton('core/store')->getDatashareStores('wishlist')))
+	            ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
 				->load();
 			$this->_wishlistLoaded = true;
 		}
-		
+
 		return Mage::registry('wishlist')->getItemCollection();
 	}
-	
-	public function getEscapedDescription(Mage_Wishlist_Model_Item $item) 
+
+	public function getEscapedDescription(Mage_Wishlist_Model_Item $item)
 	{
 		return nl2br(htmlspecialchars($item->getDescription()));
 	}
-	
-	public function getFormatedDate($date) 
+
+	public function getFormatedDate($date)
 	{
 		return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($date));
 	}

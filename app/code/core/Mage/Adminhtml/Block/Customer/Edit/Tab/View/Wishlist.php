@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
 
         $this->addColumn('store', array(
         	'header'	=> __('Added From'),
-        	'index'		=> 'store_name',
+        	'index'		=> 'store_id',
         	'type' => 'options',
         	'options' => $stores,
         ));
