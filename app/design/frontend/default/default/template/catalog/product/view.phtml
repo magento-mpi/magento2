@@ -255,24 +255,7 @@
 </div>
 <?endif?>
 
-<div class="product-info-box tags fm ">
-	<h3>Product Tags</h3>
-	<p><strong>Other customers tagged this product:</strong></p>
-    Dynamic tags:<br/>
-    <?=$tags;?><br/>
-    Hardcoded tags:<br/>
-	<ul class="tags-list">
-		<li class="first"><a href="#"><a href="#">Shoes</a> (5)</li>
-
-		<li><a href="#"><a href="#">Shoes</a> (5)</li>
-		<li class="last"><a href="#"><a href="#">Shoes</a> (5)</li>
-	</ul>
-	<br/>
-	<h4>Add your tags:</h4>
-
-	<p><input type="text" class="input-text" style="width:300px;"/> <button class="form-button-alt"><span>Add Tags</span></button><br/>
-	<small>Use spaces to separate tags. Use single quotes(') for phrases.</small></p>
-</div>
+<?=$this->getChildHtml('tagList')?>
 
 <div class="product-info-box" id="customer-reviews">
 <?=$this->getChildHtml('reviewList')?>

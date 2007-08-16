@@ -15,4 +15,20 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('tag/tag', 'tag_id');
     }
+
+    public function loadByName($model, $name)
+    {
+        if( $name ) {
+            $read = $this->getConnection('read');
+            $select = $read->select();
+
+            $select->from($this->getMainTable())
+                ->where('name = ?', $name);
+            $data = $read->fetchRow($select);
+
+            $model->setData( ( is_array($data) ) ? $data : array() );
+        } else {
+            return false;
+        }
+    }
 }

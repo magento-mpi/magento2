@@ -70,14 +70,15 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
 
-        $this->assign('tags', $this->getLayout()->createBlock('tag/list')->toHtml());
-
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
         $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$productId)));
         $this->setChild('rating', $this->getLayout()->createBlock('rating/entity_summary')
             ->setEntityId($productId));
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
         $this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
+
+        $this->setChild('tagList', $this->getLayout()->createBlock('tag/product_list'));
+
         $this->assign('reviewCount', $this->getLayout()->getBlock('review_list')->count());
 
         return $this;
@@ -91,10 +92,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
     	return false;
     }
-        
+
     public function getGalleryImages()
     {
         return Mage::registry('product')->getGallery();
     }
-
 }

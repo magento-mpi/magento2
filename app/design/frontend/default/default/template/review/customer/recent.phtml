@@ -6,7 +6,7 @@
     <?$iterator = 0?>
     <?foreach ($this->getCollection() as $_review):?>
     <ol class="recent-reviews">
-        <li class="odd">
+        <li <?if($iterator % 2 == 0):?>class="odd"<?endif;?>>
             <div class="count"><?=++$iterator?></div>
             <div class="content">
                 <a href="<?=$this->getReviewUrl($_review->getId())?>"><?=$_review->getName()?></a>

@@ -1,84 +1,204 @@
 <?php
 /**
- * Tagged products collection.
+ * Tagged products Collection
  *
- * @package     Mage
- * @subpackage  Tag
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Michael Bessolov <michael@varien.com>
+ * @package     Mage
+ * @subpackage  Review
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Mysql4_Product_Collection
+class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
 {
-	protected $_tagTable;
-    protected $_tagRelTable;
+ 	protected $_entitiesAlias = array();
+ 	protected $_customerFilterId;
 
-    public function __construct()
-    {
-        $resource = Mage::getSingleton('core/resource');
-        parent::__construct($resource->getConnection('tag_read'));
-        $this->_tagTable = $resource->getTableName('tag/tag');
-        $this->_tagRelTable = $resource->getTableName('tag/tag_relation');
-        // $this->_productTable = $resource->getTableName('catalog/product');
-        // $this->_sqlSelect->from(array('p' => $this->_productTable))
-        // ->join(array('tr' => $this->_tagRelTable), 'tr.entity_val_id=p.product_id and tr.entity_id=1', array('total_used' => 'count(tr.tag_relations_id)'))
-        // ->group('p.product_id', 'tr.tag_id')
-        // ;
-        $this->_sqlSelect->join(array('tr' => $this->_tagRelTable), "{$this->_productTable}.product_id=tr.product_id");
-    	$this->_sqlSelect->group("{$this->_productTable}.product_id");
-    }
+	public function __construct()
+	{
+		$this->setEntity(Mage::getResourceSingleton('catalog/product'));
+        $this->setObject('catalog/product');
+        $this->getSelect()->group('e.entity_id');
+	}
 
-    public function load($printQuery = false, $logQuery = false)
+    public function addStoreFilter($storeId)
     {
-        parent::load($printQuery, $logQuery);
-        $this->_loadTags($printQuery, $logQuery);
+        $this->getSelect()
+            ->where('t.store_id = ?', $storeId);
         return $this;
     }
 
-    protected function _loadTags($printQuery = false, $logQuery = false)
+	public function addCustomerFilter($customerId)
+	{
+        $this->getSelect()
+            ->where('tr.customer_id = ?', $customerId);
+        $this->_customerFilterId = $customerId;
+		return $this;
+	}
+
+	public function addTagFilter($tagId)
+	{
+        $this->getSelect()
+            ->where('tr.tag_id = ?', $tagId);
+		return $this;
+	}
+
+	public function addStatusFilter($status)
+	{
+        $this->getSelect()
+            ->where('t.status = ?', $status);
+		return $this;
+	}
+
+    public function setDescOrder($dir='DESC')
     {
-        if (empty($this->_items)) {
-            return $this;
+        $this->getSelect()
+            ->order('tr.tag_relation_id', $dir);
+        return $this;
+    }
+
+    public function resetSelect()
+    {
+        parent::resetSelect();
+        $this->_joinFields();
+        return $this;
+    }
+
+    public function addProductTags()
+    {
+        foreach( $this->getItems() as $item ) {
+            $tagsCollection = Mage::getModel('tag/tag')
+                ->getResourceCollection()
+                ->addPopularity()
+                ->addProductFilter($item->getEntityId())
+                ->addCustomerFilter($this->_customerFilterId)
+                ->load();
+            $item->setProductTags( $tagsCollection );
         }
-        $productIds = array();
-        foreach ($this->getItems() as $item) {
-            $productIds[] = $item->getId();
+        return $this;
+    }
+
+    protected function _joinFields()
+    {
+        $tagTable = Mage::getSingleton('core/resource')->getTableName('tag/tag');
+        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+
+        $this->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('small_image');
+
+        $this->getSelect()
+            ->join(array('tr' => $tagRelationTable), "tr.product_id = e.entity_id")
+            ->join(array('t' => $tagTable), "t.tag_id = tr.tag_id");
+    }
+
+    /**
+     * Render SQL for retrieve product count
+     *
+     * @return string
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        $sql = $countSelect->__toString();
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT e.entity_id) from ', $sql);
+        return $sql;
+    }
+
+    /**
+     * Load entities records into items
+     *
+     * @link Mage_Catalog_Model_Entity_Product_Bundle_Option_Link_Collection
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function _loadEntities($printQuery = false, $logQuery = false)
+    {
+        $entity = $this->getEntity();
+        $entityIdField = $entity->getEntityIdField();
+
+        if ($this->_pageSize) {
+            $this->getSelect()->limitPage($this->_getPageStart(), $this->_pageSize);
         }
-        $this->_sqlSelect->reset()
-            ->from(array('tr' => $this->_tagRelTable), array('*','total_used' => 'count(tr.tag_relation_id)'))
-            ->joinLeft(array('t' => $this->_tagTable),'t.tag_id=tr.tag_id')
-            ->group(array('tr.product_id', 'tr.tag_id'))
-            ->where('tr.product_id in (?)',$productIds)
-        ;
+
         $this->printLogQuery($printQuery, $logQuery);
 
-        $tags = array();
-        $data = $this->getConnection()->fetchAll($this->_sqlSelect);
-        foreach ($data as $row) {
-            if (!isset($tags[ $row['product_id'] ])) {
-                $tags[ $row['product_id'] ] = array();
-            }
-            $tags[ $row['product_id'] ][] = $row;
+        $rows = $this->_read->fetchAll($this->getSelect());
+        if (!$rows) {
+            return $this;
         }
-        foreach ($this->getItems() as $item) {
-            if (isset($tags[$item->getId()])) {
-                $item->setData('tags', $tags[$item->getId()]);
+
+        foreach ($rows as $v) {
+            $object = clone $this->getObject();
+            if(!isset($this->_entitiesAlias[$v[$entityIdField]])) {
+            	$this->_entitiesAlias[$v[$entityIdField]] = array();
+            }
+            $this->_items[] = $object->setData($v);
+            $this->_entitiesAlias[$v[$entityIdField]][] = sizeof($this->_items)-1;
+        }
+        return $this;
+    }
+
+    protected function _getEntityAlias($entityId)
+    {
+    	if(isset($this->_entitiesAlias[$entityId])) {
+    		return $this->_entitiesAlias[$entityId];
+    	}
+
+    	return false;
+    }
+
+    /**
+     * Load attributes into loaded entities
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function _loadAttributes($printQuery = false, $logQuery = false)
+    {
+        if (empty($this->_items) || empty($this->_selectAttributes)) {
+            return $this;
+        }
+
+        $entity = $this->getEntity();
+        $entityIdField = $entity->getEntityIdField();
+
+        $condition = "entity_type_id=".$entity->getTypeId();
+        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
+        $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
+        $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
+
+        $attrById = array();
+        foreach ($entity->getAttributesByTable() as $table=>$attributes) {
+            $sql = "select $entityIdField, attribute_id, value from $table where $condition";
+            $this->printLogQuery($printQuery, $logQuery, $sql);
+            $values = $this->_read->fetchAll($sql);
+            if (empty($values)) {
+                continue;
+            }
+            foreach ($values as $v) {
+                if (!$this->_getEntityAlias($v[$entityIdField])) {
+                    throw Mage::exception('Mage_Eav', 'Data integrity: No header row found for attribute');
+                }
+                if (!isset($attrById[$v['attribute_id']])) {
+                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
+                }
+                foreach ($this->_getEntityAlias($v[$entityIdField]) as $_entityIndex) {
+                	$this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
+                }
             }
         }
         return $this;
     }
 
-    public function addTagFilter($tagId)
+    /*
+    public function load($a=false, $b=false)
     {
-        if ($tagId) $this->_sqlSelect->where('tr.tag_id=?', $tagId);
-        return $this;
+        echo "debug: <pre>";
+        parent::load(1);
+        echo "</pre>";
     }
-
-    public function addCustomerFilter($customerId)
-    {
-        if ($customerId) $this->_sqlSelect->where('tr.customer_id=?', $customerId);
-        return $this;
-    }
-
-}
+    */
+ }

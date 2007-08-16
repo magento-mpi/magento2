@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="customer_account_dashboard_info2">
-        <action method="setTemplate"><template>tag/customer/recent.phtml</template></action>
+    <reference name="customer_account_dashboard">
+        <action method="unsetChild"><name>customer_account_dashboard_info2</name></action>
+        <block type="tag/customer_recent" name="customer_account_dashboard_info2" as="info2">
+            <action method="setTemplate"><template>tag/customer/recent.phtml</template></action>
+        </block>
     </reference>
 </layoutUpdate>

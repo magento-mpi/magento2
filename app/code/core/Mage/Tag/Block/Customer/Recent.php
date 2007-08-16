@@ -1,6 +1,6 @@
 <?php
 /**
- * Recent Customer Reviews Block
+ * Tags Customer Reviews Block
  *
  * @package     Mage
  * @subpackage  Review
@@ -9,22 +9,22 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
+class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('review/customer/list.phtml');
+        $this->setTemplate('tag/customer/list.phtml');
 
-        $this->_collection = Mage::getModel('review/review')->getProductCollection();
+        $this->_collection = Mage::getModel('tag/tag')->getEntityCollection();
 
         $this->_collection
             #->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
-            ->setDateOrder()
+            ->setDescOrder()
             ->setPageSize(5)
             ->load()
-            ->addReviewSummary();
+            ->addProductTags();
     }
 
     public function count()
@@ -42,28 +42,13 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
         return $this->_getCollection();
     }
 
-    public function getReviewLink()
-    {
-        return Mage::getUrl('customer/review/view/');
-    }
-
-    public function getProductLink()
-    {
-        return Mage::getUrl('catalog/product/view/');
-    }
-
     public function dateFormat($date)
     {
          return strftime(Mage::getStoreConfig('general/local/date_format_short'), strtotime($date));
     }
 
-    public function getAllReviewsUrl()
+    public function getAllTagsUrl()
     {
-        return Mage::getUrl('customer/review');
-    }
-
-    public function getReviewUrl($id)
-    {
-        return Mage::getUrl('customer/review/view', array('id' => $id));
+        return Mage::getUrl('tag/customer');
     }
 }

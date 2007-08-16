@@ -1,0 +1,17 @@
+<div class="page-head">
+	<h2><?=__('My Tags')?></h2>
+</div>
+<?if($this->getTags()):?>
+	<p><?=__('Click on a tag to view your corresponding products.')?></p>
+	<div class="generic-box product-tags">
+		<ul>
+			<?foreach ($this->getTags() as $_tag):?>
+				<li><a href="<?=$_tag->getViewTagUrl()?>" style="font-size:<?=$_tag->getRatio()*210+40?>%;"><?=$_tag->getName()?></a></li>
+			<?endforeach;?>
+		</ul>
+	</div>
+<?else:?>
+<div class="generic-box product-tags">
+	<center><small><?=__('You do not have any tags yet.')?></small></center>
+</div>
+<?endif;?>

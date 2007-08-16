@@ -109,4 +109,16 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'customerId' => $this->getCustomerId(),
         ));
     }
+
+    public function getGridUrl()
+    {
+        if( $this->getProductId() || $this->getCustomerId() ) {
+            return Mage::getUrl('*/catalog_product_review/reviewGrid', array(
+                'productId' => $this->getProductId(),
+                'customerId' => $this->getCustomerId(),
+            ));
+        } else {
+            return $this->getCurrentUrl();
+        }
+    }
 }

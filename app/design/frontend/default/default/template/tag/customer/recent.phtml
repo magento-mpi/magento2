@@ -1,31 +1,20 @@
 <div class="head">
-    <h4>My Recent Tags</h4>
-    <a href="#">Edit</a>
+    <h4><?=__('My Recent Tags')?></h4>
+    <a href="<?=$this->getAllTagsUrl()?>"><?=__('View All')?></a>
 </div>
 <ol>
-    <li class="odd">
-        <div class="count">1</div>
-        <div class="content">
-            <a href="#">Product name goes here</a><br/>
-            <strong>Tags:</strong> book, Witches, Harry Potter</div></li>
-    <li>
-        <div class="count">2</div>
-        <div class="content">
-            <a href="#">Product name goes here</a><br/>
-            <strong>Tags:</strong> book, Witches, Harry Potter</div></li>
-    <li class="odd">
-        <div class="count">3</div>
-        <div class="content">
-            <a href="#">Product name goes here</a><br/>
-            <strong>Tags:</strong> book, Witches, Harry Potter</div></li>
-    <li>
-        <div class="count">4</div>
-        <div class="content">
-            <a href="#">Product name goes here</a><br/>
-            <strong>Tags:</strong> book, Witches, Harry Potter</div></li>
-    <li class="odd">
-        <div class="count">5</div>
-        <div class="content">
-            <a href="#">Product name goes here</a><br/>
-            <strong>Tags:</strong> book, Witches, Harry Potter</div></li>
+    <?$iterator = 0?>
+	<?foreach( $this->getCollection()->getItems() as $_item ):?>
+		<li <?if($iterator % 2 == 0):?>class="odd"<?endif;?>>
+			<div class="count"><?=++$iterator?></div>
+			<div class="content">
+				<a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
+				<strong><?=__('Tags')?>:</strong>
+					<?$_i = 0;?>
+					<?foreach( $_item->getProductTags() as $_tag ):?>
+						<a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a><?if(++$_i != sizeof($_item->getProductTags()->getItems())):?>,<?endif;?>
+					<?endforeach;?>
+			</div>
+		<li>
+	<?endforeach;?>
 </ol>

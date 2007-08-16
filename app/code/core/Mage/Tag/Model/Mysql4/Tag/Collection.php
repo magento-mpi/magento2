@@ -11,7 +11,6 @@
 
 class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-
     protected $_tagRelTable;
 
     protected function _construct()
@@ -23,12 +22,6 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function load($printQuery = false, $logQuery = false)
     {
         return parent::load($printQuery, $logQuery);
-    }
-
-    public function setStatusFilter($status)
-    {
-        $this->getSelect()->where('main_table.status = ?', $status);
-        return $this;
     }
 
     public function addPopularity($limit=null)
@@ -58,15 +51,16 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
      *
      * @return  string
      */
+
     public function getSelectCountSql()
     {
         $this->_renderFilters();
 
         $countSelect = clone $this->_sqlSelect;
         $countSelect->reset(Zend_Db_Select::ORDER);
+        #$countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-
 
         $sql = $countSelect->__toString();
         // TOFIX
@@ -74,4 +68,27 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         return $sql;
     }
 
+    public function addStoreFilter($storeId)
+    {
+        $this->addFieldToFilter('main_table.store_id', $storeId);
+        return $this;
+    }
+
+    public function addStatusFilter($status)
+    {
+        $this->addFieldToFilter('main_table.status', $status);
+        return $this;
+    }
+
+    public function addProductFilter($productId)
+    {
+        $this->addFieldToFilter("{$this->_tagRelTable}.product_id", $productId);
+        return $this;
+    }
+
+    public function addCustomerFilter($customerId)
+    {
+        $this->addFieldToFilter("{$this->_tagRelTable}.customer_id", $customerId);
+        return $this;
+    }
 }

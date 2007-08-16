@@ -1,0 +1,40 @@
+<div class="page-head">
+	<h2><?=__('My Tags')?></h2>
+</div>
+<p>
+	<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><?=__('Edit')?></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
+</p>
+<?=$this->getPagerHtml()?>
+<table class="data-table box-table" cellspacing="0">
+	<col width="100">
+	<col>
+	<col width="75">
+	<tbody>
+	<?$iterator = 0?>
+	<?foreach($this->getMyProducts() as $_product):?>
+		<tr <?if($iterator % 2 == 0):?>class="odd"<?$iterator++;endif;?>>
+			<td><a href="<?=$_product->getProductUrl();?>"><img src="<?=$_product->getSmallImageUrl()?>" alt="" height="100" width="100"></a></td>
+			<td>
+
+				<h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
+				<div class="price-box">
+					<?=$_product->getFormatedPrice()?>
+				</div>
+				<div class="ratings">
+					<div class="rating-box">
+						<div class="rating" style="width: 70%;">
+						</div>
+					</div>
+
+					( <a href="<?=$this->getReviewUrl($_product->getId())?>">3 Reviews</a> )
+				</div>
+				<p><?=$_product->getDescription()?></p>
+			</td>
+			<td class="a-center last">
+				<button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_product->getId()))?>')"><span><?=__('Add to Cart')?></span></button>
+				<br><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_product->getId()))?>"><?=__('Add to Wishlist')?></a></td>
+		</tr>
+	<?endforeach;?>
+	</tbody>
+</table>
+<?=$this->getPagerHtml()?>

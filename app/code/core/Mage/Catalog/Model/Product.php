@@ -8,40 +8,40 @@
  * @author     Ivan Chepurnyi <mitch@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Model_Product extends Varien_Object 
+class Mage_Catalog_Model_Product extends Varien_Object
 {
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
-	
+
 	/**
 	 * Bundle products option collection
 	 *
 	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
 	 */
 	protected $_bundleOptionCollection = null;
-	
+
 	/**
 	 * Super product attribute collection
 	 *
 	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
 	 */
 	protected $_superAttributeCollection = null;
-	
+
 	/**
 	 * Super product links collection
 	 *
 	 * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
 	 */
 	protected $_superLinkCollection = null;
-	
+
 	protected $_attributes;
-	
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
-    
+
     /**
      * Retrieve product category id
      *
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategory();
         return $categoryId;
     }
-    
+
     /**
      * Retrieve product resource model
      *
@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return Mage::getResourceSingleton('catalog/product');
     }
-    
+
     /**
      * Load product
      *
@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->load($this, $productId);
         return $this;
     }
-    
+
     /**
      * Save product
      *
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->save($this);
         return $this;
     }
-    
+
     /**
      * Delete product
      *
@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-    
+
     /**
      * Product model validation
      *
@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->setData('store_id', $storeId);
         return $this;
     }
-    
+
     /**
      * Get product tier price by qty
      *
@@ -124,14 +124,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getTierPrice($qty=null)
     {
         $prices = $this->getData('tier_price');
-        
+
         if (empty($prices) || !is_array($prices)) {
             if (!is_null($qty)) {
                 return $this->getPrice();
             }
             return array(array('price'=>$this->getPrice(), 'price_qty'=>1));
         }
-        
+
         if ($qty) {
             $prevQty = 1;
             $prevPrice = $this->getPrice();
@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             }
             return $prevPrice;
         }
-        
+
         return ($prices) ? $prices : array();
     }
 
@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         else {
             $price = Mage::getSingleton('core/store')->formatPrice($price);
         }
-        
+
         return $price;
     }
 
@@ -184,11 +184,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return Mage::getSingleton('core/store')->formatPrice($this->getFinalPrice());
     }
-    
+
     public function getFinalPrice($qty=null)
     {
-        
-        
         if($this->getParentProduct() && $this->getParentProduct()->isSuperConfig()) {
         	$finalPrice = $this->getParentProduct()->getPrice();
 	        if (is_numeric($this->getParentProduct()->getTierPrice($qty))) {
@@ -197,7 +195,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	        if (is_numeric($this->getParentProduct()->getSpecialPrice())) {
 	            $finalPrice = min($finalPrice, $this->getParentProduct()->getSpecialPrice());
 	        }
-	        
+
         	foreach ($this->getParentProduct()->getSuperAttributes() as $attribute) {
         		if($value = $this->_getValueByIndex($attribute['values'], $this->getData($attribute['attribute_code']))) {
         			if($value['pricing_value'] != 0) {
@@ -214,14 +212,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	            $finalPrice = min($finalPrice, $this->getSpecialPrice());
 	        }
         }
-        
+
         $this->setFinalPrice($finalPrice);
-        
+
         Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$this));
-        
+
         return $this->getData('final_price');
     }
-    
+
     public function getCalculatedPrice(array $options)
     {
     	$price = $this->getPrice();
@@ -236,7 +234,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
     	return $price;
     }
-    
+
     protected function _getValueByIndex($values, $index) {
     	foreach ($values as $value) {
     		if($value['value_index'] == $index) {
@@ -245,7 +243,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
     	return false;
     }
-    
+
     public function getLinkedProducts($linkType)
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
@@ -257,98 +255,98 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	        	->addLinkTypeFilter()
     	            ->addProductFilter()
     	            ->addStoreFilter();
-    	        
+
     		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
     			foreach ($attibutes as $attibute) {
     				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
     			}
         }
-       
+
         return $this->_cachedLinkedProductsByType[$linkType];
     }
-    
+
     public function getLinkedProductsLoaded($linkType)
     {
     	if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
     		$this->getLinkedProducts($linkType)->load();
     	}
-    	
+
     	return $this->getLinkedProducts($linkType);
     }
-    
+
     public function setLinkedProducts($linkType, array $linkAttibutes)
     {
     	$this->addLinkedProductsForSave($linkType, $linkAttibutes);
-    	      	
+
         return $this;
     }
-    
-    public function addLinkedProductsForSave($linkType, array $data) 
+
+    public function addLinkedProductsForSave($linkType, array $data)
     {
     	$this->_linkedProductsForSave[$linkType] = $data;
     	return $this;
     }
-    
+
     public function getLinkedProductsForSave()
     {
     	return $this->_linkedProductsForSave;
     }
-    
+
     public function setRelatedProducts(array $linkAttibutes)
     {
         return $this->setLinkedProducts('relation', $linkAttibutes);
     }
-    
+
     public function getRelatedProducts()
     {
         return $this->getLinkedProducts('relation');
     }
-    
+
     public function getRelatedProductsLoaded()
     {
         return $this->getLinkedProductsLoaded('relation');
     }
-    
+
     public function setUpSellProducts(array $linkAttibutes)
     {
         return $this->setLinkedProducts('up_sell', $linkAttibutes);
     }
-    
+
     public function getUpSellProducts()
     {
         return $this->getLinkedProducts('up_sell');
     }
-    
+
     public function getUpSellProductsLoaded()
     {
         return $this->getLinkedProductsLoaded('up_sell');
     }
-    
+
     public function setCrossSellProducts(array $linkAttibutes)
     {
         return $this->setLinkedProducts('cross_sell', $linkAttibutes);
     }
-    
+
     public function getCrossSellProducts()
     {
         return $this->getLinkedProducts('cross_sell');
     }
-     
+
     public function getCrossSellProductsLoaded()
     {
         return $this->getLinkedProductsLoaded('cross_sell');
     }
-    
+
     public function setSuperGroupProducts(array $linkAttibutes)
     {
         return $this->setLinkedProducts('super', $linkAttibutes);
     }
-    
+
     public function getSuperGroupProducts()
     {
         return $this->getLinkedProducts('super');
     }
-     
+
     public function getSuperGroupProductsLoaded()
     {
     	if(!$this->getSuperGroupProducts()->getIsLoaded()) {
@@ -356,7 +354,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
         return $this->getSuperGroupProducts();
     }
-    
+
     public function getSuperAttributesIds()
     {
     	if(!$this->getData('super_attributes_ids') && $this->getId() && $this->isSuperConfig()) {
@@ -367,57 +365,57 @@ class Mage_Catalog_Model_Product extends Varien_Object
     		}
     		$this->setData('super_attributes_ids', $superAttributesIds);
     	}
-    	
+
     	return $this->getData('super_attributes_ids');
     }
-    
+
     public function setSuperAttributesIds(array $attributesIds)
     {
     	$resultAttributesIds = array();
     	foreach ($attributesIds as $attributeId) {
     		foreach ($this->getAttributes() as $attribute) {
-    			if($attribute->getAttributeId()==$attributeId 
-    				&& !$attribute->getIsRequired() 
-    				&& $attribute->getIsGlobal() 
-    				&& $attribute->getIsVisible() 
-    				&& $attribute->getIsUserDefined() 
+    			if($attribute->getAttributeId()==$attributeId
+    				&& !$attribute->getIsRequired()
+    				&& $attribute->getIsGlobal()
+    				&& $attribute->getIsVisible()
+    				&& $attribute->getIsUserDefined()
     				&& ($attribute->getSourceModel() || $attribute->getBackendType()=='int' )) {
-    				$resultAttributesIds[] = $attributeId;		
+    				$resultAttributesIds[] = $attributeId;
     			}
     		}
     	}
-    	
+
     	if(count($resultAttributesIds)>0) {
     		$this->setData('super_attributes_ids', $resultAttributesIds);
     	} else {
     		$this->setData('super_attributes_ids', null);
     	}
-    	    	
+
     	return $this;
     }
-    
+
     public function getSuperAttributes($asObject=false, $useLinkFilter=false)
     {
     	return $this->getResource()->getSuperAttributes($this, $asObject, $useLinkFilter);
     }
-    
+
     public function setSuperAttributes(array $superAttributes)
     {
     	$this->setSuperAttributesForSave($superAttributes);
     	return $this;
     }
-    
+
     public function getSuperLinks()
     {
     	return $this->getResource()->getSuperLinks($this);
     }
-    
+
     public function getSuperLinkIdByOptions(array $options = null)
     {
     	if(is_null($options)) {
     		return false;
     	}
-    	
+
     	foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
     		$have_it = true;
     		foreach ($linkAttributes as $attribute) {
@@ -429,34 +427,34 @@ class Mage_Catalog_Model_Product extends Varien_Object
     			return $linkId;
     		}
     	}
-    	
+
     	return false;
     }
-    
+
     public function setSuperLinks(array $superLinks)
     {
     	$this->setSuperLinksForSave($superLinks);
     	return $this;
     }
-    
+
     public function getSuperAttributesForSave()
     {
     	if(!$this->getData('super_attributes_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
     		return $this->getSuperAttributes(false);
     	}
-    	
+
     	return $this->getData('super_attributes_for_save');
     }
-    
+
     public function getSuperLinksForSave()
     {
     	if(!$this->getData('super_links_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
     		return $this->getSuperLinks();
-    	}    	
-    	
+    	}
+
     	return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
     }
-    
+
     public function getPricingValue($value)
     {
     	if($value['is_percent']) {
@@ -465,96 +463,96 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	} else {
     		$price = $value['pricing_value'];
     	}
-    	
+
     	return $price;
     }
-    
-    public function isBundle() 
+
+    public function isBundle()
     {
     	// TODO: use string value
     	return $this->getTypeId() == 2;
     }
-    
-    public function isSuperGroup() 
+
+    public function isSuperGroup()
     {
     	// TODO: use string value
     	return $this->getTypeId() == 4;
     }
-    
-    public function isSuperConfig() 
+
+    public function isSuperConfig()
     {
     	// TODO: use string value
     	return $this->getTypeId() == 3;
     }
-    
-    public function isAviableBundle() 
+
+    public function isAviableBundle()
     {
     	foreach ($this->getBundleOptionCollection() as $bundleOption) {
     		if(sizeof($bundleOption->getLinkCollection()->getItems())==0) {
     			return false;
     		}
     	}
-    	
+
     	return true;
     }
-    
+
     public function getBundleOptionCollection()
     {
     	if(!$this->isBundle()) {
     		return false;
     	}
-    	
+
     	if(is_null($this->_bundleOptionCollection)) {
     		$this->_bundleOptionCollection = $this->getResource()->getBundleOptionCollection($this);
     	}
-    	
+
     	return $this->_bundleOptionCollection;
     }
-    
+
     public function getSuperAttributeCollection()
     {
     	if(!$this->isSuperConfig())	{
     		return false;
     	}
-    	
+
     	if(is_null($this->_superAttributeCollection)) {
     		$this->_superAttributeCollection = $this->getResource()->getSuperAttributeCollection($this);
     	}
-    	
+
     	return $this->_superAttributeCollection;
     }
-    
+
     public function getSuperAttributeCollectionLoaded()
     {
     	if(!$this->getSuperAttributeCollection()->getIsLoaded()) {
     		$this->getSuperAttributeCollection()->load();
     	}
-    	
+
     	return $this->getSuperAttributeCollection();
     }
-    
+
     public function getSuperLinkCollection()
     {
     	if(!$this->isSuperConfig())	{
     		return false;
     	}
-    	
+
     	if(is_null($this->_superLinkCollection)) {
     		$this->_superLinkCollection = $this->getResource()->getSuperLinkCollection($this);
     	}
-    	
+
     	return $this->_superLinkCollection;
     }
-    
+
     public function getSuperLinkCollectionLoaded()
     {
     	if(!$this->getSuperLinkCollection()->getIsLoaded()) {
     		$this->getSuperLinkCollection()->load();
     	}
-    	
+
     	return $this->getSuperLinkCollection();
     }
-    
+
     /**
      * Retrieve product categories
      *
@@ -565,7 +563,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $collection = $this->getResource()->getCategoryCollection($this);
         return $collection;
     }
-    
+
     /**
      * Retrieve product store Ids array
      *
@@ -580,7 +578,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $storeIds;
     }
-    
+
     /**
      * Retrieve product stores collection
      *
@@ -591,12 +589,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $collection = $this->getResource()->getStoreCollection($this);
         return $collection;
     }
-    
+
     /**
      * Retrieve product attributes
-     * 
+     *
      * if $groupId is null - retrieve all product attributes
-     * 
+     *
      * @param   int $groupId
      * @return  array
      */
@@ -607,14 +605,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
                 ->loadAllAttributes($this)
                 ->getAttributesByCode();
         }
-        
+
         if (is_null($groupId)) {
             return $this->_attributes;
         }
-        
+
         $attributes = array();
         foreach ($this->_attributes as $attribute) {
-        	if ($attribute->getAttributeGroupId() == $groupId 
+        	if ($attribute->getAttributeGroupId() == $groupId
         		// Skip super product attributes
         		&& (!$skipSuper || ! $this->getSuperAttributesIds() || !in_array($attribute->getAttributeId(), $this->getSuperAttributesIds()))) {
         		$attributes[] = $attribute;
@@ -622,7 +620,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $attributes;
     }
-    
+
     ///////////////////////////////////////////////////
     /// need remove
     ////////////////////
@@ -633,14 +631,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getProductUrl()
     {
-        $url = Mage::getUrl('catalog/product/view', 
+        $url = Mage::getUrl('catalog/product/view',
             array(
                 'id'=>$this->getId(),
                 'category'=>$this->getCategoryId()
             ));
         return $url;
     }
-    
+
     /**
      * Get product category url
      *
@@ -651,27 +649,27 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
         return $url;
     }
-    
+
     public function getImageUrl()
     {
         //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
         $url = false;
         if ($attribute = $this->getResource()->getAttribute('image')) {
-            $url = $attribute->getFrontend()->getUrl($this);            
+            $url = $attribute->getFrontend()->getUrl($this);
         }
         return $url;
     }
-        
+
     public function getSmallImageUrl()
     {
         //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
         $url = false;
         if ($attribute = $this->getResource()->getAttribute('small_image')) {
-            $url = $attribute->getFrontend()->getUrl($this);            
+            $url = $attribute->getFrontend()->getUrl($this);
         }
         return $url;
     }
-    
+
     /**
      * Get product category name
      *
@@ -681,5 +679,5 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return 'node';//Mage::getResourceModel('catalog/category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
     }
-    
+
 }

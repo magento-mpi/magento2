@@ -7,7 +7,7 @@
         <div class="content">
             <ul>
                 <?foreach ($this->getTags() as $_tag):?>
-                    <li><a href="<?=$baseUrl?>" style="font-size:<?=$_tag->getRatio()*210+40?>%;"><?=$_tag->getName()?></a></li>
+                    <li><a href="<?=$_tag->getTaggedProductsUrl()?>" style="font-size:<?=$_tag->getRatio()*210+40?>%;"><?=$_tag->getName()?></a></li>
                 <?endforeach;?>
             </ul>
         </div>

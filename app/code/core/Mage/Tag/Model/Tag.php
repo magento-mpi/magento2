@@ -19,4 +19,45 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
     {
         $this->_init('tag/tag');
     }
+
+    public function loadByName($name)
+    {
+        $this->getResource()->loadByName($this, $name);
+        return $this;
+    }
+
+    public function getApprovedStatus()
+    {
+        return self::STATUS_APPROVED;
+    }
+
+    public function getPendingStatus()
+    {
+        return self::STATUS_PENDING;
+    }
+
+    public function getEntityCollection()
+    {
+        return Mage::getResourceModel('tag/product_collection');
+    }
+
+    public function getTaggedProductsUrl()
+    {
+        return Mage::getUrl('tag/product/list', array('tagId' => $this->getId()));
+    }
+
+    public function getViewTagUrl()
+    {
+        return Mage::getUrl('tag/customer/view', array('tagId' => $this->getId()));
+    }
+
+    public function getEditTagUrl()
+    {
+        return Mage::getUrl('tag/customer/edit', array('tagId' => $this->getId()));
+    }
+
+    public function getRemoveTagUrl()
+    {
+        return Mage::getUrl('tag/customer/remove', array('tagId' => $this->getId()));
+    }
 }

@@ -1,57 +1,26 @@
-<p>
-<script type="text/javascript">
-var pid;
-function doAddTag(prod_id) {
-	pid = prod_id;
-	var input = document.createElement('input');
-	with (input) {
-		type = 'text';
-	}
+<div class="product-info-box tags fm ">
+	<h3><?=__('Product Tags')?></h3>
+	<?if( $this->getCount() ):?>
+	<p><strong><?=__('Other customers tagged this product')?>:</strong></p>
+	<ul class="tags-list">
+		<?$_iterator = 0;?>
+		<?foreach( $this->getTags() as $_tag ):?>
+			<li <?if( 1 == ++$_iterator && $this->getCount() != 1 ):?>class="first"<?elseif($_iterator == $this->getCount()):?>class="last"<?endif;?>><a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a> (<?=$_tag->getPopularity()?>)</li>
+		<?endforeach;?>
+	</ul>
+	<br/>
+	<?endif;?>
+	<h4><?=__('Add your tags')?>:</h4>
 
-	var add_btn = document.createElement('input');
-	with (add_btn) {
-		type = 'button';
-		value = "Add";		
-	}
-	add_btn.onclick = function () {
-		sendTag2Add();
-	}
-	
-	with ($('tag_adding')) {
-		appendChild(input);
-		appendChild(add_btn);
-	}
-	input.focus();
-}
-
-function sendTag2Add() {
-	var tag_name = $('tag_adding').getElementsByTagName('input')[0].value;
-	
-	var req = new Ajax.Request('/tag/index/addtag', { 
-		method:'post',
-		parameters: {
-			tag_name: tag_name, 
-			entity_val_id: pid,
-			entity: 'product'
-		},
-		onSuccess: function(req, json){
-			eval('var json = ' + req.responseText);
-			if (1 === json.error) {				
-				alert(json.error_message);
-			}
-			
-			$('tag_adding').innerHTML = "";
-		}
-	});	
-}
-</script>
-<h3>Product tags: <a href="#" onclick="doAddTag(<?=$productId;?>); return false;" style="font-size:10px; color:#AAA">Add a Tag</a></h3>
-<div id="tag_adding"></div>
-<?if(!empty($collection) && $collection->getSize()):?>
-
-<?php foreach ($collection as $tag) { ?>
-	<a style="font-size:<?=$collection->getFSize($tag->getTag_id());?>" href="/tag/index/search?q=<?=$tag->getTagname();?>"><?=$tag->getTagname();?></a> 
-<?php } ?>
-
-<?endif;?>
-</p>
+	<p>
+		<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="POST">
+			<input type="text" class="input-text required-entry" style="width:300px;" name="tagName" />
+			<button class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Add Tags')?></span></button>
+		</form>
+		<script type="text/javascript">
+			var tagForm = new VarienForm('addTagForm');
+		</script>
+		<br/>
+		<small><?=__('Use spaces to separate tags. Use single quotes(\') for phrases')?>.</small>
+	</p>
+</div>

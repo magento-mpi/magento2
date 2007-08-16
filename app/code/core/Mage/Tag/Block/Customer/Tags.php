@@ -1,35 +1,43 @@
 <?php
 /**
- * Popular tags block
+ * Tags list in customer's account
  *
- * @package    Mage
- * @subpackage Tag
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Michael Bessolov <michael@varien.com>
+ * @package     Mage
+ * @subpackage  Tag
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
+class Mage_Tag_Block_Customer_Tags extends Mage_Core_Block_Template
 {
-
     protected $_tags;
     protected $_minPopularity;
     protected $_maxPopularity;
+
+    public function __construct()
+    {
+        $this->setTemplate('tag/customer/tags.phtml');
+    }
 
     protected function _loadTags()
     {
         if (empty($this->_tags)) {
             $this->_tags = array();
+
             $tags = Mage::getResourceModel('tag/tag_collection')
                 ->addPopularity(20)
                 ->setOrder('popularity', 'DESC')
                 ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
+                ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->load()
                 ->getItems()
             ;
+        } else {
+            return;
         }
 
-        if( count($tags) == 0 ) {
+        if( isset($tags) && count($tags) == 0 ) {
             return;
         }
 
@@ -37,10 +45,8 @@ class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
         $this->_minPopularity = $tags[count($tags)-1]->getPopularity();
         $range = $this->_maxPopularity - $this->_minPopularity;
         $range = ( $range == 0 ) ? 1 : $range;
+
         foreach ($tags as $tag) {
-            if( !$tag->getPopularity() ) {
-                continue;
-            }
             $tag->setRatio(($tag->getPopularity()-$this->_minPopularity)/$range);
             $this->_tags[$tag->getName()] = $tag;
         }
