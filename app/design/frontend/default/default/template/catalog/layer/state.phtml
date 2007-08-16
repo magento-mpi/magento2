@@ -8,16 +8,15 @@
 <?$_filters = $this->getActiveFilters()?>
 <?if(!empty($_filters)):?>
 <h4>Currently Shopping By</h4>
-<div class="content">
-    <ul class="widget-list">
+    <ol class="narrowed-category">
     <?foreach ($_filters as $_filter):?>
         <li>
-            <a href="<?=$_filter->getRemoveUrl()?>" class="action"/><?=__('Remove')?></a>
-            <span class="label"><?=$_filter->getName()?>:</span><br/>
-            <span><?=$_filter->getLabel()?></span>
+            <a href="<?=$_filter->getRemoveUrl()?>" class="widget-btn"/><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
+            <span class="label"><?=$_filter->getName()?>:</span><?=$_filter->getLabel()?>
         </li>
     <?endforeach;?>
-    </ul>
-    <p class="actions"><a href="<?=$this->getClearUrl()?>"><?=__('Clear All')?></a></p>
-</div>
+    </ol>
+		<div class="actions"><a href="<?=$this->getClearUrl()?>">Clear All</a></div>
 <?endif;?>
+
+

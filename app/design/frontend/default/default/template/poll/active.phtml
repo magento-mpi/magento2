@@ -1,31 +1,25 @@
 <?if(isset($poll)) :?>
-<div class="box mini-poll">
+<div class="box base-mini mini-poll">
 	<div class="head">
-		<span class="corner"></span>
-		<h3><span>Today's Poll</span></h3>
+		<h4><span>Community Poll</span></h4>
 	</div>
-	<div class="box-container">
-    <form name="pollForm" action="<?=$action?>" method="post">
-		<h4><?=$poll->getPollTitle()?></h4>
 		<div class="content">
-			<?if( $poll_answers ):?>
-				<table cellspacing="0">
-					<tbody>
-							<?foreach( $poll_answers as $answer ):?>
-						<tr>
-							<td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>"/></td>
-							<td><label for="vote_<?=$answer->getId()?>"><?=$answer->getAnswerTitle()?></label>&nbsp;</td>
-						</tr>
-							<?endforeach;?>
-					</tbody>
-				</table>
-			<?endif;?>
-		</div>
-		<div class="actions">
-			<button class="form-button" onclick="pollForm.submit()"><span>Vote</span></button>
-		</div>
-		</form>
-	</div>
-</div>
+	<h5><?=$poll->getPollTitle();?></h5>
+
+						 <form name="pollForm" action="<?=$action?>" method="post">
+					<?if( $poll_answers ):?>
+							<table cellspacing="2">
+								<tbody>
+									<?foreach( $poll_answers as $answer ):?>
+									<tr>
+										<td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>"/></td>
+										<td><label for="vote_<?=$answer->getId()?>"><?=$answer->getAnswerTitle()?></label>&nbsp;</td>
+									</tr>
+									<?endforeach;?>
+								</tbody>
+							</table>
+					<?endif;?>
+				</div>
+					<div class="actions"><a href="#" class="form-button-alt right" onclick="pollForm.submit()"><span>Vote</span></a></p>
+				</div>
 <?endif;?>
-<!-- [ends] .mini-poll // -->

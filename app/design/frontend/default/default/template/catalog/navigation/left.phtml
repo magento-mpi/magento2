@@ -7,14 +7,13 @@
 ?>
 <?$_categories=$this->getCurrentChildCategories()?>
 <?if($_categories->count()):?>
-<div class="box shop-by">
-    <div class="head">
-        <span class="corner"></span>
-        <h3>Shop by</h3>
-    </div>
-    <div class="box-container">
+<div class="box layered-nav">
+		<div class="head">
+			<h3>Browse By</h3>
+		</div>
+		<div class="border-creator">
         <div class="narrow-by">
-            <dl>
+								<dl>
                 <dt>Category</dt>
                 <dd>
                     <ol>
@@ -28,8 +27,9 @@
                     <?endforeach?>
                     </ul>
                 </dd>
-        </div>
-    </div>
-</div>
+								</dl>
+							</div>
+						</div>
+					</div>
 <?endif;?>
 <!-- [ends] .browse-by // -->

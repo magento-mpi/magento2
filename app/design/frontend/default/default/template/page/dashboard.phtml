@@ -40,8 +40,6 @@
 </head>
 
 <body>
-    <!-- [start] container -->
-    <div class="container">
 
         <!-- [start] header -->
         <div class="header">
@@ -52,35 +50,35 @@
         <!-- [start] middle -->
         <?=$this->getChildHtml('store')?>
 
-            <div id="main" class="col-2-right-layout">
+				<div class="main-container">
+					<div id="main" class="col-2-right-layout">
 
             <!-- [start] center -->
-                <div class="col-main account-main">
+						<div class="col-main account-main">
 
-                <!-- [start] content -->
-                    <?=$this->getChildHtml('content')?>
-                <!-- [end] content -->
+										<!-- [start] content -->
+												<?=$this->getChildHtml('content')?>
+										<!-- [end] content -->
 
-                </div>
+						</div>
             <!-- [end] center -->
 
             <!-- [start] right -->
-            <div class="col-right side-col account-side">
-                <?=$this->getChildHtml('right')?>
-            </div>
+						<div class="col-right side-col account-side">
+								<?=$this->getChildHtml('right')?>
+						</div>
             <!-- [end] right -->
 
-        </div>
+					</div>
+				</div>
         <!-- [end] middle -->
 
         <!-- [start] footer -->
-        <div class="footer">
+        <div class="footer-container">
+					<div class="footer">
             <?=$this->getChildHtml('footer')?>
+						</div>
         </div>
         <!-- [end] footer -->
-
-    </div>
-    <!-- [end] container -->
-
     </body>
 </html>

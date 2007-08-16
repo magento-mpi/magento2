@@ -39,9 +39,6 @@
 </head>
 
 <body>
-    <!-- [start] container -->
-    <div class="container">
-    
         <!-- [start] header -->
         <div class="header">
             <?=$this->getChildHtml('header')?>
@@ -50,9 +47,9 @@
 
         <!-- [start] middle -->
         <?=$this->getChildHtml('store')?>
-
-            <div id="main" class="col-2-left-layout">
-            
+<div class="main-container">
+			<div id="main" class="col-2-left-layout">
+			<?=$this->getChildHtml('breadcrumbs')?>
             <!-- [start] left -->
             <div class="col-left side-col">
                 <?=$this->getChildHtml('left')?>
@@ -67,19 +64,20 @@
                 <!-- [end] content -->
 
                 </div>
+			</div>
             <!-- [end] center -->
 
         </div>
         <!-- [end] middle -->
 
         <!-- [start] footer -->
-        <div class="footer">
+        <div class="footer-container">
+					<div class="footer">
             <?=$this->getChildHtml('footer')?>
+						</div>
         </div>
         <!-- [end] footer -->
 
-    </div>
-    <!-- [end] container -->
 
     </body>
 </html>

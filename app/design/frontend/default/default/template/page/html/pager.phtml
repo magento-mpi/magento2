@@ -34,13 +34,24 @@
         <table class="view-by" cellspacing="0">
             <tr>
             <?if($this->getIsViewBy('mode')):?>
-                <td>View products as
+                <td>View as:
                     <?if($this->getIsViewBy('mode','grid')):?>
-                        <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'grid'))?>"><img src="<?if('grid' == $this->getRequest()->getParam('mode')):?><?=$this->getSkinUrl('images/listing_type_grid_active.gif')?><?else:?><?=$this->getSkinUrl('images/listing_type_grid.gif')?><?endif;?>" class="v-middle" alt="View listings in grid format"/></a>
-                    <?endif?>
+											<?if('grid' == $this->getRequest()->getParam('mode')):?>
+												<strong>Grid</strong>&nbsp;
+											<?else:?>
+												  <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'grid'))?>">Grid&nbsp;</a>
+											<?endif;?>
+										<?endif;?>
+
+
+
                     <?if($this->getIsViewBy('mode','list')):?>
-                        <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'list'))?>"><img src="<?if('grid' != $this->getRequest()->getParam('mode')):?><?=$this->getSkinUrl('images/listing_type_list_active.gif')?><?else:?><?=$this->getSkinUrl('images/listing_type_list.gif')?><?endif;?>" class="v-middle" alt="View listings in list format"/></a>
-                    <?endif?>
+											<?if('list' == $this->getRequest()->getParam('mode')):?>
+												<strong>List</strong>
+											<?else:?>
+												  <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'list'))?>">List</a>
+											<?endif;?>
+										<?endif;?>
                 </td>
             <?endif?>
             <?if($this->getIsViewBy('order')):?>

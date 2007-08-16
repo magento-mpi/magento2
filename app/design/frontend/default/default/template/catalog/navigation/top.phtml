@@ -5,8 +5,10 @@
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
-<h4 class="no-show">Category Navigation:</h4>
-<ul id="nav">
+				<div class="header-nav-container">
+					<div class="header-nav">
+						<h4 class="no-show">Category Navigation:</h4>
+						<ul id="nav">
 <?foreach ($this->getStoreCategories(2) as $_category):?>
     <?if($_category->getIsActive()):?>
     <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>>
@@ -24,3 +26,5 @@
     <?endif;?>
 <?endforeach?>
 </ul>
+					</div>
+				</div>

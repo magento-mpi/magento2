@@ -1,6 +1,21 @@
 /************** CLEARS ***************/
 
-.col2-alt-set:after,
+.clear:after,
+.col2-set:after,
+.col3-set:after,
+.col4-set:after,
+.head:after,
+.tabs:after,
+.header-top:after,
+.quick-access:after,
+.header-nav:after,
+.header-sub:after,
+#nav:after,
+#main:after,
+.product-essential:after,
+
+
+
 .util-form-buttons:after,
 .checkout-progress:after, 
 .my-review-detail:after,
@@ -10,24 +25,14 @@
 .page-head:after,
 .page-head-alt:after,
 .group-select li:after,
-.head:after,
-.clear:after,
-.col2-set:after,
-.col3-set:after,
-.col4-set:after,
 .account-access:after,
-#nav:after,
-.header-sub:after,
-#main:after,
-.pager:after,
-.view-by:after,
-.widget-selection-list li:after, 
 .listing-type-list .listing-item:after,
 .listing-type-list .product-info .product-reviews:after,
 .box:after,
 .box .content:after,
 .box li:after,
 .box .actions:after,
+.button-container:after,
 .ratings:after {
 	content:".";
 	display:block;

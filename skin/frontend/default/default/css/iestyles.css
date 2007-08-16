@@ -40,16 +40,6 @@
 	line-height:0;
 	}
 
-.form-button, .form-button-alt {
-	margin-left:4px;
-	padding-left:4px;
-	background-image:url(../images/form_button_left.gif);
-	background-position:0 0; 
-	}
-.form-button span, .form-button-alt span {
-	background-image:url(../images/form_button_right.gif);
-	}
-
 
 /* Double margin bug */
 .col-2-right-layout .col-main, 
