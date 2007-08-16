@@ -114,19 +114,4 @@ Validation.addAllThese([
     attributeOption.add(<?=$_value->toJson()?>);
 <?endforeach;?>
 
-function checkOptionsPanelVisibility(){
-    if($('matage-options-panel')){
-        var panel = $('matage-options-panel');
-        if($('frontend_input') && ($('frontend_input').value=='select' || $('frontend_input').value=='multiselect')){
-            panel.show();
-        }
-        else {
-            panel.hide();
-        }
-    }
-}
-if($('frontend_input')){
-    Event.observe($('frontend_input'), 'change', checkOptionsPanelVisibility);
-}
-checkOptionsPanelVisibility();
 </script>

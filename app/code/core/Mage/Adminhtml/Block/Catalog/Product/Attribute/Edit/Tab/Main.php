@@ -120,11 +120,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 ), 
                 array(
                     'value' => 'validate-number', 
-                    'label' => __('Number')
+                    'label' => __('Decimal Number')
                 ), 
                 array(
                     'value' => 'validate-digits', 
-                    'label' => __('Digits')
+                    'label' => __('Integer Number')
                 ), 
                 array(
                     'value' => 'validate-email', 
@@ -191,8 +191,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         if ($model->getIsUserDefined() || !$model->getId()) {
             $fieldset->addField('is_visible_on_front', 'select', array(
                 'name' => 'is_visible_on_front',
-                'label' => __('Visible On Front'),
-                'title' => __('Visible On Front'),
+                'label' => __('Visible In Catalog'),
+                'title' => __('Visible In Catalog'),
                 'values' => $yesno,
             ));
         }

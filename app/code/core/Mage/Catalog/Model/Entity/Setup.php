@@ -494,7 +494,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'      => 'varchar',
                         'backend'   => 'catalog_entity/product_attribute_backend_image',
                         'frontend'  => 'catalog_entity/product_attribute_frontend_image',
-                        'label'     => 'Sall Image',
+                        'label'     => 'Small Image',
                         'input'     => 'image',
                         'class'     => '',
                         'source'    => '',

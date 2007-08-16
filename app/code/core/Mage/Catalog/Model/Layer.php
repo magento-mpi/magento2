@@ -34,6 +34,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                     
             
             $collection->getEntity()->setStore((int) $this->getCurrentStore()->getId());
+            $collection->addAttributeToFilter('status', array('in'=>$collection->getObject()->getVisibleInCatalogStatuses()));
             $this->setData('product_collection', $collection);
         }
         

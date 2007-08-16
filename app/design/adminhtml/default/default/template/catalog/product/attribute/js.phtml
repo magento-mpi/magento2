@@ -1,0 +1,40 @@
+<script type="text/javascript">
+function checkOptionsPanelVisibility(){
+    if($('matage-options-panel')){
+        var panel = $('matage-options-panel');
+        if($('frontend_input') && ($('frontend_input').value=='select' || $('frontend_input').value=='multiselect')){
+            panel.show();
+        }
+        else {
+            panel.hide();
+        }
+    }
+}
+
+function bindAttributeInputType()
+{
+    checkOptionsPanelVisibility();
+    if($('frontend_input') && ($('frontend_input').value=='select')){
+        if($('is_filterable')){
+            $('is_filterable').disabled = false;
+        }
+        if($('backend_type') && $('backend_type').options){
+            for(var i=0;i<$('backend_type').options.length;i++){
+                if($('backend_type').options[i].value=='int') $('backend_type').selectedIndex = i;
+            }
+        }
+    }
+    else {
+        if($('is_filterable')){
+            $('is_filterable').selectedIndex=0;
+            $('is_filterable').disabled = true;
+        }
+    }
+}
+
+if($('frontend_input')){
+    Event.observe($('frontend_input'), 'change', bindAttributeInputType);
+}
+bindAttributeInputType();
+
+</script>

@@ -10,6 +10,18 @@
  */
 class Mage_Catalog_Model_Product extends Varien_Object
 {
+    /**
+     * Product Types
+     */
+    const TYPE_SIMPLE               = 1;
+    const TYPE_BUNDLE               = 2;
+    const TYPE_CONFIGURABLE_SUPER   = 3;
+    const TYPE_GROUPED_SUPER        = 4;
+    
+    const STATUS_ENABLED            = 1;
+    const STATUS_DISABLED           = 2;
+    const STATUS_OUT_OF_STOCK       = 3;
+    
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
 
@@ -469,20 +481,22 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function isBundle()
     {
-    	// TODO: use string value
-    	return $this->getTypeId() == 2;
+    	return $this->getTypeId() == self::TYPE_BUNDLE;
     }
 
     public function isSuperGroup()
     {
-    	// TODO: use string value
-    	return $this->getTypeId() == 4;
+    	return $this->getTypeId() == self::TYPE_GROUPED_SUPER;
     }
 
     public function isSuperConfig()
     {
-    	// TODO: use string value
-    	return $this->getTypeId() == 3;
+    	return $this->getTypeId() == self::TYPE_CONFIGURABLE_SUPER;
+    }
+    
+    public function isSuper()
+    {
+        return $this->isSuperConfig() || $this->isSuperGroup();
     }
 
     public function isAviableBundle()
@@ -621,9 +635,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $attributes;
     }
 
-    ///////////////////////////////////////////////////
-    /// need remove
-    ////////////////////
     /**
      * Get product url
      *
@@ -669,15 +680,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $url;
     }
-
-    /**
-     * Get product category name
-     *
-     * @return unknown
-     */
-    public function getCategoryName()
+    
+    public function getVisibleInCatalogStatuses()
     {
-        return 'node';//Mage::getResourceModel('catalog/category_tree')->joinAttribute('name')->loadNode($this->getCategoryId())->getName();
+        return array(self::STATUS_ENABLED);
     }
-
+    
+    public function isVisibleInCatalog()
+    {
+        return in_array($this->getStatus(), $this->getVisibleInCatalogStatuses());
+    }
 }
