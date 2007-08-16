@@ -1,8 +1,8 @@
 					<div class="page-head">
-						<h2><?=__('Write Your Own Review')?></h2>
+						<h3><?=__('Write Your Own Review')?></h3>
 						<?=$this->getMessagesBlock()->getHtml()?>
 					</div>
-					<h3><?=__('You\'re reviewing')?>: <span class="normal-weight"><?=$this->getProductInfo()->getName()?></span></h3>
+					<h4><?=__('You\'re reviewing')?>: <span class="normal-weight"><?=$this->getProductInfo()->getName()?></span></h4>
 					<form action="<?=$this->getAction()?>" method="post" id="review-form">
                         <?if( $this->getRatings() && $this->getRatings()->getSize()):?>
 						<strong><?=__('How do you rate this product?')?></strong><br>
@@ -49,7 +49,7 @@
 						  <textarea class="required-entry" name="detail" id="review_field" cols="53" rows="10" style="width: 450px;"><?=$data->getDetail()?></textarea>
 						</p>
 						<div class="form-buttons">
-							<button class="form-button" type="submit"><span><?=__('Submit Review')?></span></button>
+							<a class="form-button right" type="submit"><span><?=__('Submit Review')?></span></a>
 						</div>
 					</form>
                     <script type="text/javascript">

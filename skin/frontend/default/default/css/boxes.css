@@ -137,16 +137,16 @@ p.required { font-size:.95em; text-align:right; }
 	}
 
 /* Default page heading */
-.page-head { margin:0 0 25px 0;  border-bottom:1px solid #ccc; }
-.page-head-alt { margin:0 0 12px 0;  }
+.page-head { margin:0 0 25px 0; border-bottom:1px solid #ccc; }
+.page-head-alt { margin:0 0 12px 0; }
 .page-head, .page-head-alt { text-align:right; }
-.page-head h2, .page-head-alt h2 {
+.page-head h3, .page-head-alt h3 {
 	margin:0;
 	font-size:1.7em; 
 	font-weight:normal;
 	text-align:left;
 	}
-.button-level h2 { /* heading level with buttons */
+.button-level h3 { /* heading level with buttons */
 	float:left;
 	width:60%;
 }
