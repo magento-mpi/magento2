@@ -354,7 +354,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     public function sendNewAccountEmail()
     {
     	Mage::getModel('core/email_template')
-    		->sendTransactional('new_customer', $this->getEmail(), $this->getName(), array('customer'=>$this));
+    		->sendTransactional('new_account', $this->getEmail(), $this->getName(), array('customer'=>$this));
     	return $this;
     }
 

@@ -116,7 +116,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addAttributeToSelect('password_hash')
+            ->addAttributeToSelect('*')
             ->addAttributeToFilter('email', $email)
             ->setPage(1,1);
 

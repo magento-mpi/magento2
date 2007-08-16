@@ -88,8 +88,8 @@
                 <?if($this->isDefaultShipping()):?>
                     <strong>Default shipping address</strong>
                 <?elseif($this->canSetAsDefaultShipping()):?>
-                    <input type="checkbox" id="primary_billing" name="default_shipping" value="1"/>&nbsp;
-                    <label for="primary_billing">Use as my default <strong>shipping</strong> address</label>
+                    <input type="checkbox" id="primary_shipping" name="default_shipping" value="1"/>&nbsp;
+                    <label for="primary_shipping">Use as my default <strong>shipping</strong> address</label>
                 <?else:?>
                     <input type="hidden" name="default_shipping" value="1"/>
                 <?endif;?>

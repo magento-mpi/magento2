@@ -21,10 +21,12 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Subtotal
         foreach ($address->getAllItems() as $item) {
         	
         	$p = $products->getItemById($item->getProductId());
-        	$item->setPrice($p->getFinalPrice());
-        	$item->setName($p->getName());
-        	$item->setTaxClassId($p->getTaxClassId());
-        	$item->setWeight($p->getWeight());
+        	if ($p) {
+	        	$item->setPrice($p->getFinalPrice());
+	        	$item->setName($p->getName());
+	        	$item->setTaxClassId($p->getTaxClassId());
+	        	$item->setWeight($p->getWeight());
+        	}
         	
             $item->calcRowTotal();
             $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());

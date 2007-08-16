@@ -29,8 +29,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Mage_Admi
         ));
 
         $this->addTab('system', array(
-            'label'     => __('System Propertis'),
-            'title'     => __('System Propertis'),
+            'label'     => __('System Properties'),
+            'title'     => __('System Properties'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_system')->toHtml(),
         ));
 
