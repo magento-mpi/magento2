@@ -24,6 +24,7 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Subtotal
         	$item->setPrice($p->getFinalPrice());
         	$item->setName($p->getName());
         	$item->setTaxClassId($p->getTaxClassId());
+        	$item->setWeight($p->getWeight());
         	
             $item->calcRowTotal();
             $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
