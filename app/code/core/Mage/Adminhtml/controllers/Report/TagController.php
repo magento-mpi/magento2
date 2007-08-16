@@ -1,42 +1,41 @@
 <?php
 /**
- * Review reports admin controller
+ * Tag report admin controller
  *
  * @package     Mage
  * @subpackage  Adminhtml
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Action
 {
     public function _initAction()
     {
         $this->loadLayout('baseframe')
             ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Review'), __('Reviews'));
+            ->_addBreadcrumb(__('Tag'), __('Tag'));
         return $this;
     }
 
     public function customerAction()
     {
         $this->_initAction()
-            ->_setActiveMenu('report/review/customer')
+            ->_setActiveMenu('report/tag/customer')
             ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_customer'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_customer'))
             ->renderLayout();
     }
 
     public function productAction()
     {
         $this->_initAction()
-            ->_setActiveMenu('report/review/product')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_product'))
+            ->_setActiveMenu('report/tag/product')
+            ->_addBreadcrumb(__('Poducts Report'), __('Products Report'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product'))
             ->renderLayout();
     }
-
+/*
     public function productDetailAction()
     {
         $this->_initAction()
@@ -46,5 +45,5 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_detail'))
             ->renderLayout();
     }
-
+ */
 }

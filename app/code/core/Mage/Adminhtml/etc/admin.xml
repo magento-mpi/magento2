@@ -255,7 +255,24 @@
                 </review>
                 <tags>
                     <title>Tags Report</title>
-                    <action>adminhtml/report/tags</action>
+                    <children>   
+                        <customer>
+                            <title>Customers</title>
+                            <action>adminhtml/report_tag/customer</action>
+                        </customer>
+                        <product>
+                            <title>Products</title>
+                            <action>adminhtml/report_tag/product1</action>
+                        </product>
+                        <product_total>
+                            <title>Products (Total)</title>
+                            <action>adminhtml/report_tag/product2</action>
+                        </product_total>
+                        <popular>
+                            <title>Products</title>
+                            <action>adminhtml/report_tag/popular</action>
+                        </popular>
+                    </children>
                 </tags>
                 <search>
                     <title>Search Report</title>

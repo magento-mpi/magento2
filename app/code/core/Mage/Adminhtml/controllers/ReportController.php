@@ -37,8 +37,9 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function productsAction()
     {
         $this->_initAction()
-            ->_setActiveMenu('report/products')
+            ->_setActiveMenu('report/product')
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product'))
             ->renderLayout();
     }
 
@@ -55,14 +56,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_setActiveMenu('report/wishlist')
             ->_addBreadcrumb(__('Wishlist Report'), __('Wishlist Report'))
-            ->renderLayout();
-    }
-
-    public function tagsAction()
-    {
-        $this->_initAction()
-            ->_setActiveMenu('report/tags')
-            ->_addBreadcrumb(__('Tags Report'), __('Tags Report'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_wishlist'))
             ->renderLayout();
     }
 
