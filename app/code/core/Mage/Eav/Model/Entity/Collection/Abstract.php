@@ -161,11 +161,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
     /**
      * Get template object
+     * It is a factory method by default
      *
+     * @param bool $createNewInstance you can set this false to get an original instance
      * @return Varien_Object
      */
-    public function getObject()
+    public function getObject($createNewInstance = true)
     {
+        Varien_Profiler::start(__METHOD__);
         /*
         if (!$this->_object && $this->_entity && $this->_entity->getObject()) {
             $this->setObject($this->_entity->getObject());
@@ -174,7 +177,15 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if (!$this->_object) {
             $this->setObject();
         }
-        return $this->_object;
+        if ($createNewInstance) {
+            $className = get_class($this->_object);
+            $object = new $className();
+            // $object = clone $this->_object;
+        } else {
+            $object = $this->_object;
+        }
+        Varien_Profiler::stop(__METHOD__);
+        return $object;
     }
 
 
@@ -204,7 +215,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      */
     public function addItem(Varien_Object $object)
     {
-        if (get_class($object)!==get_class($this->getObject())) {
+        if (get_class($object)!==get_class($this->getObject(false))) {
             throw Mage::exception('Mage_Eav', 'Attempt to add an invalid object');
         }
 
@@ -340,7 +351,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $this->addAttribute($a);
             }
         } elseif ('*'===$attribute) {
-            $attributes = $this->getEntity()->loadAllAttributes($this->getObject())->getAttributesByCode();
+            $attributes = $this->getEntity()->loadAllAttributes($this->getObject(false))->getAttributesByCode();
             foreach ($attributes as $attrCode=>$attr) {
                 $this->_selectAttributes[$attrCode] = $attr->getId();
             }
@@ -614,7 +625,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         foreach ($arr as $row) {
             $entityId = $row[$entityIdField];
             if (!isset($this->_items[$entityId])) {
-                $this->_items[$entityId] = clone $this->getObject();
+                $this->_items[$entityId] = $this->getObject();
                 $this->_items[$entityId]->setData($row);
             }  else {
                 $this->_items[$entityId]->addData($row);
@@ -679,7 +690,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         }
 
         foreach ($rows as $v) {
-            $object = clone $this->getObject();
+            $object = $this->getObject();
             $this->_items[$v[$entityIdField]] = $object->setData($v);
         }
         return $this;

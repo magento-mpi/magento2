@@ -11,7 +11,7 @@
  */
 class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 {
-    public function __construct() 
+    public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
         $this->setType('customer')->setConnection(
@@ -19,7 +19,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             $resource->getConnection('customer_write')
         );
     }
-    
+
     /**
      * Save customer addresses and set default addresses in attributes backend
      *
@@ -30,24 +30,34 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         $this->_saveAddresses($customer);
 		$this->_saveSubscription($customer);
-		
+
         return parent::_afterSave($customer);
     }
-    
+
     protected function _beforeSave(Varien_Object $customer)
     {
         parent::_beforeSave($customer);
+        /* @var $customer Mage_Customer_Model_Customer */
         $customer->setParentId(null);
 
-        $testCustomer = clone $customer;
-        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
-
-        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
+//        $testCustomer = clone $customer;
+//        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
+//
+//        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
+//            Mage::throwException('customer email already exist');
+//        }
+        $collection = Mage::getResourceModel('customer/customer_collection')
+            ->addAttributeToFilter('email', $customer->getEmail())
+            ->addAttributeToFilter('store_id', array('in' => $customer->getSharedStoreIds()))
+            ->setPage(1,1)
+            ->load();
+        if ($collection->getSize() > 0) {
             Mage::throwException('customer email already exist');
         }
+
         return $this;
     }
-    
+
     protected function _saveAddresses(Mage_Customer_Model_Customer $customer)
     {
         foreach ($customer->getAddressCollection() as $address)
@@ -62,7 +72,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
         return $this;
     }
-    
+
     /**
      * Saves customers subscription
      *
@@ -70,51 +80,50 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
      * @return boolean
      */
     protected function _saveSubscription(Mage_Customer_Model_Customer $customer) {
-    	
+
     	$subscriber = Mage::getModel('newsletter/subscriber')
     		->loadByCustomer($customer);
-    	
+
     	if (!$customer->getIsSubscribed() && !$subscriber->getId()) {
     		// If subscription flag not seted or customer not subscriber
     		// and no subscribe bellow
     		return false;
     	}
-    
-    	$status = ( $customer->getIsSubscribed() 
-    			    ? Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED 
+
+    	$status = ( $customer->getIsSubscribed()
+    			    ? Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED
     			    : Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
-    	
+
     	if($status != $subscriber->getStatus()) {
     		$subscriber->setIsStatusChanged(true);
     	}
-    	
+
 		$subscriber->setStatus($status);
-		
+
     	if(!$subscriber->getId()) {
     		$subscriber
     			->setStoreId($customer->getStoreId())
     			->setCustomerId($customer->getId())
     			->setEmail($customer->getEmail());
     	}
-    	
+
     	$subscriber->save();
-    	
+
     	return true;
     }
-    
+
 
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
-            ->setObject($customer)
             ->addAttributeToSelect('password_hash')
             ->addAttributeToFilter('email', $email)
             ->setPage(1,1);
-            
+
         if ($testOnly) {
             $collection->addAttributeToSelect('email');
         }
-        
+
         $collection->load();
         $customer->setData(array());
         foreach ($collection->getItems() as $item) {
@@ -123,7 +132,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
         return $this;
     }
-    
+
     /**
      * Authenticate customer
      *
@@ -140,7 +149,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
         return $success;
     }
-    
+
     /**
      * Change customer password
      * $data = array(
@@ -148,7 +157,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
      *      ['confirmation']
      *      ['current_password']
      * )
-     * 
+     *
      * @param   Mage_Customer_Model_Customer
      * @param   array $data
      * @param   bool $checkCurrent
@@ -168,12 +177,12 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
             }*/
         }
-        
+
         /*if ($data['password'] != $data['confirmation']) {
             Mage::throwException('new passwords do not match');
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
         }*/
-        
+
         $customer->setPassword($newPassword);
         $this->saveAttribute($customer, 'password_hash');
         //->save();

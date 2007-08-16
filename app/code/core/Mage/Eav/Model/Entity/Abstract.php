@@ -94,9 +94,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected $_valueEntityIdField;
 
     protected $_valueTablePrefix;
-    
+
     protected $_isPartialLoad = false;
-    
+
     protected $_isPartialSave = false;
 
     /**
@@ -139,7 +139,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         return $this->_write;
     }
-    
+
     /**
      * For compatibility with Mage_Core_Model_Abstract
      *
@@ -331,6 +331,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this->_store;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array|false
+     */
     public function getSharedStoreIds()
     {
         if (empty($this->_sharedStoreIds)) {
@@ -459,7 +464,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         return $this;
     }
-    
+
     public function isPartialLoad($flag=null)
     {
         $result = $this->_isPartialLoad;
@@ -467,8 +472,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $this->_isPartialLoad = $flag;
         }
         return $result;
-    }    
-    
+    }
+
     public function isPartialSave($flag=null)
     {
         $result = $this->_isPartialSave;
@@ -491,7 +496,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         */
         $attributes = $this->getConfig()->getAttributeCollection();
-        
+
         if ($object && $object->getAttributeSetId()) {
             $setId = $object->getAttributeSetId();
         } else {
@@ -751,11 +756,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if (!$this->_write) {
             throw Mage::exception('Mage_Eav', 'No connection available');
         }
-        
+
         if ($object->isDeleted()) {
             return $this->delete($object);
         }
-        
+
         if (!$this->isPartialSave()) {
             $this->loadAllAttributes();
         }
@@ -767,7 +772,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         if ($this->getUseDataSharing() && !$object->getStoreId()) {
             $object->setStoreId($this->getStoreId());
         }
-        
+
         if (is_null($object->getParentId())) {
             $object->setParentId(0);
         }
@@ -876,7 +881,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         return $this;
     }
-    
+
     public function setNewIncrementId(Varien_Object $object)
     {
         if ($object->getIncrementId()) {
@@ -884,11 +889,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         $incrementId = $this->getConfig()->fetchNewIncrementId($object->getStoreId());
-        
+
         if (false!==$incrementId) {
             $object->setIncrementId($incrementId);
         }
-        
+
         return $this;
     }
 
@@ -900,7 +905,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $entityId = $newObject->getData($this->getEntityIdField());
         if (!empty($entityId)) {
             // get current data in db for this entity
-            $origObject = clone $newObject;
+            $className = get_class($newObject);
+            $origObject = new $className();
+//            $origObject = clone $newObject;
             $origObject->setData(array());
             //$this->load($origObject, $entityId, array_keys($this->_attributesByCode));
             $this->load($origObject, $entityId);
@@ -1045,11 +1052,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             	   ->where($this->_write->quoteInto('entity_type_id=?', $object->getEntityTypeId()))
             	   ->where($this->_write->quoteInto('store_id=?', $storeId))
             	   ->where($this->_write->quoteInto('attribute_id=?', $attribute->getId()));
-            	
+
                 if ($this->_write->fetchOne($select)) {
                     $this->_write->update(
-                        $attribute->getBackend()->getTable(), 
-                        array('value'=>$value), 
+                        $attribute->getBackend()->getTable(),
+                        array('value'=>$value),
                         implode(' ', $select->getPart(Zend_Db_Select::WHERE))
                     );
             	}
@@ -1080,7 +1087,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         return $this;
     }
-    
+
     public function checkAttributeUniqueValue($attribute, $object)
     {
         $select = $this->_write->select()
@@ -1090,7 +1097,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             ->where('value=?', $object->getData($attribute->getAttributeCode()))
             ->where('store_id IN (?)', $this->getSharedStoreIds());
         $data = $this->_write->fetchCol($select);
-        
+
         if ($object->getId()) {
             if (isset($data[0])) {
                 return $data[0] == $object->getId();
@@ -1101,7 +1108,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             return !count($data);
         }
     }
-    
+
     protected function _afterLoad(Varien_Object $object)
     {
         $this->walkAttributes('backend/afterLoad', array($object));
@@ -1131,7 +1138,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         return Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL;
     }
-    
+
     protected function _getDefaultAttributes()
     {
     	return array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
@@ -1140,11 +1147,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     protected function _afterSetConfig()
     {
         $defaultAttributes = $this->_getDefaultAttributes();
-        
+
         if ($this->getConfig()->getIsDataSharing()) {
             $defaultAttributes[] = 'store_id';
         }
-        
+
         $defaultAttributes[] = $this->getEntityIdField();
 
         $attributes = $this->getAttributesByCode();
@@ -1155,7 +1162,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
     }
-    
+
     public function getDefaultAttributeSourceModel()
     {
         return Mage_Eav_Model_Entity::DEFAULT_SOURCE_MODEL;

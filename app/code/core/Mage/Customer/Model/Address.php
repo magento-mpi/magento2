@@ -7,32 +7,32 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Customer_Model_Address extends Varien_Object 
+class Mage_Customer_Model_Address extends Varien_Object
 {
     protected $_customer;
-    
+
     /**
      * Constructor receives $address as array of fields for new address or integer to load existing id
      *
      * @param array|integer $address
      */
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
-    
+
     public function getCustomerId()
     {
         return $this->getResource()->getCustomerId($this);
     }
-    
+
     public function setCustomerId($id)
     {
         $this->getResource()->setCustomerId($this, $id);
         return $this;
     }
-    
+
     public function getCustomer()
     {
         if (!$this->getCustomerId()) {
@@ -44,7 +44,7 @@ class Mage_Customer_Model_Address extends Varien_Object
         }
         return $this->_customer;
     }
-    
+
     /**
      * Get customer address resource model
      *
@@ -54,44 +54,44 @@ class Mage_Customer_Model_Address extends Varien_Object
     {
         return Mage::getResourceSingleton('customer/address');
     }
-    
+
     /**
      * Load customer data
      *
      * @param   int $addressId
      * @return  Mage_Customer_Model_Address
      */
-    public function load($addressId) 
+    public function load($addressId)
     {
         $this->getResource()->load($this, $addressId);
         return $this;
     }
-    
+
     /**
      * save customer address
      *
      * @return  Mage_Customer_Model_Address
      */
-    public function save() 
+    public function save()
     {
         $this->getResource()
             ->loadAllAttributes()
             ->save($this);
         return $this;
     }
-    
+
     /**
      * Delete customer address
      *
      * @return Mage_Customer_Model_Address
      */
-    public function delete() 
+    public function delete()
     {
         $this->getResource()->delete($this);
         $this->setData(array());
         return $this;
     }
-    
+
     /**
      * get address street
      *
@@ -114,7 +114,7 @@ class Mage_Customer_Model_Address extends Varien_Object
             }
         }
     }
-    
+
     /**
      * set address street informa
      *
@@ -129,7 +129,7 @@ class Mage_Customer_Model_Address extends Varien_Object
         $this->setData('street', $street);
         return $this;
     }
-    
+
     /**
      * get address data
      *
@@ -147,10 +147,10 @@ class Mage_Customer_Model_Address extends Varien_Object
         }
         return parent::getData($key, $index);
     }
-    
+
     /**
      * Create fields street1, street2, etc.
-     * 
+     *
      * To be used in controllers for views data
      *
      */
@@ -161,7 +161,7 @@ class Mage_Customer_Model_Address extends Varien_Object
             $this->setData('street'.($i+1), $line);
         }
     }
-    
+
     /**
      * To be used when processing _POST
      */
@@ -169,7 +169,7 @@ class Mage_Customer_Model_Address extends Varien_Object
     {
         $this->setStreet($this->getData('street'));
     }
-    
+
     /**
      * Retrieve address entity attributes
      *
@@ -181,8 +181,8 @@ class Mage_Customer_Model_Address extends Varien_Object
             ->loadAllAttributes()
             ->getAttributesByCode();
     }
-    
-    
+
+
     public function getRegion()
     {
     	if ($this->getData('region_id') && !$this->getData('region')) {
@@ -190,7 +190,7 @@ class Mage_Customer_Model_Address extends Varien_Object
     	}
     	return $this->getData('region');
     }
-    
+
     public function getCountry()
     {
     	if ($this->getData('country_id') && !$this->getData('country')) {
@@ -198,7 +198,7 @@ class Mage_Customer_Model_Address extends Varien_Object
     	}
     	return $this->getData('country');
     }
-    
+
     public function getHtmlFormat()
     {
         return "<b>{{firstname}} {{lastname}}</b><br/>
@@ -206,9 +206,21 @@ class Mage_Customer_Model_Address extends Varien_Object
             {{city}}, {{regionName}} {{postcode}}<br/>
             T: {{telephone}}";
     }
-    
+
     public function getFormated($html=false)
     {
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Customer_Model_Address
+     */
+    public function __clone()
+    {
+        $address = Mage::getModel('customer/address');
+        $address->unsetData('entity_id');
+        return $address;
     }
 }

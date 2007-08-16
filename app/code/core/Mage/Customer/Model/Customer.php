@@ -11,6 +11,8 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
 {
     protected $_addressCollection;
 
+//    public static $_cloneCounter = 0;
+
     /**
      * Customer subscription model
      *
@@ -29,7 +31,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     /**
      * Retrieve customer resource model
      *
-     * @return unknown
+     * @return Mage_Customer_Model_Entity_Customer
      */
     public function getResource()
     {
@@ -154,7 +156,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     /**
      * Retrieve not loaded address collection
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Mage_Customer_Model_Address_Collection
      */
     public function getAddressCollection()
     {
@@ -400,11 +402,69 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     /**
      * Enter description here...
      *
-     * @return array
+     * @return array|false
      */
-    public function getDatashareStoreIds()
+    public function getSharedStoreIds()
     {
-        return $this->getStore()->getDatashareStores('customer');
+        return $this->getResource()->getSharedStoreIds();
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function __clone()
+    {
+//        echo 'cloning customer' . "\n<br>";
+//        if (self::$_cloneCounter++ > 0) {
+//            throw new Exception();
+//        }
+        $customer = Mage::getModel('customer/customer');
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer->unsetData('entity_id');
+        foreach ($this->getLoadedAddressCollection() as $address) {
+            /* @var $address Mage_Customer_Model_Address */
+            $newAddress = clone $address;
+            $newAddress->unsetData('entity_id')
+                ->unsetData('customer_id')
+                ->unsetData('parent_id');
+            $customer->addAddress($newAddress);
+        }
+        return $customer;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Store $store
+     * @return Mage_Customer_Model_Customer
+     */
+    public function setStore(Mage_Core_Model_Store $store)
+    {
+        $this->_store = $store;
+        $storeId = $store->getId();
+        $this->setStoreId($storeId);
+        foreach ($this->getLoadedAddressCollection() as $address) {
+            /* @var $address Mage_Customer_Model_Address */
+            $address->setStoreId($storeId);
+        }
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param int $storeId
+     * @return Mage_Customer_Model_Customer
+     */
+    public function setStoreId($storeId)
+    {
+        $this->setData('store_id', $storeId);
+        if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
+            $this->_store = null;
+        }
+        return $this;
     }
 
 }

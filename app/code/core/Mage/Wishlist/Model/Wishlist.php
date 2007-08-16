@@ -106,9 +106,11 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
      *
      * @return array
      */
-    public function getDatashareStoreIds()
+    public function getSharedStoreIds()
     {
-        return $this->getStore()->getDatashareStores('wishlist');
+        // TODO in next version
+        // return $this->getStore()->getDatashareStores('wishlist');
+        return $this->getStore()->getDatashareStores('default');
     }
 
     /**
