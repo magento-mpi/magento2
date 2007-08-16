@@ -15,7 +15,10 @@
 </p>
 <script type="text/javascript">
     function switchStore(obj){
-        var storeParam = obj.value ? 'store/'+obj.value : '';
+        var storeParam = obj.value ? 'store/'+obj.value + '/' : '';
+        if(obj.switchParams){
+            storeParam+= obj.switchParams;
+        }
     <?if($this->getUseConfirm()):?>
         if(confirm('<?=__('Please, confirm site switching...')?>')){
             setLocation('<?=$this->getSwitchUrl()?>'+storeParam);

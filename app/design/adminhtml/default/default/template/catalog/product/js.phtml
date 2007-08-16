@@ -1,0 +1,16 @@
+<script type="text/javascript">
+// Bind tab changes
+function bindActiveProductTab(event) {
+    if(event.tab && event.tab.name && $('store_switcher')){
+        $('store_switcher').switchParams = 'active_tab/'+event.tab.name+'/';
+    }
+}
+varienGlobalEvents.attachEventHandler('showTab', bindActiveProductTab);
+
+// bind active tab
+<?if($tabsBlock = $this->getLayout()->getBlock('product_tabs')):?>
+if(<?=$tabsBlock->getJsObjectName()?> && <?=$tabsBlock->getJsObjectName()?>.activeTab && $('store_switcher')){
+    $('store_switcher').switchParams = 'active_tab/'+<?=$tabsBlock->getJsObjectName()?>.activeTab.name+'/';
+}
+<?endif;?>
+</script>

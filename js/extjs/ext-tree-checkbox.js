@@ -5,13 +5,14 @@
 Ext.tree.TreePanel.prototype.getChecked = function(node){
     var checked = [], i;
     if( typeof node == 'undefined' ) {
-        node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
+        //node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
+        node = this.getRootNode();
     }
 
     if( node.attributes.checked ) {
         checked.push(node.id);
     }
-    if( !node.isLeaf() ) {
+    if( node.childNodes.length ) {
         for( i = 0; i < node.childNodes.length; i++ ) {
             checked = checked.concat( this.getChecked(node.childNodes[i]) );
         }

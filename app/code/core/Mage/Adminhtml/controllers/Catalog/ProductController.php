@@ -63,13 +63,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
                     ->setStoreIds($product->getStoreIds())
+                    ->setSwitchUrl(Mage::getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)))
             );
         }
         
         Mage::register('product', $product);
         
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_edit'));
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/catalog_product_edit_tabs'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/catalog_product_edit_tabs', 'product_tabs'));
+        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('catalog/product/js.phtml'));
         
         $this->renderLayout();
     }
@@ -185,7 +187,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if(isset($data['categories'])) {
                 $categories = explode(',', $data['categories']);
             }
-            
+            var_dump($categories);die();
             if (isset($data['stores'])) {
                 $stores = $data['stores'];
             }

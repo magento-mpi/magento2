@@ -5,7 +5,7 @@
 <ul id="<?=$this->getId()?>" class="tabs">
 <?foreach ($tabs as $_tab):?>
     <li <?if($_tab->getIsHidden()):?> style="display:none"<?endif;?>>
-        <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
+        <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" name="<?=$_tab->getId()?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
             <span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please correct before saving.')?>"></div><?=$_tab->getLabel()?></span>
         </a>
         <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
@@ -13,6 +13,6 @@
 <?endforeach;?>
 </ul>
 <script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsTabs = new varienTabs('<?=$this->getId()?>', '<?=$this->getDestElementId()?>', '<?=$this->getActiveTabId()?>');
+    <?=$this->getJsObjectName()?> = new varienTabs('<?=$this->getId()?>', '<?=$this->getDestElementId()?>', '<?=$this->getActiveTabId()?>');
 </script>
 <?endif;?>

@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ->load();
 
             foreach ($groupCollection as $group) {
-                $this->addTab($group->getAttributeGroupName().'_group', array(
+                $this->addTab('group_'.$group->getId(), array(
                     'label'     => __($group->getAttributeGroupName()),
                     'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_attributes')
                         ->setGroup($group)
@@ -112,5 +112,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'active'    => true
             ));
         }
+    }
+    
+    public function getJsObjectName()
+    {
+        return $this->getId() . 'JsTabs';
     }
 }
