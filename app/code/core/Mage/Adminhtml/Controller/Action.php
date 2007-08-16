@@ -10,9 +10,9 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             ->setPackageName('default')
             ->setTheme('default');
 
-        $this->getLayout()->setArea('adminhtml');   
+        $this->getLayout()->setArea('adminhtml');
     }
-    
+
     protected function _setActiveMenu($menuPath)
     {
         $this->getLayout()->getBlock('menu')->setActive($menuPath);
@@ -25,31 +25,49 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Block_Abstract $block
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addContent(Mage_Core_Block_Abstract $block)
     {
         $this->getLayout()->getBlock('content')->append($block);
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Block_Abstract $block
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addLeft(Mage_Core_Block_Abstract $block)
     {
         $this->getLayout()->getBlock('left')->append($block);
         return $this;
     }
-    
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Block_Abstract $block
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addJs(Mage_Core_Block_Abstract $block)
     {
         $this->getLayout()->getBlock('js')->append($block);
         return $this;
     }
-    
+
     function loadLayout($ids=null, $key='', $generateBlocks=true)
     {
         parent::loadLayout($ids, $key, $generateBlocks);
         $this->_initLayoutMessages('adminhtml/session');
         return $this;
     }
-    
+
     function norouteAction($coreRoute = null)
     {
         $this->loadLayout(array('baseframe', 'admin_noroute'), 'admin_noroute');

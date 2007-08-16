@@ -1,0 +1,9 @@
+<div id="sc_sidebar">
+    <?foreach ($this->getChild() as $_child):?>
+        <?if ($_child->hasItems()):?>
+            <div id="sc_<?=$_child->getBlockAlias()?>"
+                <?=$this->getChildHtml($_child->getBlockAlias())?>
+            </div>
+        <?endif;?>
+    <?endforeach;?>
+</div>

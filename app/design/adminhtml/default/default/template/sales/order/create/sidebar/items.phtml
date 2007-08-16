@@ -1,0 +1,11 @@
+<h4><?=$this->getHeaderText()?></h4>
+<ul>
+    <?$_items = $this->getItems();?>
+    <?foreach ($_items as $_item):?>
+        <li>
+            <span><?=$_item->getName()?></span><br/>
+            <span><?=$this->formatPrice($_item->getPrice())?></span><br/>
+            <a href="javascript:void(0);" onclick="sc_productAdd(<?=$_item->getProductId()?>)"><?=__('Add to Order')?></a>
+        </li>
+    <?endforeach;?>
+</ul>

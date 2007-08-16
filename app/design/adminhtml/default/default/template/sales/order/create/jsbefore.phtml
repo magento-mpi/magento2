@@ -1,0 +1,215 @@
+<script type="text/javascript">
+
+function sc_prepareUrl(url) {
+    var parts = url.split('_');
+    url = '';
+    for (var i=0; i<parts.length; i++) {
+        if (i>0) {
+            url += parts[i].slice(0,1).toUpperCase() + parts[i].slice(1);
+        } else {
+            url += parts[i].slice(0,1) + parts[i].slice(1);
+        }
+    }
+    return url;
+}
+
+function sc_refresh(blocks, args) {
+    var params = args || {};
+    block = blocks.shift();
+    if (block) {
+        var allowed = ['customer','store','sidebar','cart','wishlist','viewed','compared'];
+        if (allowed.indexOf(block) == -1) {
+            return;
+        }
+        if ('search' == block) {
+            params['collapse'] = 1;
+        }
+        new Ajax.Updater(
+            'sc_' + block,
+            url = sc_url + sc_prepareUrl(block),
+            {
+                onFailure:function(){sc_refresh(blocks)},
+                onSuccess:function(){sc_refresh(blocks)},
+                evalScripts:true,
+                parameters:params
+            }
+        );
+    }
+}
+
+function sc_customerSelect(grid, event) {
+    var element = Event.findElement(event, 'tr');
+    if(element.id){
+        sc_customerId = element.id;
+        sc_refresh(['customer', 'store'], {customer_id: element.id});
+    }
+}
+
+function sc_storeSelect(id) {
+    sc_storeId = id;
+    sc_refresh(['store', 'sidebar', 'shipping_address', 'billing_address', 'shipping_method', 'billing_method', 'coupons', 'newsletter', 'items', 'totals'], {store_id: id});
+    if (sc_customerId && (sc_customerId != 'new')) {
+        var cc = $$('.container-collapsed');
+        for (var i=0;i<cc.length;i++) {
+            Element.removeClassName(cc[i], 'container-collapsed');
+            Element.addClassName(cc[i], 'container');
+        }
+    }
+}
+
+function sc_registerSearchProduct(grid, element, checked) {
+    if (checked) {
+        if(element.inputElements) {
+            sc_products[element.value]={};
+            for(var i = 0; i < element.inputElements.length; i++) {
+                element.inputElements[i].disabled = false;
+                if (element.inputElements[i].name == 'qty') {
+                    if (! element.inputElements[i].value) {
+                        element.inputElements[i].value = 1;
+                    }
+                }
+                sc_products[element.value][element.inputElements[i].name] = element.inputElements[i].value;
+            }
+        }
+    } else {
+        if(element.inputElements){
+            for(var i = 0; i < element.inputElements.length; i++) {
+                element.inputElements[i].disabled = true;
+            }
+        }
+        sc_products.remove(element.value);
+    }
+    grid.reloadParams = {'products[]':sc_products.keys()};
+}
+
+function sc_searchRowClick(grid, event) {
+    var trElement = Event.findElement(event, 'tr');
+    var isInput = Event.element(event).tagName == 'INPUT';
+    if (trElement) {
+        var checkbox = Element.getElementsBySelector(trElement, 'input');
+        if (checkbox[0]) {
+            var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+            grid.setCheckboxChecked(checkbox[0], checked);
+        }
+    }
+}
+
+function sc_searchRowInit(grid, row) {
+    var checkbox = $(row).getElementsByClassName('checkbox')[0];
+    var inputs = $(row).getElementsByClassName('input-text');
+    if (checkbox && inputs.length > 0) {
+        checkbox.inputElements = inputs;
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].checkboxElement = checkbox;
+            if (sc_products[checkbox.value] && sc_products[checkbox.value][inputs[i].name]) {
+                inputs[i].value = sc_products[checkbox.value][inputs[i].name];
+            }
+            inputs[i].disabled = !checkbox.checked;
+            Event.observe(inputs[i],'keyup', sc_searchInputChange.bind(this));
+            Event.observe(inputs[i],'change', sc_searchInputChange.bind(this));
+        }
+    }
+}
+
+function sc_searchInputChange(event) {
+    var element = Event.element(event);
+    if (element && element.checkboxElement && element.checkboxElement.checked){
+        sc_products[element.checkboxElement.value][element.name] = element.value;
+    }
+}
+
+function sc_productAdd(id) {
+    var ids = $H({});
+    ids[id] = {};
+    ids[id]['qty'] = 1;
+    sc_refresh(['items','shipping_method','totals'], {products: ids.toJSON()});
+}
+
+function sc_itemRemove(id) {
+    sc_refresh(['items','shipping_method','totals'], {remove: id});
+}
+
+function sc_itemMove(id, dest) {
+    if (! dest) {
+        return;
+    }
+    sc_refresh([dest,'items','shipping_method','totals'], {move: id});
+}
+
+function sc_searchAdd() {
+    $('sc_search').hide();
+    sc_refresh(['items','shipping_method','totals'], {products: sc_products.toJSON()});
+}
+
+function sc_itemsUpdate() {
+    var qtys = $('sc_items_grid').getElementsByClassName('sc_items_grid').collect(function(el){
+        var h = {};
+        h[el.id.split(':')[1]] = el.value;
+        return h;
+    });
+    sc_refresh(['items','totals'], {update: qtys.toJSON()});
+}
+
+function sc_addressSelect(type, id) {
+    sc_addressId[type] = id;
+    if (sc_sameAsBilling) {
+        sc_refresh(['billing_address','shipping_address', 'shipping_method'],{address_id: id});
+    } else {
+        if ('shipping' == type) {
+            sc_refresh(['shipping_address','shipping_method'],{address_id: id});
+        } else {
+            sc_refresh(['billing_address'],{address_id: id});
+        }
+    }
+}
+
+function sc_shippingSameAsBilling(checked) {
+    sc_sameAsBilling = checked;
+    if (checked) {
+        sc_refresh(['shipping_address'],{address_id: sc_addressId['billing'], same_as_billing: 1});
+    } else {
+        sc_refresh(['shipping_address'],{address_id: sc_addressId['shipping'], same_as_billing: 0});
+    }
+}
+
+function sc_addressChange(el) {
+    var name = el.id.split(':');
+    var type = name[0].split('_')[0];
+    sc_addressChanged[type] = true;
+    if (('billing' == type) && sc_sameAsBilling && $('shipping_address:'+name[1])) {
+        if ('INPUT' == el.tagName) {
+            $('shipping_address:'+name[1]).value = el.value;
+        } else {
+            if ('SELECT' == el.tagName) {
+                $('shipping_address:'+name[1]).selectedIndex = el.selectedIndex;
+            }
+        }
+    }
+}
+
+function sc_couponApply(code) {
+    sc_refresh(['coupons','shipping_method','items','totals'],{coupon_code: code});
+}
+
+function sc_paymentSwitch(method){
+    if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
+        var form = $('payment_form_'+this.currentMethod);
+        form.style.display = 'none';
+        var elements = form.getElementsByTagName('input');
+        for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+        var elements = form.getElementsByTagName('select');
+        for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+
+    }
+    if ($('payment_form_'+method)){
+        var form = $('payment_form_'+method);
+        form.style.display = '';
+        var elements = form.getElementsByTagName('input');
+        for (var i=0; i<elements.length; i++) elements[i].disabled = false;
+        var elements = form.getElementsByTagName('select');
+        for (var i=0; i<elements.length; i++) elements[i].disabled = false;
+        this.currentMethod = method;
+    }
+}
+
+</script>

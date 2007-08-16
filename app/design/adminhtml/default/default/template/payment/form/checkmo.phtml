@@ -2,9 +2,3 @@
 <input type="radio" title="<?=$this->getTitle()?>>" id="payment_method_<?=$this->getMethod()?>" name="payment[method]" value="<?=$this->getMethod()?>" <?if($this->isCurrent()):?>checked<?endif?> onclick="payment.switchMethod('<?=$this->getMethod()?>')" class1="validate-one-required"/>
 <label for="payment_method_<?=$this->getMethod()?>"><?=$this->getTitle()?></label>
 </dt>
-<dd>
-<!--fieldset class="group-select">
-    <ul id="payment_form_<?=$this->getMethod()?>" style="<?if(!$this->isCurrent()):?>display:none<?endif?>">
-    </ul>
-</fieldset-->
-</dd>
