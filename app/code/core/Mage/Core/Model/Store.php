@@ -10,25 +10,25 @@
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
     protected $_priceFilter;
-    
+
     protected $_website;
-    
+
     protected $_configCache = array();
 
     protected $_dirCache = array();
 
     protected $_urlCache = array();
-    
+
     public function __construct()
     {
         parent::__construct();
     }
-    
+
     protected function _construct()
     {
         $this->_init('core/store');
     }
-    
+
     public function load($id, $field=null)
     {
         if (!is_numeric($id) && is_null($field)) {
@@ -37,7 +37,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-    
+
     public function getId()
     {
         if (is_null(parent::getId())) {
@@ -45,7 +45,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::getId();
     }
-    
+
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 
@@ -71,7 +71,12 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->_configCache[$path];
     }
-    
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Core_Model_Website
+     */
     public function getWebsite()
     {
         if (empty($this->_website)) {
@@ -79,7 +84,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->_website;
     }
-    
+
     /**
      * Get store directory by type
      *
@@ -95,11 +100,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (!$dir) {
             $dir = $this->getDefaultDir($type);
         }
-        
+
         if (!$dir) {
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
         }
-        
+
         switch ($type) {
             case 'var': case 'session': case 'cache_config': case 'cache_layout': case 'cache_block':
                 if (!file_exists($dir)) {
@@ -107,14 +112,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 }
                 break;
         }
-        
+
         $dir = str_replace('/', DS, $dir);
-        
+
         $this->_dirCache[$type] = $dir;
-        
+
         return $dir;
     }
-    
+
     public function getDefaultDir($type)
     {
         $dir = Mage::getRoot();
@@ -122,40 +127,40 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             case 'etc':
                 $dir = Mage::getRoot().DS.'etc';
                 break;
-                
+
             case 'code':
                 $dir = Mage::getRoot().DS.'code';
                 break;
-                
+
             case 'var':
                 $dir = $this->getTempVarDir();
                 break;
-                
+
             case 'session':
                 $dir = $this->getDir('var').DS.'session';
                 break;
-                
+
             case 'cache_config':
                 $dir = $this->getDir('var').DS.'cache'.DS.'config';
                 break;
-                                    
+
             case 'cache_layout':
                 $dir = $this->getDir('var').DS.'cache'.DS.'layout';
                 break;
-                
+
             case 'cache_block':
                 $dir = $this->getDir('var').DS.'cache'.DS.'block';
                 break;
-                
+
         }
         return $dir;
     }
-    
+
     public function getTempVarDir()
     {
         return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
     }
-    
+
     /**
      * Get store url
      *
@@ -168,18 +173,18 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (isset($this->_urlCache[$cacheKey])) {
             return $this->_urlCache[$cacheKey];
         }
-        
+
         if (!empty($_SERVER['HTTPS'])) {
             if (empty($params['_secure']) || !empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
                 $params['_secure'] = true;
             }
         }
-        
+
         $config = $this->getConfig('web/'.(empty($params['_secure']) ? 'unsecure' : 'secure'));
         $protocol = $config['protocol'];
         $host = $config['host'];
         $port = $config['port'];
-        
+
         if (empty($params['_type'])) {
             $basePath = $config['base_path'];
 #echo '1: '.$basePath.'<hr>';
@@ -187,16 +192,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $basePath = $this->getConfig('web/url/'.$params['_type']);
 #echo '2: '.$basePath.'<hr>';
         }
-        
+
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
         $url .= empty($basePath) ? '/' : $basePath;
-        
+
         $this->_urlCache[$cacheKey] = $url;
 
         return $url;
     }
-    
+
     public function processSubst($str)
     {
         if (!is_string($str)) {
@@ -207,7 +212,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $str;
     }
-    
+
     public function getDefaultBasePath()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
@@ -218,7 +223,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $basePath;
     }
-    
+
     /**
      * Get default store currency code
      *
@@ -229,10 +234,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $result = $this->getConfig('general/currency/default');
         return $result;
     }
-    
+
     /**
      * Set current store currency code
-     * 
+     *
      * @param   string $code
      * @return  string
      */
@@ -268,7 +273,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         return explode(',', $this->getConfig('general/currency/allow'));
     }
-    
+
     /**
      * Convert price from default currency to current currency
      *
@@ -287,7 +292,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $value;
     }
-    
+
     /**
      * Format price with currency filter (taking rate into consideration)
      *
@@ -298,7 +303,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         return $this->getPriceFilter()->filter($price);
     }
-    
+
     /**
      * Get store price filter
      *
@@ -320,20 +325,22 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->_priceFilter;
     }
-    
+
     public function getDatashareStores($key)
     {
-        if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
+        // TODO store level data sharing configuration in next version
+        // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
+        if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
             return explode(',', $stores);
         }
         return array();
     }
-    
+
     public function getLanguageCode()
     {
         return $this->getConfig('general/local/language');
     }
-    
+
     public function updateDatasharing()
     {
     	$this->getResource()->updateDatasharing();

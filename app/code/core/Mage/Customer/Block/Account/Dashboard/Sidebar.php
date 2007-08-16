@@ -12,7 +12,14 @@
 class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Template
 {
     protected $_cartItemsCount;
+
+    /**
+     * Enter description here...
+     *
+     * @var Mage_Wishlist_Model_Wishlist
+     */
     protected $_wishlist;
+
     protected $_compareItems;
 
     public function getShoppingCartUrl()
@@ -37,12 +44,11 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
 		if( !$this->_wishlist ) {
 			$this->_wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
-
 			$this->_wishlist->getItemCollection()
 				->addAttributeToSelect('name')
 				->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
-				->addAttributeToFilter('store_id', array('in'=>Mage::getSingleton('core/store')->getDatashareStores('wishlist')))
+				->addAttributeToFilter('store_id', array('in' => $this->_wishlist->getSharedStoreIds()))
 				->addAttributeToSort('added_at', 'desc')
                 ->setCurPage(1)
 				->setPageSize(3)
