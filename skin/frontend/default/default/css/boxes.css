@@ -285,15 +285,15 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
 	margin:0 auto;
 	}
 .main-container {
-	background:url(../images/main_container_bg.gif) no-repeat;
-	width:950px;
-	margin:0 auto; 
-	padding:0 6px;
+	min-height:400px;
+	background:url(../images/main_container_bg.gif) no-repeat 50% 0 #fbfaf6;
 	}
 #main { 
 /*	border-style:solid;
 	border-color:#d0d5d8;
 	border-width:0 1px;*/
+	width:900px;
+	margin:0 auto; 
 	background:url(../images/main_bg.gif) no-repeat #fffffe; 
 	padding:25px 25px 80px 25px; 
 	text-align:left;
@@ -726,7 +726,7 @@ p.grand_total { padding-right:15px; }
 /*********** [FOOTER] ************/
 .footer-container { 
 	border-top:15px solid #B6D1E2;
-	background:url(../images/footer_container_bg.gif) repeat-x #618499;
+	background:url(../images/footer_container_bg.gif) repeat-x;
 	}
 .footer { 
 	width:930px; 

@@ -41,12 +41,6 @@
 	}
 
 
-/* Double margin bug */
-.col-2-right-layout .col-main, 
-.col-2-left-layout .col-main, 
-.col-3-layout .col-main,
-#logo { display:inline; } 
-
 
 /* Form Legend display bug */
 .group-select {
@@ -69,7 +63,7 @@
 /* Min-height for IE */
 .login-box .content { height:180px; }
 .content-box { height:250px; }
-
+.main-container { min-height:400px; }
 
 /* recognition of parent's padding as zero point */
 .head .corner { top:-6px; right:-1px; } 
