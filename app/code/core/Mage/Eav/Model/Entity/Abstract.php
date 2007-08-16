@@ -302,7 +302,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             throw Mage::exception('Mage_Eav', 'Invalid store id supplied');
         }
 
-        $this->_sharedStoreIds = $this->getUseDataSharing() ? $this->_store->getDatashareStores($this->getType()) : false;
+        $this->_sharedStoreIds = $this->getUseDataSharing() ? $this->_store->getDatashareStores($this->getConfig()->getDataSharingKey()) : false;
         if (empty($this->_sharedStoreIds)) {
             $this->_sharedStoreIds = array($this->_storeId);
         }

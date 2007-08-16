@@ -321,9 +321,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->_priceFilter;
     }
     
-    public function getDatashareStores($feature)
+    public function getDatashareStores($key)
     {
-        if ($stores = $this->getConfig('advanced/datashare/'.$feature)) {
+        if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
             return explode(',', $stores);
         }
         return array();
@@ -332,5 +332,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getLanguageCode()
     {
         return $this->getConfig('general/local/language');
+    }
+    
+    public function updateDatasharing()
+    {
+    	$this->getResource()->updateDatasharing();
     }
 }

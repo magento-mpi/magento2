@@ -1,0 +1,1 @@
+ALTER TABLE `eav_entity_type` ADD `data_sharing_key` VARCHAR(100) default 'default' AFTER `is_data_sharing`;

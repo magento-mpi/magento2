@@ -10,8 +10,8 @@
  */
 class Mage_Adminhtml_Model_System_Config_Backend_Datashare
 {
-    public function beforeSave(Varien_Object $configData)
+    public function afterSave(Varien_Object $configData)
     {
-echo "<pre>".print_r($configData,1)."</pre>"; die;
+#echo "<pre>".print_r($configData,1)."</pre>"; die;
     }
 }

@@ -358,7 +358,11 @@ class Mage_Core_Model_Resource_Setup
 					from ".$this->getTable('core/config_field')." 
 					where level=?".$parentWhere, $data['level'])+1;
 			}
-			$this->_conn->insert($this->getTable('core/config_field'), $data);
+			
+			#$this->_conn->raw_query("insert into ".$this->getTable('core/config_field')." (".join(',', array_keys($data)).") values ('".join("','", array_values($data))."')");
+			#$this->_conn->insert($this->getTable('core/config_field'), $data);
+			Mage::getSingleton('core/resource')->getConnection('core_write')
+				->insert($this->getTable('core/config_field'), $data);
 		}
 		
 		if (!is_null($default)) {
