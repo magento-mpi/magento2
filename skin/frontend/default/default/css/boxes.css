@@ -72,14 +72,17 @@ a.form-button, a.form-button-alt {
 	float:left;
 	height:22px;
 	padding-right:10px;
-	font:bold 12px arial, sans-serif !important ;
+	font:bold 12px arial, sans-serif !important;
+	cursor:pointer;
 	}
 a.form-button span, a.form-button-alt span {
 	background-repeat:no-repeat;
 	background-position:0 0;
 	display:block;
+	min-width:60px;
 	line-height: 12px;
 	padding: 5px 2px 6px 12px;
+	text-align:center;
 } 
 a.form-button, a.form-button:hover, a.form-button-alt, a.form-button-alt:hover  {  color:#fff !important;  text-decoration:none !important;  }
 a.form-button { background-image:url(../images/form_button.gif); }
@@ -90,22 +93,6 @@ a.form-button-alt span { background-image:url(../images/form_button_alt.gif); }
 
 
 
-/* Cart-box button */
-.cart-box .form-button { background-image:url(../images/mini_cart_button.gif); }
-
-/* Add to Cart button */
-.add-to-cart-button span { padding:0;}
-.add-to-cart-button strong {
-	background: transparent url(../images/add_to_cart_btn_arrow.gif) no-repeat 100% 3px;
-	display:block;
-	line-height: 12px;
-	padding: 5px 22px 7px 16px;
-	}
-
-/* Search box button */
-a.search-button, a.search-button span {
-	 background-image:url(../images/search_form_button.gif); }
-	}
 
 .required { color:#eb340a; }
 label.required { font-weight:bold; }
@@ -574,7 +561,7 @@ h1#logo {
 .base-mini {border:1px solid #d0cbc1; background:#fff; line-height:1.3em;  font-size:.95em;  }
 .base-mini .head { margin:0 1px; border-bottom:1px solid #ddd; background:url(../images/base_mini_head_bg.gif) repeat-x #fff; padding:2px 8px; }
 .base-mini .head h4 { padding:1px 0 1px 21px; text-align:left; }
-.base-mini .head h4 .count { text-transform:none; color:#2f2f2f; }
+.base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; }
 .base-mini .tabs {  margin-top:.5em; padding:0 8px 0 8px; background:url(../images/base_mini_tabs_bg.gif) repeat-x 0 100%; }
 .base-mini .tabs li { float:left; margin-right:3px; padding:0; }
 .base-mini .tabs li a { 
@@ -814,7 +801,11 @@ p.grand_total { padding-right:15px; }
 .product-info-box .ratings { margin-bottom:1em;}
 .product-collateral { background:url(../images/product_collateral_bg.gif) repeat-x #faf7ee; }
 .product-collateral .head { margin-bottom:1em; border-bottom:1px solid #e5dcc3; padding-bottom:1px; font-size:1.15em; }
-.product-collateral .collateral-box { margin-bottom:2em; }
+.product-collateral .collateral-box { margin-bottom:2em;  }
+.product-collateral .attribute-specs table { border-color:#d9DDE3; }
+.product-collateral .attribute-specs .label { font-weight:bold; }
+.product-collateral .attribute-specs .data { border-right:0; }
+.product-collateral .attribute-specs td { padding-top:3px; padding-bottom:3px; line-height:1.25em; }
 
 #customer-reviews li { margin-bottom:25px; }
 #customer-reviews li p { clear:both; }
@@ -994,11 +985,25 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 
 
 /* Login */
-.login-box td { border-bottom:1px solid #d9dde3;  background:#e9f3ff; }
-.login-box h3 { color:#fff;}
-.login-box td.spacer { width:3%; border:none; background:none; }
-.login-box .form-buttons { border:none; background:url(../images/dotted_divider.gif) repeat-x; margin:0 12px; padding:9px 0; }
-.login-box .content { min-height:180px; }
+.login-box .col-1, .login-box .col-2 { border:1px solid #d4d1c5; background:#dee5e8; }
+.login-box .content { background:url(../images/login_box_bg.gif) repeat-x #fff; padding:14px 21px; }
+.login-box h4 { 
+	min-height:16px;
+	border-bottom:1px solid #ddd; 
+	margin-bottom:1.2em;
+	padding-bottom:5px; 
+	padding-left:23px;
+	background-position:0 1px;
+	background-repeat:no-repeat;
+	font-size:1.05em; 
+	color:#e76200; 
+	text-transform:uppercase; 
+	}
+.login-box .new-users h4 { background-image:url(../images/icon_page_white.gif); }
+.login-box .registered-users h4 { background-image:url(../images/icon_page_white_text.gif); }
+.login-box .form-buttons { margin:0; border:none; background:url(../images/login_box_form_buttons_bg.gif) repeat-x; padding:8px 13px; }
+.login-box .content { min-height:230px; }
+
 
 /* Compare Products */
 .compare-products { 
