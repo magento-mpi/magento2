@@ -173,6 +173,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             if ($customerId = (int) $this->getRequest()->getParam('customer_id')) {
                 $customer->setId($customerId);
+            } else {
+                $customer->setCreatedIn(0); // Created from admin
             }
 
             if (isset($data['address'])) {

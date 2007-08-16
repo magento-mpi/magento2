@@ -10,27 +10,34 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
     }
-    
+
     public function initForm()
     {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
-        
-        $customer = Mage::registry('customer');        
-        
+
+        $customer = Mage::registry('customer');
+
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
-        
+
         $this->_setFieldset($customer->getAttributes(), $fieldset);
-        
+
+        if ($customer->getId()) {
+            $form->getElement('created_in')->setDisabled(true);
+            $fieldset->removeField('store_id');
+        } else {
+            $fieldset->removeField('created_in');
+        }
+
         if ($balanceElement = $form->getElement('store_balance')) {
             $balanceElement->setValueFilter(new Varien_Filter_Sprintf('%s', 2, '.', ''));
         }
-        
+
         if ($customer->getId()) {
             $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>__('Password Management')));
             // New customer password
@@ -61,12 +68,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 )
             );
         }
-        
-        
+
+
         $form->setValues($customer->getData());
-        
+
         $this->setForm($form);
-        
+
         return $this;
     }
 }
