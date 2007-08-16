@@ -6,7 +6,7 @@
  */
 ?>
 <div class="page-head-alt">
-    <h2><?=__('Shopping Cart')?></h2>
+    <h3><?=__('Shopping Cart')?></h3>
 </div>
 <form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
 <table cellspacing="0" id="shoping-cart-table" class="data-table box-table shopping-cart">
@@ -39,7 +39,7 @@
             <td>&nbsp;</td>
 <?endif?>
             <td>&nbsp;</td>
-            <td class="a-center"><button class="form-button-alt"><span><?=__('Update')?></span></button></td>
+            <td class="a-center"><a class="form-button-alt"><span><?=__('Update')?></span></a></td>
             <td></td>
         </tr>
     </tfoot>
@@ -69,11 +69,11 @@
 
 <div class="shopping-cart-collaterals">
     <div class="col2-set">
-        <div class="col-1">
+        <div class="col-1 discount-codes">
             <?=$this->getChildHtml('coupon')?>
         </div>
 
-        <div class="col-2">
+        <div class="col-2 shipping-estimate">
             <?=$this->getChildHtml('shipping')?>
         </div>
     </div>

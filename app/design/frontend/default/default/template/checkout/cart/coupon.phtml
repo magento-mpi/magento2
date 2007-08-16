@@ -1,5 +1,6 @@
 <form action="<?=$this->getUrl('checkout/cart/couponPost')?>" method="post">
-	<h5><?=__('Discount Codes')?></h5>
+	<h4><?=__('Discount Codes')?></h4>
 	<p><?=__('Enter your coupon code if you have one.')?></p>
-	<p><input class="input-text" id="coupon_code" name="coupon_code" value="<?=$this->getCouponCode()?>" name="do"/> <button class="form-button" name="do" value="<?=__('Apply')?>"><span><?=__('Apply')?></span></button></p>
+	<input class="input-text left" id="coupon_code" name="coupon_code" value="<?=$this->getCouponCode()?>" name="do"/> <a class="form-button" name="do" value="<?=__('Apply')?>"><span><?=__('Apply')?></span></a>
+	<div class="clear"></div>
 </form>

@@ -303,7 +303,7 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
 
 .col-left { float:left; width:195px; }
 .col-main { float:left; }
-.col-1-layout .col-main { float:none; margin: 0 25px;}
+.col-1-layout .col-main { float:none; margin: 0 10px;}
 .col-2-right-layout .col-main { float:left; width:680px; }
 .col-2-left-layout .col-main { float:right; width:680px; }
 .col-3-layout .col-main { width:475px; margin-left:15px; }

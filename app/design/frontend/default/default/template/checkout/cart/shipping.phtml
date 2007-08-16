@@ -1,13 +1,12 @@
-<h5><?=__('Estimate Shipping')?></h5>
+<h4><?=__('Estimate Shipping')?></h4>
 <form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
 	<p><label for="estimate_postcode"><?=__('Enter your zip code to get a shipping quote.')?></label></p>
-	<p><input class="input-text" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
-	<button class="form-button"><span><?=__('Get Quote')?></span></button>
-	</p>
+	<input class="input-text left" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
+	<a class="form-button"><span><?=__('Get Quote')?></span></a>
+	<div class="clear"></div>
 </form>
-
 <?if (!($_shippingRateGroups = $this->getEstimateRates())):?>
-    <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
+    <p><br/><strong><?=__('Sorry, no quotes are available for this order at this time.')?></strong></p>
 <?else:?>
 <form id="co-shipping-method-form" action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>">
     <dl class="shipment-methods">

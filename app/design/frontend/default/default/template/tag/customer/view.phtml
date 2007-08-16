@@ -1,5 +1,5 @@
 <div class="page-head">
-	<h2><?=__('My Tags')?></h2>
+	<h3><?=__('My Tags')?></h3>
 </div>
 <p>
 	<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><?=__('Edit')?></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
