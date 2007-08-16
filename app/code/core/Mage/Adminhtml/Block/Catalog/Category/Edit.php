@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $params = array('section'=>'catalog');
         if ($storeId) {
             $store = Mage::getModel('core/store')->load($storeId);
-            $params['website'] = '';
+            $params['website'] = $store->getWebsite()->getCode();
             $params['store']   = $store->getCode();
         }
         return $this->getUrl('*/system_config/edit', $params);

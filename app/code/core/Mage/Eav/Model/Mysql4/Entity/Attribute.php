@@ -48,6 +48,25 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return $this;
     }
     
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        $frontendLabel = $object->getFrontendLabel();
+        if (is_array($frontendLabel)) {
+            if (empty($frontendLabel[0])) {
+                Mage::throwException('Frontend label is not defined');
+            }
+            $object->setFrontendLabel($frontendLabel[0]);
+            
+            Mage::getModel('core/translate_string')
+                ->setString($frontendLabel[0])
+                ->setTranslate($frontendLabel[0])
+                ->setStoreTranslations($frontendLabel)
+                ->save();
+        }
+        
+        return parent::_beforeSave($object);
+    }
+    
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $this->_saveInSetIncluding($object)

@@ -1,8 +1,11 @@
 var varienForm = new Class.create();
 
 varienForm.prototype = {
-    initialize : function(formId){
+    initialize : function(formId, validationUrl){
         this.formId = formId;
+        this.validationUrl = validationUrl;
+        this.submitUrl = false;
+        
         if($(this.formId)){
             this.validator  = new Validation(this.formId, {onElementValidate : this.checkErrors.bind(this)});
         }
@@ -19,14 +22,44 @@ varienForm.prototype = {
     submit : function(url){
         this.errorSections = new Hash();
         this.canShowError = true;
+        this.submitUrl = url;
         if(this.validator.validate()){
-            if(url){
-                $(this.formId).action = url;
+            if(this.validationUrl){
+                this._validate();
             }
-            $(this.formId).submit();
+            else{
+                this._submit();
+            }
             return true;
         }
         return false;
+    },
+    
+    _validate : function(){
+        new Ajax.Request(this.validationUrl,{
+            method: 'post',
+            parameters: $(this.formId).serialize(),
+            onComplete: this._processValidationResult.bind(this)
+        });
+    },
+    
+    _processValidationResult : function(transport){
+        var response = transport.responseText.evalJSON();
+        if(response.error){
+            if($('messages')){
+                $('messages').innerHTML = response.message;
+            }
+        }
+        else{
+            this._submit();
+        }
+    },
+    
+    _submit : function(){
+        if(this.submitUrl){
+            $(this.formId).action = this.submitUrl;
+        }
+        $(this.formId).submit();
     }
 }
 

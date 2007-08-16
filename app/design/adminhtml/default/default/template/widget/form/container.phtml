@@ -9,6 +9,6 @@
 </div>
 <?=$this->getFormHtml()?>
 <script type="text/javascript" language="javascript">
-    var editForm = new varienForm('edit_form');
+    var editForm = new varienForm('edit_form', '<?=$this->getValidationUrl()?>');
 </script>
 <?=$this->getFormScripts()?>

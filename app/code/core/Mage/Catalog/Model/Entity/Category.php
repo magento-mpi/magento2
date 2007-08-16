@@ -62,14 +62,13 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _beforeSave(Varien_Object $object)
     {
         parent::_beforeSave($object);
-        $parentNode = $this->_getTree()->getNodeById($object->getParentId());
-        
-        if ($object->getId()) {
+        if ($object->getParentId()) {
+            $parentNode = $this->_getTree()->getNodeById($object->getParentId());
             
-        }
-        else {
-            $node = $this->_getTree()->appendChild(array(), $parentNode);
-            $object->setId($node->getId());
+            if (!$object->getId()) {
+                $node = $this->_getTree()->appendChild(array(), $parentNode);
+                $object->setId($node->getId());
+            }
         }
         return $this;
     }

@@ -85,6 +85,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
 	    return $values;
 	}
 	
+	public function getLabelValues()
+	{
+	    $values = array();
+	    $values[0] = $this->getAttributeObject()->getFrontend()->getLabel();
+	    $translations = Mage::getModel('core/translate_string')
+	       ->load($this->getAttributeObject()->getFrontend()->getLabel())
+	       ->getStoreTranslations();
+	    foreach ($this->getStores() as $store) {
+	        if ($store->getId() != 0) {
+	            $values[$store->getId()] = isset($translations[$store->getId()]) ? $translations[$store->getId()] : '';
+	        }
+	    }
+	    return $values;
+	}
+	
 	public function getStoreOptionValues($storeId)
 	{
         $values = $this->getData('store_option_values_'.$storeId);

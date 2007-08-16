@@ -242,8 +242,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
 
         $read = $this->getConnection('read');
 
-        $select = $read->select()->from($this->getMainTable())
-            ->where($field.'=?', $value);
+        $select = $this->_getLoadSelect($field, $value);
         $data = $read->fetchRow($select);
 
         if (!$data) {
@@ -255,6 +254,21 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         $this->_afterLoad($object);
 
         return true;
+    }
+    
+    /**
+     * Retrieve select object for load object data 
+     *
+     * @param string $field
+     * @param mixed $value
+     * @return Zend_Db_Select
+     */
+    protected function _getLoadSelect($field, $value)
+    {
+        $select = $this->getConnection('read')->select()
+            ->from($this->getMainTable())
+            ->where($field.'=?', $value);
+        return $select;
     }
 
     /**

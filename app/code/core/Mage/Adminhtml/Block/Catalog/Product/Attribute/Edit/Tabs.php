@@ -21,14 +21,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Mage_Admi
 
     protected function _beforeToHtml()
     {
-        $this->addTab('main_section', array(
+        $this->addTab('main', array(
             'label'     => __('General Information'),
             'title'     => __('General Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
-        $this->addTab('system_section', array(
+        $this->addTab('system', array(
             'label'     => __('System Propertis'),
             'title'     => __('System Propertis'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_system')->toHtml(),
@@ -36,10 +36,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Mage_Admi
 
         $model = Mage::registry('entity_attribute');
 
-        $this->addTab('options_section', array(
-            'label'     => __('Options Control'),
-            'title'     => __('Options Control'),
-            'is_hidden' => true,
+        $this->addTab('labels', array(
+            'label'     => __('Manage Label / Options'),
+            'title'     => __('Manage Label / Options'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_options')->toHtml(),
         ));
         

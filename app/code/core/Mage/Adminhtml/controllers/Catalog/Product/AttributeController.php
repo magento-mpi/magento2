@@ -79,7 +79,27 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             ->_addLeft($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tabs'))
             ->renderLayout();
     }
-
+    
+    public function validateAction()
+    {
+        $response = new Varien_Object();
+        $response->setError(false);
+        
+        $attributeCode  = $this->getRequest()->getParam('attribute_code');
+        $attributeId    = $this->getRequest()->getParam('attribute_id');
+        $attribute = Mage::getModel('eav/entity_attribute')
+            ->loadByCode($this->_entityTypeId, $attributeCode);
+            
+        if ($attribute->getId() && !$attributeId) {
+            Mage::getSingleton('adminhtml/session')->addError('Attribute with some code already exist');
+            $this->_initLayoutMessages('adminhtml/session');
+            $response->setError(true);
+            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+        }
+        
+        $this->getResponse()->setBody($response->toJson());
+    }
+    
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {

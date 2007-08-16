@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.5.31</version>
+             <version>0.5.32</version>
         </Mage_Core>
     </modules>
 
@@ -19,6 +19,9 @@
                     <language>
                         <table>core_language</table>
                     </language>
+                    <translate>
+                        <table>core_translate</table>
+                    </translate>
                     <session>
                         <table>core_session</table>
                     </session>

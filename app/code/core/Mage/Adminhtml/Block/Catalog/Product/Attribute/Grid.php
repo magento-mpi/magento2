@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('frontend_label', array(
-            'header'=>__('Frontend Label'),
+            'header'=>__('Attribute Label'),
             'sortable'=>true,
             'index'=>'frontend_label'
         ));
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('is_filterable', array(
-            'header'=>__('Filterable'),
+            'header'=>__('Use In Layer Navigation'),
             'sortable'=>true,
             'index'=>'is_filterable',
             'type' => 'options',

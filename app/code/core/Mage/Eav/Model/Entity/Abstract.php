@@ -1061,7 +1061,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
-    public function _updateAttribute($object, $attribute, $valueId, $value)
+    protected function _updateAttribute($object, $attribute, $valueId, $value)
     {
         if ((bool)$attribute->getIsGlobal()) {
             $this->_write->update($attribute->getBackend()->getTable(),
@@ -1080,7 +1080,28 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         return $this;
     }
-
+    
+    public function checkAttributeUniqueValue($attribute, $object)
+    {
+        $select = $this->_write->select()
+            ->from($attribute->getBackend()->getTable(), $attribute->getBackend()->getEntityIdField())
+            ->where('entity_type_id=?', $this->getConfig()->getId())
+            ->where('attribute_id=?', $attribute->getId())
+            ->where('value=?', $object->getData($attribute->getAttributeCode()))
+            ->where('store_id IN (?)', $this->getSharedStoreIds());
+        $data = $this->_write->fetchCol($select);
+        
+        if ($object->getId()) {
+            if (isset($data[0])) {
+                return $data[0] == $object->getId();
+            }
+            return true;
+        }
+        else {
+            return !count($data);
+        }
+    }
+    
     protected function _afterLoad(Varien_Object $object)
     {
         $this->walkAttributes('backend/afterLoad', array($object));

@@ -28,7 +28,7 @@
 <input type="hidden" name="_super_group_product" id="_super_group_product" value="">
 </form>
 <script type="text/javascript" language="javascript">
-    var productForm = new varienForm('product_edit_form');
+    var productForm = new varienForm('product_edit_form', '<?=$this->getValidationUrl()?>');
     function saveAndContinueEdit(){
         productForm.submit($('product_edit_form').action+'back/edit/');
     }

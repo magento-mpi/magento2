@@ -151,8 +151,14 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function validate($object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
-        if ($this->getAttribute()->is('required') && !$object->getData($attrCode)) {
+        if ($this->getAttribute()->getIsRequired() && !$object->getData($attrCode)) {
             return false;
+        }
+        if ($this->getAttribute()->getIsUnique()) {
+            if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
+                $label = $this->getAttribute()->getFrontend()->getLabel();
+                Mage::throwException('Value of attribute "' . $label . '" must be unique');
+            }
         }
         return true;
     }

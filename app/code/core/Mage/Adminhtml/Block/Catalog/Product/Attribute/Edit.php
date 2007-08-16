@@ -38,5 +38,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             return __('New Product Attribute');
         }
     }
-
+    
+    public function getValidationUrl()
+    {
+        return $this->getUrl('*/*/validate', array('_current'=>true));
+    }
 }

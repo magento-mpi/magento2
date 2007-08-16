@@ -5,8 +5,29 @@
  * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
  */
 ?>
-<div>If you do not specify option value for store, then will be used default value</div>
+<div class="messages notice-msg">If you do not specify option value for store, then will be used default value</div>
 <div class="entity-edit">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Labels')?></h4>
+    <div class="box" style="padding:10px">
+        <table class="dynamic-grid" cellspacing="0" id="attribute-labels-table">
+            <tr>
+            <?foreach ($this->getStores() as $_store):?>
+                <th><?=$_store->getName()?></th>
+            <?endforeach;?>
+            </tr>
+            <tr>
+                <?$_labels = $this->getLabelValues()?>
+                <?foreach ($this->getStores() as $_store):?>
+                <td>
+                    <input class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text" name="frontend_label[<?=$_store->getId()?>]" value="<?=$_labels[$_store->getId()]?>"/>
+                </td>
+                <?endforeach;?>
+            </tr>
+        </table>
+    </div>
+</div>
+<br/>
+<div class="entity-edit" id="matage-options-panel">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Options')?></h4>
     <div class="box" style="padding:10px">
         <table class="dynamic-grid" cellspacing="0" id="attribute-options-table">
@@ -24,7 +45,7 @@
     	    <tr>
                 <?foreach ($this->getStores() as $_store):?>
                 <td>
-                    <input class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text" name="option[value][#{id}][<?=$_store->getId()?>]" value="#{store<?=$_store->getId()?>}">
+                    <input class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text" name="option[value][#{id}][<?=$_store->getId()?>]" value="#{store<?=$_store->getId()?>}"/>
                 </td>
                 <?endforeach;?>
                 <td>
@@ -93,19 +114,19 @@ Validation.addAllThese([
     attributeOption.add(<?=$_value->toJson()?>);
 <?endforeach;?>
 
-function checkOptionsTabVisibility(){
-    if($('product_attribute_tabs_options_section')){
-        var tab = $('product_attribute_tabs_options_section').up('li');
-        if($('frontend_input') && $('frontend_input').value=='select'){
-            tab.show();
+function checkOptionsPanelVisibility(){
+    if($('matage-options-panel')){
+        var panel = $('matage-options-panel');
+        if($('frontend_input') && ($('frontend_input').value=='select' || $('frontend_input').value=='multiselect')){
+            panel.show();
         }
         else {
-            tab.hide();
+            panel.hide();
         }
     }
 }
 if($('frontend_input')){
-    Event.observe($('frontend_input'), 'change', checkOptionsTabVisibility);
+    Event.observe($('frontend_input'), 'change', checkOptionsPanelVisibility);
 }
-checkOptionsTabVisibility();
+checkOptionsPanelVisibility();
 </script>

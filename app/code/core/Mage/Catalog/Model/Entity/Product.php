@@ -504,4 +504,17 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     	$attributes[] = 'type_id';
     	return $attributes;
     }
+    
+    /**
+     * Validate all object's attributes against configuration
+     *
+     * @param Varien_Object $object
+     * @return Varien_Object
+     */
+    public function validate($object)
+    {
+        parent::validate($object);
+        return $this;
+    }
+
 }

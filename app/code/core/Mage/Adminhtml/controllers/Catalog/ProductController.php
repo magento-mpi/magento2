@@ -149,6 +149,27 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         Mage::register('product', $product);
     }
     
+    public function validateAction()
+    {
+        $response = new Varien_Object();
+        $response->setError(false);
+        
+        try {
+            $product = Mage::getModel('catalog/product')
+                ->setId($this->getRequest()->getParam('id'))
+                ->addData($this->getRequest()->getPost('product'))
+                ->validate();
+        }
+        catch (Exception $e){
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_initLayoutMessages('adminhtml/session');
+            $response->setError(true);
+            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+        }
+        
+        $this->getResponse()->setBody($response->toJson());
+    }
+    
     public function saveAction()
     {
         $storeId = $this->getRequest()->getParam('store');

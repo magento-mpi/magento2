@@ -265,6 +265,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'is_comparable'=>isset($attr['comparable']) ? $attr['comparable'] : 0,
             'is_visible_on_front'=>isset($attr['visible_on_front']) ? $attr['visible_on_front'] : 0,
             'is_unique'=>isset($attr['unique']) ? $attr['unique'] : 0,
+            'use_in_super_product'=>isset($attr['use_in_super_product']) ? $attr['use_in_super_product'] : 1,
         );
 
         if ($id = $this->getAttribute($entityTypeId, $code, 'attribute_id')) {

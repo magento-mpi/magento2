@@ -18,25 +18,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
         $this->setUseAjax(true);
     }
     
-    /*protected function _initChildren()
-    {
-        parent::_initChildren();
-        $this->setChild('switch_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => __('Edit Sorting'),
-                    'onclick'   => ''
-                ))
-        );
-    }
-
-    public function getMainButtonsHtml()
-    {
-        $html = $this->getChildHtml('switch_button');
-        $html.= parent::getMainButtonsHtml();
-        return $html;
-    }*/
-
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in category flag

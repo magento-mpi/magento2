@@ -127,7 +127,7 @@ Object.extend(Validation, {
             return test;
         });
     },
-    showAdvice : function(elm, advice){
+    insertAdvice : function(elm, advice){
         var container = elm.up('.field-row');
         if(container){
             new Insertion.After(container, advice);
@@ -148,6 +148,25 @@ Object.extend(Validation, {
             }
         }
     },
+    showAdvice : function(elm, advice, adviceName){
+        if(!elm.advices){
+            elm.advices = new Hash();
+        }
+        else{
+            elm.advices.each(function(pair){
+                this.hideAdvice(elm, pair.value);
+            }.bind(this));
+        }
+        elm.advices[adviceName] = advice;
+        if(typeof Effect == 'undefined') {
+            advice.style.display = 'block';
+        } else {
+            new Effect.Appear(advice, {duration : 1 });
+        }
+    },
+    hideAdvice : function(elm, advice){
+        if(advice != null) advice.hide();
+    },
     test : function(name, elm, useTitle) {
         var v = Validation.get(name);
         var prop = '__advice'+name.camelize();
@@ -158,14 +177,10 @@ Object.extend(Validation, {
                 if(advice == null) {
                     var errorMsg = useTitle ? ((elm && elm.title) ? elm.title : v.error) : v.error;
                     advice = '<div class="validation-advice" id="advice-' + name + '-' + Validation.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
-                    this.showAdvice(elm, advice);
+                    this.insertAdvice(elm, advice);
                     advice = Validation.getAdvice(name, elm);
                 }
-                if(typeof Effect == 'undefined') {
-                    advice.style.display = 'block';
-                } else {
-                    new Effect.Appear(advice, {duration : 1 });
-                }
+                this.showAdvice(elm, advice, name);
             }
             elm[prop] = true;
             elm.removeClassName('validation-passed');
@@ -173,7 +188,7 @@ Object.extend(Validation, {
             return false;
         } else {
             var advice = Validation.getAdvice(name, elm);
-            if(advice != null) advice.hide();
+            this.hideAdvice(elm, advice);
             elm[prop] = '';
             elm.removeClassName('validation-failed');
             elm.addClassName('validation-passed');
@@ -249,6 +264,9 @@ Validation.addAllThese([
             }],
     ['validate-alpha', 'Please use letters only (a-z) in this field.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z]+$/.test(v)
+            }],
+    ['validate-code', 'Please use in this field only "a-z,0-9,_".', function (v) {
+                return Validation.get('IsEmpty').test(v) ||  /^[a-z0-9_]+$/.test(v)
             }],
     ['validate-alphanum', 'Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/\W/.test(v)

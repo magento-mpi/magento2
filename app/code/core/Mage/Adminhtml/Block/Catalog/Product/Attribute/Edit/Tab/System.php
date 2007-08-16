@@ -93,29 +93,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
             'values'=> $yesno,
         ));
 
-        $fieldset->addField('is_required', 'select', array(
-            'name' => 'is_required',
-            'label' => __('Required'),
-            'title' => __('Required'),
-            'values' => $yesno,
-        ));
-
         $form->setValues($model->getData());
 
         if ($model->getAttributeId()) {
+            $form->getElement('backend_type')->setDisabled(1);
             if ($model->getIsGlobal()) {
                 $form->getElement('is_global')->setDisabled(1);
             }
-            // TOFIX the logic
-            if ( $model->getBackendType() ) {
-                $form->getElement('backend_type')->setDisabled('true');
-            }
-            if ( $model->getBackendTable() ) {
-                $form->getElement('backend_table')->setDisabled('true');
-            }
         } else {
-            // TOFIX
-            //$form->getElement('is_visible')->setValue(1);
         }
 
         $this->setForm($form);

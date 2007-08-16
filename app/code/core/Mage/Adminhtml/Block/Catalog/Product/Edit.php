@@ -89,7 +89,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         return $this->getChildHtml('delete_button');
     }
-
+    
+    public function getValidationUrl()
+    {
+        return $this->getUrl('*/*/validate', array('_current'=>true));
+    }
+    
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('_current'=>true));

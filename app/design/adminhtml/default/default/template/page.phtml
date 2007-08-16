@@ -90,7 +90,7 @@
                             <div class="main">
                                     <div class="content-container">
                                             <div class="content" id="content">
-                                                <?=$this->getMessagesBlock()->getGroupedHtml()?>
+                                                <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
                                                 <?=$this->getChildHtml('content')?>
                                             </div>
                                     </div>
@@ -103,7 +103,7 @@
                 </div>
                 <?else:?>
                 <div class="simple-container">
-                    <?=$this->getMessagesBlock()->getGroupedHtml()?>
+                    <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
                     <?=$this->getChildHtml('content')?>
                 </div>
                 <?endif;?>

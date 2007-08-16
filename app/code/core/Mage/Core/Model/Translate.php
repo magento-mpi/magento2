@@ -36,6 +36,11 @@ class Mage_Core_Model_Translate
         }
     }
     
+    public function getResource()
+    {
+        return Mage::getResourceSingleton('core/translate');
+    }
+    
     public function loadTranslationFile($file)
     {
         $this->_translate->addTranslation(	

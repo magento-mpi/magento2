@@ -119,6 +119,9 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
     protected function _beforeToHtml()
     {
+        if ($activeTab = $this->getRequest()->getParam('active_tab')) {
+            $this->setActiveTab($activeTab);
+        }
         $this->assign('tabs', $this->_tabs);
         return $this;
     }

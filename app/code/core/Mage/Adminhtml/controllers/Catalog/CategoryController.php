@@ -146,9 +146,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $storeId = (int) $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $category = Mage::getModel('catalog/category')
-                ->setData($data['general'])
-                ->setId($this->getRequest()->getParam('id'))
-                ->setStoreId($storeId);
+                ->setStoreId($storeId)
+                ->load($this->getRequest()->getParam('id'))
+                ->addData($data['general']);
+                
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
             
             if (isset($data['category_products'])) {

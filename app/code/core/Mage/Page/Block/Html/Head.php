@@ -14,11 +14,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
     
     public function toHtml()
     {
-        $this->addText('<title>'.$this->getTitle().'</title>'."\n");
-        $this->addText('<meta http-equiv="Content-Type" content="'.$this->getContentType().'"/>'."\n");
-        $this->addText('<meta name="title" content="'.$this->getTitle().'"/>'."\n");
-        $this->addText('<meta name="description" content="'.$this->getDescription().'"/>'."\n");
-        $this->addText('<meta name="keywords" content="'.$this->getKeywords().'"/>'."\n");
+        $this->addText('<title>'.$this->getTitle().'</title>'."\n\t");
+        $this->addText('<meta http-equiv="Content-Type" content="'.$this->getContentType().'"/>'."\n\t");
+        $this->addText('<meta name="description" content="'.$this->getDescription().'"/>'."\n\t");
+        $this->addText('<meta name="keywords" content="'.$this->getKeywords().'"/>'."\n\t");
         $this->addText('<meta name="robots" content="'.$this->getRobots().'"/>'."\n");
         $this->addText($this->getAdditionalCssJs());
         

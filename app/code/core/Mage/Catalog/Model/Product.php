@@ -86,9 +86,25 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $this;
     }
     
+    /**
+     * Delete product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function delete()
     {
         $this->getResource()->delete($this);
+        return $this;
+    }
+    
+    /**
+     * Product model validation
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function validate()
+    {
+        $this->getResource()->validate($this);
         return $this;
     }
     
