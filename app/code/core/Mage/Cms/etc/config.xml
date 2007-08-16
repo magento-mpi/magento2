@@ -65,5 +65,8 @@
                 </connection>
             </cms_read>
         </resources>
+        <block>
+            <groups><cms><class>Mage_Cms_Block</class></cms></groups>
+        </block>
     </global>
 </config>

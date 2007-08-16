@@ -34,5 +34,12 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         $object->setUpdateTime(now());
         return $this;
     }
-
+    
+    public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
+    {
+        if (!intval($value) && is_string($value)) {
+            $field = 'identifier';
+        }
+        return parent::load($object, $value, $field);
+    }
 }

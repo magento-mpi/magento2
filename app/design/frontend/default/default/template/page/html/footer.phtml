@@ -1,13 +1,6 @@
-<span class="footer-left"></span>
-					<span class="footer-right"></span>
-					<div class="informational">
-						<fieldset class="store-switcher">
-							<label for="select-store">Select store: </label>
-							<select name="" id="select-store">
-								<option value="">Magento EN</option>
-								<option value="">Magento RU</option>
-							</select>
-						</fieldset>
-						<?=$this->getChildHtml('bottomLinks')?>
-					</div>
-					<p class="legality"><?=$this->getCopyright()?></p>
+<div class="footer">
+    <div class="informational">
+        <?=$this->getChildHtml()?>
+    </div>
+</div>
+<p class="legality"><?=$this->getCopyright()?></p>

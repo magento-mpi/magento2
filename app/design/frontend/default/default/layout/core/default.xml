@@ -33,8 +33,12 @@
 		</block>
 
         <block type="page/html_footer" name="footer" as="footer">
-            <block type="core/template" name="bottom.links" as="bottomLinks">
-                <action method="setTemplate"><template>page/html/bottom.links.phtml</template></action>
+            <action method="setTemplate"><template>page/html/footer.phtml</template></action>
+            <block type="core/store_switcher" name="store_switcher">
+                <action method="setTemplate"><template>core/stores.phtml</template></action>
+            </block>
+            <block type="cms/block" name="footer_links">
+                <action method="setBlockId"><block_id>footer_links</block_id></action>
             </block>
         </block>
 

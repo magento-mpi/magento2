@@ -1,0 +1,17 @@
+<?
+/**
+ * Store switcher template
+ * 
+ * @see Mage_Core_Block_Store_Switcher
+ */
+?>
+<?if($this->getStoreCount()>1):?>
+<fieldset class="store-switcher">
+    <label for="select-store">Select store: </label>
+    <select name="" id="select-store" onchange="setLocation(this.value)">
+    <?foreach ($this->getStores() as $_store):?>
+        <option value="<?=$_store->getUrl('/')?>"<?if($_store->getId()==$this->getCurrentStoreId()):?> selected<?endif;?>><?=$_store->getName()?></option>
+    <?endforeach;?>
+    </select>
+</fieldset>
+<?endif;?>
