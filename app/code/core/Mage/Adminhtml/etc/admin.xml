@@ -240,10 +240,19 @@
                     <title>Wishlist Report</title>
                     <action>adminhtml/report/wishlist</action>
                 </wishlist>
-                <reviews>
+                <review>
                     <title>Reviews Report</title>
-                    <action>adminhtml/report/reviews</action>
-                </reviews>
+                    <children>   
+                        <customer>
+                            <title>Customers Reviews</title>
+                            <action>adminhtml/report_review/customer</action>
+                        </customer>
+                        <product>
+                            <title>Products Reviews</title>
+                            <action>adminhtml/report_review/product</action>
+                        </product>
+                    </children>   
+                </review>
                 <tags>
                     <title>Tags Report</title>
                     <action>adminhtml/report/tags</action>

@@ -58,14 +58,6 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
-    public function reviewsAction()
-    {
-        $this->_initAction()
-            ->_setActiveMenu('report/reviews')
-            ->_addBreadcrumb(__('Reviews Report'), __('Reviews Report'))
-            ->renderLayout();
-    }
-
     public function tagsAction()
     {
         $this->_initAction()
