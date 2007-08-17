@@ -24,11 +24,11 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
         $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('General Information')));
 
         $fieldset->addField('simple_action', 'select', array(
-            'label'     => __('Action'),
+            'label'     => __('Apply'),
             'name'      => 'action_operator',
             'options'    => array(
-                'by_percent' => __('Discount percent of product price'),
-                'by_fixed' => __('Discount fixed amount'),
+                'by_percent' => __('Percent of product price discount'),
+                'by_fixed' => __('Fixed amount discount'),
             ),
         ));
         

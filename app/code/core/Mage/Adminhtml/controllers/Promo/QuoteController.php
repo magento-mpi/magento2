@@ -84,9 +84,9 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 //                    return;
 //                }
 //            }
-            $data['conditions'] = $data['rule']['conditions'];
-            $data['actions'] = $data['rule']['actions'];
-            unset($data['rule']);
+//            $data['conditions'] = $data['rule']['conditions'];
+//            $data['actions'] = $data['rule']['actions'];
+//            unset($data['rule']);
             
             $model->loadPost($data);
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());

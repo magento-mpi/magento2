@@ -126,8 +126,12 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     	}
 #echo "<pre>".print_r($rule,1)."</pre>";
 #echo "<pre>".print_r($arr,1)."</pre>";
-    	$this->getConditions()->loadArray($arr['conditions'][1]);
-    	$this->getActions()->loadArray($arr['actions'][1]);
+		if (isset($arr['conditions'])) {
+    		$this->getConditions()->loadArray($arr['conditions'][1]);
+		}
+		if (isset($arr['actions'])) {
+    		$this->getActions()->loadArray($arr['actions'][1]);
+		}
 #echo "<pre>".print_r($this->getConditions()->asArray(),1)."</pre>"; die;
 
     	return $this;

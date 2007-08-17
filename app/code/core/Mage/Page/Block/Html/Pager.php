@@ -92,7 +92,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         foreach($params as $key=>$val) {
             $request->setParam($key, $val)->getParams();
         }
-        return $this->getUrl($this->getUrlPrefix() . '/*/*', $request->getParams());
+        return $this->getUrl('*/*/*', $request->getParams());
     }
 
     public function setViewBy($key, $values=array())

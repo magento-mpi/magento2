@@ -14,20 +14,6 @@ class Mage_CatalogSearch_Block_Search extends Mage_Core_Block_Template
         parent::__construct();
     }
 
-    public function getArrCategoriesId()
-    {
-        $arr = array();
-        // TODO: dependent from store id
-        $nodes = Mage::getResourceModel('catalog/category_tree')
-            ->load(2,10) // TODO: from config
-            ->getNodes();
-        foreach ($nodes as $node) {
-            $arr[] = $node->getId();
-        }
-        
-        return $arr;
-    }
-
     public function loadByQuery(Zend_Controller_Request_Http $request)
     {
         $this->setTemplate('catalog/search/result.phtml');
@@ -39,8 +25,6 @@ class Mage_CatalogSearch_Block_Search extends Mage_Core_Block_Template
 
         $page = $request->getParam('p',1);
         $prodCollection = Mage::getResourceModel('catalog/product_collection')
-//            ->distinct(true)
-//            ->addCategoryFilter($this->getArrCategoriesId())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('description')
@@ -70,90 +54,117 @@ class Mage_CatalogSearch_Block_Search extends Mage_Core_Block_Template
         $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
     }
     
-    public function loadByAttributeOption(Zend_Controller_Request_Http $request)
+    protected $_productCollection;
+    
+    public function __construct()
     {
-        $this->setTemplate('catalog/search/attribute.phtml');
-        
-        $attribute = $request->getParam('attr');
-        $attributeValue = $request->getParam('value');
-
-        $page = $request->getParam('p',1);
-        
-        $prodCollection = Mage::getResourceModel('catalog/product_collection')
-            ->distinct(true)
-            ->addCategoryFilter($this->getArrCategoriesId())
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('description')
-            ->addAttributeToSelect($attribute, $attributeValue)
-            ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
-            ->setCurPage($page)
-            ->setPageSize(9)
-            ->loadData();
-
-        $this->assign('productCollection', $prodCollection);
-        $this->assign('option', Mage::getModel('catalog/product_attribute_option')->load($attributeValue));
-
-        $pageUrl = clone $request;
-        $this->assign('pageUrl', $pageUrl);
-        
-        $sortUrl = clone $request;
-        $sortUrl->setParam('p', 1)->setParam('dir', 'asc');
-        $this->assign('sortUrl', $sortUrl);
-        $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
+        parent::__construct();
+        $this->setTemplate('catalog/category/view.phtml');
     }
     
-    public function loadByAdvancedSearch(Zend_Controller_Request_Http $request)
+    protected function _initChildren()
     {
-        $this->setTemplate('catalog/search/result.phtml');
-        $search = $request->getParam('search', array());
-        $request->setParam('search', false);
-        
-        Mage::registry('action')->getLayout()->getBlock('head.meta')->setTitle('Advanced search results');
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'pager')
+            ->setCollection($this->_getProductCollection())
+            ->setUrlPrefix('catalog')
+            ->setViewBy('mode', array('grid', 'list'))
+            ->setViewBy('limit')
+            ->setViewBy('order', array('name', 'price'));
+        $this->setChild('pager', $pager);
 
-        $page = $request->getParam('p',1);
-        $prodCollection = Mage::getResourceModel('catalog/product_collection')
-            ->distinct(true)
+        // add Home breadcrumb
+    	$this->getLayout()->getBlock('breadcrumbs')
+            ->addCrumb('home',
+                array('label'=>__('Home'),
+                    'title'=>__('Go to Home Page'),
+                    'link'=>Mage::getBaseUrl())
+                );
+        
+        $path = $this->getCurrentCategory()->getPathInStore();
+        $pathIds = array_reverse(explode(',', $path));
+        
+        $categories = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('description')
-            ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
-            ->setCurPage($page)
-            ->setPageSize(9);
-        
-        if (!empty($search['query'])) {
-            $prodCollection->addSearchFilter($search['query']);
-        }
-        if (!empty($search['category'])) {
-            $prodCollection->addCategoryFilter($search['category']);
-        }
-        else {
-            $prodCollection->addCategoryFilter($this->getArrCategoriesId());
-        }
-        if (!empty($search['price'])) {
+            ->addFieldToFilter('entity_id', array('in'=>$pathIds))
+            ->load()
+            ->getItems();
             
+        // add category path breadcrumb
+        foreach ($pathIds as $categoryId) {
+            if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
+                $breadcrumb = array(
+                    'label' => $categories[$categoryId]->getName(),
+                    'link'  => ($categories[$categoryId]->getId()==$this->getCurrentCategory()->getId()) 
+                        ? '' : Mage::getUrl('*/*/*', array('id'=>$categories[$categoryId]->getId()))
+                );
+                $this->getLayout()->getBlock('breadcrumbs')
+                    ->addCrumb('category'.$categoryId, $breadcrumb);
+            }
         }
-        if (!empty($search['type'])) {
-            $prodCollection->addAttributeToSelect('type', $search['type']);
-        }
-        if (!empty($search['manufacturer'])) {
-            $prodCollection->addAttributeToSelect('manufacturer', $search['manufacturer']);
-        }
-        
-        $prodCollection->load();
-        
-        $this->assign('query', 'Advanced search');
-        $this->assign('productCollection', $prodCollection);
 
-        $pageUrl = clone $request;
-        $pageUrl->setParam('array', array('search'=>$search));
-        $this->assign('pageUrl', $pageUrl);
         
-        $sortUrl = clone $request;
-        $sortUrl->setParam('p', 1)->setParam('dir', 'asc');
-        $sortUrl->setParam('array', array('search'=>$search));
-        $this->assign('sortUrl', $sortUrl);
-        
-        $this->assign('sortValue', $request->getParam('order','name').'_'.$request->getParam('dir','asc'));
+        $this->getLayout()->getBlock('head')->setTitle($this->getCurrentCategory()->getName());            
     }
+    
+    /**
+     * Retrieve loaded category collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _getProductCollection()
+    {
+        return Mage::getSingleton('catalog/layer')->getProductCollection();
+    }
+    
+    /**
+     * Retrieve loaded category collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function getLoadedProductCollection()
+    {
+        $collection = $this->_getProductCollection();
+        /**
+         * @todo isLoaded for collection
+         */
+        if (!$collection->getSize()) {
+            $collection->load();
+        }
+        return $collection;
+    }
+    
+    /**
+     * Retrieve collection pager HTML
+     *
+     * @return string
+     */
+    public function getPagerHtml()
+    {
+        return $this->getChildHtml('pager');
+    }
+    
+    /**
+     * Retrieve current view mode
+     *
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->getRequest()->getParam('mode');
+    }
+    
+    /**
+     * Retrieve 
+     *
+     * @return unknown
+     */
+    public function getCompareJsObjectName()
+    {
+    	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
+    		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
+    	} 
+    	
+    	return false;
+    }
+    
 }
