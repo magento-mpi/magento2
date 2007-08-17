@@ -18,9 +18,7 @@
 			<td>
 
 				<h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
-				<div class="price-box">
-					<?=$_product->getFormatedPrice()?>
-				</div>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
 				<div class="ratings">
 					<div class="rating-box">
 						<div class="rating" style="width: 70%;">

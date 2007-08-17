@@ -20,9 +20,7 @@
 							<div class="product-details">
 								<a href="<?=$this->getUrl('wishlist/index/remove',array('item'=>$_item->getId()))?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
 								<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-								<div class="price-box">
-									<span class="regular-price"><?=$_item->getFormatedPrice()?></span>
-								</div>
+								<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 								<a href="<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>" class="link-cart">Add to Cart</a>
 							</div>
 						</li>

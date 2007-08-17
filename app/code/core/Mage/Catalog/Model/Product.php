@@ -47,6 +47,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	protected $_superLinkCollection = null;
 
 	protected $_attributes;
+	
+	protected $_priceBlock;
 
     public function __construct()
     {
@@ -255,7 +257,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
     	return false;
     }
-
+    
     public function getLinkedProducts($linkType)
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {

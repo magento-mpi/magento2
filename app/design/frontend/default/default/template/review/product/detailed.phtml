@@ -64,7 +64,7 @@
 	<?if(!$product->isSuperGroup()):?>
 		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
 		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<?=$this->getChildHtml('price')?>
+		<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 		<fieldset class="add-to-cart-box">
 			<legend>Add items to cart </legend>
 			<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>

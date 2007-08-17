@@ -35,10 +35,7 @@
 									</div>
 									<a href="#"><small class="count">3 Reviews</small></a>
 								</div>
-								<div class="price-box">
-									<span class="special-price"><img src="images/icon_special_price.gif" class="v-middle"/> <?=$product->getFormatedPrice()?></span><br/>
-									<span class="old-price">Old Price: <?=$product->getFormatedPrice()?></span>
-								</div>
+								<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 								<a href="#" class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></a>
 								<div class="clear"></div>
 								<div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
@@ -81,11 +78,7 @@
 										</div>
 										<a href="#"><small>(3)</small></a>
 									</div>
-									<div class="price-box">
-										<!--<span class="special-price"><img src="images/icon_special_price.gif" alt="special price" class="v-middle"/> $29.95</span>
-										<span class="old-price">Regular price: $39.95</span>-->
-										<span class="regular-price"><?=$product->getFormatedPrice()?></span>
-									</div>
+									<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 									<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
 									<div class="clear"></div>
 									<p class="add-to">

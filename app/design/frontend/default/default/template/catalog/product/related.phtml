@@ -14,7 +14,7 @@
 					</div>
 					<div class="product-details">
 						<p><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
-						<div class="price-box">Price: <?=$_item->getFormatedPrice()?></div>
+						<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 						<a href="<?=$this->getUrl('checkout/cart/add',array('product_id'=>$_item->getId()))?>">Add to Cart</a><br/><a href="<?=$this->getUrl('wishlist/index/add', array('product'=>$_item->getId()))?>">Add to Wishlist</a></p>
 					</div>
 				</li>

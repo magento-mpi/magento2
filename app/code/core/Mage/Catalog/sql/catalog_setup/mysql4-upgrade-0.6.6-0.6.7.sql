@@ -71,5 +71,27 @@ CREATE TABLE `catalog_product_super_link` (
 
 /*Data for the table `catalog_product_super_link` */
 
+
+
+alter table `catalog_category_entity_datetime` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_category_entity_datetime` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `catalog_category_entity_decimal` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_category_entity_decimal` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `catalog_category_entity_int` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_category_entity_int` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `catalog_category_entity_varchar` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_category_entity_varchar` add index `value_by_entity_type` (`entity_type_id`, `value`);
+
+alter table `catalog_product_entity_datetime` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_product_entity_datetime` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `catalog_product_entity_decimal` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_product_entity_decimal` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `catalog_product_entity_int` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_product_entity_int` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `catalog_product_entity_varchar` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `catalog_product_entity_varchar` add index `value_by_entity_type` (`entity_type_id`, `value`);
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+

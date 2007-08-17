@@ -15,7 +15,7 @@
             <td>
                 <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
-            	<div><?=$item->getFormatedPrice()?></div>
+            	<?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
             </td>            
             <td class="align-center"><textarea name="description[<?=$item->getId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
             <td class="align-center"><?=$this->getFormatedDate($item->getAddedAt())?></td>

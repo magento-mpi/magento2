@@ -91,5 +91,16 @@ insert into `customer_entity_text` (`value_id`,`entity_type_id`,`attribute_id`,`
 
 insert into `customer_entity_varchar` (`value_id`,`entity_type_id`,`attribute_id`,`store_id`,`entity_id`,`value`) values (32397,1,1,1,3,'QA'),(32398,1,2,1,3,'QA'),(32399,1,3,1,3,'qa@varien.com'),(32400,1,4,1,3,'4297f44b13955235245b2497399d7a93'),(32401,2,9,1,4,'QA'),(32402,2,10,1,4,'QA'),(32403,2,95,1,4,'QA'),(32404,2,12,1,4,'California'),(32405,2,14,1,4,'90034'),(32406,2,15,1,4,'LA'),(32407,2,17,1,4,'111-1111-111'),(32408,2,9,1,5,'QA shipping'),(32409,2,10,1,5,'QA shipping'),(32410,2,95,1,5,'QA shipping'),(32411,2,12,1,5,'California'),(32412,2,14,1,5,'90034'),(32413,2,15,1,5,'QA shipping'),(32414,2,17,1,5,'111111111111');
 
+
+
+alter table `customer_entity_datetime` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `customer_entity_datetime` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `customer_entity_decimal` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `customer_entity_decimal` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `customer_entity_int` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `customer_entity_int` add index `value_by_entity_type` (`entity_type_id`, `value`);
+alter table `customer_entity_varchar` add index `value_by_attribute` (`attribute_id`, `value`);
+alter table `customer_entity_varchar` add index `value_by_entity_type` (`entity_type_id`, `value`);
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

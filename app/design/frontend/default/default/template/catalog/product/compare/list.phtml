@@ -36,7 +36,7 @@
 											<div class="rating" style="width:10%;">
 											</div>
 										</div> (3)</div>
-										<div class="price-box">Price: <strong><?=$_item->getFormatedPrice()?></strong></div>
+										<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 			<p>
 				    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
 				    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>"><small>Add to My Wishlist</small></a>
@@ -60,7 +60,7 @@
 			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
 				<?switch ($_attribute->getAttributeCode()) {
 					case "price":?>
-				<?=$_item->getFormatedPrice()?>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 						<?break;
 					case "small_image":?>
 				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
@@ -90,7 +90,7 @@
 			<?if($_i%2!=0):?><?$_className.='odd '?><?endif;?>
 			<?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
 			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
-					<div class="price-box">Price: <strong><?=$_item->getFormatedPrice()?></strong></div>
+					<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 				    
 					    <p><button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
 					    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>"><small>Add to Wishlist</small></a></p>

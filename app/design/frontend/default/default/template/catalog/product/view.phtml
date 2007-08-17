@@ -138,7 +138,7 @@
 	<?if(!$product->isSuperGroup()):?>
 		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
 		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<?=$this->getChildHtml('price')?>
+		<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 		<fieldset class="add-to-cart-box">
 			<legend>Add items to cart </legend>
 			<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
@@ -229,7 +229,7 @@
         <?endif?>
 			<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"></a><br/>
 				<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
-				<span class="regular-price"><?=$_link->getFormatedPrice()?></span>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
 
 				<div class="ratings">
 					<div class="rating-box">
