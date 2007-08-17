@@ -212,15 +212,8 @@ class Mage_Customer_Model_Address extends Varien_Object
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Customer_Model_Address
-     */
     public function __clone()
     {
-        $address = Mage::getModel('customer/address');
-        $address->unsetData('entity_id');
-        return $address;
+        $this->setId(null);
     }
 }

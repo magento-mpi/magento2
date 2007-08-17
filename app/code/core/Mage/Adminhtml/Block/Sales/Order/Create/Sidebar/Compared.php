@@ -16,6 +16,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared extends Mage_Admi
     {
         parent::__construct();
         $this->setId('sales_order_create_sidebar_compared');
+        $this->setScId('compared');
     }
 
     public function hasItems()

@@ -1,9 +1,9 @@
 <div id="sc_sidebar">
     <?foreach ($this->getChild() as $_child):?>
-        <?if ($_child->hasItems()):?>
-            <div id="sc_<?=$_child->getBlockAlias()?>"
+        <div id="sc_<?=$_child->getBlockAlias()?>">
+            <?if ($_child->hasItems()):?>
                 <?=$this->getChildHtml($_child->getBlockAlias())?>
-            </div>
-        <?endif;?>
+            <?endif;?>
+        </div>
     <?endforeach;?>
 </div>

@@ -443,4 +443,13 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         return $this;
     }
 
+    public function __clone()
+    {
+        $this->setId(null);
+        foreach ($this->getLoadedAddressCollection() as $address) {
+            /* @var $address Mage_Customer_Model_Address */
+            $address = clone $address;
+        }
+    }
+
 }

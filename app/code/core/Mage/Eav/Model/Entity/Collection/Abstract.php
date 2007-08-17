@@ -684,7 +684,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
         $this->printLogQuery($printQuery, $logQuery);
 
-        $rows = $this->_read->fetchAll($this->getSelect());
+        try {
+            $rows = $this->_read->fetchAll($this->getSelect());
+        } catch (Exception $e) {
+            $this->printLogQuery(true, true, $this->getSelect());
+            throw $e;
+        }
+
         if (!$rows) {
             return $this;
         }
@@ -712,14 +718,21 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
         $condition = "entity_type_id=".$entity->getTypeId();
         $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_items));
-        $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
+        if ($entity->getUseDataSharing()) {
+            $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
+        }
         $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
 
         $attrById = array();
         foreach ($entity->getAttributesByTable() as $table=>$attributes) {
             $sql = "select $entityIdField, attribute_id, value from $table where $condition";
             $this->printLogQuery($printQuery, $logQuery, $sql);
-            $values = $this->_read->fetchAll($sql);
+            try {
+                $values = $this->_read->fetchAll($sql);
+            } catch (Exception $e) {
+                $this->printLogQuery(true, true, $sql);
+                throw $e;
+            }
             if (empty($values)) {
                 continue;
             }
@@ -828,7 +841,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $select = $this->getSelect();
 
         $condArr = array("$pk = $fk");
-        $condArr[] = $read->quoteInto("$attrTable.store_id in (?)", $entity->getSharedStoreIds());
+        if ($entity->getUseDataSharing()) {
+            $condArr[] = $read->quoteInto("$attrTable.store_id in (?)", $entity->getSharedStoreIds());
+        }
         if (!$attribute->getBackend()->isStatic()) {
             $condArr[] = $read->quoteInto("$attrTable.attribute_id=?", $attribute->getId());
         }

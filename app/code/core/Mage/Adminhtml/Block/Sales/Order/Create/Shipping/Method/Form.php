@@ -21,19 +21,24 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
         $this->setTemplate('sales/order/create/shipping/method/form.phtml');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getAddress()
     {
-        return $this->getParentBlock()->getSession()->getShippingAddress();
+        return Mage::getSingleton('adminhtml/quote')->getQuote()->getShippingAddress();
     }
 
     public function getStore()
     {
-        return $this->getParentBlock()->getStore();
+        return Mage::getSingleton('adminhtml/quote')->getQuote()->getStore();
     }
 
     public function getQuote()
     {
-        return $this->getParentBlock()->getQuote();
+        return Mage::getSingleton('adminhtml/quote')->getQuote();
     }
 
     public function getShippingRates()

@@ -118,11 +118,11 @@ function sc_searchInputChange(event) {
     }
 }
 
-function sc_productAdd(id) {
+function sc_productAdd(id, block) {
     var ids = $H({});
     ids[id] = {};
     ids[id]['qty'] = 1;
-    sc_refresh(['items','shipping_method','totals'], {products: ids.toJSON()});
+    sc_refresh(['items','shipping_method','totals', block], {products: ids.toJSON()});
 }
 
 function sc_itemRemove(id) {
@@ -252,6 +252,10 @@ function sc_addressCollectData(type) {
         }
     });
     return addr;
+}
+
+function sc_shippingMethodSelect(el) {
+    sc_refresh(['shipping_method','totals'], {shipping_method: el.value});
 }
 
 </script>

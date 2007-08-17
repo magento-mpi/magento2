@@ -46,4 +46,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         return parent::_initChildren();
     }
 
+    public function getSaveUrl()
+    {
+        return Mage::getUrl('*/*/save');
+    }
+
 }

@@ -16,15 +16,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
     {
         parent::__construct();
         $this->setId('sales_order_create_sidebar_wishlist');
+        $this->setScId('wishlist');
     }
 
     protected function _prepareItems()
     {
-        $this->setItems( Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getSession()->getCustomer())->getItemCollection()
+        $this->setItems( Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::getSingleton('adminhtml/quote')->getCustomer())->getItemCollection()
         	->addAttributeToSelect('name')
         	->addAttributeToSelect('price')
         	->addAttributeToSelect('small_image')
-        	->addStoreData()
+//        	->addStoreData()
         	->load()
     	);
         return $this;
@@ -33,7 +34,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
     public function hasItems()
     {
         if (Mage::getSingleton('adminhtml/quote')->getCustomer()) {
-            return parent::hasItems();
+            $this->_prepareItems();
+            return $this->_items->getSize()>0;
         }
         return false;
     }

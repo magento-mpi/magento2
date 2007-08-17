@@ -28,6 +28,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
             ->addAttributeToSelect('*')
             ->setOrderFilter(Mage::registry('sales_order')->getId())
         ;
+        $collection->getEntity()->setStore(Mage::registry('sales_order')->getStoreId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

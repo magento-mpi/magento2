@@ -9,7 +9,7 @@
                 <?$_i++;?>
                 <tr<?=($_i >= $_count ? ' class="last"' : '' )?>>
                     <td class="a-right" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
-                    <td class="last a-right" style="<?=$_total->getStyle()?>"><?=$this->getSession()->formatPrice($_total->getValue())?></td>
+                    <td class="last a-right" style="<?=$_total->getStyle()?>"><nobr><?=$this->getSession()->formatPrice($_total->getValue())?></nobr></td>
                 </tr>
             <?endforeach;?>
         </tbody>

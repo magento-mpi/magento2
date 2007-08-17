@@ -33,7 +33,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $this;
     }
-    
+
     public function sendNewOrderEmail()
     {
     	$billing = $this->getBillingAddress();
@@ -69,9 +69,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         foreach ($address->getAllItems() as $addressItem) {
         	$item = Mage::getModel('sales/order_item');
         	if ($addressItem instanceof Mage_Sales_Model_Quote_Item) {
+        	    /* @var $item Mage_Sales_Model_Order_Item */
                 $item->importQuoteItem($addressItem);
 	            $this->addItem($item);
         	} elseif ($addressItem instanceof Mage_Sales_Model_Quote_Address_Item) {
+        	    /* @var $item Mage_Sales_Model_Order_Item */
         		$item->importQuoteAddressItem($addressItem);
 	            $this->addItem($item);
         	}

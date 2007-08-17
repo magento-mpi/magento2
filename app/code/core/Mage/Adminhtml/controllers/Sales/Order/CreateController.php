@@ -158,8 +158,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         try {
             $wishlist = Mage::getModel('wishlist/wishlist');
             /* @var $wishlist Mage_Wishlist_Model_Wishlist */
+            $wishlist->setStore($this->getSession()->getQuote()->getStore());
             $wishlist->loadByCustomer($this->getSession()->getCustomer(), true);
-    		$wishlist->addNewItem($this->getRequest()->getParam('product'));
+            $wishlist->setStore($this->getSession()->getQuote()->getStore());
         } catch (Exception $e) {
             // TODO - if customer is not created yet
         }
@@ -253,6 +254,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 
     public function shippingMethodAction()
     {
+        if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
+            $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
+        }
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_method')->toHtml());
     }
 
@@ -393,6 +397,23 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function totalsAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_totals')->toHtml());
+    }
+
+    public function saveAction()
+    {
+        $order = Mage::getModel('sales/order');
+        /* @var $order Mage_Sales_Model_Order */
+        $order->createFromQuoteAddress($this->getQuote()->getShippingAddress());
+        $order->setStoreId($this->getQuote()->getStore()->getId());
+        $order->setOrderCurrencyCode($this->getQuote()->getStore()->getCurrentCurrencyCode());
+        $order->validate();
+        if ($order->getErrors()) {
+            //TODO: handle errors (exception?)
+        }
+        $order->save();
+        $this->getQuote()->setIsActive(false);
+        $this->getQuote()->save();
+        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
     }
 
 }

@@ -5,7 +5,7 @@
         <li>
             <span><?=$_item->getName()?></span><br/>
             <span><?=$this->formatPrice($_item->getPrice())?></span><br/>
-            <a href="javascript:void(0);" onclick="sc_productAdd(<?=$_item->getProductId()?>)"><?=__('Add to Order')?></a>
+            <a href="javascript:void(0);" onclick="sc_productAdd(<?=$_item->getProductId()?>, '<?=$this->getScId()?>')"><?=__('Add to Order')?></a>
         </li>
     <?endforeach;?>
 </ul>

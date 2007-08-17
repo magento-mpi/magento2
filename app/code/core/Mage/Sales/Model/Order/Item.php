@@ -33,28 +33,38 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this->_order;
     }
 
-    public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteItem)
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
     {
-        $item = clone $quoteItem;
-        $item->unsEntityId()
-            ->unsAttributeSetId()
-            ->unsEntityTypeId()
-            ->unsParentId();
-        $this->addData($item->getData());
+        $this->setQuoteItemId($item->getId())
+            ->setProductId($item->getProductId())
+            ->setSku($item->getSku())
+            ->setImage($item->getImage())
+            ->setName($item->getName())
+            ->setDescription($item->getDescription())
+            ->setQtyOrdered($item->getQty())
+            ->setPrice($item->getPrice())
+            ->setRowTotal($item->getRowTotal())
+            // TODO - all others
+        ;
         return $this;
     }
 
-    public function importQuoteAddressItem(Mage_Sales_Model_Quote_Address_Item $addressItem)
+    public function importQuoteAddressItem(Mage_Sales_Model_Quote_Address_Item $item)
     {
-        $item = clone $addressItem;
-        $item->unsEntityId()
-            ->unsAttributeSetId()
-            ->unsEntityTypeId()
-            ->unsParentId();
-        $this->addData($item->getData());
+        $this->setQuoteItemId($item->getQuote()->getId())
+            ->setProductId($item->getProductId())
+            ->setSku($item->getSku())
+            ->setImage($item->getImage())
+            ->setName($item->getName())
+            ->setDescription($item->getDescription())
+            ->setQtyOrdered($item->getQty())
+            ->setPrice($item->getPrice())
+            ->setRowTotal($item->getRowTotal())
+            // TODO - all others
+        ;
         return $this;
     }
-    
+
     public function getStatusId()
     {
         if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned()) {
