@@ -1,0 +1,68 @@
+<?php
+/**
+ * description
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @subpackage  Promo_Quote
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
+class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Block_Widget_Form
+{
+
+    protected function _prepareForm()
+    {
+        $model = Mage::registry('current_promo_quote_rule');
+
+        //$form = new Varien_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'POST'));
+        $form = new Varien_Data_Form();
+
+        $form->setHtmlIdPrefix('rule_');
+
+        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('General Information')));
+
+        $fieldset->addField('simple_action', 'select', array(
+            'label'     => __('Action'),
+            'name'      => 'action_operator',
+            'options'    => array(
+                'by_percent' => __('Discount percent of product price'),
+                'by_fixed' => __('Discount fixed amount'),
+            ),
+        ));
+        
+        $fieldset->addField('discount_amount', 'text', array(
+            'name' => 'discount_amount',
+            'label' => __('Discount amount'),
+        ));
+        
+        $fieldset->addField('simple_free_shipping', 'select', array(
+            'label'     => __('Free ground shipping'),
+            'title'     => __('Free ground shipping'),
+            'name'      => 'action_free_shipping',
+            'options'    => array(
+                '1' => __('Yes'),
+                '0' => __('No'),
+            ),
+        ));
+        
+        $fieldset->addField('stop_rules_processing', 'select', array(
+            'label'     => __('Stop further rules processing'),
+            'title'     => __('Stop further rules processing'),
+            'name'      => 'stop_rules_processing',
+            'options'    => array(
+                '1' => __('Yes'),
+                '0' => __('No'),
+            ),
+        ));
+        
+        $form->setValues($model->getData());
+
+        //$form->setUseContainer(true);
+
+        $this->setForm($form);
+
+        return parent::_prepareForm();
+    }
+}

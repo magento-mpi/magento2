@@ -11,9 +11,10 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
             ->setPageSize(20)
             ->loadData();
         
+        $i=0;
         $html = '<ul>';
         foreach ($searchCollection->getItems() as $item) {
-            $html .= '<li title="'.$item->getSearchQuery().'"><div style="float:right">'.$item->getNumResults().'</div>'.$item->getSearchQuery().'</li>';
+            $html .= '<li title="'.$item->getSearchQuery().'" class="'.((++$i)%2?'odd':'even').'"><div style="float:right">'.$item->getNumResults().'</div>'.$item->getSearchQuery().'</li>';
         }
         $html .= '</ul>';
         

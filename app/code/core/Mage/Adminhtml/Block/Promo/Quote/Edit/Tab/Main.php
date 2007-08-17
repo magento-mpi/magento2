@@ -87,6 +87,16 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'label' => __('Coupon code'),
         ));
         
+        $fieldset->addField('uses_per_coupon', 'text', array(
+            'name' => 'uses_per_coupon',
+            'label' => __('Uses per coupon'),
+        ));
+        
+        $fieldset->addField('uses_per_customer', 'text', array(
+            'name' => 'uses_per_customer',
+            'label' => __('Uses per customer'),
+        ));
+        
     	$fieldset->addField('from_date', 'date', array(
             'name' => 'from_date',
             'label' => __('From Date'),
@@ -99,16 +109,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'label' => __('To Date'),
             'title' => __('To Date'),
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
-        ));
-    	
-        $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => __('Stop further rules processing'),
-            'title'     => __('Stop further rules processing'),
-            'name'      => 'stop_rules_processing',
-            'options'    => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
-            ),
         ));
         
         $form->setValues($model->getData());

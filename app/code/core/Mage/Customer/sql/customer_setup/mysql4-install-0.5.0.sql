@@ -3,7 +3,8 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
+
 
 SET NAMES utf8;
 
@@ -161,7 +162,7 @@ CREATE TABLE `customer_group` (
 
 /*Data for the table `customer_group` */
 
-insert into `customer_group` (`customer_group_id`,`customer_group_code`) values (1,'General'),(2,'Wholesale');
+insert into `customer_group` (`customer_group_id`,`customer_group_code`) values (0,'NOT LOGGED IN'),(1,'General'),(2,'Wholesale');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
