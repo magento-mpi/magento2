@@ -30,6 +30,7 @@ class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
     public function setActive($path)
     {
         $this->_activeLink = rtrim($path, '/');
+        return $this;
     }
 
     public function getLinks()

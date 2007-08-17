@@ -6,7 +6,11 @@
 
         <block type="core/store" name="store" as="store"/>
 
-        <block type="page/html_head" name="head" as="head"/>
+        <block type="page/html_head" name="head" as="head">
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+            <action method="addJs"><script>prototype/validation.js</script></action>
+            <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
+        </block>
 
         <block type="page/html_header" name="header" as="header">
             <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
@@ -18,7 +22,7 @@
             
         </block>
 
-		<block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+        <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
         <block type="core/text_list" name="left" as="left"/>
 
@@ -27,10 +31,10 @@
         <block type="core/text_list" name="content" as="content"/>
 \
         <block type="core/text_list" name="right" as="right">
-			<block type="wishlist/customer_sidebar" name="wishlist.sidebar">
-				<action method="setTemplate"><template>wishlist/sidebar.phtml</template></action>
-			</block>
-		</block>
+            <block type="wishlist/customer_sidebar" name="wishlist.sidebar">
+                <action method="setTemplate"><template>wishlist/sidebar.phtml</template></action>
+            </block>
+        </block>
 
         <block type="page/html_footer" name="footer" as="footer">
             <action method="setTemplate"><template>page/html/footer.phtml</template></action>
