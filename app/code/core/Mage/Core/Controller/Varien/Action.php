@@ -47,6 +47,12 @@ abstract class Mage_Core_Controller_Varien_Action
          $this->getLayout()->setArea('frontend');
 
          $this->_construct();
+ 
+		
+		 Varien_Profiler::start('init/session');
+		 Mage::getSingleton('core/session');
+		 Varien_Profiler::stop('init/session');
+
 
 		 Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
      }
