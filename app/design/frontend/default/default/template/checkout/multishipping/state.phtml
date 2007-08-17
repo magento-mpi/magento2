@@ -5,9 +5,10 @@
  * @see Mage_Checkout_Block_Multishipping_State
  */
 ?>
-<ul class="checkout-progress">
-
+<table class="checkout-progress">
+<tr>
 <?foreach ($this->getSteps() as $_step):?>
-    <li<?if($_step->getIsActive()):?> class="active"<?endif?>><span><?=$_step->getLabel()?></span></li>
+    <td<?if($_step->getIsActive()):?> class="active"<?endif?>><span><?=$_step->getLabel()?></span></td>
 <?endforeach;?>
-</ul>
+</tr>
+</table>

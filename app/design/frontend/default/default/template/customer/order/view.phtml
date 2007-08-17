@@ -1,60 +1,50 @@
 
-    <h1 class="page-heading">Order #<?=$order->getOrderId()?> (<?=$order->getStatus()?>)</h1>
-    <table cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th style="width:50%;"><h3>Billing Information</h3></th>
-                <th style="width:50%;"><h3>Payment Method</h3></th></tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <address>
-                        <?=$order->getAddressByType('billing')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
-												{{telephone}}')?>
-                    </address>
-                </td>
-                <td>
-                <?=$this->getChildHtml('payment')?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="page-head">
+			<h3>Order #<?=$order->getOrderId()?> (<?=$order->getStatus()?>)</h3>
+		</div>
+
+
+    <div class="col2-set">
+			<div class="col-1">
+				<h4>Billing Information</h4>
+				<address>
+						<?=$order->getAddressByType('billing')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
+						{{telephone}}')?>
+				</address>
+			</div>
+			<div class="col-2">
+				<h4>Payment Method</h4>
+        <?=$this->getChildHtml('payment')?>
+			</div>
+		</div>
     <p></p>
-    <table cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th style="width:50%;"><h3>Shipping Information</h3></th>
-                <th style="width:50%;"><h3>Shipping Method</h3></th></tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <address>
-                        <?=$order->getAddressByType('shipping')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
-												{{telephone}}')?>
-                    </address>
-                </td>
-                <td>
-                    <?=$order->getShippingDescription()?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+		<div class="col2-set">
+			<div class="col-1">
+				<h4>Shipping Information</h4>
+				<address>
+						<?=$order->getAddressByType('shipping')->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
+						{{telephone}}')?>
+				</address></div>
+			<div class="col-2">
+				<h4>Shipping Method</h4>
+				<?=$order->getShippingDescription()?>
+			</div>
+		</div>
+		
     <p></p>
     <?$_items = $order->getEntitiesByType('item')?>
-    <table cellspacing="0" width="100%" class="data-table">
+    <table cellspacing="0" width="100%" class="data-table" id="my-orders-table">
         <thead>
             <tr>
-                <th style="width:50%;">Items Order</th>
-                <th class="align-center" style="width:10%;">Qty</th>
-                <th class="align-center" style="width:20%;">Price</th>
-                <th class="align-right" style="width:20%;">Ext. Price</th>
+                <th>Items Order</th>
+                <th class="a-center">Qty</th>
+                <th class="a-right">Price</th>
+                <th class="a-right">Ext. Price</th>
             </tr>
         </thead>
         <tfoot>
-            <tr class="data-row-foot">
-                <td class="align-right" colspan="4">
+            <tr>
+                <td class="a-right" colspan="4">
                     Grand Total:&nbsp;<strong><?=$order->getGrandTotal()?></strong>
                 </td>
             </tr>
@@ -63,13 +53,14 @@
             <?foreach($_items as $_item):?>     
             <tr>
                 <td><?=$_item->getName()?></td>
-                <td class="align-center"><?=$_item->getQty()?></td>
-                <td class="align-center"><?=$_item->getPrice()?></td>
-                <td class="align-right"><?=$_item->getRowTotal()?></td>
+                <td class="a-center"><?=$_item->getQty()?></td>
+                <td class="a-right"><?=$_item->getPrice()?></td>
+                <td class="a-right"><?=$_item->getRowTotal()?></td>
             </tr>   
             <?endforeach?> 
         </tbody>
     </table>
-    <div class="buttons-container">
-			<a href="<?=$baseUrl?>customer/order/history/" class="float-left">&laquo; Back</a>
+<script type="text/javascript">decorateTable('my-orders-table')</script>
+    <div class="form-buttons">
+			<a href="<?=$baseUrl?>customer/order/history/" class="left">&laquo; Back</a>
     </div>

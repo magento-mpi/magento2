@@ -5,7 +5,7 @@
 	<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><?=__('Edit')?></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
 </p>
 <?=$this->getPagerHtml()?>
-<table class="data-table box-table" cellspacing="0">
+<table class="data-table box-table" id="my-tags-table" cellspacing="0">
 <?if( sizeof($this->getMyProducts()) > 0 ):?>
 	<col width="100">
 	<col>
@@ -29,16 +29,17 @@
 				</div>
 				<p><?=$_product->getDescription()?></p>
 			</td>
-			<td class="a-center last">
+			<td class="a-center">
 				<button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_product->getId()))?>')"><span><?=__('Add to Cart')?></span></button>
 				<br><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_product->getId()))?>"><?=__('Add to Wishlist')?></a></td>
 		</tr>
 	<?endforeach;?>
 	</tbody>
 <?else:?>
-		<tr class="odd">
-		  <td><center><small><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></small></center></td>
+		<tr>
+		  <td><p><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></p></td>
 		</tr>
 <?endif;?>
 </table>
+            <script type="text/javascript">decorateTable('my-tags-table')</script>
 <?=$this->getPagerHtml()?>

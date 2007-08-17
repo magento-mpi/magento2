@@ -38,7 +38,8 @@ input.form-radio { margin-right:5px;}
 .qty { width:2.5em; }
 .group-select {
 	position:relative;
-	margin:28px 250px 28px 0;
+	width:570px;
+	margin:28px 0;
 	border:1px solid #bbafa0;
 	padding:22px 25px 12px 25px;
 	background:#fbfaf6;
@@ -75,7 +76,6 @@ input.form-radio { margin-right:5px;}
 	padding-top:8px;
 	text-align:right; 
 	}
-.form-buttons .form-button { float:right; }
 
 /* Default button */
 .form-button, .form-button-alt {
@@ -366,7 +366,7 @@ h1#logo {
 
 
 /* Quick Access*/
-.quick-access { width:500px; float:right; margin-top:30px; text-align:right;padding:0 10px;}
+.quick-access { width:500px; float:right; margin-top:36px; text-align:right;padding:0 10px;}
 .quick-access p { margin-bottom:4px; }
 .quick-access li {
 	display:inline;
@@ -947,7 +947,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .one-page-checkout a.back { background:url(../images/icon_opc_back.gif) no-repeat; padding-left:16px; line-height:13px;}
 
 .checkout-progress { margin-bottom:1.5em;}
-.checkout-progress li {
+.checkout-progress td {
 	float:left;
 	margin-right:3px;
 	margin-bottom:2em;
@@ -956,7 +956,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 	color:#abb5ba;
 	font-weight:bold;
 	}
-.checkout-progress li.active { 
+.checkout-progress td.active { 
 	border-top-color:#e96200;
 	color:#e96200;
 	}
@@ -970,9 +970,19 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .shipment-count { padding:1px 5px; line-height:1em; border:1px solid #5692cd; background:#7DB0E3; color:#fff; font-size:.8em;}
 
 /* Customer Account */
-.account-nav ul { font-size:1.05em; }
-.account-nav li { border-bottom:1px solid #d9dde3; padding:6px 7px; }
+
+.account-nav .head { 
+	margin:0; 
+	background:url(../images/head_my_account.gif) no-repeat; 
+	height:24px; 
+	}
+.account-nav .head h3 { display:none; }
+.account-nav ul { border:1px solid #A0B3C3; background:#E7F1F4; font-size:1.05em; }
+.account-nav li a, .account-nav li.on { padding:3px 10px;  }
+.account-nav li a { border-bottom:1px solid #d9dde3; }
+.account-nav li a:hover { background:#D9E5EE; }
 .account-nav li.on { background:#fff; border-bottom:1px solid #d9dde3; font-weight:bold; }
+.account-nav li.last, .account-nav li.last a { border-bottom:0; }
 .account-nav a, .account-nav a:hover { display:block; text-decoration:none; }
 
 .account-main { width:620px !important; }

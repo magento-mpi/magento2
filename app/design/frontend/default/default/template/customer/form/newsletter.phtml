@@ -1,17 +1,12 @@
+	<div class="page-head">
+		<h3>Newsletter Subscription</h3>
+	</div>
 	<?=$this->getMessagesBlock()->getHtml()?>
     <form action="<?=$this->getAction()?>" method="post" id="form-validate">
-    <fieldset class="group-select">
-        <legend><?=__('Newsletter Subscriptions')?></legend>
-        <ul>
-            <li>
-                <input type="checkbox" name="is_subscribed" value="1" title="<?=__('General Subscription')?>"  <?if($this->getIsSubscribed()):?> checked<?endif?>/> <label for="subscription"><?=__('General Subscription')?></label>
-            </li>
-        </ul>
-    </fieldset>
-    <div class="clearfix"></div>
-    <div class="buttons-container">
-        <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
-        <input type="submit" class="input-button float-right" value="Save"/>
+		<p><input type="checkbox" name="is_subscribed" value="1" title="<?=__('General Subscription')?>"  <?if($this->getIsSubscribed()):?> checked<?endif?>/> <label for="subscription"><?=__('General Subscription')?></label></p>
+    <div class="form-buttons">
+        <a href="<?=$baseUrl?>customer/account/" class="left">&laquo; Back</a>
+        <button type="submit" class="form-button"><span>Save</span></button>
     </div>
     </form>
     <script type="text/javascript">
