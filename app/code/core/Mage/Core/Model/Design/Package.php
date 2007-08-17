@@ -68,7 +68,10 @@ class Mage_Core_Model_Design_Package
 	public function getPackageName()
 	{
 		if (empty($this->_name)) {
-			$this->_name = $this->getDefaultPackage();
+			$this->_name = Mage::getStoreConfig('design/package/name');
+			if (empty($this->_name)) {
+				$this->_name = $this->getDefaultPackage();
+			}
 		}
 		return $this->_name;
 	}
@@ -108,11 +111,6 @@ class Mage_Core_Model_Design_Package
 	public function getDefaultPackage()
 	{
 		return 'default';
-	}
-	
-	public function getCurrentPackage()
-	{
-		return Mage::getStoreConfig('design/package/name');
 	}
 	
 	public function getDefaultTheme()
