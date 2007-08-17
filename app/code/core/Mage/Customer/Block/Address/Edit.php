@@ -37,7 +37,16 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     
     public function getTitle()
     {
-        return $this->getData('title');
+        if ($title = $this->getData('title')) {
+            return $title;
+        }
+        if ($this->getAddress()->getId()) {
+            $title = __('Edit Address');
+        }
+        else {
+            $title = __('Add New Address');
+        }
+        return $title;
     }
     
     public function getBackUrl()

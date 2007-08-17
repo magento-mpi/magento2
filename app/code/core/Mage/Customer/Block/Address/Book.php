@@ -10,46 +10,67 @@
  */
 class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
 {
-    public function __construct()
+    protected function _initChildren()
     {
-        parent::__construct();
-        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('Address Book'));
+        $this->getLayout()->getBlock('head')
+            ->setTitle(__('Address Book'));
+            
+        return parent::_initChildren();
     }
-
+    
     public function getAddAddressUrl()
     {
-        return Mage::getUrl('customer/address/new', array('_secure'=>true));
+        return $this->getUrl('customer/address/new', array('_secure'=>true));
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('customer/account/index', array('_secure'=>true));
+        return $this->getUrl('customer/account/index', array('_secure'=>true));
     }
 
     public function getDeleteUrl()
     {
-        return Mage::getUrl('customer/address/delete');
+        return $this->getUrl('customer/address/delete');
     }
 
     public function getAddressEditUrl($address)
     {
-        return Mage::getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
+        return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
     }
 
-    public function getPrimaryAddresses()
+    public function getPrimaryBillingAddress()
     {
-        $addresses = Mage::getSingleton('customer/session')->getCustomer()->getPrimaryAddresses();
-        return empty($addresses) ? false : $addresses;
+        return $this->getCustomer()->getPrimaryBillingAddress();
     }
-
+    
+    public function getPrimaryShippingAddress()
+    {
+        return $this->getCustomer()->getPrimaryShippingAddress();
+    }
+    
+    public function hasPrimaryAddress()
+    {
+        return $this->getPrimaryBillingAddress() || $this->getPrimaryShippingAddress();
+    }
+    
     public function getAdditionalAddresses()
     {
-        $addresses = Mage::getSingleton('customer/session')->getCustomer()->getAdditionalAddresses();
+        $addresses = $this->getCustomer()->getAdditionalAddresses();
         return empty($addresses) ? false : $addresses;
     }
 
     public function getAddressHtml($address)
     {
         return $address->toString($address->getHtmlFormat());
+    }
+    
+    public function getCustomer()
+    {
+        $customer = $this->getData('customer');
+        if (is_null($customer)) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->setData('customer', $customer);
+        }
+        return $customer;
     }
 }

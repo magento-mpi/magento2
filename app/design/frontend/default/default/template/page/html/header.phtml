@@ -1,28 +1,25 @@
-				
-				<div class="header-top-container">
-					<div class="header-top">
-						<h1 id="logo"><a href="<?=$baseUrl?>"><img src="<?=$this->getLogoSrc()?>" alt="<?=$this->getLogoAlt()?>"/></a></h1>
-						<p class="this-is-a-demo"><strong>This is a demo store. Any orders placed through this store will not be logged or fulfilled.</strong></p>
-						<p class="no-show"><a href="#main"><strong>Skip to main content &raquo;</strong></a></p>
-<?=$this->getChildHtml('topSearch')?>
+
+<div class="header-top-container">
+    <div class="header-top">
+        <h1 id="logo"><a href="<?=$baseUrl?>"><img src="<?=$this->getLogoSrc()?>" alt="<?=$this->getLogoAlt()?>"/></a></h1>
+        <p class="this-is-a-demo"><strong>This is a demo store. Any orders placed through this store will not be logged or fulfilled.</strong></p>
+        <p class="no-show"><a href="#main"><strong>Skip to main content &raquo;</strong></a></p>
+        
+        <?=$this->getChildHtml('topSearch')?>
 
 
-					<div class="quick-access">
-						<div class="account-access">
-							<p><strong><?=$this->getWelcome()?></strong> <?=$this->getChildHtml('topLeftLinks')?>
-							<!-- <span class="links"><a href="#">My Account</a><span class="pipe">|</span><a href="#">Log out</a></span> -->
-							<?=$this->getChildHtml('topLeftLinks')?></p>
-						</div>
-						<div class="shop-access">
-							<?=$this->getChildHtml('topRightLinks')?>
-						</div>
-					</div>
-<!-- [ends] .quick-access // -->
+        <div class="quick-access">
+            <div class="account-access">
+                <p><strong><?=$this->getWelcome()?></strong> <?=$this->getChildHtml('topLeftLinks')?>
+            </div>
+            <div class="shop-access">
+                <?=$this->getChildHtml('topRightLinks')?>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
-					</div>
-				</div>
-		
 
-
-                <?=$this->getChildHtml('topMenu')?>
+<?=$this->getChildHtml('topMenu')?>

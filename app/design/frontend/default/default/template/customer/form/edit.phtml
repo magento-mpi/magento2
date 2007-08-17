@@ -1,35 +1,35 @@
-    <?=$this->getMessagesBlock()->getHtml()?>
-		<div class="page-head">
-			<h3>Account Information</h3>
-		</div>
-    <form action="<?=$action?>" method="post" id="form-validate">
-    <fieldset class="group-select">
-        <legend>Edit Personal Information</legend>
-        <ul>
-            <li>
-                <div class="input-box">
-                    <label for="firstname">First Name <span class="required">*</span></label><br/>
-                    <input type="text" name="firstname" value="<?=$customer->getFirstname()?>" title="First Name"  class="required-entry input-text"/>
-                </div>
-                <div class="input-box">
-                    <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                    <input type="text" name="lastname" value="<?=$customer->getLastname()?>" title="Last Name"  class="required-entry input-text"/>
-                </div>
-            </li>
-            <li>
-                <div class="input-box">
-                <label for="email_address">Email <span class="required">*</span></label><br/>
-                <input type="text" name="email" value="<?=$customer->getEmail()?>" title="Email Address" class="required-entry validate-email input-text"/>
-                </div>
-            </li>
-        </ul>
-    </fieldset>
-    <div class="form-buttons">
-        <p class="required">* Required Fields</p>
-        <a href="<?=$baseUrl?>customer/account/" class="left">&laquo; Back</a>
-        <button type="submit" class="form-button"><span>Save Account Info</span></button>
-    </div>
-    </form>
-    <script type="text/javascript">
-        var dataForm = new VarienForm('form-validate', true);
-    </script>
+<div class="page-head">
+	<h3>Account Information</h3>
+</div>
+<?=$this->getMessagesBlock()->getHtml()?>
+<form action="<?=$action?>" method="post" id="form-validate">
+<fieldset class="group-select">
+    <legend>Edit Personal Information</legend>
+    <ul>
+        <li>
+            <div class="input-box">
+                <label for="firstname">First Name <span class="required">*</span></label><br/>
+                <input type="text" name="firstname" value="<?=$customer->getFirstname()?>" title="First Name"  class="required-entry input-text"/>
+            </div>
+            <div class="input-box">
+                <label for="lastname">Last Name <span class="required">*</span></label><br/>
+                <input type="text" name="lastname" value="<?=$customer->getLastname()?>" title="Last Name"  class="required-entry input-text"/>
+            </div>
+        </li>
+        <li>
+            <div class="input-box">
+            <label for="email_address">Email <span class="required">*</span></label><br/>
+            <input type="text" name="email" value="<?=$customer->getEmail()?>" title="Email Address" class="required-entry validate-email input-text"/>
+            </div>
+        </li>
+    </ul>
+</fieldset>
+<div class="form-buttons">
+    <p class="required">* Required Fields</p>
+    <a href="<?=$baseUrl?>customer/account/" class="left">&laquo; Back</a>
+    <button type="submit" class="form-button"><span>Save Account Info</span></button>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+</script>

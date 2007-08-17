@@ -136,6 +136,13 @@
                     </default>
                 </updates>
             </customer_dashboard>
+            <customer_address_book>
+                <updates>
+                    <default>
+                        <file>customer/address/book.xml</file>
+                    </default>
+                </updates>
+            </customer_address_book>
             <customer_address>
                 <updates>
                     <default>

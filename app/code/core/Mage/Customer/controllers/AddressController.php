@@ -25,15 +25,13 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         if (Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
         {
-            $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
+            $this->loadLayout(array('default', 'customer_account', 'customer_address_book'), 'customer_address_book');
             $this->_initLayoutMessages('customer/session');
-
-            $this->getLayout()->getBlock('content')->append(
-                $this->getLayout()->createBlock('customer/address_book')
-            );
             $this->renderLayout();
-        } else $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
+        } 
+        else {
+            $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
+        }
     }
 
     public function editAction()
@@ -51,14 +49,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
+        $this->loadLayout(array('default', 'customer_account', 'customer_address'), 'customer_address');
         $this->_initLayoutMessages('customer/session');
-
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('customer/address_edit')
-        );
-
         $this->renderLayout();
     }
 

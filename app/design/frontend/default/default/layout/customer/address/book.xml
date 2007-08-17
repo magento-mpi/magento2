@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="content">
+        <block type="customer/address_book" name="address_book" before="-">
+            <action method="setTemplate"><template>customer/address/book.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>
