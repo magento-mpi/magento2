@@ -24,3 +24,5 @@ update core_config_field set frontend_type='select', source_model='adminhtml/sys
 
 EOT
 );
+
+$this->addConfigField('design/package/translate', 'Translation theme');
