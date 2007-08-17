@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml tags by products report grid block
+ * Adminhtml tags by products total report grid block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Report_Tag_Product_All_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
             ->addAttributeToSelect('name');
         
         $collection->getSelect()
-            ->joinRight(array('tr' => 'tag_relation'), 'tr.product_id=e.entity_id', array('taged' => 'count(DISTINCT(tr.tag_id))'))
+            ->joinRight(array('tr' => 'tag_relation'), 'tr.product_id=e.entity_id', array('taged' => 'count(tr.tag_id)'))
             ->joinRight(array('t' => 'tag'), 't.tag_id=tr.tag_id', 'status')
             ->where('t.status='.Mage_Tag_Model_Tag::STATUS_APPROVED)
             ->group('tr.product_id')
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
         ));    
         
         $this->addColumn('taged', array(
-            'header'    =>__('Number of Unique Tags'),
+            'header'    =>__('Number of Total Tags'),
             'width'     =>'40px',
             'index'     =>'taged'
         ));

@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml report review product blocks content block
+ * Adminhtml tag report product blocks content block
  *
  * @package     Mage
  * @subpackage  Adminhtml
