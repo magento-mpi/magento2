@@ -62,15 +62,6 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return $this;
     }
     
-    public function addSearchFilter($query)
-    {
-    	$this->addAttributeToFilter(array(
-            array('attribute'=>'name', 'like'=>$query.'%'),
-            array('attribute'=>'description', 'like'=>$query.'%')
-        ));
-    	return $this;
-    }
-    
     /**
      * Adding product store names to result collection
      *
@@ -225,6 +216,12 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return $sql;
     }
     
+    /**
+     * Adding product count to categories collection
+     *
+     * @param   Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
+     * @return  Mage_Eav_Model_Entity_Collection_Abstract
+     */
     public function addCountToCategories($categoryCollection)
     {
         foreach ($categoryCollection as $category) {
@@ -247,5 +244,60 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         	$category->setProductCount((int) $this->_read->fetchOne($select));
         }
         return $this;
+    }
+    
+    public function addSearchFilter($query)
+    {
+        $entity = $this->getEntity();
+        
+        $attributesCollection = Mage::getResourceModel('eav/entity_attribute_collection')
+            ->setEntityTypeFilter($this->getEntity()->getConfig()->getId())
+            ->load();
+        
+        $tables = array();
+        foreach ($attributesCollection as $attribute) {
+            $attribute->setEntity($entity);
+        	if ($attribute->getIsSearchable()) {
+        	    $table = $attribute->getBackend()->getTable();
+        	    if (!isset($tables[$table])) {
+        	        $tables[$table] = array();
+        	        $tables[$table]['attributes']  = array();
+        	        $tables[$table]['condition']   = array();
+        	    }
+        	    $tables[$table]['attributes'][] = $attribute->getId();
+        	}
+        }
+        
+        $select = $this->getSelect()
+            ->distinct(true);
+        $condition = array();
+        
+        foreach ($tables as $tableName => $info) {
+            $tableAlias = $tableName . '_for_search';
+            $valueAlias = $tableName . '_value';
+            
+            $joinCondition = $tableAlias.'.entity_id=e.entity_id AND ' . 
+                $this->_read->quoteInto($tableAlias.'.store_id =? AND ', $entity->getStoreId()) .
+                $this->_read->quoteInto($tableAlias.'.attribute_id IN (?)', $info['attributes']);
+        	$select->joinLeft(array($tableAlias=>$tableName), $joinCondition, new Zend_Db_Expr('1'));
+        	$condition[] = $tableAlias . '.value LIKE \'%' . $query . '%\'';
+        }
+        
+        $condition = '(' . implode(') OR (', $condition) . ')';
+        $select->where($condition);
+        /*$filters = array();
+        foreach ($attributesCollection as $attribute) {
+        	if ($attribute->getIsSearchable()) {
+        	    $filters[] = array(
+        	       'attribute' => $attribute->getAttributeCode(),
+        	       'like'      => $query.'%',
+        	    );
+        	}
+        }
+        
+        
+    	$this->addAttributeToFilter($filters);*/
+        
+    	return $this;
     }
 }

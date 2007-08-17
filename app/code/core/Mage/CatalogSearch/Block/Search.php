@@ -46,7 +46,7 @@ class Mage_CatalogSearch_Block_Search extends Mage_Core_Block_Template
             ->addAttributeToSelect('description')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
-//            ->addSearchFilter($query)
+            ->addSearchFilter($query)
             ->setOrder($request->getParam('order','name'), $request->getParam('dir','asc'))
             ->setCurPage($page)
             ->setPageSize(9)
