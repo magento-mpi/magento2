@@ -8,33 +8,31 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
         $this->setId('gridProducts');
-        $this->setDefaultSort('id');
-        $this->setDefaultDir('desc');
     }
 
     protected function _prepareCollection()
     {     
-              
-        $collection = Mage::getModel('review/review')->getProductCollection()
-            ->addRateVotes();
+        
+        $collection = Mage::getResourceModel('catalog/product_collection')
+            ->addAttributeToSelect('name');
         
         $collection->getSelect()
-            ->from('', array('count(rt.entity_id) as review_cnt', 'max(rt.created_at) as last_created'))
-            ->group('rt.entity_pk_value');
+            ->joinRight(array('tr' => 'tag_relation'), 'tr.product_id=e.entity_id', array('taged' => 'count(DISTINCT(tr.tag_id))'))
+            ->joinRight(array('t' => 'tag'), 't.tag_id=tr.tag_id', 'status')
+            ->where('t.status='.Mage_Tag_Model_Tag::STATUS_APPROVED)
+            ->group('tr.product_id')
+            ->order('taged DESC');     
         
-        $collection->getEntity()->setStore(0);
+        //echo $collection->getSelect()->__toString();
         
         $this->setCollection($collection);
-                
-        parent::_prepareCollection();
-
-        return $this;
+        return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
@@ -52,22 +50,10 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
             'index'     =>'name'
         ));    
         
-        $this->addColumn('review_cnt', array(
-            'header'    =>__('Number of Reviews'),
+        $this->addColumn('taged', array(
+            'header'    =>__('Number of Unique Tags'),
             'width'     =>'40px',
-            'index'     =>'review_cnt'
-        ));
-        
-        $this->addColumn('avg_rating', array(
-            'header'    =>__('Average rating'),
-            'width'     =>'40px',
-            'index'     =>'avg_rating'
-        ));
-        
-        $this->addColumn('last_created', array(
-            'header'    =>__('Last Review'),
-            'width'     =>'40px',
-            'index'     =>'last_created'
+            'index'     =>'taged'
         ));
          
         $this->setFilterVisibility(false); 
