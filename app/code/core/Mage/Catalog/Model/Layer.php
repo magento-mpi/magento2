@@ -20,25 +20,32 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection = $this->getData('product_collection');
         if (is_null($collection)) {
             $collection = $this->getCurrentCategory()->getProductCollection()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('image')
-                ->addAttributeToSelect('small_image')
-                ->addAttributeToSelect('description')
-                ->addCategoryFilter($this->getCurrentCategory())
-                ->joinField('store_id', 
-                    'catalog/product_store', 
-                    'store_id', 
-                    'product_id=entity_id', 
-                    '{{table}}.store_id='.(int) $this->getCurrentStore()->getId());
-                    
-            
-            $collection->getEntity()->setStore((int) $this->getCurrentStore()->getId());
-            $collection->addAttributeToFilter('status', array('in'=>$collection->getObject()->getVisibleInCatalogStatuses()));
+                ->addCategoryFilter($this->getCurrentCategory());
+            $this->prepareProductCollection($collection);
             $this->setData('product_collection', $collection);
         }
         
         return $collection;
+    }
+    
+    public function prepareProductCollection($collection)
+    {
+        $collection->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('image')
+            ->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('description')
+            ->joinField('store_id', 
+                'catalog/product_store', 
+                'store_id', 
+                'product_id=entity_id', 
+                '{{table}}.store_id='.(int) $this->getCurrentStore()->getId());
+                
+        
+        $collection->getEntity()->setStore((int) $this->getCurrentStore()->getId());
+        $collection->addAttributeToFilter('status', array('in'=>$collection->getObject()->getVisibleInCatalogStatuses()));
+        
+        return $this;
     }
     
     /**

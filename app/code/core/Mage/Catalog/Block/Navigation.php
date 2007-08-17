@@ -16,12 +16,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      * @param   int $maxChildLevel
      * @return  Varien_Data_Tree_Node_Collection
      */
-    protected function _getChildCategories($parent, $maxChildLevel=1, $withProductCount=false)
+    protected function _getChildCategories($parent, $maxChildLevel=1)
     {
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
-            ->addAttributeToSelect('is_active')
-            ->setLoadProductCount($withProductCount);
+            ->addAttributeToSelect('is_active');
             
         $tree = Mage::getResourceModel('catalog/category_tree');
         
@@ -52,8 +51,21 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentChildCategories()
     {
-        $parent = $this->getRequest()->getParam('id');
-        return $this->_getChildCategories($parent, 1, true);
+        $layer = Mage::getSingleton('catalog/layer');
+        $categoty   = $layer->getCurrentCategory();
+        $collection = Mage::getResourceModel('catalog/category_collection')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('all_children')
+            ->addAttributeToSelect('is_anchor')
+            ->addIdFilter($categoty->getChildren())
+            ->load();
+        
+        $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $layer->prepareProductCollection($productCollection);
+        $productCollection->addCountToCategories($collection);            
+        return $collection;
+        /*$parent = $this->getRequest()->getParam('id');
+        return $this->_getChildCategories($parent, 1);*/
     }
     
     

@@ -285,18 +285,6 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         
         $condition = '(' . implode(') OR (', $condition) . ')';
         $select->where($condition);
-        /*$filters = array();
-        foreach ($attributesCollection as $attribute) {
-        	if ($attribute->getIsSearchable()) {
-        	    $filters[] = array(
-        	       'attribute' => $attribute->getAttributeCode(),
-        	       'like'      => $query.'%',
-        	    );
-        	}
-        }
-        
-        
-    	$this->addAttributeToFilter($filters);*/
         
     	return $this;
     }

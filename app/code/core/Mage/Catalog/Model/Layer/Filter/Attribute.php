@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
     
     public function getName()
     {
-        return $this->getAttributeModel()->getFrontend()->getLabel();
+        return __($this->getAttributeModel()->getFrontend()->getLabel());
     }
     
     protected function _initItems()
