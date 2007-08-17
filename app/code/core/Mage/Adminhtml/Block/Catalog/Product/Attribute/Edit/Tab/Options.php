@@ -51,6 +51,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
 	    if (is_null($stores)) {
             $stores = Mage::getModel('core/store')
     	        ->getResourceCollection()
+    	        ->setLoadDefault(true)
     	        ->load();
             $this->setData('stores', $stores);
 	    }

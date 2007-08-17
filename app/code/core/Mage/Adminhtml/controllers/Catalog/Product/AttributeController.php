@@ -122,6 +122,13 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['is_global'] = $model->getIsGlobal();
             }
             
+            /**
+             * @todo need specify relations for properties
+             */
+            if (isset($data['frontend_input']) && $data['frontend_input'] == 'multiselect') {
+                $data['backend_model'] = 'eav/entity_attribute_backend_array';
+            }
+            
             $model->addData($data);
 
             if (!$id) {

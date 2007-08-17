@@ -457,7 +457,8 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 
     public function getStoreCollection($product)
     {
-        $collection = Mage::getResourceModel('core/store_collection');
+        $collection = Mage::getResourceModel('core/store_collection')
+            ->setLoadDefault(true);
         /* @var $collection Mage_Core_Model_Mysql4_Collection_Abstract */
         
         $collection->getSelect()
