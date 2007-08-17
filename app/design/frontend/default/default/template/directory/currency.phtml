@@ -1,18 +1,30 @@
-<?if($currencies->getSize()>1):?>
-<div class="catalog-nav">
-    <h2>You Currency</h2>
-    <select name="currency" onchange="changeCurrency(this)">
-    <?foreach ($currencies as $_currency):?>
-        <option value="<?=$_currency->getCurrencyCode()?>"<?if($currentCurrencyCode==$_currency->getCurrencyCode()):?> selected<?endif;?>>
-            <?=$_currency->getCurrencyName()?>
-        </option>
-    <?endforeach;?>
-    </select>
+<?
+/**
+ * Currency switcher
+ * 
+ * @see Mage_Directory_Block_Currency
+ */
+?>
+<?if($this->getCurrencyCount()):?>
+<div class="box currency-switcher">
+    <div class="head">
+        <span class="corner"></span>
+        <h3>Select Currency</h3>
+    </div>
+    <div class="box-container">
+        <select name="currency" onchange="changeCurrency(this)">
+        <?foreach ($this->getCurrencies() as $_currency):?>
+            <option value="<?=$_currency->getCurrencyCode()?>"<?if($_currency->getCurrencyCode()==$this->getCurrentCurrencyCode()):?>selected="selected"<?endif;?>>
+                <?=$_currency->getCurrencyName()?> - <?=$_currency->getCurrencyCode()?>
+            </option>
+        <?endforeach;?>
+        </select>
+    </div>
 </div>
 <script type="text/javascript">
 function changeCurrency(sObject){
     if(sObject.value){
-        location.href = '<?=$baseUrl?>directory/currency/switch/currency/'+sObject.value+'/';
+        setLocation('<?=$this->getSwitchUrl()?>currency/'+sObject.value+'/');
     }
 }
 </script>

@@ -271,7 +271,13 @@ final class Mage {
     
     public static function currency($value, $format=true)
     {
-    	return Mage::getSingleton('core/store')->convertPrice($value, $format);
+        try {
+            $value = Mage::getSingleton('core/store')->convertPrice($value, $format);
+        }
+        catch (Exception $e){
+            $value = $e->getMessage();
+        }
+    	return $value;
     }
 
     /**

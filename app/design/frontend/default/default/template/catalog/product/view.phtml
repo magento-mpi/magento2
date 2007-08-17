@@ -200,7 +200,7 @@
             <div class="head">
                 <h4>Product Attribute Specs</h4>
             </div>
-            <table cellspacing="0" class="data-table">
+            <table cellspacing="0" class="data-table" id="product-attribute-specs-table">
             <?foreach ($_additional as $_data):?>
             <tr>
                 <td class="label"><?=$_data['label']?></td>
@@ -208,6 +208,7 @@
             </tr>
             <?endforeach;?>
             </table>
+            <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
         </div>
         <?endif;?>
 

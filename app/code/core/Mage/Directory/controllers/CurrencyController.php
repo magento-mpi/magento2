@@ -15,11 +15,5 @@ class Mage_Directory_CurrencyController extends Mage_Core_Controller_Front_Actio
         if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
             $this->getResponse()->setRedirect($referer);
         }
-        $this->loadLayout();
-        $block = $this->getLayout()->createBlock('core/template', 'currency.switch')
-            ->setTemplate('directory/currency/switch.phtml')
-            ->assign('currency', Mage::getSingleton('core/store')->getCurrentCurrency());
-        $this->getLayout()->getBlock('content')->append($block);
-        $this->renderLayout();
     }
 }

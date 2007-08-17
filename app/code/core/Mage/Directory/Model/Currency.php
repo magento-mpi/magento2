@@ -97,7 +97,7 @@ class Mage_Directory_Model_Currency extends Varien_Object
         elseif ($rate = $this->getRate($toCurrency)) {
             return $price*$rate;
         }
-        throw new Exception('Undefined rate from "'.$this->getCode().'-'.$toCurrency.'"');
+        throw new Exception('Undefined rate from "'.$this->getCode().'-'.$toCurrency->getCode().'"');
     }
     
     /**

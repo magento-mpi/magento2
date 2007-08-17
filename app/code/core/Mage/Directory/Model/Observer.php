@@ -17,19 +17,18 @@ class Mage_Directory_Model_Observer
      */
     public function actionPreDispatch($observer)
     {
-        Mage::log('Directory observer: action predispatch event');
         $code = Mage::getSingleton('core/store')->getDefaultCurrencyCode();
         if ($code) {
             $currency = Mage::getModel('directory/currency')->load($code);
             Mage::getSingleton('core/store')->setDefaultCurrency($currency);
         }
-        /*
+        
         if ($observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
             Mage::getSingleton('core/store')->setCurrentCurrencyCode(
                 $observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')
             );
         }
-        */
+        
         $code = Mage::getSingleton('core/store')->getCurrentCurrencyCode();
         if ($code) {
             $currency = Mage::getModel('directory/currency')->load($code);
