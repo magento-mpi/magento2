@@ -2,7 +2,7 @@
 
 $conn->multi_query(<<<EOT
 
-delete from core_config_field where path like 'design/package/%';
+delete from core_config_field where path like 'design%';
 
 update core_config_data set value='{{root_dir}}/skin' where path='system/filesystem/skin';
 
