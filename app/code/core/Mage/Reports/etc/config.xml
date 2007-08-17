@@ -12,18 +12,25 @@
    </modules>
 
    <global>
-      <models>
-         <reports_config>
-            <class>Mage_Reports_Model_Config</class>
-         </reports_config>
-         <test_data>
-            <class>Mage_Reports_Model_Test</class>
-         </test_data>
-		 <session_data>
-            <class>Mage_Reports_Model_Session</class>
-         </session_data>
-      </models>
-
-      <resources> </resources>
+        <models>
+            <reports>
+                <class>Mage_Reports_Model</class>
+                <resourceModel>directory_mysql4</resourceModel>
+            </reports>    
+            <reports_mysql4>
+                <class>Mage_Reports_Model_Mysql4</class>
+                <entities>
+                </entities>
+            </reports_mysql4>
+        </models>
+        <resources>
+            <reports_write>
+                <connection><use>core_write</use></connection>
+            </reports_write>
+    
+            <reports_read>
+                <connection><use>core_read</use></connection>
+            </reports_read>
+        </resources>
    </global>
 </config>
