@@ -109,8 +109,7 @@ class Mage_Core_Controller_Varien_Front
         $routers = Mage::getConfig()->getNode($configArea.'/routers')->children();
         foreach ($routers as $routerName=>$routerConfig) {
             $use = (string)$routerConfig->use;
-            
-            if ($use===$useRouterName) {
+            if ($use==$useRouterName) {
                 $module = (string)$routerConfig->args->module;
                 $frontName = (string)$routerConfig->args->frontName;
                 $parentRouter->addModule($frontName, $module);

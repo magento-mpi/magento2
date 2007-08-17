@@ -82,13 +82,13 @@
             </customer_dashboard>
         </layouts>
         <routers>
-            <poll>
+            <tag>
                 <use>standard</use>
                 <args>
                     <module>Mage_Tag</module>
                     <frontName>tag</frontName>
                 </args>
-            </poll>
+            </tag>
         </routers>
     </frontend>
 </config>
