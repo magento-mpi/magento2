@@ -29,7 +29,7 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
 
         $result = Mage::getModel('shipping/rate_result');
         $rate = $this->getRate($request);
-        if (!empty($rate) && $rate >= 0) {
+        if (!empty($rate) && $rate['price'] >= 0) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
 
 	    	$method->setCarrier('tablerate');

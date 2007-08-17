@@ -102,6 +102,8 @@ class Mage_Shipping_Model_Shipping
         $request->setPackageValue($address->getSubtotal());
         $request->setPackageWeight($address->getWeight());
         $request->setPackageQty($address->getItemQty());
+        $request->setStoreId(Mage::getSingleton('core/store')->getId());
+        $request->setWebsiteId(Mage::getSingleton('core/store')->getWebsiteId());
 
         return $this->collectRates($request);
     }

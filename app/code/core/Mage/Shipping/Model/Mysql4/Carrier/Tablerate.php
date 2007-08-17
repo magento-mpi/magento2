@@ -64,6 +64,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate
             $select->where('condition_name=?', $request->getConditionName());
             $select->where('condition_value<=?', $request->getData($request->getConditionName()));
         }
+        $select->where('website_id=?', $request->getWebsiteId());
         $select->order('condition_value DESC')->limit(1);
         $row = $this->_read->fetchRow($select);
         return $row;
