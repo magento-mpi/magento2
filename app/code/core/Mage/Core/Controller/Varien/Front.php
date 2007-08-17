@@ -12,6 +12,19 @@ class Mage_Core_Controller_Varien_Front
 
     protected $_urlCache = array();
     
+    protected $_storeCode;
+    
+     public function setStoreCode($storeCode)
+     {
+     	$this->_storeCode = $storeCode;
+     	return $this;
+     }
+     
+     public function getStoreCode()
+     {
+     	return $this->_storeCode;
+     }
+
     public function setDefault($key, $value=null)
     {
         if (is_array($key)) {
@@ -65,31 +78,19 @@ class Mage_Core_Controller_Varien_Front
     
     public function init()
     {
+        Mage::dispatchEvent('beforeFrontRun');
+
         Varien_Profiler::start('ctrl/init');
         
-        // set defaults
-        $d = explode('/', Mage::getStoreConfig('web/default/front'));
-        $this->setDefault(array(
-            'module'     => isset($d[0]) ? $d[0] : 'core', 
-            'controller' => isset($d[1]) ? $d[1] : 'index', 
-            'action'     => isset($d[2]) ? $d[2] : 'index'
-        ));
-
-        // init standard modules router
+        // init admin modules router
+        $admin = new Mage_Core_Controller_Varien_Router_Admin();
+        $this->addRouter('admin', $admin);
+        $this->collectRouters('admin', 'admin', $admin);
+        
+        // init standard frontend modules router
         $standard = new Mage_Core_Controller_Varien_Router_Standard();
         $this->addRouter('standard', $standard);
-        
-        // init modules
-        $routers = Mage::getConfig()->getNode('frontend/routers')->children();
-        foreach ($routers as $routerName=>$routerConfig) {
-            $use = (string)$routerConfig->use;
-            
-            if ($use==='standard') {
-                $module = (string)$routerConfig->args->module;
-                $frontName = (string)$routerConfig->args->frontName;
-                $standard->addModule($frontName, $module);
-            }
-        }
+        $this->collectRouters('frontend', 'standard', $standard);
         
         // init custom routers
         Mage::dispatchEvent('initControllerRouters', array('front'=>$this));
@@ -101,6 +102,20 @@ class Mage_Core_Controller_Varien_Front
         Varien_Profiler::stop('ctrl/init');
         
         return $this;
+    }
+    
+    public function collectRouters($configArea, $useRouterName, Mage_Core_Controller_Varien_Router_Abstract $parentRouter)
+    {
+        $routers = Mage::getConfig()->getNode($configArea.'/routers')->children();
+        foreach ($routers as $routerName=>$routerConfig) {
+            $use = (string)$routerConfig->use;
+            
+            if ($use===$useRouterName) {
+                $module = (string)$routerConfig->args->module;
+                $frontName = (string)$routerConfig->args->frontName;
+                $parentRouter->addModule($frontName, $module);
+            }
+        }
     }
     
     public function dispatch()
@@ -178,6 +193,9 @@ class Mage_Core_Controller_Varien_Front
         // empty route supplied - return base url
         if (empty($routeName)) {
             $url = Mage::getBaseUrl();
+        } elseif ($this->getRouter('admin')->getRealModuleName($routeName)) {
+            // try standard router url assembly
+            $router = $this->getRouter('admin');        
         } elseif ($this->getRouter('standard')->getRealModuleName($routeName)) {
             // try standard router url assembly
             $router = $this->getRouter('standard');

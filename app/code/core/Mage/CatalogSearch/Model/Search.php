@@ -13,13 +13,15 @@ class Mage_CatalogSearch_Model_Search extends Mage_Core_Model_Abstract
     	return $this;
     }
     
-    public function updateSearch($query, $numResults)
+    public function updateSearch($query, $numResults=null)
     {
         $this->getResource()->loadByQuery($this, $query);
         if (!$this->getSearchId()) {
             $this->setSearchQuery($query);
         }
-        $this->setNumResults($numResults);
+        if (!is_null($numResults)) {
+        	$this->setNumResults($numResults);
+        }
         $this->setPopularity($this->getPopularity()+1);
         
         $this->save();

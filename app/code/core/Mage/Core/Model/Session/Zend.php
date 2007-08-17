@@ -17,6 +17,11 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
      */
     protected $_session;
     
+    public function getSession()
+    {
+    	return $this->_session;
+    }
+    
     /**
      * Initialization session namespace
      *

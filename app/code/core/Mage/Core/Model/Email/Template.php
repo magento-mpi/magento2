@@ -27,7 +27,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     const TYPE_TEXT = 1;
     const TYPE_HTML = 2;
 
-    
+    protected $_templateFilter;
     protected $_preprocessFlag = false;
     
     /** 
@@ -38,6 +38,14 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function getResource()
     {
         return Mage::getResourceSingleton('core/email_template');
+    }
+    
+    public function getTemplateFilter()
+    {
+    	if (empty($this->_templateFilter)) {
+    		$this->_templateFilter = Mage::getModel('core/email_template_filter');
+    	}
+    	return $this->_templateFilter;
     }
   
     /**
@@ -114,7 +122,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     
     public function getProcessedTemplate(array $variables = array())
     {
-        $processor = new Varien_Filter_Template();
+        $processor = $this->getTemplateFilter();
         
         if(!$this->_preprocessFlag) {
         	$variables['this'] = $this;
@@ -159,7 +167,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
                 
         $variables['email'] = $email;
-        $variables['name'] = $email;
+        $variables['name'] = $name;
         
         $mail = new Zend_Mail('utf-8');
         $mail->addTo($email, $name);
@@ -213,7 +221,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     
     public function getProcessedTemplateSubject(array $variables) 
     {
-    	$processor = new Varien_Filter_Template();
+    	$processor = $this->getTemplateFilter();
         
         if(!$this->_preprocessFlag) {
         	$variables['this'] = $this;

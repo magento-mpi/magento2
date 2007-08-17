@@ -107,7 +107,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping', array());
             $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
-            $result = $this->getOnepage()->saveShipping($adta, $customerAddressId);
+            $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }

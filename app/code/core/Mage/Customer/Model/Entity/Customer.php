@@ -48,6 +48,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 //        }
         $collection = Mage::getResourceModel('customer/customer_collection')
             ->addAttributeToFilter('email', $customer->getEmail())
+            ->addAttributeToFilter('entity_id', array('neq' => $customer->getId()))
             ->addAttributeToFilter('store_id', array('in' => $customer->getSharedStoreIds()))
             ->setPage(1,1)
             ->load();
@@ -67,6 +68,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             }
             else {
                 $address->setParentId($customer->getId())
+                	->setStoreId($customer->getStoreId())
                     ->save();
             }
         }

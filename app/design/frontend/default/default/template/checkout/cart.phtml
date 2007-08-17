@@ -53,7 +53,7 @@
                 <a href="<?=$this->getUrl('catalog/product/view/id/'.$_item->getProductId())?>"><strong><?=$_item->getName()?></strong></a>
                 <?=$_item->getDescription();?>                
             </td>
-            <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][remove]"/><!--<a href="#"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" alt="Remove item"/>--></td>
+            <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
 <?if($this->isWishlistActive()):?>            
             <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][wishlist]"/></td>
 <?endif?>

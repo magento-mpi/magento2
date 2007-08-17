@@ -14,14 +14,6 @@ class Varien_Filter_Template_Simple extends Varien_Object implements Zend_Filter
 	
 	public function filter($value)
 	{
-		$replaceFrom = array();
-		$replaceTo = array();
-		foreach ($this->getData() as $k=>$v) {
-			if (is_string($v)) {
-				$replaceFrom[] = $this->_startTag.$k.$this->_endTag;
-				$replaceTo[] = $v;
-			}
-		}
-		return str_replace($replaceFrom, $replaceTo, $value);
+		return preg_replace('#'.$this->_startTag.'(.*?)'.$this->_endTag.'#e', '$this->getData("$1")', $value);
 	}
 }

@@ -54,8 +54,8 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         $config = array();
 
         // load websites and stores from db
-        $d['websites'] = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website')." where website_id>0");
-        $d['stores'] = $read->fetchAssoc("select store_id, code, name, website_id from ".$this->getTable('store')." where store_id>0");
+        $d['websites'] = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
+        $d['stores'] = $read->fetchAssoc("select store_id, code, name, website_id from ".$this->getTable('store'));
 #print_r($websites);
         // initialize websites config
         foreach ($d['websites'] as $wId=>$wData) {
@@ -111,7 +111,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             foreach ($scopeConfig as $sId=>$sConfig) {
                 foreach ($sConfig as $path=>$data) {
                     // get config prefix: 'global' or 'websites/{code}' or 'stores/{code}'
-                    $prefix = $scope.($sId!==0 ? '/'.$d[$scope][$sId]['code'] : '');
+                    $prefix = $scope.($scope!=='default' ? '/'.$d[$scope][$sId]['code'] : '');
 #echo "<pre>".print_r($prefix.'/'.$path,1)."</pre>";
 
                     $xmlConfig->setNode($prefix.'/'.$path, $data['value']);

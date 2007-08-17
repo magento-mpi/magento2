@@ -3,19 +3,40 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 {
     protected $_modules = array();
     protected $_dispatchData = array();
-
+    
+    public function fetchDefault()
+    {
+        $storeCode = Mage::registry('controller')->getStoreCode();
+        $store = Mage::getSingleton('core/store')->load($storeCode);
+        Mage::getSingleton('core/website')->load($store->getWebsiteId());
+        
+    	// set defaults
+        $d = explode('/', Mage::getStoreConfig('web/default/front'));
+        $this->getFront()->setDefault(array(
+            'module'     => !empty($d[0]) ? $d[0] : 'core', 
+            'controller' => !empty($d[1]) ? $d[1] : 'index', 
+            'action'     => !empty($d[2]) ? $d[2] : 'index'
+        ));
+    }
+    
     public function match(Zend_Controller_Request_Http $request)
     {
-        $p = explode('/', trim($request->getPathInfo(), '/'));
+        $this->fetchDefault();
 
         $front = $this->getFront();
+        
+        $p = explode('/', trim($request->getPathInfo(), '/'));
 
         // get module name
         if ($request->getModuleName()) {
             $module = $request->getModuleName();
         } else {
-            $module = !empty($p[0]) ? $p[0] : $front->getDefault('module');
+        	$p = explode('/', trim($request->getPathInfo(), '/'));
+            $module = !empty($p[0]) ? $p[0] : $this->getFront()->getDefault('module');
         }
+		if (!$module) {
+			return false;
+		}
         $realModule = $this->getRealModuleName($module);
         if (!$realModule) {
             if ($moduleFrontName = array_search($module, $this->_modules)) {

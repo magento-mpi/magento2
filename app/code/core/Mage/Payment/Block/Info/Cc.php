@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
+class Mage_Payment_Block_Info_Cc extends Mage_Core_Block_Template
 {
     protected function _construct()
     {

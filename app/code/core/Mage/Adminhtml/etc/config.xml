@@ -24,17 +24,17 @@
         </block>
    </global>
    
-   <frontend>
+   <admin>
       <routers>
          <adminhtml>
-            <use>standard</use>
+            <use>admin</use>
             <args>
                <module>Mage_Adminhtml</module>
                <frontName>adminhtml</frontName>
             </args>
          </adminhtml>
       </routers>
-   </frontend>
+   </admin>
    
    <adminhtml>
       <layouts>

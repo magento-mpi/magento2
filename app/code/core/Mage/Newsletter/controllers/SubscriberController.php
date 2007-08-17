@@ -57,13 +57,13 @@
                     $template = Mage::getModel('newsletter/template')->load(Mage::getStoreConfig('email/subscription_confirm'));
                     $template->send($subscriber, array('subscriber'=>$subscriber));
                 }
-                $session->addSuccess('You successfully subscribed');
+                $session->addSuccess(__('You have been successfully subscribed'));
             }
             catch(Exception $e) {
                 // Nothing
             }
         } else {
-            $session->addSuccess('You successfully subscribed');
+            $session->addSuccess(__('You have been successfully subscribed'));
         }
         
         $this->_redirect('*/*');

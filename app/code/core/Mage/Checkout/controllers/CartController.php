@@ -154,6 +154,18 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_backToCart();
     }
     
+    public function deleteAction()
+    {
+    	$id = $this->getRequest()->getParam('id');
+    	try {
+    		$this->getQuote()->removeItem($id)->save();
+    	} catch (Exception $e) {
+    		
+    	}
+    	
+    	$this->_backToCart();
+    }
+    
     public function cleanAction()
     {
         

@@ -9,16 +9,24 @@
  */
 class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+	protected $_loadDefault = false;
+    
     protected function _construct()
     {
         $this->_init('core/store');
     }
+
+    public function setLoadDefault($loadDefault)
+    {
+    	$this->_loadDefault = $loadDefault;
+    	return $this;
+    }
     
+    public function getLoadDefault()
+    {
+    	return $this->_loadDefault;
+    }
+
     public function setWithoutDefaultFilter()
     {
         $this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
@@ -73,5 +81,13 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
     {
         return $this->_toOptionHash('store_id', 'name');
     }
-
+    
+    public function load($printQuery = false, $logQuery = false)
+    {
+    	if (!$this->getLoadDefault()) {
+    		$this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
+    	}
+    	parent::load($printQuery, $logQuery);
+    	return $this;
+    }
 }

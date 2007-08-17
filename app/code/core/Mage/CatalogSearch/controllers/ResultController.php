@@ -14,6 +14,7 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
 
         if ($searchQuery && ($search = Mage::getModel('catalogsearch/search')->loadByQuery($searchQuery))) {
         	if ($search->getRedirect()) {
+        		Mage::getBlock('catalogsearch/search')->updateQuery($searchQuery);
         		$this->getResponse()->setRedirect($search->getRedirect());
         		return;
         	}
@@ -25,6 +26,10 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
             $this->getLayout()->getBlock('top.search')->assign('query', $searchQuery);
             $searchResBlock = $this->getLayout()->createBlock('catalogsearch/search', 'search.result', array('query'=>$searchQuery));
             $searchResBlock->loadByQuery($this->getRequest());
+            
+            if ($searchResBlock->hasResults()) {
+            	Mage::getBlock('catalogsearch/search')->updateQuery($searchQuery, $searchResBlock->getNumResults());
+            }
             
             $this->getLayout()->getBlock('content')->append($searchResBlock);
         }

@@ -55,7 +55,7 @@ abstract class Mage_Core_Controller_Varien_Action
      {
 
      }
-
+     
     /**
      * Retrieve request object
      *

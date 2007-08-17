@@ -312,15 +312,9 @@ final class Mage {
 
             Mage::init();
             Mage::log('===================== START ==========================');
-            Mage::getConfig()->loadEventObservers('front');
-
-            $store = Mage::getSingleton('core/store')->setCode($storeCode);
-            Mage::getSingleton('core/website')->setCode($store->getWebsiteCode());
-
-            Mage::dispatchEvent('beforeFrontRun');
 
             Mage::register('controller', new Mage_Core_Controller_Varien_Front());
-            Mage::registry('controller')->init()->dispatch();
+            Mage::registry('controller')->setStoreCode($storeCode)->init()->dispatch();
 
             Varien_Profiler::stop('app');
         }

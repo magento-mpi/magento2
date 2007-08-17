@@ -17,23 +17,30 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     {
     	$this->getConnection('write')->delete($this->getTable('config_data'), "path like 'advanced/datashare/%'");
     	
-    	$websites = Mage::getResourceModel('core/website_collection')->load();
-    	$stores = Mage::getResourceModel('core/store_collection')->load();
+    	$websites = Mage::getResourceModel('core/website_collection')->setLoadDefault(true)->load();
+    	$stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load();
     	$fields = Mage::getResourceModel('core/config_field_collection')
     		->addFieldToFilter('path', array('like'=>'advanced/datashare/%'))
     		->load();
     	$data = Mage::getModel('core/config_data')
     		->setScope('websites');
     	
+    	$allStoreIds = array();
     	foreach ($stores as $s) {
     		$w = $websites->getItemById($s->getWebsiteId());
     		if (!$w) {
     			continue;
     		}
     		$stores = $w->getStores();
+    		if (empty($stores)) {
+    			$stores = array();
+    		}
     		$stores[] = $s->getId();
     		$w->setStores($stores);
+    		$allStoreIds[] = $s->getId();
     	}
+    	$websites->getItemById(0)->setStores($allStoreIds);
+    	
     	foreach ($websites as $w) {
     		if (!$w->getStores()) {
     			continue;

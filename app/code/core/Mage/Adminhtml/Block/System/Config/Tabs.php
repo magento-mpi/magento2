@@ -74,6 +74,9 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         );
         
         foreach ($websitesConfig->children() as $wCode=>$wConfig) {
+        	if ($wConfig->descend('system/website/id')==0) {
+        		continue;
+        	}
             $options['website_'.$wCode] = array(
                 'label'    => (string)$wConfig->descend('system/website/name'),
                 'url'      => Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode)),

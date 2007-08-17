@@ -34,10 +34,10 @@ class Varien_Filter_Template implements Zend_Filter_Interface
      * Allowed template directives
      * @var array
      */
-    protected $_allowedDirectives = array('insvar', 'include');
+    protected $_allowedDirectives = array('var', 'include');
     
     /**
-     * Sets template variables that's can be called througth {insvar ...} statement
+     * Sets template variables that's can be called througth {var ...} statement
      * 
      * @param array $variables
      */
@@ -78,42 +78,48 @@ class Varien_Filter_Template implements Zend_Filter_Interface
      */
     public function filter($value)
     {
-        
-        if(preg_match_all(self::CONSTRUCTION_PATTERN, $value, $constructions)) {
-            foreach($constructions[1] as $index=>$directive) {
+        if(preg_match_all(self::CONSTRUCTION_PATTERN, $value, $constructions, PREG_SET_ORDER)) {
+            foreach($constructions as $index=>$construction) {
                 $replacedValue = '';
-                if(!in_array($directive, $this->_allowedDirectives)) {
+                $callback = array($this, $construction[1].'Directive');
+                if(!in_array($construction[1], $this->_allowedDirectives) || !is_callable($callback)) {
                     continue;
                 }
-                switch($directive) {
-                    case "insvar":
-                        // Processing of {insvar ...} statement
-                        $replacedValue = $this->_getVariable($constructions[2][$index], $constructions[0][$index]);
-                        break;
-                    
-                    case "include":
-                        // Processing of {include template=... [...]} statement
-                        $includeParameters = $this->_getIncludeParameters($constructions[2][$index]);
-                        if(!isset($includeParameters['template']) or !$this->getIncludeProcessor()) {
-                            // Not specified template or not seted include processor
-                            $replacedValue = '{' . __('Error in include processing') . '}';
-                        } else { 
-                            // Including of template
-                            $templateCode = $includeParameters['template'];
-                            unset($includeParameters['template']);
-                            $replacedValue = call_user_func_array($this->getIncludeProcessor(), 
-                                                                  array($templateCode,$includeParameters));
-                        }
-                        break;
+                try {
+					$replacedValue = call_user_func($callback, $construction);
+                } catch (Exception $e) {
+                	throw $e;
                 }
-                
-                $value = str_replace($constructions[0][$index], $replacedValue, $value);
+                $value = str_replace($construction[0], $replacedValue, $value);
             }
         }
         
         return $value;
     }
-      
+    
+    
+    public function varDirective($construction)
+    {
+    	$replacedValue = $this->_getVariable($construction[2], $construction[0]);
+    	return $replacedValue;
+    }
+    
+    public function includeDirective($construction)
+    {
+// Processing of {include template=... [...]} statement
+        $includeParameters = $this->_getIncludeParameters($construction[2]);
+        if(!isset($includeParameters['template']) or !$this->getIncludeProcessor()) {
+            // Not specified template or not seted include processor
+            $replacedValue = '{' . __('Error in include processing') . '}';
+        } else { 
+            // Including of template
+            $templateCode = $includeParameters['template'];
+            unset($includeParameters['template']);
+            $includeParameters = array_merge_recursive($includeParameters, $this->_templateVars);
+            $replacedValue = call_user_func($this->getIncludeProcessor(), $templateCode, $includeParameters);
+        }
+        return $replacedValue;
+    }
     
     /**
      * Return associative array of include construction.
@@ -130,7 +136,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
     }
     
      /**
-     * Return variable value for insvar construction
+     * Return variable value for var construction
      *
      * @param string $value raw parameters
      * @param string $default default value

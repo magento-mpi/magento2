@@ -1,0 +1,1 @@
+UPDATE `directory_country` SET `address_template_html`='<b>{{firstname}} {{lastname}}</b><br/>\r\n{{company}}<br/>\r\n{{street}}<br/>\r\n{{city}}, {{region}} {{postcode}}<br/>\r\nT: {{telephone}}' WHERE `country_id`=223;

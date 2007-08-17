@@ -8,12 +8,14 @@
 			<h4 class="complete">Billing Address<span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('opc-billing');return false;">Edit</a></h4>
 
 			<div class="content">
-				<address><?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br/>
+				<address>
+				<?=$this->getBilling()->getFormated(true)?>
+				<!--<?=$this->getBilling()->getFirstname()?> <?=$this->getBilling()->getLastname()?><br/>
 				<?if($this->getBilling()->getCompany()):?><?=$this->getBilling()->getCompany()?><br/><?endif?>
 				<?=$this->getBilling()->getStreet(1)?><br/>
 				<?if($this->getBilling()->getStreet(2)):?><?=$this->getBilling()->getStreet(2)?><br/><?endif?>
 				<?=$this->getBilling()->getCity()?>, <?=$this->getBilling()->getRegion()?> <?=$this->getBilling()->getPostcode()?><br/>
-				<?=$this->getBilling()->getCountry()?></address></div></li>
+				<?=$this->getBilling()->getCountry()?>--></address></div></li>
 <?else:?>
 		<li>
 			<h4>Billing Address</h4>
@@ -23,12 +25,13 @@
 <?if($this->getCheckout()->getStepData('shipping', 'complete')):?>
 		<li><h4 class="complete">Shipping Address<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-shipping');return false;">Edit</a></h4>	
 			<div class="content">
-				<address><?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br/>
+				<address><?=$this->getShipping()->getFormated(true)?>
+				<!--<?=$this->getShipping()->getFirstname()?> <?=$this->getShipping()->getLastname()?><br/>
 				<?if ($this->getShipping()->getCompany()):?><?=$this->getShipping()->getCompany()?><br/><?endif?>
 				<?=$this->getShipping()->getStreet(1)?><br/>
 				<?if($this->getShipping()->getStreet(2)):?><?=$this->getShipping()->getStreet(2)?><br/><?endif?>
 				<?=$this->getShipping()->getCity()?>, <?=$this->getShipping()->getRegion()?> <?=$this->getShipping()->getPostcode()?><br/>
-				<?=$this->getShipping()->getCountry()?></address></div></li>
+				<?=$this->getShipping()->getCountry()?>--></address></div></li>
 <?else:?>
 		<li>
 			<h4>Shipping Address</h4>

@@ -66,6 +66,13 @@
     </global>
     <frontend>
         <layouts>
+            <default>
+                <updates>
+                    <newsletter>
+                        <file>newsletter/initLayout.xml</file>
+                    </newsletter>
+                </updates>
+            </default>
             <customer_account>
                 <updates>
                     <newsletter_account>

@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
         if ($customer->getId()) {
             $form->getElement('created_in')->setDisabled(true);
-            $fieldset->removeField('store_id');
+            $form->getElement('store_id')->setType('hidden');
         } else {
             $fieldset->removeField('created_in');
         }

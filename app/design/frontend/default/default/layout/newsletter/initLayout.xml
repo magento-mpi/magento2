@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="right">
+        <block type="newsletter/subscribe" name="right.newsletter">
+            <action method="setTemplate"><template>newsletter/subscribe.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

@@ -18,7 +18,7 @@ Checkout.prototype = {
     }, 
     
     reloadProgressBlock: function(){
-        var updater = new Ajax.Updater($$('.col-left')[0], this.progressUrl, {method: 'get'});
+        var updater = new Ajax.Updater($$('.col-right')[0], this.progressUrl, {method: 'get'});
     },
         
     reloadReviewBlock: function(){
@@ -84,7 +84,7 @@ Checkout.prototype = {
             //this.setShipping();
             shipping.nextStep();
         } else {
-            $('shipping:same_as_billing').checked = false;
+            $('shipping:same_as_billing').checked = false
             this.reloadProgressBlock();
         }
         this.accordion.openNextSection(true);

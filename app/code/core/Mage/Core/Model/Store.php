@@ -177,13 +177,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return $this->_urlCache[$cacheKey];
         }
 
-        if (!empty($_SERVER['HTTPS'])) {
-            if (empty($params['_secure']) || !empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
+        $isCurrentlySecure = !empty($_SERVER['HTTPS']);
+        if ($isCurrentlySecure) {
+            if (empty($params['_secure']) && !empty($params['_type']) && ('skin'===$params['_type'] || 'js'===$params['_type'])) {
                 $params['_secure'] = true;
             }
         }
-
-        $config = $this->getConfig('web/'.(empty($params['_secure']) ? 'unsecure' : 'secure'));
+        
+        $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
+        $config = $this->getConfig($configKey);
         $protocol = $config['protocol'];
         $host = $config['host'];
         $port = $config['port'];

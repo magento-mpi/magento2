@@ -53,7 +53,16 @@ class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
 T: {{telephone}}";
     		}
     	}
+    	
     	$filter = new Varien_Filter_Template_Simple();
-    	return $filter->setData($this->getData())->filter($template);
+    	$addressText = $filter->setData($address->getData())->filter($template);
+    	
+    	if ($html) {
+    		$addressText = preg_replace('#(<br\s*/?>\s*){2,}#im', '<br/>', $addressText);
+    	} else {
+    		$addressText = preg_replace('#(\n\s*){2,}#m', "\n", $addressText);
+    	}
+    	
+    	return $addressText;
     }
 }
