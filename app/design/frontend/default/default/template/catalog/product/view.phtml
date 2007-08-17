@@ -94,11 +94,10 @@
 	<?if($product->isBundle()):?>
 	<div class="product-attributes">
 		<?if($product->isAviableBundle()):?>
-		<table cellspacing="0">
+		<table cellspacing="0" id="bundle-price-table">
 		<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
 			<tr>
 				<td class="label"><?=$_bundleOption->getLabel()?>:</td>
-
 				<td>
 				<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
 				<select name="bundle_option[<?=$_bundleOption->getId()?>]">
@@ -116,6 +115,7 @@
 			</tr>
 		<?endforeach;?>
 		</table>
+<script type="text/javascript">decorateTable('bundle-price-table')</script>
 		<?else:?>
 		<p><?=__('This bundle is out of stock.')?></p>
 		<?endif;?>

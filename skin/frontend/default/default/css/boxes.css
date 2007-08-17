@@ -119,7 +119,7 @@ border:1px solid #de5400;
 
 
 .validation-advice, .required { color:#EB340A; }
-.validation-advice { clear:both; min-height:15px; margin-top:3px; background:url(../images/validation_advice_bg.gif) no-repeat 2px 3px; padding-left:17px; font-size:.95em; font-weight:bold; line-height:1.25em; }
+.validation-advice { clear:both; min-height:15px; margin-top:3px; background:url(../images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:17px; font-size:.95em; font-weight:bold; line-height:1.25em; }
 input.validation-failed { border:1px dashed #EB340A; background:#faebe7; }
 
 
@@ -365,20 +365,19 @@ h1#logo {
 /* Quick Access*/
 .quick-access { width:500px; float:right; margin-top:30px; text-align:right;padding:0 10px;}
 .quick-access p { margin-bottom:4px; }
-.quick-access li.first { padding-left:0;}
-.quick-access li.last { padding-right:0; background:none;}
-
-.account-access p, .account-access ul, .account-access li { display:inline; color:#fff; }
-.account-access a, .account-access a:hover { color:#e1f1fb; }
-.account-access .links { padding-left:10px; font-size:.95em; }
-
-.shop-access li {
+.quick-access li {
 	display:inline;
 	background:url(../images/shop_access_pipe.gif) no-repeat 100% .35em;
 	padding-right:7px;
 	padding-left:3px;
 	}
-.shop-access li.last { padding-right:0; background:none; }
+.quick-access li.first { padding-left:0;}
+.quick-access li.last { padding-right:0; background:none;}
+
+.account-access p, .account-access ul, .account-access li { display:inline; color:#fff; }
+.account-access a, .account-access a:hover { color:#e1f1fb; }
+.account-access ul { padding-left:10px; font-size:.95em; }
+
 .shop-access a, .shop-access a:hover { color:#ebbc58; font-size:.95em; }
 
 
@@ -738,17 +737,10 @@ p.grand_total { padding-right:15px; }
 
 
 /*********** [FOOTER] ************/
-.footer-container { 
-	border-top:15px solid #B6D1E2;
-	background:url(../images/footer_container_bg.gif) repeat-x;
-	}
+.footer-container { border-top:15px solid #B6D1E2; }
 .footer { 
 	width:930px; 
 	margin:0 auto; 
-	border-style:solid; 
-	border-width:0 1px; 
-	border-color:#3E5D70; 
-	background:url(../images/footer_bg.gif) repeat-x #618499; 
 	padding:1em 1em 4em 1em;
 	position:relative;
 	}
@@ -937,6 +929,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 #opc-review .box { border:0; padding:0; }
 #opc-review .content { border:1px solid #D9DDE3; border-top:0; }
 #opc-review .data-table{ border-top:0; }
+.opc-please-wait { padding-right:7px;}
 .one-page-checkout a.back { background:url(../images/icon_opc_back.gif) no-repeat; padding-left:16px; line-height:13px;}
 
 .checkout-progress { margin-bottom:1.5em;}

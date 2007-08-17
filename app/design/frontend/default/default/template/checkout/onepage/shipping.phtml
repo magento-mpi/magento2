@@ -52,12 +52,12 @@
 </form>
 <div class="form-buttons">
     <p class="required">* <?=__('Required')?></p>
+    <span id="shipping-buttons-container">
+        <a href="#" class="back left" onclick="checkout.back()"><?=__('Back')?></a>
+        <button class="form-button right" onclick="shipping.save()"><span><?=__('Continue')?></span></button>
     <span id="shipping-please-wait" style="display:none;" class="opc-please-wait">
         <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Loading next step... &nbsp; 
     </span>
-    <span id="shipping-buttons-container">
-        <a href="#" class="back left" onclick="checkout.back()"><?=__('Back')?></a>
-        <button class="form-button" onclick="shipping.save()"><span><?=__('Continue')?></span></button>
     </span>
 </div>
 
