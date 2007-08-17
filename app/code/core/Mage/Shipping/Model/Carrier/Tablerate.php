@@ -29,7 +29,7 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
 
         $result = Mage::getModel('shipping/rate_result');
         $rate = $this->getRate($request);
-        if (!empty($rate)) {
+        if (!empty($rate) && $rate >= 0) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
 
 	    	$method->setCarrier('tablerate');
@@ -60,6 +60,12 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
                 'package_weight' => 'Weight vs. Destination',
                 'package_value'  => 'Price vs. Destination',
                 'package_qty'    => '# of Items vs. Destination',
+            ),
+
+            'condition_name_short'=>array(
+                'package_weight' => 'Weight',
+                'package_value'  => 'Price',
+                'package_qty'    => '# of Items',
             ),
 
         );

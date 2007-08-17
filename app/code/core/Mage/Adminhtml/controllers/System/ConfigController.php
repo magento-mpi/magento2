@@ -52,10 +52,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         $tableratesCollection = Mage::getResourceModel('shipping/carrier_tablerate_collection');
         $tableratesCollection->setConditionFilter(Mage::getStoreConfig('carriers/tablerate/condition_name'));
-        $tableratesCollection->setCountryFilter(223);
+        $tableratesCollection->setCountryFilter(223); // TOFIX, FIXME
+        $tableratesCollection->setWebsiteFilter(Mage::getModel('core/website')->load($this->getRequest()->getParam('website'))->getId());
         $tableratesCollection->load();
 
-        $csv = '';
+        $csv = '';                                            
 
         $dataHeader = array();
         $data = array();
@@ -70,7 +71,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             ksort($data[$k]);
         }
         
-        $csvHeader = array('Region','ZIP \\ '.Mage::getStoreConfig('carriers/tablerate/condition_name'));
+        $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', Mage::getStoreConfig('carriers/tablerate/condition_name'));
+        
+        $csvHeader = array('"Region"','"ZIP \\ '.$conditionName.'"');
         foreach ($dataHeader as $conditionValue) {
             $csvHeader[] = '"'.str_replace('"', '""', $conditionValue).'"';
         }
@@ -79,13 +82,13 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         foreach ($data as $region=>$v) {
             foreach ($data[$region] as $zip=>$v2) {
                 $csvData = array();
-                $csvData[] = $region;
-                $csvData[] = $zip;
+                $csvData[] = '"'.str_replace('"', '""', $region).'"';
+                $csvData[] = '"'.str_replace('"', '""', $zip).'"';
                 foreach ($dataHeader as $conditionValue) {
                     if (isset($data[$region][$zip][$conditionValue])) {
-                        $csvData[] = $data[$region][$zip][$conditionValue]['price'];
+                        $csvData[] = '"'.str_replace('"', '""', $data[$region][$zip][$conditionValue]['price']).'"';
                     } else {
-                        $csvData[] = -1;
+                        $csvData[] = '"-1"';
                     }
                 }
                 $csv .= implode(',', $csvData)."\n";

@@ -23,6 +23,13 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate_Collection extends Varien_Dat
         return $this;
     }
 
+    public function setWebsiteFilter($websiteId)
+    {
+        $this->_sqlSelect->where("website_id = ?", $websiteId);
+
+        return $this;
+    }
+
     public function setCountryFilter($countryId)
     {
         $this->_sqlSelect->where("dest_country_id = ?", $countryId);

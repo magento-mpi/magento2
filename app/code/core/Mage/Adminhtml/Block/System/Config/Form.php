@@ -105,8 +105,6 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             }
         }
         
-        $form->setEnctype('multipart/form-data');
-        
         $this->setForm($form);
         return $this;
     }
