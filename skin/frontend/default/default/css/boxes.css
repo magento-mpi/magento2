@@ -83,7 +83,7 @@ input.form-radio { margin-right:5px;}
 	width:auto;
 	background-color:transparent;
 	border:0;
-	padding:1px 12px;
+	padding:1px 8px;
 background:#f18200;
 color:#fff;
 border:1px solid #de5400;
@@ -282,9 +282,12 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
 	text-decoration:line-through;
 	}
 .special-price {
+	background:url(../images/icon_special_price.gif) no-repeat;
+	padding-left:60px;
 	color:#cd5033;
 	font-size:1.2em;
 	font-weight:bold;
+	line-height:1em;
 	}
 
 
@@ -554,7 +557,8 @@ h1#logo {
 .mini-product-tags a, .mini-product-tags a:hover { color:#1b2d3b; }
 
 
-
+.mini-newsletter h4 { background-image:url(../images/icon_newspaper.gif); }
+.mini-newsletter .input-text { margin-bottom:3px; }
 
 .link-cart { color:#DC6809 !important; font-weight:bold !important;}
 .link-remove { color:#646464 !important;}
@@ -640,7 +644,6 @@ h1#logo {
 
 
 /****************** [TABLE TYPES] ********************/
-
 
 .data-table .odd  { background:#f8f7f5 !important; }
 .data-table .even { background:#eeeded !important;}

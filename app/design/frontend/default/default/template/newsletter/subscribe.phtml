@@ -1,15 +1,19 @@
-<h1 class="page-heading"><?=__('Newsletter')?></h1>
+<div class="box base-mini mini-newsletter">
+	<div class="head">
+		<h4><?=__('Newsletter')?></h4>
+	</div>
 <?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate-detail">
-		<fieldset>
-				<legend><?=__('Newsletter')?></legend>
-				<label for="newsletter">Sign up for our newsletter:</label>
-				<input name="email" type="text" class="required-entry validate-email input-text"/>
-				<input type="submit" value="Submit" alt="Subscribe" class="input-button"/>
-		</fieldset>
+	<fieldset class="content">
+			<legend><?=__('Newsletter')?></legend>
+			<label for="newsletter">Sign up for our newsletter:</label>
+			<input name="email" type="text" class="required-entry validate-email input-text"/>
+			<button type="submit" class="form-button-alt"><span>Subscribe</span></button>
+	</fieldset>
 </form>
 <script type="text/javascript">
 <!--
     var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
 //-->
 </script>
+</div>

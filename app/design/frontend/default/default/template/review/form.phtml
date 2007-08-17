@@ -7,7 +7,7 @@
                         <?if( $this->getRatings() && $this->getRatings()->getSize()):?>
 						<strong><?=__('How do you rate this product?')?></strong><br>
 						<span id="input-message-box"></span>
-						<table class="data-table product-review-box field-row" cellspacing="0">
+						<table class="data-table product-review-box field-row" id="product-review-table" cellspacing="0">
 							<thead>
 								<tr>
 									<th>&nbsp;</th>
@@ -33,6 +33,7 @@
 							<?endforeach;?>
 							</tbody>
 						</table>
+<script type="text/javascript">decorateTable('product-review-table')</script>
                         <?endif;?>
 
 						<p><label for="nickname_field">Nickname</label>
