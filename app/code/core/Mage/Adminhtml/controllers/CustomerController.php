@@ -163,7 +163,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-
+        	
             // Prepare customer saving data
             if (isset($data['account'])) {
                 $customer = Mage::getModel('customer/customer')

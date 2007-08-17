@@ -35,7 +35,7 @@
 </div>
 <script type="text/javascript">
 <!--
-	var <?=$this->getJsObjectName()?> = new Varien.CompareController('<?=$this->getId()?>',{
+	var <?=$this->getJsObjectName()?> = new Varien.CompareController($$('.mini-compare-products')[0],{
 		updateUrl: '<?=$this->getAddUrlTemplate()?>',
 		removeUrl: '<?=$this->getRemoveUrlTemplate()?>',
 		successMessage: '<?=__('Product have been successfully added to comparasion list')?>',
