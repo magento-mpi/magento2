@@ -58,6 +58,18 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         return $label;
     }
     
+    public function getValue(Varien_Object $object)
+    {
+        $value = $object->getData($this->getAttribute()->getAttributeCode());
+        if ($this->getConfigField('input')=='select') {
+            $value = $this->getOption($value);
+        }
+        elseif ($this->getConfigField('input')=='multiselect') {
+            $value = implode(',', $this->getOption($value));
+        }
+        return $value;
+    }
+    
     public function isVisible()
     {
         return $this->getConfigField('frontend_visible');

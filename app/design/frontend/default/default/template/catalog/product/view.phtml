@@ -16,7 +16,6 @@
 				</div>
 			</div>
 
-
     <script type="text/javascript">
         var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
         var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
@@ -181,50 +180,42 @@
     		}
     	}.bind(productAddToCartForm);
     </script>
-		<div class="clear"></div>
+    <div class="clear"></div>
 	<div class="divider"></div>
-	<div class="required-products">
-
-		<h4>Required Items</h4>
-		<p>Following are the required items for this product. By purchasing this product, the following items will automatically be added to your shopping cart.</p>
-		<ul class="disc">
-			<li>Items name goes here</li>
-			<li>Items name goes here</li>
-			<li>Items name goes here</li>
-								</ul>
-							</div>
-						</div>
+    <div class="required-products">
+        <h4>Required Items</h4>
+        <p>Following are the required items for this product. By purchasing this product, the following items will automatically be added to your shopping cart.</p>
+        <ul class="disc">
+            <li>Items name goes here</li>
+            <li>Items name goes here</li>
+            <li>Items name goes here</li>
+        </ul>
+    </div>
+    </div>
 	</div>
-					<div class="product-collateral">
-						<div class="collateral-box">
-	<div class="head"><h4>Features and Specifications</h4></div>
-	<div class="product-specs"><?=$product->getDescription()?></div>
-	</div>
+    <div class="product-collateral">
+        <div class="collateral-box">
+	       <div class="head">
+	           <h4>Features and Specifications</h4>
+            </div>
+	       <div class="product-specs"><?=$product->getDescription()?></div>
+        </div>
 
-
-						<div class="collateral-box attribute-specs">
-							<div class="head">
-								<h4>Product Attribute Specs</h4>
-							</div>
-							<table cellspacing="0" class="data-table">
-								<tr class="odd">
-									<td class="label">Label 1</td>
-									<td class="data">something goes here like this</td>
-								</tr>
-								<tr class="even">
-									<td class="label">Label 2</td>
-									<td class="data">something goes here like this</td>
-								</tr>
-								<tr class="odd">
-									<td class="label">Label 3</td>
-									<td class="data">something goes here like this</td>
-								</tr>
-								<tr class="even last">
-									<td class="label">Label 4</td>
-									<td class="data">something goes here like this</td>
-								</tr>
-							</table>
-						</div>
+        <?if($_additional = $this->getAdditionalData()):?>
+        <div class="collateral-box attribute-specs">
+            <div class="head">
+                <h4>Product Attribute Specs</h4>
+            </div>
+            <table cellspacing="0" class="data-table">
+            <?foreach ($_additional as $_data):?>
+            <tr>
+                <td class="label"><?=$_data['label']?></td>
+                <td class="data"><?=$_data['value']?></td>
+            </tr>
+            <?endforeach;?>
+            </table>
+        </div>
+        <?endif;?>
 
 
 <?if($product->getRelatedProductsLoaded()->getSize()):?>

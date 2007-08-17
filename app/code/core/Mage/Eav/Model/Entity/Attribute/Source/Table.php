@@ -25,14 +25,29 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
      */
     public function getOptionText($value)
     {
-        $collection = Mage::getResourceModel('eav/entity_attribute_option_collection')
-                ->setAttributeFilter($this->getAttribute()->getId())
-                ->setStoreFilter($this->getAttribute()->getEntity()->getStoreId())
-                ->setIdFilter($value)
-                ->load();
-        if ($item = $collection->getFirstItem()) {
-            return $item->getValue();
+        $isMultiple = false;
+        if (strpos($value, ',')) {
+            $isMultiple = true;
+            $value = explode(',', $value);
         }
-        return false;
+        
+        $collection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            ->setAttributeFilter($this->getAttribute()->getId())
+            ->setStoreFilter($this->getAttribute()->getEntity()->getStoreId())
+            ->setIdFilter($value)
+            ->load();
+        if ($isMultiple) {
+            $values = array();
+            foreach ($collection as $item) {
+            	$values[] = $item->getValue();
+            }
+            return $values;
+        }
+        else {
+            if ($item = $collection->getFirstItem()) {
+                return $item->getValue();
+            }
+            return false;
+        }
     }
 }

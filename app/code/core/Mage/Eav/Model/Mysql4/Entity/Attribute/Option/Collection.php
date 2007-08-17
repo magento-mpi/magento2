@@ -53,7 +53,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
     
     public function setIdFilter($id)
     {
-        $this->getSelect()->where('main_table.option_id=?', $id);
+        if (is_array($id)) {
+            $this->getSelect()->where('main_table.option_id IN (?)', $id);
+        }
+        else {
+            $this->getSelect()->where('main_table.option_id=?', $id);
+        }
         return $this;
     }
     

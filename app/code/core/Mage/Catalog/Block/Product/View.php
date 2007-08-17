@@ -17,20 +17,8 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
     public function loadData()
     {
-        $categoryId = $this->getRequest()->getParam('category', false);
-        $productId  = $this->getRequest()->getParam('id');
-
-        if(!$product = Mage::registry('product')) {
-        	$storeId = (int) Mage::getSingleton('core/store')->getId();
-        	$product = Mage::getModel('catalog/product')
-        		->setStoreId($storeId)
-            	->load($productId)
-            	->setCategoryId($categoryId)
-            	->setStoreId($storeId);
-
-           	Mage::register('product', $product);
-        }
-
+        $product = $this->getProduct();
+        
         if($product->isBundle()) {
         	$product->getBundleOptionCollection()->useProductItem()->getLinkCollection()
         		->addAttributeToSelect('name')
@@ -58,9 +46,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $breadcrumbs->addCrumb('home',
             array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
         );
-        $breadcrumbs->addCrumb('category',
+        /*$breadcrumbs->addCrumb('category',
             array('label'=>$product->getCategoryName(), 'title'=>'', 'link'=>$product->getCategoryUrl())
-        );
+        );*/
         $breadcrumbs->addCrumb('product',
             array('label'=>$product->getName())
         );
@@ -70,10 +58,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
 
-        $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
-        $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$productId)));
+        $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$product->getId())));
+        $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$product->getId())));
         $this->setChild('rating', $this->getLayout()->createBlock('rating/entity_summary')
-            ->setEntityId($productId));
+            ->setEntityId($product->getId()));
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
         $this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
 
@@ -82,6 +70,56 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $this->assign('reviewCount', $this->getLayout()->getBlock('review_list')->count());
 
         return $this;
+    }
+
+    /**
+     * Retrieve current product model
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        return Mage::registry('product');
+        /*if(!$product = Mage::registry('product')) {
+        	$storeId = (int) Mage::getSingleton('core/store')->getId();
+        	$product = Mage::getModel('catalog/product')
+        		->setStoreId($storeId)
+            	->load($productId)
+            	->setCategoryId($categoryId)
+            	->setStoreId($storeId);
+
+           	Mage::register('product', $product);
+        }*/
+    }
+    
+    public function getAdditionalData()
+    {
+        $data = array();
+        $product = $this->getProduct();
+        $attributes = $product->getAttributes();
+        foreach ($attributes as $attribute) {
+        	if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined()) {
+        	    $data[$attribute->getAttributeCode()] = array(
+        	       'label' => __($attribute->getFrontend()->getLabel()),
+        	       'value' => $attribute->getFrontend()->getValue($product)//$product->getData($attribute->getAttributeCode())
+        	    );
+        	}
+        }
+        return $data;
+    }
+    
+    /**
+     * URLs section
+     */
+    
+    public function getReviewUrl()
+    {
+        
+    }
+    
+    public function getAddToWishlistUrl()
+    {
+        
     }
 
     public function getCompareJsObjectName()
