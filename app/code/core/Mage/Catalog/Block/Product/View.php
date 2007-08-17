@@ -99,10 +99,13 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
         	if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined()) {
-        	    $data[$attribute->getAttributeCode()] = array(
-        	       'label' => __($attribute->getFrontend()->getLabel()),
-        	       'value' => $attribute->getFrontend()->getValue($product)//$product->getData($attribute->getAttributeCode())
-        	    );
+        	    $value = $attribute->getFrontend()->getValue($product);
+        	    if (strlen($value)) {
+            	    $data[$attribute->getAttributeCode()] = array(
+            	       'label' => __($attribute->getFrontend()->getLabel()),
+            	       'value' => $attribute->getFrontend()->getValue($product)//$product->getData($attribute->getAttributeCode())
+            	    );
+        	    }
         	}
         }
         return $data;
