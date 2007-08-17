@@ -213,7 +213,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
             
             foreach ($data['product'] as $index=>$value) {
-            	if (is_array($value)) {
+            	if (is_array($value) && $index != 'gallery') {
             	    $data['product'][$index] = implode(',', $value);
             	}
             }
