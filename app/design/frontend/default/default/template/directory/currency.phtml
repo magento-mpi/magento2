@@ -8,10 +8,8 @@
 <?if($this->getCurrencyCount()):?>
 <div class="box currency-switcher">
     <div class="head">
-        <span class="corner"></span>
-        <h3>Select Currency</h3>
+        <h4>Select your currency</h4>
     </div>
-    <div class="box-container">
         <select name="currency" onchange="changeCurrency(this)">
         <?foreach ($this->getCurrencies() as $_currency):?>
             <option value="<?=$_currency->getCurrencyCode()?>"<?if($_currency->getCurrencyCode()==$this->getCurrentCurrencyCode()):?>selected="selected"<?endif;?>>
@@ -19,7 +17,6 @@
             </option>
         <?endforeach;?>
         </select>
-    </div>
 </div>
 <script type="text/javascript">
 function changeCurrency(sObject){
