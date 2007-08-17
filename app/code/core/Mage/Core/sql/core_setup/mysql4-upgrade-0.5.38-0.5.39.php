@@ -9,8 +9,9 @@ update core_config_data set value='{{root_dir}}/skin' where path='system/filesys
 EOT
 );
 
+$this->addConfigField('design', 'Design');
+$this->addConfigField('design/package', 'Package');
 $this->addConfigField('design/package/name', 'Current package name');
-
 $this->addConfigField('design/theme', 'Themes');
 $this->addConfigField('design/theme/default', 'Default');
 $this->addConfigField('design/theme/layout', 'Layout');
