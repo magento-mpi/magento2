@@ -1,0 +1,54 @@
+<?$_address = $this->getAddress();?>
+<?$_disabled = ($this->getSameAsBilling() ? ' disabled' : '');?>
+<span class="field-row">
+    <input id="shipping_address:same_as_billing" name="same_as_billing" value="<?=$_address->getEmail()?>" type="checkbox" onchange="sc_shippingSameAsBilling(this.checked);sc_addressChange(this);"<?=($this->getSameAsBilling() ? ' checked' : '')?>/>
+    <label for="shipping_address:same_as_billing" style="float: none;"><?=__('Same as Billing Address')?></label>
+</span>
+<span class="field-row">
+    <label for="shipping_address:firstname"><?=__('First Name')?></label>
+    <input id="shipping_address:firstname" name="firstname" value="<?=$_address->getFirstname()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:lastname"><?=__('Last Name')?></label>
+    <input id="shipping_address:lastname" name="lastname" value="<?=$_address->getLastname()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:company"><?=__('Company')?></label>
+    <input id="shipping_address:company" name="company" value="<?=$_address->getCompany()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:street"><?=__('Street Address')?></label>
+    <input id="shipping_address:street" name="street[]" value="<?=$_address->getStreet(1)?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:street">&nbsp;</label>
+    <input id="shipping_address:street" name="street[]" value="<?=$_address->getStreet(2)?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:city"><?=__('City')?></label>
+    <input id="shipping_address:city" name="city" value="<?=$_address->getCity()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:region_id"><?=__('State/Province')?></label>
+    <?if ($this->getRegionCollection('shipping')->count() > 1):?>
+        <?=$this->getRegionHtmlSelect('shipping')?>
+    <?else:?>
+        <input id="shipping_address:region" name="region" value="<?=$_address->getRegion()?>" class="input-text"<?=$_disabled?> type="text" onkeyup="sc_addressChange(this)"/>
+    <?endif;?>
+</span>
+<span class="field-row">
+    <label for="shipping_address:country_id"><?=__('Country')?></label>
+    <?=$this->getCountryHtmlSelect('shipping')?>
+</span>
+<span class="field-row">
+    <label for="shipping_address:postcode"><?=__('Zip/Post Code')?></label>
+    <input id="shipping_address:postcode" name="postcode" value="<?=$_address->getPostcode()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:telephone"><?=__('Telephone')?></label>
+    <input id="shipping_address:telephone" name="telephone" value="<?=$_address->getTelephone()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="shipping_address:fax"><?=__('Fax')?></label>
+    <input id="shipping_address:fax" name="fax" value="<?=$_address->getFax()?>" class="input-text" type="text"<?=$_disabled?> onkeyup="sc_addressChange(this)"/>
+</span>

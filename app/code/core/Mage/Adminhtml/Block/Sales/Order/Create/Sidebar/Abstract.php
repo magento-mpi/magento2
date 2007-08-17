@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         if (is_null($this->_items)) {
             $this->_prepareItems();
         }
-        if (! empty($this->_items) && ($this->_items->getSize())) {
+        if (! empty($this->_items) && (count($this->_items))) {
             return true;
         }
         return false;

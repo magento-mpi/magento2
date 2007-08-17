@@ -8,6 +8,7 @@ var sc_sameAsBilling = '<?=$this->getSession()->getSameAsBilling()?>';
 var payment = $H({});
 var sc_url = '<?=$this->getScUrl()?>';
 </script>
+<?=$this->getChildHtml('before')?>
 <?$_form = $this->getForm()?>
 <form id="edit_form" action="<?=$this->getSaveUrl()?>" method="POST">
     <div id="sc_customer"><?=$this->getChildHtml('customer')?></div>
@@ -31,3 +32,4 @@ var sc_url = '<?=$this->getScUrl()?>';
     <div id="sc_items"><?=$this->getChildHtml('items')?></div>
     <div id="sc_totals"><?=$this->getChildHtml('totals')?></div>
 </form>
+<?=$this->getChildHtml('after')?>

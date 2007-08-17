@@ -1,0 +1,55 @@
+<?$_address = $this->getAddress()?>
+<?if (! $this->getIsOldCustomer()):?>
+    <span class="field-row">
+        <label for="billing_address:email"><?=__('Email')?></label>
+        <input id="billing_address:email" name="email" value="<?=$_address->getEmail()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+    </span>
+<?endif;?>
+<span class="field-row">
+    <label for="billing_address:firstname"><?=__('First Name')?></label>
+    <input id="billing_address:firstname" name="firstname" value="<?=$_address->getFirstname()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:lastname"><?=__('Last Name')?></label>
+    <input id="billing_address:lastname" name="lastname" value="<?=$_address->getLastname()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:company"><?=__('Company')?></label>
+    <input id="billing_address:company" name="company" value="<?=$_address->getCompany()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:street"><?=__('Street Address')?></label>
+    <input id="billing_address:street" name="street[]" value="<?=$_address->getStreet(1)?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:street">&nbsp;</label>
+    <input id="billing_address:street" name="street[]" value="<?=$_address->getStreet(2)?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:city"><?=__('City')?></label>
+    <input id="billing_address:city" name="city" value="<?=$_address->getCity()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:region_id"><?=__('State/Province')?></label>
+    <?if ($this->getRegionCollection('billing')->count() > 1):?>
+        <?=$this->getRegionHtmlSelect('billing')?>
+    <?else:?>
+        <input id="billing_address:region" name="region" value="<?=$_address->getRegion()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+    <?endif;?>
+</span>
+<span class="field-row">
+    <label for="billing_address:country_id"><?=__('Country')?></label>
+    <?=$this->getCountryHtmlSelect('billing')?>
+</span>
+<span class="field-row">
+    <label for="billing_address:postcode"><?=__('Zip/Post Code')?></label>
+    <input id="billing_address:postcode" name="postcode" value="<?=$_address->getPostcode()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:telephone"><?=__('Telephone')?></label>
+    <input id="billing_address:telephone" name="telephone" value="<?=$_address->getTelephone()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>
+<span class="field-row">
+    <label for="billing_address:fax"><?=__('Fax')?></label>
+    <input id="billing_address:fax" name="fax" value="<?=$_address->getFax()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
+</span>

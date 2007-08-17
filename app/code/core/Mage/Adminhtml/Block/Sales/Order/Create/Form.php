@@ -21,6 +21,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
 
     protected function _initChildren()
     {
+        $this->setChild('before', $this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/form/before.phtml'));
         $childNames = array();
         if (! $this->getCustomerId()) {
             $childNames[] = 'customer';
@@ -41,6 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         foreach ($childNames as  $name) {
             $this->setChild($name, $this->getLayout()->createBlock('adminhtml/sales_order_create_' . $name));
         }
+        $this->setChild('after', $this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/form/after.phtml'));
         return parent::_initChildren();
     }
 

@@ -61,7 +61,24 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
                 $quote->initNewQuote()
                     ->setStoreId($this->getStoreId())
                     ->setCustomerId($this->getCustomerId())
-                    ->save();
+                ;
+
+                $address = Mage::getModel('sales/quote_address');
+                /* @var $address Mage_Sales_Model_Quote_Address */
+                if ($this->getIsOldCustomer() && $this->getCustomer()->getDefaultBillingAddress()) {
+                    $address->importCustomerAddress($this->getCustomer()->getDefaultBillingAddress());
+                }
+                $quote->setBillingAddress($address);
+
+                $address = Mage::getModel('sales/quote_address');
+                /* @var $address Mage_Sales_Model_Quote_Address */
+                if ($this->getIsOldCustomer() && $this->getCustomer()->getDefaultShippingAddress()) {
+                    $address->importCustomerAddress($this->getCustomer()->getDefaultShippingAddress());
+                }
+                $quote->setShippingAddress($address);
+
+                $quote->save();
+
                 $this->setQuoteId($quote->getId());
             }
             $this->_quote = $quote;
@@ -153,9 +170,6 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
         $this->setData('store_id', $storeId);
 
         if (! in_array($storeId, $this->getCustomer()->getSharedStoreIds())) {
-            echo '-------------------' . "\n";
-            echo 'clonig customer to new store' . "\n";
-            echo '-------------------' . "\n";
             $customer = clone $this->getCustomer();
             $customer->setStoreId($storeId);
             $customer->save();
@@ -234,6 +248,311 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
     public function formatPrice($price)
     {
         return $this->getCurrency()->format($price);
+    }
+
+    /************************************************************/
+
+//    public function getBillingAddress()
+//    {
+//        if ($addressId = $this->getBillingAddressId()) {
+//            $address = $this->getCustomer()->getLoadedAddressCollection()->getItemById($addressId);
+//        }
+//        if (! $address instanceof Varien_Object) {
+//            $address = $this->getQuote()->getBillingAddress();
+//        }
+//        if (! $address instanceof Varien_Object) {
+//            $address = new Varien_Object(array());
+//        }
+//        return $address;
+//    }
+//
+//    public function getShippingAddress()
+//    {
+//        if ($addressId = ($this->getSameAsBilling() ? $this->getBillingAddressId() : $this->getShippingAddressId())) {
+//            return $this->getCustomer()->getLoadedAddressCollection()->getItemById($addressId);
+//        }
+//        return $this->getQuote()->getShippingAddress();
+//    }
+
+    public function saveCheckoutMethod($method)
+    {
+        $this->getQuote()->setCheckoutMethod($method)->save();
+        $this->getCheckout()->setStepData('billing', 'allow', true);
+        return $this;
+    }
+
+    public function getAddress($addressId)
+    {
+        $address = Mage::getModel('customer/address')->load((int)$addressId);
+        $address->explodeStreetAddress();
+        if ($address->getRegionId()) {
+            $address->setRegion($address->getRegionId());
+        }
+        return $address;
+    }
+
+    public function saveBilling($data, $customerAddressId)
+    {
+        if (empty($data['use_for_shipping'])) {
+            $data['use_for_shipping'] = 0;
+        }
+        else {
+            $data['use_for_shipping'] = 1;
+        }
+
+        $address = $this->getQuote()->getBillingAddress();
+
+        if (!empty($customerAddressId)) {
+            $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
+            if ($customerAddress->getId()) {
+                $address->importCustomerAddress($customerAddress);
+            }
+        } else {
+            $address->addData($data);
+        }
+//        if (!$this->getQuote()->getCustomerId() && 'register' == $this->getQuote()->getCheckoutMethod()) {
+//            $email = $address->getEmail();
+//            $customer = Mage::getModel('customer/customer')->loadByEmail($email);
+//            if ($customer->getId()) {
+//                $res = array(
+//                    'error' => 1,
+//                    'message' => __('There is already a customer registered using this email')
+//                );
+//                return $res;
+//            }
+//        }
+
+        $address->implodeStreetAddress();
+
+        if (!empty($data['use_for_shipping'])) {
+            $billing = clone $address;
+            $billing->unsEntityId()->unsAddressType();
+            $shipping = $this->getQuote()->getShippingAddress();
+            $shipping->addData($billing->getData())->setSameAsBilling(1);
+            $this->getQuote()->save();
+            $shipping->collectShippingRates();
+//            $this->getCheckout()->setStepData('shipping', 'complete', true);
+        } else {
+            $shipping = $this->getQuote()->getShippingAddress();
+            $shipping->setSameAsBilling(0);
+        }
+        if ($address->getCustomerPassword()) {
+            $customer = Mage::getModel('customer/customer');
+            $this->getQuote()->setPasswordHash($customer->hashPassword($address->getCustomerPassword()));
+        }
+        $this->getQuote()->collectTotals()->save();
+
+        return $this;
+    }
+
+    public function saveShipping($data, $customerAddressId)
+    {
+        $address = $this->getQuote()->getShippingAddress();
+
+        if (!empty($customerAddressId)) {
+            $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
+            if ($customerAddress->getId()) {
+                $address->importCustomerAddress($customerAddress);
+            }
+        } else {
+            $address->addData($data);
+        }
+        $address->implodeStreetAddress();
+        $address->collectShippingRates();
+        $this->getQuote()->save();
+
+        return $this;
+    }
+
+    public function saveShippingMethod($shippingMethod)
+    {
+        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
+
+        return $this;
+    }
+
+    public function savePayment($data)
+    {
+        $payment = $this->getQuote()->getPayment();
+        $payment->importPostData($data);
+        $this->getQuote()->save();
+
+        return $this;
+    }
+
+    public function saveOrder()
+    {
+        $res = array('error'=>1);
+
+        try {
+            $billing = $this->getQuote()->getBillingAddress();
+            $shipping = $this->getQuote()->getShippingAddress();
+
+            switch ($this->getQuote()->getCheckoutMethod()) {
+            case 'guest':
+                $email  = $billing->getEmail();
+                $name   = $billing->getFirstname().' '.$billing->getLastname();
+                break;
+
+            case 'register':
+                $customer = $this->_createCustomer();
+                $customer->sendNewAccountEmail();
+                #$this->_emailCustomerRegistration();
+                $email  = $customer->getEmail();
+                $name   = $customer->getName();
+                break;
+
+            default:
+                $customer = Mage::getSingleton('customer/session')->getCustomer();
+                $email  = $customer->getEmail();
+                $name   = $customer->getName();
+            }
+
+            $order = Mage::getModel('sales/order')->createFromQuoteAddress($shipping);
+
+            $order->validate();
+
+            if ($order->getErrors()) {
+                //TODO: handle errors (exception?)
+            }
+
+            $order->save();
+            $this->getQuote()->setIsActive(false);
+            $this->getQuote()->save();
+
+            $orderId = $order->getIncrementId();
+            $this->getCheckout()->setLastOrderId($order->getId());
+
+            $order->sendNewOrderEmail();
+            #$this->_emailOrderConfirmation($email, $name, $order);
+
+            $res['success'] = true;
+            $res['error']   = false;
+            //$res['error']   = true;
+        }
+        catch (Exception $e){
+            // TODO: create response for open checkout card with error
+            echo $e;
+        }
+
+        return $res;
+    }
+
+    protected function _emailCustomerRegistration()
+    {
+        $customer = $this->_createCustomer();
+        $mailer = Mage::getModel('customer/email')
+            ->setTemplate('email/welcome.phtml')
+            ->setType('html')
+            ->setCustomer($customer)
+            ->send();
+    }
+
+    protected function _emailOrderConfirmation($email, $name, $order)
+    {
+        $mailer = Mage::getModel('core/email')
+            ->setTemplate('email/order.phtml')
+            ->setType('html')
+            ->setTemplateVar('order', $order)
+            ->setTemplateVar('quote', $this->getQuote())
+            ->setTemplateVar('name', $name)
+            ->setToName($name)
+            ->setToEmail($email)
+            ->send();
+    }
+
+    protected function _createCustomer()
+    {
+        $customer = Mage::getModel('customer/customer');
+
+        $billingEntity = $this->getQuote()->getBillingAddress();
+        $billing = Mage::getModel('customer/address');
+        $billing->addData($billingEntity->getData());
+        $customer->addAddress($billing);
+
+        $shippingEntity = $this->getQuote()-getShippingAddress();
+        if (!$shippingEntity->getSameAsBilling()) {
+            $shipping = Mage::getModel('customer/address');
+            $shipping->addData($shippingEntity->getData());
+            $customer->addAddress($shipping);
+        } else {
+            $shipping = $billing;
+        }
+        //TODO: check that right primary types are assigned
+
+        $customer->setFirstname($billing->getFirstname());
+        $customer->setLastname($billing->getLastname());
+        $customer->setEmail($billing->getEmail());
+        $customer->setPasswordHash($this->getQuote()->getPasswordHash());
+
+        $customer->save();
+
+        $this->getQuote()->setCustomerId($customer->getId());
+        $billingEntity->setCustomerId($customer->getId())->setCustomerAddressId($billing->getId());
+        $shippingEntity->setCustomerId($customer->getId())->setCustomerAddressId($shipping->getId());
+
+        Mage::getSingleton('customer/session')->loginById($customer->getId());
+
+        return $customer;
+    }
+
+    public function getLastOrderId()
+    {
+        $order = Mage::getModel('sales/order');
+        $order->load($this->getCheckout()->getLastOrderId());
+        if (!$order->getIncrementId()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+        $orderId = $order->getIncrementId();
+        return $orderId;
+    }
+
+    /************************************************************/
+
+    /**
+     * Enter description here...
+     *
+     * @param int $addressId
+     * @return Mage_Adminhtml_Model_Quote
+     */
+    public function setShippingAddressId($addressId)
+    {
+        $this->setData('shipping_address_id', $addressId);
+        $address = Mage::getModel('sales/quote_address');
+        /* @var $address Mage_Sales_Model_Quote_Address */
+        if ($addressId) {
+            $address->importCustomerAddress($this->getAddress($addressId));
+        }
+        $this->getQuote()->setShippingAddress($address)->save();
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param int $addressId
+     * @return Mage_Adminhtml_Model_Quote
+     */
+    public function setBillingAddressId($addressId)
+    {
+        $this->setData('billing_address_id', $addressId);
+        $address = Mage::getModel('sales/quote_address');
+        /* @var $address Mage_Sales_Model_Quote_Address */
+        if ($addressId) {
+            $address->importCustomerAddress($this->getAddress($addressId));
+        }
+        $this->getQuote()->setBillingAddress($address)->save();
+        return $this;
+    }
+
+    public function setSameAsBilling($same=true)
+    {
+        $this->setData('same_as_billing', $same);
+        $this->setShippingAddressId($this->getBillingAddressId());
+        $address = clone $this->getQuote()->getBillingAddress();
+        $this->getQuote()->setShippingAddress($address)->save();
+        return $this;
     }
 
 }

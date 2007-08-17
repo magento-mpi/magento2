@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
 
     public function toHtml()
     {
-        if (! $this->getSession()->getStore()) {
+        if (! $this->getSession()->getStoreId()) {
             return '';
         }
         return parent::toHtml();

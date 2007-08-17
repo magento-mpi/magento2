@@ -65,9 +65,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/jsbefore.phtml'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_create'))
-            ->_addContent($this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/jsafter.phtml'))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar'))
             ->renderLayout();
     }
@@ -217,6 +215,184 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function comparedAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_compared')->toHtml());
+    }
+
+    public function shippingAddressAction()
+    {
+        if (! is_null($same = $this->getRequest()->getParam('same_as_billing'))) {
+            $this->getSession()->setSameAsBilling($same);
+        } elseif (! is_null($addressId = $this->getRequest()->getParam('address_id'))) {
+            $this->getSession()->setShippingAddressId($addressId);
+        } elseif ($address = $this->getRequest()->getParam('address')) {
+            $this->getSession()->setShippingAddressId(null);
+            $addressData = Zend_Json::decode($address);
+            if (is_array($addressData)) {
+                $this->getQuote()->getShippingAddress()->addData($addressData);
+                $this->getQuote()->getShippingAddress()->collectTotals();
+                $this->getQuote()->save();
+            }
+        }
+
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_address')->toHtml());
+    }
+
+    public function billingAddressAction()
+    {
+        if (! is_null($addressId = $this->getRequest()->getParam('address_id'))) {
+            $this->getSession()->setBillingAddressId($addressId);
+        } elseif ($address = $this->getRequest()->getParam('address')) {
+            $this->getSession()->setBillingAddressId(null);
+            $addressData = Zend_Json::decode($address);
+            if (is_array($addressData)) {
+                $this->getQuote()->getBillingAddress()->addData($addressData);
+                $this->getQuote()->save();
+            }
+        }
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address')->toHtml());
+    }
+
+    public function shippingMethodAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_method')->toHtml());
+    }
+
+    public function billingMethodAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_billing_method')->toHtml());
+    }
+
+    public function couponsAction()
+    {
+        if (! is_null($couponCode = $this->getRequest()->getParam('coupon_code'))) {
+            $this->getQuote()->setCouponCode($couponCode);
+        }
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_coupons')->toHtml());
+    }
+
+    public function newsletterAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_newsletter')->toHtml());
+    }
+
+    public function itemsAction()
+    {
+
+        $intFilter = new Zend_Filter_Int();
+
+        // add products
+        $ids = Zend_Json::decode($this->getRequest()->getParam('products'));
+        if (is_array($ids)) {
+            foreach ($ids as $id => $ar) {
+                $this->_addItem($id, $ar['qty']);
+            }
+        } elseif (! empty($ids)) {
+            $this->_addItem($ids);
+        }
+
+        // update items
+        $ids = Zend_Json::decode($this->getRequest()->getParam('update'));
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                foreach ($id as $key => $qty) {
+                    if ($qty>0) {
+                        if ($item = $this->getQuote()->getItemById($key)) {
+                            $item->setQty($qty);
+                        }
+                    } else {
+                        $this->getQuote()->removeItem($key);
+                    }
+                }
+            }
+        }
+
+        //remove items
+        $ids = $intFilter->filter($this->getRequest()->getParam('remove'));
+        if (!empty($ids)) {
+            if (is_array($ids)) {
+                foreach ($ids as $id) {
+                    $this->getQuote()->removeItem($id);
+                }
+            } else {
+                $this->getQuote()->removeItem($ids);
+            }
+        }
+
+    	$this->getQuote()->getShippingAddress()->collectTotals();
+    	$this->getQuote()->save();
+
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_items')->toHtml());
+    }
+
+    protected function _addItem($productId, $qty=1)
+    {
+
+        $product = Mage::getModel('catalog/product')->load($productId);
+
+        if ($product->getId()) {
+//        	if($product->isSuperConfig()) {
+//        		$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
+//        		if($productId) {
+//        			$superProduct = Mage::getModel('catalog/product')
+//        				->load($productId)
+//        				->setParentProduct($product);
+//        			if($superProduct->getId()) {
+//        				$item = $this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
+//        				$item->setDescription(
+//		            		$this->getLayout()->createBlock('checkout/cart_item_super')->setSuperProduct($superProduct)->toHtml()
+//		            	);
+//		            	$item->setName($product->getName());
+//		            	$this->getQuote()->getShippingAddress()->collectTotals();
+//		            	$this->getQuote()->save();
+//
+//        			}
+//        		} else {
+//        			$this->_backToProduct($product->getId());
+//        			return;
+//        		}
+//
+//        	} else if($product->isSuperGroup()) {
+//        		$superGroupProducts = $this->getRequest()->getParam('super_group', array());
+//        		if(!is_array($superGroupProducts)) {
+//        			$superGroupProducts = array();
+//        		}
+//
+//        		if(sizeof($superGroupProducts)==0) {
+//        			$this->_backToProduct($product->getId());
+//        			return;
+//        		}
+//        		foreach($product->getSuperGroupProductsLoaded() as $superProductLink) {
+//
+//        			if(isset($superGroupProducts[$superProductLink->getLinkedProductId()]) && $qty =  $intFilter->filter($superGroupProducts[$superProductLink->getLinkedProductId()])) {
+//      				   $superProduct = Mage::getModel('catalog/product')
+//	        				->load($superProductLink->getLinkedProductId())
+//	        				->setParentProduct($product);
+//	        			if($superProduct->getId()) {
+//	        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
+//			            	$this->getQuote()->getShippingAddress()->collectTotals();
+//			            	$this->getQuote()->save();
+//	        			}
+//        			}
+//        		}
+//        	} else {
+        	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
+//        	}
+        }
+//        Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
+    }
+
+    public function searchAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_search')->toHtml());
+    }
+
+    public function searchGridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_search_grid')->toHtml());
+    }
+
+    public function totalsAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_totals')->toHtml());
     }
 
 }

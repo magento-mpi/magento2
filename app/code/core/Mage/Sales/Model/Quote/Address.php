@@ -3,27 +3,27 @@
 class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 {
     protected $_quote;
-    
+
     protected $_rates;
-    
+
     protected $_totals = array();
-    
+
     protected function _construct()
     {
         $this->_init('sales/quote_address');
     }
-    
+
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
     }
-    
+
     public function getQuote()
     {
         return $this->_quote;
     }
-    
+
 /*********************** ADDRESS ***************************/
 
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
@@ -46,7 +46,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
+
     public function toArray(array $arrAttributes = array())
     {
         $arr = parent::toArray();
@@ -57,12 +57,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $arr;
     }
-    
+
     public function getName()
     {
     	return $this->getFirstname().' '.$this->getLastname();
     }
-    
+
     public function getRegion()
     {
     	if ($this->getData('region_id') && !$this->getData('region')) {
@@ -70,7 +70,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     	}
     	return $this->getData('region');
     }
-    
+
     public function getCountry()
     {
     	if ($this->getData('country_id') && !$this->getData('country')) {
@@ -78,7 +78,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     	}
     	return $this->getData('country');
     }
-    
+
     public function getFormated($html=false)
     {
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
@@ -108,7 +108,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
             }
         }
     }
-    
+
     /**
      * set address street informa
      *
@@ -123,7 +123,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this->setData('street', $street);
         return $this;
     }
-    
+
     /**
      * To be used when processing _POST
      */
@@ -131,7 +131,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         $this->setStreet($this->getData('street'));
     }
-    
+
     /**
      * set address data
      *
@@ -156,14 +156,14 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return parent::setData($key, $value);
     }
 
-    
+
 /*********************** ITEMS ***************************/
 
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/quote_address_item_collection');
-            
+
             if ($this->getId()) {
                 $this->_items
                     ->addAttributeToSelect('*')
@@ -176,7 +176,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this->_items;
     }
-    
+
     public function getAllItems()
     {
         $quoteItems = $this->getQuote()->getItemsCollection();
@@ -205,7 +205,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $items;
     }
-    
+
     public function getItemQty($itemId=0) {
         if ($itemId == 0) {
             $qty = 0;
@@ -217,12 +217,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $qty;
     }
-    
+
     public function hasItems()
     {
         return sizeof($this->getAllItems())>0;
     }
-    
+
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -232,7 +232,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function getItemByQuoteItemId($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -242,7 +242,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function removeItem($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -253,7 +253,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function addItem(Mage_Sales_Model_Quote_Address_Item $item)
     {
         $item->setAddress($this)
@@ -283,7 +283,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this->_rates;
     }
-    
+
     public function getAllShippingRates()
     {
         $rates = array();
@@ -308,7 +308,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $rates;
     }
-    
+
     public function getShippingRateById($rateId)
     {
         foreach ($this->getShippingRatesCollection() as $rate) {
@@ -328,7 +328,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function removeAllShippingRates()
     {
         foreach ($this->getShippingRatesCollection() as $rate) {
@@ -336,7 +336,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function addShippingRate(Mage_Sales_Model_Quote_Address_Rate $rate)
     {
         $rate->setAddress($this)
@@ -349,7 +349,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     public function collectShippingRates()
     {
         $this->removeAllShippingRates();
-        
+
         $request = Mage::getModel('shipping/rate_request');
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
@@ -359,28 +359,28 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $request->setPackageQty($this->getItemQty());
         $request->setStoreId(Mage::getSingleton('core/store')->getId());
         $request->setWebsiteId(Mage::getSingleton('core/store')->getWebsiteId());
-        
+
         $result = Mage::getModel('shipping/shipping')
             ->collectRates($request)->getResult();
-            
+
         if (!$result) {
             return $this;
         }
         $shippingRates = $result->getAllRates();
-        
+
         foreach ($shippingRates as $shippingRate) {
             $rate = Mage::getModel('sales/quote_address_rate')
-                ->importShippingRate($shippingRate); 
+                ->importShippingRate($shippingRate);
             $this->addShippingRate($rate);
-            
+
             if ($this->getShippingMethod()==$rate->getCode()) {
                 $this->setShippingAmount($rate->getPrice());
             }
         }
-        
+
         return $this;
     }
-    
+
 /*********************** TOTALS ***************************/
 
     public function collectTotals()
@@ -388,7 +388,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this->getResource()->collectTotals($this);
         return $this;
     }
-    
+
     public function getTotals()
     {
         if (empty($this->_totals)) {
@@ -396,7 +396,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this->_totals;
     }
-    
+
     public function addTotal($total)
     {
         if (is_array($total)) {
@@ -408,21 +408,26 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this->_totals[$totalInstance->getCode()] = $totalInstance;
         return $this;
     }
-    
+
 /*********************** ORDERS ***************************/
 
     public function createOrder()
     {
         $order = Mage::getModel('sales/order')
             ->createFromQuoteAddress($this);
-        
+
         $order->save();
-        
+
         $this->getQuote()
             ->setConvertedAt(now())
             ->setLastCreatedOrder($order)
             ->save();
-        
+
         return $order;
+    }
+
+    public function __clone()
+    {
+        $this->setEntityId(null);
     }
 }

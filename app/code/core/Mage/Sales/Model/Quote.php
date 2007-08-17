@@ -93,6 +93,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->_addresses;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getBillingAddress()
     {
         foreach ($this->getAddressesCollection() as $address) {
@@ -105,6 +110,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $address;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getShippingAddress()
     {
         foreach ($this->getAddressesCollection() as $address) {
@@ -188,6 +198,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @return Mage_Sales_Model_Quote
+     */
     public function setBillingAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $old = $this->getBillingAddress();
@@ -200,6 +216,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @return Mage_Sales_Model_Quote
+     */
     public function setShippingAddress(Mage_Sales_Model_Quote_Address $address)
     {
         if ($this->getIsMultiShipping()) {

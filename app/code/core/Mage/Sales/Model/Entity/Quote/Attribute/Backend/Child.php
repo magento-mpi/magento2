@@ -6,7 +6,8 @@ class Mage_Sales_Model_Entity_Quote_Attribute_Backend_Child
     public function beforeSave($object)
     {
         if ($object->getQuote()) {
-            $object->setParentId($object->getQuote()->getId());
+            $object->setParentId($object->getQuote()->getId())
+                ->setStoreId($object->getQuote()->getStoreId());
         }
         parent::beforeSave($object);
         return $this;

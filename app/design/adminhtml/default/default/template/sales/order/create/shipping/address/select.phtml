@@ -1,0 +1,7 @@
+<?=__('Select from existing customer addresses:')?><br/>
+<select id="shipping_address:address_id" onchange="sc_addressSelect('shipping',this.options[this.selectedIndex].value);sc_addressChange(this);" style="width: 324px;"<?=($this->getSameAsBilling() ? ' disabled' : '')?>>
+    <option value=""><?=__('Add New Address')?></option>
+    <?foreach ($this->getAddresses() as $_address):?>
+        <option value="<?=$_address->getId()?>"<?=$this->getIsSelected($_address)?>><?=$_address->getFirstname()?> <?=$_address->getLastname()?>, <?=$_address->getStreet(-1)?>, <?=$_address->getCity()?>,<?=$_address->getRegion()?> <?=$_address->getPostcode()?></option>
+    <?endforeach;?>
+</select>
