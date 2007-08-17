@@ -25,10 +25,6 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 
         $options = $element->getValues();
 
-        if ($isMultiple) {
-            $element->setName($element->getName().'[]');
-        }
-
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {
             $addInheritCheckbox = true;

@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header'=> __('Price'),
                 'type'  => 'currency',
-                'currency_code' => 'USD',
+                'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
                 'index' => 'price',
         ));
         $this->addColumn('qty',

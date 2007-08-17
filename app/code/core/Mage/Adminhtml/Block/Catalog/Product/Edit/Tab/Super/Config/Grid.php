@@ -114,8 +114,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
         $this->addColumn('price', array(
             'header'    => __('Price'),
-            'align'     => 'center',
             'type'      => 'currency',
+            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
             'index'     => 'price'
         ));
                         

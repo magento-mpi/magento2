@@ -37,11 +37,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
 	
 	public function getValues()
 	{
-		if(!is_array($this->getElement()->getValue())) {
-			return array();
+	    $values =array();
+	    $data = $this->getElement()->getValue();
+		if(is_array($data)) {
+			foreach ($data as $value) {
+				if (isset($value['price'])) {
+				    $value['price'] = number_format($value['price'], 2, null, '');
+				}
+				$values[] = $value;
+			}
 		}
-		
-		return $this->getElement()->getValue();
+		return $values;
 	}
 	
 	protected function _initChildren()
