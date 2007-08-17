@@ -409,10 +409,37 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         return $this->getResource()->getSharedStoreIds();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Store $store
+     * @return Mage_Customer_Model_Customer
+     */
+    public function setStore(Mage_Core_Model_Store $store)
+    {
+        $this->_store = $store;
+        $storeId = $store->getId();
+        $this->setStoreId($storeId);
+        foreach ($this->getLoadedAddressCollection() as $address) {
+            /* @var $address Mage_Customer_Model_Address */
+            $address->setStoreId($storeId);
+        }
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param int $storeId
+     * @return Mage_Customer_Model_Customer
+     */
     public function setStoreId($storeId)
     {
         $this->getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
+        if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
+            $this->_store = null;
+        }
         return $this;
     }
 

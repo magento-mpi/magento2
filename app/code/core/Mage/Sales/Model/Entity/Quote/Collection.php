@@ -44,7 +44,7 @@ class Mage_Sales_Model_Entity_Quote_Collection extends Mage_Eav_Model_Entity_Col
         $this->addAttributeToSelect('entity_id')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('is_active', 1)
-            ->addAttributeToFilter('store_id', array('in', $customer->getDatashareStoreIds()))
+            ->addAttributeToFilter('store_id', array('in', $this->getEntity()->getSharedStoreIds()))
             ->setOrder('updated_at', 'desc')
             ->setPage(1,1)
             ->load();

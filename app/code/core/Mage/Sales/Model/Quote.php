@@ -243,6 +243,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->_items;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     public function getAllItems()
     {
         $items = array();
