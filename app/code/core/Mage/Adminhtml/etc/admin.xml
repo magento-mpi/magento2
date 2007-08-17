@@ -269,7 +269,7 @@
                             <action>adminhtml/report_tag/product2</action>
                         </product_total>
                         <popular>
-                            <title>Products</title>
+                            <title>Popular</title>
                             <action>adminhtml/report_tag/popular</action>
                         </popular>
                     </children>

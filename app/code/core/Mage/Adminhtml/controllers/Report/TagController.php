@@ -27,7 +27,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->renderLayout();
     }
 
-    public function productAction()
+    public function product1Action()
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/product')
@@ -35,15 +35,25 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product'))
             ->renderLayout();
     }
-/*
+
+    public function customerDetailAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/tag/customerDetail')
+            ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
+            ->_addBreadcrumb(__('Customer Tags'), __('Customer Tags'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_customer_detail'))
+            ->renderLayout();
+    }
+    
     public function productDetailAction()
     {
         $this->_initAction()
-            ->_setActiveMenu('report/review/productDetail')
+            ->_setActiveMenu('report/tag/productDetail')
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
-            ->_addBreadcrumb(__('Product Reviews'), __('Product Reviews'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_detail'))
+            ->_addBreadcrumb(__('Product Tags'), __('Product Tags'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_detail'))
             ->renderLayout();
     }
- */
+ 
 }
