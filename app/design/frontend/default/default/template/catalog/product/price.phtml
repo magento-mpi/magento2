@@ -1,10 +1,10 @@
 <?if ($this->getFinalPrice() == $this->getPrice()):?>
 	<div class="price-box">
-		<span class="regular-price"><span class="label"><?=__('Price')?>:</span> <?=Mage::currency($this->getPrice())?></span><br/>
+		<span class="regular-price"><?=Mage::currency($this->getPrice())?></span><br/>
 	</div>
 <?else:?>
 	<div class="price-box">
-		<span class="special-price"><span class="label"><?=__('Special')?>:</span> <?=Mage::currency($this->getFinalPrice())?></span><br/>
-		<span class="old-price"><span class="label"><?=__('Price')?>:</span> <?=Mage::currency($this->getPrice())?></span>
+		<span class="special-price"><?=Mage::currency($this->getFinalPrice())?></span><br/>
+		<span class="old-price"><span class="label"><?=__('Regular Price')?>:</span> <?=Mage::currency($this->getPrice())?></span>
 	</div>
 <?endif?>
