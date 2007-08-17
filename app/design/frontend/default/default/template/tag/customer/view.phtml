@@ -6,6 +6,7 @@
 </p>
 <?=$this->getPagerHtml()?>
 <table class="data-table box-table" cellspacing="0">
+<?if( sizeof($this->getMyProducts()) > 0 ):?>
 	<col width="100">
 	<col>
 	<col width="75">
@@ -36,5 +37,10 @@
 		</tr>
 	<?endforeach;?>
 	</tbody>
+<?else:?>
+		<tr class="odd">
+		  <td><center><small><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></small></center></td>
+		</tr>
+<?endif;?>
 </table>
 <?=$this->getPagerHtml()?>

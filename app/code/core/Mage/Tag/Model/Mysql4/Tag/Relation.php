@@ -23,7 +23,8 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
             $select = $read->select();
 
             $select->from($this->getMainTable())
-                ->where('tag_id = ?', $model->getTagId())
+                ->join($this->getTable('tag/tag'), "{$this->getTable('tag/tag')}.tag_id = {$this->getMainTable()}.tag_id")
+                ->where("{$this->getMainTable()}.tag_id = ?", $model->getTagId())
                 ->where('customer_id = ?', $model->getCustomerId());
 
             $data = $read->fetchRow($select);

@@ -28,7 +28,7 @@ class Mage_Tag_Block_Customer_Tags extends Mage_Core_Block_Template
             $tags = Mage::getResourceModel('tag/tag_collection')
                 ->addPopularity(20)
                 ->setOrder('popularity', 'DESC')
-                ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
+                #->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->load()
                 ->getItems()

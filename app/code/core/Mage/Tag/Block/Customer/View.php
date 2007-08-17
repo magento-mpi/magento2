@@ -66,9 +66,9 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
             $this->_collection = $tagModel->getEntityCollection();
 
             $this->_collection
-                ->addStoreFilter(Mage::getSingleton('core/store')->getId())
+                #->addStoreFilter(Mage::getSingleton('core/store')->getId())
                 ->addTagFilter($this->getTagId())
-                ->addStatusFilter($tagModel->getApprovedStatus())
+                #->addStatusFilter($tagModel->getApprovedStatus())
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->addAttributeToSelect('description');
         }

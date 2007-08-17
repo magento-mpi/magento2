@@ -14,11 +14,19 @@ class Mage_Tag_ProductController extends Mage_Core_Controller_Front_Action
     public function listAction()
     {
         $this->loadLayout();
+        $tagId = $this->getRequest()->getParam('tagId');
 
-        Mage::register('tagId', $this->getRequest()->getParam('tagId'));
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('tag/product_result')
-        );
+        if( intval($tagId) <= 0 ) {
+            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                $this->getResponse()->setRedirect($referer);
+            } else {
+            	$this->getResponse()->setRedirect(Mage::getBaseUrl());
+            }
+            return;
+        }
+
+        Mage::register('tagId', $tagId);
+        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('tag/product_result'));
 
         $this->renderLayout();
     }

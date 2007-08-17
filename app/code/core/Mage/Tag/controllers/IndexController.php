@@ -34,6 +34,12 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         ->save();
 
                 $tagRalationModel = Mage::getModel('tag/tag_relation');
+
+                $tagRalationModel->loadByTagCustomer($tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
+                if( $tagRalationModel->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId() ) {
+                    return;
+                }
+
                 $tagRalationModel->setTagId($tagModel->getId())
                     ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                     ->setProductId($this->getRequest()->getParam('productId'))

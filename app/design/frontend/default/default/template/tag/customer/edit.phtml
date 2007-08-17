@@ -1,0 +1,7 @@
+<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="POST">
+	<input type="text" class="input-text required-entry" style="width:300px;" name="tagName" value="<?=$this->getTag()->getName()?>" />
+	<button class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Save Tag')?></span></button>
+</form>
+<script type="text/javascript">
+	var tagForm = new VarienForm('addTagForm');
+</script>
