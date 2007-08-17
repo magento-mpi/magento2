@@ -27,3 +27,6 @@ EOT
 
 $this->addConfigField('design/package/translate', 'Translation theme');
 $this->setConfigData('design/package/translate', 'default');
+
+$this->addConfigField('design/package/default_theme', 'Default theme');
+$this->setConfigData('design/package/default_theme', 'default');
