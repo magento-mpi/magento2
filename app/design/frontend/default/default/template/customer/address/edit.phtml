@@ -6,7 +6,7 @@
  */
 ?>
 <?if($this->getTitle()):?>
-<div class="page-head">
+<div class="page-head-alt">
     <h3><?=$this->getTitle()?></h3>
 </div>
 <?endif;?>
@@ -15,7 +15,7 @@
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
     <fieldset class="group-select">
-        <legend>Contact Information</legend>
+        <h4 class="legend">Contact Information</h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -40,8 +40,7 @@
         </ul>
     </fieldset>
     <fieldset class="group-select">
-        <legend>Address</legend>
-        <h3>Address</h3>
+         <h4 class="legend">Address</h4>
         <ul>
             <li>
                 <label for="street_1">Street Address <span class="required">*</span></label><br/>

@@ -18,19 +18,11 @@
 .actions,
 .form-list li,
 .group-select li,
-
-
 .checkout-progress,
 .my-review-detail,
 .account-box li,
 .listing-type-list .listing-item,
-.listing-type-list .product-info .product-reviews,
-
- {
- zoom:1;
-}
-
-.one-page-checkout { position:relative; }
+.listing-type-list .product-info .product-reviews { zoom:1; }
 
 .clear {
 	display:block;
@@ -39,23 +31,3 @@
 	font-size:0;
 	line-height:0;
 	}
-
-.group-select .legend { position:relative; zoom:1; top:0; margin-top:-33px; }
-
-
-
-/* Min-height for IE */
-.login-box .content { height:180px; }
-.content-box { height:250px; }
-.main-container { min-height:400px; }
-
-/* recognition of parent's padding as zero point */
-.head .corner { top:-6px; right:-1px; } 
-
-
-.quick-access li {
-	padding-right:4px;
-	padding-left:6px;
-	}
-
-.payment-methods dd { padding-left:25px; }

@@ -6,16 +6,16 @@
  */
 ?>
 <div class="page-head">
-    <h2>Select Shipping Method</h2>
+    <h3>Select Shipping Method</h3>
 </div>
 <?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
 <?foreach ($this->getAddresses() as $_index => $_address):?>
-<h3>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getAddressCount()?></h3>
+<h4>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getAddressCount()?></h4>
 <div class="generic-box col2-alt-set">
     <div class="col-1">
         <div class="head">
-            <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a></h4>
+            <h4>Shipping to<span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a></h4>
         </div>
         <address>
             <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>

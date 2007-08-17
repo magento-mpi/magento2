@@ -1,6 +1,8 @@
 
-	<h1 class="page-heading">Shipping Information</h1>
-	<h2>Shipping Address | <a href="">Change Address</a></h2>
+	<div class="page-head">
+		<h3>Shipping Information</h3>
+	</div>
+	<h4>Shipping Address | <a href="">Change Address</a></h4>
 	<address>
 			<strong><?=$address->getFirstname()?> <?=$address->getLastname()?></strong><br/>
 			<?=$address->getCompany()?><br/>
@@ -9,14 +11,13 @@
 			<?if($address->getTelephone()):?>T| <?=$address->getTelephone()?><br/><?endif?>
 			<?if($address->getFax()):?>F| <?=$address->getFax()?><br/><?endif?>
 	</address>
-	<h2>Shipping Method</h2>
+	<h4>Shipping Method</h4>
 	<form action="<?=$action?>" method="post">
 			<fieldset>
 					<legend>Shipping Method</legend>
 			</fieldset>
-			<div class="buttons-container">
-					<input onclick="window.location='<?=$baseUrl?>checkout/cart/'" type="button" class="float-left input-button" value="Back"/>
-					<input type="submit" class="input-button float-right" value="Continue"/>
-					<div class="clearfix"></div>
+			<div class="form-buttons">
+					<a href="#" onclick="window.location='<?=$baseUrl?>checkout/cart/'" class="left">&laquo;<a>
+					<button class="form-button"><span>Continue</span></button>
 			</div>
 	</form>
