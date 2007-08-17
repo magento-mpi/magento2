@@ -239,7 +239,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getBaseDir($type)
     {
-        $dir = (string)$this->getNode('stores/base/system/filesystem/'.$type);
+        $dir = (string)$this->getNode('stores/default/system/filesystem/'.$type);
         if (!$dir) {
             $dir = $this->getDefaultBaseDir($type);
         }

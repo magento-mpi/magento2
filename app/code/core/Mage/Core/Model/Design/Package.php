@@ -73,18 +73,31 @@ class Mage_Core_Model_Design_Package
 		return $this->_name;
 	}
 	
-	public function setTheme($theme)
+	public function setTheme($type, $theme=null)
 	{
-		$this->_theme = $theme;
+		if (is_null($theme)) {
+			$theme = $type;
+			foreach (array('layout', 'template', 'skin', 'translate') as $type) {
+				$this->_theme[$type] = $theme;
+			}
+		} else {
+			$this->_theme[$type] = $theme;
+		}
 		return $this;
 	}
 	
-	public function getTheme()
+	public function getTheme($type)
 	{
-		if (empty($this->_theme)) {
-			$this->_theme = $this->getDefaultTheme();
+		if (empty($this->_theme[$type])) {
+			$this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type);
+			if ($type!=='default' && empty($this->_theme[$type])) {
+				$this->_theme[$type] = $this->getTheme('default');
+				if (empty($this->_theme[$type])) {
+					$this->_theme[$type] = $this->getDefaultTheme();
+				}
+			}
 		}
-		return $this->_theme;
+		return $this->_theme[$type];
 	}
 	
 	public function getDefaultArea()
@@ -95,6 +108,11 @@ class Mage_Core_Model_Design_Package
 	public function getDefaultPackage()
 	{
 		return 'default';
+	}
+	
+	public function getCurrentPackage()
+	{
+		return Mage::getStoreConfig('design/package/name');
 	}
 	
 	public function getDefaultTheme()
@@ -111,7 +129,7 @@ class Mage_Core_Model_Design_Package
 			$params['_package'] = $this->getPackageName();
 		}
 		if (empty($params['_theme'])) {
-			$params['_theme'] = $this->getTheme();
+			$params['_theme'] = $this->getTheme($params['_type']);
 		}
 		return $this;
 	}
@@ -138,7 +156,7 @@ class Mage_Core_Model_Design_Package
 	public function getSkinBaseDir(array $params=array())
 	{
 		$this->updateParamDefaults($params);
-		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
+		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('skin').DS : '').
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'];
 		return $baseDir;
 	}
@@ -262,13 +280,13 @@ class Mage_Core_Model_Design_Package
     public function getSkinUrl($file=null, array $params=array())
     {
     	Varien_Profiler::start(__METHOD__);
-    	$this->updateParamDefaults($params);
     	if (empty($params['_type'])) {
     		$params['_type'] = 'skin';
     	}
     	if (empty($params['_default'])) {
     		$params['_default'] = false;
     	}
+    	$this->updateParamDefaults($params);
     	if (!empty($file)) {
 			$filename = $this->validateFile($file, $params);
 			if (false===$filename) {
