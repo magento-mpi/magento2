@@ -200,4 +200,14 @@ class Mage_Catalog_Model_Category extends Varien_Object
         }
         return $layout;
     }
+    
+    public function getImageUrl()
+    {
+        $url = false;
+        if ($image = $this->getImage()) {
+            $url = Mage::getSingleton('core/store')->getConfig('catalog/images/category_upload_url').$image;
+        }
+
+        return $url;
+    }
 }

@@ -10,11 +10,8 @@
 <h2 class="category-head"><?=$this->getCurrentCategory()->getName()?></h2>
 <?endif;?>
 
-
-
-
-<?if($this->getCurrentCategory()->getImage()):?>
-    <p><img src="<?=/*TOFIX*/Mage::getSingleton('core/store')->getConfig('web/url/upload').$this->getCurrentCategory()->getImage()?>" alt="<?=$this->getCurrentCategory()->getName()?>" width="512"/></p>
+<?if($_imageUrl=$this->getCurrentCategory()->getImageUrl()):?>
+    <p><img src="<?=$_imageUrl?>" alt="<?=$this->getCurrentCategory()->getName()?>" width="512"/></p>
 <?endif;?>
 
 <?=$this->getPagerHtml()?>
@@ -24,35 +21,33 @@
 <!-- [starts] .listing-type-list // -->
 <div class="listing-type-list catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 
-    <?$i=0; foreach ($productCollection as $product):?>
-						<div class="listing-item" <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>">
-							<div class="product-image">
-								<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
-							</div>
+<?$i=0; foreach ($productCollection as $product):?>
+<div class="listing-item" <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>">
+	<div class="product-image">
+		<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
+	</div>
 
-							<div class="product-shop">
-								<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-
-								<div class="ratings">
-									<div class="rating-box">
-										<div class="rating" style="width:70%;">
-										</div>
-									</div>
-									<a href="#"><small class="count">3 Reviews</small></a>
-								</div>
-								<div class="price-box">
-									<span class="special-price"><span class="label">Special:</span> <?=Mage::currency($product->getFinalPrice())?></span><br/>
-									<span class="old-price"><span class="label">Price:</span> <?=Mage::currency($product->getPrice())?></span>
-								</div>
-								<button href="#" class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
-								<div class="clear"></div>
-								<div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
-								<p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
-								<?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>
-								</p>
-							</div>
-						</div>
-    <?endforeach;?>
+	<div class="product-shop">
+        <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
+        <div class="ratings">
+        	<div class="rating-box">
+        		<div class="rating" style="width:70%"></div>
+        	</div>
+        	<a href="#"><small class="count">3 Reviews</small></a>
+        </div>
+        <div class="price-box">
+        	<span class="special-price"><span class="label">Special:</span> <?=Mage::currency($product->getFinalPrice())?></span><br/>
+        	<span class="old-price"><span class="label">Price:</span> <?=Mage::currency($product->getPrice())?></span>
+        </div>
+        <button href="#" class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
+        <div class="clear"></div>
+        <div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
+        <p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
+        <?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>
+        </p>
+	</div>
+</div>
+<?endforeach;?>
 
 
 
