@@ -1,7 +1,7 @@
 <?$productCollection = $this->getLoadedProductCollection()?>
 
 <?if(!$productCollection->getSize()):?>
-    <p>There are no products under search term "<?=$query?>"</p>
+    <p>There are no products under search term "<?=$this->getQuery()?>"</p>
     <?return;?>
 <?endif;?>
 

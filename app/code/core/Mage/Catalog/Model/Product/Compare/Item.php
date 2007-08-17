@@ -82,5 +82,5 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 			}
 		}
 		return $this;
-	}	
+	}
 }// Class Mage_Catalog_Model_Compare_Item END
