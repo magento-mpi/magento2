@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml tags by customers report grid block
+ * Adminhtml reviews by customers report grid block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,70 +8,69 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
- 
-class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+
 {
     public function __construct()
     {
         parent::__construct();
         $this->setId('customers_grid');
+        $this->setDefaultSort('id');
+        $this->setDefaultDir('desc');
     }
 
     protected function _prepareCollection()
     {     
         
         $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addAttributeToSelect('firstname')
-            ->addAttributeToSelect('lastname');
-        
-        $collection->getSelect()
-            ->joinRight(array('tr' => 'tag_relation'), 'tr.customer_id=e.entity_id', array('taged' => 'count(tr.tag_relation_id)'))
-            ->joinRight(array('t' => 'tag'), 't.tag_id=tr.tag_id', 'status')
-            ->where('t.status='.Mage_Tag_Model_Tag::STATUS_APPROVED)
-            ->group('tr.customer_id')
-            ->order('taged DESC');     
-        
+                     ->addAttributeToSelect('entity_id')
+                     ->addAttributeToSelect('firstname')
+                     ->addAttributeToSelect('lastname');
+            
+        $collection->getSelect()->from('review_detail', 'count(review_detail.review_id) as review_cnt')
+                                ->where('review_detail.customer_id=e.entity_id')
+                                ->group('review_detail.customer_id');
+                                               
+                                               
+
         //echo $collection->getSelect()->__toString();
-        
+
         $this->setCollection($collection);
+      
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
         
-        $this->addColumn('id', array(
+        $this->addColumn('entity_id', array(
             'header'    =>__('ID'),
-            'width'     => '50px',
-            'sortable'  => false,
+            'width'     =>'50px',
+
             'index'     =>'entity_id'
         ));
         
         $this->addColumn('firstname', array(
             'header'    =>__('First Name'),
-            'sortable'  => false,
+            'width'     =>'100px',
             'index'     =>'firstname'
-        ));
+        ));    
         
         $this->addColumn('lastname', array(
             'header'    =>__('Last Name'),
-            'sortable'  => false,
+            'width'     =>'100px',
             'index'     =>'lastname'
         ));
         
-        $this->addColumn('taged', array(
-            'header'    =>__('Total Tags'),
-            'sortable'  => false,
-            'index'     =>'taged'
+        $this->addColumn('review_cnt', array(
+            'header'    =>__('Number Of Reviews'),
+            'width'     =>'40px',
+            'sortable'  =>false,
+            'index'     =>'review_cnt'
         ));
         
         $this->setFilterVisibility(false);
-        
+                      
         return parent::_prepareColumns();
     }
-    
-    public function getRowUrl($row)
-    {
-        return Mage::getUrl('*/*/customerDetail', array('id'=>$row->entity_id));
-    } 
 }
