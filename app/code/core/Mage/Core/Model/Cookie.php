@@ -20,8 +20,26 @@ class Mage_Core_Model_Cookie
         }
         else {
             $this->_id = $this->randomSequence();
-            setcookie(self::COOKIE_NAME, $this->_id, time()+60*60*24*30, '/');
+            setcookie(self::COOKIE_NAME, $this->_id, time()+60*60*24*30, $this->getCookiePath(), $this->getCookieDomain());
         }
+    }
+    
+    public function getCookieDomain()
+    {
+    	$domain = Mage::getStoreConfig('web/cookie/cookie_domain');
+    	if (empty($domain)) {
+    		$domain = $_SERVER['HTTP_HOST'];
+    	}
+    	return $domain;
+    }
+    
+    public function getCookiePath()
+    {
+    	$path = Mage::getStoreConfig('web/cookie/cookie_path');
+    	if (empty($path)) {
+    		$path = '/';
+    	}
+    	return $path;
     }
 
     public function getId()
@@ -50,7 +68,7 @@ class Mage_Core_Model_Cookie
         }
         $expire = time() + $period;
         $this->delete($cookieName);
-        setcookie($cookieName, $value, $expire, '/');
+        setcookie($cookieName, $value, $expire, $this->getCookiePath(), $this->getCookieDomain());
         return $this;
     }
 

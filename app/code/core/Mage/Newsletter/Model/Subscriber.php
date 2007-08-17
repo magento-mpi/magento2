@@ -71,6 +71,13 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     							  'code'=>$this->getCode()));
     }
     
+    public function getUnsubscriptionLink() {
+    	return Mage::getUrl('newsletter/subscriber/unsubscribe',
+    						array('id'=>$this->getId(),
+    							  'code'=>$this->getCode()));
+    }
+    
+    
     /**
      * Alias for setSubscriberConfirmCode()
      *
@@ -230,6 +237,74 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         $this->setId(null);
     }
     
+    public function randomSequence($length=32)
+    {
+        $id = '';
+        $par = array();
+        $char = array_merge(range('a','z'),range(0,9));
+        $charLen = count($char)-1;
+        for ($i=0;$i<$length;$i++){
+            $disc = mt_rand(0, $charLen);
+            $par[$i] = $char[$disc];
+            $id = $id.$char[$disc];
+        }
+        return $id;
+    }
+    
+    public function subscribe($email)
+    {
+    	$this->loadByEmail($email);
+    	
+    	$isNewSubscriber = false;
+    	
+    	if (!$this->getSubscriberId()) {
+    		if (Mage::getStoreConfig('customer/newsletter/confirm')) {
+    			$this->setSubscriberStatus(self::STATUS_NOT_ACTIVE);
+    		} else {
+    			$this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
+    		}
+			$this->setSubscriberConfirmCode($this->randomSequence());
+    		$this->setSubscriberEmail($email);	
+            $isNewSubscriber = true;	
+    	}
+    	
+    	$customerSession = Mage::getSingleton('customer/session');
+    	
+        if ($customerSession->isLoggedIn()) {
+            $this->setStoreId($customerSession->getCustomer()->getStoreId());
+            $this->setCustomerId($customerSession->getCustomerId());
+        } else {
+            $this->setStoreId(Mage::getSingleton('core/store')->getId());
+            $this->setCustomerId(0);
+        }
+        
+        $this->setIsStatusChanged(true);
+		
+        try {
+        	$this->save();
+        	if ($isNewSubscriber) {
+	        	if (Mage::getStoreConfig('customer/newsletter/confirm')) {
+	        		$this->sendConfirmationRequestEmail();
+	        	} else {
+	        		$this->sendConfirmationSuccessEmail();
+	        	}
+        	}
+        	return $this->getSubscriberStatus();
+        } catch (Exception $e) {
+        	return $e;
+        }
+    }
+    
+    public function unsubscribe($email)
+    {
+    	try {
+    		$this->setSubscriptionStatus(self::STATUS_UNSUBSCRIBED)->save();
+    		return true;
+    	} catch (Exception $e) {
+    		return $e;
+    	}
+    }
+    
     /**
      * Confirms subscriber newsletter
      *
@@ -240,7 +315,6 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	if($this->getCode()==$code) {
     		$this->setStatus(self::STATUS_SUBSCRIBED)
-    			->setCode(null)
     			->setIsStatusChanged(true)
     			->save();
     		return true;
@@ -258,6 +332,20 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function received(Mage_Newsletter_Model_Queue $queue) 
     {
     	$this->getResource()->received($this,$queue);
+    	return $this;
+    }
+    
+    public function sendConfirmationRequestEmail()
+    {
+    	Mage::getModel('core/email_template')
+    		->sendTransactional('new_subscription', $this->getEmail(), $this->getName(), array('subscriber'=>$this));
+    	return $this;
+    }
+
+    public function sendConfirmationSuccessEmail()
+    {
+    	Mage::getModel('core/email_template')
+    		->sendTransactional('subscription_success', $this->getEmail(), $this->getName(), array('subscriber'=>$this));
     	return $this;
     }
 }

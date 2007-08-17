@@ -15,7 +15,6 @@
  	 */
     public function indexAction() 
     {
-        echo Mage::getSingleton('customer/session')->getWebsiteId();
         $this->loadLayout();
         $block = $this->getLayout()->createBlock('newsletter/subscribe','subscribe.content');
         $this->getLayout()->getMessagesBlock()->setMessages(
@@ -32,38 +31,21 @@
  	 */
     public function newAction() 
     {
-        $subscriber = Mage::getModel('newsletter/subscriber');
-        $subscriber->loadByEmail($this->getRequest()->getParam('email'));
-        $customerSession = Mage::getSingleton('customer/session');
-        $session = Mage::getSingleton('newsletter/session');
+    	$session = Mage::getSingleton('newsletter/session');
+        $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
         
-        if(!$subscriber->getId()) {
-           
-            if($customerSession->isLoggedIn()) {
-                $subscriber->setStoreId($customerSession->getCustomer()->getStoreId());
-                $subscriber->setCustomerId($customerSession->getCustomerId());
-                $subscriber->setSubscriberEmail($customerSession->getCustomer()->getEmail());
-                $subscriber->setIsStatusChanged(true);
-            } else {
-                $subscriber->setSubscriberEmail($this->getRequest()->getParam('email'));
-                $subscriber->setCustomerId(0);
-                $subscriber->setStoreId(Mage::getSingleton('core/store')->getId());
-            }
-            
-            try {
-                $subscriber->save();
-                
-                if($subscriber->getCode()) {
-                    $template = Mage::getModel('newsletter/template')->load(Mage::getStoreConfig('email/subscription_confirm'));
-                    $template->send($subscriber, array('subscriber'=>$subscriber));
-                }
-                $session->addSuccess(__('You have been successfully subscribed'));
-            }
-            catch(Exception $e) {
-                // Nothing
-            }
+        if ($status instanceof Exception) {
+        	$session->addError(__('There was a problem with the subscription').': '.$status);
         } else {
-            $session->addSuccess(__('You have been successfully subscribed'));
+	        switch ($status) {
+	        	case Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE:
+	        		$session->addSuccess(__('Confirmation request has been sent'));
+	        		break;
+	        		
+	        	case Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED:
+	        		$session->addSuccess(__('Successfully subscribed'));
+	        		break;
+	        }
         }
         
         $this->_redirect('*/*');
@@ -79,12 +61,26 @@
     	
     	if($subscriber->getId() && $subscriber->getCode()) {
     		 if($subscriber->confirm($this->getRequest()->getParam('code'))) {
-    		 	Mage::getSingleton('newsletter/session')->addSuccess('Your subscription successfully confirmed');	
+    		 	Mage::getSingleton('newsletter/session')->addSuccess('Your subscription has been successfully confirmed');	
     		 } else {
     		 	Mage::getSingleton('newsletter/session')->addError('Invalid subscription confirmation code');
     		 }
     	} else {
     		 Mage::getSingleton('newsletter/session')->addError('Invalid subscription id');
+    	}
+    	
+    	$this->_redirect('*/*');
+    }
+    
+    public function unsubscribeAction()
+    {
+    	$session = Mage::getSingleton('newsletter/session');
+    	$result = Mage::getModel('newsletter/subscriber')->unsubscribe($this->getRequest()->getParam('email'));
+    	
+    	if ($result instanceof Exception) {
+    		$session->addError(__('There was a problem with the unsubscription').': '.$status);
+    	} else {
+    		$session->addSuccess(__('You have been successfully unsubscribed'));
     	}
     	
     	$this->_redirect('*/*');

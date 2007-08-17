@@ -38,7 +38,13 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
     public function start()
     {
         Varien_Profiler::start(__METHOD__.'/setOptions');
-        Zend_Session::setOptions(array('save_path'=>Mage::getBaseDir('session'), 'use_only_cookies'=>'off'));
+        Zend_Session::setOptions(array(
+        	'save_path'=>Mage::getBaseDir('session'), 
+        	'use_only_cookies'=>'off',
+        	'cookie_domain'=>$this->getCookieDomain(),
+        	'cookie_path'=>$this->getCookiePath(),
+        	'cookie_lifetime'=>$this->getCookieLifetime(),
+        ));
         Varien_Profiler::stop(__METHOD__.'/setOptions');
 /*
         Varien_Profiler::start(__METHOD__.'/setHandler');
@@ -209,4 +215,32 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
     {
         return Zend_Session::getId();
     }
+    
+    public function getCookieDomain()
+    {
+    	$domain = Mage::getStoreConfig('web/cookie/cookie_domain');
+    	if (empty($domain)) {
+    		$domain = $_SERVER['HTTP_HOST'];
+    	}
+    	return $domain;
+    }
+
+    public function getCookiePath()
+    {
+    	$path = Mage::getStoreConfig('web/cookie/cookie_path');
+    	if (empty($path)) {
+    		$path = '/';
+    	}
+    	return $path;
+    }
+    
+    public function getCookieLifetime()
+    {
+    	$lifetime = Mage::getStoreConfig('web/cookie/cookie_lifetime');
+    	if (empty($lifetime)) {
+    		$lifetime = 60*60*3;
+    	}
+    	return $lifetime;
+    }
+
 }

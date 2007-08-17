@@ -6,13 +6,13 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Identity
     {
        	$identities = Mage::getResourceModel('core/config_field_collection')
        		->addFieldToFilter("level", 2)
-       		->addFieldToFilter("path", array('like'=>'email/ident_%'))
+       		->addFieldToFilter("path", array('like'=>'trans_email/ident_%'))
        		->load();
        		
         $arr = array();
        	foreach ($identities as $ident) {
 			$arr[] = array(
-				'value' => preg_replace('#^email/ident_(.*)$#', '$1', $ident->getPath()),
+				'value' => preg_replace('#^trans_email/ident_(.*)$#', '$1', $ident->getPath()),
 				'label' => $ident->getFrontendLabel(),
 			);
        	}
