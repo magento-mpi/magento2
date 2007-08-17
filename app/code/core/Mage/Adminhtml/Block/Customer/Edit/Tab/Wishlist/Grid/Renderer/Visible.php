@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Visible exte
 	{
 		$collection = Mage::registry('stores_select_collection');
 		$store = $collection->getItemById($storeId);
-		$sharedIds = Mage::getModel('wishlist/wishlist')->getSharedStoreIds();
+		$sharedIds = Mage::getModel('wishlist/wishlist')->setStore($store)->getSharedStoreIds();
 
 		$sharedNames = array();
 
