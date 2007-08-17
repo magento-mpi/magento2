@@ -6,12 +6,25 @@ function setLocation(url){
 
 function decorateTable(table){
     if($(table)){
-        var rows = $(table).getElementsBySelector('tbody tr');
-        for(var i=0; i<rows.length; i++){
-            if(i%2==0) rows[i].addClassName('odd');
+        var allRows = $(table).getElementsBySelector('tr')
+        var bodyRows = $(table).getElementsBySelector('tbody tr');
+        var headRows = $(table).getElementsBySelector('thead tr');
+        var footRows = $(table).getElementsBySelector('tfoot tr');
+        
+        for(var i=0; i<bodyRows.length; i++){
+            if((i+1)%2==0) {
+                bodyRows[i].addClassName('even');
+            }
+            else {
+                bodyRows[i].addClassName('odd');
+            }
         }
-        if(rows.length) rows[rows.length-1].addClassName('last');
-        $(table).getElementsBySelector('tr').each(function(row){
+        
+        if(headRows.length) headRows[headRows.length-1].addClassName('last');
+        if(bodyRows.length) bodyRows[bodyRows.length-1].addClassName('last');
+        if(footRows.length) footRows[footRows.length-1].addClassName('last');
+        
+        allRows.each(function(row){
             var cols = row.getElementsByTagName('TD');
             if(cols.length) {
                 cols[cols.length-1].addClassName('last');
