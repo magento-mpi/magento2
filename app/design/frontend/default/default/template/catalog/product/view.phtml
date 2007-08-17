@@ -83,7 +83,6 @@
 			</div>
     <?endif;?>
 		</div>
-
 <div class="product-shop">
 <h3 class="product-name"><?=$product->getName()?></h3>
     <?=$this->getChildHtml('rating')?>
@@ -143,7 +142,7 @@
 		<fieldset class="add-to-cart-box">
 			<legend>Add items to cart </legend>
 			<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
-			<a class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></a> <strong>OR</strong>
+			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
 		</fieldset>
 		<div class="add-to-box">
 			<a href="<?=$wishlistLink?>">Add to Wishlist</a>
@@ -160,16 +159,11 @@
 		<?endif;?>
 	<?else:?>
 	<p><small>Availability: In stock. Ships within 24hours.</small></p>
-	<fieldset class="add-to-cart-box">
-		<legend>Add items to cart </legend>
-		<a class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></a> <strong>OR</strong>
-	</fieldset>
-	<div class="add-to-box">
-		 <a href="<?=$wishlistLink?>">Add to Wishlist</a>
+		<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
+		&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
 		 <?if($this->getCompareJsObjectName()):?>
-				<br/><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+				<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
 		<?endif;?>
-	</div>
     <?endif;?>
     </form>
     <script type="text/javascript">

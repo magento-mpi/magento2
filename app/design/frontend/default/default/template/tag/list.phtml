@@ -14,8 +14,10 @@
 	<h5><?=__('Add your tags')?>:</h5>
 	<div class="add-tag-box">
 		<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="POST">
-			<input type="text" class="input-text required-entry" name="tagName" />
-			<a class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Add Tags')?></span></a>
+			<div class="input-box">
+				<input type="text" class="input-text required-entry" name="tagName" />
+			</div>
+			<button class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Add Tags')?></span></button>
 		</form>
 		<script type="text/javascript">
 			var tagForm = new VarienForm('addTagForm');

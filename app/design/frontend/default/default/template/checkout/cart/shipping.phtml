@@ -2,7 +2,7 @@
 <form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
 	<p><label for="estimate_postcode"><?=__('Enter your zip code to get a shipping quote.')?></label></p>
 	<input class="input-text left" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
-	<a class="form-button"><span><?=__('Get Quote')?></span></a>
+	<button class="form-button"><span><?=__('Get Quote')?></span></button>
 	<div class="clear"></div>
 </form>
 <?if (!($_shippingRateGroups = $this->getEstimateRates())):?>

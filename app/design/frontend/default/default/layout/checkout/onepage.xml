@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <reference name="root">
-        <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
     </reference>
     
-    <reference name="left">
+    <reference name="right">
         <action method="unsetChildren"></action>
         <block type="checkout/onepage_progress" name="checkout.progress" before="-">
             <action method="setTemplate"><template>checkout/onepage/progress.phtml</template></action>

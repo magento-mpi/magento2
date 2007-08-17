@@ -1,5 +1,7 @@
 /************** CLEARS ***************/
 
+.page-head:after,
+.page-head-alt:after,
 .clear:after,
 .col2-set:after,
 .col3-set:after,
@@ -16,25 +18,21 @@
 .form-buttons:after,
 .actions:after,
 .form-list li:after,
+.button-container:after,
+.ratings:after,
+.page-head:after,
+.page-head-alt:after,
+.group-select li:after,
 
-.util-form-buttons:after,
+
+
 .checkout-progress:after, 
 .my-review-detail:after,
 .account-box li:after,
 .product-box:after,
 .address-list li:after,
-.page-head:after,
-.page-head-alt:after,
-.group-select li:after,
-.account-access:after,
 .listing-type-list .listing-item:after,
-.listing-type-list .product-info .product-reviews:after,
-.box:after,
-.box .content:after,
-.box li:after,
-.box .actions:after,
-.button-container:after,
-.ratings:after {
+.listing-type-list .product-info .product-reviews:after {
 	content:".";
 	display:block;
 	clear:both;

@@ -13,7 +13,7 @@
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
     <fieldset class="group-select">
-        <legend>Personal Information</legend>
+        <h4 class="legend">Personal Information</h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -38,7 +38,7 @@
 <?if($this->getShowAddressFields()):?>
     <input type="hidden" name="create_address" value="1"/>
     <fieldset class="group-select">
-        <legend>Address Information</legend>
+        <h4 class="legend">Address Information</h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -87,7 +87,7 @@
     <input type="hidden" name="default_shipping" value="1"/>
 <?endif;?>
     <fieldset class="group-select">
-        <legend>Login Information</legend>
+        <h4 class="legend">Login Information</h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -103,7 +103,7 @@
     </fieldset>
     <div class="form-buttons">
         <p class="required">* Required Fields</p>
-        <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back</a>
+        <a href="<?=$this->getBackUrl()?>" class="back left">Back</a>
         <button class="form-button" type="submit"/><span>Submit</span></button>
     </div>
 </form>

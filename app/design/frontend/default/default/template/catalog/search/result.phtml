@@ -86,7 +86,7 @@
 										<span class="old-price">Regular price: $39.95</span>-->
 										<span class="regular-price"><?=$product->getFormatedPrice()?></span>
 									</div>
-									<a class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></a>
+									<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
 									<div class="clear"></div>
 									<p class="add-to">
 										<?if($this->getCompareJsObjectName()):?>

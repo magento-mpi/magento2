@@ -68,7 +68,7 @@
         <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Loading next step... &nbsp; 
     </span>
     <span id="billing-buttons-container" >
-        <button class="form-button" onclick="checkout.back()"><span><?=__('Back')?></span></button>
+       <a href="#" onclick="checkout.back()" class="back left"><?=__('Back')?></a>
         <button class="form-button" onclick="billing.save()"><span><?=__('Continue')?></span></button>
     </span>
 </div>
