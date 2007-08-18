@@ -327,7 +327,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _beforeToHtml()
     {
         $this->_prepareGrid();
-        return $this;
+        return parent::_beforeToHtml();
     }
 
     protected function _afterLoadCollection()

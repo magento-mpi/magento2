@@ -21,6 +21,6 @@ class Mage_Adminhtml_Block_Customer_Group extends Mage_Core_Block_Template
     {
         $this->assign('createUrl', Mage::getUrl('adminhtml/customer_group/new'));
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/customer_group_grid', 'customer.group.grid'));
-        return $this;
+        return parent::_beforeToHtml();
     }
 }

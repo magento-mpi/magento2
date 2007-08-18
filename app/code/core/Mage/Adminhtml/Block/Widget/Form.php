@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     protected function _beforeToHtml()
     {
         $this->_prepareForm();
-        return $this;
+        return parent::_beforeToHtml();
     }
 
     protected function _setFieldset($attributes, $fieldset)

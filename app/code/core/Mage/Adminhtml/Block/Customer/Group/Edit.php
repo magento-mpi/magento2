@@ -81,6 +81,6 @@ class Mage_Adminhtml_Block_Customer_Group_Edit extends Mage_Adminhtml_Block_Widg
         }
         
         $this->assign('form', $this->getLayout()->createBlock('adminhtml/customer_group_edit_form')->toHtml());
-        return $this;
+        return parent::_beforeToHtml();
     }
 }

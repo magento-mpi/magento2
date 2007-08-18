@@ -99,12 +99,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {
-    	$class = get_class($this);
-    	$module = substr($class, 0, strpos($class, '_Block'));
-    	if (Mage::getStoreConfig("advanced/modules_disable_output/$module")) {
-    		return false;
-    	}
-        return true;
+        return parent::_beforeToHtml();
     }
 
     /**

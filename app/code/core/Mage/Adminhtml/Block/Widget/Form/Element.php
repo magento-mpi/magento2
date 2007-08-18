@@ -44,6 +44,6 @@ class Mage_Adminhtml_Block_Widget_Form_Element extends Mage_Core_Block_Template
         $this->assign('element', $this->_element);
         $this->assign('formBlock', $this->_formBlock);
         
-        return $this;
+        return parent::_beforeToHtml();
     }
 }

@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
     {
         $menu = $this->_buildMenuArray(); 
         $this->assign('menu', $menu);
-        return true;
+        return parent::_beforeToHtml();
     }
     
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)

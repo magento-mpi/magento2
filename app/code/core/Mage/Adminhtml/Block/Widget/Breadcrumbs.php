@@ -40,6 +40,6 @@ class Mage_Adminhtml_Block_Widget_Breadcrumbs extends Mage_Core_Block_Template
     {
         // TODO - Moved to Beta 2, no breadcrumbs displaying in Beta 1
         // $this->assign('links', $this->_links);
-        return $this;
+        return parent::_beforeToHtml();
     }
 }

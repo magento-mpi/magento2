@@ -338,6 +338,23 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return implode($separator, $arrValues);
     }
 
+    /**
+     * Before rendering html
+     *
+     * If returns false html is rendered empty
+     *
+     * @return boolean
+     */
+    protected function _beforeToHtml()
+    {
+    	$class = get_class($this);
+    	$module = substr($class, 0, strpos($class, '_Block'));
+    	if (Mage::getStoreConfig("advanced/modules_disable_output/$module")) {
+    		return false;
+    	}
+        return true;
+    }
+    
     public function toHtml()
     {
 

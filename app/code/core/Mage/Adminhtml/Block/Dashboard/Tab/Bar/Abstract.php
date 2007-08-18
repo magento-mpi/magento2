@@ -93,6 +93,6 @@
 	protected function _beforeToHtml()
 	{
 		$this->_prepareCollection();
-		return true;
+		return parent::_beforeToHtml();
 	}
  } // Class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Abstract end

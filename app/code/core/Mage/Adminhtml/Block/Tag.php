@@ -20,6 +20,6 @@ class Mage_Adminhtml_Block_Tag extends Mage_Core_Block_Template
     {
         $this->assign('createUrl', Mage::getUrl('adminhtml/tag/new'));
         $this->setChild('tag_frame', $this->getLayout()->createBlock('adminhtml/tag_tab_all', 'tag.frame'));
-        return $this;
+        return parent::_beforeToHtml();
     }
 }

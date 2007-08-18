@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             $this->setActiveTab($activeTab);
         }
         $this->assign('tabs', $this->_tabs);
-        return $this;
+        return parent::_beforeToHtml();
     }
     
     public function getJsObjectName()
