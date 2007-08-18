@@ -316,7 +316,7 @@ addressesModel.prototype = {
             var fields = this.getFormContainerFields(container);
             for(var i in fields){
                 if(fields[i].id){
-                    var id = fields[i].id.replace(/_item[0-9]+/, '');
+                    var id = fields[i].id.replace(/^(_item)?[0-9]+/, '');
                     data[id] = fields[i].value;
                 }
             }
