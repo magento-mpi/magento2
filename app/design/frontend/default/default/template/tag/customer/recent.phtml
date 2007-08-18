@@ -4,7 +4,7 @@
 			<a href="<?=$this->getAllTagsUrl()?>"><?=__('View All')?></a>
 	</div>
 	<ol>
-			<?$iterator = 0?>
+		<?$iterator = 0?>
 		<?foreach( $this->getCollection()->getItems() as $_item ):?>
 			<li <?if($iterator % 2 == 0):?>class="odd"<?endif;?>>
 				<div class="count"><?=++$iterator?></div>

@@ -82,6 +82,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                             ->setProductId($this->getRequest()->getParam('id'))
                             ->toHtml(),
                 ));
+
+                $this->addTab('customers_tags', array(
+                    'label'     => __('Customers Tagged Product'),
+                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag_customer', 'admin.product.tags.customers')
+                            ->setProductId($this->getRequest()->getParam('id'))
+                            ->toHtml(),
+                ));
             }
 
             if (Mage::registry('product')->isBundle()) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Products' tags grid
+ * List of customers tagged a product
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -9,13 +9,13 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_grid');
-        $this->setDefaultSort('name');
+        $this->setId('tag_customers_grid');
+        $this->setDefaultSort('firstname');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
     }
@@ -24,9 +24,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
     {
         $tagId = Mage::registry('tagId');
         $collection = Mage::getModel('tag/tag')
-            ->getResourceCollection()
+            ->getCustomerCollection()
             ->addProductFilter($this->getProductId())
-            ->addPopularity($tagId);
+            ->addGroupByTag();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -39,16 +39,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
 
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array(
-            'header'    => __('Tag Name'),
-            'index'     => 'name',
+        $this->addColumn('firstname', array(
+            'header'    => __('First Name'),
+            'index'     => 'firstname',
         ));
 
-        $this->addColumn('popularity', array(
-            'header'        => __('# of Use'),
-            'width'         => '50px',
-            'align'         => 'right',
-            'index'         => 'popularity',
+        $this->addColumn('lastname', array(
+            'header'        => __('Last Name'),
+            'index'         => 'lastname',
+        ));
+
+        $this->addColumn('email', array(
+            'header'        => __('Email'),
+            'index'         => 'email',
+        ));
+
+        $this->addColumn('name', array(
+            'header'        => __('Tag Name'),
+            'index'         => 'name',
         ));
 
         return parent::_prepareColumns();
@@ -57,14 +65,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
     protected function getRowUrl($row)
     {
         return Mage::getUrl('*/tag/edit', array(
-            'tag_id' => $row->getId(),
+            'tag_id' => $row->getTagId(),
             'product_id' => $this->getProductId(),
         ));
     }
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/catalog_product/tagGrid', array(
+        return Mage::getUrl('*/catalog_product/tagCustomerGrid', array(
             '_current' => true,
             'id'       => $this->getProductId(),
             'product_id' => $this->getProductId(),

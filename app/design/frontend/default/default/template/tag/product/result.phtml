@@ -36,9 +36,10 @@
         <?endforeach;?>
     </div>
     <!-- [ends] .listing-type-list // -->
-
+    <?=$this->getPagerHtml()?>
     <?else:?>
     <!-- [starts] .listing-type-grid // -->
+    <?=$this->getPagerHtml()?>
     	<div class="listing-type-grid"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
     	    <table cellspacing="0" class="generic-product-grid">
     		    <?$i=0; foreach ($this->getProducts() as $product):?>
@@ -59,9 +60,7 @@
     					<?if($this->getCompareJsObjectName()):?>
     					<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><small>Add to Compare</small></a>
     					<?endif;?></p>
-
     				</td>
-
     			<?if ($i%3==0):?></tr><?endif?>
     			<?endforeach?>
                 <?for($i;$i%3!=0;$i++):?>

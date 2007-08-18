@@ -24,7 +24,8 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
         $tagId = Mage::registry('tagId');
         $collection = Mage::getModel('tag/tag')
             ->getCustomerCollection()
-            ->addTagFilter($tagId);
+            ->addTagFilter($tagId)
+            ->addGroupByCustomer();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -45,12 +46,12 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => __('Customer Name'),
+            'header'    => __('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => __('Customer Name'),
+            'header'    => __('Last Name'),
             'index'     => 'lastname',
         ));
 

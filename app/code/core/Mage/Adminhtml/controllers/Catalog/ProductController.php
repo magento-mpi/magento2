@@ -324,4 +324,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->toHtml()
         );
     }
+
+    public function tagCustomerGridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag_customer', 'admin.product.tags.customers')
+                ->setProductId($this->getRequest()->getParam('id'))
+                ->toHtml()
+        );
+    }
 }

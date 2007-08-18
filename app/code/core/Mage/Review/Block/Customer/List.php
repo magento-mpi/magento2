@@ -21,7 +21,7 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
         $this->_collection = Mage::getModel('review/review')->getProductCollection();
 
         $this->_collection
-            ->addStoreFilter(Mage::getSingleton('core/store')->getId())
+            #->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
             ->setDateOrder();
     }

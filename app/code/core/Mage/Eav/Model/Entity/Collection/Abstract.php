@@ -66,6 +66,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      */
     protected $_items = array();
 
+    protected $_itemsById = array();
+
     /**
      * Record number where the page starts
      *
@@ -87,6 +89,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     protected $_joinAttributes = array();
 
     protected $_joinFields = array();
+
+    protected $_rowIdFieldName;
 
     /**
      * Set connections for entity operations
@@ -667,6 +671,19 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         return $results;
     }
 
+    public function getRowIdFieldName()
+    {
+        if (is_null($this->_rowIdFieldName)) {
+            $this->_rowIdFieldName = $this->getEntity()->getIdFieldName();
+        }
+        return $this->_rowIdFieldName;
+    }
+
+    public function setRowIdFieldName($fieldName)
+    {
+        $this->_rowIdFieldName = $fieldName;
+        return $this;
+    }
 
     /**
      * Load entities records into items
@@ -697,7 +714,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
 
         foreach ($rows as $v) {
             $object = $this->getObject();
-            $this->_items[$v[$entityIdField]] = $object->setData($v);
+            $this->_items[$v[$this->getRowIdFieldName()]] = $object->setData($v);
+            if (!isset($this->_itemsById[$object->getId()])) {
+            	$this->_itemsById[$object->getId()] = array();
+            }
+            $this->_itemsById[$object->getId()][] = $object;
         }
         return $this;
     }
@@ -717,7 +738,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $entityIdField = $entity->getEntityIdField();
 
         $condition = "entity_type_id=".$entity->getTypeId();
-        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_items));
+        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_itemsById));
         if ($entity->getUseDataSharing()) {
             $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
         }
@@ -741,13 +762,15 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             }
 
             foreach ($values as $v) {
-                if (!isset($this->_items[$v[$entityIdField]])) {
+                if (!isset($this->_itemsById[$v[$entityIdField]])) {
                     throw Mage::exception('Mage_Eav', 'Data integrity: No header row found for attribute');
                 }
                 if (!isset($attrById[$v['attribute_id']])) {
                     $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
                 }
-                $this->_items[$v[$entityIdField]]->setData($attrById[$v['attribute_id']], $v['value']);
+                foreach ($this->_itemsById[$v[$entityIdField]] as $object) {
+                	$object->setData($attrById[$v['attribute_id']], $v['value']);
+                }
             }
         }
 

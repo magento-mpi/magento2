@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => __('Popularity'),
+            'header'        => __('# of Uses'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',

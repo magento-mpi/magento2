@@ -61,7 +61,8 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
             $this->_collection
                 ->addStoreFilter(Mage::getSingleton('core/store')->getId())
                 ->addTagFilter($this->getTagId())
-                ->addStatusFilter($tagModel->getApprovedStatus());
+                #->addStatusFilter($tagModel->getApprovedStatus())
+                ;
         }
         return $this->_collection;
     }

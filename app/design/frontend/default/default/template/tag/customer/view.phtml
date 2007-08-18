@@ -1,45 +1,47 @@
-<div class="page-head">
-	<h3><?=__('My Tags')?></h3>
-</div>
-<p>
-	<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><?=__('Edit')?></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
-</p>
-<?=$this->getPagerHtml()?>
-<table class="data-table box-table" id="my-tags-table" cellspacing="0">
-<?if( sizeof($this->getMyProducts()) > 0 ):?>
-	<col width="100">
-	<col>
-	<col width="75">
-	<tbody>
-	<?$iterator = 0?>
-	<?foreach($this->getMyProducts() as $_product):?>
-		<tr <?if($iterator % 2 == 0):?>class="odd"<?$iterator++;endif;?>>
-			<td><a href="<?=$_product->getProductUrl();?>"><img src="<?=$_product->getSmallImageUrl()?>" alt="" height="100" width="100"></a></td>
-			<td>
-
-				<h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
-				<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
-				<div class="ratings">
-					<div class="rating-box">
-						<div class="rating" style="width: 70%;">
+<div class="account-box">
+	<div class="page-head">
+		<h4><?=__('My Tags')?></h4>
+	</div>
+	<p>
+		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><?=__('Edit')?></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
+	</p>
+	<?=$this->getPagerHtml()?>
+	<table class="data-table box-table" id="my-tags-table" cellspacing="0">
+	<?if( sizeof($this->getMyProducts()) > 0 ):?>
+		<col width="100">
+		<col>
+		<col width="75">
+		<tbody>
+		<?$iterator = 0?>
+		<?foreach($this->getMyProducts() as $_product):?>
+			<tr <?if($iterator % 2 == 0):?>class="odd"<?$iterator++;endif;?>>
+				<td><a href="<?=$_product->getProductUrl();?>"><img src="<?=$_product->getSmallImageUrl()?>" alt="" height="100" width="100"></a></td>
+				<td>
+	
+					<h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
+					<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+					<div class="ratings">
+						<div class="rating-box">
+							<div class="rating" style="width: 70%;">
+							</div>
 						</div>
+	
+						( <a href="<?=$this->getReviewUrl($_product->getId())?>">3 Reviews</a> )
 					</div>
-
-					( <a href="<?=$this->getReviewUrl($_product->getId())?>">3 Reviews</a> )
-				</div>
-				<p><?=$_product->getDescription()?></p>
-			</td>
-			<td class="a-center">
-				<button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_product->getId()))?>')"><span><?=__('Add to Cart')?></span></button>
-				<br><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_product->getId()))?>"><?=__('Add to Wishlist')?></a></td>
-		</tr>
-	<?endforeach;?>
-	</tbody>
-<?else:?>
-		<tr>
-		  <td><p><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></p></td>
-		</tr>
-<?endif;?>
-</table>
-            <script type="text/javascript">decorateTable('my-tags-table')</script>
-<?=$this->getPagerHtml()?>
+					<p><?=$_product->getDescription()?></p>
+				</td>
+				<td class="a-center">
+					<button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_product->getId()))?>')"><span><?=__('Add to Cart')?></span></button>
+					<br><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_product->getId()))?>"><?=__('Add to Wishlist')?></a></td>
+			</tr>
+		<?endforeach;?>
+		</tbody>
+	<?else:?>
+			<tr>
+			<td><p><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></p></td>
+			</tr>
+	<?endif;?>
+	</table>
+				<script type="text/javascript">decorateTable('my-tags-table')</script>
+	<?=$this->getPagerHtml()?>
+</div>

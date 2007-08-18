@@ -1,9 +1,10 @@
-<?$_orders = $this->getOrders();?>
 <div class="account-box">
+<?$_orders = $this->getOrders();?>
     <div class="head">
         <h4><?=__('Recent Orders')?></h4>
-        <a href="<?=$baseUrl?>sales/order/history/"><?=__('View All')?></a>
+        <?if( sizeof($_orders->getItems()) > 0 ):?><a href="<?=$baseUrl?>sales/order/history/"><?=__('View All')?></a><?endif;?>
     </div>
+<?if( sizeof($_orders->getItems()) > 0 ):?>
     <table cellspacing="0" class="data-table">
         <thead>
             <tr>
@@ -17,16 +18,23 @@
         </thead>
         <tbody>
         <?$_odd = '';?>
-        <?foreach ($_orders as $_order):?>
-            <tr class="<?=($_odd = ($_odd ? 'odd' : ''))?>">
-                <td><?=$_order->getRealOrderId()?></td>
-                <td><?=$this->getOrderDateFormatted($_order)?></td>
-                <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
-                <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
-                <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
-                <td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a></td>
-            </tr>
-        <?endforeach;?>
+			<?foreach ($_orders as $_order):?>
+				<tr class="<?=($_odd = ($_odd ? 'odd' : ''))?>">
+					<td><?=$_order->getRealOrderId()?></td>
+					<td><?=$this->getOrderDateFormatted($_order)?></td>
+					<td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
+					<td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
+					<td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
+					<td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a></td>
+				</tr>
+			<?endforeach;?>
         </tbody>
     </table>
+<?else:?>
+    <table cellspacing="0" class="data-table">
+		<tr>
+			<td align="center"><small><?=__('You have not any orders yet');?></small></td>
+		</tr>
+	</table>
+<?endif;?>
 </div>

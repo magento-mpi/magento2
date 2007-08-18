@@ -1,4 +1,5 @@
 <?if( $this->getCollection() && $this->count()):?>
+<div class="account-box">
     <div class="head">
         <h4><?=__('My Recent Reviews')?></h4>
         <a href="<?=$this->getAllReviewsUrl()?>"><?=__('View All')?></a>
@@ -22,4 +23,5 @@
         </li>
     </ol>
     <?endforeach;?>
+</div>
 <?endif;?>
