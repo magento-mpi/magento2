@@ -63,12 +63,39 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         if ($data = $this->getRequest()->getPost()) {
             $model = Mage::getModel('tag/tag');
             $model->setData($data);
+
+            switch( $this->getRequest()->getParam('ret') ) {
+                case 'all':
+                    $url = Mage::getUrl('*/*/', array(
+                        'ret' => $this->getRequest()->getParam('ret'),
+                        'customer_id' => $this->getRequest()->getParam('customer_id'),
+                        'product_id' => $this->getRequest()->getParam('product_id'),
+                    ));
+                    break;
+
+                case 'pending':
+                    $url = Mage::getUrl('*/tag/pending', array(
+                        'ret' => $this->getRequest()->getParam('ret'),
+                        'customer_id' => $this->getRequest()->getParam('customer_id'),
+                        'product_id' => $this->getRequest()->getParam('product_id'),
+                    ));
+                    break;
+
+                default:
+                    $url = Mage::getUrl('*/*/', array(
+                        'ret' => $this->getRequest()->getParam('ret'),
+                        'customer_id' => $this->getRequest()->getParam('customer_id'),
+                        'product_id' => $this->getRequest()->getParam('product_id'),
+                    ));
+            }
+
             // $tag->setStoreId(Mage::getSingleton('core/store')->getId());
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was saved succesfully'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
-                $this->_redirect('*/*/');
+                $this->getResponse()->setRedirect($url);
+                return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setTagData($data);
@@ -76,7 +103,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        $this->getResponse()->setRedirect($url);
     }
 
     public function deleteAction()
@@ -119,6 +146,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function productAction()
     {
+        Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
+
         $this->_initAction()
             ->_addBreadcrumb(__('Products'), __('Products'))
             ->_setActiveMenu('catalog/tag/product')
@@ -132,6 +161,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function customerAction()
     {
+        Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
+
         $this->_initAction()
             ->_addBreadcrumb(__('Customers'), __('Customers'))
             ->_setActiveMenu('catalog/tag/customer')

@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addColumn('total_used', array(
             'header'    => __('# of Uses'),
             'width'     => '140px',
-            'align'     => 'center',
+            'align'     => 'right',
             'index'     => 'popularity',
             'type'      => 'number',
         ));
@@ -56,12 +56,34 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             ),
         ));
 
+        $this->addColumn('actions', array(
+            'header'    => __('Actions'),
+            'width'     => '100px',
+            'type'      => 'action',
+            'sortable'  => false,
+            'filter'    => false,
+            'actions'    => array(
+                array(
+                    'caption'   => __('View Products'),
+                    'url'       => Mage::getUrl('*/*/product/tag_id/$tag_id', array('ret' => 'all')),
+                ),
+
+                array(
+                    'caption'   => __('View Customers'),
+                    'url'       => Mage::getUrl('*/*/customer/tag_id/$tag_id', array('ret' => 'all')),
+                )
+            ),
+        ));
+
         return parent::_prepareColumns();
     }
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('tag_id' => $row->getId()));
+        return Mage::getUrl('*/*/edit', array(
+            'tag_id' => $row->getId(),
+            'ret'    => 'all',
+        ));
     }
 
 }

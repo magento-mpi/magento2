@@ -16,8 +16,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
 
 	public function __construct()
 	{
-		$this->setEntity(Mage::getResourceSingleton('catalog/product'));
-        $this->setObject('catalog/product');
+	    parent::__construct();
         $this->getSelect()->group('e.entity_id');
 	}
 
@@ -64,6 +63,16 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
         return $this;
     }
 
+    public function addPopularity($tagId)
+    {
+        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+
+        $this->getSelect()
+            ->joinLeft(array('tr2' => $tagRelationTable), 'tr2.product_id=e.entity_id', array('popularity' => 'COUNT(DISTINCT tr2.tag_relation_id)'))
+            ->where('tr2.tag_id = ?', $tagId);
+        return $this;
+    }
+
     public function addProductTags()
     {
         foreach( $this->getItems() as $item ) {
@@ -75,6 +84,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
                 ->load();
             $item->setProductTags( $tagsCollection );
         }
+
         return $this;
     }
 
@@ -100,6 +110,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();
+
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
@@ -189,6 +200,17 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
                 	$this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
                 }
             }
+        }
+        return $this;
+    }
+
+    public function setOrder($attribute, $dir='desc')
+    {
+        if ($attribute == 'popularity') {
+            $this->getSelect()->order($attribute . ' ' . $dir);
+        }
+        else {
+        	parent::setOrder($attribute, $dir);
         }
         return $this;
     }

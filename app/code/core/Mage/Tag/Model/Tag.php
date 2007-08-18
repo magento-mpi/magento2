@@ -41,6 +41,11 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
         return Mage::getResourceModel('tag/product_collection');
     }
 
+    public function getCustomerCollection()
+    {
+        return Mage::getResourceModel('tag/customer_collection');
+    }
+
     public function getTaggedProductsUrl()
     {
         return Mage::getUrl('tag/product/list', array('tagId' => $this->getId()));

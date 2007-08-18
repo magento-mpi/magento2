@@ -54,9 +54,8 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
         ));
 
         $form->setValues($model->getData());
-
         $form->setUseContainer(true);
-
+        $form->setAction( $form->getAction() . 'ret/' . $this->getRequest()->getParam('ret') );
         $this->setForm($form);
 
         return parent::_prepareForm();

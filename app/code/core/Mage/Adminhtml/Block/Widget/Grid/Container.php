@@ -13,6 +13,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 {
 
     protected $_addButtonLabel = 'Add New';
+    protected $_backButtonLabel = 'Back';
 
     public function __construct()
     {
@@ -30,8 +31,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
     protected function _initChildren()
     {
         parent::_initChildren();
-        $this->setChild( 'grid', 
-            $this->getLayout()->createBlock( 'adminhtml/' . $this->_controller . '_grid', 
+        $this->setChild( 'grid',
+            $this->getLayout()->createBlock( 'adminhtml/' . $this->_controller . '_grid',
             $this->_controller . '.grid')->setSaveParametersInSession(true) );
         return $this;
     }
@@ -51,6 +52,20 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
         return $this->_addButtonLabel;
     }
 
+    protected function getBackButtonLabel()
+    {
+        return $this->_backButtonLabel;
+    }
+
+    protected function _addBackButton()
+    {
+        $this->_addButton('back', array(
+            'label'     => $this->getBackButtonLabel(),
+            'onclick'   => 'location.href=\'' . $this->getBackUrl() .'\'',
+            'class'     => 'back',
+        ));
+    }
+
     public function getHeaderCssClass()
     {
         return 'icon-head ' . parent::getHeaderCssClass();
@@ -62,4 +77,3 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
     }
 
 }
-

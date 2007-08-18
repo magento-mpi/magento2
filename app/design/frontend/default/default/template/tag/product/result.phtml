@@ -1,9 +1,10 @@
-<?if( sizeof($this->getProducts()) > 0 ):?>
+<?if( $this->getTagInfo()->getName() ):?>
     <div class="page-head">
     	<h3><?=__('Products tagged with \'%s\'', $this->getTagInfo()->getName())?></h3>
     </div>
+<?endif;?>
     <?=$this->getPagerHtml()?>
-
+<?if( sizeof($this->getProducts()) > 0 ):?>
     <?if($this->getMode()!='grid'):?>
     <!-- [starts] .listing-type-list // -->
     <div class="listing-type-list"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
@@ -69,9 +70,8 @@
     		</table>
     	</div>
     <!-- [ends] .listing-type-grid // -->
-    <?endif;?>
-
     <?=$this->getPagerHtml()?>
+    <?endif;?>
 <?else:?>
 <table class="data-table box-table" cellspacing="0">
     <tr class="odd">

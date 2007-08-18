@@ -24,27 +24,35 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
         if( $post = $this->getRequest()->getPost() ) {
             try {
-                $tagModel = Mage::getModel('tag/tag');
+                $tagName = $this->getRequest()->getParam('tagName');
+                $tagNamesArr = explode("\n", preg_replace("/'*(\d+)(\s+)/i", "$1\n", $tagName));
 
-                $tagModel->loadByName($this->getRequest()->getParam('tagName'));
+                foreach( $tagNamesArr as $tagName ) {
+                    $tagName = trim($tagName, '\'');
+                    if( $tagName ) {
+                        $tagModel = Mage::getModel('tag/tag');
+                        $tagModel->loadByName($tagName);
 
-                $tagModel->setName($this->getRequest()->getParam('tagName'))
-                        ->setStoreId(Mage::getSingleton('core/store')->getId())
-                        ->setStatus( ( $tagModel->getId() && $tagModel->getStatus() != $tagModel->getPendingStatus() ) ? $tagModel->getStatus() : $tagModel->getPendingStatus() )
-                        ->save();
+                        $tagModel->setName($tagName)
+                                ->setStoreId(Mage::getSingleton('core/store')->getId())
+                                ->setStatus( ( $tagModel->getId() && $tagModel->getStatus() != $tagModel->getPendingStatus() ) ? $tagModel->getStatus() : $tagModel->getPendingStatus() )
+                                ->save();
 
-                $tagRalationModel = Mage::getModel('tag/tag_relation');
+                        $tagRalationModel = Mage::getModel('tag/tag_relation');
 
-                $tagRalationModel->loadByTagCustomer($tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
-                if( $tagRalationModel->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId() ) {
-                    return;
+                        $tagRalationModel->loadByTagCustomer($tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
+                        if( $tagRalationModel->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId() ) {
+                            return;
+                        }
+
+                        $tagRalationModel->setTagId($tagModel->getId())
+                            ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                            ->setProductId($this->getRequest()->getParam('productId'))
+                            ->setStoreId(Mage::getSingleton('core/store')->getId())
+                            ->save();
+                    }
                 }
 
-                $tagRalationModel->setTagId($tagModel->getId())
-                    ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                    ->setProductId($this->getRequest()->getParam('productId'))
-                    ->setStoreId(Mage::getSingleton('core/store')->getId())
-                    ->save();
                 return;
             } catch (Exception $e) {
                 return;

@@ -154,7 +154,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 }
 
                 if( $tagModel->getId() && ($tagModel->getId() != $tagId) ) {
-                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('tagId' => $tagModel->getId())));
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/view', array('tagId' => $tagModel->getId())));
                 }
                 return;
             } catch (Exception $e) {

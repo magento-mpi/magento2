@@ -60,16 +60,18 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter')->initForm()->toHtml()
             ));
 
-            $this->addTab('tags', array(
-                'label'     => __('Product Tags'),
-                'content'   => '<h3>Product Tags</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_tags')->toHtml(),
-            ));
-
             $this->addTab('reviews', array(
                 'label'     => __('Product Reviews'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.customer.reviews')
                         ->setCustomerId(Mage::registry('customer')->getId())
                         ->setUseAjax(true)
+                        ->toHtml(),
+            ));
+
+            $this->addTab('tags', array(
+                'label'     => __('Product Tags'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
+                        ->setCustomerId(Mage::registry('customer')->getId())
                         ->toHtml(),
             ));
         }

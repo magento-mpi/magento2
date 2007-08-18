@@ -12,7 +12,6 @@
 
 class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -54,11 +53,13 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
         ));
 
         $form->setValues($model->getData());
-
         $form->setUseContainer(true);
-
+        $form->setAction( Mage::getUrl($form->getAction(), array(
+            'ret' => $this->getRequest()->getParam('ret'),
+            'customer_id' => $this->getRequest()->getParam('customer_id'),
+            'product_id' => $this->getRequest()->getParam('product_id'),
+        )));
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
 

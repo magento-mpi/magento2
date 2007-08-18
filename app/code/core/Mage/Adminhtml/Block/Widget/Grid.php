@@ -300,6 +300,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
 
             $this->getCollection()->load();
+            $this->_afterLoadCollection();
         }
 
         return $this;
@@ -326,6 +327,11 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _beforeToHtml()
     {
         $this->_prepareGrid();
+        return $this;
+    }
+
+    protected function _afterLoadCollection()
+    {
         return $this;
     }
 

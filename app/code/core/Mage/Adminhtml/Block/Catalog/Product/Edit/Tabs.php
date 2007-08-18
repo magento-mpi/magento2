@@ -66,13 +66,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'label'     => __('Cross-sells'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
             ));
-            
+
             if( $this->getRequest()->getParam('id', false) ) {
                 $this->addTab('reviews', array(
                     'label'     => __('Product Reviews'),
                     'content'   => $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.product.reviews')
                             ->setProductId($this->getRequest()->getParam('id'))
                             ->setUseAjax(true)
+                            ->toHtml(),
+                ));
+
+                $this->addTab('tags', array(
+                    'label'     => __('Product Tags'),
+                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag', 'admin.product.tags')
+                            ->setProductId($this->getRequest()->getParam('id'))
                             ->toHtml(),
                 ));
             }

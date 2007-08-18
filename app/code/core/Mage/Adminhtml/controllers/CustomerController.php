@@ -323,4 +323,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         Mage::register('customer', $customer);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
     }
+
+    public function tagGridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
+                ->setCustomerId($this->getRequest()->getParam('id'))
+                ->toHtml()
+        );
+    }
 }

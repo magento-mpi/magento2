@@ -1,57 +1,45 @@
 <?php
 /**
- * Adminhtml tagginf customers grid block
+ * Adminhtml customers tagged with tag
  *
  * @package     Mage
  * @subpackage  Adminhtml
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Michael Bessolov <michael@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
-class Mage_Adminhtml_Block_Tag_Customers extends Mage_Core_Block_Template
+
+class Mage_Adminhtml_Block_Tag_Customer extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
+
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('tag/index.phtml');
-    }
 
-    protected function _initChildren()
-    {
-        parent::_initChildren();
-        $this->setChild('createButton',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array('label' => __('Add New Tag'),
-					'class' => 'add'
-				))
-        );
-        $this->setChild('tagsGrid',
-            $this->getLayout()->createBlock('adminhtml/tag_grid_customers')
-        );
-    }
+        switch( $this->getRequest()->getParam('ret') ) {
+            case 'all':
+                $url = Mage::getUrl('*/*/');
+                break;
 
-    public function getCreateButtonHtml()
-    {
-        return $this->getChildHtml('createButton');
-    }
+            case 'pending':
+                $url = Mage::getUrl('*/*/pending');
+                break;
 
-    public function getGridHtml()
-    {
-        return $this->getChildHtml('tagsGrid');
-    }
-
-    public function getHeaderHtml()
-    {
-        if ($productId = $this->getRequest()->getParam('product_id')) {
-            $product = Mage::getModel('catalog/product')->load($productId);
-            $header = __('Customers who Tagged ') . $product->getName();
-        } elseif ($tagId = $this->getRequest()->getParam('tag_id')) {
-            $tag = Mage::getModel('tag/tag')->load($tagId);
-            $header = __('Customers who Tagged with ') . '"' . $tag->getName() . '"';
-        } else {
-            $header = __('Customers');
+            default:
+                $url = Mage::getUrl('*/*/');
         }
-        return $header;
+
+
+        $this->_block = 'tag_customer';
+        $this->_controller = 'tag_customer';
+        $this->_removeButton('add');
+        $this->setBackUrl($url);
+        $this->_addBackButton();
+
+        $tagInfo = Mage::getModel('tag/tag')
+            ->load(Mage::registry('tagId'));
+
+        $this->_headerText = __("Custommers Tagged '{$tagInfo->getName()}'");
     }
 
 }

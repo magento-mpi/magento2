@@ -27,7 +27,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function addPopularity($limit=null)
     {
         $this->getSelect()
-            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id', array('tag_relation_id', 'popularity' => 'COUNT('.$this->_tagRelTable.'.tag_relation_id)'))
+            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id', array('tag_relation_id', 'popularity' => 'COUNT(DISTINCT '.$this->_tagRelTable.'.tag_relation_id)'))
             ->group('main_table.tag_id');
         if (! is_null($limit)) {
             $this->getSelect()->limit($limit);
@@ -55,7 +55,6 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function getSelectCountSql()
     {
         $this->_renderFilters();
-
         $countSelect = clone $this->_sqlSelect;
         $countSelect->reset(Zend_Db_Select::ORDER);
         #$countSelect->reset(Zend_Db_Select::GROUP);
@@ -89,6 +88,8 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function addCustomerFilter($customerId)
     {
         $this->addFieldToFilter("{$this->_tagRelTable}.customer_id", $customerId);
+        $this->getSelect()
+            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id');
         return $this;
     }
 }

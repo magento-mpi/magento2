@@ -21,7 +21,7 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
             $this->setData($address->getData());
             return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
         } else {
-            return __('Please, add new ddress');
+            return __('Please, add new address');
         }
     }
 
@@ -35,7 +35,7 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
             $this->setData($address->getData());
             return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
         } else {
-            return __('Please, add new ddress');
+            return __('Please, add new address');
         }
     }
 }
