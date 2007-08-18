@@ -1,0 +1,33 @@
+<table cellpadding="0" cellspacing="0" border="0" id="<?=$this->getHtmlId()?>">
+<tr>
+	<td align="center" valign="middle"><?=$this->getHeader()?></td>
+	<?foreach($this->getCollection() as $_item ):?>
+	<td class="g" rowspan="<?=$this->getVerticalAxis()->getSpan()?>">
+	<?$_maximum=$this->getVerticalAxis()->getPixelMaximum($_item)?>
+		<div class="bottom-bg" style="height:<?=$_maximum?>px;">
+			<dl class="gr1">
+			<?foreach ($this->getSeries() as $_key=>$_series):?>
+			<?$_value=$this->getVerticalAxis()->getPixelPosition($_item, $_series)?>
+				<dt <?if(($_key+1)%2):?>class="odd"<?endif;?> style="height:<?=$_value?>px;margin-top:<?=($_maximum-$_value)?>px;">&nbsp;</dt>
+			<?endforeach;?>
+			</dl>
+		</div>
+	</td>
+	<?endforeach;?>
+</tr>
+<tr>
+	<td class="y"><?=$this->getVerticalAxis()->getTitle()?></td>
+</tr>
+<?foreach($this->getVerticalAxis()->getLabels() as $_label):?>
+<tr>
+	<td class="y"><?=$_label?></td>
+</tr>
+<?endforeach;?>
+<tr>
+	<td>&nbsp;</td>
+	<?foreach($this->getHorizontalAxis()->getLabels() as $_label):?>
+	<td class="x"><?=$_label?></td>
+	<?endforeach;?>
+	<td valign="bottom">&nbsp;&nbsp;<?=$this->getHorizontalAxis()->getTitle()?></td>
+</tr>
+</table>

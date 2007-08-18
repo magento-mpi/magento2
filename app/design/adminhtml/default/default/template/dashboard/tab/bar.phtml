@@ -1,0 +1,24 @@
+<div class="graph-block">
+			<div class="db-menu">
+				<ul>
+					<?$_index=0;?>
+					<?foreach ($this->getTabs() as $_tab):?>
+					<?$_index++?>
+					<li <?if($_index==$this->getCountTabs()):?> class="last"<?else:?> style="display:none;"<?endif?>><a id="<?=$this->getHtmlId().$index?>Tab" href="javascript:void(0);" onclick="showTab('<?=$_index?>', '<?=$this->getHtmlId()?>', <?=$this->getCountTabs()?>);"><?=$_tab->getTitle()?></a></li>
+					<?endforeach;?>
+				</ul>
+			</div><div class="clear"></div>
+			<?$_index=0;?>
+			<?foreach ($this->getTabs() as $_tab):?>
+			<?$_index++?>
+			<div class="graph-cont" id="orders-1-tab" <?if($_index!=$this->getCountTabs()):?> style="display:none;"<?endif?>>
+				
+			</div>
+			<div class="graph-cont" id="orders-2-tab" style="display:none;">
+				
+			</div>
+			<div class="tab-cont" id="orders-3-tab">
+				
+			</div>
+			<?endforeach;?>
+		</div>

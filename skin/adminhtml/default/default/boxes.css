@@ -651,7 +651,7 @@ div.actions:after,
 
 .graph-cont table td.g dl.gr1 { width:25px;  margin:0 auto; }
 .graph-cont table td.g dl.gr1 dt { width:12px; background:#fa8c20 url(images/db-graph-line-bg.png) repeat-x bottom; float: left; }
-.graph-cont table td.g dl.gr1 dd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.png) repeat-x bottom; float: left; }
+.graph-cont table td.g dl.gr1 dt.odd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.png) repeat-x bottom; float: left; }
 
 .empty_tr { height:0; font-size:0; }
 

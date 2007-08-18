@@ -15,4 +15,12 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('dashboard/index.phtml');
     }
+    
+    protected function _initChildren()
+    {
+    	$this->setChild('product', 
+    		$this->getLayout()->createBlock('adminhtml/dashboard_product', 'dashboard_product')
+    	);
+    	return $this;
+    }
 }
