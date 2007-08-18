@@ -2,11 +2,11 @@
 	<a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl('images/logo.gif')?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
 	<div class="header-right">
 			<p class="super">
-					<strong><?=__("Welcome, %s", $user->getName())?></strong>
-					<span class="separator">|</span>
-					<strong><?=__("Today is %s", date("l, F jS, Y"))?></strong>
-					<span class="separator">|</span>
-					<a href="<?=$logoutLink?>"><?=__('Logout')?></a>
+					<?=__("%s", date("l, F jS, Y"))?><span class="separator">|</span><?=__("Logged in as <strong>%s</strong>", $user->getName())?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a>
+					
+					
+					
+					
 			</p>
 			<fieldset>
 				<legend>Search</legend>

@@ -4,86 +4,68 @@
  * @var $test Mage_Customer_Block_Address_Book
  */
 ?>
-<div class="page-head button-level">
-	<h3>Address Book</h3>
-	<button class="form-button" onclick="setLocation('<?=$this->getAddAddressUrl()?>')"><span>Add New Address</span></button>
-</div>
 <?=$this->getMessagesBlock()->getHtml()?>
 <div class="col2-set">
-    <div class="col-1">
-        <h4>Primary Address</h4>
-        <ol class="primary-address-list">
-        <?if($this->hasPrimaryAddress()):?>
-            <?if($_address = $this->getPrimaryBillingAddress()):?>    
-            <li>
-                <div class="head">
-                    <h5>Billing Address</h5>
-                    <a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
-                </div>
-                <address>
-                    <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                    <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                    <?=$_address->getStreet(1)?><br/>
-                    <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                    <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                    <?=$_address->getCountry()?><br/>
-                    <strong>T</strong> | <?=$_address->getTelephone()?>
-                </address>
-            </li>
-            <?endif;?>
-            <?if($_address = $this->getPrimaryShippingAddress()):?>    
-            <li>
-                <div class="head">
-                    <h5>Shipping Address</h5>
-                    <a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
-                </div>
-                <address>
-                    <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                    <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                    <?=$_address->getStreet(1)?><br/>
-                    <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                    <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                    <?=$_address->getCountry()?><br/>
-                    <strong>T</strong> | <?=$_address->getTelephone()?>
-                </address>
-            </li>
-            <?endif;?>
-        <?else:?>
-            <li>
-                <p>You have no default billing address in your address book.</p>
-            </li>
-        <?endif?>
-        </ol>
-    </div>
-    <div class="col-2">
-        <h4>Additional Addresses</h4>
-        <ol class="address-list">
-        <?if($_addresses = $this->getAdditionalAddresses()):?>
-            <?foreach ($_addresses as $index => $_address):?>
-            <li<?if($index%2==0):?> class="even"<?endif;?>>
-                <div class="actions">
-                    <a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
-                    <span class="separator">|</span>
-                    <a href="#" onclick="deleteAddress('<?=$_address->getId()?>');return false;">Delete</a>
-                </div>
-                <address>
-                    <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                    <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                    <?=$_address->getStreet(1)?><br/>
-                    <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                    <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                    <?=$_address->getCountry()?><br/>
-                    <strong>T</strong> | <?=$_address->getTelephone()?>
-                </address>
-            </li>
-            <?endforeach;?>
-        <?else:?>
-            <li>
-                You have no additional entries in your address book.
-            </li>
-        <?endif;?>
-        </ol>
-    </div>
+	<div class="col-1">
+		<h4>Default Billing</h4>
+       <ol>
+			 <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
+				<li>
+					<address>
+					<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
+           <br/><strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong></address></li>
+           <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
+           <li>
+							<address>
+									<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>  
+									<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
+							</address>
+						</li>
+            <?else:?>
+					<li><strong>You have no default billing address in your address book.</strong></li>
+            <?endif?></ol>
+					<br/>
+				<h4>Default Shipping</h4>
+			<ol>
+				<?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
+				 <li>
+								<address>
+										<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
+										<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
+								</address>
+							</li>
+            <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
+              <li><address>
+                        <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
+												<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
+                    </address></li>
+            <?else:?>
+               <li><strong>You have no default shipping address in your address book.</strong></li>
+            <?endif?>
+			</ol>
+
+		</div>
+		<div class="col-2">
+			<h4>Additional Entries</h4>
+			<ol>
+            <?if($_pAddsses = $this->getAdditionalAddresses()):?>    
+                <?foreach($_pAddsses as $_address):?>
+								<li>
+                    <address>
+                        <?=$this->getAddressHtml($_address)?><br/> 
+												<strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove">Delete</a></strong>
+                    </address>
+								</li>
+                <?endforeach;?>
+            <?else:?>
+						<li> <strong>You have no additional entries in your address book.</strong></li>
+            <?endif?>
+            </ol>
+					</div>
+				</div>
+<div class="form-buttons">
+    <a href="<?=$this->getBackUrl()?>" class="float-left">&laquo; Back</a>
+    <button class="form-button" onclick="window.location='<?=$this->getAddAddressUrl()?>';"><span>New Adderss</span></button>
 </div>
 <script type="text/javascript">
     function deleteAddress(addressId) {

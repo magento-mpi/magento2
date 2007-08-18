@@ -37,13 +37,13 @@
 <script type="text/javascript">decorateTable('wishlist-table')</script>
     <div class="form-buttons">
         
-			<button type="submit" class="form-button-alt" name="do"><span><?=__('Update')?></span></button>&nbsp;
 			<button onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/share')?>')" class="form-button-alt" /><span><?=__('Share Wishlist')?></span></button>&nbsp;
-			<button onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart')?>')" class="form-button" /><span><?=__('Add all to cart')?></span></button>&nbsp;
+			<button onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart')?>')" class="form-button-alt" /><span><?=__('Add all to cart')?></span></button>&nbsp;
+			<button type="submit" class="form-button" name="do"><span><?=__('Save and Continue Editting')?></span></button>
     </div>
 </form>
 <?else:?>
-    <p><?=__('You have not placed any product yet.')?></p>
+    <p><?=__('You have no items in your wishlist.')?></p>
 <?endif?>
 <script type="text/javascript">
 var wishlistControl = {

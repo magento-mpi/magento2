@@ -1,6 +1,7 @@
 <?if($this->getRating()):?>
+<div class="account-box">
     <div class="page-head">
-        <h3><?=__('My Product Reviews')?></h3>
+        <h4><?=__('My Product Reviews')?></h4>
     </div>
 
     <div class="my-review-detail">
@@ -35,5 +36,6 @@
             </div>
         </div>
     </div>
-    <div class="form-buttons"><a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back to My Reviews')?></a></div><br />
+    <div class="form-buttons"><a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back to My Reviews')?></a></div>
+	</div>
 <?endif;?>

@@ -1,5 +1,5 @@
-<div class="head">
-	<h2><?=__('My Product Reviews')?></h2>
+<div class="page-head">
+	<h3><?=__('My Product Reviews')?></h3>
 </div>
 <?if( $this->getCollection() && $this->count()):?>
     <?=$this->getPagerHtml()?>
@@ -29,5 +29,5 @@
         </table>
 	<?=$this->getPagerHtml()?>
 <?else:?>
-    <center style="border:1px solid #cbdcf1;padding:20px 0 20px 0;"><small><?=__('You have not Product Reviews')?></small></center>
+    <p><?=__('You have not submitted any reviews.')?></p>
 <?endif;?>

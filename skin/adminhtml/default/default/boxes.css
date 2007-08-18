@@ -41,6 +41,7 @@
 /******************************************/
 
 /* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
+.wrapper { width:100%; }
 .header {
     text-align:right;
     }
@@ -108,7 +109,7 @@
     margin:5px 20px;
     }
 .header-right {
-    padding:10px 15px;
+    padding:10px 30px 10px 15px;
     color:#fff;
     font-size:.95em;
     }
@@ -127,6 +128,7 @@
     margin-left:1.3em;
     line-height:2.2em;
     }
+.header-right .link-logout, .header-right .link-logout:hover { color:#fcce77; }
 .topnav-container { /* container for horizontal site navigation */
     background:#91afba url(images/nav_bg.gif) repeat-x;
     padding:3px 1.8em .33em 1.8em;

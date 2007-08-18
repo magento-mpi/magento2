@@ -3,11 +3,16 @@
 /* Loading Indicator */ /* Let's you know things are happening while you wait */
 #loading-process {
     position:absolute;
-    top:10px;
-    right:10px;
-    background:#eee;
-    padding:15px;
-    border:1px solid #bbb;
+    top:45%;
+    left:50%;
+		margin-left:-60px;
+		padding:15px 60px;
+    background:#fff4e9;
+    border:2px solid #f1af73;
+		color:#d85909;
+		font-size:1.1em;
+		font-weight:bold;
+		text-align:center;
     }
 
 
