@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             if ($column->getFilter()->getValue()) {
             	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
-            else {
+            elseif(!empty($productIds)) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
             }
         }

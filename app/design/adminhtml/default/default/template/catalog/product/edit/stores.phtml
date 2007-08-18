@@ -2,6 +2,7 @@
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product In Stores')?></h4>
     <fieldset id="grop_fields">
     <?if($this->getProductId()):?>
+        <div class="messages notice-msg"><?=__('Items that you don\'t want to show in catalog or search results must be set status "Disabled" on the specific store.')?></div>
         <div class="messages warning-msg"><?=__('Remove from store warning')?></div>
     <?endif;?>
     <?if($this->getStoreId()):?>
