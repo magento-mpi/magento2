@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 
-        $customer = Mage::registry('customer');
+        $customer = Mage::registry('current_customer');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
 

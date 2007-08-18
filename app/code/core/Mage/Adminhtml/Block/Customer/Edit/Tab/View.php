@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = Mage::registry('customer');
+            $this->_customer = Mage::registry('current_customer');
         }
         return $this->_customer;
     }
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
     public function getFormat()
     {
-    	return $this->_dateTimeFormat;
+        return $this->_dateTimeFormat;
     }
 
     public function getCreateDate()

@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
 
     protected function _beforeToHtml()
     {
-        if (Mage::registry('customer')->getId()) {
+        if (Mage::registry('current_customer')->getId()) {
             $this->addTab('view', array(
                 'label'     => __('Customer View'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view')->toHtml(),
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         $this->addTab('account', array(
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_account')->initForm()->toHtml(),
-            'active'    => Mage::registry('customer')->getId() ? false : true
+            'active'    => Mage::registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_addresses')->initForm()->toHtml(),
         ));
 
-        if (Mage::registry('customer')->getId()) {
+        if (Mage::registry('current_customer')->getId()) {
              $this->addTab('orders', array(
                  'label'     => __('Orders'),
                  'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml(),
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
 
             $this->addTab('cart', array(
                 'label'     => __('Shopping Cart'),
-                'content'   => '<h3>Shopping cart</h3>'#$this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml(),
             ));
 
             $this->addTab('wishlist', array(
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             $this->addTab('reviews', array(
                 'label'     => __('Product Reviews'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.customer.reviews')
-                        ->setCustomerId(Mage::registry('customer')->getId())
+                        ->setCustomerId(Mage::registry('current_customer')->getId())
                         ->setUseAjax(true)
                         ->toHtml(),
             ));
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
             $this->addTab('tags', array(
                 'label'     => __('Product Tags'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
-                        ->setCustomerId(Mage::registry('customer')->getId())
+                        ->setCustomerId(Mage::registry('current_customer')->getId())
                         ->toHtml(),
             ));
         }

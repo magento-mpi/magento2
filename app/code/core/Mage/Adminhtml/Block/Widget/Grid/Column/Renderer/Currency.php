@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
         	$currency_code = $this->_getCurrencyCode($row);
         	if (!$currency_code) return $data;
         	if (!isset(self::$_currencies[$currency_code])) {
-        		self::$_currencies[$currency_code] = Mage::getSingleton('directory/currency')->load($currency_code);
+        		self::$_currencies[$currency_code] = Mage::getModel('directory/currency')->load($currency_code);
         	}
 	       	if (self::$_currencies[$currency_code]->getCode()) {
 				return self::$_currencies[$currency_code]->format($data);

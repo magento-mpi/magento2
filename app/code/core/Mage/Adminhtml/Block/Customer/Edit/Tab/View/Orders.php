@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
             ->addAttributeToSelect('store_id')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
-            ->addAttributeToFilter('customer_id', Mage::registry('customer')->getId())
+            ->addAttributeToFilter('customer_id', Mage::registry('current_customer')->getId())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -53,6 +53,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
             'header' => __('Order #'),
             'align' => 'center',
             'index' => 'increment_id',
+            'width' => '100px',
         ));
 
         $this->addColumn('created_at', array(

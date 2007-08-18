@@ -26,12 +26,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        // TODO
-        /*
-        $collection = Mage::getResourceModel('sales/quote_item_collection')
-            ->addAttributeToFilter('customer_id', Mage::registry('customer')->getId());
-        */
-        $collection = new Varien_Data_Collection();
+        $quote = Mage::getResourceModel('sales/quote_collection')
+            ->loadByCustomerId(Mage::registry('current_customer')->getId());
+        $collection = $quote->getItemsCollection();
 
         $this->setCollection($collection);
 
@@ -40,35 +37,42 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
 
     protected function _prepareColumns()
     {
-
         $this->addColumn('product_id', array(
             'header' => __('Product ID'),
             'index' => 'product_id',
+            'width' => '100px',
         ));
 
-        $this->addColumn('product_name', array(
+        $this->addColumn('name', array(
             'header' => __('Product Name'),
-            'index' => 'product_name',
+            'index' => 'name',
         ));
-
+        
+        $this->addColumn('sku', array(
+            'header' => __('SKU'),
+            'index' => 'sku',
+            'width' => '100px',
+        ));
+        
         $this->addColumn('qty', array(
             'header' => __('Qty'),
             'index' => 'qty',
+            'type'  => 'number',
+            'width' => '60px',
         ));
-
-        $this->addColumn('added_at', array(
-            'header' => __('Added at'),
-            'index' => 'added_at',
-            'type' => 'datetime',
+        
+        $this->addColumn('price', array(
+            'header' => __('Price'),
+            'index' => 'price',
+            'type'  => 'currency',
+            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
         ));
-
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
-
-        $this->addColumn('store_id', array(
-            'header' => __('Added In'),
-            'index' => 'store_id',
-            'type' => 'options',
-            'options' => $stores,
+        
+        $this->addColumn('total', array(
+            'header' => __('Total'),
+            'index' => 'row_total',
+            'type'  => 'currency',
+            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
         ));
 
         return parent::_prepareColumns();
@@ -76,7 +80,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
 
     public function getRowUrl($row)
     {
-        // TODO
         return Mage::getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }
 

@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             ->addAttributeToSelect('store_id')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
-            ->addAttributeToFilter('customer_id', Mage::registry('customer')->getEntityId())
+            ->addAttributeToFilter('customer_id', Mage::registry('current_customer')->getEntityId())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();

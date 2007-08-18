@@ -10,6 +10,19 @@
  */
 class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 {
+    protected function _initCustomer($idFieldName = 'id')
+    {
+        $customerId = (int) $this->getRequest()->getParam($idFieldName);
+        $customer = Mage::getModel('customer/customer');
+
+        if ($customerId) {
+            $customer->load($customerId);
+        }
+        
+        Mage::register('current_customer', $customer);        
+        return $this;
+    }
+    
     /**
      * Customers list action
      */
@@ -52,20 +65,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-
+        $this->_initCustomer();
         $this->loadLayout('baseframe');
-
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $customer = Mage::getModel('customer/customer');
-
-        if ($customerId) {
-            $customer->load($customerId);
-        }
-
+        
+        $customer = Mage::registry('current_customer');
+        
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getCustomerData(true);
-
-        //$data = Mage::getSingleton('adminhtml/session')->getCustomerData(false);
 
         if (isset($data['account'])) {
             $customer->addData($data['account']);
@@ -80,8 +86,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $customer->setLoadedAddressCollection($collection);
         }
 
-        Mage::register('customer', $customer);
-
         /**
          * Set active menu item
          */
@@ -93,19 +97,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/customer_edit')
         );
-
-        /**
-         * Add breadcrunb items
-         */
-        /*$this->_addBreadcrumb(__('Customers'), __('Customers Title'));
-        $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers Title'), Mage::getUrl('adminhtml/customer'));
-
-        if ($customerId) {
-            $this->_addBreadcrumb(__('Customer').' #'.$customerId, __('Customer').' #'.$customerId);
-        }
-        else {
-            $this->_addBreadcrumb(__('New Customer'), __('New Customer Title'));
-        }*/
 
         /**
          * Append customer edit tabs to left block
@@ -128,12 +119,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function deleteAction()
     {
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        if ($customerId) {
+        $this->_initCustomer();
+        $customer = Mage::registry('current_customer');
+        if ($$customer->getId()) {
             try {
-                $customer = Mage::getModel('customer/customer')
-                    ->setId($customerId)
-                    ->delete();
+                $customer->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Customer was deleted');
             }
             catch (Exception $e){
@@ -149,17 +139,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+            $this->_initCustomer('customer_id');
+            $customer = Mage::registry('current_customer');
         	
             // Prepare customer saving data
             if (isset($data['account'])) {
-                $customer = Mage::getModel('customer/customer')
-                    ->addData($data['account']);
+                $customer->addData($data['account']);
             }
 
-
-            if ($customerId = (int) $this->getRequest()->getParam('customer_id')) {
-                $customer->setId($customerId);
-            } else {
+            if (!$customer->getId()) {
                 $customer->setCreatedIn(0); // Created from admin
             }
 
@@ -190,7 +178,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->setIsSubscribed(false);
             }
 
-            $isNewCustomer = empty($customerId);
+            $isNewCustomer = !$customer->getId();
             try {
                 if ($customer->getPassword() == 'auto') {
                     $customer->setPassword($customer->generatePassword());
@@ -214,7 +202,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setCustomerData($data);
-                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit', array('customer_id'=>$this->getRequest()->getParam('customer_id'))));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer/edit', array('id'=>$customer->getId())));
                 return;
             }
         }
@@ -261,12 +249,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      *
      */
     public function ordersAction() {
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $customer = Mage::getModel('customer/customer');
-        if ($customerId) {
-            $customer->load($customerId);
-        }
-        Mage::register('customer', $customer);
+        $this->_initCustomer();
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml());
     }
 
@@ -276,22 +259,19 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function newsletterAction()
     {
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $customer = Mage::getModel('customer/customer');
-        if ($customerId) {
-            $customer->load($customerId);
-        }
-        $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
+        $this->_initCustomer();
+        $subscriber = Mage::getModel('newsletter/subscriber')
+            ->loadByCustomer(Mage::registry('current_customer'));
+        
         Mage::register('subscriber', $subscriber);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
     }
 
     public function wishlistAction()
     {
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $customer = Mage::getModel('customer/customer');
-        if ($customerId) {
-            $customer->load($customerId);
+        $this->_initCustomer();
+        $customer = Mage::registry('current_customer');
+        if ($customer->getId()) {
             if($itemId = (int) $this->getRequest()->getParam('delete')) {
             	try {
 	            	Mage::getModel('wishlist/item')->load($itemId)
@@ -302,15 +282,27 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             	}
             }
         }
-        Mage::register('customer', $customer);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
+    }
+    
+    public function cartAction()
+    {
+        $this->_initCustomer();
+        if ($deleteItemId = $this->getRequest()->getPost('delete')) {
+            $quote = Mage::getResourceModel('sales/quote_collection')
+                ->loadByCustomerId(Mage::registry('current_customer')->getId());
+            $quote->removeItem($deleteItemId);
+            $quote->save();
+        }
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml());
     }
 
     public function tagGridAction()
     {
+        $this->_initCustomer();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
-                ->setCustomerId($this->getRequest()->getParam('id'))
+                ->setCustomerId(Mage::registry('current_customer'))
                 ->toHtml()
         );
     }

@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
     {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_newsletter');
-        $customer = Mage::registry('customer');        
+        $customer = Mage::registry('current_customer');        
         $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
         Mage::register('subscriber', $subscriber);
         
@@ -36,13 +36,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
         $form->getElement('subscription')->setIsChecked($subscriber->isSubscribed());
         
         if($changedDate = $this->getStatusChangedDate()) {
-        	 $fieldset->addField('change_status_date', 'label',
-	             array(
-	                    'label' => $subscriber->isSubscribed() ? __('Last date subscribed') : __('Last date unsubscribed'),
-	                    'value'	=> $changedDate,
-	                    'bold'	=> true
-	             )
-	        );
+             $fieldset->addField('change_status_date', 'label',
+                 array(
+                        'label' => $subscriber->isSubscribed() ? __('Last date subscribed') : __('Last date unsubscribed'),
+                        'value' => $changedDate,
+                        'bold'  => true
+                 )
+            );
         }
         
         
@@ -52,18 +52,18 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
     
     public function getStatusChangedDate()
     {
-    	$subscriber = Mage::registry('subscriber');
-    	if($subscriber->getChangeStatusAt()) {
-    		return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($subscriber->getChangeStatusAt()));
-    	} 
-    	
-    	return null;
+        $subscriber = Mage::registry('subscriber');
+        if($subscriber->getChangeStatusAt()) {
+            return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($subscriber->getChangeStatusAt()));
+        } 
+        
+        return null;
     }
     
     protected function _initChildren() 
     {
-    	$this->setChild('grid',
-    		$this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid','newsletter.grid')
-    	);
+        $this->setChild('grid',
+            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid','newsletter.grid')
+        );
     }
 }

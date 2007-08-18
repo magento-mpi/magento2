@@ -16,10 +16,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Form extends Mage_Adminhtml_Block_Widge
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $customer = Mage::registry('customer');
+        $customer = Mage::registry('current_customer');
 
         if ($customer->getId()) {
-        	$form->addField('entity_id', 'hidden', array(
+            $form->addField('entity_id', 'hidden', array(
                 'name' => 'customer_id',
             ));
             $form->setValues($customer->getData());

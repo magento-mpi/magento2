@@ -13,23 +13,18 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     public function __construct()
     {
         parent::__construct();
-        $this->setId('cartGrid');
+        $this->setId('customer_cart_grid');
         $this->setUseAjax(true);
+        $this->_parentTemplate = $this->getTemplateName();
+        $this->setTemplate('customer/tab/cart.phtml');
     }
-
+    
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addAttributeToSelect('firstname')
-            ->addAttributeToSelect('lastname')
-            ->addAttributeToSelect('email')
-            ->addAttributeToSelect('created_at')
-            ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing')
-            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing')
-            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
-            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
-            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'));
-        
+        $quote = Mage::getResourceModel('sales/quote_collection')
+            ->loadByCustomerId(Mage::registry('current_customer')->getId());
+        $collection = $quote->getItemsCollection(false);
+
         $this->setCollection($collection);
         
         return parent::_prepareCollection();
@@ -37,69 +32,71 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
-            'header'    =>__('ID'), 
-            'width'     =>5, 
-            'align'     =>'center', 
-            'sortable'  =>true, 
-            'index'     =>'entity_id'
+        $this->addColumn('product_id', array(
+            'header' => __('Product ID'),
+            'index' => 'product_id',
+            'width' => '100px',
         ));
-        $this->addColumn('firstname', array(
-            'header'    =>__('First Name'), 
-            'index'     =>'firstname'
+
+        $this->addColumn('name', array(
+            'header' => __('Product Name'),
+            'index' => 'name',
         ));
-        $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'), 
-            'index'     =>'lastname'
+        
+        $this->addColumn('sku', array(
+            'header' => __('SKU'),
+            'index' => 'sku',
+            'width' => '100px',
         ));
-        $this->addColumn('email', array(
-            'header'    =>__('Email'), 
-            'width'     =>40, 
-            'align'     =>'center', 
-            'index'     =>'email'
+        
+        $this->addColumn('qty', array(
+            'header' => __('Qty'),
+            'index' => 'qty',
+            'type'  => 'number',
+            'width' => '60px',
         ));
-        $this->addColumn('telephone', array(
-            'header'    =>__('Telephone'), 
-            'align'     =>'center', 
-            'index'     =>'billing_telephone'
+        
+        $this->addColumn('price', array(
+            'header' => __('Price'),
+            'index' => 'price',
+            'type'  => 'currency',
+            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
         ));
-        $this->addColumn('billing_postcode', array(
-            'header'    =>__('ZIP/Post Code'),
-            'index'     =>'billing_postcode',
+        
+        $this->addColumn('total', array(
+            'header' => __('Total'),
+            'index' => 'row_total',
+            'type'  => 'currency',
+            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
         ));
-        $this->addColumn('billing_country_name', array(
-            'header'    =>__('Country'),
-            #'filter'    => 'adminhtml/customer_grid_filter_country',
-            'index'     =>'billing_country_name',
-        ));
-        $this->addColumn('customer_since', array(
-            'header'    =>__('Customer Since'),
-            'type'      => 'date',
-            'format'    => 'Y.m.d',
-            'index'     =>'created_at',
-        ));
+
         $this->addColumn('action', array(
-            'header'    =>__('Action'),
-            'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.__('Edit').'</a>',
-            'filter'    =>false,
-            'sortable'  =>false,
-            'is_system' =>true
+            'header'    => __('Action'),
+            'index'     => 'quote_item_id',
+            'type'      => 'action',
+            'filter'    => false,
+            'sortable'  => false,
+            'actions'   => array(
+                array(
+                    'caption' =>  __('Delete'),
+                    'url'     =>  '#',
+                    'onclick' =>  'return cartControl.removeItem($entity_id);'
+                )
+            )
         ));
         
-        $this->setColumnFilter('id')
-            ->setColumnFilter('email')
-            ->setColumnFilter('firstname')
-            ->setColumnFilter('lastname');
-        
-        $this->addExportType('*/*/exportCsv', __('CSV'));
-        $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
     }
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/index', array('_current'=>true));
+        return Mage::getUrl('*/*/cart', array('_current'=>true));
     }
-
+    
+    public function getGridParentHtml()
+    {
+        $templateName = Mage::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
+        return $this->fetchView($templateName);
+    }
+    
 }

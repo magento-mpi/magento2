@@ -247,16 +247,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
 /*********************** ITEMS ***************************/
 
-    public function getItemsCollection()
+    public function getItemsCollection($loaded = true)
     {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/quote_item_collection');
 
             if ($this->getId()) {
-                $this->_items
-                    ->addAttributeToSelect('*')
-                    ->setQuoteFilter($this->getId())
-                    ->load();
+                $this->_items->addAttributeToSelect('*')
+                    ->setQuoteFilter($this->getId());
+                if ($loaded) {
+                    $this->_items->load();
+                }
                 foreach ($this->_items as $item) {
                     $item->setQuote($this);
                 }

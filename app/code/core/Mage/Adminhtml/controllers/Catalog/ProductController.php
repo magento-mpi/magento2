@@ -262,15 +262,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $this->_redirect('*/*/edit', array('id'=>$product->getId(), 'store'=>$storeId));
                 return;
             }
-
+            
             if ($return = $this->getRequest()->getParam('back')) {
                 $this->_redirect('*/*/edit', array('id'=>$product->getId(), 'store'=>$product->getStoreId()));
                 return;
             }
         }
-        else {
-            $this->_redirect('*/*/', array('store'=>$storeId));
-        }
+        
+        $this->_redirect('*/*/', array('store'=>$storeId));
     }
 
     /**

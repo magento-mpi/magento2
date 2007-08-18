@@ -15,34 +15,35 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         $this->_objectId = 'customer_id';
         $this->_controller = 'customer';
 
-        parent::__construct();
-
-        $this->_updateButton('save', 'label', __('Save Customer'));
-        $this->_updateButton('delete', 'label', __('Delete Customer'));
-
         if ($this->getCustomerId()) {
             $this->_addButton('order', array(
                 'label' => __('Create Order'),
                 'onclick' => 'window.location.href=\'' . $this->getCreateOrderUrl() . '\'',
                 'class' => 'add',
-            ), 1);
+            ));
         }
+        
+        parent::__construct();
+        
+        $this->_updateButton('save', 'label', __('Save Customer'));
+        $this->_updateButton('delete', 'label', __('Delete Customer'));
+
     }
 
     public function getCreateOrderUrl()
     {
-        return Mage::getUrl('*/sales_order_create', array('customer_id' => $this->getRequest()->getParam('customer_id')));
+        return Mage::getUrl('*/sales_order_create', array('customer_id' => $this->getCustomerId()));
     }
 
     public function getCustomerId()
     {
-        return Mage::registry('customer')->getId();
+        return Mage::registry('current_customer')->getId();
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('customer')->getId()) {
-            return Mage::registry('customer')->getName();
+        if (Mage::registry('current_customer')->getId()) {
+            return Mage::registry('current_customer')->getName();
         }
         else {
             return __('New Customer');

@@ -23,10 +23,8 @@ class Mage_Directory_Model_Observer
             Mage::getSingleton('core/store')->setDefaultCurrency($currency);
         }
         
-        if ($observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
-            Mage::getSingleton('core/store')->setCurrentCurrencyCode(
-                $observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')
-            );
+        if ($newCode = $observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
+            Mage::getSingleton('core/store')->setCurrentCurrencyCode($newCode);
         }
         
         $code = Mage::getSingleton('core/store')->getCurrentCurrencyCode();
