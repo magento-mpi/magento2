@@ -110,6 +110,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $optionValueTable   = $this->getTable('attribute_option_value');
             $stores = Mage::getModel('core/store')
                 ->getResourceCollection()
+                ->setLoadDefault(true)
                 ->load();
             
             if (isset($option['value'])) {
