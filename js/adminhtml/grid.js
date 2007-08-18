@@ -110,7 +110,8 @@ varienGrid.prototype = {
                 {
                     onComplete:this.initGrid.bind(this), 
                     evalScripts:true,
-                    parameters:this.reloadParams || {}
+                    parameters:this.reloadParams || {},
+                    loaderArea: this.containerId
                 }
             );
             return;

@@ -117,6 +117,10 @@
     </td></tr></table>
 <?=$this->getChildHtml('profiler')?>
 <div id="loading-process" style="display:none">
-	<p><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..."/><br/>Loading<br/>...</p></div>
+	<p><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..."/><br/>Loading<br/>...</p>
+</div>
+<div id="loading-mask" style="display:none">
+	<p class="loader"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="Loading..."/></p>
+</div>
 </body>
 </html>

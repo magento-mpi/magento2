@@ -47,20 +47,21 @@ varienLoader.prototype = {
 if (!window.varienLoaderHandler)
     var varienLoaderHandler = new Object();
 
-varienLoaderHandler.showLoading = function(){
-    Element.show('loading-process');
-}
-varienLoaderHandler.hideLoading = function(){
-    Element.hide('loading-process');
-}
 varienLoaderHandler.handler = {
-    onCreate: function() {
-        varienLoaderHandler.showLoading();
+    onCreate: function(request) {
+        if(request && request.options.loaderArea){
+            Position.clone($(request.options.loaderArea), $('loading-mask'));
+            Element.show('loading-mask');
+        }
+        else{
+            Element.show('loading-process');
+        }
     },
 
     onComplete: function() {
         if(Ajax.activeRequestCount == 0) {
-            varienLoaderHandler.hideLoading();
+            Element.hide('loading-process');
+            Element.hide('loading-mask');
         }
     }
 };

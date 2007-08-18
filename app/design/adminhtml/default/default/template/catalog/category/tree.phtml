@@ -8,7 +8,9 @@
 </div>
 <?=$this->getStoreSwitcherHtml()?>
 <?if($this->getRoot()):?>
+<div style="margin-right:10px;">
 <div id="tree-div" style="width:100%;overflow:auto;"></div>
+</div>
 <script type="text/javascript">
 Ext.onReady(function(){
     var tree = new Ext.tree.TreePanel('tree-div', {
@@ -111,7 +113,21 @@ categoryMove = function(obj){
         pd.push(encodeURIComponent(key), "=", encodeURIComponent(data[key]), "&");
     }
     pd.splice(pd.length-1,1);
-    var con = new Ext.lib.Ajax.request('POST', '<?=$this->getMoveUrl()?>', {success:success,failure:failure, scope:obj}, pd.join(""));
+    new Ajax.Request(
+        '<?=$this->getMoveUrl()?>',
+        {
+            method: 'POST',
+            parameters:  pd.join(""),
+            onSuccess : success,
+            onFailure : failure,
+            loaderArea:'tree-div'
+        }
+    );
+    /*var con = new Ext.lib.Ajax.request(
+        'POST', 
+        '<?=$this->getMoveUrl()?>', 
+        {success:success,failure:failure, scope:obj, loaderArea:'tree-div'}, 
+        pd.join(""));*/
 }
 </script>
 <?endif;?>

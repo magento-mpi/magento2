@@ -5,17 +5,30 @@
     position:absolute;
     top:45%;
     left:50%;
-		margin-left:-60px;
-		padding:15px 60px;
+        margin-left:-60px;
+        padding:15px 60px;
     background:#fff4e9;
     border:2px solid #f1af73;
-		color:#d85909;
-		font-size:1.1em;
-		font-weight:bold;
-		text-align:center;
+        color:#d85909;
+        font-size:1.1em;
+        font-weight:bold;
+        text-align:center;
     }
 
-
+#loading-mask {
+    position:absolute;
+    background:#fff4e9;
+    border:1px solid #f1af73;
+    color:#d85909;
+    font-size:1.1em;
+    font-weight:bold;
+    text-align:center;
+    filter:alpha(opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
+    z-index:100;
+    }
+#loading-mask .loader{position:absolute;top:40%;left:50%;}
 /* Widget Buttons - Scalable!! */
 button.scalable {
     margin:0;
@@ -57,7 +70,7 @@ button.scalable td.ml {
     color:#fff;
     vertical-align:middle;
     line-height:12px;
-	white-space:nowrap;
+    white-space:nowrap;
     }
 button.scalable td.mr {
     width:6px;
