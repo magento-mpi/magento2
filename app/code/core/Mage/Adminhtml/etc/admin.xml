@@ -94,14 +94,19 @@
                         </sets>
                     </children>
                 </attributes>
-                <reviews>
-                    <title>Reviews</title>
-                    <action>adminhtml/catalog_product_review/</action>
-                </reviews>
-                <ratings>
-                    <title>Ratings</title>
-                    <action>adminhtml/rating/</action>
-                </ratings>
+                <reviews_ratings>
+                    <title>Reviews and Ratings</title>
+                    <children>
+                        <reviews>
+                            <title>Manage Reviews</title>
+                            <action>adminhtml/catalog_product_review/</action>
+                        </reviews>
+                        <ratings>
+                            <title>Manage Ratings</title>
+                            <action>adminhtml/rating/</action>
+                        </ratings>
+                    </children>
+                </reviews_ratings>
                 <tag>
                     <title>Tags</title>
                     <children>
@@ -161,7 +166,20 @@
                         </tax_rules>
                         <tax_rates>
                             <title>Tax Rates</title>
-                            <action>adminhtml/tax_rate</action>
+                            <children>
+                                <manage>
+                                    <title>Manage Rates</title>
+                                    <action>adminhtml/tax_rate</action>
+                                </manage>
+                                <export>
+                                    <title>Export Rates</title>
+                                    <action>adminhtml/tax_rate/export</action>
+                                </export>
+                                <import>
+                                    <title>Import Rates</title>
+                                    <action>adminhtml/tax_rate/import</action>
+                                </import>
+                            </children>
                         </tax_rates>
                         <tax_classes_customer>
                             <title>Customer Tax Classes</title>

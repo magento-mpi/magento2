@@ -1,42 +1,33 @@
 <div class="header-top">
-	<a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl('images/logo.gif')?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
-	<div class="header-right">
-			<p class="super">
-					<?=__("%s", date("l, F jS, Y"))?><span class="separator">|</span><?=__("Logged in as <strong>%s</strong>", $user->getName())?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a>
-					
-					
-					
-					
-			</p>
-			<fieldset>
-				<legend>Search</legend>
-					<span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
-							<img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=__('Working...')?>" align="absmiddle"/>
-					</span>
-					<?$defSearch = __('Global Record Search')?>
-					<input id="global_search" name="query" type="text" class="input-text" 
-							value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" 
-							onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " 
-							onblur="if(this.value=='')this.value='<?=$defSearch?>';"
-					/>
-					<div id="global_search_autocomplete" class="autocomplete"></div>
-					<script type="text/javascript">
-							new Ajax.Autocompleter(
-									'global_search', 
-									'global_search_autocomplete', 
-									'<?=$baseUrl?>adminhtml/index/globalSearch/', 
-									{
-											paramName:"query", 
-											minChars:2,
-											indicator:"global_search_indicator", 
-											updateElement:getSelectionId
-									}
-							);
-							
-							function getSelectionId(li) {
-									location.href = li.getAttribute('url');
-							}
-					</script>
-			</fieldset>
-	</div>
+    <a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl('images/logo.gif')?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
+    <div class="header-right">
+        <p class="super">
+            <?=__("Logged in as <strong>%s</strong>", $user->getUsername())?><span class="separator">|</span><?=__("%s", date("F jS, Y"))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a>
+        </p>
+        <fieldset>
+            <legend>Search</legend>
+            <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
+                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=__('Working...')?>" align="absmiddle"/>
+            </span>
+            <?$defSearch = __('Global Record Search')?>
+            <input id="global_search" name="query" type="text" class="input-text" value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " onblur="if(this.value=='')this.value='<?=$defSearch?>';" />
+            <div id="global_search_autocomplete" class="autocomplete"></div>
+            <script type="text/javascript">
+                new Ajax.Autocompleter(
+                    'global_search',
+                    'global_search_autocomplete',
+                    '<?=$baseUrl?>adminhtml/index/globalSearch/',
+                    {
+                        paramName:"query",
+                        minChars:2,
+                        indicator:"global_search_indicator",
+                        updateElement:getSelectionId
+                    }
+                );
+                function getSelectionId(li) {
+                    location.href = li.getAttribute('url');
+                }
+            </script>
+        </fieldset>
+    </div>
 </div>

@@ -5,25 +5,25 @@ varienForm.prototype = {
         this.formId = formId;
         this.validationUrl = validationUrl;
         this.submitUrl = false;
-        
+
         if($(this.formId)){
             this.validator  = new Validation(this.formId, {onElementValidate : this.checkErrors.bind(this)});
         }
         this.errorSections = new Hash();
     },
-    
+
     checkErrors : function(result, elm){
         if(!result)
             elm.setHasError(true, this);
         else
             elm.setHasError(false, this);
     },
-    
+
     submit : function(url){
         this.errorSections = new Hash();
         this.canShowError = true;
         this.submitUrl = url;
-        if(this.validator.validate()){
+        if(this.validator && this.validator.validate()){
             if(this.validationUrl){
                 this._validate();
             }
@@ -34,7 +34,7 @@ varienForm.prototype = {
         }
         return false;
     },
-    
+
     _validate : function(){
         new Ajax.Request(this.validationUrl,{
             method: 'post',
@@ -42,7 +42,7 @@ varienForm.prototype = {
             onComplete: this._processValidationResult.bind(this)
         });
     },
-    
+
     _processValidationResult : function(transport){
         var response = transport.responseText.evalJSON();
         if(response.error){
@@ -54,7 +54,7 @@ varienForm.prototype = {
             this._submit();
         }
     },
-    
+
     _submit : function(){
         if(this.submitUrl){
             $(this.formId).action = this.submitUrl;
@@ -65,7 +65,7 @@ varienForm.prototype = {
 
 /**
  * redeclare Validation.isVisible function
- * 
+ *
  * use for not visible elements validation
  */
 Validation.isVisible = function(elm){
@@ -90,13 +90,13 @@ var varienElementMethods = {
             if(elm.statusBar)
                 Element.addClassName($(elm.statusBar), 'changed')
             elm = elm.parentNode;
-        }            
+        }
     },
     setHasError : function(element, flag, form){
         var elm = element;
         while(elm && elm.tagName != 'BODY') {
             if(elm.statusBar){
-                if(form.errorSections.keys().indexOf(elm.statusBar.id)<0) 
+                if(form.errorSections.keys().indexOf(elm.statusBar.id)<0)
                     form.errorSections[elm.statusBar.id] = flag;
                 if(flag){
                     Element.addClassName($(elm.statusBar), 'error');
@@ -137,7 +137,7 @@ Event.pointerX = function(event){
         return event.pageX || (event.clientX +(document.documentElement.scrollLeft || document.body.scrollLeft));
     }
     catch(e){
-        
+
     }
 }
 Event.pointerY = function(event){
@@ -145,6 +145,6 @@ Event.pointerY = function(event){
         return event.pageY || (event.clientY +(document.documentElement.scrollTop || document.body.scrollTop));
     }
     catch(e){
-        
+
     }
 }

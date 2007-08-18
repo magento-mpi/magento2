@@ -13,6 +13,10 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
+
+        $this->_redirect('adminhtml/sales_order');
+        return;
+
         $this->loadLayout('baseframe');
         #$this->_setActiveMenu('dashboard');
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
@@ -68,7 +72,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
         $this->getResponse()->setBody($block->toHtml());
     }
-    
+
     public function exampleAction()
     {
         $this->_outTemplate('example');

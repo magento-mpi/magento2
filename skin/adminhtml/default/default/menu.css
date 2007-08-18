@@ -12,16 +12,16 @@
 
 
 /************** ALL LEVELS  *************/ /* Style consistent throughout all nav levels */
-#nav li { 
-	list-style:none; 
-	position:relative; 
+#nav li {
+	list-style:none;
+	position:relative;
 	text-align:left;
 	}
 #nav li.over { z-index:99; }
 #nav li.active { z-index:999; } /* to prevent the li separator from showing through on mouseover on li */
-#nav a, #nav a:hover { 
-	display:block; 
-	text-decoration:none; 
+#nav a, #nav a:hover {
+	display:block;
+	text-decoration:none;
 	}
 #nav span { display:block; cursor:pointer; }
 #nav a {line-height:1.3em; }
@@ -33,7 +33,7 @@
 	background:url(images/nav1_sep.gif) no-repeat 100% 0;
 	}
 #nav li.active { font-weight:bold; }
-#nav li.active { 
+#nav li.active {
 	margin-left:-1px;
 	background:url(images/nav1_active.gif) no-repeat;
 	color:#fff;
@@ -68,16 +68,16 @@
 	background:none;
 	padding:0;
 	}
-#nav ul li.over a, 
+#nav ul li.over a,
 #nav ul li.over a:hover
-#nav ul a, 
+#nav ul a,
 #nav li.active li { font-weight:normal; }
 
 
 /************ 2ND LEVEL ************/
 #nav ul {
 	/*display:none;*/
-	
+
 	position: absolute;
 	width:189px;
 	top:34px;
@@ -101,26 +101,33 @@
 	}
 #nav li.over ul a,
 #nav ul li.active a,
-#nav ul li a, 
+#nav ul li a,
 #nav ul li a:hover { color:#2F2F2F;}
 #nav ul span, #nav ul li.last li span {
 	padding:5px 15px;
 	background:url(images/nav2_link_bg.gif) repeat-x 0 100%;
 	}
 #nav ul li.last span, #nav ul li.last li.last span {
-	background:none; 
+	background:none;
 	}
-#nav ul li.last { 
+#nav ul li.last {
 	background:url(images/nav2_last_li_bg.png) no-repeat 0 100%;
 	padding-bottom:3px;
 	}
-#nav ul li.parent a {
+#nav ul li.parent a,
+#nav ul ul li.parent a {
 	background-image:url(images/nav2_parent_arrow.gif);
 	background-position:right bottom;
 	background-repeat:no-repeat;
 	}
 
 /************ 3RD+ LEVEL ************/
+
+/* Show menu */
+#nav ul ul ul { /*display:none;*/ left:-10000px; }
+#nav li.over ul li.over ul ul { /*display:none;*/ left:-10000px; }
+#nav li.over ul li.over ul li.over ul { /*display:block;*/left:100px; }
+
 #nav ul ul {
 	background:url(images/nav3_bg.png) no-repeat;
 	padding-top:2px;
@@ -129,6 +136,16 @@
 }
 #nav ul li.parent li a {
 	background-image:none;
+	}
+
+#nav ul li.parent li li a {
+	background-image:none;
+	}
+
+#nav ul ul li.parent a {
+	background-image:url(images/nav2_parent_arrow.gif);
+	background-position:right bottom;
+	background-repeat:no-repeat;
 	}
 
 
@@ -152,7 +169,7 @@
 #nav iframe {
 position: absolute;
 left: -1px;
-top: 0; 
+top: 0;
 z-index: -1;
 filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
 }

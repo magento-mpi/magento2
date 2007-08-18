@@ -316,6 +316,8 @@ label.inline{
 .nested-content .entry-edit { margin-left:2em;}
 .nested-content .entry-edit .entry-edit { margin-left:0; }
 
+.entry-edit fieldset .field-row .hint {float: left; color: #999; padding-left:10em;}
+
 /* Autocomplete */
 div.autocomplete {
     z-index:10000;
@@ -731,8 +733,7 @@ div.actions:after,
 #sc_addresses .entry-edit fieldset label {
     width: 8em;
 }
-#sc_billing_method .entry-edit fieldset label,
-#sc_shipping_method .entry-edit fieldset label {
+#sc_billing_method .entry-edit fieldset label {
 	float: none;
 }
 #sc_billing_method dd {

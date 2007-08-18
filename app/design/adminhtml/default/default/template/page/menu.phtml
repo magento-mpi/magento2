@@ -4,15 +4,13 @@
 <?if (empty($_level)):?>
 <!-- menu start -->
 <script type="text/javascript">
-
 function toggleMenu(el, over) {
-		if (over) {
-			Element.addClassName(el, 'over');
-	} else {
-			Element.removeClassName(el, 'over');
-	}
+    if (over) {
+        Element.addClassName(el, 'over');
+    } else {
+        Element.removeClassName(el, 'over');
+    }
 }
-
 </script>
 <ul id="nav">
 <?  $_level = 0; ?>
@@ -27,9 +25,9 @@ function toggleMenu(el, over) {
         <?
             $_menuData[$_level] = array('menu'=>$menu);
             $menu = $_item['children'];
-            $_level++; 
-            include __FILE__; 
-            $_level--; 
+            $_level++;
+            include __FILE__;
+            $_level--;
             extract($_menuData[$_level]);
         ?>
         </ul><?endif;?></li>

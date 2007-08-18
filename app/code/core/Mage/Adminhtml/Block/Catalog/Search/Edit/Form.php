@@ -39,24 +39,25 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
             'label' => __('Search Query'),
             'required' => true,
         ));
-        
+
     	$fieldset->addField('num_results', 'text', array(
             'name' => 'num_results',
             'label' => __('Number of results'),
             'required' => true,
         ));
-        
+
     	$fieldset->addField('popularity', 'text', array(
             'name' => 'popularity',
             'label' => __('Popularity'),
             'required' => true,
         ));
-        
+
         $fieldset->addField('redirect', 'text', array(
             'name' => 'redirect',
             'label' => __('Redirect URL'),
+            'after_element_html' => '<span class="hint">' . __('ex. http://domain.com') . '</span>',
         ));
-        
+
         $fieldset->addField('synonims', 'textarea', array(
             'name' => 'synonims',
             'label' => __('Synonims'),
