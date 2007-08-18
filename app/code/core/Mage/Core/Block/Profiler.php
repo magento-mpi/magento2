@@ -4,6 +4,10 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
 {
     public function toHtml()
     {
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
+
     	if (!Mage::getStoreConfig('dev/debug/profiler')) {
     		return '';
     	}

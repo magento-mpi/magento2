@@ -41,8 +41,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
         $form = new Varien_Data_Form();
         
-        $defaultFieldsetRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_fieldset');
-        $defaultFieldRenderer = $this->getLayout()->createBlock('adminhtml/system_config_form_field');
+        $defaultFieldsetRenderer = Mage::getHelper('adminhtml/system_config_form_fieldset');
+        $defaultFieldRenderer = Mage::getHelper('adminhtml/system_config_form_field');
         $fieldset = array();
         
         foreach ($configFields->getItems() as $e) {
@@ -59,10 +59,14 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     
                 case 2: // group
                 	if ($e->getFrontendModel()) {
-                		$fieldsetRenderer = Mage::getSingleton($e->getFrontendModel());
+                		$fieldsetRenderer = Mage::getHelper($e->getFrontendModel());
                 	} else {
                 		$fieldsetRenderer = $defaultFieldsetRenderer;
                 	}
+                	
+                	$fieldsetRenderer->setForm($this);
+                	$fieldsetRenderer->setConfigData($configData);
+                	
                     $fieldset[$pathArr[1]] = $form->addFieldset($pathArr[1], array(
                         'legend'=>__($e->getFrontendLabel())
                     ))->setRenderer($fieldsetRenderer);
@@ -79,7 +83,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                         $data = array('value'=>'', 'default_value'=>'', 'old_value'=>'', 'inherit'=>'');
                     }
                 	if ($e->getFrontendModel()) {
-                		$fieldRenderer = Mage::getSingleton($e->getFrontendModel());
+                		$fieldRenderer = Mage::getHelper($e->getFrontendModel());
                 	} else {
                 		$fieldRenderer = $defaultFieldRenderer;
                 	}
@@ -95,8 +99,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                             'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',
                             'inherit'       => isset($data['inherit']) ? $data['inherit'] : '',
                             'class'         => $e->getFrontendClass(),
-                            'can_use_default_value' => $this->_canUseDefaultValue($e),
-                            'can_use_website_value' => $this->_canUseWebsiteValue($e),
+                            'can_use_default_value' => $this->canUseDefaultValue($e),
+                            'can_use_website_value' => $this->canUseWebsiteValue($e),
                         ))->setRenderer($fieldRenderer);
                     if ($srcModel = $e->getSourceModel()) {
                         $field->setValues(Mage::getSingleton($srcModel)->toOptionArray());
@@ -109,7 +113,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         return $this;
     }
     
-    protected function _canUseDefaultValue($field)
+    public function canUseDefaultValue($field)
     {
         if ($this->getScope() == self::SCOPE_STORE && $field->getShowInDefault()) {
             return true;
@@ -120,7 +124,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         return false;
     }
 
-    protected function _canUseWebsiteValue($field)
+    public function canUseWebsiteValue($field)
     {
         if ($this->getScope() == self::SCOPE_STORE && $field->getShowInWebsite()) {
             return true;

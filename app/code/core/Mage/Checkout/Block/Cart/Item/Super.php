@@ -24,6 +24,9 @@
  	
  	public function toHtml()
  	{
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
  		$result = '<ul class="super-product-attributes">';
  		foreach ($this->getSuperProduct()->getParentProduct()->getSuperAttributes(true) as $attribute) {
  			$result.= '<li><strong>' . $attribute->getFrontend()->getLabel() . ':</strong> ';

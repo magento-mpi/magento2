@@ -16,6 +16,10 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 {
 	function toHtml()
 	{
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
+
 	    ob_implicit_flush();
 	    
 	    $list = $this->getData('sorted_children_list');

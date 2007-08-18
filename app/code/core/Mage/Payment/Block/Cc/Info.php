@@ -4,6 +4,10 @@ class Mage_Payment_Block_Cc_Info extends Mage_Core_Block_Text
 {
     public function toHtml()
     {
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
+
         $payment = $this->getPayment();
         $out = __('Credit Card')."\n".
             __('Type').': '.$payment->getCcType()."\n".

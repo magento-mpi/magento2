@@ -4,6 +4,10 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
 {
     public function toHtml()
     {
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
+
         $query = $this->getRequest()->getParam('query', '');
         $searchCollection = Mage::getResourceModel('catalogsearch/search_collection')
             ->addFieldToFilter('search_query', array('like'=>$query.'%'))

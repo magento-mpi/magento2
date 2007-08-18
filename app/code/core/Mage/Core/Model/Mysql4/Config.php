@@ -112,8 +112,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 foreach ($sConfig as $path=>$data) {
                     // get config prefix: 'global' or 'websites/{code}' or 'stores/{code}'
                     $prefix = $scope.($scope!=='default' ? '/'.$d[$scope][$sId]['code'] : '');
-#echo "<pre>".print_r($prefix.'/'.$path,1)."</pre>";
-
+					#echo "<pre>".print_r($prefix.'/'.$path,1)."</pre>";
                     $xmlConfig->setNode($prefix.'/'.$path, $data['value']);
                 }
             }

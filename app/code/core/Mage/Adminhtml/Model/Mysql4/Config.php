@@ -140,6 +140,9 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                     if (!is_null($fieldData['value'])) {
                         $data['value'] = $fieldData['value'];
                     }
+                    if (!isset($data['value']) || is_null($data['value']) || $data['value']==='') {
+                    	continue;
+                    }
                     $dataModel->setData($data)->save();
                 }
             }

@@ -12,6 +12,9 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
 {
     public function toHtml()
     {
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
         $html = '';
         if ($block = $this->getBlockId()) {
             $html = Mage::getModel('cms/block')

@@ -75,6 +75,10 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
     
     public function toHtml()
     {
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
+
         $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'.$this->getClass().'" title="'.$this->getTitle().'" '.$this->getExtraParams().'>';
         $value = $this->getValue();
         foreach ($this->getOptions() as $option) {

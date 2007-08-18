@@ -36,6 +36,10 @@ class Mage_Core_Block_Text extends Mage_Core_Block_Abstract
     
 	function toHtml()
 	{
+		if (!$this->_beforeToHtml()) {
+			return '';
+		}
+		
     	return $this->getText();
 	}
 }// Class Mage_Core_Block_List END

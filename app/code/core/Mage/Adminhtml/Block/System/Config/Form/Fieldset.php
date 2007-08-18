@@ -14,6 +14,19 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
 {
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
+		$html = $this->_getHeaderHtml($element);
+		
+        foreach ($element->getElements() as $field) {
+        	$html.= $field->toHtml();
+        }
+        
+        $html .= $this->_getFooterHtml($element);
+
+        return $html;
+    }
+    
+    protected function _getHeaderHtml($element)
+    {
         $id = $element->getHtmlId();
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
@@ -28,11 +41,12 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         }
         $html.= '<tbody>';
         
-        foreach ($element->getElements() as $field) {
-        	$html.= $field->toHtml();
-        }
-        
-        $html.= '</tbody></table></fieldset>';
+        return $html;
+    }
+    
+    protected function _getFooterHtml($element)
+    {
+        $html = '</tbody></table></fieldset>';
         return $html;
     }
 }
