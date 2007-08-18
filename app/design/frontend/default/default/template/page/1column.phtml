@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon" ></link>
     <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>varien/js.js" ></script>
     <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>varien/form.js" ></script>
+    <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>varien/menu.js" ></script>
 
     <link rel="stylesheet" href="<?=$this->getSkinUrl('css/styles.css')?>" type="text/css" media="all" />
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
@@ -21,17 +22,6 @@
         <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js" ></script> 
         <script language="javascript" type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js" ></script>
     <![endif]-->
-    <script type="text/javascript">
-        function toggleMenu(el, over)
-        {
-            if (over) {
-                Element.addClassName(el, 'over');
-            }
-            else {
-                Element.removeClassName(el, 'over');
-            }
-        }
-    </script>
 
     <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
 </head>

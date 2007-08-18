@@ -1,0 +1,55 @@
+/* Nav */
+/* Nav - First Level */
+#nav { padding:0 20px; }
+#nav li {
+    float:left;
+    position:relative;
+    padding:2px 0;
+    font-size:1.1em;
+    }
+#nav a { display:block; float:left; }
+#nav a, #nav a:hover {
+    color:#a7c6dd;
+    font-weight:bold;
+    text-decoration:none;
+    }
+#nav a span {
+    float:left;
+    padding:2px 12px 2px 8px;
+    /* background:url(../images/nav_li_bg.gif) no-repeat 100% 50%; */
+    }
+#nav li.active a, #nav li a:hover { color:#d96708; }
+
+/* Nav - RESET for Second+ level */
+#nav ul li, #nav ul a, #nav ul span {
+    float:none;
+    background:none;
+    padding:0;
+    }
+#nav ul a, #nav ul a:hover, #nav li:hover ul a, #nav li.over ul a {
+    background:none;
+    padding:0;
+    font-weight:normal;
+    font-size:12px;
+    }
+
+/* Nav - Second+ level */
+#nav ul {
+    position:absolute;
+    top:1.7em;
+    left:-1000em;
+    border:1px solid #8eaabf;
+    background:#f2f6f9;
+    width:15.5em;
+    }
+#nav li:hover ul, #nav li.over ul { left:0; }
+#nav ul a { background:url(../images/dotted_divider.gif) repeat-x 0 100% !important; padding:3px 8px !important; color:#605A5A !important; }
+#nav ul a:hover { background-color:#c6d3e3 !important; color:#2f2f2f !important; }
+#nav ul .last a { background:none !important;}
+#nav iframe {
+    position: absolute;
+    left: -1px;
+    top: 0;
+    z-index: -1;
+    filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
+}

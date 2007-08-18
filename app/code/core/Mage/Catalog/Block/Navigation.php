@@ -68,7 +68,6 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         return $this->_getChildCategories($parent, 1);*/
     }
     
-    
     /**
      * Checkin activity of category
      *
@@ -90,5 +89,39 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         $params = array('id'    => $category->getId());
         return Mage::getUrl('catalog/category/view', $params);
+    }
+    
+    public function drowItem($category, $level=0)
+    {
+        $html = '';
+        if (!$category->getIsActive()) {
+            return $html;
+        }
+        
+        $children = $category->getChildren();
+        $hasChildren = $children && $children->count();
+        $html.= '<li';
+        if ($hasChildren) {
+             //$html.= ' onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"';
+        }  
+        
+        $html.= ' class="level'.$level;
+        if ($this->isCategoryActive($category)) {
+            $html.= ' active';
+        }
+        
+        $html.= '">'."\n";
+        $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$category->getName().'</span></a>'."\n";
+        //$html.= '<span>'.$level.'</span>';
+        if ($hasChildren){
+            $html.= '<ul>'."\n";
+            ++$level;
+            foreach ($children as $child) {
+            	$html.= $this->drowItem($child, $level);
+            }
+            $html.= '</ul>';
+        }
+        $html.= '</li>'."\n";
+        return $html;
     }
 }
