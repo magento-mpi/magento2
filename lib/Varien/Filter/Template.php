@@ -31,12 +31,6 @@ class Varien_Filter_Template implements Zend_Filter_Interface
     protected $_includeProcessor = null;
     
     /**
-     * Allowed template directives
-     * @var array
-     */
-    protected $_allowedDirectives = array('var', 'include');
-    
-    /**
      * Sets template variables that's can be called througth {var ...} statement
      * 
      * @param array $variables
@@ -82,7 +76,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
             foreach($constructions as $index=>$construction) {
                 $replacedValue = '';
                 $callback = array($this, $construction[1].'Directive');
-                if(!in_array($construction[1], $this->_allowedDirectives) || !is_callable($callback)) {
+                if(!is_callable($callback)) {
                     continue;
                 }
                 try {

@@ -298,6 +298,8 @@ final class Mage {
         Mage::getConfig()->init();
         Varien_Profiler::stop('init/config');
 
+        Mage::getConfig()->loadEventObservers('global');
+        
         Varien_Profiler::stop('init');
     }
 

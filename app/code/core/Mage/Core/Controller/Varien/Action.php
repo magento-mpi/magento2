@@ -53,7 +53,6 @@ abstract class Mage_Core_Controller_Varien_Action
 		 Mage::getSingleton('core/session');
 		 Varien_Profiler::stop('init/session');
 
-
 		 Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
      }
 

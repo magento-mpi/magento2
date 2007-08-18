@@ -52,6 +52,17 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'required'  => true,
             'options'    => $stores,
         ));
+        
+        $layouts = array();
+        foreach (Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
+        	$layouts[$layoutName] = (string)$layoutConfig->label;
+        }
+    	$fieldset->addField('root_template', 'select', array(
+            'name'      => 'root_template',
+            'label'     => __('Layout'),
+            'required'  => true,
+            'options'    => $layouts,
+        ));
 
     	$fieldset->addField('is_active', 'select', array(
             'label'     => __('Status'),
@@ -81,5 +92,4 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
         return parent::_prepareForm();
     }
-
 }

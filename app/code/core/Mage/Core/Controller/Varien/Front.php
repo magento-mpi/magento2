@@ -123,7 +123,9 @@ class Mage_Core_Controller_Varien_Front
         
         $request = $this->getRequest();
         $request->setPathInfo()->setDispatched(false);
-
+        
+        $this->rewrite();
+        
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
 #Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName().'/'.$request->getActionName());
@@ -209,5 +211,23 @@ class Mage_Core_Controller_Varien_Front
             $this->_urlCache[$cacheKey] = $url;
         }
         return $url;
+    }
+    
+    public function rewrite()
+    {
+    	$request = $this->getRequest();
+    	$config = Mage::getConfig()->getNode('global/rewrite');
+    	if (!$config) {
+    		return;
+    	}
+    	foreach ($config->children() as $rewrite) {
+    		$from = (string)$rewrite->from;
+    		$to = (string)$rewrite->to;
+    		if (empty($from) || empty($to)) {
+    			continue;
+    		}
+    		$pathInfo = preg_replace($from, $to, $request->getPathInfo());
+    		$request->setPathInfo($pathInfo);
+    	}
     }
 }

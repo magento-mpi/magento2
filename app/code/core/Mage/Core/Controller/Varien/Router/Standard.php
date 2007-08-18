@@ -174,4 +174,26 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         return $url;
     }
+    
+    public function rewrite(array $p) 
+    {
+    	$rewrite = Mage::getConfig()->getNode('global/rewrite');
+        if ($module = $rewrite->{$p[0]}) {
+        	if (!$module->children()) {
+        		$p[0] = trim((string)$module);
+        	}
+        }
+        if (isset($p[1]) && ($controller = $rewrite->{$p[0]}->{$p[1]})) {
+        	if (!$controller->children()) {
+        		$p[1] = trim((string)$controller);
+        	}
+        }
+        if (isset($p[2]) && ($action = $rewrite->{$p[0]}->{$p[1]}->{$p[2]})) {
+        	if (!$action->children()) {
+        		$p[2] = trim((string)$action);
+        	}
+        }
+#echo "<pre>".print_r($p,1)."</pre>";
+        return $p;
+    }
 }

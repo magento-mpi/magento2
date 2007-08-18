@@ -42,7 +42,17 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'align' =>'left',
             'index' =>'identifier'
         ));
-
+        $layouts = array();
+        foreach (Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
+        	$layouts[$layoutName] = (string)$layoutConfig->label;
+        }
+        $this->addColumn('root_template', array(
+            'header'=>__('Layout'),
+            'index'=>'root_template',
+            'type' => 'options',
+            'options' => $layouts,
+        ));
+        
         $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
         $stores[0] = __('All stores');
 

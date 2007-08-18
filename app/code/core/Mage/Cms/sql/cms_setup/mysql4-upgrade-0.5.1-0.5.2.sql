@@ -1,0 +1,1 @@
+alter table `cms_page` ,add column `root_template` varchar (255)  NOT NULL  after `title`;

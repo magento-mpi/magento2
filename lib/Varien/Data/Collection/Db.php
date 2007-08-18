@@ -223,6 +223,18 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             }
             elseif (isset($condition['moreq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName >= ?", $condition['moreq']);
+            }            
+            elseif (isset($condition['gt'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName > ?", $condition['gt']);
+            }            
+            elseif (isset($condition['lt'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName < ?", $condition['lt']);
+            }
+            elseif (isset($condition['gteq'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName >= ?", $condition['gteq']);
+            }            
+            elseif (isset($condition['lteq'])) {
+                $sql = $this->getConnection()->quoteInto("$fieldName <= ?", $condition['lteq']);
             }
             else {
                 $orSql = array();

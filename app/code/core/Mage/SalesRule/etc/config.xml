@@ -17,6 +17,9 @@
                     <rule>
                         <table>salesrule</table>
                     </rule>
+                    <rule_customer>
+                        <table>salesrule_customer</table>
+                    </rule_customer>
                     <rule_product>
                         <table>salesrule_product</table>
                     </rule_product>
