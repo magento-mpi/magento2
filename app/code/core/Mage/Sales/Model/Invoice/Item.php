@@ -23,6 +23,7 @@ class Mage_Sales_Model_Invoice_Item extends Mage_Core_Model_Abstract
     public function importOrderItem(Mage_Sales_Model_Order_Item $item)
     {
         $this->setParentId($this->getInvoice()->getId())
+            ->setStoreId($item->getStoreId())
             ->setOrderItemId($item->getId())
             ->setProductId($item->getProductId())
             ->setName($item->getName())
@@ -37,6 +38,7 @@ class Mage_Sales_Model_Invoice_Item extends Mage_Core_Model_Abstract
     public function importInvoiceItem(Mage_Sales_Model_Invoice_Item $item)
     {
         $this->setParentId($this->getInvoice()->getId())
+            ->setStoreId($item->getStoreId())
             ->setOrderItemId($item->getOrderItemId())
             ->setProductId($item->getProductId())
             ->setName($item->getName())

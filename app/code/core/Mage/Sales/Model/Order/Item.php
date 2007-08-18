@@ -36,6 +36,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
     {
         $this->setQuoteItemId($item->getId())
+            ->setStoreId($item->getQuote()->getStoreId())
             ->setProductId($item->getProductId())
             ->setSku($item->getSku())
             ->setImage($item->getImage())
@@ -51,7 +52,8 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 
     public function importQuoteAddressItem(Mage_Sales_Model_Quote_Address_Item $item)
     {
-        $this->setQuoteItemId($item->getQuote()->getId())
+        $this->setQuoteItemId($item->getAddress()->getQuote()->getId())
+            ->setStoreId($item->getAddress()->getQuote()->getStoreId())
             ->setProductId($item->getProductId())
             ->setSku($item->getSku())
             ->setImage($item->getImage())

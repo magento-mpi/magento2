@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Items extends Mage_Adminhtml_Block_W
         $this->addColumn('qty_backordered', array(
             'header' => __('Qty Backordered'),
             'index' => 'qty_backordered',
-            'type' => 'number',
+            'type' => 'input',
         ));
 
         $this->addColumn('qty_shipped', array(

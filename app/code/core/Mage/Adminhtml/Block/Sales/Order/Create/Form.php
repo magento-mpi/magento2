@@ -28,15 +28,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         } elseif (! $this->getStoreid()) {
             $childNames[] = 'store';
         } else {
-//            $childNames[] = 'shipping_address';
-//            $childNames[] = 'billing_address';
-//            $childNames[] = 'shipping_method';
-//            $childNames[] = 'billing_method';
-//            $childNames[] = 'coupons';
-//            $childNames[] = 'newsletter';
-//            $childNames[] = 'items';
-//            // $childNames[] = 'search';
-//            $childNames[] = 'totals';
+            $childNames[] = 'shipping_address';
+            $childNames[] = 'billing_address';
+            $childNames[] = 'shipping_method';
+            $childNames[] = 'billing_method';
+            $childNames[] = 'coupons';
+            $childNames[] = 'newsletter';
+            $childNames[] = 'items';
+            // $childNames[] = 'search';
+            $childNames[] = 'totals';
         }
 
         foreach ($childNames as  $name) {

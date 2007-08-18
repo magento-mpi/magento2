@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Newsletter extends Mage_Adminhtml_
 
     public function toHtml()
     {
-        if (intval($this->getCustomerId())) {
+        if (! Mage::getSingleton('adminhtml/quote')->getIsOldCustomer()) {
             return parent::toHtml();
         }
         return '';

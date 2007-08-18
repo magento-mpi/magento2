@@ -21,17 +21,17 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address_Select extends Mag
 
     public function getQuote()
     {
-        return $this->getParentBlock()->getQuote();
+        return Mage::getSingleton('adminhtml/quote')->getQuote();
     }
 
     public function getAddresses()
     {
-        return $this->getParentBlock()->getSession()->getCustomer()->getLoadedAddressCollection();
+        return Mage::getSingleton('adminhtml/quote')->getQuote()->getCustomer()->getLoadedAddressCollection();
     }
 
     public function getIsSelected($address)
     {
-        if ($address->getId() == $this->getParentBlock()->getSession()->getBillingAddressId()) {
+        if ($address->getId() == Mage::getSingleton('adminhtml/quote')->getBillingAddressId()) {
             return ' selected';
         }
         return '';

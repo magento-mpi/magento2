@@ -406,6 +406,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $order->createFromQuoteAddress($this->getQuote()->getShippingAddress());
         $order->setStoreId($this->getQuote()->getStore()->getId());
         $order->setOrderCurrencyCode($this->getQuote()->getStore()->getCurrentCurrencyCode());
+        $order->setOrderStatusId(1);
         $order->validate();
         if ($order->getErrors()) {
             //TODO: handle errors (exception?)

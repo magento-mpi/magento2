@@ -62,6 +62,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
     {
         $this->_order = $order;
         $this->setOrderId($order->getId());
+        $this->setStoreId($order->getStoreId());
         $this->setRealOrderId($order->getRealOrderId());
         return $this;
     }
