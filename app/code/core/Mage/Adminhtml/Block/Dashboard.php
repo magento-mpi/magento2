@@ -18,9 +18,9 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
     
     protected function _initChildren()
     {
-    	$this->setChild('product', 
+    	/*$this->setChild('product', 
     		$this->getLayout()->createBlock('adminhtml/dashboard_product', 'dashboard_product')
-    	);
+    	);*/
     	return $this;
     }
 }
