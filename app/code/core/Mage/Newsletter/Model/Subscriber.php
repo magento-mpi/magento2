@@ -338,14 +338,24 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function sendConfirmationRequestEmail()
     {
     	Mage::getModel('core/email_template')
-    		->sendTransactional('new_subscription', $this->getEmail(), $this->getName(), array('subscriber'=>$this));
+    		->sendTransactional(
+    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
+    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_identity'),
+    		    $this->getEmail(), 
+    		    $this->getName(), 
+    		    array('subscriber'=>$this));
     	return $this;
     }
 
     public function sendConfirmationSuccessEmail()
     {
     	Mage::getModel('core/email_template')
-    		->sendTransactional('subscription_success', $this->getEmail(), $this->getName(), array('subscriber'=>$this));
+    		->sendTransactional(
+    		    Mage::getStoreConfig('newsletter/subscription/success_email_template'),
+    		    Mage::getStoreConfig('newsletter/subscription/success_email_identity'),
+    		    $this->getEmail(), 
+    		    $this->getName(), 
+    		    array('subscriber'=>$this));
     	return $this;
     }
 }

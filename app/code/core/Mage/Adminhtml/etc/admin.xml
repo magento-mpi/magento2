@@ -60,6 +60,11 @@
                     <action>adminhtml/newsletter_problem/</action>
                     <resource>admin/newsletter/problem</resource>
                 </problem>
+                <config>
+                    <title>Configuration</title>
+                    <action>adminhtml/system_config/edit/section/newsletter/</action>
+                    <resource>admin/newsletter/config</resource>
+                </config>
 
             </children>
          </newsletter>
