@@ -20,20 +20,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         );
     }
 
-    /**
-     * Save customer addresses and set default addresses in attributes backend
-     *
-     * @param   Varien_Object $customer
-     * @return  Mage_Eav_Model_Entity_Abstract
-     */
-    protected function _afterSave(Varien_Object $customer)
-    {
-        $this->_saveAddresses($customer);
-		$this->_saveSubscription($customer);
-
-        return parent::_afterSave($customer);
-    }
-
     protected function _beforeSave(Varien_Object $customer)
     {
         parent::_beforeSave($customer);
@@ -53,11 +39,26 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             ->setPage(1,1)
             ->load();
         if ($collection->getSize() > 0) {
-            Mage::throwException('customer email already exist');
+            Mage::throwException('Customer email already exist');
         }
 
         return $this;
     }
+
+    /**
+     * Save customer addresses and set default addresses in attributes backend
+     *
+     * @param   Varien_Object $customer
+     * @return  Mage_Eav_Model_Entity_Abstract
+     */
+    protected function _afterSave(Varien_Object $customer)
+    {
+        $this->_saveAddresses($customer);
+		$this->_saveSubscription($customer);
+
+        return parent::_afterSave($customer);
+    }
+
 
     protected function _saveAddresses(Mage_Customer_Model_Customer $customer)
     {
@@ -167,27 +168,8 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
      */
     public function changePassword(Mage_Customer_Model_Customer $customer, $newPassword, $checkCurrent=true)
     {
-        if ($checkCurrent) {
-            /*if (empty($data['current_password'])) {
-                Mage::throwException('current customer password is empty');
-                //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE005'));
-            }
-            $testCustomer = clone $customer;
-            $this->load($testCustomer, $customer->getId(), array('password_hash'));
-            if ($testCustomer->getPasswordHash()!==$testCustomer->hashPassword($data['current_password'])) {
-                Mage::throwException('invalid current password');
-                //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
-            }*/
-        }
-
-        /*if ($data['password'] != $data['confirmation']) {
-            Mage::throwException('new passwords do not match');
-            //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
-        }*/
-
         $customer->setPassword($newPassword);
         $this->saveAttribute($customer, 'password_hash');
-        //->save();
         return $this;
     }
 }

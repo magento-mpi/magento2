@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Newpass extends Mage_Core_Bloc
         $html.= '<span class="field-row">';
         $html.= '<label>&nbsp;</label>';
         $html.= '<input type="checkbox" name="'.$element->getName().'" value="auto" onclick="setElementDisable(\''.$element->getHtmlId().'\', this.checked)"/>&nbsp;';
-        $html.= '<label class="normal">'.__('Send new auto-generated password').'</label>';
+        $html.= '<label class="normal">'.__('Send auto-generated password').'</label>';
         $html.= '</span>'."\n";
 
         return $html;

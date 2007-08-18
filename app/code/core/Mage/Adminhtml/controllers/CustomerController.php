@@ -47,20 +47,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_grid')->toHtml());
     }
 
-    public function testAction()
-    {
-        Mage::getSingleton('adminhtml/session')->addSuccess('Test success message 1');
-        Mage::getSingleton('adminhtml/session')->addSuccess('Test success message 2');
-        Mage::getSingleton('adminhtml/session')->addWarning('Test warning message 1');
-        Mage::getSingleton('adminhtml/session')->addWarning('Test warning message 2');
-        Mage::getSingleton('adminhtml/session')->addNotice('Test notice message 1');
-        Mage::getSingleton('adminhtml/session')->addNotice('Test notice message 2');
-        Mage::getSingleton('adminhtml/session')->addError('Test error message 1');
-        Mage::getSingleton('adminhtml/session')->addError('Test error message 2');
-        $this->loadLayout('baseframe');
-        $this->renderLayout();
-    }
-
     /**
      * Customer edit action
      */
@@ -206,13 +192,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             $isNewCustomer = empty($customerId);
             try {
+                if ($customer->getPassword() == 'auto') {
+                    $customer->setPassword($customer->generatePassword());
+                }
+
                 $customer->save();
                 if ($isNewCustomer) {
-                    $mailer = Mage::getModel('customer/email')
-                        ->setTemplate('email/welcome.phtml')
-                        ->setType('html')
-                        ->setCustomer($customer)
-                        ->send();
+                    $customer->sendNewAccountEmail();
                 }
 
                 if ($newPassword = $customer->getNewPassword()) {
@@ -220,11 +206,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         $newPassword = $customer->generatePassword();
                     }
                     $customer->changePassword($newPassword, false);
-                    $mailer = Mage::getModel('customer/email')
-                        ->setTemplate('email/forgot_password.phtml')
-                        ->setType('text')
-                        ->setCustomer($customer)
-                        ->send();
+                    $customer->sendPasswordReminderEmail();
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess('Customer was saved');

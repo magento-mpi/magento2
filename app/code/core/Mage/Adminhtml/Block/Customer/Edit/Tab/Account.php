@@ -51,7 +51,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
         }
         else {
-            $fieldset->addField('password', 'password',
+            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>__('Password Management')));
+            $field = $newFieldset->addField('password', 'text',
                 array(
                     'label' => __('Password'),
                     'class' => 'input-text required-entry validate-password',
@@ -59,14 +60,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                     'required' => true
                 )
             );
-            $fieldset->addField('password_confirm', 'password',
+            /*$field = $newFieldset->addField('password_confirm', 'password',
                 array(
                     'label' => __('Password Confirmation'),
                     'class' => 'input-text required-entry validate-cpassword',
                     'name'  => 'password_confirm',
                     'required' => true
                 )
-            );
+            );*/
+            $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
         }
 
 

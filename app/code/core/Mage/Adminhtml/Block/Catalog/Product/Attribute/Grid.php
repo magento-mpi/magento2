@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         $this->addColumn('is_visible', array(
             'header'=>__('Visible'),
             'sortable'=>true,
-            'index'=>'is_visible',
+            'index'=>'is_visible_on_front',
             'type' => 'options',
             'options' => array(
                 '1' => __('Yes'),

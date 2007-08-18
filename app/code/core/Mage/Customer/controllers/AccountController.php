@@ -127,13 +127,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     ->addSuccess('Customer is registered');
 
                 $customer->sendNewAccountEmail();
-                /*
-                $mailer = Mage::getModel('customer/email_template')
-                    ->setTemplate('email/welcome.phtml')
-                    ->setType('html')
-                    ->setCustomer($customer)
-                    ->send();
-				*/
+                
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
             }
@@ -182,18 +176,19 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     $customer->sendPasswordReminderEmail();
 
                     Mage::getSingleton('customer/session')
-                        ->addError(__('New password was sent'));
+                        ->addSuccess(__('New password was sent'));
 
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                     return;
                 }
                 catch (Exception $e){
-                    echo $e;
+                    Mage::getSingleton('customer/session')
+                        ->addError($e->getMessage());
                 }
             }
             else {
                 Mage::getSingleton('customer/session')
-                    ->addWarning('email address was not found in our records');
+                    ->addError('Email address was not found in our records');
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
@@ -225,14 +220,31 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     public function editPostAction()
     {
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getModel('customer/customer')->setData($this->getRequest()->getPost());
-            $customer->setId(Mage::getSingleton('customer/session')->getCustomerId());
-
+            $customer = Mage::getModel('customer/customer')
+                ->setData($this->getRequest()->getPost())
+                ->setId(Mage::getSingleton('customer/session')->getCustomerId());
+                
+            $currPass = $this->getRequest()->getPost('current_password');
+            $newPass  = $this->getRequest()->getPost('password');
+            if ($currPass && $newPass) {
+                $currentCustomerPass = Mage::getSingleton('customer/session')->getCustomer()->getPasswordHash();
+                if ($currentCustomerPass == $customer->hashPassword($currPass)) {
+                    $customer->setPassword($newPass);
+                }
+                else {
+                    Mage::getSingleton('customer/session')
+                        ->setCustomerFormData($this->getRequest()->getPost())
+                        ->addError(__('Invalid current password'));
+                    $this->_redirect('*/*/edit');
+                    return;
+                }
+            }
+            
             try {
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomer($customer)
-                    ->addSuccess('customer information is saved');
+                    ->addSuccess('Account information is saved');
 
                 $this->_redirect('customer/account');
                 return;
@@ -243,50 +255,50 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     ->addError($e->getMessage());
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit'));
+        $this->_redirect('*/*/edit');
     }
 
     /**
      * Change password form
      *
      */
-    public function changePasswordAction()
-    {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-        $this->_initLayoutMessages('customer/session');
+//    public function changePasswordAction()
+//    {
+//        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+//        $this->_initLayoutMessages('customer/session');
+//
+//        $block = $this->getLayout()->createBlock('core/template')
+//            ->setTemplate('customer/form/changepassword.phtml')
+//            ->assign('action', Mage::getUrl('*/*/changePasswordPost', array('_secure'=>true)));
+//
+//        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Change Account Password'));
+//
+//        $this->getLayout()->getBlock('content')->append($block);
+//
+//        $this->renderLayout();
+//    }
 
-        $block = $this->getLayout()->createBlock('core/template')
-            ->setTemplate('customer/form/changepassword.phtml')
-            ->assign('action', Mage::getUrl('*/*/changePasswordPost', array('_secure'=>true)));
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Change Account Password'));
-
-        $this->getLayout()->getBlock('content')->append($block);
-
-        $this->renderLayout();
-    }
-
-    public function changePasswordPostAction()
-    {
-        if ($this->getRequest()->isPost()) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-
-            try {
-                $customer->changePassword($this->getRequest()->getPost());
-
-                Mage::getSingleton('customer/session')
-                    ->addSuccess('password has been successfully updated');
-
-                $this->_redirect('customer/account');
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
-                return;
-            }
-            catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('customer/session')->addError('an error updating the password');
-            }
-        }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/changePassword', array('_secure'=>true)));
-    }
+//    public function changePasswordPostAction()
+//    {
+//        if ($this->getRequest()->isPost()) {
+//            $customer = Mage::getSingleton('customer/session')->getCustomer();
+//
+//            try {
+//                $customer->changePassword($this->getRequest()->getPost());
+//
+//                Mage::getSingleton('customer/session')
+//                    ->addSuccess('password has been successfully updated');
+//
+//                $this->_redirect('customer/account');
+//                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+//                return;
+//            }
+//            catch (Mage_Core_Exception $e) {
+//                Mage::getSingleton('customer/session')->addError('an error updating the password');
+//            }
+//        }
+//        $this->getResponse()->setRedirect(Mage::getUrl('*/*/changePassword', array('_secure'=>true)));
+//    }
 
     public function mytagsAction() {
         $this->loadLayout();

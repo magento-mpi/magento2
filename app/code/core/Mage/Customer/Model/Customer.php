@@ -354,14 +354,24 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     public function sendNewAccountEmail()
     {
     	Mage::getModel('core/email_template')
-    		->sendTransactional('new_account', $this->getEmail(), $this->getName(), array('customer'=>$this));
+    		->sendTransactional(
+    		    Mage::getStoreConfig('customer/create_account/email_template'), 
+    		    Mage::getStoreConfig('customer/create_account/email_identity'),
+                $this->getEmail(), 
+                $this->getName(), 
+                array('customer'=>$this));
     	return $this;
     }
 
     public function sendPasswordReminderEmail()
     {
     	Mage::getModel('core/email_template')
-    		->sendTransactional('new_password', $this->getEmail(), $this->getName(), array('customer'=>$this));
+    		->sendTransactional(
+    		  Mage::getStoreConfig('customer/password/forgot_email_template'),
+    		  Mage::getStoreConfig('customer/password/forgot_email_identity'),
+    		  $this->getEmail(), 
+    		  $this->getName(), 
+    		  array('customer'=>$this));
     	return $this;
     }
 
@@ -369,7 +379,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     {
     	if (!$this->getData('customer_group')) {
     		$storeId = $this->getStoreId() ? $this->getStoreId() : Mage::getSingleton('core/store')->getId();
-    		$this->setCustomerGroup(Mage::getStoreConfig('customer/default/group', $storeId));
+    		$this->setCustomerGroup(Mage::getStoreConfig('customer/create_account/default_group', $storeId));
     	}
     	return $this->getData('customer_group');
     }

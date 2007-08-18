@@ -104,11 +104,11 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     
     public function isDefaultBilling()
     {
-        return $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+        return $this->getAddress()->getId() && $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
     }
     
     public function isDefaultShipping()
     {
-        return $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+        return $this->getAddress()->getId() && $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
     }
 }

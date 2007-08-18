@@ -191,19 +191,20 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         return true;
     }
     
-    public function sendTransactional($transCode, $email, $name, $vars=array(), $storeId=null)
+    public function sendTransactional($templateId, $sender, $email, $name, $vars=array(), $storeId=null)
     {
     	if (is_null($storeId)) {
     		$storeId = Mage::getSingleton('core/store')->getId();
     	}
-    	$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
-    	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);
+    	/*$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
+    	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);*/
+    	
     	$this->load($templateId);
     	if (!$this->getId()) {
     		throw Mage::exception('Mage_Core', 'Invalid transactional email code');
     	}
-    	$this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$identity.'/name', $storeId));
-    	$this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$identity.'/email', $storeId));
+    	$this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
+    	$this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
     	$this->send($email, $name, $vars);
     	return $this;
 	}
