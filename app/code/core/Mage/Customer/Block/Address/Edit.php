@@ -71,7 +71,10 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     
     public function getCountryId()
     {
-        return $this->getAddress()->getCountryId();
+        if ($countryId = $this->getAddress()->getCountryId()) {
+            return $countryId;
+        }
+        return parent::getCountryId();
     }
     
     public function getRegionId()

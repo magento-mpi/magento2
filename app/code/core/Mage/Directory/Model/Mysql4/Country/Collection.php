@@ -10,7 +10,6 @@
 class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collection_Db
 {
     protected $_countryTable;
-    protected $_defaultCountry;
     
     public function __construct() 
     {
@@ -27,29 +26,16 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/country'));
     }
     
-    public function loadByStore($defaultCountryId=false)
+    public function loadByStore()
     {
         $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow'));
         if (!empty($allowCountries)) {
-            $this->addFilter('countries', "$this->_countryTable.country_id IN ($allowCountries)", 'string');
+            $this->addFieldToFilter("$this->_countryTable.country_id", array('in'=>$allowCountries));
         }
 
         $this->load();
-        
-        if (empty($defaultCountryId)) {
-            $defaultCountryId = (string)Mage::getStoreConfig('general/country/default');
-        }
-        $this->_defaultCountry = $this->getItemById($defaultCountryId);
 
         return $this;
-    }
-    
-    public function getDefault($usedId=false)
-    {
-        if($usedId) {
-            return $this->getItemById($usedId);
-        }
-        return $this->_defaultCountry ? $this->_defaultCountry : Mage::getResourceModel('directory/country');
     }
     
     public function getItemById($countryId)
