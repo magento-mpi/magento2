@@ -7,7 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
- */ 
+ */
 class Mage_Newsletter_Model_Subscriber extends Varien_Object
 {
     /**
@@ -15,51 +15,51 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
      * @var int
      */
     const STATUS_UNSUBSCRIBED = 3;
-    
+
     /**
      * Status subscribed
      * @var int
      */
     const STATUS_SUBSCRIBED = 1;
-    
+
     /**
      * Status not activated
      * @var int
      */
     const STATUS_NOT_ACTIVE = 2;
-    
+
     protected $_isStatusChanged = false;
-    
+
     /**
      * Alias for getSubscriberId()
      *
      * @return int
      */
-    public function getId() 
+    public function getId()
     {
         return $this->getSubscriberId();
     }
-    
+
     /**
      * Alias for setSubscriberId()
-     * 
+     *
      * @param int $value
      */
     public function setId($value)
     {
         return $this->setSubscriberId($value);
     }
-    
+
     /**
      * Alias for getSubscriberConfirmCode()
      *
      * @return string
-     */     
+     */
     public function getCode()
     {
         return $this->getSubscriberConfirmCode();
     }
-    
+
     /**
      * Return link for confirmation of subscription
      *
@@ -70,14 +70,14 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     						array('id'=>$this->getId(),
     							  'code'=>$this->getCode()));
     }
-    
+
     public function getUnsubscriptionLink() {
     	return Mage::getUrl('newsletter/subscriber/unsubscribe',
     						array('id'=>$this->getId(),
     							  'code'=>$this->getCode()));
     }
-    
-    
+
+
     /**
      * Alias for setSubscriberConfirmCode()
      *
@@ -87,7 +87,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         return $this->setSubscriberConfirmCode($value);
     }
-    
+
     /**
      * Alias for getSubscriberStatus()
      *
@@ -95,11 +95,11 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
      *             |Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED
      *             |Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE
      */
-    public function getStatus() 
+    public function getStatus()
     {
         return $this->getSubscriberStatus();
     }
-    
+
     /**
      * Alias for setSubscriberStatus()
      *
@@ -111,30 +111,30 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         return $this->setSubscriberStatus($value);
     }
-    
+
     /**
      * Set the error messages scope for subscription
      *
      * @param boolean $scope
      * @return unknown
      */
-    
+
     public function setMessagesScope($scope)
     {
         $this->getResource()->setMessagesScope($scope);
         return $this;
     }
-    
+
     /**
      * Alias for getSubscriberEmail()
      *
      * @return string
      */
-    public function getEmail() 
+    public function getEmail()
     {
         return $this->getSubscriberEmail();
     }
-    
+
     /**
      * Alias for setSubscriberEmail()
      *
@@ -144,13 +144,13 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         return $this->setSubscriberEmail($value);
     }
-    
+
     /**
      * Set for status change flag
      *
      * @param boolean $value
      */
-    public function setIsStatusChanged($value) 
+    public function setIsStatusChanged($value)
     {
     	$this->_isStatusChanged = (boolean) $value;
    		return $this;
@@ -165,16 +165,16 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	return $this->_isStatusChanged;
     }
-    
-    public function isSubscribed() 
+
+    public function isSubscribed()
     {
     	if($this->getId() && $this->getStatus()==self::STATUS_SUBSCRIBED) {
     		return true;
     	}
-    	
-    	return false;	
+
+    	return false;
     }
-    
+
     /**
      * Return resource model
      *
@@ -184,41 +184,41 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         return Mage::getResourceSingleton('newsletter/subscriber');
     }
-    
+
     /**
      * Load subscriber data from resource model
      *
      * @param int $subscriberId
      */
-    public function load($subscriberId) 
+    public function load($subscriberId)
     {
         $this->addData($this->getResource()->load($subscriberId));
         return $this;
     }
-    
+
      /**
      * Load subscriber data from resource model by email
      *
      * @param int $subscriberId
      */
-    public function loadByEmail($subscriberEmail) 
+    public function loadByEmail($subscriberEmail)
     {
         $this->addData($this->getResource()->loadByEmail($subscriberEmail));
         return $this;
     }
-    
+
     /**
      * Load subscriber info by customer
      *
      * @param Mage_Customer_Model_Customer $customer
      * @return Mage_Newsletter_Model_Subscriber
      */
-    public function loadByCustomer(Mage_Customer_Model_Customer $customer) 
+    public function loadByCustomer(Mage_Customer_Model_Customer $customer)
     {
         $this->addData($this->getResource()->loadByCustomer($customer));
         return $this;
     }
-    
+
     /**
      * Save subscriber data to resource model
      *
@@ -227,7 +227,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         return $this->getResource()->save($this);
     }
-    
+
     /**
      * Deletes subscriber data
      */
@@ -236,7 +236,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         $this->getResource()->delete($this->getId);
         $this->setId(null);
     }
-    
+
     public function randomSequence($length=32)
     {
         $id = '';
@@ -250,13 +250,13 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         }
         return $id;
     }
-    
+
     public function subscribe($email)
     {
     	$this->loadByEmail($email);
-    	
+
     	$isNewSubscriber = false;
-    	
+
     	if (!$this->getSubscriberId()) {
     		if (Mage::getStoreConfig('customer/newsletter/confirm')) {
     			$this->setSubscriberStatus(self::STATUS_NOT_ACTIVE);
@@ -264,12 +264,12 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     			$this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
     		}
 			$this->setSubscriberConfirmCode($this->randomSequence());
-    		$this->setSubscriberEmail($email);	
-            $isNewSubscriber = true;	
+    		$this->setSubscriberEmail($email);
+            $isNewSubscriber = true;
     	}
-    	
+
     	$customerSession = Mage::getSingleton('customer/session');
-    	
+
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
             $this->setCustomerId($customerSession->getCustomerId());
@@ -277,9 +277,9 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
             $this->setStoreId(Mage::getSingleton('core/store')->getId());
             $this->setCustomerId(0);
         }
-        
+
         $this->setIsStatusChanged(true);
-		
+
         try {
         	$this->save();
         	if ($isNewSubscriber) {
@@ -294,7 +294,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         	return $e;
         }
     }
-    
+
     public function unsubscribe($email)
     {
     	try {
@@ -304,14 +304,14 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     		return $e;
     	}
     }
-    
+
     /**
      * Confirms subscriber newsletter
      *
      * @param string $code
      * @return boolean
      */
-    public function confirm($code) 
+    public function confirm($code)
     {
     	if($this->getCode()==$code) {
     		$this->setStatus(self::STATUS_SUBSCRIBED)
@@ -319,30 +319,30 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     			->save();
     		return true;
     	}
-    	    	
+
     	return false;
     }
-    
+
     /**
      * Mark receiving subscriber of queue newsletter
      *
      * @param  Mage_Newsletter_Model_Queue $queue
      * @return boolean
      */
-    public function received(Mage_Newsletter_Model_Queue $queue) 
+    public function received(Mage_Newsletter_Model_Queue $queue)
     {
     	$this->getResource()->received($this,$queue);
     	return $this;
     }
-    
+
     public function sendConfirmationRequestEmail()
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
-    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_identity'),
-    		    $this->getEmail(), 
-    		    $this->getName(), 
+    		    Mage::getStoreConfig('newsletter/subscription_confirm_email/template'),
+    		    Mage::getStoreConfig('newsletter/subscription_success_email/identity'),
+    		    $this->getEmail(),
+    		    $this->getName(),
     		    array('subscriber'=>$this));
     	return $this;
     }
@@ -351,10 +351,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription/success_email_template'),
-    		    Mage::getStoreConfig('newsletter/subscription/success_email_identity'),
-    		    $this->getEmail(), 
-    		    $this->getName(), 
+    		    Mage::getStoreConfig('newsletter/subscription_success_email/template'),
+    		    Mage::getStoreConfig('newsletter/subscription_success_email/identity'),
+    		    $this->getEmail(),
+    		    $this->getName(),
     		    array('subscriber'=>$this));
     	return $this;
     }
