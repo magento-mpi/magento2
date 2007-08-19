@@ -1,0 +1,30 @@
+<div class="page-head">
+	<h3>Catalog Advanced Search</h3>
+</div>
+<?=$this->getMessagesBlock()->getHtml()?>
+<form action="" method="get" id="form-validate">
+<fieldset class="group-select">
+    <h4 class="legend">Search Settings</h4>
+    <ul>
+    <?foreach ($this->getAttributes() as $_attribute):?>
+    <?endforeach;?>
+        <li>
+            <div class="input-box">
+                <label for="firstname">First Name <span class="required">*</span></label><br/>
+                <input type="text" name="firstname" value="" title="First Name"  class="required-entry input-text"/>
+            </div>
+            <div class="input-box">
+                <label for="firstname">First Name <span class="required">*</span></label><br/>
+                <input type="text" name="firstname" value="" title="First Name"  class="required-entry input-text"/>
+            </div>
+        </li>
+    </ul>
+</fieldset>
+<div class="form-buttons">
+    <p class="required">* Required Fields</p>
+    <button type="submit" class="form-button"><span>Search</span></button>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+</script>

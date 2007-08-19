@@ -11,41 +11,13 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
   
     public function indexAction()
     {
-        $this->loadLayout();
-        
-        $categories = Mage::getResourceModel('catalog/category_tree')
-            ->joinAttribute('name')
-            ->load(1) // TODO: from config
-            ->getNodes();
-        $types = Mage::getModel('catalog/product_attribute')
-            ->loadByCode('type')
-            ->getSource()
-                ->getArrOptions();
-        $manufacturers = Mage::getModel('catalog/product_attribute')
-            ->loadByCode('manufacturer')
-            ->getSource()
-                ->getArrOptions();
-        
-        $block = $this->getLayout()->createBlock('core/template', 'catalog.search.advanced')
-            ->setTemplate('catalog/search/form.advanced.phtml')
-            ->assign('action', Mage::getUrl('catalogsearch/advanced/result'))
-            ->assign('categories', $categories)
-            ->assign('types', $types)
-            ->assign('manufacturers', $manufacturers);
-
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->loadLayout(array('default', 'catalogsearch_advanced_form'), 'catalogsearch_advanced_form');
         $this->renderLayout();
     }
     
     public function resultAction()
     {
-        $this->loadLayout();
-            
-        $block = $this->getLayout()->createBlock('catalogsearch/search', 'search.result');
-        $block->loadByAdvancedSearch($this->getRequest());
-        
-        $this->getLayout()->getBlock('content')->append($block);
-        
+        $this->loadLayout(array('default', 'catalogsearch_advanced_result'), 'catalogsearch_advanced_result');
         $this->renderLayout();
     }
 }
