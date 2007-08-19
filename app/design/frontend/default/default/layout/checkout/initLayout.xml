@@ -10,4 +10,10 @@
         <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}wishlist/"</a><label>My Wishlist</label></action>
         <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}checkout/" class="checkout"</a><label>Checkout</label></action>
     </reference>
+    
+    <reference name="right">
+    	<block type="checkout/cart_sidebar" name="cart_sidebar" before="-">
+    		<action method="setTemplate"><template>checkout/cart/sidebar.phtml</template></action>
+    	</block>
+    </reference>
 </layoutUpdate>

@@ -1,0 +1,29 @@
+<?if($this->getCanDisplayCart()):?>
+<div class="box base-mini mini-cart">
+	<div class="head">
+		<h4>My Cart <span class="count">- <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('%d items', $this->getCartItems()->getSize())?></a></span></h4>
+		<!--<h5>Last added items</h5>-->
+	</div>
+	<?if($this->getCartItems()->getSize()>0):?>
+	<ol id="cart-sidebar">
+	 <?foreach($this->getCartItems() as $_item):?>
+        <li>
+			<div class="product-images">
+				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="38" height="38"/></a>
+			</div>
+			<div class="product-details">
+				<a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
+				<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+			</div>
+		</li>
+	<?endforeach;?>
+	</ol>
+	<script type="text/javascript">decorateList('cart-sidebar')</script>
+	<?else:?>
+ 	<div class="content"><p><?=__('You have no items in your cart.')?></p></div>
+ 	<?endif?>
+    <div class="actions"><a href="<?=$this->getUrl('checkout/cart')?>">Go to Cart</a></div>
+</div>
+<!-- [ends] .cart-sidebar // -->
+<?endif?>

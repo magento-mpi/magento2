@@ -156,6 +156,26 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_backToCart();
     }
     
+    public function moveToWishlistAction()
+    {
+    	$customer = Mage::getSingleton('customer/session')->getCustomer();
+    
+        $id = $this->getRequest()->getParam('id');
+		$item = $this->getQuote()->getItemById($id);
+		if (!$item) {
+	        continue;
+	    }
+	    if (!empty($itemUpd['wishlist']) && !empty($customer)) {
+	        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($customer, true);
+	        $wishlist->addNewItem($item->getProductId())->save();
+	        $this->getQuote()->removeItem($id);
+	    }
+		
+        $this->getQuote()->save();
+
+        $this->_backToCart();
+    }
+    
     public function deleteAction()
     {
     	$id = $this->getRequest()->getParam('id');
