@@ -1,7 +1,7 @@
 <?
 /**
  * Top menu for store
- * 
+ *
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
@@ -9,7 +9,7 @@
 	<div class="header-nav">
 		<h4 class="no-show">Category Navigation:</h4>
 		<ul id="nav">
-        <?foreach ($this->getStoreCategories(2) as $_category):?>
+        <?foreach ($this->getStoreCategories(10) as $_category):?>
             <?=$this->drawItem($_category)?>
             <?/*if($_category->getIsActive()):?>
             <li onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>>

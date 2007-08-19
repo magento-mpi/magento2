@@ -36,13 +36,37 @@
 /* Nav - Second+ level */
 #nav ul {
     position:absolute;
-    top:1.7em;
+    top:1em;
     left:-1000em;
     border:1px solid #8eaabf;
     background:#f2f6f9;
     width:15.5em;
+	z-index:99;
     }
-#nav li:hover ul, #nav li.over ul { left:0; }
+#nav ul.level0 { top:1.7em; }
+#nav li:hover ul, #nav li.over ul { left:-1000em; }
+#nav li.level0:hover ul.level0, #nav li.over ul.level0 { left: 0em; }
+#nav li.level1:hover ul.level1, #nav ul.level0 li.over ul.level1,
+#nav li.level2:hover ul.level2, #nav ul.level1 li.over ul.level2,
+#nav li.level3:hover ul.level3, #nav ul.level2 li.over ul.level3,
+#nav li.level4:hover ul.level4, #nav ul.level3 li.over ul.level4,
+#nav li.level5:hover ul.level5, #nav ul.level4 li.over ul.level5,
+#nav li.level6:hover ul.level6, #nav ul.level5 li.over ul.level6,
+#nav li.level7:hover ul.level7, #nav ul.level6 li.over ul.level7,
+#nav li.level8:hover ul.level8, #nav ul.level7 li.over ul.level8,
+#nav li.level9:hover ul.level9, #nav ul.level8 li.over ul.level9,
+#nav li.level10:hover ul.level10, #nav ul.level9 li.over ul.level10,
+#nav li.level11:hover ul.level11, #nav ul.level10 li.over ul.level11,
+#nav li.level12:hover ul.level12, #nav ul.level11 li.over ul.level12,
+#nav li.level13:hover ul.level13, #nav ul.level12 li.over ul.level13,
+#nav li.level14:hover ul.level14, #nav ul.level13 li.over ul.level14,
+#nav li.level15:hover ul.level15, #nav ul.level14 li.over ul.level15,
+#nav li.level16:hover ul.level16, #nav ul.level15 li.over ul.level16,
+#nav li.level17:hover ul.level17, #nav ul.level16 li.over ul.level17,
+#nav li.level18:hover ul.level18, #nav ul.level17 li.over ul.level18,
+#nav li.level19:hover ul.level19, #nav ul.level18 li.over ul.level19,
+#nav li.level20:hover ul.level20, #nav ul.level19 li.over ul.level20 { left:6em; }
+
 #nav ul a { background:url(../images/dotted_divider.gif) repeat-x 0 100% !important; padding:3px 8px !important; color:#605A5A !important; }
 #nav ul a:hover { background-color:#c6d3e3 !important; color:#2f2f2f !important; }
 #nav ul .last a { background:none !important;}

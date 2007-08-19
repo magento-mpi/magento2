@@ -21,9 +21,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
-            
+
         $tree = Mage::getResourceModel('catalog/category_tree');
-        
+
         $nodes = $tree->loadNode($parent)
             ->loadChildren($maxChildLevel-1)
             ->getChildren();
@@ -31,7 +31,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 
         return $nodes;
     }
-    
+
     /**
      * Retrieve current store categories
      *
@@ -43,7 +43,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $parent = Mage::getSingleton('core/store')->getConfig('catalog/category/root_id');
         return $this->_getChildCategories($parent, $maxChildLevel);
     }
-    
+
     /**
      * Retrieve child categories of current category
      *
@@ -60,15 +60,15 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->addAttributeToSelect('is_anchor')
             ->addIdFilter($categoty->getChildren())
             ->load();
-        
+
         $productCollection = Mage::getResourceModel('catalog/product_collection');
         $layer->prepareProductCollection($productCollection);
-        $productCollection->addCountToCategories($collection);            
+        $productCollection->addCountToCategories($collection);
         return $collection;
         /*$parent = $this->getRequest()->getParam('id');
         return $this->_getChildCategories($parent, 1);*/
     }
-    
+
     /**
      * Checkin activity of category
      *
@@ -86,34 +86,38 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 			->setData($category->getData())
 			->getCategoryUrl();
 	}
-    
-    public function drawItem($category, $level=0)
+
+    public function drawItem($category, $level=0, $last=false)
     {
         $html = '';
         if (!$category->getIsActive()) {
             return $html;
         }
-        
+
         $children = $category->getChildren();
         $hasChildren = $children && $children->count();
         $html.= '<li';
         if ($hasChildren) {
-             //$html.= ' onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"';
-        }  
-        
+             $html.= ' onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"';
+        }
+
         $html.= ' class="level'.$level;
         if ($this->isCategoryActive($category)) {
             $html.= ' active';
         }
-        
+        if ($last) {
+            $html .= ' last';
+        }
         $html.= '">'."\n";
         $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$category->getName().'</span></a>'."\n";
         //$html.= '<span>'.$level.'</span>';
         if ($hasChildren){
-            $html.= '<ul>'."\n";
+            $html.= '<ul class="level' . $level . '">'."\n";
             ++$level;
+            $j = 0;
+            $cnt = count($children);
             foreach ($children as $child) {
-            	$html.= $this->drawItem($child, $level);
+            	$html.= $this->drawItem($child, $level, ($j++ >= $cnt));
             }
             $html.= '</ul>';
         }
