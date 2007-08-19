@@ -34,4 +34,10 @@ class Mage_Tax_Model_Rate extends Varien_Object
     {
         return $this->getResource()->loadWithAttributes($rateId);
     }
+    
+    public function deleteAllRates()
+    {
+    	$this->getResource()->deleteAllRates();
+    	return $this;
+    }
 }

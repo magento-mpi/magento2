@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'header'=>__('State'),
                 'align' =>'left',
                 'index' => 'region_name',
-                'filter_index' => 'name',
+                'filter_index' => 'code',
             )
         );
 
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter_index'  => 'county',
                 'sortable'      => false,
                 'filter'        => false,
-                'default'       => __('*'),
+                'default'       => '*',
             )
         );
 
@@ -44,24 +44,22 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'header'=>__('Zip/Post Code'),
                 'align' =>'left',
                 'index' => 'tax_postcode',
-                'default' => __('*'),
+                'default' => '*',
             )
         );
 
         $rateTypes = Mage::getResourceModel('tax/rate_type_collection')->load()->getItems();
 
-        $index = 0;
         foreach( $rateTypes as $type ) {
-            $this->addColumn("tax_type_{$index}",
+            $this->addColumn("tax_value_{$type->getTypeId()}",
                 array(
                     'header'=>$type->getTypeName(),
                     'align' =>'left',
                     'filter' => false,
-                    'index' => "rate_value{$index}",
+                    'index' => "rate_value_{$type->getTypeId()}",
                     'default' => __('N/A')
                 )
             );
-            $index++;
         }
 
         $this->addExportType('*/*/exportCsv', __('CSV'));

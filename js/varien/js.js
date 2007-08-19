@@ -20,9 +20,18 @@ function decorateTable(table){
             }
         }
         
-        if(headRows.length) headRows[headRows.length-1].addClassName('last');
-        if(bodyRows.length) bodyRows[bodyRows.length-1].addClassName('last');
-        if(footRows.length) footRows[footRows.length-1].addClassName('last');
+        if(headRows.length) {
+        	headRows[0].addClassName('first');
+        	headRows[headRows.length-1].addClassName('last');
+        }
+        if(bodyRows.length) {
+        	bodyRows[0].addClassName('first');
+        	bodyRows[bodyRows.length-1].addClassName('last');
+        }
+        if(footRows.length) {
+        	footRows[0].addClassName('first');
+        	footRows[footRows.length-1].addClassName('last');
+        }
         
         allRows.each(function(row){
             var cols = row.getElementsByTagName('TD');

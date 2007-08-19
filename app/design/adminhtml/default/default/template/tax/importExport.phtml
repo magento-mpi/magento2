@@ -7,16 +7,19 @@
 <div class="entry-edit">
 	<table cellspacing="10" border="0" width="100%">
 		<tr><td width="50%">
-			<form action="<?=$this->getUrl('*/*/importPost')?>" method="POST" enctype="multipart/form-data">
+			<form id="import_form" action="<?=$this->getUrl('*/*/importPost')?>" method="POST" enctype="multipart/form-data">
 			<h4 class="icon-head head-edit-form fieldset-legend"><?=__('Import Tax Rates')?></h4>
 			<fieldset>
 				<legend><?=__('Import Tax Rates')?></legend>
-				<input type="file" name="import_rates_file" />
+				<input type="file" name="import_rates_file" class="input-file required-entry"/>
 		    	<?=$this->getButtonHtml('Import Tax Rates', "this.form.submit()")?>
 			</fieldset>
 			</form>
+			<script>
+				var importForm = new varienForm('import_form');
+			</script>
 		</td><td width="50%">
-			<form action="<?=$this->getUrl('*/*/exportPost')?>" method="POST" enctype="multipart/form-data">
+			<form id="export_form" action="<?=$this->getUrl('*/*/exportPost')?>" method="POST" enctype="multipart/form-data">
 			<h4 class="icon-head head-edit-form fieldset-legend"><?=__('Export Tax Rates')?></h4>
 			<fieldset>
 				<legend><?=__('Export Tax Rates')?></legend>

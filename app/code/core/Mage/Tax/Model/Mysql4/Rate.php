@@ -74,8 +74,10 @@ class Mage_Tax_Model_Mysql4_Rate
         $rateArray = array(
             'tax_county_id' => $rateObject->getTaxCountyId(),
             'tax_region_id' => $rateObject->getTaxRegionId(),
-            'tax_postcode' => $rateObject->getTaxPostcode()
         );
+        if ($rateObject->getTaxPostcode()) {
+        	$rateArray['tax_postcode'] = $rateObject->getTaxPostcode();
+        }
         if( intval($rateObject->getTaxRateId()) <= 0 ) {
             $this->_write->insert($this->_rateTable, $rateArray);
             $rateId = $this->_write->lastInsertId();
@@ -102,5 +104,10 @@ class Mage_Tax_Model_Mysql4_Rate
     {
         $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateObject->getTaxRateId());
         $this->_write->delete($this->_rateTable, $condition);
+    }
+    
+    public function deleteAllRates()
+    {
+    	$this->_write->delete($this->_rateTable);
     }
 }

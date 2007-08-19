@@ -118,7 +118,7 @@ urchinTracker("'.$this->getPageName().'");
 <!-- END GOOGLE ANALYTICS CODE -->
 		');
 		
-		$this->addText($this->getOrderHtml());
+		$this->addText($this->getQuoteOrdersHtml());
 		
 		return parent::toHtml();
 	}

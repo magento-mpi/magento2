@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         $rateTypeCollection = Mage::getResourceModel('tax/rate_type_collection')->load();
 
         foreach( $rateTypeCollection as $rateType ) {
-            $fieldset->addField('rate_data'.$rateType->getTypeId(), 'text',
+            $fieldset->addField('rate_data_'.$rateType->getTypeId(), 'text',
                                 array(
                                     'name' => "rate_data[{$rateType->getTypeId()}]",
                                     'label' => $rateType->getTypeName(),

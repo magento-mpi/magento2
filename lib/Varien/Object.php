@@ -173,9 +173,13 @@ class Varien_Object
      * @param boolean $isChanged
      * @return Varien_Object
      */
-    public function unsetData($key)
+    public function unsetData($key=null)
     {
-        unset($this->_data[$key]);
+    	if (is_null($key)) {
+    		$this->_data = array();
+    	} else {
+        	unset($this->_data[$key]);
+    	}
         return $this;
     }
 
