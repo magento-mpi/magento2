@@ -14,40 +14,7 @@
 		<?=$this->getBillingAddressHtml()?>
 	</div>
 </div>
-<div class="box-right">
-    <h4 class="icon-head head-customer-sales-statistics">Sales Statistics</h4>
-    <div class="grid">
-        <table cellspacing="0" class="data">
-			<thead>
-				<tr class="headings">
-					<th>Store</th>
-					<th>Lifetime Sale</th>
-					<th>Average Sale</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td class="label"><strong><big>Total</big></strong></td>
-					<td class="emph"><strong><big>$2076.97</big></strong></td>
-					<td class="emph"><strong><big>$116.74</big></strong></td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr>
-					<td class="label">Magento Store (EN)</td>
-					<td>$1875.99</td>
-					<td>$89.99</td>
-				</tr>
-				<tr class="even">
-					<td class="label">Varien Store (EN)</td>
-					<td>$200.98</td>
-					<td>$26.75</td>
-				</tr>
-			</tbody>
-		</table>
-    </div>
-    <?//=$this->getSalesAccordionHtml()?>
-</div>
+<?=$this->getSalesHtml();?>
 <div class="clear"></div>
 <br/>
 <?=$this->getAccordionHtml()?>

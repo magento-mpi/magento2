@@ -22,15 +22,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
     protected function _initChildren()
     {
-        /*$salesAccordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
-            ->setId('salesAccordion');
-        $salesAccordion->addItem('salesStat', array(
-            'title'     => __('Sales Statistics'),
-            // @todo create block after sales realization
-            'content'   => '',
-            'open'      => true
-        ));
-        $this->setChild('salesAccordion', $salesAccordion);*/
+        $this->setChild('sales', $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_sales'));
 
         $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
             ->setId('customerViewAccordion')
@@ -124,9 +116,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         return $this->getChildHtml('accordion');
     }
 
-    public function getSalesAccordionHtml()
+    public function getSalesHtml()
     {
-        return $this->getChildHtml('salesAccordion');
+        return $this->getChildHtml('sales');
     }
 
 }
