@@ -27,10 +27,10 @@ class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
                 ->load()
                 ->getItems()
             ;
-        }
 
-        if( count($tags) == 0 ) {
-            return;
+            if( count($tags) == 0 ) {
+                return;
+            }
         }
 
         $this->_maxPopularity = $tags[0]->getPopularity();
