@@ -2,10 +2,25 @@
 
 class Mage_SalesRule_Model_Observer
 {
-	public function onAfterOrder($observer)
+	public function sales_order_afterSave($observer)
 	{
 		$order = $observer->getEvent()->getOrder();
 		
+		$customerId = $order->getCustomerId();
+		$ruleIds = explode(',', $order->getAppliedRuleIds());
 		
+		$ruleCustomer = Mage::getModel('salesrule/rule_customer');
+		foreach ($ruleIds as $ruleId) {
+			$ruleCustomer->loadByCustomerRule($customerId, $ruleId);
+			if ($ruleCustomer->getId()) {
+				$ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+			} else {
+				$ruleCustomer
+					->setCustomerId($customerId)
+					->setRuleId($ruleId)
+					->setTimesUsed(1);
+			}
+			$ruleCustomer->save();
+		}
 	}
 }

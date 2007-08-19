@@ -47,10 +47,6 @@ CREATE TABLE `salesrule_product` (
   `product_id` int(10) unsigned NOT NULL default '0',
   `coupon_code` varchar(255) default NULL,
   `sort_order` int(10) unsigned NOT NULL default '0',
-  `action_operator` varchar(20) NOT NULL default '',
-  `action_value` decimal(12,4) NOT NULL default '0.0000',
-  `action_stop` tinyint(3) unsigned NOT NULL default '0',
-  `free_shipping` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`rule_product_id`),
   UNIQUE KEY `sort_order` (`from_time`,`to_time`,`store_id`,`customer_group_id`,`product_id`,`coupon_code`,`sort_order`),
   KEY `FK_salesrule_product_rule` (`rule_id`),
@@ -60,6 +56,9 @@ CREATE TABLE `salesrule_product` (
   CONSTRAINT `FK_salesrule_product_rule` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_salesrule_product_store` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `salesrule_action`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

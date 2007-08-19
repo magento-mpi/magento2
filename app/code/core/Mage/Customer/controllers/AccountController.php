@@ -72,6 +72,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 }
             }
         }
+        if (!$session->getBeforeAuthUrl()) {
+        	$session->setBeforeAuthUrl(Mage::getUrl('customer/account'));
+        }
         $this->getResponse()->setRedirect($session->getBeforeAuthUrl());
     }
 

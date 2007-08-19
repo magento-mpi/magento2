@@ -435,4 +435,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return Mage::getModel('sales/order_status')->load($this->getOrderStatusId());
     }
 
+    public function _afterSave()
+    {
+    	Mage::dispatchEvent('sales_order_afterSave', array('order'=>$this));
+    	parent::_afterSave();
+    }
 }

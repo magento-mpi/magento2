@@ -7,9 +7,13 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Frontend_Discount
     {
         $amount = $address->getDiscountAmount();
         if ($amount!=0) {
+        	$title = __('Discount');
+        	if ($address->getQuote()->getCouponCode()) {
+        		$title .= ' ('.$address->getQuote()->getCouponCode().')';
+        	}
             $address->addTotal(array(
                 'code'=>'discount', 
-                'title'=>__('Discount').' ('.$address->getCouponCode().')', 
+                'title'=>$title, 
                 'value'=>-$amount
             ));
         }

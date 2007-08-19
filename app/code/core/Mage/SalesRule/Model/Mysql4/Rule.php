@@ -12,15 +12,13 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     {
         $object->setFromDate($this->formatDate($object->getFromDate()));
         $object->setToDate($this->formatDate($object->getToDate()));
-        parent::_beforeSave($object);
-    }
-    
-    public function _afterLoad(Mage_Core_Model_Abstract $object)
-    {
-    	if (0==$object->getDiscountQty()) {
-    		$object->setDiscountQty('');
+    	if (!$object->getDiscountQty()) {
+    		$object->setDiscountQty(new Zend_Db_Expr('NULL'));
     	}
-    	parent::_afterLoad($object);
+    	if (!$object->getCouponCode()) {
+    		$object->setCouponCode(new Zend_Db_Expr('NULL'));
+    	}
+        parent::_beforeSave($object);
     }
     
     public function updateRuleProductData(Mage_SalesRule_Model_Rule $rule)
@@ -55,20 +53,16 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $toTime = strtotime($rule->getToDate());
         $couponCode = $rule->getCouponCode();
         $sortOrder = (int)$rule->getSortOrder();
-        $actionOperator = $rule->getSimpleAction();
-        $actionAmount = $rule->getDiscountAmount();
-        $actionStop = $rule->getStopRulesProcessing();
-        $freeShipping = (int)$rule->getSimpleFreeShipping();
 
         $rows = array();
-        $header = 'replace into '.$this->getTable('salesrule/rule_product').' (rule_id, from_time, to_time, store_id, customer_group_id, product_id, coupon_code, sort_order, action_operator, action_value, action_stop, free_shipping) values ';
+        $header = 'replace into '.$this->getTable('salesrule/rule_product').' (rule_id, from_time, to_time, store_id, customer_group_id, product_id, coupon_code, sort_order) values ';
         try {
             $write->beginTransaction();
             
             foreach ($productIds as $productId) {
                 foreach ($storeIds as $storeId) {
                     foreach ($customerGroupIds as $customerGroupId) {
-                        $rows[] = "('$ruleId', '$fromTime', '$toTime', '$storeId', '$customerGroupId', '$productId', '$couponCode', '$sortOrder', '$actionOperator', '$actionAmount', '$actionStop', '$freeShipping')";
+                        $rows[] = "('$ruleId', '$fromTime', '$toTime', '$storeId', '$customerGroupId', '$productId', '$couponCode', '$sortOrder')";
                         if (sizeof($rows)==100) {
                             $sql = $header.join(',', $rows);
                             $write->query($sql);
