@@ -255,6 +255,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
         return $html;
     }
+    
+    protected function _beforeChildToHtml($name, $child)
+    {
+    	
+    }
 
     /**
      * Used only in lists

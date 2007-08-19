@@ -20,6 +20,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->addText('<meta name="keywords" content="'.$this->getKeywords().'"/>'."\n\t");
         $this->addText('<meta name="robots" content="'.$this->getRobots().'"/>'."\n");
         $this->addText($this->getAdditionalCssJs());
+        $this->addText($this->getChildHtml());
         
         return parent::toHtml();
     }

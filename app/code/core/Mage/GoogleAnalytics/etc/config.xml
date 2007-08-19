@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Mage_GoogleAnalytics>
+         <version>0.1.0</version>
+         <depends>
+            <Mage_Core />
+         </depends>
+      </Mage_GoogleAnalytics>
+   </modules>
+
+   <global>
+      <block>
+	    <groups><google_analytics><class>Mage_GoogleAnalytics_Block</class></google_analytics></groups>
+      </block>
+      
+        <resources>
+            <googleanalytics_setup>
+                <setup>
+                    <module>Mage_GoogleAnalytics</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </googleanalytics_setup>
+        </resources>
+   </global>
+   
+   <frontend>
+        <layouts>
+            <default>
+                <updates>
+                    <google_analytics>
+                        <file>google/urchin/initLayout.xml</file>
+                    </google_analytics>
+                </updates>
+            </default>
+            <!-- make for order success
+            <customer_account>
+                <updates>
+                    <newsletter_account>
+                        <file>newsletter/account.xml</file>
+                    </newsletter_account>
+                </updates>
+            </customer_account>
+            -->
+        </layouts>
+    </frontend>
+</config>

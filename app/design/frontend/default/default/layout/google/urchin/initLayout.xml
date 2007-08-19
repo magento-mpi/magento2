@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="head">
+        <block type="google_analytics/urchin" as="urchin"/>
+    </reference>
+</layoutUpdate>
