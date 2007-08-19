@@ -29,22 +29,23 @@ class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
             ;
 
             if( count($tags) == 0 ) {
-                return;
+                return $this;
             }
-        }
 
-        $this->_maxPopularity = $tags[0]->getPopularity();
-        $this->_minPopularity = $tags[count($tags)-1]->getPopularity();
-        $range = $this->_maxPopularity - $this->_minPopularity;
-        $range = ( $range == 0 ) ? 1 : $range;
-        foreach ($tags as $tag) {
-            if( !$tag->getPopularity() ) {
-                continue;
+            $this->_maxPopularity = $tags[0]->getPopularity();
+            $this->_minPopularity = $tags[count($tags)-1]->getPopularity();
+            $range = $this->_maxPopularity - $this->_minPopularity;
+            $range = ( $range == 0 ) ? 1 : $range;
+            foreach ($tags as $tag) {
+                if( !$tag->getPopularity() ) {
+                    continue;
+                }
+                $tag->setRatio(($tag->getPopularity()-$this->_minPopularity)/$range);
+                $this->_tags[$tag->getName()] = $tag;
             }
-            $tag->setRatio(($tag->getPopularity()-$this->_minPopularity)/$range);
-            $this->_tags[$tag->getName()] = $tag;
+            ksort($this->_tags);
         }
-        ksort($this->_tags);
+        return $this;
     }
 
     public function getTags()
