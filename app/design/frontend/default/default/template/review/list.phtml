@@ -1,12 +1,13 @@
 <?if(!empty($collection) && $collection->getSize()):?>
 	<div class="head">
-		<h4><?=__('Customer Reviews')?></h4><?if($reviewCount):?>
-		<?if( $this->getUseBackLink() ):?>
-		&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a>
-		<?else:?>
-		<a href="<?=$reviewLink?>"><?=__('View all')?></a>
+		<h4><?=__('Customer Reviews')?></h4>
+		<?if($reviewCount):?>
+			<?if( $this->getUseBackLink() ):?>
+			&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a>
+			<?else:?>
+			<a href="<?=$reviewLink?>"><?=__('View all')?></a>
+			<?endif;?>
 		<?endif;?>
-<?endif;?>
 	</div>
 
     <?=$this->getPagerHtml()?>
@@ -31,4 +32,9 @@
     <?endforeach;?>
 	</ol>
 	<?=$this->getPagerHtml()?>
+<?else:?>
+	<div class="head">
+		<h4><?=__('Customer Reviews')?></h4>
+	</div>
+	<p><a href="<?=$reviewLink?>#review-form"><?=__('Be the first to review this product')?></a></p>
 <?endif;?>

@@ -18,252 +18,249 @@
 					</div>
 				</div>
 			</div>
-
-    <script type="text/javascript">
-        var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
-        var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
-
-        var origWidth = 300;
-        var origHeight = 300;
-        var floorSize = 1.0;
-        var ceilingSize = 10.0;
-        var imageX = 0;
-        var imageY = 0;
-        var imageV = 1;
-        var showFull = false;
-        var selects = document.getElementsByTagName('select');
-
-        function toggleFull(){
-            showFull = !showFull;
-            //TODO: hide selects for IE only
-            for (i=0; i<selects.length; i++) {
-                selects[i].style.visibility = showFull ? 'hidden' : 'visible';
-            }
-            $('track1').style.visibility = showFull ? 'hidden' : 'visible';
-            image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
-        }
-
-        function scaleIt(v) {
-          var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
-          var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
-
-          imageV = floorSize+(v*(ceilingSize-floorSize));
-
-          image.element.style.width = (imageV*origWidth)+'px';
-
-          imageX = origWidth*(1-imageV)/2-centerX*imageV;
-          imageY = origHeight*(1-imageV)/2-centerY*imageV;
-          containIt(imageX, imageY, image);
-
-          image.element.style.left = imageX+'px';
-          image.element.style.top = imageY+'px';
-        }
-
-        function containIt(x,y,draggable) {
-            var pDim = Element.getDimensions(draggable.element.parentNode);
-            var eDim = Element.getDimensions(draggable.element);
-            var xMin = 0, xMax = pDim.width-eDim.width;
-            var yMin = 0, yMax = pDim.height-eDim.height;
-            x = x>xMin ? xMin : x;
-            x = x<xMax ? xMax : x;
-            y = y>yMin ? yMin : y;
-            y = y<yMax ? yMax : y;
-            imageX = x;
-            imageY = y;
-            return [x,y];
-        }
-    </script>
-<?if ($this->getGalleryImages() && $this->getGalleryImages()->getSize()):?>
-	<div class="more-views">
-		<h4>More Views</h4>
-		<ul>
-        <?foreach ($this->getGalleryImages() as $_image):?>
-            <li>
-                <a href="#" onclick="popWin('<?=$this->getGalleryUrl($_image)?>', 'gallery', 'scrollbars=no,width=300,height=300');return false;">
-                    <img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/>
-                </a>
-            </li>
-        <?endforeach;?>
-		</ul>
-	</div>
-<?endif;?>
-</div>
-<div class="product-shop">
-<h3 class="product-name"><?=$product->getName()?></h3>
-    <?=$this->getChildHtml('rating')?>
-	<?if( $reviewCount ):?>
-		<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
-	<?endif;?>
-	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
-    <input type="hidden" name="product" value="<?=$product->getId()?>">
-	<?if($product->isBundle()):?>
-	<div class="product-attributes">
-		<?if($product->isAviableBundle()):?>
-		<table cellspacing="0" id="bundle-price-table">
-		<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
-			<tr>
-				<td class="label"><?=$_bundleOption->getLabel()?>:</td>
-				<td>
-				<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
-				<select name="bundle_option[<?=$_bundleOption->getId()?>]">
-					<?foreach ($_bundleOption->getLinkCollection() as $_option):?>
-					<option value="<?=$_option->getProductId()?>"><?=$_option->getName()?></option>
-					<?endforeach;?>
-				</select>
-				<?elseif(sizeof($_bundleOption->getLinkCollection()->getItems())==1):?>
-				<?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
-				<input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
-				<?else:?>
-				<?=__('Out of stock')?>
-				<?endif;?>
-				</td>
-			</tr>
-		<?endforeach;?>
-		</table>
-<script type="text/javascript">decorateTable('bundle-price-table')</script>
-		<?else:?>
-		<p><?=__('This bundle is out of stock.')?></p>
-		<?endif;?>
-	</div>
-	<?elseif($product->isSuperConfig()):?>
-	<?=$this->getChildHtml('super_config')?>
-	<?endif;?>
-    <?if($product->getTierPriceCount()>1):?>
-	<div class="product-pricing">
-		<ul class="bare">
-            <?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
-            <li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
-            <?endforeach?>
-		</ul>
-	</div>
-    <?endif;?>
-	<?if($product->isSuperGroup()):?>
-   <?=$this->getChildHtml('super_group')?>
-	<?endif;?>
-	<?if(!$product->isSuperGroup()):?>
-		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
-		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
-		<fieldset class="add-to-cart-box">
-			<legend>Add items to cart </legend>
-			<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
-			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
-		</fieldset>
-		<div class="add-to-box">
-			<a href="<?=$wishlistLink?>">Add to Wishlist</a>
-					<?if($this->getCompareJsObjectName()):?><br/>
-						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-						<?endif;?>
+	
+		<script type="text/javascript">
+			var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
+			var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
+	
+			var origWidth = 300;
+			var origHeight = 300;
+			var floorSize = 1.0;
+			var ceilingSize = 10.0;
+			var imageX = 0;
+			var imageY = 0;
+			var imageV = 1;
+			var showFull = false;
+			var selects = document.getElementsByTagName('select');
+	
+			function toggleFull(){
+				showFull = !showFull;
+				//TODO: hide selects for IE only
+				for (i=0; i<selects.length; i++) {
+					selects[i].style.visibility = showFull ? 'hidden' : 'visible';
+				}
+				$('track1').style.visibility = showFull ? 'hidden' : 'visible';
+				image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
+			}
+	
+			function scaleIt(v) {
+			var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
+			var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
+	
+			imageV = floorSize+(v*(ceilingSize-floorSize));
+	
+			image.element.style.width = (imageV*origWidth)+'px';
+	
+			imageX = origWidth*(1-imageV)/2-centerX*imageV;
+			imageY = origHeight*(1-imageV)/2-centerY*imageV;
+			containIt(imageX, imageY, image);
+	
+			image.element.style.left = imageX+'px';
+			image.element.style.top = imageY+'px';
+			}
+	
+			function containIt(x,y,draggable) {
+				var pDim = Element.getDimensions(draggable.element.parentNode);
+				var eDim = Element.getDimensions(draggable.element);
+				var xMin = 0, xMax = pDim.width-eDim.width;
+				var yMin = 0, yMax = pDim.height-eDim.height;
+				x = x>xMin ? xMin : x;
+				x = x<xMax ? xMax : x;
+				y = y>yMin ? yMin : y;
+				y = y<yMax ? yMax : y;
+				imageX = x;
+				imageY = y;
+				return [x,y];
+			}
+		</script>
+	<?if ($this->getGalleryImages() && $this->getGalleryImages()->getSize()):?>
+		<div class="more-views">
+			<h4>More Views</h4>
+			<ul>
+			<?foreach ($this->getGalleryImages() as $_image):?>
+				<li>
+					<a href="#" onclick="popWin('<?=$this->getGalleryUrl($_image)?>', 'gallery', 'scrollbars=no,width=300,height=300');return false;">
+						<img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/>
+					</a>
+				</li>
+			<?endforeach;?>
+			</ul>
 		</div>
-		<?else:?>
-		<p><small>Availability: Out of stock.</small></p>
-	<p><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
-					<?if($this->getCompareJsObjectName()):?>
-						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-						<?endif;?></p>
-		<?endif;?>
-	<?else:?>
-	<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
-		&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
-		 <?if($this->getCompareJsObjectName()):?>
-				<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-		<?endif;?>
-    <?endif;?>
-    </form>
-    <script type="text/javascript">
-    	var productAddToCartForm = new VarienForm('product_addtocart_form');
-    	productAddToCartForm.submit = function() {
-    		if(this.validator.validate()) {
-    			this.form.submit();
-    		}
-    	}.bind(productAddToCartForm);
-    </script>
-    <div class="clear"></div>
-	<div class="divider"></div>
-    <div class="required-products">
-        <h4>Required Items</h4>
-        <p>Following are the required items for this product. By purchasing this product, the following items will automatically be added to your shopping cart.</p>
-        <ul class="disc">
-            <li>Items name goes here</li>
-            <li>Items name goes here</li>
-            <li>Items name goes here</li>
-        </ul>
-    </div>
-    </div>
+	<?endif;?>
 	</div>
-    <div class="product-collateral">
-        <div class="collateral-box">
-	       <div class="head">
-	           <h4>Features and Specifications</h4>
-            </div>
-	       <div class="product-specs"><?=$product->getDescription()?></div>
-        </div>
-
-        <?if($_additional = $this->getAdditionalData()):?>
-        <div class="collateral-box attribute-specs">
-            <div class="head">
-                <h4>Product Attribute Specs</h4>
-            </div>
-            <table cellspacing="0" class="data-table" id="product-attribute-specs-table">
-            <?foreach ($_additional as $_data):?>
-            <tr>
-                <td class="label"><?=$_data['label']?></td>
-                <td class="data"><?=$_data['value']?></td>
-            </tr>
-            <?endforeach;?>
-            </table>
-            <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
-        </div>
-        <?endif;?>
-
-
-<?if($product->getRelatedProductsLoaded()->getSize()):?>
-<div class="collateral-box">
-	<div class="head"><h4>You may be interested in these items</h4></div>
-	<table cellspacing="0" class="generic-product-grid">
-		<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
-		<?$_relatedPerRow=4?>
-		<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>
-		<?$_relatedCurrentRow=1?>
-		<?$_relatedCurrentCell=1?>
-		<?$_relatedCurrentItem=1?>
-
-        <?foreach ($product->getRelatedProducts() as $_link):?>
-        <?if($_relatedCurrentCell==1):?>
-        <tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
-        <?endif?>
-			<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"></a><br/>
-				<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
-				<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
-                <?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
-			</td>
-
-        <?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
-	       	<?if($_relatedCurrentItem==$_relatedTotal):?>
-	    	   	<?while($_relatedCurrentCell++<$_relatedPerRow):?>
-		    	   	<td class="empty-product <?if($_relatedCurrentCell==$_relatedPerRow):?>last<?endif?>">
-		    	   	&nbsp;
+	<div class="product-shop">
+	<h3 class="product-name"><?=$product->getName()?></h3>
+		<?=$this->getChildHtml('rating')?>
+		<?if( $reviewCount ):?>
+			<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
+		<?endif;?>
+		<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
+		<input type="hidden" name="product" value="<?=$product->getId()?>">
+		<?if($product->isBundle()):?>
+		<div class="product-attributes">
+			<?if($product->isAviableBundle()):?>
+			<table cellspacing="0" id="bundle-price-table">
+			<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
+				<tr>
+					<td class="label"><?=$_bundleOption->getLabel()?>:</td>
+					<td>
+					<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
+					<select name="bundle_option[<?=$_bundleOption->getId()?>]">
+						<?foreach ($_bundleOption->getLinkCollection() as $_option):?>
+						<option value="<?=$_option->getProductId()?>"><?=$_option->getName()?></option>
+						<?endforeach;?>
+					</select>
+					<?elseif(sizeof($_bundleOption->getLinkCollection()->getItems())==1):?>
+					<?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
+					<input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
+					<?else:?>
+					<?=__('Out of stock')?>
+					<?endif;?>
 					</td>
-	    	   	<?endwhile;?>
-	       	<?endif?>
-	    </tr>
-        <?$_relatedCurrentRow++?>
-        <?$_relatedCurrentCell=1?>
-        <?else:?>
-        <?$_relatedCurrentCell++?>
-        <?endif?>
-        <?$_relatedCurrentItem++?>
-		<?endforeach?>
-	</table>
-</div>
-<?endif?>
-
-<?=$this->getChildHtml('tagList')?>
-
-<div class="collateral-box" id="customer-reviews">
-<?=$this->getChildHtml('reviewList')?>
-<?=$this->getChildHtml('reviewForm')?>
-</div>
-</div>
+				</tr>
+			<?endforeach;?>
+			</table>
+	<script type="text/javascript">decorateTable('bundle-price-table')</script>
+			<?else:?>
+			<p><?=__('This bundle is out of stock.')?></p>
+			<?endif;?>
+		</div>
+		<?elseif($product->isSuperConfig()):?>
+		<?=$this->getChildHtml('super_config')?>
+		<?endif;?>
+		<?if($product->getTierPriceCount()>1):?>
+		<div class="product-pricing">
+			<ul class="bare">
+				<?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
+				<li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
+				<?endforeach?>
+			</ul>
+		</div>
+		<?endif;?>
+		<?if($product->isSuperGroup()):?>
+	<?=$this->getChildHtml('super_group')?>
+		<?endif;?>
+		<?if(!$product->isSuperGroup()):?>
+			<?if(!$product->isBundle() || $product->isAviableBundle()):?>
+			<p><small>Availability: In stock. Ships within 24hours.</small></p>
+			<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
+			<fieldset class="add-to-cart-box">
+				<legend>Add items to cart </legend>
+				<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
+				<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
+			</fieldset>
+			<div class="add-to-box">
+				<a href="<?=$wishlistLink?>">Add to Wishlist</a>
+						<?if($this->getCompareJsObjectName()):?><br/>
+							<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+							<?endif;?>
+			</div>
+			<?else:?>
+			<p><small>Availability: Out of stock.</small></p>
+		<p><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+						<?if($this->getCompareJsObjectName()):?>
+							<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+							<?endif;?></p>
+			<?endif;?>
+		<?else:?>
+		<p><small>Availability: In stock. Ships within 24hours.</small></p>
+			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
+			&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
+			<?if($this->getCompareJsObjectName()):?>
+					<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+			<?endif;?>
+		<?endif;?>
+		</form>
+		<script type="text/javascript">
+			var productAddToCartForm = new VarienForm('product_addtocart_form');
+			productAddToCartForm.submit = function() {
+				if(this.validator.validate()) {
+					this.form.submit();
+				}
+			}.bind(productAddToCartForm);
+		</script>
+		<div class="clear"></div>
+		<div class="divider"></div>
+		<div class="required-products">
+			<h4>Required Items</h4>
+			<p>Following are the required items for this product. By purchasing this product, the following items will automatically be added to your shopping cart.</p>
+			<ul class="disc">
+				<li>Items name goes here</li>
+				<li>Items name goes here</li>
+				<li>Items name goes here</li>
+			</ul>
+		</div>
+		</div>
+		</div>
+		<div class="product-collateral">
+			<div class="collateral-box">
+			<div class="head">
+				<h4>Features and Specifications</h4>
+				</div>
+			<div class="product-specs"><?=$product->getDescription()?></div>
+			</div>
+	
+			<?if($_additional = $this->getAdditionalData()):?>
+			<div class="collateral-box attribute-specs">
+				<div class="head">
+					<h4>Product Attribute Specs</h4>
+				</div>
+				<table cellspacing="0" class="data-table" id="product-attribute-specs-table">
+				<?foreach ($_additional as $_data):?>
+				<tr>
+					<td class="label"><?=$_data['label']?></td>
+					<td class="data"><?=$_data['value']?></td>
+				</tr>
+				<?endforeach;?>
+				</table>
+				<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
+			</div>
+			<?endif;?>
+	
+	
+	<?if($product->getRelatedProductsLoaded()->getSize()):?>
+	<div class="collateral-box">
+		<div class="head"><h4>You may be interested in these items</h4></div>
+		<table cellspacing="0" class="generic-product-grid">
+			<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
+			<?$_relatedPerRow=4?>
+			<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>
+			<?$_relatedCurrentRow=1?>
+			<?$_relatedCurrentCell=1?>
+			<?$_relatedCurrentItem=1?>
+	
+			<?foreach ($product->getRelatedProducts() as $_link):?>
+			<?if($_relatedCurrentCell==1):?>
+			<tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
+			<?endif?>
+				<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"></a><br/>
+					<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
+					<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
+					<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
+				</td>
+	
+			<?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
+				<?if($_relatedCurrentItem==$_relatedTotal):?>
+					<?while($_relatedCurrentCell++<$_relatedPerRow):?>
+						<td class="empty-product <?if($_relatedCurrentCell==$_relatedPerRow):?>last<?endif?>">
+						&nbsp;
+						</td>
+					<?endwhile;?>
+				<?endif?>
+			</tr>
+			<?$_relatedCurrentRow++?>
+			<?$_relatedCurrentCell=1?>
+			<?else:?>
+			<?$_relatedCurrentCell++?>
+			<?endif?>
+			<?$_relatedCurrentItem++?>
+			<?endforeach?>
+		</table>
+	</div>
+	<?endif?>
+		<?=$this->getChildHtml('tagList')?>
+		<div class="collateral-box" id="customer-reviews">
+		<?=$this->getChildHtml('reviewList')?>
+		</div>
+	</div>
 </div>

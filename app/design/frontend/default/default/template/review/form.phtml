@@ -1,58 +1,58 @@
-					<div class="page-head">
-						<h3><?=__('Write Your Own Review')?></h3>
-						<?=$this->getMessagesBlock()->getHtml()?>
-					</div>
-					<h4><?=__('You\'re reviewing')?>: <span class="normal-weight"><?=$this->getProductInfo()->getName()?></span></h4>
-					<form action="<?=$this->getAction()?>" method="post" id="review-form">
-                        <?if( $this->getRatings() && $this->getRatings()->getSize()):?>
-						<strong><?=__('How do you rate this product?')?></strong><br>
-						<span id="input-message-box"></span>
-						<table class="data-table product-review-box field-row" id="product-review-table" cellspacing="0">
-							<thead>
-								<tr>
-									<th>&nbsp;</th>
-									<th><?=__('1 star')?></th>
-									<th><?=__('2 stars')?></th>
-									<th><?=__('3 stars')?></th>
-									<th><?=__('4 stars')?></th>
-									<th><?=__('5 stars')?></th>
-								</tr>
-							</thead>
-							<tbody>
-						    <?$_oddIterator = 1;?>
-							<?foreach ($this->getRatings() as $_rating):?>
-								<tr class="odd<?if($_oddIterator == $this->getRatings()->getSize()): $_oddIterator = 0;?> last<?endif;?>">
-									<td class="label"><?=__($_rating->getRatingCode())?></td>
-							    <?$_iterator = 1;?>
-							    <?foreach ($_rating->getOptions() as $_option):?>
-									<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" <?if($_iterator == 5): $_iterator=0;?>class="validate-one-required-by-name"<?endif;?> name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>
-								<?$_iterator++?>
-				                <?endforeach;?>
-								</tr>
-                            <?$_oddIterator ++;?>
-							<?endforeach;?>
-							</tbody>
-						</table>
-<script type="text/javascript">decorateTable('product-review-table')</script>
-                        <?endif;?>
+<div class="page-head">
+	<h3><?=__('Write Your Own Review')?></h3>
+	<?=$this->getMessagesBlock()->getHtml()?>
+</div>
+<h4><?=__('You\'re reviewing')?>: <span class="normal-weight"><?=$this->getProductInfo()->getName()?></span></h4>
+<form action="<?=$this->getAction()?>" method="post" id="review-form">
+	<?if( $this->getRatings() && $this->getRatings()->getSize()):?>
+	<strong><?=__('How do you rate this product?')?></strong><br>
+	<span id="input-message-box"></span>
+	<table class="data-table product-review-box field-row" id="product-review-table" cellspacing="0">
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th><?=__('1 star')?></th>
+				<th><?=__('2 stars')?></th>
+				<th><?=__('3 stars')?></th>
+				<th><?=__('4 stars')?></th>
+				<th><?=__('5 stars')?></th>
+			</tr>
+		</thead>
+		<tbody>
+		<?$_oddIterator = 1;?>
+		<?foreach ($this->getRatings() as $_rating):?>
+			<tr class="odd<?if($_oddIterator == $this->getRatings()->getSize()): $_oddIterator = 0;?> last<?endif;?>">
+				<td class="label"><?=__($_rating->getRatingCode())?></td>
+			<?$_iterator = 1;?>
+			<?foreach ($_rating->getOptions() as $_option):?>
+				<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" <?if($_iterator == 5): $_iterator=0;?>class="validate-one-required-by-name"<?endif;?> name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>
+			<?$_iterator++?>
+			<?endforeach;?>
+			</tr>
+		<?$_oddIterator ++;?>
+		<?endforeach;?>
+		</tbody>
+	</table>
+	<script type="text/javascript">decorateTable('product-review-table')</script>
+	<?endif;?>
 
-						<p><label for="nickname_field">Nickname</label>
-						   <br>
-						   <input class="input-text required-entry" name="nickname" id="nickname_field" style="width: 450px;" type="text" value="<?=$data->getNickname()?>">
-						</p>
+	<p><label for="nickname_field">Nickname</label>
+	<br>
+	<input class="input-text required-entry" name="nickname" id="nickname_field" style="width: 450px;" type="text" value="<?=$data->getNickname()?>">
+	</p>
 
-						<p>
-						  <label for="summary_field">Summary of your review</label><br>
-						  <input class="input-text  required-entry" name="title" id="summary_field" style="width: 450px;" type="text" value="<?=$data->getTitle()?>">
-					    </p>
-						<p>
-						  <label for="review_field">Review</label><br>
-						  <textarea class="required-entry" name="detail" id="review_field" cols="53" rows="10" style="width: 450px;"><?=$data->getDetail()?></textarea>
-						</p>
-						<div class="form-buttons">
-							<button class="form-button right" type="submit"><span><?=__('Submit Review')?></span></button>
-						</div>
-					</form>
-                    <script type="text/javascript">
-                        var dataForm = new VarienForm('review-form');
-                    </script>
+	<p>
+	<label for="summary_field">Summary of your review</label><br>
+	<input class="input-text  required-entry" name="title" id="summary_field" style="width: 450px;" type="text" value="<?=$data->getTitle()?>">
+	</p>
+	<p>
+	<label for="review_field">Review</label><br>
+	<textarea class="required-entry" name="detail" id="review_field" cols="53" rows="10" style="width: 450px;"><?=$data->getDetail()?></textarea>
+	</p>
+	<div class="form-buttons">
+		<button class="form-button right" type="submit"><span><?=__('Submit Review')?></span></button>
+	</div>
+</form>
+<script type="text/javascript">
+	var dataForm = new VarienForm('review-form');
+</script>

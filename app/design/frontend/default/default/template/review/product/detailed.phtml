@@ -1,4 +1,3 @@
-
 <div class="product-info-box">
 	<div class="product-essential">
 		<div class="product-img-box">
@@ -15,132 +14,133 @@
 		<?endif;?>
 
 
-<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
-    <input type="hidden" name="product" value="<?=$product->getId()?>">
-	<?if($product->isBundle()):?>
-	<div class="product-attributes">
-		<?if($product->isAviableBundle()):?>
-		<table cellspacing="0" id="bundle-price-table">
-		<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
-			<tr>
-				<td class="label"><?=$_bundleOption->getLabel()?>:</td>
-				<td>
-				<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
-				<select name="bundle_option[<?=$_bundleOption->getId()?>]">
-					<?foreach ($_bundleOption->getLinkCollection() as $_option):?>
-					<option value="<?=$_option->getProductId()?>"><?=$_option->getName()?></option>
-					<?endforeach;?>
-				</select>
-				<?elseif(sizeof($_bundleOption->getLinkCollection()->getItems())==1):?>
-				<?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
-				<input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
-				<?else:?>
-				<?=__('Out of stock')?>
-				<?endif;?>
-				</td>
-			</tr>
-		<?endforeach;?>
-		</table>
-<script type="text/javascript">decorateTable('bundle-price-table')</script>
-		<?else:?>
-		<p><?=__('This bundle is out of stock.')?></p>
+	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
+		<input type="hidden" name="product" value="<?=$product->getId()?>">
+		<?if($product->isBundle()):?>
+		<div class="product-attributes">
+			<?if($product->isAviableBundle()):?>
+			<table cellspacing="0" id="bundle-price-table">
+			<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
+				<tr>
+					<td class="label"><?=$_bundleOption->getLabel()?>:</td>
+					<td>
+					<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
+					<select name="bundle_option[<?=$_bundleOption->getId()?>]">
+						<?foreach ($_bundleOption->getLinkCollection() as $_option):?>
+						<option value="<?=$_option->getProductId()?>"><?=$_option->getName()?></option>
+						<?endforeach;?>
+					</select>
+					<?elseif(sizeof($_bundleOption->getLinkCollection()->getItems())==1):?>
+					<?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
+					<input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
+					<?else:?>
+					<?=__('Out of stock')?>
+					<?endif;?>
+					</td>
+				</tr>
+			<?endforeach;?>
+			</table>
+	<script type="text/javascript">decorateTable('bundle-price-table')</script>
+			<?else:?>
+			<p><?=__('This bundle is out of stock.')?></p>
+			<?endif;?>
+		</div>
+		<?elseif($product->isSuperConfig()):?>
+		<?=$this->getChildHtml('super_config')?>
 		<?endif;?>
-	</div>
-	<?elseif($product->isSuperConfig()):?>
-	<?=$this->getChildHtml('super_config')?>
-	<?endif;?>
-    <?if($product->getTierPriceCount()>1):?>
-	<div class="product-pricing">
-		<ul class="bare">
-            <?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
-            <li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
-            <?endforeach?>
-		</ul>
-	</div>
-    <?endif;?>
-	<?if($product->isSuperGroup()):?>
-   <?=$this->getChildHtml('super_group')?>
-	<?endif;?>
-	<?if(!$product->isSuperGroup()):?>
-		<?if(!$product->isBundle() || $product->isAviableBundle()):?>
+		<?if($product->getTierPriceCount()>1):?>
+		<div class="product-pricing">
+			<ul class="bare">
+				<?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
+				<li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
+				<?endforeach?>
+			</ul>
+		</div>
+		<?endif;?>
+		<?if($product->isSuperGroup()):?>
+	<?=$this->getChildHtml('super_group')?>
+		<?endif;?>
+		<?if(!$product->isSuperGroup()):?>
+			<?if(!$product->isBundle() || $product->isAviableBundle()):?>
+			<p><small>Availability: In stock. Ships within 24hours.</small></p>
+			<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
+			<fieldset class="add-to-cart-box">
+				<legend>Add items to cart </legend>
+				<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
+				<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
+			</fieldset>
+			<div class="add-to-box">
+				<a href="<?=$wishlistLink?>">Add to Wishlist</a>
+						<?if($this->getCompareJsObjectName()):?><br/>
+							<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+							<?endif;?>
+			</div>
+			<?else:?>
+			<p><small>Availability: Out of stock.</small></p>
+		<p><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
+						<?if($this->getCompareJsObjectName()):?>
+							<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+							<?endif;?></p>
+			<?endif;?>
+		<?else:?>
 		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
-		<fieldset class="add-to-cart-box">
-			<legend>Add items to cart </legend>
-			<span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
-			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
-		</fieldset>
-		<div class="add-to-box">
-			<a href="<?=$wishlistLink?>">Add to Wishlist</a>
-					<?if($this->getCompareJsObjectName()):?><br/>
-						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-						<?endif;?>
-		</div>
-		<?else:?>
-		<p><small>Availability: Out of stock.</small></p>
-	<p><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
-					<?if($this->getCompareJsObjectName()):?>
-						<a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-						<?endif;?></p>
+			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
+			&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
+			<?if($this->getCompareJsObjectName()):?>
+					<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
+			<?endif;?>
 		<?endif;?>
+		</form>
+		<script type="text/javascript">
+			var productAddToCartForm = new VarienForm('product_addtocart_form');
+			productAddToCartForm.submit = function() {
+				if(this.validator.validate()) {
+					this.form.submit();
+				}
+			}.bind(productAddToCartForm);
+		</script>
+		<div class="clear"></div>
+		<div class="divider"></div>
+	
+		<p><a href="<?=$product->getProductUrl()?>">&laquo; <?=__('Back to main product info')?></a></p>
+	
+		</div>
+		</div>
+	
+		<div class="product-collateral">
+	<?if( $this->getCollection() && $this->count()):?>
+		<div class="collateral-box dedicated-review-box" id="customer-reviews">
+			<div class="head">
+				<h4><?=__('Customer Reviews')?></h4>
+			</div>
+		<?=$this->getPagerHtml()?>
+			<ol>
+		<?foreach( $this->getCollection()->getItems() as $_review ):?>
+				<li>
+					<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
+					<table class="ratings-list" cellspacing="0">
+						<tbody>
+						<?foreach( $_review->getRatingVotes() as $_vote ):?>
+						<tr>
+							<td class="label"><strong><?=$_vote->getRatingCode()?></strong></td>
+							<td>
+								<div class="rating-box">
+									<div class="rating" style="width: <?=$_vote->getPercent()?>%;"></div>
+								</div>
+							</td>
+						</tr>
+						<?endforeach;?>
+						</tbody>
+					</table>
+					<p><?=nl2br($_review->getDetail())?> (<?=__('Posted on %s', $this->formatDate($_review->getCreatedAt()))?>)</p></li>
+				<li>
+		<?endforeach;?>
+			</ol>
+		</div>
+		<?=$this->getPagerHtml()?>
 	<?else:?>
-	<p><small>Availability: In stock. Ships within 24hours.</small></p>
-		<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
-		&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
-		 <?if($this->getCompareJsObjectName()):?>
-				<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-		<?endif;?>
-    <?endif;?>
-    </form>
-    <script type="text/javascript">
-    	var productAddToCartForm = new VarienForm('product_addtocart_form');
-    	productAddToCartForm.submit = function() {
-    		if(this.validator.validate()) {
-    			this.form.submit();
-    		}
-    	}.bind(productAddToCartForm);
-    </script>
-    <div class="clear"></div>
-	<div class="divider"></div>
-
-	<p><a href="<?=$product->getProductUrl()?>">&laquo; <?=__('Back to main product info')?></a></p>
-
-    </div>
+		<!--<center style="border:1px solid #cbdcf1;padding:20px 0 20px 0;"><small><?=__('This Product Has Not Reviews')?></small></center>-->
+	<?endif;?>
+	<?=$this->getChildHtml('reviewForm')?>
 	</div>
-
-    <div class="product-collateral">
-<?if( $this->getCollection() && $this->count()):?>
-	<div class="collateral-box dedicated-review-box" id="customer-reviews">
-		<div class="head">
-			<h4><?=__('Customer Reviews')?></h4>
-		</div>
-    <?=$this->getPagerHtml()?>
-		<ol>
-	<?foreach( $this->getCollection()->getItems() as $_review ):?>
-			<li>
-				<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
-				<table class="ratings-list" cellspacing="0">
-					<tbody>
-					<?foreach( $_review->getRatingVotes() as $_vote ):?>
-					<tr>
-						<td class="label"><strong><?=$_vote->getRatingCode()?></strong></td>
-						<td>
-							<div class="rating-box">
-								<div class="rating" style="width: <?=$_vote->getPercent()?>%;"></div>
-							</div>
-						</td>
-					</tr>
-					<?endforeach;?>
-					</tbody>
-				</table>
-				<p><?=nl2br($_review->getDetail())?> (<?=__('Posted on %s', $this->formatDate($_review->getCreatedAt()))?>)</p></li>
-			<li>
-	<?endforeach;?>
-		</ol>
-	</div>
-	<?=$this->getPagerHtml()?>
-<?else:?>
-    <center style="border:1px solid #cbdcf1;padding:20px 0 20px 0;"><small><?=__('This Product Has Not Reviews')?></small></center>
-<?endif;?>
-</div>
 </div>
