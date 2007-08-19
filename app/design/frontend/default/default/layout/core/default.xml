@@ -46,6 +46,7 @@
             </block>
         </block>
 
+        <block type="core/text_list" name="before_body_end" as="before_body_end"/>
     </block>
 
     <block type="core/profiler" output="toHtml"/>
