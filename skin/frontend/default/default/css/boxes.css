@@ -277,9 +277,6 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
     }
 #main {
     min-height:400px;
-/*  border-style:solid;
-    border-color:#d0d5d8;
-    border-width:0 1px;*/
     width:900px;
     margin:0 auto;
     background:url(../images/main_bg.gif) no-repeat #fffffe;
@@ -608,7 +605,8 @@ p.grand_total { padding-right:15px; }
 .generic-product-grid h5 { margin-bottom:.4em; font-size:1.1em; }
 .generic-product-grid h5 a, .generic-product-grid h5 a:hover {color:#203548; text-decoration:underline;}
 .generic-product-grid .product-images { text-align:center; }
-
+.generic-product-grid td.empty-product{ border-right:0;}
+ 
 /*************** [PRODUCT LISTING BOXES]****************/
 
 .catalog-listing { line-height:1.35em; }

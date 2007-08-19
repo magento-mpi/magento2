@@ -32,6 +32,7 @@
         <?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
         <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
         <button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>')"><span>Add to Cart</span></button>
+				<div class="clear"></div>
         <div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
         <p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
         <?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>
@@ -76,7 +77,7 @@
 									<div class="clear"></div>
 									<p class="add-to">
 										<?if($this->getCompareJsObjectName()):?>
-											<strong>Add to:</strong><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>">Wishlist</a><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Compare</a>
+											<strong>Add to:</strong><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Wishlist</a><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Compare</a>
 										<?else:?>
 											<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>">Add to Wishlist</a>
 										<?endif;?>
