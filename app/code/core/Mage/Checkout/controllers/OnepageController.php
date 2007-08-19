@@ -65,6 +65,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             ->assign('orderId', $this->getOnepage()->getLastOrderId());
         $this->getLayout()->getBlock('content')->append($block);
         
+        Mage::dispatchEvent('order_success_page_view');
+        
         $this->renderLayout();
         Mage::getSingleton('checkout/session')->clear();
     }
