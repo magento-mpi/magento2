@@ -297,11 +297,11 @@ table.form-edit {
     }
 .entry-edit fieldset label {
     float:left;
-    width:10em;
+    width:12em;
     }
 .entry-edit fieldset label.normal {
     float:none;
-    width:10em;
+    width:12em;
     }
 label.inline{
     float:none !important;

@@ -34,18 +34,31 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 		$actions = $this->getActionsCollection($item);
 		foreach ($actions as $a) {
-			if (!$rule->load($a->getRuleId())->validateQuote()) {
+			if (!$rule->load($a->getRuleId())->validate($quote)) {
 				continue;
 			}
 			
+			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
+			
 			switch ($a->getActionOperator()) {
 				case 'by_percent':
-					$item->setDiscountPercent($item->getDiscountPercent()+$a->getActionValue());
+					$discountAmount = $qty*$item->getPrice()*$a->getActionValue()/100;
+					if (!$rule->getDiscountQty()) {
+						$discountPercent = min(100, $item->getDiscountPercent()+$a->getActionValue());
+						$item->setDiscountPercent($discountPercent);
+					}
 					break;
 
 				case 'by_fixed':
-					$item->setDiscountAmount($item->getDiscountAmount()+$a->getActionValue());
+					$discountAmount = $qty*$a->getActionValue();
 					break;
+			}
+			
+			$discountAmount = min($discountAmount, $item->getRowTotal());
+			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
+			
+			if ($a->getFreeShipping()) {
+				$quote->setFreeShipping(true);
 			}
 			
 			$appliedRuleIds[$a->getRuleId()] = true;
@@ -54,10 +67,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				break;
 			}
 		}
-		
-		$discountAmount = $item->getDiscountAmount() + $item->getRowTotal()*$item->getDiscountPercent()/100;
-		$discountAmount = max($discountAmount, $item->getRowTotal());
-		$item->setDiscountAmount($discountAmount);
 		
 		$item->setAppliedRuleIds(join(',',$appliedRuleIds));
 		
@@ -68,12 +77,13 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 	{
 		$actions = Mage::getResourceModel('salesrule/rule_product_collection')
 			->addFieldToFilter('coupon_code', array(array('null'=>true), $this->getCouponCode()))
-			->addFieldToFilter('from_time', array('lteq'=>time()))
-			->addFieldToFilter('to_time', array('gteq'=>time()))
+			->addFieldToFilter('from_time', array(0, array('lteq'=>time())))
+			->addFieldToFilter('to_time', array(0, array('gteq'=>time())))
 			->addFieldToFilter('customer_group_id', $this->getCustomerGroupId())
 			->addFieldToFilter('store_id', $this->getStoreId())
 			->addFieldToFilter('product_id', $item->getProductId())
-			->setOrder('sort_order')
+			->setOrder('sort_order');
+		$actions
 			->load();
 		return $actions;
 	}

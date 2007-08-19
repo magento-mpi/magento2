@@ -53,7 +53,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
         
         return $out;
     }
-    
+    /*
     public function processProduct(Mage_Sales_Model_Product $product)
     {
         $this->validateProduct($product) && $this->updateProduct($product);
@@ -82,7 +82,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
         $this->getActions()->updateProduct($product);
         return $this;
     }
-    
+    */
     public function getResourceCollection()
     {
         return Mage::getResourceModel('salesrule/rule_collection');
@@ -94,8 +94,14 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
         parent::_afterSave();
     }
     
-    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    public function validate(Varien_Object $quote)
     {
-    	
+    	if ($this->getUsesPerCustomer() && $quote->getCustomer()) {
+    		$customerUses = $this->getResource()->getCustomerUses($this, $quote->getCustomerId());
+    		if ($customerUses >= $this->getUsesPerCustomer()) {
+    			return false;
+    		}
+    	}
+    	return parent::validate($quote);
     }
 }

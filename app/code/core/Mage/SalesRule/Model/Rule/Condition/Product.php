@@ -26,4 +26,15 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condit
         $productCollection->addAttributeToSelect($this->getAttribute());
         return $this;
     }
+    
+    public function validate(Varien_Object $object)
+    {
+    	$product = Mage::getModel('catalog/product')
+    		->load($object->getProductId())
+    		->setQty($object->getQty())
+    		->setPrice($object->getPrice())
+    		->setRowTotal($object->getRowTotal());
+    		
+    	return parent::validate($product);
+    }
 }

@@ -37,4 +37,37 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
        	}
     	return $html;
     }
+    
+    /**
+     * validate
+     *
+     * @param Varien_Object $object Quote
+     * @return boolean
+     */
+    public function validate(Varien_Object $object)
+    {    	
+        $all = $this->getAttribute()==='all';
+        $found = false;
+        foreach ($object->getAllItems() as $item) {
+            $found = $all ? true : false;
+            foreach ($this->getConditions() as $cond) {
+                if ($all && !$cond->validate($item)) {
+                    $found = false;
+                    break;
+                } elseif (!$all && $cond->validate($item)) {
+                    $found = true;
+                    break 2;
+                }
+            }
+        }
+        if ($found && (bool)$this->getOperator()) { 
+            // found an item and we're looking for existing one
+
+            return true;
+        } elseif (!$found && !(bool)$this->getOperator()) {
+            // not found and we're making sure it doesn't exist
+            return true;
+        }
+        return false;
+    }
 }

@@ -162,18 +162,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         
         return $out;
     }
-    
-    public function process()
+
+    public function validate(Varien_Object $object)
     {
-        if ($this->validate()) {
-            $this->getActions()->process();
-        }
-        return $this;
-    }
-    
-    public function validate()
-    {
-        return $this->getConditions()->validate();
+        return $this->getConditions()->validate($object);
     }
     
     protected function _afterLoad()
