@@ -69,7 +69,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         
         return $out;
     }
-    
+    /*
     public function processProduct(Mage_Catalog_Model_Product $product)
     {
         $this->validateProduct($product) && $this->updateProduct($product);
@@ -97,7 +97,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         $this->getActions()->updateProduct($product);
         return $this;
     }
-    
+    */
     public function getResourceCollection()
     {
         return Mage::getResourceModel('catalogrule/rule_collection');
@@ -106,6 +106,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _afterSave()
     {
         $this->getResource()->updateRuleProductData($this);
+        parent::_afterSave();
     }
     
     public function getMatchingProductIds()

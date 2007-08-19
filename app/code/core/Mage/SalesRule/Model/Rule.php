@@ -90,6 +90,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     
     protected function _afterSave()
     {
-        
+        $this->getResource()->updateRuleProductData($this);
+        parent::_afterSave();
     }
 }
