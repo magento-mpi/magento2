@@ -31,7 +31,8 @@ function sc_refresh(blocks, args) {
                 onFailure:function(){sc_refresh(blocks)},
                 onSuccess:function(){sc_refresh(blocks)},
                 evalScripts:true,
-                parameters:params
+                parameters:params,
+                loaderArea: 'sc_' + block
             }
         );
     }
@@ -147,7 +148,7 @@ function sc_itemsUpdate() {
         h[el.id.split(':')[1]] = el.value;
         return h;
     });
-    sc_refresh(['items','totals'], {update: qtys.toJSON()});
+    sc_refresh(['items','shipping_method','totals'], {update: qtys.toJSON()});
 }
 
 function sc_addressSelect(type, id) {

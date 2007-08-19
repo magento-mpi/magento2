@@ -9,14 +9,14 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_View_Plane extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Template
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->setId('order_plane');
-        $this->setTemplate('sales/order/view/plane.phtml');
+        $this->setTemplate('sales/order/view/form.phtml');
         $this->setTitle(__('Order Information'));
     }
 

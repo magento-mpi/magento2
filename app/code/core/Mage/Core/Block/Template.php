@@ -1,37 +1,48 @@
 <?php
-
-
-
 /**
  * Base html block
  *
  * @package    Mage
  * @subpackage Core
- * @copyright  Varien, 2007
- * @version    1.0
- * @author     Soroka Dmitriy <dmitriy@varien.com>
- * @date       Thu Feb 08 05:56:43 EET 2007
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-
 class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 {
+    /**
+     * Enter description here...
+     *
+     * @var string
+     */
     protected $_viewDir = '';
+
+    /**
+     * Enter description here...
+     *
+     * @var array
+     */
     protected $_viewVars = array();
 
     /**
      * Set block template
      *
-     * @param     string $file
-     * @return    none
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
+     * @param     string $templateName
+     * @return    Mage_Core_Block_Template
      */
-
     public function setTemplate($templateName)
     {
         $this->setTemplateName($templateName);
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string|array $key
+     * @param mixed $value
+     * @return Mage_Core_Block_Template
+     */
     public function assign($key, $value=null)
     {
         if (is_array($key)) {
@@ -45,11 +56,24 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $dir
+     * @return Mage_Core_Block_Template
+     */
     public function setScriptPath($dir)
     {
         $this->_viewDir = $dir;
+        return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $fileName
+     * @return string
+     */
     public function fetchView($fileName)
     {
         extract ($this->_viewVars);
@@ -61,7 +85,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     /**
      * Render block
      *
-     * @return unknown
+     * @return string
      */
     public function renderView()
     {
@@ -137,12 +161,21 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $tplName
+     * @param array $assign
+     * @return string
+     */
     public function tpl($tplName, array $assign=array())
     {
         $block = $this->getLayout()->createBlock('core/template');
+        /* @var $block Mage_Core_Block_Template */
         foreach ($assign as $k=>$v) {
             $block->assign($k, $v);
         }
         return $block->setTemplate("$tplName.phtml")->toHtml();
     }
-}// Class Mage_Core_Block_Template END
+
+}

@@ -31,11 +31,6 @@ class Mage_Adminhtml_Block_Sales_Cmemo_Create_Items extends Mage_Core_Block_Temp
 
     public function getInvoice()
     {
-        return Mage::registry('sales_invoice')->getInvoice();
-    }
-
-    public function getCmemo()
-    {
         return Mage::registry('sales_invoice');
     }
 

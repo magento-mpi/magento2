@@ -65,6 +65,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
             $invoice = Mage::getModel('sales/invoice');
+            /* @var $invoice Mage_Sales_Model_Invoice */
 
             if ($invoiceId) {
                 $invoice->load($invoiceId);
@@ -78,8 +79,10 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
                 $this->_redirect('*/*/');
                 return;
             }
+            Mage::register('sales_invoice', $invoice);
 
             $model = Mage::getModel('sales/invoice');
+            /* @var $model Mage_Sales_Model_Invoice */
             $model->createFromInvoice($invoice);
 
             // set entered data if was error when we do save
@@ -87,8 +90,6 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
             if (! empty($data)) {
                 $model->setData($data);
             }
-
-            Mage::register('sales_invoice', $model);
 
             $this->_initAction()
                 ->_addBreadcrumb(('Create New Credit Memo'), __('Create New Credit Memo'))
@@ -104,8 +105,6 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
     {
         if (($orderId = $this->getRequest()->getParam('order_id')) && ($data = $this->getRequest()->getPost())) {
 
-            Mage::getSingleton('adminhtml/session')->addNotice(print_r($data, true));
-
             $invoice = Mage::getModel('sales/invoice');
             $invoice->setData($data);
 
@@ -117,8 +116,6 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
                 return;
             }
             $invoice->createFromOrder($order);
-
-            Mage::getSingleton('adminhtml/session')->addNotice($invoice->getInvoiceType());
 
             try {
                 $invoice->setData('items', $data['items']);
@@ -163,6 +160,52 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         }
     }
 
+    public function savecmnewAction()
+    {
+        if (($invoiceId = $this->getRequest()->getParam('invoice_id')) && ($data = $this->getRequest()->getPost())) {
+
+            $cmemo = Mage::getModel('sales/invoice');
+            /* @var $cmemo Mage_Sales_Model_Invoice */
+            $cmemo->setData($data);
+
+            $invoice = Mage::getModel('sales/invoice')->load($invoiceId);
+            if (! $invoice->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError(__('The invoice you are trying to create creadit memo for, no longer exists'));
+                Mage::getSingleton('adminhtml/session')->setInvoiceData($data);
+                $this->_redirect('*/sales_invoice/cmemo/', array('invoice_id' => $invoiceId));
+                return;
+            }
+            $cmemo->createFromInvoice($invoice);
+
+            try {
+                $invoice->setData('items', $data['items']);
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError(__('Credit Memo was not saved'));
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setInvoiceData($data);
+                $this->_redirect('*/sales_invoice/cmemo/', array('invoice_id' => $invoice->getId()));
+                return;
+            }
+
+            try {
+                $invoice->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Credit Memo was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->setInvoiceData(false);
+                // TODO - redirect to print form
+                $this->_redirect('*/sales_invoice/edit/', array('invoice_id' => $invoice->getId()));
+                return;
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError(__('Credit Memo was not saved'));
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setInvoiceData($data);
+                $this->_redirect('*/sales_invoice/cmemo/', array('invoice_id' => $invoice->getId()));
+                return;
+            }
+        } else {
+            $this->_redirect('*/sales_invoice/');
+        }
+    }
+
     public function saveAction()
     {
         if (($invoiceId = $this->getRequest()->getParam('invoice_id')) && ($data = $this->getRequest()->getPost())) {
@@ -178,7 +221,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
 //                        $invoice->charge();
                         // TODO - redirect to print form
                         Mage::getSingleton('adminhtml/session')->addSuccess(__('Invoice was charged succesfully'));
-                        $this->_redirect('*/sales_invoice/edit/', array('invoice_id' => $invoiceId));
+                        $this->_redirect('*/sales_invoice/view/', array('invoice_id' => $invoiceId));
                         return;
                     } catch (Exception $e) {
                         Mage::getSingleton('adminhtml/session')->addError(__('Invoice was not charged'));

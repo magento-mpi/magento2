@@ -81,6 +81,38 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             ->renderLayout();
     }
 
+    public function deleteAction()
+    {
+        $orderId = $this->getRequest()->getParam('order_id');
+        $order = Mage::getModel('sales/order');
+
+        if ($orderId) {
+            $order->load($orderId);
+            if (! $order->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
+                $this->_redirect('*/*/');
+                return;
+            }
+        } else {
+            Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        try {
+            $order->cancel()->save();
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Order was cancelled successfully'));
+            $this->_redirect('*/*/');
+            return;
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError(__('Order was not cancelled'));
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_redirect('*/*/');
+            return;
+        }
+
+    }
+
     public function testAction()
     {
         $customers = Mage::getResourceModel('customer/customer_collection')->load()->getItems();

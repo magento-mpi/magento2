@@ -21,18 +21,18 @@
             <div class="entry-view">
                 <h4 class="icon-head head-shipping-method"><?=__('Shipping Method')?></h4>
                 <div class="box customer-personal-brief">
-                    <?=$_invoice->getOrder()->getShippingMethod()?> <?=$_invoice->getOrder()->getShippingDescription()?>
+                    <?=$_invoice->getOrder()->getShippingDescription()?>
                 </div>
             </div>
         </div>
         <div class="box-right">
             <div class="entry-view">
-                <h4 class="icon-head head-customer-view"><?=__('Order Status')?>: <?=$_invoice->getStatus()->getFrontendLabel()?></h4>
+                <h4 class="icon-head head-customer-view"><?=__('Invoice Status')?>: <?=$_invoice->getStatusName($_invoice->getInvoiceStatusId())?></h4>
             </div>
             <div class="entry-view">
                 <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>
                 <div class="box customer-personal-brief">
-                    <?$_billing = $_invoice->getbillingAddress()?>
+                    <?$_billing = $_invoice->getBillingAddress()?>
                     <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
                     <?=$_billing->getCompany()?><br/>
                     <?=$_billing->getStreet()?><br/>
@@ -55,23 +55,6 @@
         </div>
         <div>
             <?=$this->getItemsHtml()?>
-        </div>
-        <div class="box order-totals">
-            <table cellspacing="0">
-                <tfoot>
-                    <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getGrandTotal())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Total Payed')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getTotalPaid())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getTotalDue())?></strong></td></tr>
-                </tfoot>
-                <tbody>
-                    <tr><td><?=__('Subtotal')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getSubtotal())?></td></tr>
-                    <?if ($_invoice->getTaxAmount()):?><tr><td><?=__('Tax')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getTaxAmount())?></td></tr><?endif;?>
-                    <?if ($_invoice->getShippingAmount()):?><tr><td><?=__('Shipping')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getShippingAmount())?></td></tr><?endif;?>
-                    <?if ($_invoice->getDiscountAmount()):?><tr><td><?=__('Discount')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getDiscountAmount())?></td></tr><?endif;?>
-                    <?if ($_invoice->getGiftcertAmount()):?><tr><td><?=__('Gift Certificate')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getGiftcertAmount())?></td></tr><?endif;?>
-                    <?if ($_invoice->getCustbalanceAmount()):?><tr><td><?=__('Customer Balance')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getCustbalanceAmount())?></td></tr><?endif;?>
-                </tbody>
-            </table>
         </div>
     </form>
     <?=$this->getFormScripts()?>

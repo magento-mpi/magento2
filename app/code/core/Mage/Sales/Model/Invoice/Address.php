@@ -39,6 +39,7 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
             ->setCountryId($address->getCountryId())
             ->setTelephone($address->getTelephone())
             ->setFax($address->getFax())
+            ->setStoreId($address->getStoreId())
         ;
         return $this;
     }
@@ -61,15 +62,16 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
             ->setCountryId($address->getCountryId())
             ->setTelephone($address->getTelephone())
             ->setFax($address->getFax())
+            ->setStoreId($address->getStoreId())
         ;
         return $this;
     }
-    
+
     public function getName()
     {
     	return $this->getFirstname().' '.$this->getLastname();
     }
-    
+
     public function getRegion()
     {
     	if ($this->getData('region_id') && !$this->getData('region')) {
@@ -77,7 +79,7 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
     	}
     	return $this->getData('region');
     }
-    
+
     public function getCountry()
     {
     	if ($this->getData('country_id') && !$this->getData('country')) {

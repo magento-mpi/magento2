@@ -82,6 +82,19 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_redirect('*/*');
     }
 
+    public function editAction()
+    {
+        $this->getSession()->reset();
+        $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
+        /* @var $order Mage_Sales_Model_Order */
+        $this->getSession()->setStoreId($order->getStoreId());
+        $this->getSession()->setCustomerId($order->getCustomerId());
+        $this->getQuote()->createFromOrder($order);
+        $this->getQuote()->collectTotals()->save();
+        $order->cancel()->save();
+        $this->_redirect('*/*');
+    }
+
     public function customerAction()
     {
         if ($customerId = $this->getRequest()->getParam('customer_id')) {

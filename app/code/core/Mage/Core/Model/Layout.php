@@ -12,49 +12,49 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @var array
      */
     protected $_subst = array('keys'=>array(), 'values'=>array());
-        
+
     /**
      * Blocks registry
      *
      * @var array
      */
     protected $_blocks = array();
-    
+
     /**
      * Blocks cache
      *
      * @var Zend_Cache_Core
      */
     protected $_blockCache = null;
-    
+
     /**
      * Cache of block callbacks to output during rendering
      *
      * @var array
      */
     protected $_output = array();
-    
+
     protected $_area;
-    
+
     protected $_helpers = array();
-    
+
     public function __construct($data=array())
     {
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
         parent::__construct($data);
     }
-    
+
     public function setArea($area)
     {
     	$this->_area = $area;
     	return $this;
     }
-    
+
     public function getArea()
     {
     	return $this->_area;
     }
-    
+
     public function getCache()
     {
         if (!$this->_cache) {
@@ -64,8 +64,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this->_cache;
     }
-    
-    public function setBlockCache($frontend='Core', $backend='File', 
+
+    public function setBlockCache($frontend='Core', $backend='File',
     	array $frontendOptions=array(), array $backendOptions=array())
     {
         if (empty($frontendOptions['lifetime'])) {
@@ -77,7 +77,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_blockCache = Zend_Cache::factory($frontend, $backend, $frontendOptions, $backendOptions);
         return $this;
     }
-    
+
     public function getBlockCache()
     {
         if (empty($this->_blockCache)) {
@@ -85,7 +85,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this->_blockCache;
     }
-    
+
     /**
      * Initialize layout configuration for $id key
      *
@@ -103,7 +103,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this;
     }
-    
+
     public function setSubst($subst)
     {
         foreach ($subst as $k=>$v) {
@@ -112,7 +112,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this;
     }
-    
+
     /**
      * Load layout configuration update from file
      *
@@ -129,7 +129,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         return $this;
     }
-    
+
     public function mergeUpdate($update)
     {
         #$update->prepare($args);
@@ -146,7 +146,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this;
     }
-    
+
     public function removeBlock($blockName, $parent=null)
     {
         if (is_null($parent)) {
@@ -164,7 +164,7 @@ echo "TEST:".$children[0];
         }
         return $this;
     }
-    
+
     public function removeAction($blockName, $method, $parent=null)
     {
         if (is_null($parent)) {
@@ -182,7 +182,7 @@ echo "TEST:".$i;
         }
         return $this;
     }
- 
+
     /**
      * Load all updates from main config for the $area and $id
      *
@@ -201,7 +201,7 @@ echo "TEST:".$i;
         }
         return $this;
     }
-    
+
     public function processFileData($data)
     {
         $substKeys = array();
@@ -213,7 +213,7 @@ echo "TEST:".$i;
         }
         return str_replace($substKeys, $substValues, $data);
     }
-    
+
     /**
      * Create layout blocks from configuration
      *
@@ -230,7 +230,7 @@ echo "TEST:".$i;
                     $this->_generateBlock($node, $parent);
                     $this->generateBlocks($node);
                     break;
-                    
+
                 case 'reference':
                     $this->generateBlocks($node);
                     break;
@@ -241,7 +241,7 @@ echo "TEST:".$i;
             }
         }
     }
-    
+
     protected function _generateBlock($node, $parent)
     {
         if (!empty($node['class'])) {
@@ -250,12 +250,12 @@ echo "TEST:".$i;
             $className = Mage::getConfig()->getBlockClassName((string)$node['type']);
         }
         $blockName = (string)$node['name'];
-        
+
         $_profilerKey = 'BLOCK: '.$blockName;
         Varien_Profiler::start($_profilerKey);
-        
+
         $block = $this->addBlock($className, $blockName);
-        
+
         if (!empty($node['parent'])) {
             $parentBlock = $this->getBlock((string)$node['parent']);
         } else {
@@ -264,7 +264,7 @@ echo "TEST:".$i;
                 $parentBlock = $this->getBlock($parentName);
             }
         }
-        if (!empty($parentBlock)) {   
+        if (!empty($parentBlock)) {
             if (isset($node['as'])) {
                 $as = (string)$node['as'];
                 $parentBlock->setChild($as, $block);
@@ -289,12 +289,12 @@ echo "TEST:".$i;
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-        
+
         Varien_Profiler::stop($_profilerKey);
-        
+
         return $this;
     }
-    
+
     protected function _generateAction($node, $parent)
     {
         $method = (string)$node['method'];
@@ -303,10 +303,10 @@ echo "TEST:".$i;
         } else {
             $parentName = $parent->getBlockName();
         }
-        
+
         $_profilerKey = 'BLOCK: '.$parentName.' -> '.$method;
         Varien_Profiler::start($_profilerKey);
-        
+
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
         }
@@ -325,16 +325,16 @@ echo "TEST:".$i;
                     $args[$arg] = __($args[$arg]);
                 }
             }
-    
+
             call_user_func_array(array($block, $method), $args);
         }
-        
+
         Varien_Profiler::stop($_profilerKey);
-        
+
         return $this;
     }
-    
-    
+
+
     /**
      * Save block in blocks registry
      *
@@ -345,7 +345,7 @@ echo "TEST:".$i;
     {
         $this->_blocks[$name] = $block;
     }
-    
+
     /**
      * Remove block from registry
      *
@@ -357,14 +357,14 @@ echo "TEST:".$i;
         unset($this->_blocks[$name]);
         return $this;
     }
-    
+
     /**
      * Block Factory
-     * 
+     *
      * @param     string $type
      * @param     string $blockName
      * @param     array $attributes
-     * @return    Mage_Core_Block_Abtract
+     * @return    Mage_Core_Block_Abstract
      * @author    Moshe Gurvich <moshe@varien.com>
      * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
@@ -377,7 +377,7 @@ echo "TEST:".$i;
         }
 
         $block = new $className();
-        
+
         if (empty($name) || '.'===$name{0}) {
             $block->setIsAnonymous(true);
             if (!empty($name)) {
@@ -388,19 +388,19 @@ echo "TEST:".$i;
         elseif (isset($this->_blocks[$name])) {
             throw new Exception('Block with name "'.$name.'" already exists');
         }
-        
+
         $block->setType($type)
             ->setName($name)
             ->addData($attributes)
             ->setLayout($this);
-        
+
         $this->_blocks[$name] = $block;
-        
+
         #Mage::stop(__METHOD__, true);
 
         return $this->_blocks[$name];
     }
-    
+
     /**
      * Add a block to registry, create new object if needed
      *
@@ -415,14 +415,14 @@ echo "TEST:".$i;
         } else {
             $blockObj = $block;
         }
-            
+
         $blockObj->setData('name', $blockName);
         $blockObj->setLayout($this);
         $this->_blocks[$blockName] = $blockObj;
 
         return $blockObj;
     }
-    
+
     /**
      * Retrieve all blocks from registry as array
      *
@@ -432,7 +432,7 @@ echo "TEST:".$i;
     {
         return $this->_blocks;
     }
-    
+
     /**
      * Get block object by name
      *
@@ -447,7 +447,7 @@ echo "TEST:".$i;
             return false;
         }
     }
-    
+
     /**
      * Add a block to output
      *
@@ -459,7 +459,7 @@ echo "TEST:".$i;
         //$this->_output[] = array($blockName, $method);
         $this->_output[$blockName] = array($blockName, $method);
     }
-    
+
     /**
      * Get all blocks marked for output
      *
@@ -475,7 +475,7 @@ echo "TEST:".$i;
         }
         return $out;
     }
-    
+
     /**
      * Retrieve messages block
      *
@@ -488,7 +488,7 @@ echo "TEST:".$i;
         }
         return $this->createBlock('core/messages', 'messages');
     }
-    
+
     public function getHelper($type)
     {
         if (!isset($this->_helpers[$type])) {

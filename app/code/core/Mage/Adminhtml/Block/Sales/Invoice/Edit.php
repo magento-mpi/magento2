@@ -19,8 +19,15 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit extends Mage_Adminhtml_Block_Widge
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Invoice'));
-        $this->_updateButton('delete', 'label', __('Delete Invoice'));
+        $this->_removeButton('delete');
+        $this->_removeButton('save');
+        $this->_removeButton('reset');
+
+        $this->_addButton('credit_memo', array(
+            'label' => __('Create Credit Memo'),
+            'onclick'   => 'window.location.href=\'' . $this->getCreateMemoUrl() . '\'',
+            'class' => 'add',
+        ));
 
     }
 

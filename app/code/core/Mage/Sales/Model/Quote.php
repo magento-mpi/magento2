@@ -497,4 +497,25 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return Mage_Sales_Model_Quote
+     */
+    public function createFromOrder(Mage_Sales_Model_Order $order)
+    {
+        $this->setStoreId($order->getStoreId());
+        $this->setBillingAddress(Mage::getModel('sales/quote_address')->importOrderAddress($order->getBillingAddress()));
+        $this->setShippingAddress(Mage::getModel('sales/quote_address')->importOrderAddress($order->getShippingAddress()));
+        foreach ($order->getItemsCollection() as $item) {
+            if ($item->getQtyToShip() > 0) {
+                $this->addItem(Mage::getModel('sales/quote_item')->importOrderItem($item));
+            }
+        }
+        $this->setCouponCode($order->getCouponeCode());
+        $this->setShippingMethod($order->getShippingMethod());
+        return $this;
+    }
+
 }

@@ -26,10 +26,10 @@ class Mage_Adminhtml_Block_Sales_Invoice_View extends Mage_Adminhtml_Block_Widge
         $this->_removeButton('save');
         $this->_removeButton('reset');
 
-        $this->_addButton('edit', array(
-            'label' => __('Edit Invoice'),
-            'onclick'   => 'window.location.href=\'' . $this->getEditUrl() . '\'',
-        ));
+//        $this->_addButton('edit', array(
+//            'label' => __('Edit Invoice'),
+//            'onclick'   => 'window.location.href=\'' . $this->getEditUrl() . '\'',
+//        ));
 
         $this->_addButton('credit_memo', array(
             'label' => __('Create Credit Memo'),

@@ -430,4 +430,32 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         $this->setEntityId(null);
     }
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Sales_Model_Order_Address $address
+     * @return Mage_Sales_Model_Quote_Address
+     */
+    public function importOrderAddress(Mage_Sales_Model_Order_Address $address)
+    {
+        $this->setAddressType($address->getAddressType())
+            ->setCustomerId($address->getCustomerId())
+            ->setCustomerAddressId($address->getCustomerAddressId())
+            ->setEmail($address->getEmail())
+            ->setFirstname($address->getFirstname())
+            ->setLastname($address->getLastname())
+            ->setCompany($address->getCompany())
+            ->setStreet($address->getStreet())
+            ->setCity($address->getCity())
+            ->setRegion($address->getRegion())
+            ->setRegionId($address->getRegionId())
+            ->setPostcode($address->getPostcode())
+            ->setCountryId($address->getCountryId())
+            ->setTelephone($address->getTelephone())
+            ->setFax($address->getFax())
+        ;
+        return $this;
+    }
+
 }

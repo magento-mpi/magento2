@@ -40,8 +40,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     		->sendTransactional(
     		  Mage::getStoreConfig('sales/new_order/email_template'),
     		  Mage::getStoreConfig('sales/new_order/email_identity'),
-    		  $this->getEmail(), 
-    		  $this->getName(), 
+    		  $this->getEmail(),
+    		  $this->getName(),
     		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
     	return $this;
     }
@@ -421,11 +421,21 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getRealOrderId()
     {
         return $this->getIncrementId();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Directory_Model_Currency
+     */
     public function getOrderCurrency()
     {
         if (is_null($this->_orderCurrency)) {
@@ -434,6 +444,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this->_orderCurrency;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order_Status
+     */
     public function getStatus()
     {
         return Mage::getModel('sales/order_status')->load($this->getOrderStatusId());
@@ -444,4 +459,42 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     	Mage::dispatchEvent('sales_order_afterSave', array('order'=>$this));
     	parent::_afterSave();
     }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function calcTotalDue()
+    {
+        $this->setTotalDue(max($this->getGrandTotal() - $this->getTotalPaid(), 0));
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return float
+     */
+    public function getTotalDue()
+    {
+        $this->calcTotalDue();
+        return $this->getData('total_due');
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function cancel()
+    {
+        foreach ($this->getItemsCollection() as $item) {
+            $item->cancel();
+        }
+        $statusId = 4; // Canceled
+        $this->addStatus($statusId);
+        return $this;
+    }
+
 }

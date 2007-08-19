@@ -24,10 +24,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/order_item_collection')
-            ->addAttributeToSelect('*')
-            ->setOrderFilter(Mage::registry('sales_order')->getId())
-        ;
+        $collection = Mage::getResourceModel('sales/order_item_collection');
+        /* @var $collection Mage_Sales_Model_Entity_Order_Item_Collection */
+        $collection->addAttributeToSelect('*')
+            ->setOrderFilter(Mage::registry('sales_order')->getId());
         $collection->getEntity()->setStore(Mage::registry('sales_order')->getStoreId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -52,9 +52,9 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
             'index' => 'name',
         ));
 
-        $this->addColumn('status', array(
-            'header' => __('Item Status'),
-            'getter' => 'getStatus',
+        $this->addColumn('price', array(
+            'header' => __('Price'),
+            'getter' => 'getPriceFormatted',
         ));
 
         $this->addColumn('qty_ordered', array(
@@ -86,6 +86,27 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
             'index' => 'qty_canceled',
             'type' => 'number',
         ));
+
+        $this->addColumn('status', array(
+            'header' => __('Item Status'),
+            'getter' => 'getStatus',
+        ));
+
+        $this->addColumn('discount_amount', array(
+            'header' => __('Discount'),
+            'getter' => 'getDiscountAmountFormatted',
+        ));
+
+        $this->addColumn('tax_amount', array(
+            'header' => __('Tax Amount'),
+            'getter' => 'getTaxAmountFormatted',
+        ));
+
+        $this->addColumn('row_total', array(
+            'header' => __('Subtotal'),
+            'getter' => 'getRowTotalFormatted',
+        ));
+
 
         return parent::_prepareColumns();
     }

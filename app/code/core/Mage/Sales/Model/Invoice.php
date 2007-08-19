@@ -312,6 +312,12 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
                 }
             }
         }
+
+        foreach ($this->getAllItems() as $item) {
+            $this->setSubtotal($this->getSubtotal()+$item->getRowTotal());
+        }
+        $this->setGrandTotal($this->getSubtotal());
+
         return parent::_beforeSave();
     }
 
@@ -332,12 +338,12 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
 
         if (self::STATUS_PAYED == $this->getInvoiceStatusId()) {
             $this->getPayment()->save();
-            $this->save(); // TOFIX - update only status attribute
+            $this->setTotalPayed($this->getTotalDue());
+            $this->save();
             foreach ($this->getItemsCollection() as  $item) {
                 $orderItem = Mage::getModel('sales/order_item')->load($item->getOrderItemId());
                 $orderItem->setQtyShipped($orderItem->getQtyShipped() + $item->getQty());
                 $orderItem->save();
-//                $orderItem->saveAttribute($orderItem, 'qty_shipped');
             }
         }
 
@@ -397,6 +403,42 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
     public function isCmemo()
     {
         return (self::TYPE_CMEMO == $this->getInvoiceType());
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Invoice
+     */
+    public function calcTotalDue()
+    {
+        $this->setTotalDue(max($this->getGrandTotal() - $this->getTotalPaid(), 0));
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return float
+     */
+    public function getTotalDue()
+    {
+        $this->calcTotalDue();
+        return $this->getData('total_due');
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Invoice
+     */
+    public function collectTotals()
+    {
+        $this->setGrandTotal(0);
+        foreach ($this->getItemsCollection() as $item) {
+            $this->setGrandTotal($this->getGrandTotal() + $item->getRowTotal());
+        }
+        return $this;
     }
 
 }

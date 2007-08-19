@@ -15,7 +15,15 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Core_Block_Template
     protected $_buttons = array(0 => array());
     protected $_headerText = 'Container Widget Header';
 
-    protected function _addButton($id, $data, $level = 0)
+    /**
+     * Enter description here...
+     *
+     * @param string $id
+     * @param array $data
+     * @param integer $level
+     * @return Mage_Adminhtml_Block_Widget_Container
+     */
+    protected function _addButton($id, $data, $level = 0, $sortOrder = 100)
     {
         if (!isset($this->_buttons[$level])) {
             $this->_buttons[$level] = array();
@@ -24,6 +32,12 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Core_Block_Template
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $id
+     * @return Mage_Adminhtml_Block_Widget_Container
+     */
     protected function _removeButton($id)
     {
         foreach ($this->_buttons as $level => $buttons) {
@@ -34,6 +48,14 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Core_Block_Template
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $id
+     * @param string|null $key
+     * @param mixed $data
+     * @return Mage_Adminhtml_Block_Widget_Container
+     */
     protected function _updateButton($id, $key=null, $data)
     {
         foreach ($this->_buttons as $level => $buttons) {

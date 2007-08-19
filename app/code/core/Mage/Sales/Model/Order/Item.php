@@ -30,6 +30,12 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 
     public function getOrder()
     {
+        if (is_null($this->_order) && ($orderId = $this->getParentId())) {
+            $order = Mage::getModel('sales/order');
+            /* @var $order Mage_Sales_Model_Order */
+            $order->load($orderId);
+            $this->setOrder($order);
+        }
         return $this->_order;
     }
 
@@ -108,6 +114,11 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return self::$_statuses;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public static function getStatusName($statusId)
     {
         if (is_null(self::$_statuses)) {
@@ -133,26 +144,103 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 //        return false;
 //    }
 
+    /**
+     * Enter description here...
+     *
+     * @return float|integer
+     */
     public function getQtyToShip()
     {
         return max($this->getQtyOrdered() - $this->getQtyShipped() - $this->getQtyReturned() - $this->getQtyCanceled(), 0);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
     public function calcRowTotal()
     {
         $this->setRowTotal($this->getPrice()*$this->getQty());
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
     public function calcRowWeight()
     {
         $this->setRowWeight($this->getWeight()*$this->getQty());
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
     public function calcTaxAmount()
     {
         $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getPriceFormatted()
+    {
+        return $this->getOrder()->getOrderCurrency()->format($this->getPrice());
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getRowTotalFormatted()
+    {
+        return $this->getOrder()->getOrderCurrency()->format($this->getRowTotal());
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getTaxAmountFormatted()
+    {
+        if ($this->getTaxAmount()) {
+            return $this->getOrder()->getOrderCurrency()->format($this->getTaxAmount());
+        }
+        return '-';
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getDiscountAmountFormatted()
+    {
+        if ($this->getDiscountAmount()) {
+            return $this->getOrder()->getOrderCurrency()->format($this->getDiscountAmount());
+        }
+        return '-';
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
+    public function cancel()
+    {
+        $this->setQtyCanceled($this->getQtyToShip());
         return $this;
     }
 

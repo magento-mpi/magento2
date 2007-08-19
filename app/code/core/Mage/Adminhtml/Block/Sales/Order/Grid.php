@@ -15,8 +15,8 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
     {
         parent::__construct();
         $this->setId('sales_order_grid');
-        $this->setDefaultSort('purchased_at');
-        $this->setDefaultDir('ASC');
+        $this->setDefaultSort('created_at');
+        $this->setDefaultDir('DESC');
     }
 
     protected function _prepareCollection()

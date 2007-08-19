@@ -20,14 +20,14 @@ class Mage_Adminhtml_Block_Sales_Cmemo_Create_Form extends Mage_Adminhtml_Block_
         $this->setTemplate('sales/cmemo/create.phtml');
     }
 
-    public function getCmemo()
+    public function getInvoice()
     {
         return Mage::registry('sales_invoice');
     }
 
-    public function getInvoice()
+    public function getOrder()
     {
-        return Mage::registry('sales_invoice')->getInvoice();
+        return Mage::registry('sales_invoice')->getOrder();
     }
 
     protected function _initChildren()
