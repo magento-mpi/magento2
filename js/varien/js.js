@@ -46,6 +46,29 @@ function decorateList(list){
     }
 }
 
+function decorateDataList(list){
+	list = $(list);
+    if(list){
+        var items = list.getElementsBySelector('dt')
+        if(items.length) items[items.length-1].addClassName('last');
+        for(var i=0; i<items.length; i++){
+            if((i+1)%2==0) 
+                items[i].addClassName('even');
+            else
+                items[i].addClassName('odd');
+        }
+        var items = list.getElementsBySelector('dd')
+        if(items.length) items[items.length-1].addClassName('last');
+        for(var i=0; i<items.length; i++){
+            if((i+1)%2==0) 
+                items[i].addClassName('even');
+            else
+                items[i].addClassName('odd');
+        }
+    }
+}
+
+
 // Version 1.0
 var isIE = navigator.appVersion.match(/MSIE/) == "MSIE";
 

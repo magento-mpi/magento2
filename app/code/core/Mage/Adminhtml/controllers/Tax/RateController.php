@@ -147,4 +147,33 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     	
     	$this->renderLayout();
     }
+    
+    public function importPostAction()
+    {
+    	
+    	$this->_redirect('*/*/importExport');
+    }
+    
+    public function exportPostAction()
+    {
+    	$collection = Mage::getResourceModel('tax/rate_collection')->addAttributes()->load();
+    	echo "<pre>";
+    	foreach ($collection as $rate) {
+    		print_r($rate->getData());
+    	}
+    	echo "</pre>";
+    	exit;
+    	
+    	$content = '';
+    	$fileName = 'tax_rates.csv';
+    	
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        echo $content;
+        exit;
+    }
 }
