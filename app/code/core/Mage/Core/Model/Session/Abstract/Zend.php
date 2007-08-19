@@ -8,31 +8,18 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-abstract class Mage_Core_Model_Session_Zend extends Varien_Object
+abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
 {
     /**
      * Session namespace object
      *
      * @var Zend_Session_Namespace
      */
-    protected $_session;
+    protected $_namespace;
     
-    public function getSession()
+    public function getNamespace()
     {
-    	return $this->_session;
-    }
-    
-    /**
-     * Initialization session namespace
-     *
-     * @param string $namespace
-     */
-    public function init($namespace)
-    {
-        Varien_Profiler::start(__METHOD__.'/init');
-        $this->_session = new Zend_Session_Namespace($namespace, Zend_Session_Namespace::SINGLE_INSTANCE);
-        Varien_Profiler::stop(__METHOD__.'/init');
-        return $this;
+    	return $this->_namespace;
     }
     
     public function start()
@@ -69,6 +56,23 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
     }
     
     /**
+     * Initialization session namespace
+     *
+     * @param string $namespace
+     */
+    public function init($namespace)
+    {
+    	if (!Zend_Session::sessionExists()) {
+    		$this->start();
+    	}
+    	
+        Varien_Profiler::start(__METHOD__.'/init');
+        $this->_namespace = new Zend_Session_Namespace($namespace, Zend_Session_Namespace::SINGLE_INSTANCE);
+        Varien_Profiler::stop(__METHOD__.'/init');
+        return $this;
+    }
+    
+    /**
      * Redeclaration object setter
      *
      * @param   string $key
@@ -77,10 +81,10 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
      */
     public function setData($key, $value='', $isChanged = false)
     {
-        if (!$this->_session->data) {
-            $this->_session->data = new Varien_Object();
+        if (!$this->_namespace->data) {
+            $this->_namespace->data = new Varien_Object();
         }
-        $this->_session->data->setData($key, $value, $isChanged);
+        $this->_namespace->data->setData($key, $value, $isChanged);
         return $this;
     }
     
@@ -93,14 +97,14 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
      */
     public function getData($var=null, $clear=false)
     {
-        if (!$this->_session->data) {
-            $this->_session->data = new Varien_Object();
+        if (!$this->_namespace->data) {
+            $this->_namespace->data = new Varien_Object();
         }
 
-        $data = $this->_session->data->getData($var);
+        $data = $this->_namespace->data->getData($var);
         
         if ($clear) {
-            $this->_session->data->unsetData($var);
+            $this->_namespace->data->unsetData($var);
         }
 
         return $data;
@@ -113,7 +117,7 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
      */
     public function unsetAll()
     {
-        $this->_session->unsetAll();
+        $this->_namespace->unsetAll();
         return $this;
     }
     
@@ -125,16 +129,16 @@ abstract class Mage_Core_Model_Session_Zend extends Varien_Object
      */
     public function getMessages($clear=false)
     {
-        if (!$this->_session->messages) {
-            $this->_session->messages = Mage::getModel('core/message_collection');
+        if (!$this->_namespace->messages) {
+            $this->_namespace->messages = Mage::getModel('core/message_collection');
         }
         
         if ($clear) {
-            $messages = clone $this->_session->messages;
-            $this->_session->messages->clear();
+            $messages = clone $this->_namespace->messages;
+            $this->_namespace->messages->clear();
             return $messages;
         }
-        return $this->_session->messages;
+        return $this->_namespace->messages;
     }
     
     /**

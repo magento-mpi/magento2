@@ -30,9 +30,10 @@ class Mage_Eav_Model_Entity_Increment_Alphanum
         $nextId = '';
         $bumpNextChar = true;
         $chars = $this->getAllowedChars();
-        $l = strlen($lastId)-1;
+        $lchars = strlen($chars);
+        $lid = strlen($lastId)-1;
         
-        for ($i = $l; $i >= 0; $i--) {
+        for ($i = $lid; $i >= 0; $i--) {
             $p = strpos($chars, $lastId{$i});
             if (false===$p) {
                 throw Mage::exception('Mage_Eav', 'Invalid character encountered in increment ID: '.$lastId);
@@ -41,7 +42,7 @@ class Mage_Eav_Model_Entity_Increment_Alphanum
                 $p++;
                 $bumpNextChar = false;
             }
-            if ($p===$l) {
+            if ($p===$lchars) {
                 $p = 0;
                 $bumpNextChar = true;
             }

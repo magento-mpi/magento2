@@ -16,8 +16,9 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $this->init('customer');
         Mage::dispatchEvent('initCustomerSession', array('customer_session'=>$this));
+
     }
-    
+
     /**
      * Set customer object and setting customer id in session
      *

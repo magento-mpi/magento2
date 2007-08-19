@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Zend
+class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_Varien
 {
 	public function init($namespace)
 	{
@@ -15,7 +15,6 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Zend
     	$hostArr = explode(':', $host);
     	$hosts = $this->getSessionHosts();
     	return (!empty($hosts[$host[0]]));
-    	
     }
     
     public function addHost($host)
