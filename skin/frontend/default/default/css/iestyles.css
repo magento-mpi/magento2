@@ -11,6 +11,8 @@
 .header-nav,
 .header-sub,
 #nav,
+#nav li,
+#nav a,
 #main,
 .product-essential,
 .form-buttons,
@@ -24,7 +26,9 @@
 .search-autocomplete li,
 .side-col li,
 .account-box li,
-.address-list li { zoom:1; }
+.address-list li,
+.listing-type-list .listing-item,
+.listing-type-list .product-info .product-reviews { zoom:1; }
 
 .clear {
 	display:block;
@@ -33,3 +37,4 @@
 	font-size:0;
 	line-height:0;
 	}
+.quick-access li { padding-right:4px; padding-left:6px;}

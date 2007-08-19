@@ -37,8 +37,6 @@ input.input-text, textarea { padding:2px; }
 input.form-radio { margin-right:5px;}
 .qty { width:2.5em; }
 .group-select {
-    position:relative;
-    width:570px;
     margin:28px 0;
     border:1px solid #bbafa0;
     padding:22px 25px 12px 25px;
@@ -56,13 +54,11 @@ input.form-radio { margin-right:5px;}
     }
 .group-select li { padding:4px 8px !important; }
 .group-select li .input-box { float:left; width:275px; }
-.group-select li .input-text,
-.group-select li select,
-.group-select li textarea { width:525px; }
-.group-select li .input-box .input-text,
-.group-select li .input-box textarea { width:250px; }
+.group-select li .input-text, .group-select li select, .group-select li textarea { width:525px; }
+.group-select li .input-box .input-text, .group-select li .input-box textarea { width:250px; }
 .group-select li .input-box select { width:256px;}
 .group-select label, .form-list label, .payment-methods label { font-weight:bold;}
+.wide { margin-right:250px; }
 
 .form-list li { margin-bottom:6px; }
 .form-list li .input-box .input-text,
@@ -84,15 +80,9 @@ input.form-radio { margin-right:5px;}
     background-color:transparent;
     border:0;
     padding:1px 8px;
-background:#f18200;
-color:#fff;
-border:1px solid #de5400;
-
-/*
-    background-repeat:no-repeat;
-    background-position:100% -22px;
-    float:left;
-    padding-right:8px; */
+    background:#f18200;
+    color:#fff;
+    border:1px solid #de5400;
     font:bold 12px arial, sans-serif !important;
     cursor:pointer;
     text-align:center;
@@ -102,21 +92,6 @@ border:1px solid #de5400;
     border:1px solid #406a83;
     background-color:#618499;
     }
-/* .form-button span, .form-button-alt span {
-    background-repeat:no-repeat;
-    background-position:0 0;
-    display:block;
-    min-width:60px;
-    line-height: 12px;
-    padding: 3px 2px 8px 12px;
-    text-align:center;
-} */
-/*.form-button, .form-button:hover, .form-button-alt, .form-button-alt:hover  {  color:#fff !important;  text-decoration:none !important;  }
-.form-button { background-image:url(../images/form_button.gif); }
-.form-button span { background-image:url(../images/form_button.gif) ; }
-.form-button-alt { background-image:url(../images/form_button_alt.gif); }
-.form-button-alt span { background-image:url(../images/form_button_alt.gif); } */
-
 
 .validation-advice, .required { color:#EB340A; }
 .validation-advice { clear:both; min-height:15px; margin-top:3px; background:url(../images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:17px; font-size:.95em; font-weight:bold; line-height:1.25em; }
@@ -125,10 +100,6 @@ input.validation-failed { border:1px dashed #EB340A; background:#faebe7; }
 
 label.required { font-weight:bold; }
 p.required { font-size:.95em; text-align:right; }
-
-/*.box-set .box { background:#f5f9fc; padding:10px 15px; }
-.box-set .box .actions { float:right; margin:0 0 8px 8px; } */
-
 
 
 /*********** [HEADINGS] ************/
