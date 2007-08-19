@@ -63,6 +63,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
                 ->addTagFilter($this->getTagId())
                 #->addStatusFilter($tagModel->getApprovedStatus())
                 ;
+            Mage::getModel('review/review')->appendSummary($this->_collection);
         }
         return $this->_collection;
     }

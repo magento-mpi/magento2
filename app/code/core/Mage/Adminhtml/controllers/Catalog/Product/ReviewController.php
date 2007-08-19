@@ -62,6 +62,8 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 	   ->updateOptionVote($optionId);
                 }
 
+                $review->aggregate();
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Review successfully saved.'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 return;

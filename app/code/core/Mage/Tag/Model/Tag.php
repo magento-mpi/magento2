@@ -48,21 +48,21 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
 
     public function getTaggedProductsUrl()
     {
-        return Mage::getUrl('tag/product/list', array('tagId' => $this->getId()));
+        return Mage::getUrl('tag/product/list', array('tagId' => $this->getTagId()));
     }
 
     public function getViewTagUrl()
     {
-        return Mage::getUrl('tag/customer/view', array('tagId' => $this->getId()));
+        return Mage::getUrl('tag/customer/view', array('tagId' => $this->getTagId()));
     }
 
     public function getEditTagUrl()
     {
-        return Mage::getUrl('tag/customer/edit', array('tagId' => $this->getId()));
+        return Mage::getUrl('tag/customer/edit', array('tagId' => $this->getTagId()));
     }
 
     public function getRemoveTagUrl()
     {
-        return Mage::getUrl('tag/customer/remove', array('tagId' => $this->getId()));
+        return Mage::getUrl('tag/customer/remove', array('tagId' => $this->getTagId()));
     }
 }

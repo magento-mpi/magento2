@@ -34,6 +34,8 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 	   ->addOptionVote($optionId, $productId);
                 }
 
+                $review->aggregate();
+
                 Mage::getSingleton('review/session')->addMessage(
                     Mage::getModel('core/message')->success('Your review added')
                 );

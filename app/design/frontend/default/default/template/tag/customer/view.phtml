@@ -21,12 +21,12 @@
 					<h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
 					<div class="ratings">
+					<?if($_product->getRatingSummary()):?>
 						<div class="rating-box">
-							<div class="rating" style="width: 70%;">
-							</div>
+							<div class="rating" style="width:<?=$_product->getRatingSummary()->getRatingSummary()?>%"></div>
 						</div>
-	
-						( <a href="<?=$this->getReviewUrl($_product->getId())?>">3 Reviews</a> )
+						( <a href="<?=$this->getReviewUrl($_product->getId())?>"><?=__('%d Reviews', $_product->getRatingSummary()->getReviewsCount())?></a> )
+					<?endif;?>
 					</div>
 					<p><?=$_product->getDescription()?></p>
 				</td>

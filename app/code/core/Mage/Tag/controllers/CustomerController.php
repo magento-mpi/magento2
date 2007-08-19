@@ -59,7 +59,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
 
         $model = Mage::getModel('tag/tag_relation');
-        $model->loadByTagCustomer($tagId, $customerId);
+        $model->loadByTagCustomer(null, $tagId, $customerId);
 
         Mage::register('tagModel', $model);
 
@@ -96,7 +96,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         }
 
         $model = Mage::getModel('tag/tag_relation');
-        $model->loadByTagCustomer($tagId, $customerId);
+        $model->loadByTagCustomer(null, $tagId, $customerId);
         if( $model->getCustomerId() == $customerId ) {
             $model->delete();
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
@@ -139,7 +139,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 }
 
                 $tagRalationModel = Mage::getModel('tag/tag_relation');
-                $tagRalationModel->loadByTagCustomer($tagId, $customerId);
+                $tagRalationModel->loadByTagCustomer(null, $tagId, $customerId);
 
                 if( $tagRalationModel->getCustomerId() == $customerId ) {
                     $productId = $tagRalationModel->getProductId();
@@ -153,7 +153,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                         ->save();
                 }
 
-                if( $tagModel->getId() && ($tagModel->getId() != $tagId) ) {
+                if( $tagModel->getId() ) {
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/view', array('tagId' => $tagModel->getId())));
                 }
                 return;

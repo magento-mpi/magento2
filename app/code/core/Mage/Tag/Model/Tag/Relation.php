@@ -16,8 +16,9 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
         $this->_init('tag/tag_relation');
     }
 
-    public function loadByTagCustomer($tagId, $customerId)
+    public function loadByTagCustomer($productId=null, $tagId, $customerId)
     {
+        $this->setProductId($productId);
         $this->setTagId($tagId);
         $this->setCustomerId($customerId);
 

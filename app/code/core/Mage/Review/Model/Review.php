@@ -64,4 +64,34 @@ class Mage_Review_Model_Review extends Varien_Object
     {
         return $this->getResource()->getTotalReviews($entityPkValue);
     }
+
+    public function aggregate()
+    {
+        $this->getResource()->aggregate($this);
+        return $this;
+    }
+
+    public function appendSummary($collection)
+    {
+        $entityIds = array();
+        foreach( $collection->getItems() as $_item ) {
+            $entityIds[] = $_item->getId();
+        }
+
+        if( sizeof($entityIds) == 0 ) {
+            return;
+        }
+
+        $summaryData = Mage::getResourceModel('review/review_summary_collection')
+            ->addEntityFilter($entityIds)
+            ->load();
+
+        foreach( $collection->getItems() as $_item ) {
+            foreach( $summaryData as $_summary ) {
+                if( $_summary->getEntityPkValue() == $_item->getId() ) {
+                    $_item->setRatingSummary($_summary);
+                }
+            }
+        }
+    }
 }

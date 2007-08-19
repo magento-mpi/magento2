@@ -87,9 +87,9 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function addCustomerFilter($customerId)
     {
-        $this->addFieldToFilter("{$this->_tagRelTable}.customer_id", $customerId);
         $this->getSelect()
-            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id');
+            #->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id')
+            ->where("{$this->_tagRelTable}.customer_id = ?", $customerId);
         return $this;
     }
 }

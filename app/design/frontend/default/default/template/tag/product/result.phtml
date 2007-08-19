@@ -12,13 +12,14 @@
     	    <div class="listing-item <?if ($this->getCount()<$i+3):?> class="last"<?endif?>">
     		    <div class="product-image">
     			    <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
-    					<div class="ratings">
-    						<div class="rating-box">
-    							<div class="rating" style="width:70%;">
-    							</div>
-    						</div>
-    						<a href="#" class="no-wrap"><small>3 Reviews</small></a>
-    					</div>
+						<?if($product->getRatingSummary()):?>
+						<div class="ratings">
+							<div class="rating-box">
+								<div class="rating" style="width:<?=$product->getRatingSummary()->getRatingSummary()?>%"></div>
+							</div>
+							<a href="<?=$this->getUrl('review/product/list', array('id' => $product->getId()))?>"><small class="count"><?=__('%d Reviews', $product->getRatingSummary()->getReviewsCount())?></small></a>
+						</div>
+						<?endif;?>
     		    </div>
     		    <div class="product-info">
     			    <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
@@ -48,12 +49,14 @@
     				    <p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
     					<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
     					<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
-    					<div class="ratings">
-    					    <div class="rating-box">
-    						    <div class="rating" style="width:75%;"></div>
-    						</div>
-    						<a href="#"><small>(3)</small></a>
-    					</div>
+							<?if($product->getRatingSummary()):?>
+							<div class="ratings">
+								<div class="rating-box">
+									<div class="rating" style="width:<?=$product->getRatingSummary()->getRatingSummary()?>%"></div>
+								</div>
+								<a href="<?=$this->getUrl('review/product/list', array('id' => $product->getId()))?>"><small class="count">(<?=$product->getRatingSummary()->getReviewsCount()?>)</small></a>
+							</div>
+							<?endif;?>
     					<p class="actions">
     					<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button><br/>
     					<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>"><small>Add to Wishlist</small></a><br/>

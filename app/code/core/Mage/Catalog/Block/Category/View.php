@@ -10,13 +10,13 @@
 class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 {
     protected $_productCollection;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/category/view.phtml');
     }
-    
+
     protected function _initChildren()
     {
         $pager = $this->getLayout()->createBlock('page/html_pager', 'pager')
@@ -34,22 +34,22 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
                     'title'=>__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
                 );
-        
+
         $path = $this->getCurrentCategory()->getPathInStore();
         $pathIds = array_reverse(explode(',', $path));
-        
+
         $categories = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
             ->addFieldToFilter('entity_id', array('in'=>$pathIds))
             ->load()
             ->getItems();
-            
+
         // add category path breadcrumb
         foreach ($pathIds as $categoryId) {
             if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
                 $breadcrumb = array(
                     'label' => $categories[$categoryId]->getName(),
-                    'link'  => ($categories[$categoryId]->getId()==$this->getCurrentCategory()->getId()) 
+                    'link'  => ($categories[$categoryId]->getId()==$this->getCurrentCategory()->getId())
                         ? '' : Mage::getUrl('*/*/*', array('id'=>$categories[$categoryId]->getId()))
                 );
                 $this->getLayout()->getBlock('breadcrumbs')
@@ -57,10 +57,10 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             }
         }
 
-        
-        $this->getLayout()->getBlock('head')->setTitle($this->getCurrentCategory()->getName());            
+
+        $this->getLayout()->getBlock('head')->setTitle($this->getCurrentCategory()->getName());
     }
-    
+
     /**
      * Retrieve loaded category collection
      *
@@ -70,7 +70,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         return Mage::getSingleton('catalog/layer')->getProductCollection();
     }
-    
+
     /**
      * Retrieve current category model object
      *
@@ -80,7 +80,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         return Mage::registry('current_category');
     }
-    
+
     /**
      * Retrieve loaded category collection
      *
@@ -88,6 +88,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
      */
     public function getLoadedProductCollection()
     {
+
         $collection = $this->_getProductCollection();
         /**
          * @todo isLoaded for collection
@@ -95,9 +96,10 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         if (!$collection->getSize()) {
             $collection->load();
         }
+        Mage::getModel('review/review')->appendSummary($collection);
         return $collection;
     }
-    
+
     /**
      * Retrieve collection pager HTML
      *
@@ -107,7 +109,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         return $this->getChildHtml('pager');
     }
-    
+
     /**
      * Retrieve current view mode
      *
@@ -117,9 +119,9 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         return $this->getRequest()->getParam('mode');
     }
-    
+
     /**
-     * Retrieve 
+     * Retrieve
      *
      * @return unknown
      */
@@ -127,11 +129,11 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
     	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
     		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
-    	} 
-    	
+    	}
+
     	return false;
     }
-    
+
     public function getCanShowName()
     {
         return $this->getCurrentCategory()->getDisplayMode()!=Mage_Catalog_Model_Category::DM_MIXED;

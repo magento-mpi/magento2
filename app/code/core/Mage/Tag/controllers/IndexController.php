@@ -38,14 +38,15 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                                 ->setStatus( ( $tagModel->getId() && $tagModel->getStatus() != $tagModel->getPendingStatus() ) ? $tagModel->getStatus() : $tagModel->getPendingStatus() )
                                 ->save();
 
-                        $tagRalationModel = Mage::getModel('tag/tag_relation');
+                        $tagRelationModel = Mage::getModel('tag/tag_relation');
 
-                        $tagRalationModel->loadByTagCustomer($tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
-                        if( $tagRalationModel->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId() ) {
+                        $tagRelationModel->loadByTagCustomer($this->getRequest()->getParam('productId'), $tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
+
+                        if( $tagRelationModel->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId() ) {
                             return;
                         }
 
-                        $tagRalationModel->setTagId($tagModel->getId())
+                        $tagRelationModel->setTagId($tagModel->getId())
                             ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                             ->setProductId($this->getRequest()->getParam('productId'))
                             ->setStoreId(Mage::getSingleton('core/store')->getId())

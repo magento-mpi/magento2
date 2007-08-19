@@ -38,6 +38,7 @@ class Mage_Review_Model_Mysql4_Review
         $this->_reviewDetailTable   = $resources->getTableName('review/review_detail');
         $this->_reviewStatusTable   = $resources->getTableName('review/review_status');
         $this->_reviewEntityTable   = $resources->getTableName('review/review_entity');
+        $this->_aggregateTable      = $resources->getTableName('review/review_aggregate');
 
         $this->_read    = $resources->getConnection('review_read');
         $this->_write   = $resources->getConnection('review_write');
@@ -49,8 +50,9 @@ class Mage_Review_Model_Mysql4_Review
         $select->from($this->_reviewTable)
             ->join($this->_reviewDetailTable, "{$this->_reviewTable}.review_id = {$this->_reviewDetailTable}.review_id")
             ->where("{$this->_reviewTable}.review_id = ?", $reviewId);
+        $data = $this->_read->fetchRow($select);
 
-        return $this->_read->fetchRow($select);
+        return $data;
     }
 
     public function save(Mage_Review_Model_Review $review)
@@ -131,20 +133,64 @@ class Mage_Review_Model_Mysql4_Review
             try {
                 $this->_write->beginTransaction();
                 $condition = $this->_write->quoteInto('review_id = ?', $review->getId());
+                $review->load($review->getId());
                 $this->_write->delete($this->_reviewTable, $condition);
                 $this->_write->commit();
+                $this->aggregate($review);
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
         }
     }
 
-    public function getTotalReviews($entityPkValue)
+    public function getTotalReviews($entityPkValue, $approvedOnly=false)
     {
         $read = clone $this->_read;
         $select = $read->select();
         $select->from($this->_reviewTable, "COUNT(*)")
             ->where("{$this->_reviewTable}.entity_pk_value = ?", $entityPkValue);
+        if( $approvedOnly ) {
+            $select->where("{$this->_reviewTable}.status_id = ?", 1);
+        }
         return $read->fetchOne($select);
+    }
+
+    public function aggregate($object)
+    {
+        if( !$object->getEntityPkValue() && $object->getId() ) {
+            $object->load($object->getReviewId());
+        }
+
+        $ratingModel = Mage::getModel('rating/rating');
+        $ratingSummary = $ratingModel->getEntitySummary($object->getEntityPkValue());
+        $ratingSummary = round($ratingSummary->getSum() / $ratingSummary->getCount());
+        $reviewsCount = $this->getTotalReviews($object->getEntityPkValue(), true);
+
+        $select = $this->_read->select();
+        $select->from($this->_aggregateTable)
+            ->where("{$this->_aggregateTable}.entity_pk_value = ?", $object->getEntityPkValue())
+            ->where("{$this->_aggregateTable}.entity_type = ?", $object->getEntityId());
+
+        $oldData = $this->_read->fetchRow($select);
+
+        $data = new Varien_Object();
+
+        $data->setReviewsCount($reviewsCount)
+            ->setEntityPkValue($object->getEntityPkValue())
+            ->setEntityType($object->getEntityId())
+            ->setRatingSummary($ratingSummary);
+
+        $this->_write->beginTransaction();
+        try {
+            if( $oldData['primary_id'] > 0 ) {
+                $condition = $this->_write->quoteInto("{$this->_aggregateTable}.primary_id = ?", $oldData['primary_id']);
+                $this->_write->update($this->_aggregateTable, $data->getData(), $condition);
+            } else {
+                $this->_write->insert($this->_aggregateTable, $data->getData());
+            }
+            $this->_write->commit();
+        } catch (Exception $e) {
+            $this->_write->rollBack();
+        }
     }
 }

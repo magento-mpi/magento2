@@ -29,6 +29,9 @@
                     <review_entity>
                         <table>review_entity</table>
                     </review_entity>
+                    <review_aggregate>
+                        <table>review_entity_summary</table>
+                    </review_aggregate>
                 </entities>
             </review_mysql4>
         </models>

@@ -71,6 +71,8 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
                 #->addStatusFilter($tagModel->getApprovedStatus())
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->addAttributeToSelect('description');
+
+            Mage::getModel('review/review')->appendSummary($this->_collection);
         }
 
         return $this->_collection;
