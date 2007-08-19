@@ -15,9 +15,6 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     	if (!$object->getDiscountQty()) {
     		$object->setDiscountQty(new Zend_Db_Expr('NULL'));
     	}
-    	if (!$object->getCouponCode()) {
-    		$object->setCouponCode(new Zend_Db_Expr('NULL'));
-    	}
         parent::_beforeSave($object);
     }
     
@@ -51,7 +48,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         
         $fromTime = strtotime($rule->getFromDate());
         $toTime = strtotime($rule->getToDate());
-        $couponCode = $rule->getCouponCode();
+        $couponCode = $rule->getCouponCode() ? "'".$rule->getCouponCode()."'" : 'NULL';
         $sortOrder = (int)$rule->getSortOrder();
 
         $rows = array();
@@ -62,7 +59,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             foreach ($productIds as $productId) {
                 foreach ($storeIds as $storeId) {
                     foreach ($customerGroupIds as $customerGroupId) {
-                        $rows[] = "('$ruleId', '$fromTime', '$toTime', '$storeId', '$customerGroupId', '$productId', '$couponCode', '$sortOrder')";
+                        $rows[] = "('$ruleId', '$fromTime', '$toTime', '$storeId', '$customerGroupId', '$productId', $couponCode, '$sortOrder')";
                         if (sizeof($rows)==100) {
                             $sql = $header.join(',', $rows);
                             $write->query($sql);

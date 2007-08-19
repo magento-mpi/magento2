@@ -44,30 +44,30 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
 			
-			switch ($action->getActionOperator()) {
+			switch ($rule->getSimpleAction()) {
 				case 'by_percent':
-					$discountAmount = $qty*$item->getPrice()*$action->getActionValue()/100;
+					$discountAmount = $qty*$item->getPrice()*$rule->getDiscountAmount()/100;
 					if (!$rule->getDiscountQty()) {
-						$discountPercent = min(100, $item->getDiscountPercent()+$action->getActionValue());
+						$discountPercent = min(100, $item->getDiscountPercent()+$rule->getDiscountAmount());
 						$item->setDiscountPercent($discountPercent);
 					}
 					break;
 
 				case 'by_fixed':
-					$discountAmount = $qty*$action->getActionValue();
+					$discountAmount = $qty*$rule->getDiscountAmount();
 					break;
 			}
 			
 			$discountAmount = min($discountAmount, $item->getRowTotal());
 			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
 			
-			if ($action->getFreeShipping()) {
+			if ($rule->getSimpleFreeShipping()) {
 				$quote->setFreeShipping(true);
 			}
 			
-			$appliedRuleIds[$action->getRuleId()] = true;
+			$appliedRuleIds[$rule->getRuleId()] = true;
 			
-			if ($action->getActionStop()) {
+			if ($rule->getStopRulesProcessing()) {
 				break;
 			}
 		}
@@ -87,7 +87,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			->addFieldToFilter('store_id', $this->getStoreId())
 			->addFieldToFilter('product_id', $item->getProductId())
 			->setOrder('sort_order');
-print_r($actions->getSelect()->__toString());
+#print_r($actions->getSelect()->__toString());
 		$actions
 			->load();
 		return $actions;
