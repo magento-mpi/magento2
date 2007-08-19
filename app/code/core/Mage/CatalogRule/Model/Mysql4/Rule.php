@@ -48,7 +48,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             foreach ($productIds as $productId) {
                 foreach ($storeIds as $storeId) {
                     foreach ($customerGroupIds as $customerGroupId) {
-                        $rows[] = "($ruleId, $fromTime, $toTime, $storeId, $customerGroupId, $productId, '$actionOperator', $actionAmount, $actionStop, $sortOrder)";
+                        $rows[] = "('$ruleId', '$fromTime', '$toTime', '$storeId', '$customerGroupId', '$productId', '$actionOperator', '$actionAmount', '$actionStop', '$sortOrder')";
                         if (sizeof($rows)==100) {
                             $sql = $header.join(',', $rows);
                             $write->query($sql);

@@ -14,14 +14,8 @@ class Mage_Adminhtml_Block_Promo_Quote extends Mage_Adminhtml_Block_Widget_Grid_
 {
     public function __construct()
     {
-        $this->_addButton('apply_rules', array(
-            'label'     => __('Apply Rules'),
-            'onclick'   => "location.href='".$this->getUrl('*/*/applyRules')."'",
-            'class'     => '',
-        ));
-
         $this->_controller = 'promo_quote';
-        $this->_headerText = __('Checkout Price Rules');
+        $this->_headerText = __('Shopping Cart Price Rules');
         $this->_addButtonLabel = __('Add New Rule');
         parent::__construct();
         

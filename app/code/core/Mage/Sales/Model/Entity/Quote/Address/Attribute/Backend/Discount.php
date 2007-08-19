@@ -12,14 +12,17 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Discount
 
         $address->setDiscountAmount(0);
 
+        $appliedRuleIds = '';
         $totalDiscountAmount = 0;
         foreach ($address->getAllItems() as $item) {
         	$validator->process($item);
         	$totalDiscountAmount += $item->getDiscountAmount();
+        	$appliedRuleIds = trim($appliedRuleIds.','.$item->getAppliedRuleIds(), ',');
         }
 
         $address->setCouponCode($validator->getConfirmedCouponCode());
         $address->setDiscountAmount($totalDiscountAmount);
+        $address->setAppliedRuleIds($appliedRuleIds);
 
         $address->setGrandTotal($address->getGrandTotal() - $address->getDiscountAmount());
 

@@ -75,18 +75,23 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         if ($data = $this->getRequest()->getPost()) {
             $model = Mage::getModel('salesrule/rule');
-//            if ($id = $this->getRequest()->getParam('page_id')) {
-//                $model->load($id);
-//                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError('The page you are trying to save no longer exists');
-//                    Mage::getSingleton('adminhtml/session')->setPageData($data);
-//                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
-//                    return;
-//                }
-//            }
-//            $data['conditions'] = $data['rule']['conditions'];
-//            $data['actions'] = $data['rule']['actions'];
-//            unset($data['rule']);
+            
+            if ($id = $this->getRequest()->getParam('id')) {
+                $model->load($id);
+                if ($id != $model->getId()) {
+                    Mage::getSingleton('adminhtml/session')->addError('The page you are trying to save no longer exists');
+                    Mage::getSingleton('adminhtml/session')->setPageData($data);
+                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+                    return;
+                }
+            }
+            if (isset($data['rule']['conditions'])) {
+            	$data['conditions'] = $data['rule']['conditions'];
+            }
+            if (isset($data['rule']['actions'])) {
+            	$data['actions'] = $data['rule']['actions'];
+            }
+            unset($data['rule']);
             
             $model->loadPost($data);
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());

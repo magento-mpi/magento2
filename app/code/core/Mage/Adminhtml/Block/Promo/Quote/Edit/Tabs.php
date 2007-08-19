@@ -37,12 +37,12 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
             'label'     => __('Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_action')->toHtml(),
         ));
-/*
+
         $this->addTab('condact_section', array(
-            'label'     => __('Conditions and Actions'),
+            'label'     => __('Advanced conditions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_condact')->toHtml(),
         ));
-*/
+
         return parent::_beforeToHtml();
     }
 

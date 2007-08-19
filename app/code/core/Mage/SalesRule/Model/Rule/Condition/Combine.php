@@ -12,7 +12,7 @@ class Mage_SalesRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condit
     {
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
-            array('value'=>'salesrule/rule_condition_product', 'label'=>'Product attribute'),
+            array('value'=>'salesrule/rule_condition_product_combine', 'label'=>'Product attribute combination'),
             array('value'=>'salesrule/rule_condition_combine', 'label'=>'Conditions combination'),
         ));
         return $conditions;

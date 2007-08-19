@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
             'title' => __('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
-        
+        /*
         $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
 
     	$fieldset->addField('actions', 'text', array(
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
             'title' => __('Actions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
-        
+        */
 
         $form->setValues($model->getData());
 

@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => __('Apply'),
-            'name'      => 'action_operator',
+            'name'      => 'simple_action',
             'options'    => array(
                 'by_percent' => __('Percent of product price discount'),
                 'by_fixed' => __('Fixed amount discount'),
@@ -34,13 +34,19 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
         
         $fieldset->addField('discount_amount', 'text', array(
             'name' => 'discount_amount',
+            'required' => true,
             'label' => __('Discount amount'),
+        ));
+                
+        $fieldset->addField('discount_qty', 'text', array(
+            'name' => 'discount_qty',
+            'label' => __('Discount quantity'),
         ));
         
         $fieldset->addField('simple_free_shipping', 'select', array(
             'label'     => __('Free ground shipping'),
             'title'     => __('Free ground shipping'),
-            'name'      => 'action_free_shipping',
+            'name'      => 'simple_free_shipping',
             'options'    => array(
                 '1' => __('Yes'),
                 '0' => __('No'),

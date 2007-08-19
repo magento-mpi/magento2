@@ -93,4 +93,9 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
         $this->getResource()->updateRuleProductData($this);
         parent::_afterSave();
     }
+    
+    public function validateQuote(Mage_Sales_Model_Quote $quote)
+    {
+    	
+    }
 }

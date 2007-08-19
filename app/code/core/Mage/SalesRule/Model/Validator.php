@@ -25,23 +25,42 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 		$item->setDiscountAmount(0);
 		$item->setDiscountPercent(0);
+		
+		$quote = $item->getQuote();
+		
+		$rule = Mage::getModel('salesrule/rule');
+		
+		$appliedRuleIds = array();
 
 		$actions = $this->getActionsCollection($item);
 		foreach ($actions as $a) {
-			switch ($a['action_operator']) {
+			if (!$rule->load($a->getRuleId())->validateQuote()) {
+				continue;
+			}
+			
+			switch ($a->getActionOperator()) {
 				case 'by_percent':
-					$item->setDiscountPercent($item->getDiscountPercent()+$a['action_value']);
+					$item->setDiscountPercent($item->getDiscountPercent()+$a->getActionValue());
 					break;
 
 				case 'by_fixed':
-					$item->setDiscountAmount($item->getDiscountAmount()+$a['action_value']);
+					$item->setDiscountAmount($item->getDiscountAmount()+$a->getActionValue());
 					break;
 			}
-			if (!empty($a['action_stop'])) {
+			
+			$appliedRuleIds[$a->getRuleId()] = true;
+			
+			if ($a->getActionStop()) {
 				break;
 			}
 		}
-		$item->setDiscountAmount($item->getDiscountAmount() + $item->getRowTotal()*$item->getDiscountPercent()/100);
+		
+		$discountAmount = $item->getDiscountAmount() + $item->getRowTotal()*$item->getDiscountPercent()/100;
+		$discountAmount = max($discountAmount, $item->getRowTotal());
+		$item->setDiscountAmount($discountAmount);
+		
+		$item->setAppliedRuleIds(join(',',$appliedRuleIds));
+		
 		return $this;
 	}
 

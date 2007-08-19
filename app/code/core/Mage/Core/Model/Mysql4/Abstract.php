@@ -457,6 +457,9 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     
     public function formatDate($date) 
     {
+    	if (empty($date)) {
+    		return new Zend_Db_Expr('NULL');
+    	}
         if (!is_numeric($date)) {
             $date = strtotime($date);
         }
