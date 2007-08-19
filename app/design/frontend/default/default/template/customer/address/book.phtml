@@ -4,48 +4,56 @@
  * @var $test Mage_Customer_Block_Address_Book
  */
 ?>
+<div class="page-head button-level">
+	<h3>Addressbook</h3>
+	<button class="form-button" onclick="window.location='<?=$this->getAddAddressUrl()?>';"><span>Add New Address</span></button>
+</div>
 <?=$this->getMessagesBlock()->getHtml()?>
 <div class="col2-set">
-	<div class="col-1">
-		<h4>Default Billing</h4>
+	<div class="col-1 primary-address-list">
+		<h4>Default Addresses</h4>
        <ol>
 			 <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
 				<li>
+					<h5>Default Billing Address</h5>
 					<address>
 					<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
            <br/><strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong></address></li>
            <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
            <li>
+					<h5>Default Billing Address</h5>
 							<address>
 									<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>  
 									<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
 							</address>
 						</li>
             <?else:?>
-					<li><strong>You have no default billing address in your address book.</strong></li>
-            <?endif?></ol>
-					<br/>
-				<h4>Default Shipping</h4>
-			<ol>
+					<li>
+						<h5>Default Billing Address</h5>
+						You have no default billing address in your address book.</li>
+            <?endif?>
 				<?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
 				 <li>
+					<h5>Default Shipping Address</h5>
 								<address>
 										<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
 										<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
 								</address>
 							</li>
             <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
-              <li><address>
+              <li>
+					<h5>Default Shipping Address</h5><address>
                         <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
 												<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
                     </address></li>
             <?else:?>
-               <li><strong>You have no default shipping address in your address book.</strong></li>
+               <li>
+					<h5>Default Shipping Address</h5>You have no default shipping address in your address book.</li>
             <?endif?>
 			</ol>
 
 		</div>
-		<div class="col-2">
+		<div class="col-2 address-list">
 			<h4>Additional Entries</h4>
 			<ol>
             <?if($_pAddsses = $this->getAdditionalAddresses()):?>    
@@ -53,7 +61,7 @@
 								<li>
                     <address>
                         <?=$this->getAddressHtml($_address)?><br/> 
-												<strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove">Delete</a></strong>
+												<strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/">Edit</a></strong><span class="pipe">|</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove">Delete</a></strong>
                     </address>
 								</li>
                 <?endforeach;?>
@@ -64,8 +72,7 @@
 					</div>
 				</div>
 <div class="form-buttons">
-    <a href="<?=$this->getBackUrl()?>" class="float-left">&laquo; Back</a>
-    <button class="form-button" onclick="window.location='<?=$this->getAddAddressUrl()?>';"><span>New Adderss</span></button>
+    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back</a>
 </div>
 <script type="text/javascript">
     function deleteAddress(addressId) {

@@ -27,11 +27,9 @@
 .side-col li:after,
 .account-box li:after,
 .address-list li:after,
-
-
-/*.my-review-detail:after */
 .listing-type-list .listing-item:after,
-.listing-type-list .product-info .product-reviews:after {
+.listing-type-list .product-info .product-reviews:after,
+.my-review-detail:after {
 	content:".";
 	display:block;
 	clear:both;

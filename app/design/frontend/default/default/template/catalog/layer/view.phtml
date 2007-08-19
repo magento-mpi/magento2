@@ -18,7 +18,7 @@
 
         <div class="narrow-by">
             <h4>Shopping options</h4>
-            <dl>
+            <dl id="narrow-by-list">
             <?$_filters = $this->getFilters()?>
             <?foreach ($_filters as $_filter):?>
             <?if($_filter->getItemsCount()):?>
@@ -28,7 +28,7 @@
                 </dd>
             <?endif;?>
             <?endforeach;?>
-            </dl>
+            </dl><script type="text/javascript">decorateDataList('narrow-by-list')</script>
         </div>
         <?endif;?>
     </div>

@@ -1,4 +1,3 @@
-
 .page-head,
 .page-head-alt,
 .col2-set,
@@ -29,7 +28,9 @@
 .address-list li,
 .listing-type-list .listing-item,
 .listing-type-list .product-info .product-reviews,
-.account-nav a { zoom:1; }
+.account-nav a,
+.account-box,
+my-review-detail { zoom:1; }
 
 .clear {
 	display:block;
@@ -40,4 +41,4 @@
 	}
 .quick-access li { padding-right:4px; padding-left:6px;}
 .search-autocomplete { left:39px !important; }
-.mini-search  { padding-top:0; }
+.mini-search  { padding-top:-1px; line-height:1em;}

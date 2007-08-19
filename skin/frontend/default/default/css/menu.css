@@ -46,7 +46,7 @@
     width:15.5em;
     z-index:99;
     }
-#nav ul.level0 { top:26px; }
+#nav ul.level0 { top:24px; }
 #nav li:hover ul, #nav li.over ul { left:-1000em; }
 #nav li.level0:hover ul.level0, #nav li.over ul.level0 { left: 0em; }
 #nav li.level1:hover ul.level1, #nav ul.level0 li.over ul.level1,

@@ -59,7 +59,7 @@
                 <?foreach($this->getViewBy('order') as $val):?>
                         <option value="<?=$this->getFeaturedPagerUrl(array('order'=>$val,'dir'=>'asc'))?>"<?if($val == $this->getRequest()->getParam('order')):?> selected<?endif;?>><?=ucfirst($val)?></option>
                 <?endforeach;?>
-                </select> <a href="#"><img src="images/sort_desc_arrow.gif" alt=""/></a></td>
+                </select> <a href="#"><img src="<?=$this->getSkinUrl('images/sort_desc_arrow.gif')?>" alt="" class="v-middle"/></a></td>
                 <?endif?>
             </tr>
         </table>

@@ -27,7 +27,7 @@
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
         <div class="actions"><a href="#" class="left" onclick="<?=$this->getJsObjectName()?>.removeAll(); return false">Clear All</a>
-            <button class="right form-button" onclick="<?=$this->getJsObjectName()?>.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button></div>
+            <button class="right form-button-alt" onclick="<?=$this->getJsObjectName()?>.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button></div>
     <?else:?>
         <div class="content"><p><?=__('You have no items to compare.')?></p></div>
     <?endif;?>

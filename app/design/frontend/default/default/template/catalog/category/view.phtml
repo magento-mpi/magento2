@@ -22,7 +22,7 @@
 <div class="listing-type-list catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
 
 <?$i=0; foreach ($productCollection as $product):?>
-<div class="listing-item" <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>">
+<div class="listing-item" <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>>
 	<div class="product-image">
 		<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
 	</div>
@@ -38,7 +38,7 @@
         </div>
 		<?endif;?>
         <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
-        <button href="#" class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>')"><span>Add to Cart</span></button>
+        <button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>')"><span>Add to Cart</span></button>
         <div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
         <p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
         <?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>

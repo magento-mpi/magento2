@@ -3,15 +3,15 @@
 </div>
 <?if( $this->getCollection() && $this->count()):?>
     <?=$this->getPagerHtml()?>
-        <table class="data-table box-table" cellspacing="0">
-        	<col width="60">
-        	<col width="100">
-        	<col width="80">
-        	<col>
-        	<col width="100">
+        <table class="data-table box-table" id="my-reviews-table" cellspacing="0">
+        	<col width="60"/>
+        	<col width="200"/>
+        	<col width="80"/>
+        	<col/>
+        	<col width="100"/>
         	<tbody>
         	    <?foreach ($this->getCollection() as $_review):?>
-                <tr class="odd">
+                <tr>
                 	<td><?=$this->dateFormat($_review->getCreatedAt())?></td>
                 	<td><a href="<?=$this->getProductLink()?>id/<?=$_review->getEntityPkValue()?>"><?=$_review->getName()?></a></td>
                 	<td>
@@ -27,6 +27,7 @@
                 <?endforeach;?>
         	</tbody>
         </table>
+<script type="text/javascript">decorateTable('my-reviews-table')</script>
 	<?=$this->getPagerHtml()?>
 <?else:?>
     <p><?=__('You have not submitted any reviews.')?></p>
