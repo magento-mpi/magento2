@@ -51,4 +51,13 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
     {
         return Mage::getUrl('tag/customer');
     }
+
+    public function toHtml()
+    {
+        if ($this->_collection->getSize() > 0) {
+            return parent::toHtml();
+        }
+        return '';
+    }
+
 }

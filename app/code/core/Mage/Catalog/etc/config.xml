@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.6.12</version>
+         <version>0.6.13</version>
          <depends>
             <Mage_Customer />
          </depends>

@@ -1,14 +1,12 @@
-
 <div class="box base-mini mini-product-tags">
-		<div class="head">
-			<h4><?=__('Popular tags');?></h4>
-		</div>
-		<div class="content">
-		<ul>
-			<?foreach ($this->getTags() as $_tag):?>
-                    <li><a href="<?=$_tag->getTaggedProductsUrl()?>" style="font-size:<?=$_tag->getRatio()*210+40?>%;"><?=$_tag->getName()?></a></li>
-                <?endforeach;?>
-		</ul>
-		</div>
+    <div class="head">
+        <h4><?=__('Popular tags');?></h4>
+    </div>
+    <div class="content">
+    <ul>
+        <?foreach ($this->getTags() as $_tag):?>
+            <li><a href="<?=$_tag->getTaggedProductsUrl()?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
+        <?endforeach;?>
+    </ul>
+    </div>
 </div>
-<!-- [ends] .popular-tags // -->

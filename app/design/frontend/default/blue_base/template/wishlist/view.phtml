@@ -1,40 +1,49 @@
+<div class="page-head">
+	<h3><?=__('My Wishlist')?></h3>
+</div>
+
 <?=$this->getMessagesBlock()->getHtml()?>
 <?if($this->getWishlist()->getSize()):?>
 <form action="<?=$this->getUrl('*/*/update')?>" method="post">
-    <table cellspacing="0" width="100%" class="data-table">
+    <table cellspacing="0" width="100%" class="data-table" id="wishlist-table">
+			<thead>
         <tr>
-            <th class="align-left"><?=__('Product')?></th>
-            
-            <th class="align-center"><?=__('Comment')?></th>
-            <th class="align-center"><?=__('Added At')?></th>
-            <th class="align-center">&nbsp;</th>
-            
+            <th><?=__('Product')?></th>
+
+            <th><?=__('Comment')?></th>
+            <th><?=__('Added At')?></th>
+            <th class="a-center">&nbsp;</th>
+
         </tr>
+			</thead>
+			<tbody>
         <?foreach($this->getWishlist() as $item):?>
         <tr>
             <td>
                 <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             	<?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
-            </td>            
-            <td class="align-center"><textarea name="description[<?=$item->getId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
-            <td class="align-center"><?=$this->getFormatedDate($item->getAddedAt())?></td>
-            <td class="align-center">
-            	<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>')" class="input-button" /><br/>
-            	<input type="button" value="<?=__('Remove')?>" onclick="wishlistControl.navigateToUrlConfirm('<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>')" class="input-button" />
+            </td>
+            <td><textarea name="description[<?=$item->getId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
+            <td><?=$this->getFormatedDate($item->getAddedAt())?></td>
+            <td class="a-center">
+            	<a href="#" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>')" class="link-cart"><?=__('Add to cart')?></a><br/>
+            	<a href="#" onclick="wishlistControl.navigateToUrlConfirm('<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>')" class="link-remove" /><?=__('Remove')?></a>
             </td>
         </tr>
         <?endforeach?>
+				</tbody>
     </table>
-    <div class="buttons-container">
-        
-    	<input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart')?>')" value="<?=__('Add all to cart')?>" class="input-button" />
-    	<input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/share')?>')" value="<?=__('Share wishlist')?>" class="input-button" />
-        <input type="submit" value="<?=__('Update')?>" class="input-button" name="do"/>
+<script type="text/javascript">decorateTable('wishlist-table')</script>
+    <div class="form-buttons">
+
+			<button onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/share')?>')" class="form-button-alt" /><span><?=__('Share Wishlist')?></span></button>&nbsp;
+			<button onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart')?>')" class="form-button-alt" /><span><?=__('Add all to cart')?></span></button>&nbsp;
+			<button type="submit" class="form-button" name="do"><span><?=__('Update Wishlist')?></span></button>
     </div>
 </form>
 <?else:?>
-    <p><?=__('You have not placed any product yet.')?></p>
+    <p><?=__('You have no items in your wishlist.')?></p>
 <?endif?>
 <script type="text/javascript">
 var wishlistControl = {
@@ -46,6 +55,6 @@ var wishlistControl = {
 			this.navigateToUrl(url);
 		}
 	}
-	
+
 }
 </script>

@@ -16,15 +16,15 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Source_Mode extends Mage_Eav_
             $this->_options = array(
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_PRODUCT,
-                    'label' => __('Display products only'),
+                    'label' => __('Products only'),
                 ),
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_PAGE,
-                    'label' => __('Display only landing page'),
+                    'label' => __('Static block only'),
                 ),
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_MIXED,
-                    'label' => __('Display Landing Page + Products'),
+                    'label' => __('Static block and products'),
                 )
             );
         }

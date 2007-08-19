@@ -25,7 +25,7 @@
 					<td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
 					<td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
 					<td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
-					<td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a></td>
+					<td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a>*/?></td>
 				</tr>
 			<?endforeach;?>
         </tbody>

@@ -20,7 +20,7 @@ class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
             ->addAttributeToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-            ->addAttributeToSort('created_at', $dir='desc')
+            ->addAttributeToSort('created_at', 'desc')
             ->setPageSize('5')
             ->load()
         ;
@@ -42,6 +42,14 @@ class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
     {
         $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($order->getCreatedAt()));
         return $dateFormatted;
+    }
+
+    public function toHtml()
+    {
+        if ($this->getOrders()->getSize() > 0) {
+            return parent::toHtml();
+        }
+        return '';
     }
 
 }

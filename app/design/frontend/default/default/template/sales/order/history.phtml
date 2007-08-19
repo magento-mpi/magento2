@@ -24,7 +24,7 @@
                 <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
                 <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
                 <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
-                <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a></td>
+                <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a>*/?></td>
             </tr>
         <?endforeach;?>
     </tbody>
@@ -32,5 +32,5 @@
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?=$this->getPagerHtml();?>
 <?else:?>
-    <p>You have not placed any orders yet.</p>
+    <p><?=__('You have not any orders yet');?></p>
 <?endif?>
