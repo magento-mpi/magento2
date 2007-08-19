@@ -92,4 +92,10 @@ class Mage_Sales_Model_Invoice_Address extends Mage_Core_Model_Abstract
     {
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
+
+    public function __clone()
+    {
+        $this->setEntityId(null);
+    }
+
 }

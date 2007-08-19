@@ -104,7 +104,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
     public function importOrderItem(Mage_Sales_Model_Order_Item $item)
     {
         $this->setProductId($item->getProductId())
-            ->setParentProductId($item->getParentProductId()) // TODO
+            ->setSuperProductId($item->getSuperProductId()) // TODO
             ->setSku($item->getSku())
             ->setImage($item->getImage())
             ->setName($item->getName())

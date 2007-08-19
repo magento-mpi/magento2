@@ -105,6 +105,9 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
         $this->setOrder($order);
         $this->setInvoiceType(self::TYPE_INVOICE);
         $this->setInvoiceStatusId(self::STATUS_OPEN);
+        $this->setBaseCurrencyCode($order->getBaseCurrencyCode());
+        $this->setStoreCurrencyCode($order->getStoreCurrencyCode());
+        $this->setOrderCurrencyCode($order->getOrderCurrencyCode());
         return $this;
     }
 
@@ -113,6 +116,14 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
         $this->setOrder($invoice->getOrder());
         $this->setInvoiceType(self::TYPE_CMEMO);
         $this->setInvoiceStatusId(self::STATUS_OPEN);
+        $this->setBaseCurrencyCode($invoice->getBaseCurrencyCode());
+        $this->setStoreCurrencyCode($invoice->getStoreCurrencyCode());
+        $this->setOrderCurrencyCode($invoice->getOrderCurrencyCode());
+        foreach ($invoice->getAddressesCollection() as $address) {
+            $newAddress = clone $address;
+            $newAddress->setParentId(null);
+            $this->addAddress($newAddress);
+        }
         return $this;
     }
 
@@ -376,7 +387,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
                         }
                     } elseif ($this->isCmemo()) {
                         $invoiceItem = Mage::getModel('sales/invoice_item')->load($itemId);
-                        if ($invoiceItem->getQtyToReturn() < $qty) {
+                        if ($invoiceItem->getQty() < $qty) {
                             $errors[] = __('There\'s not enough qty of product ') . $invoiceItem->getSku() . ' - "' . $invoiceItem->getName() . '"' . __(' in invoice to return');
                         } else {
                             $item = Mage::getModel('sales/invoice_item')->setInvoice($this)->importInvoiceItem($invoiceItem)->setQty($qty);

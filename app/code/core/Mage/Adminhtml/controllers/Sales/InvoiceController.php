@@ -175,10 +175,11 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
                 $this->_redirect('*/sales_invoice/cmemo/', array('invoice_id' => $invoiceId));
                 return;
             }
+
             $cmemo->createFromInvoice($invoice);
 
             try {
-                $invoice->setData('items', $data['items']);
+                $cmemo->setData('items', $data['items']);
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError(__('Credit Memo was not saved'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -188,11 +189,11 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
             }
 
             try {
-                $invoice->save();
+                $cmemo->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Credit Memo was saved succesfully'));
                 Mage::getSingleton('adminhtml/session')->setInvoiceData(false);
                 // TODO - redirect to print form
-                $this->_redirect('*/sales_invoice/edit/', array('invoice_id' => $invoice->getId()));
+                $this->_redirect('*/sales_invoice/edit/', array('invoice_id' => $cmemo->getId()));
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError(__('Credit Memo was not saved'));
