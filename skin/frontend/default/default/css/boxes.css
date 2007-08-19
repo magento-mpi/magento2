@@ -574,7 +574,8 @@ h1#logo {
 .data-table td.label { font-weight:bold; }
 .data-table thead tr { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
 .data-table tfoot { border-bottom:1px solid #d9dde3;}
-.data-table tfoot tr { background:url(../images/base_mini_actions_bg.gif) repeat-x #DEE5E8 ; }
+.data-table tfoot tr.first { background:url(../images/base_mini_actions_bg.gif) repeat-x; }
+.data-table tfoot tr { background-color:#DEE5E8 ; }
 .data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
 .data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
 
@@ -829,9 +830,9 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .one-page-checkout .active .box { display:block; border-color:#BBAFA0; background:#FBFAF6; }
 .one-page-checkout dd .form-list ul { margin:5px 17px 15px 17px; }
 .one-page-checkout-progress .page-head { margin-bottom:1em; }
-.one-page-checkout-progress li { border:1px solid #92aebc; background:#eee; margin-bottom:6px; }
+.one-page-checkout-progress li { border:1px solid #A3AEB3; background:#eee; margin-bottom:6px; }
 .one-page-checkout-progress h4 { margin:0; color:#999; padding:2px 8px; background:#eee; text-transform:none;  }
-.one-page-checkout-progress h4.complete { border-bottom:1px solid #92aebc; background:#D0DCE1; color:#5e8ab4; }
+.one-page-checkout-progress h4.complete { border-bottom:1px solid #A3AEB3; background:#D0DCE1; color:#5e8ab4; }
 .one-page-checkout-progress h4 a { text-transform:none; }
 .one-page-checkout-progress .content { padding:8px 13px; }
 #opc-login .form-buttons { border-top:0; }
@@ -860,7 +861,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .payment-methods dt { margin-bottom:5px; }
 .payment-methods dd { padding:5px 20px; }
 .one-page-checkout .payment-methods dd { padding:0; }
-.one-page-checkout .form-buttons { margin-top:2em; }
+.one-page-checkout .form-buttons { margin-top:0; padding-top:2em; }
 
 .shipment-count { padding:1px 5px; line-height:1em; border:1px solid #5692cd; background:#7DB0E3; color:#fff; font-size:.8em;}
 
