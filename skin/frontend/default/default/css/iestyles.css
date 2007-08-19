@@ -28,7 +28,8 @@
 .account-box li,
 .address-list li,
 .listing-type-list .listing-item,
-.listing-type-list .product-info .product-reviews { zoom:1; }
+.listing-type-list .product-info .product-reviews,
+.account-nav a { zoom:1; }
 
 .clear {
 	display:block;
@@ -38,3 +39,5 @@
 	line-height:0;
 	}
 .quick-access li { padding-right:4px; padding-left:6px;}
+.search-autocomplete { left:39px !important; }
+.mini-search  { padding-top:0; }

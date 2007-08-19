@@ -1,12 +1,9 @@
 <?if($this->getCanDisplayWishlist()):?>
 <div class="box base-mini mini-wishlist">
 	<div class="head">
-		<h4>My Wishlist <span class="count"><?=__('- %d items', $this->getWishlistItems()->getSize())?></span></h4>
+		<h4>My Wishlist <span class="count">- <a href="<?=$this->getUrl('wishlist')?>"><?=__('%d items', $this->getWishlistItems()->getSize())?></a></span></h4>
+		<h5>Last added items</h5>
 	</div>
-	<ul class="tabs">
-		<li class="active"><a href="#">Last added item</a></li>
-		<li><a href="<?=$this->getUrl('wishlist')?>">View all</a></li>
-	</ul>
 	<?if($this->getWishlistItems()->getSize()>0):?>
 	<ol id="wishlist-sidebar">
 	 <?foreach($this->getWishlistItems() as $_item):?>

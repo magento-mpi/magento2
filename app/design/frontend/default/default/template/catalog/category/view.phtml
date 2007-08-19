@@ -39,7 +39,6 @@
 		<?endif;?>
         <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
         <button href="#" class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>')"><span>Add to Cart</span></button>
-        <div class="clear"></div>
         <div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
         <p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
         <?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>

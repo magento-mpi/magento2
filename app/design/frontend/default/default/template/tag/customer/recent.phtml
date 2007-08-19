@@ -6,7 +6,7 @@
 	<ol>
 		<?$iterator = 0?>
 		<?foreach( $this->getCollection()->getItems() as $_item ):?>
-			<li <?if($iterator % 2 == 0):?>class="odd"<?endif;?>>
+			<li <?if($iterator % 2 == 0):?>class="odd"<?else:?>class="even"<?endif;?>>
 				<div class="count"><?=++$iterator?></div>
 				<div class="content">
 					<a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
@@ -16,7 +16,7 @@
 							<a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a><?if(++$_i != sizeof($_item->getProductTags()->getItems())):?>,<?endif;?>
 						<?endforeach;?>
 				</div>
-			<li>
+			</li>
 		<?endforeach;?>
 	</ol>
 </div>

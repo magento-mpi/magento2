@@ -5,7 +5,7 @@
 <?=$this->getMessagesBlock()->getHtml()?>
 <?if($this->getWishlist()->getSize()):?>
 <form action="<?=$this->getUrl('*/*/update')?>" method="post">
-    <table cellspacing="0" width="100%" class="data-table" id="wishlist-table">
+    <table cellspacing="0" width="100%" class="data-table box-table" id="wishlist-table">
 			<thead>
         <tr>
             <th><?=__('Product')?></th>

@@ -356,17 +356,26 @@ h1#logo {
 /* Header Sub */
 .breadcrumbs {  margin-bottom:13px; font-size:.95em; line-height:1.25em; }
 .breadcrumbs li { display:inline; }
- .mini-search {
+.mini-search {
     position:absolute;
     top:0;
-    right:25px;
-    width:330px;
+    right:0;
+    width:300px;
     height:30px;
-    padding:1px 20px 0 43px;
+    padding:1px 20px 0 40px;
     background:url(../images/mini_search_bg.gif) no-repeat;
     }
 .mini-search .input-text { width:212px; margin-right:4px; }
 
+.search-autocomplete {
+    border:1px solid #5c7989;
+    background:#f9f5f0;
+    left:-1px !important;
+    top:21px !important;
+    }
+.search-autocomplete li { border-bottom:1px solid #f4eee7; padding:2px 8px 1px 8px; }
+.search-autocomplete li.odd { background:#fffefb; }
+.search-autocomplete li.selected { background:#f7e8dd; }
 
 /* Side columns */
 
@@ -506,27 +515,7 @@ h1#logo {
 .base-mini .head { margin:0 1px; border-bottom:1px solid #ddd; background:url(../images/base_mini_head_bg.gif) repeat-x #fff; padding:2px 8px; }
 .base-mini .head h4 { padding:1px 0 1px 21px; text-align:left; }
 .base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; }
-.base-mini .tabs {  margin-top:.5em; padding:0 8px 0 8px; background:url(../images/base_mini_tabs_bg.gif) repeat-x 0 100%; }
-.base-mini .tabs li { float:left; margin-right:3px; padding:0; }
-.base-mini .tabs li a {
-    display:block;
-    padding:0 7px;
-    border:1px solid #a1a1a1;
-    border-bottom-color:#dedede;
-    background:#d8d8d8;
-    }
-.base-mini .tabs li a, .base-mini .tabs li a:hover {
-    color:#626262;
-    text-decoration:none;
-    font-size:.95em;
-    }
-.base-mini .tabs li.active a {
-    border-bottom-color:#f8f7f5;
-    background:#f8f7f5;
-    color:#2f2f2f;
-    font-weight:bold;
-    }
-    .base-mini ol { background:#f8f7f5;}
+.base-mini .content, .base-mini ol { background:#f8f7f5;}
 .base-mini ol li { padding:7px 4px 7px 8px;}
 .base-mini ol li.odd {}
 .base-mini ol li.even { background:#f4f3f3;}
@@ -630,7 +619,7 @@ p.grand_total { padding-right:15px; }
 /* Listing page - type LIST */
 .listing-type-list .listing-item { border-top:1px solid #D9DDE3; padding:12px 10px; }
 .listing-type-list .product-image { float:left; width:135px; }
-.listing-type-list .product-shop { float:right; width:305px; }
+.listing-type-list .product-shop { float:right; width:310px; }
 .listing-type-list .product-shop .description { margin:.5em 0 1.2em 0; }
 .listing-type-list .product-shop .price-box { float:left;text-align:left; margin:3px 13px 5px 0;}
 .listing-type-list .product-shop .product-reviews { margin:15px 0; font-size:.95em; }
@@ -721,7 +710,7 @@ p.grand_total { padding-right:15px; }
 .product-attributes td {padding:2px 0; }
 .product-attributes td.label { padding-right:10px; font-weight:bold; }
 .product-shop .form-button { margin-right:10px; }
-.add-to-cart-box { float:left; width:205px;  margin-right:5px;}
+.add-to-cart-box { float:left; width:195px;  margin-right:5px;}
 .add-to-box { float:left; font-size:.95em; line-height:1.25em; }
 .product-essential, .product-collateral { padding:25px; }
 .product-essential { padding:25px; background:url(../images/product_essential_bg.gif) no-repeat 100% 0 #fff; }
@@ -750,18 +739,6 @@ p.grand_total { padding-right:15px; }
 .product-review-box { width:auto; margin:8px 0 13px 0; }
 .product-review-box td, .product-review-box th { text-align:center; }
 .product-review-box td.label {width:100px; text-align:left; }
-
-
-
-.search-autocomplete {
-    border:1px solid #5c7989;
-    background:#f9f5f0;
-    left:-1px !important;
-    top:21px !important;
-    }
-.search-autocomplete li { border-bottom:1px solid #f4eee7; padding:3px 8px 2px 8px; }
-.search-autocomplete li.odd { background:#fffefb; }
-.search-autocomplete li.selected { background:#f7e8dd; }
 
 
 /* Shopping Cart */
@@ -913,7 +890,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .account-box h4 { color:#E65505; font-size:1.1em; text-transform:uppercase; }
 .account-box h5 { font-size:1.1em;  }
 .account-box h5 a { text-transform:none; font-weight:normal; }
-.account-main .account-box ol li { padding:8px; }
+.account-main .account-box li { padding:5px 0; }
 .account-box ol .count {
     float:left;
     width:13px;
