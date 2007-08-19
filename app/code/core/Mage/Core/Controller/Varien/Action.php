@@ -133,6 +133,8 @@ abstract class Mage_Core_Controller_Varien_Action
             }
             $key = $area.'_'.$ids;
         }
+        
+        $key = Mage::getDesign()->getPackageName().'_'.$key;
 
         if (is_null($ids)) {
             $ids = array('default', $this->getFullActionName());
