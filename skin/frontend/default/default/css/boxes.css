@@ -58,7 +58,7 @@ input.form-radio { margin-right:5px;}
 .group-select li .input-box .input-text, .group-select li .input-box textarea { width:250px; }
 .group-select li .input-box select { width:256px;}
 .group-select label, .form-list label, .payment-methods label { font-weight:bold;}
-.wide { margin-right:250px; }
+/*.wide { margin-right:250px; } */
 
 .form-list li { margin-bottom:6px; }
 .form-list li .input-box .input-text,
@@ -897,17 +897,15 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .account-main .account-box li { padding:5px 0; }
 .account-box ol .count {
     float:left;
-    width:13px;
-    height:12px;
     margin-top:3px;
-    background:url(../images/ol_count_bg.gif) no-repeat;
-    padding:1px 0 2px 3px;
+    background-color:#0a263c;
+    padding:1px 3px;
     font-size:9px;
     font-weight:bold;
     color:#fff;
     line-height:1em;
     }
-.account-box ol .content { margin-left:23px; padding:0; }
+.account-box ol .content { margin-left:20px; padding:0; }
 .account-box ol.recent-reviews small {
     float:left;
     margin-right:3px;
@@ -921,6 +919,10 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .account-side .actions .form-button { float:right; }
 .edit-password { display:block; height:20px; background:url(../images/icon_lock.gif) no-repeat 0 2px; padding-left:20px; }
 .dashboard-welcome { margin-right:8em; margin-bottom:1.5em; font-size:1.1em; }
+.account-box .head h4 { padding-left:21px; min-height:16px; background-repeat:no-repeat; background-position:0 0;}
+.ma-info .head h4 { background-image:url(../images/icon_ma_info.gif); }
+.ma-tags .head h4 { background-image:url(../images/icon_ma_tags.gif); }
+.ma-reviews .head h4 { background-image:url(../images/icon_ma_reviews.gif); }
 
 /* Account Addressbook */
 .primary-address-list h4, .address-list h4 {font-size:1.1em; color:#E26703; text-transform:uppercase; }

@@ -1,13 +1,13 @@
 <div class="col2-set">
     <div class="col-1">
-            <h5><?=__('Primary Billing Address')?><span class="pipe">|</span><a href="<?=$this->getPrimaryBillingAddressEditUrl()?>"><?=__('Edit')?></a></h5>
+            <h5><?=__('Primary Billing Address')?><span class="pipe">|</span><a href="<?=$this->getPrimaryBillingAddressEditUrl()?>"><small><?=__('Edit')?></small></a></h5>
            
         <address>
             <?=$this->getPrimaryBillingAddressHtml()?>
         </address>
     </div>
     <div class="col-2">
-            <h5><?=__('Primary Shipping Address')?><span class="pipe">|</span><a href="<?=$this->getPrimaryShippingAddressEditUrl()?>"><?=__('Edit')?></a></h5>
+            <h5><?=__('Primary Shipping Address')?><span class="pipe">|</span><a href="<?=$this->getPrimaryShippingAddressEditUrl()?>"><small><?=__('Edit')?></small></a></h5>
             
         <address>
             <?=$this->getPrimaryShippingAddressHtml()?>

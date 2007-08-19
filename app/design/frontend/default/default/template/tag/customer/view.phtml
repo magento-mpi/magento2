@@ -3,7 +3,7 @@
 		<h4><?=__('My Tags')?></h4>
 	</div>
 	<p>
-		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><?=__('Edit')?></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
+		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><small><?=__('Edit')?></small></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
 	</p>
 	<?=$this->getPagerHtml()?>
 	<table class="data-table box-table" id="my-tags-table" cellspacing="0">
