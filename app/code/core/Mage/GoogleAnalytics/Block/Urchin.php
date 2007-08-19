@@ -5,6 +5,9 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 	public function getQuoteOrdersHtml()
 	{
 		$quote = $this->getQuote();
+		if (!$quote) {
+			return '';
+		}
 		
 		if ($quote instanceof Mage_Sales_Model_Quote) {
 			$quoteId = $quote->getId();
@@ -32,6 +35,9 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 	{
 
 		$order = $this->getOrder();
+		if (!$order) {
+			return '';
+		}
 		
 		if (!$order instanceof Mage_Sales_Model_Order) {
 			$order = Mage::getModel('sales/order')->load($order);

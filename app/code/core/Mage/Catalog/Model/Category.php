@@ -201,6 +201,30 @@ class Mage_Catalog_Model_Category extends Varien_Object
         return $layout;
     }
     
+    /**
+     * Get category url
+     *
+     * @return string
+     */
+    public function getCategoryUrl()
+    {
+    	$urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
+        $url = Mage::getUrl('catalog/category/view', array(
+        	's'=>$urlKey,
+        	'id'=>$this->getId(),
+        ));
+        return $url;
+    }
+    
+    public function formatUrlKey($str)
+    {
+    	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
+    	$urlKey = strtolower($urlKey);
+    	$urlKey = trim($urlKey, '-');
+    	
+    	return $urlKey;
+    }
+
     public function getImageUrl()
     {
         $url = false;

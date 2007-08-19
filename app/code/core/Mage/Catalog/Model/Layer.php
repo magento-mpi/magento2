@@ -31,6 +31,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function prepareProductCollection($collection)
     {
         $collection->addAttributeToSelect('name')
+        	->addAttributeToSelect('url_key')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')

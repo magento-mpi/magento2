@@ -644,12 +644,23 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getProductUrl()
     {
+    	$urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
         $url = Mage::getUrl('catalog/product/view',
             array(
+            	's'=>$urlKey,
                 'id'=>$this->getId(),
                 'category'=>$this->getCategoryId()
             ));
         return $url;
+    }
+    
+    public function formatUrlKey($str)
+    {
+    	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
+    	$urlKey = strtolower($urlKey);
+    	$urlKey = trim($urlKey, '-');
+    	
+    	return $urlKey;
     }
 
     /**
@@ -659,7 +670,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getCategoryUrl()
     {
-        $url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
+    	$url = Mage::getModel('catalog/category')->load($this->getCategoryId())->getCategoryUrl();
+        //$url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
         return $url;
     }
 

@@ -54,6 +54,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $layer = Mage::getSingleton('catalog/layer');
         $categoty   = $layer->getCurrentCategory();
         $collection = Mage::getResourceModel('catalog/category_collection')
+			->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
@@ -78,20 +79,15 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         return false;
     }
+
+	public function getCategoryUrl($category)
+	{
+		return Mage::getModel('catalog/category')
+			->setData($category->getData())
+			->getCategoryUrl();
+	}
     
-    /**
-     * Retrieve category link
-     *
-     * @param   Varien_Object $category
-     * @return  string
-     */
-    public function getCategoryUrl($category)
-    {
-        $params = array('id'    => $category->getId());
-        return Mage::getUrl('catalog/category/view', $params);
-    }
-    
-    public function drowItem($category, $level=0)
+    public function drawItem($category, $level=0)
     {
         $html = '';
         if (!$category->getIsActive()) {
@@ -117,7 +113,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $html.= '<ul>'."\n";
             ++$level;
             foreach ($children as $child) {
-            	$html.= $this->drowItem($child, $level);
+            	$html.= $this->drawItem($child, $level);
             }
             $html.= '</ul>';
         }
