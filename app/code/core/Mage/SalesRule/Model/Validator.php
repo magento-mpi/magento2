@@ -16,23 +16,23 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		}
 		return false;
 	}
-	
+
 	public function process(Mage_Core_Model_Abstract $item) {
 		if (!$item instanceof Mage_Sales_Model_Quote_Item
-			|| !$item instanceof Mage_Sales_Model_Quote_Address_Item) {
-			throw Mage::exception('Mage_SalesRule', 'Invalid item entity');	
+			&& !$item instanceof Mage_Sales_Model_Quote_Address_Item) {
+			throw Mage::exception('Mage_SalesRule', 'Invalid item entity');
 		}
-		
+
 		$item->setDiscountAmount(0);
 		$item->setDiscountPercent(0);
-		
+
 		$actions = $this->getActionsCollection($item);
 		foreach ($actions as $a) {
 			switch ($a['action_operator']) {
 				case 'by_percent':
 					$item->setDiscountPercent($item->getDiscountPercent()+$a['action_value']);
 					break;
-					
+
 				case 'by_fixed':
 					$item->setDiscountAmount($item->getDiscountAmount()+$a['action_value']);
 					break;
@@ -44,7 +44,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$item->setDiscountAmount($item->getDiscountAmount() + $item->getRowTotal()*$item->getDiscountPercent()/100);
 		return $this;
 	}
-	
+
 	public function getActionsCollection($item)
 	{
 		$actions = Mage::getResourceModel('salesrule/rule_product')
