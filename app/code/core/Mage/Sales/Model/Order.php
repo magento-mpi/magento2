@@ -45,6 +45,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
     	return $this;
     }
+    
+    protected function _beforeSave()
+    {
+    	Mage::dispatchEvent('beforeSaveOrder', array('order'=>$this));
+    	parent::_beforeSave();
+    }
 
 /*********************** QUOTES ***************************/
 

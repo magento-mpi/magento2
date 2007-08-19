@@ -9,11 +9,12 @@
 	 <?foreach($this->getCartItems() as $_item):?>
         <li>
 			<div class="product-images">
-				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="38" height="38"/></a>
+				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getProduct()->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="38" height="38"/></a>
 			</div>
 			<div class="product-details">
 				<a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
 				<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+				<br/><strong>Qty: <?=1*$_item->getQty()?></strong>
 				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 			</div>
 		</li>

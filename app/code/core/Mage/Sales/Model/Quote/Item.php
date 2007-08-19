@@ -52,7 +52,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
             ->setWeight($product->getWeight())
             ->setTaxClassId($product->getTaxClassId())
             ->setQty($product->getQty())
-            ->setPrice($product->getFinalPrice($product->getQty()));
+            ->setPrice($product->getFinalPrice($product->getQty()))
+            ->setCost($product->getCost());
 
         if($product->getParentProduct()) {
         	$this->setParentProductId($product->getParentProduct()->getId());
@@ -116,4 +117,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    public function getProduct()
+    {
+    	if (!$this->hasData('product') && $this->getProductId()) {
+    		$this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
+    	}
+    	return $this->getData('product');
+    }
 }

@@ -87,24 +87,6 @@
                     </directoryObserver>
                 </observers>
             </action_preDispatch>
-            <beforeSaveQuote>
-                <observers>
-                    <addCurrencyInfo>
-                        <type>singleton</type>
-                        <class>directory/observer</class>
-                        <method>beforeSaveQuote</method>
-                    </addCurrencyInfo>
-                </observers>
-            </beforeSaveQuote>
-            <beforeSaveOrder>
-                <observers>
-                    <addCurrencyInfo>
-                        <type>singleton</type>
-                        <class>directory/observer</class>
-                        <method>beforeSaveOrder</method>
-                    </addCurrencyInfo>
-                </observers>
-            </beforeSaveOrder>
         </events>
         <routers>
             <directory>
