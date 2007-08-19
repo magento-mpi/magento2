@@ -47,7 +47,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 	public function getActionsCollection($item)
 	{
-		$actions = Mage::getResourceModel('salesrule/rule_product')
+		$actions = Mage::getResourceModel('salesrule/rule_product_collection')
 			->addFieldToFilter('coupon_code', array(array('null'=>true), $this->getCouponCode()))
 			->addFieldToFilter('from_time', array('lteq'=>time()))
 			->addFieldToFilter('to_time', array('gteq'=>time()))

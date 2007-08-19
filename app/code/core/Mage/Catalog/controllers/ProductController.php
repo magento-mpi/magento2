@@ -31,6 +31,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->getLayout()->loadUpdateFile(Mage::getDesign()->getLayoutFilename('catalog/defaultProduct.xml'));
         }
         $this->getLayout()->generateBlocks();
+        
+        $head = $this->getLayout()->getBlock('head');
+        $title = $product->getMetaTitle() ? $product->getMetaTitle() : $product->getName();
+        $head->setTitle($product->getMetaTitle().' - '.$head->getTitle());
     }
 	
 	public function viewAction()
