@@ -187,7 +187,7 @@ Billing.prototype = {
     },
     
     save: function(){
-        if (checkout.loadWaiting) return;
+        if (checkout.loadWaiting!=false) return;
         
         var validator = new Validation(this.form);
         if (validator.validate()) {
@@ -331,6 +331,7 @@ Shipping.prototype = {
     },
     
     save: function(){
+    	if (checkout.loadWaiting!=false) return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
             checkout.setLoadWaiting('shipping');
@@ -371,6 +372,7 @@ ShippingMethod.prototype = {
     },
 
     save: function(){
+    	if (checkout.loadWaiting!=false) return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
             checkout.setLoadWaiting('shipping-method');
@@ -440,6 +442,7 @@ Payment.prototype = {
     },
 
     save: function(){
+    	if (checkout.loadWaiting!=false) return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
             checkout.setLoadWaiting('payment');
@@ -474,6 +477,7 @@ Review.prototype = {
     },
     
     save: function(){
+    	if (checkout.loadWaiting!=false) return;
         checkout.setLoadWaiting('review');
         var request = new Ajax.Request(
             this.saveUrl,

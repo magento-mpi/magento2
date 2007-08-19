@@ -11,31 +11,40 @@
 
 class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Template
 {
-    public function getPrimaryShippingAddress()
+	public function getCustomer()
+	{
+		return Mage::getSingleton('customer/session')->getCustomer();
+	}
+	
+    public function getPrimaryShippingAddressHtml()
     {
-        $address = Mage::getModel('customer/customer')
-            ->load(Mage::getSingleton('customer/session')->getCustomerId())
-            ->getPrimaryShippingAddress();
+        $address = $this->getCustomer()->getPrimaryShippingAddress();
 
         if( $address instanceof Varien_Object ) {
-            $this->setData($address->getData());
-            return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
+            return $address->getFormated(true);
         } else {
             return __('Please, add new address');
         }
     }
 
-    public function getPrimaryBillingAddress()
+    public function getPrimaryBillingAddressHtml()
     {
-        $address = Mage::getModel('customer/customer')
-            ->load(Mage::getSingleton('customer/session')->getCustomerId())
-            ->getPrimaryBillingAddress();
+        $address = $this->getCustomer()->getPrimaryBillingAddress();
 
         if( $address instanceof Varien_Object ) {
-            $this->setData($address->getData());
-            return $this->toString(Mage::getModel('customer/address')->getHtmlFormat());
+        	return $address->getFormated(true);
         } else {
             return __('Please, add new address');
         }
+    }
+    
+    public function getPrimaryShippingAddressEditUrl()
+    {
+    	return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+    }
+    
+    public function getPrimaryBillingAddressEditUrl()
+    {
+    	return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
     }
 }

@@ -21,12 +21,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         return $this;
     }
-
-    public function addMessage(Mage_Core_Model_Message_Abstract $message)
-    {
-        $this->getMessages()->add($message);
-        return $this;
-    }
     
     public function init($namespace)
     {
@@ -39,30 +33,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         $this->_data = &$_SESSION[$namespace];
 
         return $this;
-    }
-    
-    public function addMessages($messages)
-    {
-        if (is_array($messages)) {
-            foreach ($messages as $message) {
-                $this->addMessage($message);
-            }
-        }
-        return $this;
-    }
-
-    public function getMessages($clear=false)
-    {
-        if (!$this->getData('messages')) {
-            $this->setData('messages', Mage::getModel('core/message_collection'));
-        }
-        
-        if ($clear) {
-            $messages = clone $this->getData('messages');
-            $this->getData('messages')->clear();
-            return $messages;
-        }
-        return $this->getData('messages');
     }
 
     public function getSessionId()

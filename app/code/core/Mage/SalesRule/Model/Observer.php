@@ -11,6 +11,9 @@ class Mage_SalesRule_Model_Observer
 		
 		$ruleCustomer = Mage::getModel('salesrule/rule_customer');
 		foreach ($ruleIds as $ruleId) {
+			if (!$ruleId) {
+				continue;
+			}
 			$ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 			if ($ruleCustomer->getId()) {
 				$ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
@@ -20,6 +23,7 @@ class Mage_SalesRule_Model_Observer
 					->setRuleId($ruleId)
 					->setTimesUsed(1);
 			}
+			echo "<pre>".print_r($ruleCustomer->getData(),1)."</pre>";
 			$ruleCustomer->save();
 		}
 	}

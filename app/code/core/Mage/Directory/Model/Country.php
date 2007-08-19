@@ -40,7 +40,7 @@ class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
     	
     	$template = $this->getData('address_template_'.($html ? 'html' : 'plain'));
     	if (empty($template)) {
-    		if ($html) {
+    		if (!$html) {
     			$template = "{{firstname}} {{lastname}}
 {{company}}
 {{street1}}
