@@ -33,7 +33,6 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                 array(
                                     'name' => 'class_name',
                                     'label' => __('Class Name'),
-                                    'title' => __('Class Name Title'),
                                     'class' => 'required-entry',
                                     'required' => true,
                                 )

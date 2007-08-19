@@ -18,8 +18,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/sets');
 
-        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
-        $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets Title'));
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_toolbar_main'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_grid'));
@@ -44,8 +44,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->_setActiveMenu('catalog/sets');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
 
-        $this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
-        $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets Title'));
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main'));
 

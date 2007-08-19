@@ -162,35 +162,26 @@
                     <tax>
                         <title>Tax</title>
                         <children>
-                            <tax_rules>
-                                <title>Tax Rules</title>
+                            <rules>
+                                <title>Manage Tax Rules</title>
                                 <action>adminhtml/tax_rule</action>
-                            </tax_rules>
-                            <tax_rates>
-                                <title>Tax Rates</title>
-                                <children>
-                                    <manage>
-                                        <title>Manage Rates</title>
-                                        <action>adminhtml/tax_rate</action>
-                                    </manage>
-                                    <export>
-                                        <title>Export Rates</title>
-                                        <action>adminhtml/tax_rate/export</action>
-                                    </export>
-                                    <import>
-                                        <title>Import Rates</title>
-                                        <action>adminhtml/tax_rate/import</action>
-                                    </import>
-                                </children>
-                            </tax_rates>
-                            <tax_classes_customer>
+                            </rules>
+                            <rates>
+                                <title>Manage Tax Rates</title>
+                                <action>adminhtml/tax_rate</action>
+                            </rates>
+                            <import_export>
+                                <title>Import / Export Tax Rates</title>
+                                <action>adminhtml/tax_rate/importExport</action>
+                            </import_export>
+                            <classes_customer>
                                 <title>Customer Tax Classes</title>
                                 <action>adminhtml/tax_class_customer</action>
-                            </tax_classes_customer>
-                            <tax_classes_product>
+                            </classes_customer>
+                            <classes_product>
                                 <title>Product Tax Classes</title>
                                 <action>adminhtml/tax_class_product</action>
-                            </tax_classes_product>
+                            </classes_product>
                         </children>
                     </tax>
                     <config>

@@ -55,8 +55,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (isset($data['general'])) {
             Mage::registry('category')->addData($data['general']);
         }
-        //$this->_addBreadcrumb(__('Catalog'), __('Catalog Title'));
-        $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories Title'));
+        //$this->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree', 'category.tree')

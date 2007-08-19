@@ -14,7 +14,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates Title'))
+            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_add', 'tax_rate_toolbar')
                     ->assign('createUrl', Mage::getUrl('adminhtml/tax_rate/add'))
@@ -27,8 +27,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates Title'), Mage::getUrl('adminhtml/tax_rate'))
-            ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate Title'))
+            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates'), Mage::getUrl('adminhtml/tax_rate'))
+            ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_save')
                 ->assign('header', __('Add New Tax Rate'))
@@ -60,8 +60,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates Title'), Mage::getUrl('adminhtml/tax_rate'))
-            ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate Title'))
+            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates'), Mage::getUrl('adminhtml/tax_rate'))
+            ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_save')
                 ->assign('header', __('Edit Tax Rate'))
@@ -122,8 +122,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe')
             ->_setActiveMenu('sales/tax/tax_rates')
-            ->_addBreadcrumb(__('Sales'), __('Sales Title'))
-            ->_addBreadcrumb(__('Tax'), __('Tax Title'));
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Tax'), __('Tax'));
         return $this;
     }
 
@@ -137,5 +137,14 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         header("Content-Length: ".sizeof($content));
         header("Content-type: application/octet-stream");
         echo $content;
+    }
+    
+    public function importExportAction()
+    {
+    	$this->loadLayout('baseframe');
+    	
+    	$this->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_importExport'));
+    	
+    	$this->renderLayout();
     }
 }

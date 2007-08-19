@@ -14,9 +14,9 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/acl');
-        $this->_addBreadcrumb(__('System'), __('System Title'));
-        $this->_addBreadcrumb(__('Permissions'), __('Permissions Title'));
-        $this->_addBreadcrumb(__('Users'), __('Users Title'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
+        $this->_addBreadcrumb(__('Users'), __('Users'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_users'));
         $this->renderLayout();
@@ -34,15 +34,15 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
 
         if( intval($userId) > 0 ) {
             $breadCrumb = __('Edit User');
-            $breadCrumbTitle = __('Edit User Title');
+            $breadCrumbTitle = __('Edit User');
         } else {
             $breadCrumb = __('Add new User');
-            $breadCrumbTitle = __('Add new User Title');
+            $breadCrumbTitle = __('Add new User');
         }
 
-        $this->_addBreadcrumb(__('System'), __('System Title'));
-        $this->_addBreadcrumb(__('Permission'), __('Permission Title'));
-        $this->_addBreadcrumb(__('Users'), __('Users Title'), Mage::getUrl('*/*/'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission'));
+        $this->_addBreadcrumb(__('Users'), __('Users'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
         $this->_setActiveMenu('system/acl');
 

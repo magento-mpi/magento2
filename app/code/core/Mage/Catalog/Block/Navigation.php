@@ -117,7 +117,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $j = 0;
             $cnt = count($children);
             foreach ($children as $child) {
-            	$html.= $this->drawItem($child, $level, ($j++ >= $cnt));
+            	$html.= $this->drawItem($child, $level, (++$j >= $cnt));
             }
             $html.= '</ul>';
         }

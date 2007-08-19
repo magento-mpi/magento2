@@ -74,7 +74,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                             array(
                                 'name' => 'tax_postcode',
                                 'label' => __('Zip/Post Code'),
-                                'title' => __('Zip/Post Code Title'),
                                 'value' => $rateObject->getTaxPostcode()
                             )
         );

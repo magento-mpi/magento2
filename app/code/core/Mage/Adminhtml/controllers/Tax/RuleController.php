@@ -13,7 +13,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'))
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_add', 'tax_rule_toolbar')
                 ->assign('createUrl', Mage::getUrl('adminhtml/tax_rule/add'))
@@ -26,8 +26,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rules'))
-            ->_addBreadcrumb(__('New Tax Rule'), __('New Tax Rule Title'))
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'), Mage::getUrl('adminhtml/tax_rules'))
+            ->_addBreadcrumb(__('New Tax Rule'), __('New Tax Rule'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
                 ->assign('header', __('New Tax Rule'))
@@ -57,8 +57,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules Title'), Mage::getUrl('adminhtml/tax_rule'))
-            ->_addBreadcrumb(__('Edit Tax Rule'), __('Edit Tax Rule Title'))
+            ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'), Mage::getUrl('adminhtml/tax_rule'))
+            ->_addBreadcrumb(__('Edit Tax Rule'), __('Edit Tax Rule'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rule_toolbar_save')
                     ->assign('header', __('Edit Tax Rule'))
@@ -91,8 +91,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout('baseframe')
             ->_setActiveMenu('sales/tax/tax_rules')
-            ->_addBreadcrumb(__('Sales'), __('Sales Title'))
-            ->_addBreadcrumb(__('Tax'), __('Tax Title'))
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Tax'), __('Tax'))
 //            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_rule'))
         ;
         return $this;

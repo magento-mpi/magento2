@@ -139,7 +139,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     	$this->_setActiveMenu('newsletter/queue');
     	    	
         $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'), Mage::getUrl('adminhtml/newsletter_queue'));
-        $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue Title'));
+        $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
         
         $this->_addContent(
         	$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit', 'queue.edit')

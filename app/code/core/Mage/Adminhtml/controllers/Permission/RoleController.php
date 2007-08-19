@@ -15,9 +15,9 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/acl');
-        $this->_addBreadcrumb(__('System'), __('System Title'));
-        $this->_addBreadcrumb(__('Permissions'), __('Permissions Title'));
-        $this->_addBreadcrumb(__('Roles'), __('Roles Title'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
+        $this->_addBreadcrumb(__('Roles'), __('Roles'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_roles'));
 
@@ -41,9 +41,9 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
         }
 
         $this->loadLayout('baseframe');
-        $this->_addBreadcrumb(__('System'), __('System Title'));
-        $this->_addBreadcrumb(__('Permission'), __('Permission Title'));
-        $this->_addBreadcrumb(__('Roles'), __('Roles Title'), Mage::getUrl('*/*/'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Permission'), __('Permission'));
+        $this->_addBreadcrumb(__('Roles'), __('Roles'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
         $this->_setActiveMenu('system/acl');
 

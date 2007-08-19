@@ -16,7 +16,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         $this->loadLayout('baseframe');
 
         $this->_setActiveMenu('cms/poll');
-        $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager Title'), Mage::getUrl('*/*/'));
+        $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb(__('Edit Poll Answer'), __('Edit Poll Answer'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_answer_edit'));
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
             $data = Zend_Json_Decoder::decode($post['data']);
             try {
                 if( trim($data['answer_title']) == '' ) {
-                    throw new Exception(__('Invalid Answer Title'));
+                    throw new Exception(__('Invalid Answer'));
                 }
                 $model = Mage::getModel('poll/poll_answer');
                 $model->setData($data)

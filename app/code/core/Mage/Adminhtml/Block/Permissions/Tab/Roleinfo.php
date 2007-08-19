@@ -29,7 +29,6 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'name'  => 'rolename',
                 'label' => __('Role Name'),
                 'id'    => 'role_name',
-                'title' => __('Role Title'),
                 'class' => 'required-entry',
                 'required' => true,
             )

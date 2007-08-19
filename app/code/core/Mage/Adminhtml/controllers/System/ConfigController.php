@@ -27,7 +27,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $this->_setActiveMenu('system/config');
 
-        $this->_addBreadcrumb(__('System'), __('System Title'), Mage::getUrl('adminhtml/system'));
+        $this->_addBreadcrumb(__('System'), __('System'), Mage::getUrl('adminhtml/system'));
 
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());

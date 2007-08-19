@@ -49,6 +49,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	protected $_attributes;
 	
 	protected $_priceBlock;
+	
+	protected $_category;
 
     public function __construct()
     {
@@ -65,6 +67,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategory();
         return $categoryId;
+    }
+    
+    public function getCategory()
+    {
+    	if (!$this->getData('category') && $this->getCategoryId()) {
+    		$this->setCategory(Mage::getModel('catalog/category')->load($this->getCategoryId()));
+    	}
+    	return $this->getData('category');
     }
 
     /**
@@ -670,7 +680,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getCategoryUrl()
     {
-    	$url = Mage::getModel('catalog/category')->load($this->getCategoryId())->getCategoryUrl();
+    	$url = $this->getCategory()->getCategoryUrl();
         //$url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
         return $url;
     }
