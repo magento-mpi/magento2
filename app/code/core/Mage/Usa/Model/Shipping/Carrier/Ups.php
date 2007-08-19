@@ -179,6 +179,11 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         $price = $cost+Mage::getStoreConfig('carriers/ups/handling');
         return $price;
     }
+    
+    public function isEligibleForFree($method)
+    {
+    	return $method=='GND' || $method=='GNDCOM' || $method=='GNDRES';
+    }
 
     public function getCode($type, $code='')
     {

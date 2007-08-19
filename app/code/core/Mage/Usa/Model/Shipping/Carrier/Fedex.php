@@ -410,6 +410,11 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         return $price;
     }
 
+    public function isEligibleForFree($method)
+    {
+    	return $method=='FEDEXGROUND';
+    }
+    
     public function getCode($type, $code='')
     {
         static $codes = array(

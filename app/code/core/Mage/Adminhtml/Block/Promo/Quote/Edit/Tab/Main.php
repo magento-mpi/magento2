@@ -73,6 +73,16 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
         
         $customerGroups = Mage::getResourceModel('customer/group_collection')
             ->load()->toOptionArray();
+            
+        $found = false;
+        foreach ($customerGroups as $group) {
+        	if ($group['value']==0) {
+        		$found = true;
+        	}
+        }
+        if (!$found) {
+        	array_unshift($customerGroups, array('value'=>0, 'label'=>__('NOT LOGGED IN')));
+        }
 
     	$fieldset->addField('customer_group_ids', 'multiselect', array(
             'name'      => 'customer_group_ids[]',
