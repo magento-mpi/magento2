@@ -14,12 +14,13 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'pager')
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'product_list.pager')
             ->setCollection($this->_getProductCollection());
-        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'pager')
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'product_list.toolbar')
             ->setCollection($this->_getProductCollection());
             
         $this->setChild('pager', $pager);
+        $this->setChild('toolbar', $toolbar);
 
         // add Home breadcrumb
     	if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
@@ -56,6 +57,11 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     public function getPagerHtml()
     {
         return $this->getChildHtml('pager');
+    }
+    
+    public function getToolbarHtml()
+    {
+        ///return $this->getChildHtml('toolbar');
     }
 
     /**
