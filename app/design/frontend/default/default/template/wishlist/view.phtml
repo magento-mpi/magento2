@@ -24,11 +24,11 @@
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             	<?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
             </td>
-            <td><textarea name="description[<?=$item->getId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
+            <td><textarea name="description[<?=$item->getWishlistItemId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea></td>
             <td><?=$this->getFormatedDate($item->getAddedAt())?></td>
             <td class="a-center">
             	<a href="#" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/cart',array('item'=>$item->getId()))?>')" class="link-cart"><?=__('Add to cart')?></a><br/>
-            	<a href="#" onclick="wishlistControl.navigateToUrlConfirm('<?=$this->getUrl('*/*/remove',array('item'=>$item->getId()))?>')" class="link-remove" /><?=__('Remove')?></a>
+            	<a href="#" onclick="wishlistControl.navigateToUrlConfirm('<?=$this->getUrl('*/*/remove',array('item'=>$item->getWishlistItemId()))?>')" class="link-remove" /><?=__('Remove')?></a>
             </td>
         </tr>
         <?endforeach?>

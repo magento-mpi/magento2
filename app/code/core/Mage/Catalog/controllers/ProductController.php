@@ -8,9 +8,8 @@
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
-	protected function _initProductLayout()
+	protected function _initProduct()
     {
-    	$this->loadLayout(null, '', false);
         $categoryId = $this->getRequest()->getParam('category', false);
         $productId  = $this->getRequest()->getParam('id');
 
@@ -24,14 +23,21 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         Mage::register('product', $product);
-
+    }
+	
+	public function viewAction()
+    {
+        $this->_initProduct();
+        
+        $this->loadLayout(null, '', false);
+        $product = Mage::registry('product');
         if ($product->getCustomLayout()) {
             $this->getLayout()->loadString($product->getCustomLayout());
         } else {
             $this->getLayout()->loadUpdateFile(Mage::getDesign()->getLayoutFilename('catalog/defaultProduct.xml'));
         }
         $this->getLayout()->generateBlocks();
-        
+
         $head = $this->getLayout()->getBlock('head');
         $title = $head->getTitle();
         if ($category = $product->getCategory()) {
@@ -39,32 +45,29 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
         $title = ($product->getMetaTitle() ? $product->getMetaTitle() : $product->getName()).' - '.$title;
         $head->setTitle($title);
-    }
-	
-	public function viewAction()
-    {
-        $this->_initProductLayout();
-
         $this->renderLayout();
     }
 
-    public function imageAction()
-    {
-        $product = Mage::getResourceModel('catalog/product');
-        $product->load($this->getRequest()->getParam('id'));
-        $this->getLayout()->createBlock('core/template', 'root')->setTemplate('catalog/product/large.image.phtml')
-            ->assign('product', $product);
-    }
-        
     public function superConfigAction()
     {
-    	$this->_initProductLayout();
-        $this->getResponse()->setBody($this->getLayout()->getBlock('product.super.config')->toHtml());
+    	$this->_initProduct();
+    	
+    	//$this->loadLayout(null, '', false);
+        $this->getResponse()->setBody($this->getLayout()->createBlock('catalog/product_view_super_config')->toHtml());
     }
     
     public function priceAction()
     {
-    	$this->_initProductLayout();
-        $this->getResponse()->setBody($this->getLayout()->getBlock('product.info.price')->toHtml());
+    	$this->_initProduct();
+    	
+    	//$this->loadLayout(null, '', false);
+        $this->getResponse()->setBody($this->getLayout()->createBlock('catalog/product_view_price')->toHtml());
+    }
+    
+    public function galleryAction()
+    {
+        $this->_initProduct();
+        $this->loadLayout(array('default', 'catalog_product_gallery'), 'catalog_product_gallery');
+        $this->renderLayout();
     }
 }

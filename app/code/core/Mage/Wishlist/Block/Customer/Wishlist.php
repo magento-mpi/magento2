@@ -39,7 +39,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 		return Mage::registry('wishlist')->getItemCollection();
 	}
 
-	public function getEscapedDescription(Mage_Wishlist_Model_Item $item)
+	public function getEscapedDescription(Varien_Object $item)
 	{
 		return htmlspecialchars($item->getDescription());
 	}

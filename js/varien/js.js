@@ -33,6 +33,19 @@ function decorateTable(table){
     }
 }
 
+function decorateList(list){
+    if($(list)){
+        var items = $(list).getElementsBySelector('li')
+        if(items.length) items[items.length-1].addClassName('last');
+        for(var i=0; i<items.length; i++){
+            if((i+1)%2==0) 
+                items[i].addClassName('even');
+            else
+                items[i].addClassName('odd');
+        }
+    }
+}
+
 // Version 1.0
 var isIE = navigator.appVersion.match(/MSIE/) == "MSIE";
 

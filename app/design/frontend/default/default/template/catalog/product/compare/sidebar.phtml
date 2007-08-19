@@ -16,14 +16,16 @@
         <h4><?=__('Compare Products')?> <span class="count"><?=__('- %d items', $this->getItems()->getSize())?></span></h4>
     </div>
     <?if($this->getItems()->getSize()>0):?>
-        <ol>
-            <?$_i=1?>
+        <ol id="compare-items">
             <?foreach($this->getItems() as $_index=>$_item):?>
-                <li class="block-compare-item <?if($_i==$this->getItems()->getSize()):?>last<?endif;?>">
-                    <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"><a href="#" onclick="<?=$this->getJsObjectName()?>.removeItem(this);return false;"   class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a></li>
-                <?$_i++?>
+                <li class="block-compare-item">
+                    <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"/>
+                    <a href="#" onclick="<?=$this->getJsObjectName()?>.removeItem(this);return false;" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
+                    <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+                </li>
             <?endforeach;?>
         </ol>
+        <script type="text/javascript">decorateList('compare-items')</script>
         <div class="actions"><a href="#" class="left" onclick="<?=$this->getJsObjectName()?>.removeAll(); return false">Clear All</a>
             <button class="right form-button" onclick="<?=$this->getJsObjectName()?>.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button></div>
     <?else:?>

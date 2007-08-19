@@ -80,16 +80,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     public function getProduct()
     {
         return Mage::registry('product');
-        /*if(!$product = Mage::registry('product')) {
-        	$storeId = (int) Mage::getSingleton('core/store')->getId();
-        	$product = Mage::getModel('catalog/product')
-        		->setStoreId($storeId)
-            	->load($productId)
-            	->setCategoryId($categoryId)
-            	->setStoreId($storeId);
-
-           	Mage::register('product', $product);
-        }*/
     }
     
     public function getAdditionalData()
@@ -136,6 +126,17 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
     public function getGalleryImages()
     {
-        return Mage::registry('product')->getGallery();
+        $collection = $this->getProduct()->getGallery();
+        return $collection;
+    }
+    
+    public function getGalleryUrl($image=null)
+    {
+        $params = array('id'=>$this->getProduct()->getId());
+        if ($image) {
+            $params['image'] = $image->getValueId();
+            return $this->getUrl('*/*/gallery', $params);
+        }
+        return $this->getUrl('*/*/gallery', $params);
     }
 }

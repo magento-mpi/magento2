@@ -163,6 +163,13 @@
                 </default>
             </updates>
          </catalog_compare>
+         <catalog_product_gallery>
+            <updates>
+                <default>
+                    <file>catalog/product/gallery.xml</file>
+                </default>
+            </updates>
+         </catalog_product_gallery>
       </layouts>
       <routers>
          <catalog>

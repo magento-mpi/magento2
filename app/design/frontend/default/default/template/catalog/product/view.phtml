@@ -73,19 +73,21 @@
             return [x,y];
         }
     </script>
-
-    <?if (!is_null($this->getGalleryImages())):?>
-			<div class="more-views">
-				<h4>More Views</h4>
-				<ul>
-							<?foreach ($this->getGalleryImages() as $_image):?>
-							<li><a href="<?=$_image->setType(0)->getSourceUrl();?>" target="_blank"><img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/></a></li>
-					<?endforeach;?>
-							<li class="last"><a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="68" alt=""/></a></li>
-				</ul>
-			</div>
-    <?endif;?>
-		</div>
+<?if ($this->getGalleryImages() && $this->getGalleryImages()->getSize()):?>
+	<div class="more-views">
+		<h4>More Views</h4>
+		<ul>
+        <?foreach ($this->getGalleryImages() as $_image):?>
+            <li>
+                <a href="#" onclick="popWin('<?=$this->getGalleryUrl($_image)?>', 'gallery', 'scrollbars=no,width=300,height=300');return false;">
+                    <img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" alt=""/>
+                </a>
+            </li>
+        <?endforeach;?>
+		</ul>
+	</div>
+<?endif;?>
+</div>
 <div class="product-shop">
 <h3 class="product-name"><?=$product->getName()?></h3>
     <?=$this->getChildHtml('rating')?>

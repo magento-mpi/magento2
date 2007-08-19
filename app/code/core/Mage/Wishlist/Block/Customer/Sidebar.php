@@ -42,5 +42,14 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 	{
 		return Mage::getSingleton('customer/session')->isLoggedIn();
 	}
-
+    
+	public function getRemoveItemUrl($item)
+	{
+	    return $this->getUrl('wishlist/index/remove',array('item'=>$item->getWishlistItemId()));
+	}
+	
+	public function getAddToCartItemUrl($item)
+	{
+	    return $this->getUrl('wishlist/index/cart',array('item'=>$item->getId()));
+	}	
 }// Class Mage_Wishlist_Block_Customer_Sidebar END

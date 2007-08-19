@@ -2,7 +2,11 @@
 
 class Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image extends Varien_Object
 {
-
+    public function __construct()
+    {
+        $this->setIdFieldName('value_id');
+    }
+    
     protected $_imageType = '';
 
     public function getSourceUrl()

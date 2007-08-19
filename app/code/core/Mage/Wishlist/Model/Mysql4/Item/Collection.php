@@ -11,13 +11,14 @@
 
 class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Entity_Product_Collection 
 {
-	protected $_resource = null;
+	/*
+    protected $_resource = null;
 	
 	public function __construct() 
 	{
 		$this->setEntity(Mage::getResourceSingleton('catalog/product'));
         $this->setObject('wishlist/item');
-	}
+	}*/
 	
 	public function addWishlistFilter(Mage_Wishlist_Model_Wishlist	$wishlist)
 	{
@@ -30,7 +31,6 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Enti
 			->joinField('store_id', 'wishlist/item', 'store_id',  'wishlist_item_id=wishlist_item_id')
 			->joinField('added_at', 'wishlist/item', 'added_at',  'wishlist_item_id=wishlist_item_id')
 			->joinField('wishlist_id', 'wishlist/item', 'wishlist_id',  'wishlist_item_id=wishlist_item_id');
-		
 		return $this;
 	}
 		
