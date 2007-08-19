@@ -73,7 +73,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function startAction()
     {
         $this->getSession()->reset();
-        $this->_redirect('*/*');
+        $this->_redirect('*/*', array('customer_id' => $this->getRequest()->getParam('customer_id')));
     }
 
     public function cancelAction()

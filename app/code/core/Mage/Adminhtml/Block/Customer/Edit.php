@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
                 'class' => 'add',
             ));
         }
-        
+
         parent::__construct();
-        
+
         $this->_updateButton('save', 'label', __('Save Customer'));
         $this->_updateButton('delete', 'label', __('Delete Customer'));
 
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
     public function getCreateOrderUrl()
     {
-        return Mage::getUrl('*/sales_order_create', array('customer_id' => $this->getCustomerId()));
+        return Mage::getUrl('*/sales_order_create/start', array('customer_id' => $this->getCustomerId()));
     }
 
     public function getCustomerId()
