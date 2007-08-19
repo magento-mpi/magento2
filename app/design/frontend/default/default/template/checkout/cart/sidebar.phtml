@@ -1,10 +1,10 @@
 <?if($this->getCanDisplayCart()):?>
 <div class="box base-mini mini-cart">
 	<div class="head">
-		<h4>My Cart <span class="count">- <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('%d items', $this->getCartItems()->getSize())?></a></span></h4>
+		<h4>My Cart <span class="count">- <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('%d item(s)', sizeof($this->getCartItems()))?></a></span></h4>
 		<!--<h5>Last added items</h5>-->
 	</div>
-	<?if($this->getCartItems()->getSize()>0):?>
+	<?if(sizeof($this->getCartItems())>0):?>
 	<ol id="cart-sidebar">
 	 <?foreach($this->getCartItems() as $_item):?>
         <li>

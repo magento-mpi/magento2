@@ -13,7 +13,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 {
 	public function getCartItems()
 	{
-		return $this->getQuote()->getItemsCollection();
+		return $this->getQuote()->getAllItems();
 	}
 
 	public function getQuote()
