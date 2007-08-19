@@ -236,13 +236,7 @@
 			<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"></a><br/>
 				<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
 				<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
-
-				<div class="ratings">
-					<div class="rating-box">
-						<div class="rating" style="width:75%;"></div>
-					</div>
-					<a href="#">(3 Reviews)</a>
-				</div>
+                <?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
 			</td>
 
         <?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>

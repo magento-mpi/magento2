@@ -31,11 +31,7 @@
 			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
 			<a href="<?=$_item->getProductUrl()?>" title="<?=$_item->getName()?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/></a>
 			<h4><a href="<?=$_item->getProductUrl()?>" title="<?=$_item->getName()?>"><?=$_item->getName()?></a></h4>
-									<div class="ratings">
-										<div class="rating-box">
-											<div class="rating" style="width:10%;">
-											</div>
-										</div> (3)</div>
+										<?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
 										<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 			<p>
 				    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>

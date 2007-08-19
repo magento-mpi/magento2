@@ -15,14 +15,7 @@
     		    </div>
     		    <div class="product-shop">
     			    <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-						<?if($product->getRatingSummary()):?>
-						<div class="ratings">
-							<div class="rating-box">
-								<div class="rating" style="width:<?=$product->getRatingSummary()->getRatingSummary()?>%"></div>
-							</div>
-							<a href="<?=$this->getUrl('review/product/list', array('id' => $product->getId()))?>"><small class="count"><?=__('%d Reviews', $product->getRatingSummary()->getReviewsCount())?></small></a>
-						</div>
-						<?endif;?>
+    					<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
     					<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
     					<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
     					<div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div> 
@@ -45,14 +38,7 @@
 								<td<?if ($i%3==0):?> class="last"<?endif?>>
 									<p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
 									<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-										<?if($product->getRatingSummary()):?>
-										<div class="ratings">
-											<div class="rating-box">
-												<div class="rating" style="width:<?=$product->getRatingSummary()->getRatingSummary()?>%"></div>
-											</div>
-											<a href="<?=$this->getUrl('review/product/list', array('id' => $product->getId()))?>"><small class="count">(<?=$product->getRatingSummary()->getReviewsCount()?>)</small></a>
-										</div>
-										<?endif;?>
+									<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
 									<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 									<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
 									<div class="clear"></div>

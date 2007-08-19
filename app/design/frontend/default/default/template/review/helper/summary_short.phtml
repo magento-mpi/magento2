@@ -1,0 +1,8 @@
+<?if($this->getProduct()->getRatingSummary()):?>
+	<div class="ratings">
+		<div class="rating-box">
+			<div class="rating" style="width:<?=$this->getProduct()->getRatingSummary()->getRatingSummary()?>%;"></div>
+			</div>
+		( <?=sprintf('%d', $this->getProduct()->getRatingSummary()->getReviewsCount())?> )
+	</div>
+<?endif;?>

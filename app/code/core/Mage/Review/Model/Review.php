@@ -71,6 +71,15 @@ class Mage_Review_Model_Review extends Varien_Object
         return $this;
     }
 
+    public function getEntitySummary($product)
+    {
+        $summaryData = Mage::getModel('review/review_summary')
+            ->load($product->getId());
+        $summary = new Varien_Object();
+        $summary->setData($summaryData->getData());
+        $product->setRatingSummary($summary);
+    }
+
     public function appendSummary($collection)
     {
         $entityIds = array();

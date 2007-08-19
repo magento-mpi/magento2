@@ -20,12 +20,7 @@
 
 	<div class="product-shop">
         <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-        <div class="ratings">
-        	<div class="rating-box">
-        		<div class="rating" style="width:70%"></div>
-        	</div>
-        	<a href="#"><small class="count">3 Reviews</small></a>
-        </div>
+        <?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
         <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
         <button href="#" class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
         <div class="clear"></div>
@@ -60,12 +55,7 @@
 								<td<?if ($i%3==0):?> class="last"<?endif?>>
 									<p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
 									<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-									<div class="ratings">
-										<div class="rating-box">
-											<div class="rating" style="width:75%;"></div>
-										</div>
-										<a href="#"><small>(3)</small></a>
-									</div>
+                                    <?=$this->getHelper('review/helper')->getSummaryHtml($product, 'short')?>
 									<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 									<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
 									<div class="clear"></div>
@@ -88,6 +78,3 @@
 <!-- [ends] .listing-type-grid // -->
 <?endif;?>
 <?=$this->getPagerHtml()?>
-
-
-

@@ -255,10 +255,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
         return $html;
     }
-    
+
     protected function _beforeChildToHtml($name, $child)
     {
-    	
+
     }
 
     /**
@@ -359,7 +359,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     	}
         return true;
     }
-    
+
     public function toHtml()
     {
 
