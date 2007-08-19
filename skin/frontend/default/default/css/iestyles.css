@@ -1,7 +1,7 @@
 
-.clear,
+.page-head,
+.page-head-alt,
 .col2-set,
-.col2-alt-set
 .col3-set,
 .col4-set,
 .head,
@@ -11,18 +11,20 @@
 .header-nav,
 .header-sub,
 #nav,
-#nav ul a,
 #main,
 .product-essential,
 .form-buttons,
 .actions,
 .form-list li,
+.button-container,
+.ratings,
+.page-head,
+.page-head-alt,
 .group-select li,
-.checkout-progress,
-.my-review-detail,
+.search-autocomplete li,
+.side-col li,
 .account-box li,
-.listing-type-list .listing-item,
-.listing-type-list .product-info .product-reviews { zoom:1; }
+.address-list li { zoom:1; }
 
 .clear {
 	display:block;

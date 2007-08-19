@@ -25,14 +25,13 @@
 .group-select li:after,
 .search-autocomplete li:after,
 .side-col li:after,
-
-
-.my-review-detail:after,
 .account-box li:after,
-.product-box:after,
-.address-list li:after,
+.address-list li:after
+
+
+/*.my-review-detail:after,
 .listing-type-list .listing-item:after,
-.listing-type-list .product-info .product-reviews:after {
+.listing-type-list .product-info .product-reviews:after*/ {
 	content:".";
 	display:block;
 	clear:both;
