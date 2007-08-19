@@ -575,7 +575,7 @@ h1#logo {
 .data-table thead tr { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
 .data-table tfoot { border-bottom:1px solid #d9dde3;}
 .data-table tfoot tr.first { background:url(../images/base_mini_actions_bg.gif) repeat-x; }
-.data-table tfoot tr { background-color:#DEE5E8 ; }
+.data-table tfoot tr { background-color:#DEE5E8 !important; }
 .data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
 .data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
 
