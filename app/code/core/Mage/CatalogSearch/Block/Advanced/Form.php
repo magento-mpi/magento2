@@ -3,16 +3,155 @@
  * Advanced search form
  *
  * @package     Mage
- * @subpackage  Catalogsearch
+ * @subpackage  CatalogSearch
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template 
 {
-    public function getAttributes()
+    public function _initChildren()
     {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(__('Catalog Advanced Search'));
+        }
+
+        // add Home breadcrumb
+    	$this->getLayout()->getBlock('breadcrumbs')
+            ->addCrumb('home',
+                array('label'=>__('Home'),
+                    'title'=>__('Go to Home Page'),
+                    'link'=>Mage::getBaseUrl())
+                )
+            ->addCrumb('search',
+                array('label'=>__('Catalog Advanced Search'))
+                );
+        return parent::_initChildren();
+    }
+    
+    /**
+     * Retrieve collection of product searchable attributes
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    public function getSearchableAttributes()
+    {
+        $attributes = $this->getModel()->getAttributes();
+        return $attributes;
+    }
+    
+    /**
+     * Retrieve attribute label
+     *
+     * @param  $attribute
+     * @return string
+     */
+    public function getAttributeLabel($attribute)
+    {
+        return __($attribute->getFrontend()->getLabel());
+    }
+    
+    /**
+     * Retrieve attribute input validation class
+     *
+     * @param   $attribute
+     * @return  string
+     */
+    public function getAttributeValidationClass($attribute)
+    {
+        return $attribute->getFrontendClass();
+    }
+    
+    public function getAttributeValue($attribute, $part=null)
+    {
+        $value = $this->getRequest()->getQuery($attribute->getAttributeCode());
+        if ($part && $value) {
+            if (isset($value[$part])) {
+                $value = $value[$part];
+            }
+            else {
+                $value = '';
+            }
+        }
         
-        return array();
+        if (!is_array($value)) {
+            $value = htmlspecialchars($value);
+        }
+        return $value;
+    }
+    
+    /**
+     * Retrieve attribute input type
+     *
+     * @param   $attribute
+     * @return  string
+     */
+    public function getAttributeInputType($attribute)
+    {
+        $dataType   = $attribute->getBackend()->getType();
+        $imputType  = $attribute->getFrontend()->getInputType();
+        if ($imputType == 'select') {
+            return $imputType;
+        }
+        
+        if ($dataType == 'int' || $dataType == 'decimal') {
+            return 'number';
+        }
+        
+        if ($dataType == 'datetime') {
+            return 'date';
+        }
+        
+        return 'string';
+    }
+    
+    public function getAttributeSelectElement($attribute)
+    {
+        $extra = '';
+        $options = $attribute->getSource()->getAllOptions(false);
+        $name = $attribute->getAttributeCode();
+        if (is_array($options) && count($options)>3) {
+            $extra = 'multiple size="4"';
+            $name.= '[]';
+        }
+        else {
+            array_unshift($options, array('value'=>'', 'label'=>__('All')));
+        }
+        
+        
+        
+        return $this->_getSelectBlock()
+            ->setName($name)
+            ->setId($attribute->getAttributeCode())
+            ->setTitle($this->getAttributeLabel($attribute))
+            ->setExtraParams($extra)
+            ->setValue($this->getAttributeValue($attribute))
+            ->setOptions($options)
+            ->getHtml();
+    }
+    
+    protected function _getSelectBlock()
+    {
+        $block = $this->getData('_select_block');
+        if (is_null($block)) {
+            $block = $this->getLayout()->createBlock('core/html_select');
+            $this->setData('_select_block', $block);
+        }
+        return $block;
+    }
+    
+    /**
+     * Retrieve advanced search model object
+     *
+     * @return Mage_CatalogSearch_Model_Advanced
+     */
+    public function getModel()
+    {
+        return Mage::getSingleton('catalogsearch/advanced');
+    }
+    
+    public function getSearchPostUrl()
+    {
+        return $this->getUrl('*/*/result');
     }
 }

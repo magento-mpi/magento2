@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="root">
+        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+    </reference>
+    <reference name="content">
+        <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form">
+            <action method="setTemplate"><template>catalogsearch/advanced/form.phtml</template></action>
+        </block>
+        <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result">
+            <action method="setTemplate"><template>catalogsearch/advanced/result.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

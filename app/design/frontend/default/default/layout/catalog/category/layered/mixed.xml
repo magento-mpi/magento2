@@ -10,6 +10,8 @@
     </reference>
     <reference name="content">
         <block type="catalog/category_page" name="category.content" />
-        <block type="catalog/category_view" name="category.products" />
+        <block type="catalog/category_view" name="category.products">
+            <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+        </block>
     </reference>
 </layoutUpdate>

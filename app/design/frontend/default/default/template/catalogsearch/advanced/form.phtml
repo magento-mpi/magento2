@@ -1,24 +1,43 @@
+<?
+/**
+ * Catalog advanced search form
+ * 
+ * @see Mage_CatalogSearch_Block_Advanced_Form
+ */
+?>
 <div class="page-head">
 	<h3>Catalog Advanced Search</h3>
 </div>
 <?=$this->getMessagesBlock()->getHtml()?>
-<form action="" method="get" id="form-validate">
-<fieldset class="group-select">
+<form action="<?=$this->getSearchPostUrl()?>" method="get" id="form-validate">
+<fieldset class="advanced-search">
     <h4 class="legend">Search Settings</h4>
-    <ul>
-    <?foreach ($this->getAttributes() as $_attribute):?>
-    <?endforeach;?>
+    <ul id="advanced-search-list">
+        <?foreach ($this->getSearchableAttributes() as $_attribute):?>
+        <?$_code = $_attribute->getAttributeCode()?>
         <li>
-            <div class="input-box">
-                <label for="firstname">First Name <span class="required">*</span></label><br/>
-                <input type="text" name="firstname" value="" title="First Name"  class="required-entry input-text"/>
-            </div>
-            <div class="input-box">
-                <label for="firstname">First Name <span class="required">*</span></label><br/>
-                <input type="text" name="firstname" value="" title="First Name"  class="required-entry input-text"/>
-            </div>
+            <label for="<?=$_code?>_search_field"><?=$this->getAttributeLabel($_attribute)?></label>
+            <?switch($this->getAttributeInputType($_attribute)):
+                case 'number':?>
+                <div class="range field-row">
+                    <input name="<?=$_code?>[from]" value="<?=$this->getAttributeValue($_attribute, 'from')?>" id="<?=$_code?>_from" title="<?=$this->getAttributeLabel($_attribute)?>"  class="input-text validate-number" type="text"/>
+                    -
+                    <input name="<?=$_code?>[to]" value="<?=$this->getAttributeValue($_attribute, 'to')?>" id="<?=$_code?>_to" title="<?=$this->getAttributeLabel($_attribute)?>"  class="input-text validate-number" type="text"/>
+                </div>
+                <?break;
+                case 'select':?>
+                    <?=$this->getAttributeSelectElement($_attribute)?>
+                <?break;
+                case 'date':?>
+                
+                <?break;
+                default:?>
+                <input name="<?=$_code?>" id="<?=$_code?>_search_field" value="<?=$this->getAttributeValue($_attribute)?>" title="<?=$this->getAttributeLabel($_attribute)?>"  class="input-text <?=$this->getAttributeValidationClass($_attribute)?>" type="text"/>
+            <?endswitch;?>
         </li>
+        <?endforeach;?>
     </ul>
+    <script type="text/javascript">decorateList('advanced-search-list')</script>
 </fieldset>
 <div class="form-buttons">
     <p class="required">* Required Fields</p>

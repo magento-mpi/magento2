@@ -79,10 +79,14 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
 			return '';
 		}
 
-        $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'.$this->getClass().'" title="'.$this->getTitle().'" '.$this->getExtraParams().'>';
+        $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'
+            .$this->getClass().'" title="'.$this->getTitle().'" '.$this->getExtraParams().'>';
         $value = $this->getValue();
+        if (!is_array($value)) {
+            $value = array($value);
+        }
         foreach ($this->getOptions() as $option) {
-            $selected = ($option['value']==$value) ? ' selected' : '';
+            $selected = in_array($option['value'], $value) ? ' selected' : '';
         	$html.= '<option value="'.$option['value'].'"'.$selected.'>'.$option['label'].'</option>';
         }
         $html.= '</select>';

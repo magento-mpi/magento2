@@ -6,6 +6,7 @@
  * @subpackage  Page
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Sergiy Lysak <sergey@varien.com>
  *
  * @todo        separate order, mode and pager
@@ -13,54 +14,130 @@
 class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
 {
     protected $_collection = null;
-    protected $_urlPrefix = null;
-    protected $_viewBy = null;
+    protected $_pageVarName     = 'p';
+    protected $_limitVarName    = 'limit';
+    protected $_availableLimit  = array(10,20,50);
+    protected $_dispersion      = 3;
 
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('page/html/pager.phtml');
     }
-
+    
+    public function getCurrentPage()
+    {
+        if ($page = (int) $this->getRequest()->getParam($this->getPageVarName())) {
+            return $page;
+        }
+        return 1;
+    }
+    
+    public function getLimit()
+    {
+        if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
+            if (in_array($limit, $this->_availableLimit)) {
+                return $limit;
+            }
+        }
+        
+        return $this->_availableLimit[0];
+    }
+    
     public function setCollection($collection)
     {
-        $this->_collection = $collection;
+        $this->_collection = $collection
+            ->setCurPage($this->getCurrentPage())
+            ->setPageSize($this->getLimit());
+            
         return $this;
     }
-
+    
     public function getCollection()
     {
         return $this->_collection;
     }
 
-    public function setParam($key, $value)
+    public function setPageVarName($varName)
     {
-        $this->assign($key, $value);
+        $this->_pageVarName = $varName;
         return $this;
     }
-
-    public function setUrlPrefix($prefix)
+    
+    public function getPageVarName()
     {
-        $this->_urlPrefix = $prefix;
+        return $this->_pageVarName;
+    }
+
+    public function setLimitVarName($varName)
+    {
+        $this->_limitVarName = $varName;
         return $this;
     }
-
-    public function getUrlPrefix()
+    
+    public function getLimitVarName()
     {
-        return $this->_urlPrefix;
+        return $this->_limitVarName;
+    }
+    
+    public function setAvailableLimit(array $limits)
+    {
+        $this->_availableLimit = $limits;
+    }
+    
+    public function getAvailableLimit()
+    {
+        return $this->_availableLimit;
+    }
+    
+    public function getFirstNum()
+    {
+        $collection = $this->getCollection();
+        return $collection->getPageSize()*($collection->getCurPage()-1)+1;
     }
 
-    public function getFirstItemNum()
+    public function getLastNum()
     {
-        return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+1;
+        $collection = $this->getCollection();
+        return $collection->getPageSize()*($collection->getCurPage()-1)+$collection->count();
     }
-
-    public function getLastItemNum()
+    
+    public function getTotalNum()
     {
-        return $this->getCollection()->getPageSize()*($this->getCollection()->getCurPage()-1)+$this->getCollection()->count();
-        //return $this->getCollection()->getSize();
+        return $this->getCollection()->getSize();
     }
-
+    
+    public function isFirstPage()
+    {
+        return $this->getCollection()->getCurPage() == 1;
+    }
+    
+    public function isLastPage()
+    {
+        return $this->getCollection()->getCurPage() >= $this->getCollection()->getLastPageNumber();
+    }
+    
+    public function isLimitCurrent($limit)
+    {
+        return $limit == $this->getLimit();
+    }
+    
+    public function isPageCurrent($page)
+    {
+        return $page == $this->getCurrentPage();
+    }
+    
+    public function getPages()
+    {
+        $pages = array();
+        for ($i=$this->getCollection()->getCurPage(-$this->_dispersion); $i <= $this->getCollection()->getCurPage(+$this->_dispersion); $i++)
+        {
+            $pages[] = $i;
+        }
+        
+        return $pages;
+    }
+    
     public function getFirstPageUrl()
     {
         return $this->getPageUrl(1);
@@ -83,57 +160,21 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
 
     public function getPageUrl($page)
     {
-        return $this->getFeaturedPagerUrl(array('p'=>$page));
+        return $this->getPagerUrl(array($this->getPageVarName()=>$page));
     }
 
-    public function getFeaturedPagerUrl($params=array())
+    public function getLimitUrl($limit)
+    {
+        return $this->getPagerUrl(array($this->getLimitVarName()=>$limit));
+    }
+    
+    public function getPagerUrl($params=array())
     {
         $request = clone $this->getRequest();
         foreach($params as $key=>$val) {
             $request->setParam($key, $val)->getParams();
         }
         return $this->getUrl('*/*/*', $request->getParams());
-    }
-
-    public function setViewBy($key, $values=array())
-    {
-        $this->_viewBy[$key] = $values;
-        return $this;
-    }
-
-    public function getViewBy($key='')
-    {
-        if(is_array($this->_viewBy)) {
-            if($key != '') {
-                return $this->_viewBy[$key];
-            }
-            else {
-                return $this->_viewBy;
-            }
-        }
-        return false;
-    }
-
-    public function getIsViewBy($key, $value='')
-    {
-        if($value == '' && isset($this->_viewBy[$key])) {
-            return true;
-        }
-        elseif($value != '' && in_array($value, $this->_viewBy[$key])) {
-            return true;
-        }
-        return false;
-    }
-
-    protected function _beforeToHtml()
-    {
-        $request = $this->getRequest();
-        $this->getCollection()
-//            ->setOrder($request->getParam('order', 'position'), $request->getParam('dir', 'asc'))
-            ->setCurPage($request->getParam('p', 1))
-            ->setPageSize($request->getParam('limit', 10))
-            ->load();
-        return parent::_beforeToHtml();
     }
 }
 

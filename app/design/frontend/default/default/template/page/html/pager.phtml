@@ -1,68 +1,42 @@
-<!-- [starts] pager // -->
 <?if($this->getCollection()->getSize()):?>
-    <table class="pager" cellspacing="0">
-        <tr>
-            <td>Items <strong><?=$this->getFirstItemNum()?></strong> to <strong><?=$this->getLastItemNum()?></strong> of <strong><?=$this->getCollection()->getSize()?> total</strong></td>
-            <td><strong>Page:</strong>
-                <ol>
-                    <?if ($this->getCollection()->getCurPage() != 1):?>
-                        <li><a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Previous"/></a></li>
-                    <?endif?>
-                    <?for($i=$this->getCollection()->getCurPage(-3); $i <= $this->getCollection()->getCurPage(+3); $i++):?>
-                        <?if ($i == $this->getCollection()->getCurPage()):?>
-                            <li><span class="on"><?=$i?></span></li>
-                                    <?else:?>
-                            <li><a href="<?=$this->getPageUrl($i)?>"><?=$i?></a></li>
-                        <?endif?>
-                    <?endfor?>
-                    <?if ($this->getCollection()->getCurPage() < $this->getCollection()->getLastPageNumber()):?>
-                        <li><a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Next"/></a></li>
-                    <?endif?>
-                </ol>
-            </td>
-            <?if($this->getIsViewBy('limit')):?>
-                <td class="a-right">Show <select name="" onChange="location.href=this.value">
-                    <?$_limits = array(5, 10, 15, 20, 50, 100);?>
-                    <?foreach ($_limits as  $i):?>
-                        <option value="<?=$this->getFeaturedPagerUrl(array('limit'=>$i))?>"<?if($i == $this->getCollection()->getPageSize()):?> selected<?endif?>><?=$i?></option>
-                    <?endforeach;?>
-                </select> per page</td>
+<table class="pager" cellspacing="0">
+    <tr>
+        <td>
+            Items <strong><?=$this->getFirstNum()?></strong> 
+            to <strong><?=$this->getLastNum()?></strong> 
+            of <strong><?=$this->getTotalNum()?> total</strong>
+        </td>
+        <td>
+            <strong>Page:</strong>
+            <ol>
+            <?if (!$this->isFirstPage()):?>
+                <li>
+                    <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Previous"/></a>
+                </li>
             <?endif?>
-        </tr>
-    </table>
-    <?if($this->getViewBy()):?>
-        <table class="view-by" cellspacing="0">
-            <tr>
-            <?if($this->getIsViewBy('mode')):?>
-                <td>View as:
-                    <?if($this->getIsViewBy('mode','grid')):?>
-											<?if('grid' == $this->getRequest()->getParam('mode')):?>
-												<strong>Grid</strong>&nbsp;
-											<?else:?>
-												  <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'grid'))?>">Grid&nbsp;</a>
-											<?endif;?>
-										<?endif;?>
-
-
-
-                    <?if($this->getIsViewBy('mode','list')):?>
-											<?if('list' == $this->getRequest()->getParam('mode')):?>
-												<strong>List</strong>
-											<?else:?>
-												  <a href="<?=$this->getFeaturedPagerUrl(array('mode'=>'list'))?>">List</a>
-											<?endif;?>
-										<?endif;?>
-                </td>
-            <?endif?>
-            <?if($this->getIsViewBy('order')):?>
-                <td class="a-right">Sort by <select name="" onChange="location.href=this.value">
-                <?foreach($this->getViewBy('order') as $val):?>
-                        <option value="<?=$this->getFeaturedPagerUrl(array('order'=>$val,'dir'=>'asc'))?>"<?if($val == $this->getRequest()->getParam('order')):?> selected<?endif;?>><?=ucfirst($val)?></option>
-                <?endforeach;?>
-                </select> <a href="#"><img src="<?=$this->getSkinUrl('images/sort_desc_arrow.gif')?>" alt="" class="v-middle"/></a></td>
+            <?foreach ($this->getPages() as $_page):?>
+                <?if ($this->isPageCurrent($_page)):?>
+                    <li><span class="on"><?=$_page?></span></li>
+                <?else:?>
+                    <li><a href="<?=$this->getPageUrl($_page)?>"><?=$_page?></a></li>
                 <?endif?>
-            </tr>
-        </table>
-    <?endif?>
+            <?endforeach;;?>
+            <?if (!$this->isLastPage()):?>
+                <li>
+                    <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Next"/></a>
+                </li>
+            <?endif?>
+            </ol>
+        </td>
+        <td class="a-right">
+            Show <select name="" onChange="setLocation(this.value)">
+            <?foreach ($this->getAvailableLimit() as  $_limit):?>
+                <option value="<?=$this->getLimitUrl($_limit)?>"<?if($this->isLimitCurrent($_limit)):?> selected<?endif?>>
+                    <?=$_limit?>
+                </option>
+            <?endforeach;?>
+            </select> per page
+        </td>
+    </tr>
+</table>
 <?endif?>
-<!-- [ends] pager // -->

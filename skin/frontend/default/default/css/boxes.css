@@ -201,6 +201,7 @@ table.pager select,
 table.view-by select {
     margin:0 3px;
     font-size:.95em;
+    width:40px;
     }
 table.pager, table.view-by {
     width:100%;
@@ -1012,3 +1013,26 @@ tbody.remove-buttons td img { float:right; }
 
 .normal-weight { font-weight:normal; }
 .auto-width { width:auto;}
+
+/********** [ADVANCED SEARCH FORM] ****************/
+.advanced-search {
+    margin:28px 0;
+    border:1px solid #bbafa0;
+    padding:22px 25px 12px 25px;
+    background:#fbfaf6;
+    }
+.advanced-search .legend {
+    margin-top:-33px;
+    float:left;
+    border:1px solid #f19900;
+    background:#F9F3E3;
+    padding:0 8px;
+    color:#E76200;
+    font-weight:bold;
+    font-size:1.1em;
+    }
+.advanced-search li {margin-bottom:5px}
+.advanced-search li label {width:150px;float:left}
+.advanced-search .input-text {width:250px}
+.advanced-search select {width:256px;padding:2px}
+.advanced-search .range .input-text {width:70px}

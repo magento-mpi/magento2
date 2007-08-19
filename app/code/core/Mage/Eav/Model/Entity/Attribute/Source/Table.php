@@ -2,7 +2,7 @@
 
 class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
-    public function getAllOptions()
+    public function getAllOptions($withEmpty=true)
     {
         if (!$this->_options) {
             $this->_options = Mage::getResourceModel('eav/entity_attribute_option_collection')
@@ -11,8 +11,9 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
                 ->setOrder('value', 'asc')
                 ->load()
                 ->toOptionArray();
-                
-            array_unshift($this->_options, array('label'=>'', 'value'=>''));
+            if ($withEmpty) {
+                array_unshift($this->_options, array('label'=>'', 'value'=>''));
+            }
         }
         return $this->_options;
     }
