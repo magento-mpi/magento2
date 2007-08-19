@@ -3,35 +3,34 @@
 	<div class="head">
 		<h4>My Wishlist <span class="count"><?=__('- %d items', $this->getWishlistItems()->getSize())?></span></h4>
 	</div>
-						<ul class="tabs">
-							<li class="active"><a href="#">Last added item</a></li>
-							<li><a href="#">View all</a></li>
-						</ul>
-					<?if($this->getWishlistItems()->getSize()>0):?>
-					<ol>
-					 <?$_i=1?>
-					 <?$_total=sizeof($this->getWishlistItems()->getItems())?>
-					 <?foreach($this->getWishlistItems() as $_item):?>
-					 				<li class="odd" <?if($_i==$_total):?> class="last"<?endif;?>>
-									
-							<div class="product-images">
-								<a href="#"><img src="images/ph_product_thumb.jpg" alt="Warm Weather Polyethelene Clogs" width="38" height="38"/></a>
-							</div>
-							<div class="product-details">
-								<a href="<?=$this->getUrl('wishlist/index/remove',array('item'=>$_item->getId()))?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
-								<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-								<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-								<a href="<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>" class="link-cart">Add to Cart</a>
-							</div>
-						</li>
-					<?$_i++?>
-					<?endforeach;?>
-					</ol>
-					<?else:?>
-				 	<div class="content"><p><?=__('You have no items in your wishlist.')?></p></div>
-				 	<?endif?>
-				<div class="actions"><a href="<?=$this->getUrl('wishlist')?>">Go to Wishlist</a></div>
-		</div>
+	<ul class="tabs">
+		<li class="active"><a href="#">Last added item</a></li>
+		<li><a href="<?=$this->getUrl('wishlist')?>">View all</a></li>
+	</ul>
+	<?if($this->getWishlistItems()->getSize()>0):?>
+	<ol>
+	 <?$_i=1?>
+	 <?$_total=sizeof($this->getWishlistItems()->getItems())?>
+	 <?foreach($this->getWishlistItems() as $_item):?>
+        <li class="odd" <?if($_i==$_total):?> class="last"<?endif;?>>
+			<div class="product-images">
+				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="38" height="38"/></a>
+			</div>
+			<div class="product-details">
+				<a href="<?=$this->getUrl('wishlist/index/remove',array('item'=>$_item->getId()))?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
+				<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+				<a href="<?=$this->getUrl('wishlist/index/cart',array('item'=>$_item->getId()))?>" class="link-cart">Add to Cart</a>
+			</div>
+		</li>
+	<?$_i++?>
+	<?endforeach;?>
+	</ol>
+	<?else:?>
+ 	<div class="content"><p><?=__('You have no items in your wishlist.')?></p></div>
+ 	<?endif?>
+    <div class="actions"><a href="<?=$this->getUrl('wishlist')?>">Go to Wishlist</a></div>
+</div>
 <?endif?>
 <!-- [ends] .mini-wishlist // -->
 

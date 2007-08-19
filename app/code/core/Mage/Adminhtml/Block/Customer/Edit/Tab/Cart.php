@@ -23,7 +23,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     {
         $quote = Mage::getResourceModel('sales/quote_collection')
             ->loadByCustomerId(Mage::registry('current_customer')->getId());
-        $collection = $quote->getItemsCollection(false);
+
+        if ($quote) {
+            $collection = $quote->getItemsCollection(false);
+        }
+        else {
+            $collection = new Varien_Data_Collection();
+        }
 
         $this->setCollection($collection);
         

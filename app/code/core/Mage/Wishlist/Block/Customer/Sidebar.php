@@ -15,7 +15,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 
 	public function getWishlistItems()
 	{
-		return $this->getWishlist()->getItemCollection();
+		return $this->getWishlist()->getProductCollection();
 	}
 
 	public function getWishlist()
@@ -24,7 +24,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 			$this->_wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
 
-			$this->_wishlist->getItemCollection()
+			$this->_wishlist->getProductCollection()
 				->addAttributeToSelect('name')
 				->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
