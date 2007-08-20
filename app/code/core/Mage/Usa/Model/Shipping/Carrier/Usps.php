@@ -191,7 +191,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 'PARCEL'      => 'Parcel Post',
                 'MEDIA'       => 'Media Mail',
                 'LIBRARY'     => 'Library',
-                'ALL'         => 'All Services',
+//                'ALL'         => 'All Services',
             ),
 
             'first_class_mail_type'=>array(
