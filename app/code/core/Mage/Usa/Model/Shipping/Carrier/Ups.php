@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * UPS shipping rates estimation
+ *
+ * @package    Mage
+ * @subpackage Mage_Usa
+ * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Sergiy Lysak <sergey@varien.com>
+ * @copyright  Varien (c) 2007 (http://www.varien.com)
+ */
 class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Abstract
 {
     protected $_request = null;
@@ -135,40 +144,44 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
     protected function _parseCgiResponse($response)
     {
         $rRows = explode("\n", $response);
-        $rArr = array();
+        $costArr = array();
+        $priceArr = array();
         $errorTitle = 'Unknown error';
         foreach ($rRows as $rRow) {
             $r = explode('%', $rRow);
             switch (substr($r[0],-1)) {
                 case 3: case 4:
-                    $rArr[] = array('method'=>$r[1], 'cost'=>$r[8]);
+                    $costArr[$r[1]] = $r[8];
+                    $priceArr[$r[1]] = $this->getMethodPrice($r[8], $r[1]);
                     break;
                 case 5:
                     $errorTitle = $r[1];
                     break;
                 case 6:
-                    $rArr[] = array('method'=>$r[3], 'cost'=>$r[10]);
+                    $costArr[$r[3]] = $r[10];
+                    $priceArr[$r[3]] = $this->getMethodPrice($r[10], $r[3]);
                     break;
             }
         }
+        asort($priceArr);
    
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
-        if (empty($rArr)) {
+        if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
-            foreach ($rArr as $r) {
+            foreach ($priceArr as $method=>$price) {
                 $rate = Mage::getModel('shipping/rate_result_method');
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
-                $rate->setMethod($r['method']);
-                $rate->setMethodTitle($this->getCode('method', $r['method']));
-                $rate->setCost($r['cost']);
-                $rate->setPrice($this->getMethodPrice($r['cost'], $r['method']));
+                $rate->setMethod($method);
+                $rate->setMethodTitle($this->getCode('method', $method));
+                $rate->setCost($costArr[$method]);
+                $rate->setPrice($price);
                 $result->append($rate);
             }
         }

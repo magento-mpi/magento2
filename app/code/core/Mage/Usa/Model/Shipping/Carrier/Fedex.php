@@ -361,7 +361,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
     
     protected function _parseXmlResponse($response)
     {
-        $rArr = array();
+        $costArr = array();
+        $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
         if (strpos(trim($response), '<?xml')===0)
         {
@@ -373,9 +374,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
                     $errorTitle = 'Unknown error';
                 }
                 foreach ($xml->Entry as $entry) {
-                    $rArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+                    $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+                    $priceArr[(string)$entry->Service] = $this->getMethodPrice((string)$entry->EstimatedCharges->DiscountedCharges->NetCharge, (string)$entry->Service);
                 }
-                arsort($rArr);
+                asort($priceArr);
             }
         } else {
             $errorTitle = 'Response is in the wrong format';
@@ -383,21 +385,21 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
-        if (empty($rArr)) {
+        if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
-            foreach ($rArr as $method=>$cost) {
+            foreach ($priceArr as $method=>$price) {
                 $rate = Mage::getModel('shipping/rate_result_method');
                 $rate->setCarrier('fedex');
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
                 $rate->setMethod($method);
                 $rate->setMethodTitle($this->getCode('method', $method));
-                $rate->setCost($cost);
-                $rate->setPrice($this->getMethodPrice($cost, $method));
+                $rate->setCost($costArr[$method]);
+                $rate->setPrice($price);
                 $result->append($rate);
             }
         }

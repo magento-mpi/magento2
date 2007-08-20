@@ -128,7 +128,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     
     protected function _parseXmlResponse($response)
     {
-        $rArr = array();
+        $costArr = array();
+        $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
         if (strpos(trim($response), '<?xml')===0)
         {
@@ -143,9 +144,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 }
                 if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                     foreach ($xml->Package->Postage as $postage) {
-                        $rArr[(string)$postage->MailService] = (string)$postage->Rate;
+                        $costArr[(string)$postage->MailService] = (string)$postage->Rate;
+                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
                     }
-                    arsort($rArr);
+                    asort($priceArr);
                 }
             }
         } else {
@@ -154,21 +156,21 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
-        if (empty($rArr)) {
+        if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('usps');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/usps/title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
-            foreach ($rArr as $method=>$cost) {
+            foreach ($priceArr as $method=>$price) {
                 $rate = Mage::getModel('shipping/rate_result_method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/usps/title'));
                 $rate->setMethod($method);
                 $rate->setMethodTitle($method);
-                $rate->setCost($cost);
-                $rate->setPrice($this->getMethodPrice($cost, $this->getCode('service_to_code', $method)));
+                $rate->setCost($costArr[$method]);
+                $rate->setPrice($price);
                 $result->append($rate);
             }
         }

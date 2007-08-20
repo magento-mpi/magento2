@@ -153,7 +153,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
     
     protected function _parseXmlResponse($response)
     {
-        $rArr = array();
+        $costArr = array();
+        $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
         if (strpos(trim($response), '<?xml')===0)
         {
@@ -178,9 +179,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
                 
                 if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                     foreach ($xml->Package->Postage as $postage) {
-                        $rArr[(string)$postage->MailService] = (string)$postage->Rate;
+                        $costArr[(string)$postage->MailService] = (string)$postage->Rate;
+                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
                     }
-                    arsort($rArr);
+                    asort($priceArr);
                 }
                 */
             }
@@ -190,30 +192,37 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
 
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
-        if (empty($rArr)) {
+        if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('dhl');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
-            foreach ($rArr as $method=>$cost) {
+            foreach ($priceArr as $method=>$price) {
                 $rate = Mage::getModel('shipping/rate_result_method');
                 $rate->setCarrier('dhl');
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
                 $rate->setMethod($method);
                 $rate->setMethodTitle($method);
-                $rate->setCost($cost);
-                $rate->setPrice($this->getMethodPrice($cost));
+                $rate->setCost($costArr[$method]);
+                $rate->setPrice($price);
                 $result->append($rate);
             }
         }
         $this->_result = $result;
     }
     
-    public function getMethodPrice($cost)
+    public function getMethodPrice($cost, $method='')
     {
-        $price = $cost + Mage::getStoreConfig('carriers/dhl/handling');
+        $r = $this->_rawRequest;
+        if (Mage::getStoreConfig('carriers/dhl/cutoff_cost') != ''
+         && $method == Mage::getStoreConfig('carriers/dhl/free_method')
+         && Mage::getStoreConfig('carriers/dhl/cutoff_cost') <= $r->getValue()) {
+             $price = '0.00';
+        } else {
+            $price = $cost + Mage::getStoreConfig('carriers/dhl/handling');
+        }
         return $price;
     }
 
