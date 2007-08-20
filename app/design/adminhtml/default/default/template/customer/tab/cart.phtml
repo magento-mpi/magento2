@@ -6,7 +6,7 @@ var cartControl = {
 		if(!confirm('<?=__('Are You Sure?')?>')) {
 			return false;
 		}
-		<?=$this->getJsObjectName()?>.reloadParams = {delete:itemId}
+		<?=$this->getJsObjectName()?>.reloadParams = {'delete':itemId}
 		<?=$this->getJsObjectName()?>.reload();
 		<?=$this->getJsObjectName()?>.reloadParams = {};
         return false;
