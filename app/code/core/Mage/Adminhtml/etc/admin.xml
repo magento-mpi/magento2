@@ -2,73 +2,50 @@
 <config>
     <admin>
         <menu>
-            <!--
-             <dashboard>
-                <title>Dashboard</title>
-                <action>adminhtml/dashboard/</action>
-                <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
-             </dashboard>
-             -->
-             <customer>
-                <title>Customers</title>
-                <!-- action>adminhtml/customer/</action -->
-                <depends><module>Mage_Customer</module></depends>
+             <sales>
+                <title>Sales</title>
+                <!-- action>adminhtml/sales</action -->
+                <depends><module>Mage_Sales</module></depends>
                 <children>
-                    <manage>
-                        <title>Manage Customers</title>
-                        <action>adminhtml/customer/</action>
-                        <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
-                    </manage>
-                    <group>
-                        <title>Customer Groups</title>
-                        <action>adminhtml/customer_group/</action>
-                        <resource>admin/customer/group</resource>
-                    </group>
-                    <online>
-                        <title>Online Customers</title>
-                        <action>adminhtml/customer_online/</action>
-                        <resource>admin/customer/online</resource>
-                    </online>
+                    <order>
+                        <title>Orders</title>
+                        <action>adminhtml/sales_order</action>
+                    </order>
+                    <invoice>
+                        <title>Invoices</title>
+                        <action>adminhtml/sales_invoice</action>
+                    </invoice>
+                    <tax>
+                        <title>Tax</title>
+                        <children>
+                            <rules>
+                                <title>Manage Tax Rules</title>
+                                <action>adminhtml/tax_rule</action>
+                            </rules>
+                            <rates>
+                                <title>Manage Tax Rates</title>
+                                <action>adminhtml/tax_rate</action>
+                            </rates>
+                            <import_export>
+                                <title>Import / Export Tax Rates</title>
+                                <action>adminhtml/tax_rate/importExport</action>
+                            </import_export>
+                            <classes_customer>
+                                <title>Customer Tax Classes</title>
+                                <action>adminhtml/tax_class_customer</action>
+                            </classes_customer>
+                            <classes_product>
+                                <title>Product Tax Classes</title>
+                                <action>adminhtml/tax_class_product</action>
+                            </classes_product>
+                        </children>
+                    </tax>
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/system_config/edit/section/customer/</action>
-                        <resource>admin/customer/config</resource>
+                        <action>adminhtml/sales_config/</action>
                     </config>
                 </children>
-             </customer>
-             <newsletter>
-                <title>Newsletter</title>
-                <!-- action>adminhtml/newsletter/</action -->
-                <!--<acl><resource>admin/newsletter</resource><privilege>list</privilege></acl>-->
-                <depends><module>Mage_Newsletter</module></depends>
-                <children>
-                    <template>
-                        <title>Newsletter Templates</title>
-                        <action>adminhtml/newsletter_template/</action>
-                        <resource>admin/newsletter/template</resource>
-                    </template>
-                    <!-- <subscriber>
-                        <title>Subscribers</title>
-                        <action>adminhtml/newsletter_subscriber/</action>
-                        <resource>admin/newsletter/subscriber</resource>
-                    </subscriber> -->
-                    <queue>
-                        <title>Newsletter Queue</title>
-                        <action>adminhtml/newsletter_queue/</action>
-                        <resource>admin/newsletter/queue</resource>
-                    </queue>
-                    <problem>
-                        <title>Newsletter Problem Reports</title>
-                        <action>adminhtml/newsletter_problem/</action>
-                        <resource>admin/newsletter/problem</resource>
-                    </problem>
-                    <config>
-                        <title>Configuration</title>
-                        <action>adminhtml/system_config/edit/section/newsletter/</action>
-                        <resource>admin/newsletter/config</resource>
-                    </config>
-                </children>
-             </newsletter>
+             </sales>
              <catalog>
                 <title>Catalog</title>
                 <!--action>adminhtml/catalog</action-->
@@ -145,50 +122,40 @@
                     </config>
                 </children>
              </catalog>
-             <sales>
-                <title>Sales</title>
-                <!-- action>adminhtml/sales</action -->
-                <depends><module>Mage_Sales</module></depends>
+            <!--
+             <dashboard>
+                <title>Dashboard</title>
+                <action>adminhtml/dashboard/</action>
+                <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
+             </dashboard>
+             -->
+             <customer>
+                <title>Customers</title>
+                <!-- action>adminhtml/customer/</action -->
+                <depends><module>Mage_Customer</module></depends>
                 <children>
-                    <order>
-                        <title>Orders</title>
-                        <action>adminhtml/sales_order</action>
-                    </order>
-                    <invoice>
-                        <title>Invoices</title>
-                        <action>adminhtml/sales_invoice</action>
-                    </invoice>
-                    <tax>
-                        <title>Tax</title>
-                        <children>
-                            <rules>
-                                <title>Manage Tax Rules</title>
-                                <action>adminhtml/tax_rule</action>
-                            </rules>
-                            <rates>
-                                <title>Manage Tax Rates</title>
-                                <action>adminhtml/tax_rate</action>
-                            </rates>
-                            <import_export>
-                                <title>Import / Export Tax Rates</title>
-                                <action>adminhtml/tax_rate/importExport</action>
-                            </import_export>
-                            <classes_customer>
-                                <title>Customer Tax Classes</title>
-                                <action>adminhtml/tax_class_customer</action>
-                            </classes_customer>
-                            <classes_product>
-                                <title>Product Tax Classes</title>
-                                <action>adminhtml/tax_class_product</action>
-                            </classes_product>
-                        </children>
-                    </tax>
+                    <manage>
+                        <title>Manage Customers</title>
+                        <action>adminhtml/customer/</action>
+                        <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
+                    </manage>
+                    <group>
+                        <title>Customer Groups</title>
+                        <action>adminhtml/customer_group/</action>
+                        <resource>admin/customer/group</resource>
+                    </group>
+                    <online>
+                        <title>Online Customers</title>
+                        <action>adminhtml/customer_online/</action>
+                        <resource>admin/customer/online</resource>
+                    </online>
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/sales_config/</action>
+                        <action>adminhtml/system_config/edit/section/customer/</action>
+                        <resource>admin/customer/config</resource>
                     </config>
                 </children>
-             </sales>
+             </customer>
              <promo>
                 <title>Promotions</title>
                 <!-- action>adminhtml/promo</action -->
@@ -234,6 +201,39 @@
                     </config>-->
                 </children>
              </cms>
+             <newsletter>
+                <title>Newsletter</title>
+                <!-- action>adminhtml/newsletter/</action -->
+                <!--<acl><resource>admin/newsletter</resource><privilege>list</privilege></acl>-->
+                <depends><module>Mage_Newsletter</module></depends>
+                <children>
+                    <template>
+                        <title>Newsletter Templates</title>
+                        <action>adminhtml/newsletter_template/</action>
+                        <resource>admin/newsletter/template</resource>
+                    </template>
+                    <!-- <subscriber>
+                        <title>Subscribers</title>
+                        <action>adminhtml/newsletter_subscriber/</action>
+                        <resource>admin/newsletter/subscriber</resource>
+                    </subscriber> -->
+                    <queue>
+                        <title>Newsletter Queue</title>
+                        <action>adminhtml/newsletter_queue/</action>
+                        <resource>admin/newsletter/queue</resource>
+                    </queue>
+                    <problem>
+                        <title>Newsletter Problem Reports</title>
+                        <action>adminhtml/newsletter_problem/</action>
+                        <resource>admin/newsletter/problem</resource>
+                    </problem>
+                    <config>
+                        <title>Configuration</title>
+                        <action>adminhtml/system_config/edit/section/newsletter/</action>
+                        <resource>admin/newsletter/config</resource>
+                    </config>
+                </children>
+             </newsletter>
              <report>
                 <title>Reports</title>
                 <children>
