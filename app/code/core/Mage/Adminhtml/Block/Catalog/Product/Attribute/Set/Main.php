@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Product Set'),
+                    'label'     => __('Save Attribute Set'),
                     'onclick'   => 'editSet.save();',
                     'class' => 'save'
         )));
@@ -242,7 +242,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
     {
         return Mage::registry('current_attribute_set')->getId();
     }
-    
+
     public function getIsCurrentSetDefault()
     {
         $isDefault = $this->getData('is_current_set_default');
