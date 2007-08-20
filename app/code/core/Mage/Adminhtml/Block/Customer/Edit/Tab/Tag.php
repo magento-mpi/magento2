@@ -25,6 +25,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
         $tagId = Mage::registry('tagId');
         $collection = Mage::getModel('tag/tag')
             ->getResourceCollection()
+            ->joinRel()
             ->addCustomerFilter($this->getCustomerId());
 
         $this->setCollection($collection);
