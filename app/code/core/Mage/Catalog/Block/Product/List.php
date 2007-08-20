@@ -8,23 +8,18 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template 
+class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
 {
     protected $_productCollection;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/product/list.phtml');
     }
-    
+
     protected function _initChildren()
     {
-        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'product_list.toolbar')
-            ->setCollection($this->_getProductCollection());
-            
-        $this->setChild('toolbar', $toolbar);
-
         // add Home breadcrumb
     	if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
     	    $breadcrumbBlock->addCrumb('home',
@@ -44,7 +39,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
         }
         return $this->_productCollection;
     }
-    
+
     /**
      * Retrieve loaded category collection
      *
@@ -54,7 +49,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     {
         return $this->_getProductCollection();
     }
-    
+
     /**
      * Retrieve list toolbar HTML
      *
@@ -74,14 +69,18 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     {
         return $this->getChild('toolbar')->getCurrentMode();
     }
-    
+
     protected function _beforeToHtml()
     {
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'product_list.toolbar')
+            ->setCollection($this->_getProductCollection());
+        $this->setChild('toolbar', $toolbar);
+
         $this->_getProductCollection()->load();
         Mage::getModel('review/review')->appendSummary($this->_getProductCollection());
         return parent::_beforeToHtml();
     }
-    
+
     /**
      * Retrieve
      *
@@ -94,5 +93,11 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     	}
 
     	return false;
+    }
+
+    public function setCollection($collection)
+    {
+        $this->_productCollection = $collection;
+        return $this;
     }
 }

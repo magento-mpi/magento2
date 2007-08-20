@@ -24,54 +24,33 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         return Mage::getModel('tag/tag')->load($this->getTagId());
     }
 
-    public function getProducts()
-    {
-        return $this->_getCollection()->getItems();
-    }
-
-    public function getCount()
-    {
-        return sizeof($this->getProducts());
-    }
-
     protected function _initChildren()
     {
-        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'tag_list.toolbar')
+        $list = $this->getLayout()->createBlock('catalog/product_list', 'tag_product_list')
             ->setCollection($this->_getCollection());
-
-        $this->setChild('toolbar', $toolbar);
+        $this->setChild('list', $list);
     }
 
-    public function getToolbarHtml()
+    public function getListHtml()
     {
-        return $this->getChildHtml('toolbar');
-    }
-
-    public function getMode()
-    {
-        return $this->getChild('toolbar')->getCurrentMode();
+        return $this->getChildHtml('list');
     }
 
     protected function _getCollection()
     {
         if( !$this->_collection ) {
             $tagModel = Mage::getModel('tag/tag');
-
             $this->_collection = $tagModel->getEntityCollection();
-
             $this->_collection
                 ->addStoreFilter(Mage::getSingleton('core/store')->getId())
                 ->addTagFilter($this->getTagId())
-                #->addStatusFilter($tagModel->getApprovedStatus())
-                ;
-            Mage::getModel('review/review')->appendSummary($this->_collection);
+                ->addStatusFilter($tagModel->getApprovedStatus());
         }
         return $this->_collection;
     }
 
     protected function _beforeToHtml()
     {
-        $this->_getCollection()->load();
         Mage::getModel('review/review')->appendSummary($this->_getCollection());
         return parent::_beforeToHtml();
     }

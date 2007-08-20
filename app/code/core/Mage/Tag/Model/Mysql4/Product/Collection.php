@@ -214,13 +214,4 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
         }
         return $this;
     }
-
-    /*
-    public function load($a=false, $b=false)
-    {
-        echo "debug: <pre>";
-        parent::load(1);
-        echo "</pre>";
-    }
-    */
- }
+}
