@@ -279,11 +279,11 @@
                             </customer>
                             <product>
                                 <title>Products</title>
-                                <action>adminhtml/report_tag/product1</action>
+                                <action>adminhtml/report_tag/product</action>
                             </product>
                             <product_total>
                                 <title>Products (Total)</title>
-                                <action>adminhtml/report_tag/product2</action>
+                                <action>adminhtml/report_tag/productAll</action>
                             </product_total>
                             <popular>
                                 <title>Popular</title>
