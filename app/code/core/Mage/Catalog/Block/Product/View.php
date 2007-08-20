@@ -18,7 +18,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     public function loadData()
     {
         $product = $this->getProduct();
-        
+
         if($product->isBundle()) {
         	$product->getBundleOptionCollection()->useProductItem()->getLinkCollection()
         		->addAttributeToSelect('name')
@@ -60,8 +60,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$product->getId())));
         $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$product->getId())));
-        $this->setChild('rating', $this->getLayout()->createBlock('rating/entity_summary')
-            ->setEntityId($product->getId()));
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
         $this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
 
@@ -81,7 +79,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     {
         return Mage::registry('product');
     }
-    
+
     public function getAdditionalData()
     {
         $data = array();
@@ -100,19 +98,19 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         }
         return $data;
     }
-    
+
     /**
      * URLs section
      */
-    
+
     public function getReviewUrl()
     {
-        
+
     }
-    
+
     public function getAddToWishlistUrl()
     {
-        
+
     }
 
     public function getCompareJsObjectName()
@@ -129,7 +127,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $collection = $this->getProduct()->getGallery();
         return $collection;
     }
-    
+
     public function getGalleryUrl($image=null)
     {
         $params = array('id'=>$this->getProduct()->getId());

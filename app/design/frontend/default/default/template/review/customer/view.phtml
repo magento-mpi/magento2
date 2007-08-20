@@ -7,12 +7,7 @@
 			<div class="product-image">
 				<p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="125" width="125"></a><br/>
 				<small><?=__('Average Customer Rating')?>:</small></p>
-				<div class="ratings">
-					<div class="rating-box">
-						<div class="rating" style="width: <?=ceil($this->getRatingSummary()->getSum() / ($this->getRatingSummary()->getCount()))?>%;"></div>
-					</div>
-					<small class="no-wrap">( <a href="<?=$this->getProductData()->getProductUrl()?>#customer-reviews"><?=__('%d Reviews', $this->getTotalReviews())?></a> )</small>
-				</div>
+				<?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
 			</div>
 			<div class="details">
 				<h3><?=$this->getProductData()->getName()?></h3>

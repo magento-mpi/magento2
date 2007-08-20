@@ -1,7 +1,7 @@
 <?
 /**
  * Product view template
- * 
+ *
  * @see Mage_Catalog_Block_Product_View
  */
 ?>
@@ -18,11 +18,11 @@
 					</div>
 				</div>
 			</div>
-	
+
 		<script type="text/javascript">
 			var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
 			var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
-	
+
 			var origWidth = 300;
 			var origHeight = 300;
 			var floorSize = 1.0;
@@ -32,7 +32,7 @@
 			var imageV = 1;
 			var showFull = false;
 			var selects = document.getElementsByTagName('select');
-	
+
 			function toggleFull(){
 				showFull = !showFull;
 				//TODO: hide selects for IE only
@@ -42,23 +42,23 @@
 				$('track1').style.visibility = showFull ? 'hidden' : 'visible';
 				image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
 			}
-	
+
 			function scaleIt(v) {
 			var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
 			var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
-	
+
 			imageV = floorSize+(v*(ceilingSize-floorSize));
-	
+
 			image.element.style.width = (imageV*origWidth)+'px';
-	
+
 			imageX = origWidth*(1-imageV)/2-centerX*imageV;
 			imageY = origHeight*(1-imageV)/2-centerY*imageV;
 			containIt(imageX, imageY, image);
-	
+
 			image.element.style.left = imageX+'px';
 			image.element.style.top = imageY+'px';
 			}
-	
+
 			function containIt(x,y,draggable) {
 				var pDim = Element.getDimensions(draggable.element.parentNode);
 				var eDim = Element.getDimensions(draggable.element);
@@ -90,7 +90,7 @@
 	</div>
 	<div class="product-shop">
 	<h3 class="product-name"><?=$product->getName()?></h3>
-		<?=$this->getChildHtml('rating')?>
+		<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
 		<?if( $reviewCount ):?>
 			<a href="#customer-reviews" class="no-wrap"><small>( <?=$reviewCount?> <?=__('Reviews')?> )</small></a>
 		<?endif;?>
@@ -164,7 +164,7 @@
 			<?endif;?>
 		<?else:?>
 		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
+			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
 			&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
 			<?if($this->getCompareJsObjectName()):?>
 					<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
@@ -199,7 +199,7 @@
 				</div>
 			<div class="product-specs"><?=$product->getDescription()?></div>
 			</div>
-	
+
 			<?if($_additional = $this->getAdditionalData()):?>
 			<div class="collateral-box attribute-specs">
 				<div class="head">
@@ -216,8 +216,8 @@
 				<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
 			</div>
 			<?endif;?>
-	
-	
+
+
 	<?if($product->getRelatedProductsLoaded()->getSize()):?>
 	<div class="collateral-box">
 		<div class="head"><h4>You may be interested in these items</h4></div>
@@ -228,7 +228,7 @@
 			<?$_relatedCurrentRow=1?>
 			<?$_relatedCurrentCell=1?>
 			<?$_relatedCurrentItem=1?>
-	
+
 			<?foreach ($product->getRelatedProducts() as $_link):?>
 			<?if($_relatedCurrentCell==1):?>
 			<tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
@@ -238,7 +238,7 @@
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
 					<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
 				</td>
-	
+
 			<?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
 				<?if($_relatedCurrentItem==$_relatedTotal):?>
 					<?while($_relatedCurrentCell++<$_relatedPerRow):?>
