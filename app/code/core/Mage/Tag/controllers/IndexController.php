@@ -60,4 +60,32 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
             }
         }
     }
+    /*
+    public function saveAllAction()
+    {
+        $tagName = $this->getRequest()->getParam('tagName');
+        $tagNamesArr = explode("\n", preg_replace("/'*(\d+)(\s+)/i", "$1\n", $tagName));
+
+        for($i=0;$i<=500;$i++) {
+            $tagName = rand(1100, 1150);
+            if( $tagName ) {
+                $tagModel = Mage::getModel('tag/tag');
+                $tagModel->loadByName($tagName);
+
+                $tagModel->setName($tagName)
+                        ->setStoreId(1)
+                        ->setStatus( $tagModel->getApprovedStatus() )
+                        ->save();
+
+                $tagRelationModel = Mage::getModel('tag/tag_relation');
+
+                $tagRelationModel->setTagId($tagModel->getId())
+                    ->setCustomerId(44)
+                    ->setProductId(2)
+                    ->setStoreId(1)
+                    ->save();
+            }
+        }
+    }
+    */
 }

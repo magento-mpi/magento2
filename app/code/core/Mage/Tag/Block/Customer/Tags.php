@@ -26,13 +26,12 @@ class Mage_Tag_Block_Customer_Tags extends Mage_Core_Block_Template
             $this->_tags = array();
 
             $tags = Mage::getResourceModel('tag/tag_collection')
-                ->addPopularity(20)
+                ->addPopularity()
                 ->setOrder('popularity', 'DESC')
                 #->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->load()
-                ->getItems()
-            ;
+                ->getItems();
         } else {
             return;
         }

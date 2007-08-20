@@ -1,0 +1,18 @@
+<?if( $this->_getHeadText() ):?>
+    <div class="page-head">
+    	<h3><?=$this->_getHeadText()?></h3>
+    </div>
+<?endif;?>
+<div class="box base-mini mini-product-tags">
+    <div class="content">
+        <?if( sizeof($this->getTags()) > 0 ):?>
+        <ul>
+            <?foreach ($this->getTags() as $_tag):?>
+                <li><a href="<?=$_tag->getTaggedProductsUrl()?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
+            <?endforeach;?>
+        </ul>
+        <?else:?>
+        <center><small><?=__('Popular Tags Not Avaliable')?></small></center>
+        <?endif;?>
+    </div>
+</div>

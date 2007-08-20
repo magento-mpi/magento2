@@ -1,14 +1,19 @@
-
-	<div class="page-head">
+<div class="account-box">
+    <div class="page-head">
 		<h3><?=__('My Tags')?></h3>
 	</div>
 	<?if($this->getTags()):?>
 		<p><?=__('Click on a tag to view your corresponding products.')?></p>
-			<?$_i = 0?>
-			<?foreach ($this->getTags() as $_tag):?>
-				<a href="<?=$_tag->getViewTagUrl()?>"><?=$_tag->getName()?></a><?if(++$_i != sizeof($this->getTags())):?>,<?endif;?>
-			<?endforeach;?>
+		<div class="box base-mini mini-product-tags">
+            <div class="content">
+        		<ul>
+        			<?foreach ($this->getTags() as $_tag):?>
+        				<li><a href="<?=$_tag->getTaggedProductsUrl()?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
+        			<?endforeach;?>
+        		</ul>
+            </div>
+        </div>
 	<?else:?>
 	<p><?=__('You do not have any tags yet.')?></p>
-	</div>
 	<?endif;?>
+</div>
