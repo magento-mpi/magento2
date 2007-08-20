@@ -31,24 +31,18 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
         return $this->_collection->getSize();
     }
 
-    public function getPagerHtml()
+    public function getToolbarHtml()
     {
-        if( $this->getUsePager() ) {
-            return $this->getChildHtml('pager');
-        } else {
-            $this->getChildHtml('pager');
-        }
+        return $this->getChildHtml('toolbar');
     }
 
     protected function _initChildren()
     {
-        $this->setChild('pager',
-            $this->getLayout()->createBlock('page/html_pager', 'pager')
-                        ->setCollection($this->_getCollection())
-                        ->setUrlPrefix('customer')
-                        ->setViewBy('limit')
-                        ->setParam('limit', 10)
-        );
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'customer_review_list.toolbar')
+            ->disableExpanded()
+            ->setCollection($this->_getCollection());
+
+        $this->setChild('toolbar', $toolbar);
     }
 
     protected function _getCollection()
@@ -58,8 +52,6 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
 
     public function getCollection()
     {
-        $this->_getCollection()
-            ->addReviewSummary();
         return $this->_getCollection();
     }
 
@@ -76,5 +68,13 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
     public function dateFormat($date)
     {
          return strftime(Mage::getStoreConfig('general/local/date_format_short'), strtotime($date));
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_getCollection()
+            ->load()
+            ->addReviewSummary();
+        return parent::_beforeToHtml();
     }
 }

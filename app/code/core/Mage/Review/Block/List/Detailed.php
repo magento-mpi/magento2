@@ -51,24 +51,18 @@ class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
         return $this->getCollection()->getSize();
     }
 
-    public function getPagerHtml()
-    {
-        if( $this->getUsePager() ) {
-            return $this->getChildHtml('pager');
-        } else {
-            $this->getChildHtml('pager');
-        }
-    }
-
     protected function _initChildren()
     {
-        $this->setChild('pager',
-            $this->getLayout()->createBlock('page/html_pager', '_pager')
-                        ->setCollection($this->_getCollection())
-                        ->setUrlPrefix('review')
-                        ->setViewBy('limit')
-                        ->setViewBy('order', array('date', 'rating'))
-        );
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'detailed_review_list.toolbar')
+            ->disableExpanded()
+            ->setCollection($this->_getCollection());
+
+        $this->setChild('toolbar', $toolbar);
+    }
+
+    public function getToolbarHtml()
+    {
+        return $this->getChildHtml('toolbar');
     }
 
     protected function _getCollection()
@@ -87,9 +81,15 @@ class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
 
     public function getCollection()
     {
-        $this->_getCollection()
-            ->addRateVotes();
         return $this->_getCollection();
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_getCollection()
+            ->load()
+            ->addRateVotes();
+        return parent::_beforeToHtml();
     }
 
     public function getReviewUrl($id)

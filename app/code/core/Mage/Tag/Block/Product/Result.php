@@ -24,11 +24,6 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         return Mage::getModel('tag/tag')->load($this->getTagId());
     }
 
-    public function getPagerHtml()
-    {
-        return $this->getChildHtml('pager');
-    }
-
     public function getProducts()
     {
         return $this->_getCollection()->getItems();
@@ -41,14 +36,20 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $this->setChild('pager',
-            $this->getLayout()->createBlock('page/html_pager', 'review_pager')
-                        ->setCollection($this->_getCollection())
-                        ->setUrlPrefix('tag')
-                        ->setViewBy('limit')
-                        ->setViewBy('mode', array('grid', 'list'))
-                        ->setViewBy('order', array('name', 'price'))
-        );
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'tag_list.toolbar')
+            ->setCollection($this->_getCollection());
+
+        $this->setChild('toolbar', $toolbar);
+    }
+
+    public function getToolbarHtml()
+    {
+        return $this->getChildHtml('toolbar');
+    }
+
+    public function getMode()
+    {
+        return $this->getChild('toolbar')->getCurrentMode();
     }
 
     protected function _getCollection()
@@ -66,5 +67,12 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
             Mage::getModel('review/review')->appendSummary($this->_collection);
         }
         return $this->_collection;
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_getCollection()->load();
+        Mage::getModel('review/review')->appendSummary($this->_getCollection());
+        return parent::_beforeToHtml();
     }
 }

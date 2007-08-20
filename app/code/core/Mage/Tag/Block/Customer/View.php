@@ -12,6 +12,7 @@
 class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
 {
     protected $_collection;
+
     protected $_tagInfo;
 
     public function __construct()
@@ -26,11 +27,6 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
             $this->_tagInfo = Mage::getModel('tag/tag')->load($this->getTagId());
         }
         return $this->_tagInfo;
-    }
-
-    public function getPagerHtml()
-    {
-        return $this->getChildHtml('pager');
     }
 
     public function getMyProducts()
@@ -50,13 +46,21 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $this->setChild('pager',
-            $this->getLayout()->createBlock('page/html_pager', 'review_pager')
-                        ->setCollection($this->_getCollection())
-                        ->setUrlPrefix('tag')
-                        ->setViewBy('limit')
-                        ->setViewBy('order', array('name', 'price'))
-        );
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'customer_tag_list.toolbar')
+            ->disableViewSwitcher()
+            ->setCollection($this->_getCollection());
+
+        $this->setChild('toolbar', $toolbar);
+    }
+
+    public function getToolbarHtml()
+    {
+        return $this->getChildHtml('toolbar');
+    }
+
+    public function getMode()
+    {
+        return $this->getChild('toolbar')->getCurrentMode();
     }
 
     protected function _getCollection()
@@ -66,15 +70,17 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
             $this->_collection = $tagModel->getEntityCollection();
 
             $this->_collection
-                #->addStoreFilter(Mage::getSingleton('core/store')->getId())
                 ->addTagFilter($this->getTagId())
-                #->addStatusFilter($tagModel->getApprovedStatus())
                 ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->addAttributeToSelect('description');
-
-            Mage::getModel('review/review')->appendSummary($this->_collection);
         }
-
         return $this->_collection;
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_getCollection()->load();
+        Mage::getModel('review/review')->appendSummary($this->_getCollection());
+        return parent::_beforeToHtml();
     }
 }

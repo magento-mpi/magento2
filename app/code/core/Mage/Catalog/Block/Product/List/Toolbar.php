@@ -15,14 +15,16 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     protected $_modeVarName         = 'mode';
     protected $_availableOrder      = array('price', 'name');
     protected $_availableMode       = array();
-    
+    protected $_enableViewSwitcher  = true;
+    protected $_isExpanded          = true;
+
     public function __construct()
     {
         parent::__construct();
         $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
         $this->setTemplate('catalog/product/list/toolbar.phtml');
     }
-    
+
     public function setCollection($collection)
     {
         parent::setCollection($collection);
@@ -31,12 +33,12 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         }
         return $this;
     }
-    
+
     public function getOrderVarName()
     {
         return $this->_orderVarName;
     }
-    
+
     public function getDirectionVarName()
     {
         return $this->_directionVarName;
@@ -46,7 +48,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         return $this->_modeVarName;
     }
-    
+
     public function getCurrentOrder()
     {
         $order = $this->getRequest()->getParam($this->getOrderVarName());
@@ -55,7 +57,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         }
         return false;
     }
-    
+
     public function getCurrentDirection()
     {
         if ($dir = (string) $this->getRequest()->getParam($this->getDirectionVarName())) {
@@ -66,28 +68,28 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         }
         return 'asc';
     }
-    
+
     public function getAvailableOrders()
     {
         return $this->_availableOrder;
     }
-    
+
     public function isOrderCurrent($order)
     {
         return $order == $this->getRequest()->getParam('order');
     }
-    
+
     public function getOrderUrl($order, $direction)
     {
         if (is_null($order)) {
             $order = $this->getCurrentOrder() ? $this->getCurrentOrder() : $this->_availableOrder[0];
         }
         return $this->getPagerUrl(array(
-            $this->getOrderVarName()=>$order, 
+            $this->getOrderVarName()=>$order,
             $this->getDirectionVarName()=>$direction
         ));
     }
-    
+
     public function getCurrentMode()
     {
         $mode = $this->getRequest()->getParam($this->getModeVarName());
@@ -96,19 +98,53 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         }
         return current(array_keys($this->_availableMode));
     }
-    
+
     public function isModeActive($mode)
     {
         return $this->getCurrentMode() == $mode;
     }
-    
+
     public function getModes()
     {
         return $this->_availableMode;
     }
-    
+
     public function getModeUrl($mode)
     {
         return $this->getPagerUrl(array($this->getModeVarName()=>$mode));
+    }
+
+    public function disableViewSwitcher()
+    {
+        $this->_enableViewSwitcher = false;
+        return $this;
+    }
+
+    public function enableViewSwitcher()
+    {
+        $this->_enableViewSwitcher = true;
+        return $this;
+    }
+
+    public function isEnabledViewSwitcher()
+    {
+        return $this->_enableViewSwitcher;
+    }
+
+    public function disableExpanded()
+    {
+        $this->_isExpanded = false;
+        return $this;
+    }
+
+    public function enableExpanded()
+    {
+        $this->_isExpanded = true;
+        return $this;
+    }
+
+    public function isExpanded()
+    {
+        return $this->_isExpanded;
     }
 }

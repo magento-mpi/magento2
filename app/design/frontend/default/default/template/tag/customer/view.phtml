@@ -5,7 +5,7 @@
 	<p>
 		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><small><?=__('Edit')?></small></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
 	</p>
-	<?=$this->getPagerHtml()?>
+	<?=$this->getToolbarHtml()?>
 	<table class="data-table box-table" id="my-tags-table" cellspacing="0">
 	<?if( sizeof($this->getMyProducts()) > 0 ):?>
 		<col width="100">
@@ -17,7 +17,7 @@
 			<tr <?if($iterator % 2 == 0):?>class="odd"<?$iterator++;endif;?>>
 				<td><a href="<?=$_product->getProductUrl();?>"><img src="<?=$_product->getSmallImageUrl()?>" alt="" height="100" width="100"></a></td>
 				<td>
-	
+
 					<h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
 					<?=$this->getHelper('review/helper')->getSummaryHtml($_product, 'short')?>
@@ -35,6 +35,6 @@
 			</tr>
 	<?endif;?>
 	</table>
-				<script type="text/javascript">decorateTable('my-tags-table')</script>
-	<?=$this->getPagerHtml()?>
+	<script type="text/javascript">decorateTable('my-tags-table')</script>
+	<?=$this->getToolbarHtml()?>
 </div>

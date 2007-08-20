@@ -84,7 +84,7 @@
 			<?endif;?>
 		<?else:?>
 		<p><small>Availability: In stock. Ships within 24hours.</small></p>
-			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong> 
+			<button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
 			&nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
 			<?if($this->getCompareJsObjectName()):?>
 					<span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
@@ -101,19 +101,19 @@
 		</script>
 		<div class="clear"></div>
 		<div class="divider"></div>
-	
+
 		<p><a href="<?=$product->getProductUrl()?>">&laquo; <?=__('Back to main product info')?></a></p>
-	
+
 		</div>
 		</div>
-	
+
 		<div class="product-collateral">
 	<?if( $this->getCollection() && $this->count()):?>
 		<div class="collateral-box dedicated-review-box" id="customer-reviews">
 			<div class="head">
 				<h4><?=__('Customer Reviews')?></h4>
 			</div>
-		<?=$this->getPagerHtml()?>
+		<?=$this->getToolbarHtml()?>
 			<ol>
 		<?foreach( $this->getCollection()->getItems() as $_review ):?>
 				<li>
@@ -137,7 +137,7 @@
 		<?endforeach;?>
 			</ol>
 		</div>
-		<?=$this->getPagerHtml()?>
+		<?=$this->getToolbarHtml()?>
 	<?else:?>
 		<!--<center style="border:1px solid #cbdcf1;padding:20px 0 20px 0;"><small><?=__('This Product Has Not Reviews')?></small></center>-->
 	<?endif;?>

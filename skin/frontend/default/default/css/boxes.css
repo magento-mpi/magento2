@@ -606,7 +606,7 @@ p.grand_total { padding-right:15px; }
 .generic-product-grid h5 a, .generic-product-grid h5 a:hover {color:#203548; text-decoration:underline;}
 .generic-product-grid .product-images { text-align:center; }
 .generic-product-grid td.empty-product{ border-right:0;}
- 
+
 /*************** [PRODUCT LISTING BOXES]****************/
 
 .catalog-listing { line-height:1.35em; }
@@ -992,7 +992,7 @@ tbody.remove-buttons td img { float:right; }
 
 /* Customer Reviews */
 .my-review-detail .product-image { float:left; width:135px; }
-.my-review-detail .details { float:right; width:530px; }
+.my-review-detail .details { float:right; width:510px; }
 .my-review-detail .ratings-list { margin-bottom:.8em; }
 
 

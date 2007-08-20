@@ -54,23 +54,18 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         return parent::toHtml();
     }
 
-    public function getPagerHtml()
+    public function getToolbarHtml()
     {
-        if( $this->getUsePager() ) {
-            return $this->getChildHtml('pager');
-        } else {
-            $this->getChildHtml('pager');
-        }
+        return $this->getChildHtml('toolbar');
     }
 
     protected function _initChildren()
     {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'pager')
-            ->setCollection($this->_getCollection())
-            ->setUrlPrefix('review')
-            ->setViewBy('limit')
-            ->setParam('limit', 10);
-        $this->setChild('pager', $pager);
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'review_list.toolbar')
+            ->disableExpanded()
+            ->setCollection($this->_getCollection());
+
+        $this->setChild('toolbar', $toolbar);
     }
 
     protected function _getCollection()
@@ -80,8 +75,15 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
 
     public function getCollection()
     {
-        $this->_getCollection()
-            ->addRateVotes();
         return $this->_getCollection();
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->_getCollection()
+            ->setPageSize(10)
+            ->load()
+            ->addRateVotes();
+        return parent::_beforeToHtml();
     }
 }

@@ -9,8 +9,9 @@
 			<?endif;?>
 		<?endif;?>
 	</div>
-
-    <?=$this->getPagerHtml()?>
+    <?if( $this->getUseBackLink() ):?>
+    <?=$this->getToolbarHtml()?>
+    <?endif;?>
 	<ol>
     <?foreach ($this->getCollection() as $_review):?>
         <li>
@@ -31,7 +32,9 @@
         </li>
     <?endforeach;?>
 	</ol>
-	<?=$this->getPagerHtml()?>
+	<?if( $this->getUseBackLink() ):?>
+	<?=$this->getToolbarHtml()?>
+	<?endif;?>
 <?else:?>
 	<div class="head">
 		<h4><?=__('Customer Reviews')?></h4>
