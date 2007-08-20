@@ -103,8 +103,16 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
     	    );
     	    $connection->delete($table, $condition);
 
+            $exceptions = array();
             foreach ($data as $dataLine) {
-    	        $connection->insert($table, $dataLine);
+                try {
+    	            $connection->insert($table, $dataLine);
+                } catch (Exception $e) {
+                    $exceptions[] = 'Duplicate row for state "' . $dataLine['dest_region_id'] . '" and zip "' . $dataLine['dest_zip'] . '"';
+                }
+            }
+            if (!empty($exceptions)) {
+                throw new Exception( "\n" . implode("\n", $exceptions) );
             }
         }
     }

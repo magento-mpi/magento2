@@ -39,13 +39,20 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function saveAction()
     {
-        Mage::getResourceModel('adminhtml/config')->saveSectionPost(
-            $this->getRequest()->getParam('section'),
-            $this->getRequest()->getParam('website'),
-            $this->getRequest()->getParam('store'),
-            $this->getRequest()->getPost('groups')
-        );
-        $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
+        try {
+            Mage::getResourceModel('adminhtml/config')->saveSectionPost(
+                $this->getRequest()->getParam('section'),
+                $this->getRequest()->getParam('website'),
+                $this->getRequest()->getParam('store'),
+                $this->getRequest()->getPost('groups')
+            );
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Config Successfully Saved'));
+            $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
+            return;
+        } catch( Exception $e ) {
+            Mage::getSingleton('adminhtml/session')->addError(nl2br($e->getMessage()));
+            $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
+        }
     }    
 
     public function exportTableratesAction()
