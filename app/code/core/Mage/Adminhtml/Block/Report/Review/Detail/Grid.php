@@ -14,21 +14,21 @@ class Mage_Adminhtml_Block_Report_Review_Detail_Grid extends Mage_Adminhtml_Bloc
     {
         parent::__construct();
         $this->setId('reviews_grid');
-        $this->setDefaultSort('id');
-        $this->setDefaultDir('desc');
     }
 
     protected function _prepareCollection()
     {     
         
-        $collection = Mage::getModel('review/review')->getProductCollection();
+        //$collection = Mage::getModel('review/review')->getProductCollection();
         
-        $collection->getSelect()->__toString();
-        
-        $collection->getSelect()
-            ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
+               
+        //$collection->getSelect()
+        //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
      
-        $collection->getEntity()->setStore(0);
+        //$collection->getEntity()->setStore(0);
+        
+        $collection = Mage::getResourceModel('reports/review_collection')
+            ->addProductFilter((int)$this->getRequest()->getParam('id'));
         
         $this->setCollection($collection);
                 

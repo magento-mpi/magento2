@@ -27,12 +27,30 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->renderLayout();
     }
 
-    public function product1Action()
+    public function productAction()
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/product')
             ->_addBreadcrumb(__('Poducts Report'), __('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product'))
+            ->renderLayout();
+    }
+    
+    public function productAllAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/tag/product/all')
+            ->_addBreadcrumb(__('Poducts Report (Total)'), __('Products Report (Total)'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_all'))
+            ->renderLayout();
+    }
+    
+    public function popularAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/tag/popular')
+            ->_addBreadcrumb(__('Popular Tags'), __('Popular Tags'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_popular'))
             ->renderLayout();
     }
 
@@ -53,6 +71,16 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
             ->_addBreadcrumb(__('Product Tags'), __('Product Tags'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_detail'))
+            ->renderLayout();
+    }
+    
+    public function tagDetailAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/tag/tagDetail')
+            ->_addBreadcrumb(__('Popular Tags'), __('Popular Tags'))
+            ->_addBreadcrumb(__('Tag Detail'), __('Tag Detail'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_popular_detail'))
             ->renderLayout();
     }
  

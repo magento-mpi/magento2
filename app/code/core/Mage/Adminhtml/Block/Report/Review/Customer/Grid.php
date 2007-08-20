@@ -21,22 +21,10 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
 
     protected function _prepareCollection()
     {     
+        $collection = Mage::getResourceModel('reports/review_customer_collection');
         
-        $collection = Mage::getResourceModel('customer/customer_collection')
-                     ->addAttributeToSelect('entity_id')
-                     ->addAttributeToSelect('firstname')
-                     ->addAttributeToSelect('lastname');
-            
-        $collection->getSelect()->from('review_detail', 'count(review_detail.review_id) as review_cnt')
-                                ->where('review_detail.customer_id=e.entity_id')
-                                ->group('review_detail.customer_id');
-                                               
-                                               
-
-        //echo $collection->getSelect()->__toString();
-
         $this->setCollection($collection);
-      
+
         return parent::_prepareCollection();
     }
 
@@ -65,7 +53,6 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('review_cnt', array(
             'header'    =>__('Number Of Reviews'),
             'width'     =>'40px',
-            'sortable'  =>false,
             'index'     =>'review_cnt'
         ));
         

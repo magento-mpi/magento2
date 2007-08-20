@@ -14,33 +14,18 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
     {
         parent::__construct();
         $this->setId('gridProducts');
-        $this->setDefaultSort('id');
-        $this->setDefaultDir('desc');
     }
 
     protected function _prepareCollection()
     {     
-              
-        $collection = Mage::getModel('review/review')->getProductCollection()
-            ->addRateVotes();
-        
 
-
-
-        $collection->getSelect()
-            ->from('', array('count(rt.entity_id) as review_cnt', 'max(rt.created_at) as last_created'))
-            ->group('rt.entity_pk_value');
-
-
-
-        
+        $collection = Mage::getResourceModel('reports/review_product_collection');
+       
         $collection->getEntity()->setStore(0);
-        
+      
         $this->setCollection($collection);
-                
-        parent::_prepareCollection();
 
-        return $this;
+        return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()

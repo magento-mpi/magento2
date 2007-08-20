@@ -15,7 +15,7 @@
         <models>
             <reports>
                 <class>Mage_Reports_Model</class>
-                <resourceModel>directory_mysql4</resourceModel>
+                <resourceModel>reports_mysql4</resourceModel>
             </reports>    
             <reports_mysql4>
                 <class>Mage_Reports_Model_Mysql4</class>
