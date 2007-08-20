@@ -397,23 +397,32 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
                 $rate->setMethod($method);
                 $rate->setMethodTitle($this->getCode('method', $method));
                 $rate->setCost($cost);
-                $rate->setPrice($this->getMethodPrice($cost));
+                $rate->setPrice($this->getMethodPrice($cost, $method));
                 $result->append($rate);
             }
         }
         $this->_result = $result;
     }
     
-    public function getMethodPrice($cost)
+    public function getMethodPrice($cost, $method='')
     {
-        $price = $cost+Mage::getStoreConfig('carriers/fedex/handling');
+        $r = $this->_rawRequest;
+        if (Mage::getStoreConfig('carriers/fedex/cutoff_cost') != ''
+         && $method == Mage::getStoreConfig('carriers/fedex/free_method')
+         && Mage::getStoreConfig('carriers/fedex/cutoff_cost') <= $r->getValue()) {
+             $price = '0.00';
+        } else {
+            $price = $cost + Mage::getStoreConfig('carriers/fedex/handling');
+        }
         return $price;
     }
 
+/*
     public function isEligibleForFree($method)
     {
     	return $method=='FEDEXGROUND';
     }
+*/
     
     public function getCode($type, $code='')
     {

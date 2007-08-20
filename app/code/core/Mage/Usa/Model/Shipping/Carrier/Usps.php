@@ -81,6 +81,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         $r->setWeightPounds(floor($request->getPackageWeight()));
         $r->setWeightOunces(($request->getPackageWeight()-floor($request->getPackageWeight()))*16);
         
+        $r->setValue($request->getPackageValue());
+
         $this->_rawRequest = $r;
         
         return $this;
@@ -166,16 +168,23 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 $rate->setMethod($method);
                 $rate->setMethodTitle($method);
                 $rate->setCost($cost);
-                $rate->setPrice($this->getMethodPrice($cost));
+                $rate->setPrice($this->getMethodPrice($cost, $this->getCode('service_to_code', $method)));
                 $result->append($rate);
             }
         }
         $this->_result = $result;
     }
     
-    public function getMethodPrice($cost)
+    public function getMethodPrice($cost, $method='')
     {
-        $price = $cost+Mage::getStoreConfig('carriers/usps/handling');
+        $r = $this->_rawRequest;
+        if (Mage::getStoreConfig('carriers/usps/cutoff_cost') != ''
+         && $method == Mage::getStoreConfig('carriers/usps/free_method')
+         && Mage::getStoreConfig('carriers/usps/cutoff_cost') <= $r->getValue()) {
+             $price = '0.00';
+        } else {
+            $price = $cost + Mage::getStoreConfig('carriers/usps/handling');
+        }
         return $price;
     }
 
@@ -192,6 +201,20 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 'MEDIA'       => 'Media Mail',
                 'LIBRARY'     => 'Library',
 //                'ALL'         => 'All Services',
+            ),
+
+            'service_to_code'=>array(
+                'First-Class'                      => 'FIRST CLASS',
+                'Express Mail'                     => 'EXPRESS',
+                'Express Mail PO to PO'            => 'EXPRESS',
+                'Priority Mail'                    => 'PRIORITY',
+                'Parcel Post'                      => 'PARCEL',
+                'Express Mail Flat-Rate Envelope'  => 'EXPRESS',
+                'Priority Mail Flat-Rate Box'      => 'PRIORITY',
+                'Bound Printed Matter'             => 'BPM',
+                'Media Mail'                       => 'MEDIA',
+                'Library Mail'                     => 'LIBRARY',
+                'Priority Mail Flat-Rate Envelope' => 'PRIORITY',
             ),
 
             'first_class_mail_type'=>array(

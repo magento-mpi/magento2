@@ -81,6 +81,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
 
         $r->setWeight($request->getPackageWeight());
         
+        $r->setValue($request->getPackageValue());
+
         $this->_rawRequest = $r;
         
         return $this;
@@ -211,7 +213,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
     
     public function getMethodPrice($cost)
     {
-        $price = $cost+Mage::getStoreConfig('carriers/dhl/handling');
+        $price = $cost + Mage::getStoreConfig('carriers/dhl/handling');
         return $price;
     }
 

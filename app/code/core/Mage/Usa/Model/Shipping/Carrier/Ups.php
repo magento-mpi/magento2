@@ -92,6 +92,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         
         $r->setWeight($request->getPackageWeight());
         
+        $r->setValue($request->getPackageValue());
+
         $this->_rawRequest = $r;
         
         return $this;
@@ -166,7 +168,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 $rate->setMethod($r['method']);
                 $rate->setMethodTitle($this->getCode('method', $r['method']));
                 $rate->setCost($r['cost']);
-                $rate->setPrice($this->getMethodPrice($r['cost']));
+                $rate->setPrice($this->getMethodPrice($r['cost'], $r['method']));
                 $result->append($rate);
             }
         }
@@ -174,16 +176,25 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         $this->_result = $result;
     }
     
-    public function getMethodPrice($cost)
+    public function getMethodPrice($cost, $method='')
     {
-        $price = $cost+Mage::getStoreConfig('carriers/ups/handling');
+        $r = $this->_rawRequest;
+        if (Mage::getStoreConfig('carriers/ups/cutoff_cost') != ''
+         && $method == Mage::getStoreConfig('carriers/ups/free_method')
+         && Mage::getStoreConfig('carriers/ups/cutoff_cost') <= $r->getValue()) {
+             $price = '0.00';
+        } else {
+            $price = $cost + Mage::getStoreConfig('carriers/ups/handling');
+        }
         return $price;
     }
     
+/*
     public function isEligibleForFree($method)
     {
     	return $method=='GND' || $method=='GNDCOM' || $method=='GNDRES';
     }
+*/
 
     public function getCode($type, $code='')
     {
