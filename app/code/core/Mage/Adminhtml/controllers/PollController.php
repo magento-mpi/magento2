@@ -70,6 +70,10 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                     $pollModel->setDateClosed(now());
                 }
 
+                if( !$this->getRequest()->getParam('closed') ) {
+                    $pollModel->setDateClosed(new Zend_Db_Expr('null'));
+                }
+
                 $pollModel->setPollTitle($this->getRequest()->getParam('poll_title'))
                       ->setClosed($this->getRequest()->getParam('closed'))
                       ->setId($this->getRequest()->getParam('id'))
