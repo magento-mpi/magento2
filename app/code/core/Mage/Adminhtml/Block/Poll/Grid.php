@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('poll_title', array(
-            'header'    => __('Poll Name'),
+            'header'    => __('Poll Question'),
             'align'     =>'left',
             'index'     => 'poll_title',
         ));
@@ -81,14 +81,14 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
         */
         $this->addColumn('closed', array(
-            'header'    => __('Closed'),
+            'header'    => __('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'closed',
             'type'      => 'options',
             'options'   => array(
-                1 => 'Yes',
-                0 => 'No',
+                1 => 'Closed',
+                0 => 'Open',
             ),
         ));
 

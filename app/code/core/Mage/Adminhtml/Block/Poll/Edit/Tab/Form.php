@@ -17,42 +17,25 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
 
         $fieldset = $form->addFieldset('poll_form', array('legend'=>__('Poll information')));
         $fieldset->addField('poll_title', 'text', array(
-                                'label'     => __('Poll Name'),
+                                'label'     => __('Poll Question'),
                                 'class'     => 'required-entry',
                                 'required'  => true,
                                 'name'      => 'poll_title',
                             )
         );
-        /*
-        $fieldset->addField('active', 'select', array(
-                                'label'     => __('Active'),
-                                'name'      => 'active',
-                                'values'    => array(
-                                    array(
-                                        'value'     => 1,
-                                        'label'     => __('Yes'),
-                                    ),
 
-                                    array(
-                                        'value'     => 0,
-                                        'label'     => __('No'),
-                                    ),
-                                ),
-                            )
-        );
-        */
         $fieldset->addField('closed', 'select', array(
-                                'label'     => __('Closed'),
+                                'label'     => __('Status'),
                                 'name'      => 'closed',
                                 'values'    => array(
                                     array(
                                         'value'     => 1,
-                                        'label'     => __('Yes'),
+                                        'label'     => __('Closed'),
                                     ),
 
                                     array(
                                         'value'     => 0,
-                                        'label'     => __('No'),
+                                        'label'     => __('Open'),
                                     ),
                                 ),
                             )
