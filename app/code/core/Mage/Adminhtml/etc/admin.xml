@@ -136,10 +136,10 @@
                         <title>Search</title>
                         <action>adminhtml/catalog_search/</action>
                     </search>
-                    <datafeed>
+                    <!--<datafeed>
                         <title>Datafeeds</title>
                         <action>adminhtml/catalog_datafeed/</action>
-                    </datafeed>
+                    </datafeed>-->
                     <config>
                         <title>Configuration</title>
                         <action>adminhtml/system_config/edit/section/catalog/</action>
