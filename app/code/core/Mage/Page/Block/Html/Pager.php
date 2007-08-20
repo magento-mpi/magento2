@@ -170,11 +170,8 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     
     public function getPagerUrl($params=array())
     {
-        $request = clone $this->getRequest();
-        foreach($params as $key=>$val) {
-            $request->setParam($key, $val)->getParams();
-        }
-        return $this->getUrl('*/*/*', $request->getParams());
+        $params['_current'] = true;
+        return $this->getUrl('*/*/*', $params);
     }
 }
 

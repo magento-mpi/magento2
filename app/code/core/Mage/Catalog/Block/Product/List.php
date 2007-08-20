@@ -11,15 +11,18 @@
 class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template 
 {
     protected $_productCollection;
-
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('catalog/product/list.phtml');
+    }
+    
     protected function _initChildren()
     {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'product_list.pager')
-            ->setCollection($this->_getProductCollection());
         $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'product_list.toolbar')
             ->setCollection($this->_getProductCollection());
             
-        $this->setChild('pager', $pager);
         $this->setChild('toolbar', $toolbar);
 
         // add Home breadcrumb
@@ -36,7 +39,10 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
      */
     protected function _getProductCollection()
     {
-        return Mage::getSingleton('catalog/layer')->getProductCollection();
+        if (is_null($this->_productCollection)) {
+            $this->_productCollection = Mage::getSingleton('catalog/layer')->getProductCollection();
+        }
+        return $this->_productCollection;
     }
     
     /**
@@ -50,18 +56,13 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     }
     
     /**
-     * Retrieve collection pager HTML
+     * Retrieve list toolbar HTML
      *
      * @return string
      */
-    public function getPagerHtml()
-    {
-        return $this->getChildHtml('pager');
-    }
-    
     public function getToolbarHtml()
     {
-        ///return $this->getChildHtml('toolbar');
+        return $this->getChildHtml('toolbar');
     }
 
     /**
@@ -71,7 +72,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
      */
     public function getMode()
     {
-        return $this->getRequest()->getParam('mode');
+        return $this->getChild('toolbar')->getCurrentMode();
     }
     
     protected function _beforeToHtml()
@@ -79,5 +80,19 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
         $this->_getProductCollection()->load();
         Mage::getModel('review/review')->appendSummary($this->_getProductCollection());
         return parent::_beforeToHtml();
+    }
+    
+    /**
+     * Retrieve
+     *
+     * @return unknown
+     */
+    public function getCompareJsObjectName()
+    {
+    	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
+    		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
+    	}
+
+    	return false;
     }
 }

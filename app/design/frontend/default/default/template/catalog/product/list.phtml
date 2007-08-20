@@ -1,0 +1,67 @@
+<?
+?>
+<?=$this->getToolbarHtml()?>
+<?$productCollection=$this->getLoadedProductCollection()?>
+<?if($this->getMode()!='grid'):?>
+<!-- [starts] .listing-type-list // -->
+<div class="listing-type-list catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+
+<?$i=0; foreach ($productCollection as $product):?>
+<div class="listing-item" <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>>
+	<div class="product-image">
+		<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
+	</div>
+
+	<div class="product-shop">
+        <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
+        <?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
+        <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
+        <button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>')"><span>Add to Cart</span></button>
+        <div class="clear"></div>
+        <div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
+        <p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
+        <?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>
+        </p>
+	</div>
+</div>
+<?endforeach;?>
+
+</div>
+
+<?else:?>
+	<div class="listing-type-grid  catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+	    <table cellspacing="0" class="generic-product-grid">
+		    <?$i=0; foreach ($productCollection as $product):?>
+			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
+			<td<?if ($i%3==0):?> class="last"<?endif?>>
+				<p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
+				<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
+					<?if($product->getRatingSummary()):?>
+					<div class="ratings">
+						<div class="rating-box">
+							<div class="rating" style="width:<?=$product->getRatingSummary()->getRatingSummary()?>%"></div>
+						</div>
+						<a href="<?=$this->getUrl('review/product/list', array('id' => $product->getId()))?>"><small class="count">(<?=$product->getRatingSummary()->getReviewsCount()?>)</small></a>
+					</div>
+					<?endif;?>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
+				<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
+				<div class="clear"></div>
+				<p class="add-to">
+					<?if($this->getCompareJsObjectName()):?>
+						<strong>Add to:</strong><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Wishlist</a><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Compare</a>
+					<?else:?>
+						<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>">Add to Wishlist</a>
+					<?endif;?>
+				</p>
+			</td>
+			<?if ($i%3==0):?></tr><?endif?>
+			<?endforeach?>
+            <?for($i;$i%3!=0;$i++):?>
+            <td class="empty-product"></td>
+            <?endfor?>
+		</table>
+	</div>
+<?endif;?>
+<?=$this->getPagerHtml()?>
+

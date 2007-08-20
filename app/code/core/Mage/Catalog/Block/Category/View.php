@@ -54,20 +54,6 @@ class Mage_Catalog_Block_Category_View extends Mage_Catalog_Block_Product_List
         return Mage::registry('current_category');
     }
 
-    /**
-     * Retrieve
-     *
-     * @return unknown
-     */
-    public function getCompareJsObjectName()
-    {
-    	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
-    		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
-    	}
-
-    	return false;
-    }
-
     public function getCanShowName()
     {
         return $this->getCurrentCategory()->getDisplayMode()!=Mage_Catalog_Model_Category::DM_MIXED;

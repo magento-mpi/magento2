@@ -143,7 +143,16 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         if (!empty($params)) {
             if (!empty($params['_current'])) {
                 if ($params['_current']===true) {
+                    $paramsGetPost = array();
+                    if ($post = $this->getFront()->getRequest()->getPost()) {
+                        $paramsGetPost+= $post;
+                    }
+                    if ($get = $this->getFront()->getRequest()->getQuery()) {
+                        $paramsGetPost+= $get;
+                    }
+                    
                     $params = array_merge($this->getFront()->getRequest()->getParams(), $params);
+                    $params = array_diff_key($params, $paramsGetPost);
                 } elseif (is_array($params['_current'])) {
                     foreach ($params['_current'] as $param) {
                         $params[$param] = $this->getFront()->getRequest()->getParam($param);
@@ -168,8 +177,12 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             $url .= empty($params['action']) ? '' : $params['action'].'/';
 
             $url .= $paramsStr;
-
-            $url .= empty($params['array']) ? '' : '?' . http_build_query($params['array']);
+            
+            // adding query params to current option
+            $query = http_build_query($this->getFront()->getRequest()->getQuery());
+            if (!empty($query) && isset($params['_current']) && $params['_current']===true) {
+                $url .= '?' . $query;
+            }
         }
 
         return $url;

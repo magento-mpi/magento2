@@ -8,40 +8,107 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
 {
+    protected $_orderVarName        = 'order';
+    protected $_directionVarName    = 'dir';
+    protected $_modeVarName         = 'mode';
+    protected $_availableOrder      = array('price', 'name');
+    protected $_availableMode       = array();
+    
     public function __construct()
     {
         parent::__construct();
+        $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
         $this->setTemplate('catalog/product/list/toolbar.phtml');
     }
-    public function setViewBy($key, $values=array())
+    
+    public function setCollection($collection)
     {
-        $this->_viewBy[$key] = $values;
+        parent::setCollection($collection);
+        if ($this->getCurrentOrder()) {
+            $this->getCollection()->setOrder($this->getCurrentOrder(), $this->getCurrentDirection());
+        }
         return $this;
     }
-
-    public function getViewBy($key='')
+    
+    public function getOrderVarName()
     {
-        if(is_array($this->_viewBy)) {
-            if($key != '') {
-                return $this->_viewBy[$key];
-            }
-            else {
-                return $this->_viewBy;
-            }
+        return $this->_orderVarName;
+    }
+    
+    public function getDirectionVarName()
+    {
+        return $this->_directionVarName;
+    }
+
+    public function getModeVarName()
+    {
+        return $this->_modeVarName;
+    }
+    
+    public function getCurrentOrder()
+    {
+        $order = $this->getRequest()->getParam($this->getOrderVarName());
+        if ($order && in_array($order, $this->getAvailableOrders())) {
+            return $order;
         }
         return false;
     }
-
-    public function getIsViewBy($key, $value='')
+    
+    public function getCurrentDirection()
     {
-        if($value == '' && isset($this->_viewBy[$key])) {
-            return true;
+        if ($dir = (string) $this->getRequest()->getParam($this->getDirectionVarName())) {
+            $dir = strtolower($dir);
+            if (in_array($dir, array('asc', 'desc'))) {
+                return $dir;
+            }
         }
-        elseif($value != '' && in_array($value, $this->_viewBy[$key])) {
-            return true;
+        return 'asc';
+    }
+    
+    public function getAvailableOrders()
+    {
+        return $this->_availableOrder;
+    }
+    
+    public function isOrderCurrent($order)
+    {
+        return $order == $this->getRequest()->getParam('order');
+    }
+    
+    public function getOrderUrl($order, $direction)
+    {
+        if (is_null($order)) {
+            $order = $this->getCurrentOrder() ? $this->getCurrentOrder() : $this->_availableOrder[0];
         }
-        return false;
+        return $this->getPagerUrl(array(
+            $this->getOrderVarName()=>$order, 
+            $this->getDirectionVarName()=>$direction
+        ));
+    }
+    
+    public function getCurrentMode()
+    {
+        $mode = $this->getRequest()->getParam($this->getModeVarName());
+        if ($mode && isset($this->_availableMode[$mode])) {
+            return $mode;
+        }
+        return current(array_keys($this->_availableMode));
+    }
+    
+    public function isModeActive($mode)
+    {
+        return $this->getCurrentMode() == $mode;
+    }
+    
+    public function getModes()
+    {
+        return $this->_availableMode;
+    }
+    
+    public function getModeUrl($mode)
+    {
+        return $this->getPagerUrl(array($this->getModeVarName()=>$mode));
     }
 }

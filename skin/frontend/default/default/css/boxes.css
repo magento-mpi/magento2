@@ -201,8 +201,8 @@ table.pager select,
 table.view-by select {
     margin:0 3px;
     font-size:.95em;
-    width:40px;
     }
+table.pager select{ width:40px; }
 table.pager, table.view-by {
     width:100%;
     background:url(../images/pager_bg.gif) repeat-x 0 100% #fff;
