@@ -138,7 +138,7 @@ CREATE TABLE `core_store` (
 
 /*Data for the table `core_store` */
 
-insert  into `core_store`(`store_id`,`code`,`language_code`,`website_id`,`name`,`sort_order`,`is_active`) values (0,'default','en',0,'Default',0,1),(1,'base','en',1,'English Store',0,1),(2,'russian','ru',1,'Russian Store',0,1),(3,'gifts','en',2,'Gifts store',0,1),(4,'vipgifts','en',2,'VIP Gifts',0,1);
+insert  into `core_store`(`store_id`,`code`,`language_code`,`website_id`,`name`,`sort_order`,`is_active`) values (0,'default','en',0,'Default',0,1),(1,'base','en',1,'English Store',0,1);
 
 /*Table structure for table `core_translate` */
 
@@ -174,7 +174,7 @@ CREATE TABLE `core_website` (
 
 /*Data for the table `core_website` */
 
-insert  into `core_website`(`website_id`,`code`,`name`,`sort_order`,`is_active`) values (0,'default','Default',0,1),(1,'base','Main Website',0,1),(2,'gift','Gifts Website',0,1);
+insert  into `core_website`(`website_id`,`code`,`name`,`sort_order`,`is_active`) values (0,'default','Default',0,1),(1,'base','Main Website',0,1);
 
 
 EOT

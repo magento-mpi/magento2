@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `catalog_category_tree`;
 
 CREATE TABLE `catalog_category_tree` (
   `entity_id` int(10) unsigned NOT NULL auto_increment,
-  `pid` int(10) unsigned default '0',
+  `pid` int(10) unsigned NULL,
   `left_key` int(10) unsigned default '0',
   `right_key` int(10) unsigned default '0',
   `level` smallint(4) unsigned NOT NULL default '0',
@@ -32,6 +32,7 @@ CREATE TABLE `catalog_category_tree` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Categories tree';
 
 /*Data for the table `catalog_category_tree` */
+INSERT INTO `catalog_category_tree` (`entity_id`) values (1);
 
 ALTER TABLE `catalog_category_entity`
 	ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TREE_NODE` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_tree` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
