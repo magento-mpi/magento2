@@ -87,14 +87,4 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         return $sql;
     }
 
-    public function setOrder($attribute, $dir='desc')
-    {
-        if ($attribute == 'name') {
-            $this->getSelect()->order($attribute . ' ' . $dir);
-        }
-        else {
-        	parent::setOrder($attribute, $dir);
-        }
-        return $this;
-    }
 }

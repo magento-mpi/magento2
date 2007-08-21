@@ -51,6 +51,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
             'index'         => 'popularity',
         ));
 
+        $this->addColumn('status', array(
+            'header'    => __('Status'),
+            'width'     => '90px',
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'    => array(
+                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
+            ),
+        ));
+
         return parent::_prepareColumns();
     }
 
