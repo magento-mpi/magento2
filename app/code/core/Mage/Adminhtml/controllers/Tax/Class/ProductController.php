@@ -49,11 +49,6 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
             ->_addBreadcrumb(__('Tax'), __('Tax'))
 //            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
         ;
-
-        $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('adminhtml/session')->getMessages(true)
-        );
-
         return $this;
     }
 
