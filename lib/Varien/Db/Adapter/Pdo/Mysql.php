@@ -48,7 +48,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     	$this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
     	#$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
     }
-    /*
+
     public function raw_query($sql)
     {
     	do {
@@ -107,5 +107,4 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
         return true;
 	}
-*/
 }

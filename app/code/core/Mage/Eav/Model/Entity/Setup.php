@@ -528,7 +528,7 @@ CREATE TABLE `{$baseName}` (
 `entity_type_id` smallint(8) unsigned NOT NULL default '0',
 `attribute_set_id` smallint(5) unsigned NOT NULL default '0',
 `increment_id` varchar(50) NOT NULL default '',
-`parent_id` int(10) unsigned NOT NULL default '0',
+`parent_id` int(10) unsigned NULL default '0',
 `store_id` smallint(5) unsigned NOT NULL default '0',
 `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
 `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
