@@ -73,4 +73,25 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
         }
         return self::$_rateCache[$currencyFrom][$currencyTo];
     }
+    
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        parent::_afterSave($object);
+        if ($rates = $object->getRates()) {
+            $write = $this->getConnection('write');
+            $table  = $write->quoteIdentifier($this->_currencyRateTable);
+            $colFrom= $write->quoteIdentifier('currency_from');
+            $colTo  = $write->quoteIdentifier('currency_to');
+            $colRate= $write->quoteIdentifier('rate');
+            
+            $sql = 'REPLACE INTO ' . $table . ' (' . $colFrom . ', ' . $colTo . ', ' . $colRate . ') VALUES ';
+            $values = array();
+            foreach ($rates as $currencyCode => $rate) {
+                $values[] = $write->quoteInto('(?)', array($object->getId(), $currencyCode, $rate));
+            }
+            $sql.= implode(',', $values);
+            $write->query($sql);
+        }
+        return $this;
+    }
 }

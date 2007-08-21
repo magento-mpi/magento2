@@ -41,10 +41,12 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $importModel = Mage::getModel('directory/currency_import_webservicex');
         try {
             $importModel->importRates();
+            Mage::getSingleton('adminhtml/session')->addSuccess('All rates were imported');
         }
         catch (Exception $e){
-            
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
+        $this->_redirect('*/*/');
     }
     
     /*public function newAction()
