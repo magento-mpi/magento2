@@ -66,7 +66,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', Mage::getStoreConfig('carriers/tablerate/condition_name'));
         
-        $csvHeader = array('"Country"', '"Region"', '"Zip"', '"'.$conditionName.'"', '"Shipping Price"', '"Shipping Cost"');
+        $csvHeader = array('"Country"', '"Region/State"', '"Zip"', '"'.$conditionName.'"', '"Shipping Price"');
         $csv .= implode(',', $csvHeader)."\n";
         
         foreach ($tableratesCollection->getItems() as $item) {
@@ -90,7 +90,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                                '"'.str_replace('"', '""', $zip).'"',
                                '"'.str_replace('"', '""', $item->getData('condition_value')).'"',
                                '"'.str_replace('"', '""', $item->getData('price')).'"',
-                               '"'.str_replace('"', '""', $item->getData('cost')).'"',
                               );
             $csv .= implode(',', $csvData)."\n";
         }

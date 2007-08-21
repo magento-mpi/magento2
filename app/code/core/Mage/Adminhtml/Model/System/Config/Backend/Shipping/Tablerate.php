@@ -119,7 +119,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                         $zip = $csvLine[2];
                     }
 
-                    $data = array('website_id'=>$websiteId, 'dest_country_id'=>$countryId, 'dest_region_id'=>$regionId, 'dest_zip'=>$zip, 'condition_name'=>Mage::getStoreConfig('carriers/tablerate/condition_name'), 'condition_value'=>$csvLine[3], 'price'=>$csvLine[4], 'cost'=>$csvLine[5]);
+                    $data = array('website_id'=>$websiteId, 'dest_country_id'=>$countryId, 'dest_region_id'=>$regionId, 'dest_zip'=>$zip, 'condition_name'=>Mage::getStoreConfig('carriers/tablerate/condition_name'), 'condition_value'=>$csvLine[3], 'price'=>$csvLine[4]);
                     try {
     	                $connection->insert($table, $data);
                     } catch (Exception $e) {
