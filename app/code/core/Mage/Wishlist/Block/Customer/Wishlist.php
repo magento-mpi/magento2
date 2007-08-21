@@ -25,7 +25,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 		if(!$this->_wishlistLoaded) {
 			Mage::registry('wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
-			Mage::registry('wishlist')->getItemCollection()
+			Mage::registry('wishlist')->getProductCollection()
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
@@ -36,7 +36,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 			$this->_wishlistLoaded = true;
 		}
 
-		return Mage::registry('wishlist')->getItemCollection();
+		return Mage::registry('wishlist')->getProductCollection();
 	}
 
 	public function getEscapedDescription(Varien_Object $item)

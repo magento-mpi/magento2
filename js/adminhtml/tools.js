@@ -28,26 +28,16 @@ function toggleParentVis(obj) {
     }
 }
 
-slidedDown = false;
 function imagePreview(element){
-    if(!$(element).observerAdded){
-        if(slidedDown){
-            Effect.SlideUp(slidedDown);
-            $(slidedDown).observerAdded = false;
-        }
-        Effect.SlideDown(element);
-        Event.observe(element,'click',function(event){
-            Effect.SlideUp(Event.element(event).parentNode);
-            slidedDown = false;
-            $(element).observerAdded = false;
+    if($(element)){
+        var win = window.open('', 'preview', 'width=200,height=200,resizable=0,');
+        win.document.open();
+        win.document.write('<body style="padding:0;margin:0"><img src="'+$(element).src+'" id="image_preview"/></body>');
+        win.document.close();
+        Event.observe(win, 'load', function(){
+            var img = win.document.getElementById('image_preview');
+            win.resizeTo(img.width+20, img.height+20)
         });
-        slidedDown = element;
-        $(element).observerAdded = true;
-    }
-    else{
-        Effect.SlideUp(element);
-        slidedDown = false;
-        $(element).observerAdded = false;
     }
 }
 

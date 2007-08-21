@@ -23,11 +23,8 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         if ($this->getValue()) {
             $url = $this->_getUrl();
             $html = '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
-            <img src="'.$url.'" alt="'.$this->getValue().'" height="22" width="22" align="absmiddle" class="small-image-preview">
-            </a>
-            <div id="'.$this->getHtmlId().'_image" style="display:none" class="image-preview">
-            <img src="'.$url.'" alt="'.$this->getValue().'">
-            </div>';
+            <img src="'.$url.'" id="'.$this->getHtmlId().'_image" alt="'.$this->getValue().'" height="22" width="22" align="absmiddle" class="small-image-preview">
+            </a>';
         }
         $this->setClass(null);
         $html.= parent::getElementHtml();

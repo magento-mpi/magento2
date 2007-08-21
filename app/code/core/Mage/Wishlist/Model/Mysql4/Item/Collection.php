@@ -11,14 +11,11 @@
 
 class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Entity_Product_Collection 
 {
-	/*
-    protected $_resource = null;
-	
 	public function __construct() 
 	{
 		$this->setEntity(Mage::getResourceSingleton('catalog/product'));
         $this->setObject('wishlist/item');
-	}*/
+	}
 	
 	public function addWishlistFilter(Mage_Wishlist_Model_Wishlist	$wishlist)
 	{
