@@ -73,10 +73,10 @@
                         </children>
                     </attributes>
                     <reviews_ratings>
-                        <title>Reviews and Ratings</title>
+                        <title>Reviews &amp; Ratings</title>
                         <children>
                             <reviews>
-                                <title>Manage Reviews</title>
+                                <title>Customer Reviews</title>
                                 <action>adminhtml/catalog_product_review/</action>
                             </reviews>
                             <ratings>
