@@ -676,6 +676,19 @@ p.grand_total { padding-right:15px; }
 
 /*********** [PAGE SPECIFIC] ************/
 
+
+/* Home */
+.home-spot .callout { margin-bottom:10px; }
+.home-spot .callout img { display:block }
+.home-spot .box h3 { margin:12px 0 6px 0; color:#e25203; font-size:1.2em; }
+.home-spot .best-selling table { border-top:1px solid #bababa; }
+.home-spot .best-selling tr.odd { background:url(../images/best_selling_tr_odd_bg.gif) repeat-x 0 100% #ededed; }
+.home-spot .best-selling tr.even { background:url(../images/best_selling_tr_even_bg.gif) repeat-x 0 100% #fff; }
+.home-spot .best-selling td { border-bottom:1px solid #bababa; padding:8px; font-size:.95em; }
+.home-spot .best-selling .product-img { float:left; border:2px solid #dcdcdc;}
+.home-spot .best-selling .product-description { margin-left:107px; line-height:1.3em; }
+.home-spot .best-selling a.product-name, .home-spot .best-selling a.product-name:hover { color:#203548; }
+
 .product-info-box { margin-top:10px; border:1px solid #c4c6c8; margin-top:0; }
 .product-info-box .product-name {
     margin-bottom:.3em;
