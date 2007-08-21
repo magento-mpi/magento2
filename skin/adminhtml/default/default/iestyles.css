@@ -1,5 +1,4 @@
-
-/* body { width:expression(document.body.clientWidth < 800 ? "800px" : "100%" ); }  Sets the minimum width */
+body { width:100%; display: table-cell; }
 
 
 /* Clearing */

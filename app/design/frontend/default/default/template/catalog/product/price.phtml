@@ -4,7 +4,7 @@
 	</div>
 <?else:?>
 	<div class="price-box">
-		<span class="special-price"><span class="label"><?=__('Special')?>:</span> <?=Mage::currency($this->getFinalPrice())?></span><br/>
-		<span class="old-price"><span class="label"><?=__('Regular Price')?>:</span> <?=Mage::currency($this->getPrice())?></span>
+		<span class="special-price"><span class="label"><?=__('Special')?>:</span> <span class="price"><?=Mage::currency($this->getFinalPrice())?></span></span><br/>
+		<span class="old-price"><span class="label"><?=__('Regular Price')?>:</span> <span class="price"><?=Mage::currency($this->getPrice())?></span></span>
 	</div>
 <?endif?>

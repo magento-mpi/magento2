@@ -252,8 +252,8 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
 .old-price {
     color:#999;
     font-size:.95em;
-    text-decoration:line-through;
     }
+.old-price .price { text-decoration:line-through; }
 .special-price {
     color:#cd5033;
     font-size:1.2em;

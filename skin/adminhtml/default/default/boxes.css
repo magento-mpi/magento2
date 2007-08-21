@@ -41,7 +41,7 @@
 /******************************************/
 
 /* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
-.wrapper { width:100%; }
+
 .header {
     text-align:right;
     }
