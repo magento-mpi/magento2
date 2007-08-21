@@ -8,71 +8,44 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Directory_Model_Mysql4_Currency
+class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstract
 {
     protected $_currencyTable;
     protected $_currencyNameTable;
     protected $_currencyRateTable;
     protected $_countryCurrencyTable;
     
-    /**
-     * Read connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_read;
-    
-    /**
-     * Write connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_write;
-    
     protected static $_rateCache;
     
+    protected function _construct()
+    {
+        $this->_init('directory/currency', 'currency_code');
+    }
+
     public function __construct() 
     {
-
-        $this->_currencyTable       = Mage::getSingleton('core/resource')->getTableName('directory/currency');
-        $this->_currencyNameTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_name');
-        $this->_currencyRateTable   = Mage::getSingleton('core/resource')->getTableName('directory/currency_rate');
-        $this->_countryCurrencyTable= Mage::getSingleton('core/resource')->getTableName('directory/country_currency');
+        $resource = Mage::getSingleton('core/resource');
+        $this->_currencyTable       = $resource->getTableName('directory/currency');
+        $this->_currencyNameTable   = $resource->getTableName('directory/currency_name');
+        $this->_currencyRateTable   = $resource->getTableName('directory/currency_rate');
+        $this->_countryCurrencyTable= $resource->getTableName('directory/country_currency');
         
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('sales_write');
+        parent::__construct();
     }
     
-    public function load($code, $lang=null)
+    protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        if (is_null($lang)) {
-            $lang = Mage::getSingleton('core/store')->getLanguageCode();
-        }
-        
-            
-        if ($this->_read) {            
-            Varien_Profiler::start(__METHOD__);
-            $select = $this->_read->select()
+        $read = $this->getConnection('read');
+        if ($read && $object->getId()) {            
+            $select = $read->select()
                 ->from($this->_currencyTable)
                 ->join($this->_currencyNameTable, "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code")
-                ->where($this->_currencyTable.'.currency_code=?', $code)
-                ->where($this->_currencyNameTable.'.language_code=?', $lang);
-            $result = $this->_read->fetchRow($select);
-            Varien_Profiler::stop(__METHOD__);
-            return $result;
+                ->where($this->_currencyTable.'.currency_code=?', $object->getId())
+                ->where($this->_currencyNameTable.'.language_code=?', $object->getLanguageCode());
+            $data = $read->fetchRow($select);
+            $object->addData($data);
         }
-            
-        return array();
-    }
-    
-    public function save()
-    {
-        
-    }
-    
-    public function delete()
-    {
-        
+        return $this;
     }
     
     public function getRate($currencyFrom, $currencyTo)
@@ -90,13 +63,14 @@ class Mage_Directory_Model_Mysql4_Currency
         }
         
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
-            $select = $this->_read->select()
+            $read = $this->getConnection('read');
+            $select = $read->select()
                 ->from($this->_currencyRateTable, 'rate')
                 ->where('currency_from=?', strtoupper($currencyFrom))
                 ->where('currency_to=?', strtoupper($currencyTo));
                 
-            $_rateCache[$currencyFrom][$currencyTo] = $this->_read->fetchOne($select);
+            self::$_rateCache[$currencyFrom][$currencyTo] = $read->fetchOne($select);
         }
-        return $_rateCache[$currencyFrom][$currencyTo];
+        return self::$_rateCache[$currencyFrom][$currencyTo];
     }
 }

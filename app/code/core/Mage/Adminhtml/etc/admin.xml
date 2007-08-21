@@ -326,6 +326,10 @@
                             </backup>
                         </children>
                     </tools>
+                    <currency>
+                        <title>Manage Currency</title>
+                        <action>adminhtml/system_currency</action>
+                    </currency>
                     <email_template>
                         <title>Transactional Emails</title>
                         <action>adminhtml/system_email_template</action>

@@ -8,25 +8,16 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Directory_Model_Currency extends Varien_Object
+class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 {
     protected $_filter;
     
-    public function __construct($data=array()) 
+
+    protected function _construct() 
     {
-        parent::__construct($data);
+        $this->_init('directory/currency');
     }
-    
-    /**
-     * Get currency resource model
-     *
-     * @return mixed
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('directory/currency');
-    }
-    
+
     /**
      * Get currency code
      *
@@ -38,40 +29,6 @@ class Mage_Directory_Model_Currency extends Varien_Object
     }
     
     /**
-     * Load currncy 
-     *
-     * @param   string $code
-     * @return  Mage_Directory_Model_Currency
-     */
-    public function load($code)
-    {
-        $this->setData($this->getResource()->load($code));
-        return $this;
-    }
-    
-    /**
-     * Save currency
-     *
-     * @return Mage_Directory_Model_Currency
-     */
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-    
-    /**
-     * Delete currncy
-     *
-     * @return Mage_Directory_Model_Currency
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-    
-    /**
      * Get currency rate
      *
      * @param   string $toCurrency
@@ -80,6 +37,15 @@ class Mage_Directory_Model_Currency extends Varien_Object
     public function getRate($toCurrency)
     {
         return $this->getResource()->getRate($this->getCode(), $toCurrency);
+    }
+    
+    public function getLanguageCode()
+    {
+        $code = $this->getData('language_code');
+        if (is_null($code)) {
+            $code = Mage::getSingleton('core/store')->getLanguageCode();
+        }
+        return $code;
     }
     
     /**
@@ -109,7 +75,7 @@ class Mage_Directory_Model_Currency extends Varien_Object
     {
         if (!$this->_filter) {
             $this->_filter = new Mage_Directory_Model_Currency_Filter(
-                $this->getFormat(), 
+                $this->getOutputFormat(), 
                 $this->getFormatDecimals(), 
                 $this->getFormatDecPoint(), 
                 $this->getFormatThousandsSep()
