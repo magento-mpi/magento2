@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Product_Super_Attribute_Pricing extends Mage_Core_Model
 	
 	public function setPricingLabelFromAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute) 
 	{
-		if($attribute->getSourceModel()) {
+		if($attribute->getSource()) {
 			$this->setLabel($attribute->getSource()->getOptionText($this->getValueIndex()));
 		} else {
 			$this->setLabel($this->getValueIndex());

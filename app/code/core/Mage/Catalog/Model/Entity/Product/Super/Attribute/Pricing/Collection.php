@@ -19,9 +19,10 @@ class Mage_Catalog_Model_Entity_Product_Super_Attribute_Pricing_Collection exten
 	public function addLinksFilter(array $links) 
 	{
 		$condition = array();
-		$this->getSelect()->join(array('attribute'=>$this->getTable('product_super_attribute')),
-								 'attribute.product_super_attribute_id = main_table.product_super_attribute_id', 
-								 array());
+		$this->getSelect()->join(
+		  array('attribute'=>$this->getTable('product_super_attribute')),
+			'attribute.product_super_attribute_id = main_table.product_super_attribute_id', 
+			array());
 		
 		foreach ($links as $link) {
 			foreach ($link as $attribute) {
