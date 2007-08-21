@@ -337,11 +337,11 @@ insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`i
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/default/front','catalog','',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/default/no_route','cms/index/noRoute','',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/secure/base_path','{{base_path}}','',0);
-insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/secure/host','var-dev.varien.com','{{host}}',0);
+insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/secure/host','{{host}}','{{host}}',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/secure/port','81','444',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/secure/protocol','http','https',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/unsecure/base_path','{{base_path}}','',0);
-insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/unsecure/host','var-dev.varien.com','var-dev',0);
+insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/unsecure/host','{{host}}','{{host}}',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/unsecure/port','81','{{port}}',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/unsecure/protocol','http','{{protocol}}',0);
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'web/url/js','{{base_path}}js/','',0);
