@@ -2,7 +2,7 @@
 
 class Mage_Catalog_Block_Product extends Mage_Core_Block_Template 
 {
-	protected $_finalPrice;
+	protected $_finalPrice = array();
 	
 	public function getProduct()
 	{
@@ -27,10 +27,10 @@ class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
 	
 	public function getFinalPrice()
 	{
-		if (!isset($this->_finalPrice)) {
-			$this->_finalPrice = $this->getProduct()->getFinalPrice();
+		if (!isset($this->_finalPrice[$this->getProduct()->getId()])) {
+			$this->_finalPrice[$this->getProduct()->getId()] = $this->getProduct()->getFinalPrice();
 		}
-		return $this->_finalPrice;
+		return $this->_finalPrice[$this->getProduct()->getId()];
 	}
 	
 	public function getPriceHtml($product)
