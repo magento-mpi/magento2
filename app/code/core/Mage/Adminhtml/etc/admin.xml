@@ -172,11 +172,11 @@
                         <resource>promo/quote</resource>
                         <depends><module>Mage_Sales</module></depends>
                     </quote>
-                    <config>
+                    <!--<config>
                         <title>Configuration</title>
                         <action>adminhtml/system_config/</action>
                         <resource>promo/config</resource>
-                    </config>
+                    </config>-->
                 </children>
              </promo>
              <cms>
