@@ -51,17 +51,17 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     public function superConfigAction()
     {
     	$this->_initProduct();
-    	
-    	//$this->loadLayout(null, '', false);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('catalog/product_view_super_config')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('catalog/product_view_super_config')->toHtml()
+        );
     }
     
     public function priceAction()
     {
     	$this->_initProduct();
-    	
-    	//$this->loadLayout(null, '', false);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('catalog/product_view_price')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('catalog/product_view_price')->toHtml()
+        );
     }
     
     public function galleryAction()

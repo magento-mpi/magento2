@@ -10,6 +10,12 @@
  */
  class Mage_Catalog_Block_Product_View_Super_Config extends Mage_Core_Block_Template 
  {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('catalog/product/view/super/config.phtml');
+    }
+    
  	public function getAttributes()
  	{
  		if($this->getRequest()->getParam('super_attribute') && is_array($this->getRequest()->getParam('super_attribute'))) {
