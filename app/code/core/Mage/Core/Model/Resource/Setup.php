@@ -182,39 +182,48 @@ class Mage_Core_Model_Resource_Setup
         foreach ($arrModifyFiles as $resourceFile) {
             $sqlFile = $sqlFilesDir.DS.$resourceFile['fileName'];
             $fileType = pathinfo($resourceFile['fileName'], PATHINFO_EXTENSION);
-            $conn = $this->_conn;
 
             // Execute SQL
-            if ($conn) {
+            if ($this->_conn) {
                 try {
                 	switch ($fileType) {
                 		case 'sql':
                 			$sql = file_get_contents($sqlFile);
                 			if ($sql!='') {
-                				$result = $conn->multi_query($sql);
+                				$result = $this->run($sql);
                 			} else {
                 				$result = true;
                 			}
                 			break;
                 			
                 		case 'php':
+                			$conn = $this->_conn;
 		                    /**
 		                     * useful variables: 
 		                     * - $conn: setup db connection 
 		                     * - $sqlFilesDir: root dir for sql update files
 		                     */
-                            $result = include($sqlFile);
+		                    try {
+		                    	#$conn->beginTransaction();
+                            	$result = include($sqlFile);
+                            	#$conn->commit();
+		                    } catch (Exception $e) {
+		                    	#$conn->rollback();
+		                    	throw ($e);
+		                    }
                 			break;
                 			
                 		default:
                 			$result = false;
                 	}
                     if ($result) {
-                        Mage::getResourceModel('core/resource')->setDbVersion(
-                        	$this->_resourceName, $resourceFile['toVersion']);
+                    	$this->run("replace into ".$this->getTable('core/resource')." (code, version) values ('".$this->_resourceName."', '".$resourceFile['toVersion']."')");
+                        #Mage::getResourceModel('core/resource')->setDbVersion(
+                        #	$this->_resourceName, $resourceFile['toVersion']);
                     }
                 }
                 catch (Exception $e){
+                	echo "<pre>".print_r($e,1)."</pre>";
                     throw Mage::exception('Mage_Core', 'Error in file: "'.$sqlFile.'" - '.$e->getMessage());
                 }
             }
@@ -348,21 +357,24 @@ class Mage_Core_Model_Resource_Setup
 			$this->updateTableRow('core/config_field', 'field_id', $id, $data);
 		} else {
 			if (empty($data['sort_order'])) {
-				if ($data['level']===1) {
-					$parentWhere = '';
-				} else {
-					$parentWhere = $this->_conn->quoteInto(" and path like ?", dirname($path).'/%');
+				$sql = "select max(sort_order) cnt from ".$this->getTable('core/config_field')." where level=".($data['level']+1);
+				if ($data['level']>1) {
+					$sql.= $this->_conn->quoteInto(" and path like ?", dirname($path).'/%');
 				}
-				
+
+				$result = $this->_conn->raw_fetchRow($sql);
+#print_r($result); die;
+				$data['sort_order'] = $result['cnt']+1;
+/*					
+// Triggers "Command out of sync" mysql error for next statement!?!?
 				$data['sort_order'] = $this->_conn->fetchOne("select max(sort_order) 
 					from ".$this->getTable('core/config_field')." 
 					where level=?".$parentWhere, $data['level'])+1;
+*/					
 			}
 			
 			#$this->_conn->raw_query("insert into ".$this->getTable('core/config_field')." (".join(',', array_keys($data)).") values ('".join("','", array_values($data))."')");
-			#$this->_conn->insert($this->getTable('core/config_field'), $data);
-			Mage::getSingleton('core/resource')->getConnection('core_write')
-				->insert($this->getTable('core/config_field'), $data);
+			$this->_conn->insert($this->getTable('core/config_field'), $data);
 		}
 		
 		if (!is_null($default)) {
@@ -373,7 +385,31 @@ class Mage_Core_Model_Resource_Setup
 	
 	public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
 	{
-		$this->_conn->query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
+		$this->_conn->raw_query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
+		return $this;
+	}
+	
+	public function run($sql)
+	{	
+		$this->_conn->multi_query($sql);
+		return $this;
+	}
+	
+	public function startSetup()
+	{
+		$this->_conn->multi_query("SET SQL_MODE='';
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+");
+		return $this;
+	}
+	
+	public function endSetup()
+	{
+		$this->_conn->multi_query("
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+");
 		return $this;
 	}
 }

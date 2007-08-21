@@ -30,7 +30,22 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
     
     public function raw_query($sql)
     {
-        return $this->getConnection()->query($sql);
+    	do {
+    		$retry = false;
+    		$tries = 0;
+	    	try {
+	        	$result = $this->getConnection()->query($sql);
+	    	} catch (PDOException $e) {
+	    		if ($e->getMessage()=='SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction') {
+	    			$retry = true;
+	    		} else {
+	    			throw $e;
+	    		}
+	    		$tries++;
+	    	}
+    	} while ($retry && $tries<10);
+        
+        return $result;
     }
     
     public function raw_fetchRow($sql, $field=null)
@@ -50,21 +65,27 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
     
     public function multi_query($sql)
 	{
-	    $this->getConnection()->autocommit(FALSE);
-		if ($this->getConnection()->multi_query($sql)) {
-			do {
-			    if ($result = $this->getConnection()->store_result()) {
-			    	$result->free_result();
-			    }
-			    elseif($this->getConnection()->error) {
-			        throw new Zend_Db_Adapter_Mysqli_Exception($this->getConnection()->error);
-			    }
+	    $this->beginTransaction();
+	    try {
+			if ($this->getConnection()->multi_query($sql)) {
+				do {
+				    if ($result = $this->getConnection()->store_result()) {
+				    	$result->free_result();
+				    }
+				    elseif($this->getConnection()->error) {
+				        throw new Zend_Db_Adapter_Mysqli_Exception('Level3:'.$this->getConnection()->error);
+				    }
+				}
+				while ($this->getConnection()->next_result());
+				$this->commit();
+			} else {
+				throw new Zend_Db_Adapter_Mysqli_Exception('Level2:'.$this->getConnection()->error);
 			}
-			while ($this->getConnection()->next_result());
-		} else {
-			throw new Zend_Db_Adapter_Mysqli_Exception($this->getConnection()->error);
-		}
-		$this->getConnection()->commit();
+	    } catch (Exception $e) {
+			$this->rollback();	
+			throw $e;
+	    }
+		
 		return true;
 	}
 	
