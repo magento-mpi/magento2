@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                             'can_use_website_value' => $this->canUseWebsiteValue($e),
                         ))->setRenderer($fieldRenderer);
                     if ($srcModel = $e->getSourceModel()) {
-                        $field->setValues(Mage::getSingleton($srcModel)->toOptionArray());
+                        $field->setValues(Mage::getSingleton($srcModel)->toOptionArray($fieldType == 'multiselect'));
                     }
                     break;
             }

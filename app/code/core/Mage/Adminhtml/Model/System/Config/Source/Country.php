@@ -2,8 +2,14 @@
 
 class Mage_Adminhtml_Model_System_Config_Source_Country
 {
-    public function toOptionArray()
+    public function toOptionArray($isMultiselect=false)
     {
-        return Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray();
+        if($isMultiselect){
+            $firstItem = false;
+        }
+        else{
+            $firstItem = '';
+        }
+        return Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray($firstItem);
     }
 }
