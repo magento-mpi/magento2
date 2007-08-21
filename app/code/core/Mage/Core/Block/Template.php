@@ -177,5 +177,14 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         }
         return $block->setTemplate("$tplName.phtml")->toHtml();
     }
-
+    
+    public function htmlEscape($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $item) {
+            	return $this->htmlEscape($item);
+            }
+        }
+        return htmlspecialchars($data);
+    }
 }

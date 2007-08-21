@@ -17,6 +17,7 @@
  	{
  		if(is_null($this->_items)) {
  			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
+ 			    ->useProductItem(true)
  				->setStoreId(Mage::getSingleton('core/store')->getId());
  			
  			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
@@ -29,6 +30,8 @@
 				->loadComaparableAttributes()
 				->addAttributeToSelect('name')
 				->addAttributeToSelect('price')
+				->addAttributeToSelect('image')
+				->addAttributeToSelect('small_image')
 				->useProductItem()
 				->load();
  		}

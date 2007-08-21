@@ -126,12 +126,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomerAsLoggedIn($customer)
-                    // _('customer is registered')
                     ->addSuccess('Customer is registered');
 
                 $customer->sendNewAccountEmail();
                 
-                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
+                if (Mage::getSingleton('customer/session')->getBeforeAuthUrl()) {
+                	$successUrl = Mage::getSingleton('customer/session')->getBeforeAuthUrl();
+                }
+                $this->_redirectSuccess($successUrl);
                 return;
             }
             catch (Exception $e) {

@@ -119,7 +119,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 }
                 $data['attribute_code'] = $model->getAttributeCode();
                 $data['is_user_defined'] = $model->getIsUserDefined();
-                $data['is_global'] = $model->getIsGlobal();
+                //$data['is_global'] = $model->getIsGlobal();
             }
             
             /**

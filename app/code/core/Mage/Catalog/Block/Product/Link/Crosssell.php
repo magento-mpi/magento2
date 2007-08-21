@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Product_Abstract
 {
 	protected function _prepareData() 
 	{
