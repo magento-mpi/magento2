@@ -67,10 +67,19 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
         }
 
         if ($code = $this->getRequest()->getParam('code')) {
-            $customerGroup->setCode($code);
-            $customerGroup->save();
-//            $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
-            $this->_redirect('adminhtml/customer_group');
+            try {
+                $customerGroup->setCode($code)
+                    ->setTaxClassId($this->getRequest()->getParam('tax_class'))
+                    ->save();
+
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer Group was saved succesfully'));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group'));
+                return;
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group'));
+                return;
+            }
         } else {
             $this->_forward('new');
         }
@@ -84,11 +93,20 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
     {
         $customerGroup = Mage::getModel('customer/group');
         if ($id = (int)$this->getRequest()->getParam('id')) {
-            $customerGroup->load($id);
-            $customerGroup->delete();
+            try {
+                $customerGroup->load($id);
+                $customerGroup->delete();
+
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer Group was saved succesfully'));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group'));
+                return;
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group/edit', array('id' => $id)));
+                return;
+            }
         }
 
-//        $this->_helper->redirector->gotoAndExit('','customer_group','adminhtml');
-         $this->_redirect('adminhtml/customer_group');
+        $this->_redirect('adminhtml/customer_group');
     }
 }

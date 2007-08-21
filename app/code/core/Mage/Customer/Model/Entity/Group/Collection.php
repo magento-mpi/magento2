@@ -44,4 +44,12 @@ class Mage_Customer_Model_Entity_Group_Collection extends Varien_Data_Collection
         $this->_sqlSelect->where('customer_group_id NOT IN(?)', $indexes);
         return $this;
     }
+
+    public function addTaxClass()
+    {
+        $taxClassTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class');
+        $this->_sqlSelect->joinLeft($taxClassTable, "{$this->_groupTable}.tax_class_id = {$taxClassTable}.class_id");
+
+        return $this;
+    }
 }

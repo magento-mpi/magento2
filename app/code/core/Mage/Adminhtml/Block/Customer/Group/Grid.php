@@ -26,7 +26,10 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _prepareCollection()
     {
-        $this->setCollection(Mage::getResourceSingleton('customer/group_collection'));
+        $collection = Mage::getResourceModel('customer/group_collection')
+            ->addTaxClass();
+
+        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
@@ -41,10 +44,18 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
             'align' => 'right',
             'index' => 'customer_group_id',
         ));
+
         $this->addColumn('type', array(
             'header' => __('Group Name'),
             'index' => 'customer_group_code',
         ));
+
+        $this->addColumn('class_name', array(
+            'header' => __('Tax Class'),
+            'index' => 'class_name',
+            'width' => '200px'
+        ));
+
         return parent::_prepareColumns();
     }
 
