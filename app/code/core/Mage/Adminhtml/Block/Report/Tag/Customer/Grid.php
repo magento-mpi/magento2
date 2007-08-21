@@ -14,24 +14,17 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customers_grid');
+        $this->setId('grid');
     }
 
     protected function _prepareCollection()
     {     
         
-        $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addAttributeToSelect('firstname')
-            ->addAttributeToSelect('lastname');
+        $collection = Mage::getResourceModel('reports/tag_customer_collection');
         
-        $collection->getSelect()
-            ->joinRight(array('tr' => 'tag_relation'), 'tr.customer_id=e.entity_id', array('taged' => 'count(tr.tag_relation_id)'))
-            ->joinRight(array('t' => 'tag'), 't.tag_id=tr.tag_id', 'status')
-            ->where('t.status='.Mage_Tag_Model_Tag::STATUS_APPROVED)
-            ->group('tr.customer_id')
-            ->order('taged DESC');     
-        
-        //echo $collection->getSelect()->__toString();
+        $collection->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+            ->addGroupByCustomer()
+            ->addTagedCount();
         
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -43,25 +36,24 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
         $this->addColumn('id', array(
             'header'    =>__('ID'),
             'width'     => '50px',
-            'sortable'  => false,
+            'align'     =>'right',
             'index'     =>'entity_id'
         ));
         
         $this->addColumn('firstname', array(
             'header'    =>__('First Name'),
-            'sortable'  => false,
             'index'     =>'firstname'
         ));
         
         $this->addColumn('lastname', array(
             'header'    =>__('Last Name'),
-            'sortable'  => false,
             'index'     =>'lastname'
         ));
         
         $this->addColumn('taged', array(
             'header'    =>__('Total Tags'),
-            'sortable'  => false,
+            'width'     =>'50px',
+            'align'     =>'right',
             'index'     =>'taged'
         ));
         

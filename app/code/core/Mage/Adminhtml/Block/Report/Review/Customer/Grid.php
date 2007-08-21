@@ -34,25 +34,24 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('entity_id', array(
             'header'    =>__('ID'),
             'width'     =>'50px',
-
+            'align'     =>'right',
             'index'     =>'entity_id'
         ));
         
         $this->addColumn('firstname', array(
             'header'    =>__('First Name'),
-            'width'     =>'100px',
             'index'     =>'firstname'
         ));    
         
         $this->addColumn('lastname', array(
             'header'    =>__('Last Name'),
-            'width'     =>'100px',
             'index'     =>'lastname'
         ));
         
         $this->addColumn('review_cnt', array(
             'header'    =>__('Number Of Reviews'),
             'width'     =>'40px',
+            'align'     =>'right',
             'index'     =>'review_cnt'
         ));
         

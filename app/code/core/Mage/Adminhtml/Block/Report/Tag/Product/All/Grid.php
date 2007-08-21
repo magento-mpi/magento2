@@ -19,18 +19,12 @@ class Mage_Adminhtml_Block_Report_Tag_Product_All_Grid extends Mage_Adminhtml_Bl
     protected function _prepareCollection()
     {     
         
-        $collection = Mage::getResourceModel('catalog/product_collection')
-            ->addAttributeToSelect('name');
-        
-        $collection->getSelect()
-            ->joinRight(array('tr' => 'tag_relation'), 'tr.product_id=e.entity_id', array('taged' => 'count(tr.tag_id)'))
-            ->joinRight(array('t' => 'tag'), 't.tag_id=tr.tag_id', 'status')
-            ->where('t.status='.Mage_Tag_Model_Tag::STATUS_APPROVED)
-            ->group('tr.product_id')
-            ->order('taged DESC');     
-        
-        //echo $collection->getSelect()->__toString();
-        
+        $collection = Mage::getResourceModel('reports/tag_product_collection');
+            
+        $collection->addAllTagedCount()
+            ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+            ->addGroupByProduct();     
+       
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

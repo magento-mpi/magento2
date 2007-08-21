@@ -99,7 +99,9 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
 
         $this->getSelect()
             ->join(array('tr' => $tagRelationTable), "tr.product_id = e.entity_id")
-            ->join(array('t' => $tagTable), "t.tag_id = tr.tag_id");
+            ->join(array('t' => $tagTable), "t.tag_id = tr.tag_id", array(
+                'tag_id', 'name', 'status', 'store_id', 'tag_name' => 'name'
+            ));
     }
 
     /**

@@ -14,23 +14,18 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customers_grid');
-        $this->setDefaultDir('desc');
+        $this->setId('grid');
     }
 
     protected function _prepareCollection()
     {     
         
-        $collection = Mage::getResourceModel('tag/tag_collection');
+        $collection = Mage::getResourceModel('reports/tag_product_collection');
         
-        $collection->getSelect()
-            ->joinLeft(array('tr' => 'tag_relation'), 'main_table.tag_id=tr.tag_id', array('tag_total' => 'count(tr.tag_relation_id)'))
-            ->where('tr.product_id='.$this->getRequest()->getParam('id'))
-            ->where('main_table.status='.Mage_Tag_Model_Tag::STATUS_APPROVED)
-            ->group('tr.tag_id')
-            ->order('tag_total DESC');
-        
-        //echo $collection->getSelect()->__toString();
+        $collection->addTagedCount()
+            ->addProductFilter($this->getRequest()->getParam('id'))
+            ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+            ->addGroupByTag();
         
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -39,18 +34,14 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         
-        $this->addColumn('name', array(
-            'header'    =>__('Product Name'),
-            'width'     => '250px',
-            'sortable'  => false,
-            'index'     =>'name'
+        $this->addColumn('tag_name', array(
+            'header'    =>__('Tag Name'),
+            'index'     =>'tag_name'
         ));
         
-        $this->addColumn('tag_total', array(
-            'header'    =>__('Tag Name'),
-            'width'     => '250px',
-            'sortable'  => false,
-            'index'     =>'tag_total'
+        $this->addColumn('taged', array(
+            'header'    =>__('Tag use'),
+            'index'     =>'taged'
         ));
         
         

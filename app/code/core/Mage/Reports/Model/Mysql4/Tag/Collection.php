@@ -1,6 +1,6 @@
 <?php
 /**
- * Report Customers Review collection
+ * Report Products Tags collection
  *
  * @package    Mage
  * @subpackage Reports
@@ -8,32 +8,22 @@
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
  
-class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
+class Mage_Reports_Model_Mysql4_Tag_Collection extends Mage_Tag_Model_Mysql4_Tag_Collection
 {
     protected function _construct()
     {
-        parent::__construct();
+        $this->_init('tag/tag');
     }
-    
-    protected function _joinFields()
+       
+    public function addGroupByTag()
     {
-        $this->addAttributeToSelect('entity_id')
-            ->addAttributeToSelect('firstname')
-            ->addAttributeToSelect('lastname');
-   
         $this->getSelect()
-            ->join('review_detail', 'review_detail.customer_id = e.entity_id', array('review_cnt' => 'count(review_detail.review_id)'))
-            ->group('e.entity_id');
-        
-    }
-    
-    public function resetSelect()
-    {
-        parent::resetSelect();
-        $this->_joinFields();
+            ->joinRight(array('tr' => $this->getTable('tag/relation')), 'main_table.tag_id=tr.tag_id', array('taged' => 'count(tr.tag_relation_id)'))
+            ->order('taged desc')
+            ->group('main_table.tag_id');
         return $this;
     }
-    
+       
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();
@@ -43,16 +33,13 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer
         $countSelect->reset(Zend_Db_Select::GROUP);
 
         $sql = $countSelect->__toString();
-        
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT(e.entity_id)) from ', $sql);
-        
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(distinct(name)) from ', $sql);
         return $sql;
     }
     
     public function setOrder($attribute, $dir='desc')
     {
-          
-        if ($attribute == 'review_cnt') {
+        if ($attribute == 'taged' || $attribute == 'tag_name') {
                 $this->getSelect()->order($attribute . ' ' . $dir);
         } else {
                 parent::setOrder($attribute, $dir);    

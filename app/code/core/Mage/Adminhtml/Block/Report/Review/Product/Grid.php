@@ -39,25 +39,26 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
         
         $this->addColumn('name', array(
             'header'    =>__('Product Name'),
-            'width'     =>'200px',
             'index'     =>'name'
         ));    
         
         $this->addColumn('review_cnt', array(
             'header'    =>__('Number of Reviews'),
-            'width'     =>'40px',
+            'width'     =>'50px',
+            'align'     =>'right',
             'index'     =>'review_cnt'
         ));
         
         $this->addColumn('avg_rating', array(
             'header'    =>__('Average rating'),
-            'width'     =>'40px',
+            'width'     =>'50px',
+            'align'     =>'right',
             'index'     =>'avg_rating'
         ));
         
         $this->addColumn('last_created', array(
             'header'    =>__('Last Review'),
-            'width'     =>'40px',
+            'width'     =>'150px',
             'index'     =>'last_created'
         ));
          

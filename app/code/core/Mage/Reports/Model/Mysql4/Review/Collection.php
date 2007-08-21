@@ -1,6 +1,6 @@
 <?php
 /**
- * Report Products Review collection
+ * Report Reviews collection
  *
  * @package    Mage
  * @subpackage Reports
@@ -13,8 +13,6 @@ class Mage_Reports_Model_Mysql4_Review_Collection extends Mage_Review_Model_Mysq
     protected function _construct()
     {
         $this->_init('review/review');
-                     
-        echo $this->_sqlSelect->__toString();
     }
     
     public function addProductFilter($productId)
