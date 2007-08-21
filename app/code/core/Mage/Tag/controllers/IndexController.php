@@ -25,8 +25,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         if( $post = $this->getRequest()->getPost() ) {
             try {
                 $tagName = $this->getRequest()->getParam('tagName');
-                $tagNamesArr = explode("\n", preg_replace("/'*(\d+)(\s+)/i", "$1\n", $tagName));
-
+                $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
                 foreach( $tagNamesArr as $tagName ) {
                     $tagName = trim($tagName, '\'');
                     if( $tagName ) {
@@ -51,6 +50,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             ->setProductId($this->getRequest()->getParam('productId'))
                             ->setStoreId(Mage::getSingleton('core/store')->getId())
                             ->save();
+                    } else {
+                        continue;
                     }
                 }
 
