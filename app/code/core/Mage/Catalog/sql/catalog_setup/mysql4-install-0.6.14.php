@@ -8,6 +8,10 @@ $this->createEntityTables('catalog_product_entity');
 
 $this->run(<<<EOT
 
+ALTER TABLE `catalog_product_entity`
+	ADD COLUMN `type_id` tinyint (3) UNSIGNED NOT NULL DEFAULT 1;
+	
+
 /*Table structure for table `catalog_category_tree` */
 
 DROP TABLE IF EXISTS `catalog_category_tree`;
