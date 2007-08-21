@@ -48,6 +48,16 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         return Mage::getResourceModel('directory/country');
     }
     
+    public function addCountryCodeFilter($countryCode, $iso='iso3')
+    {
+        if (is_array($countryCode)) {
+            $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code IN ('".implode("','", $countryCode)."')");
+        } else {
+            $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code = '{$countryCode}'");
+        }
+        return $this;
+    }
+
     public function toHtmlOptions($default=false)
     {
         $out = '';

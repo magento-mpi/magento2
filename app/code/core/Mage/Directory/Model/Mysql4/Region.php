@@ -46,14 +46,4 @@ class Mage_Directory_Model_Mysql4_Region
         $region->setData($this->_read->fetchRow($select));
         return $this;
     }
-    
-    public function getRegionIdByCode($code)
-    {
-        $select = $this->_read->select('region_id')
-            ->from($this->_regionTable)
-            ->where("code=?", $code);
-
-        $row = $this->_read->fetchRow($select);
-        return $row['region_id'];
-    }
 }

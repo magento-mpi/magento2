@@ -80,20 +80,40 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                 $csvLines = explode("\n", $csv);
                 array_shift($csvLines);
 
+                $countryCodes = array();
+                $regionCodes = array();
+                foreach ($csvLines as $csvLine) {
+                    $csvLine = $this->_getCsvValues($csvLine);
+                    $countryCodes[] = $csvLine[0];
+                    $regionCodes[] = $csvLine[1];
+                }
+
+                $countryCollection = Mage::getResourceModel('directory/country_collection')->addCountryCodeFilter($countryCodes)->load();
+                foreach ($countryCollection->getItems() as $country) {
+                    $countryCodesToIds[$country->getData('iso3_code')] = $country->getData('country_id');
+                }
+
+                $regionCollection = Mage::getResourceModel('directory/region_collection')->addRegionCodeFilter($regionCodes)->load();
+                foreach ($regionCollection->getItems() as $region) {
+                    $regionCodesToIds[$region->getData('code')] = $region->getData('region_id');
+                }
+                
                 foreach ($csvLines as $csvLine) {
                     $csvLine = $this->_getCsvValues($csvLine);
 
-                    $countryId = Mage::getResourceModel('directory/country')->getCountryIdByCode($csvLine[0]);
-                    if (is_null($countryId)) {
+                    if (!array_key_exists($csvLine[0], $countryCodesToIds)) {
                         $countryId = '0';
+                    } else {
+                        $countryId = $countryCodesToIds[$csvLine[0]];
                     }
 
-                    $regionId = Mage::getResourceModel('directory/region')->getRegionIdByCode($csvLine[1]);
-                    if (is_null($regionId)) {
+                    if (!array_key_exists($csvLine[1], $regionCodesToIds)) {
                         $regionId = '0';
+                    } else {
+                        $regionId = $regionCodesToIds[$csvLine[1]];
                     }
 
-                    if ($csvLine[2] == '*') {
+                    if ($csvLine[2] == '*' || $csvLine[2] == '') {
                         $zip = '';
                     } else {
                         $zip = $csvLine[2];
