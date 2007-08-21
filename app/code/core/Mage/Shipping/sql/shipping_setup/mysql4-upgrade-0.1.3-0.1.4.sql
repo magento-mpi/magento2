@@ -24,7 +24,7 @@ CREATE TABLE `shipping_tablerate` (
 
 /*Data for the table `shiptable_data` */
 
-insert into `shipping_tablerate` (`pk`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`,`price`,`cost`) values (1,223,1,'','package_weight',100.0000,10.0000,5.0000),(2,223,1,'','package_weight',1000.0000,20.0000,10.0000);
+insert into `shipping_tablerate` (`pk`,`website_id`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`,`price`,`cost`) values (1,1,223,1,'','package_weight',100.0000,10.0000,5.0000),(2,223,1,'','package_weight',1000.0000,20.0000,10.0000);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
