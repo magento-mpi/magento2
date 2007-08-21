@@ -43,7 +43,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
     public function addRatingOptions()
     {
         if( !$this->getSize() ) {
-            return;
+            return $this;
         }
         foreach( $this->getItems() as $item ) {
             $options = Mage::getModel('rating/rating_option')

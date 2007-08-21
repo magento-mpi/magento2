@@ -16,7 +16,8 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 	public function __construct()
 	{
 		$this->setEntity(Mage::getResourceSingleton('catalog/product'));
-        $this->setObject('review/review');
+        $this->setObject('catalog/product');
+        $this->setRowIdFieldName('review_id');
 	}
 
     public function addStoreFilter($storeId)
@@ -30,6 +31,13 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 	{
         $this->getSelect()
             ->where('rdt.customer_id = ?', $customerId);
+		return $this;
+	}
+
+	public function addEntityFilter($entityId)
+	{
+        $this->getSelect()
+            ->where('rt.entity_pk_value = ?', $entityId);
 		return $this;
 	}
 
@@ -74,7 +82,8 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         $reviewTable = Mage::getSingleton('core/resource')->getTableName('review/review');
         $reviewDetailTable = Mage::getSingleton('core/resource')->getTableName('review/review_detail');
 
-        $this->addAttributeToSelect('name');
+        $this->addAttributeToSelect('name')
+            ->addAttributeToSelect('sku');
 
         $this->getSelect()
             ->join(array('rt' => $reviewTable), "rt.entity_pk_value = e.entity_id", array('review_id', 'created_at', 'entity_pk_value', 'status_id'))
@@ -98,98 +107,42 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         return $sql;
     }
 
-    /**
-     * Load entities records into items
-     *
-     * @link Mage_Catalog_Model_Entity_Product_Bundle_Option_Link_Collection
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @author Ivan Chepurnyi <mitch@varien.com>
-     * @thanks ^.^
-     */
-    public function _loadEntities($printQuery = false, $logQuery = false)
+    public function setOrder($attribute, $dir='desc')
     {
-        $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
+        switch( $attribute ) {
+            case 'rt.review_id':
+            case 'rt.created_at':
+            case 'rt.status_id':
+            case 'rdt.title':
+            case 'rdt.nickname':
+            case 'rdt.detail':
+                $this->getSelect()->order($attribute . ' ' . $dir);
+                break;
 
-        if ($this->_pageSize) {
-            $this->getSelect()->limitPage($this->_getPageStart(), $this->_pageSize);
-        }
-
-        $this->printLogQuery($printQuery, $logQuery);
-
-        $rows = $this->_read->fetchAll($this->getSelect());
-        if (!$rows) {
-            return $this;
-        }
-
-        foreach ($rows as $v) {
-            $object = clone $this->getObject();
-            if(!isset($this->_entitiesAlias[$v[$entityIdField]])) {
-            	$this->_entitiesAlias[$v[$entityIdField]] = array();
-            }
-            $this->_items[] = $object->setData($v);
-            $this->_entitiesAlias[$v[$entityIdField]][] = sizeof($this->_items)-1;
+            default:
+                parent::setOrder($attribute, $dir);
         }
         return $this;
     }
 
-    protected function _getEntityAlias($entityId)
+    public function addAttributeToFilter($attribute, $condition=null)
     {
-    	if(isset($this->_entitiesAlias[$entityId])) {
-    		return $this->_entitiesAlias[$entityId];
-    	}
+        switch( $attribute ) {
+            case 'rt.review_id':
+            case 'rt.created_at':
+            case 'rt.status_id':
+            case 'rdt.title':
+            case 'rdt.nickname':
+            case 'rdt.detail':
+                $conditionSql = $this->_getConditionSql($attribute, $condition);
+                $this->getSelect()->where($conditionSql);
+                return $this;
+                break;
 
-    	return false;
-    }
-
-    /**
-     * Load attributes into loaded entities
-     *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
-     */
-    public function _loadAttributes($printQuery = false, $logQuery = false)
-    {
-        if (empty($this->_items) || empty($this->_selectAttributes)) {
-            return $this;
-        }
-
-        $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
-
-        $condition = "entity_type_id=".$entity->getTypeId();
-        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
-        $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
-        $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
-
-        $attrById = array();
-        foreach ($entity->getAttributesByTable() as $table=>$attributes) {
-            $sql = "select $entityIdField, attribute_id, value from $table where $condition";
-            $this->printLogQuery($printQuery, $logQuery, $sql);
-            $values = $this->_read->fetchAll($sql);
-            if (empty($values)) {
-                continue;
-            }
-            foreach ($values as $v) {
-                if (!$this->_getEntityAlias($v[$entityIdField])) {
-                    throw Mage::exception('Mage_Eav', 'Data integrity: No header row found for attribute');
-                }
-                if (!isset($attrById[$v['attribute_id']])) {
-                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
-                }
-                foreach ($this->_getEntityAlias($v[$entityIdField]) as $_entityIndex) {
-                	$this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
-                }
-            }
+            default:
+                parent::addAttributeToFilter($attribute, $condition);
         }
         return $this;
     }
 
-    /*
-    public function load($a=false, $b=false)
-    {
-        echo "debug: <pre>";
-        parent::load(1);
-        echo "</pre>";
-    }
-    */
  }

@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('review/review')
-            ->getCollection();
+            ->getProductCollection();
 
         if( $this->getProductId() || $this->getRequest()->getParam('productId', false) ) {
             $this->setProductId( ( $this->getProductId() ? $this->getProductId() : $this->getRequest()->getParam('productId') ) );
@@ -35,7 +35,6 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
 
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
@@ -56,7 +55,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'        => __('ID'),
             'align'         =>'right',
             'width'         => '50px',
-            'filter_index'  => 'review.review_id',
+            'filter_index'  => 'rt.review_id',
             'index'         => 'review_id',
         ));
 
@@ -65,6 +64,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'align'     =>'left',
             'type'      => 'datetime',
             'width'     => '100px',
+            'filter_index'  => 'rt.created_at',
             'index'     => 'created_at',
         ));
 
@@ -74,6 +74,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'options',
             'options'   => $statuses,
             'width'     => '100px',
+            'filter_index'  => 'rt.status_id',
             'index'     => 'status_id',
         ));
 
@@ -81,6 +82,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => __('Title'),
             'align'     =>'left',
             'width'     => '100px',
+            'filter_index'  => 'rdt.title',
             'index'     => 'title',
         ));
 
@@ -88,6 +90,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => __('Nickname'),
             'align'     =>'left',
             'width'     => '100px',
+            'filter_index'  => 'rdt.nickname',
             'index'     => 'nickname',
         ));
 
@@ -96,6 +99,22 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'align'     =>'left',
             'type'      => 'text',
             'index'     => 'detail',
+            'filter_index'  => 'rdt.detail',
+        ));
+
+        $this->addColumn('name', array(
+            'header'    => __('Product Name'),
+            'align'     =>'left',
+            'type'      => 'text',
+            'index'     => 'name',
+        ));
+
+        $this->addColumn('sku', array(
+            'header'    => __('Product SKU'),
+            'align'     => 'right',
+            'type'      => 'text',
+            'width'     => '50px',
+            'index'     => 'sku',
         ));
 
         return parent::_prepareColumns();
@@ -104,7 +123,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/catalog_product_review/edit', array(
-            'id' => $row->getId(),
+            'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
         ));

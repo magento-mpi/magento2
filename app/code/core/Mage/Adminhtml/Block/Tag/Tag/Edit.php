@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
         }
 
         if( $this->getRequest()->getParam('customer_id') ) {
-            $this->_updateButton('back', 'onclick', "setLocation('" . Mage::getUrl('*/customer/edit', array('customer_id' => $this->getRequest()->getParam('customer_id'))) . "')");
+            $this->_updateButton('back', 'onclick', "setLocation('" . Mage::getUrl('*/customer/edit', array('id' => $this->getRequest()->getParam('customer_id'))) . "')");
         }
 
         $this->_updateButton('save', 'label', __('Save Tag'));

@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Core_Block_Templa
     {
         $this->setTemplate('rating/detailed.phtml');
         if( Mage::registry('review_data') ) {
-            $this->setReviewId(Mage::registry('review_data')->getId());
+            $this->setReviewId(Mage::registry('review_data')->getReviewId());
         }
     }
 
@@ -38,7 +38,6 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Core_Block_Templa
                     ->load()
                     ->addOptionToItems();
             }
-
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }
         return $this->getRatingCollection();

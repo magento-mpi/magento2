@@ -72,6 +72,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
                 'label'     => __('Product Tags'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
                         ->setCustomerId(Mage::registry('current_customer')->getId())
+                        ->setUseAjax(true)
                         ->toHtml(),
             ));
         }
