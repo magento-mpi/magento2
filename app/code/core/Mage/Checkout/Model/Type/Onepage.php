@@ -225,6 +225,7 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getQuote()->save();
 
             $orderId = $order->getIncrementId();
+            $this->getCheckout()->setLastQuoteId($this->getQuote()->getId());
             $this->getCheckout()->setLastOrderId($order->getId());
             
             $order->sendNewOrderEmail();
@@ -320,10 +321,6 @@ class Mage_Checkout_Model_Type_Onepage
         */
         $order = Mage::getModel('sales/order');
         $order->load($this->getCheckout()->getLastOrderId());
-        if (!$order->getIncrementId()) {
-            $this->_redirect('checkout/cart');
-            return;
-        }
         $orderId = $order->getIncrementId();
         return $orderId;
     }

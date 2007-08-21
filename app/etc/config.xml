@@ -15,7 +15,7 @@
 
                     <model>mysql4</model>
                     <initStatements>SET NAMES utf8</initStatements>
-                    <type>mysqli_setup</type>
+                    <type>mysqli</type>
                     <active>1</active>
                 </connection>
             </default_setup>

@@ -1,1 +1,0 @@
-alter table customer_group add tax_class_id int unsigned not null;

@@ -117,6 +117,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'tax_amount' => array('type'=>'decimal'),
                     'row_total' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
+                    'applied_rule_ids' => array(),
                 ),
             ),
             'quote_payment' => array(
@@ -173,6 +174,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_due' => array('type'=>'decimal'),
                     'customer_notes' => array('type'=>'text'),
                     'total_qty_ordered' => array('type'=>'decimal'),
+                    'applied_rule_ids' => array(),
                 ),
             ),
             'order_address' => array(
@@ -221,6 +223,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'tax_amount' => array('type'=>'decimal'),
                     'row_total' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
+                    'applied_rule_ids' => array(),
                 ),
             ),
             'order_payment' => array(

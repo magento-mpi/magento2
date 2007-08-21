@@ -18,12 +18,7 @@ $this->addConfigField('customer/newsletter/confirm', 'Request new subscription c
 	'frontend_type'=>'select', 'source_model'=>'adminhtml/system_config_source_yesno'
 ));
 
-$conn->multi_query(<<<EOT
-
-update core_config_field set frontend_type='select', source_model='adminhtml/system_config_source_web_protocol' where path like 'web/%/protocol';
-
-EOT
-);
+$conn->raw_query("update core_config_field set frontend_type='select', source_model='adminhtml/system_config_source_web_protocol' where path like 'web/%/protocol'");
 
 $this->addConfigField('design/package/translate', 'Translation theme');
 $this->setConfigData('design/package/translate', 'default');

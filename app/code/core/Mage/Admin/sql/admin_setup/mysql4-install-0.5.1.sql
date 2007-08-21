@@ -3,7 +3,8 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
+
 
 SET NAMES utf8;
 
@@ -59,7 +60,8 @@ CREATE TABLE `admin_rule` (
   `role_type` char(1) default NULL,
   PRIMARY KEY  (`rule_id`),
   KEY `resource` (`resource_id`,`role_id`),
-  KEY `role_id` (`role_id`,`resource_id`)
+  KEY `role_id` (`role_id`,`resource_id`),
+  constraint `FK_admin_rule` foreign key(`role_id`)references `admin_role` (`role_id`) on delete cascade  on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ACL Rules';
 
 /*Data for the table `admin_rule` */

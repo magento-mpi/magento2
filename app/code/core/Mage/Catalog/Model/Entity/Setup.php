@@ -266,6 +266,10 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
+                   	'url_key'		=> array(
+						'label'=>'URL key',
+						'backend'=>'catalog_entity/category_attribute_backend_urlkey',
+					),
                 ),
             ),
             'catalog_product' => array(
@@ -667,6 +671,10 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
+                   	'url_key'		=> array(
+						'label'=>'URL key',
+						'backend'=>'catalog_entity/product_attribute_backend_urlkey',
+					),
                 ),
             ),
         );

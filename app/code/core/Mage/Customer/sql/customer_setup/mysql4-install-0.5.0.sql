@@ -157,6 +157,7 @@ DROP TABLE IF EXISTS `customer_group`;
 CREATE TABLE `customer_group` (
   `customer_group_id` tinyint(3) unsigned NOT NULL auto_increment,
   `customer_group_code` varchar(32) NOT NULL default '',
+  `tax_class_id` int unsigned not null,
   PRIMARY KEY  (`customer_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer groups';
 

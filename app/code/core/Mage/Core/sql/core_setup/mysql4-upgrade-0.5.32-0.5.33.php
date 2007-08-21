@@ -11,9 +11,9 @@ $this->addConfigField('advanced/datashare/default', 'Default', array(
 	'frontend_type'=>'multiselect',
 	'backend_model'=>'adminhtml/system_config_backend_datashare',
 	'source_model'=>'adminhtml/system_config_source_store',
-), '1,2,3,4,5');
+));
 
-Mage::getSingleton('core/store')->updateDatasharing();
+#Mage::getSingleton('core/store')->updateDatasharing();
 
 $this->addConfigField('dev/mode', 'Operating mode');
 $this->addConfigField('dev/mode/checksum', 'Validate config checksums', array(

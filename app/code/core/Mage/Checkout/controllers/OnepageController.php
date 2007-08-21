@@ -58,11 +58,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     
     public function successAction()
     {
+    	$lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
+    	$lastOrderId = $this->getOnepage()->getCheckout()->getLastOrderId();
+    	if (!$lastQuoteId || !$lastOrderId) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
         $this->loadLayout();
         
         $block = $this->getLayout()->createBlock('core/template', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
-            ->assign('orderId', $this->getOnepage()->getLastOrderId());
+            ->assign('quoteId', $lastQuoteId)
+            ->assign('orderId', $lastOrderId);
         $this->getLayout()->getBlock('content')->append($block);
         
         Mage::dispatchEvent('order_success_page_view');

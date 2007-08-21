@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS `shiptable_data`;
 DROP TABLE IF EXISTS `shipping_tablerate`;
 CREATE TABLE `shipping_tablerate` (
   `pk` int(10) unsigned NOT NULL auto_increment,
+  `website_id` smallint(5) not null default '0',
   `dest_country_id` int(10) NOT NULL default '0',
   `dest_region_id` int(10) NOT NULL default '0',
   `dest_zip` varchar(10) NOT NULL default '',
