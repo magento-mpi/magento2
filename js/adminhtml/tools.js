@@ -65,14 +65,3 @@ function syncOnchangeValue(baseElem, distElem){
         }
     }.bind(compare));
 }
-
-
-if (document.all) {
-
-	
-	Event.observe(window, 'load', function(){
-		alert(document.documentElement.innerWidth);
-		//$('header').style.width = document.body.innerWidth+'px';
-		//$('footer').style.width = document.body.innerWidth+'px';
-	});
-}
