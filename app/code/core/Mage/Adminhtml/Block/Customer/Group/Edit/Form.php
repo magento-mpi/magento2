@@ -1,7 +1,7 @@
 <?php
-/** 
+/**
  * Adminhtml customer groups edit form
- * 
+ *
  * @package     Mage
  * @subpackage  Adminhtml
  * @copyright   Varien (c) 2007 (http://www.varien.com)
@@ -10,17 +10,17 @@
  */
 class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    /** 
+    /**
      * Constructor
-     * 
+     *
      * Initialize form
      */
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->_renderPrepare();
     }
-   
+
     /**
      * Prepare form for render
      */
@@ -31,10 +31,10 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
         if ($groupId = (int) $this->_request->getParam('id')) {
             $customerGroup->load($groupId);
         }
-        
+
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
-        
-        $fieldset->addField('code', 'text', 
+
+        $fieldset->addField('code', 'text',
             array(
                 'name'  => 'code',
                 'label' => __('Group Name'),
@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
                 'value' => $customerGroup->getCode()
             )
         );
-        
-        $fieldset->addField('tax_class', 'select', 
+
+        $fieldset->addField('tax_class', 'select',
             array(
                 'name'  => 'tax_class',
                 'label' => __('Tax class'),
@@ -56,19 +56,20 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
                 'values' => Mage::getSingleton('tax/class_source_customer')->toOptionArray()
             )
         );
-        
-        if ($customerGroup->getId()) { 
+
+        if ($customerGroup->getId()) {
             // If edit add id
-            $form->addField('id', 'hidden', 
+            $form->addField('id', 'hidden',
                 array(
                     'name'  => 'id',
                     'value' => $customerGroup->getId()
                 )
             );
         }
-        
+
+        $form->setUseContainer(true);
+        $form->setId('edit_form');
+        $form->setAction(Mage::getUrl('*/*/save'));
         $this->setForm($form);
     }
-    
-    
 }

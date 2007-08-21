@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -15,39 +16,40 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
     {
         parent::__construct();
         $this->setId('customerGroupGrid');
+        $this->setDefaultSort('type');
+        $this->setDefaultDir('asc');
     }
 
     /**
      * Init customer groups collection
      * @return void
      */
-    protected function _initCollection()
+    protected function _prepareCollection()
     {
         $this->setCollection(Mage::getResourceSingleton('customer/group_collection'));
+        return parent::_prepareCollection();
     }
 
     /**
      * Configuration of grid
      */
-    protected function _beforeToHtml()
+    protected function _prepareColumns()
     {
         $this->addColumn('time', array(
             'header' => __('ID'),
+            'width' => '50px',
+            'align' => 'right',
             'index' => 'customer_group_id',
         ));
         $this->addColumn('type', array(
             'header' => __('Group Name'),
             'index' => 'customer_group_code',
         ));
-       
-        $this->_initCollection();
-        return parent::_beforeToHtml();
+        return parent::_prepareColumns();
     }
-    
-     
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
     }
-
 }
