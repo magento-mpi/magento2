@@ -10,11 +10,7 @@
  
 class Mage_Reports_Model_Mysql4_Tag_Customer_Collection extends Mage_Tag_Model_Mysql4_Customer_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('tag/tag');  
-    }
-    
+
     public function addTagedCount()
     {
         $this->getSelect()
@@ -22,53 +18,6 @@ class Mage_Reports_Model_Mysql4_Tag_Customer_Collection extends Mage_Tag_Model_M
             ->order('taged desc');
         return $this;
     }
-    
-    public function addDescOrder()
-    {
-        $this->getSelect()
-            ->order('tr.tag_relation_id desc');
-        return $this;
-    }
-    
-    public function addStatusFilter($status)
-    {   
-        $this->getSelect()
-            ->where('t.status='.$status);
-        return $this;
-    }
-    
-    public function addProductName()
-    {
-        $this->load();
-        
-        $productsId = array();
-        $productsData = array();
-
-        foreach ($this->_items as $item)
-        {   
-            $productsId[] = $item->getProductId();
-        }
-        
-        $productsId = array_unique($productsId);
-
-        $collection = Mage::getResourceModel('catalog/product_collection')
-            ->addAttributeToSelect('name')
-            ->addIdFilter($productsId);
-        $collection->getEntity()->setStore(0);
-        $collection->load();
-        
-        foreach ($collection->getItems() as $item)
-        {   
-            $productsData[$item->getId()] = $item->getName();
-        }
-        
-        foreach ($this->_items as $idx=>$item)
-        {   
-            $this->_items[$idx]->setProduct($productsData[$item->getProductId()]);
-        }
-        return $this;
-    }
-    
     
     public function getSelectCountSql()
     {

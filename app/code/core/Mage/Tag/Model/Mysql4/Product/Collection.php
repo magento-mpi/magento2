@@ -20,6 +20,13 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
         $this->getSelect()->group('e.entity_id');
 	}
 
+    public function addGroupByTag()
+    {
+        $this->getSelect()
+            ->group('tr.tag_relation_id');
+        return $this;
+    }
+    
     public function addStoreFilter($storeId)
     {
         $this->getSelect()

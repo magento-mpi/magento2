@@ -24,8 +24,9 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
             ->getEntityCollection()
             ->addCustomerFilter($this->getRequest()->getParam('id'))
             ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
-            ->setDescOrder('DESC');
-        
+            ->setDescOrder('DESC')
+            ->addGroupByTag();
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -48,6 +49,7 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
         $this->addColumn('created_at', array(
             'header'    =>__('Added'),
             'sortable'  => false,
+            'width'     => '140px',
             'index'     =>'created_at'
         ));        
      

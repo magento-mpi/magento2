@@ -49,6 +49,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                             ->setProductId($this->getRequest()->getParam('productId'))
                             ->setStoreId(Mage::getSingleton('core/store')->getId())
+                            ->setCreatedAt( now() )
                             ->save();
                     } else {
                         continue;
