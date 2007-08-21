@@ -18,14 +18,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
+        $this->setFilterVisibility(false);
     }
 
     protected function _prepareCollection()
     {
         $tagId = Mage::registry('tagId');
-        $collection = Mage::getModel('tag/tag')
-            ->getResourceCollection()
-            ->joinRel()
+
+        $collection = Mage::getResourceModel('tag/customer_collection')
             ->addCustomerFilter($this->getCustomerId());
 
         $this->setCollection($collection);
@@ -34,6 +34,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
 
     protected function _afterLoadCollection()
     {
+            $this->getCollection()->addProductName();
         return parent::_afterLoadCollection();
     }
 
@@ -42,6 +43,33 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
         $this->addColumn('name', array(
             'header'    => __('Tag Name'),
             'index'     => 'name',
+        ));
+
+        $this->addColumn('status', array(
+            'header'    => __('Status'),
+            'width'     => '90px',
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'    => array(
+                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
+            ),
+            'filter'    => false,
+        ));
+
+        $this->addColumn('product', array(
+            'header'    => __('Product Name'),
+            'index'     => 'product',
+            'filter'    => false,
+            'sortable'  => false,
+        ));
+
+        $this->addColumn('product_sku', array(
+            'header'    => __('SKU'),
+            'index'     => 'product_sku',
+            'filter'    => false,
+            'sortable'  => false,
         ));
 
         return parent::_prepareColumns();

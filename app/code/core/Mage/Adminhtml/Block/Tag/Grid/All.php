@@ -44,7 +44,6 @@ class Mage_Adminhtml_Block_Tag_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
-//            'filter'    => 'adminhtml/tag_grid_filter_status',
             'options'    => array(
                 Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
                 Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),

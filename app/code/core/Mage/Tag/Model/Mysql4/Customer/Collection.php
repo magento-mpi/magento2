@@ -39,18 +39,20 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
             ->where('t.status = ?', $status);
         return $this;
     }
-    
+
     public function addDescOrder()
     {
         $this->getSelect()
             ->order('tr.tag_relation_id desc');
         return $this;
     }
-    
+
     public function addGroupByTag()
     {
         $this->getSelect()
             ->group('tr.tag_relation_id');
+
+        $this->_allowDisableGrouping = false;
         return $this;
     }
 
@@ -60,6 +62,13 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
             ->group('tr.customer_id');
 
         $this->_allowDisableGrouping = false;
+        return $this;
+    }
+
+    public function addCustomerFilter($customerId)
+    {
+        $this->getSelect()
+            ->where('tr.customer_id = ?', $customerId);
         return $this;
     }
 
@@ -96,8 +105,7 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         }
 
         $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(tr.tag_relation_id) from ', $sql);
-
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(tr.customer_id) from ', $sql);
         return $sql;
     }
 
@@ -107,26 +115,44 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         $productsData = array();
 
         foreach ($this->getItems() as $item)
-        {   
+        {
             $productsId[] = $item->getProductId();
         }
-        
+
         $productsId = array_unique($productsId);
 
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->addAttributeToSelect('name')
+            ->addAttributeToSelect('sku')
             ->addIdFilter($productsId);
+
         $collection->getEntity()->setStore(0);
         $collection->load();
-        
+
         foreach ($collection->getItems() as $item)
-        {   
+        {
             $productsData[$item->getId()] = $item->getName();
+            $productsSku[$item->getId()] = $item->getSku();
         }
-        
+
         foreach ($this->getItems() as $item)
-        {   
+        {
             $item->setProduct($productsData[$item->getProductId()]);
+            $item->setProductSku($productsSku[$item->getProductId()]);
+        }
+        return $this;
+    }
+
+    public function setOrder($attribute, $dir='desc')
+    {
+        switch( $attribute ) {
+            case 'name':
+            case 'status':
+                $this->getSelect()->order($attribute . ' ' . $dir);
+                break;
+
+            default:
+                parent::setOrder($attribute, $dir);
         }
         return $this;
     }
