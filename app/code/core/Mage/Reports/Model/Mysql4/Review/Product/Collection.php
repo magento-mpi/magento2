@@ -8,7 +8,7 @@
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
  
-class Mage_Reports_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection//Mage_Review_Model_Mysql4_Review_Product_Collection
+class Mage_Reports_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
 {
     protected $reviewTable;
     

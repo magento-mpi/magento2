@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminhtml products report grid block
+ * Adminhtml wishlist report grid block
  *
  * @package     Mage
  * @subpackage  Adminhtml
@@ -8,12 +8,12 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('productsReportGrid');
+        $this->setId('wishlistReportGrid');
         $this->setDefaultSort('id');
         $this->setDefaultDir('desc');
     }
@@ -21,8 +21,11 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareCollection()
     {
        
-        $collection = Mage::getResourceModel('reports/product_collection');
-        $collection->getEntity()->setStore(0);
+        $collection = Mage::getResourceModel('reports/wishlist_product_collection')
+            ->addAttributeToSelect('entity_id')
+            ->addAttributeToSelect('name')
+            ->addWishlistCount();
+       
         $this->setCollection($collection);
       
         parent::_prepareCollection();
@@ -43,41 +46,39 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
             'index'     =>'name'
         ));    
         
-        $this->addColumn('viewed', array(
-            'header'    =>__('Number Viewed'),
+        $this->addColumn('wishlists', array(
+            'header'    =>__('Wishlists'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'viewed'
+            'index'     =>'wishlists'
         ));
         
-        $this->addColumn('added', array(
-            'header'    =>__('Number Added'),
+        $this->addColumn('bought_from_wishlists', array(
+            'header'    =>__('Bought from wishlists'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'added'
+            'sortable'  =>false,
+            'index'     =>'bought_from_wishlists'
         ));
         
-        $this->addColumn('purchased', array(
-            'header'    =>__('Number Purchased'),
+        $this->addColumn('w_vs_order', array(
+            'header'    =>__('Wishlist vs. Regular Order'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'purchased'
+            'sortable'  =>false,
+            'index'     =>'w_vs_order'
         ));
         
-        $this->addColumn('fulfilled', array(
-            'header'    =>__('Number Fulfilled'),
+        $this->addColumn('num_deleted', array(
+            'header'    =>__('Number of times deleted'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'fulfilled'
+            'sortable'  =>false,
+            'index'     =>'num_deleted'
         ));
         
-        $this->addColumn('revenue', array(
-            'header'    =>__('Revenue'),
-            'width'     =>'50px',
-            'align'     =>'right',
-            'index'     =>'revenue'
-        ));
-       
+        $this->setFilterVisibility(false);
+              
         return parent::_prepareColumns();
     }
 }
