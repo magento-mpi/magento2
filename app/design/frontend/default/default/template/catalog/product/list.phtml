@@ -1,65 +1,93 @@
-<?if( sizeof($this->getLoadedProductCollection()->getItems()) > 0 ):?>
-    <?=$this->getToolbarHtml()?>
-    <?$productCollection=$this->getLoadedProductCollection()?>
-    <?if($this->getMode()!='grid'):?>
-        <!-- [starts] .listing-type-list // -->
-        <div class="listing-type-list catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+<?
+/**
+ * Product list template
+ * 
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?=$this->getToolbarHtml()?>
 
-        <?$i=0; foreach ($productCollection as $product):?>
-        <div class="listing-item" <?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>>
-        	<div class="product-image">
-        		<a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$product->getName()?>"/></a>
-        	</div>
+<?$_productCollection=$this->getLoadedProductCollection()?>
 
-        	<div class="product-shop">
-                <h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-                <?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
-                <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
-                <button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>')"><span>Add to Cart</span></button>
-                <div class="clear"></div>
-                <div class="description"><?=$product->getDescription()?> <a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><small>Learn More</small></a></div>
-                <p class="add-to"><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Add to Wishlist</a>
-                <?if($this->getCompareJsObjectName()):?><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Add to Compare</a><?endif;?>
-                </p>
-        	</div>
+<?// List mode?>
+<?if($this->getMode()!='grid'):?>
+<div class="listing-type-list catalog-listing">
+<?foreach ($_productCollection as $_product):?>
+    <div class="listing-item">
+        
+        <?// Product Image?>
+        <div class="product-image">
+            <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>">
+                <img src="<?=$_product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_product->getName())?>"/>
+            </a>
         </div>
-        <?endforeach;?>
-
+        
+        <?// Product description?>
+        <div class="product-shop">
+            <h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><?=$_product->getName()?></a></h5>
+            <?=$this->getHelper('review/helper')->getSummaryHtml($_product)?>
+            <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+            <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span>Add to Cart</span></button>
+            <div class="clear"></div>
+            <div class="description">
+                <?=$_product->getDescription()?> 
+                <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><small>Learn More</small></a>
+            </div>
+            <p class="add-to">
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a>
+                <?if($this->getCanUseCompare()):?>
+                    <span class="pipe">|</span>
+                    <a href="#" onclick="compareObject.addItem(<?=$_product->getId()?>);return false;">Add to Compare</a>
+                <?endif;?>
+            </p>
         </div>
+    </div>
+<?endforeach;?>
+</div>
 
-    <?else:?>
-    	<div class="listing-type-grid  catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
-    	    <table cellspacing="0" class="generic-product-grid">
-    		    <?$i=0; foreach ($productCollection as $product):?>
-    			<?if ($i++%3==0):?><tr<?if (sizeof($productCollection->getItems())<$i+3):?> class="last"<?endif?>><?endif?>
-    			<td<?if ($i%3==0):?> class="last"<?endif?>>
-    				<p class="product-image"><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><img src="<?=$product->getSmallImageUrl()?>" width="135" alt="<?=$product->getName()?>"></a></p>
-    				<h5><a href="<?=$product->getProductUrl()?>" title="<?=$product->getName()?>"><?=$product->getName()?></a></h5>
-    				<?=$this->getHelper('review/helper')->getSummaryHtml($product, 'short')?>
-    				<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
-    				<button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$product->getId()))?>'"><span>Add to Cart</span></button>
-    				<div class="clear"></div>
-    				<p class="add-to">
-    					<?if($this->getCompareJsObjectName()):?>
-    						<strong>Add to:</strong><br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>" class="link-cart">Wishlist</a><span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;">Compare</a>
-    					<?else:?>
-    						<a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$product->getId()))?>">Add to Wishlist</a>
-    					<?endif;?>
-    				</p>
-    			</td>
-    			<?if ($i%3==0):?></tr><?endif?>
-    			<?endforeach?>
-                <?for($i;$i%3!=0;$i++):?>
-                <td class="empty-product"></td>
-                <?endfor?>
-    		</table>
-    	</div>
-    <?endif;?>
-    <?=$this->getToolbarHtml()?>
+
 <?else:?>
-<table class="data-table box-table" cellspacing="0">
-    <tr class="odd">
-        <td><center><small><?=__('No Products Found')?></small></center></td>
+
+<?// Grid Mode?>
+<div class="listing-type-grid  catalog-listing"> <!-- the class name will change to .listing-type-cell if viewing in list mode -->
+<?$_collectionSize = $_productCollection->count()?>
+    <table cellspacing="0" class="generic-product-grid" id="product-list-table">
+    <?$i=0; foreach ($_productCollection as $_product):?>
+    <?if ($i++%3==0):?>
+    <tr>
+    <?endif?>
+		<td>
+            <p class="product-image">
+                <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>">
+                    <img src="<?=$_product->getSmallImageUrl()?>" width="135" alt="<?=$this->htmlEscape($_product->getName())?>">
+                </a>
+            </p>
+			<h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>)"><?=$_product->getName()?></a></h5>
+			<?=$this->getHelper('review/helper')->getSummaryHtml($_product, 'short')?>
+			<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+			<button class="form-button" onclick="top.location.href='<?=$this->getAddToCartUrl($_product)?>'"><span>Add to Cart</span></button>
+			<div class="clear"></div>
+			<p class="add-to">
+            <?if($this->getCanUseCompare()):?>
+                <strong>Add to:</strong><br/><a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Wishlist</a>
+                <span class="pipe">|</span>
+                <a href="#" onclick="compareObject.addItem(<?=$_product->getId()?>);return false;">Compare</a>
+            <?else:?>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a>
+            <?endif;?>
+			</p>
+		</td>
+
+    <?endforeach?>
+    <?for($i;$i%3!=0;$i++):?>
+        <td class="empty-product">&nbsp;</td>
+    <?endfor?>
+    <?if ($i%3==0):?>
     </tr>
-</table>
+    <?endif?>
+    </table>
+	<script type="text/javascript">decorateTable('product-list-table')</script>
+</div>
+
 <?endif;?>
+<?=$this->getToolbarHtml()?>

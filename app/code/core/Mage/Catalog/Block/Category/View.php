@@ -1,13 +1,14 @@
 <?php
-
 /**
  * Category View block
  *
- * @package    Mage
- * @module     Catalog
- * @copyright  Varien (c) 2007 (http://www.varien.com)
+ * @package     Mage
+ * @subpackage  Catalog
+ * @copyright   Varien (c) 2007 (http://www.varien.com)
+ * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Block_Category_View extends Mage_Catalog_Block_Product_List
+class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 {
     protected function _initChildren()
     {
@@ -15,6 +16,9 @@ class Mage_Catalog_Block_Category_View extends Mage_Catalog_Block_Product_List
         
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbsBlock) {
+    	    $breadcrumbsBlock->addCrumb('home',
+                array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+            
             $path = $this->getCurrentCategory()->getPathInStore();
             $pathIds = array_reverse(explode(',', $path));
     
@@ -43,7 +47,12 @@ class Mage_Catalog_Block_Category_View extends Mage_Catalog_Block_Product_List
         
         return $this;
     }
-
+    
+    public function getProductListHtml()
+    {
+        return $this->getChildHtml('product_list');
+    }
+    
     /**
      * Retrieve current category model object
      *
@@ -53,9 +62,30 @@ class Mage_Catalog_Block_Category_View extends Mage_Catalog_Block_Product_List
     {
         return Mage::registry('current_category');
     }
-
-    public function getCanShowName()
+    
+    public function getLandingPageBlock()
     {
-        return $this->getCurrentCategory()->getDisplayMode()!=Mage_Catalog_Model_Category::DM_MIXED;
+        $block = $this->getData('landing_page_block');
+        if (is_null($block)) {
+            $block = Mage::getModel('cms/block')
+                ->load($this->getCurrentCategory()->getLandingPage());
+            $this->setData('landing_page_block', $block);
+        }
+        return $block;
+    }
+    
+    public function isProductMode()
+    {
+        return $this->getCurrentCategory()->getDisplayMode()==Mage_Catalog_Model_Category::DM_PRODUCT;
+    }
+    
+    public function isMixedMode()
+    {
+        return $this->getCurrentCategory()->getDisplayMode()==Mage_Catalog_Model_Category::DM_MIXED;
+    }
+    
+    public function isContentMode()
+    {
+        return $this->getCurrentCategory()->getDisplayMode()==Mage_Catalog_Model_Category::DM_PAGE;
     }
 }

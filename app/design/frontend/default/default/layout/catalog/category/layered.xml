@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <layoutUpdate>
     <reference name="left">
-        <block type="catalog/navigation" name="catalog.leftnav" before="-">
-            <action method="setTemplate"><template>catalog/navigation/left.phtml</template></action>
+        <block type="catalog/layer_view" name="catalog.leftnav" before="-">
+            <action method="setTemplate"><template>catalog/layer/view.phtml</template></action>
         </block>
         <block type="directory/currency" name="currency" before="-">
             <action method="setTemplate"><template>directory/currency.phtml</template></action>
         </block>
     </reference>
     <reference name="content">
-        <block type="catalog/category_page" name="category.content" />
         <block type="catalog/category_view" name="category.products">
             <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+            <block type="catalog/product_list" name="product_list"></block>
         </block>
     </reference>
 </layoutUpdate>

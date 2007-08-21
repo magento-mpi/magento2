@@ -17,31 +17,28 @@
     </div>
     <?if($this->getItems()->getSize()>0):?>
         <ol id="compare-items">
-            <?foreach($this->getItems() as $_index=>$_item):?>
-                <li class="block-compare-item">
-                    <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"/>
-                    <a href="#" onclick="<?=$this->getJsObjectName()?>.removeItem(this);return false;" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
-                    <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-                </li>
-            <?endforeach;?>
+        <?foreach($this->getItems() as $_index=>$_item):?>
+            <li class="block-compare-item">
+                <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"/>
+                <a href="#" onclick="compareObject.removeItem(this);return false;" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
+                <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+            </li>
+        <?endforeach;?>
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
-        <div class="actions"><a href="#" class="left" onclick="<?=$this->getJsObjectName()?>.removeAll(); return false">Clear All</a>
-            <button class="right form-button-alt" onclick="<?=$this->getJsObjectName()?>.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button></div>
+        <div class="actions"><a href="#" class="left" onclick="compareObject.removeAll(); return false">Clear All</a>
+        <button class="right form-button-alt" onclick="compareObject.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button></div>
     <?else:?>
         <div class="content"><p><?=__('You have no items to compare.')?></p></div>
     <?endif;?>
 <?if($this->getCanDisplayContainer()):?>
 </div>
 <script type="text/javascript">
-<!--
-    var <?=$this->getJsObjectName()?> = new Varien.CompareController($$('.mini-compare-products')[0],{
-        updateUrl: '<?=$this->getAddUrlTemplate()?>',
-        removeUrl: '<?=$this->getRemoveUrlTemplate()?>',
-        successMessage: '<?=__('Product have been successfully added to comparasion list')?>',
-        confirmMessage: '<?=__('Are you sure')?>'
-    });
-//-->
+var compareObject = new Varien.CompareController($$('.mini-compare-products')[0],{
+    updateUrl: '<?=$this->getAddUrlTemplate()?>',
+    removeUrl: '<?=$this->getRemoveUrlTemplate()?>',
+    successMessage: '<?=__('Product have been successfully added to comparasion list')?>',
+    confirmMessage: '<?=__('Are you sure')?>'
+});
 </script>
 <?endif;?>
-<!-- [ends] .mini-compare-products // -->

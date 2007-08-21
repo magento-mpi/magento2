@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstract
 {
     protected $_productCollection;
 
@@ -16,15 +16,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('catalog/product/list.phtml');
-    }
-
-    protected function _initChildren()
-    {
-        // add Home breadcrumb
-    	if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
-    	    $breadcrumbBlock->addCrumb('home',
-                array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
-    	}
     }
 
     /**
@@ -51,16 +42,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve list toolbar HTML
-     *
-     * @return string
-     */
-    public function getToolbarHtml()
-    {
-        return $this->getChildHtml('toolbar');
-    }
-
-    /**
      * Retrieve current view mode
      *
      * @return string
@@ -82,16 +63,25 @@ class Mage_Catalog_Block_Product_List extends Mage_Core_Block_Template
     }
 
     /**
+     * Retrieve list toolbar HTML
+     *
+     * @return string
+     */
+    public function getToolbarHtml()
+    {
+        return $this->getChildHtml('toolbar');
+    }
+
+    /**
      * Retrieve
      *
      * @return unknown
      */
-    public function getCompareJsObjectName()
+    public function getCanUseCompare()
     {
     	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
-    		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
+    		return true;
     	}
-
     	return false;
     }
 

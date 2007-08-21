@@ -11,6 +11,7 @@
     <reference name="content">
         <block type="catalog/category_view" name="category.products">
             <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+            <block type="catalog/product_list" name="product_list"></block>
         </block>
     </reference>
 </layoutUpdate>
