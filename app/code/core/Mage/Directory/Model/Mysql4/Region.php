@@ -24,8 +24,8 @@ class Mage_Directory_Model_Mysql4_Region
         $resource = Mage::getSingleton('core/resource');
         $this->_regionTable     = $resource->getTableName('directory/country_region');
         $this->_regionNameTable = $resource->getTableName('directory/country_region_name');
-        $this->_read    = $resource->getConnection('customer_read');
-        $this->_write   = $resource->getConnection('customer_write');
+        $this->_read    = $resource->getConnection('directory_read');
+        $this->_write   = $resource->getConnection('directory_write');
     }
     
     public function getIdFieldName()
@@ -45,5 +45,15 @@ class Mage_Directory_Model_Mysql4_Region
 
         $region->setData($this->_read->fetchRow($select));
         return $this;
+    }
+    
+    public function getRegionIdByCode($code)
+    {
+        $select = $this->_read->select('region_id')
+            ->from($this->_regionTable)
+            ->where("code=?", $code);
+
+        $row = $this->_read->fetchRow($select);
+        return $row['region_id'];
     }
 }

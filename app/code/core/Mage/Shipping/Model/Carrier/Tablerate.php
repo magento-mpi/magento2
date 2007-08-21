@@ -63,9 +63,9 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
             ),
 
             'condition_name_short'=>array(
-                'package_weight' => 'Weight',
-                'package_value'  => 'Price',
-                'package_qty'    => '# of Items',
+                'package_weight' => 'Weight (and above)',
+                'package_value'  => 'Order Subtotal (and above)',
+                'package_qty'    => '# Items (and above)',
             ),
 
         );

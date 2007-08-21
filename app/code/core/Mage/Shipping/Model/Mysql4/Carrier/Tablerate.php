@@ -15,12 +15,14 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate
     protected $_read;
     protected $_write;
     protected $_shipTable;
+    protected $_usaPostcodeTable;
     
     public function __construct()
     {
         $this->_read = Mage::getSingleton('core/resource')->getConnection('shipping_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('shipping_write');
         $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
+        $this->_usaPostcodeTable = Mage::getSingleton('core/resource')->getTableName('usa/postcode');
     }
     
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
@@ -34,8 +36,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate
             // also probably it will be required to move this part to
             // Sales/Model/Quote/Address.php !
 
-            // TOFIX, FIXME                                TOFIX, FIXME
-            $selectCountry = $this->_read->select()->from('usa_postcode', array('country_id', 'region_id'));
+            $selectCountry = $this->_read->select()->from($this->_usaPostcodeTable, array('country_id', 'region_id'));
             $selectCountry->where('postcode=?', $request->getDestPostcode());
             $selectCountry->limit(1);
             $countryRegion = $this->_read->fetchRow($selectCountry);
@@ -48,7 +49,8 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate
         $zip = $this->_read->quote($request->getDestPostcode());
         $select->where("(dest_zip=$zip)
                      OR (dest_region_id=$region AND dest_zip='')
-                     OR (dest_country_id=$country AND dest_region_id='0' AND dest_zip='')");
+                     OR (dest_country_id=$country AND dest_region_id='0' AND dest_zip='')
+                     OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')");
         if (is_array($request->getConditionName())) {
             $i = 0;
             foreach ($request->getConditionName() as $conditionName) {

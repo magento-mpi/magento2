@@ -46,7 +46,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 $this->getRequest()->getParam('store'),
                 $this->getRequest()->getPost('groups')
             );
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Config Successfully Saved'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Configuration Successfully Saved'));
             $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
             return;
         } catch( Exception $e ) {
@@ -59,50 +59,43 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         $tableratesCollection = Mage::getResourceModel('shipping/carrier_tablerate_collection');
         $tableratesCollection->setConditionFilter(Mage::getStoreConfig('carriers/tablerate/condition_name'));
-        $tableratesCollection->setCountryFilter(223); // TOFIX, FIXME
         $tableratesCollection->setWebsiteFilter(Mage::getModel('core/website')->load($this->getRequest()->getParam('website'))->getId());
         $tableratesCollection->load();
 
         $csv = '';                                            
 
-        $dataHeader = array();
-        $data = array();
-        foreach ($tableratesCollection->getItems() as $item) {
-            $dataHeader[] = $item->getData('condition_value');
-            $data[$item->getData('dest_region_id')][$item->getData('dest_zip')][$item->getData('condition_value')] = array('price'=>$item->getData('price'), 'cost'=>$item->getData('cost'));
-        }
-        $dataHeader = array_unique($dataHeader);
-        sort($dataHeader);
-        ksort($data);
-        foreach ($data as $k=>$v) {
-            ksort($data[$k]);
-        }
-        
         $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', Mage::getStoreConfig('carriers/tablerate/condition_name'));
         
-        $csvHeader = array('"Region"','"ZIP \\ '.$conditionName.'"');
-        foreach ($dataHeader as $conditionValue) {
-            $csvHeader[] = '"'.str_replace('"', '""', $conditionValue).'"';
-        }
+        $csvHeader = array('"Country"', '"Region"', '"Zip"', '"'.$conditionName.'"', '"Shipping Price"', '"Shipping Cost"');
         $csv .= implode(',', $csvHeader)."\n";
         
-        foreach ($data as $region=>$v) {
-            foreach ($data[$region] as $zip=>$v2) {
-                $csvData = array();
-                $csvData[] = '"'.str_replace('"', '""', $region).'"';
-                $csvData[] = '"'.str_replace('"', '""', $zip).'"';
-                foreach ($dataHeader as $conditionValue) {
-                    if (isset($data[$region][$zip][$conditionValue])) {
-                        $csvData[] = '"'.str_replace('"', '""', $data[$region][$zip][$conditionValue]['price']).'"';
-                    } else {
-                        $csvData[] = '"-1"';
-                    }
-                }
-                $csv .= implode(',', $csvData)."\n";
+        foreach ($tableratesCollection->getItems() as $item) {
+            if ($item->getData('dest_country') == '') {
+                $country = '*';
+            } else {
+                $country = $item->getData('dest_country');
             }
+            if ($item->getData('dest_region') == '') {
+                $region = '*';
+            } else {
+                $region = $item->getData('dest_region');
+            }
+            if ($item->getData('dest_zip') == '') {
+                $zip = '*';
+            } else {
+                $zip = $item->getData('dest_zip');
+            }
+            $csvData = array('"'.str_replace('"', '""', $country).'"',
+                               '"'.str_replace('"', '""', $region).'"',
+                               '"'.str_replace('"', '""', $zip).'"',
+                               '"'.str_replace('"', '""', $item->getData('condition_value')).'"',
+                               '"'.str_replace('"', '""', $item->getData('price')).'"',
+                               '"'.str_replace('"', '""', $item->getData('cost')).'"',
+                              );
+            $csv .= implode(',', $csvData)."\n";
         }
         
         header("Content-disposition: attachment; filename=tablerates.csv");
         echo $csv;
-    }    
+    }
 }
