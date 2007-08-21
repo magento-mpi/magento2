@@ -103,12 +103,10 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
 
     public function addProductName()
     {
-        $this->load();
-        
         $productsId = array();
         $productsData = array();
 
-        foreach ($this->_items as $item)
+        foreach ($this->getItems() as $item)
         {   
             $productsId[] = $item->getProductId();
         }
@@ -126,9 +124,9 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
             $productsData[$item->getId()] = $item->getName();
         }
         
-        foreach ($this->_items as $idx=>$item)
+        foreach ($this->getItems() as $item)
         {   
-            $this->_items[$idx]->setProduct($productsData[$item->getProductId()]);
+            $item->setProduct($productsData[$item->getProductId()]);
         }
         return $this;
     }
