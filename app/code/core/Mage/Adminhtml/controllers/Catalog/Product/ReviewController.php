@@ -21,6 +21,17 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $this->renderLayout();
     }
 
+    public function pendingAction()
+    {
+        $this->loadLayout('baseframe');
+        $this->_setActiveMenu('catalog/review');
+
+        Mage::register('usePendingFilter', true);
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/review_main'));
+
+        $this->renderLayout();
+    }
+
     public function editAction()
     {
         $this->loadLayout('baseframe');
@@ -65,7 +76,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 $review->aggregate();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Review successfully saved.'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                if( $this->getRequest()->getParam('ret') == 'pending' ) {
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
+                } else {
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                }
                 return;
             } catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -85,7 +100,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 ->delete();
 
             Mage::getSingleton('adminhtml/session')->addSuccess(__('Review successfully deleted.'));
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+            if( $this->getRequest()->getParam('ret') == 'pending' ) {
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
+            } else {
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+            }
             return;
         } catch (Exception $e){
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -145,7 +164,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 	   ->addOptionVote($optionId, $productId);
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Review was saved succesfully'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                if( $this->getRequest()->getParam('ret') == 'pending' ) {
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
+                } else {
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                }
                 return;
             } catch (Exception $e){
                 die($e->getMessage());

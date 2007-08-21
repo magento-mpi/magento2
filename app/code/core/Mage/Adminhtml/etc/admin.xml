@@ -77,7 +77,16 @@
                         <children>
                             <reviews>
                                 <title>Customer Reviews</title>
-                                <action>adminhtml/catalog_product_review/</action>
+                                <children>
+                                    <pending>
+                                        <title>Pending Reviews</title>
+                                        <action>adminhtml/catalog_product_review/pending/</action>
+                                    </pending>
+                                    <all>
+                                        <title>All Reviews</title>
+                                        <action>adminhtml/catalog_product_review/</action>
+                                    </all>
+                                </children>
                             </reviews>
                             <ratings>
                                 <title>Manage Ratings</title>

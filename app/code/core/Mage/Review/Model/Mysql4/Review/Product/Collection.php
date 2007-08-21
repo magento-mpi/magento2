@@ -41,6 +41,13 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 		return $this;
 	}
 
+	public function addStatusFilter($status)
+	{
+        $this->getSelect()
+            ->where('rt.status_id = ?', $status);
+		return $this;
+	}
+
     public function setDateOrder($dir='DESC')
     {
         $this->getSelect()

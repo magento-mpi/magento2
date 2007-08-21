@@ -26,7 +26,16 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         }
 
         if( $this->getRequest()->getParam('customerId', false) ) {
-            $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/customer/edit', array('customer_id' => $this->getRequest()->getParam('customerId', false))) .'\')' );
+            $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/customer/edit', array('id' => $this->getRequest()->getParam('customerId', false))) .'\')' );
+        }
+
+        if( $this->getRequest()->getParam('ret', false) == 'pending' ) {
+            $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/*/pending') .'\')' );
+            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array(
+                $this->_objectId => $this->getRequest()->getParam($this->_objectId),
+                'ret'           => 'pending',
+            )) .'\')' );
+            Mage::register('ret', 'pending');
         }
 
         if( $this->getRequest()->getParam($this->_objectId) ) {

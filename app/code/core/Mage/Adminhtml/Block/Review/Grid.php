@@ -21,17 +21,21 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('review/review')
-            ->getProductCollection();
+        $model = Mage::getModel('review/review');
+        $collection = $model->getProductCollection();
 
         if( $this->getProductId() || $this->getRequest()->getParam('productId', false) ) {
             $this->setProductId( ( $this->getProductId() ? $this->getProductId() : $this->getRequest()->getParam('productId') ) );
-            $collection->addEntityFilter('product', $this->getProductId());
+            $collection->addEntityFilter($this->getProductId());
         }
 
         if( $this->getCustomerId() || $this->getRequest()->getParam('customerId', false) ) {
             $this->setCustomerId( ( $this->getCustomerId() ? $this->getCustomerId() : $this->getRequest()->getParam('customerId') ) );
             $collection->addCustomerFilter($this->getCustomerId());
+        }
+
+        if( Mage::registry('usePendingFilter') === true ) {
+            $collection->addStatusFilter($model->getPendingStatus());
         }
 
         $this->setCollection($collection);
@@ -68,15 +72,17 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'created_at',
         ));
 
-        $this->addColumn('status', array(
-            'header'    => __('Status'),
-            'align'     =>'left',
-            'type'      => 'options',
-            'options'   => $statuses,
-            'width'     => '100px',
-            'filter_index'  => 'rt.status_id',
-            'index'     => 'status_id',
-        ));
+        if( !Mage::registry('usePendingFilter') ) {
+            $this->addColumn('status', array(
+                'header'    => __('Status'),
+                'align'     =>'left',
+                'type'      => 'options',
+                'options'   => $statuses,
+                'width'     => '100px',
+                'filter_index'  => 'rt.status_id',
+                'index'     => 'status_id',
+            ));
+        }
 
         $this->addColumn('title', array(
             'header'    => __('Title'),
@@ -126,6 +132,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
+            'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null,
         ));
     }
 

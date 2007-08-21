@@ -103,4 +103,9 @@ class Mage_Review_Model_Review extends Varien_Object
             }
         }
     }
+
+    public function getPendingStatus()
+    {
+        return 2;
+    }
 }
