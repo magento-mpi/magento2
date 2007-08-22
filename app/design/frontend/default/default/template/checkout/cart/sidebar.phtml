@@ -24,7 +24,13 @@
 	<?else:?>
  	<div class="content"><p><?=__('You have no items in your cart.')?></p></div>
  	<?endif?>
-    <div class="actions"><a href="<?=$this->getUrl('checkout/cart')?>">Go to Cart</a></div>
+    <div class="actions">
+        <div class="subtotal">
+            <span class="label">Subtotal:</span><br/>
+            <span class="price">$49.99</span>
+        </div>
+        <button class="form-button"><span>Checkout</span></button><br/>
+        <a href="<?=$this->getUrl('checkout/cart')?>">Go to Cart</a></div>
 </div>
 <!-- [ends] .cart-sidebar // -->
 <?endif?>
