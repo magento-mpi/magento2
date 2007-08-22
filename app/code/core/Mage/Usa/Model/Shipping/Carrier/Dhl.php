@@ -139,15 +139,19 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         $responseBody = $response->getBody();
 */
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_URL, Mage::getStoreConfig('carriers/dhl/gateway_url'));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
-        $responseBody = curl_exec($ch);
-        curl_close ($ch);
-
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_URL, Mage::getStoreConfig('carriers/dhl/gateway_url'));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+            $responseBody = curl_exec($ch);
+            curl_close ($ch);
+        } catch (Exception $e) {
+            $responseBody = '';
+        }
+            
         $this->_parseXmlResponse($responseBody);
     }
     
@@ -156,38 +160,39 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         $costArr = array();
         $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        if (strpos(trim($response), '<?xml')===0)
-        {
-            $xml = simplexml_load_string($response);
-            if (is_object($xml)) {
-                if (
-                       is_object($xml->Faults)
-                    && is_object($xml->Faults->Fault)
-                    && is_object($xml->Faults->Fault->Code)
-                    && is_object($xml->Faults->Fault->Description)
-                    && is_object($xml->Faults->Fault->Context)
-                   ) {
-                    $errorTitle = 'Error #'.(string)$xml->Faults->Fault->Code.': '.$xml->Faults->Fault->Description.' ('.$xml->Faults->Fault->Context.')';
-                } else {
-                    $errorTitle = 'Unknown error';
-                }
-                /*
-                FIXME, TOFIX
-
-                REWORK IT: nado perepisat' etot kusok dlia polucheniya pravil'nyh
-                ocenok stoimosti iz pravil'nyh poley:
-                
-                if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
-                    foreach ($xml->Package->Postage as $postage) {
-                        $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
+        if (strlen(trim($response))>0) {
+            if (strpos(trim($response), '<?xml')===0) {
+                $xml = simplexml_load_string($response);
+                if (is_object($xml)) {
+                    if (
+                           is_object($xml->Faults)
+                        && is_object($xml->Faults->Fault)
+                        && is_object($xml->Faults->Fault->Code)
+                        && is_object($xml->Faults->Fault->Description)
+                        && is_object($xml->Faults->Fault->Context)
+                       ) {
+                        $errorTitle = 'Error #'.(string)$xml->Faults->Fault->Code.': '.$xml->Faults->Fault->Description.' ('.$xml->Faults->Fault->Context.')';
+                    } else {
+                        $errorTitle = 'Unknown error';
                     }
-                    asort($priceArr);
+                    /*
+                    FIXME, TOFIX
+
+                    REWORK IT: nado perepisat' etot kusok dlia polucheniya pravil'nyh
+                    ocenok stoimosti iz pravil'nyh poley:
+                    
+                    if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
+                        foreach ($xml->Package->Postage as $postage) {
+                            $costArr[(string)$postage->MailService] = (string)$postage->Rate;
+                            $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
+                        }
+                        asort($priceArr);
+                    }
+                    */
                 }
-                */
+            } else {
+                $errorTitle = 'Response is in the wrong format';
             }
-        } else {
-            $errorTitle = 'Response is in the wrong format';
         }
 
         $result = Mage::getModel('shipping/rate_result');

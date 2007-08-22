@@ -131,12 +131,16 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             '49_residential' => $r->getDestType(),
         );
 
-        $client = new Zend_Http_Client();
-        $client->setUri(Mage::getStoreConfig('carriers/ups/gateway_url'));
-        $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-        $client->setParameterGet($params);
-        $response = $client->request();
-        $responseBody = $response->getBody();
+        try {
+            $client = new Zend_Http_Client();
+            $client->setUri(Mage::getStoreConfig('carriers/ups/gateway_url'));
+            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+            $client->setParameterGet($params);
+            $response = $client->request();
+            $responseBody = $response->getBody();
+        } catch (Exception $e) {
+            $responseBody = '';
+        }
 
         $this->_parseCgiResponse($responseBody);
     }

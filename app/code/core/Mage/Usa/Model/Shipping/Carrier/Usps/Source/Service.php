@@ -6,6 +6,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps_Source_Service
     {
         $usps = Mage::getSingleton('usa/shipping_carrier_usps');
         $arr = array();
+        $arr[] = array('value'=>'', 'label'=>'None');
         foreach ($usps->getCode('service') as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);
         }

@@ -347,14 +347,18 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         $responseBody = $response->getBody();
 */
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_URL, Mage::getStoreConfig('carriers/fedex/gateway_url'));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
-        $responseBody = curl_exec($ch);
-        curl_close ($ch);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_URL, Mage::getStoreConfig('carriers/fedex/gateway_url'));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+            $responseBody = curl_exec($ch);
+            curl_close ($ch);
+        } catch (Exception $e) {
+            $responseBody = '';
+        }
 
         $this->_parseXmlResponse($responseBody);
     }
@@ -364,23 +368,24 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         $costArr = array();
         $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        if (strpos(trim($response), '<?xml')===0)
-        {
-            $xml = simplexml_load_string($response);
-            if (is_object($xml)) {
-                if (is_object($xml->Error) && is_object($xml->Error->Message)) {
-                    $errorTitle = (string)$xml->Error->Message;
-                } else {
-                    $errorTitle = 'Unknown error';
+        if (strlen(trim($response))>0) {
+            if (strpos(trim($response), '<?xml')===0) {
+                $xml = simplexml_load_string($response);
+                if (is_object($xml)) {
+                    if (is_object($xml->Error) && is_object($xml->Error->Message)) {
+                        $errorTitle = (string)$xml->Error->Message;
+                    } else {
+                        $errorTitle = 'Unknown error';
+                    }
+                    foreach ($xml->Entry as $entry) {
+                        $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+                        $priceArr[(string)$entry->Service] = $this->getMethodPrice((string)$entry->EstimatedCharges->DiscountedCharges->NetCharge, (string)$entry->Service);
+                    }
+                    asort($priceArr);
                 }
-                foreach ($xml->Entry as $entry) {
-                    $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
-                    $priceArr[(string)$entry->Service] = $this->getMethodPrice((string)$entry->EstimatedCharges->DiscountedCharges->NetCharge, (string)$entry->Service);
-                }
-                asort($priceArr);
+            } else {
+                $errorTitle = 'Response is in the wrong format';
             }
-        } else {
-            $errorTitle = 'Response is in the wrong format';
         }
 
         $result = Mage::getModel('shipping/rate_result');

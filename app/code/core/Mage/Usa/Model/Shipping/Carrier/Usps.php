@@ -115,13 +115,17 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 
         $request = $xml->asXML();
 
-        $client = new Zend_Http_Client();
-        $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
-        $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-        $client->setParameterGet('API', 'RateV3');
-        $client->setParameterGet('XML', $request);
-        $response = $client->request();
-        $responseBody = $response->getBody();
+        try {
+            $client = new Zend_Http_Client();
+            $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
+            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+            $client->setParameterGet('API', 'RateV3');
+            $client->setParameterGet('XML', $request);
+            $response = $client->request();
+            $responseBody = $response->getBody();
+        } catch (Exception $e) {
+            $responseBody = '';
+        }
 
         $this->_parseXmlResponse($responseBody);
     }
@@ -131,27 +135,28 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         $costArr = array();
         $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
-        if (strpos(trim($response), '<?xml')===0)
-        {
-            $xml = simplexml_load_string($response);
-            if (is_object($xml)) {
-                if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
-                    $errorTitle = (string)$xml->Description;
-                } elseif (is_object($xml->Package) && is_object($xml->Package->Error) && is_object($xml->Package->Error->Description) && (string)$xml->Package->Error->Description!='') {
-                    $errorTitle = (string)$xml->Package->Error->Description;
-                } else {
-                    $errorTitle = 'Unknown error';
-                }
-                if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
-                    foreach ($xml->Package->Postage as $postage) {
-                        $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+        if (strlen(trim($response))>0) {
+            if (strpos(trim($response), '<?xml')===0) {
+                $xml = simplexml_load_string($response);
+                if (is_object($xml)) {
+                    if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
+                        $errorTitle = (string)$xml->Description;
+                    } elseif (is_object($xml->Package) && is_object($xml->Package->Error) && is_object($xml->Package->Error->Description) && (string)$xml->Package->Error->Description!='') {
+                        $errorTitle = (string)$xml->Package->Error->Description;
+                    } else {
+                        $errorTitle = 'Unknown error';
                     }
-                    asort($priceArr);
+                    if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
+                        foreach ($xml->Package->Postage as $postage) {
+                            $costArr[(string)$postage->MailService] = (string)$postage->Rate;
+                            $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+                        }
+                        asort($priceArr);
+                    }
                 }
+            } else {
+                $errorTitle = 'Response is in the wrong format';
             }
-        } else {
-            $errorTitle = 'Response is in the wrong format';
         }
 
         $result = Mage::getModel('shipping/rate_result');
