@@ -22,11 +22,12 @@
     </button>
 </div>
     <ul id="address_list">
+    <?$_iterator = 0;?>
     <?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
         <li id="address_item_<?=$_address->getId()?>">
             <div class="delete-address">
-                 <?=$this->getDeleteButtonHtml()?>
+                 <a href="#" name="" id="delete_button<?=++$iterator?>" class="delete"><?=__('Delete Address')?></a>
             </div>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
@@ -90,8 +91,12 @@
     <!-- Template for adding address item to list -->
     <?$_templatePrefix = '_template_'?>
     <div id="address_item_template" class="no-display template">
-        <div class="delete-address">
-             <?=$this->getDeleteButtonHtml()?>
+        <div class="delete-address" style="display:block;float:right;">
+             <a href="#" id="delete_button" class="delete"><?=__('Delete Address')?></a><br />
+        </div>
+
+        <div style="display:block;float:right;clear:right">
+             <a href="#" id="select_button" class="select_button"><?=__('Edit Address')?></a>
         </div>
         <address><?=__('New Customer Address')?></address>
         <div class="address-type">
@@ -120,7 +125,7 @@
             <td class="ml"><?=__('Cancel')?></td>
             <td class="mr"></td>
         </tr>
-        <tr>                       
+        <tr>
             <td class="bl"></td>
             <td class="br"></td>
         </tr>
@@ -131,6 +136,8 @@
 
 <!-- -->
 <script type="text/javascript">
+var deleteButtonId = <?=$_iterator?>;
+
 var addressesModel = Class.create();
 addressesModel.prototype = {
     initialize : function() {
@@ -147,12 +154,12 @@ addressesModel.prototype = {
         this.onItemMouseOut     = this.itemMouseOut.bindAsEventListener(this);
         this.onItemMouseClick   = this.itemMouseClick.bindAsEventListener(this);
         this.onItemFormFieldChange = this.syncFormData.bindAsEventListener(this);
-        
+
         this.loader = new varienLoader(true);
         this.regionsUrl = '<?=$this->getRegionsUrl()?>';
-        
+
         this.reloadItemList();
-        
+
         for(var i=0,n=this.itemList.length; i<n; i++){
             if(this.itemList[i].id){
                 this.addItemObservers(this.itemList[i]);
@@ -162,7 +169,7 @@ addressesModel.prototype = {
         if($('add_new_address_button')){
             Event.observe('add_new_address_button', 'click', this.onNewAddressClick)
         }
-        
+
         this.setActiveItem(this.itemList[0]);
         this.setAddressAsDefault();
         this.bindCountryRegionRelation();
@@ -203,7 +210,10 @@ addressesModel.prototype = {
             var newItem = document.createElement('li');
             newItem.isNewAddress = true; // set is new flag
             newItem.id = this.baseItemId+this.itemCount;
-            newItem.innerHTML = this.prepareTemplate(this.itemTemplate.innerHTML)
+
+            deleteButtonId ++;
+            var template = this.prepareTemplate(this.itemTemplate.innerHTML).replace('delete_button', 'delete_button'+ deleteButtonId);
+            newItem.innerHTML = template;
             newItem.formBlock = newForm;
             this.itemContainer.appendChild(newItem);
 
@@ -233,16 +243,15 @@ addressesModel.prototype = {
     },
     itemMouseClick : function(event){
         var element = Event.findElement(event, 'li'); // find top item
-        
+
         var elem = Event.element(event); // exact element clicked
-                                                 
-        if (elem.tagName != 'BUTTON' && elem.tagName != 'INPUT')
-            elem = Event.findElement(event, 'button'); //Safari bug fix
-        
-        if ( (elem.tagName == 'BUTTON') && ( elem.name == 'delete_address') ) {
+        //if (elem.tagName != 'BUTTON' && elem.tagName != 'INPUT')
+            //elem = Event.findElement(event, 'button'); //Safari bug fix
+
+        if ( (elem.tagName == 'A') && elem.id.match(/^delete_button([0-9]?)$/) ) {
             this.deleteAddress(element);
             Event.stop(event);
-        } 
+        }
         else if(elem.tagName == 'INPUT') {
             this.setAddressAsDefault(element);
         }
@@ -336,7 +345,7 @@ addressesModel.prototype = {
                 }
             }
             if ( this.activeItem == item ) this.setActiveItem(this.itemList[0]);
-            this.itemContainer.removeChild(item);  
+            this.itemContainer.removeChild(item);
             this.reloadItemList();
             this.setAddressAsDefault();
         }
@@ -346,11 +355,11 @@ addressesModel.prototype = {
             item = $(this.baseItemId+button.id.replace(/[a-z_]*/, ''));
             if( item.isNewAddress){
                 if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
-            } 
+            }
             if ( this.activeItem == item ) this.setActiveItem(this.itemList[0]);
-            this.itemContainer.removeChild(item);  
-            this.reloadItemList();          
-        }        
+            this.itemContainer.removeChild(item);
+            this.reloadItemList();
+        }
     },
     bindCountryRegionRelation : function(paerntId){
         if(paerntId){
