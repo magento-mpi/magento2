@@ -2,8 +2,9 @@
 	<div class="page-head">
 		<h4><?=__('My Tags')?></h4>
 	</div>
+	<?=$this->getMessagesBlock()->getHtml()?>
 	<p>
-		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> (<a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><small><?=__('Edit')?></small></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
+		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> ( <a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><small><?=__('Edit')?></small></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
 	</p>
 	<?=$this->getToolbarHtml()?>
 	<table class="data-table box-table" id="my-tags-table" cellspacing="0">

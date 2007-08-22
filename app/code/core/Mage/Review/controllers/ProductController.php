@@ -36,14 +36,12 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
                 $review->aggregate();
 
-                Mage::getSingleton('review/session')->addMessage(
-                    Mage::getModel('core/message')->success('Your review added')
-                );
+                Mage::getSingleton('review/session')
+                    ->addSuccess('You review accepted for moderation');
             }
             catch (Exception $e){
-                Mage::getSingleton('review/session')->addMessage(
-                    Mage::getModel('core/message')->error('Add review error')
-                );
+                Mage::getSingleton('review/session')
+                    ->addSuccess('Unable to post review. Please, try again later.');
             }
         }
 
@@ -58,6 +56,8 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout(array('default', 'productReviews'), 'reviews');
+        $this->_initLayoutMessages('review/session');
+
 
         Mage::register('productId', $productId);
 
@@ -73,6 +73,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         $this->loadLayout(array('default', 'reviews'), 'reviews');
+        $this->_initLayoutMessages('review/session');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('review/view')
         );

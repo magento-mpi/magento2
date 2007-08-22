@@ -54,10 +54,14 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     } else {
                         continue;
                     }
+                    Mage::getSingleton('tag/session')
+                        ->addSuccess('You tag(s) accepted for moderation');
                 }
 
                 return;
             } catch (Exception $e) {
+                Mage::getSingleton('tag/session')
+                    ->addError('Unable to save tag(s). Please, try again later.');
                 return;
             }
         }

@@ -21,8 +21,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         }
 
         $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->_initLayoutMessages('tag/session');
 
-        $this->_initLayoutMessages('customer/session');
         $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('tag/customer_tags'));
 
@@ -37,8 +37,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         }
         Mage::register('tagId', $this->getRequest()->getParam('tagId'));
 
-        $this->_initLayoutMessages('customer/session');
         $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->_initLayoutMessages('tag/session');
 
         $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('tag/customer_view'));
@@ -54,6 +54,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         }
 
         $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->_initLayoutMessages('tag/session');
 
         $tagId = $this->getRequest()->getParam('tagId');
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
@@ -98,9 +99,15 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         $model = Mage::getModel('tag/tag_relation');
         $model->loadByTagCustomer(null, $tagId, $customerId);
         if( $model->getCustomerId() == $customerId ) {
-            $model->delete();
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
-            return;
+            try {
+                $model->delete();
+
+                Mage::getSingleton('tag/session')->addSuccess( 'You tag successfully removed.' );
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                return;
+            } catch (Exception $e) {
+                Mage::getSingleton('tag/session')->addError( 'Unable to remove tag. Please, try again later.' );
+            }
         } else {
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             return;
@@ -124,6 +131,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 $customerId = Mage::getSingleton('customer/session')->getCustomerId();
                 $tagName = $this->getRequest()->getParam('tagName');
                 $productId = 0;
+                $isNew = false;
+                $message = false;
 
                 $tagModel = Mage::getModel('tag/tag');
                 $tagModel->load($tagId);
@@ -131,6 +140,11 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
 
                 if( $tagModel->getName() != $tagName ) {
                     $tagModel->loadByName($tagName);
+
+                    if( !$tagModel->getName() ) {
+                        $isNew = true;
+                        $message = 'Thank you. Your tag accepted for moderation.';
+                    }
 
                     $tagModel->setName($tagName)
                             ->setStatus( ( $tagModel->getId() && $tagModel->getStatus() != $tagModel->getPendingStatus() ) ? $tagModel->getStatus() : $tagModel->getPendingStatus() )
@@ -156,9 +170,13 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 if( $tagModel->getId() ) {
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/view', array('tagId' => $tagModel->getId())));
                 }
+
+                Mage::getSingleton('tag/session')
+                    ->addSuccess( ($message) ? $message : 'You tag successfully saved.' );
                 return;
             } catch (Exception $e) {
-                throw new Exception($e->getMessage());
+                Mage::getSingleton('tag/session')
+                    ->addError( 'Unable to save your tag. Please, try again later.' );
                 return;
             }
         }

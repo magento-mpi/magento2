@@ -22,7 +22,7 @@
                     <?endif;?>
                     </td>
                 	<td><?=$_review->getDetail()?></td>
-                	<td class="last a-center"><a href="<?=$this->getReviewLink()?>id/<?=$_review->getId()?>"><?=__('View Details')?></a></td>
+                	<td class="last a-center"><a href="<?=$this->getReviewLink()?>id/<?=$_review->getReviewId()?>"><?=__('View Details')?></a></td>
                 </tr>
                 <?endforeach;?>
         	</tbody>

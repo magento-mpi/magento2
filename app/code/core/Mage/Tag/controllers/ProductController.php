@@ -14,6 +14,7 @@ class Mage_Tag_ProductController extends Mage_Core_Controller_Front_Action
     public function listAction()
     {
         $this->loadLayout();
+        $this->_initLayoutMessages('tag/session');
         $tagId = $this->getRequest()->getParam('tagId');
 
         if( intval($tagId) <= 0 ) {

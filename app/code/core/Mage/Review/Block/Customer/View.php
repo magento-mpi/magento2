@@ -48,8 +48,10 @@ class Mage_Review_Block_Customer_View extends Mage_Core_Block_Template
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
                 ->load();
+
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }
+
         return $this->getRatingCollection();
     }
 

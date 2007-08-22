@@ -19,7 +19,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
         Mage::register('product', $product);
     }
-	
+
 	public function viewAction()
     {
         $this->_initProduct();
@@ -44,6 +44,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
         $title = ($product->getMetaTitle() ? $product->getMetaTitle() : $product->getName()).' - '.$title;
         $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('tag/session');
         $head->setTitle($title);
         $this->renderLayout();
     }
@@ -55,7 +56,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->getLayout()->createBlock('catalog/product_view_super_config')->toHtml()
         );
     }
-    
+
     public function priceAction()
     {
     	$this->_initProduct();
@@ -63,7 +64,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->getLayout()->createBlock('catalog/product_view_price')->toHtml()
         );
     }
-    
+
     public function galleryAction()
     {
         $this->_initProduct();

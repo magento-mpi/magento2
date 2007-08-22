@@ -2,13 +2,14 @@
     <div class="page-head">
 		<h3><?=__('My Tags')?></h3>
 	</div>
+	<?=$this->getMessagesBlock()->getHtml()?>
 	<?if($this->getTags()):?>
 		<p><?=__('Click on a tag to view your corresponding products.')?></p>
 		<div class="box base-mini mini-product-tags">
             <div class="content">
         		<ul>
         			<?foreach ($this->getTags() as $_tag):?>
-        				<li><a href="<?=$_tag->getTaggedProductsUrl()?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
+        				<li><a href="<?=$this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId()))?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
         			<?endforeach;?>
         		</ul>
             </div>
