@@ -84,6 +84,11 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
     public function addEntitySummaryToItem($entityPkValue)
     {
         $arrRatingId = $this->getColumnValues('rating_id');
+
+        if( count($arrRatingId) == 0 ) {
+            return;
+        }
+
         $sql = "SELECT
                     {$this->getTable('rating_vote')}.rating_id as rating_id,
                     SUM({$this->getTable('rating_vote')}.percent) as sum,
