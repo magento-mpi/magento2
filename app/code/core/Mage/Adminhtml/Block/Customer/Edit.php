@@ -12,7 +12,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 {
     public function __construct()
     {
-        $this->_objectId = 'customer_id';
+        $this->_objectId = 'id';
         $this->_controller = 'customer';
 
         if ($this->getCustomerId()) {
