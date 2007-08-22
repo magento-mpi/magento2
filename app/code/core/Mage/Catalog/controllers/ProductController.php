@@ -17,20 +17,19 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             ->load($productId)
             ->setCategoryId($categoryId);
 
-        if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            $this->_forward('noRoute');
-            return;
-        }
-
         Mage::register('product', $product);
     }
 	
 	public function viewAction()
     {
         $this->_initProduct();
+        $product = Mage::registry('product');
+        if (!$product->getId() || !$product->isVisibleInCatalog()) {
+            $this->_forward('noRoute');
+            return;
+        }
         
         $this->loadLayout(null, '', false);
-        $product = Mage::registry('product');
         if ($product->getCustomLayout()) {
             $this->getLayout()->loadString($product->getCustomLayout());
         } else {
