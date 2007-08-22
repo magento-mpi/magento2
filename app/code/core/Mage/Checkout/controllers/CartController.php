@@ -70,6 +70,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 		            	
         			}
         		} else {
+        		    Mage::getSingleton('catalog/session')->addError('Specify product option, please');
         			$this->_backToProduct($product->getId());
         			return;
         		}     		
@@ -81,6 +82,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         		}
         		
         		if(sizeof($superGroupProducts)==0) {
+        		    Mage::getSingleton('catalog/session')->addError('Specify products, please');
         			$this->_backToProduct($product->getId());
         			return;
         		}

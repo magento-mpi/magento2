@@ -7,12 +7,12 @@
 ?>
 <?$_filters = $this->getActiveFilters()?>
 <?if(!empty($_filters)):?>
-<h4>Currently Shopping By</h4>
+    <h4>Currently Shopping By</h4>
     <ol class="narrowed-category">
     <?foreach ($_filters as $_filter):?>
         <li>
             <a href="<?=$_filter->getRemoveUrl()?>" class="widget-btn"/><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
-            <span class="label"><?=$_filter->getName()?>:</span><?=$_filter->getLabel()?>
+            <span class="label"><?=$_filter->getName()?>: </span><?=$_filter->getLabel()?>
         </li>
     <?endforeach;?>
     </ol>

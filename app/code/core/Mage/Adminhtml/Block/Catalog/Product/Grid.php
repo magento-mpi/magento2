@@ -75,11 +75,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'header'=> __('Name'),
                 'index' => 'name',
         ));
-
-        if ((int) $this->getRequest()->getParam('store', 0)) {
+        
+        $storeId = $this->getRequest()->getParam('store', 0);
+        if ((int) $storeId) {
+            $store = Mage::getModel('core/store')->load($storeId);
             $this->addColumn('custom_name',
                 array(
-                    'header'=> __('Name In Store'),
+                    'header'=> __('Name In %s', $store->getName()),
                     'index' => 'custom_name',
             ));
         }

@@ -10,6 +10,8 @@
  */
 class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Abstract 
 {
+    const MIN_RANGE_POWER = 10;
+    
     public function __construct()
     {
         parent::__construct();
@@ -25,7 +27,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     {
         $filter = (int) $request->getParam($this->getRequestVar());
         if ($filter) {
-            $range = $this->getPriceRange();
+            $range = $this->getPriceRange($filter);
             $this->getLayer()->getProductCollection()
                 ->addFieldToFilter('price', array(
                     'from'  => ($filter-1)*$range,
@@ -49,7 +51,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      *
      * @return int
      */
-    public function getPriceRange()
+    public function getPriceRange($filterValue=null)
     {
         $range = $this->getData('price_range');
         if (is_null($range)) {
@@ -60,7 +62,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
                 $items = $this->getRangeItemCounts($range);
                 $index++;
             }
-            while($range>1 && count($items)<=2);
+            while($range>self::MIN_RANGE_POWER && count($items)<2);
             
             $this->setData('price_range', $range);
         }

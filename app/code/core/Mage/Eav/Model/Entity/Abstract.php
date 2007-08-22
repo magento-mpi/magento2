@@ -762,7 +762,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         if (!$this->isPartialSave()) {
-            $this->loadAllAttributes();
+            $this->loadAllAttributes($object);
         }
 
         if (!$object->getEntityTypeId()) {

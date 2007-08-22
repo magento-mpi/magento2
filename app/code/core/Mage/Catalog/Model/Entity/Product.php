@@ -35,10 +35,9 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     {
         parent::_afterSave($object);
         
-        $this
-        	->_saveBundle($object)
-        	->_saveSuperConfig($object)
-        	->_saveStores($object)
+        $this->_saveBundle($object)
+            ->_saveSuperConfig($object)
+            ->_saveStores($object)
             ->_saveCategories($object)
             ->_saveLinkedProducts($object);
             

@@ -44,6 +44,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         	$title = ($category->getMetaTitle() ? $category->getMetaTitle() : $category->getName()).' - '.$title;
         }
         $title = ($product->getMetaTitle() ? $product->getMetaTitle() : $product->getName()).' - '.$title;
+        $this->_initLayoutMessages('catalog/session');
         $head->setTitle($title);
         $this->renderLayout();
     }

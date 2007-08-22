@@ -176,6 +176,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
+        	$productId      = (int) $this->getRequest()->getParam('id');
+        	$attributeSetId = (int) $this->getRequest()->getParam('set');
+        	$typeId         = (int) $this->getRequest()->getParam('type');
+        	
+        	if (!$productId && (!$attributeSetId || !$typeId)) {
+        	    // error
+        	}
+        	
+        	$product = Mage::getModel('catalog/product');
+        	if (!$productId) {
+        	    $product->setAttributeSetId($attributeSetId);
+        	    $product->setTypeId($typeId);
+        	}
+        	else {
+        	    $product->load($productId);
+        	}
+            
             $categories = array();
             $stores     = array();
             $relatedProducts = array();
@@ -212,9 +229,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             	$superLinks = Zend_Json::decode($this->getRequest()->getParam('_super_links_json'));
             }
 
-        	$product = Mage::getModel('catalog/product')
-        		->setStoreId((int) $storeId)
-        		->load((int) $this->getRequest()->getParam('id'))
+            $product->setStoreId((int) $storeId)
            		->addData($data['product'])
                 ->setStoreId((int) $storeId)
                 ->setPostedStores($stores)
@@ -225,16 +240,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setUpSellProducts($upSellProducts)
                 ->setCrossSellProducts($crossSellProducts);
 
-
-            if(!$product->getId()) {
-	            if ($set = (int) $this->getRequest()->getParam('set')) {
-	                $product->setAttributeSetId($set);
-	            }
-
-	            if ($type = (int) $this->getRequest()->getParam('type')) {
-	                $product->setTypeId($type);
-	            }
-            }
 
             if($product->isSuperGroup()) {
             	if($this->getRequest()->getPost('_super_group_product')) {
