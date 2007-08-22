@@ -122,6 +122,10 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
 
         $productsId = array_unique($productsId);
 
+        if( sizeof($productsId) == 0 ) {
+            return;
+        }
+
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
