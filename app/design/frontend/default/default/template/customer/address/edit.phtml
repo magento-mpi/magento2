@@ -1,7 +1,7 @@
 <?
 /**
  * Edit customer address template
- * 
+ *
  * @see Mage_Customer_Block_Address_Edit
  */
 ?>
@@ -20,11 +20,11 @@
             <li>
                 <div class="input-box">
                     <label for="firstname">First Name <span class="required">*</span></label><br/>
-                    <input type="text" name="firstname" id="firstname" title="First Name" value="<?=$this->getAddress()->getFirstname()?>" class="required-entry input-text"/>
+                    <input type="text" name="firstname" id="firstname" title="First Name" value="<?=( $this->getAddress()->getFirstname() ) ? $this->getAddress()->getFirstname() : $this->getCustomer()->getFirstname() ?>" class="required-entry input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                    <input type="text" name="lastname" id="lastname" title="Last Name" value="<?=$this->getAddress()->getLastname()?>" class="required-entry input-text"/>
+                    <input type="text" name="lastname" id="lastname" title="Last Name" value="<?=($this->getAddress()->getLastname() ) ? $this->getAddress()->getLastname() : $this->getCustomer()->getLastname()?>" class="required-entry input-text"/>
                 </div>
             </li>
             <li>
