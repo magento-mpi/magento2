@@ -12,6 +12,7 @@
 class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
 {
     protected $_allowDisableGrouping = true;
+    protected $_countAttribute = 'tr.tag_relation_id';
 
     public function __construct()
     {
@@ -105,7 +106,7 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         }
 
         $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(tr.customer_id) from ', $sql);
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', "select count({$this->getCountAttribute()}) from ", $sql);
         return $sql;
     }
 
@@ -155,5 +156,16 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
                 parent::setOrder($attribute, $dir);
         }
         return $this;
+    }
+
+    public function setCountAttribute($value)
+    {
+        $this->_countAttribute = $value;
+        return $this;
+    }
+
+    public function getCountAttribute()
+    {
+        return $this->_countAttribute;
     }
 }

@@ -25,6 +25,7 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
         $collection = Mage::getModel('tag/tag')
             ->getCustomerCollection()
             ->addTagFilter($tagId)
+            ->setCountAttribute('DISTINCT tr.customer_id')
             ->addGroupByCustomer();
 
         $this->setCollection($collection);
@@ -33,6 +34,7 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _afterLoadCollection()
     {
+        $this->getCollection()->addProductName();
         return parent::_afterLoadCollection();
     }
 
@@ -53,6 +55,22 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
         $this->addColumn('lastname', array(
             'header'    => __('Last Name'),
             'index'     => 'lastname',
+        ));
+
+        $this->addColumn('product', array(
+            'header'    => __('Product Name'),
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'product',
+        ));
+
+        $this->addColumn('product_sku', array(
+            'header'    => __('Product SKU'),
+            'filter'    => false,
+            'sortable'  => false,
+            'width'     => '50px',
+            'align'     => 'right',
+            'index'     => 'product_sku',
         ));
 
         return parent::_prepareColumns();
