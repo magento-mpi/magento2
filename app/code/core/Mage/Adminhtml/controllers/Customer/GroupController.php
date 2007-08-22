@@ -78,7 +78,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group'));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group/edit', array('id' => $id)));
                 return;
             }
         } else {

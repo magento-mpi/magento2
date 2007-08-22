@@ -135,4 +135,20 @@ class Mage_Customer_Model_Entity_Group
                 ->addMessage(Mage::getModel('customer/message')->error('CSTE027'));
         }
     }
+
+    public function itemExists($object)
+    {
+        $select = $this->_read->select();
+        $select->from($this->_groupTable)
+            ->where('customer_group_code = ?', $object->getCode())
+            ->where('customer_group_id != ?', $object->getId());
+
+        $data = $this->_read->fetchRow($select);
+
+        if( $data && count($data) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

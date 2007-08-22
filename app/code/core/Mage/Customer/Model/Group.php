@@ -18,7 +18,7 @@ class Mage_Customer_Model_Group extends Varien_Object
     {
         return $this->setCustomerGroupId($value);
     }
-    
+
     /**
      * Alias for getCustomerGroupId
      * @return int
@@ -27,7 +27,7 @@ class Mage_Customer_Model_Group extends Varien_Object
     {
         return $this->getCustomerGroupId();
     }
-    
+
     /**
      * Alias for setCustomerGroupCode
      *
@@ -37,7 +37,7 @@ class Mage_Customer_Model_Group extends Varien_Object
     {
         return $this->setCustomerGroupCode($value);
     }
-    
+
     /**
      * Alias for getCustomerGroupCode
      *
@@ -47,46 +47,53 @@ class Mage_Customer_Model_Group extends Varien_Object
     {
         return $this->getCustomerGroupCode();
     }
-    
+
     public function getResource()
     {
         return Mage::getResourceSingleton('customer/group');
     }
-    
+
     /**
      * Load group info by id
      *
      * @param   int $groupId
      * @return  Mage_Customer_Model_Group
      */
-    public function load($groupId) 
+    public function load($groupId)
     {
         $this->setData($this->getResource()->load($groupId));
         return $this;
     }
-    
+
     /**
      * Save group
      *
      * @return  Mage_Customer_Model_Group
      * @throws  Mage_Customer_Exception
      */
-    public function save() 
+    public function save()
     {
+        if( $this->_itemExists() ) {
+            throw new Exception(__('Customer group already exists.'));
+        }
         $this->getResource()->save($this);
         return $this;
     }
-    
+
     /**
      * Delete group
      *
      * @return  Mage_Customer_Model_Group
      * @throws  Mage_Customer_Exception
      */
-    public function delete() 
+    public function delete()
     {
         $this->getResource()->delete($this->getId());
         return $this;
     }
-    
+
+    protected function _itemExists()
+    {
+        return $this->getResource()->itemExists($this);
+    }
 }
