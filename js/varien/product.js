@@ -13,40 +13,64 @@ if(typeof Product=='undefined') {
 /********************* IMAGE ZOOMER ***********************/
 
 Product.Zoom = Class.create();
+/**
+ * Image zoom control
+ * 
+ * @author Moshe Gurvich <moshe@varien.com>
+ */
 Product.Zoom.prototype = {
-	initialize: function(imageEl, trackEl, handleEl){
+	initialize: function(imageEl, trackEl, handleEl, zoomInEl, zoomOutEl){
+		this.containerEl = $(imageEl).parentNode;
 		this.imageEl = $(imageEl);
 		this.handleEl = $(handleEl);
 		this.trackEl = $(trackEl);
 		
-		Event.observe(this.imageEl, 'dblclick', this.toggleFull.bind(this));
+		this.containerDim = Element.getDimensions(this.containerEl);
+		this.imageDim = Element.getDimensions(this.imageEl);
+		this.imageDim.ratio = this.imageDim.width/this.imageDim.height;
 		
-		this.image = new Draggable(imageEl, {
-			starteffect:false, 
-			reverteffect:false, 
-			endeffect:false, 
-			snap:this.containIt.bind(this)
-		});
-		this.slider = new Control.Slider(handleEl, trackEl, {
-			axis:'horizontal', 
-			minimum:0, 
-			maximum:200, 
-			alignX:0, 
-			increment:1, 
-			sliderValue:0, 
-			onSlide:this.scaleIt.bind(this), 
-			onChange:this.scaleIt.bind(this)
-		});
-		
-		this.origWidth = 300;
-		this.origHeight = 300;
-		this.floorSize = 1.0;
-		this.ceilingSize = 10.0;
+		this.floorZoom = 1;
+		this.ceilingZoom = this.imageDim.width/this.containerDim.width;
 		this.imageX = 0;
 		this.imageY = 0;
 		this.imageZoom = 1;
+		
+		this.sliderSpeed = 0;
+		this.sliderAccel = 0;
+		
 		this.showFull = false;
+		
 		this.selects = document.getElementsByTagName('select');
+		
+		this.draggable = new Draggable(imageEl, {
+			starteffect:false, 
+			reverteffect:false, 
+			endeffect:false, 
+			snap:this.contain.bind(this)
+		});
+		
+		this.slider = new Control.Slider(handleEl, trackEl, {
+			axis:'horizontal', 
+			minimum:0, 
+			maximum:Element.getDimensions(this.trackEl).width, 
+			alignX:0, 
+			increment:1, 
+			sliderValue:0, 
+			onSlide:this.scale.bind(this), 
+			onChange:this.scale.bind(this)
+		});
+
+		this.scale(0);
+		
+		Event.observe(this.imageEl, 'dblclick', this.toggleFull.bind(this));
+		
+		Event.observe($(zoomInEl), 'mousedown', this.startZoomIn.bind(this));
+		Event.observe($(zoomInEl), 'mouseup', this.stopZooming.bind(this));
+		Event.observe($(zoomInEl), 'mouseout', this.stopZooming.bind(this));
+		
+		Event.observe($(zoomOutEl), 'mousedown', this.startZoomOut.bind(this));
+		Event.observe($(zoomOutEl), 'mouseup', this.stopZooming.bind(this));	
+		Event.observe($(zoomOutEl), 'mouseout', this.stopZooming.bind(this));	
 	},
 		
 	toggleFull: function () {
@@ -56,36 +80,95 @@ Product.Zoom.prototype = {
 			this.selects[i].style.visibility = this.showFull ? 'hidden' : 'visible';
 		}
 		this.trackEl.style.visibility = this.showFull ? 'hidden' : 'visible';
-		this.imageEl.parentNode.style.overflow = this.showFull ? 'visible' : 'hidden';
+		this.containerEl.style.overflow = this.showFull ? 'visible' : 'hidden';
+		
+		return this;
 	},
 	
-	scaleIt: function (v) {
-		var centerX = (this.origWidth*(1-this.imageZoom)/2-this.imageX)/this.imageZoom;
-		var centerY = (this.origHeight*(1-this.imageZoom)/2-this.imageY)/this.imageZoom;
+	scale: function (v) {
+		var centerX = (this.containerDim.width*(1-this.imageZoom)/2-this.imageX)/this.imageZoom;
+		var centerY = (this.containerDim.height*(1-this.imageZoom)/2-this.imageY)/this.imageZoom;
 		
-		this.imageZoom = this.floorSize+(v*(this.ceilingSize-this.floorSize));
+		this.imageZoom = this.floorZoom+(v*(this.ceilingZoom-this.floorZoom));
 		
-		this.imageEl.style.width = (this.imageZoom*this.origWidth)+'px';
+		this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
+		//this.imageEl.style.height = (this.imageZoom*this.containerDim.width*this.containerDim.ratio)+'px';
 		
-		this.imageX = this.origWidth*(1-this.imageZoom)/2-centerX*this.imageZoom;
-		this.imageY = this.origHeight*(1-this.imageZoom)/2-centerY*this.imageZoom;
-		this.containIt(this.imageX, this.imageY, this.image);
-		
-		this.image.element.style.left = this.imageX+'px';
-		this.image.element.style.top = this.imageY+'px';
-	},
+		this.imageX = this.containerDim.width*(1-this.imageZoom)/2-centerX*this.imageZoom;
+		this.imageY = this.containerDim.height*(1-this.imageZoom)/2-centerY*this.imageZoom;
 
-	containIt: function (x,y,draggable) {
-		var pDim = Element.getDimensions(draggable.element.parentNode);
-		var eDim = Element.getDimensions(draggable.element);
-		var xMin = 0, xMax = pDim.width-eDim.width;
-		var yMin = 0, yMax = pDim.height-eDim.height;
+		this.contain(this.imageX, this.imageY, this.draggable);
+		
+		return true;
+	},
+	
+	startZoomIn: function()
+	{
+		this.sliderSpeed = .01;
+		this.sliderAccel = .01;
+		this.periodicalZoom();
+		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+		return this;
+	},
+	
+	startZoomOut: function()
+	{
+		this.sliderSpeed = -.01;
+		this.sliderAccel = -.01;
+		this.periodicalZoom();
+		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+		return this;
+	},
+	
+	stopZooming: function()
+	{
+		if (!this.zoomer || this.sliderSpeed==0) {
+			return;
+		}
+		
+		this.sliderAccel = 0;
+		this.sliderSpeed = 0;//this.sliderSpeed/5;
+		
+		if (Math.abs(this.sliderSpeed)<.01) {
+			this.sliderSpeed = 0;
+			this.zoomer.stop();
+			this.zoomer = null;
+		}
+	},
+	
+	periodicalZoom: function()
+	{
+		if (!this.zoomer) {
+			return this;
+		}
+		
+		this.sliderSpeed += this.sliderAccel;
+		this.slider.value += this.sliderSpeed;
+		
+		this.slider.setValue(this.slider.value);
+		this.scale(this.slider.value);
+		
+		return this;
+	},
+	
+	contain: function (x,y,draggable) {
+
+		var dim = Element.getDimensions(draggable.element);
+		
+		var xMin = 0, xMax = this.containerDim.width-dim.width;
+		var yMin = 0, yMax = this.containerDim.height-dim.height;
+		
 		x = x>xMin ? xMin : x;
 		x = x<xMax ? xMax : x;
 		y = y>yMin ? yMin : y;
 		y = y<yMax ? yMax : y;
+		
 		this.imageX = x;
 		this.imageY = y;
+		
+		this.imageEl.style.left = this.imageX+'px';
+		this.imageEl.style.top = this.imageY+'px';
+		
 		return [x,y];
 	}
 }

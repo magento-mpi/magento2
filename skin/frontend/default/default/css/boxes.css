@@ -723,11 +723,11 @@ p.grand_total { padding-right:15px; }
 
 /* Product Info */
 .image-zoom { position:relative; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px;}
-#track_outer {  }
-#track { position:relative; }
+#image { width:auto; }
+#track { position:relative; height:18px; }
 #handle { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat;  }
-.btn-zoom-in { position:absolute; left:2px;}
-.btn-zoom-out { position:absolute; right:2px;}
+.btn-zoom-in { position:absolute; left:2px; top:1px; cursor:pointer;}
+.btn-zoom-out { position:absolute; right:2px; top:1px; cursor:pointer;}
 
 .product-attributes, .product-pricing { margin:10px 0; background:#faf7ee; padding:10px; border:1px dashed #a59e89;}
 .product-attributes td {padding:2px 0; }
