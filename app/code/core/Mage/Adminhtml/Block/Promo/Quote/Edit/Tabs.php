@@ -32,14 +32,14 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
             'label'     => __('Matching Products'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_product', 'promo.quote.grid')->toHtml(),
         ));
-        
+
         $this->addTab('actions_section', array(
             'label'     => __('Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_action')->toHtml(),
         ));
 
         $this->addTab('condact_section', array(
-            'label'     => __('Advanced conditions'),
+            'label'     => __('Advanced Conditions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_condact')->toHtml(),
         ));
 
