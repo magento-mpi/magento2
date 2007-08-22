@@ -402,6 +402,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function canUseAttributeForSuperProduct(Mage_Eav_Model_Entity_Attribute $attribute)
     {
         return $attribute->getIsGlobal()
+            && $attribute->getIsRequired()
             && $attribute->getIsVisible()
             && $attribute->getIsUserDefined()
             && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
