@@ -30,6 +30,10 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
             ->load()
             ->toOptionArray();
 
+        if( isset($regions) && count($regions) > 0 ) {
+            $regions[0]['value'] = '';
+        }
+
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax Rate Information')));
 
         if( $rateObject->getTaxRateId() > 0 ) {
