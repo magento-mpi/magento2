@@ -161,8 +161,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     
     public function getNewChildName()
     {
-        $options = $this->getNewChildSelectOptions();
-        return $options[0]['label'];
+        return $this->getAddLinkHtml();
     }
     
     public function asHtml()
@@ -218,6 +217,13 @@ abstract class Mage_Rule_Model_Condition_Abstract
     		'value_name'=>$this->getValueName(),
     	))->setRenderer(Mage::getHelper('rule/editable'));
     }
+    
+    public function getAddLinkHtml()
+    {
+    	$html = '<span class="rule-param-add">[+]</span>';
+        return $html;
+    }
+
     
     public function getRemoveLinkHtml()
     {

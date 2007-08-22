@@ -62,7 +62,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
 			
 			if ($rule->getSimpleFreeShipping()) {
-				$quote->setFreeShipping(true);
+				$item->setWeight(0);
 			}
 			
 			$appliedRuleIds[$rule->getRuleId()] = true;

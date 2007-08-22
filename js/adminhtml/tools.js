@@ -51,6 +51,7 @@ function imagePreview(element){
 }
 
 /********** MESSAGES ***********/
+
 Event.observe(window, 'load', function() {
     $$('.messages .error-msg').each(function(el) {
         new Effect.Highlight(el, {startcolor:'#E13422', endcolor:'#fdf9f8', duration:1});

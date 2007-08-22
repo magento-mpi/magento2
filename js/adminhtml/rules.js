@@ -109,7 +109,7 @@ VarienRulesForm.prototype = {
         var new_elem = document.createElement('LI');
         new_elem.className = 'rule-param-wait';
         new_elem.innerHTML = 'Please wait, loading...';
-        children_ul.appendChild(new_elem);
+        children_ul.insertBefore(new_elem, $(elem).up('li'));
 
         new Ajax.Updater(new_elem, this.newChildUrl, {
             parameters: { type:new_type.replace('/','-'), id:new_id },

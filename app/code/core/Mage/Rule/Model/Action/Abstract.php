@@ -132,8 +132,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
 
     public function getNewChildName()
     {
-        $options = $this->getNewChildSelectOptions();
-        return $options[0]['label'];
+        return $this->getAddLinkHtml();
     }
 
     public function asHtml()
@@ -185,6 +184,11 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     	))->setRenderer(Mage::getHelper('rule/editable'));
     }
 
+    public function getAddLinkHtml()
+    {
+    	$html = '<span class="rule-param-add">[+]</span>';
+        return $html;
+    }
 
     public function getRemoveLinkHtml()
     {

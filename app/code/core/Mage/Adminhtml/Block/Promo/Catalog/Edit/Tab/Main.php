@@ -23,6 +23,10 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
+        $fieldset->addField('auto_apply', 'hidden', array(
+        	'name' => 'auto_apply',
+        ));
+    	
         if ($model->getId()) {
         	$fieldset->addField('rule_id', 'hidden', array(
                 'name' => 'rule_id',
@@ -101,7 +105,12 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'title' => __('To Date'),
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
         ));
-    	
+        
+        $fieldset->addField('sort_order', 'text', array(
+            'name' => 'sort_order',
+            'label' => __('Priority'),
+        ));
+        
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);

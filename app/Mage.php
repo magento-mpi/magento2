@@ -1,4 +1,12 @@
 <?php
+
+if (version_compare(phpversion(), '5.2.0', '<')===true) {
+
+	echo "Magento is supporting PHP 5.2.0 and newer.";
+	
+} else {
+
+
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
@@ -398,4 +406,6 @@ final class Mage {
 
         }
     }
+}
+
 }

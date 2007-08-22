@@ -121,6 +121,12 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
         ));
         
+        $fieldset->addField('sort_order', 'text', array(
+            'name' => 'sort_order',
+            'label' => __('Priority'),
+        ));
+        
+        
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);

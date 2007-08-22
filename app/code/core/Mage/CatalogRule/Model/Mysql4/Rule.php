@@ -19,13 +19,13 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         foreach ($rule->getActions()->getActions() as $action) {
             break;
         }
-
+        
         $ruleId = $rule->getId();
 
         $write = $this->getConnection('write');
         $write->delete($this->getTable('catalogrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
         
-        if (!$rule->getIsActive()) {
+        if (empty($action) || !$rule->getIsActive()) {
             return $this;
         }
         
@@ -81,15 +81,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $write->delete($this->getTable('catalogrule/rule_product_price'), $cond);
         return $this;
     }
-    
-    public function getProductIdsForDateRange($fromDate, $toDate)
-    {
-        $sql = 'select distinct(product_id) from '.$this->getTable('catalogrule/rule_product').' where '
-            .$write->quoteInto('from_date>=?', $this->formatDate($fromDate)).' and '
-            .$write->quoteInto('to_date>=?', $this->formatDate($toDate));
-        return $this->getConnection('read')->fetchCol($sql);
-    }
-    
+
     public function getRuleProductsForDateRange($fromDate, $toDate)
     {
         $read = $this->getConnection('read');
@@ -97,8 +89,8 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $toDate = $fromDate;
         }
         $sql = "select * from ".$this->getTable('catalogrule/rule_product')." where
-            (".$read->quoteInto('from_time<=?', strtotime($toDate))
-            ." or ".$read->quoteInto('to_time>=?', strtotime($fromDate)).")
+            (".$read->quoteInto('from_time=0 or from_time<=?', strtotime($toDate))
+            ." or ".$read->quoteInto('to_time=0 or to_time>=?', strtotime($fromDate)).")
             order by to_time, from_time, store_id, customer_group_id, product_id, sort_order";
         return $read->fetchAll($sql);
     }
@@ -133,7 +125,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         for ($time=$fromTime; $time<=$toTime; $time+=86400) {
             $date = $this->formatDate($time);
             foreach ($ruleProducts as $r) {
-                if (!($r['from_time']<=$time && $r['to_time']>=$time)) {
+                if (!(($r['from_time']==0 || $r['from_time']<=$time) && ($r['to_time']==0 || $r['to_time']>=$time))) {
                     continue;
                 }
                 

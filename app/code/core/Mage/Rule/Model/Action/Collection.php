@@ -63,7 +63,6 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
     public function asHtml()
     {
     	$html = $this->getTypeElement()->toHtml().'Perform following actions: ';
-    	$html.= '('.$this->getNewChildElement()->getHtml().')';
     	if ($this->getId()!='1') {
     	    $html.= $this->getRemoveLinkHtml();
     	}
@@ -84,7 +83,7 @@ class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
         foreach ($this->getActions() as $cond) {
             $html .= '<li>'.$cond->asHtmlRecursive().'</li>';
         }
-        $html .= '</ul>';
+        $html .= '<li>'.$this->getNewChildElement()->getHtml().'</li></ul>';
         return $html;
     }
 

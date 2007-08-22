@@ -22,6 +22,12 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
         $this->_updateButton('save', 'label', __('Save Rule'));
         $this->_updateButton('delete', 'label', __('Delete Rule'));
+        
+        $this->_addButton('save_apply', array(
+        	'class'=>'save',
+        	'label'=>'Save and Apply',
+        	'onclick'=>"$('rule_auto_apply').value=1; editForm.submit()",
+        ));
     }
 
     public function getHeaderText()

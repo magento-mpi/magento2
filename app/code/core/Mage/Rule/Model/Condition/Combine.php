@@ -23,8 +23,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            true => __('TRUE'),
-            false => __('FALSE'),
+            1 => __('TRUE'),
+            0 => __('FALSE'),
         ));
         return $this;
     }
@@ -89,7 +89,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadArray($arr)
     {
         $this->setAttribute($arr['attribute'])
-            ->setValue($arr['operator']);
+            ->setOperator($arr['operator']);
 
         if (!empty($arr['conditions']) && is_array($arr['conditions'])) {
             foreach ($arr['conditions'] as $condArr) {
@@ -120,7 +120,6 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     {
        	$html = $this->getTypeElement()->getHtml().
        	    __("If %s of these conditions are %s:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml());
-       	$html.= ' ('.$this->getNewChildElement()->getHtml().')';
        	if ($this->getId()!='1') {
        	    $html.= $this->getRemoveLinkHtml();
        	}
@@ -142,7 +141,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         foreach ($this->getConditions() as $cond) {
             $html .= '<li>'.$cond->asHtmlRecursive().'</li>';
         }
-        $html .= '</ul>';
+        $html .= '<li>'.$this->getNewChildElement()->getHtml().'</li></ul>';
         return $html;
     }
 

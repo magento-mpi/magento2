@@ -477,6 +477,9 @@ select.countries option { background-repeat:no-repeat; }
 .rule-param-edit .label { display:none; }
 .rule-param-edit .element { display:inline; }
 
+.rule-param-add { font-weight:normal; color:green; text-decoration:none; }
+.rule-param-add:hover { font-weight:normal; color:blue; text-decoration:none; }
+
 .rule-param-remove { font-weight:normal; color:red; text-decoration:none; }
 .rule-param-remove:hover { font-weight:normal; color:blue; text-decoration:none; }
 

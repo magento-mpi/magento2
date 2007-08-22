@@ -78,13 +78,24 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             $data['actions'] = $data['rule']['actions'];
             unset($data['rule']);
             
+            if (!empty($data['auto_apply'])) {
+	            $autoApply = true;
+	            unset($data['auto_apply']);
+            } else {
+            	$autoApply = false;
+            }
+            
             $model->loadPost($data);
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was saved succesfully'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
-                $this->_redirect('*/*/');
+                if ($autoApply) {
+                	$this->_forward('applyRules');
+                } else {
+                	$this->_redirect('*/*/');
+                }
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
