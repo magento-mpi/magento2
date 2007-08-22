@@ -26,7 +26,6 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 	public function addVisitorId($visitorId)
 	{
 		$this->setVisitorId($visitorId);
-		$this->setCustomerId(0);
 		return $this;
 	}
 	

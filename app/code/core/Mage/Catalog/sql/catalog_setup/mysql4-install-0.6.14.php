@@ -9,8 +9,8 @@ $this->createEntityTables('catalog_product_entity');
 $this->run(<<<EOT
 
 ALTER TABLE `catalog_product_entity`
-	ADD COLUMN `type_id` tinyint (3) UNSIGNED NOT NULL DEFAULT 1;
-	
+    ADD COLUMN `type_id` tinyint (3) UNSIGNED NOT NULL DEFAULT 1;
+    
 
 /*Table structure for table `catalog_category_tree` */
 
@@ -35,7 +35,7 @@ CREATE TABLE `catalog_category_tree` (
 INSERT INTO `catalog_category_tree` (`entity_id`) values (1);
 
 ALTER TABLE `catalog_category_entity`
-	ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TREE_NODE` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_tree` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+    ADD CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TREE_NODE` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_tree` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS `catalog_category_product`;
 
@@ -58,12 +58,13 @@ DROP TABLE IF EXISTS `catalog_compare_item`;
 CREATE TABLE `catalog_compare_item` (
   `catalog_compare_item_id` int(11) unsigned NOT NULL auto_increment,
   `visitor_id` int(11) unsigned NOT NULL default '0',
-  `customer_id` int(11) unsigned NOT NULL default '0',
+  `customer_id` int(11) unsigned,
   `product_id` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`catalog_compare_item_id`),
   KEY `FK_CATALOG_COMPARE_ITEM_CUSTOMER` (`customer_id`),
   KEY `FK_CATALOG_COMPARE_ITEM_PRODUCT` (`product_id`),
-  CONSTRAINT `FK_CATALOG_COMPARE_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_CATALOG_COMPARE_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CATALOG_COMPARE_ITEM_CUSTOMER` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `catalog_compare_item` */
