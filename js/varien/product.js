@@ -106,18 +106,18 @@ Product.Zoom.prototype = {
 	startZoomIn: function()
 	{
 		this.zoomBtnPressed = true;
-		this.sliderAccel = .002;
+		this.sliderAccel = .004;
 		this.periodicalZoom();
-		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .01);
+		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
 		return this;
 	},
 	
 	startZoomOut: function()
 	{
 		this.zoomBtnPressed = true;
-		this.sliderAccel = -.002;
+		this.sliderAccel = -.004;
 		this.periodicalZoom();
-		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .01);
+		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
 		return this;
 	},
 	
