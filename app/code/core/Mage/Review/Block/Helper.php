@@ -11,8 +11,11 @@
 
 class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 {
-	public function getSummaryHtml($product, $type=null)
+	public function getSummaryHtml($product, $type=null, $displayBlock=0)
 	{
+	    $this->setDisplayBlock($displayBlock);
+        $this->setProduct($product);
+
 	    if( !$product->getRatingSummary() ) {
 	        Mage::getModel('review/review')
 	           ->getEntitySummary($product);
@@ -30,5 +33,10 @@ class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 
 		$this->setProduct($product);
 		return $this->toHtml();
+	}
+
+	public function getAddLink()
+	{
+	    return Mage::getUrl('review/product/list', array('id' => $this->getProduct()->getId()));
 	}
 }

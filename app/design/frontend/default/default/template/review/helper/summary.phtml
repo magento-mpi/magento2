@@ -1,8 +1,12 @@
-<?if($this->getProduct()->getRatingSummary()):?>
+<?if($this->getProduct()->getRatingSummary()->getRatingSummary()):?>
 <div class="ratings">
 	<div class="rating-box">
 		<div class="rating" style="width:<?=$this->getProduct()->getRatingSummary()->getRatingSummary()?>%"></div>
 	</div>
 	<a href="<?=$this->getUrl('review/product/list', array('id' => $this->getProduct()->getId()))?>"><small class="count"><?=__('%d Reviews', $this->getProduct()->getRatingSummary()->getReviewsCount())?></small></a>
 </div>
+<?endif;?>
+
+<?if( !$this->getProduct()->getRatingSummary()->getRatingSummary() && $this->getDisplayBlock() ):?>
+    <p><a href="<?=$this->getAddLink()?>#review-form"><?=__('Be the first to review this product')?></a></p>
 <?endif;?>

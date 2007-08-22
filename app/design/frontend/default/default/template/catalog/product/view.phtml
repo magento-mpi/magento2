@@ -90,7 +90,7 @@
 	</div>
 	<div class="product-shop">
 	<h3 class="product-name"><?=$product->getName()?></h3>
-		<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
+		<?=$this->getHelper('review/helper')->getSummaryHtml($product, null, 1)?>
 		<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
 		<input type="hidden" name="product" value="<?=$product->getId()?>">
 		<?if($product->isBundle()):?>
