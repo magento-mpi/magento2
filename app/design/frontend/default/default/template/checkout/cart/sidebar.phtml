@@ -27,10 +27,10 @@
     <div class="actions">
         <div class="subtotal">
             <span class="label">Subtotal:</span><br/>
-            <span class="price">$49.99</span>
+            <span class="price"><?=$this->getSubtotal()?></span>
         </div>
-        <button class="form-button"><span>Checkout</span></button><br/>
-        <a href="<?=$this->getUrl('checkout/cart')?>">Go to Cart</a></div>
+        <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=__('Checkout')?></span></button><br/>
+        <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('Go to Cart')?></a></div>
 </div>
 <!-- [ends] .cart-sidebar // -->
 <?endif?>

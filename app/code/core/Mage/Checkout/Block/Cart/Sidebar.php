@@ -15,7 +15,22 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	{
 		return $this->getQuote()->getAllItems();
 	}
-
+    
+	public function getSubtotal()
+	{
+	    foreach ($this->getQuote()->getTotals() as $total) {
+	        if ($total->getCode()=='subtotal') {
+	            return Mage::currency($total->getValue());
+	        }
+	    }
+	    return false;
+	}
+	
+	/**
+	 * Retrieve quote
+	 *
+	 * @return Mage_Sales_Model_Quote
+	 */
 	public function getQuote()
 	{
 		return Mage::getSingleton('checkout/session')->getQuote();
