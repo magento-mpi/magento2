@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save rule'),
+                    'label'     => __('Save Rule'),
                     'onclick'   => 'wigetForm.submit();return false;',
 					'class' => 'save'
                 ))
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete rule'),
+                    'label'     => __('Delete Rule'),
                     'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('rule' => $this->getRequest()->getParam('rule'))) . '\')',
 					'class' => 'delete'
                 ))

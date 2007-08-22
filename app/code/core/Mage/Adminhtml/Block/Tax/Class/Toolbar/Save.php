@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save class'),
+                    'label'     => __('Save Class'),
                     'onclick'   => 'wigetForm.submit();return false;',
 					'class' => 'save'
                 ))

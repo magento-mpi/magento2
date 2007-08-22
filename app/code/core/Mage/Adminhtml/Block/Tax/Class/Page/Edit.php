@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save class'),
+                    'label'     => __('Save Class'),
                     'onclick'   => 'renameForm.submit();return false;',
 					'class' => 'save'
                 ))
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete class'),
+                    'label'     => __('Delete Class'),
                     'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('classId' => $this->getRequest()->getParam('classId'), 'classType' => $this->getRequest()->getParam('classType'))) . '\')',
 					'class' => 'delete'
                 ))
