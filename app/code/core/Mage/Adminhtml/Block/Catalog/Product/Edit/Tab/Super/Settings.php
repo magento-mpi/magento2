@@ -35,10 +35,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
 		            'class'	=> 'validate-super-product-attributes'
 				));
 		
-		
-		$attributes = Mage::registry('product')->getAttributes();
+		$product = Mage::registry('product');
+		$attributes = $product->getAttributes();
 		foreach($attributes as $attribute) {
-			if(!$attribute->getIsRequired() && $attribute->getIsGlobal() && $attribute->getIsVisible() && $attribute->getIsUserDefined() && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' )) {
+			if($product->canUseAttributeForSuperProduct($attribute)) {
 				$fieldset->addField('attribute_'.$attribute->getAttributeId(), 'checkbox', array(
 		            'label' => __($attribute->getFrontend()->getLabel()),
 		            'title' => __($attribute->getFrontend()->getLabel()),

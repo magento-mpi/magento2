@@ -392,22 +392,29 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     	return $this->getData('super_attributes_ids');
     }
-
+    
+    /**
+     * Checkin attribute availability for superproduct
+     *
+     * @param   Mage_Eav_Model_Entity_Attribute $attribute
+     * @return  bool
+     */
+    public function canUseAttributeForSuperProduct(Mage_Eav_Model_Entity_Attribute $attribute)
+    {
+        return $attribute->getIsGlobal()
+            && $attribute->getIsVisible()
+            && $attribute->getIsUserDefined()
+            && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
+    }
+    
     public function setSuperAttributesIds(array $attributesIds)
     {
     	$resultAttributesIds = array();
-    	foreach ($attributesIds as $attributeId) {
-    		foreach ($this->getAttributes() as $attribute) {
-    			if($attribute->getAttributeId()==$attributeId
-    				&& !$attribute->getIsRequired()
-    				&& $attribute->getIsGlobal()
-    				&& $attribute->getIsVisible()
-    				&& $attribute->getIsUserDefined()
-    				&& ($attribute->getSourceModel() || $attribute->getBackendType()=='int' )) {
-    				$resultAttributesIds[] = $attributeId;
-    			}
-    		}
-    	}
+		foreach ($this->getAttributes() as $attribute) {
+			if(in_array($attribute->getAttributeId(), $attributesIds) && $this->canUseAttributeForSuperProduct($attribute)) {
+				$resultAttributesIds[] = $attribute->getAttributeId();
+			}
+		}
 
     	if(count($resultAttributesIds)>0) {
     		$this->setData('super_attributes_ids', $resultAttributesIds);
