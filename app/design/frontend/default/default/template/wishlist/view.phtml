@@ -22,8 +22,8 @@
                     <div><a href="<?=$item->getProductUrl()?>" title="<?=$this->htmlEscape($item->getName())?>"><?=$item->getName()?></a></div>
                     <?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
                 </td>
-                <td>
-                    <textarea name="description[<?=$item->getWishlistItemId()?>]" rows="4"><?=$this->getEscapedDescription($item)?></textarea>
+                <td align="center">
+                    <textarea name="description[<?=$item->getWishlistItemId()?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?=( $this->getEscapedDescription($item) ) ? __($this->getEscapedDescription($item)) : __('Please enter your comments...') ?></textarea>
                 </td>
                 <td>
                     <?=$this->getFormatedDate($item->getAddedAt())?>
@@ -50,6 +50,14 @@
 function confirmRemoveWishlistItem(url){
     if(confirm('<?=__('Are you sure?')?>')) {
         setLocation(url);
+    }
+}
+
+function focusComment(obj) {
+    if( obj.value == '<?=__('Please enter your comments...')?>' ) {
+        obj.value = '';
+    } else if( obj.value == '' ) {
+        obj.value = '<?=__('Please enter your comments...')?>';
     }
 }
 </script>
