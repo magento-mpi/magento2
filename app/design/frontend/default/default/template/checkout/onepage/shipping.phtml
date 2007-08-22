@@ -43,7 +43,7 @@
             <?endif?></div></li>
         <li><div class="input-box">
             <label for="shipping:telephone"><?=__('Telephone')?> <span class="required">*</span></label><br/>
-            <input type="text" name="shipping[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry validate-phoneStrict input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);"/></div>
+            <input type="text" name="shipping[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
             <label for="shipping:fax"><?=__('Fax')?></label><br/>
             <input type="text" name="shipping[fax]" value="<?=$this->getAddress()->getFax()?>" title="<?=__('Fax')?>" class="validate-fax input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);"/></div></li>
