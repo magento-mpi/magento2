@@ -15,20 +15,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
         parent::__construct();
         $this->setShowGlobalIcon(true);
     }
+    
     protected function _prepareForm()
     {
         if ($group = $this->getGroup()) {
             $form = new Varien_Data_Form();
             $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>__($group->getAttributeGroupName())));
-            $attributes = Mage::registry('product')->getAttributes($group->getId(),true);
-            
-            if (Mage::registry('product')->isSuper()) {
-                foreach ($attributes as $index => $attribute) {
-                	if (!$attribute->getUseInSuperProduct()) {
-                	    unset($attributes[$index]);
-                	}
-                }
-            }
+            $attributes = $this->getGroupAttributes();
             
             $this->_setFieldset($attributes, $fieldset);
             

@@ -638,19 +638,37 @@ class Mage_Catalog_Model_Product extends Varien_Object
                 ->loadAllAttributes($this)
                 ->getAttributesByCode();
         }
-
-        if (is_null($groupId)) {
-            return $this->_attributes;
-        }
-
+        
         $attributes = array();
-        foreach ($this->_attributes as $attribute) {
+        if ($groupId) {
+            foreach ($this->_attributes as $attribute) {
+                // Remove attributes to uses in superproduct
+                if ($this->isSuper()) {
+                    if (!$attribute->getUseInSuperProduct()) {
+                        continue;
+                    }
+                    if ($this->getSuperAttributesIds() && in_array($attribute->getAttributeId(), $this->getSuperAttributesIds())) {
+                        continue;
+                    }
+                }
+            	if ($attribute->getAttributeGroupId() != $groupId) {
+            	    continue;
+            	}
+            	$attributes[] = $attribute;
+            }
+        }
+        else {
+            $attributes = $this->_attributes;
+        }
+        
+
+        /*foreach ($this->_attributes as $attribute) {
         	if ($attribute->getAttributeGroupId() == $groupId
         		// Skip super product attributes
         		&& (!$skipSuper || ! $this->getSuperAttributesIds() || !in_array($attribute->getAttributeId(), $this->getSuperAttributesIds()))) {
         		$attributes[] = $attribute;
         	}
-        }
+        }*/
         return $attributes;
     }
 
