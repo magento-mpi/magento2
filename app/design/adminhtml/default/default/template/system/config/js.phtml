@@ -1,0 +1,46 @@
+<script type="text/javascript" language="javascript">
+if (document.getElementById('carriers_dhl_free_method')) {
+    document.getElementById('carriers_dhl_free_method').onchange = checkFreeMethods;
+}
+if (document.getElementById('carriers_fedex_free_method')) {
+    document.getElementById('carriers_fedex_free_method').onchange = checkFreeMethods;
+}
+if (document.getElementById('carriers_ups_free_method')) {
+    document.getElementById('carriers_ups_free_method').onchange = checkFreeMethods;
+}
+if (document.getElementById('carriers_usps_free_method')) {
+    document.getElementById('carriers_usps_free_method').onchange = checkFreeMethods;
+}
+
+function checkFreeMethods() 
+{
+    if (document.getElementById('carriers_dhl_free_method')) {
+        if (document.getElementById('carriers_dhl_free_method').value == '') {
+            document.getElementById('carriers_dhl_cutoff_cost').disabled = true;
+        } else {
+            document.getElementById('carriers_dhl_cutoff_cost').disabled = false;
+        }
+    }
+    if (document.getElementById('carriers_fedex_free_method')) {
+        if (document.getElementById('carriers_fedex_free_method').value == '') {
+            document.getElementById('carriers_fedex_cutoff_cost').disabled = true;
+        } else {
+            document.getElementById('carriers_fedex_cutoff_cost').disabled = false;
+        }
+    }
+    if (document.getElementById('carriers_ups_free_method')) {
+        if (document.getElementById('carriers_ups_free_method').value == '') {
+            document.getElementById('carriers_ups_cutoff_cost').disabled = true;
+        } else {
+            document.getElementById('carriers_ups_cutoff_cost').disabled = false;
+        }
+    }
+    if (document.getElementById('carriers_usps_free_method')) {
+        if (document.getElementById('carriers_usps_free_method').value == '') {
+            document.getElementById('carriers_usps_cutoff_cost').disabled = true;
+        } else {
+            document.getElementById('carriers_usps_cutoff_cost').disabled = false;
+        }
+    }
+}
+</script>
