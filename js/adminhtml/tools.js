@@ -28,6 +28,15 @@ function toggleParentVis(obj) {
     }
 }
 
+function toggleVis(obj) {
+    obj = $(obj);
+    if( obj.style.display == 'none' ) {
+        obj.style.display = '';
+    } else {
+        obj.style.display = 'none';
+    }
+}
+
 function imagePreview(element){
     if($(element)){
         var win = window.open('', 'preview', 'width=200,height=200,resizable=0,');

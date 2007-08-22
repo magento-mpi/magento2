@@ -19,9 +19,14 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
         $this->_mode = 'add';
 
         $this->_updateButton('save', 'label', __('Save Review'));
+        $this->_updateButton('save', 'id', 'save_button');
+
+        $this->_updateButton('reset', 'id', 'reset_button');
 
         $this->_formScripts[] = '
             toggleParentVis("add_review_form");
+            toggleVis("save_button");
+            toggleVis("reset_button");
         ';
 
         $this->_formInitScripts[] = '
@@ -44,6 +49,8 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                     showForm : function() {
                         toggleParentVis("add_review_form");
                         toggleParentVis("add_review_grid");
+                        toggleVis("save_button");
+                        toggleVis("reset_button");
                     },
 
                     reqSuccess :function(o) {
