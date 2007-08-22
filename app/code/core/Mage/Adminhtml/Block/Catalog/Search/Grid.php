@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => __('Popularity'),
+            'header'    => __('Number of Uses'),
             'index'     => 'popularity',
         ));
 
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
             'align'     => 'left',
             'index'     => 'redirect',
         ));
-        
+
         return parent::_prepareColumns();
     }
 

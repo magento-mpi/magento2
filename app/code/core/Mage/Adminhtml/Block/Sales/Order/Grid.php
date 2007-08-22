@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('created_at', array(
-            'header' => __('Purchased at'),
+            'header' => __('Purchased On'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));

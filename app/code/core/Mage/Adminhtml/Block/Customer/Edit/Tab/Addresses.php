@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
     {
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('Edit Customer Address')));
+        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('Edit Customer\’s Address')));
 
         $addressModel = Mage::getModel('customer/address');
 

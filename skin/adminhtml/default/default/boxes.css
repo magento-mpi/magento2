@@ -316,7 +316,7 @@ label.inline{
 .nested-content .entry-edit { margin-left:2em;}
 .nested-content .entry-edit .entry-edit { margin-left:0; }
 
-.entry-edit fieldset .field-row .hint {float: left; color: #999; padding-left:10em;}
+.entry-edit fieldset .field-row .hint {float: left; color: #999; padding-left:12em;}
 
 /* Autocomplete */
 div.autocomplete {

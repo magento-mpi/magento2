@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             'name'      => 'product_id',
         ));
 
-        $gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please, select a Product')));
+        $gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/review_product_grid')->toHtml(),
         ));

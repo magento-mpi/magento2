@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 
         $fieldset = $form->addFieldset('rating_form', array('legend'=>__('Rating information')));
         $fieldset->addField('rating_code', 'text', array(
-                                'label'     => __('Rating Name'),
+                                'label'     => __('Rating Title'),
                                 'class'     => 'required-entry',
                                 'required'  => true,
                                 'name'      => 'rating_code',

@@ -27,11 +27,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
 
         $yesno = array(
             array(
-                'value' => 0, 
+                'value' => 0,
                 'label' => __('No')
-            ), 
+            ),
             array(
-                'value' => 1, 
+                'value' => 1,
                 'label' => __('Yes')
             ));
 
@@ -49,8 +49,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
 
         $fieldset->addField('backend_type', 'select', array(
             'name' => 'backend_type',
-            'label' => __('Data Type'),
-            'title' => __('Data Type'),
+            'label' => __('Data Type for Saving in Database'),
+            'title' => __('Data Type for Saving in Database'),
             'options' => array(
                 'text'      => __('Text'),
                 'varchar'   => __('Varchar'),
@@ -88,8 +88,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
 
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => __('Global'),
-            'title' => __('Global'),
+            'label' => __('Globally Editable'),
+            'title' => __('Globally Editable'),
             'values'=> $yesno,
         ));
 

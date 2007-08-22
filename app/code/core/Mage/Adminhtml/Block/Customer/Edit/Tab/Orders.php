@@ -45,18 +45,18 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('created_at', array(
-            'header' => __('Purchased at'),
+            'header' => __('Purchase On'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => __('Ship to Firstname'),
+            'header' => __('Shipped to First Name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => __('Ship to Lastname'),
+            'header' => __('Shipped to Last Name'),
             'index' => 'shipping_lastname',
         ));
 

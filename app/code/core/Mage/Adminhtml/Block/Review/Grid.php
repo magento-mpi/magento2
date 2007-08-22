@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => __('Created At'),
+            'header'    => __('Created On'),
             'align'     =>'left',
             'type'      => 'datetime',
             'width'     => '100px',

@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Attribute Set'),
-                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')',
+                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to delete this attribute set?') . '\', \'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')',
                     'class' => 'delete'
         )));
 

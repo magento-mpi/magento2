@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Options extends Mage_Adminhtml_Block_
             $i = 1;
             foreach( $collection->getItems() as $item ) {
                 $fieldset->addField('option_code_' . $item->getId() , 'text', array(
-                                        'label'     => __('Option Title'),
+                                        'label'     => __('Option Label'),
                                         'required'  => true,
                                         'name'      => 'option_title[' . $item->getId() . ']',
                                         'value'     => ( $item->getCode() ) ? $item->getCode() : $i,

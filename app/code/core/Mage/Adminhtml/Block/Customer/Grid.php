@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('ZIP/Post Code'),
+            'header'    =>__('ZIP/Postal Code'),
             'width'     =>'120px',
             'index'     =>'billing_postcode',
         ));

@@ -1,13 +1,13 @@
 <?
-/** 
+/**
  * Attribute otions control
- * 
+ *
  * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
  */
 ?>
-<div class="messages notice-msg">If you do not specify option value for store, then will be used default value</div>
+<div class="messages notice-msg"><?=__('If you do not specify an option value for store then the default value will be used.')?></div>
 <div class="entity-edit">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Labels')?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Titles (Size, Color, etc.)')?></h4>
     <div class="box" style="padding:10px">
         <table class="dynamic-grid" cellspacing="0" id="attribute-labels-table">
             <tr>
@@ -28,7 +28,7 @@
 </div>
 <br/>
 <div class="entity-edit" id="matage-options-panel">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Options')?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Options (values for your attribute)')?></h4>
     <div class="box" style="padding:10px">
         <table class="dynamic-grid" cellspacing="0" id="attribute-options-table">
             <tr>
@@ -39,7 +39,7 @@
                 <th><?=$this->getAddNewButtonHtml()?></th>
             </tr>
         </table>
-        
+
         <div class="no-display template" id="row-template">
         <table class="dynamic-grid" cellspacing="0">
     	    <tr>

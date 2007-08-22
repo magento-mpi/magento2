@@ -42,13 +42,13 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
 
     	$fieldset->addField('num_results', 'text', array(
             'name' => 'num_results',
-            'label' => __('Number of results'),
+            'label' => __('Number of results<br/>(For last time placed)'),
             'required' => true,
         ));
 
     	$fieldset->addField('popularity', 'text', array(
             'name' => 'popularity',
-            'label' => __('Popularity'),
+            'label' => __('Number of Uses'),
             'required' => true,
         ));
 
@@ -60,7 +60,8 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
 
         $fieldset->addField('synonims', 'textarea', array(
             'name' => 'synonims',
-            'label' => __('Synonims'),
+            'label' => __('Synonyms'),
+            'after_element_html' => '<span class="hint">' . __('(Separate multiple synonyms with commas. Ex: search, seach, serach)') . '</span>',
         ));
 
 

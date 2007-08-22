@@ -22,18 +22,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $yesno = array(
             array(
-                'value' => 0, 
+                'value' => 0,
                 'label' => __('No')
-            ), 
+            ),
             array(
-                'value' => 1, 
+                'value' => 1,
                 'label' => __('Yes')
             ));
 
         $fieldset->addField('attribute_code', 'text', array(
             'name'  => 'attribute_code',
-            'label' => __('Attribute Code'),
-            'title' => __('Attribute Code'),
+            'label' => __('Attribute Identifier<br/>(For internal use. Must be unique with no spaces)'),
+            'title' => __('Attribute Identifier'),
             'class' => 'validate-code',
             'required' => true,
         ));
@@ -52,44 +52,44 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
-            'label' => __('Catalog Input Type'),
-            'title' => __('Catalog Input Type'),
+            'label' => __('Catalog Input Type for Store Owner'),
+            'title' => __('Catalog Input Type for Store Owner'),
             'value' => 'text',
             'values'=>  array(
                 array(
-                    'value' => 'text', 
+                    'value' => 'text',
                     'label' => __('Text Field')
-                ), 
+                ),
                 array(
-                    'value' => 'textarea', 
+                    'value' => 'textarea',
                     'label' => __('Text Area')
-                ), 
+                ),
                 array(
-                    'value' => 'date', 
+                    'value' => 'date',
                     'label' => __('Date')
-                ), 
+                ),
                 array(
-                    'value' => 'boolean', 
+                    'value' => 'boolean',
                     'label' => __('Yes/No')
-                ), 
+                ),
                 array(
-                    'value' => 'multiselect', 
+                    'value' => 'multiselect',
                     'label' => __('Multiple Select')
-                ), 
+                ),
                 array(
-                    'value' => 'select', 
+                    'value' => 'select',
                     'label' => __('Dropdown')
-                ), 
+                ),
                 array(
-                    'value' => 'price', 
+                    'value' => 'price',
                     'label' => __('Price')
-                ), 
+                ),
                 array(
-                    'value' => 'image', 
+                    'value' => 'image',
                     'label' => __('Image')
-                ), 
+                ),
                 /*array(
-                    'value' => 'gallery', 
+                    'value' => 'gallery',
                     'label' => __('Image Gallery')
                 ), */
             )
@@ -97,65 +97,65 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('is_unique', 'select', array(
             'name' => 'is_unique',
-            'label' => __('Unique Value'),
-            'title' => __('Unique Value'),
+            'label' => __('Unique Value (not shared with other products)'),
+            'title' => __('Unique Value (not shared with other products)'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_required', 'select', array(
             'name' => 'is_required',
-            'label' => __('Required'),
-            'title' => __('Required'),
+            'label' => __('Values Required'),
+            'title' => __('Values Required'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('frontend_class', 'select', array(
             'name'  => 'frontend_class',
-            'label' => __('Input Validation'),
-            'title' => __('Input Validation'),
+            'label' => __('Input Validation for Store Owner'),
+            'title' => __('Input Validation for Store Owner'),
             'values'=>  array(
                 array(
-                    'value' => '', 
+                    'value' => '',
                     'label' => __('None')
-                ), 
+                ),
                 array(
-                    'value' => 'validate-number', 
+                    'value' => 'validate-number',
                     'label' => __('Decimal Number')
-                ), 
+                ),
                 array(
-                    'value' => 'validate-digits', 
+                    'value' => 'validate-digits',
                     'label' => __('Integer Number')
-                ), 
+                ),
                 array(
-                    'value' => 'validate-email', 
+                    'value' => 'validate-email',
                     'label' => __('Email')
-                ), 
+                ),
                 array(
-                    'value' => 'validate-url', 
+                    'value' => 'validate-url',
                     'label' => __('Url')
-                ), 
+                ),
                 array(
-                    'value' => 'validate-alpha', 
+                    'value' => 'validate-alpha',
                     'label' => __('Letters')
-                ), 
+                ),
                 array(
-                    'value' => 'validate-alphanum', 
+                    'value' => 'validate-alphanum',
                     'label' => __('Letters(a-z) or Numbers(0-9)')
-                ), 
+                ),
             )
         ));
 
         $fieldset->addField('is_searchable', 'select', array(
             'name' => 'is_searchable',
-            'label' => __('Searchable'),
-            'title' => __('Searchable'),
+            'label' => __('Searchable on Front-end'),
+            'title' => __('Searchable on Front-end'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_comparable', 'select', array(
             'name' => 'is_comparable',
-            'label' => __('Comparable'),
-            'title' => __('Comparable'),
+            'label' => __('Comparable on Front-end'),
+            'title' => __('Comparable on Front-end'),
             'values' => $yesno,
         ));
 
@@ -179,8 +179,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
-            'label' => __('Use In Layer Navigation'),
-            'title' => __('Use In Layer Navigation'),
+            'label' => __('Use In Layered Navigation'),
+            'title' => __('Use In Layered Navigation'),
             'values' => array(
                 array('value' => '0', 'label' => __('No')),
                 array('value' => '1', 'label' => __('Fiterable (with results)')),
@@ -191,12 +191,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         if ($model->getIsUserDefined() || !$model->getId()) {
             $fieldset->addField('is_visible_on_front', 'select', array(
                 'name' => 'is_visible_on_front',
-                'label' => __('Visible In Catalog'),
-                'title' => __('Visible In Catalog'),
+                'label' => __('Visible on Catalog Pages on Front-end'),
+                'title' => __('Visible on Catalog Pages on Front-end'),
                 'values' => $yesno,
             ));
         }
-        
+
         if ($model->getId()) {
             $form->getElement('attribute_code')->setDisabled(1);
         }

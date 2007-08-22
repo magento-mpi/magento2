@@ -29,42 +29,42 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
             ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'));
-        
+
         $this->setCollection($collection);
-        
+
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'), 
-            'width'     =>5, 
-            'align'     =>'center', 
-            'sortable'  =>true, 
+            'header'    =>__('ID'),
+            'width'     =>5,
+            'align'     =>'center',
+            'sortable'  =>true,
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'), 
+            'header'    =>__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'), 
+            'header'    =>__('Last Name'),
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('Email'), 
-            'width'     =>40, 
-            'align'     =>'center', 
+            'header'    =>__('Email'),
+            'width'     =>40,
+            'align'     =>'center',
             'index'     =>'email'
         ));
         $this->addColumn('telephone', array(
-            'header'    =>__('Telephone'), 
-            'align'     =>'center', 
+            'header'    =>__('Telephone'),
+            'align'     =>'center',
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('ZIP/Post Code'),
+            'header'    =>__('ZIP/Postal Code'),
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_name', array(
@@ -86,12 +86,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
             'sortable'  =>false,
             'is_system' =>true
         ));
-        
+
         $this->setColumnFilter('id')
             ->setColumnFilter('email')
             ->setColumnFilter('firstname')
             ->setColumnFilter('lastname');
-        
+
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();

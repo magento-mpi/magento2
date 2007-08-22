@@ -37,9 +37,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 
     	$fieldset->addField('identifier', 'text', array(
             'name' => 'identifier',
-            'label' => __('Identifier'),
-            'title' => __('Identifier'),
+            'label' => __('SEF URL Identifier'),
+            'title' => __('SEF URL Identifier'),
             'required' => true,
+            'after_element_html' => '<span class="hint">' . __('(eg: domain.com/identifier)') . '</span>',
         ));
 
         $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
@@ -52,7 +53,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'required'  => true,
             'options'    => $stores,
         ));
-        
+
         $layouts = array();
         foreach (Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
         	$layouts[$layoutName] = (string)$layoutConfig->label;

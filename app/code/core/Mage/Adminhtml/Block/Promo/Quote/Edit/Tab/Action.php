@@ -31,18 +31,18 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
                 'by_fixed' => __('Fixed amount discount'),
             ),
         ));
-        
+
         $fieldset->addField('discount_amount', 'text', array(
             'name' => 'discount_amount',
             'required' => true,
             'label' => __('Discount amount'),
         ));
-                
+
         $fieldset->addField('discount_qty', 'text', array(
             'name' => 'discount_qty',
-            'label' => __('Discount quantity'),
+            'label' => __('Maximum Qty Discount is Applied to'),
         ));
-        
+
         $fieldset->addField('simple_free_shipping', 'select', array(
             'label'     => __('Free ground shipping'),
             'title'     => __('Free ground shipping'),
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
                 '0' => __('No'),
             ),
         ));
-        
+
         $fieldset->addField('stop_rules_processing', 'select', array(
             'label'     => __('Stop further rules processing'),
             'title'     => __('Stop further rules processing'),
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
                 '0' => __('No'),
             ),
         ));
-        
+
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);
