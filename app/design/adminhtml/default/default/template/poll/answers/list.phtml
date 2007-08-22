@@ -1,6 +1,5 @@
 <div id="answers_container">
 <?if( !$answers ):?>
-<h4><?=__('Please add some answers')?></h4>
 <?else:?>
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Assigned Answers')?></h4>
     <?foreach($answers->getItems() as $_item):?>

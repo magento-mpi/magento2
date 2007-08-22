@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('votes_count', array(
-            'header'    => __('Number of responses'),
+            'header'    => __('Number of Responses'),
             'align'     => 'right',
             'width'     => '50px',
             'type'      => 'number',
