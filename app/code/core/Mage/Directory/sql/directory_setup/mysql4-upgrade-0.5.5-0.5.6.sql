@@ -1,0 +1,1 @@
+update `directory_currency_name` set `output_format`='$%s', `format_decimals`='2', `format_dec_point`='.', `format_thousands_sep`=',' where `currency_code`='USD'

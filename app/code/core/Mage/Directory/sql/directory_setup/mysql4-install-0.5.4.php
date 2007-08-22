@@ -132,7 +132,7 @@ CREATE TABLE `directory_currency_name` (
 
 /*Data for the table `directory_currency_name` */
 
-insert into `directory_currency_name` (`language_code`,`currency_code`,`currency_name`,`output_format`,`format_decimals`,`format_dec_point`,`format_thousands_sep`) values ('en','CAD','Canadian Dollar','%s CAD',2,'.',''),('en','EUR','Euro','%s EUR',2,'.',''),('en','RUB','Russian Rouble','%s RUB',2,'.',''),('en','UAH','Ukraine Hryvnia','%s UAH',2,'.',''),('en','USD','U.S. Dollar','$ %s',2,'.',''),('ru','CAD','Доллар(Канада)','%s к.д.',2,'.',''),('ru','EUR','Евро','%s евро',2,'.',''),('ru','RUB','Рубль','%s руб.',2,'.',''),('ru','UAH','Гривна','%s грн.',2,'.',''),('ru','USD','Доллар(СШ�?)','$ %s',2,'.','');
+insert into `directory_currency_name` (`language_code`,`currency_code`,`currency_name`,`output_format`,`format_decimals`,`format_dec_point`,`format_thousands_sep`) values ('en','CAD','Canadian Dollar','%s CAD',2,'.',''),('en','EUR','Euro','%s EUR',2,'.',''),('en','RUB','Russian Rouble','%s RUB',2,'.',''),('en','UAH','Ukraine Hryvnia','%s UAH',2,'.',''),('en','USD','U.S. Dollar','$ %s',2,'.',','),('ru','CAD','Доллар(Канада)','%s к.д.',2,'.',''),('ru','EUR','Евро','%s евро',2,'.',''),('ru','RUB','Рубль','%s руб.',2,'.',''),('ru','UAH','Гривна','%s грн.',2,'.',''),('ru','USD','Доллар(СШ�?)','$ %s',2,'.',',');
 
 
 /*Table structure for table `directory_currency_rate` */
