@@ -720,8 +720,8 @@ p.grand_total { padding-right:15px; }
 
 /* Product Info */
 .image-zoom { height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat; padding:0 34px 0 25px;}
-#track1 { position:relative; }
-#handle1 { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat ;  }
+#track { position:relative; }
+#handle { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat ;  }
 
 .product-attributes, .product-pricing { margin:10px 0; background:#faf7ee; padding:10px; border:1px dashed #a59e89;}
 .product-attributes td {padding:2px 0; }

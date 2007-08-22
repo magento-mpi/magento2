@@ -10,69 +10,18 @@
 	<div class="product-essential">
 		<div class="product-img-box">
 			<p class="main-product-img">
-					<img id="image" src="<?=$product->getImageUrl()?>" width="265" alt="<?=$product->getName()?>"ondblclick="toggleFull()"/>
+				<img id="image" src="<?=$product->getImageUrl()?>" width="265" alt="<?=$product->getName()?>"/>
 			</p>
 			<div class="image-zoom">
-				<div id="track1">
-					<div id="track2">
-						<div id="handle1"></div>
+				<div id="track_outer">
+					<div id="track">
+						<div id="handle"></div>
 					</div>
 				</div>
 			</div>
 
 		<script type="text/javascript">
-			var image = new Draggable('image', {starteffect:false, reverteffect:false, endeffect:false, snap:containIt});
-			var slider = new Control.Slider('handle1', 'track2', {axis:'horizontal', minimum:0, maximum:200, alignX:0, increment:1, sliderValue:0, onSlide:scaleIt, onChange:scaleIt});
-
-			var origWidth = 300;
-			var origHeight = 300;
-			var floorSize = 1.0;
-			var ceilingSize = 10.0;
-			var imageX = 0;
-			var imageY = 0;
-			var imageV = 1;
-			var showFull = false;
-			var selects = document.getElementsByTagName('select');
-
-			function toggleFull(){
-				showFull = !showFull;
-				//TODO: hide selects for IE only
-				for (i=0; i<selects.length; i++) {
-					selects[i].style.visibility = showFull ? 'hidden' : 'visible';
-				}
-				$('track1').style.visibility = showFull ? 'hidden' : 'visible';
-				image.element.parentNode.style.overflow = showFull ? 'visible' : 'hidden';
-			}
-
-			function scaleIt(v) {
-			var centerX = (origWidth*(1-imageV)/2-imageX)/imageV;
-			var centerY = (origHeight*(1-imageV)/2-imageY)/imageV;
-
-			imageV = floorSize+(v*(ceilingSize-floorSize));
-
-			image.element.style.width = (imageV*origWidth)+'px';
-
-			imageX = origWidth*(1-imageV)/2-centerX*imageV;
-			imageY = origHeight*(1-imageV)/2-centerY*imageV;
-			containIt(imageX, imageY, image);
-
-			image.element.style.left = imageX+'px';
-			image.element.style.top = imageY+'px';
-			}
-
-			function containIt(x,y,draggable) {
-				var pDim = Element.getDimensions(draggable.element.parentNode);
-				var eDim = Element.getDimensions(draggable.element);
-				var xMin = 0, xMax = pDim.width-eDim.width;
-				var yMin = 0, yMax = pDim.height-eDim.height;
-				x = x>xMin ? xMin : x;
-				x = x<xMax ? xMax : x;
-				y = y>yMin ? yMin : y;
-				y = y<yMax ? yMax : y;
-				imageX = x;
-				imageY = y;
-				return [x,y];
-			}
+			product_zoom = new Product.Zoom('image', 'track', 'handle');
 		</script>
 	<?if ($this->getGalleryImages() && $this->getGalleryImages()->getSize()):?>
 		<div class="more-views">
