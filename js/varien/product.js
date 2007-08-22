@@ -37,6 +37,7 @@ Product.Zoom.prototype = {
 		
 		this.sliderSpeed = 0;
 		this.sliderAccel = 0;
+		this.zoomBtnPressed = false;
 		
 		this.showFull = false;
 		
@@ -104,19 +105,19 @@ Product.Zoom.prototype = {
 	
 	startZoomIn: function()
 	{
-		this.sliderSpeed = .01;
-		this.sliderAccel = .01;
+		this.zoomBtnPressed = true;
+		this.sliderAccel = .002;
 		this.periodicalZoom();
-		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .01);
 		return this;
 	},
 	
 	startZoomOut: function()
 	{
-		this.sliderSpeed = -.01;
-		this.sliderAccel = -.01;
+		this.zoomBtnPressed = true;
+		this.sliderAccel = -.002;
 		this.periodicalZoom();
-		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+		this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .01);
 		return this;
 	},
 	
@@ -125,15 +126,8 @@ Product.Zoom.prototype = {
 		if (!this.zoomer || this.sliderSpeed==0) {
 			return;
 		}
-		
+		this.zoomBtnPressed = false;
 		this.sliderAccel = 0;
-		this.sliderSpeed = 0;//this.sliderSpeed/5;
-		
-		if (Math.abs(this.sliderSpeed)<.01) {
-			this.sliderSpeed = 0;
-			this.zoomer.stop();
-			this.zoomer = null;
-		}
 	},
 	
 	periodicalZoom: function()
@@ -142,7 +136,16 @@ Product.Zoom.prototype = {
 			return this;
 		}
 		
-		this.sliderSpeed += this.sliderAccel;
+		if (this.zoomBtnPressed) {
+			this.sliderSpeed += this.sliderAccel;
+		} else {
+			this.sliderSpeed /= 1.5;
+			if (Math.abs(this.sliderSpeed)<.001) {
+				this.sliderSpeed = 0;
+				this.zoomer.stop();
+				this.zoomer = null;
+			}
+		}
 		this.slider.value += this.sliderSpeed;
 		
 		this.slider.setValue(this.slider.value);
