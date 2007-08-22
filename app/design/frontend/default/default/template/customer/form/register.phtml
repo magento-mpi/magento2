@@ -71,16 +71,16 @@
             </li>
             <li>
                 <div class="input-box">
-                    <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$this->getFormData()->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
-                </div>
-                <div class="input-box">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
                 <?if($this->getRegionCollection()->getSize()):?>
                     <?=$this->getRegionHtmlSelect()?>
                 <?else:?>
                     <input type="text" name="region" value="<?=$this->getFormData()->getRegion()?>"  title="State/Province" id="state" class="validate-state input-text"/>
                 <?endif?>
+                </div>
+                <div class="input-box">
+                    <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="<?=$this->getFormData()->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
                 </div>
             </li>
         </ul>
