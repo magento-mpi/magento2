@@ -29,6 +29,10 @@
             <div class="delete-address">
                  <a href="#" name="" id="delete_button<?=++$iterator?>" class="delete"><?=__('Delete Address')?></a>
             </div>
+
+            <div style="display:block;float:right;clear:right">
+                 <a href="#" id="select_button" class="select_button"><?=__('Edit Address')?></a>
+            </div>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
             </address>
