@@ -4,12 +4,12 @@
 <form action="<?=$this->getSendUrl()?>" id="form-validate" method="post">
         <ul class="form-list">
             <li>
-                <label for="email_address"><?=__('Email Addresses, separated by comma')?> <span class="required">*</span></label><br/>
-                <textarea name="email" class="validate-emails required-entry"><?=$this->getEnteredData('email')?></textarea>
+                <label for="email_address"><?=__('Email addresses, separated by commas')?> <span class="required">*</span></label><br/>
+                <textarea name="email" cols="60" rows="5" class="validate-emails required-entry"><?=$this->getEnteredData('email')?></textarea>
             </li>
             <li>
                 <label for="email_address"><?=__('Message')?></label><br/>
-                <textarea name="message"><?=$this->getEnteredData('message')?></textarea>
+                <textarea name="message" cols="60" rows="5"><?=$this->getEnteredData('message')?></textarea>
             </li>
         </ul>
     <div class="form-buttons">
@@ -20,7 +20,7 @@
 <script type="text/javascript">
 <!--
 Validation.addAllThese([
-	['validate-emails', '<?=__('Please enter a valid email addresses, separated by comma. For example johndoe@domain.com, johnsmith@domain.com.')?>', function (v) {
+	['validate-emails', '<?=__('Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')?>', function (v) {
                 if(Validation.get('IsEmpty').test(v)) {
                 	return true;
                 }
