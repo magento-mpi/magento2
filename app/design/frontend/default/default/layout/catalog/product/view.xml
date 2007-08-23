@@ -15,7 +15,7 @@
             <block type="catalog/product_view_super_group" name="product.super.group" as="super_group">
                 <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
             </block>
-            <block type="core/text_list" name="product.info.additional" as="additional" />
+            <block type="core/text_list" name="product.info.additional" as="product_additional_data" />
         </block>
     </reference>
     <reference name="right">

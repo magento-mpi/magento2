@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="product.info.additional">
+        <block type="tag/product_list" name="product_tag_list" before="-"></block>
+    </reference>
+</layoutUpdate>

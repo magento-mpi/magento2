@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="product.info.additional">
+        <block type="review/list" name="product_review_list"></block>
+    </reference>
+</layoutUpdate>

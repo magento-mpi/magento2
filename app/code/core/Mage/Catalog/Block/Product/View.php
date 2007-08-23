@@ -79,9 +79,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 			->useProductItem();
 
         
-        $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
-        $this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
-        $this->setChild('tagList', $this->getLayout()->createBlock('tag/product_list'));
+        //$this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
+        //$this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
+        //$this->setChild('tagList', $this->getLayout()->createBlock('tag/product_list'));
         return $this;
     }
 

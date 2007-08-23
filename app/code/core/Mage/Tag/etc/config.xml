@@ -80,6 +80,13 @@
                     </tag_dashboard>
                 </updates>
             </customer_dashboard>
+            <catalog_product_view>
+                <updates>
+                    <tag>
+                        <file>tag/product.xml</file>
+                    </tag>
+                </updates>
+            </catalog_product_view>
         </layouts>
         <routers>
             <tag>
