@@ -140,23 +140,29 @@ class Varien_File_Uploader
             $this->setAllowCreateFolders(true);
             $char = 0;
             while( ($char < 2) && ($char < strlen($fileName)) ) {
-                $this->_dispretionPath.= DIRECTORY_SEPARATOR . $fileName[$char];
+                if (empty($this->_dispretionPath)) {
+                    $this->_dispretionPath = $fileName[$char];
+                }
+                else {
+                    $this->_dispretionPath = $this->_addDirSeparator($this->_dispretionPath) . $fileName[$char];
+                }
                 $char ++;
             }
             $destFile.= $this->_dispretionPath;
+            $this->_createDestinationFolder($destFile);
         }
 
         if( $this->_allowRenameFiles ) {
-            $fileName = $this->_renameDestinationFile($destFile.DIRECTORY_SEPARATOR.$fileName);
+            $fileName = $this->_renameDestinationFile($this->_addDirSeparator($destFile).$fileName);
         }
 
-        $destFile.= DIRECTORY_SEPARATOR . $fileName;
+        $destFile = $this->_addDirSeparator($destFile) . $fileName;
 
         $result = move_uploaded_file($this->_file['tmp_name'], $destFile);
 
         if( $result ) {
             chmod($destFile, 0777);
-            $this->_uploadedFileName = ( $this->_enableFilesDispersion ) ? $this->_dispretionPath . DIRECTORY_SEPARATOR . $fileName : $fileName;
+            $this->_uploadedFileName = ( $this->_enableFilesDispersion ) ? $this->_addDirSeparator($this->_dispretionPath) . $fileName : $fileName;
             $this->_uploadedFileDir = $destinationFolder;
             $result = $this->_file;
             $result['path'] = $destinationFolder;
@@ -164,6 +170,14 @@ class Varien_File_Uploader
         } else {
             return $result;
         }
+    }
+    
+    protected function _addDirSeparator($dir)
+    {
+        if (substr($dir,-1) != DIRECTORY_SEPARATOR) {
+            $dir.= DIRECTORY_SEPARATOR;
+        }
+        return $dir;
     }
     
     /**
@@ -307,6 +321,7 @@ class Varien_File_Uploader
             }
             $oldPath = $newPath;
         }
+        return $this;
     }
 
     private function _renameDestinationFile($destFile)

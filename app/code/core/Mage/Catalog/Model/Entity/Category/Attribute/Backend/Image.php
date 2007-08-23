@@ -25,6 +25,8 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Image extends Mage_Ea
         try {
             $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+            $uploader->setAllowRenameFiles(true);
+            $uploader->setFilesDispersion(true);
         }
         catch (Exception $e){
             return;
