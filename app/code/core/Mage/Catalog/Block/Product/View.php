@@ -14,6 +14,24 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
     {
         parent::_construct();
     }
+    
+    protected function _initChildren()
+    {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            if ($title = $this->getProduct()->getMetaTitle()) {
+                $headBlock->setTitle($title);
+            }
+            else {
+                $headBlock->setTitle($this->getProduct()->getName());
+            }
+            if ($keyword = $this->getProduct()->getMetaKeyword()) {
+                $headBlock->setKeywords($keyword);
+            }
+            if ($description = $this->getProduct()->getMetaDescription()) {
+                $headBlock->setDescription($description);
+            }            
+        }
+    }
 
     public function loadData()
     {
@@ -52,8 +70,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         $breadcrumbs->addCrumb('product',
             array('label'=>$product->getName())
         );
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle($product->getName());
 
         $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
