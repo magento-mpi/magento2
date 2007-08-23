@@ -13,7 +13,7 @@
 <?if($this->getMode()!='grid'):?>
 <div class="listing-type-list catalog-listing">
 <?foreach ($_productCollection as $_product):?>
-    <div class="listing-item">
+    <div class="listing-item ">
         
         <?// Product Image?>
         <div class="product-image">
@@ -34,11 +34,7 @@
                 <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><small>Learn More</small></a>
             </div>
             <p class="add-to">
-                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a>
-                <?if($this->getCanUseCompare()):?>
-                    <span class="pipe">|</span>
-                    <a href="#" onclick="compareObject.addItem(<?=$_product->getId()?>);return false;">Add to Compare</a>
-                <?endif;?>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a><?if($this->getCanUseCompare()):?><span class="pipe">|</span><a href="#" onclick="compareObject.addItem(<?=$_product->getId()?>);return false;">Add to Compare</a><?endif;?>
             </p>
         </div>
     </div>

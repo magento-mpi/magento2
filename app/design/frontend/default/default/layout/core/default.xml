@@ -24,20 +24,13 @@
 
         <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
-        <block type="core/text_list" name="left" as="left">
-        	<block type="core/template" name="left.callout">
-        		<action method="setTemplate"><template>callouts/left_col.phtml</template></action>
-        	</block>
-        </block>
+        <block type="core/text_list" name="left" as="left"/>
 
         <block type="core/messages" name="messages" as="messages"/>
 
         <block type="core/text_list" name="content" as="content"/>
 
         <block type="core/text_list" name="right" as="right">
-        	<block type="core/template" name="right.callout">
-        		<action method="setTemplate"><template>callouts/right_col.phtml</template></action>
-        	</block>
         	<block type="wishlist/customer_sidebar" name="wishlist.sidebar">
                 <action method="setTemplate"><template>wishlist/sidebar.phtml</template></action>
             </block>

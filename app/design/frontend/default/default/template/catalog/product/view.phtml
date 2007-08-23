@@ -162,7 +162,7 @@
 	<?if($product->getRelatedProductsLoaded()->getSize()):?>
 	<div class="collateral-box">
 		<div class="head"><h4>You may be interested in these items</h4></div>
-		<table cellspacing="0" class="generic-product-grid">
+		<table cellspacing="0" class="generic-product-grid product-display">
 			<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
 			<?$_relatedPerRow=4?>
 			<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>

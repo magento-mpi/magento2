@@ -2,7 +2,7 @@
 <div class="box base-mini mini-cart">
 	<div class="head">
 		<h4><?=__('My Cart')?> <span class="count">- <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('%d item(s)', sizeof($this->getCartItems()))?></a></span></h4>
-		<!--<h5>Last added items</h5>-->
+		<h5>Last added items</h5>
 	</div>
 	<?if(sizeof($this->getCartItems())>0):?>
 	<ol id="cart-sidebar">

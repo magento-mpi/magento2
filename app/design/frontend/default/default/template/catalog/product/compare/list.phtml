@@ -33,10 +33,8 @@
                 <h4><a href="<?=$_item->getProductUrl()?>" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h4>
                 <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
                 <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-                <p>
                     <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
-                    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>"><small>Add to My Wishlist</small></a>
-                </p>
+                    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>" class="link-cart"><small>Add to My Wishlist</small></a>
             </td>
         <?endforeach;?>
 		</tr>
@@ -88,8 +86,8 @@
 			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 				    
-					    <p><button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
-					    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>"><small>Add to Wishlist</small></a></p>
+					   <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
+					    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>" class="link-cart"><small>Add to Wishlist</small></a>
 			    </div>
 		    </div>
 			</td>

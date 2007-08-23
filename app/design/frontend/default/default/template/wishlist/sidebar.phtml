@@ -1,7 +1,7 @@
 <?if($this->getCanDisplayWishlist()):?>
 <div class="box base-mini mini-wishlist">
 	<div class="head">
-		<h4>My Wishlist <span class="count">- <a href="<?=$this->getUrl('wishlist')?>"><?=__('%d items', $this->getWishlistItems()->getSize())?></a></span></h4>
+		<h4>My Wishlist <span class="count">- <a href="<?=$this->getUrl('wishlist')?>"><?=__('%d item(s)', $this->getWishlistItems()->getSize())?></a></span></h4>
 		<h5>Last added items</h5>
 	</div>
 	<?if($this->getWishlistItems()->getSize()>0):?>
