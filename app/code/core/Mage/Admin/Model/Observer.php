@@ -26,14 +26,20 @@ class Mage_Admin_Model_Observer
                         $session->setUser($user);
                         header('Location: '.$request->getRequestUri());
                         exit;
+                    } else {
+                        if (!$request->getParam('messageSent')) {
+                            Mage::getSingleton('adminhtml/session')->addError(__('Invalid Username or Password.'));
+                            $request->setParam('messageSent', true);
+                        }
                     }
                 }
-            } 
+            }
             if (!$request->getParam('forwarded')) {
                 $request->setParam('forwarded', true)
-                    ->setControllerName('index')                
+                    ->setControllerName('index')
                     ->setActionName('login')
                     ->setDispatched(false);
+
                 return false;
             }
         } else {

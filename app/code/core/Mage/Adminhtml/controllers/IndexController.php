@@ -4,6 +4,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 {
     protected function _outTemplate($tplName, $data=array())
     {
+        $this->_initLayoutMessages('adminhtml/session');
         $block = $this->getLayout()->createBlock('core/template')->setTemplate("$tplName.phtml");
         foreach ($data as $index=>$value) {
         	$block->assign($index, $value);
@@ -38,13 +39,13 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         } else {
             $data['username'] = null;
         }
-
         $this->_outTemplate('login', $data);
     }
 
     public function logoutAction()
     {
         $auth = Mage::getSingleton('admin/session')->unsetAll();
+        Mage::getSingleton('adminhtml/session')->addSuccess(__('You successfully logged out.'));
         $this->_redirect('adminhtml');
     }
 

@@ -15,8 +15,7 @@
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all" /> <![endif]-->
 </head>
 <body id="page-login">
-    <div class="error-msg">*Some sort of error message goes here*</div>
-    <div class="success-msg">*Some sort of success message here*</div>
+    <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
 	<div class="login-container">
 		<div class="login-box">
 			<form method="post" action="" id="loginForm">
