@@ -59,6 +59,13 @@
                </admin_noroute>
             </updates>
          </admin_noroute>
+         <admin_denied>
+         	<updates>
+               <admin_denied>
+                  <file>denied.xml</file>
+               </admin_denied>
+            </updates>
+         </admin_denied>
          <preview>
             <updates>
                <baseframe>

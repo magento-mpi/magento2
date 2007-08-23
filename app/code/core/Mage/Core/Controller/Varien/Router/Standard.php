@@ -97,7 +97,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $request->setDispatched(true);
         $controllerInstance->dispatch($action);
 
-        return true;
+        return true;#$request->isDispatched();
     }
 
     public function addModule($frontName, $moduleName)

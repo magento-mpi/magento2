@@ -45,29 +45,38 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     
     protected function _isAllowed()
     {
-    	return Mage::getSingleton('admin/session')->isAllowed('all');
+    	return true; #Mage::getSingleton('admin/session')->isAllowed('admin');
     }
     
     public function preDispatch()
     {
     	parent::preDispatch();
 
-    	if ($this->getRequest()->isDispatched() && !$this->_isAllowed()) {
-    		$this->_forward('denied', 'index');
-    		$this->getRequest()->setDispatched(false);
+    	if ($this->getRequest()->isDispatched() 
+    		&& $this->getRequest()->getActionName()!=='denied'
+    		&& !$this->_isAllowed()) {
+    		$this->_redirect('*/*/denied');
+    		//$this->getRequest()->setDispatched(false);
+    		$this->setFlag('', 'no-dispatch', true);
     	}
     	
     	return $this;
     }
     
-    function loadLayout($ids=null, $key='', $generateBlocks=true)
+    public function deniedAction()
+    {
+    	$this->loadLayout(array('baseframe', 'admin_denied'), 'admin_denied');
+        $this->renderLayout();
+    }
+    
+    public function loadLayout($ids=null, $key='', $generateBlocks=true)
     {
         parent::loadLayout($ids, $key, $generateBlocks);
         $this->_initLayoutMessages('adminhtml/session');
         return $this;
     }
     
-    function norouteAction($coreRoute = null)
+    public function norouteAction($coreRoute = null)
     {
         $this->loadLayout(array('baseframe', 'admin_noroute'), 'admin_noroute');
         $this->renderLayout();
