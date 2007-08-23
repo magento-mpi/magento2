@@ -41,7 +41,10 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
                             )
         );
 
-        if( Mage::registry('poll_data') ) {
+        if( Mage::getSingleton('adminhtml/session')->getPollData() ) {
+            $form->setValues(Mage::getSingleton('adminhtml/session')->getPollData());
+            Mage::getSingleton('adminhtml/session')->setPollData(null);
+        } elseif( Mage::registry('poll_data') ) {
             $form->setValues(Mage::registry('poll_data')->getData());
 
             $fieldset->addField('was_closed', 'hidden', array(

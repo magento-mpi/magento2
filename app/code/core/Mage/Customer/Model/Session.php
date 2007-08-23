@@ -11,7 +11,7 @@
 class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     protected $_customer;
-    
+
     public function __construct()
     {
         $this->init('customer');
@@ -31,7 +31,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setId($customer->getId());
         return $this;
     }
-    
+
     /**
      * Retrieve costomer model object
      *
@@ -42,7 +42,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($this->_customer instanceof Mage_Customer_Model_Customer) {
             return $this->_customer;
         }
-        
+
         $customer = Mage::getModel('customer/customer');
         if ($this->getId()) {
             $customer->load($this->getId());
@@ -50,7 +50,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setCustomer($customer);
         return $this->_customer;
     }
-    
+
     /**
      * Retrieve customer id from current session
      *
@@ -60,7 +60,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         return $this->getCustomer()->getId();
     }
-    
+
     /**
      * Checking custommer loggin status
      *
@@ -71,7 +71,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         $customer = $this->getCustomer();
         return ($customer instanceof Mage_Customer_Model_Customer) && $customer->getId();
     }
-    
+
     /**
      * Customer authorization
      *
@@ -89,14 +89,14 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return false;
     }
-    
+
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
         Mage::dispatchEvent('customerLogin');
         return $this;
     }
-    
+
     /**
      * Authorization customer by identifier
      *
@@ -113,7 +113,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return false;
     }
-    
+
     /**
      * Logout customer
      *
@@ -127,7 +127,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return $this;
     }
-    
+
     /**
      * Authenticate controller action by login customer
      *

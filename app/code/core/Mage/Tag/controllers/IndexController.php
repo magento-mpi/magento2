@@ -13,19 +13,26 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function saveAction()
     {
-        if( !Mage::getSingleton('customer/session')->getCustomerId() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
-            return;
-        }
-
         if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
             $this->getResponse()->setRedirect($referer);
         }
 
-        if( $post = $this->getRequest()->getPost() ) {
+        if( $tagName = $this->getRequest()->getQuery('tagName') ) {
             try {
-                $tagName = $this->getRequest()->getParam('tagName');
+                if( !Mage::getSingleton('customer/session')->authenticate($this) ) {
+                    return;
+                }
+
+                $tagName = urldecode($tagName);
                 $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+
+                foreach( $tagNamesArr as $key => $tagName ) {
+                    $tagNamesArr[$key] = trim($tagNamesArr[$key]);
+                    if( $tagNamesArr[$key] == '' ) {
+                        unset($tagNamesArr[$key]);
+                    }
+                }
+
                 foreach( $tagNamesArr as $tagName ) {
                     $tagName = trim($tagName, '\'');
                     if( $tagName ) {
@@ -54,10 +61,16 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     } else {
                         continue;
                     }
-                    Mage::getSingleton('tag/session')
-                        ->addSuccess('You tag(s) accepted for moderation');
                 }
 
+                Mage::getSingleton('tag/session')
+                        ->addSuccess('You tag(s) accepted for moderation');
+
+                $product = Mage::getModel('catalog/product')
+                    ->load($this->getRequest()->getParam('productId'));
+                $productUrl = $product->getProductUrl();
+
+                $this->getResponse()->setRedirect($productUrl);
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('tag/session')

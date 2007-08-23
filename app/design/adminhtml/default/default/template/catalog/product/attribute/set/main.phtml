@@ -263,7 +263,7 @@
                     success : function(o) {
                         var response = Ext.util.JSON.decode(o.responseText);
                         if( response.error ) {
-                            alert(response.message);
+                            $('messages').innerHTML = response.message;
                         } else if( response.url ){
                             setLocation(response.url);
                         } else if( response.message ) {

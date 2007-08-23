@@ -14,15 +14,21 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
     public function __construct()
     {
         parent::__construct();
-        $this->setDestElementId('class_form');
-        #$this->_initForm();
     }
 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
+
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
+        $className = null;
+        $sessionData = Mage::getSingleton('adminhtml/session')->getClassData();
+
+        if( is_array($sessionData) && array_key_exists('class_name', $sessionData) && ($sessionData['class_name'] != '') ) {
+            $className = $sessionData['class_name'];
+            Mage::getSingleton('adminhtml/session')->setClassData(null);
+        }
 
         if( intval($classId) <= 0 ) {
             $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Product Tax Class Information')));
@@ -31,6 +37,7 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
                                     'name' => 'class_name',
                                     'label' => __('Class Name'),
                                     'class' => 'required-entry',
+                                    'value' => $className,
                                     'required' => true,
                                 )
                         );

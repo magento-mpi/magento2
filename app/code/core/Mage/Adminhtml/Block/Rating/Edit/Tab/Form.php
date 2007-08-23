@@ -24,7 +24,10 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
                             )
         );
 
-        if( Mage::registry('rating_data') ) {
+        if( Mage::getSingleton('adminhtml/session')->getRatingData() ) {
+            $form->setValues(Mage::getSingleton('adminhtml/session')->getRatingData());
+            Mage::getSingleton('adminhtml/session')->setRatingData(null);
+        } elseif ( Mage::registry('rating_data') ) {
             $form->setValues(Mage::registry('rating_data')->getData());
         }
 

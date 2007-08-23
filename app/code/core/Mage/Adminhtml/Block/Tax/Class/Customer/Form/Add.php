@@ -26,6 +26,13 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
 
         $classId = $this->getRequest()->getParam('classId', null);
         $classType = $this->getRequest()->getParam('classType', null);
+        $className = null;
+        $sessionData = Mage::getSingleton('adminhtml/session')->getClassData();
+
+        if( is_array($sessionData) && array_key_exists('class_name', $sessionData) && ($sessionData['class_name'] != '') ) {
+            $className = $sessionData['class_name'];
+            Mage::getSingleton('adminhtml/session')->setClassData(null);
+        }
 
         if( intval($classId) <= 0 ) {
             $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Customer Tax Class Information')));
@@ -34,6 +41,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                     'name' => 'class_name',
                                     'label' => __('Class Name'),
                                     'class' => 'required-entry',
+                                    'value' => $className,
                                     'required' => true,
                                 )
                         );

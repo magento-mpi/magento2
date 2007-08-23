@@ -32,14 +32,14 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->_setTypeId();
         $attributeSet = Mage::getModel('eav/entity_attribute_set')
             ->load($this->getRequest()->getParam('id'));
-        
+
         if (!$attributeSet->getId()) {
             $this->_redirect('*/*/index');
             return;
         }
-        
+
         Mage::register('current_attribute_set', $attributeSet);
-        
+
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('catalog/sets');
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
@@ -94,10 +94,12 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                //Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. May be set with the same name already exists.'));
+                #Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. May be set with the same name already exists.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             } else {
-                $response->setMessage(__('Error while saving this set.'));
+                Mage::getSingleton('adminhtml/session')->addError(__('Attribute set with the same name already exists.'));
+                $this->_initLayoutMessages('adminhtml/session');
+                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
                 $response->setError(1);
             }
         }
@@ -138,8 +140,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     protected function _setTypeId()
     {
-        
-        Mage::register('entityType', 
+
+        Mage::register('entityType',
             Mage::getModel('catalog/product')->getResource()->getConfig()->getId());
     }
 }

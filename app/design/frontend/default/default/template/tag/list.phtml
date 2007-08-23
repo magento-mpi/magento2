@@ -13,7 +13,7 @@
 		<?endif;?>
 	<h5><?=__('Add your tags')?>:</h5>
 	<div class="add-tag-box">
-		<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="POST">
+		<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="get">
 			<div class="input-box">
 				<input type="text" class="input-text required-entry" name="tagName" />
 			</div>

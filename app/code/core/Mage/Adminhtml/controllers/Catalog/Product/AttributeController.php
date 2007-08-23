@@ -80,27 +80,27 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             ->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('catalog/product/attribute/js.phtml'))
             ->renderLayout();
     }
-    
+
     public function validateAction()
     {
         $response = new Varien_Object();
         $response->setError(false);
-        
+
         $attributeCode  = $this->getRequest()->getParam('attribute_code');
         $attributeId    = $this->getRequest()->getParam('attribute_id');
         $attribute = Mage::getModel('eav/entity_attribute')
             ->loadByCode($this->_entityTypeId, $attributeCode);
-            
+
         if ($attribute->getId() && !$attributeId) {
-            Mage::getSingleton('adminhtml/session')->addError('Attribute with some code already exist');
+            Mage::getSingleton('adminhtml/session')->addError('Attribute with the same code already exists');
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
-        
+
         $this->getResponse()->setBody($response->toJson());
     }
-    
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             if ($id = $this->getRequest()->getParam('attribute_id')) {
 
                 $model->load($id);
-                
+
                 // entity type check
                 if ($model->getEntityTypeId() != $this->_entityTypeId) {
                     Mage::getSingleton('adminhtml/session')->addError(__('You cannot update this attribute'));
@@ -121,14 +121,14 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['is_user_defined'] = $model->getIsUserDefined();
                 //$data['is_global'] = $model->getIsGlobal();
             }
-            
+
             /**
              * @todo need specify relations for properties
              */
             if (isset($data['frontend_input']) && $data['frontend_input'] == 'multiselect') {
                 $data['backend_model'] = 'eav/entity_attribute_backend_array';
             }
-            
+
             $model->addData($data);
 
             if (!$id) {

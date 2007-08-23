@@ -7,6 +7,7 @@
  * @copyright   Varien (c) 2007 (http://www.varien.com)
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
@@ -34,25 +35,23 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
-        $fieldset->addField('code', 'text',
+        $fieldset->addField('customer_group_code', 'text',
             array(
                 'name'  => 'code',
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
                 'class' => 'required-entry',
                 'required' => true,
-                'value' => $customerGroup->getCode()
             )
         );
 
-        $fieldset->addField('tax_class', 'select',
+        $fieldset->addField('tax_class_id', 'select',
             array(
                 'name'  => 'tax_class',
                 'label' => __('Tax class'),
                 'title' => __('Tax class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'value' => $customerGroup->getTaxClass(),
                 'values' => Mage::getSingleton('tax/class_source_customer')->toOptionArray()
             )
         );
@@ -62,9 +61,16 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
             $form->addField('id', 'hidden',
                 array(
                     'name'  => 'id',
-                    'value' => $customerGroup->getId()
+                    'value' => $groupId,
                 )
             );
+        }
+
+        if( Mage::getSingleton('adminhtml/session')->getCustomerGroupData() ) {
+            $form->setValues(Mage::getSingleton('adminhtml/session')->getCustomerGroupData());
+            Mage::getSingleton('adminhtml/session')->setCustomerGroupData(null);
+        } else {
+            $form->setValues($customerGroup->getData());
         }
 
         $form->setUseContainer(true);

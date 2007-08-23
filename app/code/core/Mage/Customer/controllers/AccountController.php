@@ -48,7 +48,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         $this->loadLayout(array('default', 'customer_login'), 'customer_login');
         $this->_initLayoutMessages('customer/session');
 
-
         $this->renderLayout();
     }
 
@@ -129,7 +128,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     ->addSuccess('Customer is registered');
 
                 $customer->sendNewAccountEmail();
-                
+
                 $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
                 if (Mage::getSingleton('customer/session')->getBeforeAuthUrl()) {
                 	$successUrl = Mage::getSingleton('customer/session')->getBeforeAuthUrl();
@@ -178,7 +177,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     $newPassword = $customer->generatePassword();
 
                     $customer->changePassword($newPassword, false);
-                    
+
                     $customer->sendPasswordReminderEmail();
 
                     Mage::getSingleton('customer/session')
@@ -229,7 +228,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             $customer = Mage::getModel('customer/customer')
                 ->setData($this->getRequest()->getPost())
                 ->setId(Mage::getSingleton('customer/session')->getCustomerId());
-                
+
             $currPass = $this->getRequest()->getPost('current_password');
             $newPass  = $this->getRequest()->getPost('password');
             if ($currPass && $newPass) {
@@ -245,7 +244,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     return;
                 }
             }
-            
+
             try {
                 $customer->save();
                 Mage::getSingleton('customer/session')
