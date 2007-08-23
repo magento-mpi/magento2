@@ -76,21 +76,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             'options' => $stores,
         ));
 
-        $this->addColumn('actions', array(
-            'header' => __('Action'),
-            'width' => 10,
-            'sortable' => false,
-            'filter' => false,
-            'index' => 'entity_id',
-            'type' => 'action',
-            'actions' => array(
-                array(
-                    'url' => Mage::getUrl('*/sales_order/edit') . 'order_id/$entity_id',
-                    'caption' => __('Edit'),
-                ),
-            )
-        ));
-
         return parent::_prepareColumns();
     }
 
