@@ -22,10 +22,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Mage_Admi
     protected function _beforeToHtml()
     {
         $this->addTab('main', array(
-            'label'     => __('General Information'),
-            'title'     => __('General Information'),
+            'label'     => __('Attribute Properties'),
+            'title'     => __('Attribute Properties'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_main')->toHtml(),
             'active'    => true
+        ));
+
+        $this->addTab('front', array(
+            'label'     => __('Frontend Properties'),
+            'title'     => __('Frontend Properties'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_edit_tab_front')->toHtml(),
         ));
 
         $this->addTab('system', array(

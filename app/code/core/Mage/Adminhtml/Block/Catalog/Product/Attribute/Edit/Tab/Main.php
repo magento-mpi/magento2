@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Attribute Properties')));
 
         $yesno = array(
             array(
@@ -38,17 +38,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'required' => true,
         ));
 
-        /*$fieldset->addField('default_value', 'text', array(
-            'name' => 'default_value',
-            'label' => __('Default Value'),
-            'title' => __('Default Value'),
-        ));*/
-
-        /*$fieldset->addField('frontend_label', 'text', array(
-            'name' => 'frontend_label',
-            'label' => __('Frontend Label'),
-            'title' => __('Frontend Label'),
-        ));*/
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
@@ -88,10 +77,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                     'value' => 'image',
                     'label' => __('Image')
                 ),
-                /*array(
-                    'value' => 'gallery',
-                    'label' => __('Image Gallery')
-                ), */
             )
         ));
 
@@ -145,20 +130,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             )
         ));
 
-        $fieldset->addField('is_searchable', 'select', array(
-            'name' => 'is_searchable',
-            'label' => __('Searchable on Front-end'),
-            'title' => __('Searchable on Front-end'),
-            'values' => $yesno,
-        ));
-
-        $fieldset->addField('is_comparable', 'select', array(
-            'name' => 'is_comparable',
-            'label' => __('Comparable on Front-end'),
-            'title' => __('Comparable on Front-end'),
-            'values' => $yesno,
-        ));
-
         /*$fieldset->addField('apply_to', 'select', array(
             'name' => 'apply_to',
             'label' => __('Apply To'),
@@ -177,25 +148,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'values' => $yesno,
         ));
 
-        $fieldset->addField('is_filterable', 'select', array(
-            'name' => 'is_filterable',
-            'label' => __('Use In Layered Navigation'),
-            'title' => __('Use In Layered Navigation'),
-            'values' => array(
-                array('value' => '0', 'label' => __('No')),
-                array('value' => '1', 'label' => __('Fiterable (with results)')),
-                array('value' => '2', 'label' => __('Fiterable (no results)')),
-            ),
-        ));
-
-        if ($model->getIsUserDefined() || !$model->getId()) {
-            $fieldset->addField('is_visible_on_front', 'select', array(
-                'name' => 'is_visible_on_front',
-                'label' => __('Visible on Catalog Pages on Front-end'),
-                'title' => __('Visible on Catalog Pages on Front-end'),
-                'values' => $yesno,
-            ));
-        }
 
         if ($model->getId()) {
             $form->getElement('attribute_code')->setDisabled(1);
