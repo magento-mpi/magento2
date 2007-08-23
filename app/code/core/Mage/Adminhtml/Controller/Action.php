@@ -43,6 +43,23 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return $this;
     }
     
+    protected function _isAllowed()
+    {
+    	return Mage::getSingleton('admin/session')->isAllowed('all');
+    }
+    
+    public function preDispatch()
+    {
+    	parent::preDispatch();
+
+    	if ($this->getRequest()->isDispatched() && !$this->_isAllowed()) {
+    		$this->_forward('denied', 'index');
+    		$this->getRequest()->setDispatched(false);
+    	}
+    	
+    	return $this;
+    }
+    
     function loadLayout($ids=null, $key='', $generateBlocks=true)
     {
         parent::loadLayout($ids, $key, $generateBlocks);
