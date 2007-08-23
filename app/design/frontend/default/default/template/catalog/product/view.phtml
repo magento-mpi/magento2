@@ -136,12 +136,13 @@
 		</script>
 		<div class="clear"></div>
 		<div class="divider"></div>
-			<h4>Product Description</h4>
-			<div class="product-specs"><?=$product->getDescription()?></div>
 		</div>
 		</div>
 		<div class="product-collateral">
-
+            <div class="collateral-box">
+			    <h4>Product Description</h4>
+			    <div class="product-specs"><?=$product->getDescription()?></div>
+            </div>
 			<?if($_additional = $this->getAdditionalData()):?>
 			<div class="collateral-box attribute-specs">
 				<div class="head">

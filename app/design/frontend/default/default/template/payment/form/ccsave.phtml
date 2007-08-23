@@ -6,7 +6,7 @@
     <fieldset class="form-list">
         <ul id="payment_form_<?=$this->getMethod()?>" style="display:none">
             <li><div class="input-box"><label for="cc_type"><?=__('Credit Card Type')?> <span class="required">*</span></label><br/>
-            	<select id="cc_type" style="width:140px;" name="payment[cc_type]" class="required-entry">
+            	<select id="cc_type" name="payment[cc_type]" class="required-entry">
                 <?foreach ($this->getCcTypes() as $k=>$v):?>
                     <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>

@@ -3,8 +3,9 @@
 <tr>
 <td class="address-list">
 <div class="box-head">
-    <h4 class="icon-head head-customer-address-list" style="float:left"><?=__('Customer Addresses')?></h4>
-    <button id="add_address_button" type="button" class="scalable add" onclick="customerAddresses.addNewAddress()">
+    <h4 class="icon-head head-customer-address-list"><?=__('Customer Addresses')?></h4>
+    <div class="clear"></div>
+    <button id="add_address_button" type="button" class="scalable add left" onclick="customerAddresses.addNewAddress()" style="margin:3px 0;">
     <table cellspacing="0">
         <tr>
             <td class="tl"></td>
@@ -26,13 +27,8 @@
     <?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
         <li id="address_item_<?=$_address->getId()?>">
-            <div class="delete-address">
-                 <a href="#" name="" id="delete_button<?=++$_iterator?>" class="delete"><?=__('Delete Address')?></a>
-            </div>
-
-            <div style="display:block;float:right;clear:right">
-                 <a href="#" id="select_button" class="select_button"><?=__('Edit Address')?></a>
-            </div>
+            <a href="#" class="btn-remove-address" id="delete_button<?=++$_iterator?>"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" /></a>
+            <a href="#" id="select_button" class="select_button btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
             </address>
@@ -95,13 +91,9 @@
     <!-- Template for adding address item to list -->
     <?$_templatePrefix = '_template_'?>
     <div id="address_item_template" class="no-display template">
-        <div class="delete-address" style="display:block;float:right;">
-             <a href="#" id="delete_button" class="delete"><?=__('Delete Address')?></a><br />
-        </div>
+        <a href="#" id="delete_button" class="btn-remove-address" id="delete_button<?=++$_iterator?>"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" /></a>
+        <a href="#" id="select_button" class="btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
 
-        <div style="display:block;float:right;clear:right">
-             <a href="#" id="select_button" class="select_button"><?=__('Edit Address')?></a>
-        </div>
         <address><?=__('New Customer Address')?></address>
         <div class="address-type">
                         <span class="address-type-line">

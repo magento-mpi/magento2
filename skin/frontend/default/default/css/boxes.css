@@ -4,6 +4,8 @@
 
 /********** [COLUMN SETS] ***********/
 
+.col2-set, .col3-set, .col4-set, .col5-set { clear:both; }
+
 /* Col2 */
 .col2-set .col-1, .col2-set .col-2 { width:48.5%; }
 .col2-set .col-1 { float:left; }
@@ -392,6 +394,7 @@ h1#logo {
     margin-top:28px; 
     text-align:right;
     padding:0 10px;
+    color:#fff;
     }
 .quick-access p { margin-bottom:4px; }
 .quick-access li {
@@ -566,8 +569,8 @@ h1#logo {
 .base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; font-size:.95em;}
 .base-mini .content, .base-mini ol { background:#f8f7f5;}
 .base-mini ol li { padding:7px 4px 7px 8px;}
-.base-mini ol li.odd {}
-.base-mini ol li.even { background:#f4f3f3;}
+.base-mini ol li.odd { background:#f4f3f3; }
+.base-mini ol li.even { background:#fafafa;}
 .base-mini .actions {
     background:url(../images/base_mini_actions_bg.gif) repeat-x #dee5e8;
     padding:6px;
@@ -858,7 +861,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .shopping-cart-collaterals .upsell .product-image { float:left; width:75px; border:1px solid #d0cdc9; }
 .shopping-cart-collaterals .upsell .product-shop { width:175px; }
 .shopping-cart-collaterals .upsell .product-shop h5 { font-size:1em; }
-.grand_total { color:#fff; background:#e7810c !important; font-size:1.3em !important; font-weight:bold; }
+.grand_total { color:#e7810c; font-size:1.3em !important; font-weight:bold; }
 tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 p.grand_total { padding-right:15px; }
 
@@ -927,8 +930,42 @@ p.grand_total { padding-right:15px; }
 .payment-methods dd { padding:5px 20px; }
 .one-page-checkout .payment-methods dd { padding:0; }
 .one-page-checkout .form-buttons { margin-top:0; padding-top:2em; }
+.multi-address-checkout-box {
+    position:relative;
+    margin-bottom:10px;
+    border:1px solid #bbb6a5;
+    background:#faf7ee;
+    }
+.multi-address-checkout-box .legend {
+    margin-top:-10px;
+    margin-left:15px;
+    float:left;
+    border:1px solid #f19900;
+    background:#F9F3E3;
+    padding:0 8px;
+    color:#E76200;
+    font-weight:bold;
+    font-size:1.1em;
+    }
+.multi-address-checkout-box .content { padding:11px 20px; }
+.multi-address-checkout-box .count-head {
+    border-bottom:1px solid #BBAFA0; 
+    background:#F9F3E3; 
+    padding:5px 10px;
+    }
+.multi-address-checkout-box .count-head h4 {
+    margin:0;
+    }
 
-.shipment-count { padding:1px 5px; line-height:1em; border:1px solid #5692cd; background:#7DB0E3; color:#fff; font-size:.8em;}
+/************ Checkout ***********/
+/* Multiple Address */
+.shipment-count {  
+    background:#E26703;
+    padding:2px 5px;
+    color:#fff;
+    font-size:.95em;
+    line-height:1em;
+    }
 
 /* Customer Account */
 

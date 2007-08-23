@@ -22,7 +22,7 @@
 
 
 /* Basic form elements */
-.input-text, textarea, select { border:1px solid #acacac; }
+.input-text, textarea, select { border:1px solid #acacac; font:12px arial, helvetica, sans-serif; }
 .input-text, textarea { padding:2px; }
 
 
@@ -238,7 +238,7 @@
         padding-left:22px;
     }
 .head-customer-address-list { background-image:url(images/fam_house.gif); }
-.head-edit-form { background-image:url(images/fam_page_white_edit.gif); }
+.head-edit-form { background-image:url(images/fam_page_white.gif); }
 .head-customer-view { background-image:url(images/fam_status_online.gif); padding-left:18px; }
 .head-customer, .head-customer-groups { background-image:url(images/fam_group.gif); }
 .head-online-visitors { background-image:url(images/fam_monitor.gif); }
@@ -301,9 +301,9 @@ label.inline{
     }
 .entry-edit fieldset .input-text,
 .entry-edit fieldset .textarea {
-    width:276px;
+    width:320px;
     }
-.entry-edit fieldset .textarea { height:6em; }
+.entry-edit fieldset .textarea { height:12em; }
 .entry-edit fieldset .select { width:220px; }
 .nested-content .entry-edit { margin-left:2em;}
 .nested-content .entry-edit .entry-edit { margin-left:0; }
@@ -350,7 +350,11 @@ div.autocomplete ul li {
 
 /* Customer - Addresses */
 .address-list { width:30%; padding-right:1.75em; }
+.address-list .btn-edit-address, .address-list .btn-remove-address { position:absolute; top:5px; }
+.address-list .btn-edit-address { right:24px; }
+.address-list .btn-remove-address { right:5px; }
 .address-list li {
+    position:relative;
     list-style:none;
     margin-bottom:.4em;
     padding:.7em 1em;

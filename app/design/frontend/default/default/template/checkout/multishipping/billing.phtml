@@ -11,28 +11,25 @@
 <?=$this->getMessagesBlock()->getHtml()?>
 <script src="<?=Mage::getBaseUrl(array('_type'=>'js'))?>varien/payment.js" type="text/javascript"></script>
 <form action="<?=$this->getPostActionUrl()?>" method="post" id="multishipping-billing-form">
-<div class="content-box">
-<div class="col2-set">
+<div class="multi-address-checkout-box">
+<div class="content col2-set">
     <div class="col-1">
-        <h3 class="bar-head">
-            Billing Address<span class="separator">|</span>
-            <small><a href="<?=$this->getSelectAddressUrl()?>">Change</a></small>
-        </h3>
-        <div class="content">
-            <?$_address=$this->getAddress()?>
-            <address>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                <?=$_address->getStreet(1)?><br/>
-                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                <?=$_address->getCountry()?>
-                <strong>T</strong> | <?=$_address->getTelephone()?>
-            </address>
-        </div>
+        <h4>
+            Billing Address<span class="pipe">|</span><small><a href="<?=$this->getSelectAddressUrl()?>">Change</a></small>
+        </h4>
+        <?$_address=$this->getAddress()?>
+        <address>
+            <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+            <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
+            <?=$_address->getStreet(1)?><br/>
+            <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
+            <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
+            <?=$_address->getCountry()?><br/>
+            <strong>T</strong> | <?=$_address->getTelephone()?>
+        </address>
     </diV>
     <div class="col-2">
-        <h3 class="bar-head">Payment Method</h3>
+        <h4>Payment Method</h4>
         <div class="content">
             <dl class="payment-methods">
                 <?=$this->getPaymentMethods()?> 

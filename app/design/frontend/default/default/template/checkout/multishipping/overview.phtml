@@ -3,8 +3,9 @@
 </div>
 <?=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
-<div class="content-box">
-    <div class="generic-box col2-set">
+<div class="multi-address-checkout-box">
+    <h4 class="legend">Billing Information</h4>
+    <div class="content col2-set">
         <div class="col-1">
             <div class="head">
                 <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
@@ -16,7 +17,7 @@
                 <?=$_address->getStreet(1)?><br/>
                 <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
                 <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                <?=$_address->getCountry()?>
+                <?=$_address->getCountry()?><br/>
                 <strong>T</strong> | <?=$_address->getTelephone()?>
             </address>
         </div>
@@ -27,10 +28,15 @@
             <?=$this->getPaymentHtml()?>
         </div>
     </div>
+</div>
 
 <?foreach ($this->getShippingAddresses() as $_index => $_address):?>
-    <h3>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getShippingAddressCount()?></h3>
-    <div class="generic-box col2-alt-set">
+    <div class="multi-address-checkout-box">
+    <h4 class="legend">Shipping Information</h4>
+    <div class="count-head">
+        <h4>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getShippingAddressCount()?></h4>
+    </div>
+    <div class="content col2-alt-set">
         <div class="col-1">
             <div class="head">
                 <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>">Edit</a></h4>
@@ -90,6 +96,7 @@
             </table>
             <script type="text/javascript">decorateTable('overview-table-<?=$_address->getId()?>')</script>
         </div>
+    </div>
     </div>
 <?endforeach;?>
 
