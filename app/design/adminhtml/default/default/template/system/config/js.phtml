@@ -1,46 +1,133 @@
 <script type="text/javascript" language="javascript">
-if (document.getElementById('carriers_dhl_free_method')) {
-    document.getElementById('carriers_dhl_free_method').onchange = checkFreeMethods;
-}
-if (document.getElementById('carriers_fedex_free_method')) {
-    document.getElementById('carriers_fedex_free_method').onchange = checkFreeMethods;
-}
-if (document.getElementById('carriers_ups_free_method')) {
-    document.getElementById('carriers_ups_free_method').onchange = checkFreeMethods;
-}
-if (document.getElementById('carriers_usps_free_method')) {
-    document.getElementById('carriers_usps_free_method').onchange = checkFreeMethods;
+
+var freeModel = Class.create();
+freeModel.prototype = {
+    initialize : function()
+    {
+        this.reload = false;
+        this.bindFreeMethodCutoffCostRelation();
+    },
+    bindFreeMethodCutoffCostRelation : function(parentId)
+    {
+        if(parentId) {
+            // todo: fix bug in IE
+            var freeMethodElements = $$('#'+parentId+' .free-method');
+        } else {
+            var freeMethodElements = $$('.free-method');
+        }
+        for(var i in freeMethodElements) {
+            Event.observe(freeMethodElements[i], 'change', this.checkFreeMethod.bind(this));
+            this.initFreeMethod(freeMethodElements[i]);
+        }
+    },
+    initFreeMethod : function(element)
+    {
+        var freeMethodElement = element;
+        if (freeMethodElement && freeMethodElement.id) {
+            var cutoffElement  = $(freeMethodElement.id.replace(/free_method/, 'cutoff_cost'));
+            if (cutoffElement) {
+                if (freeMethodElement.value == '') {
+                    cutoffElement.disabled = true;
+                } else {
+                    cutoffElement.disabled = false;
+                }
+            }
+        }
+    },
+    checkFreeMethod : function(event)
+    {
+        var freeMethodElement = Event.element(event);
+        if (freeMethodElement && freeMethodElement.id) {
+            var cutoffElement  = $(freeMethodElement.id.replace(/free_method/, 'cutoff_cost'));
+            if (cutoffElement) {
+                if (freeMethodElement.value == '') {
+                    cutoffElement.disabled = true;
+                } else {
+                    cutoffElement.disabled = false;
+                }
+            }
+        }
+    }
 }
 
-function checkFreeMethods() 
-{
-    if (document.getElementById('carriers_dhl_free_method')) {
-        if (document.getElementById('carriers_dhl_free_method').value == '') {
-            document.getElementById('carriers_dhl_cutoff_cost').disabled = true;
+freeMethod = new freeModel();
+
+var originModel = Class.create();
+originModel.prototype = {
+    initialize : function()
+    {
+        this.reload = false;
+        this.loader = new varienLoader(true);
+        this.regionsUrl = 'http://magento-sergey.kiev-dev:80/directory/json/childRegion/';
+
+        this.bindCountryRegionRelation();
+    },
+    bindCountryRegionRelation : function(parentId)
+    {
+        if(parentId) {
+            // todo: fix bug in IE
+            var countryElements = $$('#'+parentId+' .countries');
         } else {
-            document.getElementById('carriers_dhl_cutoff_cost').disabled = false;
+            var countryElements = $$('.countries');
         }
-    }
-    if (document.getElementById('carriers_fedex_free_method')) {
-        if (document.getElementById('carriers_fedex_free_method').value == '') {
-            document.getElementById('carriers_fedex_cutoff_cost').disabled = true;
-        } else {
-            document.getElementById('carriers_fedex_cutoff_cost').disabled = false;
+        for(var i in countryElements) {
+            Event.observe(countryElements[i], 'change', this.reloadRegionField.bind(this));
+            this.initRegionField(countryElements[i]);
         }
-    }
-    if (document.getElementById('carriers_ups_free_method')) {
-        if (document.getElementById('carriers_ups_free_method').value == '') {
-            document.getElementById('carriers_ups_cutoff_cost').disabled = true;
-        } else {
-            document.getElementById('carriers_ups_cutoff_cost').disabled = false;
+    },
+    initRegionField : function(element)
+    {
+        var countryElement = element;
+        if (countryElement && countryElement.id) {
+            var regionElement  = $(countryElement.id.replace(/country_id/, 'region_id'));
+            if (regionElement) {
+                this.regionElement = regionElement;
+                var url = this.regionsUrl+'parent/'+countryElement.value;
+                this.loader.load(url, {}, this.refreshRegionField.bind(this));
+            }
         }
-    }
-    if (document.getElementById('carriers_usps_free_method')) {
-        if (document.getElementById('carriers_usps_free_method').value == '') {
-            document.getElementById('carriers_usps_cutoff_cost').disabled = true;
-        } else {
-            document.getElementById('carriers_usps_cutoff_cost').disabled = false;
+    },
+    reloadRegionField : function(event)
+    {
+        this.reload = true;
+        var countryElement = Event.element(event);
+        if (countryElement && countryElement.id) {
+            var regionElement  = $(countryElement.id.replace(/country_id/, 'region_id'));
+            if (regionElement) {
+                this.regionElement = regionElement;
+                var url = this.regionsUrl+'parent/'+countryElement.value;
+                this.loader.load(url, {}, this.refreshRegionField.bind(this));
+            }
+        }
+    },
+    refreshRegionField : function(serverResponse)
+    {
+        if (serverResponse) {
+            var data = eval('(' + serverResponse + ')');
+            var value = this.regionElement.value;
+            if (data.length) {
+                var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry select" title="'+this.regionElement.title+'">';
+                for (var i in data) {
+                    if(data[i].label) {
+                        html+= '<option value="'+data[i].value+'"';
+                        if(this.regionElement.value && (this.regionElement.value == data[i].value || this.regionElement.value == data[i].label)) {
+                            html+= ' selected';
+                        }
+                        html+='>'+data[i].label+'</option>';
+                    }
+                }
+                html+= '</select>';
+                new Insertion.Before(this.regionElement, html);
+                Element.remove(this.regionElement);
+            } else if (this.reload) {
+                var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="input-text" title="'+this.regionElement.title+'">';
+                new Insertion.Before(this.regionElement, html);
+                Element.remove(this.regionElement);
+            }
         }
     }
 }
+
+originAddress = new originModel();
+
 </script>
