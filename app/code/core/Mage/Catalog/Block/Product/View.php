@@ -7,7 +7,7 @@
  * @module     Catalog
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstract
 {
 
     protected function _construct()
@@ -22,7 +22,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
                 $headBlock->setTitle($title);
             }
             else {
-                $headBlock->setTitle($this->getProduct()->getName());
+                $headBlock->setTitle($title . ' - ' . $this->getProduct()->getName());
             }
             if ($keyword = $this->getProduct()->getMetaKeyword()) {
                 $headBlock->setKeywords($keyword);
@@ -32,14 +32,17 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
             }            
         }
         
-        /*$head = $this->getLayout()->getBlock('head');
-        $title = $head->getTitle();
-        if ($category = $product->getCategory()) {
-        	$title = ($category->getMetaTitle() ? $category->getMetaTitle() : $category->getName()).' - '.$title;
+        if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+            $breadcrumbsBlock->addCrumb('home',
+                array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
+            );
+            /*$breadcrumbsBlock->addCrumb('category',
+                array('label'=>$product->getCategoryName(), 'title'=>'', 'link'=>$product->getCategoryUrl())
+            );*/
+            $breadcrumbsBlock->addCrumb('product',
+                array('label'=>$this->getProduct()->getName())
+            );
         }
-        $title = ($product->getMetaTitle() ? $product->getMetaTitle() : $product->getName()).' - '.$title;
-        $head->setTitle($title);*/
-        
     }
     
     protected function _beforeToHtml()
@@ -75,29 +78,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
 			->addAttributeToSort('position', 'asc')
 			->useProductItem();
 
-        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
-        $breadcrumbs->addCrumb('home',
-            array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
-        );
-        /*$breadcrumbs->addCrumb('category',
-            array('label'=>$product->getCategoryName(), 'title'=>'', 'link'=>$product->getCategoryUrl())
-        );*/
-        $breadcrumbs->addCrumb('product',
-            array('label'=>$product->getName())
-        );
-
-        $this->assign('product', $product);
-        $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
-
-        $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$product->getId())));
-        $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$product->getId())));
+        
         $this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
         $this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
-
         $this->setChild('tagList', $this->getLayout()->createBlock('tag/product_list'));
-
-        $this->assign('reviewCount', $this->getLayout()->getBlock('review_list')->count());
-
         return $this;
     }
 

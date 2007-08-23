@@ -37,10 +37,7 @@
 				$item->save();
 			}
 		}
-		$this->loadLayout();
-		$this->getResponse()->setBody(
-			$this->getLayout()->getBlock('catalog.compare.sidebar')->toHtml()
-		);
+		$this->_redirectToReferer();
 	}
 	
 	public function removeAction()

@@ -6,11 +6,12 @@
  */
 ?>
 <?=$this->getMessagesBlock()->getHtml()?>
+<?$_product=$this->getProduct()?>
 <div class="product-info-box">
 	<div class="product-essential">
 		<div class="product-img-box">
 			<p class="main-product-img">
-				<img id="image" src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>"/>
+				<img id="image" src="<?=$_product->getImageUrl()?>" alt="<?=$_product->getName()?>"/>
 			</p>
 			<div class="image-zoom" id="track_outer">
                 <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="Zoom out" class="btn-zoom-out"/>
@@ -40,17 +41,17 @@
 	   <?endif;?>
 	   </div>
 	   <div class="product-shop">
-	   <h3 class="product-name"><?=$product->getName()?></h3>
-            <?=$this->getHelper('review/helper')->getSummaryHtml($product, null, 1)?>
+	   <h3 class="product-name"><?=$_product->getName()?></h3>
+            <?=$this->getHelper('review/helper')->getSummaryHtml($_product, null, 1)?>
             <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
-            <input type="hidden" name="product" value="<?=$product->getId()?>">
+            <input type="hidden" name="product" value="<?=$_product->getId()?>">
             <input type="hidden" name="related_product" id="related-products-field" value="">
             
-            <?if($product->isBundle()):?>
+            <?if($_product->isBundle()):?>
                 <div class="product-attributes">
-                <?if($product->isAviableBundle()):?>
+                <?if($_product->isAviableBundle()):?>
                     <table cellspacing="0" id="bundle-price-table">
-                    <?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
+                    <?foreach($_product->getBundleOptionCollection() as $_bundleOption):?>
                         <tr>
                             <td class="label"><?=$_bundleOption->getLabel()?>:</td>
                             <td>
@@ -76,92 +77,89 @@
                 <?endif;?>
                 </div>
                 
-            <?elseif($product->isSuperConfig()):?>
+            <?elseif($_product->isSuperConfig()):?>
                 <?=$this->getChildHtml('super_config')?>
             <?endif;?>
 
-            <?if($product->getTierPriceCount()>1):?>
+            <?if($_product->getTierPriceCount()>1):?>
                 <div class="product-pricing">
                     <ul class="bare">
-                    <?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
+                    <?foreach($_prices=$_product->getFormatedTierPrice() as $_price):?>
                         <li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
                     <?endforeach?>
                     </ul>
                 </div>
             <?endif;?>
             
-            <?if($product->isSuperGroup()):?>
+            <?if($_product->isSuperGroup()):?>
                 <?=$this->getChildHtml('super_group')?>
             <?endif;?>
             
-            <?if(!$product->isSuperGroup()):?>
-                <?if(!$product->isBundle() || $product->isAviableBundle()):?>
+            <?if(!$_product->isSuperGroup()):?>
+                <?if(!$_product->isBundle() || $_product->isAviableBundle()):?>
                     <p><small>Availability: In stock. Ships within 24hours.</small></p>
-                    <?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
+                    <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
                     <fieldset class="add-to-cart-box">
                         <legend>Add items to cart </legend>
-                        <span class="qty-box"><label for="qty">Qty:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
-                        <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
+                        <span class="qty-box"><label for="qty">Qty:</label> 
+                        <input name="qty" type="text" class="input-text qty" id="qty"/></span>
+                        <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button>
+                        <strong>OR</strong>
                     </fieldset>
                     <div class="add-to-box">
-                        <a href="<?=$wishlistLink?>">Add to Wishlist</a>
-                        <?if($this->getCompareJsObjectName()):?><br/>
-                            <a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-                        <?endif;?>
+                        <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a><br/>
+                        <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
                     </div>
                 <?else:?>
                     <p><small>Availability: Out of stock.</small></p>
-                    <p><a href="<?=$wishlistLink?>">Add to Wishlist</a><br/>
-                    <?if($this->getCompareJsObjectName()):?>
-                        <a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-                    <?endif;?>
+                    <p>
+                        <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a> <br/>
+                        <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
                     </p>
                 <?endif;?>
             <?else:?>
                 <p><small>Availability: In stock. Ships within 24hours.</small></p>
-                    <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
-                    &nbsp;&nbsp;<a href="<?=$wishlistLink?>">Add to Wishlist</a>
-                    <?if($this->getCompareJsObjectName()):?>
-                        <span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=__('Add to Compare')?></a>
-                    <?endif;?>
+                <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
+                &nbsp;&nbsp;
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a>
+                <span class="pipe">|</span>
+                <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
             <?endif;?>
-        </form>
-		<script type="text/javascript">
-			var productAddToCartForm = new VarienForm('product_addtocart_form');
-			productAddToCartForm.submit = function() {
-				if(this.validator.validate()) {
-					this.form.submit();
-				}
-			}.bind(productAddToCartForm);
-		</script>
-		<div class="clear"></div>
-		<div class="divider"></div>
+            </form>
+    		<script type="text/javascript">
+    			var productAddToCartForm = new VarienForm('product_addtocart_form');
+    			productAddToCartForm.submit = function() {
+    				if(this.validator.validate()) {
+    					this.form.submit();
+    				}
+    			}.bind(productAddToCartForm);
+    		</script>
+            <div class="clear"></div>
+            <div class="divider"></div>
 		</div>
-		</div>
-		<div class="product-collateral">
-            <div class="collateral-box">
-			    <h4>Product Description</h4>
-			    <div class="product-specs"><?=$product->getDescription()?></div>
-            </div>
-			<?if($_additional = $this->getAdditionalData()):?>
-			<div class="collateral-box attribute-specs">
-				<div class="head">
-					<h4>Product Attribute Specs</h4>
-				</div>
-				<table cellspacing="0" class="data-table" id="product-attribute-specs-table">
-				<?foreach ($_additional as $_data):?>
-				<tr>
-					<td class="label"><?=$_data['label']?></td>
-					<td class="data"><?=$_data['value']?></td>
-				</tr>
-				<?endforeach;?>
-				</table>
-				<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
+    </div>
+
+	<div class="product-collateral">
+        <div class="collateral-box">
+		    <h4>Product Description</h4>
+		    <div class="product-specs"><?=$_product->getDescription()?></div>
+        </div>
+		<?if($_additional = $this->getAdditionalData()):?>
+		<div class="collateral-box attribute-specs">
+			<div class="head">
+				<h4>Product Attribute Specs</h4>
 			</div>
-			<?endif;?>
-		<?=$this->getChildHtml('tagList')?>
-		<div class="collateral-box" id="customer-reviews">
-		<?=$this->getChildHtml('reviewList')?>
+			<table cellspacing="0" class="data-table" id="product-attribute-specs-table">
+			<?foreach ($_additional as $_data):?>
+			<tr>
+				<td class="label"><?=$_data['label']?></td>
+				<td class="data"><?=$_data['value']?></td>
+			</tr>
+			<?endforeach;?>
+			</table>
+			<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
 		</div>
+		<?endif;?>
+		<?=$this->getChildHtml('additional')?>
 	</div>
 </div>

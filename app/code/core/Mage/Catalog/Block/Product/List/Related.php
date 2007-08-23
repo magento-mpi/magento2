@@ -18,6 +18,7 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('thumbnail')
 			->addAttributeToSort('position', 'asc')
 			->useProductItem()
 			->load();

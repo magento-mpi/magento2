@@ -734,7 +734,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getThumbnailUrl()
     {
-        //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
         $url = false;
         if ($attribute = $this->getResource()->getAttribute('thumbnail')) {
             $url = $attribute->getFrontend()->getUrl($this);

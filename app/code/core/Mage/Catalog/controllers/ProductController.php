@@ -30,27 +30,26 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('tag/session');
         $this->renderLayout();
     }
 
-    public function superConfigAction()
+    /*public function superConfigAction()
     {
     	$this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('catalog/product_view_super_config')->toHtml()
         );
-    }
+    }*/
 
-    public function priceAction()
+    /*public function priceAction()
     {
     	$this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('catalog/product_view_price')->toHtml()
         );
-    }
+    }*/
 
     public function galleryAction()
     {
