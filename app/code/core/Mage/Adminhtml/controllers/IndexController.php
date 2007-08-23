@@ -30,9 +30,15 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function loginAction()
     {
-        $data = array(
-            'username'=>$this->getRequest()->getParam('username')
-        );
+        $loginData = $this->getRequest()->getParam('login');
+        $data = array();
+
+        if( is_array($loginData) && array_key_exists('username', $loginData) ) {
+            $data['username'] = $loginData['username'];
+        } else {
+            $data['username'] = null;
+        }
+
         $this->_outTemplate('login', $data);
     }
 
