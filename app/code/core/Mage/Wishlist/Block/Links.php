@@ -17,11 +17,11 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
     {
         $count = $this->getWishlistItems()->getSize();
         if( $count > 1 ) {
-            $text = __('Wishlist (%d items)', $count);
+            $text = __('Your Wishlist (%d items)', $count);
         } elseif( $count == 1 ) {
-            $text = __('Wishlist (%d item)', $count);
+            $text = __('Your Wishlist (%d item)', $count);
         } else {
-            $text = __('Wishlist');
+            $text = __('Your Wishlist');
         }
 
         $this->getParentBlock()->addLink(null, 'href="'.Mage::getUrl('wishlist').'"', $text);
