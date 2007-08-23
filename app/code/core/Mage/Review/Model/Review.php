@@ -60,9 +60,9 @@ class Mage_Review_Model_Review extends Varien_Object
         return Mage::getResourceModel('review/review_status_collection');
     }
 
-    public function getTotalReviews($entityPkValue)
+    public function getTotalReviews($entityPkValue, $approvedOnly=false)
     {
-        return $this->getResource()->getTotalReviews($entityPkValue);
+        return $this->getResource()->getTotalReviews($entityPkValue, $approvedOnly);
     }
 
     public function aggregate()

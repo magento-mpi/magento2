@@ -163,7 +163,11 @@ class Mage_Review_Model_Mysql4_Review
 
         $ratingModel = Mage::getModel('rating/rating');
         $ratingSummary = $ratingModel->getEntitySummary($object->getEntityPkValue());
-        $ratingSummary = round($ratingSummary->getSum() / $ratingSummary->getCount());
+        if( $ratingSummary->getCount() ) {
+            $ratingSummary = round($ratingSummary->getSum() / $ratingSummary->getCount());
+        } else {
+            $ratingSummary = $ratingSummary->getSum();
+        }
         $reviewsCount = $this->getTotalReviews($object->getEntityPkValue(), true);
 
         $select = $this->_read->select();

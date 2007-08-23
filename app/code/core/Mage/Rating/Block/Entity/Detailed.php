@@ -19,6 +19,16 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
     public function toHtml()
     {
         $entityId = Mage::registry('action')->getRequest()->getParam('id');
+        if( intval($entityId) <= 0 ) {
+            return '';
+        }
+
+        $reviewsCount = Mage::getModel('review/review')
+            ->getTotalReviews($entityId, true);
+        if( $reviewsCount == 0 ) {
+            return __('Be the first to review this product');
+        }
+
         $ratingCollection = Mage::getModel('rating/rating')
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX

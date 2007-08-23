@@ -7,6 +7,6 @@
 </div>
 <?endif;?>
 
-<?if( !$this->getProduct()->getRatingSummary()->getRatingSummary() && $this->getDisplayBlock() ):?>
+<?if( !$this->getProduct()->getRatingSummary()->getReviewsCount() && $this->getDisplayBlock() ):?>
     <p><a href="<?=$this->getAddLink()?>#review-form"><?=__('Be the first to review this product')?></a></p>
 <?endif;?>

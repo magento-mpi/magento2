@@ -24,7 +24,8 @@
 				<td class="label"><?=__($_rating->getRatingCode())?></td>
 			<?$_iterator = 1;?>
 			<?foreach ($_rating->getOptions() as $_option):?>
-				<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" <?if($_iterator == 5): $_iterator=0;?>class="validate-one-required-by-name"<?endif;?> name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>
+				<!--<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" <?if($_iterator == 5): $_iterator=0;?>class="validate-one-required-by-name"<?endif;?> name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>-->
+				<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>
 			<?$_iterator++?>
 			<?endforeach;?>
 			</tr>
@@ -32,6 +33,7 @@
 		<?endforeach;?>
 		</tbody>
 	</table>
+	<input type="hidden" name="validate_rating" class="validate-rating" value="" />
 	<script type="text/javascript">decorateTable('product-review-table')</script>
 	<?endif;?>
 
@@ -54,4 +56,35 @@
 </form>
 <script type="text/javascript">
 	var dataForm = new VarienForm('review-form');
+
+	Validation.addAllThese(
+    [
+	       ['validate-rating', 'Please select option above.', function(v) {
+                var trs = $('product-review-table').getElementsBySelector('tr');
+                var inputs;
+                var error = 1;
+
+                for( var j=0; j < trs.length; j++ ) {
+                    var tr = trs[j];
+                    if( j > 0 ) {
+                        inputs = tr.getElementsBySelector('input');
+
+                        for( i in inputs ) {
+                            if( inputs[i].checked == true ) {
+                                error = 0;
+                            }
+                        }
+
+                        if( error == 1 ) {
+                            console.log(tr)
+                            return false;
+                        } else {
+                            error = 1;
+                        }
+                    }
+                }
+                return true;
+            }]
+    ]
+    );
 </script>

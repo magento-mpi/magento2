@@ -1,6 +1,6 @@
 <?if( $this->getRating() && $this->getRating()->getSize()):?>
     <div style="width:600px;">
-	<table cellspacing="0" border="0" class="data-table product-review-box">
+	<table cellspacing="0" border="0" class="data-table product-review-box" id="product-review-table">
 		<thead>
 			<tr>
 				<th>&nbsp;</th>
@@ -19,7 +19,7 @@
 			<?$_iterator = 1;?>
 			<?$_options = ( $_rating->getRatingOptions() ) ? $_rating->getRatingOptions() : $_rating->getOptions()?>
 		    <?foreach ($_options as $_option):?>
-				<td style="width:60px;" <?if($_iterator == 5):?>class="last"<?endif;?>><input type="radio" class="validate-one-required-by-name" name="ratings[<?=( $_rating->getVoteId() ) ? $_rating->getVoteId() : $_rating->getId() ?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>" <?if( $_option->getId() == $_rating->getOptionId() ):?>checked="true"<?endif;?> /></td>
+				<td style="width:60px;" <?if($_iterator == 5):?>class="last"<?endif;?>><input type="radio" name="ratings[<?=( $_rating->getVoteId() ) ? $_rating->getVoteId() : $_rating->getId() ?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>" <?if( $_option->getId() == $_rating->getOptionId() ):?>checked="true"<?endif;?> /></td>
             <?$_iterator++?>
 			<?endforeach;?>
 			</tr>
@@ -27,7 +27,40 @@
 		<?endforeach;?>
 		</tbody>
 	</table>
+	<input type="hidden" name="validate_rating" class="validate-rating" value="" />
     </div>
+<script type="text/javascript">
+	Validation.addAllThese(
+    [
+	       ['validate-rating', 'Please select option above.', function(v) {
+                var trs = $('product-review-table').getElementsBySelector('tr');
+                var inputs;
+                var error = 1;
+
+                for( var j=0; j < trs.length; j++ ) {
+                    var tr = trs[j];
+                    if( j > 0 ) {
+                        inputs = tr.getElementsBySelector('input');
+
+                        for( i in inputs ) {
+                            if( inputs[i].checked == true ) {
+                                error = 0;
+                            }
+                        }
+
+                        if( error == 1 ) {
+                            console.log(tr)
+                            return false;
+                        } else {
+                            error = 1;
+                        }
+                    }
+                }
+                return true;
+            }]
+    ]
+    );
+</script>
 <?else:?>
     <?=__('Rating Not Alvaliable')?>
 <?endif;?>
