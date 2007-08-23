@@ -139,11 +139,10 @@
         </tfoot>
     </table>
     <ul class="checkout-types">
-        <li><a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="Proceed to Checkout"/></a></li>
-        <li><a href="<?=$this->getMultiShippingUrl()?>"><big>Checkout with Multiple Addresses</big></a></li>
+        <li><a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=__('Proceed to Checkout')?>"/></a></li>
+        <li><a href="<?=$this->getMultiShippingUrl()?>"><big><?=__('Checkout with Multiple Addresses')?></big></a></li>
 
-        <li><a href="<?=$this->getPaypalUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_paypal_checkout.gif')?>" alt="Paypal Checkout"/></a></li>
-        <li><a href="<?=$this->getGoogleUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_google_checkout.gif')?>" alt="Google Checkout"/></a></li>
+        <li><a href="<?=$this->getPaypalUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_paypal_checkout.gif')?>" alt="<?=__('Paypal Checkout')?>"/></a></li>
     </ul>
 </div>
 <div class="clear"></div>
