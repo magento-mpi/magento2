@@ -545,8 +545,7 @@ h1#logo {
 
 .link-cart { color:#DC6809 !important; font-weight:bold !important;}
 .link-remove { color:#646464 !important;}
-
-
+.link-print { background:url(../images/icon_printer.gif) no-repeat 0 2px; padding-left:23px; }
 
 
 
@@ -1025,32 +1024,28 @@ p.grand_total { padding-right:15px; }
 
 /* Compare Products */
 .compare-products { margin:30px 0 50px 0; }
-.compare-products table { border:0; }
+.compare-products table { width:auto;  border:0; }
 .compare-products tr { background:#EEEDED;}
-.compare-products td { text-align:center; }
-.compare-products tr.first td { border-top:1px solid #D9DDE3;}
-.compare-products td.last {  border-right:1px solid #D9DDE3; }
-.compare-products td.label {
-    border-bottom:1px solid #C2D3E0;
+.compare-products td { width:170px; text-align:left; }
+.compare-products tbody td { border-color:#ccc; }
+.compare-products tbody tr.first td { border-top:1px solid #D9DDE3; text-align:center; }
+.compare-products tbody td.last {  border-right:1px solid #D9DDE3; }
+.compare-products tbody.attribute-cart td { background:#f8f8e5 !important; text-align:center; }
+.compare-products tbody td.label {
+    border-bottom:1px solid #9eb8cb;
     border-left:1px solid #BEBCB7;
-    background:url(../images/table_label_bg.gif) repeat-y 100% 0 #D9E5EE ;
+    background:url(../images/comparison_table_label_bg.gif) repeat-y 100% 0 #D9E5EE !important;
     text-align:left;
     }
-.compare-products .price-box { color:#5F8A58; font-size:1.15em; }
-tbody.attribute-cart td {
-    background:#DEE5E8 !important;
-    border-bottom:none !important;
-    }
-.compare-products .ratings { text-align:left; }
-tbody.remove-buttons tr { background:#fff; }
-tbody.remove-buttons td {
+.compare-products tbody.remove-buttons tr {  background:#fff;  }
+.compare-products tbody.remove-buttons td {
     border:none;
     padding:0;
     text-align:right;
     font-size:0;
     line-height:0;
     }
-tbody.remove-buttons td img { float:right; }
+.compare-products tbody.remove-buttons td img { float:right; }
 
 /* Customer Reviews */
 .my-review-detail .product-image { float:left; width:135px; }

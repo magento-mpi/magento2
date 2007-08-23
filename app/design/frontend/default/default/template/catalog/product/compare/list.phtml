@@ -1,10 +1,10 @@
 <div class="page-head button-level">
 	<h3><?=__('Compare Products')?></h3>
-	<button class="form-button-alt" onclick="setLocation('<?=$this->getPrintUrl()?>')"><span><?=__('Print')?></span></button>
+	<a href="#" class="link-print right" onclick="setLocation('<?=$this->getPrintUrl()?>')"><?=__('Print this page')?></a>
 </div>
 <?$_total=count($this->getItems())?>
 <div class="compare-products">
-<table cellspacing="0" class="data-table box-table">
+<table cellspacing="0" class="data-table box-table catalog-listing">
 	<tbody class="remove-buttons">
 		<tr>
 			<?$_i=0?>
@@ -30,7 +30,7 @@
             <?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
             <td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
                 <a href="<?=$_item->getProductUrl()?>" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
-                <h4><a href="<?=$_item->getProductUrl()?>" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h4>
+                <h5><a href="<?=$_item->getProductUrl()?>" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
                 <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
                 <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
                     <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
@@ -95,4 +95,7 @@
 		</tr>
 	</tbody>
 </table>
+<div class="form-buttons">
+    <button class="form-button" onclick="window.close();"><span>Close Window</span></button>
+</div>
 </div>
