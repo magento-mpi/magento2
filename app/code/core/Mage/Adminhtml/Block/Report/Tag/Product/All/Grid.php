@@ -40,13 +40,13 @@ class Mage_Adminhtml_Block_Report_Tag_Product_All_Grid extends Mage_Adminhtml_Bl
         
         $this->addColumn('name', array(
             'header'    =>__('Product Name'),
-            'width'     =>'200px',
             'index'     =>'name'
         ));    
         
         $this->addColumn('taged', array(
             'header'    =>__('Number of Total Tags'),
             'width'     =>'40px',
+            'align'     =>'right',
             'index'     =>'taged'
         ));
          
