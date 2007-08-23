@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'options'   => array(
         		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
         		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancelled'),
-        		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Never Sent'),
+        		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
         		Mage_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
         		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
             ),
