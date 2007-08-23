@@ -10,7 +10,7 @@
     <label for="select-store">Select store: </label>
     <select name="" id="select-store" onchange="setLocation(this.value)">
     <?foreach ($this->getStores() as $_store):?>
-        <option value="<?=$_store->getUrl('/')?>"<?if($_store->getId()==$this->getCurrentStoreId()):?> selected<?endif;?>><?=$_store->getName()?></option>
+        <option value="<?=$_store->getUrl('/')?>"<?if($_store->getId()==$this->getCurrentStoreId()):?> selected="selected"<?endif;?>><?=$_store->getName()?></option>
     <?endforeach;?>
     </select>
 </fieldset>
