@@ -12,7 +12,7 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
 {
     /**
      * Array of toplinks
-     * 
+     *
      * array(
      *  [$index] => array(
      *                  ['liParams']
@@ -28,13 +28,13 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
      * @var array
      */
     protected $_toplinks = array();
-    
+
     function __construct()
     {
     	parent::__construct();
     	$this->setTemplate('page/html/top.links.phtml');
     }
-    
+
     function addLink($liParams, $aParams, $innerText, $beforeText='', $afterText='')
     {
         $params = '';

@@ -1,5 +1,6 @@
 <?if($toplinks && is_array($toplinks)): ?>
 <ul>
+    <?=$this->getChildHtml()?>
     <?foreach($toplinks as $_toplink):?>
     <li<?if($_toplink['first']||$_toplink['last']):?> class="<?if($_toplink['first']):?>first <?endif;?><?if($_toplink['last']):?>last <?endif;?>"<?endif;?> <?=$_toplink['liParams']?>>        <?=$_toplink['beforeText']?><a <?=$_toplink['aParams']?>><?=$_toplink['innerText']?></a><?=$_toplink['afterText']?></li>
     <?endforeach;?>

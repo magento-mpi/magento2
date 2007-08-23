@@ -59,7 +59,7 @@
 
 	Validation.addAllThese(
     [
-	       ['validate-rating', 'Please select option above.', function(v) {
+	       ['validate-rating', '<?=__('Please select from each ratings above')?>', function(v) {
                 var trs = $('product-review-table').getElementsBySelector('tr');
                 var inputs;
                 var error = 1;

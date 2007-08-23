@@ -6,9 +6,15 @@
     </reference>
 -->
     <reference name="top.right.links">
-        <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}checkout/cart/"</a><label>My Cart</label></action>
-        <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}wishlist/"</a><label>My Wishlist</label></action>
-        <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}checkout/" class="checkout"</a><label>Checkout</label></action>
+        <block type="checkout/links" name="checkout_cart_link">
+            <action method="addCartLink"></action>
+        </block>
+        <block type="wishlist/links" name="wishlist_link">
+            <action method="addWishlistLink"></action>
+        </block>
+        <block type="checkout/links" name="checkout_link">
+            <action method="addCheckoutLink"></action>
+        </block>
     </reference>
     
     <reference name="right">

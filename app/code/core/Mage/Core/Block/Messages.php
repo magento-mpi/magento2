@@ -75,7 +75,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      * @param   string $type
      * @return  string
      */
-    public function getGroupedHtml()
+    public function getGroupedHtml($simple=false)
     {
         $types = array(
             Mage_Core_Model_Message::ERROR,
@@ -87,16 +87,24 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         foreach ($types as $type) {
             if ( $messages = $this->getMessages($type) ) {
                 if ( !$html ) {
-                    $html .= '<ul class="messages">';
+                    if( !$simple ) {
+                        $html .= '<ul class="messages">';
+                    }
                 }
-                $html .= '<li class="' . $type . '-msg"><ul>';
+                $html .= '<li class="' . $type . '-msg">';
+                if( !$simple ) {
+                    $html .= '<ul><li>';
+                }
                 foreach ( $messages as $message ) {
-                	$html.= '<li>' . $message->getText() . '</li>';
+                	$html.= $message->getText();
                 }
-                $html .= '</ul></li>';
+                if( !$simple ) {
+                    $html .= '</li></ul>';
+                }
+                $html .= '</li>';
             }
         }
-        if ( $html ) {
+        if ( $html && !$simple ) {
             $html .= '</ul>';
         }
         return $html;
