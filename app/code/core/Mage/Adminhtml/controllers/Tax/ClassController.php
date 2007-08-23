@@ -23,7 +23,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                     $classType = $class->getClassType();
                     $classTypeString = strtolower($class->getClassType());
                     Mage::getSingleton('adminhtml/session')->addSuccess('Tax class successfully saved.');
-                    $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classTypeString}"));
+                    $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class_{$classTypeString}"));
                 } catch (Exception $e) {
                     if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                         $this->getResponse()->setRedirect($referer);
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             $class->delete();
 
             Mage::getSingleton('adminhtml/session')->addSuccess('Tax class successfully deleted.');
-            $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class_{$classTypeString}"));
+            $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class_{$classTypeString}"));
         } catch (Exception $e) {
             if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                 $this->getResponse()->setRedirect($referer);
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             $group = Mage::getModel('tax/class_group');
             $group->setGroupId($groupId);
             $group->delete();
-            $this->getResponse()->setRedirect(Mage::getUrl("adminhtml/tax_class/edit/classId/{$classId}/classType/{$classType}"));
+            $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class/edit/classId/{$classId}/classType/{$classType}"));
             Mage::getSingleton('adminhtml/session')->addSuccess('Group successfully deleted.');
         } catch (Exception $e) {
             if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
