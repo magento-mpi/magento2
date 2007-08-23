@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('is_filterable', array(
-            'header'=>__('Use In Layer Navigation'),
+            'header'=>__('Use In Layered Navigation'),
             'sortable'=>true,
             'index'=>'is_filterable',
             'type' => 'options',
