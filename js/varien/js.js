@@ -4,6 +4,14 @@ function setLocation(url){
     window.location.href = url;
 }
 
+function setPLocation(url, setFocus){
+    if( setFocus ) {
+        window.opener.focus();
+    }
+    window.opener.location.href = url;
+}
+
+
 function decorateTable(table){
     if($(table)){
         var allRows = $(table).getElementsBySelector('tr')

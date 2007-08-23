@@ -12,7 +12,7 @@
 			<?if($_i%10==0):?>
 			<td>&nbsp;</td>
 			<?endif;?>
-			<td><a href="<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=__('Remove')?>"/></a></td>
+			<td><a href="#" onclick="setPLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>', true)"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=__('Remove')?>"/></a></td>
 			<?$_i++?>
 			<?endforeach;?>
 		</tr>
@@ -29,12 +29,12 @@
             <?if($_i%2!=0):?><?$_className.='odd '?><?endif;?>
             <?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
             <td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
-                <a href="<?=$_item->getProductUrl()?>" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
-                <h5><a href="<?=$_item->getProductUrl()?>" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
+                <a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
+                <h5><a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
                 <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
                 <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-                    <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
-                    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>" class="link-cart"><small>Add to My Wishlist</small></a>
+                    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+                    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to My Wishlist</small></a>
             </td>
         <?endforeach;?>
 		</tr>
@@ -67,7 +67,7 @@
 				<?endif;?>
 						<?break;
 				}?>
-			</td>	
+			</td>
 			<?endforeach;?>
 		</tr>
 	<?endforeach;?>
@@ -85,9 +85,8 @@
 			<?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
 			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-				    
-					   <button class="form-button" onclick="top.location.href='<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>'"><span><?=__('Add to Cart')?></span></button><br/>
-					    <a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>" class="link-cart"><small>Add to Wishlist</small></a>
+					   <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+					   <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to Wishlist</small></a>
 			    </div>
 		    </div>
 			</td>
@@ -96,6 +95,6 @@
 	</tbody>
 </table>
 <div class="form-buttons">
-    <button class="form-button" onclick="window.close();"><span>Close Window</span></button>
+    <button class="form-button" onclick="window.close();window.opener.focus();"><span>Close Window</span></button>
 </div>
 </div>
