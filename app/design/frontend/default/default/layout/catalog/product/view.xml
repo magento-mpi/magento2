@@ -15,9 +15,7 @@
             <block type="catalog/product_view_super_group" name="product.super.group" as="super_group">
                 <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
             </block>
-            <block type="catalog/product_view_price" name="product.info.price" as="price">
-                <action method="setTemplate"><template>catalog/product/view/price.phtml</template></action>
-            </block>
+            <block type="core/text_list" name="product.info.additional" as="additional" />
         </block>
     </reference>
     <reference name="right">
