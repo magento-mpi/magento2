@@ -469,7 +469,7 @@ select.countries option { background-repeat:no-repeat; }
     border-left:dotted 1px #888;
     }
 
-.rule-param .label { font-weight:bold; color:black; }
+.rule-param .label { font-weight:bold; color:black;}
 .rule-param .label:hover { font-weight:bold; color:blue; }
 .rule-param .element { display:none; }
 .rule-param input, .rule-param select { width:auto !important; }

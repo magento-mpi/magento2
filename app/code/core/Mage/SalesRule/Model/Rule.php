@@ -2,6 +2,9 @@
 
 class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 {
+	const FREE_SHIPPING_ITEM = 1;
+	const FREE_SHIPPING_ADDRESS = 2;
+	
     protected function _construct()
     {
         parent::_construct();

@@ -23,6 +23,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			throw Mage::exception('Mage_SalesRule', 'Invalid item entity');
 		}
 
+		$item->setFreeShipping(false);
 		$item->setDiscountAmount(0);
 		$item->setDiscountPercent(0);
 		
@@ -61,8 +62,15 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			$discountAmount = min($discountAmount, $item->getRowTotal());
 			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
 			
-			if ($rule->getSimpleFreeShipping()) {
-				$item->setWeight(0);
+			switch ($rule->getSimpleFreeShipping()) {
+				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM:
+					$item->setFreeShipping(true);
+					break;
+					
+				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS:
+					$item->getAddress()->setFreeShipping(true);
+					break;
+				}
 			}
 			
 			$appliedRuleIds[$rule->getRuleId()] = true;

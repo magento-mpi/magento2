@@ -220,14 +220,16 @@ abstract class Mage_Rule_Model_Condition_Abstract
     
     public function getAddLinkHtml()
     {
-    	$html = '<span class="rule-param-add">[+]</span>';
+    	$src = Mage::getDesign()->getSkinUrl('images/rule_component_add.gif');
+    	$html = '<img src="'.$src.'" align="absmiddle" class="rule-param-add"/>';
         return $html;
     }
 
     
     public function getRemoveLinkHtml()
     {
-        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove">[x]</a></span>';
+    	$src = Mage::getDesign()->getSkinUrl('images/rule_component_remove.gif');
+        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove"><img src="'.$src.'" align="absmiddle"/></a></span>';
         return $html;
     }
     
@@ -262,15 +264,15 @@ abstract class Mage_Rule_Model_Condition_Abstract
         
         switch ($op) {
             case '==': case '!=':
-                $result = $this->getValue()==$validatedValue;
+                $result = $validatedValue==$this->getValue();
                 break;
 
             case '<=': case '>':
-                $result = $this->getValue()<=$validatedValue;
+                $result = $validatedValue<=$this->getValue();
                 break;
                 
             case '>=': case '<':
-                $result = $this->getValue()>=$validatedValue;
+                $result = $validatedValue>=$this->getValue();
                 break;
                 
             case '{}': case '!{}':
