@@ -18,11 +18,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($customerId) {
             $customer->load($customerId);
         }
-        
-        Mage::register('current_customer', $customer);        
+
+        Mage::register('current_customer', $customer);
         return $this;
     }
-    
+
     /**
      * Customers list action
      */
@@ -67,9 +67,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         $this->loadLayout('baseframe');
-        
+
         $customer = Mage::registry('current_customer');
-        
+
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getCustomerData(true);
 
@@ -121,7 +121,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         $customer = Mage::registry('current_customer');
-        if ($$customer->getId()) {
+        if ($customer->getId()) {
             try {
                 $customer->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Customer was deleted');
@@ -141,7 +141,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($data = $this->getRequest()->getPost()) {
             $this->_initCustomer('customer_id');
             $customer = Mage::registry('current_customer');
-        	
+
             // Prepare customer saving data
             if (isset($data['account'])) {
                 $customer->addData($data['account']);
@@ -262,7 +262,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->_initCustomer();
         $subscriber = Mage::getModel('newsletter/subscriber')
             ->loadByCustomer(Mage::registry('current_customer'));
-        
+
         Mage::register('subscriber', $subscriber);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid')->toHtml());
     }
@@ -284,7 +284,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
     }
-    
+
     public function cartAction()
     {
         $this->_initCustomer();
