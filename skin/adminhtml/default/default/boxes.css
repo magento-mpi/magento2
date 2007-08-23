@@ -28,16 +28,12 @@
 
 /* Box */ /* Sets the color for prominent box-elements */
 .box, .address-list li.on, .address-list li.on.over, .entry-edit fieldset {
-    /*border:1px solid #c8d0d1 !important;
-    background:url(images/box_bg.gif) repeat-x #f9feff;*/
-
     border:1px solid #ccc !important;
     background:#f8f8f8;
     }
 
-
 /******************************************/
-/***************** BOXES ******************/
+/*************** STRUCTURE ****************/
 /******************************************/
 
 /* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
@@ -71,10 +67,6 @@
         background:url(images/simple_container_bg.gif) repeat-x;
     }
 .simple-container-left { padding:2em 0 0 0; }
-/*.main {
-    float:left;
-    width:100%;
-    } */
 .section-menu {
     float:left;
     position:relative;
@@ -467,7 +459,7 @@ img.attribute-global {
 .login-form .form-buttons { margin-top:15px; text-align:right;}
 .login-box .bottom { background:url(images/login_box_bottom.jpg) no-repeat; width:581px; height:5px; position:absolute; bottom:0; right:0; overflow:hidden;}
 .login-container .legal { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 10px 8px; font-size:.95em; }
-
+#page-login .error-msg { border-width:1px; padding:5px 8px; background-image:url(images/fam_bullet_error.gif); background-repeat:no-repeat; background-position:8px 8px;}
 
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 

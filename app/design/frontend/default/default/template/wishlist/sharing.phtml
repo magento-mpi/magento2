@@ -1,23 +1,20 @@
-<?=$this->getMessagesBlock()->getHtml()?>
-<form action="<?=$this->getSendUrl()?>" id="form-validate" method="POST">
-	 <fieldset class="group-select">
-     <legend><?=__('Sharing Information')?></legend>
-        <h3><?=__('Sharing Information')?></h3>
-        <ul>
+<div class="page-head">
+    <h3>Share Your Wishlist</h3>
+</div><?=$this->getMessagesBlock()->getHtml()?>
+<form action="<?=$this->getSendUrl()?>" id="form-validate" method="post">
+        <ul class="form-list">
             <li>
                 <label for="email_address"><?=__('Email Addresses, separated by comma')?> <span class="required">*</span></label><br/>
-                <textarea name="email" class="validate-emails required-entry input-text"><?=$this->getEnteredData('email')?></textarea>
+                <textarea name="email" class="validate-emails required-entry"><?=$this->getEnteredData('email')?></textarea>
             </li>
             <li>
                 <label for="email_address"><?=__('Message')?></label><br/>
-                <textarea name="message" class="input-text"><?=$this->getEnteredData('message')?></textarea>
+                <textarea name="message"><?=$this->getEnteredData('message')?></textarea>
             </li>
         </ul>
-
-    </fieldset>
-    <div class="buttons-container">
+    <div class="form-buttons">
             <p class="required"><?=__('* Required Fields')?></p>
-            <input type="submit" class="input-button" value="<?=__('Share Wishlist')?>"/>
+            <button type="submit" class="form-button"><span><?=__('Share Wishlist')?></span></button>
     </div>
 </form>
 <script type="text/javascript">
