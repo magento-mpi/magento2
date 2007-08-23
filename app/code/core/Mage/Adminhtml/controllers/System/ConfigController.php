@@ -59,14 +59,17 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function exportTableratesAction()
     {
+        $websiteModel = Mage::getModel('core/website')->load($this->getRequest()->getParam('website'));
+        $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
+
         $tableratesCollection = Mage::getResourceModel('shipping/carrier_tablerate_collection');
-        $tableratesCollection->setConditionFilter(Mage::getStoreConfig('carriers/tablerate/condition_name'));
-        $tableratesCollection->setWebsiteFilter(Mage::getModel('core/website')->load($this->getRequest()->getParam('website'))->getId());
+        $tableratesCollection->setConditionFilter($conditionName);
+        $tableratesCollection->setWebsiteFilter($websiteModel->getId());
         $tableratesCollection->load();
 
         $csv = '';                                            
-
-        $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', Mage::getStoreConfig('carriers/tablerate/condition_name'));
+        
+        $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
         
         $csvHeader = array('"Country"', '"Region/State"', '"Zip"', '"'.$conditionName.'"', '"Shipping Price"');
         $csv .= implode(',', $csvHeader)."\n";

@@ -58,7 +58,7 @@ originModel.prototype = {
     {
         this.reload = false;
         this.loader = new varienLoader(true);
-        this.regionsUrl = 'http://magento-sergey.kiev-dev:80/directory/json/childRegion/';
+        this.regionsUrl = '<?=Mage::getUrl('directory/json/childRegion')?>';
 
         this.bindCountryRegionRelation();
     },

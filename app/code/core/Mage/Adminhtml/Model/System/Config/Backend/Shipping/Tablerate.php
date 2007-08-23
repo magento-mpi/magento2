@@ -61,69 +61,110 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
         $csvFile = $_FILES["groups"]["tmp_name"]["tablerate"]["fields"]["import"]["value"];
         
         if (!empty($csvFile)) {
-        
+
             $csv = trim(file_get_contents($csvFile));
 
-    	    $websiteId = $object->getScopeId();
             $table = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
-            
-            $connection = $this->getConnection('write');
 
-    	    $condition = array(
-                $connection->quoteInto('website_id = ?', $websiteId),
-    		    $connection->quoteInto('condition_name = ?', Mage::getStoreConfig('carriers/tablerate/condition_name')),
-    	    );
-    	    $connection->delete($table, $condition);
+    	    $websiteId = $object->getScopeId();
+            $websiteModel = Mage::getModel('core/website')->load($websiteId);
+            $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
+            $conditionFullName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
 
-            $exceptions = array();
             if (!empty($csv)) {
+                $exceptions = array();
                 $csvLines = explode("\n", $csv);
-                array_shift($csvLines);
+                $csvLine = array_shift($csvLines);
+                $csvLine = $this->_getCsvValues($csvLine);
+                if (count($csvLine) < 5) {
+                    $exceptions[0] = 'Invalid Table Rates File Format';
+                }
 
                 $countryCodes = array();
                 $regionCodes = array();
-                foreach ($csvLines as $csvLine) {
+                foreach ($csvLines as $k=>$csvLine) {
                     $csvLine = $this->_getCsvValues($csvLine);
-                    $countryCodes[] = $csvLine[0];
-                    $regionCodes[] = $csvLine[1];
+                    if (count($csvLine) > 0 && count($csvLine) < 5) {
+                        $exceptions[0] = 'Invalid Table Rates File Format';
+                    } else {
+                        $countryCodes[] = $csvLine[0];
+                        $regionCodes[] = $csvLine[1];
+                    }
                 }
 
-                $countryCollection = Mage::getResourceModel('directory/country_collection')->addCountryCodeFilter($countryCodes)->load();
-                foreach ($countryCollection->getItems() as $country) {
-                    $countryCodesToIds[$country->getData('iso3_code')] = $country->getData('country_id');
+                if (empty($exceptions)) {
+                    $data = array();
+                    $countryCodesToIds = array();
+                    $regionCodesToIds = array();
+
+                    $countryCollection = Mage::getResourceModel('directory/country_collection')->addCountryCodeFilter($countryCodes)->load();
+                    foreach ($countryCollection->getItems() as $country) {
+                        $countryCodesToIds[$country->getData('iso3_code')] = $country->getData('country_id');
+                    }
+
+                    $regionCollection = Mage::getResourceModel('directory/region_collection')->addRegionCodeFilter($regionCodes)->load();
+                    foreach ($regionCollection->getItems() as $region) {
+                        $regionCodesToIds[$region->getData('code')] = $region->getData('region_id');
+                    }
+
+                    foreach ($csvLines as $k=>$csvLine) {
+                        $csvLine = $this->_getCsvValues($csvLine);
+
+                        if (empty($countryCodesToIds) || !array_key_exists($csvLine[0], $countryCodesToIds)) {
+                            $countryId = '0';
+                            if ($csvLine[0] != '*' && $csvLine[0] != '') {
+                                $exceptions[] = 'Invalid Country "' . $csvLine[0] . '" in the Row #' . ($k+1);
+                            }
+                        } else {
+                            $countryId = $countryCodesToIds[$csvLine[0]];
+                        }
+
+                        if (empty($regionCodesToIds) || !array_key_exists($csvLine[1], $regionCodesToIds)) {
+                            $regionId = '0';
+                            if ($csvLine[1] != '*' && $csvLine[1] != '') {
+                                $exceptions[] = 'Invalid Region/State "' . $csvLine[1] . '" in the Row #' . ($k+1);
+                            }
+                        } else {
+                            $regionId = $regionCodesToIds[$csvLine[1]];
+                        }
+
+                        if ($csvLine[2] == '*' || $csvLine[2] == '') {
+                            $zip = '';
+                        } else {
+                            $zip = $csvLine[2];
+                        }
+                        
+                        if (!$this->_isPositiveDecimalNumber($csvLine[3]) || $csvLine[3] == '*' || $csvLine[3] == '') {
+                            $exceptions[] = 'Invalid ' . $conditionFullName . ' "' . $csvLine[3] . '" in the Row #' . ($k+1);
+                        } else {
+                            $csvLine[3] = (float)$csvLine[3];
+                        }
+
+                        if (!$this->_isPositiveDecimalNumber($csvLine[4])) {
+                            $exceptions[] = 'Invalid Shipping Price "' . $csvLine[4] . '" in the Row #' . ($k+1);
+                        } else {
+                            $csvLine[4] = (float)$csvLine[4];
+                        }
+
+                        $data[] = array('website_id'=>$websiteId, 'dest_country_id'=>$countryId, 'dest_region_id'=>$regionId, 'dest_zip'=>$zip, 'condition_name'=>$conditionName, 'condition_value'=>$csvLine[3], 'price'=>$csvLine[4]);
+                        $dataDetails[] = array('country'=>$csvLine[0], 'region'=>$csvLine[1]);
+                    }
                 }
+                if (empty($exceptions)) {
+                    $connection = $this->getConnection('write');
 
-                $regionCollection = Mage::getResourceModel('directory/region_collection')->addRegionCodeFilter($regionCodes)->load();
-                foreach ($regionCollection->getItems() as $region) {
-                    $regionCodesToIds[$region->getData('code')] = $region->getData('region_id');
-                }
-                
-                foreach ($csvLines as $csvLine) {
-                    $csvLine = $this->_getCsvValues($csvLine);
+    	            $condition = array(
+                        $connection->quoteInto('website_id = ?', $websiteId),
+    		            $connection->quoteInto('condition_name = ?', $conditionName),
+    	            );
+    	            $connection->delete($table, $condition);
 
-                    if (!array_key_exists($csvLine[0], $countryCodesToIds)) {
-                        $countryId = '0';
-                    } else {
-                        $countryId = $countryCodesToIds[$csvLine[0]];
-                    }
-
-                    if (!array_key_exists($csvLine[1], $regionCodesToIds)) {
-                        $regionId = '0';
-                    } else {
-                        $regionId = $regionCodesToIds[$csvLine[1]];
-                    }
-
-                    if ($csvLine[2] == '*' || $csvLine[2] == '') {
-                        $zip = '';
-                    } else {
-                        $zip = $csvLine[2];
-                    }
-
-                    $data = array('website_id'=>$websiteId, 'dest_country_id'=>$countryId, 'dest_region_id'=>$regionId, 'dest_zip'=>$zip, 'condition_name'=>Mage::getStoreConfig('carriers/tablerate/condition_name'), 'condition_value'=>$csvLine[3], 'price'=>$csvLine[4]);
-                    try {
-    	                $connection->insert($table, $data);
-                    } catch (Exception $e) {
-                        $exceptions[] = 'Duplicate row for Country "' . $csvLine[0] . '", State "' . $csvLine[1] . '", Zip "' . $csvLine[2] . '" and Value "' . $csvLine[3] . '"';
+                    foreach($data as $k=>$dataLine) {
+                        try {
+    	                    $connection->insert($table, $dataLine);
+                        } catch (Exception $e) {
+                            $exceptions[] = 'Duplicate Row #' . ($k+1) . ' (Country "' . $dataDetails[$k]['country'] . '", Region/State "' . $dataDetails[$k]['region'] . '", Zip "' . $dataLine['dest_zip'] . '" and Value "' . $dataLine['condition_value'] . '")';
+                        }
                     }
                 }
                 if (!empty($exceptions)) {
@@ -157,6 +198,11 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
             $elements[$i] = trim($elements[$i]);
         }
         return $elements;
+    }
+    
+    private function _isPositiveDecimalNumber($n)
+    {
+        return preg_match ("/^[0-9]+(\.[0-9]*)?$/", $n);
     }
 
 }
