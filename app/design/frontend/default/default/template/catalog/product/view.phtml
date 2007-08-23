@@ -174,7 +174,7 @@
 			<?if($_relatedCurrentCell==1):?>
 			<tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
 			<?endif?>
-				<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"/></a><br/>
+				<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getThumbnailUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"/></a><br/>
 					<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
 					<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>

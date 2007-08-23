@@ -18,7 +18,7 @@
         <?foreach($this->getWishlist() as $item):?>
             <tr>
                 <td>
-                    <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=$this->htmlEscape($item->getName())?>" width="113"/></a></div>
+                    <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getThumbnailUrl()?>" alt="<?=$this->htmlEscape($item->getName())?>" width="113"/></a></div>
                     <div><a href="<?=$item->getProductUrl()?>" title="<?=$this->htmlEscape($item->getName())?>"><?=$item->getName()?></a></div>
                     <?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
                 </td>

@@ -731,6 +731,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $url;
     }
     
+
+    public function getThumbnailUrl()
+    {
+        //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
+        $url = false;
+        if ($attribute = $this->getResource()->getAttribute('thumbnail')) {
+            $url = $attribute->getFrontend()->getUrl($this);
+        }
+        return $url;
+    }
+    
     public function getVisibleInCatalogStatuses()
     {
         return array(self::STATUS_ENABLED);

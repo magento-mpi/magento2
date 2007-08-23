@@ -47,7 +47,7 @@
 <?foreach($this->getItems() as $_item):?>
         <tr>
             <td>
-                <a href="#"><img src="<?=$_item->getProduct()->getSmallImageUrl()?><?//=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" alt="" width="75"/>
+                <a href="#"><img src="<?=$_item->getProduct()->getThumbnailUrl()?><?//=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" alt="" width="75"/>
             </td>
             <td class="attributes-col">
                 <a href="<?=$this->getUrl('catalog/product/view/id/'.$_item->getProductId())?>"><strong><?=$_item->getName()?></strong></a>

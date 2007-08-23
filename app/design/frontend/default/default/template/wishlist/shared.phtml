@@ -12,7 +12,7 @@
         <?foreach($this->getWishlist() as $item):?>
         <tr>
             <td>
-                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
+                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getThumbnailUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             </td>            
             <td class="align-center"><?=$this->getEscapedDescription($item)?></td>

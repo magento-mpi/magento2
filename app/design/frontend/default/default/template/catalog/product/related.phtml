@@ -10,7 +10,7 @@
 				<ol>
 				<?foreach($this->getItems() as $_item):?>
 					<li><div class="product-images">
-					<input type="checkbox" class="left"/> <a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32"/></a>
+					<input type="checkbox" class="left"/> <a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32"/></a>
 					</div>
 					<div class="product-details">
 						<p><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
