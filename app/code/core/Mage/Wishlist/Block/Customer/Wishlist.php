@@ -46,14 +46,14 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 
 	public function getFormatedDate($date)
 	{
-		return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($date));
+		return strftime(Mage::getStoreConfig('general/local/date_format_medium'), strtotime($date));
 	}
-	
+
 	public function getItemAddToCartUrl($item)
 	{
 	    return $this->getUrl('*/*/cart',array('item'=>$item->getWishlistItemId()));
 	}
-	
+
 	public function getItemRemoveUrl($item)
 	{
 	    return $this->getUrl('*/*/remove',array('item'=>$item->getWishlistItemId()));
