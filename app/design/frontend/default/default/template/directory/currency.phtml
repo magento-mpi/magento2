@@ -12,7 +12,7 @@
     </div>
         <select name="currency" onchange="changeCurrency(this)">
         <?foreach ($this->getCurrencies() as $_currency):?>
-            <option value="<?=$_currency->getCurrencyCode()?>"<?if($_currency->getCurrencyCode()==$this->getCurrentCurrencyCode()):?>selected="selected"<?endif;?>>
+            <option value="<?=$_currency->getCurrencyCode()?>"<?if($_currency->getCurrencyCode()==$this->getCurrentCurrencyCode()):?> selected="selected"<?endif;?>>
                 <?=$_currency->getCurrencyName()?> - <?=$_currency->getCurrencyCode()?>
             </option>
         <?endforeach;?>

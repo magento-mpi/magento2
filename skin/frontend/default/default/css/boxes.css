@@ -287,13 +287,14 @@ table.view-by td { width:50%; padding:4px 8px; border-top:1px solid #e2e2e2; ver
     margin-top:-3px;
     }
 
-.col-left { float:left; width:195px; }
+.side-col { width:195px; }
+.col-left { float:left; }
 .col-main { float:left; }
+.col-right { float:right; }
 .col-1-layout .col-main { float:none; margin: 0 10px;}
 .col-2-right-layout .col-main { float:left; width:680px; }
 .col-2-left-layout .col-main { float:right; width:680px; }
 .col-3-layout .col-main { width:475px; margin-left:17px; }
-.col-right { float:right; width:195px; }
 
 
 
@@ -679,6 +680,7 @@ p.grand_total { padding-right:15px; }
 /* Home */
 .home-callout { margin-bottom:12px; }
 .home-callout img { display:block }
+.home-spot { float:left; width:455px; margin-left:17px; }
 .home-spot .box h3 { margin:12px 0 6px 0; color:#e25203; font-size:1.2em; }
 .home-spot .best-selling table { border-top:1px solid #ccc; }
 .home-spot .best-selling tr.odd { background:url(../images/best_selling_tr_odd_bg.gif) repeat-x 0 100% #eee; }

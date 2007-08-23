@@ -459,7 +459,9 @@ img.attribute-global {
 .login-form .form-buttons { margin-top:15px; text-align:right;}
 .login-box .bottom { background:url(images/login_box_bottom.jpg) no-repeat; width:581px; height:5px; position:absolute; bottom:0; right:0; overflow:hidden;}
 .login-container .legal { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 10px 8px; font-size:.95em; }
-#page-login .error-msg { border-width:1px; padding:5px 8px; background-image:url(images/fam_bullet_error.gif); background-repeat:no-repeat; background-position:8px 8px;}
+#page-login #messages li { list-style-type:none; margin:8px 0; border-width:1px; padding:6px 13px 6px 26px; background-position:8px 8px; background-repeat:no-repeat; }
+#page-login .success-msg { background-image:url(images/fam_bullet_success.gif); }
+#page-login .error-msg { background-image:url(images/fam_bullet_error.gif); }
 
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 

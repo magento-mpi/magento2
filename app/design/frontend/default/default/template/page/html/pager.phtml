@@ -36,7 +36,7 @@
             </ol>
         </td>
         <td class="a-right">
-            Show <select name="" onChange="setLocation(this.value)">
+            Show <select name="" onchange="setLocation(this.value)">
             <?foreach ($this->getAvailableLimit() as  $_limit):?>
                 <option value="<?=$this->getLimitUrl($_limit)?>"<?if($this->isLimitCurrent($_limit)):?> selected<?endif?>>
                     <?=$_limit?>
