@@ -192,7 +192,7 @@ Varien.CompareController.prototype = {
         }
     },
 	openCompare: function(link) {
-		this.compareWindow = window.open(link,'compareWindow','resizable=yes,width=800,height=600');
+		this.compareWindow = window.open(link,'compareWindow','resizable=yes,scrollbars=yes,width=800,height=600');
 		this.compareWindow.focus();
 	}
 }
