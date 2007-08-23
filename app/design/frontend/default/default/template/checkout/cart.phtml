@@ -1,7 +1,7 @@
 <?
 /**
  * Sopping cart template
- * 
+ *
  * @see Mage_Checkout_Block_Cart
  */
 ?>
@@ -21,8 +21,8 @@
             <th>&nbsp;</th>
             <th><?=__('Product Name')?></th>
             <th class="a-center"><?=__('Remove')?></th>
-<?if($this->isWishlistActive()):?> 
-            <th class="a-center"><?=__('Add to Wishlist')?></th>
+<?if($this->isWishlistActive()):?>
+            <th class="a-center"><?=__('Move to Wishlist')?></th>
 <?endif?>
             <th class="a-right"><?=__('Unit Price')?></th>
 
@@ -35,11 +35,11 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-<?if($this->isWishlistActive()):?> 
+<?if($this->isWishlistActive()):?>
             <td>&nbsp;</td>
 <?endif?>
             <td>&nbsp;</td>
-            <td class="a-center"><button class="form-button-alt"><span><?=__('Update Qty')?></span></button></td>
+            <td class="a-center"><button class="form-button-alt"><span><?=__('Update Shopping Cart')?></span></button></td>
             <td></td>
         </tr>
     </tfoot>
@@ -51,10 +51,10 @@
             </td>
             <td class="attributes-col">
                 <a href="<?=$this->getUrl('catalog/product/view/id/'.$_item->getProductId())?>"><strong><?=$_item->getName()?></strong></a>
-                <?=$_item->getDescription();?>                
+                <?=$_item->getDescription();?>
             </td>
             <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
-<?if($this->isWishlistActive()):?>            
+<?if($this->isWishlistActive()):?>
             <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][wishlist]"/></td>
 <?endif?>
             <td class="a-right"><?=$_item->getPrice()?></td>
