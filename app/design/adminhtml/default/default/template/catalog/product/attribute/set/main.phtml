@@ -22,7 +22,7 @@
                     <tbody>
                         <tr>
                             <td><h3><?=__('Groups')?></h3></td>
-                            <td class="a-right">&nbsp;<?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?><br/><?=__('Double click the attribute to rename.')?></td>
+                            <td class="a-right">&nbsp;<?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?><br/><?=__('Double click group to rename.')?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -83,7 +83,7 @@
                         this.root.addListener('beforeinsert', editSet.leftBeforeInsert);
                         this.root.addListener('beforeappend', editSet.leftBeforeInsert);
 
-                        ge.addListener('beforeshow', editSet.editGroup);
+                        ge.addListener('beforerender', editSet.editGroup);
                         //-------------------------------------------------------------
 
                         var tree2 = new Ext.tree.TreePanel('tree-div2', {
