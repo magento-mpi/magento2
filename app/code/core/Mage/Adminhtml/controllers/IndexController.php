@@ -14,7 +14,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $this->_redirect('adminhtml/sales_order');
+        $this->_redirect('*/sales_order');
         return;
 
         $this->loadLayout('baseframe');
@@ -46,7 +46,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $auth = Mage::getSingleton('admin/session')->unsetAll();
         Mage::getSingleton('adminhtml/session')->addSuccess(__('You successfully logged out.'));
-        $this->_redirect('adminhtml');
+        $this->_redirect('*');
     }
 
     public function globalSearchAction()

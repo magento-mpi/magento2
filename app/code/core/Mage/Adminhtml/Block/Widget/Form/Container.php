@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('adminhtml/'.$this->_controller.'/save');
+        return Mage::getUrl('*/'.$this->_controller.'/save');
     }
 
     public function getFormHtml()

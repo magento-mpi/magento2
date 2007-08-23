@@ -74,9 +74,9 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Form_Add extends Mage_Adminhtml_Bl
                                 )
                         );
 
-            $form->setAction(Mage::getUrl("adminhtml/tax_class/saveGroup/classId/{$classId}/classType/{$classType}"));
+            $form->setAction(Mage::getUrl("*/tax_class/saveGroup/classId/{$classId}/classType/{$classType}"));
         } else {
-            $form->setAction(Mage::getUrl('adminhtml/tax_class/save'));
+            $form->setAction(Mage::getUrl('*/tax_class/save'));
         }
 
         $this->setForm($form);

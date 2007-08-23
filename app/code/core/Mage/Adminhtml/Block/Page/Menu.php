@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             $menuArr['title'] = __((string)$child->title);
             
             if ($child->action) {
-                $menuArr['url'] = $baseUrl.(string)$child->action;
+                $menuArr['url'] = Mage::getUrl((string)$child->action);
             } else {
                 $menuArr['url'] = '#';
                 $menuArr['click'] = 'return false';

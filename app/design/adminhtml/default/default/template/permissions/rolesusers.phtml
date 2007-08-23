@@ -7,7 +7,7 @@ var role = function () {
 		    if( !confirm('<?=__('Are you sure you want to do it?')?>') ) {
 		        return false;
 		    }
-			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permission_user/deleteuserfromrole')?>', {
+			var req = new Ajax.Request('<?=$this->getUrl('*/permission_user/deleteuserfromrole')?>', {
 				method:'post',
 				parameters: {
 					user_id: uid
@@ -29,7 +29,7 @@ var role = function () {
 		addUser2Role: function () {
 			var uid = $('users').value;
             $('addButton').disabled = true;
-			var req = new Ajax.Request('<?=$this->getUrl('adminhtml/permission_user/adduser2role')?>', {
+			var req = new Ajax.Request('<?=$this->getUrl('*/permission_user/adduser2role')?>', {
 				method:'post',
 				parameters: {
 					role_id: roleId,

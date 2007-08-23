@@ -47,7 +47,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         Mage::register('current_catalog_search', $model);
 
         $block = $this->getLayout()->createBlock('adminhtml/catalog_search_edit')
-            ->setData('action', Mage::getUrl('adminhtml/catalog_search/save'));
+            ->setData('action', Mage::getUrl('*/catalog_search/save'));
         
         $this->_initAction();
         

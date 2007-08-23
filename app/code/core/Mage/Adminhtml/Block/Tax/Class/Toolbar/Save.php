@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
     public function __construct()
     {
         parent::__construct();
-        $this->assign('createUrl', Mage::getUrl('adminhtml/tax_class_customer/save'));
+        $this->assign('createUrl', Mage::getUrl('*/tax_class_customer/save'));
         $this->setTemplate('tax/toolbar/class/save.phtml');
     }
 

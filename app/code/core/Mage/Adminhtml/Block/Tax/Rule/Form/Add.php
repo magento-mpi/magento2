@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
             );
         }
 
-        $form->setAction(Mage::getUrl('adminhtml/tax_rule/save'));
+        $form->setAction(Mage::getUrl('*/tax_rule/save'));
         $form->setUseContainer(true);
         $form->setId('rule_form');
         $form->setMethod('POST');

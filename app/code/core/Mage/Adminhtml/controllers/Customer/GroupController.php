@@ -34,7 +34,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('customer/group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
-        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), Mage::getUrl('adminhtml',array('controller'=>'customer_group')));
+        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), Mage::getUrl('*/customer_group'));
 
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
@@ -109,6 +109,6 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
             }
         }
 
-        $this->_redirect('adminhtml/customer_group');
+        $this->_redirect('*/customer_group');
     }
 }

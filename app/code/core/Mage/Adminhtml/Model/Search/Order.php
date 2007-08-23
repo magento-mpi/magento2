@@ -28,7 +28,7 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
                 'name'          => 'Order # '.$order->getIncrementId(),
                 'description'   => $order->getBillingFirstname().' '.$order->getBillingLastname(),
                 'form_panel_title' => 'Order # '.$order->getIncrementId().' ('.$order->getBillingFirstname().' '.$order->getBillingLastname().')',
-                'url'           => Mage::getUrl('adminhtml/sales_order/edit', array('order_id'=>$order->getId())),
+                'url'           => Mage::getUrl('*/sales_order/edit', array('order_id'=>$order->getId())),
             );
         }
         

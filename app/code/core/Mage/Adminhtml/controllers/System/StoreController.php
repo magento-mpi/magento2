@@ -43,7 +43,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Store') : __('New Store'), $id ? __('Edit Store') : __('New Store'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit')->setData('action', Mage::getUrl('adminhtml/system_store/save')))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit')->setData('action', Mage::getUrl('*/system_store/save')))
             ->renderLayout();
     }
     

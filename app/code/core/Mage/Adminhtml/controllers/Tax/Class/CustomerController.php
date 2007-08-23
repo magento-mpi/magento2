@@ -16,7 +16,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             ->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes'))
             ->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
-        		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_customer/add'))
+        		->assign('createUrl', Mage::getUrl('*/tax_class_customer/add'))
         		->assign('header', __('Customer Tax Classes'))
         	)
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_grid_default'))
@@ -26,7 +26,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes'), Mage::getUrl('adminhtml/tax_class_customer'))
+            ->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes'), Mage::getUrl('*/tax_class_customer'))
             ->_addBreadcrumb(__('New Customer Tax Class'), __('New Customer Tax Class'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')

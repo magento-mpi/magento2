@@ -4,6 +4,19 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     protected $_modules = array();
     protected $_dispatchData = array();
     
+    public function collectRoutes($configArea, $useRouterName)
+    {
+        $routers = Mage::getConfig()->getNode($configArea.'/routers')->children();
+        foreach ($routers as $routerName=>$routerConfig) {
+            $use = (string)$routerConfig->use;
+            if ($use==$useRouterName) {
+                $module = (string)$routerConfig->args->module;
+                $frontName = (string)$routerConfig->args->frontName;
+                $this->addModule($frontName, $module);
+            }
+        }
+    }
+    
     public function fetchDefault()
     {
         $storeCode = Mage::registry('controller')->getStoreCode();

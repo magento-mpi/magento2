@@ -16,7 +16,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
             ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes'))
             ->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
-            		->assign('createUrl', Mage::getUrl('adminhtml/tax_class_product/add/class_type/PRODUCT'))
+            		->assign('createUrl', Mage::getUrl('*/tax_class_product/add/class_type/PRODUCT'))
             		->assign('header', __('Product Tax Classes'))
         	)
         	->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_grid_default')->setClassType('PRODUCT'))
@@ -26,7 +26,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes'), Mage::getUrl('adminhtml/tax_class_product'))
+            ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes'), Mage::getUrl('*/tax_class_product'))
             ->_addBreadcrumb(__('New Product Tax Class'), __('New Product Tax Class'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')

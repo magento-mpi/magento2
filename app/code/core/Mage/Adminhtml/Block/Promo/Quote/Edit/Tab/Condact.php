@@ -15,8 +15,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
-        $this->setNewConditionChildUrl($this->getUrl('adminhtml/promo_quote/newConditionHtml'));
-        $this->setNewActionChildUrl($this->getUrl('adminhtml/promo_quote/newActionHtml'));
+        $this->setNewConditionChildUrl($this->getUrl('*/promo_quote/newConditionHtml'));
+        $this->setNewActionChildUrl($this->getUrl('*/promo_quote/newActionHtml'));
     }
 
     protected function _prepareForm()

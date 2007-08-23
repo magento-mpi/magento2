@@ -60,7 +60,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Page') : __('New Page'), $id ? __('Edit Page') : __('New Page'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page_edit')->setData('action', Mage::getUrl('adminhtml', array('controller' => 'cms_page', 'action' => 'save'))))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page_edit')->setData('action', Mage::getUrl('*/cms_page/save')))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/cms_page_edit_tabs'))
             ->renderLayout();
     }

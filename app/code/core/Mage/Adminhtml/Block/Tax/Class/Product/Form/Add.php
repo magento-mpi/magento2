@@ -68,9 +68,9 @@ class Mage_Adminhtml_Block_Tax_Class_Product_Form_Add extends Mage_Adminhtml_Blo
                                 )
                         );
 
-            $form->setAction(Mage::getUrl("adminhtml/tax_class/saveGroup/classId/{$classId}/classType/PRODUCT"));
+            $form->setAction(Mage::getUrl("*/tax_class/saveGroup/classId/{$classId}/classType/PRODUCT"));
         } else {
-            $form->setAction(Mage::getUrl('adminhtml/tax_class/save/classType/PRODUCT'));
+            $form->setAction(Mage::getUrl('*/tax_class/save/classType/PRODUCT'));
         }
 
         $form->setUseContainer(true);

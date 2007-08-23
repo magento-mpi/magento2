@@ -30,7 +30,7 @@
             <use>admin</use>
             <args>
                <module>Mage_Adminhtml</module>
-               <frontName>adminhtml</frontName>
+               <frontName>admin</frontName>
             </args>
          </adminhtml>
       </routers>

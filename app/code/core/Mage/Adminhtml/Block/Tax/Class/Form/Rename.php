@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
                             )
         );
 
-        $form->setAction(Mage::getUrl('adminhtml/tax_class/save'));
+        $form->setAction(Mage::getUrl('*/tax_class/save'));
         $form->setUseContainer(true);
         $form->setId('class_rename_form');
         $form->setMethod('POST');

@@ -17,9 +17,9 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Core_Block_Template
     
     public function toHtml()
     {
-        $this->assign('homeLink', Mage::getUrl('adminhtml'));
+        $this->assign('homeLink', Mage::getUrl('*'));
         $this->assign('user', Mage::getSingleton('admin/session')->getUser());
-        $this->assign('logoutLink', Mage::getUrl('adminhtml/index/logout'));
+        $this->assign('logoutLink', Mage::getUrl('*/index/logout'));
         return parent::toHtml();
     }
 }

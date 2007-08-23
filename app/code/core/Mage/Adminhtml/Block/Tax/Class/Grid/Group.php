@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
         $classId = $this->getRequest()->getParam('classId');
         $classType = $this->getRequest()->getParam('classType');
 
-        $actionsUrl = Mage::getUrl('adminhtml/tax_class/deleteGroup', array('classId'=>$classId, 'classType'=>$classType));
+        $actionsUrl = Mage::getUrl('*/tax_class/deleteGroup', array('classId'=>$classId, 'classType'=>$classType));
 
         if( isset($classId) ) {
             switch( $classType ) {

@@ -84,13 +84,13 @@ class Mage_Core_Controller_Varien_Front
         
         // init admin modules router
         $admin = new Mage_Core_Controller_Varien_Router_Admin();
+        $admin->collectRoutes('admin', 'admin');
         $this->addRouter('admin', $admin);
-        $this->collectRouters('admin', 'admin', $admin);
         
         // init standard frontend modules router
         $standard = new Mage_Core_Controller_Varien_Router_Standard();
+        $standard->collectRoutes('frontend', 'standard');
         $this->addRouter('standard', $standard);
-        $this->collectRouters('frontend', 'standard', $standard);
         
         // init custom routers
         Mage::dispatchEvent('initControllerRouters', array('front'=>$this));
@@ -102,19 +102,6 @@ class Mage_Core_Controller_Varien_Front
         Varien_Profiler::stop('ctrl/init');
         
         return $this;
-    }
-    
-    public function collectRouters($configArea, $useRouterName, Mage_Core_Controller_Varien_Router_Abstract $parentRouter)
-    {
-        $routers = Mage::getConfig()->getNode($configArea.'/routers')->children();
-        foreach ($routers as $routerName=>$routerConfig) {
-            $use = (string)$routerConfig->use;
-            if ($use==$useRouterName) {
-                $module = (string)$routerConfig->args->module;
-                $frontName = (string)$routerConfig->args->frontName;
-                $parentRouter->addModule($frontName, $module);
-            }
-        }
     }
     
     public function dispatch()

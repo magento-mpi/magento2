@@ -43,7 +43,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Website') : __('New Website'), $id ? __('Edit Website') : __('New Website'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_website_edit')->setData('action', Mage::getUrl('adminhtml/system_website/save')))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/system_website_edit')->setData('action', Mage::getUrl('*/system_website/save')))
             ->renderLayout();
     }
     

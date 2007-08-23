@@ -17,22 +17,22 @@ class Mage_Adminhtml_Block_Tax_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 
         $this->addTab('tax_rule', array(
             'label'     => __('Tax Rules'),
-            'url'      => Mage::getUrl('adminhtml/tax_rule')
+            'url'      => Mage::getUrl('*/tax_rule')
         ));
 
         $this->addTab('tax_rate', array(
             'label'     => __('Tax Rates'),
-            'url'      => Mage::getUrl('adminhtml/tax_rate')
+            'url'      => Mage::getUrl('*/tax_rate')
         ));
 
         $this->addTab('tax_class_customer', array(
             'label'     => __('Customer Tax Classes'),
-            'url'      => Mage::getUrl('adminhtml/tax_class_customer')
+            'url'      => Mage::getUrl('*/tax_class_customer')
         ));
 
         $this->addTab('tax_class_product', array(
             'label'     => __('Product Tax Classes'),
-            'url'      => Mage::getUrl('adminhtml/tax_class_product')
+            'url'      => Mage::getUrl('*/tax_class_product')
         ));
     }
 

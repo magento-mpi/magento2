@@ -9,40 +9,40 @@
                 <children>
                     <order>
                         <title>Orders</title>
-                        <action>adminhtml/sales_order</action>
+                        <action>*/sales_order</action>
                     </order>
                     <invoice>
                         <title>Invoices</title>
-                        <action>adminhtml/sales_invoice</action>
+                        <action>*/sales_invoice</action>
                     </invoice>
                     <tax>
                         <title>Tax</title>
                         <children>
                             <rules>
                                 <title>Manage Tax Rules</title>
-                                <action>adminhtml/tax_rule</action>
+                                <action>*/tax_rule</action>
                             </rules>
                             <rates>
                                 <title>Manage Tax Rates</title>
-                                <action>adminhtml/tax_rate</action>
+                                <action>*/tax_rate</action>
                             </rates>
                             <import_export>
                                 <title>Import / Export Tax Rates</title>
-                                <action>adminhtml/tax_rate/importExport</action>
+                                <action>*/tax_rate/importExport</action>
                             </import_export>
                             <classes_customer>
                                 <title>Customer Tax Classes</title>
-                                <action>adminhtml/tax_class_customer</action>
+                                <action>*/tax_class_customer</action>
                             </classes_customer>
                             <classes_product>
                                 <title>Product Tax Classes</title>
-                                <action>adminhtml/tax_class_product</action>
+                                <action>*/tax_class_product</action>
                             </classes_product>
                         </children>
                     </tax>
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/sales_config/</action>
+                        <action>*/sales_config/</action>
                     </config>
                 </children>
              </sales>
@@ -53,22 +53,22 @@
                 <children>
                     <products>
                         <title>Manage Products</title>
-                        <action>adminhtml/catalog_product/</action>
+                        <action>*/catalog_product/</action>
                     </products>
                     <categories>
                         <title>Manage Categories</title>
-                        <action>adminhtml/catalog_category/</action>
+                        <action>*/catalog_category/</action>
                     </categories>
                     <attributes>
                         <title>Attributes</title>
                         <children>
                             <attributes>
                                 <title>Manage Attributes</title>
-                                <action>adminhtml/catalog_product_attribute/</action>
+                                <action>*/catalog_product_attribute/</action>
                             </attributes>
                             <sets>
                                 <title>Manage Attribute Sets</title>
-                                <action>adminhtml/catalog_product_set/</action>
+                                <action>*/catalog_product_set/</action>
                             </sets>
                         </children>
                     </attributes>
@@ -80,17 +80,17 @@
                                 <children>
                                     <pending>
                                         <title>Pending Reviews</title>
-                                        <action>adminhtml/catalog_product_review/pending/</action>
+                                        <action>*/catalog_product_review/pending/</action>
                                     </pending>
                                     <all>
                                         <title>All Reviews</title>
-                                        <action>adminhtml/catalog_product_review/</action>
+                                        <action>*/catalog_product_review/</action>
                                     </all>
                                 </children>
                             </reviews>
                             <ratings>
                                 <title>Manage Ratings</title>
-                                <action>adminhtml/rating/</action>
+                                <action>*/rating/</action>
                             </ratings>
                         </children>
                     </reviews_ratings>
@@ -99,42 +99,42 @@
                         <children>
                             <pending>
                                 <title>Pending Tags</title>
-                                <action>adminhtml/tag/pending</action>
+                                <action>*/tag/pending</action>
                             </pending>
                             <all>
                                 <title>All Tags</title>
-                                <action>adminhtml/tag</action>
+                                <action>*/tag</action>
                             </all>
                             <!--
                             <customer>
                                 <title>Customers' Tags</title>
-                                <action>adminhtml/tag/customer</action>
+                                <action>*/tag/customer</action>
                             </customer>
                             <product>
                                 <title>Products' Tags</title>
-                                <action>adminhtml/tag/product</action>
+                                <action>*/tag/product</action>
                             </product>
                             -->
                         </children>
                     </tag>
                     <search>
                         <title>Search</title>
-                        <action>adminhtml/catalog_search/</action>
+                        <action>*/catalog_search/</action>
                     </search>
                     <!--<datafeed>
                         <title>Datafeeds</title>
-                        <action>adminhtml/catalog_datafeed/</action>
+                        <action>*/catalog_datafeed/</action>
                     </datafeed>-->
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/system_config/edit/section/catalog/</action>
+                        <action>*/system_config/edit/section/catalog/</action>
                     </config>
                 </children>
              </catalog>
             <!--
              <dashboard>
                 <title>Dashboard</title>
-                <action>adminhtml/dashboard/</action>
+                <action>*/dashboard/</action>
                 <acl><resource>admin/dashboard</resource><privilege>view</privilege></acl>
              </dashboard>
              -->
@@ -145,22 +145,22 @@
                 <children>
                     <manage>
                         <title>Manage Customers</title>
-                        <action>adminhtml/customer/</action>
+                        <action>*/customer/</action>
                         <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
                     </manage>
                     <group>
                         <title>Customer Groups</title>
-                        <action>adminhtml/customer_group/</action>
+                        <action>*/customer_group/</action>
                         <resource>admin/customer/group</resource>
                     </group>
                     <online>
                         <title>Online Customers</title>
-                        <action>adminhtml/customer_online/</action>
+                        <action>*/customer_online/</action>
                         <resource>admin/customer/online</resource>
                     </online>
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/system_config/edit/section/customer/</action>
+                        <action>*/system_config/edit/section/customer/</action>
                         <resource>admin/customer/config</resource>
                     </config>
                 </children>
@@ -171,19 +171,19 @@
                 <children>
                     <catalog>
                         <title>Catalog Price Rules</title>
-                        <action>adminhtml/promo_catalog/</action>
+                        <action>*/promo_catalog/</action>
                         <resource>promo/catalog</resource>
                         <depends><module>Mage_Catalog</module></depends>
                     </catalog>
                     <quote>
                         <title>Shopping Cart Price Rules</title>
-                        <action>adminhtml/promo_quote/</action>
+                        <action>*/promo_quote/</action>
                         <resource>promo/quote</resource>
                         <depends><module>Mage_Sales</module></depends>
                     </quote>
                     <!--<config>
                         <title>Configuration</title>
-                        <action>adminhtml/system_config/</action>
+                        <action>*/system_config/</action>
                         <resource>promo/config</resource>
                     </config>-->
                 </children>
@@ -193,19 +193,19 @@
                 <children>
                     <page>
                         <title>Manage Pages</title>
-                        <action>adminhtml/cms_page</action>
+                        <action>*/cms_page</action>
                     </page>
                     <block>
                         <title>Static Blocks</title>
-                        <action>adminhtml/cms_block</action>
+                        <action>*/cms_block</action>
                     </block>
                     <poll>
                         <title>Poll Manager</title>
-                        <action>adminhtml/poll</action>
+                        <action>*/poll</action>
                     </poll>
                     <!--<config>
                         <title>Configuration</title>
-                        <action>adminhtml/cms_config/</action>
+                        <action>*/cms_config/</action>
                         <resource>cms/config</resource>
                     </config>-->
                 </children>
@@ -218,27 +218,27 @@
                 <children>
                     <template>
                         <title>Newsletter Templates</title>
-                        <action>adminhtml/newsletter_template/</action>
+                        <action>*/newsletter_template/</action>
                         <resource>admin/newsletter/template</resource>
                     </template>
                     <!-- <subscriber>
                         <title>Subscribers</title>
-                        <action>adminhtml/newsletter_subscriber/</action>
+                        <action>*/newsletter_subscriber/</action>
                         <resource>admin/newsletter/subscriber</resource>
                     </subscriber> -->
                     <queue>
                         <title>Newsletter Queue</title>
-                        <action>adminhtml/newsletter_queue/</action>
+                        <action>*/newsletter_queue/</action>
                         <resource>admin/newsletter/queue</resource>
                     </queue>
                     <problem>
                         <title>Newsletter Problem Reports</title>
-                        <action>adminhtml/newsletter_problem/</action>
+                        <action>*/newsletter_problem/</action>
                         <resource>admin/newsletter/problem</resource>
                     </problem>
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/system_config/edit/section/newsletter/</action>
+                        <action>*/system_config/edit/section/newsletter/</action>
                         <resource>admin/newsletter/config</resource>
                     </config>
                 </children>
@@ -248,34 +248,34 @@
                 <children>
                     <sales>
                         <title>Sales Report</title>
-                        <action>adminhtml/report/sales</action>
+                        <action>*/report/sales</action>
                     </sales>
                     <shopcart>
                         <title>Shopping Cart Report</title>
-                        <action>adminhtml/report/shopcart</action>
+                        <action>*/report/shopcart</action>
                     </shopcart>
                     <products>
                         <title>Products Report</title>
-                        <action>adminhtml/report/products</action>
+                        <action>*/report/products</action>
                     </products>
                     <coupons>
                         <title>Coupons Reports</title>
-                        <action>adminhtml/report/coupons</action>
+                        <action>*/report/coupons</action>
                     </coupons>
                     <wishlist>
                         <title>Wishlist Report</title>
-                        <action>adminhtml/report/wishlist</action>
+                        <action>*/report/wishlist</action>
                     </wishlist>
                     <review>
                         <title>Reviews Report</title>
                         <children>
                             <customer>
                                 <title>Customers Reviews</title>
-                                <action>adminhtml/report_review/customer</action>
+                                <action>*/report_review/customer</action>
                             </customer>
                             <product>
                                 <title>Products Reviews</title>
-                                <action>adminhtml/report_review/product</action>
+                                <action>*/report_review/product</action>
                             </product>
                         </children>
                     </review>
@@ -284,37 +284,37 @@
                         <children>
                             <customer>
                                 <title>Customers</title>
-                                <action>adminhtml/report_tag/customer</action>
+                                <action>*/report_tag/customer</action>
                             </customer>
                             <product>
                                 <title>Products</title>
-                                <action>adminhtml/report_tag/product</action>
+                                <action>*/report_tag/product</action>
                             </product>
                             <product_total>
                                 <title>Products (Total)</title>
-                                <action>adminhtml/report_tag/productAll</action>
+                                <action>*/report_tag/productAll</action>
                             </product_total>
                             <popular>
                                 <title>Popular</title>
-                                <action>adminhtml/report_tag/popular</action>
+                                <action>*/report_tag/popular</action>
                             </popular>
                         </children>
                     </tags>
                     <search>
                         <title>Search Report</title>
-                        <action>adminhtml/report/search</action>
+                        <action>*/report/search</action>
                     </search>
                     <customers>
                         <title>Best Customers</title>
-                        <action>adminhtml/report/customers</action>
+                        <action>*/report/customers</action>
                     </customers>
                     <orders>
                         <title>Recent Orders</title>
-                        <action>adminhtml/report/orders</action>
+                        <action>*/report/orders</action>
                     </orders>
                     <totals>
                         <title>Order Totals</title>
-                        <action>adminhtml/report/totals</action>
+                        <action>*/report/totals</action>
                     </totals>
                 </children>
              </report>
@@ -324,41 +324,41 @@
                 <children>
                     <myaccount>
                         <title>My Account</title>
-                        <action>adminhtml/system_account</action>
+                        <action>*/system_account</action>
                     </myaccount>
                     <tools>
                         <title>Tools</title>
                         <children>
                             <backup>
                                 <title>Backups</title>
-                                <action>adminhtml/system_backup</action>
+                                <action>*/system_backup</action>
                             </backup>
                         </children>
                     </tools>
                     <currency>
                         <title>Manage Currency</title>
-                        <action>adminhtml/system_currency</action>
+                        <action>*/system_currency</action>
                     </currency>
                     <email_template>
                         <title>Transactional Emails</title>
-                        <action>adminhtml/system_email_template</action>
+                        <action>*/system_email_template</action>
                     </email_template>
                     <acl>
                         <title>Permissions</title>
                         <children>
                             <users>
                                 <title>Users</title>
-                                <action>adminhtml/permission_user</action>
+                                <action>*/permission_user</action>
                             </users>
                             <roles>
                                 <title>Roles</title>
-                                <action>adminhtml/permission_role</action>
+                                <action>*/permission_role</action>
                             </roles>
                         </children>
                     </acl>
                     <config>
                         <title>Configuration</title>
-                        <action>adminhtml/system_config</action>
+                        <action>*/system_config</action>
                     </config>
                 </children>
              </system>

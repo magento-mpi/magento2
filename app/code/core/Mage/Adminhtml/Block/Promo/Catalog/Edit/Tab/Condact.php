@@ -15,8 +15,8 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Condact extends Mage_Adminhtml
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
-        $this->setNewConditionChildUrl($this->getUrl('adminhtml/promo_catalog/newConditionHtml'));
-        $this->setNewActionChildUrl($this->getUrl('adminhtml/promo_catalog/newActionHtml'));
+        $this->setNewConditionChildUrl($this->getUrl('*/promo_catalog/newConditionHtml'));
+        $this->setNewActionChildUrl($this->getUrl('*/promo_catalog/newActionHtml'));
     }
 
     protected function _prepareForm()

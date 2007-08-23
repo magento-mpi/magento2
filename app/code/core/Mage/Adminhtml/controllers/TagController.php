@@ -69,7 +69,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Tag') : __('New Tag'), $id ? __('Edit Tag') : __('New Tag'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag_edit')->setData('action', Mage::getUrl('adminhtml', array('controller' => 'tag_edit', 'action' => 'save'))))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag_edit')->setData('action', Mage::getUrl('*/tag_edit/save')))
             ->renderLayout();
     }
 

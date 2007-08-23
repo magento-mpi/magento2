@@ -130,7 +130,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $this->_redirect('adminhtml/customer');
+        $this->_redirect('*/customer');
     }
 
     /**
