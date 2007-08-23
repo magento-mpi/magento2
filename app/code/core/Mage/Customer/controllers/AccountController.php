@@ -125,7 +125,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomerAsLoggedIn($customer)
-                    ->addSuccess('Customer is registered');
+                    ->addSuccess('Thank you for registering with '.Mage::getSingleton('core/store')->getName());
 
                 $customer->sendNewAccountEmail();
 
