@@ -71,7 +71,8 @@
             'attributes'=> $attributes,
             'template'  => str_replace('%s', '#{price}', $store->getCurrentCurrency()->getOutputFormat()),
             'basePrice' => $this->_preparePrice($this->getProduct()->getFinalPrice()),
-            'productId' => $this->getProduct()->getId()
+            'productId' => $this->getProduct()->getId(),
+            'chooseText'=> __('Choose option...'),
         );
         
         return Zend_Json::encode($config);

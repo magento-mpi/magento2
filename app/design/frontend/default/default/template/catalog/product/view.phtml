@@ -157,48 +157,6 @@
 				<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
 			</div>
 			<?endif;?>
-
-
-	<?if($product->getRelatedProductsLoaded()->getSize()):?>
-	<div class="collateral-box">
-		<div class="head"><h4>You may be interested in these items</h4></div>
-		<table cellspacing="0" class="generic-product-grid product-display">
-			<?$_relatedTotal=$product->getRelatedProducts()->getSize()?>
-			<?$_relatedPerRow=4?>
-			<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>
-			<?$_relatedCurrentRow=1?>
-			<?$_relatedCurrentCell=1?>
-			<?$_relatedCurrentItem=1?>
-
-			<?foreach ($product->getRelatedProducts() as $_link):?>
-			<?if($_relatedCurrentCell==1):?>
-			<tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
-			<?endif?>
-				<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getThumbnailUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"/></a><br/>
-					<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
-					<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
-					<?=$this->getHelper('review/helper')->getSummaryHtml($product)?>
-				</td>
-
-			<?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
-				<?if($_relatedCurrentItem==$_relatedTotal):?>
-					<?while($_relatedCurrentCell++<$_relatedPerRow):?>
-						<td class="empty-product <?if($_relatedCurrentCell==$_relatedPerRow):?>last<?endif?>">
-						&nbsp;
-						</td>
-					<?endwhile;?>
-				<?endif?>
-			</tr>
-			<?$_relatedCurrentRow++?>
-			<?$_relatedCurrentCell=1?>
-			<?else:?>
-			<?$_relatedCurrentCell++?>
-			<?endif?>
-			<?$_relatedCurrentItem++?>
-			<?endforeach?>
-		</table>
-	</div>
-	<?endif?>
 		<?=$this->getChildHtml('tagList')?>
 		<div class="collateral-box" id="customer-reviews">
 		<?=$this->getChildHtml('reviewList')?>

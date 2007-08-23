@@ -1,11 +1,3 @@
-
-
-function openLargeImageWin(url, width, height)
-{
-	win = window.open(url,'largimage','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width='+width+',height='+height+',screenX=150,screenY=150,top=150,left=150');
-	win.focus();
-}
-
 if(typeof Product=='undefined') {
 	var Product = {};
 }
@@ -176,6 +168,175 @@ Product.Zoom.prototype = {
 		return [x,y];
 	}
 }
+
+/**************************** CONFIGURABLE PRODUCT **************************/
+Product.Config = Class.create();
+Product.Config.prototype = {
+    initialize: function(config){
+        this.config     = config;
+        this.settings   = $$('.super-attribute-select');
+        this.state      = new Hash();
+        this.priceTemplate = new Template(this.config.template);
+        
+        this.settings.each(function(element){
+            Event.observe(element, 'change', this.configure.bind(this))
+        }.bind(this));
+        
+        // fill state
+        this.settings.each(function(element){
+            var attributeId = element.id.replace(/[a-z]*/, '');
+            if(attributeId && this.config.attributes[attributeId]) {
+                element.config = this.config.attributes[attributeId];
+                this.state[attributeId] = false;
+            }
+        }.bind(this))
+        
+        // Init settings dropdown
+        var childSettings = [];
+        for(var i=this.settings.length-1;i>=0;i--){
+            var prevSetting = this.settings[i-1] ? this.settings[i-1] : false;
+            var nextSetting = this.settings[i+1] ? this.settings[i+1] : false;
+            if(i==0){
+                this.fillSelect(this.settings[i])
+            }
+            else {
+                this.settings[i].disabled=true;
+            }
+            $(this.settings[i]).childSettings = childSettings.clone();
+            $(this.settings[i]).prevSetting   = prevSetting;
+            $(this.settings[i]).nextSetting   = nextSetting;
+            childSettings.push(this.settings[i]);
+        }
+    },
+    
+    configure: function(event){
+        var element = Event.element(event);
+        this.reloadOptionLabels(element);
+        if(element.value){
+            this.state[element.config.id] = element.value;
+            if(element.nextSetting){
+                element.nextSetting.disabled = false;
+                this.fillSelect(element.nextSetting);
+                this.resetChildren(element.nextSetting);
+            }
+        }
+        else {
+            this.resetChildren(element);
+        }
+        this.reloadPrice();
+    },
+    
+    reloadOptionLabels: function(element){
+        var selectedPrice;
+        if(element.options[element.selectedIndex].config){
+            selectedPrice = parseFloat(element.options[element.selectedIndex].config.price)
+        }
+        else{
+            selectedPrice = 0;
+        }
+        for(var i=0;i<element.options.length;i++){
+            if(element.options[i].config){
+                element.options[i].text = this.getOptionLabel(element.options[i].config, element.options[i].config.price-selectedPrice);
+            }
+        }
+    },
+    
+    resetChildren : function(element){
+        if(element.childSettings) {
+            for(var i=0;i<element.childSettings.length;i++){
+                element.childSettings[i].selectedIndex = 0;
+                element.childSettings[i].disabled = true;
+                if(element.config){
+                    this.state[element.config.id] = false;
+                }
+            }
+        }
+    },
+    
+    fillSelect: function(element){
+        var attributeId = element.id.replace(/[a-z]*/, '');
+        var options = this.getAttributeOptions(attributeId);
+        this.clearSelect(element);
+        element.options[0] = new Option(this.config.chooseText, '');
+        
+        var prevConfig = false;
+        if(element.prevSetting){
+            prevConfig = element.prevSetting.options[element.prevSetting.selectedIndex];
+        }
+        
+        if(options) {
+            var index = 1;
+            for(var i=0;i<options.length;i++){
+                var canAddOption = true;
+                if(prevConfig) {
+                    for(var j=0;j<options[i].products.length;j++){
+                        if(prevConfig.config.products.indexOf(options[i].products[j])<0){
+                            canAddOption = false;
+                        }
+                    }
+                }
+                if(canAddOption){
+                    element.options[index] = new Option(this.getOptionLabel(options[i], options[i].price), options[i].id);
+                    element.options[index].config = options[i];
+                    index++;
+                }
+            }
+        }
+    },
+    
+    getOptionLabel: function(option, price){
+        var price = parseFloat(price);
+        var str = option.label;
+        if(price){
+            str+= ' (' + this.formatPrice(price, true) + ')';
+        }
+        return str;
+    },
+    
+    formatPrice: function(price, showSign){
+        var str = '';
+        price = parseFloat(price);
+        if(showSign){
+            if(price<0){
+                str+= '-';
+                price = -price;
+            }
+            else{
+                str+= '+';
+            }
+        }
+        str+= this.priceTemplate.evaluate({price:price.toFixed(2)});
+        return str;
+    },
+    
+    clearSelect: function(element){
+        for(var i=element.options.length-1;i>=0;i--){
+            element.remove(i);
+        }
+    },
+    
+    getAttributeOptions: function(attributeId){
+        if(this.config.attributes[attributeId]){
+            return this.config.attributes[attributeId].options;
+        }
+    },
+    
+    reloadPrice: function(){
+        var price = parseFloat(this.config.basePrice);
+        for(var i=this.settings.length-1;i>=0;i--){
+            var selected = this.settings[i].options[this.settings[i].selectedIndex];
+            if(selected.config){
+                price+= parseFloat(selected.config.price);
+            }
+        }
+        price = this.formatPrice(price);
+
+        if($('product-price-'+this.config.productId)){
+            $('product-price-'+this.config.productId).innerHTML = price;
+        }
+    }
+}
+
 
 /**************************** SUPER PRODUCTS ********************************/
 

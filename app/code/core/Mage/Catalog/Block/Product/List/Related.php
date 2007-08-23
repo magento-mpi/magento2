@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Catalog_Block_Product_Link_Related extends Mage_Catalog_Block_Product_Abstract
+class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product_Abstract
 {
 	protected function _prepareData() 
 	{

@@ -1,0 +1,51 @@
+<?if($this->getItems()->getSize()):?>
+<div class="box base-mini related">
+	<div class="head">
+		<h4><span><?=__('Related Products')?></span></h4>
+	</div>
+	<ol id="related-products">
+	 <?foreach($this->getItems() as $_item):?>
+        <li>
+			<div class="product-images">
+				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$this->htmlEscape($_item->getName())?>" width="38" height="38"/></a>
+			</div>
+			<div class="product-details">
+				<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
+				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+				<a href="<?=$this->getAddToCartUrl($_item)?>"><?=__('Add to Cart')?></a>
+				<a href="<?=$this->getAddToWishlistUrl($_item)?>"><?=__('Wishlist')?></a>
+			</div>
+		</li>
+	<?endforeach;?>
+	</ol>
+	<script type="text/javascript">decorateList('related-products')</script>
+</div>
+<?endif?>
+
+<?/*if($this->getItems()->getSize()):?>
+    <div class="box related-items"> 
+        <div class="head">
+            <span class="corner"></span>
+            <h3><?=__('Related')?></h3>
+        </div>
+        <div class="box-container">
+            <div class="content">
+                                <p><strong>Check items to add to cart or <a href="#">select all</a>.</strong></p>
+                <ol>
+                <?foreach($this->getItems() as $_item):?>
+                    <li><div class="product-images">
+                    <input type="checkbox" class="left"/> <a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32"/></a>
+                    </div>
+                    <div class="product-details">
+                        <p><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
+                        <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                        <a href="<?=$this->getUrl('checkout/cart/add',array('product_id'=>$_item->getId()))?>">Add to Cart</a><br/><a href="<?=$this->getUrl('wishlist/index/add', array('product'=>$_item->getId()))?>">Add to Wishlist</a></p>
+                    </div>
+                </li>
+                <?endforeach?>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+<?endif*/?>

@@ -50,8 +50,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $product = Mage::getModel('catalog/product')->load($productId);
 
-
-
         if ($product->getId()) {
         	if($product->isSuperConfig()) {
         		$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
@@ -189,7 +187,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     	}
 
-    	$this->_backToCart();
+    	$this->_redirectToReferer();
     }
 
     public function cleanAction()

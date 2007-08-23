@@ -31,6 +31,21 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
                 $headBlock->setDescription($description);
             }            
         }
+        
+        /*$head = $this->getLayout()->getBlock('head');
+        $title = $head->getTitle();
+        if ($category = $product->getCategory()) {
+        	$title = ($category->getMetaTitle() ? $category->getMetaTitle() : $category->getName()).' - '.$title;
+        }
+        $title = ($product->getMetaTitle() ? $product->getMetaTitle() : $product->getName()).' - '.$title;
+        $head->setTitle($title);*/
+        
+    }
+    
+    protected function _beforeToHtml()
+    {
+        $this->loadData();
+        return parent::_beforeToHtml();
     }
 
     public function loadData()
@@ -115,19 +130,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Core_Block_Template
         return $data;
     }
 
-    /**
-     * URLs section
-     */
-
-    public function getReviewUrl()
-    {
-
-    }
-
-    public function getAddToWishlistUrl()
-    {
-
-    }
 
     public function getCompareJsObjectName()
     {

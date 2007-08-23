@@ -28,24 +28,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->_forward('noRoute');
             return;
         }
-        
-        $this->loadLayout(null, '', false);
-        if ($product->getCustomLayout()) {
-            $this->getLayout()->loadString($product->getCustomLayout());
-        } else {
-            $this->getLayout()->loadUpdateFile(Mage::getDesign()->getLayoutFilename('catalog/defaultProduct.xml'));
-        }
-        $this->getLayout()->generateBlocks();
 
-        $head = $this->getLayout()->getBlock('head');
-        $title = $head->getTitle();
-        if ($category = $product->getCategory()) {
-        	$title = ($category->getMetaTitle() ? $category->getMetaTitle() : $category->getName()).' - '.$title;
-        }
-        $title = ($product->getMetaTitle() ? $product->getMetaTitle() : $product->getName()).' - '.$title;
+        $this->loadLayout();
+
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('tag/session');
-        $head->setTitle($title);
         $this->renderLayout();
     }
 
