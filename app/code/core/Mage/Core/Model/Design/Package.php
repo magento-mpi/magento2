@@ -162,7 +162,7 @@ class Mage_Core_Model_Design_Package
 	public function getSkinBaseUrl(array $params=array())
 	{
 		$this->updateParamDefaults($params);
-		$baseUrl = Mage::getBaseUrl($params).'/'
+		$baseUrl = Mage::getBaseUrl($params)
 			.$params['_area'].'/'.$params['_package'].'/'.$params['_theme'].'/';
 		return $baseUrl;
 	}
