@@ -54,6 +54,7 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
 
         foreach ($parent->children() as $childName=>$child) {
             $key = trim($path.$childName.'/', '/');
+            if ( !preg_match('#^admin/#', $key) ) $key = 'admin/'.$key;
             $result[$key]['name'] = __((string)$child->title);
             $result[$key]['level'] = $level;
             if ($child->children) {

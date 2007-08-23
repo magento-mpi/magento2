@@ -54,7 +54,7 @@ class Mage_Admin_Model_Mysql4_Acl
         $ruleTable = Mage::getSingleton('core/resource')->getTableName('admin/rule');
         $assertTable = Mage::getSingleton('core/resource')->getTableName('admin/assert');
         $rulesArr = $this->_read->fetchAll("select r.*, a.assert_type, a.assert_data 
-            from $ruleTable r left join $assertTable a on a.assert_id=r.assert_id");        
+            from $ruleTable r left join $assertTable a on a.assert_id=r.assert_id");
         $this->loadRules($acl, $rulesArr);
         
         return $acl;
@@ -101,6 +101,10 @@ class Mage_Admin_Model_Mysql4_Acl
      */
     function loadRules(Mage_Admin_Model_Acl $acl, array $rulesArr)
     {
+    	#print "<pre>\n";
+    	#print_r($rulesArr);
+    	#print "</pre>";
+    	
         foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
             $resource = $rule['resource_id'];
@@ -111,6 +115,7 @@ class Mage_Admin_Model_Mysql4_Acl
                 $assertClass = Mage::getSingleton('admin/config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
+            if ( trim($rule['role_type']) != "" ) $acl->allow($role, $resource, $privileges, $assert);
             /*
             switch ($rule['permission']) {
                 case Mage_Admin_Model_Acl::RULE_PERM_ALLOW:

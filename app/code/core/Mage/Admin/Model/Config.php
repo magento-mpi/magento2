@@ -28,7 +28,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      */
     public function loadAclResources(Mage_Admin_Model_Acl $acl, $resource=null, $parentName=null)
     {
-        if (is_null($resource)) {
+    	if (is_null($resource)) {
             $resource = $this->getNode("admin/acl/resources");
             $resourceName = null;
         } else {

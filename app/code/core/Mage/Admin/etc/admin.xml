@@ -9,29 +9,94 @@
 
          <resources>
             <admin>
-                <dashboard />
-                <customer />
-                <customer_online />
-                <customer_config />
-                <catalog>
-                   <manage />
-                   <product_attributes />
-                   <datafeeds />
-                   <config />
-                </catalog>
-                <paygate>
-                   <authorizenet />
-                   <paypal />
-                   <payflow_pro />
-                </paygate>
-                <sales>
-                   <orders />
-                </sales>
-                <system>
-                   <permissions />
-                   <modules />
-                   <stores />
-                </system>
+				<catalog>
+					<attributes>
+						<attributes/>
+						<sets/>
+					</attributes>
+					<categories/>
+					<config/>
+					<products/>
+					<reviews_ratings>
+						<ratings/>
+						<reviews>
+							<all/>
+							<pending/>
+						</reviews>
+					</reviews_ratings>
+					<search/>
+					<tag>
+						<all/>
+						<pending/>
+					</tag>
+				</catalog>
+				<cms>
+					<block/>
+					<page/>
+					<poll/>
+				</cms>
+				<customer>
+					<config/>
+					<group/>
+					<manage/>
+					<online/>
+				</customer>
+				<newsletter>
+					<config/>
+					<problem/>
+					<queue/>
+					<template/>
+				</newsletter>
+				<promo>
+					<catalog/>
+					<quote/>
+				</promo>
+				<report>
+					<coupons/>
+					<customers/>
+					<orders/>
+					<products/>
+					<review>
+						<customer/>
+						<product/>
+					</review>
+					<sales/>
+					<search/>
+					<shopcart/>
+					<tags>
+						<customer/>
+						<popular/>
+						<product/>
+						<product_total/>
+					</tags>
+					<totals/>
+					<wishlist/>
+				</report>
+				<sales>
+					<config/>
+					<invoice/>
+					<order/>
+					<tax>
+						<classes_customer/>
+						<classes_product/>
+						<import_export/>
+						<rates/>
+						<rules/>
+					</tax>
+				</sales>
+				<system>
+					<acl>
+						<roles/>
+						<users/>
+					</acl>
+					<config/>
+					<currency/>
+					<email_template/>
+					<myaccount/>
+					<tools>
+						<backup/>
+					</tools>
+				</system>
             </admin>
          </resources>
 
