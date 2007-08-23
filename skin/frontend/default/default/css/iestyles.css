@@ -30,7 +30,8 @@
 .listing-type-list .product-info .product-reviews,
 .account-nav a,
 .account-box,
-my-review-detail { zoom:1; }
+my-review-detail,
+.generic-product-list li { zoom:1; }
 
 .clear {
 	display:block;

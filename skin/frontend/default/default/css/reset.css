@@ -18,12 +18,12 @@ a img { border:0;}
 /* Heading */
 h1, h2, h3, h4, h5, h6, .head {
 	margin-bottom:.5em;
-	line-height:1.35em;
+	line-height:1.3em;
 	color:#0A263C;
 	}
 h2 { font-size:1.5em; }
 h3 { font-size:1.35em; }
-h4 { font-size:1em; }
+h4 { font-size:1.05em; }
 h5 { font-size:1em; }
 h6 { font-size:1em; }
 

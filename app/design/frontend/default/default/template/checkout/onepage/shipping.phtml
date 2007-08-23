@@ -4,7 +4,6 @@
    <p><?=$this->getAddressesHtmlSelect('shipping')?></p>
 <?endif?>
 
-    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($this->getAddress()->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/> &nbsp;<label for="shipping:same_as_billing"><?=__('Use billing address')?></label></p>
 
 <fieldset class="group-select" id="shipping-new-address-form" <?if ($this->customerHasAddresses()):?>style="display:none"<?endif?>>    
     <input type="hidden" name="shipping[address_id]" value="<?=$this->getAddress()->getId()?>" id="shipping:address_id"/>
@@ -49,6 +48,7 @@
             <input type="text" name="shipping[fax]" value="<?=$this->getAddress()->getFax()?>" title="<?=__('Fax')?>" class="validate-fax input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);"/></div></li>
     </ul>
 </fieldset>
+    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($this->getAddress()->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/> &nbsp;<label for="shipping:same_as_billing"><?=__('Use billing address')?></label></p>
 </form>
 <div class="form-buttons">
     <p class="required">* <?=__('Required Fields')?></p>

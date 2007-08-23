@@ -9,7 +9,7 @@
 	 <?foreach($this->getCartItems() as $_item):?>
         <li>
 			<div class="product-images">
-				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getProduct()->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="38" height="38"/></a>
+				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getProduct()->getSmallImageUrl()?>" alt="<?=$_item->getName()?>" width="50"/></a>
 			</div>
 			<div class="product-details">
 				<a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>

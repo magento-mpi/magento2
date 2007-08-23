@@ -1,8 +1,9 @@
+<div class="shipping-estimate box">
 <h4><?=__('Estimate Shipping')?></h4>
 <form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
 	<p><label for="estimate_postcode"><?=__('Enter your zip code to get a shipping quote.')?></label></p>
 	<input class="input-text left" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
-	<button class="form-button"><span><?=__('Get Quote')?></span></button>
+	<button class="form-button-alt"><span><?=__('Get Quote')?></span></button>
 	<div class="clear"></div>
 </form>
 <?if (!($_shippingRateGroups = $this->getEstimateRates())):?>
@@ -28,6 +29,7 @@
             </dd>
         <?endforeach;?>
     </dl>
-    <button class="form-button" name="do" value="<?=__('Update')?>"><span><?=__('Update totals')?></span></button>
+    <button class="form-button-alt" name="do" value="<?=__('Update')?>"><span><?=__('Update totals')?></span></button>
 </form>
 <?endif;?>
+</div>
