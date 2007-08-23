@@ -1,3 +1,6 @@
 <?xml version="1.0"?>
 <layoutUpdate>
+    <reference name="top.left.links">
+        <action method="addLink"><li/><a>href="{{baseUrl}}customer/account/"</a><label>Log In</label></action>
+    </reference>
 </layoutUpdate>
