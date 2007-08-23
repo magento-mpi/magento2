@@ -28,12 +28,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $this->_setFieldset($customer->getAttributes(), $fieldset);
 
         if ($customer->getId()) {
-            if ($form->getElement('created_in')) {
-                $form->getElement('created_in')->setDisabled(true);
-            }
-            if ($form->getElement('store_id')) {
-                $form->getElement('store_id')->setType('hidden');
-            }
+            $form->getElement('created_in')->setDisabled(true);
+            //$form->getElement('store_id')->setType('hidden');
+            $fieldset->removeField('store_id');
         } else {
             $fieldset->removeField('created_in');
         }
