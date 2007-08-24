@@ -77,15 +77,19 @@
                 </fieldset>
                 <div class="add-to-box">
                     <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a><br/>
-                    <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
+                    <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
+                    <a href="<?=$_compareUrl?>"><?=__('Add to Compare')?></a>
+                    <?endif;?>
                 </div>
             <?else:?>
                 <p><small>Availability: In stock. Ships within 24hours.</small></p>
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
                 &nbsp;&nbsp;
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a>
+                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
                 <span class="pipe">|</span>
-                <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
+                <a href="<?=$_compareUrl?>"><?=__('Add to Compare')?></a>
+                <?endif;?>
             <?endif;?>
             </form>
     		<script type="text/javascript">

@@ -25,16 +25,31 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
     {
-        $filter = (int) $request->getParam($this->getRequestVar());
-        if ($filter) {
-            $range = $this->getPriceRange($filter);
+        /**
+         * Filter must be string: $index,$range
+         */
+        $filter = $request->getParam($this->getRequestVar());
+        if (!$filter) {
+            return $this;
+        }
+        
+        $filter = explode(',', $filter);
+        if (count($filter) != 2) {
+            return $this;
+        }
+        
+        list($index, $range) = $filter;
+        
+        if ((int)$index && (int)$range) {
+            $this->setPriceRange((int)$range);
+            //$range = $this->getPriceRange();
             $this->getLayer()->getProductCollection()
                 ->addFieldToFilter('price', array(
-                    'from'  => ($filter-1)*$range,
-                    'to'    => $filter*$range,
+                    'from'  => ($index-1)*$range,
+                    'to'    => $index*$range-0.001,
                 ));
             $this->getLayer()->getState()->addFilter(
-                $this->_createItem($this->_renderItemLabel($range, $filter), $filter)
+                $this->_createItem($this->_renderItemLabel($range, $index), $filter)
             );
             $this->_items = array();
         }
@@ -51,7 +66,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      *
      * @return int
      */
-    public function getPriceRange($filterValue=null)
+    public function getPriceRange()
     {
         $range = $this->getData('price_range');
         if (is_null($range)) {
@@ -104,7 +119,8 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         $items = array();
         
         foreach ($dbRanges as $index=>$count) {
-        	$items[] = $this->_createItem($this->_renderItemLabel($range, $index), $index, $count);
+            $value = $index . ',' . $range;
+        	$items[] = $this->_createItem($this->_renderItemLabel($range, $index), $value, $count);
         }
         
         $this->_items = $items;

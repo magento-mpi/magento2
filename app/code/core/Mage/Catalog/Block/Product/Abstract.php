@@ -22,6 +22,9 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
 	
 	public function getAddToCompareUrl($product)
 	{
+	    if ($product->isSuper()) {
+	        return false;
+	    }
 	    return $this->getUrl('catalog/product_compare/add',array('product'=>$product->getId()));
 	}
 }

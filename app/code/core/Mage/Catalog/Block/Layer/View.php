@@ -25,7 +25,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('catalog/layer_filter_category')->init());
         $this->setChild('price_filter',
             $this->getLayout()->createBlock('catalog/layer_filter_price')->init());
-        
+            
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
         	$this->setChild($attribute->getAttributeCode().'_filter',

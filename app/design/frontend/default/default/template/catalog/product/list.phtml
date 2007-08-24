@@ -5,10 +5,14 @@
  * @see Mage_Catalog_Block_Product_List
  */
 ?>
-<?=$this->getToolbarHtml()?>
-
 <?$_productCollection=$this->getLoadedProductCollection()?>
+<?if(!$_productCollection->getSize()):?>
+<div class="note-msg">
+    There are no products matching the selection you are currently shopping by
+</div>
+<?else:?>
 
+<?=$this->getToolbarHtml()?>
 <?// List mode?>
 <?if($this->getMode()!='grid'):?>
 <div class="listing-type-list catalog-listing">
@@ -35,8 +39,10 @@
             </div>
             <p class="add-to">
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a>
+                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
                 <span class="pipe">|</span>
-                <a href="<?=$this->getAddToCompareUrl($_product)?>">Add to Compare</a>
+                <a href="<?=$_compareUrl?>">Add to Compare</a>
+                <?endif;?>
             </p>
         </div>
     </div>
@@ -67,8 +73,10 @@
 			<div class="clear"></div>
 			<p class="add-to">
                 <strong>Add to:</strong><br/><a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Wishlist</a>
+                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
                 <span class="pipe">|</span>
-                <a href="<?=$this->getAddToCompareUrl($_product)?>">Compare</a>
+                <a href="<?=$_compareUrl?>">Compare</a>
+                <?endif;?>
 			</p>
 		</td>
     <?if ($i%3==0):?>
@@ -87,3 +95,4 @@
 
 <?endif;?>
 <?=$this->getToolbarHtml()?>
+<?endif;?>

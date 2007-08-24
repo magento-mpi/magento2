@@ -22,8 +22,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
                 $headBlock->setTitle($title);
             }
             else {
-                $headBlock->setTitle($title . ' - ' . $this->getProduct()->getName());
+                $headBlock->setTitle($this->getProduct()->getName());
             }
+            
             if ($keyword = $this->getProduct()->getMetaKeyword()) {
                 $headBlock->setKeywords($keyword);
             }
