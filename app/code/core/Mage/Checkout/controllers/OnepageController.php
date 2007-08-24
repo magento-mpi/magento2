@@ -1,34 +1,34 @@
 <?php
 
-class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action 
+class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 {
-    
+
     protected $_data = array();
     protected $_checkout = null;
     protected $_quote = null;
-    
+
     protected function _construct()
     {
         parent::_construct();
-        
+
         if (!($this->getOnepage()->getQuote()->hasItems() || $this->getRequest()->getActionName()!='success')) {
             $this->setFlag('', 'no-dispatch', true);
             $this->_redirect('checkout/cart');
         }
     }
-    
+
     public function getOnepage()
     {
         return Mage::getSingleton('checkout/type_onepage');
     }
-    
+
     /**
      * Checkout page
      */
     public function indexAction()
     {
     	#Mage::getSingleton('customer/session')->setTest('onepage');
-    	
+
         Mage::getSingleton('customer/session')->setUrlBeforeAuthentication($this->getRequest()->getRequestUri());
         $this->getOnepage()->initCheckout();
         $this->loadLayout(array('default', 'onepage'), 'checkout_onepage');
@@ -49,13 +49,13 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->loadLayout('onepage_shipping');
         $this->renderLayout();
     }
-    
+
     public function reviewAction()
     {
         $this->loadLayout('onepage_review');
         $this->renderLayout();
     }
-    
+
     public function successAction()
     {
     	$lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
@@ -65,18 +65,18 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             return;
         }
 
+        Mage::getSingleton('checkout/session')->clear();
         $this->loadLayout();
-        
+
         $block = $this->getLayout()->createBlock('core/template', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
             ->assign('quoteId', $lastQuoteId)
             ->assign('orderId', $lastOrderId);
         $this->getLayout()->getBlock('content')->append($block);
-        
+
         Mage::dispatchEvent('order_success_page_view');
-        
+
         $this->renderLayout();
-        Mage::getSingleton('checkout/session')->clear();
     }
 
     /**
@@ -91,7 +91,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setBody($address->toJson());
         }
     }
-    
+
     public function saveMethodAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -113,7 +113,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }
-    
+
     public function saveShippingAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -123,7 +123,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }
-    
+
     public function saveShippingMethodAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -133,7 +133,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         }
 
     }
-    
+
     public function savePaymentAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -142,7 +142,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }
-    
+
     public function saveOrderAction()
     {
         $result = $this->getOnepage()->saveOrder();
