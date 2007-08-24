@@ -67,14 +67,5 @@
             </observers>
          </action_preDispatch_admin>
       </events>
-      <routers>
-         <admin>
-            <use>standard</use>
-            <args>
-               <module>Mage_Admin</module>
-               <frontName>admin</frontName>
-            </args>
-         </admin>
-      </routers>
    </adminhtml>
 </config>

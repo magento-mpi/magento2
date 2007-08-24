@@ -257,7 +257,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'source_model'=>isset($attr['source']) ? $attr['source'] : '',
             'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
             'is_visible'=>isset($attr['visible']) ? (int) $attr['visible'] : 1,
-            'is_required'=>isset($attr['required']) ? $attr['required'] : 0,
+            'is_required'=>isset($attr['required']) ? $attr['required'] : 1,
             'is_user_defined'=>isset($attr['user_defined']) ? $attr['user_defined'] : 0,
             'default_value'=>isset($attr['default']) ? $attr['default'] : '',
             'is_searchable'=>isset($attr['searchable']) ? $attr['searchable'] : 0,
