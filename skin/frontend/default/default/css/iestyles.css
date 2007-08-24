@@ -41,6 +41,8 @@ my-review-detail,
 	font-size:0;
 	line-height:0;
 	}
+.multi-address-checkout-box .box { zoom:1; }
+.multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px;}
 .quick-access li { padding-right:4px; padding-left:6px;}
 .search-autocomplete { left:39px !important; }
 .mini-search  { padding-top:-1px; line-height:1em;}

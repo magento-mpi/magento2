@@ -18,12 +18,12 @@
         <tbody>
         <?foreach ($orders as $order):?>
             <tr>
-                <td><?=$order->getRealOrderId()?></td>
-                <td><?=date("D, j M, Y", strtotime($order->getCreatedAt()))?></td>
+                <td><?=$order->getRealOrderId()?>&nbsp;</td>
+                <td><?=date("D, j M, Y", strtotime($order->getCreatedAt()))?>&nbsp;</td>
                 <!--<td class="align-center">{$page.orders[io].customer}</td>-->
-                <td class="a-right"><?=$order->getGrandTotal()?></td>
-                <td class="a-center"><?=$order->getStatus()?></td>
-                <td><a href="<?=$baseUrl?>customer/order/view/order/<?=$order->getOrderId()?>">View</a></td>
+                <td class="a-right"><?=$order->getGrandTotal()?>&nbsp;</td>
+                <td class="a-center"><?=$order->getStatus()?>&nbsp;</td>
+                <td><a href="<?=$baseUrl?>customer/order/view/order/<?=$order->getOrderId()?>">View</a>&nbsp;</td>
             </tr>
         <?endforeach?>
         </tbody>

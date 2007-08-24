@@ -5,8 +5,9 @@
  * @see Mage_Checkout_Block_Cart
  */
 ?>
-<div class="page-head-alt">
+<div class="page-head-alt button-level">
     <h3><?=__('Shopping Cart')?></h3>
+    <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=__('Proceed to Checkout')?>"/></a>
 </div>
 <form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
 <table cellspacing="0" id="shopping-cart-table" class="data-table box-table shopping-cart">
@@ -39,7 +40,7 @@
 <?foreach($this->getItems() as $_item):?>
         <tr>
             <td>
-                <a href="#"><img src="<?=$_item->getProduct()->getThumbnailUrl()?><?//=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" alt="" width="75"/>
+                <a href="#"><img src="<?=$_item->getProduct()->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="75"/>
             </td>
             <td class="attributes-col">
                 <a href="<?=$this->getUrl('catalog/product/view/id/'.$_item->getProductId())?>"><strong><?=$_item->getName()?></strong></a>
