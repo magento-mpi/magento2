@@ -25,12 +25,16 @@
  	<div class="content"><p><?=__('You have no items in your cart.')?></p></div>
  	<?endif?>
     <div class="actions">
+    <?if(sizeof($this->getCartItems())>0):?>
         <div class="subtotal">
             <span class="label"><?=__('Subtotal')?>:</span><br/>
             <span class="price"><?=$this->getSubtotal()?></span>
         </div>
         <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=__('Checkout')?></span></button><br/>
         <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('Go to Cart')?></a></div>
+    <?else:?>
+        &nbsp;
+    <?endif?>
 </div>
 <!-- [ends] .cart-sidebar // -->
 <?endif?>
