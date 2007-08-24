@@ -60,14 +60,6 @@
             this.typeChange = false;
             return false;
         },
-        toggleEditor: function () {
-        	if(this.isEditor) {
-        		tinyMCE.execCommand('mceRemoveControl', false, 'text');
-        	} else {
-        		tinyMCE.execCommand('mceAddControl', false, 'text');
-        	}
-        	this.isEditor = !this.isEditor;
-        },
         save: function() {
             if (this.typeChange) {
                 $('change_flag_element').value = '1';

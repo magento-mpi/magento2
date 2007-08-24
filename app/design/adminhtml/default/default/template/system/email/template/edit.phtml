@@ -8,7 +8,6 @@
                 <?if(!$this->isTextType()):?>
                 <?=$this->getToPlainButtonHtml();?>
                 <?=$this->getToHtmlButtonHtml();?>
-                <?=$this->getToggleButtonHtml();?>
                 <?endif?>
                 <?=$this->getSaveButtonHtml();?>
                 <?=$this->getPreviewButtonHtml();?>
@@ -33,7 +32,6 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
-        isEditor: false,
         init: function () {
         	if ($('convert_button_back')) { 
         		$('convert_button_back').hide();
@@ -43,12 +41,8 @@
             if(!window.confirm("<?=__('Are you sure?')?>")) { 
                 return false;
             }
-            if(this.isEditor) {
-            	tinyMCE.execCommand('mceRemoveControl', false, 'text');
-            }
             this.unconvertedText = $('text').value; 
             $('convert_button').hide();
-            $('toggle_button').hide();
             $('text').value =  $('text').value.stripScripts().stripTags();
             $('convert_button_back').show();
             this.typeChange = true;
@@ -56,29 +50,14 @@
         },
         unStripTags: function () {
             $('convert_button').show();
-            $('toggle_button').show();
             $('convert_button_back').hide();
             $('text').value =  this.unconvertedText;
-            if(this.isEditor) {
-            	tinyMCE.execCommand('mceAddControl', false, 'text');
-            }
             this.typeChange = false;
             return false;
-        },
-        toggleEditor: function () {
-        	if(this.isEditor) {
-        		tinyMCE.execCommand('mceRemoveControl', false, 'text');
-        	} else {
-        		tinyMCE.execCommand('mceAddControl', false, 'text');
-        	}        	
-        	this.isEditor = !this.isEditor;
         },
         save: function() {
             if (this.typeChange) {
                 $('change_flag_element').value = '1';
-            }
-            if(this.isEditor) {
-            	tinyMCE.triggerSave();
             }
             templateForm.submit();
             return false;
