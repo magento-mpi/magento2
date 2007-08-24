@@ -164,7 +164,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
             return array(5=>5,10=>10,15=>15,20=>20,25=>25, 'all'=>__('All'));
         }
         elseif ($this->getCurrentMode() == 'grid') {
-            return array(9=>9,15=>15,20=>30, 'all'=>__('All'));
+            return array(9=>9,15=>15,30=>30, 'all'=>__('All'));
         }
         return parent::getAvailableLimit();
     }

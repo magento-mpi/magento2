@@ -1,64 +1,25 @@
-<?if($this->getItems()->getSize()):?>
+<?if($this->getItemCollection()->getSize()):?>
 <div class="collateral-box">
-	<div class="head"><h4>Up-sell</h4></div>
-	<table cellspacing="0" class="generic-product-grid product-display">
-		<?$_relatedTotal=$this->getItems()->getSize()?>
-		<?$_relatedPerRow=4?>
-		<?$_relatedRows=ceil($_relatedTotal/$_relatedPerRow)?>
-		<?$_relatedCurrentRow=1?>
-		<?$_relatedCurrentCell=1?>
-		<?$_relatedCurrentItem=1?>
-
-		<?foreach ($this->getItems() as $_link):?>
-		<?if($_relatedCurrentCell==1):?>
-		<tr <?if($_relatedCurrentRow==$_relatedRows):?>class="last"<?endif?>>
-		<?endif?>
-			<td <?if($_relatedCurrentCell==$_relatedPerRow):?>class="last"<?endif?>><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"/></a><br/>
-				<a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
-				<?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
-				<?=$this->getHelper('review/helper')->getSummaryHtml($_link)?>
-			</td>
-
-		<?if($_relatedCurrentCell==$_relatedPerRow || $_relatedCurrentItem==$_relatedTotal):?>
-			<?if($_relatedCurrentItem==$_relatedTotal):?>
-				<?while($_relatedCurrentCell++<$_relatedPerRow):?>
-					<td class="empty-product <?if($_relatedCurrentCell==$_relatedPerRow):?>last<?endif?>">
-					&nbsp;
-					</td>
-				<?endwhile;?>
-			<?endif?>
-		</tr>
-		<?$_relatedCurrentRow++?>
-		<?$_relatedCurrentCell=1?>
-		<?else:?>
-		<?$_relatedCurrentCell++?>
-		<?endif?>
-		<?$_relatedCurrentItem++?>
-		<?endforeach?>
-	</table>
+    <div class="head"><h4>Up-sell</h4></div>
+    <table cellspacing="0" class="generic-product-grid product-display" id="upsell-product-table">
+    <?$this->resetItemsIterator()?>
+    <?for($_i=0;$_i<$this->getRowCount();$_i++):?>
+        <tr>
+        <?for($_j=0;$_j<$this->getColumnCount();$_j++):?>
+            <?if($_link=$this->getIterableItem()):?>
+            <td>
+                <a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="100" alt="<?=$_link->getName()?>" class="image-link"/></a><br/>
+                <a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a><br/>
+                <?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
+                <?=$this->getHelper('review/helper')->getSummaryHtml($_link)?>
+            </td>
+            <?else:?>
+            <td class="empty-product">&nbsp;</td>
+            <?endif;?>
+        <?endfor;?>
+        </tr>
+    <?endfor;?>
+    </table>
+    <script type="text/javascript">decorateTable('upsell-product-table')</script>
 </div>
 <?endif?>
-
-<?/*if($this->getItems()->getSize()):?>
-<div class="box base-mini up-sell">
-	<div class="head">
-		<h4><span><?=__('Up-sell')?></span></h4>
-	</div>
-	<ol id="up-sell-products">
-	 <?foreach($this->getItems() as $_item):?>
-        <li>
-			<div class="product-images">
-				<a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getSmallImageUrl()?>" alt="<?=$this->htmlEscape($_item->getName())?>" width="38" height="38"/></a>
-			</div>
-			<div class="product-details">
-				<a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-				<a href="<?=$this->getAddToCartUrl($_item)?>"><?=__('Add to Cart')?></a>
-				<a href="<?=$this->getAddToWishlistUrl($_item)?>"><?=__('Wishlist')?></a>
-			</div>
-		</li>
-	<?endforeach;?>
-	</ol>
-	<script type="text/javascript">decorateList('up-sell-products')</script>
-</div>
-<?endif*/?>

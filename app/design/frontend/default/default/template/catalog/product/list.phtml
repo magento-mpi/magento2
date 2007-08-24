@@ -71,7 +71,9 @@
                 <a href="<?=$this->getAddToCompareUrl($_product)?>">Compare</a>
 			</p>
 		</td>
-
+    <?if ($i%3==0):?>
+    </tr>
+    <?endif?>
     <?endforeach?>
     <?for($i;$i%3!=0;$i++):?>
         <td class="empty-product">&nbsp;</td>

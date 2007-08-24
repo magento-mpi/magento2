@@ -11,6 +11,9 @@
 
 class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_Abstract
 {
+    protected $_columnCount = 4;
+    protected $_items;
+    
 	protected function _prepareData() 
 	{
 		Mage::registry('product')->getUpSellProducts()
@@ -30,7 +33,38 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 		return parent::_beforeToHtml();
 	}
 	
+	public function getItemCollection()
+	{
+	    return Mage::registry('product')->getUpSellProducts();
+	}
+	
 	public function getItems() {
-		return Mage::registry('product')->getUpSellProducts();
+	    if (is_null($this->_items)) {
+	        $this->_items = $this->getItemCollection()->getItems();
+	    }
+		return $this->_items;
+	}
+	
+	public function getRowCount()
+	{
+	    return ceil($this->getItemCollection()->getSize()/$this->getColumnCount());
+	}
+	
+	public function getColumnCount()
+	{
+	    return $this->_columnCount;
+	}
+	
+	public function resetItemsIterator()
+	{
+	    $this->getItems();
+	    reset($this->_items);
+	}
+	
+	public function getIterableItem()
+	{
+	    $item = current($this->_items);
+	    next($this->_items);
+	    return $item;
 	}
 }// Mage_Catalog_Block_Product_Link_Upsell END
