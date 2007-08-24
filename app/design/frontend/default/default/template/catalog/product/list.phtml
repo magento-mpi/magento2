@@ -34,7 +34,9 @@
                 <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><small>Learn More</small></a>
             </div>
             <p class="add-to">
-                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a><?if($this->getCanUseCompare()):?><span class="pipe">|</span><a href="#" onclick="compareObject.addItem(<?=$_product->getId()?>);return false;">Add to Compare</a><?endif;?>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a>
+                <span class="pipe">|</span>
+                <a href="<?=$this->getAddToCompareUrl($_product)?>">Add to Compare</a>
             </p>
         </div>
     </div>
@@ -64,13 +66,9 @@
 			<button class="form-button" onclick="top.location.href='<?=$this->getAddToCartUrl($_product)?>'"><span>Add to Cart</span></button>
 			<div class="clear"></div>
 			<p class="add-to">
-            <?if($this->getCanUseCompare()):?>
                 <strong>Add to:</strong><br/><a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Wishlist</a>
                 <span class="pipe">|</span>
-                <a href="#" onclick="compareObject.addItem(<?=$_product->getId()?>);return false;">Compare</a>
-            <?else:?>
-                <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a>
-            <?endif;?>
+                <a href="<?=$this->getAddToCompareUrl($_product)?>">Compare</a>
 			</p>
 		</td>
 

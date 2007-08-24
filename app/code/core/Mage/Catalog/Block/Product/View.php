@@ -36,9 +36,13 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             $breadcrumbsBlock->addCrumb('home',
                 array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
             );
-            /*$breadcrumbsBlock->addCrumb('category',
-                array('label'=>$product->getCategoryName(), 'title'=>'', 'link'=>$product->getCategoryUrl())
-            );*/
+            
+            if ($category = $this->getProduct()->getCategory()) {
+                $breadcrumbsBlock->addCrumb('category',
+                    array('label'=>$category->getName(), 'title'=>'', 'link'=>$category->getCategoryUrl())
+                );  
+            }
+            
             $breadcrumbsBlock->addCrumb('product',
                 array('label'=>$this->getProduct()->getName())
             );
@@ -47,29 +51,21 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     
     protected function _beforeToHtml()
     {
-        $this->loadData();
+        $this->_prepareData();
         return parent::_beforeToHtml();
     }
 
-    public function loadData()
+    protected function _prepareData()
     {
         $product = $this->getProduct();
 
-        if($product->isBundle()) {
+        /*if($product->isBundle()) {
         	$product->getBundleOptionCollection()->useProductItem()->getLinkCollection()
         		->addAttributeToSelect('name')
         		->addAttributeToSelect('price');
         	$product->getBundleOptionCollection()
         		->load();
-        }
-
-        $product->getRelatedProducts()
-			->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('image')
-            ->addAttributeToSelect('small_image')
-			->addAttributeToSort('position', 'asc')
-			->useProductItem();
+        }*/
 
 		$product->getSuperGroupProducts()
 			->addAttributeToSelect('name')
@@ -77,11 +73,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             ->addAttributeToSelect('sku')
 			->addAttributeToSort('position', 'asc')
 			->useProductItem();
-
-        
-        //$this->setChild('reviewForm', $this->getLayout()->createBlock('review/form'));
-        //$this->setChild('reviewList', $this->getLayout()->createBlock('review/list', 'review_list'));
-        //$this->setChild('tagList', $this->getLayout()->createBlock('tag/product_list'));
+			
         return $this;
     }
 
@@ -114,15 +106,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return $data;
     }
 
-
-    public function getCompareJsObjectName()
-    {
-    	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
-    		return $this->getLayout()->getBlock('catalog.compare.sidebar')->getJsObjectName();
-    	}
-
-    	return false;
-    }
 
     public function getGalleryImages()
     {

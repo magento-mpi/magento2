@@ -35,6 +35,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $productCollection = Mage::getResourceSingleton('catalog/product_collection')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
+                ->addAttributeToSelect('thumbnail')
                 ->addAttributeToSelect('description')
                 ->addIdFilter(array_keys($productIds))
                 ->load();

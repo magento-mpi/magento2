@@ -9,7 +9,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Catalog_Block_Product_Link_Upsell extends Mage_Catalog_Block_Product_Abstract
+class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_Abstract
 {
 	protected function _prepareData() 
 	{
@@ -18,6 +18,7 @@ class Mage_Catalog_Block_Product_Link_Upsell extends Mage_Catalog_Block_Product_
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('thumbnail')
 			->addAttributeToSort('position', 'asc')
 			->useProductItem()
 			->load();

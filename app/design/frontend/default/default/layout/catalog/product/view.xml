@@ -9,17 +9,20 @@
     <reference name="content">
         <block type="catalog/product_view" name="product.info">
             <action method="setTemplate"><template>catalog/product/view.phtml</template></action>
-            <block type="catalog/product_view_super_config" name="product.super.config" as="super_config">
+            <block type="catalog/product_view_super_config" name="product.info.config" as="super_config">
                 <action method="setTemplate"><template>catalog/product/view/super/config.phtml</template></action>
             </block>
-            <block type="catalog/product_view_super_group" name="product.super.group" as="super_group">
+            <block type="catalog/product_view_super_group" name="product.info.group" as="super_group">
                 <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
+            </block>
+            <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products">
+                <action method="setTemplate"><template>catalog/product/list/upsell.phtml</template></action>
             </block>
             <block type="core/text_list" name="product.info.additional" as="product_additional_data" />
         </block>
     </reference>
     <reference name="right">
-        <block type="catalog/product_list_related" name="catalog.product.upsell" before="-">
+        <block type="catalog/product_list_related" name="catalog.product.related" before="-">
             <action method="setTemplate"><template>catalog/product/list/related.phtml</template></action>
         </block>
     </reference>

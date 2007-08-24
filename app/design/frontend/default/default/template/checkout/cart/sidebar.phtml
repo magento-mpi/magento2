@@ -1,12 +1,19 @@
+<?
+/**
+ * Shoping cart sidebar
+ * 
+ * @see Mage_Checkout_Block_Cart_Sidebar
+ */
+?>
 <?if($this->getCanDisplayCart()):?>
 <div class="box base-mini mini-cart">
 	<div class="head">
-		<h4><?=__('My Cart')?> <span class="count">- <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('%d item(s)', sizeof($this->getCartItems()))?></a></span></h4>
+		<h4><?=__('My Cart')?> <span class="count">- <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('%d item(s)', $this->getItemCollection()->getSize())?></a></span></h4>
 		<h5>Last added items</h5>
 	</div>
-	<?if(sizeof($this->getCartItems())>0):?>
+	<?if($this->getItemCollection()->getSize()):?>
 	<ol id="cart-sidebar">
-	 <?foreach($this->getCartItems() as $_item):?>
+	 <?foreach($this->getItemCollection() as $_item):?>
         <li>
 			<div class="product-images">
 				<a href="<?=$_item->getProduct()->getProductUrl()?>"><img src="<?=$_item->getProduct()->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="50"/></a>
@@ -15,7 +22,7 @@
 				<a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
 				<a href="<?=$_item->getProduct()->getProductUrl()?>"><?=$_item->getName()?></a>
 				<br/><strong>Qty: <?=1*$_item->getQty()?></strong>
-				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+				<?//=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
 			</div>
 		</li>
 	<?endforeach;?>
@@ -27,16 +34,12 @@
 
 
     
-    <?if(sizeof($this->getCartItems())>0):?>
     <div class="actions">
-        <div class="subtotal">
-            <span class="label"><?=__('Subtotal')?>:</span><br/>
-            <span class="price"><?=$this->getSubtotal()?></span>
-        </div>
+    <?if($this->getItemCollection()->getSize()):?>
         <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=__('Checkout')?></span></button><br/>
+     <?endif?>
         <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('Go to Cart')?></a>
-     </div>
-    <?endif?>
+    </div>
 </div>
 <!-- [ends] .cart-sidebar // -->
 <?endif?>

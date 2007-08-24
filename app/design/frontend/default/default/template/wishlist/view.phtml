@@ -29,8 +29,8 @@
                     <?=$this->getFormatedDate($item->getAddedAt())?>
                 </td>
                 <td class="a-center">
-                    <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>')" class="link-cart"><?=__('Add to cart')?></a><br/>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>')" class="link-remove" /><?=__('Remove')?></a>
+                    <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>');return false;" class="link-cart"><?=__('Add to cart')?></a><br/>
+                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" /><?=__('Remove')?></a>
                 </td>
             </tr>
         <?endforeach?>

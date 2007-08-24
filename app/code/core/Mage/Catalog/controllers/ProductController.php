@@ -10,13 +10,18 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
 	protected function _initProduct()
     {
-        $categoryId = $this->getRequest()->getParam('category', false);
-        $productId  = $this->getRequest()->getParam('id');
+        $categoryId = (int) $this->getRequest()->getParam('category', false);
+        $productId  = (int) $this->getRequest()->getParam('id');
 
         $product = Mage::getModel('catalog/product')
-            ->load($productId)
-            ->setCategoryId($categoryId);
-
+            ->load($productId);
+        
+        if ($categoryId) {
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            if ($category->getId()) {
+                $product->setCategory($category);
+            }
+        }
         Mage::register('product', $product);
     }
 
@@ -34,22 +39,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('tag/session');
         $this->renderLayout();
     }
-
-    /*public function superConfigAction()
-    {
-    	$this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('catalog/product_view_super_config')->toHtml()
-        );
-    }*/
-
-    /*public function priceAction()
-    {
-    	$this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('catalog/product_view_price')->toHtml()
-        );
-    }*/
 
     public function galleryAction()
     {

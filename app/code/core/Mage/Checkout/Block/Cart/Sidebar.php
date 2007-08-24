@@ -11,9 +11,20 @@
 
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 {
-	public function getCartItems()
+	public function getItemCollection()
 	{
-		return $this->getQuote()->getAllItems();
+	    $collection = $this->getData('item_collection');
+	    if (is_null($collection)) {
+	        $collection = Mage::getResourceModel('sales/quote_item_collection')
+	           ->addAttributeToSelect('*')
+	           ->setQuoteFilter($this->getQuote()->getId())
+	           ->addAttributeToSort('created_at', 'desc')
+	           ->setPageSize(3)
+	           ->load();
+
+            $this->setData('item_collection', $collection);
+	    }
+		return $collection;
 	}
     
 	public function getSubtotal()
@@ -34,11 +45,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	public function getQuote()
 	{
 		return Mage::getSingleton('checkout/session')->getQuote();
-	}
-	
-	public function getCanDisplayWishlist()
-	{
-		return Mage::getSingleton('customer/session')->isLoggedIn();
 	}
 
 	public function getCanDisplayCart()

@@ -65,16 +65,20 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getCategoryId()
     {
-        $categoryId = ($this->getData('category_id')) ? $this->getData('category_id') : $this->getDefaultCategory();
-        return $categoryId;
+        if ($category = Mage::registry('current_category')) {
+            return $category->getId();
+        }
+        return false;
     }
     
     public function getCategory()
     {
-    	if (!$this->getData('category') && $this->getCategoryId()) {
-    		$this->setCategory(Mage::getModel('catalog/category')->load($this->getCategoryId()));
+        $category = $this->getData('category');
+    	if (is_null($category) && $this->getCategoryId()) {
+    	    $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+    		$this->setCategory($category);
     	}
-    	return $this->getData('category');
+    	return $category;
     }
 
     /**
@@ -697,18 +701,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	$urlKey = trim($urlKey, '-');
     	
     	return $urlKey;
-    }
-
-    /**
-     * Get product category url
-     *
-     * @return string
-     */
-    public function getCategoryUrl()
-    {
-    	$url = $this->getCategory()->getCategoryUrl();
-        //$url = Mage::getUrl('catalog/category/view', array('id'=>$this->getCategoryId()));
-        return $url;
     }
 
     public function getImageUrl()

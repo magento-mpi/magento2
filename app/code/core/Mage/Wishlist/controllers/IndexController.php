@@ -50,11 +50,22 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		}
 		catch (Exception $e) {
 			Mage::getSingleton('customer/session')->addError('Cannot create wishlist');
+			$this->_redirect('*');
+			return;
 		}
-
+        
+		$productId = (int) $this->getRequest()->getParam('product');
+		$product = Mage::getModel('catalog/product')->load($productId);
+		if (!$product->getId()) {
+		    Mage::getSingleton('customer/session')->addError('Can not specify product');
+		    $this->_redirect('*');
+		    return;
+		}
+		
 		try {
-			$wishlist->addNewItem($this->getRequest()->getParam('product'));
-			$message = 'Product name was successfully added to your wishlist. Click <a href="%s">here</a> to continue shopping';
+			$wishlist->addNewItem($product->getId());
+			$message = $product->getName().' was successfully added to your wishlist. Click <a href="%s">here</a> to continue shopping';
+			
 			if ($referer = Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
 			    Mage::getSingleton('customer/session')->setBeforeWishlistUrl(null);
 			}

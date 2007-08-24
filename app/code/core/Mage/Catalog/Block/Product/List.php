@@ -72,19 +72,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         return $this->getChildHtml('toolbar');
     }
 
-    /**
-     * Retrieve
-     *
-     * @return unknown
-     */
-    public function getCanUseCompare()
-    {
-    	if($this->getLayout()->getBlock('catalog.compare.sidebar')) {
-    		return true;
-    	}
-    	return false;
-    }
-
     public function setCollection($collection)
     {
         $this->_productCollection = $collection;
