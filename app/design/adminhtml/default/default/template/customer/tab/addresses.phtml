@@ -27,7 +27,7 @@
     <?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
         <li id="address_item_<?=$_address->getId()?>">
-            <a href="#" class="btn-remove-address" id="delete_button<?=++$_iterator?>"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" /></a>
+            <a href="#" class="btn-remove-address"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" /></a>
             <a href="#" id="select_button" class="select_button btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
             <address>
             <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
@@ -91,7 +91,7 @@
     <!-- Template for adding address item to list -->
     <?$_templatePrefix = '_template_'?>
     <div id="address_item_template" class="no-display template">
-        <a href="#" id="delete_button" class="btn-remove-address" id="delete_button<?=++$_iterator?>"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" /></a>
+        <a href="#" class="btn-remove-address"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" /></a>
         <a href="#" id="select_button" class="btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
 
         <address><?=__('New Customer Address')?></address>
@@ -249,7 +249,7 @@ addressesModel.prototype = {
         //if (elem.tagName != 'BUTTON' && elem.tagName != 'INPUT')
             //elem = Event.findElement(event, 'button'); //Safari bug fix
 
-        if ( (elem.parentNode.tagName == 'A') && elem.parentNode.id.match(/^delete_button([0-9]?)$/) ) {
+        if ( ((elem.tagName == 'A') && elem.id.match(/^delete_button([0-9]?)$/)) || ((elem.tagName == 'IMG') && elem.id.match(/^delete_button([0-9]?)$/)) ) {
             this.deleteAddress(element);
             Event.stop(event);
         }
