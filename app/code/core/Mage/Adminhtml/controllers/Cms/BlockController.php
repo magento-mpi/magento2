@@ -60,7 +60,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Block') : __('New Block'), $id ? __('Edit Block') : __('New Block'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_block_edit')->setData('action', Mage::getUrl('*/cms_block/save'))))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_block_edit')->setData('action', Mage::getUrl('*/cms_block/save')))
             ->renderLayout();
     }
 
