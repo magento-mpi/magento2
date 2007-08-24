@@ -38,8 +38,9 @@ class Mage_CatalogSearch_Block_By_Query extends Mage_Core_Block_Template
                     'link'=>Mage::getBaseUrl())
                 );
         
-        $this->getLayout()->getBlock('head')->setTitle('Search results for: '.$queryEscaped);
-        $this->getLayout()->getBlock('root')->setHeaderTitle('Search results for: '.$queryEscaped);            
+        $title = __('Search results for:').' '.$queryEscaped;
+        $this->getLayout()->getBlock('head')->setTitle($title);
+        $this->getLayout()->getBlock('root')->setHeaderTitle($title);            
         
     }
     

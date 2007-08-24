@@ -243,6 +243,9 @@ addressesModel.prototype = {
         Element.removeClassName(element, 'over');
     },
     itemMouseClick : function(event){
+    	if (!Event) {
+    		return;
+    	}
         var element = Event.findElement(event, 'li'); // find top item
 
         var elem = Event.element(event); // exact element clicked
