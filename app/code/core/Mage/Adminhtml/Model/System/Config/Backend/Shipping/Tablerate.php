@@ -68,7 +68,12 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
 
     	    $websiteId = $object->getScopeId();
             $websiteModel = Mage::getModel('core/website')->load($websiteId);
-            $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
+            $conditionName = $object->getValue();
+            if ($conditionName{0} == '_') {
+                $conditionName = substr($conditionName, 1, strpos($conditionName, '/')-1);
+            } else {
+                $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
+            }
             $conditionFullName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
 
             if (!empty($csv)) {
