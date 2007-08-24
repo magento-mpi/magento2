@@ -86,8 +86,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
         }
         
-        if ($request->getDestCountry()) {
-            $destCountry = $request->getDestCountry();
+        if ($request->getDestCountryId()) {
+            $destCountry = $request->getDestCountryId();
         } else {
             $destCountry = 223;
         }
@@ -238,8 +238,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'GNDCOM' => 'Ground Commercial',
                 'GNDRES' => 'Ground Residential',
                 'STD'    => 'Canada Standard',
-                'XPR'    => 'Worldwide Express',
-                'XPRL'   => 'worldwide Express Letter',
+//                'XPR'    => 'Worldwide Express',
+                'WXS'    => 'Worldwide Express',
+                'XPRL'   => 'Worldwide Express Letter',
                 'XDM'    => 'Worldwide Express Plus',
                 'XDML'   => 'Worldwide Express Plus Letter',
                 'XPD'    => 'Worldwide Expedited',

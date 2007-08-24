@@ -70,8 +70,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
         }
         
-        if ($request->getDestCountry()) {
-            $destCountry = $request->getDestCountry();
+        if ($request->getDestCountryId()) {
+            $destCountry = $request->getDestCountryId();
         } else {
             $destCountry = 223;
         }
