@@ -59,6 +59,6 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 
 	public function getAddToCartItemUrl($item)
 	{
-	    return $this->getUrl('wishlist/index/cart',array('item'=>$item->getId()));
+	    return $this->getUrl('wishlist/index/cart',array('item'=>$item->getWishlistItemId()));
 	}
-}// Class Mage_Wishlist_Block_Customer_Sidebar END
+}
