@@ -303,7 +303,9 @@ addressesModel.prototype = {
         if( this.activeItem ) {
             var buttons = this.activeItem.getElementsByClassName('btn-edit-address');
             buttons[0].toggle();
+        }
 
+        if( item ) {
             buttons = item.getElementsByClassName('btn-edit-address');
             buttons[0].toggle();
         }
