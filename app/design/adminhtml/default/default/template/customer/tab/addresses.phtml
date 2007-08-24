@@ -249,7 +249,7 @@ addressesModel.prototype = {
         //if (elem.tagName != 'BUTTON' && elem.tagName != 'INPUT')
             //elem = Event.findElement(event, 'button'); //Safari bug fix
 
-        if ( (elem.tagName == 'A') && elem.id.match(/^delete_button([0-9]?)$/) ) {
+        if ( (elem.parentNode.tagName == 'A') && elem.parentNode.id.match(/^delete_button([0-9]?)$/) ) {
             this.deleteAddress(element);
             Event.stop(event);
         }
