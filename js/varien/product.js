@@ -269,9 +269,11 @@ Product.Config.prototype = {
             for(var i=0;i<options.length;i++){
                 var canAddOption = true;
                 if(prevConfig) {
+                    canAddOption = false;
                     for(var j=0;j<options[i].products.length;j++){
-                        if(prevConfig.config.products.indexOf(options[i].products[j])<0){
-                            canAddOption = false;
+                        if(prevConfig.config.products.indexOf(options[i].products[j])>-1){
+                            canAddOption = true;
+                            break;
                         }
                     }
                 }
