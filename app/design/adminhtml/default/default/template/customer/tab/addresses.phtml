@@ -219,6 +219,11 @@ addressesModel.prototype = {
             this.setActiveItem(newItem);
             //customerForm.initFormElements();
             this.bindCountryRegionRelation(newForm.id);
+
+            if( newItem ) {
+                var buttons = this.activeItem.getElementsByClassName('btn-edit-address');
+                buttons[0].hide();
+            }
         }
         this.reloadItemList();
         //Event.stop(event);
@@ -294,6 +299,15 @@ addressesModel.prototype = {
             //$('form_'+item.id).focus();
             this.addFieldChangeObserver($('form_'+item.id));
         }
+
+        if( this.activeItem ) {
+            var buttons = this.activeItem.getElementsByClassName('btn-edit-address');
+            buttons[0].toggle();
+
+            buttons = item.getElementsByClassName('btn-edit-address');
+            buttons[0].toggle();
+        }
+
         this.activeItem = item;
     },
     getFormContainerFields : function(container){
