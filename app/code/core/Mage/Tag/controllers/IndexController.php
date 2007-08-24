@@ -64,7 +64,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 }
 
                 Mage::getSingleton('tag/session')
-                        ->addSuccess('You tag(s) accepted for moderation');
+                        ->addSuccess('Your tag(s) have been accepted for moderation');
 
                 $product = Mage::getModel('catalog/product')
                     ->load($this->getRequest()->getParam('productId'));

@@ -37,7 +37,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 $review->aggregate();
 
                 Mage::getSingleton('review/session')
-                    ->addSuccess('You review accepted for moderation');
+                    ->addSuccess('Your review have been accepted for moderation');
             }
             catch (Exception $e){
                 Mage::getSingleton('review/session')
