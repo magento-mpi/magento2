@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
 
         //adding additional data to resources array
         foreach ($rules_set->getItems() as $item) {
-        	if (array_key_exists(strtolower($item->getResource_id()), $resources)) {
+        	if (array_key_exists(strtolower($item->getResource_id()), $resources) && $item->getPermission() == 'allow') {
         		$resources[$item->getResource_id()]['checked'] = true;
         	}
         }

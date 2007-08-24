@@ -51,15 +51,20 @@ class Mage_Permissions_Model_Mysql4_Rules {
         try {
         	$roleId = $rule->getRoleId();
 	    	$this->_write->delete($this->_ruleTable, "role_id = {$roleId}");
-
-	    	if ($rule->getResources()) {
-		    	foreach ($rule->getResources() as $key => $val) {
+	    	$masterResources = Mage::getModel('permissions/roles')->getResourcesList2D();
+	    	
+	    	
+	    	
+	    	if ( $postedResources = $rule->getResources() ) {
+		    	foreach ($masterResources as $index => $resName) {
+		    		$permission = ( in_array($resName, $postedResources) )? 'allow' : 'deny';
 		    		$this->_write->insert($this->_ruleTable, array(
-			    		'role_type' => 'G',
-			    		'resource_id' => trim($val, '/'),
-			    		'privileges' => '', # FIXME !!!
-			    		'assert_id' => 0,
-			    		'role_id' => $roleId
+			    		'role_type' 	=> 'G',
+			    		'resource_id' 	=> trim($resName, '/'),
+			    		'privileges' 	=> '', # FIXME !!!
+			    		'assert_id' 	=> 0,
+			    		'role_id' 		=> $roleId,
+			    		'permission'	=> $permission
 			    		));
 		    	}
 	    	}

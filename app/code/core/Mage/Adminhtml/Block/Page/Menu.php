@@ -36,12 +36,16 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         $parentArr = array();
         $i = sizeof($parent->children());
         foreach ($parent->children() as $childName=>$child) {
+            
+			$aclResource = 'admin/'.$path.$childName;
+        	if (!$this->_checkAcl($aclResource)) {
+                continue;
+            }
+        	
             if ($child->depends && !$this->_checkDepends($child->depends)) {
                 continue;
             }
-            if ($child->acl && !$this->_checkAcl($child->acl)) {
-                continue;
-            }
+
             $menuArr = array();
             
             $menuArr['label'] = __((string)$child->title);
@@ -53,7 +57,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
                 $menuArr['url'] = '#';
                 $menuArr['click'] = 'return false';
             }
-#print_r($this->getActive().','.$path.$childName."<hr>");
+			#print_r($this->getActive().','.$path.$childName."<hr>");
             $menuArr['active'] = ($this->getActive()==$path.$childName)
                 || (strpos($this->getActive(), $path.$childName.'/')===0);
             
@@ -86,11 +90,17 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         return true;
     }
     
-    protected function _checkAcl(Varien_Simplexml_Element $acl)
+    /*protected function _checkAcl(Varien_Simplexml_Element $acl)
     {
         return true;
         $resource = (string)$acl->resource;
         $privilege = (string)$acl->privilege;        
         return Mage::getSingleton('admin/session')->isAllowed($resource, $privilege);
+    }*/
+    
+    protected function _checkAcl($resource)
+    {
+    	#return true;
+    	return Mage::getSingleton('admin/session')->isAllowed($resource);
     }
 }

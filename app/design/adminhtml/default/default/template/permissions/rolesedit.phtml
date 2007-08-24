@@ -36,13 +36,48 @@
                 }
                 return children;
        		},
+       		
+       		_getParentCheckboxes: function (obj) {
+                var ids = obj.id.split('_');
+                var parents = new Array();
+                var path = "admin";
+                for( x=0; x<ids.length; x++){
+                	var key = ids[x];
+                	if (key == "admin") continue;
+                	var o = this._findCheckboxById(path+"_"+key);
+                	if (o) {
+                		path = path + "_" + key;
+                		parents.push(o);
+                	}
+                }
+                return parents;
+       		},
 
        		_toggle: function(obj) {
-       		    objState = obj.checked;
+       		    var objState = obj.checked;
+       		    
+       		    if (objState) {
+       		    	var parents = this._getParentCheckboxes(obj);
+       		    	if (parents.length > 0) {
+       		    		for(var y in parents){
+       		    			parents[y].checked = objState;
+       		    		}
+       		    	}
+       		    }
+       		    
        		    checkboxes = this._getCheckboxes(obj);
        		    for( i in checkboxes ) {
        		        checkboxes[i].checked = objState;
        		    }
+       		},
+       		
+       		_findCheckboxById: function(id)
+       		{
+       			var tmp = document.getElementsByTagName('input');
+       			for(var i in tmp){
+       				if ( tmp[i].id == id && tmp[i].type == 'checkbox' ) return tmp[i];
+       			}
+       			return null;
        		}
     	}
     }();
