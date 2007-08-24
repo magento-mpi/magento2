@@ -73,17 +73,20 @@
                         this.root.expand(false, false);
                         tree.expandAll();
 
-                        var ge = new Ext.tree.TreeEditor(tree, {
+                        this.ge = new Ext.tree.TreeEditor(tree, {
                             allowBlank:false,
                             blankText:'<?=__('A name is required')?>',
-                            //selectOnFocus:true,
+                            selectOnFocus:true,
                             cls:'folder'
                         });
 
                         this.root.addListener('beforeinsert', editSet.leftBeforeInsert);
                         this.root.addListener('beforeappend', editSet.leftBeforeInsert);
 
-                        ge.addListener('beforerender', editSet.editGroup);
+                        //this.ge.addListener('beforerender', editSet.editGroup);
+                        this.ge.addListener('beforeshow', editSet.editGroup);
+                        //this.ge.addListener('startedit', editSet.editGroup);
+
                         //-------------------------------------------------------------
 
                         var tree2 = new Ext.tree.TreePanel('tree-div2', {
@@ -245,7 +248,8 @@
 
                     editGroup : function(obj) {
                         if( obj.editNode.attributes.cls != 'folder' ) {
-                            return false;
+                         	TreePanels.ge.cancelEdit();
+                         	return false;
                         }
                     },
 
