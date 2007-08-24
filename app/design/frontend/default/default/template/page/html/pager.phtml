@@ -9,10 +9,15 @@
 <table class="pager" cellspacing="0">
     <tr>
         <td>
-            Items <strong><?=$this->getFirstNum()?></strong> 
-            to <strong><?=$this->getLastNum()?></strong> 
+        <?if($this->getLastPageNum()>1):?>
+            Items <strong><?=$this->getFirstNum()?></strong>
+            to <strong><?=$this->getLastNum()?></strong>
             of <strong><?=$this->getTotalNum()?> total</strong>
+        <?else:?>
+            <strong><?=$this->getTotalNum()?> Item(s)</strong>
+        <?endif;?>
         </td>
+        <?if($this->getLastPageNum()>1):?>
         <td>
             <strong>Page:</strong>
             <ol>
@@ -35,10 +40,11 @@
             <?endif?>
             </ol>
         </td>
+        <?endif;?>
         <td class="a-right">
             Show <select name="" onchange="setLocation(this.value)">
-            <?foreach ($this->getAvailableLimit() as  $_limit):?>
-                <option value="<?=$this->getLimitUrl($_limit)?>"<?if($this->isLimitCurrent($_limit)):?> selected<?endif?>>
+            <?foreach ($this->getAvailableLimit() as  $_key=>$_limit):?>
+                <option value="<?=$this->getLimitUrl($_key)?>"<?if($this->isLimitCurrent($_key)):?> selected<?endif?>>
                     <?=$_limit?>
                 </option>
             <?endforeach;?>

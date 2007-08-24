@@ -13,7 +13,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     protected $_orderVarName        = 'order';
     protected $_directionVarName    = 'dir';
     protected $_modeVarName         = 'mode';
-    protected $_availableOrder      = array('price', 'name');
+    protected $_availableOrder      = array();
     protected $_availableMode       = array();
     protected $_enableViewSwitcher  = true;
     protected $_isExpanded          = true;
@@ -21,6 +21,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function __construct()
     {
         parent::__construct();
+        $this->_availableOrder = array('position'=>__('Best Value'), 'name'=>'Name', 'price'=>__('Price'));
         $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
         $this->setTemplate('catalog/product/list/toolbar.phtml');
     }
@@ -52,10 +53,12 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function getCurrentOrder()
     {
         $order = $this->getRequest()->getParam($this->getOrderVarName());
-        if ($order && in_array($order, $this->getAvailableOrders())) {
+        $orders = $this->getAvailableOrders();
+        if ($order && isset($orders[$order])) {
             return $order;
         }
-        return false;
+        $keys = array_keys($orders);
+        return $keys[0];
     }
 
     public function getCurrentDirection()
@@ -93,6 +96,13 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function getCurrentMode()
     {
         $mode = $this->getRequest()->getParam($this->getModeVarName());
+        if ($mode) {
+            Mage::getSingleton('catalog/session')->setDisplayMode($mode);
+        }
+        else {
+            $mode = Mage::getSingleton('catalog/session')->getDisplayMode();
+        }
+        
         if ($mode && isset($this->_availableMode[$mode])) {
             return $mode;
         }
@@ -146,5 +156,16 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function isExpanded()
     {
         return $this->_isExpanded;
+    }
+    
+    public function getAvailableLimit()
+    {
+        if ($this->getCurrentMode() == 'list') {
+            return array(5=>5,10=>10,15=>15,20=>20,25=>25, 'all'=>__('All'));
+        }
+        elseif ($this->getCurrentMode() == 'grid') {
+            return array(9=>9,15=>15,20=>30, 'all'=>__('All'));
+        }
+        return parent::getAvailableLimit();
     }
 }

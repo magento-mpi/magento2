@@ -16,7 +16,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     protected $_collection = null;
     protected $_pageVarName     = 'p';
     protected $_limitVarName    = 'limit';
-    protected $_availableLimit  = array(10,20,50);
+    protected $_availableLimit  = array(10=>10,20=>20,50=>50);
     protected $_dispersion      = 3;
 
     public function __construct()
@@ -35,20 +35,24 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     
     public function getLimit()
     {
+        $limits = $this->getAvailableLimit();
         if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
-            if (in_array($limit, $this->_availableLimit)) {
+            if (isset($limits[$limit])) {
                 return $limit;
             }
         }
-        
-        return $this->_availableLimit[0];
+        $limits = array_keys($limits);
+        return $limits[0];
     }
     
     public function setCollection($collection)
     {
         $this->_collection = $collection
-            ->setCurPage($this->getCurrentPage())
-            ->setPageSize($this->getLimit());
+            ->setCurPage($this->getCurrentPage());
+        // If not int - then not limit
+        if ((int) $this->getLimit()) {
+            $this->_collection->setPageSize($this->getLimit());
+        }            
             
         return $this;
     }
@@ -112,9 +116,14 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         return $this->getCollection()->getCurPage() == 1;
     }
     
+    public function getLastPageNum()
+    {
+        return $this->getCollection()->getLastPageNumber();
+    }
+    
     public function isLastPage()
     {
-        return $this->getCollection()->getCurPage() >= $this->getCollection()->getLastPageNumber();
+        return $this->getCollection()->getCurPage() >= $this->getLastPageNum();
     }
     
     public function isLimitCurrent($limit)
