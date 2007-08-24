@@ -34,14 +34,9 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         parent::_initChildren();
 
         $pager = $this->getLayout()->createBlock('page/html_pager', 'sales.order.history.pager')
-            ->setCollection($this->getOrders())
-            ->setUrlPrefix('sales')
-//            ->setViewBy('mode', array('grid', 'list'))
-            ->setViewBy('limit')
-//            ->setViewBy('order', array('name', 'price'))
-        ;
+            ->setCollection($this->getOrders());
         $this->setChild('pager', $pager);
-
+        $this->getOrders()->load();
         return $this;
     }
 
