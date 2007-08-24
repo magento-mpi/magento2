@@ -31,32 +31,35 @@
                 <strong>T</strong> | <?=$_address->getTelephone()?>
             </address>
             <br/>
-            <div class="head">
-                <h5>Shipping Method</h5>
+            <div class="shipping-method-pointer">
+                <img src="<?=$this->getSkinUrl('images/shipping_method_pointer.gif')?>" class="pointer">
+                <div class="head">
+                    <h5>Shipping Method</h5>
+                </div>
+                <?if (!($_shippingRateGroups = $this->getShippingRates($_address))):?>
+                    <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
+                <?else:?>
+                <dl class="shipment-methods">
+                    <?foreach ($_shippingRateGroups as $code => $_rates):?>
+                        <dt><?=$this->getCarrierName($code)?></dt>
+                        <dd>
+                            <ul>
+                            <?foreach ($_rates as $_rate):?>
+                                <li>
+                                   <?if ($_rate->getErrorMessage()):?>
+                                        <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
+                                   <?else:?>
+                                        <input name="shipping_method[<?=$_address->getId()?>]" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod($_address)) echo ' checked'?>/>
+                                        <label for="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>
+                                   <?endif?>
+                                </li>
+                            <?endforeach;?>
+                            </ul>
+                        </dd>
+                    <?endforeach;?>
+                </dl>
+                <?endif;?>
             </div>
-            <?if (!($_shippingRateGroups = $this->getShippingRates($_address))):?>
-                <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
-            <?else:?>
-            <dl class="shipment-methods">
-                <?foreach ($_shippingRateGroups as $code => $_rates):?>
-                    <dt><?=$this->getCarrierName($code)?></dt>
-                    <dd>
-                        <ul>
-                        <?foreach ($_rates as $_rate):?>
-                            <li>
-                               <?if ($_rate->getErrorMessage()):?>
-                                    <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
-                               <?else:?>
-                                    <input name="shipping_method[<?=$_address->getId()?>]" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod($_address)) echo ' checked'?>/>
-                                    <label for="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>
-                               <?endif?>
-                            </li>
-                        <?endforeach;?>
-                        </ul>
-                    </dd>
-                <?endforeach;?>
-            </dl>
-            <?endif;?>
         </div>
         <div class="col-2">
             <div class="head">

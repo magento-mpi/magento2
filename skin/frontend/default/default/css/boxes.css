@@ -952,7 +952,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     padding:2px 8px;
     }
 .multi-address-checkout-box .content { 
-    padding:15px 20px; 
+    padding:15px 20px 20px 20px; 
     }
 .multi-address-checkout-box .count-head {
     border-bottom:1px solid #BBAFA0;
@@ -962,7 +962,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .multi-address-checkout-box .count-head h4 {  margin:0; }
 .multi-address-checkout-box .head h5 { color:#E26703; }
 .multi-address-checkout-box .head a { font-weight:normal;}
-
+.shipping-method-pointer { border:1px solid #d9d2be; padding:13px; background:#fff; position:relative; } 
+.shipping-method-pointer .pointer { position:absolute; top:-10px; right:-60px; }
 .place-order-box-container, .place-order-box { height:71px; }
 .place-order-box-container { float:right; background:url(../images/place_order_container_bg.gif) no-repeat; padding-left:21px; }
 .place-order-box { background:url(../images/place_order_bg.gif) no-repeat 100% 0; padding-right:21px;}
