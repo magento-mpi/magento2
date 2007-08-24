@@ -32,15 +32,7 @@
     </thead>
     <tfoot>
         <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-<?if($this->isWishlistActive()):?>
-            <td>&nbsp;</td>
-<?endif?>
-            <td>&nbsp;</td>
-            <td class="a-center"><button class="form-button-alt"><span><?=__('Update Shopping Cart')?></span></button></td>
-            <td></td>
+            <td colspan="<?if($this->isWishlistActive()):?>7<?else:?>6<?endif?>" class="a-right"><button class="form-button-alt"><span><?=__('Update Shopping Cart')?></span></button></td>
         </tr>
     </tfoot>
     <tbody>

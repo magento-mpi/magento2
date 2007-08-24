@@ -1,6 +1,7 @@
 .one-page-checkout { position:relative; }
 .group-select .legend { position:relative; zoom:1; }
 .multi-address-checkout-box .box { zoom:1; }
+.multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px;}
 
 /* Min-height for IE */
 .login-box .content { height:180px; }

@@ -65,7 +65,7 @@ $numColumns = sizeof($this->getColumns());
     <?if($this->getExportTypes()):?>
         <td class="export a-right">
             <img src="<?=$this->getSkinUrl('images/icon_export.gif')?>" alt="" class="v-middle"/>&nbsp; <?=__('Export to')?>:
-            <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export">
+            <select name="<?=$this->getId()?>_export" id="<?=$this->getId()?>_export" style="width:8em;">
             <?foreach ($this->getExportTypes() as $_type):?>
                 <option value="<?=$_type->getUrl()?>"><?=$_type->getLabel()?></option>
             <?endforeach;?>

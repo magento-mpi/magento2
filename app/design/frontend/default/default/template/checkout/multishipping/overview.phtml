@@ -101,14 +101,13 @@
 <?endforeach;?>
 </div>
 </div>
-<div class="place-order-box-container">
-    <div class="place-order-box">
-        <div class="content">
-            <big class="grand-total"><span class="label">Grand Total:</span> <span class="price"><?=$this->getTotal()?></span></big>
-            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="Place Order"/>
-        </div>
-    </div>
-</div>
+<table class="place-order-box" cellspacing="0">
+    <tr>
+        <td class="left-radius">&nbsp;</td>
+        <td class="main-radius"><big class="grand-total"><span class="label">Grand Total:</span> <span class="price"><?=$this->getTotal()?></span></big>
+            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="Place Order"/></td>
+    </tr>
+</table>
 <div class="clear"></div>
 <div class="form-buttons">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Billing Information</a>
