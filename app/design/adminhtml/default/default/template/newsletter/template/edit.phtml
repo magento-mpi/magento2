@@ -1,5 +1,5 @@
 <div class="content-header">
-    <table cellspacing="0" class="grid-header"> 
+    <table cellspacing="0" class="grid-header">
         <tr>
             <td style="width:30%;"><h3><?=$this->getHeaderText()?></h3></td>
             <td class="form-buttons">
@@ -8,7 +8,6 @@
                 <?if(!$this->isTextType()):?>
                 <?=$this->getToPlainButtonHtml();?>
                 <?=$this->getToHtmlButtonHtml();?>
- 				<?=$this->getToggleButtonHtml();?>
                 <?endif?>
                 <?=$this->getSaveButtonHtml();?>
                 <?=$this->getPreviewButtonHtml();?>
@@ -35,20 +34,19 @@
         typeChange: false,
         isEditor: false,
         init: function () {
-        	if ($('convert_button_back')) { 
+        	if ($('convert_button_back')) {
         		$('convert_button_back').hide();
         	}
         },
         stripTags: function () {
-            if(!window.confirm("<?=__('Are you sure?')?>")) { 
+            if(!window.confirm("<?=__('Are you sure?')?>")) {
                 return false;
             }
             if(this.isEditor) {
             	tinyMCE.execCommand('mceRemoveControl', false, 'text');
             }
-            this.unconvertedText = $('text').value; 
+            this.unconvertedText = $('text').value;
             $('convert_button').hide();
-            $('toggle_button').hide();
             $('text').value =  $('text').value.stripScripts().stripTags();
             $('convert_button_back').show();
             this.typeChange = true;
@@ -56,12 +54,9 @@
         },
         unStripTags: function () {
             $('convert_button').show();
-            $('toggle_button').show();
             $('convert_button_back').hide();
             $('text').value =  this.unconvertedText;
-            if(this.isEditor) {
-            	tinyMCE.execCommand('mceAddControl', false, 'text');
-            }
+
             this.typeChange = false;
             return false;
         },
@@ -70,7 +65,7 @@
         		tinyMCE.execCommand('mceRemoveControl', false, 'text');
         	} else {
         		tinyMCE.execCommand('mceAddControl', false, 'text');
-        	}        	
+        	}
         	this.isEditor = !this.isEditor;
         },
         save: function() {
@@ -82,26 +77,26 @@
             }
             templateForm.submit();
             return false;
-        },        
+        },
         preview: function() {
             if (this.typeChange) {
                 $('preview_type').value = 1;
             }
             if (typeof tinyMCE == 'undefined' || !tinyMCE.getInstanceById('text')) {
                 $('preview_text').value = $('text').value;
-            } else { 
+            } else {
                  $('preview_text').value = tinyMCE.getInstanceById('text').getHTML();
             }
             templatePreviewForm.submit();
             return false;
         },
-        
+
         deleteTemplate: function() {
-            if(window.confirm("<?=__('Are you sure?')?>")) { 
+            if(window.confirm("<?=__('Are you sure?')?>")) {
                	window.location.href = '<?=$this->getDeleteUrl()?>';
             }
         }
     };
-    
+
     templateControl.init();
 </script>

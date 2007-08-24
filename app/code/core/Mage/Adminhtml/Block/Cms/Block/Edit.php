@@ -21,10 +21,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
 
         $this->_updateButton('save', 'label', __('Save Block'));
         $this->_updateButton('delete', 'label', __('Delete Block'));
-        $this->_addButton('toggle', array(
-            'label'     => __('Toggle Editor'),
-            'onclick'   => 'toggleEditor()',
-        ), 1);
+
         $this->_formScripts[] = "
             function toggleEditor() {
                 if (tinyMCE.getInstanceById('block_content') == null) {

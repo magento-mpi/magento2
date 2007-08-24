@@ -22,10 +22,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
 
         $this->_updateButton('save', 'label', __('Save Page'));
         $this->_updateButton('delete', 'label', __('Delete Page'));
-        $this->_addButton('toggle', array(
-            'label'     => __('Toggle Editor'),
-            'onclick'   => 'toggleEditor()',
-        ), 1);
+
         $this->_formScripts[] = "
             function toggleEditor() {
                 if (tinyMCE.getInstanceById('page_content') == null) {

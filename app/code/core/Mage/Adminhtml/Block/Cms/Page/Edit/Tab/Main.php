@@ -81,10 +81,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'label' => __('Content'),
             'title' => __('Content'),
             'style' => 'width: 98%; height: 600px;',
-            'wysiwyg' => true,
+            'wysiwyg' => false,
             'required' => true,
-            'theme' => 'advanced',
-            'state' => 'html',
         ));
 
         $form->setValues($model->getData());
