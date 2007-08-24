@@ -8,92 +8,119 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Michael Bessolov <michael@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Template //Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Template
 {
+    /**
+     * Enter description here...
+     *
+     * @var array
+     */
+    protected $_statuses;
 
     public function __construct()
     {
         parent::__construct();
         $this->setId('order_form');
         $this->setTitle(__('Order Information'));
-        $this->setTemplate('sales/order/view/plane.phtml');
+        $this->setTemplate('sales/order/edit/form.phtml');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function getOrder()
     {
         return Mage::registry('sales_order');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Adminhtml_Block_Sales_Order_Edit_Form
+     */
     protected function _initChildren()
     {
         parent::_initChildren();
         $this->setChild( 'items', $this->getLayout()->createBlock( 'adminhtml/sales_order_edit_items', 'items' ));
-//        $this->setChild( 'billing_address', $this->getLayout()->createBlock( 'adminhtml/sales_order_edit_billing_address', 'billing_address' ));
-//        $this->setChild( 'shipping_address', $this->getLayout()->createBlock( 'adminhtml/sales_order_edit_shipping_address', 'shipping_address' ));
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getItemsHtml()
     {
         return $this->getChildHtml('items');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $format
+     * @return string
+     */
     public function getOrderDateFormatted($format='short')
     {
         $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getOrder()->getCreatedAt()));
         return $dateFormatted;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getOrderStatus()
     {
         return Mage::getModel('sales/order_status')->load($this->getOrder()->getOrderStatusId())->getFrontendLabel();
     }
 
-    protected function _prepareForm()
+    public function getSaveUrl()
     {
-        $model = Mage::registry('sales_order');
+        return $this->getParentBlock()->getSaveUrl();
+    }
 
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
-
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
-
-        if ($model->getId()) {
-        	$fieldset->addField('order_id', 'hidden', array(
-                'name' => 'order_id',
-            ));
+    public function getStatuses()
+    {
+        if (is_null($this->_statuses)) {
+            $this->_statuses = Mage::getResourceModel('sales/order_status_collection')->load()->toOptionHash();
         }
+        return $this->_statuses;
+    }
 
-    	$fieldset->addField('title', 'text', array(
-            'name' => 'title',
-            'label' => __('Block Title'),
-            'title' => __('Block Title'),
-            'required' => true,
-        ));
+    public function formatDate($date, $format='medium')
+    {
+        $dateFormatted = strftime(Mage::getStoreConfig('general/local/datetime_format_' . $format), strtotime($date));
+        return $dateFormatted;
+    }
 
-    	$fieldset->addField('identifier', 'text', array(
-            'name' => 'identifier',
-            'label' => __('Identifier'),
-            'title' => __('Identifier'),
-            'required' => true,
-        ));
-
-        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-        $stores[0] = __('All stores');
-
-    	$fieldset->addField('store_id', 'select', array(
-            'name'      => 'store_id',
-            'label'     => __('Store'),
-            'title'     => __('Store'),
-            'required'  => true,
-            'options'    => $stores,
-        ));
-
-        $form->setUseContainer(true);
-
-        $this->setForm($form);
-
-        return parent::_prepareForm();
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getPaymentInfoHtml()
+    {
+        echo 'payment/' . $this->getOrder()->getPayment()->getMethod() . ' , ' . $this->getOrder()->getStoreId();
+        $html = '';
+        $methodConfig = Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod(), $this->getOrder()->getStoreId());
+        if ($methodConfig) {
+            $methodName = $methodConfig->getName();
+            $className = $methodConfig->getClassName();
+            $method = Mage::getModel($className);
+            if ($method) {
+                $method->setPayment($this->getOrder()->getPayment());
+            	$methodBlock = $method->createFormBlock('payment.method.'.$methodName);
+            	if (!empty($methodBlock)) {
+            	    $html = $methodBlock->toHtml();
+    	        }
+            }
+        }
+        return $html;
     }
 
 }

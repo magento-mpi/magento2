@@ -45,7 +45,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
     	return $this;
     }
-    
+
     protected function _beforeSave()
     {
     	Mage::dispatchEvent('beforeSaveOrder', array('order'=>$this));
@@ -363,6 +363,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
 /*********************** STATUSES ***************************/
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Entity_Order_Status_History_Collection
+     */
     public function getStatusHistoryCollection()
     {
         if (is_null($this->_statusHistory)) {
@@ -385,7 +390,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         $history = array();
         foreach ($this->getStatusHistoryCollection() as $status) {
-            if (!$item->isDeleted()) {
+            if (!$status->isDeleted()) {
                 $history[] =  $status;
             }
         }
@@ -402,9 +407,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return false;
     }
 
-    public function addStatusHistory(Mage_Sales_Model_Order_Status $status)
+    public function addStatusHistory(Mage_Sales_Model_Order_Status_History $status)
     {
-        $status->setOrder($this)->setParentId($this->getId());
+        $status->setOrder($this)->setParentId($this->getId())->setStoreId($this->getStoreId());
         $this->setOrderStatusId($status->getOrderStatusId());
         if (!$status->getId()) {
             $this->getStatusHistoryCollection()->addItem($status);
@@ -412,10 +417,20 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function addStatus($statusId)
+    /**
+     * Enter description here...
+     *
+     * @param int $statusId
+     * @param string $comments
+     * @param boolean $is_customer_notified
+     * @return Mage_Sales_Model_Order
+     */
+    public function addStatus($statusId, $comments='', $isCustomerNotified=false)
     {
-        $status = Mage::getModel('sales/order_status')
-            ->setOrderStatusId($statusId);
+        $status = Mage::getModel('sales/order_status_history')
+            ->setOrderStatusId($statusId)
+            ->setComments($comments)
+            ->setIsCustomerNotified($isCustomerNotified);
         $this->addStatusHistory($status);
         return $this;
     }

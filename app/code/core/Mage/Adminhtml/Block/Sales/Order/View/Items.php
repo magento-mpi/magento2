@@ -8,7 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_Widget_Grid
 {
 

@@ -34,6 +34,7 @@
     <div class="col-2">
         <h4><?=__('Billing Method')?></h4>
         <?$_payment = $_order->getPayment()?>
+        <?=$this->getPaymentInfo()?>
         <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
     </div>
 </div>

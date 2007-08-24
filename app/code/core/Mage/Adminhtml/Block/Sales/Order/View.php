@@ -8,7 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_Form_Container
 {
 
@@ -26,13 +25,14 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->_removeButton('reset');
         $this->_removeButton('save');
 
-        $this->_addButton('edit', array(
-            'label' => __('Edit Order'),
-            'onclick'   => 'deleteConfirm(\''. __('Are you sure? This order will be cancelled and a new one will be created instead') .'\', \'' . $this->getEditUrl() . '\')',
-        ));
+        // TODO - Next update functionality, not QA'ed yet
+        // $this->_addButton('edit', array(
+            // 'label' => __('Edit Order'),
+            // 'onclick'   => 'deleteConfirm(\''. __('Are you sure? This order will be cancelled and a new one will be created instead') .'\', \'' . $this->getEditUrl() . '\')',
+        // ));
 
         $this->_addButton('backordered', array(
-            'label' => __('Edit Backordered Items'),
+            'label' => __('Edit Order Status'),
             'onclick'   => 'window.location.href=\'' . $this->getEditBackorderedUrl() . '\'',
         ));
 

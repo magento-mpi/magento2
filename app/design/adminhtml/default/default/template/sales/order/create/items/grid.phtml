@@ -17,7 +17,7 @@
                 <tbody>
                     <?foreach ($_items as $_item):?>
                         <tr>
-                            <td class="a-center"><em><small><?=$_item->getId()?></small></em> <?=$_item->getProductId()?></td>
+                            <td class="a-center"><?=$_item->getProductId()?></td>
                             <td><?=$_item->getSku()?></td>
                             <td><?=$_item->getName()?></td>
                             <td><nobr><?=$this->getSession()->formatPrice($_item->getPrice())?></nobr></td>

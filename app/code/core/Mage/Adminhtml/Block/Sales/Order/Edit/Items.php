@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Items extends Mage_Adminhtml_Block_W
         $this->addColumn('qty_backordered', array(
             'header' => __('Qty Backordered'),
             'index' => 'qty_backordered',
-            'type' => 'input',
+            'renderer' => 'adminhtml/sales_order_edit_items_grid_renderer_backordered'
         ));
 
         $this->addColumn('qty_shipped', array(
@@ -84,6 +84,26 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Items extends Mage_Adminhtml_Block_W
             'header' => __('Qty Cancelled'),
             'index' => 'qty_canceled',
             'type' => 'number',
+        ));
+
+        $this->addColumn('status', array(
+            'header' => __('Item Status'),
+            'getter' => 'getStatus',
+        ));
+
+        $this->addColumn('discount_amount', array(
+            'header' => __('Discount'),
+            'getter' => 'getDiscountAmountFormatted',
+        ));
+
+        $this->addColumn('tax_amount', array(
+            'header' => __('Tax Amount'),
+            'getter' => 'getTaxAmountFormatted',
+        ));
+
+        $this->addColumn('row_total', array(
+            'header' => __('Subtotal'),
+            'getter' => 'getRowTotalFormatted',
         ));
 
         return parent::_prepareColumns();

@@ -11,10 +11,10 @@
                         <title>Orders</title>
                         <action>*/sales_order</action>
                     </order>
-                    <invoice>
+                    <!--<invoice>
                         <title>Invoices</title>
                         <action>*/sales_invoice</action>
-                    </invoice>
+                    </invoice>-->
                     <tax>
                         <title>Tax</title>
                         <children>
