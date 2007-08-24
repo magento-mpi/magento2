@@ -22,6 +22,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
 
     public function hasItems()
     {
+        if (! $this->getStoreId()) {
+            return false;
+        }
         if (is_null($this->_items)) {
             $this->_prepareItems();
         }
