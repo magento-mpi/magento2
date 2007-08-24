@@ -1,6 +1,6 @@
 .one-page-checkout { position:relative; }
 .group-select .legend { position:relative; zoom:1; }
-
+.multi-address-checkout-box .box { zoom:1; }
 
 /* Min-height for IE */
 .login-box .content { height:180px; }
@@ -13,3 +13,4 @@
 .base-mini .head h4, .shopping-cart-collaterals h4 { height:16px; }
 .login-box h4 { height:16px; }
 .login-box .content { height:230px; }
+

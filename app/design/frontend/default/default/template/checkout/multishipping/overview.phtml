@@ -2,41 +2,41 @@
     <h3>Review Order</h3>
 </div>
 <?=$this->getMessagesBlock()->getHtml()?>
-<form action="<?=$this->getPostActionUrl()?>" method="post">
 <div class="multi-address-checkout-box">
-    <h4 class="legend">Billing Information</h4>
-    <div class="content col2-set">
-        <div class="col-1">
-            <div class="head">
-                <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+<form action="<?=$this->getPostActionUrl()?>" method="post">
+    <div class="box">
+        <h4 class="legend">Billing Information</h4>
+        <div class="clear"></div>
+        <div class="content col2-set">
+            <div class="col-1">
+                <div class="head">
+                    <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+                </div>
+                <?$_address=$this->getBillingAddress()?>
+                <address>
+                    <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
+                    <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
+                    <?=$_address->getStreet(1)?><br/>
+                    <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
+                    <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
+                    <?=$_address->getCountry()?><br/>
+                    <strong>T</strong> | <?=$_address->getTelephone()?>
+                </address>
             </div>
-            <?$_address=$this->getBillingAddress()?>
-            <address>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                <?=$_address->getStreet(1)?><br/>
-                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                <?=$_address->getCountry()?><br/>
-                <strong>T</strong> | <?=$_address->getTelephone()?>
-            </address>
-        </div>
-        <div class="col-2">
-            <div class="head">
-                <h4>Payment Method<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+            <div class="col-2">
+                <div class="head">
+                    <h4>Payment Method<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+                </div>
+                <?=$this->getPaymentHtml()?>
             </div>
-            <?=$this->getPaymentHtml()?>
         </div>
-    </div>
-</div>
+     </div>
 
+    <div class="box">
+        <h4 class="legend">Shipping Information</h4>
+        <div class="clear"></div>
 <?foreach ($this->getShippingAddresses() as $_index => $_address):?>
-    <div class="multi-address-checkout-box">
-    <h4 class="legend">Shipping Information</h4>
-    <div class="count-head">
-        <h4>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getShippingAddressCount()?></h4>
-    </div>
-    <div class="content col2-alt-set">
+    <div class="content col2-alt-set"><h4>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getShippingAddressCount()?></h4>
         <div class="col-1">
             <div class="head">
                 <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>">Edit</a></h4>
@@ -97,14 +97,20 @@
             <script type="text/javascript">decorateTable('overview-table-<?=$_address->getId()?>')</script>
         </div>
     </div>
-    </div>
+    <div class="divider"></div>
 <?endforeach;?>
-
-
-    <p class="a-right grand_total">Grand Total: <?=$this->getTotal()?></p>
 </div>
+</div>
+<div class="place-order-box-container">
+    <div class="place-order-box">
+        <div class="content">
+            <big class="grand-total"><span class="label">Grand Total:</span> <span class="price"><?=$this->getTotal()?></span></big>
+            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="Place Order"/>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
 <div class="form-buttons">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Billing Information</a>
-    <button class="form-button" type="submit"><span>Place Order</span></button>
 </div>
 </form>

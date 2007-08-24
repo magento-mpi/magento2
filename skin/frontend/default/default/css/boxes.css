@@ -861,11 +861,16 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 .shopping-cart-collaterals .upsell .product-image { float:left; width:75px; border:1px solid #d0cdc9; }
 .shopping-cart-collaterals .upsell .product-shop { width:175px; }
 .shopping-cart-collaterals .upsell .product-shop h5 { font-size:1em; }
-.grand_total { color:#e7810c; font-size:1.3em !important; font-weight:bold; }
+.grand_total {
+    width:auto;
+    margin-top:15px;
+    border:1px solid #BEBCB7;
+    background:#DEE5E8; 
+    font-size:1.3em !important;
+    font-weight:bold;
+    text-align:right;
+    }
 tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
-p.grand_total { padding-right:15px; }
-
-
 
 .one-page-checkout .group-select { margin-right:0; }
 .one-page-checkout .box {
@@ -930,32 +935,43 @@ p.grand_total { padding-right:15px; }
 .payment-methods dd { padding:5px 20px; }
 .one-page-checkout .payment-methods dd { padding:0; }
 .one-page-checkout .form-buttons { margin-top:0; padding-top:2em; }
-.multi-address-checkout-box {
+.multi-address-checkout-box .box {
     position:relative;
-    margin-bottom:10px;
+    margin-bottom:25px;
     border:1px solid #bbb6a5;
-    background:#faf7ee;
+    background:url(../images/multi_address_box_bg.gif) repeat-x #FBFAF6;
     }
 .multi-address-checkout-box .legend {
-    margin-top:-10px;
-    margin-left:15px;
     float:left;
-    border:1px solid #f19900;
-    background:#F9F3E3;
-    padding:0 8px;
-    color:#E76200;
-    font-weight:bold;
-    font-size:1.1em;
+    margin-top:-10px;
+    margin-bottom:0;
+    margin-left:15px;
+    border:1px solid #F18200; 
+    background:#F9F3E3; 
+    color:#F18200; 
+    padding:2px 8px;
     }
-.multi-address-checkout-box .content { padding:11px 20px; }
+.multi-address-checkout-box .content { 
+    padding:15px 20px; 
+    }
 .multi-address-checkout-box .count-head {
-    border-bottom:1px solid #BBAFA0; 
+    border-bottom:1px solid #BBAFA0;
     background:#F9F3E3; 
     padding:5px 10px;
     }
-.multi-address-checkout-box .count-head h4 {
-    margin:0;
-    }
+.multi-address-checkout-box .count-head h4 {  margin:0; }
+.multi-address-checkout-box .head h5 { color:#E26703; }
+.multi-address-checkout-box .head a { font-weight:normal;}
+
+.place-order-box-container, .place-order-box { height:71px; }
+.place-order-box-container { float:right; background:url(../images/place_order_container_bg.gif) no-repeat; padding-left:21px; }
+.place-order-box { background:url(../images/place_order_bg.gif) no-repeat 100% 0; padding-right:21px;}
+.place-order-box .content { padding:13px 0; }
+.place-order-box .grand-total { font-size:1.5em; }
+.place-order-box .grand-total .price { color:#e26703; font-weight:bold; }
+.place-order-box input { margin-left:15px; }
+
+
 
 /************ Checkout ***********/
 /* Multiple Address */
