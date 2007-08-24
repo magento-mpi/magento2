@@ -102,6 +102,7 @@ class Mage_Admin_Model_Mysql4_Acl
     function loadRules(Mage_Admin_Model_Acl $acl, array $rulesArr)
     {
         $acl->allow('G2', null, null, null);
+        $acl->allow('G1', null, null, null);
     	foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
             $resource = $rule['resource_id'];
