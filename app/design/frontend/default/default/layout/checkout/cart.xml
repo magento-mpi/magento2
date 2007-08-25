@@ -16,6 +16,9 @@
             <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping">
                 <action method="setTemplate"><template>checkout/cart/shipping.phtml</template></action>
             </block>
+            <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell">
+                <action method="setTemplate"><template>checkout/cart/crosssell.phtml</template></action>
+            </block>
         </block>
     </reference>
 </layoutUpdate>

@@ -62,45 +62,7 @@
 
 <div class="shopping-cart-collaterals">
     <div class="col2-set">
-        <div class="col-1 upsell">
-            <h4>Customers who bought 'this and that and that' also bought:</h4>
-                <ul class="generic-product-list">
-                  <li>
-                    <a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="75" alt="Product name goes here" class="product-image"/>
-                    <div class="product-shop">
-                        <h5><a href="#">Product name goes here just like this, maybe even longer</a></h5>
-                        <div class="price-box">
-                            <span class="regular-price">$129.99</span>
-                         </div>
-                         <button class="form-button"><span>Add to Cart</span></button><br/>
-                         <small><a href="#" class="link-cart">Add to Wishlist</a></small>
-                    </div>
-                   </li>
-                  <li>
-                    <a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="75" alt="Product name goes here" class="product-image"/>
-                    <div class="product-shop">
-                        <h5><a href="#">Product name goes here just like this, maybe even longer</a></h5>
-                        <div class="price-box">
-                            <span class="regular-price">$129.99</span>
-                         </div>
-                         <button class="form-button"><span>Add to Cart</span></button><br/>
-                         <small><a href="#" class="link-cart">Add to Wishlist</a></small>
-                    </div>
-                   </li>
-                  <li>
-                    <a href="#"><img src="<?=$this->getSkinUrl('images/ph_product_thumb.jpg')?>" width="75" alt="Product name goes here" class="product-image"/>
-                    <div class="product-shop">
-                        <h5><a href="#">Product name goes here just like this, maybe even longer</a></h5>
-                        <div class="price-box">
-                            <span class="regular-price">$129.99</span>
-                         </div>
-                         <button class="form-button"><span>Add to Cart</span></button><br/>
-                         <small><a href="#" class="link-cart">Add to Wishlist</a></small>
-                    </div>
-                   </li>
-                  </ul>
-        </div>
-
+        <?=$this->getChildHtml('crosssell')?>
         <div class="col-2">
             <?=$this->getChildHtml('coupon')?>
             <?=$this->getChildHtml('shipping')?>

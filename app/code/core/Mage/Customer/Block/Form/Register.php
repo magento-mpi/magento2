@@ -64,4 +64,6 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     {
         return $this->getFormData()->getRegion();
     }
+    
+    
 }

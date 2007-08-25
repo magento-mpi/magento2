@@ -57,6 +57,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $product = Mage::getModel('catalog/product')->load($productId);
 
         if ($product->getId()) {
+            Mage::getSingleton('checkout/session')->setLastAddedProductId($product->getId());
         	if($product->isSuperConfig()) {
         		$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
         		if($productId) {
