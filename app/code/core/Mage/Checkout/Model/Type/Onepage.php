@@ -122,8 +122,9 @@ class Mage_Checkout_Model_Type_Onepage
             $billing = clone $address;
             $billing->unsEntityId()->unsAddressType();
             $shipping = $this->getQuote()->getShippingAddress();
-            $shipping->addData($billing->getData())->setSameAsBilling(1);
-            $this->getQuote()->setCollectShippingRates(true);
+            $shipping->addData($billing->getData())
+            	->setSameAsBilling(1)
+            	->setCollectShippingRates(true);
             $this->getCheckout()->setStepData('shipping', 'complete', true);
         } else {
             $shipping = $this->getQuote()->getShippingAddress();
@@ -233,7 +234,6 @@ class Mage_Checkout_Model_Type_Onepage
             case 'register':
                 $customer = $this->_createCustomer();
                 $customer->sendNewAccountEmail();
-                #$this->_emailCustomerRegistration();
                 $email  = $customer->getEmail();
                 $name   = $customer->getName();
                 break;
@@ -267,7 +267,6 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getCheckout()->setLastOrderId($order->getId());
 
             $order->sendNewOrderEmail();
-            #$this->_emailOrderConfirmation($email, $name, $order);
 
             $res['success'] = true;
             $res['error']   = false;
@@ -281,39 +280,18 @@ class Mage_Checkout_Model_Type_Onepage
         return $res;
     }
 
-    protected function _emailCustomerRegistration()
-    {
-        $customer = $this->_createCustomer();
-        $mailer = Mage::getModel('customer/email')
-            ->setTemplate('email/welcome.phtml')
-            ->setType('html')
-            ->setCustomer($customer)
-            ->send();
-    }
-
-    protected function _emailOrderConfirmation($email, $name, $order)
-    {
-        $mailer = Mage::getModel('core/email')
-            ->setTemplate('email/order.phtml')
-            ->setType('html')
-            ->setTemplateVar('order', $order)
-            ->setTemplateVar('quote', $this->getQuote())
-            ->setTemplateVar('name', $name)
-            ->setToName($name)
-            ->setToEmail($email)
-            ->send();
-    }
-
     protected function _createCustomer()
     {
+    	$quote = $this->getQuote();
+    	
         $customer = Mage::getModel('customer/customer');
 
-        $billingEntity = $this->getQuote()->getBillingAddress();
+        $billingEntity = $quote->getBillingAddress();
         $billing = Mage::getModel('customer/address');
         $billing->addData($billingEntity->getData());
         $customer->addAddress($billing);
 
-        $shippingEntity = $this->getQuote()-getShippingAddress();
+        $shippingEntity = $quote->getShippingAddress();
         if (!$shippingEntity->getSameAsBilling()) {
             $shipping = Mage::getModel('customer/address');
             $shipping->addData($shippingEntity->getData());
@@ -326,11 +304,11 @@ class Mage_Checkout_Model_Type_Onepage
         $customer->setFirstname($billing->getFirstname());
         $customer->setLastname($billing->getLastname());
         $customer->setEmail($billing->getEmail());
-        $customer->setPasswordHash($this->getQuote()->getPasswordHash());
+        $customer->setPasswordHash($quote->getPasswordHash());
 
         $customer->save();
 
-        $this->getQuote()->setCustomerId($customer->getId());
+        $quote->setCustomerId($customer->getId());
         $billingEntity->setCustomerId($customer->getId())->setCustomerAddressId($billing->getId());
         $shippingEntity->setCustomerId($customer->getId())->setCustomerAddressId($shipping->getId());
 
