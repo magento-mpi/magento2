@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.5.12</version>
+            <version>0.5.13</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -62,51 +62,13 @@
         </block>
         <sales>
             <quote>
-                <rule>
-                    <conditions>
-                        <combine>
-                            <class>rule/condition_combine</class>
-                        </combine>
-                        <system>
-                            <class>rule/condition_system</class>
-                        </system>
-                        <customer>
-                            <class>sales/quote_rule_condition_customer</class>
-                        </customer>
-                        <quote>
-                            <class>sales/quote_rule_condition_quote</class>
-                        </quote>
-                        <quote_item>
-                            <class>sales/quote_rule_condition_quote_item</class>
-                        </quote_item>
-                        <quote_item_combine>
-                            <class>sales/quote_rule_condition_quote_item_combine</class>
-                        </quote_item_combine>
-                        <quote_address>
-                            <class>sales/quote_rule_condition_quote_address</class>
-                        </quote_address>
-                        <quote_address_combine>
-                            <class>sales/quote_rule_condition_quote_address_combine</class>
-                        </quote_address_combine>
-                    </conditions>
-                    <actions>
-                        <quote>
-                            <class>sales/quote_rule_action_quote</class>
-                        </quote>
-                        <quote_item>
-                            <class>sales/quote_rule_action_quote_item</class>
-                        </quote_item>
-                        <quote_item_add>
-                            <class>sales/quote_rule_action_quote_item_add</class>
-                        </quote_item_add>
-                        <quote_address>
-                            <class>sales/quote_rule_action_quote_address</class>
-                        </quote_address>
-                        <stop>
-                            <class>rule/action_stop</class>
-                        </stop>
-                    </actions>
-                </rule>
+            	<totals>
+            		<subtotal><class>sales/quote_address_total_subtotal</class></subtotal>
+            		<discount><class>sales/quote_address_total_discount</class></discount>
+            		<shipping><class>sales/quote_address_total_shipping</class></shipping>
+            		<tax><class>sales/quote_address_total_tax</class></tax>
+            		<grand_total><class>sales/quote_address_total_grand</class></grand_total>
+            	</totals>
             </quote>
         </sales>
     </global>

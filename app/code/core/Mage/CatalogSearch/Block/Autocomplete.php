@@ -21,9 +21,19 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
         $searchCollection->loadData();
         $items = $searchCollection->getItems();
         
-        if (sizeof($items)>0 && $items[0]->getSearchQuery()!=$query) {
-        	$default = Mage::getModel('catalogsearch/search')->setSearchQuery($query);
-        	array_unshift($items, $default);
+        if (sizeof($items)>0) {
+        	$found = false;
+        	foreach ($items as $i=>$item) {
+        		if ($item->getSearchQuery()==$query) {
+        			$found = true;
+        			unset($items[$i]);
+        			array_unshift($items, $item);
+        		}
+        	}
+        	if (!$found) {
+	        	$default = Mage::getModel('catalogsearch/search')->setSearchQuery($query);
+	        	array_unshift($items, $default);
+        	}
         }
         
         $i=0;

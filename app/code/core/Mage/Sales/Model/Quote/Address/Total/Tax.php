@@ -1,9 +1,9 @@
 <?php
 
-class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Tax
-    extends Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend
+class Mage_Sales_Model_Quote_Address_Total_Tax
+    extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
-    public function collectTotals(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $address->setTaxAmount(0);
         
@@ -23,4 +23,16 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Tax
         return $this;
     }
 
+    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    {
+        $amount = $address->getTaxAmount();
+        if ($amount!=0) {
+            $address->addTotal(array(
+                'code'=>$this->getCode(), 
+                'title'=>__('Tax'), 
+                'value'=>$amount
+            ));
+        }
+        return $this;
+    }
 }

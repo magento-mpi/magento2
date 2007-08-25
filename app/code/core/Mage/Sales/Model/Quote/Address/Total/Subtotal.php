@@ -1,9 +1,9 @@
 <?php
 
-class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Subtotal
-    extends Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend
+class Mage_Sales_Model_Quote_Address_Total_Subtotal
+    extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
-    public function collectTotals(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Mage_Sales_Model_Quote_Address $address)
     {
 
         $address->setSubtotal(0);
@@ -38,5 +38,15 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Subtotal
 
         return $this;
     }
+    
+    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    {
+        $address->addTotal(array(
+            'code'=>$this->getCode(), 
+            'title'=>__('Subtotal'), 
+            'value'=>$address->getSubtotal()
+        ));
 
+        return $this;
+    }
 }

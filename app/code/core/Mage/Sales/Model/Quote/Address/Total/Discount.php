@@ -1,9 +1,9 @@
 <?php
 
-class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Discount
-    extends Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend
+class Mage_Sales_Model_Quote_Address_Total_Discount
+    extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
-    public function collectTotals(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $validator = Mage::getModel('salesrule/validator')
         	->setCouponCode($address->getQuote()->getCouponCode())
@@ -29,5 +29,21 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Discount
         return $this;
     }
 
+    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    {
+        $amount = $address->getDiscountAmount();
+        if ($amount!=0) {
+            $title = __('Discount');
+            if ($address->getQuote()->getCouponCode()) {
+                $title .= ' ('.$address->getQuote()->getCouponCode().')';
+            }
+            $address->addTotal(array(
+                'code'=>$this->getCode(), 
+                'title'=>$title, 
+                'value'=>-$amount
+            ));
+        }
+        return $this;
+    }
 
 }

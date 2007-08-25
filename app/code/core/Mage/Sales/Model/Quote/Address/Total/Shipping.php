@@ -1,9 +1,9 @@
 <?php
 
-class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
-    extends Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend
+class Mage_Sales_Model_Quote_Address_Total_Shipping
+    extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
-    public function collectTotals(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $oldWeight = $address->getWeight();
         
@@ -22,6 +22,12 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
         $method = $address->getShippingMethod();
         if ($method) {
             foreach ($address->getAllShippingRates() as $rate) {
+            	if ($address->getFreeShipping()) {
+            		$freeMethod = Mage::getStoreConfig('carriers/'.$rate->getCarrier().'/free_method');
+            		if ($rate->getMethod()==$freeMethod) {
+            			$rate->setPrice(0);
+            		}
+            	}
                 if ($rate->getCode()==$method) {
                     $address->setShippingAmount($rate->getPrice());
                     $address->setShippingDescription($rate->getCarrierTitle().' - '.$rate->getMethodDescription());
@@ -34,5 +40,16 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Backend_Shipping
         return $this;
     }
 
-
+    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    {
+        $amount = $address->getShippingAmount();
+        if ($amount!=0) {
+            $address->addTotal(array(
+                'code'=>$this->getCode(), 
+                'title'=>__('Shipping & Handling').' ('.$address->getShippingDescription().')', 
+                'value'=>$address->getShippingAmount()
+            ));
+        }
+        return $this;
+    }
 }

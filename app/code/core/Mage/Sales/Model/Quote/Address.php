@@ -6,6 +6,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     protected $_rates;
 
+    protected $_totalModels;
+    
     protected $_totals = array();
 
     protected function _construct()
@@ -382,17 +384,43 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     }
 
 /*********************** TOTALS ***************************/
+	public function getTotalModels()
+	{
+		if (!$this->_totalModels) {
+	    	$totalsConfig = Mage::getConfig()->getNode('global/sales/quote/totals');
+	    	$models = array();
+	    	foreach ($totalsConfig->children() as $totalCode=>$totalConfig) {
+	    		$sort = Mage::getStoreConfig('sales/totals_sort/'.$totalCode);
+	    		while (isset($models[$sort])) {
+	    			$sort++;
+	    		}
+	    		$class = $totalConfig->getClassName();
+	    		if ($class && ($model = Mage::getModel($class))) {
+	    			$models[$sort] = $model->setCode($totalCode);
+	    		}
+	    	}
+	    	ksort($models);
+	    	$this->_totalModels = $models;
+		}
+		return $this->_totalModels;
+	}
 
     public function collectTotals()
     {
-        $this->getResource()->collectTotals($this);
+        foreach ($this->getTotalModels() as $model) {
+            if (is_callable(array($model, 'collect'))) {
+                $model->collect($this);
+            }
+        }
         return $this;
     }
-
+    
     public function getTotals()
     {
-        if (empty($this->_totals)) {
-            $this->getResource()->fetchTotals($this);
+    	foreach ($this->getTotalModels() as $model) {
+            if (is_callable(array($model, 'fetch'))) {
+                $model->fetch($this);
+            }
         }
         return $this->_totals;
     }

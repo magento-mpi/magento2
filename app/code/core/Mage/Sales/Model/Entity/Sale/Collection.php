@@ -37,8 +37,8 @@ class Mage_Sales_Model_Entity_Sale_Collection extends Varien_Object implements I
 
     public function __construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('sales_read');
-        $this->_entity = Mage::getModel('eav/entity')->setType('order');
+        $this->_entity = Mage::getModel('sales_entity/order');
+        $this->_read = $this->_entity->getReadConnection();
     }
 
     public function setCustomerFilter(Mage_Customer_Model_Customer $customer)
