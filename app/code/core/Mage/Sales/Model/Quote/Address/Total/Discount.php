@@ -11,6 +11,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
         	->setStoreId($address->getQuote()->getStoreId());
 
         $address->setDiscountAmount(0);
+        $address->setFreeShipping(0);
 
         $appliedRuleIds = '';
         $totalDiscountAmount = 0;

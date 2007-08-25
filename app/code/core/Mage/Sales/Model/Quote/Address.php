@@ -350,6 +350,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     public function collectShippingRates()
     {
+    	if (!$this->getCollectShippingRates()) {
+    		return $this;
+    	}
+    	
+    	$this->setCollectShippingRates(false);
+
         $this->removeAllShippingRates();
 
         $request = Mage::getModel('shipping/rate_request');
@@ -361,6 +367,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $request->setPackageQty($this->getItemQty());
         $request->setStoreId(Mage::getSingleton('core/store')->getId());
         $request->setWebsiteId(Mage::getSingleton('core/store')->getWebsiteId());
+        $request->setFreeShipping($this->getFreeShipping());
 
         $result = Mage::getModel('shipping/shipping')
             ->collectRates($request)->getResult();

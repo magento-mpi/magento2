@@ -44,6 +44,13 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
             'index'     => 'name',
         ));
 
+        $this->addColumn('coupon_code', array(
+            'header'    => __('Coupon Code'),
+            'align'     => 'left',
+            'width'     => '150px',
+            'index'     => 'coupon_code',
+        ));
+        
         $this->addColumn('from_date', array(
             'header'    => __('Date Start'),
             'align'     => 'left',

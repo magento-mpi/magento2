@@ -45,6 +45,7 @@ class Mage_Shipping_Model_Shipping
     /**
      * Retrieve all methods for supplied shipping data
      * 
+     * @todo make it ordered
      * @param Mage_Shipping_Model_Shipping_Method_Request $data
      * @return Mage_Shipping_Model_Shipping
      */

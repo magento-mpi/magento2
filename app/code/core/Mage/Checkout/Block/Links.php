@@ -13,7 +13,11 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
 {
     public function addCartLink()
     {
-        $count = sizeof(Mage::getSingleton('checkout/session')->getQuote()->getAllItems());
+        $cartItems = Mage::getSingleton('checkout/session')->getQuote()->getAllItems();
+        $count = 0;
+        foreach ($cartItems as $item) {
+        	$count += $item->getQty();
+        }
         if( $count > 1 ) {
             $text = __('Your Cart (%d items)', $count);
         } elseif( $count == 1 ) {

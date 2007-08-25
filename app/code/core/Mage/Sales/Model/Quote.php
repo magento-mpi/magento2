@@ -50,16 +50,16 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         $baseCurrency = Mage::getStoreConfig('general/currency/base');
-        $defaultCurrency = $this->getStore()->getDefaultCurrencyCode();
-        $currentCurrency = $this->getStore()->getCurrentCurrencyCode();
+        $storeCurrency = $this->getStore()->getDefaultCurrencyCode();
+        $quoteCurrency = $this->getStore()->getCurrentCurrencyCode();
         
         $currency = Mage::getModel('directory/currency');
         
         $this->setBaseCurrencyCode($baseCurrency);
-        $this->setStoreCurrencyCode($defaultCurrency);
-        $this->setCurrentCurrencyCode($currentCurrency);
-        $this->setStoreToBaseCurrencyRate($currency->getResource()->getRate($defaultCurrency, $baseCurrency));
-        $this->setStoreToCurrentCurrencyRate($currency->getResource()->getRate($defaultCurrency, $currentCurrency));
+        $this->setStoreCurrencyCode($storeCurrency);
+        $this->setQuoteCurrencyCode($quoteCurrency);
+        $this->setStoreToBaseRate($currency->getResource()->getRate($storeCurrency, $baseCurrency));
+        $this->setStoreToQuoteRate($currency->getResource()->getRate($storeCurrency, $quoteCurrency));
 
     	Mage::dispatchEvent('beforeSaveQuote', array('quote'=>$this));
     	parent::_beforeSave();

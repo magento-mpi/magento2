@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.5.13</version>
+            <version>0.5.14</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -63,11 +63,29 @@
         <sales>
             <quote>
             	<totals>
-            		<subtotal><class>sales/quote_address_total_subtotal</class></subtotal>
-            		<discount><class>sales/quote_address_total_discount</class></discount>
-            		<shipping><class>sales/quote_address_total_shipping</class></shipping>
-            		<tax><class>sales/quote_address_total_tax</class></tax>
-            		<grand_total><class>sales/quote_address_total_grand</class></grand_total>
+            		<subtotal>
+            			<class>sales/quote_address_total_subtotal</class>
+            			<before>grand_total</before>
+            		</subtotal>
+            		<discount>
+            			<class>sales/quote_address_total_discount</class>
+            			<after>subtotal</after>
+            			<before>grand_total,shipping</before>
+            		</discount>
+            		<shipping>
+            			<class>sales/quote_address_total_shipping</class>
+            			<after>subtotal,discount</after>
+            			<before>grand_total</before>
+            		</shipping>
+            		<tax>
+            			<class>sales/quote_address_total_tax</class>
+            			<after>subtotal</after>
+            			<before>grand_total</before>
+            		</tax>
+            		<grand_total>
+            			<class>sales/quote_address_total_grand</class>
+            			<after>subtotal</after>
+            		</grand_total>
             	</totals>
             </quote>
         </sales>

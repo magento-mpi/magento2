@@ -63,7 +63,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 		            		$this->getLayout()->createBlock('checkout/cart_item_super')->setSuperProduct($superProduct)->toHtml()
 		            	);
 		            	$item->setName($product->getName());
-		            	$this->getQuote()->getShippingAddress()->collectTotals();
+		            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
 		            	$this->getQuote()->save();
 
         			}
@@ -93,16 +93,16 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 	        				->setParentProduct($product);
 	        			if($superProduct->getId()) {
 	        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-			            	$this->getQuote()->getShippingAddress()->collectTotals();
-			            	$this->getQuote()->save();
 	        			}
         			}
         		}
+            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+            	$this->getQuote()->save();
 
 
         	} else {
         	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
-            	$this->getQuote()->getShippingAddress()->collectTotals();
+            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
             	$this->getQuote()->save();
         	}
         }
@@ -151,7 +151,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
                 }
             }
-            #$this->getQuote()->getShippingAddress()->collectTotals();
+            $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
             $this->getQuote()->save();
         }
 
@@ -173,6 +173,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 	        $this->getQuote()->removeItem($id);
 	    }
 
+	    $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->save();
 
         $this->_backToCart();
@@ -200,7 +201,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $postcode = $this->getRequest()->getParam('estimate_postcode');
 
         $this->getQuote()->getShippingAddress()
-            ->setPostcode($postcode)->collectShippingRates();
+            ->setPostcode($postcode)->setCollectShippingRates(true);
 
         $this->getQuote()/*->collectTotals()*/->save();
 
@@ -224,7 +225,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $couponCode = $this->getRequest()->getParam('coupon_code');
         }
 
-        $this->getQuote()->setCouponCode($couponCode)/*->collectTotals()*/->save();
+        $this->getQuote()->setCouponCode($couponCode)->setCollectShippingRates(true)->save();
 
         $this->_backToCart();
     }

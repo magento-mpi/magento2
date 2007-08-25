@@ -23,7 +23,11 @@ class Mage_Shipping_Model_Carrier_Freeshipping extends Mage_Shipping_Model_Carri
         }
         
         $result = Mage::getModel('shipping/rate_result');
-        if ($request->getPackageValue() >= Mage::getStoreConfig('carriers/freeshipping/cutoff_cost')) {
+        
+        $allow = ($request->getFreeShipping())
+        	|| ($request->getPackageValue() >= Mage::getStoreConfig('carriers/freeshipping/cutoff_cost'));
+        
+        if ($allow) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
 	    	
 	    	$method->setCarrier('freeshipping');

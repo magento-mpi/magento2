@@ -14,20 +14,14 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping
             $address->setWeight($address->getWeight() + $item->getRowWeight());
         }
         
-        if ($address->getPostcode() && $oldWeight!=$address->getWeight()) {
-            $address->collectShippingRates();
-        }
+        #if ($address->getPostcode() && $oldWeight!=$address->getWeight()) {
+	        $address->collectShippingRates();
+        #}
         
         $address->setShippingAmount(0);
         $method = $address->getShippingMethod();
         if ($method) {
             foreach ($address->getAllShippingRates() as $rate) {
-            	if ($address->getFreeShipping()) {
-            		$freeMethod = Mage::getStoreConfig('carriers/'.$rate->getCarrier().'/free_method');
-            		if ($rate->getMethod()==$freeMethod) {
-            			$rate->setPrice(0);
-            		}
-            	}
                 if ($rate->getCode()==$method) {
                     $address->setShippingAmount($rate->getPrice());
                     $address->setShippingDescription($rate->getCarrierTitle().' - '.$rate->getMethodDescription());

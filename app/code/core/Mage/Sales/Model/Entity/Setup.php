@@ -58,6 +58,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'same_as_billing' => array('type'=>'int', 'label'=>'Same as billing', 'visible'=>false),
                     'weight' => array('type'=>'decimal', 'label'=>'Weight', 'visible'=>false),
                     'free_shipping' => array('type'=>'int'),
+                    'collect_shipping_rates' => array('type'=>'int'),
                     'shipping_method' => array('label'=>'Shipping Method', 'visible'=>false),
                     'shipping_description' => array('type'=>'text', 'visible'=>false),
                     'subtotal' => array('type'=>'decimal', 'visible'=>false),

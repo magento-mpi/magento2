@@ -22,7 +22,24 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         parent::__construct();
         $this->_availableOrder = array('position'=>__('Best Value'), 'name'=>'Name', 'price'=>__('Price'));
-        $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
+        
+        switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
+        	case 'grid':
+		        $this->_availableMode = array('grid' => __('Grid'));
+        		break;
+        		
+        	case 'list':
+		        $this->_availableMode = array('list' => __('List'));
+        		break;
+        		
+        	case 'grid-list':
+		        $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
+        		break;
+        		
+        	case 'list-grid':
+		        $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
+        		break;
+        }
         $this->setTemplate('catalog/product/list/toolbar.phtml');
     }
 

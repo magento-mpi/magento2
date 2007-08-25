@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
             'options'    => array(
                 0 => __('No'),
                 Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM => __('For matching items only'),
-                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => __('For the shipping address'),
+                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items'),
             ),
         ));
 

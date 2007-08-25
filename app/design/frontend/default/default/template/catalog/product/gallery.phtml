@@ -1,10 +1,6 @@
 <div>
     <img src="<?=$this->getCurrentImage()->setType(1)->getSourceUrl()?>" alt="" id="product-gallery-image"/>
 </div>
-<div>
-    <?=$this->getProduct()->getDescription()?><br/>
-    <?=$this->getHelper('catalog/product')->getPriceHtml($this->getProduct())?>
-</div>
 
 <?if($_prevUrl = $this->getPreviusImageUrl()):?>
 <a href="<?=$_prevUrl?>"><?=__('Prev')?></a>
