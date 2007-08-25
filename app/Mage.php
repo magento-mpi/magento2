@@ -369,6 +369,8 @@ final class Mage {
      */
     public static function log($message, $level=Zend_Log::DEBUG, $file = '')
     {
+		return;
+
         static $loggers = array();
 
         if (empty($file)) {
