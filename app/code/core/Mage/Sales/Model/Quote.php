@@ -46,15 +46,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $arr['payments'] = $this->getPaymentsCollection()->toArray();
         return $arr;
     }
-    
+
     protected function _beforeSave()
     {
         $baseCurrency = Mage::getStoreConfig('general/currency/base');
         $storeCurrency = $this->getStore()->getDefaultCurrencyCode();
         $quoteCurrency = $this->getStore()->getCurrentCurrencyCode();
-        
+
         $currency = Mage::getModel('directory/currency');
-        
+
         $this->setBaseCurrencyCode($baseCurrency);
         $this->setStoreCurrencyCode($storeCurrency);
         $this->setQuoteCurrencyCode($quoteCurrency);
