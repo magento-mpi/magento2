@@ -42,7 +42,7 @@
                     </tax>
                     <config>
                         <title>Configuration</title>
-                        <action>*/sales_config/</action>
+                        <action>*/system_config/edit/section/sales/</action>
                     </config>
                 </children>
              </sales>
