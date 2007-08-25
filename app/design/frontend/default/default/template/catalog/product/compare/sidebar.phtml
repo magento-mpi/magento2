@@ -9,9 +9,7 @@
  * getRemoveUrlTemplate()	- remove url template
  */
 ?>
-<?if($this->getCanDisplayContainer()):?>
 <div class="box base-mini  mini-compare-products">
-<?endif;?>
     <div class="head">
         <h4><?=__('Compare Products')?> <span class="count"><?=__('- %d items', $this->getItems()->getSize())?></span></h4>
     </div>
@@ -20,25 +18,15 @@
         <?foreach($this->getItems() as $_index=>$_item):?>
             <li class="block-compare-item">
                 <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"/>
-                <a href="#" onclick="compareObject.removeItem(this);return false;" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
+                <a href="<?=$this->getRemoveUrl($_item)?>" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
                 <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
             </li>
         <?endforeach;?>
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
-        <div class="actions"><a href="#" class="left" onclick="compareObject.removeAll(); return false">Clear All</a>
-        <button class="right form-button-alt" onclick="compareObject.openCompare('<?=$this->getCompareUrl()?>')"><span><?=__('Compare')?></span></button></div>
+        <div class="actions"><a href="<?=$this->getClearUrl()?>" class="left">Clear All</a>
+        <button class="right form-button-alt" onclick="popWin('<?=$this->getCompareUrl()?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?=__('Compare')?></span></button></div>
     <?else:?>
         <div class="content"><p><?=__('You have no items to compare.')?></p></div>
     <?endif;?>
-<?if($this->getCanDisplayContainer()):?>
 </div>
-<script type="text/javascript">
-var compareObject = new Varien.CompareController($$('.mini-compare-products')[0],{
-    updateUrl: '<?=$this->getAddUrlTemplate()?>',
-    removeUrl: '<?=$this->getRemoveUrlTemplate()?>',
-    successMessage: '<?=__('The product has been successfully added to the Compare Box')?>',
-    confirmMessage: '<?=__('Are you sure')?>'
-});
-</script>
-<?endif;?>

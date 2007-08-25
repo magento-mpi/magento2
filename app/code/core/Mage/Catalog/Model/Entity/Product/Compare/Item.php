@@ -22,9 +22,11 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item extends Mage_Core_Model_Mys
 
         $select = $read->select()->from($this->getMainTable())
             ->where('product_id=?',  $product->getID())
-            ->where('customer_id=?', $object->getCustomerId())
             ->where('visitor_id=?',  $object->getVisitorId());
-                
+        if ($object->getCustomerId()) {
+            $select->where('customer_id=?', $object->getCustomerId());
+        }
+        
         $data = $read->fetchRow($select);
 
         if (!$data) {

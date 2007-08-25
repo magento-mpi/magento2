@@ -33,6 +33,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection->addAttributeToSelect('name')
         	->addAttributeToSelect('url_key')
             ->addAttributeToSelect('price')
+            ->joinMinimalPrice()
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('description')

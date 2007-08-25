@@ -29,8 +29,7 @@
 				$this->_items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
 			}
 			
-			$this->_items
-				->addAttributeToSelect('name')
+			$this->_items->addAttributeToSelect('name')
 				->useProductItem()
 				->load();
  		}
@@ -38,30 +37,23 @@
  		return $this->_items;
  	}
  	
- 	public function getJsObjectName()
- 	{
- 		return $this->getId()."JsObject";
- 	}
- 	
- 	public function getCanDisplayContainer() {
- 		if($this->getRequest()->getParam('ajax')) {
- 			return false;
- 		} 		
- 		return true;
- 	}
- 	
- 	public function getRemoveUrlTemplate()
- 	{
- 		return $this->getUrl('catalog/product_compare/remove',array('product'=>'#{id}'));
- 	}
- 	
- 	public function getAddUrlTemplate()
- 	{
- 		return $this->getUrl('catalog/product_compare/add',array('product'=>'#{id}'));
- 	}
- 	
+    public function getRemoveUrl($item)
+    {
+        return $this->getUrl('catalog/product_compare/remove',array('product'=>$item->getId()));
+    }
+    
+    public function getClearUrl()
+    {
+        return $this->getUrl('catalog/product_compare/clear');
+    }
+    
  	public function getCompareUrl()
  	{
- 		return $this->getUrl('catalog/product_compare');
+ 	    $itemIds = array();
+ 	    foreach ($this->getItems() as $item) {
+ 	    	$itemIds[] = $item->getId();
+ 	    }
+ 	    
+ 		return $this->getUrl('catalog/product_compare', array('items'=>implode(',', $itemIds)));
  	}
  } // Class Mage_Catalog_Block_Compare_Sidebar end

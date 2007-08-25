@@ -37,6 +37,13 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return $this;
     }
     
+    public function joinMinimalPrice()
+    {
+        $this->addAttributeToSelect('price')
+            ->addAttributeToSelect('minimal_price');
+        return $this;
+    }
+    
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {
         if ($category->getIsAnchor()) {

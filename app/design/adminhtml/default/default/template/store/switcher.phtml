@@ -20,7 +20,7 @@
             storeParam+= obj.switchParams;
         }
     <?if($this->getUseConfirm()):?>
-        if(confirm('<?=__('Please, confirm site switching...')?>')){
+        if(confirm('<?=__('Please confirm site switching. All data not saved will be lost.')?>')){
             setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
             return true;
         }

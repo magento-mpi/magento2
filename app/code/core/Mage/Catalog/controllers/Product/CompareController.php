@@ -37,13 +37,14 @@
 				$item->save();
 			}
 		}
+		
 		$this->_redirectToReferer();
 	}
 	
 	public function removeAction()
 	{
 		$productId = (int)$this->getRequest()->getParam('product');
-						
+        
 		$product = Mage::getModel('catalog/product')
 			->load($productId);
 				
@@ -62,29 +63,24 @@
 			}
 		} 
 		
-		if($this->getRequest()->getParam('all')) {
-			$items = Mage::getResourceModel('catalog/product_compare_item_collection')
- 				->setStoreId(Mage::getSingleton('core/store')->getId());
- 			
- 			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-				$items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-			} else {
-				$items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
-			}
+        $this->_redirectToReferer();
+	}
+	
+	public function clearAction()
+	{
+		$items = Mage::getResourceModel('catalog/product_compare_item_collection')
+				->setStoreId(Mage::getSingleton('core/store')->getId());
 			
-			$items->load();
-			
-			$items->walk('delete');
+        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+			$items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+		} else {
+			$items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
 		}
 		
-		if($this->getRequest()->getParam('ajax')) {
-			$this->loadLayout();
-			$this->getResponse()->setBody(
-				$this->getLayout()->getBlock('catalog.compare.sidebar')->toHtml()
-			);
-		} else {
-			$this->_redirect('catalog/product_compare');
-		}
-	}
-	 		
+		$items->load();
+		
+		$items->walk('delete');
+		
+        $this->_redirectToReferer();
+	} 		
  } // Class Mage_Catalog_CompareController end
