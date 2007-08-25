@@ -12,7 +12,7 @@
 			<?if($_i%10==0):?>
 			<td>&nbsp;</td>
 			<?endif;?>
-			<td><a href="#" onclick="setLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>')"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=__('Remove')?>"/></a></td>
+			<td><a href="#" onclick="setLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=__('Remove')?>"/></a></td>
 			<?$_i++?>
 			<?endforeach;?>
 		</tr>

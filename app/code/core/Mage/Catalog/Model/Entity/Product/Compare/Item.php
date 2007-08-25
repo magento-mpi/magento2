@@ -16,12 +16,18 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item extends Mage_Core_Model_Mys
 		$this->_init('catalog/compare_item', 'catalog_compare_item_id');
 	}
 	
-	public function loadByProduct(Mage_Core_Model_Abstract $object, Mage_Catalog_Model_Product $product)
+	public function loadByProduct(Mage_Core_Model_Abstract $object, $product)
 	{
 		$read = $this->getConnection('read');
-
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $productId = $product->getId();
+        }
+        else {
+            $productId = (int) $product;
+        }
+		
         $select = $read->select()->from($this->getMainTable())
-            ->where('product_id=?',  $product->getID())
+            ->where('product_id=?',  $productId)
             ->where('visitor_id=?',  $object->getVisitorId());
         if ($object->getCustomerId()) {
             $select->where('customer_id=?', $object->getCustomerId());

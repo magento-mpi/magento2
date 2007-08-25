@@ -12,6 +12,13 @@
  {
 	public function indexAction()
 	{
+	    $items = $this->getRequest()->getParam('items');
+	    if ($items) {
+	        $items = explode(',', $items);
+	        $list = Mage::getSingleton('catalog/product_compare_list');
+            $list->addProducts($items);
+	    }
+	    
 		$this->loadLayout(array('default', 'catalog_compare'), 'catalog_compare');
 		$this->renderLayout();
 	}
@@ -24,18 +31,7 @@
 			->load($productId);
 		
 		if($product->getId()) {
-			$item = Mage::getModel('catalog/product_compare_item');
-			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-				$item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
-			} else {
-				$item->addVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
-			}
-			
-			$item->loadByProduct($product);
-			if(!$item->getId()) {
-				$item->addProductData($product);
-				$item->save();
-			}
+		    Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
 		}
 		
 		$this->_redirectToReferer();

@@ -29,15 +29,21 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 		return $this;
 	}
 	
-	public function loadByProduct(Mage_Catalog_Model_Product $product)
+	public function loadByProduct($product)
 	{
 		$this->getResource()->loadByProduct($this,$product);		
 		return $this;
 	}
 	
-	public function addProductData(Mage_Catalog_Model_Product $product)
+	public function addProductData($product)
 	{
-		$this->setProductId($product->getId());
+	    if ($product instanceof Mage_Catalog_Model_Product) {
+	        $this->setProductId($product->getId());
+	    }
+	    elseif(intval($product)) {
+	        $this->setProductId(intval($product));
+	    }
+		
 		return $this;
 	}
 	
