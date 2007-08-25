@@ -16,10 +16,10 @@
 			<div class="input-box">
 				<input type="text" class="input-text required-entry" name="tagName" />
 			</div>
-			<button class="form-button-alt" onclick="tagForm.submit();"><span><?=__('Add Tags')?></span></button>
+			<button class="form-button-alt" onclick="addTagForm.submit();"><span><?=__('Add Tags')?></span></button>
 		</form>
 		<script type="text/javascript">
-			var tagForm = new VarienForm('addTagForm');
+			var addTagForm = new VarienForm('addTagForm');
 		</script>
 		<div class="clear"></div>
 		<small><?=__('Use spaces to separate tags. Use single quotes(\') for phrases')?>.</small>

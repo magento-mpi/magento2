@@ -38,8 +38,7 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'customer_review_list.toolbar')
-            ->disableExpanded()
+        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_review_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);
