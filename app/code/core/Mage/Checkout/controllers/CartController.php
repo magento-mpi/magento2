@@ -45,6 +45,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $intFilter = new Zend_Filter_Int();
         $productId = $intFilter->filter($this->getRequest()->getParam('product'));
+        $relatedProducts = $this->getRequest()->getParam('related_product');
 
         if (empty($productId)) {
             $this->_backToCart();
@@ -111,7 +112,19 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             	$this->getQuote()->save();
         	}
         }
-
+        
+        if ($relatedProducts) {
+            $relatedProducts = explode(',', $relatedProducts);
+            if (is_array($relatedProducts)) {
+                foreach ($relatedProducts as $productId) {
+                	$product = Mage::getModel('catalog/product')->load($productId);
+            	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
+                	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+                }
+                $this->getQuote()->save();
+            }
+        }
+        
         Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
 
         $this->_backToCart();
