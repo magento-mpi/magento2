@@ -1,13 +1,12 @@
-<div>
-    <img src="<?=$this->getCurrentImage()->setType(1)->getSourceUrl()?>" alt="" id="product-gallery-image"/>
-</div>
+
+<p><img src="<?=$this->getCurrentImage()->setType(1)->getSourceUrl()?>" alt="" id="product-gallery-image"/></p>
 
 <?if($_prevUrl = $this->getPreviusImageUrl()):?>
-<a href="<?=$_prevUrl?>"><?=__('Prev')?></a>
+<a href="<?=$_prevUrl?>" class="left"><?=__('Prev')?></a>
 <?endif;?>
 
 <?if($_nextUrl = $this->getNextImageUrl()):?>
-<a href="<?=$_nextUrl?>"><?=__('Next')?></a>
+<a href="<?=$_nextUrl?>" class="right"><?=__('Next')?></a>
 <?endif;?>
 
 <script type="text/javascript">

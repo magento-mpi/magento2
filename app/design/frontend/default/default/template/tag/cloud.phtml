@@ -1,8 +1,6 @@
-<?if( $this->_getHeadText() ):?>
-    <div class="page-head">
-    	<h3><?=$this->_getHeadText()?></h3>
-    </div>
-<?endif;?>
+<div class="page-head">
+    <h3><?=__('All Tags')?></h3>
+</div>
 <div class="box base-mini mini-product-tags">
     <div class="content">
         <?if( sizeof($this->getTags()) > 0 ):?>
@@ -12,7 +10,7 @@
             <?endforeach;?>
         </ul>
         <?else:?>
-        <center><small><?=__('Popular Tags Not Avaliable')?></small></center>
+        <center><small><?=__('Tags Not Avaliable')?></small></center>
         <?endif;?>
     </div>
 </div>

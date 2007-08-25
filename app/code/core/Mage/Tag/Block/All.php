@@ -18,7 +18,7 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
 
     public function __construct()
     {
-        $this->setTemplate('tag/cloud.phtml');
+        #$this->setTemplate('tag/cloud.phtml');
     }
 
     protected function _loadTags()
@@ -76,6 +76,6 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
 
     protected function _getHeadText()
     {
-        return __('All Popular Tags');
+        return __('All Tags');
     }
 }

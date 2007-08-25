@@ -66,6 +66,13 @@
                     </tag_init>
                 </updates>
             </default>
+            <tags_all>
+                <updates>
+                    <default>
+                        <file>tag/all.xml</file>
+                    </default>
+                </updates> 
+            </tags_all>
             <customer_account>
                 <updates>
                     <tag_account>
