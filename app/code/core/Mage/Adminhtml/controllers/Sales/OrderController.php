@@ -137,8 +137,13 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
 
         if ($newStatus = $this->getRequest()->getParam('new_status')) {
+            $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
             try {
-                $order->addStatus($newStatus, $this->getRequest()->getParam('comments', ''), $this->getRequest()->getParam('notify_customer', false));
+                $order->addStatus($newStatus, $this->getRequest()->getParam('comments', ''), $notifyCustomer);
+                if ($notifyCustomer) {
+                    $order->sendOrderUpdateEmail();
+                }
+
                 $order->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Order status was changed successfully'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $orderId));

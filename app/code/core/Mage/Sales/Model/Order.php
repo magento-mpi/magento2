@@ -61,6 +61,25 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     	return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function sendOrderUpdateEmail()
+    {
+    	Mage::getModel('core/email_template')
+    		->sendTransactional(
+    		  Mage::getStoreConfig('sales/order_update/email_template'),
+    		  Mage::getStoreConfig('sales/order_update/email_identity'),
+    		  $this->getEmail(),
+    		  $this->getName(),
+    		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
+    	return $this;
+    }
+
+
+
     protected function _beforeSave()
     {
     	Mage::dispatchEvent('beforeSaveOrder', array('order'=>$this));
