@@ -10,7 +10,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 ->load($id);
         }
 	}
-	
+
     protected function _initAction()
     {
         $this->loadLayout('baseframe')
@@ -19,7 +19,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         ;
         return $this;
     }
-    
+
     public function indexAction()
     {
         $this->_initAction()
@@ -27,12 +27,12 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             ->_addContent($this->getLayout()->createBlock('adminhtml/promo_quote'))
             ->renderLayout();
     }
-    
+
     public function newAction()
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -52,30 +52,30 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         if (!empty($data)) {
             $model->addData($data);
         }
-        
+
         Mage::register('current_promo_quote_rule', $model);
 
         $block = $this->getLayout()->createBlock('adminhtml/promo_quote_edit')
             ->setData('action', Mage::getUrl('*/*/save'));
-        
+
         $this->_initAction();
-        
+
         $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
-        
+
         $this
             ->_addBreadcrumb($id ? __('Edit Rule') : __('New Rule'), $id ? __('Edit Rule') : __('New Rule'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock('adminhtml/promo_quote_edit_tabs'))
             ->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('promo/quote/js.phtml'))
             ->renderLayout();
-        
+
     }
-   
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
             $model = Mage::getModel('salesrule/rule');
-            
+
             if ($id = $this->getRequest()->getParam('id')) {
                 $model->load($id);
                 if ($id != $model->getId()) {
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             	$data['actions'] = $data['rule']['actions'];
             }
             unset($data['rule']);
-            
+
             $model->loadPost($data);
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
@@ -136,26 +136,26 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         $id = $this->getRequest()->getParam('id');
         $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
-        
+
         $model = Mage::getModel($type)->setId($id)->setType($type)
             ->setRule(Mage::getModel('salesrule/rule'));
-            
+
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';
         }
-        $this->getResponse()->setBody($html);        
+        $this->getResponse()->setBody($html);
     }
-    
+
     public function newActionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
         $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
-        
+
         $model = Mage::getModel($type)->setId($id)->setType($type)
             ->setRule(Mage::getModel('salesrule/rule'));
-            
+
         if ($model instanceof Mage_Rule_Model_Action_Abstract) {
             $html = $model->asHtmlRecursive();
         } else {
@@ -163,14 +163,14 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         }
         $this->getResponse()->setBody($html);
     }
-    
+
     public function applyRulesAction()
     {
         $this->_initAction();
-        
+
         $this->renderLayout();
     }
-    
+
     public function gridAction()
     {
         $this->_initRule();
@@ -178,4 +178,10 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_product')->toHtml()
         );
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('promo/quote');
+    }
+
 }

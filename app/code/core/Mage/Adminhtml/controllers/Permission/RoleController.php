@@ -71,7 +71,7 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
             Mage::getSingleton('adminhtml/session')->addError('Error while deleting this role. Pleace try again later.');
         }
 
-        $this->_redirect("adminhtml/permission_role");
+        $this->_redirect("*/*/");
     }
 
     public function saveRoleAction()
@@ -101,5 +101,10 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
     public function editrolegridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_role_grid_user')->toHtml());
+    }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/acl/roles');
     }
 }

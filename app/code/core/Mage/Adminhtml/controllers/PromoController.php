@@ -17,4 +17,9 @@ class Mage_Adminhtml_PromoController extends Mage_Adminhtml_Controller_Action
         $this->_addBreadcrumb(__('Promotions'), __('Promo'));
         $this->renderLayout();
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('promo');
+    }
 }

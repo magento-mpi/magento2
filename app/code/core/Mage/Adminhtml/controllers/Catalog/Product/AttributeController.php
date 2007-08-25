@@ -181,4 +181,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         $this->_redirect('*/*/');
     }
 
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/attributes');
+    }
+
 }

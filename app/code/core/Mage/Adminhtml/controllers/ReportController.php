@@ -92,4 +92,39 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
+    protected function _isAllowed()
+    {
+	    switch ($this->getRequest()->getActionName()) {
+            case 'sales':
+                return Mage::getSingleton('admin/session')->isAllowed('report/sales');
+                break;
+            case 'shopcart':
+                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
+                break;
+            case 'products':
+                return Mage::getSingleton('admin/session')->isAllowed('report/products');
+                break;
+            case 'coupons':
+                return Mage::getSingleton('admin/session')->isAllowed('report/coupons');
+                break;
+            case 'wishlist':
+                return Mage::getSingleton('admin/session')->isAllowed('report/wishlist');
+                break;
+            case 'search':
+                return Mage::getSingleton('admin/session')->isAllowed('report/search');
+                break;
+            case 'customers':
+                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
+                break;
+            case 'orders':
+                return Mage::getSingleton('admin/session')->isAllowed('report/orders');
+                break;
+            case 'totals':
+                return Mage::getSingleton('admin/session')->isAllowed('report/totals');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('report');
+                break;
+        }
+    }
 }

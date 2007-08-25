@@ -70,7 +70,7 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError('Error while deleting this user. Please, try again later.');
         }
-        $this->_redirect("adminhtml/permission_user");
+        $this->getResponse()->setRedirect(Mage::getUrl("*/permission_user"));
     }
 
     public function saveUserAction()
@@ -82,7 +82,8 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                 ->setFirstname($this->getRequest()->getParam('firstname', false))
                 ->setLastname($this->getRequest()->getParam('lastname', false))
                 ->setEmail(strtolower($this->getRequest()->getParam('email', false)))
-                ->setPassword($this->getRequest()->getParam('password', false));
+                ->setPassword($this->getRequest()->getParam('password', false))
+                ->setIs_active($this->getRequest()->getParam('is_active', false));
 
         if( !$user->userExists() ) {
             try {
@@ -129,5 +130,10 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                 ->add();
             echo json_encode(array('error' => 0, 'error_message' => 'test message'));
         }
+    }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/acl/users');
     }
 }

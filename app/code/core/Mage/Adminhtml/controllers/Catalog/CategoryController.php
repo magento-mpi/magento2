@@ -81,7 +81,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         try {
             $tree = Mage::getResourceModel('catalog/category_tree')
                 ->load();
-            
+
             $node = $tree->getNodeById($nodeId);
             $parentNode     = $node->getParent();
             $newParentNode  = $tree->getNodeById($parentNodeId);
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->load($nodeId)
                 ->move($newParentNode->getId())
                 ->save();
-            
+
             /*$parentCategory = Mage::getModel('catalog/category')
                 ->setStoreId(0)
                 ->load($parentNode->getId())
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->load($nodeId)
                 ->setParentId($newParentNode->getId())
                 ->save();
-                
+
             $newParentCategory = Mage::getModel('catalog/category')
                 ->setStoreId(0)
                 ->load($newParentNode->getId())
@@ -149,15 +149,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setStoreId($storeId)
                 ->load($this->getRequest()->getParam('id'))
                 ->addData($data['general']);
-                
+
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
-            
+
             if (isset($data['category_products'])) {
                 $products = array();
                 parse_str($data['category_products'], $products);
                 $category->setPostedProducts($products);
             }
-            
+
             try {
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess('Category saved');
@@ -181,4 +181,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product')->toHtml()
         );
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
+    }
+
 }

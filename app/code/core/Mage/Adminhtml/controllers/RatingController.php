@@ -109,4 +109,10 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
     {
         Mage::register('entityId', Mage::getModel('rating/rating_entity')->getIdByCode('product'));
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/ratings');
+    }
+
 }

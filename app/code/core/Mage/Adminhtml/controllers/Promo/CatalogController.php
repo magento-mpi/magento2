@@ -10,7 +10,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         ;
         return $this;
     }
-    
+
     public function indexAction()
     {
         $this->_initAction()
@@ -18,12 +18,12 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             ->_addContent($this->getLayout()->createBlock('adminhtml/promo_catalog'))
             ->renderLayout();
     }
-    
+
     public function newAction()
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -43,24 +43,24 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         if (!empty($data)) {
             $model->addData($data);
         }
-        
+
         Mage::register('current_promo_catalog_rule', $model);
 
         $block = $this->getLayout()->createBlock('adminhtml/promo_catalog_edit')
             ->setData('action', Mage::getUrl('*/promo_catalog/save'));
-        
+
         $this->_initAction();
-        
+
         $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
-        
+
         $this
             ->_addBreadcrumb($id ? __('Edit Rule') : __('New Rule'), $id ? __('Edit Rule') : __('New Rule'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tabs'))
             ->renderLayout();
-        
+
     }
-   
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
@@ -77,14 +77,14 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             $data['conditions'] = $data['rule']['conditions'];
             $data['actions'] = $data['rule']['actions'];
             unset($data['rule']);
-            
+
             if (!empty($data['auto_apply'])) {
 	            $autoApply = true;
 	            unset($data['auto_apply']);
             } else {
             	$autoApply = false;
             }
-            
+
             $model->loadPost($data);
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
@@ -132,26 +132,26 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     {
         $id = $this->getRequest()->getParam('id');
         $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
-        
+
         $model = Mage::getModel($type)->setId($id)->setType($type)
             ->setRule(Mage::getModel('catalogrule/rule'));
-            
+
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';
         }
-        $this->getResponse()->setBody($html);        
+        $this->getResponse()->setBody($html);
     }
-    
+
     public function newActionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
         $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
-        
+
         $model = Mage::getModel($type)->setId($id)->setType($type)
             ->setRule(Mage::getModel('catalogrule/rule'));
-            
+
         if ($model instanceof Mage_Rule_Model_Action_Abstract) {
             $html = $model->asHtmlRecursive();
         } else {
@@ -159,7 +159,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         }
         $this->getResponse()->setBody($html);
     }
-    
+
     public function applyRulesAction()
     {
         try {
@@ -172,5 +172,10 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         }
 
         $this->_redirect('*/*');
+    }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
     }
 }

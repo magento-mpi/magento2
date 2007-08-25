@@ -10,7 +10,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
      * Display categories home page
      *
      */
-    function indexAction() 
+    function indexAction()
     {
         $this->loadLayout();
 
@@ -20,14 +20,14 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         $this->renderLayout();
     }
 
-    function importAction() 
+    function importAction()
     {
         $fileName = Mage::getBaseDir('var').DS.'import'.DS.'simplybirkenstock.txt';
-        
+
         $fieldMap = array(
             0=>'old_id',
             1=>'sku',
-            2=>'small_image', 
+            2=>'small_image',
             3=>'image',
             4=>'price',
             5=>'weight',
@@ -40,12 +40,30 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
             12=>'name',
             13=>'description',
         );
-        
+
         echo "<pre>";
-        
+
         $import = new Mage_Catalog_Import();
         $import->loadCsv($fileName, $fieldMap);
         $import->convert()->save();
     }
+
+    protected function _isAllowed()
+    {
+        print "Action: ".$this->getRequest()->getActionName() . "<br/>";
+    	/*switch ($this->getRequest()->getActionName()) {
+            case 'pending':
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/pending');
+                break;
+            case 'all':
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/all');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag');
+                break;
+        }
+        */
+    }
+
 }
 

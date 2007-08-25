@@ -10,7 +10,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         ;
         return $this;
     }
-    
+
     public function indexAction()
     {
         $this->_initAction()
@@ -18,12 +18,12 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
             ->_addContent($this->getLayout()->createBlock('adminhtml/catalog_search'))
             ->renderLayout();
     }
-    
+
     public function newAction()
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -43,23 +43,23 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         if (!empty($data)) {
             $model->addData($data);
         }
-        
+
         Mage::register('current_catalog_search', $model);
 
         $block = $this->getLayout()->createBlock('adminhtml/catalog_search_edit')
             ->setData('action', Mage::getUrl('*/catalog_search/save'));
-        
+
         $this->_initAction();
-        
+
         $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
-        
+
         $this
             ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'))
             ->_addContent($block)
             ->renderLayout();
-        
+
     }
-   
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
@@ -112,4 +112,10 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a page to delete'));
         $this->_redirect('*/*/');
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('catalog/search');
+    }
+
 }

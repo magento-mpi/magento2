@@ -92,4 +92,10 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         }
         $this->getResponse()->setBody( $response->toJson() );
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('cms/poll');
+    }
+
 }

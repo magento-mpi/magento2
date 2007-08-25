@@ -16,7 +16,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
             $this->_forward('grid');
             return;
         }
-        
+
     	$this->loadLayout('baseframe');
         $this->_setActiveMenu('newsletter/template');
        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
@@ -24,12 +24,12 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->_addContent($this->getLayout()->createBlock('adminhtml/newsletter_template', 'template'));
         $this->renderLayout();
     }
-    
+
     public function gridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/newsletter_template_grid')->toHtml());
     }
-    
+
 
     public function newAction()
     {
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
 
     }
 
-    public function deleteAction() 
+    public function deleteAction()
     {
 
         $template = Mage::getModel('newsletter/template');
@@ -112,23 +112,28 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         $this->loadLayout('preview');
         $this->renderLayout();
     }
-    
+
     public function toqueueAction()
     {
     	$template = Mage::getModel('newsletter/template')
         	->load($this->getRequest()->getParam('id'));
-        
+
         if(!$template->getIsSystem()) {
             $template->preprocess();
-			
+
 			$queue = Mage::getModel('newsletter/queue')
 				->setTemplateId($this->getRequest()->getParam('id'))
 		    	->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
-		    
+
 		    $queue->save();
 		    $template->save();
-		    
+
 		    $this->_redirect('*/newsletter_queue/edit', array('id'=>$queue->getId()));
         }
+    }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/template');
     }
 }

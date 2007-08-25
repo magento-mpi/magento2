@@ -19,4 +19,10 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog'));
         $this->renderLayout();
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('catalog');
+    }
+
 }

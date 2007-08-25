@@ -11,19 +11,6 @@
 
 class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Controller_Action
 {
-
-	protected function _isAllowed()
-    {
-    	switch ($this->getRequest()->getActionName()) {
-            case 'pending':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/pending');
-                break;
-            default:
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/all');
-                break;
-    	}
-    }
-
 	public function indexAction()
     {
         $this->loadLayout('baseframe');
@@ -190,5 +177,17 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         return;
+    }
+
+    protected function _isAllowed()
+    {
+    	switch ($this->getRequest()->getActionName()) {
+            case 'pending':
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/pending');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/all');
+                break;
+    	}
     }
 }

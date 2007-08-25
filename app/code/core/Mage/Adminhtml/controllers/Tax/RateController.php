@@ -138,7 +138,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         header("Content-type: application/octet-stream");
         echo $content;
     }
-    
+
     public function importExportAction()
     {
     	$this->loadLayout('baseframe')
@@ -146,7 +146,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     		->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_importExport'))
     		->renderLayout();
     }
-    
+
     public function importPostAction()
     {
     	$result = false;
@@ -159,32 +159,32 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     			Mage::getSingleton('adminhtml/session')->addError('Error during import: '.$e);
     		}
     	} else {
-    		
+
     		Mage::getSingleton('adminhtml/session')->addError('Invalid file upload attempt');
-    		
+
     	}
     	$this->_redirect('*/*/importExport');
     }
-    
+
     protected function _importRates()
     {
     	$filename = $_FILES['import_rates_file']['tmp_name'];
     	$rows = array();
-	
+
 		$rates = $this->_importFileToArray($filename);
-    	
+
     	$rateModel = Mage::getModel('tax/rate');
     	$rateDataModel = Mage::getModel('tax/rate_data');
-    	
+
     	$rateModel->deleteAllRates();
-    	
+
     	foreach ($rates as $rate) {
     		$rateModel->setData($rate)->save();
     	}
-    	
+
     	return true;
     }
-    
+
     protected function _importFileToArray($filename)
     {
     	$rateTypes = array();
@@ -192,14 +192,14 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     	foreach ($typeCollection as $type) {
     		$rateTypes[$type->getTypeName()] = $type->getTypeId();
     	}
-    	
+
     	$regions = array();
     	$regionCollection = Mage::getResourceModel('directory/region_collection')
     		->addCountryFilter(223)->load();
     	foreach ($regionCollection as $region) {
     		$regions[$region->getCode()] = $region->getRegionId();
     	}
-    	
+
     	$fp = fopen($filename, 'r');
     	$cols = array();
     	$rates = array();
@@ -224,11 +224,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     				case 'region_name':
     					$rate['tax_region_id'] = $regions[$v];
     					break;
-    					
+
     				case 'postcode':
 						$rate['tax_postcode'] = $v;
     					break;
-    					
+
     				default:
     					$rate['rate_data'][$cols[$k]] = $v;
     			}
@@ -237,10 +237,10 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     	}
     	fclose($fp);
     	@unlink($filename);
-    	
+
     	return $rates;
     }
-    
+
     public function exportPostAction()
     {
     	$rateTypes = array();
@@ -248,7 +248,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     	foreach ($typeCollection as $type) {
     		$rateTypes[$type->getTypeId()] = $type->getTypeName();
     	}
-    	
+
     	$rateCollection = Mage::getResourceModel('tax/rate_collection')->addAttributes()->load();
     	$content = '';
     	foreach ($rateCollection as $rate) {
@@ -266,9 +266,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     		}
     		$content.= $rate->toString($template)."\r\n";
     	}
-    	
+
     	$fileName = 'tax_rates.csv';
-    	
+
         header('HTTP/1.1 200 OK');
         header('Content-Disposition: attachment; filename='.$fileName);
         header('Last-Modified: '.date('r'));
@@ -277,5 +277,21 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         header("Content-type: application/octet-stream");
         echo $content;
         exit;
+    }
+
+    protected function _isAllowed()
+    {
+
+    	switch ($this->getRequest()->getActionName()) {
+            case 'importExport':
+                return Mage::getSingleton('admin/session')->isAllowed('sales/tax/import_export');
+                break;
+            case 'index':
+                return Mage::getSingleton('admin/session')->isAllowed('sales/tax/rates');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('sales/tax/rates');
+                break;
+        }
     }
 }

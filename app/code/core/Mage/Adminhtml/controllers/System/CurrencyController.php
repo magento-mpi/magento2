@@ -20,11 +20,11 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $code = $this->getRequest()->getParam('currency');
         $currency = Mage::getModel('directory/currency')
             ->load($code);
-        
+
         Mage::register('currency', $currency);
         return $this;
     }
-    
+
     /**
      * Currency management main page
      */
@@ -35,7 +35,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_currency'));
         $this->renderLayout();
     }
-    
+
     public function importAction()
     {
         $importModel = Mage::getModel('directory/currency_import_webservicex');
@@ -48,12 +48,12 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         }
         $this->_redirect('*/*/');
     }
-    
+
     /*public function newAction()
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $this->_initCurrency();
@@ -63,9 +63,14 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_currency_edit'));
         $this->renderLayout();
     }
-    
+
     public function saveAction()
     {
-        
+
     }*/
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/currency');
+    }
 }

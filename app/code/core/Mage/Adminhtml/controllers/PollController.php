@@ -121,4 +121,10 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
     {
         $this->_forward('edit');
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('cms/poll');
+    }
+
 }

@@ -19,7 +19,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     		$this->_forward('grid');
     		return;
     	}
-    	
+
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system');
         $this->_addBreadcrumb(__('System'), __('System'));
@@ -30,7 +30,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         $this->renderLayout();
     }
-    
+
     /**
      * Backup list action
      */
@@ -96,4 +96,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $this->_redirect('*/*/');
 
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/tools/backup');
+    }
+
 }

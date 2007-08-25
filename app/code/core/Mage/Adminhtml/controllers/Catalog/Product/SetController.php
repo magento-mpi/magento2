@@ -144,4 +144,10 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         Mage::register('entityType',
             Mage::getModel('catalog/product')->getResource()->getConfig()->getId());
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/sets');
+    }
+
 }

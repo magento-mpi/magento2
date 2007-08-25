@@ -343,4 +343,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
         $this->getResponse()->setBody($response->toJson());
     }
+
+    protected function _isAllowed()
+    {
+    	//print $this->getRequest()->getActionName();
+	    return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+    }
 }

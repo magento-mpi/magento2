@@ -16,7 +16,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
             $this->_forward('grid');
             return;
         }
-        
+
     	$this->loadLayout('baseframe');
         $this->_setActiveMenu('system/email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
@@ -24,12 +24,12 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template', 'template'));
         $this->renderLayout();
     }
-    
+
     public function gridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_email_template_grid')->toHtml());
     }
-    
+
 
     public function newAction()
     {
@@ -70,7 +70,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 */
                 ->setTemplateText($request->getParam('text'))
 				->setModifiedAt(now());
-				
+
             if (!$template->getId()) {
                 $type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_HTML");
                 $template->setTemplateType($type);
@@ -113,5 +113,10 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $this->loadLayout('systemPreview');
         $this->renderLayout();
     }
-    
+
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/email_template');
+    }
 }

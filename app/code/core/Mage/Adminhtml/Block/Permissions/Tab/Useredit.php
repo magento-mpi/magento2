@@ -122,6 +122,29 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             );
         }
 
+        $fieldset->addField('is_active', 'select',
+            array(
+                'name'  	=> 'is_active',
+                'label' 	=> __('This account is'),
+                'id'    	=> 'is_active',
+                'title' 	=> __('Account status'),
+                'class' 	=> 'input-select',
+                'required' 	=> false,
+                'style'		=> 'width: 80px',
+                'value'		=> '1',
+                'values'	=> array(
+                	array(
+	                	'label' => __('Active'),
+	                	'value'	=> '1',
+                	),
+                	array(
+	                	'label' => __('Inactive'),
+	                	'value' => '0',
+                	),
+                ),
+            )
+        );
+
         $data = $this->getUser()->getData();
 
         unset($data['password']);

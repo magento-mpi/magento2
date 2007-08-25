@@ -23,4 +23,9 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
         $this->_addBreadcrumb(__('Orders'), __('Orders'));
         $this->renderLayout();
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('sales');
+    }
 }

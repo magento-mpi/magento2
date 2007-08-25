@@ -41,54 +41,42 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
 
     public function getResourcesList()
     {
-        return $this->_buildResourceArray();
+        return $this->_buildResourcesArray();
     }
-    
+
     public function getResourcesList2D()
     {
-    	return $this->_build2DResourcesList();
-    }
-    
-    protected function _build2DResourcesList(Varien_Simplexml_Element $parent=null, $path='', $level=0)
-    {
-   		static $result;
-   		
-   		if ( !is_array($result) ) $result = Array();
-   		
-   		if (is_null($parent)) {
-            $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
-        }
-
-        foreach ($parent->children() as $childName=>$child) {
-            $key = trim($path.$childName.'/', '/');
-            if ( !preg_match('#^admin/#', $key) ) $key = 'admin/'.$key;
-            array_push($result, $key);
-            if ($child->children) {
-                $this->_build2DResourcesList($child->children, $path.$childName.'/', $level+1);
-            }
-        }
-        return $result;
+    	return $this->_buildResourcesArray(null, null, null, true);
     }
 
-    protected function _buildResourceArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
+    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null)
     {
         static $result;
-
-        if (is_null($parent)) {
-            $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
+        if (is_null($resource)) {
+            $config = new Varien_Simplexml_Config();
+            $config->loadFile(Mage::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
+            $resource = $config->getNode("admin/acl/resources");
+            $resourceName = null;
+            $level = -1;
+            unset($config);
+        } else {
+        	$resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
+        	if ( is_null($represent2Darray) ) {
+        		$result[$resourceName]['name'] 	= __((string)$resource->attributes()->title);
+        		$result[$resourceName]['level'] = $level;
+        	} else {
+        		$result[] = $resourceName;
+        	}
         }
-
-        foreach ($parent->children() as $childName=>$child) {
-            $key = trim($path.$childName.'/', '/');
-            if ( !preg_match('#^admin/#', $key) ) $key = 'admin/'.$key;
-            $result[$key]['name'] = __((string)$child->title);
-            $result[$key]['level'] = $level;
-            if ($child->children) {
-                $this->_buildResourceArray($child->children, $path.$childName.'/', $level+1);
-            }
+        $children = $resource->children();
+        if (empty($children)) {
+            return $result;
         }
-
+        foreach ($children as $child) {
+            $this->_buildResourcesArray($child, $resourceName, $level+1, $represent2Darray);
+        }
         return $result;
     }
+
 }
 ?>

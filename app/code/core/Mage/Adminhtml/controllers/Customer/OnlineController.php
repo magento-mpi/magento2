@@ -18,4 +18,11 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
 
         $this->renderLayout();
     }
+
+    protected function _isAllowed()
+    {
+	    //print $this->getRequest()->getActionName();
+    	return Mage::getSingleton('admin/session')->isAllowed('customer/online');
+    }
+
 }

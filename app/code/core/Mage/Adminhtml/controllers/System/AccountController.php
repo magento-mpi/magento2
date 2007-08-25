@@ -46,4 +46,9 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
             $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
         }
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/myaccount');
+    }
 }

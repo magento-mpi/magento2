@@ -53,6 +53,10 @@ class Mage_Permissions_Model_Mysql4_Users {
 	       		$data['password'] = Mage::getModel("permissions/users")->encodePwd($user->getPassword());
 	       }
 
+	       if ( !is_null($user->getIsActive()) ) {
+	       		$data['is_active'] = intval($user->getIsActive());
+	       }
+
 	       $this->_write->update($this->_usersTable, $data, "user_id = {$user->getId()}");
     	} else {
     		$data = array(
@@ -68,6 +72,11 @@ class Mage_Permissions_Model_Mysql4_Users {
 	       	if ($user->getPassword()) {
 	       		$data['password'] = Mage::getModel("permissions/users")->encodePwd($user->getPassword());
 	        }
+
+	        if ( !is_null($user->getIsActive()) ) {
+	        	$data['is_active'] = intval($user->getIsActive());
+	        }
+
     		$this->_write->insert($this->_usersTable, $data);
 	       	$user->setId($this->_write->lastInsertId());
     	}

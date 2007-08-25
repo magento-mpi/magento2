@@ -2,7 +2,7 @@
 
 /**
  * Resource model for admin ACL
- * 
+ *
  * @package     Mage
  * @subpackage  Admin
  * @copyright   Varien (c) 2007 (http://www.varien.com)
@@ -17,14 +17,14 @@ class Mage_Admin_Model_Mysql4_Acl
      * @var mixed
      */
     protected $_read;
-    
+
     /**
      * Write resource connection
      *
      * @var mixed
      */
     protected $_write;
-    
+
     /**
      * Initialize resource connections
      *
@@ -44,22 +44,22 @@ class Mage_Admin_Model_Mysql4_Acl
     function loadAcl()
     {
         $acl = Mage::getModel('admin/acl');
-        
+
         Mage::getSingleton('admin/config')->loadAclResources($acl);
 
         $roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
         $rolesArr = $this->_read->fetchAll("select * from $roleTable order by tree_level");
         $this->loadRoles($acl, $rolesArr);
-        
+
         $ruleTable = Mage::getSingleton('core/resource')->getTableName('admin/rule');
         $assertTable = Mage::getSingleton('core/resource')->getTableName('admin/assert');
-        $rulesArr = $this->_read->fetchAll("select r.*, a.assert_type, a.assert_data 
+        $rulesArr = $this->_read->fetchAll("select r.*, a.assert_type, a.assert_data
             from $ruleTable r left join $assertTable a on a.assert_id=r.assert_id");
         $this->loadRules($acl, $rulesArr);
-        
+
         return $acl;
     }
-    
+
     /**
      * Load roles
      *
@@ -71,13 +71,13 @@ class Mage_Admin_Model_Mysql4_Acl
     {
         foreach ($rolesArr as $role) {
             $parent = $role['parent_id']>0 ? Mage_Admin_Model_Acl::ROLE_TYPE_GROUP.$role['parent_id'] : null;
-            
+
             switch ($role['role_type']) {
                 case Mage_Admin_Model_Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
                     $acl->addRole(Mage::getModel('admin/acl_role_group', $roleId), $parent);
                     break;
-                    
+
                 case Mage_Admin_Model_Acl::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
@@ -88,10 +88,10 @@ class Mage_Admin_Model_Mysql4_Acl
                     break;
             }
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Load rules
      *
@@ -101,8 +101,8 @@ class Mage_Admin_Model_Mysql4_Acl
      */
     function loadRules(Mage_Admin_Model_Acl $acl, array $rulesArr)
     {
-        $acl->allow('G2', null, null, null);
-        $acl->allow('G1', null, null, null);
+        #$acl->allow('G2', null, null, null);// FIXME
+        #$acl->allow('G1', null, null, null);// FIXME
     	foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
             $resource = $rule['resource_id'];
@@ -123,7 +123,7 @@ class Mage_Admin_Model_Mysql4_Acl
                 case Mage_Admin_Model_Acl::RULE_PERM_ALLOW:
                     $acl->allow($role, $resource, $privileges, $assert);
                     break;
-                    
+
                 case Mage_Admin_Model_Acl::RULE_PERM_DENY:
                     $acl->deny($role, $resource, $privileges, $assert);
                     break;

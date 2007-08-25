@@ -83,4 +83,18 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $this->_outTemplate('example');
     }
+
+    protected function _isAllowed()
+    {
+    	/*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {
+    		Mage::getSingleton('adminhtml/session')->addError(__('You have not enought permissions to login.'));
+    		$request = Mage::registry('controller')->getRequest();
+
+    	} else {
+    		return Mage::getSingleton('admin/session')->isAllowed('admin');
+    	}
+    	*/
+    	return true;
+    }
+
 }

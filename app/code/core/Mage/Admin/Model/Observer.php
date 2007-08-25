@@ -22,15 +22,23 @@ class Mage_Admin_Model_Observer
                 extract($request->getPost('login'));
                 if (!empty($username) && !empty($password)) {
                     $user = Mage::getModel('admin/user')->login($username, $password);
-                    if ($user->getId()) {
-                        $session->setUser($user);
-                        header('Location: '.$request->getRequestUri());
-                        exit;
+
+                    if ( $user->getId() && $user->getIsActive() != '1' ) {
+	                    if (!$request->getParam('messageSent')) {
+	                            Mage::getSingleton('adminhtml/session')->addError(__('Your Account has been deactivated.'));
+	                            $request->setParam('messageSent', true);
+	                    }
                     } else {
-                        if (!$request->getParam('messageSent')) {
-                            Mage::getSingleton('adminhtml/session')->addError(__('Invalid Username or Password.'));
-                            $request->setParam('messageSent', true);
-                        }
+	                    if ($user->getId()) {
+	                        $session->setUser($user);
+	                        header('Location: '.$request->getRequestUri());
+	                        exit;
+	                    } else {
+	                        if (!$request->getParam('messageSent')) {
+	                            Mage::getSingleton('adminhtml/session')->addError(__('Invalid Username or Password.'));
+	                            $request->setParam('messageSent', true);
+	                        }
+	                    }
                     }
                 }
             }

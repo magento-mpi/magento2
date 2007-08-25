@@ -36,7 +36,7 @@
                 }
                 return children;
        		},
-       		
+
        		_getParentCheckboxes: function (obj) {
                 var ids = obj.id.split('_');
                 var parents = new Array();
@@ -55,7 +55,7 @@
 
        		_toggle: function(obj) {
        		    var objState = obj.checked;
-       		    
+
        		    if (objState) {
        		    	var parents = this._getParentCheckboxes(obj);
        		    	if (parents.length > 0) {
@@ -64,13 +64,13 @@
        		    		}
        		    	}
        		    }
-       		    
+
        		    checkboxes = this._getCheckboxes(obj);
        		    for( i in checkboxes ) {
        		        checkboxes[i].checked = objState;
        		    }
        		},
-       		
+
        		_findCheckboxById: function(id)
        		{
        			var tmp = document.getElementsByTagName('input');

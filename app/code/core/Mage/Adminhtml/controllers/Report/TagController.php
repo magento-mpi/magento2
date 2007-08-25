@@ -35,7 +35,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product'))
             ->renderLayout();
     }
-    
+
     public function productAllAction()
     {
         $this->_initAction()
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_all'))
             ->renderLayout();
     }
-    
+
     public function popularAction()
     {
         $this->_initAction()
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_customer_detail'))
             ->renderLayout();
     }
-    
+
     public function productDetailAction()
     {
         $this->_initAction()
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_detail'))
             ->renderLayout();
     }
-    
+
     public function tagDetailAction()
     {
         $this->_initAction()
@@ -83,5 +83,25 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_popular_detail'))
             ->renderLayout();
     }
- 
+
+    protected function _isAllowed()
+    {
+	    switch ($this->getRequest()->getActionName()) {
+            case 'customer':
+                return Mage::getSingleton('admin/session')->isAllowed('report/tags/customer');
+                break;
+            case 'product':
+                return Mage::getSingleton('admin/session')->isAllowed('report/tags/product');
+                break;
+            case 'productAll':
+                return Mage::getSingleton('admin/session')->isAllowed('report/tags/product_total');
+                break;
+            case 'popular':
+                return Mage::getSingleton('admin/session')->isAllowed('report/tags/popular');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('report/tags');
+                break;
+        }
+    }
 }

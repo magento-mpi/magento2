@@ -111,4 +111,11 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 
         $this->_redirect('*/customer_group');
     }
+
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('customer/group');
+    }
+
+
 }

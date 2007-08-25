@@ -114,4 +114,9 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
         $this->_redirect('*/*/');
     }
 
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('cms/block');
+    }
+
 }

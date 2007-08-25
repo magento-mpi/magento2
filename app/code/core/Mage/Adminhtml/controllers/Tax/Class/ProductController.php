@@ -52,4 +52,9 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
         return $this;
     }
 
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_product');
+    }
+
 }
