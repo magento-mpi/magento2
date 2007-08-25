@@ -1,23 +1,22 @@
 <?=$this->getAddButtonHtml()?>
 <span class="field-row" id="<?=$this->getElement()->getHtmlId()?>_container"></span>
-<span id="<?=$this->getElement()->getHtmlId()?>_delete_button" style="display:none">
-
-</span>
+<span id="<?=$this->getElement()->getHtmlId()?>_delete_button" style="display:none"></span>
 
 <div id="<?=$this->getElement()->getHtmlId()?>_add_template" style="display:none">
 <div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row___index__">
-<table cellspacing="0">
+<table cellspacing="0" class="field-row">
 	<tbody>
 	 <tr>
 	  	<td class="a-left">
 		<strong><?=('Qty')?></strong>&nbsp;
-		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'">
+		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'">
 		</td>
 		<td class="a-left">&nbsp;
 		<strong><?=('and above. Price')?></strong>&nbsp;
-		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
+		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
 		</td>
 		<td class="a-left">
+		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__delete'" type="hidden" name="'<?=$this->getElement()->getName()?>[__index__][delete]'" value="">
 		<?=$this->getDeleteButtonHtml()?>
 		</td>
 	  </tr>
@@ -47,13 +46,12 @@
 			);
 		},
 		deleteItem : function(item) {
-			$('<?=$this->getElement()->getHtmlId()?>_row_' + item).remove();
+			$('<?=$this->getElement()->getHtmlId()?>_row_' + item).hide();
+			if($('<?=$this->getElement()->getHtmlId()?>_row_'+item+'delete')){
+			    $('<?=$this->getElement()->getHtmlId()?>_row_'+item+'delete').value=1;
+			}
 		}
 	}
-	Validation.addAllThese([
-    ['validate-greater-than-zero', '<?=__('Please enter a number greater than 0 in this field.')?>', function(v) {
-                return parseFloat(v) > 0;
-            }]]);
 	<?foreach ($this->getValues() as $_item):?>
 	tierPriceControl.addItem('<?=$_item['price_qty']?>','<?=$_item['price']?>');
 	<?endforeach;?>

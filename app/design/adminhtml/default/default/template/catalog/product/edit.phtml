@@ -12,6 +12,9 @@
             <?=$this->getCancelButtonHtml()?>
             <?if($this->getProductId()):?>
                 <?=$this->getDeleteButtonHtml()?>
+                <?if(!$this->getProduct()->isSuper()):?>
+                <?=$this->getDuplicateButtonHtml()?>
+                <?endif;?>
             <?endif;?>
             <?if($this->getProductSetId() && $this->getIsConfigured()):?>
                 <?=$this->getSaveButtonHtml()?>

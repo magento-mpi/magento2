@@ -516,5 +516,61 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         parent::validate($object);
         return $this;
     }
+    
+    public function copy(Mage_Catalog_Model_Product $object)
+    {
+        $uniqAttributes = array();
+        
+        
+        $storeIds = $this->getStoreIds($object);
+        $oldId = $object->getId();
+        
+        $catagoryCollection = $this->getCategoryCollection($object)
+            ->load();
+        $categories = array();
+        foreach ($catagoryCollection as $category) {
+        	$categories[] = $category->getId();
+        }
+        
+        $object->setStoreId(0)
+            ->load($object->getId());
+            
+        $newProduct = Mage::getModel('catalog/product')
+	       ->setStoreId(0)
+	       ->setData($object->getData());
+	       
+        $this->_prepareCopy($newProduct);
+        $newProduct->setPostedStores($storeIds);
+        $newProduct->setPostedCategories($categories);
+        $newProduct->save();
+        
+        $newId = $newProduct->getId();
+        
+        foreach ($storeIds as $storeId) {
+        	if ($storeId) {
+        	    $newProduct = Mage::getModel('catalog/product')
+        	       ->setStoreId($storeId)
+        	       ->load($oldId);
 
+                $this->_prepareCopy($newProduct);
+                $newProduct->setPostedCategories($categories);
+                $newProduct->setId($newId);
+                $newProduct->save();
+        	}
+        }
+        $object->setId($newId);
+        return $this;
+    }
+    
+    protected function _prepareCopy($object)
+    {
+        $object->setId(null);
+        foreach ($object->getAttributes() as $attribute) {
+        	if ($attribute->getIsUnique()) {
+        	    $object->setData($attribute->getAttributeCode(), null);
+        	}
+        }
+        $object->setStatus(Mage_Catalog_Model_Product::STATUS_DISABLED);
+        return $this;
+    }
 }

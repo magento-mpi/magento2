@@ -276,6 +276,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         
         $this->_redirect('*/*/', array('store'=>$storeId));
     }
+    
+    public function duplicateAction()
+    {
+        $productId = (int) $this->getRequest()->getParam('id');
+        $product = Mage::getModel('catalog/product')
+            ->load($productId);
+        try {
+            $product->copy();
+            Mage::getSingleton('adminhtml/session')->addSuccess('Product duplicated');
+            $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$product->getId()));
+        }
+        catch (Exception $e){
+            Mage::getSingleton('adminhtml/session')
+                    ->addError($e->getMessage());
+            $this->_redirect('*/*/edit', array('_current'=>true));
+        }
+    }
 
     /**
      * Decode strings for linked products

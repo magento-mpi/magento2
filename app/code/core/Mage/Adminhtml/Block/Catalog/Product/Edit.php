@@ -63,6 +63,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                     'class'  => 'delete'
                 ))
         );
+
+        $this->setChild('duplicate_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Duplicate'),
+                    'onclick'   => 'setLocation(\''.$this->getDuplicateUrl().'\')',
+                    'class'  => 'add'
+                ))
+        );
     }
 
     public function getBackButtonHtml()
@@ -90,6 +99,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return $this->getChildHtml('delete_button');
     }
     
+    public function getDuplicateButtonHtml()
+    {
+        return $this->getChildHtml('duplicate_button');
+    }
+
     public function getValidationUrl()
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));
@@ -183,6 +197,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return '{}';
     }
     
+    public function getProduct()
+    {
+         return Mage::registry('product');
+    }
     
     public function getIsSuperGroup() 
     {
@@ -192,6 +210,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getDeleteUrl()
     {
         return $this->getUrl('*/*/delete', array('_current'=>true));
+    }
+
+    public function getDuplicateUrl()
+    {
+        return $this->getUrl('*/*/duplicate', array('_current'=>true));
     }
     
     public function getHeader()

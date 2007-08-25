@@ -124,6 +124,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
+    
+    public function copy()
+    {
+        $this->getResource()->copy($this);
+        return $this;
+    }
 
     /**
      * Product model validation

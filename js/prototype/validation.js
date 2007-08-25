@@ -360,5 +360,11 @@ Validation.addAllThese([
                 if (!Validation.get('validate-password').test(v)) return false;
                 if (Validation.get('IsEmpty').test(v) && v != '') return false;
                 return true;
+            }],
+    ['validate-greater-than-zero', 'Please enter a number greater than 0 in this field.', function(v) {
+                if(v.length)
+                    return parseFloat(v) > 0;
+                else
+                    return true;
             }]
 ]);

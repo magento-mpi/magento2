@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
     
     public function beforeSave($object)
     {
-    
+        
     }
     
     public function afterSave($object) 
@@ -68,11 +68,14 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
         $connection = $this->getConnection('write');
         
     	$condition = array(
-    		$connection->quoteInto('store_id = ?', $storeId),
     		$connection->quoteInto($entityIdField . ' = ?', $entityId),
     		$connection->quoteInto('attribute_id = ?', $attributeId)
     	);
-    	    	 
+    	
+    	if (!$this->getAttribute()->getIsGlobal()) {
+    	    $condition[] = $connection->quoteInto('store_id = ?', $storeId);
+    	}
+
     	$connection->delete($this->getMainTable(), $condition);
     	
     	$tierPrices = $object->getData($this->getAttribute()->getName());
@@ -81,23 +84,37 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
     		return;
     	}
     	
-    	$finalValue = array();
+    	$minimalPrice = $object->getPrice();
     	
     	foreach ($tierPrices as $tierPrice) {
-    		if (!isset($tierPrice['price_qty']) || !isset($tierPrice['price']) || strlen($storeId)==0) {
+    		if (!isset($tierPrice['price_qty']) || !isset($tierPrice['price']) || strlen($storeId)==0 || !empty($tierPrice['delete'])) {
     			continue;
     		}
     		
     		$data = array();
     		$data[$entityIdField] 	= $entityId;
     		$data['attribute_id'] 	= $attributeId;
-    		$data['store_id']	  	= $storeId;
     		$data['qty']		  	= $tierPrice['price_qty'];
     		$data['value']		  	= $tierPrice['price'];
     		$data['entity_type_id'] = $entityTypeId;
     		
-    		$connection->insert($this->getMainTable(), $data);
+    		if ($tierPrice['price']<$minimalPrice) {
+    		    $minimalPrice = $tierPrice['price'];
+    		}
+    		
+    		if ($this->getAttribute()->getIsGlobal()) {
+    		    foreach ($object->getStoreIds() as $storeId) {
+        		    $data['store_id'] = $storeId;
+        		    $connection->insert($this->getMainTable(), $data);
+    		    }
+    		}
+    		else {
+    		    $data['store_id'] = $storeId;
+    		    $connection->insert($this->getMainTable(), $data);
+    		}
     	}
+    	$object->setMinimalPrice($minimalPrice);
+    	$this->getAttribute()->getEntity()->saveAttribute($object, 'minimal_price');
     }
     
     public function afterDelete($object) 

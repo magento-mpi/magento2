@@ -449,7 +449,7 @@ ul.tabs-horiz li a.active {
     }
 
 fieldset .validation-advice{
-    margin:2px 0 0 10em;
+    margin:2px 0 0 12em;
     margin-right:20px;
 }
 input.validation-failed, textarea.validation-failed {
