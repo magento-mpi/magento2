@@ -108,6 +108,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         if ($last) {
             $html .= ' last';
         }
+        if ($hasChildren) {
+        	$html .= ' parent';
+        }
         $html.= '">'."\n";
         $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$category->getName().'</span></a>'."\n";
         //$html.= '<span>'.$level.'</span>';
