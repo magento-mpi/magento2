@@ -11,7 +11,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         parent::_construct();
 
-        if (!($this->getOnepage()->getQuote()->hasItems() || $this->getRequest()->getActionName()!='success')) {
+        if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
             $this->setFlag('', 'no-dispatch', true);
             $this->_redirect('checkout/cart');
         }
