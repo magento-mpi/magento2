@@ -25,4 +25,12 @@ class Mage_Payment_Model_PurchaseOrder extends Mage_Payment_Model_Abstract
         
         return $block;
     }
+    
+    
+    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
+    {
+        $payment->setStatus('APPROVED');
+        $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/purchaseorder/order_status'));
+        return $this;
+    }
 }

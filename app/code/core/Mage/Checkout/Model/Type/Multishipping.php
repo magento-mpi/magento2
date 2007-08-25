@@ -141,6 +141,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                         ->setQty($qty);
                     $quoteAddress->addItem($quoteAddressItem);                        
     	        }
+    	        $quoteAddress->setCollectShippingRates(true);
     	    }
     	}
         return $this;
@@ -149,6 +150,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     public function updateQuoteCustomerShippingAddress($addressId)
     {
         if ($address = $this->getCustomer()->getAddressById($addressId)) {
+        	$address->setCollectShippingRates(true);
             $this->getQuote()->getShippingAddressByCustomerAddressId($addressId)
                 ->importCustomerAddress($address)
                 ->collectTotals();
