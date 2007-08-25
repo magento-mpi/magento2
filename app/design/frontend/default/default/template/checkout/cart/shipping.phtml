@@ -1,9 +1,10 @@
 <div class="shipping-estimate box">
 <h4><?=__('Estimate Shipping')?></h4>
-<form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post">
+<form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post" id="shipping-zip-form">
 	<p><label for="estimate_postcode"><?=__('Enter your zip code to get a shipping quote.')?></label></p>
-	<input class="input-text left" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
+	<input class="input-text left" id="shipping-zip-code" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/> 
 	<button class="form-button-alt"><span><?=__('Get Quote')?></span></button>
+    <input type="hidden" id="shipping-zip-code" class="validate-zip-code" />
 	<div class="clear"></div>
 </form>
 <?if (!($_shippingRateGroups = $this->getEstimateRates())):?>
@@ -31,5 +32,19 @@
     </dl>
     <button class="form-button-alt" name="do" value="<?=__('Update')?>"><span><?=__('Update totals')?></span></button>
 </form>
+<script type="text/javascript">
+    var coShippingMethodForm = new VarienForm('shipping-zip-form');
+	Validation.addAllThese(
+    [
+	       ['validate-zip-code', 'Please enter a valid zip code. For example 90602 or 90602-1234.', function(v) {
+                if( $('shipping-zip-code').value.match(/(^\d{5}$)|(^\d{5}-\d{4}$)/) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+           }]
+    ]
+    );
+</script>
 <?endif;?>
 </div>
