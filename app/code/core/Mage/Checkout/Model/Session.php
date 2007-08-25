@@ -3,7 +3,7 @@
 class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     const CHECKOUT_STATE_BEGIN = 'begin';
-    
+
     protected $_quote = null;
     protected $_processedQuote = null;
 
@@ -13,17 +13,23 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         #echo $this->getSessionId().';'.$this->_namespace->data->getQuoteId().';'.$this->getQuoteId();
         Mage::dispatchEvent('initCheckoutSession', array('checkout_session'=>$this));
     }
-    
+
     public function unsetAll()
     {
         parent::unsetAll();
         $this->_quote = null;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function getQuote()
     {
         if (empty($this->_quote)) {
             $quote = Mage::getModel('sales/quote');
+            /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
                 $quote->load($this->getQuoteId());
                 if (!$quote->getId()) {
@@ -78,7 +84,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return $this;
     }
-    
+
     public function setStepData($step, $data, $value=null)
     {
         $steps = $this->getSteps();
@@ -95,10 +101,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             }
         }
         $this->setSteps($steps);
-        
+
         return $this;
     }
-    
+
     public function getStepData($step=null, $data=null)
     {
         $steps = $this->getSteps();
@@ -116,14 +122,14 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return $steps[$step][$data];
     }
-    
+
     public function clear()
     {
         Mage::dispatchEvent('destoryQuote', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
     }
-    
+
     public function resetCheckout()
     {
         $this->setCheckoutState(self::CHECKOUT_STATE_BEGIN);

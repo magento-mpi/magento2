@@ -17,6 +17,11 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Checkout_Model_Type_Onepage
+     */
     public function getOnepage()
     {
         return Mage::getSingleton('checkout/type_onepage');

@@ -19,12 +19,22 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
 /*********************** ORDER ***************************/
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function initNewOrder()
     {
         $this->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'));
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function validate()
     {
         $this->setErrors(array());
@@ -34,6 +44,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function sendNewOrderEmail()
     {
     	Mage::getModel('core/email_template')
@@ -54,6 +69,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
 /*********************** QUOTES ***************************/
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function createFromQuoteAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $quote = $address->getQuote();
@@ -92,6 +112,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function importQuoteAttributes(Mage_Sales_Model_Quote $quote)
     {
         $this
@@ -101,7 +126,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setGiftcertCode($quote->getGiftcertCode())
             ->setBaseCurrencyCode($quote->getBaseCurrencyCode())
             ->setStoreCurrencyCode($quote->getStoreCurrencyCode())
-            ->setCurrentCurrencyCode($quote->getCurrentCurrencyCode())
+            ->setOrderCurrencyCode($quote->getQuoteCurrencyCode())
             ->setStoreToBaseRate($quote->getStoreToBaseRate())
             ->setStoreToOrderRate($quote->getStoreToQuoteRate())
             ->setIsVirtual($quote->getIsVirtual())
@@ -111,6 +136,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function importQuoteAddressAttributes(Mage_Sales_Model_Quote_Address $address)
     {
         $this
