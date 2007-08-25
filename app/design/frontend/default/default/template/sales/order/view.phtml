@@ -1,7 +1,7 @@
 <? $_order = $this->getOrder() ?>
 <div class="page-head button-level">
     <h3><?=__('Order #')?><?=$_order->getRealOrderId()?> - <small><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></small></h3>
-    <a href="#"><?=__('View Invoices')?></a>
+    <?/*<a href="#"><?=__('View Invoices')?></a>*/?>
 </div>
 <p><strong><?=__('Order Date')?>:</strong> 06/15/2007</p>
 <div class="col2-set generic-box">
@@ -57,8 +57,8 @@
             <tr<?=($_index++ > $_count ? ' class="last"' : '')?>>
             <td><?=$_item->getName()?> </td>
             <td class="a-right nowrap"><?=$_order->getOrderCurrency()->format($_item->getPrice())?> </td>
-            <td class="a-center"><?=$_item->getQtyOrdered()?> </td>
-            <td class="a-center"><?=$_item->getQtyShipped()?> </td>
+            <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>
+            <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
             <td class="last a-right nowrap"><?=$_order->getOrderCurrency()->format($_item->getRowTotal())?> </td>
         <?endforeach;?>
         </tr>
@@ -68,20 +68,37 @@
             <td colspan="4" class="a-right"><?=__('Order Subtotal')?></td>
             <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td>
         </tr>
-        <tr>
-            <td colspan="4" class="a-right"><?=__('Tax Amount')?></td>
-            <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?></td>
-        </tr>
-        <tr>
-            <td colspan="4" class="a-right"><?=__('Shipping Amount')?></td>
-            <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?></td>
-        </tr>
+        <?if ($_order->getTaxAmount()):?>
+            <tr>
+                <td colspan="4" class="a-right"><?=__('Tax Amount')?></td>
+                <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?></td>
+            </tr>
+        <?endif;?>
+        <?if ($_order->getShippingAmount()):?>
+            <tr>
+                <td colspan="4" class="a-right"><?=__('Shipping Amount')?></td>
+                <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?></td>
+            </tr>
+        <?endif;?>
         <tr>
             <td colspan="4" class="a-right"><?=__('Grand Total')?></td>
             <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
         </tr>
     </tfoot>
 </table>
+<?$_history = $this->getOrder()->getVisibleStatusHistory()?>
+<?if (count($_history)):?>
+    <div class="clear">&nbsp;</div>
+    <h4><?=__('About your order')?></h4>
+    <div>
+        <dl>
+            <?foreach ($_history as $_historyItem):?>
+                <dt><?=$this->formatDate($_historyItem->getCreatedAt())?></dt>
+                <dd><?=$_historyItem->getComments()?></dd>
+            <?endforeach;?>
+        </dl>
+    </div>
+<?endif;?>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <div class="form-buttons">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back to')?> <?=__('My Orders')?></a>

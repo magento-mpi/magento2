@@ -416,11 +416,32 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this->_statusHistory;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     public function getAllStatusHistory()
     {
         $history = array();
         foreach ($this->getStatusHistoryCollection() as $status) {
             if (!$status->isDeleted()) {
+                $history[] =  $status;
+            }
+        }
+        return $history;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
+    public function getVisibleStatusHistory()
+    {
+        $history = array();
+        foreach ($this->getStatusHistoryCollection() as $status) {
+            if (!$status->isDeleted() && $status->getComments() && $status->getIsCustomerNotified()) {
                 $history[] =  $status;
             }
         }

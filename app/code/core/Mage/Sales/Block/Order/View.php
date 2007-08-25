@@ -8,7 +8,6 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
 {
 
@@ -23,6 +22,12 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
     public function getBackUrl()
     {
         return Mage::getUrl('*/*/history');
+    }
+
+    public function formatDate($date, $format='long')
+    {
+        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($date));
+        return $dateFormatted;
     }
 
 }
