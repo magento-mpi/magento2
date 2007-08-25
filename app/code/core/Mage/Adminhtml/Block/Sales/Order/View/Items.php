@@ -62,23 +62,23 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
             'type' => 'number',
         ));
 
-        $this->addColumn('qty_backordered', array(
-            'header' => __('Qty Backordered'),
-            'index' => 'qty_backordered',
-            'type' => 'number',
-        ));
+        // $this->addColumn('qty_backordered', array(
+            // 'header' => __('Qty Backordered'),
+            // 'index' => 'qty_backordered',
+            // 'type' => 'number',
+        // ));
 
-        $this->addColumn('qty_shipped', array(
-            'header' => __('Qty Shipped'),
-            'index' => 'qty_shipped',
-            'type' => 'number',
-        ));
+        // $this->addColumn('qty_shipped', array(
+            // 'header' => __('Qty Shipped'),
+            // 'index' => 'qty_shipped',
+            // 'type' => 'number',
+        // ));
 
-        $this->addColumn('qty_returned', array(
-            'header' => __('Qty Returned'),
-            'index' => 'qty_returned',
-            'type' => 'number',
-        ));
+        // $this->addColumn('qty_returned', array(
+            // 'header' => __('Qty Returned'),
+            // 'index' => 'qty_returned',
+            // 'type' => 'number',
+        // ));
 
         $this->addColumn('qty_canceled', array(
             'header' => __('Qty Cancelled'),

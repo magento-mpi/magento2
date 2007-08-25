@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Sales_Order_Edit extends Mage_Adminhtml_Block_Widget_
         parent::__construct();
 
         $this->_updateButton('save', 'label', __('Save Order'));
-        $this->_updateButton('delete', 'label', __('Delete Order'));
+        $this->_removeButton('delete');
     }
 
     public function getHeaderText()
@@ -31,6 +31,11 @@ class Mage_Adminhtml_Block_Sales_Order_Edit extends Mage_Adminhtml_Block_Widget_
         else {
             return __('New Order');
         }
+    }
+
+    public function getBackUrl()
+    {
+        return Mage::getUrl('*/sales_order/view', array('order_id' => Mage::registry('sales_order')->getId()));
     }
 
 }

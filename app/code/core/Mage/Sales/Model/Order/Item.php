@@ -75,15 +75,15 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 
     public function getStatusId()
     {
-        if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned()) {
+        if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned() && !$this->getQtyCanceled()) {
             return self::STATUS_PENDING;
-        } elseif ( ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyShipped() ) {
+        } elseif ($this->getQtyShipped() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyShipped() ) {
             return self::STATUS_SHIPPED;
-        } elseif ( ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyBackordered() ) {
+        } elseif ($this->getQtyBackordered() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyBackordered() ) {
             return self::STATUS_BACKORDERED;
-        } elseif ( $this->getQtyOrdered() == $this->getQtyReturned() ) {
+        } elseif ($this->getQtyReturned() && $this->getQtyOrdered() == $this->getQtyReturned() ) {
             return self::STATUS_RETURNED;
-        } elseif ( $this->getQtyOrdered() == $this->getQtyCanceled() ) {
+        } elseif ($this->getQtyCanceled() && $this->getQtyOrdered() == $this->getQtyCanceled() ) {
             return self::STATUS_CANCELED;
         } elseif ( ( $this->getQtyShipped() + $this->getQtyCanceled() + $this->getQtyReturned() ) < $this->getQtyOrdered() ) {
             return self::STATUS_PARTIAL;

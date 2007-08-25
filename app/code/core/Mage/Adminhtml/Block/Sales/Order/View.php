@@ -20,7 +20,11 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         parent::__construct();
 
         $this->_updateButton('edit', 'label', __('Edit Order'));
-        $this->_updateButton('delete', 'label', __('Cancel Order'));
+        if (Mage::registry('sales_order')->getOrderStatusId() == 4) {
+            $this->_removeButton('delete');
+        } else {
+            $this->_updateButton('delete', 'label', __('Cancel Order'));
+        }
 
         $this->_removeButton('reset');
         $this->_removeButton('save');

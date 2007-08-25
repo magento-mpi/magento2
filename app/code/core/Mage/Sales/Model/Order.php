@@ -502,6 +502,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setComments($comments)
             ->setIsCustomerNotified($isCustomerNotified);
         $this->addStatusHistory($status);
+
+        if (4 == $statusId) {
+            // Canceled
+            $this->cancel();
+        }
         return $this;
     }
 
@@ -583,8 +588,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         foreach ($this->getItemsCollection() as $item) {
             $item->cancel();
         }
-        $statusId = 4; // Canceled
-        $this->addStatus($statusId);
         return $this;
     }
 

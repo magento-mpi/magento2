@@ -532,10 +532,10 @@ div.actions:after,
 .entry-view { padding-top: 5px; }
 
 
-.order-totals { width: 300px; margin-left: auto; padding: 10px 0px; }
-.order-totals table { border: none; background: none; }
-.order-totals table td { padding:2px 20px; text-align: right; }
-.order-totals table td.last { padding:2px 10px; }
+.order-totals { width: 200px; margin-left: auto; padding: 10px 0px; text-align: right; }
+.order-totals table { border: none; background: none; margin-left: auto; }
+.order-totals table td { padding:2px 10px; text-align: right; }
+.order-totals table td.last { padding:2px 6px; }
 
 /* Ratings */
 

@@ -103,15 +103,17 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             return;
         }
 
+        $order->addStatus(4); // Canceled
+
         try {
-            $order->cancel()->save();
+            $order->save();
             Mage::getSingleton('adminhtml/session')->addSuccess(__('Order was cancelled successfully'));
-            $this->_redirect('*/*/');
+            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
             return;
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(__('Order was not cancelled'));
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
             return;
         }
 
@@ -137,13 +139,16 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
 
         if ($newStatus = $this->getRequest()->getParam('new_status')) {
-            $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
-            try {
-                $order->addStatus($newStatus, $this->getRequest()->getParam('comments', ''), $notifyCustomer);
-                if ($notifyCustomer) {
-                    $order->sendOrderUpdateEmail();
-                }
 
+            $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
+
+            $order->addStatus($newStatus, $this->getRequest()->getParam('comments', ''), $notifyCustomer);
+
+            if ($notifyCustomer) {
+                $order->sendOrderUpdateEmail();
+            }
+
+            try {
                 $order->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Order status was changed successfully'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
