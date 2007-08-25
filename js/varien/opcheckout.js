@@ -370,11 +370,25 @@ ShippingMethod.prototype = {
         this.onSave = this.nextStep.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
+    
+    validate: function() {
+    	var methods = document.getElementsByName('shipping_method');
+    	if (methods.length==0) {
+    		alert('Your order can not be completed at this time as there is no shipping methods available for it. Please make neccessary changes in your shipping address.');
+    		return false;
+    	}
+    	for (var i=0; i<methods.length; i++) {
+    		if (methods[i].checked) {
+    			return true;
+    		}
+    	}
+    	alert('Please specify shipping method.');
+    	return false;
+    },
 
     save: function(){
     	if (checkout.loadWaiting!=false) return;
-        var validator = new Validation(this.form);
-        if (validator.validate()) {
+        if (this.validate()) {
             checkout.setLoadWaiting('shipping-method');
             var request = new Ajax.Request(
                 this.saveUrl,
@@ -441,10 +455,25 @@ Payment.prototype = {
         }
     },
 
+    validate: function() {
+    	var methods = document.getElementsByName('payment[method]');
+    	if (methods.length==0) {
+    		alert('Your order can not be completed at this time as there is no payment methods available for it.');
+    		return false;
+    	}
+    	for (var i=0; i<methods.length; i++) {
+    		if (methods[i].checked) {
+    			return true;
+    		}
+    	}
+    	alert('Please specify payment method.');
+    	return false;
+    },
+
     save: function(){
     	if (checkout.loadWaiting!=false) return;
         var validator = new Validation(this.form);
-        if (validator.validate()) {
+        if (this.validate() && validator.validate()) {
             checkout.setLoadWaiting('payment');
             var request = new Ajax.Request(
                 this.saveUrl,
