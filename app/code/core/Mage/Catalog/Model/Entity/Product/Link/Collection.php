@@ -74,6 +74,12 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
         	->joinField('link_type', 'catalog/product_link_type', 'code', 'link_type_id=link_type_id', null,'left');
         $this->getSelect()->where('e.entity_id != ?', $this->getProductId());
     }
+    
+    public function joinLinkTable()
+    {
+        $this->_joinLinkTable();
+        return $this;
+    }
        
     public function addLinkAttributeToSelect($code, $linkType=null)
     {

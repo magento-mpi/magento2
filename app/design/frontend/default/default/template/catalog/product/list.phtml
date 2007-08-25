@@ -69,7 +69,7 @@
 			<h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>)"><?=$_product->getName()?></a></h5>
 			<?=$this->getHelper('review/helper')->getSummaryHtml($_product, 'short')?>
 			<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
-			<button class="form-button" onclick="top.location.href='<?=$this->getAddToCartUrl($_product)?>'"><span>Add to Cart</span></button>
+			<button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span>Add to Cart</span></button>
 			<div class="clear"></div>
 			<p class="add-to">
                 <strong>Add to:</strong><br/><a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Wishlist</a>
