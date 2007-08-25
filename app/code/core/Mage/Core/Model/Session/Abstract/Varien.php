@@ -34,6 +34,15 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         return $this;
     }
+    
+    public function getData($key='', $clear=false)
+    {
+        $data = parent::getData($key);
+        if ($clear && isset($this->_data[$key])) {
+            unset($this->_data[$key]);
+        }
+        return $data;
+    }
 
     public function getSessionId()
     {
