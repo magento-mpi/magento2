@@ -75,3 +75,5 @@ function syncOnchangeValue(baseElem, distElem){
         }
     }.bind(compare));
 }
+
+/********** Ajax session expiration ***********/

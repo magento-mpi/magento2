@@ -20,7 +20,10 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
             
         $searchCollection->loadData();
         $items = $searchCollection->getItems();
-        
+
+        if (sizeof($items)==0) {
+        	return '';
+        }
         if (sizeof($items)>0) {
         	$found = false;
         	foreach ($items as $i=>$item) {
@@ -30,14 +33,15 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
         			array_unshift($items, $item);
         		}
         	}
+        	/*
         	if (!$found) {
 	        	$default = Mage::getModel('catalogsearch/search')->setSearchQuery($query);
 	        	array_unshift($items, $default);
         	}
+        	*/
         }
-        
         $i=0;
-        $html = '<ul>';
+        $html = '<ul><li style="display:none"></li>';
         foreach ($items as $item) {
             $html .= '<li title="'.$item->getSearchQuery().'" class="'.((++$i)%2?'odd':'even').'"><div style="float:right">'.$item->getNumResults().'</div>'.$item->getSearchQuery().'</li>';
         }

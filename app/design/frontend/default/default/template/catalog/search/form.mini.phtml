@@ -17,7 +17,9 @@
         );
         
         function getSelectionId(li) {
-            $('search').value = li.title;
+        	if (li.title) {
+            	$('search').value = li.title;
+        	}
             $('search_mini_form').submit();
         }
     </script>
