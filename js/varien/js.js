@@ -18,7 +18,7 @@ function decorateTable(table){
         var bodyRows = $(table).getElementsBySelector('tbody tr');
         var headRows = $(table).getElementsBySelector('thead tr');
         var footRows = $(table).getElementsBySelector('tfoot tr');
-        
+
         for(var i=0; i<bodyRows.length; i++){
             if((i+1)%2==0) {
                 bodyRows[i].addClassName('even');
@@ -40,13 +40,14 @@ function decorateTable(table){
         	footRows[0].addClassName('first');
         	footRows[footRows.length-1].addClassName('last');
         }
-        
-        allRows.each(function(row){
-            var cols = row.getElementsByTagName('TD');
-            if(cols.length) {
-                cols[cols.length-1].addClassName('last');
-            };
-        });
+        if(allRows.length) {
+            for(var i=0;i<allRows.length;i++){
+                var cols =allRows[i].getElementsByTagName('TD');
+                if(cols.length) {
+                    Element.addClassName(cols[cols.length-1], 'last');
+                };
+            }
+        }
     }
 }
 

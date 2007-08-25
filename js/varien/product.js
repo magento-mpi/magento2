@@ -86,7 +86,9 @@ Product.Zoom.prototype = {
 		this.imageZoom = this.floorZoom+(v*(this.ceilingZoom-this.floorZoom));
 		
 		this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
-		this.imageEl.style.height = (this.imageZoom*this.containerDim.width*this.containerDim.ratio)+'px'; // for safari
+		if(this.containerDim.ratio){
+		  this.imageEl.style.height = (this.imageZoom*this.containerDim.width*this.containerDim.ratio)+'px'; // for safari
+		}
 		
 		this.imageX = this.containerDim.width*(1-this.imageZoom)/2-centerX*this.imageZoom;
 		this.imageY = this.containerDim.height*(1-this.imageZoom)/2-centerY*this.imageZoom;
