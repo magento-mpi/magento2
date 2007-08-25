@@ -180,15 +180,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             $isNewCustomer = !$customer->getId();
             try {
-                # Trying to load customer with the same email and terminate saving
-                # if customer with the same email address exisits
-                $checkCustomer = Mage::getModel('customer/customer');
-                $checkCustomer->loadByEmail($customer->getEmail());
-                if( $checkCustomer->getId() ) {
-                    throw new Exception(__('Customer with the same email already exisits'));
-                }
-                # done
-
                 if ($customer->getPassword() == 'auto') {
                     $customer->setPassword($customer->generatePassword());
                 }
@@ -322,11 +313,16 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $response->setError(0);
 
         $accountData = $this->getRequest()->getPost('account');
-
+        
+        $customer = Mage::getModel('customer/customer');
+        if ($id = $this->getRequest()->getParam('id')) {
+            $customer->load($id);
+        }
+        
         # Checking if we received email. If not - ERROR
         if( !($accountData['email']) ) {
             $response->setError(1);
-            Mage::getSingleton('adminhtml/session')->addError(__('Please, fill in \'email\' field.'));
+            Mage::getSingleton('adminhtml/session')->addError(__('Please, fill in "email" field.'));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         } else {
@@ -334,7 +330,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             # if customer with the same email address exisits
             $checkCustomer = Mage::getModel('customer/customer');
             $checkCustomer->loadByEmail($accountData['email']);
-            if( $checkCustomer->getId() ) {
+            if( $checkCustomer->getId() && ($checkCustomer->getId() != $customer->getId()) ) {
                 $response->setError(1);
                 Mage::getSingleton('adminhtml/session')->addError(__('Customer with the same email already exists.'));
                 $this->_initLayoutMessages('adminhtml/session');
