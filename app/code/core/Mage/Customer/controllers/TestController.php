@@ -8,7 +8,7 @@
  * @license     http://www.opensource.org/licenses/osl-3.0.php
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action 
+class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
@@ -24,11 +24,11 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
             ->setCreatedAt(now())->setUpdatedAt(now());
         $entity->save($customer);
         Varien_Profiler::stop('entity-save');
-        
+
         $customerId = $customer->getEntityId();
-        
+
         $customer = Mage::getModel('customer/customer');
-        
+
         Varien_Profiler::start('entity-load');
         $entity->load($customer, $customerId);
         Varien_Profiler::stop('entity-load');
@@ -36,7 +36,7 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
         echo '<pre>';
         print_r($customer->getData());
         echo '</pre>';
-        
+
         Varien_Profiler::start('entity-collection');
         $collection = Mage::getModel('eav/entity_collection')
             ->setEntity($entity)->setObject($customer)
@@ -50,15 +50,15 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
         echo '<pre>';
         print_r($collection->exportToArray());
         echo '</pre>';
-        
-        
+
+
         Varien_Profiler::start('entity-delete');
         #$collection->delete();
         Varien_Profiler::stop('entity-delete');
 
         echo $this->getLayout()->createBlock('core/profiler')->toHtml();
     }
-    
+
     public function eavAction()
     {
         $model = Mage::getModel('customer/customer');
@@ -68,11 +68,11 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
         $model->setFirstname('moshe')->setLastname('gurvich')->setEmail('moshe@varien.com')->setStoreId(1)->setAttributeSetId(1);
         $model->save();
         */
-        
-        
+
+
         print_r($model->getData());
     }
-    
+
     public function fillAction()
     {
         set_time_limit(0);
@@ -87,7 +87,7 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
                 'default_billing'   => 'new1',
                 'default_shipping'  => 'new2'
             );
-            
+
             $customer = Mage::getModel('customer/customer')
                 ->setData($customerData);
             for ($j=1;$j<=rand(3,10);$j++){
@@ -115,7 +115,7 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
             $customer->save();
         }
     }
-    
+
     public function gridAction()
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
@@ -127,4 +127,23 @@ class Mage_Customer_TestController extends Mage_Core_Controller_Front_Action
         print_r($collection->getSize());
         echo '</pre>';
     }
+
+    public function testAction()
+    {
+//         $customer = Mage::getModel('customer/customer')->load(3);
+//         $customer->setStoreId(3);
+//         $customer->setId(null);
+//         $customer->setEmail(md5(microtime()));
+//         $customer->save();
+
+
+        $collection = new Mage_Sales_Model_Entity_Order_Attribute_Collection_Paid();
+        $collection->load();
+
+        foreach ($collection as $item) {
+            print_r($item);
+        }
+
+    }
+
 }

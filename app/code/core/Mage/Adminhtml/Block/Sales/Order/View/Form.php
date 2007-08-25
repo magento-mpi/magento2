@@ -54,4 +54,28 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
         return $dateFormatted;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getPaymentInfoHtml()
+    {
+        $methodName = $this->getOrder()->getPayment()->getMethod();
+        $html = '';
+        $methodConfig = new Varien_Object(Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod(), $this->getOrder()->getStoreId()));
+        if ($methodConfig) {
+            $className = $methodConfig->getModel();
+            $method = Mage::getModel($className);
+            if ($method) {
+                $method->setPayment($this->getOrder()->getPayment());
+            	$methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
+            	if (!empty($methodBlock)) {
+            	    $html = $methodBlock->toHtml();
+    	        }
+            }
+        }
+        return $html;
+    }
+
 }

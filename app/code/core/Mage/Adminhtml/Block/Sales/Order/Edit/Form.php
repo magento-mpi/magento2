@@ -105,16 +105,15 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Templat
      */
     public function getPaymentInfoHtml()
     {
-        echo 'payment/' . $this->getOrder()->getPayment()->getMethod() . ' , ' . $this->getOrder()->getStoreId();
+        $methodName = $this->getOrder()->getPayment()->getMethod();
         $html = '';
-        $methodConfig = Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod(), $this->getOrder()->getStoreId());
+        $methodConfig = new Varien_Object(Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod(), $this->getOrder()->getStoreId()));
         if ($methodConfig) {
-            $methodName = $methodConfig->getName();
-            $className = $methodConfig->getClassName();
+            $className = $methodConfig->getModel();
             $method = Mage::getModel($className);
             if ($method) {
                 $method->setPayment($this->getOrder()->getPayment());
-            	$methodBlock = $method->createFormBlock('payment.method.'.$methodName);
+            	$methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
             	if (!empty($methodBlock)) {
             	    $html = $methodBlock->toHtml();
     	        }

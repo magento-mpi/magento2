@@ -44,9 +44,7 @@
         <div class="entry-view">
             <h4><?=__('Payment Method')?></h4>
             <div class="box customer-personal-brief">
-                <?$_payment = $_order->getPayment()?>
-                <?=$this->getPaymentInfo()?>
-                <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
+                <?=$this->getPaymentInfoHtml()?>
             </div>
         </div>
     </div>
