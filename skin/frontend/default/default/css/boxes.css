@@ -89,6 +89,9 @@ input.form-radio { margin-right:5px;}
     text-align:center;
     vertical-align:middle;
     }
+.form-button span, .form-button-alt span {
+    white-space:nowrap;
+    }
 .form-button-alt {
     border:1px solid #406a83;
     background-color:#618499;
@@ -442,19 +445,11 @@ h1#logo {
 
 .side-col { overflow:hidden; }
 .side-col .box { margin-bottom:1.3em; }
-.side-col .content {
-    padding:5px 10px;
-    }
+.side-col .content { padding:5px 10px; }
 .side-col .head { text-align:left; }
 .side-col h2, .side-col h3, .side-col h4, .side-col h5 { float:none; }
-.side-col h3 {
-    font-size:1.05em;
-    text-transform:uppercase;
-    }
-.side-col h4 {
-    color:#e65505;
-    text-transform:uppercase;
-    }
+.side-col h3 { font-size:1.05em; text-transform:uppercase; }
+.side-col h4 { color:#e65505; text-transform:uppercase; }
 .side-col .actions {
     padding:4px 0;
     font-size:.95em;
@@ -498,6 +493,7 @@ h1#logo {
     background:url(../images/layered_nav_narrowed_category_heading.gif) #d5e8ff;
     color:#1f5070;
     font-weight:bold;
+    font-size:1em;
     }
 .layered-nav .narrowed-category li { background:url(../images/narrow_category_bg.gif) repeat-x 0 100% #fff; padding:4px 6px 4px 10px;}
 .layered-nav .narrowed-category li .label {
@@ -569,6 +565,7 @@ h1#logo {
     text-transform:uppercase;
     }
 .base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; font-size:.95em;}
+.base-mini h5 { font-size:1em; } 
 .base-mini .content, .base-mini ol { background:#f8f7f5;}
 .base-mini ol li { padding:7px 4px 7px 8px;}
 .base-mini ol li.odd { background:#f4f3f3; }
@@ -576,7 +573,7 @@ h1#logo {
 .base-mini .actions {
     background:url(../images/base_mini_actions_bg.gif) repeat-x #dee5e8;
     padding:6px;
-    text-align:right;
+    text-align:left;
     }
 .base-mini .product-images { float:left; width:38px; }
 .base-mini .product-images a img { border:1px solid #a9a9a9; }

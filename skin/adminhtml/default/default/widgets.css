@@ -441,15 +441,20 @@ ul.tabs-horiz li a.active {
 
 
 /************* FORMS ***************/
-.validation-advice {
-    color:#d6340e;
-    font-style:italic;
-    padding-left:16px;
-    background:url(images/fam_bullet_error.gif) no-repeat;
+.required, .validation-advice { color:#EB340A; }
+.validation-advice {    
+    clear:both; 
+    min-height:15px;
+    margin-top:3px; 
+    background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; 
+    padding-left:16px; 
+    font-size:.95em; 
+    font-weight:bold; 
+    line-height:1.25em; 
     }
 
 fieldset .validation-advice{
-    margin:2px 0 0 12em;
+    margin:2px 0 0 12.5em;
     margin-right:20px;
 }
 input.validation-failed, textarea.validation-failed {

@@ -36,7 +36,7 @@
     
     <div class="actions">
     <?if($this->getItemCollection()->getSize()):?>
-        <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=__('Checkout')?></span></button><br/>
+        <button class="form-button right" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=__('Checkout')?></span></button>
      <?endif?>
         <a href="<?=$this->getUrl('checkout/cart')?>"><?=__('Go to Cart')?></a>
     </div>
