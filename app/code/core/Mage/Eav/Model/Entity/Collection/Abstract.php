@@ -937,22 +937,22 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                     $sql.= $this->_read->quoteInto("$fieldName <= ?", $to);
                 }
             }
-            elseif (!empty($condition['neq'])) {
+            elseif (isset($condition['neq'])) {
                 $sql = $this->_read->quoteInto("$fieldName != ?", $condition['neq']);
             }
-            elseif (!empty($condition['like'])) {
+            elseif (isset($condition['like'])) {
                 $sql = $this->_read->quoteInto("$fieldName like ?", $condition['like']);
             }
-            elseif (!empty($condition['nlike'])) {
+            elseif (isset($condition['nlike'])) {
                 $sql = $this->_read->quoteInto("$fieldName not like ?", $condition['nlike']);
             }
-            elseif (!empty($condition['in'])) {
+            elseif (isset($condition['in'])) {
                 $sql = $this->_read->quoteInto("$fieldName in (?)", $condition['in']);
             }
-            elseif (!empty($condition['nin'])) {
+            elseif (isset($condition['nin'])) {
                 $sql = $this->_read->quoteInto("$fieldName not in (?)", $condition['nin']);
             }
-            elseif (!empty($condition['is'])) {
+            elseif (isset($condition['is'])) {
                 $sql = $this->_read->quoteInto("$fieldName is ?", $condition['is']);
             }
             else {
