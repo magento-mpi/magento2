@@ -404,20 +404,22 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     		}
     		
     		$superAttributesIds = $product->getSuperAttributeCollectionLoaded()->getColumnValues('attribute_id');
-    		foreach($product->getAttributes() as $attribute) {
-    			if(in_array($attribute->getAttributeId(), $superAttributesIds)) {
-    				if(!$asObject) {
-    					$superAttribute = $product->getSuperAttributeCollectionLoaded()->getItemByColumnValue('attribute_id', $attribute->getAttributeId());
-						$row = $attribute->toArray(array('attribute_id','attribute_code','frontend_label'));
-						$row['values'] = $superAttribute->getValues($attribute);
-						$row['label'] = $superAttribute->getLabel();
-						$row['id'] = $superAttribute->getId();
-						$row['position'] = $superAttribute->getPosition();
-    				} else {
-    					$row = $attribute;
-    				}    				
-    				$result[] = $row;
-    			}
+    		foreach ($superAttributesIds as $attributeId) {
+                foreach($product->getAttributes() as $attribute) {
+    		    	if ($attributeId == $attribute->getAttributeId()) {
+        				if(!$asObject) {
+        					$superAttribute = $product->getSuperAttributeCollectionLoaded()->getItemByColumnValue('attribute_id', $attribute->getAttributeId());
+    						$row = $attribute->toArray(array('attribute_id','attribute_code','frontend_label'));
+    						$row['values'] = $superAttribute->getValues($attribute);
+    						$row['label'] = $superAttribute->getLabel();
+    						$row['id'] = $superAttribute->getId();
+    						$row['position'] = $superAttribute->getPosition();
+        				} else {
+        					$row = $attribute;
+        				}
+        				$result[] = $row;
+    		    	}
+    		    }
     		}
     	}
     	return $result;

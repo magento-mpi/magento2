@@ -94,6 +94,7 @@ SuperProductModel.prototype = {
 		this.container.immediateDescendants().each(function(row, index) {
 			row.attributeObject.position = index;
 		});
+		this.updateSaveInput();
 	},
 	registerProduct: function(grid, element, checked) {
 		if(checked){
