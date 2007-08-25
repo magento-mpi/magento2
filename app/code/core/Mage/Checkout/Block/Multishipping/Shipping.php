@@ -14,7 +14,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
     {
         return $this->getCheckout()->getQuote()->getAllShippingAddresses();
     }
-    
+
     public function getAddressCount()
     {
         $count = $this->getData('address_count');
@@ -24,7 +24,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
         }
         return $count;
     }
-    
+
     public function getAddressItems($address)
     {
         $items = $address->getAllItems();
@@ -33,28 +33,28 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
         }
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-        return $itemsFilter->filter($items);        
+        return $itemsFilter->filter($items);
     }
-    
+
     public function getAddressShippingMethod($address)
     {
         return $address->getShippingMethod();
     }
-    
+
     public function getShippingRates($address)
     {
         $groups = $address->getGroupedAllShippingRates();
         if (!empty($groups)) {
             $ratesFilter = new Varien_Filter_Object_Grid();
             $ratesFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
-            
+
             foreach ($groups as $code => $groupItems) {
             	$groups[$code] = $ratesFilter->filter($groupItems);
             }
         }
         return $groups;
     }
-    
+
     public function getCarrierName($carrierCode)
     {
         if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
@@ -62,24 +62,24 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
         }
         return $carrierCode;
     }
-    
+
     public function getAddressEditUrl($address)
     {
         return $this->getUrl('*/multishipping_address/editShipping', array('id'=>$address->getCustomerAddressId()));
     }
-    
+
     public function getItemsEditUrl()
     {
         return $this->getUrl('*/*/addresses');
     }
-    
+
     public function getPostActionUrl()
     {
         return $this->getUrl('*/*/shippingPost');
     }
-    
+
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/addresses');
+        return $this->getUrl('*/*/backtoaddresses');
     }
 }
