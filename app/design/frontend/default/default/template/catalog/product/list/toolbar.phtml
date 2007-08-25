@@ -57,6 +57,8 @@
         <tr>
             <?if( $this->isEnabledViewSwitcher() ):?>
             <td>
+                <?$_modes = $this->getModes();?>
+                <?if($_modes && count($_modes)>1):?>
                 View as:
                 <?foreach ($this->getModes() as $_code=>$_label):?>
                     <?if($this->isModeActive($_code)):?>
@@ -65,6 +67,7 @@
                         <a href="<?=$this->getModeUrl($_code)?>"><?=$_label?></a>&nbsp;
                     <?endif;?>
                 <?endforeach;?>
+                <?endif;?>
             </td>
             <?endif;?>
             <td class="a-right">
