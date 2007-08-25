@@ -50,4 +50,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
         }
         return $this->getData('cc_cid');
     }
+    
+    public function getHtmlFormated()
+    {
+    	return Mage::getHelper('payment/info_cc')->setPayment($this)->toHtml();
+    }
 }

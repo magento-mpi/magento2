@@ -5,15 +5,15 @@
             <td class="form-buttons">
                 <?=$this->getBackButtonHtml();?>
                 <?=$this->getResetButtonHtml();?>
+                <?if($this->getEditMode()):?>
+                <?=$this->getDeleteButtonHtml();?>
+                <?endif?>
                 <?if(!$this->isTextType()):?>
                 <?=$this->getToPlainButtonHtml();?>
                 <?=$this->getToHtmlButtonHtml();?>
                 <?endif?>
-                <?=$this->getSaveButtonHtml();?>
                 <?=$this->getPreviewButtonHtml();?>
-                <?if($this->getEditMode()):?>
-                <?=$this->getDeleteButtonHtml();?>
-                <?endif?>
+                <?=$this->getSaveButtonHtml();?>
             </td>
         </tr>
     </table>

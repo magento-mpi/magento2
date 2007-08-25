@@ -15,7 +15,24 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         $sessionResource = Mage::getResourceSingleton('core/session');
         $sessionResource->setSaveHandler();
 */      
+        
+		if (!$this->hasCookieLifetime()) {
+			$this->setCookieLifetime(0);
+		}
+		if (!$this->hasCookiePath()) {
+			$this->setCookiePath('/');
+		}
+		if (!$this->hasCookieDomain()) {
+			$this->setCookieDomain($_SERVER['HTTP_HOST']);
+		}
+
         Varien_Profiler::start(__METHOD__.'/start');
+        session_set_cookie_params(
+        	$this->getCookieLifetime(), 
+        	$this->getCookiePath(),
+        	$this->getCookieDomain()
+        );
+        
         session_start();
         Varien_Profiler::stop(__METHOD__.'/start');
 

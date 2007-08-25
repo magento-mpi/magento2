@@ -47,6 +47,18 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     			)
     	);
     	
+    	
+    	$this->setChild('delete_button', 
+    		$this->getLayout()->createBlock('adminhtml/widget_button')
+    			->setData(
+    				array(
+    					'label'   => __('Delete Template'),
+    					'onclick' => 'templateControl.deleteTemplate();',
+    					'class'	  => 'delete'
+    				)
+    			)
+    	);
+    	
     	$this->setChild('to_plain_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
@@ -70,7 +82,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     				)
     			)
     	);
-    	
+
     	$this->setChild('toggle_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
@@ -81,17 +93,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     				)
     			)
     	);
-    	
-    	$this->setChild('save_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Save Template'),
-    					'onclick' => 'templateControl.save();',
-    					'class'	  => 'save'					
-    				)
-    			)
-    	);
+
     	
     	$this->setChild('preview_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
@@ -102,19 +104,17 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     				)
     			)
     	);
-    	
-    	$this->setChild('delete_button', 
+
+    	$this->setChild('save_button', 
     		$this->getLayout()->createBlock('adminhtml/widget_button')
     			->setData(
     				array(
-    					'label'   => __('Delete Template'),
-    					'onclick' => 'templateControl.deleteTemplate();',
-    					'class'	  => 'delete'
+    					'label'   => __('Save Template'),
+    					'onclick' => 'templateControl.save();',
+    					'class'	  => 'save'					
     				)
     			)
     	);
-    	
-    	
     }
     
     public function getBackButtonHtml()

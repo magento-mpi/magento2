@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.5.16</version>
+            <version>0.5.17</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
