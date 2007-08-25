@@ -2,6 +2,9 @@
 
 class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 {
+	const RATES_FETCH = 1;
+	const RATES_RECALCULATE = 2;
+	
     protected $_quote;
 
     protected $_rates;
@@ -357,6 +360,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     	$this->setCollectShippingRates(false);
 
         $this->removeAllShippingRates();
+        
+        if (!$this->getCountryId() && !$this->getPostcode()) {
+        	return $this;
+        }
 
         $request = Mage::getModel('shipping/rate_request');
         $request->setDestCountryId($this->getCountryId());

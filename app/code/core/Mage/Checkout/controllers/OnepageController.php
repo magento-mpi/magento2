@@ -73,10 +73,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         Mage::getSingleton('checkout/session')->clear();
         $this->loadLayout();
 
-        $block = $this->getLayout()->createBlock('core/template', 'checkout.success')
+        $block = $this->getLayout()->createBlock('checkout/success', 'checkout.success')
             ->setTemplate('checkout/success.phtml')
-            ->assign('quoteId', $lastQuoteId)
-            ->assign('orderId', $lastOrderId);
+            ->setLastOrderId($lastOrderId);
         $this->getLayout()->getBlock('content')->append($block);
 
         Mage::dispatchEvent('order_success_page_view');

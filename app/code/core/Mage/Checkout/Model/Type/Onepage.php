@@ -123,8 +123,7 @@ class Mage_Checkout_Model_Type_Onepage
             $billing->unsEntityId()->unsAddressType();
             $shipping = $this->getQuote()->getShippingAddress();
             $shipping->addData($billing->getData())->setSameAsBilling(1);
-            $this->getQuote()->save();
-            $shipping->collectShippingRates();
+            $this->getQuote()->setCollectShippingRates(true);
             $this->getCheckout()->setStepData('shipping', 'complete', true);
         } else {
             $shipping = $this->getQuote()->getShippingAddress();
@@ -134,7 +133,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer = Mage::getModel('customer/customer');
             $this->getQuote()->setPasswordHash($customer->hashPassword($address->getCustomerPassword()));
         }
-        $this->getQuote()->collectTotals()->save();
+        $this->getQuote()->save();
 
         $this->getCheckout()
             ->setStepData('billing', 'allow', true)
@@ -164,7 +163,7 @@ class Mage_Checkout_Model_Type_Onepage
             $address->addData($data);
         }
         $address->implodeStreetAddress();
-        $address->collectShippingRates();
+        $address->setCollectShippingRates(true);
         $this->getQuote()->save();
 
         $this->getCheckout()

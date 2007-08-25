@@ -29,6 +29,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         Mage::getSingleton('checkout/session')->resetCheckout();
         if ($this->getQuote()->hasItems()) {
         	$this->getQuote()->collectTotals()->save();
+        } else {
+        	$this->getQuote()->getShippingAddress()
+        		->setCollectShippingRates(false)
+        		->removeAllShippingRates();
+        	$this->getQuote()->collectTotals()->save();
         }
 
         $this->loadLayout(array('default', 'cart'), 'cart');
@@ -225,7 +230,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $couponCode = $this->getRequest()->getParam('coupon_code');
         }
 
-        $this->getQuote()->setCouponCode($couponCode)->setCollectShippingRates(true)->save();
+        $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+        $this->getQuote()->setCouponCode($couponCode)->save();
 
         $this->_backToCart();
     }
