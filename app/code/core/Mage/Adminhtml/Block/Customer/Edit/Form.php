@@ -29,5 +29,4 @@ class Mage_Adminhtml_Block_Customer_Edit_Form extends Mage_Adminhtml_Block_Widge
         $this->setForm($form);
         return parent::_prepareForm();
     }
-
 }

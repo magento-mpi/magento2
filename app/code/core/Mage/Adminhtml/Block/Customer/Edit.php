@@ -50,4 +50,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         }
     }
 
+    public function getValidationUrl()
+    {
+        return $this->getUrl('*/*/validate', array('_current'=>true));
+    }
 }
