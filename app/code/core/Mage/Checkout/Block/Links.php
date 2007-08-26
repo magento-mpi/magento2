@@ -19,11 +19,11 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
         	$count += $item->getQty();
         }
         if( $count > 1 ) {
-            $text = __('Your Cart (%d items)', $count);
+            $text = __('My Cart (%d items)', $count);
         } elseif( $count == 1 ) {
-            $text = __('Your Cart (%d item)', $count);
+            $text = __('My Cart (%d item)', $count);
         } else {
-            $text = __('Your Cart');
+            $text = __('My Cart');
         }
 
         $this->getParentBlock()->addLink(null, 'href="'.Mage::getUrl('checkout/cart').'"', $text);

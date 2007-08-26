@@ -8,7 +8,7 @@
     </reference>
 -->
     <reference name="top.left.links">
-        <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}customer/account/"</a><label>Your Account</label></action>
+        <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}customer/account/"</a><label>My Account</label></action>
     </reference>
 
 </layoutUpdate>
