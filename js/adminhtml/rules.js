@@ -3,13 +3,14 @@ VarienRulesForm.prototype = {
     initialize : function(parent, newChildUrl){
         this.newChildUrl = newChildUrl;
         var elems = $(parent).getElementsByClassName('rule-param');
-        for (var i=0; i<elems.length; i++) {
+
+    	for (var i=0; i<elems.length; i++) {
             this.initParam(elems[i]);
         }
     },
     
     initParam: function (container) {
-        container.rulesObject = this;
+    	container.rulesObject = this;
 		
         var label = Element.down(container, '.label');
         if (label) {
@@ -42,19 +43,17 @@ VarienRulesForm.prototype = {
     	if (elem) {
     	   elem.focus();
     	   // trying to emulate enter to open dropdown
-    	   /*
-    	   if (document.createEventObject) {
-        	   var event = document.createEventObject();
-        	   event.altKey = true;
-    	       event.keyCode = 40;
-    	       elem.fireEvent("onkeydown", evt);
-    	   } else {
-    	       var event = document.createEvent("Events");
-    	       event.altKey = true;
-    	       event.keyCode = 40;
-    	       elem.dispatchEvent(event);
-    	   }
-    	   */
+//    	   if (document.createEventObject) {
+//        	   var event = document.createEventObject();
+//        	   event.altKey = true;
+//    	       event.keyCode = 40;
+//    	       elem.fireEvent("onkeydown", evt);
+//    	   } else {
+//    	       var event = document.createEvent("Events");
+//    	       event.altKey = true;
+//    	       event.keyCode = 40;
+//    	       elem.dispatchEvent(event);
+//    	   }
     	}
     },
     
@@ -88,13 +87,12 @@ VarienRulesForm.prototype = {
         	elem.value = '';
     	}
     },
-    
+
     addRuleNewChild: function (elem) {
         var parent_id = elem.id.replace(/^.*:(.*):.*$/, '$1');
         var children_ul = $(elem.id.replace(/[^:]*$/, 'children'));
-        
         var max_id = 0, i;
-        var children_inputs = Selector.findChildElements(children_ul, $A('input[type=hidden]'));
+        var children_inputs = Selector.findChildElements(children_ul, $A(['input[type=hidden]']));
         if (children_inputs.length) {
             children_inputs.each(function(el){
                 if (el.id.match(/:type$/)) {
@@ -105,7 +103,6 @@ VarienRulesForm.prototype = {
         }
         var new_id = parent_id+'.'+(max_id+1);
         var new_type = elem.value;
-        
         var new_elem = document.createElement('LI');
         new_elem.className = 'rule-param-wait';
         new_elem.innerHTML = 'Please wait, loading...';
@@ -113,7 +110,7 @@ VarienRulesForm.prototype = {
 
         new Ajax.Updater(new_elem, this.newChildUrl, {
             parameters: { type:new_type.replace('/','-'), id:new_id },
-            onComplete: this.onAddNewChildComplete.bind(this, new_elem),
+            onComplete: this.onAddNewChildComplete.bind(this, new_elem)
         });
     },
     

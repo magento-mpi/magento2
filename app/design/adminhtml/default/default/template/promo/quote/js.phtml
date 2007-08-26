@@ -10,9 +10,9 @@
         if (checked){
         	ids_arr[ids_arr.length] = id;
         	console.log(ids_arr);
-        	ids_arr = ids_arr.uniq();
+        	ids_arr = $A(ids_arr).uniq();
         } else {
-			ids_arr = ids_arr.without(id);
+			ids_arr = $A(ids_arr).without(id);
         }
         console.log(ids_arr);
         product_ids.value = ids_arr.join(',');
