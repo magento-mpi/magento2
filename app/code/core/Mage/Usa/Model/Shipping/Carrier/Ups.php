@@ -238,7 +238,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'GNDCOM' => 'Ground Commercial',
                 'GNDRES' => 'Ground Residential',
                 'STD'    => 'Canada Standard',
-//                'XPR'    => 'Worldwide Express',
+                'XPR'    => 'Worldwide Express',
                 'WXS'    => 'Worldwide Express',
                 'XPRL'   => 'Worldwide Express Letter',
                 'XDM'    => 'Worldwide Express Plus',

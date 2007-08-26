@@ -84,11 +84,11 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
     
-    public function getCustomerUses($customerId)
+    public function getCustomerUses($rule, $customerId)
     {
     	$read = $this->getConnection('read');
     	$select = $read->select()->from($this->getTable('rule_customer'), array('cnt'=>'count(*)'))
-    		->where('rule_id=?', $this->getId())
+    		->where('rule_id=?', $rule->getRuleId())
     		->where('customer_id=?', $customerId);
     	return $read->fetchOne($select);
     }
