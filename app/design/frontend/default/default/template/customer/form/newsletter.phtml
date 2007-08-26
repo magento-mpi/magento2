@@ -2,7 +2,7 @@
 <div class="page-head">
 	<h3>Newsletter Subscription</h3>
 </div>
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getAction()?>" method="post" id="form-validate">
 	<p><input type="checkbox" name="is_subscribed" value="1" title="<?=__('General Subscription')?>"  <?if($this->getIsSubscribed()):?> checked<?endif?>/> <label for="subscription"><?=__('General Subscription')?></label></p>
 <div class="form-buttons">

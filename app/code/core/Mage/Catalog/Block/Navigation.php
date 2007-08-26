@@ -20,6 +20,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
+            ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('is_active');
 
         $tree = Mage::getResourceModel('catalog/category_tree');

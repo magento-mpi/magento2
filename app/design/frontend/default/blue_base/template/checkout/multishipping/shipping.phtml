@@ -8,7 +8,7 @@
 <div class="page-head">
     <h2>Select Shipping Method</h2>
 </div>
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
 <?foreach ($this->getAddresses() as $_index => $_address):?>
 <h3>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getAddressCount()?></h3>

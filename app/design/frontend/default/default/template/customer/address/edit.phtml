@@ -10,7 +10,7 @@
     <h3><?=$this->getTitle()?></h3>
 </div>
 <?endif;?>
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="form-validate">
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
@@ -55,22 +55,21 @@
                     <input type="text" name="city" value="<?=$this->getAddress()->getCity()?>"  title="City" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
-                    <label for="country">Country <span class="required">*</span></label><br/>
-                    <?=$this->getCountryHtmlSelect()?>
+                    <label for="state">State / Province <span class="required">*</span></label><br/>
+	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+	                	<option value=""><?=__('Please select region or state')?></option>
+	                </select>
+	                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State / Province')?>" class="required-entry  input-text" style="display:none"/>
                 </div>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="state">State / Province <span class="required">*</span></label><br/>
-                <?if($this->getRegionCollection()->getSize()):?>
-                    <?=$this->getRegionHtmlSelect()?>
-                <?else:?>
-                    <input type="text" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="State/Province" id="state" class="validate-state input-text"/>
-                <?endif?>
-                </div>
-                <div class="input-box">
                     <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
                     <input type="text" name="postcode" value="<?=$this->getAddress()->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip required-entry input-text"/>
+                </div>
+                <div class="input-box">
+                    <label for="country">Country <span class="required">*</span></label><br/>
+                    <?=$this->getCountryHtmlSelect()?>
                 </div>
             </li>
             <li>
@@ -103,5 +102,7 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
-    dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>directory/json/childRegion/');
+    //dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>directory/json/childRegion/');
+       
+    new RegionUpdater('country', 'region', 'region_id', <?=$this->getHelper('directory/data')->getRegionsJs()?>);
 </script>

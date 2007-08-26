@@ -34,9 +34,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
     	#Mage::getSingleton('customer/session')->setTest('onepage');
 
-        Mage::getSingleton('customer/session')->setUrlBeforeAuthentication($this->getRequest()->getRequestUri());
+        Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());
         $this->getOnepage()->initCheckout();
         $this->loadLayout(array('default', 'onepage'), 'checkout_onepage');
+        $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
     }
 

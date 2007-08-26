@@ -19,6 +19,11 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
         return $this->getQuote()->getShippingAddress();
     }
     
+    public function getShippingMethod()
+    {
+        return $this->getQuote()->getShippingAddress()->getShippingMethod();
+    }
+        
     public function getShippingDescription()
     {
         return $this->getQuote()->getShippingAddress()->getShippingDescription();

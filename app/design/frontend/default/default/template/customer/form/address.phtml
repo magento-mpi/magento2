@@ -1,7 +1,8 @@
+<script type="text/javascript">countryRegions = <?=$this->getHelper('directory/data')->getRegionsJs()?></script>
 
 <div class="page-head">
 	<h3><?if($data->getAddressId()):?>Edit<?else:?>New<?endif?> Address Entry</h3>
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
 <input type="hidden" name="address_id" value="<?=$data->getAddressId()?>">
 <input type="hidden" name="customer_id" id="address_id" value="<?=$data->getCustomerId()?>">
@@ -43,14 +44,10 @@
 							</div>
 							<div class="input-box">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
-                <?if($regions->getSize()):?>
-                    <select name="region" value="" title="State/Province" id="state"  class="required-entry"/>
-                        <option value="">Select State/Province...</option>
-                        <?=$regions->toHtmlOptions($data->getRegionId())?>
-                    </select>
-                <?else:?>
-                    <input type="text" name="region" value="<?=$data->getRegion()?>"  title="State/Province" id="state" class="input-text"/>
-                <?endif?>
+		                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+			                	<option value=""><?=__('Please select region or state')?></option>
+			                </select>
+			                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State / Province')?>" class="required-entry  input-text" style="display:none"/>
 							</div>
             </li>
             <li>
@@ -95,5 +92,7 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
-    dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>directory/json/childRegion/');
+    //dataForm.setElementsRelation('country', 'state', '<?=$baseUrl?>directory/json/childRegion/');
+    
+    new RegionUpdater('country', 'region', 'region_id', countryRegions);
 </script>

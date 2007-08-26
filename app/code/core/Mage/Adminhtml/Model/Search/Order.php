@@ -13,10 +13,29 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
         
         $collection = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
+            
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id')
             ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id')
             ->joinAttribute('billing_telephone', 'order_address/telephone', 'billing_address_id')
             ->joinAttribute('billing_postcode', 'order_address/postcode', 'billing_address_id')
+            
+            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
+            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
+            ->joinAttribute('shipping_telephone', 'order_address/telephone', 'shipping_address_id')
+            ->joinAttribute('shipping_postcode', 'order_address/postcode', 'shipping_address_id')
+            
+            ->addAttributeToFilter(array(
+                array('attribute'=>'billing_firstname', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'billing_lastname', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'billing_telephone', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'billing_postcode', 'like'=>$this->getQuery().'%'),
+                
+                array('attribute'=>'shipping_firstname', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'shipping_lastname', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'shipping_telephone', 'like'=>$this->getQuery().'%'),
+                array('attribute'=>'shipping_postcode', 'like'=>$this->getQuery().'%'),
+            ))
+            
             ->setCurPage($this->getStart())
             ->setPageSize($this->getLimit())
             ->load();

@@ -1,5 +1,5 @@
     <h1 class="page-heading"><?=__('Newsletter')?></h1>
-    <?=$this->getMessagesBlock()->getHtml()?>
+    <?=$this->getMessagesBlock()->getGroupedHtml()?>
         <form action="<?=$baseUrl?>newsletter/subscriber/new" method="post" id="newsletter-validate-detail">
 				<fieldset>
 						<legend><?=__('Newsletter')?></legend>

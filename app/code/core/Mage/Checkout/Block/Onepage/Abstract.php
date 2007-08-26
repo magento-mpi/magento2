@@ -50,7 +50,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         if (!$this->_countryCollection) {
             $this->_countryCollection = Mage::getModel('directory/country')->getResourceCollection()
-                ->load();
+                ->loadByStore();
         }
         return $this->_countryCollection;
     }

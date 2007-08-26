@@ -206,6 +206,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+    
+    public function removeAllAddresses()
+    {
+        foreach ($this->getAddressesCollection() as $address) {
+            $address->isDeleted(true);
+        }
+        return $this;
+    }
 
     public function addAddress(Mage_Sales_Model_Quote_Address $address)
     {
@@ -453,6 +461,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->addPayment($payment);
 
         return $payment;
+    }
+    
+    public function removePayment()
+    {
+    	$this->getPayment()->isDeleted(true);
+    	return $this;
     }
 
 /*********************** TOTALS ***************************/

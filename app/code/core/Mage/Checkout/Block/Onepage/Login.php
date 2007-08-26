@@ -37,4 +37,14 @@ class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abst
     {
         return $this->getCheckout()->getMethodData();
     }
+    
+    public function getSuccessUrl()
+    {
+    	return $this->getUrl('*/*');
+    }
+    
+    public function getErrorUrl()
+    {
+    	return $this->getUrl('*/*');
+    }
 }

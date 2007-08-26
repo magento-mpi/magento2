@@ -2,7 +2,7 @@
     <div class="page-head">
 		<h3><?=__('My Tags')?></h3>
 	</div>
-	<?=$this->getMessagesBlock()->getHtml()?>
+	<?=$this->getMessagesBlock()->getGroupedHtml()?>
 	<?if($this->getTags()):?>
 		<p><?=__('Click on a tag to view your corresponding products.')?></p>
 		<div class="box base-mini mini-product-tags">

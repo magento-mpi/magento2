@@ -27,14 +27,16 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     	#Mage::getSingleton('customer/session')->setTest('cart');
 
         Mage::getSingleton('checkout/session')->resetCheckout();
-        if ($this->getQuote()->hasItems()) {
-        	$this->getQuote()->collectTotals()->save();
-        } else {
+        if (!$this->getQuote()->hasItems()) {
         	$this->getQuote()->getShippingAddress()
         		->setCollectShippingRates(false)
         		->removeAllShippingRates();
-        	$this->getQuote()->collectTotals()->save();
+        		
+        	$this->getQuote()
+        		->removeAllAddresses()
+        		->removePayment();
         }
+        $this->getQuote()->collectTotals()->save();
 
         $this->loadLayout(array('default', 'cart'), 'cart');
 

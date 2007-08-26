@@ -30,16 +30,18 @@
             <label for="shipping:city"><?=__('City')?> <span class="required">*</span></label><br/>
             <input type="text" title="<?=__('City')?>" name="shipping[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
-            <label for="shipping:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
-            <?=$this->getCountryHtmlSelect('shipping')?></div></li>
+            <label for="shipping:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+            <select id="shipping:region_id" name="shipping[region_id]" title="<?=__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+            	<option value=""><?=__('Please select region or state')?></option>
+            </select>
+            <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" style="display:none"/></div></li>
         <li><div class="input-box">
             <label for="shipping:postcode"><?=__('Zip')?> <span class="required">*</span></label><br/>
             <input type="text" title="<?=__('ZIP/Postal Code')?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip required-entry input-text" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
-            <label for="shipping:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
-            <?if($this->getRegionCollection()->getSize()):?><?=$this->getRegionHtmlSelect('shipping')?><?else:?>
-                <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" onchange="shipping.setSameAsBilling(false);"/>
-            <?endif?></div></li>
+            <label for="shipping:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
+            <?=$this->getCountryHtmlSelect('shipping')?>
+            </div></li>
         <li><div class="input-box">
             <label for="shipping:telephone"><?=__('Telephone')?> <span class="required">*</span></label><br/>
             <input type="text" name="shipping[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);"/></div>
@@ -66,6 +68,8 @@
 		'<?=$this->getUrl('checkout/onepage/shippingMethod')?>');
     var shippingForm = new VarienForm('co-shipping-form');
     shippingForm.extraChildParams = ' onchange="shipping.setSameAsBilling(false);"';
-    shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=__('Select State/Province...')?>');
+    //shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=__('Select State/Province...')?>');
     $('shipping-address-select') && shipping.newAddress(!$('shipping-address-select').value);
+        
+    new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', countryRegions);
 </script>

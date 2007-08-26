@@ -28,7 +28,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     
     public function getCountryHtmlSelect()
     {
-        return $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('core/html_select')
             ->setName('country_id')
             ->setId('country')
             ->setTitle(__('Country'))
@@ -36,6 +36,8 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             ->setValue($this->getCountryId())
             ->setOptions($this->getCountryCollection()->toOptionArray())
             ->getHtml();
+            
+        return $html;
     }
 
     public function getRegionCollection()
@@ -71,5 +73,31 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             $countryId = (int) Mage::getStoreConfig('general/country/default');
         }
         return $countryId;
+    }
+    
+    public function getRegionsJs()
+    {
+    	$regionsJs = $this->getData('regions_js');
+    	if (!$regionsJs) {
+	    	$countryIds = array();
+	    	foreach ($this->getCountryCollection() as $country) {
+	    		$countryIds[] = $country->getCountryId();
+	    	}
+    		$collection = Mage::getModel('directory/region')->getResourceCollection()
+    			->addCountryFilter($countryIds)
+    			->load();
+	    	$regions = array();
+	    	foreach ($collection as $region) {
+	    		if (!$region->getRegionId()) {
+	    			continue;
+	    		}
+	    		$regions[$region->getCountryId()][$region->getRegionId()] = array(
+	    			'code'=>$region->getCode(),
+	    			'name'=>$region->getName()
+	    		);
+	    	}
+	    	$regionsJs = Zend_Json::encode($regions);
+    	}
+    	return $regionsJs;
     }
 }

@@ -10,7 +10,7 @@
     <h2><?=$this->getTitle()?></h2>
 </div>
 <?endif;?>
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="form-validate">
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>

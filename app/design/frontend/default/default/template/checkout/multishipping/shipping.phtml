@@ -8,7 +8,7 @@
 <div class="page-head">
     <h3>Select Shipping Method</h3>
 </div>
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
 <div class="multi-address-checkout-box">
 <?foreach ($this->getAddresses() as $_index => $_address):?>

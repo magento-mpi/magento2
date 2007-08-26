@@ -125,3 +125,53 @@ VarienForm.prototype = {
         }        
     }
 }
+
+RegionUpdater = Class.create();
+RegionUpdater.prototype = {
+	initialize: function (countryEl, regionTextEl, regionSelectEl, regions) 
+	{
+		this.countryEl = $(countryEl);
+		this.regionTextEl = $(regionTextEl);
+		this.regionSelectEl = $(regionSelectEl);
+		this.regions = regions;
+		
+		this.onChangeCountry();
+		
+		Event.observe(this.countryEl, 'change', this.onChangeCountry.bind(this));
+	},
+	
+	onChangeCountry: function()
+	{
+    	if (this.regions[this.countryEl.value]) {
+    		var i, option, region;
+    		var def = this.regionTextEl.value.toLowerCase();
+    		
+    		this.regionTextEl.value = '';
+    		
+			this.regionSelectEl.options.length = 1;
+    		for (regionId in this.regions[this.countryEl.value]) {
+    			region = this.regions[this.countryEl.value][regionId];
+    			
+    			option = document.createElement('OPTION');
+    			option.value = regionId;
+    			option.text = region.name;
+    			
+    			if (this.regionSelectEl.options.add) {
+    				this.regionSelectEl.options.add(option);
+    			} else {
+    				this.regionSelectEl.appendChild(option);
+    			}
+    			
+    			if (regionId==def || region.name.toLowerCase()==def || region.code.toLowerCase()==def) {
+    				this.regionSelectEl.value = regionId;
+    			}
+    		}
+    		
+    		this.regionTextEl.style.display = 'none';
+    		this.regionSelectEl.style.display = '';
+    	} else {
+    		this.regionTextEl.style.display = '';
+    		this.regionSelectEl.style.display = 'none';
+    	}
+	}
+}

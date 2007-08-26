@@ -29,16 +29,18 @@
                 <label for="billing:city"><?=__('City')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=__('City')?>" name="billing[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="billing:city"/></div>
                 <div class="input-box">
-                <label for="billing:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
-                <?=$this->getCountryHtmlSelect('billing')?></div></li>
+                <label for="billing:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+                <select id="billing:region_id" name="billing[region_id]" title="<?=__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+                	<option value=""><?=__('Please select region or state')?></option>
+                </select>
+                <input type="text" id="billing:region" name="billing[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" style="display:none"/>
+				</div></li>
             <li><div class="input-box">
                 <label for="billing:postcode"><?=__('Zip')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=__('ZIP/Postal Code')?>" name="billing[postcode]" id="billing:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip required-entry input-text"/></div>
                 <div class="input-box">
-                <label for="billing:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
-                <?if($this->getRegionCollection()->getSize()):?><?=$this->getRegionHtmlSelect('billing')?><?else:?>
-                    <input type="text" id="billing:region" name="billing[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text"/>
-                <?endif?></div></li>
+                  	<label for="billing:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
+                	<?=$this->getCountryHtmlSelect('billing')?></div></li>
             <li><div class="input-box">
                 <label for="billing:telephone"><?=__('Telephone')?> <span class="required">*</span></label><br/>
                 <input type="text" name="billing[telephone]" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry input-text" id="billing:telephone"/></div>
@@ -72,6 +74,9 @@
 <script type="text/javascript">
     var billing = new Billing('co-billing-form', '<?=$this->getUrl('checkout/onepage/getAddress')?>address/', '<?=$this->getUrl('checkout/onepage/saveBilling')?>');
     var billingForm = new VarienForm('co-billing-form');
-    billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=__('Select State/Province...')?>');
+    
+    //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=__('Select State/Province...')?>');
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
+    
+    new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
 </script>

@@ -1,4 +1,4 @@
-<?=$this->getMessagesBlock()->getHtml()?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <?if($this->getWishlist()->getSize()):?>
 <form action="<?=$this->getUrl('*/*/update')?>" method="post">
     <table cellspacing="0" width="100%" class="data-table">

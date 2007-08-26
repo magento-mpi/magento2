@@ -23,7 +23,7 @@ $numColumns = sizeof($this->getColumns());
         <?endif?>
         <div id="<?=$this->getId()?>">
     <?else:?>
-        <?=$this->getMessagesBlock()->getHtml();?>
+        <?=$this->getMessagesBlock()->getGroupedHtml()?>
     <?endif;?>
 <?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
     <table cellspacing="0" class="actions">

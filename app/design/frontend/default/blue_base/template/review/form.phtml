@@ -1,6 +1,6 @@
 					<div class="page-head">
 						<h2><?=__('Write Your Own Review')?></h2>
-						<?=$this->getMessagesBlock()->getHtml()?>
+						<?=$this->getMessagesBlock()->getGroupedHtml()?>
 					</div>
 					<h3><?=__('You\'re reviewing')?>: <span class="normal-weight"><?=$this->getProductInfo()->getName()?></span></h3>
 					<form action="<?=$this->getAction()?>" method="post" id="review-form">

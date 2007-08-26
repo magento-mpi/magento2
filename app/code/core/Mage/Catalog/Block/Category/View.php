@@ -24,6 +24,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     
             $categories = Mage::getResourceModel('catalog/category_collection')
                 ->addAttributeToSelect('name')
+                ->addAttributeToSelect('url_key')
                 ->addFieldToFilter('entity_id', array('in'=>$pathIds))
                 ->load()
                 ->getItems();
@@ -33,8 +34,8 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
                 if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
                     $breadcrumb = array(
                         'label' => $categories[$categoryId]->getName(),
-                        'link'  => ($categories[$categoryId]->getId()==$this->getCurrentCategory()->getId())
-                            ? '' : Mage::getUrl('*/*/*', array('id'=>$categories[$categoryId]->getId()))
+                        'link'  => $categoryId==$this->getCurrentCategory()->getId()
+                            ? '' : $categories[$categoryId]->getCategoryUrl()
                     );
                     $breadcrumbsBlock->addCrumb('category'.$categoryId, $breadcrumb);
                 }

@@ -383,19 +383,26 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $result = Mage::getModel('shipping/shipping')
             ->collectRates($request)->getResult();
 
-        if (!$result) {
-            return $this;
-        }
-        $shippingRates = $result->getAllRates();
-
-        foreach ($shippingRates as $shippingRate) {
-            $rate = Mage::getModel('sales/quote_address_rate')
-                ->importShippingRate($shippingRate);
-            $this->addShippingRate($rate);
-
-            if ($this->getShippingMethod()==$rate->getCode()) {
-                $this->setShippingAmount($rate->getPrice());
-            }
+		$found = false;
+		if ($result) {
+	        $shippingRates = $result->getAllRates();
+	        
+	        foreach ($shippingRates as $shippingRate) {
+	            $rate = Mage::getModel('sales/quote_address_rate')
+	                ->importShippingRate($shippingRate);
+	            $this->addShippingRate($rate);
+	
+	            if ($this->getShippingMethod()==$rate->getCode()) {
+	                $this->setShippingAmount($rate->getPrice());
+	                $found = true;
+	            }
+	        }
+		}
+        
+        if (!$found) {
+	        $this->setShippingAmount(0)
+	        	->setShippingMethod('')
+	        	->setShippingDescription('');
         }
 
         return $this;

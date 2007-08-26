@@ -2,7 +2,7 @@
 	<div class="page-head">
 		<h3><?=__('My Tags')?></h3>
 	</div>
-	<?=$this->getMessagesBlock()->getHtml()?>
+	<?=$this->getMessagesBlock()->getGroupedHtml()?>
 	<p>
 		<?=__('Tag Name')?>: <strong><?=$this->getTagInfo()->getName();?></strong> ( <a href="<?=$this->getTagInfo()->getEditTagUrl();?>"><small><?=__('Edit')?></small></a><span class="separator">|</span><a href="<?=$this->getTagInfo()->getRemoveTagUrl();?>" onclick="return confirm('<?=__('Are you sure you want to do this?')?>');"><?=__('Delete')?></a> )
 	</p>
