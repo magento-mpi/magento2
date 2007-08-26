@@ -5,78 +5,78 @@
  */
 ?>
 <div class="page-head button-level">
-	<h3>Addressbook</h3>
-	<button class="form-button" onclick="window.location='<?=$this->getAddAddressUrl()?>';"><span>Add New Address</span></button>
+    <h3><?=__('Address Book')?></h3>
+    <button class="form-button" onclick="window.location='<?=$this->getAddAddressUrl()?>';"><span><?=__('Add New Address')?></span></button>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <div class="col2-set">
-	<div class="col-1 primary-address-list">
-		<h4>Default Addresses</h4>
+    <div class="col-1 primary-address-list">
+        <h4><?=__('Default Addresses')?></h4>
        <ol>
-			 <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
-				<li>
-					<h5>Default Billing Address</h5>
-					<address>
-					<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
-           <br/><strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong></address></li>
-           <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
+             <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>
+                <li>
+                    <h5><?=__('Default Billing Address')?></h5>
+                    <address>
+                    <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>
+           <br/><strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>"><?=__('Edit')?></a></strong></address></li>
+           <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>
            <li>
-					<h5>Default Billing Address</h5>
-							<address>
-									<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>  
-									<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
-							</address>
-						</li>
+                <h5><?=__('Default Billing Address')?></h5>
+                <address>
+                    <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
+                    <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>"><?=__('Edit')?></a></strong>
+                </address>
+            </li>
             <?else:?>
-					<li>
-						<h5>Default Billing Address</h5>
-						You have no default billing address in your address book.</li>
+                    <li>
+                        <h5><?=__('Default Billing Address')?></h5>
+                        <?=__('You have no default billing address in your address book.')?></li>
             <?endif?>
-				<?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>    
-				 <li>
-					<h5>Default Shipping Address</h5>
-								<address>
-										<?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
-										<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
-								</address>
-							</li>
-            <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>    
+                <?if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()):?>
+                 <li>
+                    <h5><?=__('Default Shipping Address')?></h5>
+                    <address>
+                            <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
+                            <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>"><?=__('Edit')?></a></strong>
+                    </address>
+                </li>
+            <?elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()):?>
               <li>
-					<h5>Default Shipping Address</h5><address>
+                    <h5><?=__('Default Shipping Address')?></h5><address>
                         <?=$this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?><br/>
-												<strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>">Edit</a></strong>
+                        <strong><a href="<?=$this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses))?>"><?=__('Edit')?></a></strong>
                     </address></li>
             <?else:?>
                <li>
-					<h5>Default Shipping Address</h5>You have no default shipping address in your address book.</li>
-            <?endif?>
-			</ol>
-
-		</div>
-		<div class="col-2 address-list">
-			<h4>Additional Entries</h4>
-			<ol>
-            <?if($_pAddsses = $this->getAdditionalAddresses()):?>    
-                <?foreach($_pAddsses as $_address):?>
-								<li>
-                    <address>
-                        <?=$this->getAddressHtml($_address)?><br/> 
-												<strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/">Edit</a></strong><span class="pipe">|</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove">Delete</a></strong>
-                    </address>
-								</li>
-                <?endforeach;?>
-            <?else:?>
-						<li> <strong>You have no additional entries in your address book.</strong></li>
+                    <h5><?=__('Default Shipping Address')?></h5><?=__('You have no default shipping address in your address book.')?></li>
             <?endif?>
             </ol>
-					</div>
-				</div>
+
+        </div>
+        <div class="col-2 address-list">
+            <h4><?=__('Additional Entries')?></h4>
+            <ol>
+            <?if($_pAddsses = $this->getAdditionalAddresses()):?>
+                <?foreach($_pAddsses as $_address):?>
+                                <li>
+                    <address>
+                        <?=$this->getAddressHtml($_address)?><br/>
+                                                <strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/"><?=__('Edit')?></a></strong><span class="pipe">|</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove"><?=__('Delete')?></a></strong>
+                    </address>
+                                </li>
+                <?endforeach;?>
+            <?else:?>
+                        <li> <strong><?=__('You have no additional entries in your address book.')?></strong></li>
+            <?endif?>
+            </ol>
+                    </div>
+                </div>
 <div class="form-buttons">
-    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back</a>
+    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back')?></a>
 </div>
 <script type="text/javascript">
     function deleteAddress(addressId) {
-        if(confirm('Do you whant delete address?')) {
+        if(confirm('<?=__('Do you whant delete address?')?>')) {
             window.location='<?=$this->getDeleteUrl()?>id/'+addressId;
         }
         return false;
