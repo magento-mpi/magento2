@@ -242,6 +242,15 @@ class Mage_Checkout_Model_Type_Onepage
                 $customer = Mage::getSingleton('customer/session')->getCustomer();
                 $email  = $customer->getEmail();
                 $name   = $customer->getName();
+                
+                $billing = $this->getQuote()->getBillingAddress();
+                $shipping = $this->getQuote()->getShippingAddress();
+                if (!$billing->getCustomerAddressId()) {
+                	$customer->addAddress($billing->exportCustomerAddress());
+                }
+                if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
+                	$customer->addAddress($shipping->exportCustomerAddress());
+                }
             }
 
             $order = Mage::getModel('sales/order');
