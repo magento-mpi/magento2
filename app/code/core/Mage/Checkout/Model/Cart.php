@@ -19,7 +19,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         return Mage::getSingleton('checkout/session');
     }
-    
+
     /**
      * Retrieve current quote object
      *
@@ -29,9 +29,9 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         return $this->getCheckoutSession()->getQuote();
     }
-    
+
     /**
-     * Add products 
+     * Add products
      *
      * @param   int $productId
      * @param   int $qty
@@ -54,18 +54,18 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                     $this->_addGroupedProduct($product, $qty);
                     break;
                 default:
-                    Mage::throwException('Indefinite product type');
+                    Mage::throwException(__('Indefinite product type'));
                     break;
             }
         }
         else {
-            Mage::throwException('Product do not exist');
+            Mage::throwException(__('Product does not exist'));
         }
-        
+
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
         return $this;
     }
-    
+
     /**
      * Adding simple product to shopping cart
      *
@@ -80,7 +80,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 $itemQty = $item->getQty();
                 if ($itemQty+$qty > $product->getQty()) {
                     $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                    Mage::throwException('Requestet quantity do not available');
+                    Mage::throwException(__('Requested quantity is not available'));
                 }
                 else {
                     $product->setQuoteQty($itemQty+$qty);
@@ -88,19 +88,19 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             }
             else {
                 if ($qty > $product->getQty()) {
-                    Mage::throwException('Requestet quantity do not available');
+                    Mage::throwException(__('Requested quantity is not available'));
                     $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
                 }
                 else {
                     $product->setQuoteQty($qty);
                 }
             }
-            
+
             $this->getQuote()->addCatalogProduct($product);
         }
         return $this;
     }
-    
+
     /**
      * Adding grouped product to cart
      *
@@ -133,7 +133,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 		}*/
         return $this;
     }
-    
+
     /**
      * Adding configurable product
      *
@@ -164,7 +164,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 		}*/
         return $this;
     }
-    
+
     /**
      * Checking product status
      *
@@ -181,15 +181,15 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
     public function addAdditionalProducts($productIds)
     {
-        
+
     }
-    
-    
+
+
     public function removeProduct()
     {
-        
+
     }
-    
+
     public function save()
     {
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
