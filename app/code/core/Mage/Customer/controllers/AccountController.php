@@ -19,7 +19,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         parent::preDispatch();
 
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('#^(create|login|forgotpassword|forgotpasswordpost)#', $action)) {
+        if (!preg_match('#^(create|login|logoutSuccess|forgotpassword|forgotpasswordpost)#', $action)) {
             if (!Mage::getSingleton('customer/session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
@@ -82,8 +82,17 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
      */
     public function logoutAction()
     {
-        Mage::getSingleton('customer/session')->logout();
-        $this->getResponse()->setRedirect(Mage::getBaseUrl());
+        Mage::getSingleton('customer/session')
+        	->logout()
+        	->setBeforeAuthUrl(Mage::getUrl());
+        	
+        $this->_redirect('*/*/logoutSuccess');
+    }
+    
+    public function logoutSuccessAction()
+    {
+        $this->loadLayout(array('default', 'customer_logout'), 'customer_logout');
+        $this->renderLayout();
     }
 
     /**
@@ -93,7 +102,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     {
         // if customer logged in
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+            $this->_redirect('*/*/index');
             return;
         }
 

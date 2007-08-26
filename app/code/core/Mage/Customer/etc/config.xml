@@ -115,6 +115,13 @@
                     </default>
                 </updates>
             </customer_login>
+            <customer_logout>
+                <updates>
+                    <default>
+                        <file>customer/logout.xml</file>
+                    </default>
+                </updates>
+            </customer_logout>
             <customer_register>
                 <updates>
                     <default>

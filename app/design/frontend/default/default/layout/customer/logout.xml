@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layoutUpdate>
+    <reference name="root">
+        <action method="setTemplate"><template>page/1column.phtml</template></action>
+    </reference>
+    
+    <reference name="content">
+        <block type="core/template" name="customer_logout">
+            <action method="setTemplate"><template>customer/logout.phtml</template></action>
+        </block>
+    </reference>
+</layoutUpdate>

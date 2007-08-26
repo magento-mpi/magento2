@@ -16,5 +16,4 @@ class Mage_Customer_IndexController extends Mage_Core_Controller_Front_Action
     {
 
     }
-
 }// Class IndexController END
