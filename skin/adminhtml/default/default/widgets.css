@@ -66,10 +66,10 @@ button.scalable td.tr {
 button.scalable td.ml {
     background-position:0 -5px;
     background-repeat:no-repeat;
-    padding:2px 7px 2px 15px;
+    padding:2px 7px 2px 14px;
     color:#fff;
     vertical-align:middle;
-    line-height:12px;
+    line-height:13px;
     white-space:nowrap;
     }
 button.scalable td.mr {
@@ -92,15 +92,10 @@ button.scalable td.br {
 button.back td.ml,
 button.delete td.ml,
 button.save td.ml,
-button.add td.ml {
+button.add td.ml,
+button.back td.ml {
     padding-right:3px;
     padding-left:11px;
-    }
-button.back td.ml {
-    padding-left:8px;
-    }
-button.delete td.ml {
-    padding-right:1px;
     }
 button.back td { background-image:url(images/btn_back_bg.gif); }
 button.delete td { background-image:url(images/btn_delete_bg.gif); }
@@ -108,7 +103,7 @@ button.save td,
 button.add td {
     background-image:url(images/btn_task_bg.gif);
     }
-button.back td.ml { color:#838383; }
+button.back td.ml { color:#777; }
 
 button.save td span,
 button.back td span,
