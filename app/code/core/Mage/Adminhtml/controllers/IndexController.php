@@ -18,13 +18,10 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         return;
 
         $this->loadLayout('baseframe');
-        #$this->_setActiveMenu('dashboard');
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
             ->setTemplate('system/info.phtml');
 
         $this->_addContent($block);
-//        $this->getLayout()->getBlock('left')
-//            ->append($this->getLayout()->createBlock('core/template')->setTemplate('system/left.phtml'));
 
         $this->renderLayout();
     }

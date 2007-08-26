@@ -22,8 +22,19 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                 $collection = $this->_getCollection()
                     ->addFieldToFilter('product_id', $lastAdded)
                     ->load();
-                /*echo $collection->getSelect();
-                var_dump($collection->getSize());*/
+                foreach ($collection as $item) {
+                	$items[] = $item;
+                }
+            }
+            
+            if (count($items)<$this->_maxItemCount) {
+                $collection = $this->_getCollection()
+                    ->addFieldToFilter('product_id', $this->_getCartProductIds());
+                $collection->getSelect()->order(new Zend_Db_Expr('RAND()'));
+                $collection->load();
+                foreach ($collection as $item) {
+                	$items[] = $item;
+                }                    
             }
             
             $this->setData('items', $items);
@@ -58,18 +69,22 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
     protected function _getCollection()
     {
         $collection = Mage::getResourceModel('catalog/product_link_collection')
+            ->setObject('catalog/product')
+            ->setLinkType('cross_sell')
             ->joinLinkTable()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('thumbnail')
-            ->setLinkType('cross_sell')
             ->setStoreId(Mage::getSingleton('core/store')->getId())
             ->addLinkTypeFilter()
-            ->addStoreFilter();
+            ->addStoreFilter()
+            ->setPageSize($this->_maxItemCount);
+            
+        $collection->addAttributeToFilter('status', array('in'=>$collection->getObject()->getVisibleInCatalogStatuses()));
         $ninProductIds = $this->_getCartProductIds();
         if (!empty($ninProductIds)) {
-            $collection->addFieldToFilter('product_id', array('nin'=>$ninProductIds));
+            $collection->addFieldToFilter('linked_product_id', array('nin'=>$ninProductIds));
         }
         return $collection;
     }

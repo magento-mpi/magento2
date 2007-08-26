@@ -22,12 +22,17 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     {
         $this->setEntity(Mage::getResourceSingleton('catalog/product'))
            	->setObject('catalog/product_link');
-        
     }
     
     public function getConditionForProduct() 
     {
-    	return array('product_id'=>$this->getProductId(),'link_type_id'=>$this->getLinkTypeId());
+        $condition = array('link_type_id'=>$this->getLinkTypeId());
+        
+        if ($this->getProductId()) {
+            $condition['product_id'] = $this->getProductId();
+        }
+        
+    	return $condition;
     }
     
     public function setProductId($productId) 
@@ -72,7 +77,10 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
         	->joinField('linked_product_id', 'catalog/product_link', 'linked_product_id', 'link_id=link_id', null,'left')
         	->joinField('link_type_id', 'catalog/product_link', 'link_type_id', 'link_id=link_id', null,'left')
         	->joinField('link_type', 'catalog/product_link_type', 'code', 'link_type_id=link_type_id', null,'left');
-        $this->getSelect()->where('e.entity_id != ?', $this->getProductId());
+        if ($this->getProductId()) {
+            $this->getSelect()->where('e.entity_id != ?', $this->getProductId());
+        }
+        return $this;
     }
     
     public function joinLinkTable()
