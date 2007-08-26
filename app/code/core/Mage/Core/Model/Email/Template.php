@@ -169,7 +169,11 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $variables['email'] = $email;
         $variables['name'] = $name;
         
+        ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
+        ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
+        
         $mail = new Zend_Mail('utf-8');
+        #$mail->setDefaultTransport(Mage::getSingleton('core/email_transport'));
         $mail->addTo($email, $name);
         $text = $this->getProcessedTemplate($variables, true);
         
@@ -182,7 +186,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $mail->setSubject($this->getProcessedTemplateSubject($variables));
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
         try {
-            $mail->send();
+            @$mail->send(); // Zend_Mail warning..
         }
         catch (Exception $e) {
             return false;

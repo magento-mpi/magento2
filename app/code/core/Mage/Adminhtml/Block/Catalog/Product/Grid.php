@@ -59,6 +59,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         parent::_prepareCollection();
 
         $this->getCollection()->addStoreNamesToResult();
+#print_r($this->getCollection()->getSelect()->__toString());
         return $this;
     }
 

@@ -56,6 +56,25 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
+    
+    public function exportCustomerAddress()
+    {
+    	$address = Mage::getModel('customer/address')
+    		->setEmail($this->getEmail())
+    		->setFirstname($this->getFirstname())
+			->setLastname($this->getLastname())
+            ->setCompany($this->getCompany())
+            ->setStreet($this->getStreet())
+            ->setCity($this->getCity())
+            ->setRegion($this->getRegion())
+            ->setRegionId($this->getRegionId())
+            ->setPostcode($this->getPostcode())
+            ->setCountryId($this->getCountryId())
+            ->setTelephone($this->getTelephone())
+            ->setFax($this->getFax());
+            
+        return $address;
+    }
 
     public function toArray(array $arrAttributes = array())
     {
