@@ -45,7 +45,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             'label' => __('Description'),
             'title' => __('Description'),
             'style' => 'width: 98%; height: 100px;',
-            'required' => true,
         ));
 
     	$fieldset->addField('is_active', 'select', array(
