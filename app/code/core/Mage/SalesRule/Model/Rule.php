@@ -100,7 +100,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     public function validate(Varien_Object $quote)
     {
     	if ($this->getUsesPerCustomer() && $quote->getCustomer()) {
-    		$customerUses = $this->getResource()->getUsesPerCustomer($this, $quote->getCustomerId());
+    		$customerUses = $this->getResource()->getCustomerUses($this, $quote->getCustomerId());
     		if ($customerUses >= $this->getUsesPerCustomer()) {
     			return false;
     		}
