@@ -1,8 +1,7 @@
 
 <div class="page-head">
-	<h3>Catalog Search Results</h3>
+	<h3>Search result for '<?=$this->getQuery()?>'</h3>
 </div>
-<div>Search result for: <?=$this->getQuery()?></div>
 <?if($this->getResultCount()):?>
     <?=$this->getProductListHtml()?>
 <?else:?>
