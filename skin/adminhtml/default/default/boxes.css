@@ -487,7 +487,7 @@ img.attribute-global {
 .login-form h2 { font-size:1.7em; font-weight:normal; }
 .login-form h2 em { font-style:italic; color:#d24403; font-weight:bold; }
 .login-form label { color:#444444; font-weight:bold; }
-.login-form .form-buttons { margin-top:15px; text-align:right;}
+.login-form .form-buttons { margin-top:15px; margin-right:14px; text-align:right;}
 .login-box .bottom { background:url(images/login_box_bottom.jpg) no-repeat; width:581px; height:5px; position:absolute; bottom:0; right:0; overflow:hidden;}
 .login-container .legal { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 10px 8px; font-size:.95em; }
 

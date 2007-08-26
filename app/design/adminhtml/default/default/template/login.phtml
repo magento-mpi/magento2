@@ -20,19 +20,18 @@
 			<form method="post" action="" id="loginForm">
                 
 				<fieldset class="login-form">
-					<legend>Log in to Admin Panel</legend>
 					<h2><em>Log in</em> to Admin Panel</h2>
                     <div id="messages">
                         <?=$this->getMessagesBlock()->getGroupedHtml()?>
                     </div>
-					<p class="input-box"><label for="#">User Name:</label><br/>
-						<input type="text" name="login[username]" value="<?=$username?>" class="required-entry input-text"/></p>
-					<p class="input-box"><label for="#">Password</label><br/>
-						<input type="password" name="login[password]" type="password" class="required-entry input-text" value="" /></p>
+					<div class="input-box"><label for="#">User Name:</label><br/>
+						<input type="text" name="login[username]" value="<?=$username?>" class="required-entry input-text"/></div>
+					<div class="input-box"><label for="#">Password</label><br/>
+						<input type="password" name="login[password]" type="password" class="required-entry input-text" value="" /></div>
 					<div class="clear"></div>
 					<div class="form-buttons">
 						<a href="#" class="left">Forgot your password?</a>
-						<button type="submit" onclick="loginForm.submit()" class="form-button"><span>Login</span></button>
+						<button onclick="loginForm.submit()" class="scalable" type="submit" ><table cellspacing="0"><tbody><tr><td class="tl"/><td class="tr"/></tr><tr><td class="ml"><span>Login</span></td><td class="mr"/></tr><tr><td class="bl"/><td class="br"/></tr></tbody></table></button>
 					</div>
 				</fieldset>
 				<p class="legal">&copy; Copyright 2007 <a href="http://www.varien.com" target="varien-external">Varien</a>. Magento is a trademark of Irubin Consulting Inc</p>

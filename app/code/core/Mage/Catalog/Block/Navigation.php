@@ -118,9 +118,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $html.= '<ul class="level' . $level . '">'."\n";
             ++$level;
             $j = 0;
-            $cnt = count($children);
+            $cnt = $children->count();
             foreach ($children as $child) {
-            	$html.= $this->drawItem($child, $level, (++$j >= $cnt));
+            	$html.= $this->drawItem($child, $level, ++$j >= $cnt);
             }
             $html.= '</ul>';
         }

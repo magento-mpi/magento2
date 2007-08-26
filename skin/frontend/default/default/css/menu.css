@@ -1,72 +1,97 @@
-/* Nav */
-/* Nav - First Level */
-#nav { padding:0 20px; }
+
+#nav { padding:0 20px; font-size:1.1em; }
+
+
+/************** ALL LEVELS  *************/ /* Style consistent throughout all nav levels */
 #nav li {
-    float:left;
-    position:relative;
-    font-size:1.1em;
-    }
-#nav a { 
-    display:block; 
-    float:left; }
-#nav a, #nav a:hover {
-    color:#a7c6dd;
-    font-weight:bold;
-    text-decoration:none;
-    cursor:pointer;
-    }
-#nav a span {
-    float:left;
-    padding:4px 12px 4px 8px;
-    }
-#nav li.active a, #nav li a:hover { color:#d96708; }
+	list-style:none;
+	position:relative;
+	text-align:left;
+	}
+#nav li.over { z-index:99; }
+#nav li.active { z-index:999; } /* to prevent the li separator from showing through on mouseover on li */
+#nav a { line-height:1.3em; }
+#nav a, #nav a:hover { display:block; text-decoration:none; }
+#nav span { display:block; cursor:pointer; }
 
 
-/* Nav - RESET for Second+ level */
-#nav ul li, #nav ul a, #nav ul span {
-    float:none;
-    background:none;
-    padding:0;
-    }
-#nav ul a, #nav ul a:hover, #nav li:hover ul a, #nav li.over ul a {
-    background:none;
-    padding:0;
-    font-weight:normal;
-    font-size:12px;
-    }
+/************ 1ST LEVEL  ***************/
+#nav li { float:left; }
+#nav li.active { color:#d96708; }
+#nav a { float:left; padding:5px 12px 6px 8px; color:#A7C6DD; font-weight:bold; }
+#nav li.over a { color:#d96708; }
 
 
-/* Nav - Second+ level */
+/************ 1ST LEVEL RESET ************/
+#nav ul li, #nav ul li.active {
+	float:none;
+	height:auto;
+	background:none;
+	margin:0;
+	}
+#nav ul a, #nav ul a:hover {
+	float:none;
+	padding:0;
+	background:none;
+	}
+#nav ul li a { font-weight:normal !important; }
+
+
+/************ 2ND LEVEL ************/
 #nav ul {
-    position:absolute;
-    top:1em;
-    left:-1000em;
-    border:1px solid #8eaabf;
-    background:#f2f6f9;
-    width:15.5em;
-    z-index:99;
-    }
-#nav ul.level0 { top:24px; }
-#nav li:hover ul, #nav li.over ul { left:-1000em; }
-#nav li.level0:hover ul.level0, #nav li.over ul.level0 { left: 0em; }
-#nav li.level1:hover ul.level1, #nav ul.level0 li.over ul.level1,
-#nav li.level2:hover ul.level2, #nav ul.level1 li.over ul.level2,
-#nav li.level3:hover ul.level3, #nav ul.level2 li.over ul.level3,
-#nav li.level4:hover ul.level4, #nav ul.level3 li.over ul.level4,
-#nav li.level5:hover ul.level5, #nav ul.level4 li.over ul.level5,
-#nav li.level6:hover ul.level6, #nav ul.level5 li.over ul.level6,
-#nav li.level7:hover ul.level7, #nav ul.level6 li.over ul.level7,
-#nav li.level8:hover ul.level8, #nav ul.level7 li.over ul.level8,
-#nav li.level9:hover ul.level9, #nav ul.level8 li.over ul.level9,
-#nav li.level10:hover ul.level10, #nav ul.level9 li.over ul.level10 { left:6em; }
-
-#nav ul a { background:url(../images/dotted_divider.gif) repeat-x 0 100% !important; padding:3px 8px !important; color:#605A5A !important; }
-#nav ul a:hover { background-color:#c6d3e3 !important; color:#2f2f2f !important; }
-#nav ul .last a { background-image:none !important;}
-#nav iframe {
-    position: absolute;
-    left: -1px;
-    top: 0;
-    z-index: -1;
-    filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
+	position: absolute;
+	width:15em;
+	top:25px;
+	left:-10000px;
+    border:1px solid #6b8d9f;
 }
+
+/* Show menu */
+#nav li.over ul { left:0; }
+#nav li.over ul ul { left:-10000px; }
+#nav li.over ul li.over ul { left:100px; }
+
+#nav ul li a { background:#eff3f5; }
+#nav ul li a:hover { background:#d9e5ea; }
+#nav ul li a span { background:url(../images/dotted_divider.gif) repeat-x 0 100%; }
+#nav ul li a, #nav ul li a:hover { color:#2f2f2f !important; }
+#nav ul span, #nav ul li.last li span { padding:3px 15px 4px 15px;}
+#nav ul li.last span { background:none; }
+#nav ul li.parent a,
+#nav ul ul li.parent a {
+	background-image:url(images/nav2_parent_arrow.gif);
+	background-position:right bottom;
+	background-repeat:no-repeat;
+	}
+
+/************ 3RD+ LEVEL ************/
+
+#nav ul ul { top:5px; }
+#nav ul ul ul { left:-10000px; }
+#nav li.over ul li.over ul ul { left:-10000px; }
+#nav li.over ul li.over ul li.over ul { left:100px; }
+
+#nav:after {
+	content:".";
+	display:block;
+	clear:both;
+	height:0;
+	font-size:0;
+	line-height:0em;
+	overflow:hidden;
+	}
+
+
+
+
+/* Fix for the IE fix bug */
+
+#nav iframe {
+position: absolute;
+left: -1px;
+top: 0;
+z-index: -1;
+filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);
+}
+
+
