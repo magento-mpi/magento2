@@ -25,7 +25,7 @@
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
         <div class="actions"><a href="<?=$this->getClearUrl()?>" class="left">Clear All</a>
-        <button class="right form-button-alt" onclick="popWin('<?=$this->getCompareUrl()?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?=__('Compare')?></span></button></div>
+        <button class="form-button-alt" onclick="popWin('<?=$this->getCompareUrl()?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?=__('Compare')?></span></button></div>
     <?else:?>
         <div class="content"><p><?=__('You have no items to compare.')?></p></div>
     <?endif;?>

@@ -10,8 +10,8 @@
 			<tbody>
 					<?foreach( $poll_answers as $answer ):?>
 							<tr>
-									<td><?=$answer->getAnswerTitle()?></td>
-									<td><?=$answer->getVotesCount()?> (<?=$answer->getPercent()?>%)</td>
+									<td class="label"><?=$answer->getAnswerTitle()?></td>
+									<td class="item"><?=$answer->getVotesCount()?> (<?=$answer->getPercent()?>%)</td>
 				</tr>
 					<?endforeach;?>
 			</tbody>

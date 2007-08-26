@@ -1,5 +1,55 @@
 @import url('reset.css');
 @import url('boxes.css');
+@import url('menu.css');
 @import url('clears.css');
 @import url('custom.css');
-@import url('menu.css');
+
+
+
+/** CSS Map 
+
+ ** Resets (reset.css)
+
+ ** Common elements 
+ ****** Columns
+ ****** Form
+ ********** Messages
+ ****** Message
+ ****** Headings
+ ****** Tables
+ ****** Lists
+ ****** Space Creators
+ ****** Pager
+
+ ** Layout
+ ****** Base Structure
+ ****** Header
+ ****** Sidebars
+ ****** Footer
+
+ ** Shop Elements
+ ****** Rating
+ ****** Prices
+ ****** Catalog Listing
+ ****** Layered Navigation
+ ****** Base-Mini
+
+ ** Shop Pages
+ ****** Home
+ ****** Catalog Listing
+ ****** Product Detail
+ ****** Checkout
+ ********** Search
+ ********** Onepage
+ ********** Multiple Addresses
+ ****** Customer
+ ********** Login
+ ********** Dashboard
+ ********** Compare 
+ ********** Reviews
+
+** Overrides
+ ****** Alignment
+
+** Clears (clear.css)
+ **/

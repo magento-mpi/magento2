@@ -43,7 +43,7 @@
 	width:15em;
 	top:25px;
 	left:-10000px;
-    border:1px solid #6b8d9f;
+    border:1px solid #899ba5;
 }
 
 /* Show menu */
@@ -51,18 +51,12 @@
 #nav li.over ul ul { left:-10000px; }
 #nav li.over ul li.over ul { left:100px; }
 
-#nav ul li a { background:#eff3f5; }
-#nav ul li a:hover { background:#d9e5ea; }
-#nav ul li a span { background:url(../images/dotted_divider.gif) repeat-x 0 100%; }
+#nav ul li a { background:#ecf3f6; }
+#nav ul li a:hover { background:#d5e4eb; }
+#nav ul li a span { background:url(../images/nav_divider.gif) repeat-x 0 100%; }
 #nav ul li a, #nav ul li a:hover { color:#2f2f2f !important; }
 #nav ul span, #nav ul li.last li span { padding:3px 15px 4px 15px;}
 #nav ul li.last span { background:none; }
-#nav ul li.parent a,
-#nav ul ul li.parent a {
-	background-image:url(images/nav2_parent_arrow.gif);
-	background-position:right bottom;
-	background-repeat:no-repeat;
-	}
 
 /************ 3RD+ LEVEL ************/
 
@@ -84,7 +78,7 @@
 
 
 
-/* Fix for the IE fix bug */
+/* Fix for the IE bug */
 
 #nav iframe {
 position: absolute;

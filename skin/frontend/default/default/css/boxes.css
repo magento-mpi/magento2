@@ -1,9 +1,11 @@
-/******************************************************/
-/********************** GLOBAL ************************/
-/******************************************************/
+/************************************************************/
+/********************[ COMMON ELEMENTS ]*********************/
+/************************************************************/
 
-/********** [COLUMN SETS] ***********/
 
+/************** Columns **************/
+
+/* All */
 .col2-set, .col3-set, .col4-set, .col5-set { clear:both; }
 
 /* Col2 */
@@ -11,6 +13,7 @@
 .col2-set .col-1 { float:left; }
 .col2-set .col-2 { float:right;}
 
+/* Col2-alt */
 .col2-alt-set .col-1 { width:32%; }
 .col2-alt-set .col-2 { width:65%; }
 .col2-alt-set .col-1 { float:left; }
@@ -26,13 +29,11 @@
 
 /* Table Columns */
 table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; margin:0 !important; }
-
 .col3-set td.spacer { width:3%; }
 .col4-set td.spacer { width:4%; }
 
 
-
-/************* [FORMS] ***************/
+/*************** Form ***************/
 
 input.input-text, select, textarea { border:1px solid #b6b6b6; font:12px arial, helvetica, sans-serif; }
 input.input-text, textarea { padding:2px; }
@@ -65,7 +66,8 @@ input.form-radio { margin-right:5px;}
 .form-list li .input-box .input-text, .form-list li .input-box textarea { width:250px; }
 .form-list li .input-box select { width:256px;}
 
-/**** Buttons ****/
+/*************************************/
+/*************** Buttons *************/
 .form-buttons {
     clear:both;
     margin-top:4em;
@@ -205,7 +207,7 @@ p.required { font-size:.95em; text-align:right; }
 .actions { line-height:1.3em; }
 .page-popup { background:#fff; margin:25px 30px; }
 .separator { padding:0 5px;}
-.pipe { padding:0 5px; }
+.pipe { padding:0 4px; }
 .divider {
     margin:10px 0;
     height:1px;
@@ -573,7 +575,6 @@ h1#logo {
 .base-mini .actions {
     background:url(../images/base_mini_actions_bg.gif) repeat-x #dee5e8;
     padding:6px;
-    text-align:left;
     }
 .base-mini .product-images { float:left; width:38px; }
 .base-mini .product-images a img { border:1px solid #a9a9a9; }
@@ -594,6 +595,7 @@ h1#logo {
 .mini-cart .actions .subtotal { float:left; text-align:left; }
 .mini-cart .actions .subtotal .label { text-transform:uppercase; font-weight:bold; }
 .mini-cart .actions .form-button { margin-bottom:5px; }
+.mini-poll td.label { font-weight:bold; padding-right:10px; }
 .widget-btn { float:right; font-size:11px; margin-right:3px; }
 .widget-btn, .widget-btn:hover { color:#646464; font-weight:bold; }
 
@@ -1085,11 +1087,12 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .compare-products tbody td { border-color:#ccc; }
 .compare-products tbody tr.first td { border-top:1px solid #D9DDE3; text-align:center; }
 .compare-products tbody td.last {  border-right:1px solid #D9DDE3; }
-.compare-products tbody.attribute-cart td { background:#f8f8e5 !important; text-align:center; }
+.compare-products tbody.attribute-cart td { background:#fffada !important; text-align:center; }
 .compare-products tbody td.label {
+    width:auto;
     border-bottom:1px solid #9eb8cb;
     border-left:1px solid #BEBCB7;
-    background:url(../images/comparison_table_label_bg.gif) repeat-y 100% 0 #D9E5EE !important;
+    background:url(../images/comparison_table_label_bg.gif) repeat-y 100% 0 #d9e5ee !important;
     text-align:left;
     }
 .compare-products tbody.remove-buttons tr {  background:#fff;  }
