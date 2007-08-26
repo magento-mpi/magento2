@@ -297,14 +297,12 @@ class Mage_Checkout_Model_Type_Onepage
         $customer = Mage::getModel('customer/customer');
 
         $billingEntity = $quote->getBillingAddress();
-        $billing = Mage::getModel('customer/address');
-        $billing->addData($billingEntity->getData());
+        $billing = $billingEntity->exportCustomerAddress();
         $customer->addAddress($billing);
 
         $shippingEntity = $quote->getShippingAddress();
         if (!$shippingEntity->getSameAsBilling()) {
-            $shipping = Mage::getModel('customer/address');
-            $shipping->addData($shippingEntity->getData());
+            $shipping = $shippingEntity->exportCustomerAddress();
             $customer->addAddress($shipping);
         } else {
             $shipping = $billing;
