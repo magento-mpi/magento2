@@ -381,6 +381,7 @@ addressesModel.prototype = {
             if ( item == this.itemList[0] && (this.itemList[1]) ) this.setActiveItem(this.itemList[1]);
 
             this.itemContainer.removeChild(item);
+
             this.reloadItemList();
             this.setAddressAsDefault();
         }
