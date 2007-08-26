@@ -13,18 +13,36 @@
  ** Common elements 
  ****** Columns
  ****** Form
- ********** Messages
+ ********** Form elements
+ ********** Form lists 
+ ********** Form Messages
  ****** Message
  ****** Headings
+ ********** Category listing Heading
+ ********** Page heading
  ****** Tables
+ ********** Data Table
+ ********** Box Table
+ ********** Nested Table
  ****** Lists
+ ********** Disc List
+ ********** Bare List
  ****** Space Creators
  ****** Pager
 
  ** Layout
- ****** Base Structure
+ ****** Base Layout
+ ********** Structure
+ ********** Style
  ****** Header
+ ********** Logo
+ ********** Quick Access
+ ********** Breadcrumbs
+ ********** Mini-search
  ****** Sidebars
+ ********** Currency Switcher
+ ********** Base Mini
+ ********** Sidebar Blocks
  ****** Footer
 
  ** Shop Elements
@@ -32,14 +50,17 @@
  ****** Prices
  ****** Catalog Listing
  ****** Layered Navigation
- ****** Base-Mini
+ ****** Tool tips
 
  ** Shop Pages
  ****** Home
+ ****** Search
  ****** Catalog Listing
+ ********** List Type
+ ********** Grid Type
  ****** Product Detail
  ****** Checkout
- ********** Search
+ ********** Shopping Cart
  ********** Onepage
  ********** Multiple Addresses
  ****** Customer
@@ -50,6 +71,7 @@
 
 ** Overrides
  ****** Alignment
+ ****** Link highlights
 
 ** Clears (clear.css)
  **/
