@@ -3,10 +3,10 @@
 </div>
 
 <div class="content form-buttons">
-	<p class="left"><?=__('Forgot an item in the cart?')?> <a href="<?=$this->getUrl('checkout/cart', array('_secure'=>false))?>"><?=__('Edit your cart')?></a></p>
+	<p class="left"><?=__('Forgot an item?')?> <a href="<?=$this->getUrl('checkout/cart', array('_secure'=>false))?>"><?=__('Edit your cart')?></a></p>
 	<p>
 	    <span id="review-please-wait" style="display:none;" class="opc-please-wait">
-	        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Submitting order information... &nbsp; 
+	        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=__('Submitting order information...')?> &nbsp;
 	    </span>
 	    <span id="review-buttons-container">
 			<input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" onclick="review.save();" value="<?=__('Place Order')?>"/>
