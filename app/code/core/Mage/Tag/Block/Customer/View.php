@@ -46,8 +46,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'customer_tag_list.toolbar')
-            ->disableViewSwitcher()
+        $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_tag_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);

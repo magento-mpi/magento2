@@ -26,7 +26,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $list = $this->getLayout()->createBlock('catalog/product_list', 'tag_product_list')
+        $list = $this->getLayout()->createBlock('page/html_pager', 'tag_product_list')
             ->setCollection($this->_getCollection());
         $this->setChild('list', $list);
     }
@@ -40,11 +40,9 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
     {
         if( !$this->_collection ) {
             $tagModel = Mage::getModel('tag/tag');
-            $this->_collection = $tagModel->getEntityCollection();
-            $this->_collection
-                ->addStoreFilter(Mage::getSingleton('core/store')->getId())
+            $this->_collection = $tagModel->getEntityCollection()
                 ->addTagFilter($this->getTagId())
-                ->addStatusFilter($tagModel->getApprovedStatus());
+                ->load();
         }
         return $this->_collection;
     }
@@ -53,5 +51,15 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
     {
         Mage::getModel('review/review')->appendSummary($this->_getCollection());
         return parent::_beforeToHtml();
+    }
+
+    public function getCount()
+    {
+        return sizeof($this->_getCollection()->getItems());
+    }
+
+    public function getProducts()
+    {
+        return $this->_getCollection()->getItems();
     }
 }

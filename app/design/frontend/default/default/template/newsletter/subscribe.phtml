@@ -1,10 +1,16 @@
 <div class="box base-mini mini-newsletter">
 	<div class="head">
-		<h4><?=__('Newsletter')?></h4>
+		<h4><?=__('Newsletter')?><a name="newsletter-box"></a></h4>
 	</div>
-<?//=$this->getMessagesBlock()->getHtml()?>
 <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate-detail">
 	<fieldset class="content">
+            <?if( $message = $this->getErrorMessage() ):?>
+                <span class="sidebar-error-box"><?=$message?></span>
+            <?endif;?>
+            <?if( $message = $this->getSuccessMessage() ):?>
+                <span class="sidebar-success-box"><?=$message?></span>
+            <?endif;?>
+            <br />
 			<legend><?=__('Newsletter')?></legend>
 			<label for="newsletter">Sign up for our newsletter:</label>
 			<input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/>

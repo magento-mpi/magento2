@@ -10,7 +10,7 @@
         <li <?if($iterator % 2 == 0):?>class="odd"<?endif;?>>
             <div class="count"><?=++$iterator?></div>
             <div class="content">
-                <a href="<?=$this->getReviewUrl($_review->getId())?>"><?=$_review->getName()?></a>
+                <a href="<?=$this->getReviewUrl($_review->getReviewId())?>"><?=$_review->getName()?></a>
                 <div class="ratings">
                     <small><?=__('RATING')?>:</small>
                     <?if($_review->getSum()):?>

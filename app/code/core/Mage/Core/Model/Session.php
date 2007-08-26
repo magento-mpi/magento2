@@ -2,7 +2,7 @@
 
 /**
  * Core session model
- * 
+ *
  * @todo extend from Mage_Core_Model_Session_Abstract
  *
  */
