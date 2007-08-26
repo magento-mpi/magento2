@@ -176,5 +176,17 @@ class Mage_Permissions_Model_Mysql4_Users {
         $select->where("({$this->_usersTable}.username = '{$model->getUsername()}' OR {$this->_usersTable}.email = '{$model->getEmail()}') AND {$this->_usersTable}.user_id != '{$model->getId()}'");
         return $this->_read->fetchRow($select);
     }
+
+    public function hasAssigned2Role($userModel)
+    {
+    	if ( $userModel->getId() > 0 ) {
+    		$select = $this->_read->select();
+        	$select->from($this->_roleTable);
+        	$select->where("{$this->_roleTable}.parent_id > 0 AND {$this->_roleTable}.user_id = {$userModel->getId()}");
+        	return $this->_read->fetchRow($select);
+    	} else {
+    		return null;
+    	}
+    }
 }
 ?>

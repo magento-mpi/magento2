@@ -83,7 +83,7 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                 ->setLastname($this->getRequest()->getParam('lastname', false))
                 ->setPassword($this->getRequest()->getParam('new_password', false))
                 ->setEmail(strtolower($this->getRequest()->getParam('email', false)))
-                ->setIs_active($this->getRequest()->getParam('is_active', false));
+                ->setIsActive($this->getRequest()->getParam('is_active', false));
 
         if( !$user->userExists() ) {
             try {
@@ -95,8 +95,16 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                     ->saveRel();
 
                 $uid = $user->getId();
-                Mage::getSingleton('adminhtml/session')->addSuccess('User successfully saved.');
-                $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
+
+                if ( !$user->hasAssigned2Role() ) {
+                	$user->setIsActive('0')->save();
+                	Mage::getSingleton('adminhtml/session')->addError('User has not assigned to any of Roles. Account has been deactivated.');
+                	$this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
+                } else {
+	                Mage::getSingleton('adminhtml/session')->addSuccess('User successfully saved.');
+    	            $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
+                }
+
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError('Error while saving this user. Please try again later.');
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser"));

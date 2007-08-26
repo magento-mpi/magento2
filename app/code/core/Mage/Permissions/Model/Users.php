@@ -53,6 +53,12 @@ class Mage_Permissions_Model_Users extends Varien_Object {
         return ( is_array($result) && count($result) > 0 ) ? true : false;
     }
 
+    public function hasAssigned2Role()
+    {
+    	$res = $this->getResource()->hasAssigned2Role($this);
+    	return ( is_array($res) && count($res) > 0 ) ? true : false;
+    }
+
     public function userExists()
     {
         $result = $this->getResource()->userExists($this);
