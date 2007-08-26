@@ -81,8 +81,8 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                 ->setUsername($this->getRequest()->getParam('username', false))
                 ->setFirstname($this->getRequest()->getParam('firstname', false))
                 ->setLastname($this->getRequest()->getParam('lastname', false))
+                ->setPassword($this->getRequest()->getParam('new_password', false))
                 ->setEmail(strtolower($this->getRequest()->getParam('email', false)))
-                ->setPassword($this->getRequest()->getParam('password', false))
                 ->setIs_active($this->getRequest()->getParam('is_active', false));
 
         if( !$user->userExists() ) {
