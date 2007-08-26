@@ -71,5 +71,5 @@
     //shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=__('Select State/Province...')?>');
     $('shipping-address-select') && shipping.newAddress(!$('shipping-address-select').value);
         
-    new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', countryRegions);
+    var shippingRegionUpdater = new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', countryRegions);
 </script>

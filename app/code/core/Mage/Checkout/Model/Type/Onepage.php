@@ -251,6 +251,7 @@ class Mage_Checkout_Model_Type_Onepage
                 if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
                 	$customer->addAddress($shipping->exportCustomerAddress());
                 }
+                $customer->save();
             }
 
             $order = Mage::getModel('sales/order');

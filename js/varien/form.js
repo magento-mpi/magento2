@@ -135,12 +135,12 @@ RegionUpdater.prototype = {
 		this.regionSelectEl = $(regionSelectEl);
 		this.regions = regions;
 		
-		this.onChangeCountry();
+		this.update();
 		
-		Event.observe(this.countryEl, 'change', this.onChangeCountry.bind(this));
+		Event.observe(this.countryEl, 'change', this.update.bind(this));
 	},
 	
-	onChangeCountry: function()
+	update: function()
 	{
     	if (this.regions[this.countryEl.value]) {
     		var i, option, region;

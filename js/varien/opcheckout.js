@@ -320,7 +320,11 @@ Shipping.prototype = {
                     }
                 }
             }
-            shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
+            $('shipping:country_id').value = $('billing:country_id').value;
+            shippingRegionUpdater.update();
+            $('shipping:region_id').value = $('billing:region_id').value;
+            $('shipping:region').value = $('billing:region').value;
+            //shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
         } else {
             $('shipping-address-select').value = $('billing-address-select').value;
         }
