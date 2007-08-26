@@ -895,8 +895,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .step-count { background:#fff; font-size:.9em; padding:0 4px; line-height:1em; }
 .one-page-checkout .content { padding: 10px 20px; }
 .one-page-checkout label.label { font-size:1.05em; color:#2f2f2f; }
-.one-page-checkout .allow .head { background:#d0dce1; border-color:#a3aeb3; border-width:1px 1px 0 1px; }
-.one-page-checkout .active .head { margin-bottom:0; border:1px solid #BBAFA0; background:#F9F3E3; padding-bottom:5px; cursor:pointer; }
+.one-page-checkout .allow .head { background:#d0dce1; border-color:#a3aeb3; border-width:1px 1px 0 1px; cursor:pointer; }
+.one-page-checkout .active .head { margin-bottom:0; border:1px solid #BBAFA0; background:#F9F3E3; padding-bottom:5px; cursor:default; }
 .one-page-checkout .group-select { margin-top:0; border:0; background:none; padding:0; }
 .one-page-checkout .allow h3 { color:#a4b3b9; }
 .one-page-checkout .active h3 { color:#F18200; }
