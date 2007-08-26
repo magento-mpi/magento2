@@ -3,6 +3,7 @@
 		<h4><?=__('Product Tags')?></h4>
 	</div>
 		<?if( $this->getCount() ):?>
+        <h5>Other people marked this product with these tags:</h5>
 			<ul class="tags-list">
 				<?$_iterator = 0;?>
 				<?foreach( $this->getTags() as $_tag ):?>
