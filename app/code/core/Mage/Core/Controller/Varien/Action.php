@@ -195,10 +195,6 @@ abstract class Mage_Core_Controller_Varien_Action
             $actionMethodName = 'norouteAction';
         }
 
-        Mage::log('Request Uri:'.$this->getRequest()->getRequestUri());
-        Mage::log('Request Params:');
-        Mage::log($this->getRequest()->getParams());
-
         $this->preDispatch();
 
         if ($this->getRequest()->isDispatched()) {

@@ -38,7 +38,7 @@
     </tfoot>
     <tbody>
 <?foreach($this->getItems() as $_item):?>
-        <tr>
+        <tr <?if(!$_item->getProduct()->isSalable()):?> class="red"<?endif;?>>
             <td>
                 <a href="#"><img src="<?=$_item->getProduct()->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="75"/>
             </td>

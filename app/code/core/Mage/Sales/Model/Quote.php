@@ -347,8 +347,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (!$product->getQty()) {
             $product->setQty(1);
         }
-
-        $item = null;
+        
+        $item = $this->getItemByProductId($product->getId());
+        if (!$item) {
+            $item = Mage::getModel('sales/quote_item');
+        }
+        $item->importCatalogProduct($product);
+        
+        /*$item = null;
         if (!$product->getAsNewItem()) {
             foreach ($this->getAllItems() as $quoteItem) {
                 if ($quoteItem->getProductId()==$product->getId()) {
@@ -364,11 +370,27 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (!$item) {
             $item = Mage::getModel('sales/quote_item')
                 ->importCatalogProduct($product);
-        }
+        }*/
 
         $this->addItem($item);
 
         return $item;
+    }
+    
+    /**
+     * Retrieve quote item by product id
+     *
+     * @param   int $productId
+     * @return  Mage_Sales_Model_Quote_Item || false
+     */
+    public function getItemByProductId($productId)
+    {
+        foreach ($this->getAllItems() as $item) {
+        	if ($item->getProductId() == $productId) {
+        	    return $item;
+        	}
+        }
+        return false;
     }
 
 /*********************** PAYMENTS ***************************/

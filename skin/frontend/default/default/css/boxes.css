@@ -604,6 +604,7 @@ h1#logo {
 
 .data-table .odd  { background:#f8f7f5 }
 .data-table .even { background:#eeeded !important;}
+.data-table .red  { background:#800000 }
 .data-table td.last, .data-table th.last { border-right:0; }
 .data-table tr.last td, .data-table tr.last th { border-bottom:0; }
 

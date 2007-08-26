@@ -26,7 +26,10 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     
     protected function _addProductToItems($items)
     {
-        $productIds = array();
+        /**
+         * !!! Now Product adding in Mage_Sales_Model_Quote_Address_Total_Subtotal
+         */
+        /*$productIds = array();
         foreach ($items as $item) {
         	$productIds[$item->getProductId()] = $item;
         }
@@ -42,7 +45,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             foreach ($productCollection as $product) {
             	$productIds[$product->getId()]->setProduct($product);
             }
-        }
+        }*/
         
         return $this;
     }

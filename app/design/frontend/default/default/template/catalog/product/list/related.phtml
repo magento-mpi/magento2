@@ -11,15 +11,21 @@
             <?foreach($this->getItems() as $_item):?>
             <li>
                 <div class="product-images">
+                <?if(!$_item->isSuper()):?>
                     <input type="checkbox" class="related-checkbox left" id="related-checkbox<?=$_item->getId()?>" name="related_products[]" value="<?=$_item->getId()?>"/> 
+                <?endif;?>
                     <a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="32" height="32"/></a>
                 </div>
                 <div class="product-details">
                     <p>
                         <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
                         <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-                        <a href="<?=$this->getAddToCartUrl($_item)?>">Add to Cart</a><br/>
-                        <a href="<?=$this->getAddToWishlistUrl($_item)?>">Add to Wishlist</a>
+                        <?if($_item->isSuper()):?>
+                            <a href="<?=$_item->getProductUrl()?>">View Detailes</a><br/>
+                        <?else:?>
+                            <a href="<?=$this->getAddToCartUrl($_item)?>">Add to Cart</a><br/>
+                            <a href="<?=$this->getAddToWishlistUrl($_item)?>">Add to Wishlist</a>
+                        <?endif;?>
                     </p>
                 </div>
             </li>

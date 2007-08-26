@@ -158,8 +158,18 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getTierPrice($qty=null)
     {
         $prices = $this->getData('tier_price');
+        
+        /**
+         * Load tier price
+         */
+        if (is_null($prices)) {
+            if ($attribute = $this->getResource()->getAttribute('tier_price')) {
+                $attribute->getBackend()->afterLoad($this);
+                $prices = $this->getData('tier_price');
+            }
+        }
 
-        if (empty($prices) || !is_array($prices)) {
+        if (is_null($prices) || !is_array($prices)) {
             if (!is_null($qty)) {
                 return $this->getPrice();
             }
@@ -221,6 +231,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getFinalPrice($qty=null)
     {
+        /**
+         * Calculating final price for item of configurable product
+         */
         if($this->getParentProduct() && $this->getParentProduct()->isSuperConfig()) {
         	$finalPrice = $this->getParentProduct()->getPrice();
 	        if (is_numeric($this->getParentProduct()->getTierPrice($qty))) {
@@ -237,10 +250,15 @@ class Mage_Catalog_Model_Product extends Varien_Object
         			}
         		}
         	}
-        } else {
+        } 
+        /**
+         * Calculating final price of simple product 
+         */
+        else {
         	$finalPrice = $this->getPrice();
-	        if (is_numeric($this->getTierPrice($qty))) {
-	            $finalPrice = min($finalPrice, $this->getTierPrice($qty));
+        	$tierPrice  = $this->getTierPrice($qty);
+	        if (is_numeric($tierPrice)) {
+	            $finalPrice = min($finalPrice, $tierPrice);
 	        }
 	        if (is_numeric($this->getSpecialPrice())) {
 	            $finalPrice = min($finalPrice, $this->getSpecialPrice());
@@ -741,11 +759,21 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getVisibleInCatalogStatuses()
     {
-        return array(self::STATUS_ENABLED);
+        return array(self::STATUS_ENABLED, self::STATUS_OUT_OF_STOCK);
     }
     
     public function isVisibleInCatalog()
     {
         return in_array($this->getStatus(), $this->getVisibleInCatalogStatuses());
+    }
+    
+    public function isSalable()
+    {
+        return $this->getStatus() == self::STATUS_ENABLED;
+    }
+    
+    public function isSaleable()
+    {
+        return $this->isSalable();
     }
 }

@@ -104,6 +104,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'attributes' => array(
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_child'),
                     'product_id' => array('type'=>'int'),
+                    'super_product_id' => array('type'=>'int'),
                     'parent_product_id' => array('type'=>'int'),
                     'sku' => array(),
                     'image' => array(),

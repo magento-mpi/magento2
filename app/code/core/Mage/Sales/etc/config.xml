@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.5.17</version>
+            <version>0.5.18</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -62,31 +62,31 @@
         </block>
         <sales>
             <quote>
-            	<totals>
-            		<subtotal>
-            			<class>sales/quote_address_total_subtotal</class>
-            			<before>grand_total</before>
-            		</subtotal>
-            		<discount>
-            			<class>sales/quote_address_total_discount</class>
-            			<after>subtotal</after>
-            			<before>grand_total,shipping</before>
-            		</discount>
-            		<shipping>
-            			<class>sales/quote_address_total_shipping</class>
-            			<after>subtotal,discount</after>
-            			<before>grand_total</before>
-            		</shipping>
-            		<tax>
-            			<class>sales/quote_address_total_tax</class>
-            			<after>subtotal</after>
-            			<before>grand_total</before>
-            		</tax>
-            		<grand_total>
-            			<class>sales/quote_address_total_grand</class>
-            			<after>subtotal</after>
-            		</grand_total>
-            	</totals>
+                <totals>
+                    <subtotal>
+                        <class>sales/quote_address_total_subtotal</class>
+                        <before>grand_total</before>
+                    </subtotal>
+                    <discount>
+                        <class>sales/quote_address_total_discount</class>
+                        <after>subtotal</after>
+                        <before>grand_total,shipping</before>
+                    </discount>
+                    <shipping>
+                        <class>sales/quote_address_total_shipping</class>
+                        <after>subtotal,discount</after>
+                        <before>grand_total</before>
+                    </shipping>
+                    <tax>
+                        <class>sales/quote_address_total_tax</class>
+                        <after>subtotal</after>
+                        <before>grand_total</before>
+                    </tax>
+                    <grand_total>
+                        <class>sales/quote_address_total_grand</class>
+                        <after>subtotal</after>
+                    </grand_total>
+                </totals>
             </quote>
         </sales>
     </global>

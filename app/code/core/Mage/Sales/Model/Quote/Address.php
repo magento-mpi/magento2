@@ -23,7 +23,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this->_quote = $quote;
         return $this;
     }
-
+    
+    /**
+     * Retrieve quote object
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function getQuote()
     {
         return $this->_quote;
@@ -212,13 +217,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     }
 
     public function getItemQty($itemId=0) {
+        $qty = 0;
         if ($itemId == 0) {
-            $qty = 0;
             foreach ($this->getAllItems() as $item) {
                 $qty += $item->getQty();
             }
         } else {
-            $qty = $this->getItemById($itemId)->getQty();
+            if ($item = $this->getItemById($itemId)) {
+                $qty = $item->getQty();
+            }
         }
         return $qty;
     }
@@ -250,11 +257,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     public function removeItem($itemId)
     {
-        foreach ($this->getItemsCollection() as $item) {
-            if ($item->getId()==$itemId) {
-                $item->isDeleted(true);
-                break;
-            }
+        if ($item = $this->getItemQty($itemId)) {
+            $item->isDeleted(true);
         }
         return $this;
     }

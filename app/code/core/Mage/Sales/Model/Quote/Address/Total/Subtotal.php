@@ -20,17 +20,25 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
            	$products->load();
 
             foreach ($address->getAllItems() as $item) {
-
-            	$p = $products->getItemById($item->getProductId());
-            	if ($p) {
-    	        	$item->setPrice($p->getFinalPrice());
-    	        	$item->setName($p->getName());
-    	        	$item->setTaxClassId($p->getTaxClassId());
-    	        	$item->setWeight($p->getWeight());
+            	$itemProduct = $products->getItemById($item->getProductId());
+            	if ($itemProduct->isVisibleInCatalog()) {
+                	if ($itemProduct) {
+                	    $item->setStatus($itemProduct->getStatus());
+        	        	$item->setPrice($itemProduct->getFinalPrice($item->getQty()));
+        	        	$item->setName($itemProduct->getName());
+        	        	$item->setTaxClassId($itemProduct->getTaxClassId());
+        	        	$item->setWeight($itemProduct->getWeight());
+        	        	$item->setProduct($itemProduct);
+                	}
+                    $item->calcRowTotal();
+                    $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
             	}
-
-                $item->calcRowTotal();
-                $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
+            	else {
+            	    $address->removeItem($item->getId());
+            	    if ($address->getQuote()) {
+            	        $address->getQuote()->removeItem($item->getQuoteItemId());
+            	    }
+            	}
             }
         }
 

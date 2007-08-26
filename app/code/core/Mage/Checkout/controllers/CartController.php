@@ -43,92 +43,43 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function addAction()
     {
-        $intFilter = new Zend_Filter_Int();
-        $productId = $intFilter->filter($this->getRequest()->getParam('product'));
+        $productId       = (int) $this->getRequest()->getParam('product');
+        $qty             = (int) $this->getRequest()->getParam('qty', 1);
         $relatedProducts = $this->getRequest()->getParam('related_product');
-
-        if (empty($productId)) {
+        
+        if (!$productId) {
             $this->_backToCart();
             return;
         }
-
-        $qty = $intFilter->filter($this->getRequest()->getParam('qty', 1));
-
-        $product = Mage::getModel('catalog/product')->load($productId);
-
-        if ($product->getId()) {
-            Mage::getSingleton('checkout/session')->setLastAddedProductId($product->getId());
-        	if($product->isSuperConfig()) {
-        		$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
-        		if($productId) {
-        			$superProduct = Mage::getModel('catalog/product')
-        				->load($productId)
-        				->setParentProduct($product);
-        			if($superProduct->getId()) {
-        				$item = $this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-        				$item->setDescription(
-		            		$this->getLayout()->createBlock('checkout/cart_item_super')->setSuperProduct($superProduct)->toHtml()
-		            	);
-		            	$item->setName($product->getName());
-		            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-		            	$this->getQuote()->save();
-
-        			}
-        		} else {
-        		    Mage::getSingleton('catalog/session')->addError('Specify product option, please');
-        			$this->_backToProduct($product->getId());
-        			return;
-        		}
-
-        	} else if($product->isSuperGroup()) {
-        		$superGroupProducts = $this->getRequest()->getParam('super_group', array());
-        		if(!is_array($superGroupProducts)) {
-        			$superGroupProducts = array();
-        		}
-
-        		if(sizeof($superGroupProducts)==0) {
-        		    Mage::getSingleton('catalog/session')->addError('Specify products, please');
-        			$this->_backToProduct($product->getId());
-        			return;
-        		}
-
-        		foreach($product->getSuperGroupProductsLoaded() as $superProductLink) {
-
-        			if(isset($superGroupProducts[$superProductLink->getLinkedProductId()]) && $qty =  $intFilter->filter($superGroupProducts[$superProductLink->getLinkedProductId()])) {
-      				   $superProduct = Mage::getModel('catalog/product')
-	        				->load($superProductLink->getLinkedProductId())
-	        				->setParentProduct($product);
-	        			if($superProduct->getId()) {
-	        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-	        			}
-        			}
-        		}
-            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            	$this->getQuote()->save();
-
-
-        	} else {
-        	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
-            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            	$this->getQuote()->save();
-        	}
-        }
         
+        $additionalIds = array();
+        // Parse related products
         if ($relatedProducts) {
             $relatedProducts = explode(',', $relatedProducts);
             if (is_array($relatedProducts)) {
-                foreach ($relatedProducts as $productId) {
-                	$product = Mage::getModel('catalog/product')->load($productId);
-            	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
-                	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+                foreach ($relatedProducts as $relatedId) {
+                    $productIds[] = $relatedId;
                 }
-                $this->getQuote()->save();
             }
         }
         
-        Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
-
-        $this->_backToCart();
+        $cart = Mage::getSingleton('checkout/cart');
+        try {
+            $cart->addProduct($productId, $qty);
+            $cart->addAdditionalProducts($additionalIds);
+            $cart->save();
+            $this->_backToCart();
+        }
+        catch (Exception $e) {
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+            if ($url) {
+                $this->getResponse()->setRedirect($url);
+            }
+            else {
+                $this->_backToCart();
+            }
+        }
     }
 
     public function updatePostAction()
