@@ -11,7 +11,7 @@
 class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
 {
     protected $_additionalCssJs = array();
-    
+
     public function toHtml()
     {
         $this->addText('<title>'.$this->getTitle().'</title>'."\n\t");
@@ -21,10 +21,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->addText('<meta name="robots" content="'.$this->getRobots().'"/>'."\n");
         $this->addText($this->getAdditionalCssJs());
         $this->addText($this->getChildHtml());
-        
+
         return parent::toHtml();
     }
-    
+
     public function addCss($name)
     {
         $this->_additionalCssJs['css'][] = $name;
@@ -48,7 +48,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->_additionalCssJs['jsIe'][] = $name;
         return $this;
     }
-    
+
     public function getAdditionalCssJs()
     {
         $lines = '';
@@ -64,23 +64,23 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         }
         if (isset($this->_additionalCssJs['js']) && is_array($this->_additionalCssJs['js'])) {
             foreach ($this->_additionalCssJs['js'] as $item) {
-                $lines .= '<script type="text/javascript" src="' . Mage::getBaseUrl() . 'js/' . $item . '" ></script>' . "\n";
+                $lines .= '<script type="text/javascript" src="' . Mage::getBaseUrl(array('_type'=>'js')) . $item . '" ></script>' . "\n";
             }
         }
         if (isset($this->_additionalCssJs['jsIe']) && is_array($this->_additionalCssJs['jsIe'])) {
             foreach ($this->_additionalCssJs['jsIe'] as $item) {
-                $lines .= '<!--[if IE]> <script type="text/javascript" src="' . Mage::getBaseUrl() . 'js/' . $item . '" ></script> <![endif]-->' . "\n";
+                $lines .= '<!--[if IE]> <script type="text/javascript" src="' . Mage::getBaseUrl(array('_type'=>'js')) . $item . '" ></script> <![endif]-->' . "\n";
             }
         }
         return $lines;
     }
-    
+
     public function setContentType($contentType)
     {
         $this->_contentType = $contentType;
         return $this;
     }
-    
+
     public function getContentType()
     {
         if (!$this->_contentType) {
@@ -90,7 +90,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
             return $this->_contentType;
         }
     }
-    
+
     public function setMediaType($mediaType)
     {
         $this->_mediaType = $mediaType;
@@ -104,9 +104,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         }
         else {
             return $this->_mediaType;
-        }        
+        }
     }
-    
+
     public function setCharset($charset)
     {
         $this->_charset = $charset;
@@ -120,7 +120,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         }
         else {
             return $this->_charset;
-        }        
+        }
     }
 
     public function setTitle($title)
@@ -128,7 +128,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->_title = $title;
         return $this;
     }
-   
+
     public function getTitle()
     {
         if (!$this->_title) {
@@ -142,7 +142,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->_description = $description;
         return $this;
     }
-   
+
     public function getDescription()
     {
         if (!$this->_description) {
@@ -156,7 +156,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->_keywords = $keywords;
         return $this;
     }
-   
+
     public function getKeywords()
     {
         if (!$this->_keywords) {
@@ -170,7 +170,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         $this->_robots = $robots;
         return $this;
     }
-   
+
     public function getRobots()
     {
         if (!$this->_robots) {
