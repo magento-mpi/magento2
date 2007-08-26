@@ -10,10 +10,12 @@ class Varien_Profiler
      */
     static private $_timers = array();
     static private $_enabled = false;
+    static private $_memory_get_usage = false;
     
     public static function enable()
     {
         self::$_enabled = true;
+        self::$_memory_get_usage = function_exists('memory_get_usage');
     }
     
     public static function disable()
@@ -41,8 +43,10 @@ class Varien_Profiler
         if (empty(self::$_timers[$timerName])) {
             self::reset($timerName);
         }
-        self::$_timers[$timerName]['realmem_start'] = memory_get_usage(true);
-        self::$_timers[$timerName]['emalloc_start'] = memory_get_usage();
+        if (self::$_memory_get_usage) {
+        	self::$_timers[$timerName]['realmem_start'] = memory_get_usage(true);
+        	self::$_timers[$timerName]['emalloc_start'] = memory_get_usage();
+        }
         self::$_timers[$timerName]['start'] = microtime(true);
         self::$_timers[$timerName]['count'] ++;
     }
@@ -64,8 +68,10 @@ class Varien_Profiler
         if (false!==self::$_timers[$timerName]['start']) {
             self::$_timers[$timerName]['sum'] += microtime(true)-self::$_timers[$timerName]['start'];
             self::$_timers[$timerName]['start'] = false;
-            self::$_timers[$timerName]['realmem'] += memory_get_usage(true)-self::$_timers[$timerName]['realmem_start'];
-            self::$_timers[$timerName]['emalloc'] += memory_get_usage()-self::$_timers[$timerName]['emalloc_start'];
+            if (self::$_memory_get_usage) {
+	            self::$_timers[$timerName]['realmem'] += memory_get_usage(true)-self::$_timers[$timerName]['realmem_start'];
+    	        self::$_timers[$timerName]['emalloc'] += memory_get_usage()-self::$_timers[$timerName]['emalloc_start'];
+            }
         }
     }
     
