@@ -40,18 +40,20 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
             'required' => true,
         ));
 
-    	$fieldset->addField('num_results', 'text', array(
-            'name' => 'num_results',
-            'label' => __('Number of results<br/>(For last time placed)'),
-            'required' => true,
-        ));
-
-    	$fieldset->addField('popularity', 'text', array(
-            'name' => 'popularity',
-            'label' => __('Number of Uses'),
-            'required' => true,
-        ));
-
+        if ($model->getId()) {
+	    	$fieldset->addField('num_results', 'text', array(
+	            'name' => 'num_results',
+	            'label' => __('Number of results<br/>(For last time placed)'),
+	            'required' => true,
+	        ));
+	
+	    	$fieldset->addField('popularity', 'text', array(
+	            'name' => 'popularity',
+	            'label' => __('Number of Uses'),
+	            'required' => true,
+	        ));
+        }
+        
         $fieldset->addField('redirect', 'text', array(
             'name' => 'redirect',
             'label' => __('Redirect URL'),
