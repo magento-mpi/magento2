@@ -1,9 +1,8 @@
-
 <div class="page-head">
-	<h3>Search result for '<?=$this->getQuery()?>'</h3>
+	<h3><?=( $this->getHeaderText() || $this->getHeaderText() === false ) ? $this->getHeaderText() : __('Search result for \'%s\'', $this->getQuery())?></h3>
 </div>
 <?if($this->getResultCount()):?>
     <?=$this->getProductListHtml()?>
 <?else:?>
-    <div>Your search did not return any results.</div>
+    <div><?=( $this->getNoResultText() ) ? $this->getNoResultText() : __('Your search did not return any results.') ?></div>
 <?endif;?>

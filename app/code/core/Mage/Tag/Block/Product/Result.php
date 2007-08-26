@@ -15,7 +15,9 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     public function __construct()
     {
-        $this->setTemplate('tag/product/result.phtml');
+        #$this->setTemplate('tag/product/result.phtml');
+
+        $this->setTemplate('catalog/search/result.phtml');
         $this->setTagId(Mage::registry('tagId'));
     }
 
@@ -26,14 +28,20 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
-        $list = $this->getLayout()->createBlock('page/html_pager', 'tag_product_list')
+        $title = $this->getHeaderText();
+        $this->getLayout()->getBlock('head')->setTitle($title);
+        $this->getLayout()->getBlock('root')->setHeaderTitle($title);
+
+        $resultBlock = $this->getLayout()->createBlock('catalog/product_list', 'product_list')
+            ->setAvailableOrders(array('name'=>__('Name'), 'price'=>__('Price')))
+            ->setModes(array('list' => __('List'), 'grid' => __('Grid')))
             ->setCollection($this->_getCollection());
-        $this->setChild('list', $list);
+        $this->setChild('search_result_list', $resultBlock);
     }
 
-    public function getListHtml()
+    public function getProductListHtml()
     {
-        return $this->getChildHtml('list');
+        return $this->getChildHtml('search_result_list');
     }
 
     protected function _getCollection()
@@ -41,10 +49,14 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         if( !$this->_collection ) {
             $tagModel = Mage::getModel('tag/tag');
             $this->_collection = $tagModel->getEntityCollection()
-                ->addTagFilter($this->getTagId())
-                ->load();
+                ->addTagFilter($this->getTagId());
         }
         return $this->_collection;
+    }
+
+    public function _getProductCollection()
+    {
+        return $this->_getCollection();
     }
 
     protected function _beforeToHtml()
@@ -53,13 +65,27 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         return parent::_beforeToHtml();
     }
 
-    public function getCount()
+    public function getResultCount()
     {
-        return sizeof($this->_getCollection()->getItems());
+    	return $this->_getProductCollection()->getSize();
     }
 
-    public function getProducts()
+    public function getHeaderText()
     {
-        return $this->_getCollection()->getItems();
+        if( $this->getTagInfo()->getName() ) {
+            return __('Products tagged with \'%s\'', $this->getTagInfo()->getName());
+        } else {
+            return false;
+        }
+    }
+
+    public function getSubheaderText()
+    {
+        return false;
+    }
+
+    public function getNoResultText()
+    {
+        return __('No mathces found.');
     }
 }
