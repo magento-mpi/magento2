@@ -5,6 +5,7 @@ Accordion.prototype = {
         this.checkAllow = checkAllow || false;
         this.disallowAccessToNextSections = false;
         this.sections = $$('#' + elem + ' .section');
+        this.currentSection = false;
         var headers = $$('#' + elem + ' .section ' + clickableEntity);
         headers.each(function(header) {
             Event.observe(header,'click',this.sectionClicked.bindAsEventListener(this));
@@ -17,6 +18,7 @@ Accordion.prototype = {
     
     openSection: function(section) {
         var section = $(section);
+
         // Check allow
         if (this.checkAllow && !Element.hasClassName(section, 'allow')){
             return;

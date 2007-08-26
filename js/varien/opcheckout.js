@@ -11,8 +11,10 @@ Checkout.prototype = {
         this.method = '';
         this.payment = '';
         this.loadWaiting = false;
+        
+        this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
 
-        this.onSetMethod = this.nextStep.bindAsEventListener(this);
+        //this.onSetMethod = this.nextStep.bindAsEventListener(this);
         
         this.accordion.disallowAccessToNextSections = true;
     }, 
@@ -31,14 +33,21 @@ Checkout.prototype = {
                 this.setLoadWaiting(false);
             }
             $(step+'-buttons-container').setStyle({opacity:.5});
-            $(step+'-please-wait').setStyle({display:''});
+            Element.show(step+'-please-wait');
         } else {
             if (this.loadWaiting) {
                 $(this.loadWaiting+'-buttons-container').setStyle({opacity:1});
-                $(this.loadWaiting+'-please-wait').setStyle({display:'none'});
+                Element.hide(this.loadWaiting+'-please-wait');
             }
         }
         this.loadWaiting = step;
+    },
+    
+    gotoSection: function(section)
+    {
+    	section = $('opc-'+section);
+    	section.addClassName('allow');
+    	this.accordion.openSection(section);
     },
     
     setMethod: function(){
@@ -48,8 +57,8 @@ Checkout.prototype = {
                 this.saveMethodUrl,
                 {method: 'post', /*onSuccess: this.onSetMethod, */parameters: {method:'guest'}}
             );
-            $('register-customer-password').style.display = 'none';
-            this.nextStep();
+            Element.hide('register-customer-password');
+            this.gotoSection('billing');
         }
         else if($('login:register') && $('login:register').checked) {
             this.method = 'register';
@@ -57,58 +66,56 @@ Checkout.prototype = {
                 this.saveMethodUrl,
                 {method: 'post', /*onSuccess: this.onSetMethod, */parameters: {method:'register'}}
             );
-            $('register-customer-password').style.display = 'block';
-            this.nextStep();
+            Element.show('register-customer-password');
+            this.gotoSection('billing');
         }
         else{
             alert('Choose checkout type');
             return false;
         }
     },
-    
-    nextStep: function(){
-        if ($('billing-login-info')){
-            if (this.method == 'register'){
-                Element.show('billing-login-info');
-            }
-            else{
-                Element.hide('billing-login-info');
-            }
-        }
-        this.accordion.openNextSection(true);
-    },
 
     setBilling: function() {
         if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
             shipping.syncWithBilling();
             //this.setShipping();
-            shipping.nextStep();
+            //shipping.save();
+	        $('opc-shipping').addClassName('allow');
+	        this.gotoSection('shipping_method');
         } else {
-            $('shipping:same_as_billing').checked = false
-            this.reloadProgressBlock();
+            $('shipping:same_as_billing').checked = false;
+	        this.gotoSection('shipping');
         }
-        this.accordion.openNextSection(true);
+        this.reloadProgressBlock();
+        //this.accordion.openNextSection(true);
     },
     
     setShipping: function() {
         this.reloadProgressBlock();
-        this.accordion.openNextSection(true);
+        //this.nextStep();
+        this.gotoSection('shipping_method');
+        //this.accordion.openNextSection(true);
     },
         
     setShippingMethod: function() {
         this.reloadProgressBlock();
-        this.accordion.openNextSection(true);
+        //this.nextStep();
+        this.gotoSection('payment');
+        //this.accordion.openNextSection(true);
     },
     
     setPayment: function() {
         this.reloadProgressBlock();
-        this.accordion.openNextSection(true);
+        //this.nextStep();
+        this.gotoSection('review');
+        //this.accordion.openNextSection(true);
     },
 
     setReview: function() {
         this.reloadProgressBlock();
         this.reloadReviewBlock();
-        this.accordion.openNextSection(true);
+        //this.nextStep();
+        //this.accordion.openNextSection(true);
     },
     
     back: function(){
@@ -144,9 +151,9 @@ Billing.prototype = {
     newAddress: function(isNew){
         if (isNew) {
             this.resetSelectedAddress();
-            $('billing-new-address-form').style.display = 'block';
+            Element.show('billing-new-address-form');
         } else {
-            $('billing-new-address-form').style.display = 'none';
+            Element.hide('billing-new-address-form');
         }
     },
     
@@ -228,6 +235,9 @@ Billing.prototype = {
             alert(response.message);
             return false;
         }
+        if (response.shipping_methods_html) {
+        	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
+        }
         checkout.setBilling();
     }
 }
@@ -260,9 +270,9 @@ Shipping.prototype = {
     newAddress: function(isNew){
         if (isNew) {
             this.resetSelectedAddress();
-            $('shipping-new-address-form').style.display = 'block';
+            Element.show('shipping-new-address-form');
         } else {
-            $('shipping-new-address-form').style.display = 'none';
+            Element.hide('shipping-new-address-form');
         }
         shipping.setSameAsBilling(false);
     },
@@ -320,7 +330,7 @@ Shipping.prototype = {
                     }
                 }
             }
-            $('shipping:country_id').value = $('billing:country_id').value;
+            //$('shipping:country_id').value = $('billing:country_id').value;
             shippingRegionUpdater.update();
             $('shipping:region_id').value = $('billing:region_id').value;
             $('shipping:region').value = $('billing:region').value;
@@ -355,13 +365,26 @@ Shipping.prototype = {
         checkout.setLoadWaiting(false);
     },
 
-    nextStep: function(){
+    nextStep: function(transport){
+    	if (transport && transport.responseText){
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) { 
+                response = {};
+            }
+        }
+        if (response.shipping_methods_html) {
+        	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
+        }
+        /*
         var updater = new Ajax.Updater(
             'checkout-shipping-method-load', 
             this.methodsUrl, 
-            {method:'get', onSuccess: checkout.setShippingMethod.bind(checkout)}
+            {method:'get', onSuccess: checkout.setShipping.bind(checkout)}
         );
-        //checkout.setShipping();
+        */
+        checkout.setShipping();
     }
 }
 
@@ -411,7 +434,7 @@ ShippingMethod.prototype = {
     },
 
     nextStep: function(){
-        checkout.setPayment();
+        checkout.setShippingMethod();
     }
 }
 
@@ -496,7 +519,7 @@ Payment.prototype = {
     },
 
     nextStep: function(){
-        checkout.setReview();
+        checkout.setPayment();
     }
 }
 

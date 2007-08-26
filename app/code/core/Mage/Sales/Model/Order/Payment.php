@@ -29,7 +29,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
             ->unsParentId();
             
         $this->addData($payment->getData());
-        $this->setAmount($payment->getQuote()->getGrandTotal());
         return $this;
     }
     

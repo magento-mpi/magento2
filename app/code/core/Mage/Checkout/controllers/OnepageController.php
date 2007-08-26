@@ -115,6 +115,12 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $data = $this->getRequest()->getPost('billing', array());
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
+            
+            if (!empty($data['use_for_shipping'])) {
+	            $this->loadLayout('onepage_shipping');
+	            $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
+            }
+            
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }
@@ -125,6 +131,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $data = $this->getRequest()->getPost('shipping', array());
             $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
             $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
+            
+            $this->loadLayout('onepage_shipping');
+            $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
+            
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }

@@ -99,7 +99,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         $this->initNewOrder()
             ->importQuoteAttributes($quote)
-            ->importQuoteAddressAttributes($address);
+            ->importQuoteAddressAttributes($address)
+            ->calcTotalDue();
 
         $billing = Mage::getModel('sales/order_address')
             ->importQuoteAddress($quote->getBillingAddress());
@@ -109,10 +110,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->importQuoteAddress($address);
         $this->setShippingAddress($shipping);
 
-        if (!$quote->getIsMultiPayment()) {
-            $payment = Mage::getModel('sales/order_payment')
-                ->importQuotePayment($quote->getPayment());
-        }
+        #if (!$quote->getIsMultiPayment()) {
+        #}
+        $payment = Mage::getModel('sales/order_payment')
+            ->importQuotePayment($quote->getPayment())
+            ->setAmount($this->getTotalDue());
+            
         $this->setPayment($payment);
 
         foreach ($address->getAllItems() as $addressItem) {
@@ -171,7 +174,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setShippingAmount($address->getShippingAmount())
             ->setGiftcertAmount($address->getGiftcertAmount())
             ->setCustbalanceAmount($address->getCustbalanceAmount())
-            ->setGrandTotal($address->getGrandTotal())
+            ->setGrandTotal($address->getGrandTotal());
         ;
         return $this;
     }

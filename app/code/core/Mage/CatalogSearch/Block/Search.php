@@ -18,6 +18,8 @@ class Mage_CatalogSearch_Block_Search extends Mage_Core_Block_Template
     {
         $this->setTemplate('catalog/search/result.phtml');
         $query = $this->getQuery();
+        
+        #$model = Mage::getModel('catalogsearch/model')->
         $queryEscaped = htmlspecialchars($query);
 
         $this->getLayout()->getBlock('head')->setTitle('Search results for: '.$queryEscaped);
