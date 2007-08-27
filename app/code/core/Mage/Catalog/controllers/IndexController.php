@@ -22,7 +22,18 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
     
     function testAction()
     {
-    	echo Mage::getModel('catalogexcel/export')->getWorkbookXml();
+    	$filename = 'catalog.xml';
+    	$content = Mage::getModel('catalogexcel/export')->getWorkbookXml();
+    	
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        
+    	echo $content;
+    	exit;
     }
 
     function importAction()
