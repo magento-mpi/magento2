@@ -230,6 +230,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
         	$result->setResponseCode(-1)
         		->setResponseReasonCode($e->getCode())
         		->setResponseReasonText($e->getMessage());
+        	return $result;
         }
         
         $requestArr = array();
