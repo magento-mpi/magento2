@@ -16,7 +16,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     public function getItems()
     {
         $itemsFilter = new Varien_Filter_Object_Grid();
-        $itemsFilter->addFilter($this->_qtyFilter, 'qty');
+        //$itemsFilter->addFilter($this->_qtyFilter, 'qty');
         $itemsFilter->addFilter($this->_priceFilter, 'price');
         $itemsFilter->addFilter($this->_priceFilter, 'row_total');
         $items = $this->getQuote()->getAllItems();
@@ -118,5 +118,26 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             }
         }
         return '';
+    }
+    
+    public function getItemQty($item)
+    {
+        $qty = $item->getQty();
+        if ($product = $item->getProduct()) {
+            if ($product->getQtyIsDecimal()) {
+                return number_format($qty, 2, null, '');
+            }
+        }
+        return number_format($qty, 0, null, '');
+    }
+    
+    public function getItemIsInStock($item)
+    {
+        if ($item->getProduct()->isSaleable()) {
+            if ($item->getProduct()->getQty()>=$item->getQty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

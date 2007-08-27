@@ -40,7 +40,7 @@
     </tfoot>
     <tbody>
     <?foreach($this->getItems() as $_item):?>
-        <tr <?if(!$_item->getProduct()->isSalable()):?> class="out-of-stock"<?endif;?>>
+        <tr <?if(!$this->getItemIsInStock($_item)):?> class="out-of-stock"<?endif;?>>
             <td>
                 <a href="<?=$this->getItemUrl($_item)?>"><img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/></a>
             </td>
@@ -53,7 +53,7 @@
             <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][wishlist]"/></td>
             <?endif?>
             <td class="a-right"><?=$_item->getPrice()?></td>
-            <td class="a-center"><input name="cart[<?=$_item->getId()?>][qty]" value="<?=$_item->getQty()?>" size="2" class="input-text qty"/></td>
+            <td class="a-center"><input name="cart[<?=$_item->getId()?>][qty]" value="<?=$this->getItemQty($_item)?>" size="2" class="input-text qty"/></td>
             <td class="a-right"><?=$_item->getRowTotal()?></td>
         </tr>
     <?endforeach?>
