@@ -24,8 +24,6 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 	public function getWishlist()
 	{
 		if(!$this->_wishlistLoaded) {
-
-
 			Mage::registry('shared_wishlist')->getItemCollection()
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')

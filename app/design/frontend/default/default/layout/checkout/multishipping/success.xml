@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <layoutUpdate>
-    <reference name="root">
-        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-    </reference>
-
     <reference name="content">
         <block type="checkout/multishipping_success" name="checkout_success">
             <action method="setTemplate"><template>checkout/multishipping/success.phtml</template></action>

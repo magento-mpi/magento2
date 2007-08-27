@@ -22,22 +22,25 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 	public function getWishlist()
 	{
 		if(!$this->_wishlistLoaded) {
-			Mage::registry('wishlist')->getItemCollection()
+			Mage::registry('wishlist')
+				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+			Mage::registry('wishlist')->getProductCollection()
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
 	            ->addAttributeToSelect('small_image')
 	            ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
 				->load();
+
 			$this->_wishlistLoaded = true;
 		}
 
-		return Mage::registry('wishlist')->getItemCollection();
+		return Mage::registry('wishlist')->getProductCollection();
 	}
 
-	public function getEscapedDescription(Mage_Wishlist_Model_Item $item)
+	public function getEscapedDescription(Varien_Object $item)
 	{
-		return nl2br(htmlspecialchars($item->getDescription()));
+		return $this->htmlEscape($item->getDescription());
 	}
 
 	public function getFormatedDate($date)

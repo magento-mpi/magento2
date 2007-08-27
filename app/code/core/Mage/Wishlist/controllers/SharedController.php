@@ -11,9 +11,9 @@
 
 class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 {
-	public function indexAction() 
+	public function indexAction()
 	{
-		
+
 		$wishlist = Mage::getModel('wishlist/wishlist')
 			->loadByCode($this->getRequest()->getParam('code'));
 		if(!$wishlist->getId()) {
@@ -28,21 +28,23 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 			);
 			$this->renderLayout();
 		}
-		
+
 	}
-	
-	public function allcartAction() 
+
+	public function allcartAction()
 	{
 		$wishlist = Mage::getModel('wishlist/wishlist')
 			->loadByCode($this->getRequest()->getParam('code'));
+
 		if(!$wishlist->getId()) {
 			$this->norouteAction();
 		} else {
 			$quote = Mage::getSingleton('checkout/session')->getQuote();
-		
-			$wishlist->getItemCollection()->load();
+
+    		$wishlist->getItemCollection()->load();
+
 			foreach ($wishlist->getItemCollection() as $item) {
-	 			 try {        
+	 			try {
 		            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
 		            $quote->addProduct($product)->save();
 	            	$item->delete();
@@ -51,9 +53,7 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 					//
 				}
 			}
-			
 			$this->_redirect('checkout/cart');
 		}
-		
 	}
 }// Class Mage_Wishlist_SharedController END

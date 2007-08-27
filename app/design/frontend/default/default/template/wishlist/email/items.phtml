@@ -1,20 +1,13 @@
     <table cellspacing="0" width="100%">
-        <tr>
-            <th class="align-left"><?=__('Product')?></th>
-            <th class="align-center"><?=__('Comment')?></th>
-            <th class="align-center">&nbsp;</th> 
-        </tr>
         <?foreach($this->getWishlist() as $item):?>
         <tr>
             <td>
-                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getThumbnailUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
+                <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/></a></div>
             	<div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             	<?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
             </td>
-            <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
-          
             <td class="align-center">
-            	<a href="<?=$this->getUrl('checkout/cart/add',array('product_id'=>$item->getProductId()))?>" ><?=__('Add to cart')?></a><br/>
+            	<a href="<?=$this->getUrl('checkout/cart/add',array('product'=>$item->getProductId()))?>" ><?=__('Add to cart')?></a><br/>
             	<a href="<?=$item->getProductUrl()?>" ><?=__('See info')?></a><br/>
             </td>
         </tr>
