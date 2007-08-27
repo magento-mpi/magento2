@@ -12,7 +12,7 @@
     <?if( $this->getUseBackLink() ):?>
     <?=$this->getToolbarHtml()?>
     <?endif;?>
-	<ol>
+	<ol id="customer-reviews">
     <?foreach ($this->getCollection() as $_review):?>
         <li>
         <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
