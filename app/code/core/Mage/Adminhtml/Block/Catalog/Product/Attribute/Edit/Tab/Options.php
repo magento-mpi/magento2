@@ -77,6 +77,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
             		if (isset($storeValues[$option->getId()])) {
             		    $value['store'.$store->getId()] = htmlspecialchars($storeValues[$option->getId()]);
             		}
+            		else {
+            		    $value['store'.$store->getId()] = '';
+            		}
             	}
             	$values[] = new Varien_Object($value);
             }

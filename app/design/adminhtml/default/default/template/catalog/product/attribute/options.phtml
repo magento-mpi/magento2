@@ -5,8 +5,17 @@
  * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
  */
 ?>
-<div class="messages notice-msg"><?=__('If you do not specify an option value for store then the default value will be used.')?></div>
+<div>
+<ul class="messages">
+    <li class="notice-msg">
+        <ul>
+            <li><?=__('If you do not specify an option value for store then the default value will be used.')?></li>
+        </ul>
+    </li>
+</ul>
+</div>
 <div class="entity-edit">
+    <div>
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Manage Titles (Size, Color, etc.)')?></h4>
     <div class="box" style="padding:10px">
         <table class="dynamic-grid" cellspacing="0" id="attribute-labels-table">
@@ -24,6 +33,7 @@
                 <?endforeach;?>
             </tr>
         </table>
+    </div>
     </div>
 </div>
 <br/>
@@ -44,15 +54,11 @@
         <table class="dynamic-grid" cellspacing="0">
     	    <tr>
                 <?foreach ($this->getStores() as $_store):?>
-                <td>
-                    <input class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text" name="option[value][#{id}][<?=$_store->getId()?>]" value="#{store<?=$_store->getId()?>}"/>
-                </td>
+                <td><input name="option[value][{{id}}][<?=$_store->getId()?>]" value="{{store<?=$_store->getId()?>}}" class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text"/></td>
                 <?endforeach;?>
-                <td>
-                    <input class="input-text" type="text" name="option[order][#{id}]" value="#{sort_order}">
-                </td>
+                <td><input class="input-text" type="text" name="option[order][{{id}}]" value="{{sort_order}}"></td>
                 <td class="a-left">
-                    <input type="hidden" class="delete-flag" name="option[delete][#{id}]" value="">
+                    <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="">
                     <?=$this->getDeleteButtonHtml()?>
                 </td>
             </tr>
@@ -61,12 +67,13 @@
     </div>
 </div>
 <script type="text/javascript">
-
 var attributeOption = {
     table : $('attribute-options-table'),
-    template : new Template($('row-template').innerHTML),
+    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    templateText : $('row-template').innerHTML,
     itemCount : 0,
     add : function(data) {
+        this.template = new Template(this.templateText, this.templateSyntax);
         if(!data.id){
     		data = {};
     		data.id  = 'option_'+this.itemCount;

@@ -29,12 +29,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
 
 		$entityType = Mage::registry('product')->getResource()->getConfig();
 
-		$fieldset->addField('attributes', 'hidden', array(
-		            'name'  => 'attribute_validate',
-		            'value' => '',
-		            'class'	=> 'validate-super-product-attributes'
-				));
-
 		$product = Mage::registry('product');
 		$attributes = $product->getAttributes();
 		foreach($attributes as $attribute) {
@@ -49,6 +43,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
 			}
 		}
 
+		$fieldset->addField('attributes', 'hidden', array(
+		            'name'  => 'attribute_validate',
+		            'value' => '',
+		            'class'	=> 'validate-super-product-attributes'
+				));
 
 
 		$fieldset->addField('continue_button', 'note', array(
