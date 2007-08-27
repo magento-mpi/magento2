@@ -66,7 +66,7 @@ class Framework_ComparisonFailureTest extends PHPUnit_Framework_TestCase
         $failure = PHPUnit_Framework_ComparisonFailure::diffEqual('a', 'b', 'c');
 
         $this->assertEquals(
-          "c expected string <a>\n  difference      <x>\n  got string      <b>",
+          "c expected string <a>\n  difference      <x>\n  got string      <strong>",
           $failure->toString()
         );
     }

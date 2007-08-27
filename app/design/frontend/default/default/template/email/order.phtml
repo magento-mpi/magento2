@@ -17,7 +17,7 @@ Thanks for your order!
             <tr>
                 <td>
                     <address>
-                        <?=$order->getBillingAddress()->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}')?>
+                        <?=$order->getBillingAddress()->toString('{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}')?>
                     </address>
                 </td>
                 <td class="align-center">
@@ -37,7 +37,7 @@ Thanks for your order!
             <tr>
                 <td>
                     <address>
-                        <?=$order->getShippingAddress()->toString('<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}')?>
+                        <?=$order->getShippingAddress()->toString('{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}')?>
                     </address>
                 </td>
                 <td class="align-center">

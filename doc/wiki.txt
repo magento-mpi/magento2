@@ -292,7 +292,7 @@ This class manages blocks layouts xml configuration. XML looks like this:
 
       <methodArg1>{"a":[{"b":1}]}</methodArg1>
       <methodArg2>{$baseModuleUrl}/argument</methodArg2>
-      <methodArg3><!CDATA[<b>some html here</b>]]></methodArg3>
+      <methodArg3><!CDATA[<strong>some html here</strong>]]></methodArg3>
 
     </action>
 

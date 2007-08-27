@@ -95,12 +95,12 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
         case E_RECOVERABLE_ERROR:   echo "Recoverable Error";      break;
         default:                    echo "Unknown error ($errno)"; break;
     }
-    echo ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b><br>";
+    echo ":</strong> <i>$errstr</i> in <strong>$errfile</strong> on line <b>$errline</b><br>";
 
     $backtrace = debug_backtrace();
     array_shift($backtrace);
     foreach($backtrace as $i=>$l){
-        echo "[$i] in <b>"
+        echo "[$i] in <strong>"
             .(!empty($l['class']) ? $l['class'] : '')
             .(!empty($l['type']) ? $l['type'] : '')
             ."{$l['function']}</b>(";

@@ -1,16 +1,20 @@
+<div class="inner-head">
+    <h5>Address Book</h5>
+    <a href="#">Manage addresses</a>
+</div>
 <div class="col2-set">
     <div class="col-1">
-            <h5><?=__('Primary Billing Address')?><span class="pipe">|</span><a href="<?=$this->getPrimaryBillingAddressEditUrl()?>"><small><?=__('Edit')?></small></a></h5>
-           
+        <h6><?=__('Primary Billing Address')?></h6>
         <address>
-            <?=$this->getPrimaryBillingAddressHtml()?>
+            <?=$this->getPrimaryBillingAddressHtml()?><br/>
+            <a href="<?=$this->getPrimaryBillingAddressEditUrl()?>"><?=__('Edit')?></a>
         </address>
     </div>
     <div class="col-2">
-            <h5><?=__('Primary Shipping Address')?><span class="pipe">|</span><a href="<?=$this->getPrimaryShippingAddressEditUrl()?>"><small><?=__('Edit')?></small></a></h5>
-            
+        <h6><?=__('Primary Shipping Address')?></h6>
         <address>
-            <?=$this->getPrimaryShippingAddressHtml()?>
+            <?=$this->getPrimaryShippingAddressHtml()?><br/>
+            <a href="<?=$this->getPrimaryShippingAddressEditUrl()?>"><?=__('Edit')?></a>
         </address>
     </div>
 </div><br/>

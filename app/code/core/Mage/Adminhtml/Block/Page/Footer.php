@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
     {
         $time = number_format($time, 5);
         if ($time>0.01) {
-            $time = '<b>'.$time.'</b>';
+            $time = ''.$time.'';
         }
         return $time;
     }

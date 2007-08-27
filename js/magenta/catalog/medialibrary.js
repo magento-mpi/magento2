@@ -93,11 +93,11 @@ Mage.Medialibrary = function () {
                 '<div class="details">' +
                 '   <img src="{url}">' +
                 '   <div class="details-info">' +
-                '       <b>Image Name:</b>' +
+                '       <strong>Image Name:</strong>' +
                 '       <span>{text}</span>' +
-                '       <b>Size:</b>' +
+                '       <strong>Size:</strong>' +
                 '       <span>{sizeString}</span>' +
-                '       <b>Last Modified:</b>' +
+                '       <strong>Last Modified:</strong>' +
                 '       <span>{dateString}</span>' +
                 '   </div>' +
                 '</div>'

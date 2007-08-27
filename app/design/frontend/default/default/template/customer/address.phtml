@@ -9,7 +9,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
+                        <?=nl2br($_address->toString("{{firstname}} {{lastname}}\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
                         <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>
@@ -33,7 +33,7 @@
                 <tr>
                     <td>
                     <address>
-                        <?=nl2br($_address->toString("<b>{{firstname}} {{lastname}}</b>\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
+                        <?=nl2br($_address->toString("{{firstname}} {{lastname}}\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
                         <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>

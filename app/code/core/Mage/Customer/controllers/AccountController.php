@@ -190,7 +190,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     $customer->sendPasswordReminderEmail();
 
                     Mage::getSingleton('customer/session')
-                        ->addSuccess(__('New password was sent'));
+                        ->addSuccess(__('A new password was sent.'));
 
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                     return;
@@ -202,7 +202,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             }
             else {
                 Mage::getSingleton('customer/session')
-                    ->addError('Email address was not found in our records');
+                    ->addError('This email address was not found in our records.');
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));

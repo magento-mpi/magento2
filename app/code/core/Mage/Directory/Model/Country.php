@@ -47,7 +47,7 @@ class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
 {{street2}}
 {{city}}, {{region}} {{postcode}}";
     		} else {
-    			$template = "<b>{{firstname}} {{lastname}}</b><br/>
+    			$template = "{{firstname}} {{lastname}}<br/>
 {{street}}<br/>
 {{city}}, {{region}} {{postcode}}<br/>
 T: {{telephone}}";

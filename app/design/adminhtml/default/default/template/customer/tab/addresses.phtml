@@ -30,7 +30,7 @@
             <a href="#" class="btn-remove-address"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" /></a>
             <a href="#" id="select_button" class="select_button btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
             <address>
-            <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+            <?=$_address->toString("{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
             </address>
             <div class="address-type">
                 <span class="address-type-line">
@@ -143,7 +143,7 @@ addressesModel.prototype = {
         this.itemContainer= $('address_list');
         this.formContainer= $('address_form_container');
         this.baseItemId   = 'new_item';
-        this.itemContentTemplate = new Template('<b>#{firstname} #{lastname}</b><br/>#{street}<br/>#{city}, #{regionName} #{postcode}<br/>T: #{telephone}');
+        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{street}<br/>#{city}, #{regionName} #{postcode}<br/>T: #{telephone}');
 
         this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
         this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);

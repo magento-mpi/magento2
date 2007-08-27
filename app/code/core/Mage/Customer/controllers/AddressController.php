@@ -71,7 +71,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             try {
                 $address->save();
                 Mage::getSingleton('customer/session')
-                    ->addSuccess('The address has been successfully saved');
+                    ->addSuccess('The address has been successfully saved.');
 
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
@@ -95,7 +95,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != Mage::getSingleton('customer/session')->getCustomerId()) {
                 Mage::getSingleton('customer/session')
-                    ->addError('The address does not belong to this customer');
+                    ->addError('The address does not belong to this customer.');
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                 return;
             }
@@ -107,7 +107,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             }
             catch (Exception $e){
                 Mage::getSingleton('customer/session')
-                    ->addError('There has been an error deleting the address');
+                    ->addError('There has been an error deleting the address.');
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));

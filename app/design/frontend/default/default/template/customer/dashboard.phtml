@@ -2,7 +2,7 @@
 <div class="input-left">
     <h3>Personal Information</h3>
     <p>
-        <?=$this->getCustomer()->toString('<b>{{firstname}} {{lastname}}</b><br/>{{email}}')?>
+        <?=$this->getCustomer()->toString('{{firstname}} {{lastname}}<br/>{{email}}')?>
         <br/>
         <a href="<?=$this->getAccountUrl()?>">Edit</a>
     </p>
@@ -15,7 +15,7 @@
 <?if($_addresses = $this->getPrimaryAddresses()):?>
     <?foreach ($_addresses as $_address):?>
     <address>
-        <?=$_address->toString("<b>{{firstname}} {{lastname}}</b><br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+        <?=$_address->toString("{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
         <br/><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
     </address>
     <?endforeach;?>

@@ -165,8 +165,9 @@ p.required {
 
 /********************** Headings */
 
-.head { line-height:1.25em; text-align:right; }
-.head h1,.head h2, .head h3, .head h4, .head h5 { margin:0; float:left; }
+.head, .inner-head { line-height:1.25em; text-align:right; }
+.head h1,.head h2, .head h3, .head h4, .head h5,
+.inner-head h1,.inner-head h2, .inner-head h3, .inner-head h4, .inner-head h5{ margin:0; float:left; }
 
 
 /* Page heading */
@@ -255,7 +256,7 @@ p.required {
 .actions { line-height:1.3em; }
 .page-popup { background:#fff; margin:25px 30px; }
 .separator { padding:0 5px;}
-.pipe { padding:0 4px; }
+.pipe { padding:0 4px; font-size:.95em; }
 .divider {
     margin:10px 0;
     height:1px;
@@ -1107,8 +1108,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     }
 .account-box .head { margin-bottom:10px; border-bottom:1px solid #d9dde3; }
 .account-box h4 { color:#E65505; font-size:1.1em; text-transform:uppercase; }
-.account-box h5 { font-size:1.1em;  }
-.account-box h5 a { text-transform:none; font-weight:normal; }
+.account-box .inner-head { margin-bottom:8px; background:url(../images/dotted_divider.gif) repeat-x 0 100%; padding-bottom:2px; text-align:right; }
+.account-box h5 { font-size:1.1em;   }
+.account-box h5 a { font-weight:normal; }
+.account-box h6 { text-transform:uppercase; }
 .account-main .account-box li { padding:5px 0; }
 .account-box ol .count {
     float:left;

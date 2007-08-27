@@ -31,7 +31,7 @@
             <h4>Shipping Method</h4>
         </div>
         <?if (!($_shippingRateGroups = $this->getShippingRates($_address))):?>
-            <b><?=__('Sorry, no quotes are available for this order at this time.')?></b>
+            <strong><?=__('Sorry, no quotes are available for this order at this time.')?></strong>
         <?else:?>
         <dl class="shipment-methods">
             <?foreach ($_shippingRateGroups as $code => $_rates):?>

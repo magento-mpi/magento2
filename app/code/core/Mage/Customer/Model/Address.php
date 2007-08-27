@@ -201,7 +201,7 @@ class Mage_Customer_Model_Address extends Varien_Object
 
     public function getHtmlFormat()
     {
-        return "<b>{{firstname}} {{lastname}}</b><br/>
+        return "{{firstname}} {{lastname}}<br/>
             {{street}}<br/>
             {{city}}, {{regionName}} {{postcode}}<br/>
             T: {{telephone}}";
