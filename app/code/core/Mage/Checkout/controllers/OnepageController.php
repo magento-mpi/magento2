@@ -154,6 +154,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('payment', array());
             $result = $this->getOnepage()->savePayment($data);
+            
+            $this->loadLayout('onepage_review');
+            $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
+            
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
     }

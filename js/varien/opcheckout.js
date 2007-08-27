@@ -112,8 +112,7 @@ Checkout.prototype = {
     },
 
     setReview: function() {
-        this.reloadProgressBlock();
-        this.reloadReviewBlock();
+        this.reloadProgressBlock();        
         //this.nextStep();
         //this.accordion.openNextSection(true);
     },
@@ -518,7 +517,18 @@ Payment.prototype = {
         checkout.setLoadWaiting(false);   
     },
 
-    nextStep: function(){
+    nextStep: function(transport){
+    	if (transport && transport.responseText){
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) { 
+                response = {};
+            }
+        }
+        if (response.review_html) {
+        	$('checkout-review-load').innerHTML = response.review_html;
+        }
         checkout.setPayment();
     }
 }

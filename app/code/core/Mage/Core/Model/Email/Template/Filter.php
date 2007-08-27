@@ -44,7 +44,10 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 	{
     	$params = $this->_getIncludeParameters($construction[2]);
 
-		$url = Mage::getUrl($params['url']);
+    	$path = $params['url'];
+    	unset($params['url']);
+
+    	$url = Mage::getUrl($path, $params);
 		
     	return $url;
 	}
