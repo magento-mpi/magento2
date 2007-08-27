@@ -182,7 +182,7 @@ class Mage_Review_Model_Mysql4_Review
         $data->setReviewsCount($reviewsCount)
             ->setEntityPkValue($object->getEntityPkValue())
             ->setEntityType($object->getEntityId())
-            ->setRatingSummary($ratingSummary);
+            ->setRatingSummary( ($ratingSummary > 0) ? $ratingSummary : 0 );
 
         $this->_write->beginTransaction();
         try {
