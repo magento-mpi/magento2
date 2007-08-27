@@ -143,8 +143,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('use_in_super_product', 'select', array(
             'name' => 'use_in_super_product',
-            'label' => __('Apply To Super Product'),
-            'title' => __('Apply To Super Product'),
+            'label' => __('Apply To Configurable/Grouped Product'),
             'values' => $yesno,
         ));
 
