@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mage_CatalogExcel>
+            <version>0.1.0</version>
+        </Mage_CatalogExcel>
+    </modules>
+    <global>
+        <models>
+            <catalogexcel>
+                <class>Mage_CatalogExcel_Model</class>
+                <resourceModel>catalogexcel_mysql4</resourceModel>
+            </catalogexcel>
+            <catalogexcel_mysql4>
+                <class>Mage_CatalogExcel_Model_Mysql4</class>
+            </catalogexcel_mysql4>
+        </models>
+    </global>
+</config>

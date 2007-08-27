@@ -19,6 +19,11 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
 
         $this->renderLayout();
     }
+    
+    function testAction()
+    {
+    	echo Mage::getModel('catalogexcel/export')->getWorkbookXml();
+    }
 
     function importAction()
     {

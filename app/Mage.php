@@ -302,7 +302,7 @@ final class Mage {
     /**
      * Initialize Mage
      */
-    public static function init()
+    public static function init($etcDir=null)
     {
         set_error_handler('my_error_handler');
         date_default_timezone_set('America/Los_Angeles');
@@ -314,7 +314,7 @@ final class Mage {
         Mage::register('config', new Mage_Core_Model_Config());
 
         Varien_Profiler::start('init/config');
-        Mage::getConfig()->init();
+        Mage::getConfig()->init($etcDir);
         Varien_Profiler::stop('init/config');
 
         Mage::getConfig()->loadEventObservers('global');
@@ -327,13 +327,13 @@ final class Mage {
      *
      * @param string $storeCode
      */
-    public static function run($storeCode='')
+    public static function run($storeCode='', $etcDir=null)
     {
         try {
             Varien_Profiler::enable();
             Varien_Profiler::start('app');
 
-            Mage::init();
+            Mage::init($etcDir);
             Mage::log('===================== START ==========================');
 
             Mage::register('controller', new Mage_Core_Controller_Varien_Front());
@@ -364,9 +364,9 @@ final class Mage {
         Mage::log('===================== FINISH ==========================');
     }
     
-    public static function cron()
+    public static function cron($etcDir=null)
     {
-        Mage::init();
+        Mage::init($etcDir);
         Mage::getConfig()->loadEventObservers('crontab');
         Mage::dispatchEvent('crontab');
     }

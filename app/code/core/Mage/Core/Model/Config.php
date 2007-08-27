@@ -19,7 +19,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     protected $_blockClassNameCache = array();
     
-    
+    protected $_customEtcDir = null;
     /**
      * Constructor
      *
@@ -34,9 +34,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Initialization of core config
      *
      */
-    public function init()
+    public function init($etcDir=null)
     {
         #return $this->initLive();
+        
+        $this->_customEtcDir = $etcDir;
         
         $mergeConfig = new Mage_Core_Model_Config_Base();
 
@@ -239,6 +241,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getBaseDir($type)
     {
+    	if ($type==='etc' && !is_null($this->_customEtcDir)) {
+    		return $this->_customEtcDir;
+    	}
+    	
         $dir = (string)$this->getNode('stores/default/system/filesystem/'.$type);
         if (!$dir) {
             $dir = $this->getDefaultBaseDir($type);
