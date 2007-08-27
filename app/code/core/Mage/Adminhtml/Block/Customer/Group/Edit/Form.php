@@ -67,10 +67,10 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
         }
 
         if( Mage::getSingleton('adminhtml/session')->getCustomerGroupData() ) {
-            $form->setValues(Mage::getSingleton('adminhtml/session')->getCustomerGroupData());
+            $form->addValues(Mage::getSingleton('adminhtml/session')->getCustomerGroupData());
             Mage::getSingleton('adminhtml/session')->setCustomerGroupData(null);
         } else {
-            $form->setValues($customerGroup->getData());
+            $form->addValues($customerGroup->getData());
         }
 
         $form->setUseContainer(true);

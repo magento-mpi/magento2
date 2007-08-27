@@ -66,7 +66,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
         if ($id = (int)$this->getRequest()->getParam('id')) {
             $customerGroup->load($id);
         }
-
+        
         if ($code = $this->getRequest()->getParam('code')) {
             try {
                 $customerGroup->setCode($code)
