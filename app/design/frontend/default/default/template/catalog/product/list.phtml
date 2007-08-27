@@ -8,7 +8,7 @@
 <?$_productCollection=$this->getLoadedProductCollection()?>
 <?if(!$_productCollection->getSize()):?>
 <div class="note-msg">
-    There are no products matching the selection you are currently shopping by
+    <?=__('There are no products matching the selection you are currently shopping by')?>
 </div>
 <?else:?>
 
@@ -31,17 +31,17 @@
             <h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><?=$_product->getName()?></a></h5>
             <?=$this->getHelper('review/helper')->getSummaryHtml($_product)?>
             <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
-            <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span>Add to Cart</span></button>
+            <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=__('Add to Cart')?></span></button>
             <div class="clear"></div>
             <div class="description">
                 <?=$_product->getDescription()?> 
-                <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><small>Learn More</small></a>
+                <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><small><?=__('Learn More')?></small></a>
             </div>
             <p class="add-to">
-                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart">Add to Wishlist</a>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart"><?=__('Add to Wishlist')?></a>
                 <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
                 <span class="pipe">|</span>
-                <a href="<?=$_compareUrl?>">Add to Compare</a>
+                <a href="<?=$_compareUrl?>"><?=__('Add to Compare')?></a>
                 <?endif;?>
             </p>
         </div>
