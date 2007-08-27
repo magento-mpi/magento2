@@ -189,19 +189,24 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                             $errorTitle = 'Unknown error';
                         }
                         $r = $this->_rawRequest;
+                        $allowedMethods = explode(",", Mage::getStoreConfig('carriers/usps/allowed_methods'));
                         if ($r->getDestCountryId() == 223) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
-                                    $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-                                    $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods)) {
+                                        $costArr[(string)$postage->MailService] = (string)$postage->Rate;
+                                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+                                    }
                                 }
                                 asort($priceArr);
                             }
                         } else {
                             if (is_object($xml->Package) && is_object($xml->Package->Service)) {
                                 foreach ($xml->Package->Service as $service) {
-                                    $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
-                                    $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
+                                    if (in_array($this->getCode('service_to_code', (string)$service->SvcDescription), $allowedMethods)) {
+                                        $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
+                                        $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
+                                    }
                                 }
                                 asort($priceArr);
                             }

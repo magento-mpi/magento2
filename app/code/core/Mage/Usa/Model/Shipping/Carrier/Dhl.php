@@ -182,6 +182,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
                     ocenok stoimosti iz pravil'nyh poley:
                     
                     if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
+                        $allowedMethods = explode(",", Mage::getStoreConfig('carriers/dhl/allowed_methods'));
                         foreach ($xml->Package->Postage as $postage) {
                             $costArr[(string)$postage->MailService] = (string)$postage->Rate;
                             $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);

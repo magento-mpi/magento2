@@ -151,19 +151,24 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         $costArr = array();
         $priceArr = array();
         $errorTitle = 'Unknown error';
+        $allowedMethods = explode(",", Mage::getStoreConfig('carriers/ups/allowed_methods'));
         foreach ($rRows as $rRow) {
             $r = explode('%', $rRow);
             switch (substr($r[0],-1)) {
                 case 3: case 4:
-                    $costArr[$r[1]] = $r[8];
-                    $priceArr[$r[1]] = $this->getMethodPrice($r[8], $r[1]);
+                    if (in_array($r[1], $allowedMethods)) {
+                        $costArr[$r[1]] = $r[8];
+                        $priceArr[$r[1]] = $this->getMethodPrice($r[8], $r[1]);
+                    }
                     break;
                 case 5:
                     $errorTitle = $r[1];
                     break;
                 case 6:
-                    $costArr[$r[3]] = $r[10];
-                    $priceArr[$r[3]] = $this->getMethodPrice($r[10], $r[3]);
+                    if (in_array($r[3], $allowedMethods)) {
+                        $costArr[$r[3]] = $r[10];
+                        $priceArr[$r[3]] = $this->getMethodPrice($r[10], $r[3]);
+                    }
                     break;
             }
         }
