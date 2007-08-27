@@ -43,7 +43,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 	public function storeDirective($construction)
 	{
     	$params = $this->_getIncludeParameters($construction[2]);
-		
+
 		$url = Mage::getUrl($params['url']);
 		
     	return $url;
