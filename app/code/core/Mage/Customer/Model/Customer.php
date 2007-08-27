@@ -193,7 +193,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     public function getAttributes()
     {
         return $this->getResource()
-            ->loadAllAttributes()
+            ->loadAllAttributes($this)
             ->getAttributesByCode();
     }
 

@@ -18,17 +18,19 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
+        
+        if (count(Mage::getSingleton('checkout/session')->getQuote()->getAllItems())<2) {
+            $this->_redirect('*/cart/');
+            $this->setFlag('', 'no-dispatch', true);
+            return;
+        }
+        
         $action = $this->getRequest()->getActionName();
         if (!preg_match('#^(login|register)#', $action)) {
             $loginUrl = Mage::getUrl('*/*/login', array('_secure'=>true, '_current'=>true));
             if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
-        }
-
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
-            $this->_redirect('*/cart/');
-            $this->setFlag('', 'no-dispatch', true);
         }
     }
 

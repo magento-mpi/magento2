@@ -16,11 +16,20 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     public function getItems()
     {
         $itemsFilter = new Varien_Filter_Object_Grid();
-        //$itemsFilter->addFilter($this->_qtyFilter, 'qty');
         $itemsFilter->addFilter($this->_priceFilter, 'price');
         $itemsFilter->addFilter($this->_priceFilter, 'row_total');
         $items = $this->getQuote()->getAllItems();
         return $itemsFilter->filter($items);
+    }
+    
+    public function getItemsCount()
+    {
+        $count = $this->getData('items_count');
+        if (is_null($count)) {
+            $count = count($this->getQuote()->getAllItems());
+            $this->setData('items_count', $count);
+        }
+        return $count;
     }
     
     public function getTotals()

@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
     public function getAttributes()
     {
         return $this->getResource()
-            ->loadAllAttributes()
+            ->loadAllAttributes($this)
             ->getAttributesByCode();
     }
     
