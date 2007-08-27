@@ -1,4 +1,4 @@
-<div class="account-box">
+<div class="account-box ad-orders">
 <?$_orders = $this->getOrders();?>
     <div class="head">
         <h4><?=__('Recent Orders')?></h4>
@@ -32,6 +32,6 @@
     </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?else:?>
-    <p><?=__('You have not any orders yet');?></p>
+    <p><?=__('You have not yet placed any orders with us.');?></p>
 <?endif;?>
 </div>

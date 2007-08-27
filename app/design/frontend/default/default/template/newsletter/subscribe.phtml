@@ -4,14 +4,13 @@
 	</div>
 <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate-detail">
 	<fieldset class="content">
+			<legend><?=__('Newsletter')?></legend>
             <?if( $message = $this->getErrorMessage() ):?>
-                <span class="sidebar-error-box"><?=$message?></span>
+                <p class="error"><?=$message?></p>
             <?endif;?>
             <?if( $message = $this->getSuccessMessage() ):?>
-                <span class="sidebar-success-box"><?=$message?></span>
+                <p class="success"><?=$message?></p>
             <?endif;?>
-            <br />
-			<legend><?=__('Newsletter')?></legend>
 			<label for="newsletter">Sign up for our newsletter:</label>
 			<input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/>
 			<button type="submit" class="form-button-alt"><span>Subscribe</span></button>
