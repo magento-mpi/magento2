@@ -211,6 +211,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
     
     public function postRequest(Varien_Object $request)
     {
+        $result = Mage::getModel('paygate/authorizenet_result');
+
         $client = new Varien_Http_Client();
         $uri = Mage::getStoreConfig('payment/authorizenet/cgi_url');
         $client->setUri($uri);
@@ -221,8 +223,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
         ));
         $client->setParameterPost($request->getData());
         $client->setMethod(Zend_Http_Client::POST);
-        $response = $client->request();
-        $result = Mage::getModel('paygate/authorizenet_result');
+        
+        try {
+        	$response = $client->request();
+        } catch (Exception $e) {
+        	$result->setResponseCode(-1)
+        		->setResponseReasonCode($e->getCode())
+        		->setResponseReasonText($e->getMessage());
+        }
         
         $requestArr = array();
         foreach ($request->getData() as $key=>$value) {
