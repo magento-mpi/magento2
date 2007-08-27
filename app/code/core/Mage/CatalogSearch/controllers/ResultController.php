@@ -14,61 +14,32 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
 
         if ($searchQuery) {
         	$search = Mage::getModel('catalogsearch/search')->loadByQuery($searchQuery);
-        	if ($search->getRedirect()) {
+        	if (!$search->getId()) {
+        		
+        		$search->setSearchQuery($searchQuery)->updateSearch();
+        		
+        	} elseif ($search->getRedirect()) {
+        		
 	    		$search->updateSearch();
         		$this->getResponse()->setRedirect($search->getRedirect());
         		return;
+        		
+        	} elseif ($search->getSynonimFor()) {
+        		
+        		$search->updateSearch();
+        		$searchQuery = $search->getSynonimFor();
+        		
         	}
         }
         
         $this->loadLayout();
             
-        if ($searchQuery) {
-            $this->getLayout()->getBlock('top.search')->assign('query', $searchQuery);
-            $searchResBlock = $this->getLayout()->createBlock('catalogsearch/result', 'search.result', array('query'=>$searchQuery));
-            //$searchResBlock->loadByQuery($this->getRequest());
-            
-            Mage::getModel('catalogsearch/search')->updateSearch($searchQuery, $searchResBlock->getNumResults());
-            
-            $this->getLayout()->getBlock('content')->append($searchResBlock);
-        }
-        else {
-            
-        }
-        
-        $this->renderLayout();
-    }
-    
-    public function byAction()
-    {
-        $this->loadLayout();
-        
-        $attribute = $this->getRequest()->getParam('attr', false);
-        $value = $this->getRequest()->getParam('value', false);
-        if (!$attribute || !$value) {
-            $this->_forward('noroute');
-            return;
-            //$this->getResponse()->setRedirect('noroute');
-        }
-        
-        // check if attr exist
-        $arrOptionId = Mage::getModel('catalog/product_attribute')
-            ->loadByCode($attribute)
-            ->getOptions()
-                ->getArrItemId();
 
-        if (empty($arrOptionId) || !in_array($value, $arrOptionId)) {
-            $this->_forward('noroute');
-            return;
-            //$this->getResponse()->setRedirect('noroute');
-        }
-        
-        $this->getLayout()->getBlock('catalog.leftnav')->assign($attribute, $value);
-        
-        $block = $this->getLayout()->createBlock('catalogsearch/search', 'search.byattribute');
-        $block->loadByAttributeOption($this->getRequest());
-        
-        $this->getLayout()->getBlock('content')->append($block);
+        $this->getLayout()->getBlock('top.search')->assign('query', $searchQuery);
+        $searchResBlock = $this->getLayout()->createBlock('catalogsearch/result', 'search.result', array('query'=>$searchQuery));
+        //$searchResBlock->loadByQuery($this->getRequest());
+
+        $this->getLayout()->getBlock('content')->append($searchResBlock);
         
         $this->renderLayout();
     }

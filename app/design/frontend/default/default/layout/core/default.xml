@@ -16,7 +16,7 @@
             <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
             <block type="page/html_toplinks" name="top.right.links" as="topRightLinks"/>
             <block type="core/template" name="top.search" as="topSearch">
-                <action method="setTemplate"><template>catalog/search/form.mini.phtml</template></action>
+                <action method="setTemplate"><template>catalogsearch/form.mini.phtml</template></action>
             </block>
             <block type="core/text_list" name="top.menu" as="topMenu"/>
             

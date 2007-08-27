@@ -14,7 +14,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-		$this->setTemplate('catalog/search/result.phtml');
+		$this->setTemplate('catalogsearch/result.phtml');
     }
 
     protected function _initChildren()
@@ -53,24 +53,30 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     protected function _getProductCollection()
     {
     	if (is_null($this->_productCollection)) {
-	        $query = $this->getQuery();
-	        
-	        $search = Mage::getModel('catalogsearch/search')->loadByQuery($query);
-	        if ($search->getSynonimFor()!='') {
-	        	$query = $search->getSynonimFor();
+	        $this->_productCollection = Mage::getResourceModel('catalog/product_collection');
+
+	        if ($query = $this->getQuery()) {
+		        
+		        $search = Mage::getModel('catalogsearch/search')->loadByQuery($query);
+		        if ($search->getSynonimFor()!='') {
+		        	$query = $search->getSynonimFor();
+		        }
+		        
+		        $this->_productCollection
+	            	->addAttributeToSelect('url_key')
+		            ->addAttributeToSelect('name')
+		            ->addAttributeToSelect('price')
+		            ->addAttributeToSelect('description')
+		            ->addAttributeToSelect('image')
+		            ->addAttributeToSelect('small_image')
+		            ->addSearchFilter($query);
+	        } else {
+	        	$this->_productCollection
+	        		->getSelect()->where('false');
 	        }
-	        
-	        $this->_productCollection = Mage::getResourceModel('catalog/product_collection')
-            	->addAttributeToSelect('url_key')
-	            ->addAttributeToSelect('name')
-	            ->addAttributeToSelect('price')
-	            ->addAttributeToSelect('description')
-	            ->addAttributeToSelect('image')
-	            ->addAttributeToSelect('small_image')
-	            ->addSearchFilter($query);
     	}
-        
-        return $this->_productCollection;
+
+    	return $this->_productCollection;
     }
     
     public function getResultCount()
