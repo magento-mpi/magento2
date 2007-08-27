@@ -76,7 +76,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         
         $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
         
-        $csvHeader = array('"Country"', '"Region/State"', '"Zip"', '"'.$conditionName.'"', '"Shipping Price"');
+        $csvHeader = array('"Country"', '"Region/State"', '"ZIP/Postal Code"', '"'.$conditionName.'"', '"Shipping Price"');
         $csv .= implode(',', $csvHeader)."\n";
         
         foreach ($tableratesCollection->getItems() as $item) {
