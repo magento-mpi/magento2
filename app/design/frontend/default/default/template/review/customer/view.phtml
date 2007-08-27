@@ -1,4 +1,4 @@
-<?if($this->getRating()):?>
+<?if($this->getProductData()->getId()):?>
     <div class="page-head">
         <h3><?=__('Review Details')?></h3>
     </div>
@@ -6,13 +6,15 @@
     <div class="my-review-detail">
 			<div class="product-image">
 				<p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="125" width="125"></a><br/>
-				<small><?=__('Average Customer Rating')?>:</small></p>
-				<?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
+				<?if( $this->getRating() && $this->getRating()->getSize()):?>
+    				<small><?=__('Average Customer Rating')?>:</small></p>
+    				<?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
+				<?endif;?>
 			</div>
 			<div class="details">
 				<h3><?=$this->getProductData()->getName()?></h3>
-				<strong><?=__('YOUR RATING:')?></strong>
 				<?if( $this->getRating() && $this->getRating()->getSize()):?>
+				<strong><?=__('YOUR RATING:')?></strong>
 					<table cellspacing="0" class="ratings-list">
 					<?foreach ($this->getRating() as $_rating):?>
 					<?if($_rating->getPercent()):?>

@@ -11,14 +11,14 @@
             <div class="count"><?=++$iterator?></div>
             <div class="content">
                 <a href="<?=$this->getReviewUrl($_review->getReviewId())?>"><?=$_review->getName()?></a>
+                <?if($_review->getSum()):?>
                 <div class="ratings">
                     <small><?=__('RATING')?>:</small>
-                    <?if($_review->getSum()):?>
                         <div class="rating-box">
                             <div class="rating" style="width:<?=( $_review->getSum() / $_review->getCount() )?>%;"></div>
                         </div>
-                    <?endif;?>
                  </div>
+                <?endif;?>
             </div>
         </li>
     </ol>
