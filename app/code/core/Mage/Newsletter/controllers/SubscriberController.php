@@ -46,7 +46,7 @@
     	try {
             $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
     	} catch (Exception $e) {
-    	    $session->addError(__('There was a problem with the subscription'));
+    	    $session->addError(__('There was a problem with the subscription: ' . $e->getMessage()));
     	    $this->getResponse()->setRedirect($this->_referer);
     	    return;
     	}

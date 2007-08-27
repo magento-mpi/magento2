@@ -291,7 +291,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         	}
         	return $this->getSubscriberStatus();
         } catch (Exception $e) {
-        	return $e;
+        	throw new Exception($e->getMessage());
         }
     }
 
