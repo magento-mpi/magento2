@@ -100,7 +100,11 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
     protected function _checkAcl($resource)
     {
-    	#return true;
-    	return Mage::getSingleton('admin/session')->isAllowed($resource);
+        try {
+            $res =  Mage::getSingleton('admin/session')->isAllowed($resource);
+        } catch (Exception $e) {
+            return false;
+        }
+        return $res;
     }
 }
