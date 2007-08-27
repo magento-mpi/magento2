@@ -23,6 +23,14 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 		return $block->toHtml();
 	}
 	
+	protected function _getBlockParameters($value)
+	{
+        $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
+        $tokenizer->setString($value);
+        
+        return $tokenizer->tokenize();
+	}
+
 	public function skinDirective($construction)
 	{
 		$params = $this->_getIncludeParameters($construction[2]);
@@ -32,21 +40,13 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 		return $url;
 	}
 	
-	protected function _getBlockParameters($value)
-	{
-        $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
-        $tokenizer->setString($value);
-        
-        return $tokenizer->tokenize();
-	}
-	
 	public function storeDirective($construction)
 	{
     	$params = $this->_getIncludeParameters($construction[2]);
 		
 		$url = Mage::getUrl($params['url']);
 		
-    	return $replacedValue;
+    	return $url;
 	}
 
 }
