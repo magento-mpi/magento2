@@ -2,14 +2,19 @@
     <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product In Stores')?></h4>
     <fieldset id="grop_fields">
     <?if($this->getProductId()):?>
-        <div class="messages notice-msg"><?=__('Items that you don\'t want to show in catalog or search results must be set status "Disabled" on the specific store.')?></div>
-        <div class="messages warning-msg"><?=__('Remove from store warning')?></div>
+<ul class="messages">
+    <li class="notice-msg">
+        <ul>
+            <li><?=__('Items that you don\'t want to show in catalog or search results must be set status "Disabled" on the specific store.')?></li>
+        </ul>
+    </li>
+</ul>
     <?endif;?>
     <?if($this->getStoreId()):?>
         <span class="field-row">
             <input name="stores[<?=$this->getStoreId()?>]" type="checkbox" value="<?=$this->getStoreId()?>" id="store_<?=$this->getStoreId()?>" checked/>
             <label for="store_<?=$this->getStoreId()?>" class="normal"><?=$this->getStoreName($this->getStoreId())?></label>
-        </span>        
+        </span>
     <?else:?>
         <?foreach ($this->getWebsiteCollection() as $_website):?>
             <h3><?=$_website->getName()?></h3>
@@ -25,7 +30,7 @@
                     <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
                     <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
                     <span id="store_<?=$_store->getId()?>_from" style="display:none">(
-                        <?=__('copy data from')?>: 
+                        <?=__('copy data from')?>:
                         <?=$this->getChooseFromStoreHtml()?>
                     )</span>
                 </span>
@@ -49,13 +54,13 @@
             }
         }
     }
-    
+
     function toggleStoreFromChooser(event){
         var element = Event.element(event);
         if(!$(element.id+'_from')){
             return;
         }
-        
+
         if(element.checked) {
             $(element.id+'_from').show();
         }
@@ -63,7 +68,7 @@
             $(element.id+'_from').hide();
         }
     }
-    
+
     function chooseStoreFrom(event){
         var element = Event.element(event);
         if(element && element.checkboxElement){
