@@ -10,14 +10,9 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
 
         $query = $this->getRequest()->getParam('query', '');
         $searchCollection = Mage::getResourceModel('catalogsearch/search_collection')
-        	->addFieldToFilter('num_results', array('gt'=>0))
-            ->addFieldToFilter('search_query', array('like'=>$query.'%'))
-            ->setOrder('popularity', 'desc')
+        	->setQueryFilter($query)
             ->setPageSize(20);
-            
-        $searchCollection
-            ->getSelect()->orWhere('synonims regexp ?', '(^|,)\s*'.$query.'.*(,|$)');
-            
+
         $searchCollection->loadData();
         $items = $searchCollection->getItems();
 

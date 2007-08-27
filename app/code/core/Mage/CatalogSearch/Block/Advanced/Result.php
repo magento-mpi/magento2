@@ -37,11 +37,13 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
     {
         if (is_null($this->_productCollection)) {
             $this->_productCollection = Mage::getResourceModel('catalog/product_collection')
+            	->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('description')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image');
+                
             $this->_addFilters();
         }
         return parent::_getProductCollection();

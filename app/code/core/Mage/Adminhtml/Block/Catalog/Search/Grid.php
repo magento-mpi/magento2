@@ -52,6 +52,12 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
             'index'     => 'popularity',
         ));
 
+        $this->addColumn('synonim_for', array(
+            'header'    => __('Synonim for'),
+            'align'     => 'left',
+            'index'     => 'synonim_for',
+        ));
+        
         $this->addColumn('redirect', array(
             'header'    => __('Redirect'),
             'align'     => 'left',

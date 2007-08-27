@@ -7,7 +7,7 @@
  * @module     Catalog
  * @copyright  Varien (c) 2007 (http://www.varien.com)
  */
-class Mage_CatalogSearch_Block_By_Query extends Mage_Core_Block_Template
+class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 {
 	protected $_productCollection;
 	
@@ -53,13 +53,21 @@ class Mage_CatalogSearch_Block_By_Query extends Mage_Core_Block_Template
     protected function _getProductCollection()
     {
     	if (is_null($this->_productCollection)) {
+	        $query = $this->getQuery();
+	        
+	        $search = Mage::getModel('catalogsearch/search')->loadByQuery($query);
+	        if ($search->getSynonimFor()!='') {
+	        	$query = $search->getSynonimFor();
+	        }
+	        
 	        $this->_productCollection = Mage::getResourceModel('catalog/product_collection')
+            	->addAttributeToSelect('url_key')
 	            ->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('description')
 	            ->addAttributeToSelect('image')
 	            ->addAttributeToSelect('small_image')
-	            ->addSearchFilter($this->getQuery());
+	            ->addSearchFilter($query);
     	}
         
         return $this->_productCollection;

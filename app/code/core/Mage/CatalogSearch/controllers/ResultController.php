@@ -25,7 +25,7 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
             
         if ($searchQuery) {
             $this->getLayout()->getBlock('top.search')->assign('query', $searchQuery);
-            $searchResBlock = $this->getLayout()->createBlock('catalogsearch/by_query', 'search.result', array('query'=>$searchQuery));
+            $searchResBlock = $this->getLayout()->createBlock('catalogsearch/result', 'search.result', array('query'=>$searchQuery));
             //$searchResBlock->loadByQuery($this->getRequest());
             
             Mage::getModel('catalogsearch/search')->updateSearch($searchQuery, $searchResBlock->getNumResults());

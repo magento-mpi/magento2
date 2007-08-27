@@ -187,6 +187,17 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @return string
      */
     protected function _getConditionSql($fieldName, $condition) {
+    	if (is_array($fieldName)) {
+    		foreach ($fieldName as $f) {
+                $orSql = array();
+                foreach ($condition as $orCondition) {
+                    $orSql[] = "(".$this->_getConditionSql($f[0], $f[1]).")";
+                }
+                $sql = "(".join(" or ", $orSql).")";
+    		}
+    		return $sql;
+    	}
+    	
         $sql = '';
         if (is_array($condition)) {
             if (isset($condition['from']) || isset($condition['to'])) {

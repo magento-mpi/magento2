@@ -53,17 +53,17 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
 	            'required' => true,
 	        ));
         }
+
+        $fieldset->addField('synonim_for', 'text', array(
+            'name' => 'synonim_for',
+            'label' => __('Synonym For'),
+            'after_element_html' => '<span class="hint">' . __('(Will make search for the query above return results for this search.)') . '</span>',
+        ));
         
         $fieldset->addField('redirect', 'text', array(
             'name' => 'redirect',
             'label' => __('Redirect URL'),
             'after_element_html' => '<span class="hint">' . __('ex. http://domain.com') . '</span>',
-        ));
-
-        $fieldset->addField('synonims', 'textarea', array(
-            'name' => 'synonims',
-            'label' => __('Synonyms'),
-            'after_element_html' => '<span class="hint">' . __('(Separate multiple synonyms with commas. Ex: search, seach, serach)') . '</span>',
         ));
 
 
