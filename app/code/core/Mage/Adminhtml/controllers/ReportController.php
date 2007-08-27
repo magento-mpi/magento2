@@ -26,14 +26,6 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
-    public function shopcartAction()
-    {
-        $this->_initAction()
-            ->_setActiveMenu('report/shopcart')
-            ->_addBreadcrumb(__('Shopping Cart Report'), __('Shopping Cart Report'))
-            ->renderLayout();
-    }
-
     public function productsAction()
     {
         $this->_initAction()
@@ -65,6 +57,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_setActiveMenu('report/search')
             ->_addBreadcrumb(__('Search Report'), __('Search Report'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_search'))
             ->renderLayout();
     }
 
@@ -97,9 +90,6 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 	    switch ($this->getRequest()->getActionName()) {
             case 'sales':
                 return Mage::getSingleton('admin/session')->isAllowed('report/sales');
-                break;
-            case 'shopcart':
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
                 break;
             case 'products':
                 return Mage::getSingleton('admin/session')->isAllowed('report/products');

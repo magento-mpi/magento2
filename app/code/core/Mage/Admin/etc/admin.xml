@@ -62,7 +62,10 @@
 					</review>
 					<sales title="Sales Report" />
 					<search title="Search Report" />
-					<shopcart title="Shopping Cart Report" />
+					<shopcart title="Shopping Cart Report" >
+                        <customer title="Customers" />
+                        <product title="Products" />
+                    </shopcart>
 					<tags title="Tags Report" >
 						<customer title="Customers" />
 						<popular title="Popular" />

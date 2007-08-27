@@ -28,6 +28,30 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
                     ));
     }
     
+    public function addCartsCount()
+    {
+        foreach ($this->getItems() as $item)
+        {        
+            $quotes = Mage::getResourceModel('sales/quote_item_collection')
+                        ->addAttributeToFilter('product_id', $item->getId());
+            $quotes->load();
+            $item->setCarts($quotes->count());
+        }
+        return $this;
+    }
+    
+    public function addOrdersCount()
+    {
+        foreach ($this->getItems() as $item)
+        {        
+            $quotes = Mage::getResourceModel('sales/order_item_collection')
+                        ->addAttributeToFilter('product_id', $item->getId());
+            $quotes->load();
+            $item->setOrders($quotes->count());
+        }
+        return $this;
+    }
+    
     public function resetSelect()
     {
         parent::resetSelect();

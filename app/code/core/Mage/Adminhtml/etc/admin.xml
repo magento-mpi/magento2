@@ -252,7 +252,16 @@
                     </sales>
                     <shopcart>
                         <title>Shopping Cart Report</title>
-                        <action>*/report/shopcart</action>
+                        <children>
+                            <product>
+                                <title>Products</title>
+                                <action>*/report_shopcart/product</action>
+                            </product>
+                            <customer>
+                                <title>Customers</title>
+                                <action>*/report_shopcart/customer</action>
+                            </customer>
+                        </children>
                     </shopcart>
                     <products>
                         <title>Products Report</title>
