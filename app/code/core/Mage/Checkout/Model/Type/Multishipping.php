@@ -15,7 +15,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         parent::__construct();
         $this->_init();
     }
-    
+
     protected function _init()
     {
         /**
@@ -28,15 +28,15 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             foreach ($addresses as $address) {
             	$this->getQuote()->removeAddress($address->getId());
             }
-            
+
             if ($defaultShipping = $this->getCustomerDefaultShippingAddress()) {
                 $quoteShippingAddress = $this->getQuote()->getShippingAddress();
                 $quoteShippingAddress->importCustomerAddress($defaultShipping);
-                
+
                 foreach ($this->getQuoteItems() as $item) {
                     $addressItem = Mage::getModel('sales/quote_address_item')
                         ->importQuoteItem($item);
-                        
+
                 	$quoteShippingAddress->addItem($addressItem);
                 }
             }
@@ -44,13 +44,13 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $this->getQuote()->getBillingAddress()
                     ->importCustomerAddress($this->getCustomerDefaultBillingAddress());
             }
-            
+
             $this->getQuote()
                 ->collectTotals()
                 ->save();
         }
     }
-    
+
     public function getQuoteShippingAddressesItems()
     {
         $items = array();
@@ -67,7 +67,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
         return $items;
     }
-    
+
     public function removeAddressItem($addressId, $itemId)
     {
         $address = $this->getQuote()->getAddressById($addressId);
@@ -79,11 +79,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 else {
                     $address->removeItem($item->getId());
                 }
-                
+
                 if ($quoteItem = $this->getQuote()->getItemById($item->getQuoteItemId())) {
                     $quoteItem->setQty($quoteItem->getQty()-1);
                 }
-                
+
                 $this->getQuote()
                     ->collectTotals()
                     ->save();
@@ -91,7 +91,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
         return $this;
     }
-    
+
     public function setShippingItemsInformation($info)
     {
         if (is_array($info)) {
@@ -99,7 +99,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             foreach ($addresses as $address) {
             	$this->getQuote()->removeAddress($address->getId());
             }
-            
+
             foreach ($info as $itemData) {
                 foreach ($itemData as $quoteItemId => $data) {
                 	$this->_addShippingItem($quoteItemId, $data);
@@ -111,17 +111,17 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
         return $this;
     }
-    
+
     protected function _addShippingItem($quoteItemId, $data)
     {
     	$qty       = isset($data['qty']) ? (int) $data['qty'] : 0;
     	$addressId = isset($data['address']) ? (int) $data['address'] : false;
     	$quoteItem = $this->getQuote()->getItemById($quoteItemId);
-    	
+
     	if ($addressId && $qty > 0) {
     	    $quoteItem->setMultisippingQty((int)$quoteItem->getMultisippingQty()+$qty);
     	    $quoteItem->setQty($quoteItem->getMultisippingQty());
-    	    
+
     	    $address = $this->getCustomer()->getAddressById($addressId);
     	    if ($address) {
     	        if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($addressId)) {
@@ -129,9 +129,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	           ->importCustomerAddress($address);
                     $this->getQuote()->addShippingAddress($quoteAddress);
     	        }
-                
+
     	        $quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId());
-                
+
     	        if ($quoteAddressItem = $quoteAddress->getItemByQuoteItemId($quoteItemId)) {
     	            $quoteAddressItem->setQty((int)$quoteAddressItem->getQty()+$qty);
     	        }
@@ -139,14 +139,14 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     $quoteAddressItem = Mage::getModel('sales/quote_address_item')
                         ->importQuoteItem($quoteItem)
                         ->setQty($qty);
-                    $quoteAddress->addItem($quoteAddressItem);                        
+                    $quoteAddress->addItem($quoteAddressItem);
     	        }
     	        $quoteAddress->setCollectShippingRates(true);
     	    }
     	}
         return $this;
     }
-    
+
     public function updateQuoteCustomerShippingAddress($addressId)
     {
         if ($address = $this->getCustomer()->getAddressById($addressId)) {
@@ -158,7 +158,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
         return $this;
     }
-    
+
     public function setQuoteCustomerBillingAddress($addressId)
     {
         if ($address = $this->getCustomer()->getAddressById($addressId)) {
@@ -169,7 +169,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
         return $this;
     }
-    
+
     public function setShippingMethods($methods)
     {
         $addresses = $this->getQuote()->getAllShippingAddresses();
@@ -178,7 +178,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	    $address->setShippingMethod($methods[$address->getId()]);
         	}
         	elseif (!$address->getShippingMethod()) {
-        	    Mage::throwException('Address shipping method do not defined');
+        	    Mage::throwException('Please select shipping methods for all addresses');
         	}
         }
         $addresses = $this->getQuote()
@@ -186,19 +186,19 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             ->save();
         return $this;
     }
-    
+
     public function setPaymentMethod($payment)
     {
         if (!isset($payment['method'])) {
             Mage::throwException('Payment method do not defined');
         }
-        
+
         $this->getQuote()->getPayment()
             ->importPostData($payment)
             ->save();
         return $this;
     }
-    
+
     public function createOrders()
     {
         $shippingAddresses = $this->getQuote()->getAllShippingAddresses();
@@ -223,7 +223,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->getQuote()
             ->setIsActive(false)
             ->save();
-        
+
         return $this;
     }
 }
