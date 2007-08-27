@@ -15,6 +15,11 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	{
 	    $collection = $this->getData('item_collection');
 	    if (is_null($collection)) {
+	        /**
+	         * Collect totals need for update quote products
+	         */
+	        $this->getQuote()->collectTotals()
+	           ->save();
 	        $collection = Mage::getResourceModel('sales/quote_item_collection')
 	           ->addAttributeToSelect('*')
 	           ->setQuoteFilter($this->getQuote()->getId())
