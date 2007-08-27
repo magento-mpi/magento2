@@ -53,7 +53,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         }
 
                         $tagRelationModel->setTagId($tagModel->getId())
-                            ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                            ->setCustomerId(Mage::getSingleton('tag/session')->getCustomerId())
                             ->setProductId($this->getRequest()->getParam('productId'))
                             ->setStoreId(Mage::getSingleton('core/store')->getId())
                             ->setCreatedAt( now() )
@@ -63,7 +63,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     }
                 }
 
-                Mage::getSingleton('tag/session')
+                Mage::getSingleton('catalog/session')
                         ->addSuccess('Your tag(s) have been accepted for moderation');
 
                 $product = Mage::getModel('catalog/product')
@@ -73,7 +73,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 $this->getResponse()->setRedirect($productUrl);
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')
+                Mage::getSingleton('catalog/session')
                     ->addError('Unable to save tag(s). Please, try again later.');
                 return;
             }

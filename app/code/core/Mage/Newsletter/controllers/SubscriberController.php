@@ -43,7 +43,13 @@
     public function newAction()
     {
     	$session = Mage::getSingleton('newsletter/session');
-        $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
+    	try {
+            $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
+    	} catch (Exception $e) {
+    	    $session->addError(__('There was a problem with the subscription'));
+    	    $this->getResponse()->setRedirect($this->_referer);
+    	    return;
+    	}
 
         if ($status instanceof Exception) {
         	$session->addError(__('There was a problem with the subscription').': '.$status);
