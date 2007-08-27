@@ -1,0 +1,1 @@
+ALTER TABLE `core_config_data` MODIFY `value` text NOT NULL, MODIFY `old_value` text NOT NULL;
