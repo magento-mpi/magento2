@@ -108,4 +108,9 @@ class Mage_Review_Model_Review extends Varien_Object
     {
         return 2;
     }
+
+    public function getReviewUrl()
+    {
+        return Mage::getUrl('review/product/view', array('id' => $this->getReviewId()));
+    }
 }

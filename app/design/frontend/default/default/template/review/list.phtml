@@ -27,7 +27,7 @@
             </div>
             <?endif;?>
         <?endif;?>
-            <a href="#<?=$_review->getTitle()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
+            <a href="<?=$_review->getReviewUrl()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
             <p class="no-padding"><?=nl2br($_review->getDetail())?></p>
         </li>
     <?endforeach;?>

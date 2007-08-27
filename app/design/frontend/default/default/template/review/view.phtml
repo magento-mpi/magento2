@@ -1,4 +1,4 @@
-<?if($this->getRating()):?>
+<?if($this->getProductData()->getId()):?>
 <div class="account-box">
     <div class="page-head">
         <h4><?=__('Review Details')?></h4>
@@ -7,13 +7,15 @@
     <div class="my-review-detail">
         <div class="product-image">
             <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="100" width="100"></a><br>
+            <?if( $this->getRating() && $this->getRating()->getSize()):?>
             <small><?=__('Average Customer Rating')?>:</small></p>
 			<?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
+			<?endif;?>
     </div>
     <div class="details">
         <h3><?=$this->getProductData()->getName()?></h3>
-        <strong><?=__('YOUR RATING:')?></strong>
         <?if( $this->getRating() && $this->getRating()->getSize()):?>
+        <strong><?=__('PRODUCT RATING:')?></strong>
             <?foreach ($this->getRating() as $_rating):?>
             <?if($_rating->getPercent()):?>
             	<div class="ratings">
@@ -26,7 +28,7 @@
             <?endforeach;?>
         <?endif;?>
         <div class="clear"></div>
-        <strong><?=__('YOUR REVIEW')?></strong> ( <?=__('submitted on')?> <?=$this->dateFormat($this->getReviewData()->getCreatedAt())?>):
+        <strong><?=__('PRODUCT REVIEW')?></strong> ( <?=__('submitted on')?> <?=$this->dateFormat($this->getReviewData()->getCreatedAt())?>):
             <div class="description">
                 <p><?=nl2br($this->getReviewData()->getDetail())?></p>
             </div>
