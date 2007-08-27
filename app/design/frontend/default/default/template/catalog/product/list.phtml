@@ -22,7 +22,7 @@
         <?// Product Image?>
         <div class="product-image">
             <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>">
-                <img src="<?=$_product->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_product->getName())?>"/>
+                <img src="<?=$_product->getSmallImageUrl()?>" width="135" height="135" alt="<?=$this->htmlEscape($_product->getName())?>"/>
             </a>
         </div>
         
@@ -63,7 +63,7 @@
 		<td>
             <p class="product-image">
                 <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>">
-                    <img src="<?=$_product->getSmallImageUrl()?>" width="135" alt="<?=$this->htmlEscape($_product->getName())?>"/>
+                    <img src="<?=$_product->getSmallImageUrl()?>" width="135" height="135" alt="<?=$this->htmlEscape($_product->getName())?>"/>
                 </a>
             </p>
 			<h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>)"><?=$_product->getName()?></a></h5>
