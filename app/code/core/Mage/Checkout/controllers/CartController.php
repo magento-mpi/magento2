@@ -24,8 +24,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-    	#Mage::getSingleton('customer/session')->setTest('cart');
-
         Mage::getSingleton('checkout/session')->resetCheckout();
         if (!$this->getQuote()->hasItems()) {
         	$this->getQuote()->getShippingAddress()
@@ -39,6 +37,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->getQuote()->collectTotals()->save();
 
         $this->loadLayout(array('default', 'cart'), 'cart');
+        $this->_initLayoutMessages('checkout/session');
 
         $this->renderLayout();
     }
@@ -60,16 +59,21 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $relatedProducts = explode(',', $relatedProducts);
             if (is_array($relatedProducts)) {
                 foreach ($relatedProducts as $relatedId) {
-                    $productIds[] = $relatedId;
+                    $additionalIds[] = $relatedId;
                 }
             }
         }
         
         $cart = Mage::getSingleton('checkout/cart');
         try {
-            $cart->addProduct($productId, $qty);
-            $cart->addAdditionalProducts($additionalIds);
-            $cart->save();
+            $product = Mage::getModel('catalog/product')
+                ->load($productId)
+                ->setConfiguredAttributes($this->getRequest()->getParam('super_attribute'))
+                ->setGroupedProducts($this->getRequest()->getParam('super_group', array()));
+                
+            $cart->addProduct($product, $qty)
+                ->addProductsByIds($additionalIds)
+                ->save();
             $this->_backToCart();
         }
         catch (Exception $e) {
@@ -88,7 +92,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $cart = $this->getRequest()->getParam('cart');
         $customer = Mage::getSingleton('customer/session')->getCustomer();
-
+        
         if (is_array($cart)) {
             foreach ($cart as $id=>$itemUpd) {
                 if (empty($itemUpd['qty']) || !is_numeric($itemUpd['qty']) || intval($itemUpd['qty'])<=0) {
@@ -154,18 +158,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function deleteAction()
     {
     	$id = $this->getRequest()->getParam('id');
+    	$cart = Mage::getSingleton('checkout/cart');
     	try {
-    		$this->getQuote()->removeItem($id)->save();
+    		$cart->removeItem($id)
+    		  ->save();
     	} catch (Exception $e) {
-
+            Mage::getSingleton('checkout/session')->addError('Can not remove item');
     	}
 
     	$this->_redirectToReferer();
-    }
-
-    public function cleanAction()
-    {
-
     }
 
     public function estimatePostAction()

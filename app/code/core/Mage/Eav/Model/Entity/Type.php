@@ -3,6 +3,7 @@
 class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
 {
     protected $_attributes;
+    protected $_attributesBySet = array();
     protected $_sets;
     
     protected function _construct()
@@ -16,13 +17,23 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function getAttributeCollection()
+    public function getAttributeCollection($setId = null)
     {
-        if (empty($this->_attributes)) {
-            $this->_attributes = Mage::getModel('eav/entity_attribute')->getResourceCollection()
-                ->setEntityTypeFilter($this->getId());
+        if (is_null($setId)) {
+            if (is_null($this->_attributes)) {
+                $this->_attributes = Mage::getModel('eav/entity_attribute')->getResourceCollection()
+                    ->setEntityTypeFilter($this->getId());
+            }
+            $collection = $this->_attributes;
         }
-        return $this->_attributes;
+        else {
+            if (!isset($this->_attributesBySet[$setId])) {
+                $this->_attributesBySet[$setId] = Mage::getModel('eav/entity_attribute')->getResourceCollection()
+                    ->setEntityTypeFilter($this->getId());
+            }
+            $collection = $this->_attributesBySet[$setId];
+        }
+        return $collection;
     }
     
     public function getAttributeSetCollection()

@@ -356,29 +356,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $product->setQty(1);
         }
         
-        $item = $this->getItemByProductId($product->getId());
+        $item = $this->getItemByProduct($product);
         if (!$item) {
             $item = Mage::getModel('sales/quote_item');
         }
         $item->importCatalogProduct($product);
-        
-        /*$item = null;
-        if (!$product->getAsNewItem()) {
-            foreach ($this->getAllItems() as $quoteItem) {
-                if ($quoteItem->getProductId()==$product->getId()) {
-                    $finalQty = $quoteItem->getQty() + $product->getQty();
-                    $quoteItem->setQty($finalQty);
-                    $product->setQty($finalQty);
-                    $item = $quoteItem;
-                    break;
-                }
-            }
-        }
-
-        if (!$item) {
-            $item = Mage::getModel('sales/quote_item')
-                ->importCatalogProduct($product);
-        }*/
 
         $this->addItem($item);
 
@@ -391,12 +373,21 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param   int $productId
      * @return  Mage_Sales_Model_Quote_Item || false
      */
-    public function getItemByProductId($productId)
+    public function getItemByProduct(Mage_Catalog_Model_Product $product)
     {
         foreach ($this->getAllItems() as $item) {
-        	if ($item->getProductId() == $productId) {
-        	    return $item;
-        	}
+            if ($item->getSuperProductId()) {
+                if ($product->getSuperProduct() && $item->getSuperProductId() == $product->getSuperProduct()->getId()) {
+                	if ($item->getProductId() == $product->getId()) {
+                	    return $item;
+                	}
+                }
+            }
+            else {
+            	if ($item->getProductId() == $product->getId()) {
+            	    return $item;
+            	}
+            }
         }
         return false;
     }

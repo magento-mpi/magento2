@@ -19,7 +19,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         return Mage::getSingleton('checkout/session');
     }
-
+    
     /**
      * Retrieve current quote object
      *
@@ -29,18 +29,22 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         return $this->getCheckoutSession()->getQuote();
     }
-
+    
     /**
-     * Add products
+     * Add products 
      *
      * @param   int $productId
      * @param   int $qty
      * @return  Mage_Checkout_Model_Cart
      */
-    public function addProduct($productId, $qty=1)
+    public function addProduct($product, $qty=1)
     {
-        $product = Mage::getModel('catalog/product')->load($productId);
-        if ($product->getId()) {
+        if ($product->getId() && $product->isVisibleInCatalog()) {
+            if (!$product->isInStock()) {
+                $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+                Mage::throwException('This product is out of stock');
+            }
+            
             $qty = (int) $qty;
             $qty = $qty>0 ? $qty : 1;
             switch ($product->getTypeId()) {
@@ -54,18 +58,18 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                     $this->_addGroupedProduct($product, $qty);
                     break;
                 default:
-                    Mage::throwException(__('Indefinite product type'));
+                    Mage::throwException('Indefinite product type');
                     break;
             }
         }
         else {
-            Mage::throwException(__('Product does not exist'));
+            Mage::throwException('Product do not exist');
         }
-
+        
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
         return $this;
     }
-
+    
     /**
      * Adding simple product to shopping cart
      *
@@ -75,32 +79,15 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _addSimpleProduct(Mage_Catalog_Model_Product $product, $qty)
     {
-        if ($this->_checkProductStatus($product)) {
-            if ($item = $this->getQuote()->getItemByProductId($product->getId())) {
-                $itemQty = $item->getQty();
-                if ($itemQty+$qty > $product->getQty()) {
-                    $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                    Mage::throwException(__('Requested quantity is not available'));
-                }
-                else {
-                    $product->setQuoteQty($itemQty+$qty);
-                }
-            }
-            else {
-                if ($qty > $product->getQty()) {
-                    Mage::throwException(__('Requested quantity is not available'));
-                    $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                }
-                else {
-                    $product->setQuoteQty($qty);
-                }
-            }
-
-            $this->getQuote()->addCatalogProduct($product);
+        if (!$this->_setProductQuoteQty($product, $qty)) {
+            $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+            Mage::throwException('Requested quantity is not available');
         }
+        
+        $this->getQuote()->addCatalogProduct($product);
         return $this;
     }
-
+    
     /**
      * Adding grouped product to cart
      *
@@ -109,87 +96,133 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _addGroupedProduct(Mage_Catalog_Model_Product $product)
     {
-		/*$superGroupProducts = $this->getRequest()->getParam('super_group', array());
-		if(!is_array($superGroupProducts)) {
-			$superGroupProducts = array();
-		}
+        $groupedProducts = $product->getGroupedProducts();
 
-		if(sizeof($superGroupProducts)==0) {
-		    Mage::getSingleton('catalog/session')->addError('Specify products, please');
-			$this->_backToProduct($product->getId());
-			return;
-		}
-
-		foreach($product->getSuperGroupProductsLoaded() as $superProductLink) {
-
-			if(isset($superGroupProducts[$superProductLink->getLinkedProductId()]) && $qty =  $intFilter->filter($superGroupProducts[$superProductLink->getLinkedProductId()])) {
-				   $superProduct = Mage::getModel('catalog/product')
-    				->load($superProductLink->getLinkedProductId())
-    				->setParentProduct($product);
-    			if($superProduct->getId()) {
-    				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-    			}
-			}
-		}*/
+        if(!is_array($groupedProducts) || empty($groupedProducts)) {
+            $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+            Mage::throwException('Specify product option, please');
+        }
+        
+        foreach($product->getSuperGroupProductsLoaded() as $productLink) {
+            if(isset($groupedProducts[$productLink->getLinkedProductId()])) {
+                $qty =  $groupedProducts[$productLink->getLinkedProductId()];
+                if (!empty($qty)) {
+                    $qty = (int) $qty;
+                    $qty = $qty>0 ? $qty : 1;
+                    
+                    $subProduct = Mage::getModel('catalog/product')
+                        ->load($productLink->getLinkedProductId())
+                        ->setSuperProduct($product);
+                        
+                    if (!$subProduct->isInStock() || !$this->_setProductQuoteQty($subProduct, $qty)) {
+                        $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+                        Mage::throwException('Requested quantity is not available');
+                    }
+                    $this->getQuote()->addCatalogProduct($subProduct);
+                }
+            }
+        }
         return $this;
     }
-
+    
     /**
      * Adding configurable product
      *
      * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_Checkout_Model_Cart
      */
-    protected function _addConfigurableProduct(Mage_Catalog_Model_Product $product)
+    protected function _addConfigurableProduct(Mage_Catalog_Model_Product $product, $qty=1)
     {
-		/*$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
-		if($productId) {
-			$superProduct = Mage::getModel('catalog/product')
-				->load($productId)
-				->setParentProduct($product);
-			if($superProduct->getId()) {
-				$item = $this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-				$item->setDescription(
-            		$this->getLayout()->createBlock('checkout/cart_item_super')->setSuperProduct($superProduct)->toHtml()
-            	);
-            	$item->setName($product->getName());
-            	$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            	$this->getQuote()->save();
-
-			}
-		} else {
-		    Mage::getSingleton('catalog/session')->addError('Specify product option, please');
-			$this->_backToProduct($product->getId());
-			return;
-		}*/
+        $subProductId = $product->getSuperLinkIdByOptions($product->getConfiguredAttributes());
+        if($subProductId) {
+            $subProduct = Mage::getModel('catalog/product')
+                ->load($subProductId)
+                ->setSuperProduct($product);
+        
+            if (!$subProduct->isInStock()) {
+                $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+                Mage::throwException('This product is out of stock');
+            }
+            
+            if (!$this->_setProductQuoteQty($subProduct, $qty)) {
+                $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+                Mage::throwException('Requested quantity is not available');
+            }
+            
+            $this->getQuote()->addCatalogProduct($subProduct);
+        } 
+        else {
+            $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+            Mage::throwException('Specify product option, please');
+        }
         return $this;
     }
-
+    
     /**
-     * Checking product status
+     * Initialize product qty
      *
      * @param   Mage_Catalog_Model_Product $product
+     * @param   int $qty
+     * @param   bool $replace if we use true - the $qty will be used as new value
      * @return  bool
      */
-    protected function _checkProductStatus(Mage_Catalog_Model_Product $product)
+    protected function _setProductQuoteQty(Mage_Catalog_Model_Product $product, $qty, $replace = false)
     {
-        if ($product->getStatus() == Mage_Catalog_Model_Product::STATUS_ENABLED) {
-            return true;
+        $res = false;
+        if ($item = $this->getQuote()->getItemByProduct($product)) {
+            $itemQty = $item->getQty();
+            $newQty  = $replace ? $qty : $itemQty+$qty;
+            
+            if ($newQty <= $product->getQty()) {
+                $product->setQuoteQty($newQty);
+                $res = true;
+            }
         }
-        return false;
+        else {
+            if ($qty <= $product->getQty()) {
+                $product->setQuoteQty($qty);
+                $res = true;
+            }
+        }
+        return $res;
     }
 
-    public function addAdditionalProducts($productIds)
+    public function addProductsByIds($productIds)
     {
-
+        $allAvailable = true;
+        $allAdded     = true;
+        
+        foreach ($productIds as $productId) {
+        	$product = Mage::getModel('catalog/product')
+        	   ->load($productId);
+            if ($product->getId() && $product->isVisibleInCatalog() && $product->isInStock()) {
+                if ($this->_setProductQuoteQty($product, 1)) {
+                    $this->getQuote()->addCatalogProduct($product);
+                }
+                else {
+                    $allAdded = false;
+                }
+            }
+            else {
+                $allAvailable = false;
+            }
+        }
+        if (!$allAvailable) {
+            $this->getCheckoutSession()->addError(__('Some of the products you requested are not available'));
+        }
+        if (!$allAdded) {
+            $this->getCheckoutSession()->addError(__('Some of the products you requested are not available in desired quantity'));
+        }
+        return $this;
     }
-
-
-    public function removeProduct()
+    
+    
+    public function removeItem($itemId)
     {
-
+        $this->getQuote()->removeItem($itemId);
+        return $this;
     }
-
+    
     public function save()
     {
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);

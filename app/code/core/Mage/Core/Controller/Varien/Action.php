@@ -335,9 +335,7 @@ abstract class Mage_Core_Controller_Varien_Action
     protected function _initLayoutMessages($messagesStorage)
     {
         if ($storage = Mage::getSingleton($messagesStorage)) {
-            $this->getLayout()->getMessagesBlock()->setMessages(
-                $storage->getMessages(true)
-            );
+            $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
         }
         else {
             Mage::throwException('Invalid messages storage');

@@ -28,6 +28,14 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         $this->_messages = $messages;
         return $this;
     }
+    
+    public function addMessages(Mage_Core_Model_Message_Collection $messages)
+    {
+        foreach ($messages->getItems() as $message) {
+        	$this->getMessageCollection()->add($message);
+        }
+        return $this;
+    }
 
     /**
      * Retrieve messages collection
@@ -75,7 +83,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      * @param   string $type
      * @return  string
      */
-    public function getGroupedHtml($simple=false)
+    public function getGroupedHtml()
     {
         $types = array(
             Mage_Core_Model_Message::ERROR,
@@ -87,24 +95,21 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         foreach ($types as $type) {
             if ( $messages = $this->getMessages($type) ) {
                 if ( !$html ) {
-                    if( !$simple ) {
-                        $html .= '<ul class="messages">';
-                    }
+                    $html .= '<ul class="messages">';
                 }
                 $html .= '<li class="' . $type . '-msg">';
-                if( !$simple ) {
-                    $html .= '<ul><li>';
-                }
+                $html .= '<ul>';
+
                 foreach ( $messages as $message ) {
+                    $html.= '<li>';
                 	$html.= $message->getText();
+                	$html.= '</li>';
                 }
-                if( !$simple ) {
-                    $html .= '</li></ul>';
-                }
+                $html .= '</ul>';
                 $html .= '</li>';
             }
         }
-        if ( $html && !$simple ) {
+        if ( $html) {
             $html .= '</ul>';
         }
         return $html;

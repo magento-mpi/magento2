@@ -48,10 +48,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
 	protected $_attributes;
 	
-	protected $_priceBlock;
-	
-	protected $_category;
-
     public function __construct()
     {
         parent::__construct();
@@ -234,19 +230,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
         /**
          * Calculating final price for item of configurable product
          */
-        if($this->getParentProduct() && $this->getParentProduct()->isSuperConfig()) {
-        	$finalPrice = $this->getParentProduct()->getPrice();
-	        if (is_numeric($this->getParentProduct()->getTierPrice($qty))) {
-	            $finalPrice = min($finalPrice, $this->getParentProduct()->getTierPrice($qty));
-	        }
-	        if (is_numeric($this->getParentProduct()->getSpecialPrice())) {
-	            $finalPrice = min($finalPrice, $this->getParentProduct()->getSpecialPrice());
-	        }
-
-        	foreach ($this->getParentProduct()->getSuperAttributes() as $attribute) {
+        if($this->getSuperProduct() && $this->getSuperProduct()->isSuperConfig()) {
+        	$finalPrice = $this->getSuperProduct()->getFinalPrice($qty);
+        	foreach ($this->getSuperProduct()->getSuperAttributes() as $attribute) {
         		if($value = $this->_getValueByIndex($attribute['values'], $this->getData($attribute['attribute_code']))) {
         			if($value['pricing_value'] != 0) {
-        				$finalPrice += $this->getParentProduct()->getPricingValue($value);
+        				$finalPrice += $this->getSuperProduct()->getPricingValue($value);
         			}
         		}
         	}
@@ -266,9 +255,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
 
         $this->setFinalPrice($finalPrice);
-
         Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$this));
-
         return $this->getData('final_price');
     }
 
@@ -539,7 +526,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function isSuperConfig()
     {
-    	return $this->getTypeId() == self::TYPE_CONFIGURABLE_SUPER;
+    	return $this->isConfigurable();
+    }
+    
+    public function isConfigurable()
+    {
+        return $this->getTypeId() == self::TYPE_CONFIGURABLE_SUPER;
     }
     
     public function isSuper()
@@ -775,5 +767,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function isSaleable()
     {
         return $this->isSalable();
+    }
+    
+    public function isInStock()
+    {
+        return $this->getStatus() == self::STATUS_ENABLED;
     }
 }

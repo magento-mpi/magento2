@@ -490,18 +490,17 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     public function loadAllAttributes($object=null)
     {
-        /*
         if (is_null($object)) {
-            $object = $this->getObject();
+            $setId = null;
         }
-        */
-        $attributes = $this->getConfig()->getAttributeCollection();
-
-        if ($object && $object->getAttributeSetId()) {
+        elseif($object->getAttributeSetId()) {
             $setId = $object->getAttributeSetId();
-        } else {
+        }
+        else {
             $setId = $this->getConfig()->getDefaultAttributeSetId();
         }
+        
+        $attributes = $this->getConfig()->getAttributeCollection($setId);
         if ($setId) {
             $attributes->setAttributeSetFilter($setId);
         }

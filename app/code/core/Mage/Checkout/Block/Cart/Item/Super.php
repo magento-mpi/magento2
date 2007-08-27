@@ -10,16 +10,16 @@
  */
  class Mage_Checkout_Block_Cart_Item_Super extends Mage_Core_Block_Abstract 
  {
- 	protected $_superProduct = null;
- 	public function setSuperProduct($superProduct)
+ 	protected $_product = null;
+ 	public function setProduct($product)
  	{
- 		$this->_superProduct = $superProduct;
- 		return $this;
+        $this->_product = $product;
+        return $this;
  	}
  	
- 	public function getSuperProduct()
+ 	public function getProduct()
  	{
- 		return $this->_superProduct;
+ 		return $this->_product;
  	}
  	
  	public function toHtml()
@@ -28,18 +28,14 @@
 			return '';
 		}
  		$result = '<ul class="super-product-attributes">';
- 		foreach ($this->getSuperProduct()->getParentProduct()->getSuperAttributes(true) as $attribute) {
+ 		foreach ($this->getProduct()->getSuperProduct()->getSuperAttributes(true) as $attribute) {
  			$result.= '<li><strong>' . $attribute->getFrontend()->getLabel() . ':</strong> ';
  			if($attribute->getSourceModel()) {
  				$result.= htmlspecialchars(
-								$attribute->getSource()->getOptionText(
-									$this->getSuperProduct()->getData($attribute->getAttributeCode())
-						   		)
-						  );
+                    $attribute->getSource()->getOptionText($this->getProduct()->getData($attribute->getAttributeCode()))
+                );
  			} else {
- 				$result.= htmlspecialchars(
- 								$this->getSuperProduct()->getData($attribute->getAttributeCode())
- 						  );
+ 				$result.= htmlspecialchars($this->getProduct()->getData($attribute->getAttributeCode()));
  			}
  			$result.='</li>';
  		}

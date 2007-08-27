@@ -9,6 +9,7 @@
     <h3><?=__('Shopping Cart')?></h3>
     <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=__('Proceed to Checkout')?>"/></a>
 </div>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
 <table cellspacing="0" id="shopping-cart-table" class="data-table box-table shopping-cart">
     <col width="75"/>
@@ -22,39 +23,40 @@
             <th>&nbsp;</th>
             <th><?=__('Product Name')?></th>
             <th class="a-center"><?=__('Remove')?></th>
-<?if($this->isWishlistActive()):?>
+            <?if($this->isWishlistActive()):?>
             <th class="a-center"><?=__('Move to Wishlist')?></th>
-<?endif?>
+            <?endif?>
             <th class="a-right"><?=__('Unit Price')?></th>
-
             <th class="a-center"><?=__('Qty')?></th>
             <th class="a-right"><?=__('Subtotal')?></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <td colspan="<?if($this->isWishlistActive()):?>7<?else:?>6<?endif?>" class="a-right"><button class="form-button-alt" type="submit"><span><?=__('Update Shopping Cart')?></span></button></td>
+            <td colspan="<?if($this->isWishlistActive()):?>7<?else:?>6<?endif?>" class="a-right">
+                <button class="form-button-alt" type="submit"><span><?=__('Update Shopping Cart')?></span></button>
+            </td>
         </tr>
     </tfoot>
     <tbody>
-<?foreach($this->getItems() as $_item):?>
-        <tr <?if(!$_item->getProduct()->isSalable()):?> class="red"<?endif;?>>
+    <?foreach($this->getItems() as $_item):?>
+        <tr <?if(!$_item->getProduct()->isSalable()):?> class="out-of-stock"<?endif;?>>
             <td>
-                <a href="#"><img src="<?=$_item->getProduct()->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="75"/>
+                <a href="<?=$this->getItemUrl($_item)?>"><img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/></a>
             </td>
             <td class="attributes-col">
-                <a href="<?=$this->getUrl('catalog/product/view/id/'.$_item->getProductId())?>"><strong><?=$_item->getName()?></strong></a>
-                <?=$_item->getDescription();?>
+                <a href="<?=$this->getItemUrl($_item)?>"><strong><?=$this->getItemName($_item)?></strong></a>
+                <?=$this->getItemDescription($_item)?>
             </td>
             <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
-<?if($this->isWishlistActive()):?>
+            <?if($this->isWishlistActive()):?>
             <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][wishlist]"/></td>
-<?endif?>
+            <?endif?>
             <td class="a-right"><?=$_item->getPrice()?></td>
             <td class="a-center"><input name="cart[<?=$_item->getId()?>][qty]" value="<?=$_item->getQty()?>" size="2" class="input-text qty"/></td>
             <td class="a-right"><?=$_item->getRowTotal()?></td>
         </tr>
-<?endforeach?>
+    <?endforeach?>
     </tbody>
 </table>
 <script type="text/javascript">decorateTable('shopping-cart-table')</script>
@@ -71,32 +73,32 @@
 </div>
 
 <div class="shopping-cart-totals">
-    <table cellspacing="0">
+    <table cellspacing="0" id="shoping-cart-totals-table">
         <tbody>
-<?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
-    <?if(!$total->getArea()):?>
-            <tr class="<?=$i==$l?'last':''?>">
+        <?foreach($this->getTotals() as $total):?>
+            <?if(!$total->getArea()):?>
+            <tr>
                 <td style="<?=$total->getStyle()?>"><?=$total->getTitle()?></td>
                 <td style="<?=$total->getStyle()?>"><?=$total->getValue()?></td>
             </tr>
-    <?endif?>
-<?endforeach?>
+            <?endif?>
+        <?endforeach?>
         </tbody>
         <tfoot>
-<?foreach($this->getTotals() as $total):?>
-    <?if($total->getArea()=='footer'):?>
+        <?foreach($this->getTotals() as $total):?>
+            <?if($total->getArea()=='footer'):?>
             <tr>
                 <td><strong><?=$total->getTitle()?></strong></td>
                 <td class="nowrap"><strong><?=$total->getValue()?></strong></td>
             </tr>
-    <?endif?>
-<?endforeach?>
+            <?endif?>
+        <?endforeach?>
         </tfoot>
     </table>
+    <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
     <ul class="checkout-types">
         <li><a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=__('Proceed to Checkout')?>"/></a></li>
         <li><a href="<?=$this->getMultiShippingUrl()?>"><big><?=__('Checkout with Multiple Addresses')?></big></a></li>
-
         <?/*<li><a href="<?=$this->getPaypalUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_paypal_checkout.gif')?>" alt="<?=__('Paypal Checkout')?>"/></a></li>*/?>
         <?/*<li><a href="<?=$this->getGoogleUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_google_checkout.gif')?>" alt="<?=__('Google Checkout')?>"/></a></li>*/?>
     </ul>

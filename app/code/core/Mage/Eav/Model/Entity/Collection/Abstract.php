@@ -355,7 +355,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $this->addAttribute($a);
             }
         } elseif ('*'===$attribute) {
-            $attributes = $this->getEntity()->loadAllAttributes($this->getObject(false))->getAttributesByCode();
+            $attributes = $this->getEntity()->loadAllAttributes()
+                ->getAttributesByCode();
             foreach ($attributes as $attrCode=>$attr) {
                 $this->_selectAttributes[$attrCode] = $attr->getId();
             }

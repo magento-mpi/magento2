@@ -58,9 +58,18 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
     
     protected function _getCartProductIds()
     {
-        $ids = array();
-        foreach ($this->getQuote()->getAllItems() as $item) {
-        	$ids[] = $item->getProductId();
+        $ids = $this->getData('_cart_product_ids');
+        if (is_null($ids)) {
+            $ids = array();
+            foreach ($this->getQuote()->getAllItems() as $item) {
+            	if ($product = $item->getProduct()) {
+            	    $ids[] = $product->getId();
+            	    if ($superProduct = $product->getSuperProduct()) {
+            	        $ids[] = $superProduct->getId();
+            	    }
+            	}
+            }
+            $this->setData('_cart_product_ids', $ids);
         }
         return $ids;
     }

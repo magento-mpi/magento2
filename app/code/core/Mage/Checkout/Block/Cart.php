@@ -20,34 +20,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         $itemsFilter->addFilter($this->_priceFilter, 'price');
         $itemsFilter->addFilter($this->_priceFilter, 'row_total');
         $items = $this->getQuote()->getAllItems();
-        $this->_addProductToItems($items);
         return $itemsFilter->filter($items);
-    }
-    
-    protected function _addProductToItems($items)
-    {
-        /**
-         * !!! Now Product adding in Mage_Sales_Model_Quote_Address_Total_Subtotal
-         */
-        /*$productIds = array();
-        foreach ($items as $item) {
-        	$productIds[$item->getProductId()] = $item;
-        }
-        
-        if (!empty($productIds)) {
-            $productCollection = Mage::getResourceSingleton('catalog/product_collection')
-                ->addAttributeToSelect('image')
-                ->addAttributeToSelect('small_image')
-                ->addAttributeToSelect('thumbnail')
-                ->addAttributeToSelect('description')
-                ->addIdFilter(array_keys($productIds))
-                ->load();
-            foreach ($productCollection as $product) {
-            	$productIds[$product->getId()]->setProduct($product);
-            }
-        }*/
-        
-        return $this;
     }
     
     public function getTotals()
@@ -98,5 +71,52 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     public function getItemDeleteUrl(Mage_Sales_Model_Quote_Item $item)
     {
     	return $this->getUrl('checkout/cart/delete', array('id'=>$item->getId()));
+    }
+    
+    public function getItemUrl($item)
+    {
+        if ($superProduct = $item->getSuperProduct()) {
+            return $superProduct->getProductUrl();
+        }
+        
+        if ($product = $item->getProduct()) {
+            return $product->getProductUrl();
+        }
+        return '';
+    }
+    
+    public function getItemImageUrl($item)
+    {
+        if ($superProduct = $item->getSuperProduct()) {
+            return $superProduct->getThumbnailUrl();
+        }
+        
+        if ($product = $item->getProduct()) {
+            return $product->getThumbnailUrl();
+        }
+        return '';
+    }
+    
+    public function getItemName($item)
+    {
+        $superProduct = $item->getSuperProduct();
+        if ($superProduct && $superProduct->isConfigurable()) {
+            return $superProduct->getName();
+        }
+        
+        if ($product = $item->getProduct()) {
+            return $product->getName();
+        }
+        return $item->getName();
+    }
+    
+    public function getItemDescription($item)
+    {
+        if ($superProduct = $item->getSuperProduct()) {
+            if ($superProduct->isConfigurable()) {
+                return $this->getLayout()->createBlock('checkout/cart_item_super')->setProduct($item->getProduct())->toHtml();
+            }
+        }
+        return '';
     }
 }
