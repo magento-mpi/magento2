@@ -379,8 +379,8 @@ div.autocomplete ul li {
 /* Customer - Addresses */
 .address-list { width:30%; padding-right:1.75em; }
 .address-list .btn-edit-address, .address-list .btn-remove-address { position:absolute; top:5px; }
-.address-list .btn-edit-address { right:24px; }
-.address-list .btn-remove-address { right:5px; }
+.address-list .btn-edit-address { right:5px; }
+.address-list .btn-remove-address { right:24px; }
 .address-list li {
     position:relative;
     list-style:none;

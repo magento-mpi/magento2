@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
     public function getHeaderWidth()
     {
-        return 'width:30%;';
+        return '';
     }
 
     public function getHeaderHtml()
