@@ -37,7 +37,7 @@
 				</div></li>
             <li><div class="input-box">
                 <label for="billing:postcode"><?=__('Zip')?> <span class="required">*</span></label><br/>
-                <input type="text" title="<?=__('ZIP/Postal Code')?>" name="billing[postcode]" id="billing:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip required-entry input-text"/></div>
+                <input type="text" title="<?=__('ZIP/Postal Code')?>" name="billing[postcode]" id="billing:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip-international required-entry input-text"/></div>
                 <div class="input-box">
                   	<label for="billing:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
                 	<?=$this->getCountryHtmlSelect('billing')?></div></li>
