@@ -22,11 +22,18 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             $quote = Mage::getResourceModel('sales/quote_collection')
                         ->loadByCustomerId($item->getId());
             
-            $totals = $quote->getTotals();
-            $item->setTotal($totals['subtotal']->getValue());
-            $quote_items = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
-            $quote_items->load();
-            $item->setItems($quote_items->count());           
+            if (is_object($quote))
+            {
+                $totals = $quote->getTotals();
+                $item->setTotal($totals['subtotal']->getValue());
+                $quote_items = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
+                $quote_items->load();
+                $item->setItems($quote_items->count());
+            } else {
+                $item->setItems('0');
+                $item->setTotal('0');
+            }
+            
         }
         return $this;
     }   

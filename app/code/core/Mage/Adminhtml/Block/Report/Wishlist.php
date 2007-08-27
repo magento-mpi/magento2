@@ -28,17 +28,9 @@ class Mage_Adminhtml_Block_Report_Wishlist extends Mage_Core_Block_Template
     public function _beforeToHtml()
     {      
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/report_wishlist_grid', 'report.grid'));
-            
-        $collection = Mage::getResourceModel('customer/customer_collection');
-        $collection->getSelect()->from("wishlist", array("count(wishlist_id) as wishlist_cnt"))
-                    ->where("wishlist.customer_id=e.entity_id")
-                    ->group("wishlist.customer_id");
-                    
-        $collection->load();
+                      
+        list($this->customer_with_wishlist, $this->wishlists_count) = Mage::getResourceModel('reports/wishlist_collection')->getWishlistCustomerCount();
         
-        $this->customer_with_wishlist = (int)$collection->getSize();
-        
-        $this->wishlists_count = 0;
         $this->items_bought = 0;
         $this->shared_count = 0;
         $this->referrals_count = 0;

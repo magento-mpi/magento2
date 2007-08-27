@@ -66,4 +66,3 @@ class Mage_Reports_Model_Mysql4_Wishlist_Product_Collection extends Mage_Wishlis
     }
     
 }
-?>
