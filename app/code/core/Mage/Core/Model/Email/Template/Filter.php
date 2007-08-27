@@ -40,17 +40,13 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         return $tokenizer->tokenize();
 	}
 	
-	public function urlDirective($construction)
+	public function storeDirective($construction)
 	{
-    	$replacedValue = $this->_getVariable($construction[2], $construction[0]);
+    	$params = $this->_getIncludeParameters($construction[2]);
+		
+		$url = Mage::getUrl($params['url']);
+		
     	return $replacedValue;
 	}
-	
-	protected function _getUrl($value)
-	{
-        $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
-        $tokenizer->setString($value);
-        
-        return $tokenizer->tokenize();
-	}
+
 }
