@@ -1,28 +1,26 @@
-<div class="collateral-box tags">
-	<div class="head">
-		<h4><?=__('Product Tags')?></h4>
-	</div>
-		<?if( $this->getCount() ):?>
-        <h5>Other people marked this product with these tags:</h5>
-			<ul class="tags-list">
-				<?$_iterator = 0;?>
-				<?foreach( $this->getTags() as $_tag ):?>
-					<li <?if( 1 == ++$_iterator && $this->getCount() != 1 ):?>class="first"<?elseif($_iterator == $this->getCount()):?>class="last"<?endif;?>><a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a> (<?=$_tag->getPopularity()?>)</li>
-				<?endforeach;?>
-			</ul>
-		<?endif;?>
-	<h5><?=__('Add your tags')?>:</h5>
-	<div class="add-tag-box">
-		<form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="get">
-			<div class="input-box">
-				<input type="text" class="input-text required-entry" name="tagName" />
-			</div>
-			<button class="form-button-alt" onclick="addTagForm.submit();"><span><?=__('Add Tags')?></span></button>
-		</form>
-		<script type="text/javascript">
-			var addTagForm = new VarienForm('addTagForm');
-		</script>
-		<div class="clear"></div>
-		<small><?=__('Use spaces to separate tags. Use single quotes(\') for phrases')?>.</small>
-	</div>
+<div class="head">
+    <h4><?=__('Product Tags')?></h4>
+</div>
+    <?if( $this->getCount() ):?>
+    <h5><?=__('Other people marked this product with these tags')?>:</h5>
+        <ul class="tags-list">
+            <?$_iterator = 0;?>
+            <?foreach( $this->getTags() as $_tag ):?>
+                <li <?if( 1 == ++$_iterator && $this->getCount() != 1 ):?>class="first"<?elseif($_iterator == $this->getCount()):?>class="last"<?endif;?>><a href="<?=$_tag->getTaggedProductsUrl()?>"><?=$_tag->getName()?></a> (<?=$_tag->getPopularity()?>)</li>
+            <?endforeach;?>
+        </ul>
+    <?endif;?>
+<h5><?=__('Add your tags')?>:</h5>
+<div class="add-tag-box">
+    <form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="get">
+        <div class="input-box">
+            <input type="text" class="input-text required-entry" name="tagName" />
+        </div>
+        <button class="form-button-alt" onclick="addTagForm.submit();"><span><?=__('Add Tags')?></span></button>
+    </form>
+    <script type="text/javascript">
+        var addTagForm = new VarienForm('addTagForm');
+    </script>
+    <div class="clear"></div>
+    <small><?=__('Use spaces to separate tags. Use single quotes(\') for phrases')?>.</small>
 </div>

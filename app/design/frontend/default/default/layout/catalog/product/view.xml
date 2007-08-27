@@ -18,7 +18,7 @@
             <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products">
                 <action method="setTemplate"><template>catalog/product/list/upsell.phtml</template></action>
             </block>
-            <block type="core/text_list" name="product.info.additional" as="product_additional_data" />
+            <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
         </block>
     </reference>
     <reference name="right">
