@@ -22,9 +22,9 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
     
     function testAction()
     {
-    	$filename = 'catalog.xml';
     	$content = Mage::getModel('catalogexcel/export')->getWorkbookXml();
     	
+    	$fileName = 'catalog.xml';
         header('HTTP/1.1 200 OK');
         header('Content-Disposition: attachment; filename='.$fileName);
         header('Last-Modified: '.date('r'));
