@@ -284,18 +284,16 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         );
         
         if (!isset($codes[$type])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code type: '.$type);
-        }
-        
-        if (''===$code) {
+//            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code type: '.$type);
+        } elseif (''===$code) {
             return $codes[$type];
-        }
+        } 
         
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code for type '.$type.': '.$code);
+//            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code for type '.$type.': '.$code);
+        } else {
+            return $codes[$type][$code];
         }
-        
-        return $codes[$type][$code];
     }
 
     protected function _getXmlQuotes()

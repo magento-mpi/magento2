@@ -50,10 +50,12 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
 
     public function addRegionCodeFilter($regionCode)
     {
-        if (is_array($regionCode)) {
-            $this->_sqlSelect->where("{$this->_regionTable}.code IN ('".implode("','", $regionCode)."')");
-        } else {
-            $this->_sqlSelect->where("{$this->_regionTable}.code = '{$regionCode}'");
+        if (!empty($regionCode)) {
+            if (is_array($regionCode)) {
+                $this->_sqlSelect->where("{$this->_regionTable}.code IN ('".implode("','", $regionCode)."')");
+            } else {
+                $this->_sqlSelect->where("{$this->_regionTable}.code = '{$regionCode}'");
+            }
         }
         return $this;
     }

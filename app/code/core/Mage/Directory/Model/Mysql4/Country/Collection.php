@@ -22,7 +22,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         
         $this->_sqlSelect->from($this->_countryTable);
         $this->_sqlSelect->join($countryNameTable, "$countryNameTable.country_id=$this->_countryTable.country_id AND $countryNameTable.language_code='$lang'");
-        
+
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/country'));
     }
     
@@ -50,10 +50,24 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     
     public function addCountryCodeFilter($countryCode, $iso='iso3')
     {
-        if (is_array($countryCode)) {
-            $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code IN ('".implode("','", $countryCode)."')");
-        } else {
-            $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code = '{$countryCode}'");
+        if (!empty($countryCode)) {
+            if (is_array($countryCode)) {
+                $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code IN ('".implode("','", $countryCode)."')");
+            } else {
+                $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code = '{$countryCode}'");
+            }
+        }
+        return $this;
+    }
+
+    public function addCountryIdFilter($countryId)
+    {
+        if (!empty($countryId)) {
+            if (is_array($countryId)) {
+                $this->_sqlSelect->where("{$this->_countryTable}.country_id IN ('".implode("','", $countryId)."')");
+            } else {
+                $this->_sqlSelect->where("{$this->_countryTable}.country_id = '{$countryId}'");
+            }
         }
         return $this;
     }

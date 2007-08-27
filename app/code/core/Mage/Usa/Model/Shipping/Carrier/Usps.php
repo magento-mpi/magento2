@@ -72,6 +72,20 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
         }
         
+        if ($request->getDestCountryId()) {
+            $destCountry = $request->getDestCountryId();
+        } else {
+            $destCountry = 223;
+        }
+        $r->setDestCountryId($destCountry);
+
+        $countries = Mage::getResourceModel('directory/country_collection')
+                        ->addCountryIdFilter($destCountry)
+                        ->load()
+                        ->getItems();
+        $country = array_shift($countries);
+        $r->setDestCountryName($country->getName());
+
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
         } else {
@@ -97,34 +111,62 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     {
         $r = $this->_rawRequest;
 
-        $xml = new SimpleXMLElement('<RateV3Request/>');
+        if ($r->getDestCountryId() == 223) {
+            $xml = new SimpleXMLElement('<RateV3Request/>');
 
-        $xml->addAttribute('USERID', $r->getUserId());
+            $xml->addAttribute('USERID', $r->getUserId());
 
-        $package = $xml->addChild('Package');
-            $package->addAttribute('ID', 0);
-            $package->addChild('Service', $r->getService());
-//          $package->addChild('FirstClassMailType', $r->getService());
-            $package->addChild('ZipOrigination', $r->getOrigPostal());
-            $package->addChild('ZipDestination', $r->getDestPostal());
-            $package->addChild('Pounds', $r->getWeightPounds());
-            $package->addChild('Ounces', $r->getWeightOunces());
-            $package->addChild('Container', $r->getContainer());
-            $package->addChild('Size', $r->getSize());
-            $package->addChild('Machinable', $r->getMachinable());
+            $package = $xml->addChild('Package');
+                $package->addAttribute('ID', 0);
+                $package->addChild('Service', $r->getService());
+    //          $package->addChild('FirstClassMailType', $r->getService());
+                $package->addChild('ZipOrigination', $r->getOrigPostal());
+                $package->addChild('ZipDestination', $r->getDestPostal());
+                $package->addChild('Pounds', $r->getWeightPounds());
+                $package->addChild('Ounces', $r->getWeightOunces());
+                $package->addChild('Container', $r->getContainer());
+                $package->addChild('Size', $r->getSize());
+                $package->addChild('Machinable', $r->getMachinable());
 
-        $request = $xml->asXML();
+            $request = $xml->asXML();
 
-        try {
-            $client = new Zend_Http_Client();
-            $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
-            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-            $client->setParameterGet('API', 'RateV3');
-            $client->setParameterGet('XML', $request);
-            $response = $client->request();
-            $responseBody = $response->getBody();
-        } catch (Exception $e) {
-            $responseBody = '';
+            try {
+                $client = new Zend_Http_Client();
+                $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
+                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+                $client->setParameterGet('API', 'RateV3');
+                $client->setParameterGet('XML', $request);
+                $response = $client->request();
+                $responseBody = $response->getBody();
+            } catch (Exception $e) {
+                $responseBody = '';
+            }
+        } else {
+            $xml = new SimpleXMLElement('<IntlRateRequest/>');
+
+            $xml->addAttribute('USERID', $r->getUserId());
+
+            $package = $xml->addChild('Package');
+                $package->addAttribute('ID', 0);
+                $package->addChild('Pounds', $r->getWeightPounds());
+                $package->addChild('Ounces', $r->getWeightOunces());
+                $package->addChild('MailType', 'Package');
+                $package->addChild('ValueOfContents', $r->getValue());
+                $package->addChild('Country', $r->getDestCountryName());
+
+            $request = $xml->asXML();
+
+            try {
+                $client = new Zend_Http_Client();
+                $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
+                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+                $client->setParameterGet('API', 'IntlRate');
+                $client->setParameterGet('XML', $request);
+                $response = $client->request();
+                $responseBody = $response->getBody();
+            } catch (Exception $e) {
+                $responseBody = '';
+            }
         }
 
         $this->_parseXmlResponse($responseBody);
@@ -138,22 +180,33 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         if (strlen(trim($response))>0) {
             if (strpos(trim($response), '<?xml')===0) {
                 $xml = simplexml_load_string($response);
-                if (is_object($xml)) {
-                    if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
-                        $errorTitle = (string)$xml->Description;
-                    } elseif (is_object($xml->Package) && is_object($xml->Package->Error) && is_object($xml->Package->Error->Description) && (string)$xml->Package->Error->Description!='') {
-                        $errorTitle = (string)$xml->Package->Error->Description;
-                    } else {
-                        $errorTitle = 'Unknown error';
-                    }
-                    if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
-                        foreach ($xml->Package->Postage as $postage) {
-                            $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-                            $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+                    if (is_object($xml)) {
+                        if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
+                            $errorTitle = (string)$xml->Description;
+                        } elseif (is_object($xml->Package) && is_object($xml->Package->Error) && is_object($xml->Package->Error->Description) && (string)$xml->Package->Error->Description!='') {
+                            $errorTitle = (string)$xml->Package->Error->Description;
+                        } else {
+                            $errorTitle = 'Unknown error';
                         }
-                        asort($priceArr);
+                        $r = $this->_rawRequest;
+                        if ($r->getDestCountryId() == 223) {
+                            if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
+                                foreach ($xml->Package->Postage as $postage) {
+                                    $costArr[(string)$postage->MailService] = (string)$postage->Rate;
+                                    $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+                                }
+                                asort($priceArr);
+                            }
+                        } else {
+                            if (is_object($xml->Package) && is_object($xml->Package->Service)) {
+                                foreach ($xml->Package->Service as $service) {
+                                    $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
+                                    $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
+                                }
+                                asort($priceArr);
+                            }
+                        }
                     }
-                }
             } else {
                 $errorTitle = 'Response is in the wrong format';
             }
@@ -222,6 +275,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 'Media Mail'                       => 'MEDIA',
                 'Library Mail'                     => 'LIBRARY',
                 'Priority Mail Flat-Rate Envelope' => 'PRIORITY',
+                'Global Express Guaranteed'        => 'EXPRESS',
+                'Global Express Guaranteed Non-Document Rectangular'     => 'EXPRESS',
+                'Global Express Guaranteed Non-Document Non-Rectangular' => 'EXPRESS',
+                'Express Mail International (EMS)'                       => 'EXPRESS',
+                'Express Mail International (EMS) Flat Rate Envelope'    => 'EXPRESS',
+                'Priority Mail International'                            => 'PRIORITY',
+                'Priority Mail International Flat Rate Box'              => 'PRIORITY',
             ),
 
             'first_class_mail_type'=>array(
@@ -252,18 +312,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         );
 
         if (!isset($codes[$type])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code type: '.$type);
-        }
-        
-        if (''===$code) {
+//            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code type: '.$type);
+        } elseif (''===$code) {
             return $codes[$type];
         }
         
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code for type '.$type.': '.$code);
+//            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code for type '.$type.': '.$code);
+        } else {
+            return $codes[$type][$code];
         }
-        
-        return $codes[$type][$code];
     }
 
 }
