@@ -132,8 +132,17 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $key = $this->formatDate($time).'|'.$r['store_id'].'|'.$r['customer_group_id'].'|'.$r['product_id'];
 
                 if (!isset($prices[$key])) {
-                    $prices[$key] = $products->getItemById($r['product_id'])->getPrice();
-                } elseif (!empty($stop[$key])) {
+                	$product = $products->getItemById($r['product_id']);
+                	if ($product) {
+                    	$prices[$key] = $product->getPrice();
+                	} else {
+                		$prices[$key] = false;
+                	}
+                } elseif ($prices[$key]===false) {
+                	continue;
+                }
+                
+                if (!empty($stop[$key])) {
                     continue;
                 }
                 
