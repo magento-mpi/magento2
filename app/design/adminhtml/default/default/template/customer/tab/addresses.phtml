@@ -96,9 +96,12 @@
 
         <address><?=__('New Customer Address')?></address>
         <div class="address-type">
-                        <span class="address-type-line">
-                            <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="account[default_billing]" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing')?></label></span>
-            <span class="address-type-line"><input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="account[default_shipping]" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping')?></label></span>
+            <span class="address-type-line">
+                <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="account[default_billing]" title="<?=__('Set as default billing address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing')?></label>
+            </span>
+            <span class="address-type-line">
+                <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="account[default_shipping]" title="<?=__('Set as default shipping address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping')?></label>
+            </span>
         </div>
     </div>
 
@@ -388,15 +391,15 @@ addressesModel.prototype = {
     },
 
     bindCountryRegionRelation : function(paerntId){
-        if(paerntId){
-            // todo: fix bug in IE
-            var countryElements = $$('#'+paerntId+' .countries');
-        }
-        else{
-            var countryElements = $$('.countries');
-        }
-        for(var i in countryElements){
-            Event.observe(countryElements[i], 'change', this.reloadRegionField.bind(this));
+        var countryElements = document.getElementsByClassName('countries');
+        for(var i=0;i<=countryElements.length;i++){
+            if(countryElements[i]){
+                if(!countryElements[i].bindRegions || !countryElements[i].parentBindId || countryElements[i].parentBindId!=paerntId){
+                    Event.observe(countryElements[i], 'change', this.reloadRegionField.bind(this));
+                    countryElements[i].bindRegions = true;
+                    countryElements[i].parentBindId = paerntId;
+                }
+            }
         }
     },
 
@@ -419,6 +422,7 @@ addressesModel.prototype = {
             var reqLabel = this.regionElement.previous(0).getElementsByClassName('required');
             if (data.length) {
                 var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry input-text select" title="'+this.regionElement.title+'">';
+                html+= '<option value=""></option>';
                 for (var i in data){
                     if(data[i].label) {
                         html+= '<option value="'+data[i].value+'"';

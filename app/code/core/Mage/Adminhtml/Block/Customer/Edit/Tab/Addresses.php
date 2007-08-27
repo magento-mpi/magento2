@@ -52,7 +52,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         if ($regionElement = $form->getElement('region')) {
             $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
         }
-
+        
+        if ($country = $form->getElement('country_id')) {
+            $country->addClass('countries');
+        }
+        
         $addressCollection = Mage::registry('current_customer')->getLoadedAddressCollection();
         $this->assign('customer', Mage::registry('current_customer'));
         $this->assign('addressCollection', $addressCollection);
