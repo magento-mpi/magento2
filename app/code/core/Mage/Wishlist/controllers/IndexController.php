@@ -134,12 +134,21 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		if($item->getWishlistId()==$wishlist->getId()) {
 			 try {
 	            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
-	            $quote = Mage::getSingleton('checkout/session')->getQuote();
-	            $quote->addCatalogProduct($product)->save();
+	            $quote = Mage::getSingleton('checkout/cart')
+	               ->addProduct($product)
+	               ->save();
             	$item->delete();
             }
 			catch(Exception $e) {
-				Mage::getSingleton('customer/session')->addError($e->getMessage());
+				Mage::getSingleton('checkout/session')->addError($e->getMessage());
+				$url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+				if ($url) {
+				    $this->getResponse()->setRedirect($url);
+				}
+				else {
+				    $this->_redirect('*/*/');
+				}
+				return;
 			}
 		}
 		$this->_redirect('checkout/cart');
@@ -148,18 +157,26 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 	public function allcartAction() {
 		$wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
-		$quote = Mage::getSingleton('checkout/session')->getQuote();
 
 		$wishlist->getItemCollection()->load();
 		foreach ($wishlist->getItemCollection() as $item) {
- 			 try {
+ 			try {
 	            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
-	            $quote->addCatalogProduct($product)->save();
+	            Mage::getSingleton('checkout/cart')->addProduct($product);
             	$item->delete();
             }
 			catch(Exception $e) {
-				Mage::getSingleton('customer/session')->addError($e->getMessage());
+				Mage::getSingleton('checkout/session')->addError($e->getMessage());
+				$url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+				if ($url) {
+				    $this->getResponse()->setRedirect($url);
+				}
+				else {
+				    $this->_redirect('*/*/');
+				}
+				return;
 			}
+			Mage::getSingleton('checkout/cart')->save();
 		}
 
 		$this->_redirect('checkout/cart');
