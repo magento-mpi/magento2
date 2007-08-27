@@ -254,7 +254,6 @@ p.required {
 .content-box { min-height:250px; } /* Set minimum height for visual presentation */
 .content { padding:12px 12px 12px 15px; } /* Sets default padding */
 .actions { line-height:1.3em; }
-.page-popup { background:#fff; margin:25px 30px; }
 .separator { padding:0 5px;}
 .pipe { padding:0 4px; font-size:.95em; }
 .divider {
@@ -850,7 +849,8 @@ h1#logo {
 .product-collateral .attribute-specs .data { border-right:0; }
 .product-collateral .attribute-specs td { padding-top:3px; padding-bottom:3px; line-height:1.25em; }
 
-#customer-reviews li { margin-bottom:25px; }
+#customer-reviews { margin-bottom:15px; }
+#customer-reviews li { margin:25px 0; }
 #customer-reviews li p { clear:both; }
 .product-collateral .add-tag-box .input-box { float:left; width:302px; margin-right:8px; }
 .product-collateral .add-tag-box .input-box .input-text { width:300px;  }
@@ -884,7 +884,7 @@ h1#logo {
 /* Shopping Cart */
 .shopping-cart  { margin-bottom:0; }
 .shopping-cart th, .shopping-cart td { padding-left:13px; padding-right:13px; }
-.shopping-cart tr.out-of-stock { background:url(../images/cart_out_of_stock_bg.gif) repeat-y !important; }
+.shopping-cart tr.out-of-stock { background:#FDE6E0; }
 td.attributes-col { line-height:1.4em; }
 td.attributes-col ul { margin:5px 0; font-size:.95em;}
 td.attributes-col dt {
@@ -1191,6 +1191,12 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .my-review-detail .details { float:right; width:510px; }
 .my-review-detail .ratings-list { margin-bottom:.8em; }
 
+
+
+
+/********************** Pop up pages */
+.page-popup { background:#fff; margin:25px 30px; }
+.product-gallery-nav { padding:0 5px; }
 
 
 /************************************************************/
