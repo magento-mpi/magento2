@@ -29,7 +29,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         header('Content-Disposition: attachment; filename='.$fileName);
         header('Last-Modified: '.date('r'));
         header("Accept-Ranges: bytes");
-        header("Content-Length: ".sizeof($content));
+        header("Content-Length: ".strlen($content));
         header("Content-type: application/octet-stream");
         
     	echo $content;
