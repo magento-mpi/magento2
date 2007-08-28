@@ -133,7 +133,7 @@
 						<?endforeach;?>
 						</tbody>
 					</table>
-					<p><?=nl2br($_review->getDetail())?> (<?=__('Posted on %s', $this->formatDate($_review->getCreatedAt()))?>)</p></li>
+					<p><?=nl2br($_review->getDetail())?> (<?=__('Posted on %s', $this->formatDate($_review->getCreatedAt()), 'long')?>)</p></li>
 				<li>
 		<?endforeach;?>
 			</ol>

@@ -48,12 +48,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
         return Mage::getModel('sales/order_status')->load($this->getOrder()->getOrderStatusId())->getFrontendLabel();
     }
 
-    public function formatDate($date, $format='medium')
-    {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/datetime_format_' . $format), strtotime($date));
-        return $dateFormatted;
-    }
-
     /**
      * Enter description here...
      *

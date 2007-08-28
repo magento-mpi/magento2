@@ -86,7 +86,7 @@
                 <tbody>
                     <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
                         <tr>
-                            <td class="a-center"><nobr><?=$this->formatDate($_history->getCreatedAt())?></nobr></td>
+                            <td class="a-center"><nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium')?></nobr></td>
                             <td><?=$_history->getStatus()->getFrontendLabel()?></td>
                             <td><?=$_history->getComments()?></td>
                         </tr>
