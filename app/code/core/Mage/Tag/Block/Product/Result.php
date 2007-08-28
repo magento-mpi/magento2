@@ -17,7 +17,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
     {
         #$this->setTemplate('tag/product/result.phtml');
 
-        $this->setTemplate('catalog/search/result.phtml');
+        $this->setTemplate('catalogsearch/result.phtml');
         $this->setTagId(Mage::registry('tagId'));
     }
 
