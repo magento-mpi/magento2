@@ -4,9 +4,9 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 {
 	protected function _initRule()
 	{
-		Mage::register('rule', Mage::getModel('salesrule/rule'));
+		Mage::register('current_promo_quote_rule', Mage::getModel('salesrule/rule'));
         if ($id = (int) $this->getRequest()->getParam('id')) {
-            Mage::registry('rule')
+            Mage::registry('current_promo_quote_rule')
                 ->load($id);
         }
 	}
