@@ -44,6 +44,11 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     	return $this;
     }
     
+    protected function _insertAttribute($object, $attribute, $value, $storeIds = array())
+    {
+        return parent::_insertAttribute($object, $attribute, $value, $this->getStoreIds($object));
+    }
+    
     /**
      * Save product stores configuration
      *

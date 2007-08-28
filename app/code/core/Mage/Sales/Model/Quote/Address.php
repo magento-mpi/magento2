@@ -276,7 +276,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
     public function removeItem($itemId)
     {
-        if ($item = $this->getItemQty($itemId)) {
+        if ($item = $this->getItemById($itemId)) {
             $item->isDeleted(true);
         }
         return $this;

@@ -15,7 +15,12 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         parent::__construct();
         $this->_init();
     }
-
+    
+    /**
+     * Initialize multishipping checkout
+     *
+     * @return Mage_Checkout_Model_Type_Multishipping
+     */
     protected function _init()
     {
         /**
@@ -24,6 +29,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->getQuote()->setIsMultiShipping(true);
         if ($this->getCheckoutSession()->getCheckoutState() === Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $this->getCheckoutSession()->setCheckoutState(true);
+            
             $addresses  = $this->getQuote()->getAllShippingAddresses();
             foreach ($addresses as $address) {
             	$this->getQuote()->removeAddress($address->getId());
@@ -40,15 +46,15 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 	$quoteShippingAddress->addItem($addressItem);
                 }
             }
+            
             if ($this->getCustomerDefaultBillingAddress()) {
                 $this->getQuote()->getBillingAddress()
                     ->importCustomerAddress($this->getCustomerDefaultBillingAddress());
             }
 
-            $this->getQuote()
-                ->collectTotals()
-                ->save();
+            $this->save();
         }
+        return $this;
     }
 
     public function getQuoteShippingAddressesItems()
@@ -81,12 +87,16 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
 
                 if ($quoteItem = $this->getQuote()->getItemById($item->getQuoteItemId())) {
-                    $quoteItem->setQty($quoteItem->getQty()-1);
+                    $newItemQty = $quoteItem->getQty()-1;
+                    if ($newItemQty>0) {
+                        $quoteItem->setQty($quoteItem->getQty()-1);
+                    }
+                    else {
+                        $this->getQuote()->removeItem($quoteItem->getId());
+                    }
                 }
 
-                $this->getQuote()
-                    ->collectTotals()
-                    ->save();
+                $this->save();
             }
         }
         return $this;
@@ -224,6 +234,19 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             ->setIsActive(false)
             ->save();
 
+        return $this;
+    }
+    
+    public function save()
+    {
+        $this->getQuote()->collectTotals()
+            ->save();
+        return $this;
+    }
+    
+    public function reset()
+    {
+        $this->getCheckoutSession()->setCheckoutState(Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN);
         return $this;
     }
 }

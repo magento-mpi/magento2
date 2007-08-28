@@ -391,7 +391,20 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return false;
     }
-
+    
+    public function getItemsSummaryQty()
+    {
+        $qty = $this->getData('all_items_qty');
+        if (is_null($qty)) {
+            $qty = 0;
+            foreach ($this->getAllItems() as $item) {
+            	$qty+= $item->getQty();
+            }
+            $this->setData('all_items_qty', $qty);
+        }
+        return $qty;
+    }
+    
 /*********************** PAYMENTS ***************************/
 
     public function getPaymentsCollection()

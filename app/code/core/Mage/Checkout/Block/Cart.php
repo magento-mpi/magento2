@@ -22,14 +22,9 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $itemsFilter->filter($items);
     }
     
-    public function getItemsCount()
+    public function getItemsSummaryQty()
     {
-        $count = $this->getData('items_count');
-        if (is_null($count)) {
-            $count = count($this->getQuote()->getAllItems());
-            $this->setData('items_count', $count);
-        }
-        return $count;
+        return $this->getQuote()->getItemsSummaryQty();
     }
     
     public function getTotals()

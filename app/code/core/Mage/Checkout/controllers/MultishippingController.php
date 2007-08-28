@@ -19,7 +19,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         parent::preDispatch();
         
-        if (count(Mage::getSingleton('checkout/session')->getQuote()->getAllItems())<2) {
+        if (Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty()<2) {
             $this->_redirect('*/cart/');
             $this->setFlag('', 'no-dispatch', true);
             return;
@@ -121,6 +121,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
 
     public function backToAddressesAction()
     {
+        echo '123';die();
         Mage::getSingleton('checkout/type_multishipping_state')
             ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES);
         $this->_redirect('*/*/addresses');

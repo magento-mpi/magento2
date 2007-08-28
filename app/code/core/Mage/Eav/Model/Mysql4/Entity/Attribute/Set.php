@@ -2,11 +2,13 @@
 
 class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Mysql4_Abstract
 {
+    protected $_beforeSaveAttributes;
+    
     protected function _construct()
     {
         $this->_init('eav/attribute_set', 'attribute_set_id');
     }
-
+    
     public function save(Mage_Core_Model_Abstract $object)
     {
         $write = $this->getConnection('write');
@@ -50,10 +52,5 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Mysql4_
             $write->rollback();
             throw new Exception($e->getMessage());
         }
-    }
-
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
-    {
-
     }
 }

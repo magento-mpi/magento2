@@ -43,7 +43,33 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
     public function deleteEntity($object)
     {
         $write = $this->getConnection('write');
-        $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.entity_attribute_id = ?", $object->getEntityAttributeId());
+        $condition = $write->quoteInto($this->getTable('entity_attribute').'.entity_attribute_id = ?', $object->getEntityAttributeId());
+        /**
+         * Delete attribute values
+         */
+        $select = $write->select()
+            ->from($this->getTable('entity_attribute'))
+            ->where($condition);
+        $data = $write->fetchRow($select);
+        if (!empty($data)) {
+            /**
+             * @todo !!!! need fix retrieving attribute entity, this realization is temprary
+             */
+            $attribute = Mage::getModel('eav/entity_attribute')
+                ->load($data['attribute_id'])
+                ->setEntity(Mage::getSingleton('catalog/product')->getResource());
+            if ($backendTable = $attribute->getBackend()->getTable()) {
+                $clearCondition = array(
+                    $write->quoteInto('entity_type_id=?',$attribute->getEntityTypeId()),
+                    $write->quoteInto('attribute_id=?',$attribute->getId()),
+                    $write->quoteInto('entity_id IN (
+                        SELECT entity_id FROM '.$attribute->getEntity()->getEntityTable().' WHERE attribute_set_id=?)',
+                        $data['attribute_set_id'])
+                );
+                $write->delete($backendTable, $clearCondition);
+            }            
+        }
+        
         $write->delete($this->getTable('entity_attribute'), $condition);
         return $this;
     }

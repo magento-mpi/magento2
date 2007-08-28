@@ -9,6 +9,7 @@
     <h3>Ship to Multiple Addresses</h3>
     <button class="form-button-alt" type="button" onclick="setLocation('<?=$this->getNewAddressUrl()?>')"><span>Enter a New Address</span></button>
 </div>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
     <table cellspacing="0" id="multiship-addresses-table" class="data-table box-table">
         <col width="300"/>

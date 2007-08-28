@@ -17,7 +17,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
         if (count($items)) {
             $products = $this->_getItemsProductCollection($items, $address->getStoreId());
             foreach ($items as $item) {
-            	if (!$this->_initItem($address, $item, $products)) {
+            	if (!$this->_initItem($address, $item, $products) || $item->getQty()<=0) {
             	    $this->_removeItem($address, $item);
             	}
             }

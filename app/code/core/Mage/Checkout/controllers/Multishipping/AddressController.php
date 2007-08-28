@@ -10,16 +10,33 @@
  */
 class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * Retrieve multishipping checkout model
+     *
+     * @return Mage_Checkout_Model_Type_Multishipping
+     */
+    protected function _getCheckout()
+    {
+        return Mage::getSingleton('checkout/type_multishipping');
+    }
+    
+    /**
+     * Create New Shipping address Form
+     */
     public function newShippingAction()
     {
         $this->loadLayout(array('default', 'multishipping', 'customer_address'), 'multishipping_addresses');
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Shipping Address'))
-                ->setSuccessUrl(Mage::getUrl('*/multishipping/addresses'))
+                ->setSuccessUrl(Mage::getUrl('*/*/shippingSaved'))
                 ->setErrorUrl(Mage::getUrl('*/*/*'));
+                
+            if ($headBlock = $this->getLayout()->getBlock('head')) {
+                $headBlock->setTitle($addressForm->getTitle());
+            }
             
-            if (Mage::getSingleton('checkout/type_multishipping')->getCustomerDefaultShippingAddress()) {
+            if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
                 $addressForm->setBackUrl(Mage::getUrl('*/multishipping/addresses'));
             }
             else {
@@ -27,6 +44,17 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
             }
         }
         $this->renderLayout();
+    }
+    
+    public function shippingSavedAction()
+    {
+        /**
+         * if we create first address we need reset emd init checkout
+         */
+        if ($this->_getCheckout()->getCustomer()->getLoadedAddressCollection()->getSize() == 1) {
+            $this->_getCheckout()->reset();
+        }
+        $this->_redirect('*/multishipping/addresses');
     }
     
     public function editShippingAction()
@@ -40,7 +68,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
                 )
                 ->setErrorUrl(Mage::getUrl('*/*/*'));
             
-            if (Mage::getSingleton('checkout/type_multishipping')->getCustomerDefaultShippingAddress()) {
+            if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
                 $addressForm->setBackUrl(Mage::getUrl('*/multishipping/shipping'));
             }
         }
