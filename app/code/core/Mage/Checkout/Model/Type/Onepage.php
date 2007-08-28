@@ -242,7 +242,7 @@ class Mage_Checkout_Model_Type_Onepage
                 $customer = Mage::getSingleton('customer/session')->getCustomer();
                 $email  = $customer->getEmail();
                 $name   = $customer->getName();
-                
+
                 $billing = $this->getQuote()->getBillingAddress();
                 $shipping = $this->getQuote()->getShippingAddress();
                 if (!$billing->getCustomerAddressId()) {
@@ -275,6 +275,7 @@ class Mage_Checkout_Model_Type_Onepage
             $orderId = $order->getIncrementId();
             $this->getCheckout()->setLastQuoteId($this->getQuote()->getId());
             $this->getCheckout()->setLastOrderId($order->getId());
+            $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
 
             $order->sendNewOrderEmail();
 
@@ -293,7 +294,7 @@ class Mage_Checkout_Model_Type_Onepage
     protected function _createCustomer()
     {
     	$quote = $this->getQuote();
-    	
+
         $customer = Mage::getModel('customer/customer');
 
         $billingEntity = $quote->getBillingAddress();

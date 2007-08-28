@@ -4,7 +4,7 @@
 </div>
 <p><strong>Thank you for your purchase!</strong></p>
 <p>
-		Your order # is: <?=$this->getRealOrderId()?>.<br/>
+		Your order # is: <?=Mage::getSingleton('checkout/session')->getLastRealOrderId()?>.<br/>
 		You will receive an order confirmation email with details of your order and a link to track its progress.
 </p>
 <div class="form-buttons">
