@@ -28,10 +28,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('qty')
             ->addAttributeToSelect('price')
-            ->joinField('store_id', 
-                'catalog/product_store', 
-                'store_id', 
-                'product_id=entity_id', 
+            ->joinField('store_id',
+                'catalog/product_store',
+                'store_id',
+                'product_id=entity_id',
                 '{{table}}.store_id='.$storeId)
             ->joinField('stores',
                 'catalog/product_store',
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'header'=> __('Name'),
                 'index' => 'name',
         ));
-        
+
         $storeId = $this->getRequest()->getParam('store', 0);
         if ((int) $storeId) {
             $store = Mage::getModel('core/store')->load($storeId);
@@ -87,15 +87,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                     'index' => 'custom_name',
             ));
         }
-        
+
         $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getConfig()->getId())            
+            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getConfig()->getId())
             ->load()
             ->toOptionHash();
-            
+
         $this->addColumn('set_name',
             array(
-                'header'=> __('Set Name'),
+                'header'=> __('Attrib. Set Name'),
                 'width' => '130px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
                 'index' => 'price',
         ));
-        
+
 
         $this->addColumn('qty',
             array(
@@ -124,11 +124,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'type'  => 'number',
                 'index' => 'qty',
         ));
-        
+
         $statuses = Mage::getResourceModel('catalog/product_status_collection')
             ->load()
             ->toOptionHash();
-            
+
         $this->addColumn('status',
             array(
                 'header'=> __('Status'),
