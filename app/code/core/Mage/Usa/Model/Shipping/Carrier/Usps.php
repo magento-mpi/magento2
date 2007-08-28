@@ -131,23 +131,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 $package->addChild('Size', $r->getSize());
                 $package->addChild('Machinable', $r->getMachinable());
 
+            $api = 'RateV3';
             $request = $xml->asXML();
 
-            try {
-                $url = Mage::getStoreConfig('carriers/usps/gateway_url');
-                if (!$url) {
-                    $url = $this->_defaultGatewayUrl;
-                }
-                $client = new Zend_Http_Client();
-                $client->setUri($url);
-                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-                $client->setParameterGet('API', 'RateV3');
-                $client->setParameterGet('XML', $request);
-                $response = $client->request();
-                $responseBody = $response->getBody();
-            } catch (Exception $e) {
-                $responseBody = '';
-            }
         } else {
             $xml = new SimpleXMLElement('<IntlRateRequest/>');
 
@@ -161,19 +147,24 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                 $package->addChild('ValueOfContents', $r->getValue());
                 $package->addChild('Country', $r->getDestCountryName());
 
+            $api = 'IntlRate';
             $request = $xml->asXML();
+        }
 
-            try {
-                $client = new Zend_Http_Client();
-                $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
-                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-                $client->setParameterGet('API', 'IntlRate');
-                $client->setParameterGet('XML', $request);
-                $response = $client->request();
-                $responseBody = $response->getBody();
-            } catch (Exception $e) {
-                $responseBody = '';
+        try {
+            $url = Mage::getStoreConfig('carriers/usps/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultGatewayUrl;
             }
+            $client = new Zend_Http_Client();
+            $client->setUri($url);
+            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+            $client->setParameterGet('API', $api);
+            $client->setParameterGet('XML', $request);
+            $response = $client->request();
+            $responseBody = $response->getBody();
+        } catch (Exception $e) {
+            $responseBody = '';
         }
 
         $this->_parseXmlResponse($responseBody);
