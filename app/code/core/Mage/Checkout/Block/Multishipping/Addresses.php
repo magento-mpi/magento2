@@ -58,7 +58,8 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Checkout_Block_Mu
                     'label'=>$address->getFirstname().' '.$address->getLastname().', '.
                         $address->getStreet(-1).', '.
                         $address->getCity().', '.
-                        $address->getRegion().' '.
+                        $address->getRegion().', '.
+                        $address->getCountry().' '.
                         $address->getPostcode(),
                 );
             }

@@ -27,6 +27,11 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $this->getQuote()->getItemsSummaryQty();
     }
     
+    public function getCanDoMultishipping()
+    {
+        return !$this->getQuote()->hasItemsWithDecimalQty();
+    }
+    
     public function getTotals()
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
@@ -79,69 +84,31 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     
     public function getItemUrl($item)
     {
-        if ($superProduct = $item->getSuperProduct()) {
-            return $superProduct->getProductUrl();
-        }
-        
-        if ($product = $item->getProduct()) {
-            return $product->getProductUrl();
-        }
-        return '';
+        return $this->getHelper('checkout/item')->getItemUrl($item);
     }
     
     public function getItemImageUrl($item)
     {
-        if ($superProduct = $item->getSuperProduct()) {
-            return $superProduct->getThumbnailUrl();
-        }
-        
-        if ($product = $item->getProduct()) {
-            return $product->getThumbnailUrl();
-        }
-        return '';
+        return $this->getHelper('checkout/item')->getItemImageUrl($item);
     }
     
     public function getItemName($item)
     {
-        $superProduct = $item->getSuperProduct();
-        if ($superProduct && $superProduct->isConfigurable()) {
-            return $superProduct->getName();
-        }
-        
-        if ($product = $item->getProduct()) {
-            return $product->getName();
-        }
-        return $item->getName();
+        return $this->getHelper('checkout/item')->getItemName($item);
     }
     
     public function getItemDescription($item)
     {
-        if ($superProduct = $item->getSuperProduct()) {
-            if ($superProduct->isConfigurable()) {
-                return $this->getLayout()->createBlock('checkout/cart_item_super')->setProduct($item->getProduct())->toHtml();
-            }
-        }
-        return '';
+        return $this->getHelper('checkout/item')->getItemDescription($item);
     }
     
     public function getItemQty($item)
     {
-        $qty = $item->getQty();
-        if ($product = $item->getProduct()) {
-            if ($product->getQtyIsDecimal()) {
-                return number_format($qty, 2, null, '');
-            }
-        }
-        return number_format($qty, 0, null, '');
+        return $this->getHelper('checkout/item')->getItemQty($item);
     }
     
     public function getItemIsInStock($item)
     {
-        if ($item->getProduct()->isSaleable()) {
-            if ($item->getProduct()->getQty()>=$item->getQty()) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getHelper('checkout/item')->getItemIsInStock($item);
     }
 }

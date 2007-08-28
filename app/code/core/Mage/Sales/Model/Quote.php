@@ -312,6 +312,16 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         return sizeof($this->getAllItems())>0;
     }
+    
+    public function hasItemsWithDecimalQty()
+    {
+        foreach ($this->getAllItems() as $item) {
+        	if ($item->getProduct()->getQtyIsDecimal()) {
+        	    return true;
+        	}
+        }
+        return false;
+    }
 
     /**
      * Enter description here...

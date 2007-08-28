@@ -18,19 +18,34 @@ class Mage_Checkout_Block_Multishipping_Address_Select extends Mage_Checkout_Blo
         return parent::_initChildren();
     }
     
+    protected function _getCheckout()
+    {
+        return Mage::getSingleton('checkout/type_multishipping');
+    }
+    
     public function getAddressCollection()
     {
         $collection = $this->getData('address_collection');
         if (is_null($collection)) {
-            $collection = Mage::getSingleton('checkout/type_multishipping')->getCustomer()->getLoadedAddressCollection();
+            $collection = $this->_getCheckout()->getCustomer()->getLoadedAddressCollection();
             $this->setData('address_collection', $collection);
         }
         return $collection;
     }
     
+    public function isAddressDefaultBilling($address)
+    {
+        return $address->getId() == $this->_getCheckout()->getCustomer()->getDefaultBilling();
+    }
+    
+    public function isAddressDefaultShipping($address)
+    {
+        return $address->getId() == $this->_getCheckout()->getCustomer()->getDefaultShipping();
+    }
+    
     public function getEditAddressUrl($address)
     {
-        return $this->getUrl('*/*/editBilling', array('id'=>$address->getId()));
+        return $this->getUrl('*/*/editAddress', array('id'=>$address->getId()));
     }
     
     public function getSetAddressUrl($address)

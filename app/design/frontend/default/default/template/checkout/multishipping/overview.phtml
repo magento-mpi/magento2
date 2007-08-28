@@ -9,10 +9,10 @@
         <div class="clear"></div>
         <div class="content col2-set">
             <div class="col-1">
-                <div class="head">
-                    <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
-                </div>
                 <?$_address=$this->getBillingAddress()?>
+                <div class="head">
+                    <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingAddressUrl($_address)?>">Edit</a></h4>
+                </div>
                 <address>
                     <?=$_address->getFormated(true)?>
                 </address>
@@ -66,7 +66,10 @@
                 <tbody>
                 <?foreach ($this->getShippingAddressItems($_address) as $_item):?>
                     <tr>
-                        <td><?=$_item->getName()?></td>
+                        <td>
+                            <?=$this->getHelper('checkout/item')->getItemName($_item)?>
+                            <?=$this->getHelper('checkout/item')->getItemDescription($_item)?>
+                        </td>
                         <td class="a-right"><?=$_item->getPrice()?></td>
                         <td class="a-center"><?=$_item->getQty()?></td>
                         <td class="a-right"><?=$_item->getRowTotal()?></td>

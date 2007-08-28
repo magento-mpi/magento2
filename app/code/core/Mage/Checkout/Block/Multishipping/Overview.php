@@ -96,6 +96,11 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
         return $this->getUrl('*/multishipping_address/editShipping', array('id'=>$address->getCustomerAddressId()));
     }
 
+    public function getEditBillingAddressUrl($address)
+    {
+        return $this->getUrl('*/multishipping_address/editBilling', array('id'=>$address->getCustomerAddressId()));
+    }
+    
     public function getEditShippingUrl()
     {
         return $this->getUrl('*/*/backtoshipping');

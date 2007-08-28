@@ -15,6 +15,11 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         return Mage::getSingleton('checkout/type_multishipping');
     }
     
+    protected function _getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+    
     protected function _getState()
     {
         return Mage::getSingleton('checkout/type_multishipping_state');
@@ -29,7 +34,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         parent::preDispatch();
         
-        if (Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty()<2) {
+        //if (Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty()<2) {
+        if (!$this->_getCheckoutSession()->getQuote()->hasItems() || $this->_getCheckoutSession()->getQuote()->hasItemsWithDecimalQty()) {
             $this->_redirect('*/cart/');
             $this->setFlag('', 'no-dispatch', true);
             return;
@@ -217,6 +223,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         $this->loadLayout(array('default', 'multishipping', 'multishipping_overview'), 'multishipping_overview');
         $this->_initLayoutMessages('checkout/session');
+        $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
     }
 

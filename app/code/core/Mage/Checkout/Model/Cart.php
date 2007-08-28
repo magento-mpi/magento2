@@ -48,6 +48,27 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         return $this->getCheckoutSession()->getQuote();
     }
     
+    public function init()
+    {
+        /**
+         * If user try do checkout, reset shipiing and payment data
+         */
+        if ($this->getCheckoutSession()->getCheckoutState() !== Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
+        	$this->getQuote()
+        		->removeAllAddresses()
+        		->removePayment();
+            $this->getCheckoutSession()->resetCheckout();
+        }
+        
+        if (!$this->getQuote()->hasItems()) {
+        	$this->getQuote()->getShippingAddress()
+        		->setCollectShippingRates(false)
+        		->removeAllShippingRates();
+        }
+        
+        return $this;
+    }
+    
     /**
      * Add products 
      *
@@ -303,7 +324,11 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         if ($wishlist = $this->getCustomerWishlist()) {
             if ($item = $this->getQuote()->getItemById($itemId)) {
-                $wishlist->addNewItem($item->getProductId())
+                $productId = $item->getProductId();
+                if ($item->getSuperProductId()) {
+                    $productId = $item->getSuperProductId();
+                }
+                $wishlist->addNewItem($productId)
                     ->save();
                 $this->removeItem($itemId);
             }
@@ -329,7 +354,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     public function save()
     {
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-        $this->getQuote()->save();
+        $this->getQuote()->collectTotals()
+            ->save();
         $this->getCheckoutSession()->setQuoteId($this->getQuote()->getId());
         return $this;
     }

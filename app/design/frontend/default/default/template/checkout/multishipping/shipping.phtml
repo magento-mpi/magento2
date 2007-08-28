@@ -71,7 +71,10 @@
                 <tbody>
                 <?foreach ($this->getAddressItems($_address) as $_item):?>
                     <tr>
-                        <td><?=$_item->getQuoteItem()->getName()?></td>
+                        <td>
+                            <?=$this->getHelper('checkout/item')->getItemName($_item)?>
+                            <?=$this->getHelper('checkout/item')->getItemDescription($_item)?>
+                        </td>
                         <td class="a-center"><?=$_item->getQty()?></td>
                     </tr>
                 <?endforeach;?>

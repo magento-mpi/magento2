@@ -1,0 +1,19 @@
+<?php
+$this->addAttribute('quote_address_item', 'product_id', array('type'=>'int'));
+$this->addAttribute('quote_address_item', 'super_product_id', array('type'=>'int'));
+$this->addAttribute('quote_address_item', 'parent_product_id', array('type'=>'int'));
+$this->addAttribute('quote_address_item', 'sku', array());
+$this->addAttribute('quote_address_item', 'image', array());
+$this->addAttribute('quote_address_item', 'name', array());
+$this->addAttribute('quote_address_item', 'description', array('type'=>'text'));
+$this->addAttribute('quote_address_item', 'weight', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'free_shipping', array('type'=>'int'));
+$this->addAttribute('quote_address_item', 'qty', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'price', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'discount_percent', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'discount_amount', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'tax_percent', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'tax_amount', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'row_total', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'row_weight', array('type'=>'decimal'));
+$this->addAttribute('quote_address_item', 'applied_rule_ids', array());

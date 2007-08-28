@@ -98,7 +98,7 @@
     <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
     <ul class="checkout-types">
         <li><a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=__('Proceed to Checkout')?>"/></a></li>
-        <?if($this->getItemsSummaryQty()>1):?>
+        <?if($this->getCanDoMultishipping()):?>
         <li><a href="<?=$this->getMultiShippingUrl()?>"><big><?=__('Checkout with Multiple Addresses')?></big></a></li>
         <?endif;?>
         <?/*<li><a href="<?=$this->getPaypalUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_paypal_checkout.gif')?>" alt="<?=__('Paypal Checkout')?>"/></a></li>*/?>

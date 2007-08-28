@@ -34,18 +34,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        Mage::getSingleton('checkout/session')->resetCheckout();
-        if (!$this->getQuote()->hasItems()) {
-        	$this->getQuote()->getShippingAddress()
-        		->setCollectShippingRates(false)
-        		->removeAllShippingRates();
-
-        	$this->getQuote()
-        		->removeAllAddresses()
-        		->removePayment();
-        }
-        $this->getQuote()->collectTotals()->save();
-
+        $this->_getCart()->init()
+            ->save();
+            
         if (!$this->_getCart()->isValidItemsQty()) {
             Mage::getSingleton('checkout/session')
                 ->addError('The item (s) marked in red are not available in the desired quantity. Please update the quantity of the item (s).');

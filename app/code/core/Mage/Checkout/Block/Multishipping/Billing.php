@@ -23,7 +23,7 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
         $address = $this->getData('address');
         if (is_null($address)) {
             $address = $this->getCheckout()->getQuote()->getBillingAddress();
-            $this->setAddress('address', $address);
+            $this->setData('address', $address);
         }
         return $address;
     }
@@ -33,11 +33,17 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
         $methods = Mage::getStoreConfig('payment');
 
         $listBlock = $this->getLayout()->createBlock('core/text_list');
+        $payment = $this->getCheckout()->getQuote()->getPayment();
+        if (!$payment->getCcOwner()) {
+            if ($address = $this->getAddress()) {
+                $payment->setCcOwner($address->getFirstname() . ' ' . $address->getLastname());
+            }
+        }
         foreach ($methods as $methodConfig) {
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();
             $method = Mage::getModel($className)
-                ->setPayment($this->getCheckout()->getQuote()->getPayment());
+                ->setPayment($payment);
 
             $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
             if (!empty($methodBlock)) {

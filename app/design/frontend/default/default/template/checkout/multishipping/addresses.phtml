@@ -31,7 +31,12 @@
         <tbody>
         <?foreach ($this->getItems() as $_index => $_item):?>
             <tr>
-                <td class="attributes-col"><a href="<?=$this->getItemUrl($_item)?>"><strong><?=$_item->getName()?></strong></a></td>
+                <td class="attributes-col">
+                    <a href="<?=$this->getHelper('checkout/item')->getItemUrl($_item)?>">
+                        <strong><?=$this->getHelper('checkout/item')->getItemName($_item)?></strong>
+                    </a>
+                    <?=$this->getHelper('checkout/item')->getItemDescription($_item)?>
+                </td>
                 <td class="a-center"><input name="ship[<?=$_index?>][<?=$_item->getQuoteItemId()?>][qty]" value="<?=$_item->getQty()?>" size="2" class="input-text qty"/></td>
                 <td><?=$this->getAddressesHtmlSelect($_item, $_index)?></td>
                 <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
