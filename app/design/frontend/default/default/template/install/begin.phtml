@@ -1,9 +1,5 @@
-<h1 class="page-heading"><?=__('Welcome')?>!</h1>
-<?=$this->getMessagesBlock()->getGroupedHtml()?>
-<?
-?>
-<?if(count($this->getMessagesBlock()->getMessages())==0):?>
-<form action="<?=$postAction?>" method="post">
+<div class="page-head">
+    <h3 style="float:left;"><?=__('Welcome')?>!</h3>
     <?if(!empty($languages)):?>
     <div class="float-right">
         <label for="language">Language:</label>
@@ -14,7 +10,14 @@
         </select>
     </div>
     <?endif;?>
-    <h1>Open Software License ("OSL") v. 3.0</h1>
+</div>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
+<?
+?>
+<?if(count($this->getMessagesBlock()->getMessages())==0):?>
+<form action="<?=$postAction?>" method="post">
+
+    <h3>Open Software License ("OSL") v. 3.0</h3>
     <p>This Open Software License (the "License") applies to any original work of authorship (the "Original Work") whose owner (the "Licensor") has placed the following licensing notice adjacent to the copyright notice for the Original Work:</p>
     <p><b>Licensed under the Open Software License version 3.0</b></p>
     <ol>
@@ -67,9 +70,12 @@
 
     </p></li><li><b>Modification of This License</b>. This License is Copyright � 2005 Lawrence Rosen. Permission is granted to copy, distribute, or communicate this License without modification. Nothing in this License permits You to modify this License as applied to the Original Work or to Derivative Works. However, You may modify the text of this License and copy, distribute or communicate your modified version (the "Modified License") and apply it to other original works of authorship subject to the following conditions: (i) You may not indicate in any way that your Modified License is the "Open Software License" or "OSL" and you may not use those names in the name of your Modified License; (ii) You must replace the notice specified in the first paragraph above with the notice "Licensed under <insert your="" license="" name="" here="">" or with a notice of your own that is not confusingly similar to the notice in this License; and (iii) You may not claim that your original works are open source software unless your Modified License has been approved by Open Source Initiative (OSI) and You comply with its license review and certification process.
       </insert></li></ol>
-    <div class="float-right"><input type="checkbox" name="agree" value="1" id="agree"><label for="agree">I agree</label></div>
-    <div class="buttons-container">
-        <input type="submit" value="Continue" class="input-button">
+      <p>
+    </p><p>
+    </p>
+    <div style="float:right;"><input type="checkbox" name="agree" value="1" id="agree"><label for="agree">I agree</label></div>
+    <div class="form-buttons">
+        <button class="form-button" type="submit"/><span>Continue</span></button>
     </div>
 </form>
 <?endif?>
