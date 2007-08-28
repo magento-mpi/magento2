@@ -60,7 +60,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      * @var string
      */
     protected $_idFieldName;
-    
+
     protected $_mainTableFields;
 
     /**
@@ -255,9 +255,9 @@ abstract class Mage_Core_Model_Mysql4_Abstract
 
         return true;
     }
-    
+
     /**
-     * Retrieve select object for load object data 
+     * Retrieve select object for load object data
      *
      * @param string $field
      * @param mixed $value
@@ -358,7 +358,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
                 $select->reset( Zend_Db_Select::WHERE );
                 if (is_array($unique['field'])) {
                     foreach ($unique['field'] as $field) {
-                    $select->where( $field . ' like ?', $data->getData($field) );
+                        $select->where( $field . ' like ?', $data->getData($field) );
                     }
                 } else {
                     $select->where( $unique['field'] . ' like ?', $data->getData($unique['field']) );
@@ -366,13 +366,13 @@ abstract class Mage_Core_Model_Mysql4_Abstract
                 if ( $object->getId() ) {
                     $select->where( $this->getIdFieldName() . ' != ?', $object->getId() );
                 }
-                if ( $data = $read->fetchRow($select) ) {
+                if ( $test = $read->fetchRow($select) ) {
                     $existent[] = $unique['title'];
                 }
             }
         }
         if ( !empty($existent) ) {
-            throw Mage::exception( 'Mage_Core', implode(',', $existent) . ' already exist' . (count($existent) == 1 ? 's' : '') );
+            throw Mage::exception( 'Mage_Core', implode(', ', $existent) . ' already exist' . (count($existent) == 1 ? 's' : '') );
         }
         return $this;
     }
@@ -454,8 +454,8 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     {
         return $this;
     }
-    
-    public function formatDate($date) 
+
+    public function formatDate($date)
     {
     	if (empty($date)) {
     		return new Zend_Db_Expr('NULL');
