@@ -219,12 +219,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getHeader()
     {
+        $header = '';
         if (Mage::registry('product')->getId()) {
-            return Mage::registry('product')->getName();
+            $header = Mage::registry('product')->getName();
         }
         else {
-            return __('New Product');
+            $header = __('New Product');
         }
+        if ($setName = $this->getAttributeSetName()) {
+            $header.= ' (' . $setName . ')';
+        }
+        return $header;
+    }
+    
+    public function getAttributeSetName()
+    {
+        if ($setId = Mage::registry('product')->getAttributeSetId()) {
+            $set = Mage::getModel('eav/entity_attribute_set')
+                ->load($setId);
+            return $set->getAttributeSetName();
+        }
+        return '';
     }
     
     public function getIsConfigured()
