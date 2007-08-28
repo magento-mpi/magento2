@@ -69,7 +69,7 @@
 	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getFormData()->getRegionId()?>">
 	                	<option value=""><?=__('Please select region or state')?></option>
 	                </select>
-	                <input type="text" id="region" name="region" value="<?=$this->getFormData()->getRegion()?>"  title="<?=__('State / Province')?>" class="input-text" style="display:none"/>
+	                <input type="text" id="region" name="region" value="<?=$this->getRegion()?>"  title="<?=__('State / Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
             <li>
