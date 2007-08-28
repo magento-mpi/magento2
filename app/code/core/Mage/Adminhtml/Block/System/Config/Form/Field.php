@@ -15,13 +15,13 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $html = '<tr><td class="label">'.$element->getLabel().'</td>';
-        
+
         $id = $element->getHtmlId();
         //$isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
         $isMultiple = $element->getExtType()==='multiple';
 
         // replace [value] with [inherit]
-        $namePrefix = substr($element->getName(), 0, strlen($element->getName())-7);
+        $namePrefix = preg_replace('#\[value\](\[\])?$#', '', $element->getName());
 
         $options = $element->getValues();
 
@@ -34,17 +34,17 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
             $addInheritCheckbox = true;
             $checkboxLabel = __('Use default');
         }
-        
+
         if ($addInheritCheckbox) {
             $inherit = $element->getInherit()==1 ? 'checked' : '';
             if ($inherit) {
                 $element->setDisabled(true);
             }
         }
-        
+
         $html.= '<td class="value">'.$element->getElementHtml().'</td>';
         if ($addInheritCheckbox) {
-            
+
             $defText = $element->getDefaultValue();
             if ($options) {
                 $defTextArr = array();
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
                 }
                 $defText = join(', ', $defTextArr);
             }
-   
+
             // default value
             $html.= '<td class="default">';
             $html.= '<input id="'.$id.'_inherit" name="'.$namePrefix.'[inherit]" type="checkbox" value="1" class="input-checkbox config-inherit" '.$inherit.' onclick="$(\''.$id.'\').disabled = this.checked">';
