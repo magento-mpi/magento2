@@ -17,9 +17,12 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
 		}
         $html = '';
         if ($block = $this->getBlockId()) {
-            $html = Mage::getModel('cms/block')
+            $content = Mage::getModel('cms/block')
                 ->load($block)
                 ->getContent();
+
+            $processor = Mage::getModel('core/email_template_filter');
+            $html = $processor->filter($content);
         }
         return $html;
     }

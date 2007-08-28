@@ -16,5 +16,4 @@ class Mage_Cms_Model_Block extends Mage_Core_Model_Abstract
     {
         $this->_init('cms/block');
     }
-
 }
