@@ -14,12 +14,16 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_L
     {
         return Mage::getSingleton('checkout/session')->getQuote();
     }
-    
+
     public function fetchEnabledMethods()
     {
         $methods = Mage::getStoreConfig('payment');
 
         foreach ($methods as $methodConfig) {
+            if (!$methodConfig->is('active', 1)) {
+                continue;
+            }
+
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();
             $method = Mage::getModel($className);
@@ -33,7 +37,7 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_L
         }
         return $this;
     }
-    
+
     public function toHtml()
     {
         $this->fetchEnabledMethods();

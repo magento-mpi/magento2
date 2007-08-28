@@ -12,20 +12,21 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_gatewayUrl = 'https://gateway.fedex.com/GatewayDC';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/fedex/active')) {
             return false;
         }
-        
+
         $this->setRequest($request);
 
         $this->_getXmlQuotes();
 
         return $this->getResult();
     }
-    
+
     public function setRequest(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
@@ -69,7 +70,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         } else {
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
         }
-        
+
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
@@ -84,14 +85,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         }
 
         $r->setWeight($request->getPackageWeight());
-        
+
         $r->setValue($request->getPackageValue());
-        
+
         $this->_rawRequest = $r;
-        
+
         return $this;
     }
-    
+
     public function getResult()
     {
        return $this->_result;
@@ -207,7 +208,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         /**
          *  DIMENSIONS
          *
-         *  Dimensions / Length 
+         *  Dimensions / Length
          *  Optional.
          *  Only applicable if the package type is YOURPACKAGING.
          *  The length of a package.
@@ -280,14 +281,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         /**
          *  HOMEDELIVERY
          *
-         *  HomeDelivery / Type 
+         *  HomeDelivery / Type
          *  One of the following values are required for FedEx Home Delivery
          *  shipments:
          *  • DATECERTAIN
          *  • EVENING
          *  • APPOINTMENT
          *
-         *  PackageCount 
+         *  PackageCount
          *  Required for multiple-piece shipments (MPS).
          *  For MPS shipments, 1 piece = 1 box.
          *  For international Freight MPS shipments, this is the total number of
@@ -313,7 +314,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
          *  Note: Value "SHIPMENT" = shipment level affects the entire shipment.
          *  Anything else sent in Child will be ignored.
          *
-         *  VariableHandlingCharges / Type 
+         *  VariableHandlingCharges / Type
          *  Optional.
          *  If valid value is present, a valid Variable Handling Charge is required.
          *  Specifies what type of Variable Handling charges to assess and on
@@ -348,9 +349,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 */
 
         try {
+            $url = Mage::getStoreConfig('carriers/fedex/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultGatewayUrl;
+            }
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_URL, Mage::getStoreConfig('carriers/fedex/gateway_url'));
+            curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
@@ -362,7 +367,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 
         $this->_parseXmlResponse($responseBody);
     }
-    
+
     protected function _parseXmlResponse($response)
     {
         $costArr = array();
@@ -413,7 +418,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         }
         $this->_result = $result;
     }
-    
+
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
@@ -433,7 +438,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
     	return $method=='FEDEXGROUND';
     }
 */
-    
+
     public function getCode($type, $code='')
     {
         static $codes = array(
@@ -482,7 +487,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         } elseif (''===$code) {
             return $codes[$type];
         }
-        
+
         if (!isset($codes[$type][$code])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code for type '.$type.': '.$code);
         } else {

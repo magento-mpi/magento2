@@ -3,6 +3,7 @@
 /**
  * USPS shipping rates estimation
  *
+ * @link       http://www.usps.com/webtools/htm/Development-Guide.htm
  * @package    Mage
  * @subpackage Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
@@ -12,20 +13,22 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_defaultGatewayUrl = 'http://production.shippingapis.com/ShippingAPI.dll';
+    #protected $_defaultGatewayUrl = 'https://secure.shippingaps.com/ShippingAPI.dll';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/usps/active')) {
             return false;
         }
-        
+
         $this->setRequest($request);
 
         $this->_getXmlQuotes();
 
         return $this->getResult();
     }
-    
+
     public function setRequest(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
@@ -71,7 +74,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         } else {
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
         }
-        
+
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
@@ -94,14 +97,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 
         $r->setWeightPounds(floor($request->getPackageWeight()));
         $r->setWeightOunces(($request->getPackageWeight()-floor($request->getPackageWeight()))*16);
-        
+
         $r->setValue($request->getPackageValue());
 
         $this->_rawRequest = $r;
-        
+
         return $this;
     }
-    
+
     public function getResult()
     {
        return $this->_result;
@@ -131,8 +134,12 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
             $request = $xml->asXML();
 
             try {
+                $url = Mage::getStoreConfig('carriers/usps/gateway_url');
+                if (!$url) {
+                    $url = $this->_defaultGatewayUrl;
+                }
                 $client = new Zend_Http_Client();
-                $client->setUri(Mage::getStoreConfig('carriers/usps/gateway_url'));
+                $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', 'RateV3');
                 $client->setParameterGet('XML', $request);
@@ -171,7 +178,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 
         $this->_parseXmlResponse($responseBody);
     }
-    
+
     protected function _parseXmlResponse($response)
     {
         $costArr = array();
@@ -239,7 +246,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         }
         $this->_result = $result;
     }
-    
+
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
@@ -321,7 +328,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         } elseif (''===$code) {
             return $codes[$type];
         }
-        
+
         if (!isset($codes[$type][$code])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code for type '.$type.': '.$code);
         } else {

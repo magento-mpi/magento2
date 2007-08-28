@@ -12,20 +12,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/dhl/active')) {
             return false;
         }
-        
+
         $this->setRequest($request);
 
         $this->_getXmlQuotes();
 
         return $this->getResult();
     }
-    
+
     public function setRequest(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
@@ -80,14 +81,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         }
 
         $r->setWeight($request->getPackageWeight());
-        
+
         $r->setValue($request->getPackageValue());
 
         $this->_rawRequest = $r;
-        
+
         return $this;
     }
-    
+
     public function getResult()
     {
        return $this->_result;
@@ -122,7 +123,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
                 $shipmentDetail->addChild('Weight', $r->getWeight());
 
             $shipment->addChild('Billing')->addChild('Party')->addChild('Code', 'S'); // Sender
-            
+
             $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
 //              $receiverAddress->addChild('State', $r->getDestState());
                 $receiverAddress->addChild('Country', 'US');
@@ -140,9 +141,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
 */
 
         try {
+            $url = Mage::getStoreConfig('carriers/dhl/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultGatewayUrl;
+            }
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_URL, Mage::getStoreConfig('carriers/dhl/gateway_url'));
+            curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
@@ -151,10 +156,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         } catch (Exception $e) {
             $responseBody = '';
         }
-            
+
         $this->_parseXmlResponse($responseBody);
     }
-    
+
     protected function _parseXmlResponse($response)
     {
         $costArr = array();
@@ -180,7 +185,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
 
                     REWORK IT: nado perepisat' etot kusok dlia polucheniya pravil'nyh
                     ocenok stoimosti iz pravil'nyh poley:
-                    
+
                     if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                         $allowedMethods = explode(",", Mage::getStoreConfig('carriers/dhl/allowed_methods'));
                         foreach ($xml->Package->Postage as $postage) {
@@ -218,7 +223,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         }
         $this->_result = $result;
     }
-    
+
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
@@ -255,7 +260,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         } elseif (''===$code) {
             return $codes[$type];
         }
-        
+
         if (!isset($codes[$type][$code])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid DHL XML code for type '.$type.': '.$code);
         } else {

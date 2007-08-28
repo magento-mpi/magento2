@@ -13,13 +13,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_defaultCgiGatewayUrl = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/ups/active')) {
             return false;
         }
-        
+
         $this->setRequest($request);
         if (!$request->getUpsRequestMethod()) {
             $request->setUpsRequestMethod('cgi');
@@ -29,21 +30,21 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             case 'cgi':
                 $this->_getCgiQuotes();
                 break;
-            
+
             case 'xml':
                 $this->_getXmlQuotes();
                 break;
         }
-        
+
         return $this->getResult();
     }
-    
+
     public function setRequest(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
 
         $r = new Varien_Object();
-        
+
         if ($request->getLimitMethod()) {
             $r->setAction($this->getCode('action', 'single'));
             $r->setProduct($request->getLimitMethod());
@@ -51,21 +52,21 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             $r->setAction($this->getCode('action', 'all'));
             $r->setProduct('GNDRES');
         }
-        
+
         if ($request->getUpsPickup()) {
             $pickup = $request->getUpsPickup();
         } else {
             $pickup = Mage::getStoreConfig('carriers/ups/pickup');
         }
         $r->setPickup($this->getCode('pickup', $pickup));
-        
+
         if ($request->getUpsContainer()) {
             $container = $request->getUpsContainer();
         } else {
             $container = Mage::getStoreConfig('carriers/ups/container');
         }
         $r->setContainer($this->getCode('container', $container));
-        
+
         if ($request->getUpsDestType()) {
             $destType = $request->getUpsDestType();
         } else {
@@ -85,7 +86,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         } else {
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
         }
-        
+
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
@@ -98,16 +99,16 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         } else {
             $r->setDestPostal('90034');
         }
-        
+
         $r->setWeight($request->getPackageWeight());
-        
+
         $r->setValue($request->getPackageValue());
 
         $this->_rawRequest = $r;
-        
+
         return $this;
     }
-    
+
     public function getResult()
     {
        return $this->_result;
@@ -116,7 +117,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
     protected function _getCgiQuotes()
     {
         $r = $this->_rawRequest;
-        
+
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
             '10_action'      => $r->getAction(),
@@ -132,8 +133,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         );
 
         try {
+            $url = Mage::getStoreConfig('carriers/ups/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultCgiGatewayUrl;
+            }
             $client = new Zend_Http_Client();
-            $client->setUri(Mage::getStoreConfig('carriers/ups/gateway_url'));
+            $client->setUri($url);
             $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
             $client->setParameterGet($params);
             $response = $client->request();
@@ -144,7 +149,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
 
         $this->_parseCgiResponse($responseBody);
     }
-    
+
     protected function _parseCgiResponse($response)
     {
         $rRows = explode("\n", $response);
@@ -173,7 +178,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             }
         }
         asort($priceArr);
-   
+
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
@@ -197,7 +202,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
 #echo "<pre>".print_r($result,1)."</pre>";
         $this->_result = $result;
     }
-    
+
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
@@ -210,7 +215,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         }
         return $price;
     }
-    
+
 /*
     public function isEligibleForFree($method)
     {
@@ -225,7 +230,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'single'=>'3',
                 'all'=>'4',
             ),
-            
+
             'method'=>array(
                 '1DM'    => 'Next Day Air Early AM',
                 '1DML'   => 'Next Day Air Early AM Letter',
@@ -250,7 +255,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'XDML'   => 'Worldwide Express Plus Letter',
                 'XPD'    => 'Worldwide Expedited',
             ),
-            
+
             'pickup'=>array(
                 'RDP'    => 'Regular Daily Pickup',
                 'OCA'    => 'On Call Air',
@@ -258,7 +263,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'LC'     => 'Letter Center',
                 'CC'     => 'Customer Counter',
             ),
-            
+
             'container'=>array(
                 'CP'     => '00', // Customer Packaging
                 'ULE'    => '01', // UPS Letter Envelope
@@ -267,7 +272,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'UW25'   => '24', // UPS Worldwide 25 kilo
                 'UW10'   => '25', //UPS Worldwide 10 kilo
             ),
-            
+
             'container_description'=>array(
                 'CP'     => 'Customer Packaging',
                 'ULE'    => 'UPS Letter Envelope',
@@ -276,24 +281,24 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'UW25'   => 'UPS Worldwide 25 kilo',
                 'UW10'   => 'UPS Worldwide 10 kilo',
             ),
-            
+
             'dest_type'=>array(
                 'RES'    => '1', // Residential
                 'COM'    => '2', // Commercial
             ),
-            
+
             'dest_type_description'=>array(
                 'RES'    => 'Residential',
                 'COM'    => 'Commercial',
             )
         );
-        
+
         if (!isset($codes[$type])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code type: '.$type);
         } elseif (''===$code) {
             return $codes[$type];
-        } 
-        
+        }
+
         if (!isset($codes[$type][$code])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code for type '.$type.': '.$code);
         } else {
@@ -303,7 +308,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
 
     protected function _getXmlQuotes()
     {
-        
+
     }
 
 }
