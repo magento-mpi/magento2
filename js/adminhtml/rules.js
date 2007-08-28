@@ -8,10 +8,10 @@ VarienRulesForm.prototype = {
             this.initParam(elems[i]);
         }
     },
-    
+
     initParam: function (container) {
     	container.rulesObject = this;
-		
+
         var label = Element.down(container, '.label');
         if (label) {
 		  Event.observe(label, 'click', this.showParamInputField.bind(this, container));
@@ -23,22 +23,22 @@ VarienRulesForm.prototype = {
 		    Event.observe(elem, 'change', this.hideParamInputField.bind(this, container));
 		    Event.observe(elem, 'blur', this.hideParamInputField.bind(this, container));
 		}
-		
+
 		var remove = Element.down(container, '.rule-param-remove');
 		if (remove) {
 		    Event.observe(remove, 'click', this.removeRuleEntry.bind(this, container));
 		}
     },
-    
+
     showParamInputField: function (container, event) {
     	Element.addClassName(container, 'rule-param-edit');
     	var elemContainer = Element.down(container, '.element');
-    	
+
     	var elem = Element.down(elemContainer, 'input.input-text');
     	if (elem) {
     	   elem.focus();
     	}
-    	
+
     	var elem = Element.down(elemContainer, 'select');
     	if (elem) {
     	   elem.focus();
@@ -56,20 +56,21 @@ VarienRulesForm.prototype = {
 //    	   }
     	}
     },
-    
+
     hideParamInputField: function (container, event) {
     	Element.removeClassName(container, 'rule-param-edit');
     	var label = Element.down(container, '.label'), elem;
-    
+
     	if (!container.hasClassName('rule-param-new-child')) {
         	elem = Element.down(container, 'select');
         	if (elem) {
         		label.innerHTML = elem.options[elem.selectedIndex].text;
         	}
-        	
+
         	elem = Element.down(container, 'input.input-text');
         	if (elem) {
-        	    var str = elem.value;
+        	    var str = elem.value.replace(/(^\s+|\s+$)/g, '');
+        	    elem.value = str;
         	    if (str=='') {
         	        str = '...';
         	    } else if (str.length>30) {
@@ -79,11 +80,11 @@ VarienRulesForm.prototype = {
         	}
     	} else {
     	    elem = Element.down(container, 'select');
-        	
+
     	    if (elem.value) {
     	        this.addRuleNewChild(elem);
     	    }
-    
+
         	elem.value = '';
     	}
     },
@@ -113,7 +114,7 @@ VarienRulesForm.prototype = {
             onComplete: this.onAddNewChildComplete.bind(this, new_elem)
         });
     },
-    
+
     onAddNewChildComplete: function (new_elem) {
         $(new_elem).removeClassName('rule-param-wait');
         var elems = new_elem.getElementsByClassName('rule-param');
@@ -121,7 +122,7 @@ VarienRulesForm.prototype = {
             this.initParam(elems[i]);
         }
     },
-    
+
     removeRuleEntry: function (container, event) {
         var li = Element.up(container, 'li');
         li.parentNode.removeChild(li);

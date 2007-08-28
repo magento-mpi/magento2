@@ -24,10 +24,10 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             $this->prepareProductCollection($collection);
             $this->setData('product_collection', $collection);
         }
-        
+
         return $collection;
     }
-    
+
     public function prepareProductCollection($collection)
     {
         $collection->addAttributeToSelect('name')
@@ -36,20 +36,21 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->joinMinimalPrice()
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('short_description')
             ->addAttributeToSelect('description')
-            ->joinField('store_id', 
-                'catalog/product_store', 
-                'store_id', 
-                'product_id=entity_id', 
+            ->joinField('store_id',
+                'catalog/product_store',
+                'store_id',
+                'product_id=entity_id',
                 '{{table}}.store_id='.(int) $this->getCurrentStore()->getId());
-                
-        
+
+
         $collection->getEntity()->setStore((int) $this->getCurrentStore()->getId());
         $collection->addAttributeToFilter('status', array('in'=>$collection->getObject()->getVisibleInCatalogStatuses()));
-        
+
         return $this;
     }
-    
+
     /**
      * Retrieve current category model
      *
@@ -68,7 +69,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         }
         return $category;
     }
-    
+
     /**
      * Retrieve current store model
      *
@@ -78,7 +79,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     {
         return Mage::getSingleton('core/store');
     }
-    
+
     public function getFilterableAttributes()
     {
         $entity = $this->getProductCollection()->getEntity();
@@ -89,10 +90,10 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         foreach ($collection as $item) {
         	$item->setEntity($entity);
         }
-        
+
         return $collection;
     }
-    
+
     /**
      * Retrieve layer state object
      *

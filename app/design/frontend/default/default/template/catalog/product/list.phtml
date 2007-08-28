@@ -34,7 +34,7 @@
             <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=__('Add to Cart')?></span></button>
             <div class="clear"></div>
             <div class="description">
-                <?=$_product->getDescription()?>
+                <?=$_product->getShortDescription()?>
                 <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><small><?=__('Learn More')?></small></a>
             </div>
             <p class="add-to">
