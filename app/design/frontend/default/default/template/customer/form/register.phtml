@@ -27,9 +27,9 @@
             </li>
             <li>
                 <div class="input-box">
-									<label for="email_address">Email <span class="required">*</span></label><br/>
-									<input type="text" name="email" id="email_address" value="<?=$this->getFormData()->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
-								</div>
+					<label for="email_address">Email <span class="required">*</span></label><br/>
+					<input type="text" name="email" id="email_address" value="<?=$this->getFormData()->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
+				</div>
             </li>
             <li>
                 <input type="checkbox" name="is_subscribed" title="Sign up for newsletter" value="1" id="is_subscribed" <?if($this->getFormData()->getIsSubscribed()):?> checked<?endif?>/>
@@ -67,9 +67,9 @@
                 <div class="input-box">
                 	<label for="state">State / Province <span class="required">*</span></label><br/>
 	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getFormData()->getRegionId()?>">
-		                	<option value=""><?=__('Please select region or state')?></option>
-		                </select>
-		                <input type="text" id="region" name="region" value="<?=$this->getFormData()->getRegion()?>"  title="<?=__('State / Province')?>" class="required-entry  input-text" style="display:none"/>
+	                	<option value=""><?=__('Please select region or state')?></option>
+	                </select>
+	                <input type="text" id="region" name="region" value="<?=$this->getFormData()->getRegion()?>"  title="<?=__('State / Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
             <li>

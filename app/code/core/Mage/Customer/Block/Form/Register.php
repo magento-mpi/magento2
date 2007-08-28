@@ -57,12 +57,15 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     
     public function getCountryId()
     {
-        return $this->getFormData()->getCountryId();
+        if ($countryId = $this->getFormData()->getCountryId()) {
+            return $countryId;
+        }
+        return parent::getCountryId();
     }
 
     public function getRegionId()
     {
-        return $this->getFormData()->getRegion();
+        return $this->getFormData()->getRegionId();
     }
     
     

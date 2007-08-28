@@ -57,9 +57,9 @@
                 <div class="input-box">
                     <label for="state">State / Province <span class="required">*</span></label><br/>
 	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
-	                	<option value=""><?=__('Please select region or state')?></option>
+	                   <option value=""><?=__('Please select region or state')?></option>
 	                </select>
-	                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State / Province')?>" class="required-entry  input-text" style="display:none"/>
+	                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State / Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
             <li>
