@@ -11,16 +11,16 @@
 class Mage_Install_Model_Installer_Config
 {
     protected $_localConfigFile;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         $this->_localConfigFile = Mage::getBaseDir('etc').DS.'local.xml';
     }
-    
+
     public function install()
     {
         $data = Mage::getSingleton('install/session')->getConfigData();
-        foreach (Mage::getModel('core/config')->getLocalServerVars() as $index=>$value) {
+        foreach (Mage::getModel('core/config')->getDistroServerVars() as $index=>$value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }
@@ -28,10 +28,10 @@ class Mage_Install_Model_Installer_Config
         $this->_checkHostsInfo($data);
         $data['date']    = date('r');
         $data['var_dir'] = $data['root_dir'] . '/var';
-        file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
+//        file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
         Mage::getConfig()->init();
     }
-    
+
     public function getFormData()
     {
         $data = new Varien_Object();
@@ -39,7 +39,7 @@ class Mage_Install_Model_Installer_Config
         $hostInfo = explode(':', $host);
         $host = $hostInfo[0];
         $port = !empty($hostInfo[1]) ? $hostInfo[1] : 80;
-        
+
         $data->setServerPath(dirname(Mage::getBaseDir()))
             ->setHost($host)
             ->setBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
@@ -53,12 +53,12 @@ class Mage_Install_Model_Installer_Config
             ->setDbPass('');
         return $data;
     }
-    
+
     protected function _checkHostsInfo($data)
     {
         $url = $data['protocol'] . '://' . $data['host'] . ':' . $data['port'] . $data['base_path'];
         $surl= $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port'] . $data['secure_base_path'];
-        
+
         $reporting_level = error_reporting(E_ERROR);
         $checkRes = file_get_contents($url);
         if (!$checkRes) {
@@ -67,7 +67,7 @@ class Mage_Install_Model_Installer_Config
             );
             throw new Exception('Check url error');
         }
-        
+
         $checkRes = file_get_contents($surl);
         if (!$checkRes) {
             Mage::getSingleton('install/session')->addError(

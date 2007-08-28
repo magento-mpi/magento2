@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<layoutUpdate> 
+<layoutUpdate>
     <block type="core/template" name="root" output="toHtml">
-        <action method="setTemplate"><template>layout.install.phtml</template></action>
+        <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
         <block type="core/text_list" name="head" as="head">
             <block type="core/text_tag" name="head.content_type">
                 <action method="setTagName"><tagName>meta</tagName></action>
@@ -17,13 +17,13 @@
                 <action method="setTagParam"><name>rel</name><value>icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
-            </block>            
+            </block>
             <block type="core/text_tag" name="head.shortcut_icon">
                 <action method="setTagName"><tagName>link</tagName></action>
                 <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
                 <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
                 <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
-            </block>            
+            </block>
             <block type="core/text_tag_js" name="head.js.prototype">
                 <action method="setSrc"><src>prototype/prototype.js</src></action>
             </block>
@@ -40,10 +40,12 @@
                 <action method="setSrc"><src>varien/form.js</src></action>
             </block>
             <block type="core/text_tag_css" name="head.css.main">
-                <action method="setHref"><href>css/styles.css</href></action>
+                <action method="setHref"><href>frontend/default/default/css/styles.css</href></action>
             </block>
         </block>
-        
+
+        <block type="page/html_header" name="header" as="header" />
+
         <block type="core/text_list" name="left" as="left"/>
         <block type="core/text_list" name="content" as="content"/>
     </block>
