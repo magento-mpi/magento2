@@ -4,7 +4,7 @@ insert  into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type
 (3,'carriers/dhl/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
 (3,'carriers/dhl/title','Title','text','','','','',2,1,1,1,''),
 (3,'carriers/dhl/gateway_url','Gateway URL','text','','','','',2,1,1,1,''),
-(3,'carriers/dhl/sort_order','Sort order','text',100),
+(3,'carriers/dhl/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (3,'carriers/dhl/id','Access ID','text','','','','',5,1,1,1,''),
 (3,'carriers/dhl/password','Password','text','','','','',6,1,1,1,''),
 (3,'carriers/dhl/account','Account number','text','','','','',7,1,1,1,''),
@@ -26,7 +26,7 @@ insert  into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type
 (3,'carriers/fedex/allowed_methods','Allowed methods','multiselect','','','','usa/shipping_carrier_fedex_source_method',17,1,1,1,''),
 (3,'carriers/fedex/free_method','Free method','select','free-method','','','usa/shipping_carrier_fedex_source_freemethod',20,1,1,1,''),
 (3,'carriers/fedex/cutoff_cost','Minimum order amount for free shipping','text','','','','',21,1,1,1,''),
-(3,'carriers/fedex/sort_order','Sort order','text',100),
+(3,'carriers/fedex/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (2,'carriers/ups','UPS','text','','','','',10,1,1,1,''),
 (3,'carriers/ups/gateway_url','Gateway URL','text','','','','',2,1,1,1,''),
 (3,'carriers/ups/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
@@ -35,7 +35,7 @@ insert  into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type
 (3,'carriers/ups/container','Container','select','','','','usa/shipping_carrier_ups_source_container',3,1,1,1,''),
 (3,'carriers/ups/dest_type','Destination type','select','','','','usa/shipping_carrier_ups_source_destType',4,1,1,1,''),
 (3,'carriers/ups/handling','Handling fee','text','','','','',5,1,1,1,''),
-(3,'carriers/ups/sort_order','Sort order','text',100),
+(3,'carriers/ups/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (3,'carriers/ups/cutoff_cost','Minimum order amount for free shipping','text','','','','',21,1,1,1,''),
 (3,'carriers/ups/free_method','Free method','select','free-method','','','usa/shipping_carrier_ups_source_freemethod',20,1,1,1,''),
 (3,'carriers/ups/allowed_methods','Allowed methods','multiselect','','','','usa/shipping_carrier_ups_source_method',17,1,1,1,''),
@@ -43,7 +43,7 @@ insert  into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type
 (3,'carriers/usps/gateway_url','Gateway URL','text','','','','',2,1,1,1,''),
 (3,'carriers/usps/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
 (3,'carriers/usps/title','Title','text','','','','',2,1,1,1,''),
-(3,'carriers/usps/sort_order','Sort order','text',100),
+(3,'carriers/usps/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (3,'carriers/usps/userid','User ID','text','','','','',3,1,1,1,''),
 (3,'carriers/usps/container','Container','select','','','','usa/shipping_carrier_usps_source_container',4,1,1,1,''),
 (3,'carriers/usps/size','Size','select','','','','usa/shipping_carrier_usps_source_size',5,1,1,1,''),
@@ -54,9 +54,13 @@ insert  into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type
 (3,'carriers/usps/allowed_methods','Allowed methods','multiselect','','','','usa/shipping_carrier_usps_source_method',17,1,1,1,'')
 ON DUPLICATE KEY UPDATE field_id=field_id;
 
-update `core_config_field` set `show_in_default` = '0', `show_in_website` = '0', `show_in_store` = '0' where `path` = 'carriers/dhl';
+replace  into `core_config_field` (`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values 
+(3,'carriers/dhl/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/fedex/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/ups/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/usps/sort_order','Sort order','text','','','','',100,1,1,1,'');
 
---
+update `core_config_field` set `show_in_default` = '0', `show_in_website` = '0', `show_in_store` = '0' where `path` = 'carriers/dhl';
 
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values 
 ('default',0,'carriers/ups/active','1','0',0),
@@ -104,6 +108,20 @@ insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`i
 ('default',0,'carriers/ups/allowed_methods','1DM,1DML,1DA,1DAL,1DAPI,1DP,1DPL,2DM,2DML,2DA,2DAL,3DS,GND,GNDCOM,GNDRES,STD,XPR,WXS,XPRL,XDM,XDML,XPD','',0),
 ('default',0,'carriers/usps/allowed_methods','FIRST CLASS,PRIORITY,EXPRESS,BPM,PARCEL,MEDIA,LIBRARY','',0)
 ON DUPLICATE KEY UPDATE config_id=config_id;
+
+replace  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values 
+('default',0,'carriers/ups/active','1','0',0),
+('default',0,'carriers/ups/gateway_url','http://www.ups.com:80/using/services/rave/qcostcgi.cgi','',0),
+('default',0,'carriers/fedex/active','1','0',0),
+('default',0,'carriers/fedex/gateway_url','https://gateway.fedex.com/GatewayDC','',0),
+('default',0,'carriers/usps/active','1','0',0),
+('default',0,'carriers/usps/gateway_url','http://Production.ShippingAPIs.com/ShippingAPI.dll','',0),
+('default',0,'carriers/dhl/active','0,'0',0),
+('default',0,'carriers/dhl/gateway_url','https://eCommerce.airborne.com/ApiLandingTest.asp','',0),
+('default',0,'carriers/ups/model','usa/shipping_carrier_ups','',0),
+('default',0,'carriers/dhl/model','usa/shipping_carrier_dhl','',0),
+('default',0,'carriers/usps/model','usa/shipping_carrier_usps','',0),
+('default',0,'carriers/fedex/model','usa/shipping_carrier_fedex','',0);
 
 update `core_config_data` set `value` = '0', `inherit` = '1' where `path` = 'carriers/dhl/active';
 update `core_config_data` set `inherit` = '0' where `scope` = 'default' and `path` = 'carriers/dhl/active';

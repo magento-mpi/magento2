@@ -13,17 +13,16 @@ insert  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`
 (2,'carriers/pickup','Pick Up','text','','','','',3,0,0,0,''),
 (3,'carriers/pickup/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
 (3,'carriers/pickup/title','Title','text','','','','',2,1,1,1,''),
-(3,'carriers/tablerate/sort_order','Sort order','text',100),
-(3,'carriers/pickup/sort_order','Sort order','text',100),
+(3,'carriers/tablerate/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/pickup/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (2,'carriers/freeshipping','Free Shipping','text','','','','',2,1,1,1,''),
 (3,'carriers/freeshipping/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
-(3,'carriers/freeshipping/sort_order','Sorting order','text','','','','',100,1,1,1,''),
+(3,'carriers/freeshipping/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (3,'carriers/freeshipping/title','Title','text','','','','',2,1,1,1,''),
 (3,'carriers/freeshipping/name','Method name','text','','','','',3,1,1,1,''),
-(3,'carriers/freeshipping/cutoff_cost','Cutoff cost','text','','','','',4,1,1,1,''),
 (2,'carriers/flatrate','Flat Rate','text','','','','',2,1,1,1,''),
 (3,'carriers/flatrate/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
-(3,'carriers/flatrate/sort_order','Sorting order','text','','','','',100,1,1,1,''),
+(3,'carriers/flatrate/sort_order','Sort order','text','','','','',100,1,1,1,''),
 (3,'carriers/flatrate/title','Title','text','','','','',2,1,1,1,''),
 (3,'carriers/flatrate/name','Method name','text','','','','',3,1,1,1,''),
 (3,'carriers/flatrate/type','Type','select','','','','adminhtml/system_config_source_shipping_flatrate',4,1,1,1,''),
@@ -35,13 +34,17 @@ insert  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`
 (3,'carriers/freeshipping/cutoff_cost','Minimum order amount','text','','','','',4,1,1,1,''),
 (3,'carriers/tablerate/condition_name','Condition','select','','','','adminhtml/system_config_source_shipping_tablerate',4,1,1,0,'')
 ON DUPLICATE KEY UPDATE field_id=field_id;
- 
+
+replace  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values 
+(3,'carriers/tablerate/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/pickup/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/freeshipping/sort_order','Sort order','text','','','','',100,1,1,1,''),
+(3,'carriers/flatrate/sort_order','Sort order','text','','','','',100,1,1,1,'');
+
 UPDATE `core_config_field` SET `show_in_default` = '0', `show_in_website` = '0', `show_in_store` = '0' WHERE `path` = 'carriers/pickup';
 UPDATE `core_config_field` SET `frontend_class` = 'countries' WHERE `path` ='shipping/origin/country_id';
 UPDATE `core_config_field` SET `frontend_label` = 'ZIP/Postal Code' WHERE `path` ='shipping/origin/postcode';
 UPDATE `core_config_field` SET `frontend_label` = 'Region/State' WHERE `path` ='shipping/origin/region_id';
-
---
 
 insert  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values 
 ('default',0,'carriers/tablerate/active','0','',0),
