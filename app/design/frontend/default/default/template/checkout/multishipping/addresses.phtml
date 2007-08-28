@@ -11,6 +11,7 @@
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
+    <input type="hidden" name="continue" value="0" id="can_continue_flag"/>
     <table cellspacing="0" id="multiship-addresses-table" class="data-table box-table">
         <col width="300"/>
         <col width="30"/>
@@ -26,7 +27,7 @@
         </thead>
         <tfoot>
             <tr>
-                <td colspan="100" class="a-right"><button class="form-button-alt" type="submit" name="update" value="1"><span>Update Qty &amp; Addresses</span></button></td>
+                <td colspan="100" class="a-right"><button class="form-button-alt" type="submit" onclick="$('can_continue_flag').value=0"><span>Update Qty &amp; Addresses</span></button></td>
             </tr>
         <tbody>
         <?foreach ($this->getItems() as $_index => $_item):?>
@@ -47,6 +48,6 @@
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
 <div class="form-buttons">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Shopping Cart</a>
-    <button class="form-button" type="submit" name="continue" value="1"><span>Continue to Shipping Information</span></button>
+    <button class="form-button" type="submit" onclick="$('can_continue_flag').value=1"><span>Continue to Shipping Information</span></button>
 </div>
 </form>

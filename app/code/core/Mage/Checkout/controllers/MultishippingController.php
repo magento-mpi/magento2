@@ -126,7 +126,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         if ($shipToInfo = $this->getRequest()->getPost('ship')) {
             $this->_getCheckout()->setShippingItemsInformation($shipToInfo);
         }
-        if ($this->getRequest()->getParam('continue')) {
+        if ($this->getRequest()->getParam('continue', false)) {
             $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
             $this->_redirect('*/*/shipping');
         }
