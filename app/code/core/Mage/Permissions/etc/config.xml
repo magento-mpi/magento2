@@ -1,37 +1,43 @@
 <?xml version="1.0"?>
 <config>
-   <modules>
-      <Mage_Permissions>
-         <version>0.1.0</version>
-         <depends>
-            <Mage_Core />
-         </depends>
-      </Mage_Permissions>
-   </modules>
+    <modules>
+        <Mage_Permissions>
+            <version>0.1.0</version>
+            <depends>
+                <Mage_Core />
+            </depends>
+        </Mage_Permissions>
+    </modules>
    <global>
-      <models>
-         <permissions>
+    <models>
+        <permissions>
             <class>Mage_Permissions_Model</class>
             <resourceModel>permissions_mysql4</resourceModel>
-         </permissions>
-         <permissions_mysql4>
+        </permissions>
+        <permissions_mysql4>
             <class>Mage_Permissions_Model_Mysql4</class>
             <entities>
-               <admin_user>
-                  <table>admin_user</table>
-               </admin_user>
-               <admin_rule>
-                  <table>admin_rule</table>
-               </admin_rule>
-               <admin_role>
-                  <table>admin_role</table>
-               </admin_role>
-               <admin_users_in_roles>
-                  <table>admin_users_in_roles</table>
-               </admin_users_in_roles>
+                <admin_user>
+                    <table>admin_user</table>
+                </admin_user>
+                <admin_rule>
+                    <table>admin_rule</table>
+                </admin_rule>
+                <admin_role>
+                    <table>admin_role</table>
+                </admin_role>
+                <admin_users_in_roles>
+                    <table>admin_users_in_roles</table>
+                </admin_users_in_roles>
+                <user>
+                    <table>admin_user</table>
+                </user>
+                <role>
+                    <table>admin_role</table>
+                </role>
             </entities>
-         </permissions_mysql4>
-      </models>
+        </permissions_mysql4>
+    </models>
       <resources>
          <permissions_write>
             <connection>
