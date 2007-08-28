@@ -2,7 +2,7 @@
 <config>
    <modules>
       <Mage_Directory>
-         <version>0.5.7</version>
+         <version>0.5.8</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -17,7 +17,7 @@
             <directory>
                 <class>Mage_Directory_Model</class>
                 <resourceModel>directory_mysql4</resourceModel>
-            </directory>    
+            </directory>
             <directory_mysql4>
                 <class>Mage_Directory_Model_Mysql4</class>
                 <entities>
@@ -26,7 +26,7 @@
                     </country>
                     <country_name>
                         <table>directory_country_name</table>
-                    </country_name> 
+                    </country_name>
                     <country_currency>
                         <table>directory_country_currency</table>
                     </country_currency>
@@ -48,7 +48,7 @@
                 </entities>
             </directory_mysql4>
         </models>
-    
+
         <resources>
             <directory_setup>
                 <setup>
@@ -56,17 +56,17 @@
                 </setup>
                 <connection><use>core_setup</use></connection>
             </directory_setup>
-    
+
             <directory_write>
                 <connection><use>core_write</use></connection>
             </directory_write>
-    
+
             <directory_read>
                 <connection><use>core_read</use></connection>
             </directory_read>
         </resources>
     </global>
-   
+
     <frontend>
         <layouts>
             <default>
