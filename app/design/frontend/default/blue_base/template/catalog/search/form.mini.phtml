@@ -7,7 +7,7 @@
         new Ajax.Autocompleter(
             'search', 
             'search_autocomplete', 
-            '<?=$this->getUrl('catalogsearch/advanced')?>', 
+            '<?=$baseUrl?>catalogsearch/ajaxSuggest/', 
             {
                 paramName:"query", 
                 minChars:2,

@@ -54,11 +54,4 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     {
         return $this->getUrl('*/*/track', array('order_id' => $order->getId()));
     }
-
-    public function getOrderDateFormatted($order, $format='short')
-    {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($order->getCreatedAt()));
-        return $dateFormatted;
-    }
-
 }

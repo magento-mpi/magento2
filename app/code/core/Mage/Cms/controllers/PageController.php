@@ -11,20 +11,20 @@ class Mage_Cms_PageController extends Mage_Core_Controller_Front_Action
 				$page = Mage::getModel('cms/page')->load($pageId);
 			}
 		}
-		
+
 		if (!$page) {
 			$this->_forward('noRoute');
 			return;
 		}
-		
+
 		$this->loadLayout();
-		
+
 		$template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');
 		$this->getLayout()->getBlock('root')->setTemplate($template);
-		
+
 		$block = $this->getLayout()->createBlock('cms/page')->setPage($page);
 		$this->getLayout()->getBlock('content')->append($block);
-		
+
 		$this->renderLayout();
 	}
 }

@@ -24,12 +24,6 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
         return Mage::getUrl('*/*/history');
     }
 
-    public function formatDate($date, $format='long')
-    {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($date));
-        return $dateFormatted;
-    }
-
     /**
      * Enter description here...
      *

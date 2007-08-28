@@ -445,4 +445,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->getLayout()->getHelper($type);
     }
+
+    public function formatDate($date, $format='short', $showTime=false)
+    {
+        if ('short'!==$format && 'medium'!==$format && 'long'!==$format) {
+            return $date;
+        }
+        return strftime(Mage::getStoreConfig('general/local/date'.($showTime?'time':'').'_format_'.$format), strtotime($date));
+    }
 }// Class Mage_Home_ContentBlock END

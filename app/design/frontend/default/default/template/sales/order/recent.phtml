@@ -21,7 +21,7 @@
 			<?foreach ($_orders as $_order):?>
 				<tr class="<?=($_odd = ($_odd ? 'odd' : ''))?>">
 					<td><?=$_order->getRealOrderId()?>&nbsp;</td>
-					<td><?=$this->getOrderDateFormatted($_order)?> </td>
+					<td><?=$this->formatDate($_order->getCreatedAt())?> </td>
 					<td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?>&nbsp;</td>
 					<td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?>&nbsp;</td>
 					<td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em>&nbsp;</td>

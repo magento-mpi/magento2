@@ -3,17 +3,11 @@
     <h3><?=__('Order #')?><?=$_order->getRealOrderId()?> - <small><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></small></h3>
     <?/*<a href="#"><?=__('View Invoices')?></a>*/?>
 </div>
-<p><strong><?=__('Order Date')?>:</strong> 06/15/2007</p>
+<p><strong><?=__('Order Date')?>:</strong> <?=$this->formatDate($_order->getCreatedAt(), 'long')?></p>
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=__('Shipping Address')?></h4>
-        <?$_shipping = $_order->getShippingAddress()?>
-        <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
-        <?=$_shipping->getCompany()?><br/>
-        <?=$_shipping->getStreet()?><br/>
-        <?=$_shipping->getCity()?>, <?=$_shipping->getRegion()?> <?=$_shipping->getPostcode()?><br/>
-        <strong>T</strong> | <?=$_shipping->getTelephone();
-        if ($_shipping->getFax()):?><br /><strong>F</strong> | <?=$_shipping->getFax()?><?endif;?></address>
+        <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
     </div>
     <div class="col-2">
         <h4><?=__('Shipping Method')?><?/* | <a href="#"><?=__('Track')?></a>*/?></h4>
@@ -23,13 +17,7 @@
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=__('Billing Address')?></h4>
-        <?$_billing = $_order->getbillingAddress()?>
-        <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
-        <?=$_billing->getCompany()?><br/>
-        <?=$_billing->getStreet()?><br/>
-        <?=$_billing->getCity()?>, <?=$_billing->getRegion()?> <?=$_billing->getPostcode()?><br/>
-        <strong>T</strong> | <?=$_billing->getTelephone();
-        if ($_billing->getFax()):?><br /><strong>F</strong> | <?=$_billing->getFax()?><?endif;?></address>
+        <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
     </div>
     <div class="col-2">
         <h4><?=__('Billing Method')?></h4>
@@ -52,7 +40,7 @@
         <?$_count = $_items->count();?>
         <?$_index = 0;?>
         <?foreach ($_items as $_item):?>
-            <tr<?=($_index++ > $_count ? ' class="last"' : '')?>>
+            <tr <?=($_index++ > $_count ? ' class="last"' : '')?>>
             <td><?=$_item->getName()?> </td>
             <td class="a-right nowrap"><?=$_order->getOrderCurrency()->format($_item->getPrice())?> </td>
             <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>

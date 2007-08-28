@@ -20,7 +20,7 @@
         <?foreach ($_orders as $_order):?>
             <tr>
                 <td><?=$_order->getRealOrderId()?></td>
-                <td><?=$this->getOrderDateFormatted($_order)?></td>
+                <td><?=$this->formatDate($_order->getCreatedAt())?></td>
                 <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
                 <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
                 <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>

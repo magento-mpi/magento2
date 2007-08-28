@@ -38,12 +38,6 @@ class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
         return $this->getUrl('sales/order/track', array('order_id' => $order->getId()));
     }
 
-    public function getOrderDateFormatted($order, $format='short')
-    {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($order->getCreatedAt()));
-        return $dateFormatted;
-    }
-
     public function toHtml()
     {
         if ($this->getOrders()->getSize() > 0) {
