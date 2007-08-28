@@ -85,10 +85,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         Mage::getSingleton('customer/session')
         	->logout()
         	->setBeforeAuthUrl(Mage::getUrl());
-        	
+
         $this->_redirect('*/*/logoutSuccess');
     }
-    
+
     public function logoutSuccessAction()
     {
         $this->loadLayout(array('default', 'customer_logout'), 'customer_logout');
@@ -258,7 +258,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomer($customer)
-                    ->addSuccess('Account information is saved');
+                    ->addSuccess('Account information saved successfully');
 
                 $this->_redirect('customer/account');
                 return;

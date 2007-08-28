@@ -1,19 +1,18 @@
-
-    <div class="page-head">
-		<h3><?=__('My Tags')?></h3>
-	</div>
-	<?=$this->getMessagesBlock()->getGroupedHtml()?>
-	<?if($this->getTags()):?>
-		<p><?=__('Click on a tag to view your corresponding products.')?></p>
-		<div class="box base-mini mini-product-tags">
-            <div class="content">
-        		<ul>
-        			<?foreach ($this->getTags() as $_tag):?>
-        				<li><a href="<?=$this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId()))?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
-        			<?endforeach;?>
-        		</ul>
-            </div>
+<div class="page-head">
+    <h3><?=__('My Tags')?></h3>
+</div>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
+<?if($this->getTags()):?>
+    <p><?=__('Click on a tag to view your corresponding products.')?></p>
+    <div class="box base-mini mini-product-tags">
+        <div class="content">
+            <ul>
+                <?foreach ($this->getTags() as $_tag):?>
+                    <li><a href="<?=$this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId()))?>" style="font-size:<?=$_tag->getRatio()*70+75?>%;"><?=$_tag->getName()?></a></li>
+                <?endforeach;?>
+            </ul>
         </div>
-	<?else:?>
-	<p><?=__('You do not have any tags yet.')?></p>
-	<?endif;?>
+    </div>
+<?else:?>
+    <p><?=__('You have not tagged any products yet.')?></p>
+<?endif;?>

@@ -28,7 +28,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $this->loadLayout(array('default', 'customer_account', 'customer_address_book'), 'customer_address_book');
             $this->_initLayoutMessages('customer/session');
             $this->renderLayout();
-        } 
+        }
         else {
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
         }
@@ -71,7 +71,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             try {
                 $address->save();
                 Mage::getSingleton('customer/session')
-                    ->addSuccess('The address has been successfully saved.');
+                    ->addSuccess('The address has been saved successfully');
 
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                 return;
@@ -103,7 +103,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             try {
                 $address->delete();
                 Mage::getSingleton('customer/session')
-                    ->addSuccess('The address has been successfully deleted');
+                    ->addSuccess('The address has been deleted successfully');
             }
             catch (Exception $e){
                 Mage::getSingleton('customer/session')

@@ -21,7 +21,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
         return $this->_quote;
     }
-    
+
     /**
      * Retrieve shopping cart model object
      *
@@ -39,16 +39,16 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         	$this->getQuote()->getShippingAddress()
         		->setCollectShippingRates(false)
         		->removeAllShippingRates();
-        		
+
         	$this->getQuote()
         		->removeAllAddresses()
         		->removePayment();
         }
         $this->getQuote()->collectTotals()->save();
-        
+
         if (!$this->_getCart()->isValidItemsQty()) {
             Mage::getSingleton('checkout/session')
-                ->addError('Items marked in red are not available in the desired quantities. Please make the corrections as needed.');
+                ->addError('The item (s) marked in red are not available in the desired quantity. Please update the quantity of the item (s).');
         }
         $this->loadLayout(array('default', 'cart'), 'cart');
         $this->_initLayoutMessages('checkout/session');
@@ -61,12 +61,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $productId       = (int) $this->getRequest()->getParam('product');
         $qty             = $this->getRequest()->getParam('qty', 1);
         $relatedProducts = $this->getRequest()->getParam('related_product');
-        
+
         if (!$productId) {
             $this->_backToCart();
             return;
         }
-        
+
         $additionalIds = array();
         // Parse related products
         if ($relatedProducts) {
@@ -77,14 +77,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 }
             }
         }
-        
+
         $cart = $this->_getCart();
         try {
             $product = Mage::getModel('catalog/product')
                 ->load($productId)
                 ->setConfiguredAttributes($this->getRequest()->getParam('super_attribute'))
                 ->setGroupedProducts($this->getRequest()->getParam('super_group', array()));
-                
+
             $cart->addProduct($product, $qty)
                 ->addProductsByIds($additionalIds)
                 ->save();
@@ -111,10 +111,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->save();
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addError('Can not update shopping cart');
+            Mage::getSingleton('checkout/session')->addError('Cannot update shopping cart');
         }
         $this->_backToCart();
-        
+
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         $this->_backToCart();
     }
@@ -127,7 +127,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->save();
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addError('Can not move item to wishlist');
+            Mage::getSingleton('checkout/session')->addError('Cannot move item to wishlist');
         }
         $this->_backToCart();
     }
@@ -140,7 +140,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     		$cart->removeItem($id)
     		  ->save();
     	} catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError('Can not remove item');
+            Mage::getSingleton('checkout/session')->addError('Cannot remove item');
     	}
 
     	$this->_redirectToReferer();
