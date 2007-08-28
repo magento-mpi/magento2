@@ -25,6 +25,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
+            ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('qty')
             ->addAttributeToSelect('price')
             ->joinField('store_id', 
@@ -86,6 +87,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                     'index' => 'custom_name',
             ));
         }
+        
+        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getConfig()->getId())            
+            ->load()
+            ->toOptionHash();
+            
+        $this->addColumn('set_name',
+            array(
+                'header'=> __('Set Name'),
+                'width' => '130px',
+                'index' => 'attribute_set_id',
+                'type'  => 'options',
+                'options' => $sets,
+        ));
 
         $this->addColumn('sku',
             array(
@@ -100,6 +115,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
                 'index' => 'price',
         ));
+        
+
         $this->addColumn('qty',
             array(
                 'header'=> __('Qty'),

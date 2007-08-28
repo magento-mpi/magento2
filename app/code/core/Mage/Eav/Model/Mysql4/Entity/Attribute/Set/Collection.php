@@ -17,4 +17,9 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Set_Collection extends Mage_Core_Mo
     {
         return parent::_toOptionArray('attribute_set_id', 'attribute_set_name');
     }
+
+    public function toOptionHash()
+    {
+        return parent::_toOptionHash('attribute_set_id', 'attribute_set_name');
+    }
 }
