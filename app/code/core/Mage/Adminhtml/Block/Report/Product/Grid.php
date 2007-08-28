@@ -9,7 +9,7 @@
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
 class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
-{
+{ 
     public function __construct()
     {
         parent::__construct();
@@ -22,7 +22,8 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
     {
        
         $collection = Mage::getResourceModel('reports/product_collection');
-        $collection->getEntity()->setStore(0);
+        $collection->getEntity()->setStore(0);       
+        
         $this->setCollection($collection);
       
         parent::_prepareCollection();
@@ -30,12 +31,19 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
         return $this;
     }
 
+    protected function _afterLoadCollection()
+    {
+        $totalObj = new Mage_Reports_Model_Totals();
+        $this->setTotals($totalObj->countTotals($this));
+    }
+    
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
             'header'    =>__('ID'),
             'width'     =>'50px',
-            'index'     =>'entity_id'
+            'index'     =>'entity_id',
+            'total'     =>'Total'
         ));
         
         $this->addColumn('name', array(
@@ -47,36 +55,43 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
             'header'    =>__('Number Viewed'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'viewed'
+            'index'     =>'viewed',
+            'total'     =>'sum'
         ));
         
         $this->addColumn('added', array(
             'header'    =>__('Number Added'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'added'
+            'index'     =>'added',
+            'total'     =>'sum'
         ));
         
         $this->addColumn('purchased', array(
             'header'    =>__('Number Purchased'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'purchased'
+            'index'     =>'purchased',
+            'total'     =>'sum'
         ));
         
         $this->addColumn('fulfilled', array(
             'header'    =>__('Number Fulfilled'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'fulfilled'
+            'index'     =>'fulfilled',
+            'total'     =>'sum'
         ));
         
         $this->addColumn('revenue', array(
             'header'    =>__('Revenue'),
             'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'revenue'
+            'index'     =>'revenue',
+            'total'     =>'sum'
         ));
+       
+        $this->setCountTotals(true);
        
         return parent::_prepareColumns();
     }

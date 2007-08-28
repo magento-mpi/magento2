@@ -103,6 +103,15 @@ $numColumns = sizeof($this->getColumns());
             <?endif?>
         </thead>
     <?endif;?>
+    <?if ($this->getCountTotals()):?>
+        <tfoot>
+            <tr>
+            <?foreach ($this->getColumns() as $_column):?>
+                <th class="<?=$_column->getCssClass()?> <?=++$i==$numColumns?'last':''?>"><?=$_column->getRowField($_column->getGrid()->getTotals())?>&nbsp;</th>
+            <?endforeach;?>
+            </tr>
+         </tfoot>
+    <?endif;?>
     <tbody>
     <?if (($this->getCollection()->getSize()>0) && (!$this->getIsCollapsed())):?>
     <?foreach ($this->getCollection() as $_index=>$_item):?>

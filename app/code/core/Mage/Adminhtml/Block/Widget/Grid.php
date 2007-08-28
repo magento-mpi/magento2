@@ -21,6 +21,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *      'index'     => string,
      *      //'renderer'  => Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface,
      *      'format'    => string
+     *      'total'     => string (sum, avg)
      * )
      * @var array
      */
@@ -96,6 +97,20 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     protected $_saveParametersInSession = false;
 
+    /**
+     * Count totals
+     *
+     * @var boolean
+     */
+    protected $_countTotals = false;
+    
+    /**
+     * Totals 
+     *
+     * @var Varien_Object
+     */
+    protected $_varTotals;
+    
     /**
      * Grid export types
      *
@@ -464,7 +479,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_messageBlockVisibility;
     }
-
+    
     public function setDefaultLimit($limit)
     {
         $this->_defaultLimit = $limit;
@@ -678,4 +693,45 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
     	return $this->_emptyTextCss;
     }
+    
+    /**
+     * Set count totals
+     *
+     * @param boolean $visible
+     */
+    public function setCountTotals($count=true)
+    {
+        $this->_countTotals = $count;
+    }
+
+    /**
+     * Return count totals
+     *
+     * @return boolean
+     */
+    public function getCountTotals()
+    {
+        return $this->_countTotals;
+    }
+    
+    /**
+     * Set totals
+     *
+     * @param boolean $visible
+     */
+    public function setTotals(Varien_Object $totals)
+    {
+        $this->_varTotals = $totals;
+    }
+
+    /**
+     * Return count totals
+     *
+     * @return boolean
+     */
+    public function getTotals()
+    {
+        return $this->_varTotals;
+    }
+    
 }

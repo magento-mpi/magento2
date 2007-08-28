@@ -9,7 +9,7 @@
  */
  
 class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
-{
+{     
     protected function _construct()
     {
         parent::__construct();
@@ -17,14 +17,16 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
     
     protected function _joinFields()
     {
+        $this->_totals = new Varien_Object();
+        
         $this->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name');
         $this->getSelect()->from('', array(
-                    'viewed' => 'CONCAT("","")', 
-                    'added' => 'CONCAT("","")',
-                    'purchased' => 'CONCAT("","")',
-                    'fulfilled' => 'CONCAT("","")',
-                    'revenue' => 'CONCAT("","")',
+                    'viewed' => 'CONCAT("1","1")', 
+                    'added' => 'CONCAT("2","1")',
+                    'purchased' => 'CONCAT("3","3")',
+                    'fulfilled' => 'CONCAT("3","3")',
+                    'revenue' => 'CONCAT("2","1")',
                     ));
     }
     
@@ -76,6 +78,4 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
         
         return $this;
     }
-    
 }
-?>

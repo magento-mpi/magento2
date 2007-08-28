@@ -24,33 +24,26 @@ class Mage_Reports_Model_Mysql4_Wishlist_Collection extends Mage_Core_Model_Mysq
         $collection = Mage::getResourceModel('customer/customer_collection');
         $collection->load();
         
-        $customers = $collection->getSize();
+        $customers = $collection->count();
         
         $collection = Mage::getResourceModel('customer/customer_collection');
-        $collection->getSelect()->from(array('wt' => $this->wishlistTable), array("cnt" => "count(wishlist_id)"))
+        $collection->getSelect()->from(array('wt' => $this->wishlistTable))
                     ->where('wt.customer_id=e.entity_id')
                     ->group('wt.wishlist_id');
         $collection->load();
-        $wishlists = $collection->getItems();
-        $wishlists = array_shift($wishlists);
-        return array(($wishlists->getCnt()*100)/$customers, $wishlists->getCnt());
+        $count = $collection->count();
+        return array(($count*100)/$customers, $count);
     }
     
     public function getSharedCount()
-    {   
+    {          
         $collection = Mage::getResourceModel('customer/customer_collection');
-        $collection->load();
-        
-        $customers = $collection->getSize();
-        
-        $collection = Mage::getResourceModel('customer/customer_collection');
-        $collection->getSelect()->from(array('wt' => $this->wishlistTable), array("cnt" => "count(wishlist_id)"))
+        $collection->getSelect()->from(array('wt' => $this->wishlistTable))
                     ->where('wt.customer_id=e.entity_id')
+                    ->where('wt.shared=1')
                     ->group('wt.wishlist_id');
         $collection->load();
-        $wishlists = $collection->getItems();
-        $wishlists = array_shift($wishlists);
-        return array(($wishlists->getCnt()*100)/$customers, $wishlists->getCnt());
+        return $collection->count();
     }
     
 }
