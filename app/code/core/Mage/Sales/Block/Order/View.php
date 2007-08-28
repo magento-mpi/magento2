@@ -15,7 +15,7 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('sales/order/view.phtml');
-        $this->setOrder(Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id')));
+
         Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('Order Invoices'));
     }
 
@@ -38,14 +38,22 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
             $className = $methodConfig->getModel();
             $method = Mage::getModel($className);
             if ($method) {
+                $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod() . '/title').'</p>';
                 $method->setPayment($this->getOrder()->getPayment());
             	$methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
             	if (!empty($methodBlock)) {
-            	    $html = $methodBlock->toHtml();
+            	    $html .= $methodBlock->toHtml();
     	        }
             }
         }
         return $html;
     }
 
+    public function getOrder()
+    {
+        if (!$this->getData('order')) {
+            $this->setOrder(Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id')));
+        }
+        return $this->getData('order');
+    }
 }
