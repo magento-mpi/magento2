@@ -52,7 +52,8 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
     public function getOrder()
     {
         if (!$this->getData('order')) {
-            $this->setOrder(Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id')));
+            $orderId = Mage::registry('order_id');
+            $this->setOrder(Mage::getModel('sales/order')->load($orderId);
         }
         return $this->getData('order');
     }

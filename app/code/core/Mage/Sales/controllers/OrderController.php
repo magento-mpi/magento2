@@ -40,8 +40,9 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout(array('default', 'customer_account'), 'customer_account');
 
+        Mage::register('order_id', $this->getRequest()->getParam('order_id', false));
+
         $block = $this->getLayout()->createBlock('sales/order_view', 'sales.order.view');
-        $block->setOrderId($this->getRequest()->getParam('order_id', false));
         $this->getLayout()->getBlock('content')->append($block);
 
         $this->renderLayout();
