@@ -95,9 +95,4 @@ class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
     {
         return Mage::getUrl('*/*/view', array('id' => $id));
     }
-
-    public function formatDate($date)
-    {
-        return strftime(Mage::getStoreConfig('general/local/date_format_long'), strtotime($date));
-    }
 }
