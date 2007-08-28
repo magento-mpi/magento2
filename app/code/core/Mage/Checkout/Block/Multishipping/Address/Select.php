@@ -10,6 +10,14 @@
  */
 class Mage_Checkout_Block_Multishipping_Address_Select extends Mage_Checkout_Block_Multishipping_Abstract
 {
+    protected function _initChildren()
+    {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(__('Change Billing Address') . ' - ' . $headBlock->getDefaultTitle());
+        }
+        return parent::_initChildren();
+    }
+    
     public function getAddressCollection()
     {
         $collection = $this->getData('address_collection');

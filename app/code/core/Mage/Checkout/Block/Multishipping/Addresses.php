@@ -10,6 +10,14 @@
  */
 class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Checkout_Block_Multishipping_Abstract
 {
+    protected function _initChildren()
+    {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(__('Ship to Multiple Addresses') . ' - ' . $headBlock->getDefaultTitle());
+        }
+        return parent::_initChildren();
+    }
+    
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();

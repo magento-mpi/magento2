@@ -10,6 +10,14 @@
  */
 class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Multishipping_Abstract
 {
+    protected function _initChildren()
+    {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
+        }
+        return parent::_initChildren();
+    }
+
     public function getAddresses()
     {
         return $this->getCheckout()->getQuote()->getAllShippingAddresses();
@@ -70,7 +78,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
 
     public function getItemsEditUrl()
     {
-        return $this->getUrl('*/*/addresses');
+        return $this->getUrl('*/*/backToAddresses');
     }
 
     public function getPostActionUrl()

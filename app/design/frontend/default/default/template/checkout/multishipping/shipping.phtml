@@ -22,13 +22,7 @@
                 <h5>Shipping to<span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a></h5>
             </div>
             <address>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                <?=$_address->getStreet(1)?><br/>
-                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                <?=$_address->getCountry()?>
-                <strong>T</strong> | <?=$_address->getTelephone()?>
+                <?=$_address->getFormated(true)?>
             </address>
             <br/>
             <div class="shipping-method-pointer">

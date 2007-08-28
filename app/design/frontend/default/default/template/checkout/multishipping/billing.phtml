@@ -22,33 +22,21 @@
                  </div>
                 <?$_address=$this->getAddress()?>
                 <address>
-                    <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                    <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                    <?=$_address->getStreet(1)?><br/>
-                    <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                    <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                    <?=$_address->getCountry()?><br/>
-                    <strong>T</strong> | <?=$_address->getTelephone()?>
+                    <?=$_address->getFormated(true)?>
                 </address>
             </diV>
             <div class="col-2">
                 <div class="head">
                     <h5>Payment Method</h5>
                 </div>
+                <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none">
+                    <a href="#" id="payment-tool-tip-close" class="btn-close"><img src="<?=$this->getSkinUrl('images/btn_window_close.gif')?>" alt="Close"/></a>
+                    <div class="block-content">
+                    <img src="<?=$this->getSkinUrl('images/cvv.gif')?>" alt="Card Verification Number visual reference"/>
+                    </div>
+                </div>
                 <dl class="payment-methods">
                     <?=$this->getPaymentMethods()?>
-                    <!-- ERASE THIS DT AND DD - THIS IS CREATED FOR TESTING PURPOSE ONLY
-                    <dt>&nbsp;</dt>
-                    <dd style="position:relative; ">
-                       <a href="#">what is this?</a>
-                        <div class="tool-tip" style="top:-270px; left:0; ">
-                            <a href="#" class="btn-close"><img src="<?=$this->getSkinUrl('images/btn_window_close.gif')?>" alt="Close"/></a>
-                            <div class="block-content">
-                            <img src="<?=$this->getSkinUrl('images/cvv.gif')?>" alt="Card Verification Number visual reference"/>
-                            </div>
-                        </div>
-                    </dd>
-                    ERASE THIS DT AND DD - THIS IS CREATED FOR TESTING PURPOSE ONLY -->
                 </dl>
             </div>
         </div>
@@ -61,4 +49,20 @@
 <script type="text/javascript">
     // Need to fix payment JS
     var payment = new paymentForm('multishipping-billing-form');
+    function toggleToolTip(event){
+        if($('payment-tool-tip')){
+            $('payment-tool-tip').setStyle({
+                top: (Event.pointerY(event)-500)+'px',
+                left: (Event.pointerX(event)-400)+'px'
+            })
+            $('payment-tool-tip').toggle();
+        }
+        Event.stop(event);
+    }
+    if($('payment-tool-tip-close')){
+        Event.observe($('payment-tool-tip-close'), 'click', toggleToolTip);
+    }
+    $$('.cvv-what-is-this').each(function(element){
+        Event.observe(element, 'click', toggleToolTip);
+    });
 </script>

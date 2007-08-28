@@ -10,6 +10,16 @@
  */
 class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_Action
 {
+    protected function _getCheckout()
+    {
+        return Mage::getSingleton('checkout/type_multishipping');
+    }
+    
+    protected function _getState()
+    {
+        return Mage::getSingleton('checkout/type_multishipping_state');
+    }
+    
     /**
      * Action predispatch
      *
@@ -91,10 +101,11 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function addressesAction()
     {
         // If customer do not have addresses
-        if (!Mage::getSingleton('checkout/type_multishipping')->getCustomerDefaultShippingAddress()) {
+        if (!$this->_getCheckout()->getCustomerDefaultShippingAddress()) {
             $this->_redirect('*/multishipping_address/newShipping');
             return;
         }
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES);
         $this->loadLayout(array('default', 'multishipping', 'multishipping_addresses'), 'multishipping_addresses');
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
@@ -107,11 +118,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function addressesPostAction()
     {
         if ($shipToInfo = $this->getRequest()->getPost('ship')) {
-            Mage::getSingleton('checkout/type_multishipping')->setShippingItemsInformation($shipToInfo);
+            $this->_getCheckout()->setShippingItemsInformation($shipToInfo);
         }
         if ($this->getRequest()->getParam('continue')) {
-            Mage::getSingleton('checkout/type_multishipping_state')
-                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
+            $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
             $this->_redirect('*/*/shipping');
         }
         else {
@@ -121,9 +131,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
 
     public function backToAddressesAction()
     {
-        echo '123';die();
-        Mage::getSingleton('checkout/type_multishipping_state')
-            ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES);
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES);
         $this->_redirect('*/*/addresses');
     }
 
@@ -135,8 +143,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $itemId     = $this->getRequest()->getParam('id');
         $addressId  = $this->getRequest()->getParam('address');
         if ($addressId && $itemId) {
-            Mage::getSingleton('checkout/type_multishipping')
-                ->removeAddressItem($addressId, $itemId);
+            $this->_getCheckout()->removeAddressItem($addressId, $itemId);
         }
         $this->_redirect('*/*/addresses');
     }
@@ -154,8 +161,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
 
     public function backToShippingAction()
     {
-        Mage::getSingleton('checkout/type_multishipping_state')
-            ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
         $this->_redirect('*/*/shipping');
     }
 
@@ -163,10 +169,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         $shippingMethods = $this->getRequest()->getPost('shipping_method');
         try {
-            Mage::getSingleton('checkout/type_multishipping')
-                ->setShippingMethods($shippingMethods);
-            Mage::getSingleton('checkout/type_multishipping_state')
-                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
+            $this->_getCheckout()->setShippingMethods($shippingMethods);
+            $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
             $this->_redirect('*/*/billing');
         }
         catch (Exception $e){
@@ -190,10 +194,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         $payment = $this->getRequest()->getPost('payment');
         try {
-            Mage::getSingleton('checkout/type_multishipping')
-                ->setPaymentMethod($payment);
-            Mage::getSingleton('checkout/type_multishipping_state')
-                ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW);
+            $this->_getCheckout()->setPaymentMethod($payment);
+            $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW);
             $this->_redirect('*/*/overview');
         }
         catch (Exception $e) {
@@ -204,8 +206,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
 
     public function backToBillingAction()
     {
-        Mage::getSingleton('checkout/type_multishipping_state')
-            ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
         $this->_redirect('*/*/billing');
     }
 
@@ -222,10 +223,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function overviewPostAction()
     {
         try {
-            Mage::getSingleton('checkout/type_multishipping')
-                ->createOrders();
-            Mage::getSingleton('checkout/type_multishipping_state')
-                    ->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS);
+            $this->_getCheckout()->createOrders();
+            $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS);
             $this->_redirect('*/*/success');
         }
         catch (Exception $e){
@@ -243,6 +242,6 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
-        Mage::getSingleton('checkout/type_multishipping')->getCheckoutSession()->clear();
+        $this->_getCheckout()->getCheckoutSession()->clear();
     }
 }

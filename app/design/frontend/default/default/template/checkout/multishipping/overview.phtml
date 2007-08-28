@@ -14,13 +14,7 @@
                 </div>
                 <?$_address=$this->getBillingAddress()?>
                 <address>
-                    <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                    <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                    <?=$_address->getStreet(1)?><br/>
-                    <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                    <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                    <?=$_address->getCountry()?><br/>
-                    <strong>T</strong> | <?=$_address->getTelephone()?>
+                    <?=$_address->getFormated(true)?>
                 </address>
             </div>
             <div class="col-2">
@@ -42,13 +36,7 @@
                 <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>">Edit</a></h4>
             </div>
             <address>
-                <?=$_address->getFirstname()?> <?=$_address->getLastname()?><br/>
-                <?if($_address->getCompany()):?><?=$_address->getCompany()?><br/><?endif?>
-                <?=$_address->getStreet(1)?><br/>
-                <?if($_address->getStreet(2)):?><?=$_address->getStreet(2)?><br/><?endif?>
-                <?=$_address->getCity()?>, <?=$_address->getRegion()?> <?=$_address->getPostcode()?><br/>
-                <?=$_address->getCountry()?>
-                <strong>T</strong> | <?=$_address->getTelephone()?>
+                <?=$_address->getFormated(true)?>
             </address>
             <br/>
             <div class="head">
@@ -97,7 +85,9 @@
             <script type="text/javascript">decorateTable('overview-table-<?=$_address->getId()?>')</script>
         </div>
     </div>
+    <?if($this->getShippingAddressCount()!=$_index+1):?>
     <div class="divider"></div>
+    <?endif;?>
 <?endforeach;?>
 </div>
 </div>

@@ -132,9 +132,14 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
     public function getTitle()
     {
         if (!$this->_title) {
-            $this->_title = $this->getDesignConfig('page/head/title');
+            $this->_title = $this->getDefaultTitle();
         }
         return $this->_title;
+    }
+    
+    public function getDefaultTitle()
+    {
+        return $this->getDesignConfig('page/head/title');
     }
 
     public function setDescription($description)

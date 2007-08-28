@@ -45,6 +45,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
                 	$quoteShippingAddress->addItem($addressItem);
                 }
+                $quoteShippingAddress->setCollectShippingRates(true);
             }
             
             if ($this->getCustomerDefaultBillingAddress()) {
@@ -115,9 +116,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 	$this->_addShippingItem($quoteItemId, $data);
                 }
             }
-            $this->getQuote()
-                ->collectTotals()
-                ->save();
+            $this->save();
         }
         return $this;
     }

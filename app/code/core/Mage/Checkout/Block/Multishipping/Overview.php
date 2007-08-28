@@ -10,6 +10,14 @@
  */
 class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Multishipping_Abstract
 {
+    protected function _initChildren()
+    {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(__('Review Order') . ' - ' . $headBlock->getDefaultTitle());
+        }
+        return parent::_initChildren();
+    }
+
     public function getBillingAddress()
     {
         return $this->getCheckout()->getQuote()->getBillingAddress();

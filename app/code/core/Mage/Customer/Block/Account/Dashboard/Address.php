@@ -47,4 +47,9 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
     {
     	return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
     }
+    
+    public function getAddressBookUrl()
+    {
+        return $this->getUrl('customer/address/');
+    }
 }

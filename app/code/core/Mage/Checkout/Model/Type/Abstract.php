@@ -80,6 +80,13 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
         $address = $this->getData('customer_default_shipping_address');
         if (is_null($address)) {
             $address = $this->getCustomer()->getDefaultShippingAddress();
+            if (!$address) {
+                foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
+                	if($address){
+                	    break;
+                	}
+                }
+            }
             $this->setData('customer_default_shipping_address', $address);
         }
         return $address;
