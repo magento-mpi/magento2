@@ -221,10 +221,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Log>
-        <Mage_Test>
-            <active>true</active>
-            <codePool>local</codePool>
-        </Mage_Test>
         <Mage_Backup>
             <active>true</active>
             <codePool>core</codePool>

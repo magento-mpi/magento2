@@ -1,4 +1,5 @@
 import os, fileinput, string
+from config import *
 
 class Search:
     
@@ -47,7 +48,7 @@ class Search:
             for line in f.readlines():
                 if found > 0:
                     continue
-                lineno = string.find(line, 'NOTICE OF LICENSE')
+                lineno = string.find(line, checkString)
                 if lineno > 0:
                     found = 1
             if found == 0:

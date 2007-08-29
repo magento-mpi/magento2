@@ -76,3 +76,5 @@ scanDirectories = {
             'skin/' : ('Mage', 'default'),
             'tests/' : ('Tests_*','default'),
         }
+
+checkString = 'NOTICE OF LICENSE'
