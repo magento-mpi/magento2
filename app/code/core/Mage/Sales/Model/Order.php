@@ -134,7 +134,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $payment = Mage::getModel('sales/order_payment')
             ->importQuotePayment($quote->getPayment())
             ->setAmount($this->getTotalDue());
-            
+
         $this->setPayment($payment);
 
         foreach ($address->getAllItems() as $addressItem) {
@@ -611,6 +611,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $item->cancel();
         }
         return $this;
+    }
+
+    public function getCreatedAtFormated($format)
+    {
+        return Mage::getHelper('core/text')->formatDate($this->getCreatedAt(), $format);
     }
 
 }
