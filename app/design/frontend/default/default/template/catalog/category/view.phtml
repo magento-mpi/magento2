@@ -1,16 +1,16 @@
 <?
 /**
  * Category view template
- * 
+ *
  * @see Mage_Catalog_Block_Category_View
  */
 ?>
 <?if($this->isContentMode()):?>
     <h2 class="category-head"><?=$this->getCurrentCategory()->getName()?></h2>
-    <?=$this->getLandingPageBlock()->getContent()?>
+    <?=$this->getCmsBlockHtml()?>
 <?elseif($this->isMixedMode()):?>
     <h2 class="category-head"><?=$this->getCurrentCategory()->getName()?></h2>
-    <?=$this->getLandingPageBlock()->getContent()?>
+    <?=$this->getCmsBlockHtml()?>
     <?=$this->getProductListHtml()?>
 
 <?else:?>

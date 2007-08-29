@@ -69,15 +69,15 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         return Mage::registry('current_category');
     }
 
-    public function getLandingPageBlock()
+    public function getCmsBlockHtml()
     {
-        $block = $this->getData('landing_page_block');
-        if (is_null($block)) {
-            $block = Mage::getModel('cms/block')
-                ->load($this->getCurrentCategory()->getLandingPage());
-            $this->setData('landing_page_block', $block);
+        if (!$this->getData('cms_block_html')) {
+            $html = $this->getLayout()->createBlock('cms/block')
+                ->setBlockId($this->getCurrentCategory()->getLandingPage())
+                ->toHtml();
+            $this->setData('cms_block_html', $html);
         }
-        return $block;
+        return $this->getData('cms_block_html');
     }
 
     public function isProductMode()
