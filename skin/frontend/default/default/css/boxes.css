@@ -866,7 +866,7 @@ h1#logo {
 
 .product-collateral .up-sell .head { padding-bottom:8px; margin-bottom:0; }
 .product-collateral .up-sell .generic-product-grid { border:1px solid #E5DCC3; border-top:0; }
-.product-collateral .up-sell .generic-product-grid td { border-color:#E5DCC3; background:#f6f2e7; padding-top:15px; }
+.product-collateral .up-sell .generic-product-grid td { width:25%; border-color:#E5DCC3; background:#f6f2e7; padding-top:15px; }
 .product-collateral .up-sell .generic-product-grid td img { border:1px solid #E5DCC3; }
 .product-collateral .up-sell .generic-product-grid .product-image { text-align:center; }
 .product-collateral .up-sell .generic-product-grid td.empty-product { background:#f1ecdb; }
@@ -893,7 +893,7 @@ h1#logo {
 .mini-related-items .product-images { width:64px; }
 .mini-related-items .product-images input { float:left; }
 .mini-related-items .product-details { margin-left:72px; }
-
+.mini-related-items li { padding-left:0; padding-right:0; }
 
 /********************** Checkout */
 

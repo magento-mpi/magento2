@@ -63,4 +63,6 @@
 .search-autocomplete { left:39px !important; }
 .mini-search  { padding-top:-1px; line-height:1em;}
 .home-spot { display:inline; }
-.mini-related-items .product-images input { margin-left:-4px;}
+.mini-related-items .product-details { margin-left:76px; }
+.mini-related-items .product-images input { float:left; margin:-4px 2px 0 -4px; }
+.mini-related-items .product-images img { float:left; }
