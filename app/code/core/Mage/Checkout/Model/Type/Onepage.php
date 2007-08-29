@@ -265,12 +265,27 @@ class Mage_Checkout_Model_Type_Onepage
                 $billing = $this->getQuote()->getBillingAddress();
                 $shipping = $this->getQuote()->getShippingAddress();
                 if (!$billing->getCustomerAddressId()) {
-                	$customer->addAddress($billing->exportCustomerAddress());
+                    $customerBilling = $billing->exportCustomerAddress();
+                	$customer->addAddress($customerBilling);
                 }
                 if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
-                	$customer->addAddress($shipping->exportCustomerAddress());
+                    $customerShipping = $shipping->exportCustomerAddress();
+                	$customer->addAddress($customerShipping);
                 }
                 $customer->save();
+
+                $changed = false;
+                if (!$customer->getDefaultBilling()) {
+                    $customer->setDefaultBilling($customerBilling->getId());
+                    $changed = true;
+                }
+                if (!$customer->getDefaultShipping) {
+                    $customer->setDefaultShipping($customerShipping->getId());
+                    $changed = true;
+                }
+                if ($changed) {
+                    $customer->save();
+                }
             }
 
             $order = Mage::getModel('sales/order');
