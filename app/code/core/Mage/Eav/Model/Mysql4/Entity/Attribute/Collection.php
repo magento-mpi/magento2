@@ -43,9 +43,8 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
         else {
             $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
             $this->getSelect()->where('entity_attribute.attribute_set_id=?', $setId);
+            $this->setOrder('sort_order', 'asc');
         }
-        
-        $this->setOrder('sort_order', 'asc');
         return $this;
     }
 
