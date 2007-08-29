@@ -92,9 +92,15 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
 
     public function getShippingAddressTotals($address)
     {
+        $totals = $address->getTotals();
+        foreach ($totals as $total) {
+            if ($total->getCode()=='grand_total') {
+                $total->setTitle(__('Total for this address'));
+            }
+        }
         $totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
-        return $totalsFilter->filter($address->getTotals());
+        return $totalsFilter->filter($totals);
     }
 
     public function getTotal()
