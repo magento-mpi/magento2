@@ -2,10 +2,8 @@
 /**
  * Adminhtml customers group page content block
  *
- * @package     Mage
- * @subpackage  Adminhtml
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 

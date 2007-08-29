@@ -2,10 +2,8 @@
 /**
  * Backup data collection
  *
- * @package     Mage
- * @subpackage  Backup
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @category   Mage
+ * @package    Mage_Backup
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 

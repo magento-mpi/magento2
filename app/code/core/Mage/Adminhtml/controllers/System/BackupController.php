@@ -2,10 +2,8 @@
 /**
  * Backup admin controller
  *
- * @package     Mage
- * @subpackage  Adminhtml
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_Action

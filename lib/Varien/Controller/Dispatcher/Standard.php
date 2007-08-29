@@ -1,5 +1,24 @@
 <?php
 /**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   default
+ * @package    Varien_Controller
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
  * Zend Framework
  *
  * LICENSE
@@ -13,10 +32,8 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Controller
- * @subpackage Dispatcher
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @category   default
+ * @package    Varien_Controller
  */
 
 /** Zend_Controller_Dispatcher_Abstract */
@@ -33,10 +50,8 @@ require_once 'Zend/Controller/Action.php';
 
 /**
  * @category   Zend
- * @package    Zend_Controller
- * @subpackage Dispatcher
- * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @category   default
+ * @package    Varien_Controller
  */
 class Varien_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher_Abstract
 {

@@ -2,10 +2,8 @@
 /**
  * Customer group model
  *
- * @package     Mage
- * @subpackage  Customer
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @category   Mage
+ * @package    Mage_Customer
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Customer_Model_Mysql4_Group

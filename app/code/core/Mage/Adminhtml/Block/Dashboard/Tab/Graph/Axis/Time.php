@@ -2,10 +2,8 @@
 /**
  * Adminhtml dashboard tab graph axis abstract
  *
- * @package     Mage
- * @subpackage  Adminhtml
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Time extends Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Abstract 
