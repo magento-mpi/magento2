@@ -23,6 +23,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     return;
                 }
 
+                $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+
                 $tagName = urldecode($tagName);
                 $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
 
@@ -48,12 +50,12 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
                         $tagRelationModel->loadByTagCustomer($this->getRequest()->getParam('productId'), $tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
 
-                        if( $tagRelationModel->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId() ) {
+                        if( $tagRelationModel->getCustomerId() == $customerId ) {
                             return;
                         }
 
                         $tagRelationModel->setTagId($tagModel->getId())
-                            ->setCustomerId(Mage::getSingleton('tag/session')->getCustomerId())
+                            ->setCustomerId($customerId)
                             ->setProductId($this->getRequest()->getParam('productId'))
                             ->setStoreId(Mage::getSingleton('core/store')->getId())
                             ->setCreatedAt( now() )
@@ -64,7 +66,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 }
 
                 Mage::getSingleton('catalog/session')
-                        ->addSuccess('Your tag(s) have been accepted for moderation');
+                        ->addSuccess('Your tag(s) have been submitted.');
 
                 $product = Mage::getModel('catalog/product')
                     ->load($this->getRequest()->getParam('productId'));
@@ -74,7 +76,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('catalog/session')
-                    ->addError('Unable to save tag(s). Please, try again later.');
+                    ->addError('Unable to save tag(s).');
                 return;
             }
         }
