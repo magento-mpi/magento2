@@ -40,11 +40,11 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
         $this->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name');
         $this->getSelect()->from('', array(
-                    'viewed' => 'CONCAT("1","1")', 
-                    'added' => 'CONCAT("2","1")',
-                    'purchased' => 'CONCAT("3","3")',
-                    'fulfilled' => 'CONCAT("3","3")',
-                    'revenue' => 'CONCAT("2","1")',
+                    'viewed' => 'CONCAT("","")', 
+                    'added' => 'CONCAT("","")',
+                    'purchased' => 'CONCAT("","")',
+                    'fulfilled' => 'CONCAT("","")',
+                    'revenue' => 'CONCAT("","")',
                     ));
     }
     

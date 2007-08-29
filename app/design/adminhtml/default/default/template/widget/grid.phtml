@@ -127,7 +127,7 @@ $numColumns = sizeof($this->getColumns());
         <tfoot>
             <tr>
             <?foreach ($this->getColumns() as $_column):?>
-                <th class="<?=$_column->getCssClass()?> <?=++$i==$numColumns?'last':''?>"><?=$_column->getRowField($_column->getGrid()->getTotals())?>&nbsp;</th>
+                <th class="<?=$_column->getCssClass()?>"><?=$_column->getRowField($_column->getGrid()->getTotals())?>&nbsp;</th>
             <?endforeach;?>
             </tr>
          </tfoot>
