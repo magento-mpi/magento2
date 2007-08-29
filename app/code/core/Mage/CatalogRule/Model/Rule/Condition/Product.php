@@ -25,7 +25,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         $productAttributes = Mage::getResourceSingleton('catalog/product')
             ->loadAllAttributes()->getAttributesByCode();
-            
+
         $attributes = array();
         foreach ($productAttributes as $attr) {
             if (!$attr->getIsVisible()) {
@@ -34,12 +34,14 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             $attributes[$attr->getAttributeCode()] = $attr->getFrontend()->getLabel();
         }
 
+        $attributes['attribute_set_id'] = 'Attribute Set';
+
         asort($attributes);
         $this->setAttributeOption($attributes);
-        
+
         return $this;
     }
-    
+
     public function collectValidatedAttributes($productCollection)
     {
         $productCollection->addAttributeToSelect($this->getAttribute());

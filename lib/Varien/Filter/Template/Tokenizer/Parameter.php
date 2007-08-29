@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   default
+ * @category   Varien
  * @package    Varien_Filter
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -21,7 +21,7 @@
 /**
  * Template constructions parameters tokenizer
  *
- * @category   default
+ * @category   Varien
  * @package    Varien_Filter
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */

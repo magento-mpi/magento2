@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   default
+ * @category   Varien
  * @package    Varien_Controller
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -31,7 +31,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   default
+ * @category   Varien
  * @package    Varien_Controller
  * @version    $Id: Module.php 3372 2007-02-13 15:53:06Z matthew $
  */
@@ -47,7 +47,7 @@ require_once 'Zend/Controller/Router/Route/Interface.php';
  *
  * Default route for module functionality
  *
- * @category   default
+ * @category   Varien
  * @package    Varien_Controller
  * @see        http://manuals.rubyonrails.com/read/chapter/65
  */
