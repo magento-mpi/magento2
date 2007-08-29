@@ -22,7 +22,8 @@
 	<h3><?=__('Compare Products')?></h3>
 	<a href="#" class="link-print right" onclick="setLocation('<?=$this->getPrintUrl()?>')"><?=__('Print this page')?></a>
 </div>
-<?$_total=$this->getItems()->count()?>
+<?$_total=$this->getItems()->getSize()?>
+<?if($_total):?>
 <div class="compare-products">
     <table cellspacing="0" class="data-table box-table catalog-listing" id="product_comparison">
 <?if ($_total>2):?>
@@ -69,17 +70,13 @@
     			<td>
     				<?switch ($_attribute->getAttributeCode()) {
     					case "price":?>
-    				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-    						<?break;
+                            <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                            <?break;
     					case "small_image":?>
-    				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
-    						<?break;
+                            <img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
+                            <?break;
     					default:?>
-    				<?if($_attribute->getSourceModel()):?>
-    				<?=$_attribute->getSource()->getOptionText($_item->getData($_attribute->getAttributeCode()))?>
-    				<?else:?>
-    				<?=$_item->getData($_attribute->getAttributeCode())?>
-    				<?endif;?>
+                            <?=$this->getProductAttributeValue($_item, $_attribute)?>
     						<?break;
     				}?>
     			</td>
@@ -114,3 +111,8 @@
 <script type="text/javascript">
     decorateTable('product_comparison');
 </script>
+<?else:?>
+<script type="text/javascript">
+    window.close();
+</script>
+<?endif;?>

@@ -246,7 +246,8 @@ class Varien_Simplexml_Config
     public function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            throw new Exception('Can not read xml file '.$filePath);
+            //throw new Exception('Can not read xml file '.$filePath);
+            return false;
         }
 
         $fileData = file_get_contents($filePath);

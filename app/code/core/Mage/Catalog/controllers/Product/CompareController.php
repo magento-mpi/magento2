@@ -34,12 +34,17 @@
 	        $items = explode(',', $items);
 	        $list = Mage::getSingleton('catalog/product_compare_list');
             $list->addProducts($items);
+            $this->_redirect('*/*/*');
+            return;
 	    }
 
 		$this->loadLayout(array('default', 'catalog_compare'), 'catalog_compare');
 		$this->renderLayout();
 	}
 
+	/**
+	 * Add item to compare list
+	 */
 	public function addAction()
 	{
 		$productId = (int)$this->getRequest()->getParam('product');
@@ -54,10 +59,12 @@
 		$this->_redirectToReferer();
 	}
 
+	/**
+	 * Remove item from compare list
+	 */
 	public function removeAction()
 	{
 		$productId = (int)$this->getRequest()->getParam('product');
-
 		$product = Mage::getModel('catalog/product')
 			->load($productId);
 
@@ -74,18 +81,9 @@
 			if($item->getId()) {
 				$item->delete();
 			}
-		}
-
-		$referer = $this->getRequest()->getServer('HTTP_REFERER');
-		if (preg_match('#/items/([0-9,]+)/?#', $referer, $m)) {
-		    $items = explode(',', $m[1]);
-		    unset($items[array_search($productId, $items)]);
-		    $newLink = str_replace('/items/'.$m[1], '/items/'.join(',', $items), $referer);
-    		$this->getResponse()->setRedirect($newLink);
-		}
-		else {
-		    $this->_redirectToReferer();
-		}
+		} 
+		
+        $this->_redirectToReferer(Mage::getUrl('*/*/'));
 	}
 
 	public function clearAction()

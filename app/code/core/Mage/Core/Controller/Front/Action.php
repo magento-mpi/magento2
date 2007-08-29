@@ -28,11 +28,11 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
         #Mage::getConfig()->loadEventObservers('front');
 	}
 	
-	public function _redirectToReferer()
+	public function _redirectToReferer($default=null)
 	{
 	    $referer = $this->getRequest()->getServer('HTTP_REFERER');
 	    if (!$referer) {
-	        $referer = Mage::getBaseUrl();
+	        $referer = $default ? $default : Mage::getBaseUrl();
 	    }
 	    $this->getResponse()->setRedirect($referer);
 	    return $this;

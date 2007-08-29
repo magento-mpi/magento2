@@ -30,6 +30,14 @@
  	protected $_items = null;
  	protected $_attributes = null;
  	
+ 	protected function _initChildren()
+ 	{
+ 	    if ($headBlock = $this->getLayout()->getBlock('head')) {
+ 	        $headBlock->setTitle(__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
+ 	    }
+ 	    return parent::_initChildren();
+ 	}
+ 	
  	public function getItems()
  	{
  		if(is_null($this->_items)) {
@@ -89,6 +97,17 @@
  		}
  		
  		return false;
+ 	}
+ 	
+ 	public function getProductAttributeValue($product, $attribute)
+ 	{
+		if($attribute->getSourceModel()){
+            $value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
+		}
+		else {
+		    $value = $product->getData($attribute->getAttributeCode());
+		}
+		return $value ? $value : '&nbsp';
  	}
  	
  	public function getPrintUrl()
