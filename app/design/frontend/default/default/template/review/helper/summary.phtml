@@ -3,7 +3,8 @@
 	<div class="rating-box">
 		<div class="rating" style="width:<?=$this->getProduct()->getRatingSummary()->getRatingSummary()?>%"></div>
 	</div>
-	<a href="<?=$this->getUrl('review/product/list', array('id' => $this->getProduct()->getId()))?>"><small class="count"><?=__('%d Reviews', $this->getProduct()->getRatingSummary()->getReviewsCount())?></small></a>
+	<a href="<?=$this->getUrl('review/product/list', array('id' => $this->getProduct()->getId()))?>"><small class="count"><?=__('%d Review(s)', $this->getProduct()->getRatingSummary()->getReviewsCount())?></small></a>
+	| <a href="<?=$this->getAddLink()?>#review-form"><small><?=__('Add your review')?></small></a>
 </div>
 <?endif;?>
 

@@ -2,8 +2,9 @@
 	<div class="ratings">
 		<div class="rating-box">
 			<div class="rating" style="width:<?=$this->getProduct()->getRatingSummary()->getRatingSummary()?>%;"></div>
-			</div>
+		</div>
 		( <?=sprintf('%d', $this->getProduct()->getRatingSummary()->getReviewsCount())?> )
+		| <a href="<?=$this->getAddLink()?>#review-form"><?=__('Add your review')?></a>
 	</div>
 <?endif;?>
 

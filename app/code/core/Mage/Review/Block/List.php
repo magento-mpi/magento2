@@ -30,6 +30,12 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
     }
 
+	public function getAddLink()
+	{
+	    $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
+	    return Mage::getUrl('review/product/list', array('id' => $productId));
+	}
+
     public function count()
     {
         return $this->_collection->getSize();
