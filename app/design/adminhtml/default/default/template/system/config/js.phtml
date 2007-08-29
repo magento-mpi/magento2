@@ -93,6 +93,24 @@ originModel.prototype = {
         for(var i in countryElements) {
             Event.observe(countryElements[i], 'change', this.reloadRegionField.bind(this));
             this.initRegionField(countryElements[i]);
+            if ($(countryElements[i].id+'_inherit')) {
+                Event.observe($(countryElements[i].id+'_inherit'), 'change', this.enableRegionZip.bind(this));
+            }
+        }
+    },
+    enableRegionZip : function(event)
+    {
+        this.reload = true;
+        var countryElement = Event.element(event);
+        if (countryElement && countryElement.id && !countryElement.checked) {
+            var regionElement  = $(countryElement.id.replace(/country_id/, 'region_id'));
+            var zipElement  = $(countryElement.id.replace(/country_id/, 'postcode'));
+            if (regionElement && regionElement.checked) {
+                regionElement.click();
+            }
+            if (zipElement && zipElement.checked) {
+                zipElement.click();
+            }
         }
     },
     initRegionField : function(element)
@@ -125,8 +143,9 @@ originModel.prototype = {
         if (serverResponse) {
             var data = eval('(' + serverResponse + ')');
             var value = this.regionElement.value;
+            var disabled = this.regionElement.disabled;
             if (data.length) {
-                var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry select" title="'+this.regionElement.title+'">';
+                var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry select" title="'+this.regionElement.title+'"'+(disabled?" disabled":"")+'>';
                 for (var i in data) {
                     if(data[i].label) {
                         html+= '<option value="'+data[i].value+'"';
@@ -140,7 +159,7 @@ originModel.prototype = {
                 new Insertion.Before(this.regionElement, html);
                 Element.remove(this.regionElement);
             } else if (this.reload) {
-                var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="input-text" title="'+this.regionElement.title+'">';
+                var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="input-text" title="'+this.regionElement.title+'"'+(disabled?" disabled":"")+'>';
                 new Insertion.Before(this.regionElement, html);
                 Element.remove(this.regionElement);
             }
