@@ -356,8 +356,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_identity'),
     		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
+    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_identity'),
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));
@@ -368,8 +368,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription/success_email_identity'),
     		    Mage::getStoreConfig('newsletter/subscription/success_email_template'),
+    		    Mage::getStoreConfig('newsletter/subscription/success_email_identity'),
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));
