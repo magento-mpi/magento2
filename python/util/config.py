@@ -60,7 +60,8 @@ templates['.css']    = """/**
 
 templates['.phtml']  = '<?php\n' + defTemplate + '?>\n'
 templates['.php']    = '<?php\n' + defTemplate
-templates['.xml']    = '<?xml version="1.0"?>\n<!--\n' + defTemplate + '-->'
+templates['.xml']    = '<?xml version="1.0" encoding="UTF-8"?>\n<!--\n' + defTemplate + '-->'
+templates['.sql']    = defTemplate
 
 # SCAN DIRECTORIES
 scanDirectories = {

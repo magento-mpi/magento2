@@ -1,4 +1,4 @@
-import os
+import os, fileinput, string
 
 class Search:
     
@@ -37,3 +37,22 @@ class Search:
         for dir in dirList:
             print dirList[dir], '\t', dir
         print "\n\n"
+
+    def findOrphaned(self):
+        tmpFiles = []
+        for file in self.files:
+            f = open(file, 'r')
+            lineno = 0
+            found = 0
+            for line in f.readlines():
+                if found > 0:
+                    continue
+                lineno = string.find(line, 'NOTICE OF LICENSE')
+                if lineno > 0:
+                    found = 1
+            if found == 0:
+                print file
+                tmpFiles.append(file)
+            f.close()
+        self.files = tmpFiles
+        return
