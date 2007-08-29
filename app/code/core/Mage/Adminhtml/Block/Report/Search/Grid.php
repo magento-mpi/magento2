@@ -77,6 +77,9 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
             'index'     =>'popularity'
         )); 
         
+        $this->addExportType('*/*/exportSearchCsv', __('CSV'));
+        $this->addExportType('*/*/exportSearchXml', __('XML'));
+        
         return parent::_prepareColumns();
     }
 }

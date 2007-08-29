@@ -44,6 +44,30 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
             ->renderLayout();
     }
 
+    /**
+     * Export shopcart customer report to CSV format
+     */
+    public function exportCustomerCsvAction()
+    {
+        $fileName   = 'shopcart_customer.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_customer_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export shopcart customer report to XML format
+     */
+    public function exportCustomerXmlAction()
+    {
+        $fileName   = 'shopcart_customer.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_customer_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
+    }
+    
     public function productAction()
     {
         $this->_initAction()
@@ -51,6 +75,30 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_product'))
             ->renderLayout();
+    }
+    
+    /**
+     * Export products report grid to CSV format
+     */
+    public function exportProductCsvAction()
+    {
+        $fileName   = 'shopcart_product.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_product_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export products report to XML format
+     */
+    public function exportProductXmlAction()
+    {
+        $fileName   = 'shopcart_product.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_product_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
     }
     
     protected function _isAllowed()
@@ -66,5 +114,16 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
                 return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
                 break;
         }
+    }
+    
+    protected function _sendUploadResponse($fileName, $content)
+    {
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        echo $content;
     }
 }

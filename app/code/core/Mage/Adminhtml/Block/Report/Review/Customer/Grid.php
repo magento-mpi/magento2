@@ -73,6 +73,9 @@ class Mage_Adminhtml_Block_Report_Review_Customer_Grid extends Mage_Adminhtml_Bl
         ));
         
         $this->setFilterVisibility(false);
+        
+        $this->addExportType('*/*/exportCustomerCsv', __('CSV'));
+        $this->addExportType('*/*/exportCustomerXml', __('XML'));
                       
         return parent::_prepareColumns();
     }

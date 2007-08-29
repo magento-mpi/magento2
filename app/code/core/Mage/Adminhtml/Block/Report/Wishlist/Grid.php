@@ -94,6 +94,9 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
             'index'     =>'num_deleted'
         ));
         
+        $this->addExportType('*/*/exportWishlistCsv', __('CSV'));
+        $this->addExportType('*/*/exportWishlistXml', __('XML'));
+        
         $this->setFilterVisibility(false);
               
         return parent::_prepareColumns();

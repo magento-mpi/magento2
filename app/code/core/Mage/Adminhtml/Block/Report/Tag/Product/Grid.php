@@ -69,6 +69,9 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
         ));
          
         $this->setFilterVisibility(false); 
+        
+        $this->addExportType('*/*/exportProductCsv', __('CSV'));
+        $this->addExportType('*/*/exportProductXml', __('XML'));
                       
         return parent::_prepareColumns();
     }

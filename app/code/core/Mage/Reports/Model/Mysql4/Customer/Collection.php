@@ -48,8 +48,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
                 $quote_items->load();
                 $item->setItems($quote_items->count());
             } else {
-                $item->setItems('0');
-                $item->setTotal('0');
+                $item->remove();
             }
             
         }

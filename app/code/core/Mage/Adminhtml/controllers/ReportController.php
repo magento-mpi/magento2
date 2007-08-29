@@ -51,6 +51,30 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product'))
             ->renderLayout();
     }
+    
+    /**
+     * Export products report grid to CSV format
+     */
+    public function exportProductsCsvAction()
+    {
+        $fileName   = 'products.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_product_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export products report to XML format
+     */
+    public function exportProductsXmlAction()
+    {
+        $fileName   = 'products.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_product_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
+    }
 
     public function couponsAction()
     {
@@ -69,6 +93,30 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
+    /**
+     * Export wishlist report grid to CSV format
+     */
+    public function exportWishlistCsvAction()
+    {
+        $fileName   = 'wishlist.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_wishlist_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export wishlist report to XML format
+     */
+    public function exportWishlistXmlAction()
+    {
+        $fileName   = 'wishlist.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_wishlist_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
+    }
+    
     public function searchAction()
     {
         $this->_initAction()
@@ -76,6 +124,30 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->_addBreadcrumb(__('Search Report'), __('Search Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_search'))
             ->renderLayout();
+    }
+    
+    /**
+     * Export search report grid to CSV format
+     */
+    public function exportSearchCsvAction()
+    {
+        $fileName   = 'search.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_search_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export search report to XML format
+     */
+    public function exportSearchXmlAction()
+    {
+        $fileName   = 'search.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_search_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
     }
 
     public function customersAction()
@@ -134,4 +206,15 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
                 break;
         }
     }
+    
+    protected function _sendUploadResponse($fileName, $content)
+    {
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        echo $content;
+    }   
 }

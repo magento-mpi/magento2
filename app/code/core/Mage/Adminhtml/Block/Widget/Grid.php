@@ -574,7 +574,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $csv = '';
         $this->_prepareGrid();
-
+        
         $data = array();
         foreach ($this->_columns as $column) {
             if (!$column->getIsSystem()) {
@@ -592,6 +592,18 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
             $csv.= implode(',', $data)."\n";
         }
+        
+        if ($this->getCountTotals())
+        {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
+                }
+            }
+            $csv.= implode(',', $data)."\n";
+        }
+        
         return $csv;
     }
 
@@ -608,6 +620,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $xml.= '<items>';
         foreach ($this->getCollection() as $item) {
             $xml.= $item->toXml($indexes);
+        }
+        if ($this->getCountTotals())
+        {
+            $xml.= $this->getTotals()->toXml($indexes);
         }
         $xml.= '</items>';
         return $xml;

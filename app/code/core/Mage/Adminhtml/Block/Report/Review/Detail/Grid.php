@@ -81,6 +81,9 @@ class Mage_Adminhtml_Block_Report_Review_Detail_Grid extends Mage_Adminhtml_Bloc
         ));
         
         $this->setFilterVisibility(false);
+        
+        $this->addExportType('*/*/exportProductDetailCsv', __('CSV'));
+        $this->addExportType('*/*/exportProductDetailXml', __('XML'));
                       
         return parent::_prepareColumns();
     }

@@ -45,30 +45,28 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
                     'purchased' => 'CONCAT("","")',
                     'fulfilled' => 'CONCAT("","")',
                     'revenue' => 'CONCAT("","")',
-                    ));
+                   ));
     }
     
     public function addCartsCount()
-    {
-        foreach ($this->getItems() as $item)
-        {        
-            $quotes = Mage::getResourceModel('sales/quote_item_collection')
-                        ->addAttributeToFilter('product_id', $item->getId());
-            $quotes->load();
-            $item->setCarts($quotes->count());
-        }
+    {      
+        $attr = Mage::getResourceModel('sales/quote_item_collection')->getAttribute('product_id');
+       
+        $this->joinAttribute("quote_item", $attr, "entity_id", "value", "left");
+        $this->getSelect()->from("", array("carts" => "count(_table_quote_item.value)"))
+            ->group('e.entity_id');
+       
         return $this;
     }
     
     public function addOrdersCount()
-    {
-        foreach ($this->getItems() as $item)
-        {        
-            $quotes = Mage::getResourceModel('sales/order_item_collection')
-                        ->addAttributeToFilter('product_id', $item->getId());
-            $quotes->load();
-            $item->setOrders($quotes->count());
-        }
+    {       
+        $attr = Mage::getResourceModel('sales/order_item_collection')->getAttribute('product_id');
+       
+        $this->joinAttribute("order_item", $attr, "entity_id", "value", "left");
+        $this->getSelect()->from("", array("orders" => "count(_table_order_item.value)"))
+            ->group('e.entity_id');
+       
         return $this;
     }
     
@@ -88,6 +86,8 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
             case 'purchased':
             case 'fulfilled':
             case 'revenue':
+            case 'carts':
+            case 'orders':
                 $this->getSelect()->order($attribute . ' ' . $dir);    
                 break;
             default:

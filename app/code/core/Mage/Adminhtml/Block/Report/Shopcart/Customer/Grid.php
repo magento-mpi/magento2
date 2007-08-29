@@ -86,6 +86,9 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
         ));
         
         $this->setFilterVisibility(false); 
+        
+        $this->addExportType('*/*/exportCustomerCsv', __('CSV'));
+        $this->addExportType('*/*/exportCustomerXml', __('XML'));
                       
         return parent::_prepareColumns();
     }    

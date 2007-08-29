@@ -44,6 +44,30 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_customer'))
             ->renderLayout();
     }
+    
+    /**
+     * Export review customer report to CSV format
+     */
+    public function exportCustomerCsvAction()
+    {
+        $fileName   = 'review_customer.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_review_customer_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export review customer report to XML format
+     */
+    public function exportCustomerXmlAction()
+    {
+        $fileName   = 'review_customer.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_review_customer_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
+    }
 
     public function productAction()
     {
@@ -54,6 +78,30 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
             ->renderLayout();
     }
 
+    /**
+     * Export review product report to CSV format
+     */
+    public function exportProductCsvAction()
+    {
+        $fileName   = 'review_product.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_review_product_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export review product report to XML format
+     */
+    public function exportProductXmlAction()
+    {
+        $fileName   = 'review_product.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_review_product_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
+    }
+    
     public function productDetailAction()
     {
         $this->_initAction()
@@ -64,6 +112,30 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
             ->renderLayout();
     }
 
+    /**
+     * Export review product detail report to CSV format
+     */
+    public function exportProductDetailCsvAction()
+    {
+        $fileName   = 'review_product_detail.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_review_detail_grid')
+            ->getCsv();
+        
+        $this->_sendUploadResponse($fileName, $content);
+    }
+
+    /**
+     * Export review product detail report to XML format
+     */
+    public function exportProductDetailXmlAction()
+    {
+        $fileName   = 'review_product_detail.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_review_detail_grid')
+            ->getXml();
+
+        $this->_sendUploadResponse($fileName, $content);
+    }
+    
     protected function _isAllowed()
     {
 	    switch ($this->getRequest()->getActionName()) {
@@ -79,5 +151,14 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         }
     }
 
-
+    protected function _sendUploadResponse($fileName, $content)
+    {
+        header('HTTP/1.1 200 OK');
+        header('Content-Disposition: attachment; filename='.$fileName);
+        header('Last-Modified: '.date('r'));
+        header("Accept-Ranges: bytes");
+        header("Content-Length: ".sizeof($content));
+        header("Content-type: application/octet-stream");
+        echo $content;
+    }
 }

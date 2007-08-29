@@ -61,6 +61,9 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
          
         $this->setFilterVisibility(false); 
+        
+        $this->addExportType('*/*/exportPopularCsv', __('CSV'));
+        $this->addExportType('*/*/exportPopularXml', __('XML'));
                       
         return parent::_prepareColumns();
     }

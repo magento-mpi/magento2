@@ -36,17 +36,10 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     protected function _prepareCollection()
     {          
         $collection = Mage::getResourceModel('reports/product_collection')
-          ->addAttributeToSelect('price');
+          ->addAttributeToSelect('price')->addCartsCount()->addOrdersCount();
         
         $this->setCollection($collection);
         return parent::_prepareCollection();
-    }
-    
-    protected function _afterLoadCollection()
-    {
-        $this->getCollection()
-            ->addCartsCount()
-            ->addOrdersCount();
     }
 
     protected function _prepareColumns()
@@ -75,12 +68,22 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
         $this->addColumn('carts', array(
             'header'    =>__('Carts'),
             'width'     =>'70px',
-            'sortable'  =>false,
             'align'     =>'right',
             'index'     =>'carts'
         ));
         
+        $this->addColumn('orders', array(
+            'header'    =>__('Orders'),
+            'width'     =>'70px',
+            'align'     =>'right',
+            'index'     =>'orders'
+        ));
+        
         $this->setFilterVisibility(false);
+        
+        $this->addExportType('*/*/exportProductCsv', __('CSV'));
+        $this->addExportType('*/*/exportProductXml', __('XML'));
+        
         return parent::_prepareColumns();
     }    
 }
