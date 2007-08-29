@@ -275,7 +275,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     	$isNewSubscriber = false;
 
     	if (!$this->getSubscriberId()) {
-    		if (Mage::getStoreConfig('customer/newsletter/confirm')) {
+    		if (Mage::getStoreConfig('newsletter/subscription/confirm')) {
     			$this->setSubscriberStatus(self::STATUS_NOT_ACTIVE);
     		} else {
     			$this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
@@ -300,7 +300,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         try {
         	$this->save();
         	if ($isNewSubscriber) {
-	        	if (Mage::getStoreConfig('customer/newsletter/confirm')) {
+	        	if (Mage::getStoreConfig('newsletter/subscription/confirm')) {
 	        		$this->sendConfirmationRequestEmail();
 	        	} else {
 	        		$this->sendConfirmationSuccessEmail();
@@ -356,8 +356,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription_confirm_email/template'),
-    		    Mage::getStoreConfig('newsletter/subscription_success_email/identity'),
+    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
+    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_identity'),
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));
@@ -368,8 +368,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription_success_email/template'),
-    		    Mage::getStoreConfig('newsletter/subscription_success_email/identity'),
+    		    Mage::getStoreConfig('newsletter/subscription/success_email_identity'),
+    		    Mage::getStoreConfig('newsletter/subscription/success_email_template'),
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));

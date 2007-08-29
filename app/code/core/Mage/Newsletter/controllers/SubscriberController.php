@@ -88,7 +88,8 @@
     /**
      * Subscription confirm action
      */
-    public function confirmAction() {
+    public function confirmAction() 
+    {
     	$id = (int) $this->getRequest()->getParam('id');
     	$subscriber = Mage::getModel('newsletter/subscriber')
     		->load($id);
@@ -103,7 +104,9 @@
     		 Mage::getSingleton('newsletter/session')->addError('Invalid subscription id');
     	}
 
-        $this->getResponse()->setRedirect($this->_referer);
+        // $this->getResponse()->setRedirect($this->_referer); // We can't redirect subscriber to his email software :)
+        
+        $this->getResponse()->setRedirect(Mage::getBaseUrl());
     }
 
     public function unsubscribeAction()
