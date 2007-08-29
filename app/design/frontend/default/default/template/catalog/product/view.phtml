@@ -1,24 +1,4 @@
-<?php
-/**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * @category   design_default
- * @package    Mage
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-?>
-<?
+<?php/** * Magento * * NOTICE OF LICENSE * * This source file is subject to the Open Software License (OSL 3.0) * that is bundled with this package in the file LICENSE.txt. * It is also available through the world-wide-web at this URL: * http://opensource.org/licenses/osl-3.0.php * If you did not receive a copy of the license and are unable to * obtain it through the world-wide-web, please send an email * to license@magentocommerce.com so we can send you a copy immediately. * * @category   design_default * @package    Mage * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com) * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0) */?><?
 /**
  * Product view template
  *
@@ -64,8 +44,8 @@
        <h3 class="product-name"><?=$_product->getName()?></h3>
             <?=$this->getHelper('review/helper')->getSummaryHtml($_product, null, 1)?>
             <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
-            <input type="hidden" name="product" value="<?=$_product->getId()?>">
-            <input type="hidden" name="related_product" id="related-products-field" value="">
+            <input type="hidden" name="product" value="<?=$_product->getId()?>"/>
+            <input type="hidden" name="related_product" id="related-products-field" value=""/>
 
             <?if($_product->isSuperConfig()):?>
                 <?=$this->getChildHtml('super_config')?>
@@ -126,20 +106,21 @@
             </script>
             <div class="clear"></div>
             <div class="divider"></div>
+           <h4><?=__('Short Description')?></h4>
+           <div class="short-description"><?=$_product->getShortDescription()?> <a href="#full-description">Read full description</a></div>
         </div>
     </div>
         <div class="product-collateral">
-            <div class="collateral-box">
-                <div class="head">
-                    <h4><?=__('Product Description')?></h4>
-                </div>
-                <div class="product-specs"><?=$_product->getDescription()?></div>
-            </div>
-        <?=$this->getChildHtml('upsell_products')?>
         <?if($_additional = $this->getAdditionalData()):?>
+        <div class="collateral-box" id="full-description">
+            <div class="head">
+                <h4><?=__('Product Description')?></h4>
+            </div>
+            <div class="product-specs"><?=$_product->getDescription()?></div>
+        </div>
         <div class="collateral-box attribute-specs">
             <div class="head">
-                <h4><?=__('Product Attribute Specs')?></h4>
+                <h4><?=__('Product Attribute Specifications')?></h4>
             </div>
             <table cellspacing="0" class="data-table" id="product-attribute-specs-table">
             <?foreach ($_additional as $_data):?>
@@ -152,6 +133,7 @@
             <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
         </div>
         <?endif;?>
+        <?=$this->getChildHtml('upsell_products')?>
         <?=$this->getChildHtml('product_additional_data')?>
     </div>
 </div>
