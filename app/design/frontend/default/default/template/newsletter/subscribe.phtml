@@ -25,12 +25,14 @@
 <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate-detail">
 	<fieldset class="content">
 			<legend><?=__('Newsletter')?></legend>
+			<!--
             <?if( $message = $this->getErrorMessage() ):?>
                 <p class="error"><?=$message?></p>
             <?endif;?>
             <?if( $message = $this->getSuccessMessage() ):?>
                 <p class="success"><?=$message?></p>
             <?endif;?>
+            -->
 			<label for="newsletter">Sign up for our newsletter:</label>
 			<input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/>
 			<button type="submit" class="form-button-alt"><span>Subscribe</span></button>

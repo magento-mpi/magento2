@@ -274,7 +274,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     	$isNewSubscriber = false;
 
-    	if (!$this->getSubscriberId()) {
+    	if (!$this->getSubscriberId() || $this->getSubscriberStatus()==self::STATUS_UNSUBSCRIBED) {
     		if (Mage::getStoreConfig('newsletter/subscription/confirm')) {
     			$this->setSubscriberStatus(self::STATUS_NOT_ACTIVE);
     		} else {
@@ -356,8 +356,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
     		    Mage::getStoreConfig('newsletter/subscription/confirm_email_identity'),
+    		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));

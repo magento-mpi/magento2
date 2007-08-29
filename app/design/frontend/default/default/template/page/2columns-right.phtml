@@ -37,9 +37,9 @@
     <link rel="stylesheet" href="<?=$this->getSkinUrl('css/styles.css')?>" type="text/css" media="all"/>
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/ie7.css')?>" type="text/css" media="all"/> <![endif]-->
-    <!--[if lt IE 7]> 
+    <!--[if lt IE 7]>
 		<link rel="stylesheet" href="<?=$this->getSkinUrl('css/ie7minus.css')?>" type="text/css" media="all"/>
-        <script type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js" ></script> 
+        <script type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js" ></script>
         <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js" ></script>
     <![endif]-->
 
@@ -62,6 +62,9 @@
 <?=$this->getChildHtml('breadcrumbs')?>
             <!-- [start] center -->
                 <div class="col-main">
+                <!-- [start] global messages -->
+                    <?=$this->getChildHtml('global_messages')?>
+                <!-- [end] global messages -->
 
                 <!-- [start] content -->
                     <?=$this->getChildHtml('content')?>
@@ -88,7 +91,7 @@
 						</div>
         </div>
         <!-- [end] footer -->
-        
+
 <?=$this->getChildHtml('before_body_end')?>
     </body>
 </html>

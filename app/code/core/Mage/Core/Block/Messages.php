@@ -34,6 +34,12 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      */
     protected $_messages;
 
+    public function _initChildren()
+    {
+        $this->addMessages(Mage::getSingleton('core/session')->getMessages(true));
+        parent::_initChildren();
+    }
+
     /**
      * Set messages collection
      *
@@ -45,7 +51,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         $this->_messages = $messages;
         return $this;
     }
-    
+
     public function addMessages(Mage_Core_Model_Message_Collection $messages)
     {
         foreach ($messages->getItems() as $message) {
@@ -132,4 +138,8 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
         return $html;
     }
 
+    public function toHtml()
+    {
+        return $this->getGroupedHtml();
+    }
 }

@@ -34,9 +34,9 @@ class Varien_Simplexml_Config
      * @var Varien_Simplexml_Element
      */
     protected $_xml = null;
-    
+
     protected $_cacheId = null;
-    
+
     protected $_cacheChecksum = false;
 
     /**
@@ -52,17 +52,17 @@ class Varien_Simplexml_Config
      * @var string
      */
     protected $_elementClass = 'Varien_Simplexml_Element';
-    
+
     /**
      * Xpath describing nodes in configuration that need to be extended
-     * 
+     *
      * @example <allResources extends="/config/modules//resource"/>
      */
     protected $_xpathExtends = "//*[@extends]";
 
     /**
      * Constructor
-     * 
+     *
      * Initializes XML for this configuration
      *
      * @see self::setXml
@@ -88,7 +88,7 @@ class Varien_Simplexml_Config
 
     /**
      * Sets xml for this configuration
-     * 
+     *
      * @param Varien_Simplexml_Element $sourceData
      * @return Varien_Simplexml_Config
      */
@@ -97,7 +97,7 @@ class Varien_Simplexml_Config
         $this->_xml = $node;
         return $this;
     }
-    
+
     /**
      * Returns node found by the $path
      *
@@ -134,29 +134,29 @@ class Varien_Simplexml_Config
 
         return $result;
     }
-    
+
     public function setCache($cache)
     {
         $this->_cache = $cache;
         return $this;
     }
-    
+
     public function getCache()
     {
         return $this->_cache;
     }
-    
+
     public function setCacheId($id)
     {
         $this->_cacheId = $id;
         return $this;
     }
-    
+
     public function getCacheId()
     {
         return $this->_cacheId;
     }
-    
+
     public function setCacheChecksum($data)
     {
     	if (false===$data || 0===$data) {
@@ -166,7 +166,7 @@ class Varien_Simplexml_Config
     	}
         return $this;
     }
-    
+
     public function updateCacheChecksum($data)
     {
     	if (false===$this->getCacheChecksum()) {
@@ -179,17 +179,17 @@ class Varien_Simplexml_Config
     	}
         return $this;
     }
-    
+
     public function getCacheChecksum()
     {
         return $this->_cacheChecksum;
     }
-    
+
     public function getCacheChecksumId()
     {
         return $this->getCacheId().'__CHECKSUM';
     }
-    
+
     public function validateCacheChecksum()
     {
         $newChecksum = $this->getCacheChecksum();
@@ -202,34 +202,34 @@ class Varien_Simplexml_Config
         $cachedChecksum = $this->getCache()->load($this->getCacheChecksumId());
         return $newChecksum===false && $cachedChecksum===false || $newChecksum===$cachedChecksum;
     }
-    
+
     public function loadCache()
     {
         if (!$this->validateCacheChecksum()) {
             return false;
         }
-        
+
         $xmlString = $this->getCache()->load($this->getCacheId());
         $xml = simplexml_load_string($xmlString, $this->_elementClass);
         if ($xml) {
             $this->_xml = $xml;
             return true;
         }
-        
+
         return false;
     }
-    
+
     public function saveCache($tags=array())
     {
     	if ($this->getCacheChecksum()) {
 	        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
-	        
+
 	        $xmlString = $this->getNode()->asXml();
 	        $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
     	}
         return $this;
     }
-    
+
     public function removeCache()
     {
         $this->getCache()->remove($this->getCacheId());
@@ -269,7 +269,7 @@ class Varien_Simplexml_Config
     	else {
     		throw new Exception('"$string" parameter for simplexml_load_string is empty');
     	}
-        
+
     	if ($xml instanceof Varien_Simplexml_Element) {
     	    $this->_xml = $xml;
     	    return true;
@@ -287,7 +287,7 @@ class Varien_Simplexml_Config
     public function loadDom($dom)
     {
         $xml = simplexml_import_dom($dom, $this->_elementClass);
-        
+
         if ($xml) {
             $this->_xml = $xml;
             return true;
@@ -366,7 +366,7 @@ class Varien_Simplexml_Config
     {
         return $text;
     }
-    
+
     public function extend(Varien_Simplexml_Config $config, $overwrite=true)
     {
         $this->getNode()->extend($config->getNode(), $overwrite);

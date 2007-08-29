@@ -42,7 +42,7 @@
  	 */
     public function indexAction()
     {
-        $this->_redirect($this->_referer);
+        $this->getResponse()->setRedirect($this->_referer);
         /*
         $this->loadLayout();
         $block = $this->getLayout()->createBlock('newsletter/subscribe','subscribe.content');
@@ -59,7 +59,7 @@
  	 */
     public function newAction()
     {
-    	$session = Mage::getSingleton('newsletter/session');
+    	$session = Mage::getSingleton('core/session');
     	try {
             $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
     	} catch (Exception $e) {
@@ -67,7 +67,6 @@
     	    $this->getResponse()->setRedirect($this->_referer);
     	    return;
     	}
-
         if ($status instanceof Exception) {
         	$session->addError(__('There was a problem with the subscription').': '.$status);
         } else {
@@ -79,6 +78,10 @@
 	        	case Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED:
 	        		$session->addSuccess(__('Thank you for your subscription'));
 	        		break;
+
+	        	default:
+	        	    $session->addSuccess(__('Thank you for your subscription'));
+	        		break;
 	        }
         }
 
@@ -88,7 +91,7 @@
     /**
      * Subscription confirm action
      */
-    public function confirmAction() 
+    public function confirmAction()
     {
     	$id = (int) $this->getRequest()->getParam('id');
     	$subscriber = Mage::getModel('newsletter/subscriber')
@@ -105,7 +108,7 @@
     	}
 
         // $this->getResponse()->setRedirect($this->_referer); // We can't redirect subscriber to his email software :)
-        
+
         $this->getResponse()->setRedirect(Mage::getBaseUrl());
     }
 
