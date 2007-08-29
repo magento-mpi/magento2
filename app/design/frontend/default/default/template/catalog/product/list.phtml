@@ -51,7 +51,9 @@
             <h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><?=$_product->getName()?></a></h5>
             <?=$this->getHelper('review/helper')->getSummaryHtml($_product)?>
             <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+            <?if($_product->isSaleable()):?>
             <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=__('Add to Cart')?></span></button>
+            <?endif;?>
             <div class="clear"></div>
             <div class="description">
                 <?=$_product->getShortDescription()?>
@@ -89,7 +91,9 @@
 			<h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>)"><?=$_product->getName()?></a></h5>
 			<?=$this->getHelper('review/helper')->getSummaryHtml($_product, 'short')?>
 			<?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+			<?if($_product->isSaleable()):?>
 			<button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=__('Add to Cart')?></span></button>
+			<?endif;?>
 			<div class="clear"></div>
 			<p class="add-to">
                 <strong>Add to:</strong><br/><a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart"><?=__('Wishlist')?></a>

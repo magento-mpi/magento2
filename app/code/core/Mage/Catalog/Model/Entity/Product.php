@@ -594,7 +594,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         	    $object->setData($attribute->getAttributeCode(), null);
         	}
         }
-        $object->setStatus(Mage_Catalog_Model_Product::STATUS_DISABLED);
+        $object->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
         return $this;
     }
 }

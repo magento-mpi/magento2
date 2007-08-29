@@ -48,6 +48,7 @@
 				->addAttributeToSelect('name')
 				->addAttributeToSelect('price')
 				->addAttributeToSelect('image')
+				->addAttributeToSelect('status')
 				->addAttributeToSelect('small_image')
 				->useProductItem()
 				->load();

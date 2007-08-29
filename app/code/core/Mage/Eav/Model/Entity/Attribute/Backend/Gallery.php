@@ -97,7 +97,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
     {
         $this->_init('core/store');
     }
-[11:54:25 PM] Dmitriy говорит: Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+[11:54:25 PM] Dmitriy пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 */
 
         $this->_images->getSelectSql()
@@ -142,8 +142,14 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
     		    $data['store_id']	  	= $storeId;
     		    $data['position']		= $value['position'];
     		    $data['entity_type_id'] = $entityTypeId;
-    	        $connection->insert($this->getTable(), $data);
-                $lastInsertId = $connection->lastInsertId();
+    		    
+    		    if ($entityId) {
+    		        $connection->insert($this->getTable(), $data);
+    		        $lastInsertId = $connection->lastInsertId();
+    		    }
+    		    else {
+    		        continue;
+    		    }
 
                 unset($newFileName);
                 $types = $this->getImageTypes();

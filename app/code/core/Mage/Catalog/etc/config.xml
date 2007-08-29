@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.6.24</version>
+         <version>0.6.25</version>
          <depends>
             <Mage_Customer />
          </depends>
@@ -72,6 +72,10 @@
               <product_status>
                 <table>catalog_product_status</table>
               </product_status>
+
+              <product_visibility>
+                <table>catalog_product_visibility</table>
+              </product_visibility>
 
               <product_link>
                 <table>catalog_product_link</table>

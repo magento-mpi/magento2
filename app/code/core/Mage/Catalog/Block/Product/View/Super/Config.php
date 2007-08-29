@@ -35,7 +35,9 @@
     
     public function getAllowAttributes()
     {
-        return $this->getProduct()->getSuperAttributes(false);
+        $collection = $this->getProduct()->getSuperLinkCollection();
+        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        return $this->getProduct()->getSuperAttributes(false, true);
     }
     
     public function getAllowProducts()

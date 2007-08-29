@@ -30,15 +30,19 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
 {
 	protected function _prepareData() 
 	{
-		Mage::registry('product')->getRelatedProducts()
+		$collection = Mage::registry('product')->getRelatedProducts()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('thumbnail')
 			->addAttributeToSort('position', 'asc')
-			->useProductItem()
-			->load();
+			->useProductItem();
+			
+        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        $collection->load();
+        return $this;
 	}
 	
 	protected function	_beforeToHtml()

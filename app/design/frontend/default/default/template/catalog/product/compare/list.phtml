@@ -53,7 +53,9 @@
                 <h5><a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
                 <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
                 <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                <?if($_item->isSaleable()):?>
                 <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+                <?endif;?>
                 <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to My Wishlist</small></a>
             </td>
         <?endforeach;?>
@@ -105,8 +107,10 @@
 			<?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
 			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
 					<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-				   <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
-				   <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to Wishlist</small></a>
+				    <?if($_item->isSaleable()):?>
+				    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+				    <?endif;?>
+				    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to Wishlist</small></a>
 			    </div>
 		    </div>
 			</td>

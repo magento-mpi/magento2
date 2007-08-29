@@ -21,7 +21,6 @@
 <table cellspacing="0" class="data-table" id="super-product-table">
 	<thead>
 		<tr>
-
 			<th>Product Name</th>
 			<th>SKU</th>
 			<th class="a-right">Price</th>
@@ -29,6 +28,7 @@
 		</tr>
 	</thead>
 	<tbody>
+	<?if ($this->getItems()->getSize()):?>
 	<?foreach ($this->getItems() as $_item):?>
 		<tr>
 			<td><?=$_item->getName()?></td>
@@ -37,6 +37,11 @@
 			<td class="a-center"><input type="text" class="input-text qty" name="super_group[<?=$_item->getLinkedProductId()?>]" value="<?=$this->filterQty($_item->getQty())?>"/></td>
 		</tr>
 	<?endforeach;?>
+	<?else:?>
+	   <tr>
+	       <td colspan="4">None of the options of this product are available.</td>
+	   </tr>
+	<?endif;?>
 	</tbody>
 </table>
 <script type="text/javascript">decorateTable('super-product-table')</script>

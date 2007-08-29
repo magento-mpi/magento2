@@ -27,4 +27,29 @@
  */
 class Mage_Catalog_Model_Product_Status extends Varien_Object 
 {
+    const STATUS_ENABLED            = 1;
+    const STATUS_DISABLED           = 2;
+    const STATUS_OUT_OF_STOCK       = 3;
+    
+    public function addVisibleFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    {
+        $collection->addAttributeToFilter('status', array('in'=>$this->getVisibleStatusIds()));
+        return $this;
+    }
+    
+    public function addSaleableFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    {
+        $collection->addAttributeToFilter('status', array('in'=>$this->getSaleableStatusIds()));
+        return $this;
+    }
+    
+    public function getVisibleStatusIds()
+    {
+        return array(self::STATUS_ENABLED, self::STATUS_OUT_OF_STOCK);
+    }
+    
+    public function getSaleableStatusIds()
+    {
+        return array(self::STATUS_ENABLED);
+    }
 }

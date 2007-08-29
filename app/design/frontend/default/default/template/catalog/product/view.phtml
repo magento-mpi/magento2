@@ -88,6 +88,7 @@
             <?if(!$_product->isSuperGroup()):?>
                 <p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
                 <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+                <?if($_product->isSaleable()):?>
                 <fieldset class="add-to-cart-box">
                     <legend><?=__('Add items to cart')?></legend>
                     <span class="qty-box"><label for="qty"><?=__('Qty')?>:</label>
@@ -95,6 +96,7 @@
                     <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button>
                     <strong><?=__('OR')?></strong>
                 </fieldset>
+                <?endif;?>
                 <div class="add-to-box">
                     <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=__('Add to Wishlist')?></a><br/>
                     <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
@@ -103,8 +105,10 @@
                 </div>
             <?else:?>
                 <p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <?if($_product->isSaleable() && $_product->getSuperGroupProductsLoaded()->getSize()):?>
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button> <strong><?=__('OR')?></strong>
                 &nbsp;&nbsp;
+                <?endif;?>
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=__('Add to Wishlist')?></a>
                 <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
                 <span class="pipe">|</span>

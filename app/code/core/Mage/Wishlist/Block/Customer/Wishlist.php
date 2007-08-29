@@ -46,7 +46,8 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
-	            ->addAttributeToSelect('small_image')
+	            ->addAttributeToSelect('thumbnail')
+	            ->addAttributeToSelect('status')
 	            ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
 				->load();
 

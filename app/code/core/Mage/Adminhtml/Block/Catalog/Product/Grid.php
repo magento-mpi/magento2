@@ -60,9 +60,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if ($storeId) {
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $storeId);
+            $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $storeId);
         }
         else {
             $collection->addAttributeToSelect('status');
+            $collection->addAttributeToSelect('visibility');
         }
 
         $collection->getEntity()->setStore(0);
@@ -140,6 +142,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'width' => '130px',
                 'type'  => 'number',
                 'index' => 'qty',
+        ));
+
+        $visibility = Mage::getResourceModel('catalog/product_visibility_collection')
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('visibility',
+            array(
+                'header'=> __('Visibility'),
+                'width' => '90px',
+                'index' => 'visibility',
+                'type'  => 'options',
+                'options' => $visibility,
         ));
 
         $statuses = Mage::getResourceModel('catalog/product_status_collection')

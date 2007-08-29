@@ -33,7 +33,8 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Gallery extends Mage_E
     public function __construct()
     {
         parent::__construct();
-        $this->setConnection(Mage::getSingleton('core/resource')->getConnection('catalog_read'),Mage::getSingleton('core/resource')->getConnection('catalog_write'));
+        $resource = Mage::getSingleton('core/resource');
+        $this->setConnection($resource->getConnection('catalog_read'), $resource->getConnection('catalog_write'));
         $this->_imageTypes = array(0, 1, 2);
     }
 

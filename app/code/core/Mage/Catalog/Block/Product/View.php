@@ -79,21 +79,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         $product = $this->getProduct();
 
-        /*if($product->isBundle()) {
-        	$product->getBundleOptionCollection()->useProductItem()->getLinkCollection()
-        		->addAttributeToSelect('name')
-        		->addAttributeToSelect('price');
-        	$product->getBundleOptionCollection()
-        		->load();
-        }*/
-
-		$product->getSuperGroupProducts()
+		$groupCollection = $product->getSuperGroupProducts()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('sku')
 			->addAttributeToSort('position', 'asc')
 			->useProductItem();
 			
+        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($groupCollection);
         return $this;
     }
 

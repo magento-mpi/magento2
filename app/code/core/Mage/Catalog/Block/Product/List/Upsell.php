@@ -33,15 +33,20 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
     
 	protected function _prepareData() 
 	{
-		Mage::registry('product')->getUpSellProducts()
+		$collection = Mage::registry('product')->getUpSellProducts()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('thumbnail')
 			->addAttributeToSort('position', 'asc')
-			->useProductItem()
-			->load();
+			->useProductItem();
+			
+        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        $collection->load();
+        return $this;
+
 	}
 	
 	protected function	_beforeToHtml()

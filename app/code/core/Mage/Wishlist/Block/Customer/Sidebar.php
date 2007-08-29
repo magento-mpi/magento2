@@ -46,6 +46,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 				->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('thumbnail')
+                ->addAttributeToSelect('status')
 				->addAttributeToFilter('store_id', array('in'=>$this->_wishlist->getSharedStoreIds()))
 				->addAttributeToSort('added_at', 'desc')
                 ->setCurPage(1)

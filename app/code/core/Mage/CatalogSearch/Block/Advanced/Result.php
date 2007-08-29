@@ -60,6 +60,8 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
                 ->addAttributeToSelect('description')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image');
+                Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
+                Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
                 
             $this->_addFilters();
         }

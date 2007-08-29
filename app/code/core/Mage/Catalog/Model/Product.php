@@ -36,10 +36,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const TYPE_CONFIGURABLE_SUPER   = 3;
     const TYPE_GROUPED_SUPER        = 4;
     
-    const STATUS_ENABLED            = 1;
-    const STATUS_DISABLED           = 2;
-    const STATUS_OUT_OF_STOCK       = 3;
-    
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
 
@@ -769,7 +765,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function getVisibleInCatalogStatuses()
     {
-        return array(self::STATUS_ENABLED, self::STATUS_OUT_OF_STOCK);
+        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
     }
     
     public function isVisibleInCatalog()
@@ -779,7 +775,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function isSalable()
     {
-        return $this->getStatus() == self::STATUS_ENABLED;
+        return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
     }
     
     public function isSaleable()
@@ -789,6 +785,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     
     public function isInStock()
     {
-        return $this->getStatus() == self::STATUS_ENABLED;
+        return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
     }
 }

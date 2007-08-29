@@ -46,6 +46,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')
 	            ->addAttributeToSelect('small_image')
+	            ->addAttributeToSelect('thumbnail')
 	            ->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
 				->load();
 
