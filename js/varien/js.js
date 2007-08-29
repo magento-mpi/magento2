@@ -29,11 +29,12 @@ function setPLocation(url, setFocus){
 
 
 function decorateTable(table){
-    if($(table)){
-        var allRows = $(table).getElementsBySelector('tr')
-        var bodyRows = $(table).getElementsBySelector('tbody tr');
-        var headRows = $(table).getElementsBySelector('thead tr');
-        var footRows = $(table).getElementsBySelector('tfoot tr');
+    table = $(table);
+    if(table){
+        var allRows = table.getElementsBySelector('tr')
+        var bodyRows = table.getElementsBySelector('tbody tr');
+        var headRows = table.getElementsBySelector('thead tr');
+        var footRows = table.getElementsBySelector('tfoot tr');
 
         for(var i=0; i<bodyRows.length; i++){
             if((i+1)%2==0) {
@@ -43,7 +44,7 @@ function decorateTable(table){
                 bodyRows[i].addClassName('odd');
             }
         }
-        
+
         if(headRows.length) {
         	headRows[0].addClassName('first');
         	headRows[headRows.length-1].addClassName('last');
@@ -72,7 +73,7 @@ function decorateList(list){
         var items = $(list).getElementsBySelector('li')
         if(items.length) items[items.length-1].addClassName('last');
         for(var i=0; i<items.length; i++){
-            if((i+1)%2==0) 
+            if((i+1)%2==0)
                 items[i].addClassName('even');
             else
                 items[i].addClassName('odd');
@@ -86,7 +87,7 @@ function decorateDataList(list){
         var items = list.getElementsBySelector('dt')
         if(items.length) items[items.length-1].addClassName('last');
         for(var i=0; i<items.length; i++){
-            if((i+1)%2==0) 
+            if((i+1)%2==0)
                 items[i].addClassName('even');
             else
                 items[i].addClassName('odd');
@@ -94,7 +95,7 @@ function decorateDataList(list){
         var items = list.getElementsBySelector('dd')
         if(items.length) items[items.length-1].addClassName('last');
         for(var i=0; i<items.length; i++){
-            if((i+1)%2==0) 
+            if((i+1)%2==0)
                 items[i].addClassName('even');
             else
                 items[i].addClassName('odd');

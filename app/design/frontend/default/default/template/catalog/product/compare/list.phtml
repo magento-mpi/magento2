@@ -24,101 +24,91 @@
 </div>
 <?$_total=count($this->getItems())?>
 <div class="compare-products">
-<table cellspacing="0" class="data-table box-table catalog-listing">
-	<tbody class="remove-buttons">
-		<tr>
-			<?$_i=0?>
-			<?foreach($this->getItems() as $_item):?>
-			<?if($_i%10==0):?>
-			<td>&nbsp;</td>
-			<?endif;?>
-			<td><a href="#" onclick="setLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=__('Remove')?>"/></a></td>
-			<?$_i++?>
-			<?endforeach;?>
-		</tr>
-	</tbody>
-	<tbody>
-		<tr class="first">
-        <?$_i=0?>
-        <?foreach($this->getItems() as $_item):?>
-            <?if($_i%10==0):?>
-                <td class="label">&nbsp;</td>
-            <?endif;?>
-            <?$_i++?>
-            <?$_className=''?>
-            <?if($_i%2!=0):?><?$_className.='odd '?><?endif;?>
-            <?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
-            <td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
-                <a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
-                <h5><a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
-                <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
-                <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-                <?if($_item->isSaleable()):?>
-                <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+    <table cellspacing="0" class="data-table box-table catalog-listing" id="product_comparison">
+    	<tbody class="remove-buttons">
+    		<tr>
+    			<?$_i=0?>
+    			<?foreach($this->getItems() as $_item):?>
+    			<?if($_i++%10==0):?>
+    			<td>&nbsp;</td>
+    			<?endif;?>
+    			<td><a href="#" onclick="setLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=__('Remove')?>"/></a></td>
+    			<?endforeach;?>
+    		</tr>
+    	</tbody>
+    	<tbody>
+    		<tr class="first">
+            <?$_i=0?>
+            <?foreach($this->getItems() as $_item):?>
+                <?if($_i++%10==0):?>
+                    <td class="label">&nbsp;</td>
                 <?endif;?>
-                <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to My Wishlist</small></a>
-            </td>
-        <?endforeach;?>
-		</tr>
-	</tbody>
-	<tbody>
-	<?foreach ($this->getAttributes() as $_attribute):?>
-		<tr>
-			<?$_i=0?>
-			<?foreach($this->getItems() as $_item):?>
-			<?if($_i%10==0):?>
-			<td class="label"><?=$_attribute->getFrontendLabel()?></td>
-			<?endif;?>
-			<?$_i++?>
-			<?$_className=''?>
-			<?if($_i%2!=0):?><?$_className.='odd '?><?endif;?>
-			<?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
-			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
-				<?switch ($_attribute->getAttributeCode()) {
-					case "price":?>
-				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-						<?break;
-					case "small_image":?>
-				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
-						<?break;
-					default:?>
-				<?if($_attribute->getSourceModel()):?>
-				<?=$_attribute->getSource()->getOptionText($_item->getData($_attribute->getAttributeCode()))?>
-				<?else:?>
-				<?=$_item->getData($_attribute->getAttributeCode())?>
-				<?endif;?>
-						<?break;
-				}?>
-			</td>
-			<?endforeach;?>
-		</tr>
-	<?endforeach;?>
-	</tbody>
-	<tbody class="attribute-cart">
-			<tr>
-			<?$_i=0?>
-			<?foreach($this->getItems() as $_item):?>
-			<?if($_i%10==0):?>
-			<td class="label">&nbsp;</td>
-			<?endif;?>
-			<?$_i++?>
-			<?$_className=''?>
-			<?if($_i%2!=0):?><?$_className.='odd '?><?endif;?>
-			<?if($_i+1==$_total):?><?$_className.='last'?><?endif;?>
-			<td <?if(!empty($_className)):?> class="<?=$_className?>"<?endif;?>>
-					<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
-				    <?if($_item->isSaleable()):?>
-				    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
-				    <?endif;?>
-				    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to Wishlist</small></a>
-			    </div>
-		    </div>
-			</td>
-			<?endforeach;?>
-		</tr>
-	</tbody>
-</table>
-<div class="form-buttons">
-    <button class="form-button" onclick="window.close();window.opener.focus();"><span>Close Window</span></button>
+                <td>
+                    <a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
+                    <h5><a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
+                    <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
+                    <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                    <?if($_item->isSaleable()):?>
+                    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+                    <?endif;?>
+                    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to My Wishlist</small></a>
+                </td>
+            <?endforeach;?>
+    		</tr>
+    	</tbody>
+    	<tbody>
+    	<?foreach ($this->getAttributes() as $_attribute):?>
+    		<tr>
+    			<?$_i=0?>
+    			<?foreach($this->getItems() as $_item):?>
+    			<?if($_i++%10==0):?>
+    			<td class="label"><?=$_attribute->getFrontendLabel()?></td>
+    			<?endif;?>
+    			<td>
+    				<?switch ($_attribute->getAttributeCode()) {
+    					case "price":?>
+    				<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+    						<?break;
+    					case "small_image":?>
+    				<img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
+    						<?break;
+    					default:?>
+    				<?if($_attribute->getSourceModel()):?>
+    				<?=$_attribute->getSource()->getOptionText($_item->getData($_attribute->getAttributeCode()))?>
+    				<?else:?>
+    				<?=$_item->getData($_attribute->getAttributeCode())?>
+    				<?endif;?>
+    						<?break;
+    				}?>
+    			</td>
+    			<?endforeach;?>
+    		</tr>
+    	<?endforeach;?>
+    	</tbody>
+    	<tbody class="attribute-cart">
+    			<tr>
+    			<?$_i=0?>
+    			<?foreach($this->getItems() as $_item):?>
+    			<?if($_i++%10==0):?>
+    			 <td class="label">&nbsp;</td>
+    			<?endif;?>
+    			<td>
+    					<?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+    				    <?if($_item->isSaleable()):?>
+    				    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
+    				    <?endif;?>
+    				    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to Wishlist</small></a>
+    			    </div>
+    		    </div>
+    			</td>
+    			<?endforeach;?>
+    		</tr>
+    	</tbody>
+    </table>
+    <div class="form-buttons">
+        <button class="form-button" onclick="window.close();window.opener.focus();"><span>Close Window</span></button>
+    </div>
 </div>
-</div>
+<script type="text/javascript">
+    decorateTable('product_comparison');
+</script>
