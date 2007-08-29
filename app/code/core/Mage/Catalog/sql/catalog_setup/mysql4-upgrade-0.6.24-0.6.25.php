@@ -1,6 +1,6 @@
 <?php
+
 $this->addAttribute('catalog_product', 'visibility', array(
-                        'group'     => 'General',
                         'type'      => 'int',
                         'backend'   => '',
                         'frontend'  => '',
@@ -37,14 +37,14 @@ insert into `catalog_product_visibility` (`visibility_id`,`visibility_code`) val
 $statusAttributeId = $conn->fetchOne("SELECT attribute_id FROM eav_attribute WHERE attribute_code='status'");
 $visibilityAttributeId = $conn->fetchOne("SELECT attribute_id FROM eav_attribute WHERE attribute_code='visibility'");
 $conn->query("
-INSERT INTO catalog_product_entity_int (entity_type_id, attribute_id, store_id, entity_id, value)
-SELECT 
-	entity_type_id,  
+REPLACE INTO catalog_product_entity_int (entity_type_id, attribute_id, store_id, entity_id, value)
+SELECT
+	entity_type_id,
 	$visibilityAttributeId,
 	store_id,
 	entity_id,
 	4
-FROM 
+FROM
 	catalog_product_entity_int
 WHERE
 	attribute_id=$statusAttributeId

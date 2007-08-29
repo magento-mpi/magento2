@@ -67,7 +67,7 @@ function imagePreview(element){
 }
 
 /********** MESSAGES ***********/
-
+/*
 Event.observe(window, 'load', function() {
     $$('.messages .error-msg').each(function(el) {
         new Effect.Highlight(el, {startcolor:'#E13422', endcolor:'#fdf9f8', duration:1});
@@ -82,7 +82,7 @@ Event.observe(window, 'load', function() {
         new Effect.Highlight(el, {startcolor:'#507477', endcolor:'#f2fafb', duration:1});
     });
 });
-
+*/
 function syncOnchangeValue(baseElem, distElem){
     var compare = {baseElem:baseElem, distElem:distElem}
     Event.observe(baseElem, 'change', function(){

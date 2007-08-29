@@ -336,6 +336,10 @@ class Mage_Checkout_Model_Type_Onepage
 
         $customer->save();
 
+        $customer->setDefaultBilling($billing->getId());
+        $customer->setDefaultShipping($shipping->getId());
+        $customer->save();
+
         $quote->setCustomerId($customer->getId());
         $billingEntity->setCustomerId($customer->getId())->setCustomerAddressId($billing->getId());
         $shippingEntity->setCustomerId($customer->getId())->setCustomerAddressId($shipping->getId());

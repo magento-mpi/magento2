@@ -22,9 +22,10 @@
 	<h3><?=__('Compare Products')?></h3>
 	<a href="#" class="link-print right" onclick="setLocation('<?=$this->getPrintUrl()?>')"><?=__('Print this page')?></a>
 </div>
-<?$_total=count($this->getItems())?>
+<?$_total=$this->getItems()->count()?>
 <div class="compare-products">
     <table cellspacing="0" class="data-table box-table catalog-listing" id="product_comparison">
+<?if ($_total>2):?>
     	<tbody class="remove-buttons">
     		<tr>
     			<?$_i=0?>
@@ -36,6 +37,7 @@
     			<?endforeach;?>
     		</tr>
     	</tbody>
+<?endif?>
     	<tbody>
     		<tr class="first">
             <?$_i=0?>
@@ -51,7 +53,7 @@
                     <?if($_item->isSaleable()):?>
                     <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
                     <?endif;?>
-                    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to My Wishlist</small></a>
+                    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small><?=__('Add to My Wishlist')?></small></a>
                 </td>
             <?endforeach;?>
     		</tr>
@@ -97,7 +99,7 @@
     				    <?if($_item->isSaleable()):?>
     				    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=__('Add to Cart')?></span></button><br/>
     				    <?endif;?>
-    				    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small>Add to Wishlist</small></a>
+    				    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small><?=__('Add to Wishlist')?></small></a>
     			    </div>
     		    </div>
     			</td>
@@ -106,7 +108,7 @@
     	</tbody>
     </table>
     <div class="form-buttons">
-        <button class="form-button" onclick="window.close();window.opener.focus();"><span>Close Window</span></button>
+        <button class="form-button" onclick="window.close();window.opener.focus();"><span><?=__('Close Window')?></span></button>
     </div>
 </div>
 <script type="text/javascript">
