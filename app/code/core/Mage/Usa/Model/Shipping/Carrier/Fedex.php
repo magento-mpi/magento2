@@ -402,7 +402,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
                     }
                     $allowedMethods = explode(",", Mage::getStoreConfig('carriers/fedex/allowed_methods'));
                     foreach ($xml->Entry as $entry) {
-                        if (in_array((string)$entry->Service, $allowedMethods)) {
+                        if (in_array((string)$entry->Service, $allowedMethods) && $this->getCode('method', (string)$entry->Service)) {
                             $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
                             $priceArr[(string)$entry->Service] = $this->getMethodPrice((string)$entry->EstimatedCharges->DiscountedCharges->NetCharge, (string)$entry->Service);
                         }
@@ -502,12 +502,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 
         if (!isset($codes[$type])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code type: '.$type);
+            return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code for type '.$type.': '.$code);
+            return false;
         } else {
             return $codes[$type][$code];
         }

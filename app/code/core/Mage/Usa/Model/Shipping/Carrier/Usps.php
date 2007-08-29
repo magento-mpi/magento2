@@ -209,7 +209,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                         if ($r->getDestCountryId() == 223) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
-                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods)) {
+                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$postage->MailService))) {
                                         $costArr[(string)$postage->MailService] = (string)$postage->Rate;
                                         $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
                                     }
@@ -219,7 +219,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                         } else {
                             if (is_object($xml->Package) && is_object($xml->Package->Service)) {
                                 foreach ($xml->Package->Service as $service) {
-                                    if (in_array($this->getCode('service_to_code', (string)$service->SvcDescription), $allowedMethods)) {
+                                    if (in_array($this->getCode('service_to_code', (string)$service->SvcDescription), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$service->SvcDescription))) {
                                         $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
                                         $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
                                     }
@@ -334,12 +334,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 
         if (!isset($codes[$type])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code type: '.$type);
+            return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code for type '.$type.': '.$code);
+            return false;
         } else {
             return $codes[$type][$code];
         }
