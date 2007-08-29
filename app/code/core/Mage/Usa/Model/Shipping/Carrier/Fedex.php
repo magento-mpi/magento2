@@ -402,7 +402,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
                     }
                     $allowedMethods = explode(",", Mage::getStoreConfig('carriers/fedex/allowed_methods'));
                     foreach ($xml->Entry as $entry) {
-                        if (in_array((string)$entry->Service, $allowedMethods) && $this->getCode('method', (string)$entry->Service)) {
+                        if (in_array((string)$entry->Service, $allowedMethods)) {
                             $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
                             $priceArr[(string)$entry->Service] = $this->getMethodPrice((string)$entry->EstimatedCharges->DiscountedCharges->NetCharge, (string)$entry->Service);
                         }

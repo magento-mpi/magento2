@@ -179,7 +179,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             $r = explode('%', $rRow);
             switch (substr($r[0],-1)) {
                 case 3: case 4:
-                    if (in_array($r[1], $allowedMethods) && $this->getCode('method', $r[1])) {
+                    if (in_array($r[1], $allowedMethods)) {
                         $costArr[$r[1]] = $r[8];
                         $priceArr[$r[1]] = $this->getMethodPrice($r[8], $r[1]);
                     }
@@ -188,7 +188,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                     $errorTitle = $r[1];
                     break;
                 case 6:
-                    if (in_array($r[3], $allowedMethods) && $this->getCode('method', $r[3])) {
+                    if (in_array($r[3], $allowedMethods)) {
                         $costArr[$r[3]] = $r[10];
                         $priceArr[$r[3]] = $this->getMethodPrice($r[10], $r[3]);
                     }
@@ -288,7 +288,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
                 'UT'     => '03', // UPS Tube
                 'UEB'    => '21', // UPS Express Box
                 'UW25'   => '24', // UPS Worldwide 25 kilo
-                'UW10'   => '25', //UPS Worldwide 10 kilo
+                'UW10'   => '25', // UPS Worldwide 10 kilo
             ),
 
             'container_description'=>array(

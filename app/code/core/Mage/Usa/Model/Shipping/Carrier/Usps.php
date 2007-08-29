@@ -206,12 +206,19 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                         }
                         $r = $this->_rawRequest;
                         $allowedMethods = explode(",", Mage::getStoreConfig('carriers/usps/allowed_methods'));
+                        $allMethods = $this->getCode('method');
+                        $newMethod = false;
                         if ($r->getDestCountryId() == 223) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
-                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$postage->MailService))) {
+//                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$postage->MailService))) {
+                                    if (in_array((string)$postage->MailService, $allowedMethods)) {
                                         $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-                                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+//                                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
+                                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
+                                    } elseif (!in_array((string)$postage->MailService, $allMethods)) {
+                                        $allMethods[] = (string)$postage->MailService;
+                                        $newMethod = true;
                                     }
                                 }
                                 asort($priceArr);
@@ -219,13 +226,23 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                         } else {
                             if (is_object($xml->Package) && is_object($xml->Package->Service)) {
                                 foreach ($xml->Package->Service as $service) {
-                                    if (in_array($this->getCode('service_to_code', (string)$service->SvcDescription), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$service->SvcDescription))) {
+//                                    if (in_array($this->getCode('service_to_code', (string)$service->SvcDescription), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$service->SvcDescription))) {
+                                    if (in_array((string)$service->SvcDescription, $allowedMethods)) {
                                         $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
-                                        $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
+//                                        $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
+                                        $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, (string)$service->SvcDescription);
+                                    } elseif (!in_array((string)$service->SvcDescription, $allMethods)) {
+                                        $allMethods[] = (string)$service->SvcDescription;
+                                        $newMethod = true;
                                     }
                                 }
                                 asort($priceArr);
                             }
+                        }
+                        if ($newMethod) {
+                            sort($allMethods);
+                            $insert['usps']['fields']['methods']['value'] = $allMethods;
+                            Mage::getResourceModel('adminhtml/config')->saveSectionPost('carriers','','',$insert);
                         }
                     }
             } else {
@@ -284,6 +301,29 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 //                'ALL'         => 'All Services',
             ),
 
+/*
+            'method'=>array(
+                'First-Class',
+                'Express Mail',
+                'Express Mail PO to PO',
+                'Priority Mail',
+                'Parcel Post',
+                'Express Mail Flat-Rate Envelope',
+                'Priority Mail Flat-Rate Box',
+                'Bound Printed Matter',
+                'Media Mail',
+                'Library Mail',
+                'Priority Mail Flat-Rate Envelope',
+                'Global Express Guaranteed',
+                'Global Express Guaranteed Non-Document Rectangular',
+                'Global Express Guaranteed Non-Document Non-Rectangular',
+                'Express Mail International (EMS)',
+                'Express Mail International (EMS) Flat Rate Envelope',
+                'Priority Mail International',
+                'Priority Mail International Flat Rate Box',
+            ),
+*/
+
             'service_to_code'=>array(
                 'First-Class'                      => 'FIRST CLASS',
                 'Express Mail'                     => 'EXPRESS',
@@ -331,6 +371,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
             ),
 
         );
+        
+        $methods = Mage::getStoreConfig('carriers/usps/methods');
+        if (!empty($methods)) {
+            $codes['method'] = explode(",", $methods);
+        } else {
+            $codes['method'] = array();
+        }
 
         if (!isset($codes[$type])) {
 //            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code type: '.$type);
