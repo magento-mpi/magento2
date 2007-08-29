@@ -30,12 +30,12 @@
  * @author      Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base 
+class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
     protected $_classNameCache = array();
 
     protected $_blockClassNameCache = array();
-    
+
     protected $_customEtcDir = null;
     /**
      * Constructor
@@ -54,18 +54,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function init($etcDir=null)
     {
         #return $this->initLive();
-        
+
         $this->_customEtcDir = $etcDir;
-        
+
         $mergeConfig = new Mage_Core_Model_Config_Base();
 
         // load base config
-        Varien_Profiler::start('load-base');        
+        Varien_Profiler::start('load-base');
         $configFile = Mage::getBaseDir('etc').DS.'config.xml';
         $this->setCacheChecksum(filemtime($configFile));
         $this->loadFile($configFile);
         Varien_Profiler::stop('load-base');
-        
+
         Varien_Profiler::start('load-local');
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
         if (is_readable($configFile)) {
@@ -74,7 +74,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $this->extend($mergeConfig);
         }
         Varien_Profiler::stop('load-local');
-        
+
         $saveCache = true;
         if (!$this->getNode('global/install/date')) {
             Varien_Profiler::start('load-distro');
@@ -82,22 +82,24 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             Varien_Profiler::stop('load-distro');
             $saveCache = false;
         }
-        
+
         Varien_Profiler::start('load-modules-checksum');
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
                 $configFile = $this->getModuleDir('etc', $modName).DS.'config.xml';
-                $this->updateCacheChecksum(filemtime($configFile));
+                if (is_readable($configFile)) {
+                    $this->updateCacheChecksum(filemtime($configFile));
+                }
             }
         }
         Varien_Profiler::stop('load-modules-checksum');
-        
+
         Varien_Profiler::start('load-db-checksum');
         $dbConf = Mage::getResourceModel('core/config');
         $this->updateCacheChecksum($dbConf->getChecksum('config_data,website,store,resource'));
         Varien_Profiler::stop('load-db-checksum');
-        
+
         Varien_Profiler::start('load-cache');
         if ($this->loadCache()) {
             Varien_Profiler::stop('load-cache');
@@ -105,7 +107,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             Varien_Profiler::stop('load-cache');
         }
-        
+
         Varien_Profiler::start('load-modules');
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
@@ -116,28 +118,28 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             }
         }
         Varien_Profiler::stop('load-modules');
-        
+
         Varien_Profiler::start('apply-extends');
         $this->applyExtends();
         Varien_Profiler::stop('apply-extends');
-        
+
         Varien_Profiler::start('dbUpdates');
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         Varien_Profiler::stop('dbUpdates');
-        
+
         Varien_Profiler::start('load-db');
         $dbConf->loadToXml($this);
         Varien_Profiler::stop('load-db');
-        
+
         if ($saveCache) {
             Varien_Profiler::start('save-cache');
             $this->saveCache();
             Varien_Profiler::stop('save-cache');
         }
-        
+
         return $this;
     }
-    
+
     public function initLive()
     {
         $this->setCacheChecksum(null);
@@ -149,10 +151,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             Varien_Profiler::stop('load-cache');
         }
-        
+
         return $this;
     }
-    
+
     public function getCache()
     {
         if (!$this->_cache) {
@@ -162,7 +164,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $this->_cache;
     }
-    
+
     public function getTempVarDir()
     {
         $dir = dirname(Mage::getRoot()).DS.'var';
@@ -171,7 +173,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $dir;
     }
-        
+
     public function loadDistroConfig()
     {
         $data = $this->getDistroServerVars();
@@ -181,7 +183,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $template;
     }
-    
+
     public function getDistroServerVars()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
@@ -193,7 +195,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $host = explode(':', $_SERVER['HTTP_HOST']);
         $serverName = $host[0];
         $serverPort = isset($host[1]) ? $host[1] : (isset($_SERVER['HTTPS']) ? '443' : '80');
-        
+
         $arr = array(
             'root_dir'  => dirname(Mage::getRoot()),
             'app_dir'   => dirname(Mage::getRoot()).DS.'app',
@@ -261,7 +263,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     	if ($type==='etc' && !is_null($this->_customEtcDir)) {
     		return $this->_customEtcDir;
     	}
-    	
+
         $dir = (string)$this->getNode('stores/default/system/filesystem/'.$type);
         if (!$dir) {
             $dir = $this->getDefaultBaseDir($type);
@@ -276,12 +278,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
                 break;
         }
-        
+
         $dir = str_replace('/', DS, $dir);
 
         return $dir;
     }
-    
+
     public function getDefaultBaseDir($type)
     {
         $dir = Mage::getRoot();
@@ -289,43 +291,43 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         	case 'app':
         		$dir = Mage::getRoot();
         		break;
-        		
+
             case 'etc':
                 $dir = Mage::getRoot().DS.'etc';
                 break;
-                
+
             case 'code':
                 $dir = Mage::getRoot().DS.'code';
                 break;
-                
+
         	case 'design':
         		$dir = Mage::getRoot().DS.'design';
         		break;
-        		
+
             case 'var':
                 $dir = $this->getTempVarDir();
                 break;
-                
+
             case 'session':
                 $dir = $this->getBaseDir('var').DS.'session';
                 break;
-                
+
             case 'cache_config':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'config';
                 break;
-                                    
+
             case 'cache_layout':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'layout';
                 break;
-                
+
             case 'cache_block':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'block';
                 break;
-                
+
         }
         return $dir;
     }
-    
+
     public function getModuleDir($type, $moduleName)
     {
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
@@ -344,9 +346,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $dir .= DS.'sql';
                 break;
         }
-        
+
         $dir = str_replace('/', DS, $dir);
-        
+
         return $dir;
     }
 
@@ -392,7 +394,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         else {
             return false;
         }
-        
+
         foreach ($events as $event) {
             $eventName = $event->getName();
             $observers = $event->observers->children();
@@ -447,7 +449,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (isset($this->_classNameCache[$groupRootNode][$class])) {
             return $this->_classNameCache[$groupRootNode][$class];
         }
-        
+
         $config = $this->getNode($groupRootNode);
         if (empty($config)) {
             return false;
@@ -464,12 +466,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $className .= '_'.uc_words($class);
             }
         }
-        
+
         $this->_classNameCache[$groupRootNode][$class] = $className;
-        
+
         return $className;
     }
-    
+
     public function getBlockClassName($blockType)
     {
         $typeArr = explode('/', $blockType);
@@ -484,7 +486,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $className;
         }
     }
-    
+
     public function getModelClassName($modelClass)
     {
         $classArr = explode('/', $modelClass);
@@ -517,7 +519,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $model;
     }
-    
+
     public function getNodeClassInstance($path)
     {
         $config = Mage::getConfig()->getNode($path);
@@ -528,7 +530,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return new $className();
         }
     }
-    
+
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
 
@@ -575,14 +577,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         return $this->getNode("global/resource/connection/types/$type");
     }
-    
+
     /**
      * Retrieve store Ids for $path with checking
-     * 
+     *
      * if empty $allowValues then retrieve all stores values
-     * 
+     *
      * return array($storeId=>$pathValue)
-     * 
+     *
      * @param   string $path
      * @param   array  $allowValues
      * @return  array
@@ -596,9 +598,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         	if ($storeId === false) {
         	    continue;
         	}
-        	
+
         	$pathValue = (string) $store->descend($path);
-        	
+
         	if (empty($allowValues)) {
         	    $storeIds[$storeId] = $pathValue;
         	}
