@@ -312,4 +312,16 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         
     	return $this;
     }
+    
+    public function getSetIds()
+    {
+        $select = clone $this->getSelect();
+        /* @var $select Zend_Db_Select */
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->distinct(true);
+        $select->join(array('set_distinct'=>$this->getEntity()->getEntityTable()), 'e.entity_id=set_distinct.entity_id',
+            'set_distinct.attribute_set_id');
+
+        return $this->_read->fetchCol($select);
+    }
 }

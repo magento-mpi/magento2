@@ -101,8 +101,11 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function getFilterableAttributes()
     {
         $entity = $this->getProductCollection()->getEntity();
-        $collection = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entity->getConfig()->getId())
+        $setIds = $this->getProductCollection()->getSetIds();
+        $collection = Mage::getResourceModel('eav/entity_attribute_collection');
+        $collection->getSelect()->distinct(true);
+        $collection->setEntityTypeFilter($entity->getConfig()->getId())
+            ->setAttributeSetFilter($setIds)
             ->addIsFilterableFilter()
             ->load();
         foreach ($collection as $item) {
