@@ -211,6 +211,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
     public function createOrders()
     {
+        $orderIds = array();
         $shippingAddresses = $this->getQuote()->getAllShippingAddresses();
         $orders = array();
         foreach ($shippingAddresses as $address) {
@@ -229,7 +230,10 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	   $this->getCustomer()->getName(),
         	   $order
             );
+            $orderIds[] = $order->getIncrementId();
         }
+        
+        $this->getCheckoutSession()->setOrderIds($orderIds);
         $this->getQuote()
             ->setIsActive(false)
             ->save();

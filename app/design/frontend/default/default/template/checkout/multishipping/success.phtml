@@ -7,6 +7,9 @@
         We are processing your order and you will soon receive an email with details of the order.<br/>
         Once the order has shipped you will receive another email with a link to track its progress.
     </p>
+    <?if($_orderIds = $this->getOrderIds()):?>
+        Your order number is <?=$_orderIds?>
+    <?endif;?>
     <p>
         <a href="<?=$this->getUrl('customer/account/')?>">My Account</a>
     </p>

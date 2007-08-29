@@ -160,7 +160,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function shippingAction()
     {
         $this->loadLayout(array('default', 'multishipping', 'multishipping_shipping'), 'multishipping_shipping');
-        //$this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
@@ -245,7 +245,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function successAction()
     {
-        Mage::getSingleton('checkout/session')->clear();
+        //Mage::getSingleton('checkout/session')->clear();
         $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
