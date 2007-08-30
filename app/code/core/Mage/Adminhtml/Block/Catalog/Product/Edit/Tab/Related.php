@@ -69,6 +69,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
+            ->addAttributeToSelect('attribute_set_id')
+            ->addAttributeToSelect('type_id')
+            ->addAttributeToSelect('status')
+            ->addAttributeToSelect('visibility')
             ->addLinkAttributeToSelect('position')
             ->addLinkAttributeToSelect('qty')
             ->useProductItem();
@@ -101,6 +105,60 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'header'    => __('Name'),
             'index'     => 'name'
         ));
+        
+        $types = Mage::getResourceModel('catalog/product_type_collection')
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('type',
+            array(
+                'header'=> __('Type'),
+                'width' => '100px',
+                'index' => 'type_id',
+                'type'  => 'options',
+                'options' => $types,
+        ));
+
+        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getConfig()->getId())
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('set_name',
+            array(
+                'header'=> __('Attrib. Set Name'),
+                'width' => '130px',
+                'index' => 'attribute_set_id',
+                'type'  => 'options',
+                'options' => $sets,
+        ));
+        
+        $statuses = Mage::getResourceModel('catalog/product_status_collection')
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('status',
+            array(
+                'header'=> __('Status'),
+                'width' => '90px',
+                'index' => 'status',
+                'type'  => 'options',
+                'options' => $statuses,
+        ));
+
+        $visibility = Mage::getResourceModel('catalog/product_visibility_collection')
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('visibility',
+            array(
+                'header'=> __('Visibility'),
+                'width' => '90px',
+                'index' => 'visibility',
+                'type'  => 'options',
+                'options' => $visibility,
+        ));
+            
         $this->addColumn('sku', array(
             'header'    => __('SKU'),
             'width'     => '80px',
@@ -113,7 +171,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'index'     => 'price'
         ));
 
-        $this->addColumn('qty', array(
+        /*$this->addColumn('qty', array(
             'header'    => __('Default Qty'),
             'name'    	=> 'qty',
             'align'     => 'center',
@@ -122,7 +180,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'index'     => 'qty',
             'width'     => '60px',
             'editable'  => true
-        ));
+        ));*/
 
         $this->addColumn('position', array(
             'header'    => __('Position'),

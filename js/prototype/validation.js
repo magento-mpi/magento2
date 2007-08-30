@@ -103,7 +103,12 @@ Validation.prototype = {
             result = Form.getElements(this.form).collect(function(elm) { return Validation.validate(elm,{useTitle : useTitles, onElementValidate : callback}); }).all();
         }
         if(!result && this.options.focusOnError) {
-            Form.getElements(this.form).findAll(function(elm){return $(elm).hasClassName('validation-failed')}).first().focus()
+            try{
+                Form.getElements(this.form).findAll(function(elm){return $(elm).hasClassName('validation-failed')}).first().focus()
+            }
+            catch(e){
+                
+            }
         }
         this.options.onFormValidate(result, this.form);
         return result;
