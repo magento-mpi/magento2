@@ -18,8 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-
-<p><img src="<?=$this->getCurrentImage()->setType(0)->getSourceUrl()?>?<?=time()?>" alt="" id="product-gallery-image"/></p>
+<?$_width=$this->getImageWidth()?>
+<p><img <?if($_width):?>width="<?=$_width?>"<?endif;?> src="<?=$this->getImageUrl()?>?<?=time()?>" alt="<?=$this->htmlEscape($this->getProduct()->getName())?>" id="product-gallery-image"/></p>
 
 <?if($_prevUrl = $this->getPreviusImageUrl()):?>
 <a href="<?=$_prevUrl?>" class="product-gallery-nav"><strong>&laquo; <?=__('Prev')?></strong></a>

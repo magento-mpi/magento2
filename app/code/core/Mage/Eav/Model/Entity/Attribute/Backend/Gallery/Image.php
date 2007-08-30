@@ -38,6 +38,17 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image extends Varien_Objec
         }
         return $url;
     }
+    
+    public function getSourcePath()
+    {
+        if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
+            $url = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload') . '/' .$this->getType() . '/' . $this->getValue();
+        }
+        else {
+            $url = $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload') . '/' . $this->getType() . '/' . $this->getValue();
+        }
+        return $url;
+    }
 
     public function getType()
     {
