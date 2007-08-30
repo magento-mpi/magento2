@@ -23,8 +23,8 @@
 <table id="gallery" class="gallery" border="0" cellspacing="3" cellpadding="0">
 <thead id="gallery_thead" class="gallery">
     <tr class="gallery">
-        <td class="gallery" valign="middle" align="center">Thumbnail</td>
         <td class="gallery" valign="middle" align="center">Big Image</td>
+        <td class="gallery" valign="middle" align="center">Thumbnail</td>
         <td class="gallery" valign="middle" align="center">Sort Order</td>
         <td class="gallery" valign="middle" align="center">Delete</td>
     </tr>
@@ -44,7 +44,7 @@
         <?foreach ($this->getValues()->getAttributeBackend()->getImageTypes() as $type):?>
             <td class="gallery" align="center" style="vertical-align:bottom;">
             <a href="<?=$image->setType($type)->getSourceUrl()?>" target="_blank" onclick="imagePreview('<?=$this->getElement()->getHtmlId()?>_image_<?=$type?>_<?=$image->getValueId()?>');return false;">
-            <img id="<?=$this->getElement()->getHtmlId()?>_image_<?=$type?>_<?=$image->getValueId()?>" src="<?=$image->setType($type)->getSourceUrl()?>" alt="<?=$image->getValue()?>" height="25" align="absmiddle" class="small-image-preview"></a><br/>
+            <img id="<?=$this->getElement()->getHtmlId()?>_image_<?=$type?>_<?=$image->getValueId()?>" src="<?=$image->setType($type)->getSourceUrl()?>?<?=time()?>" alt="<?=$image->getValue()?>" height="25" align="absmiddle" class="small-image-preview"></a><br/>
             <input type="file" name="<?=$this->getElement()->getName()?>_<?=$type?>[<?=$image->getValueId()?>]" size="1"></td>
         <?endforeach;?>
         <td class="gallery" align="center" style="vertical-align:bottom;"><input type="input" name="<?=$this->getElement()->getParentName()?>[position][<?=$image->getValueId()?>]" value="<?=$image->getPosition()?>" id="<?=$this->getElement()->getHtmlId()?>_position_<?=$image->getValueId()?>" size="3"/></td>

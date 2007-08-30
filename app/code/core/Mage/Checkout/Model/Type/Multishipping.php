@@ -142,10 +142,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     protected function _addShippingItem($quoteItemId, $data)
     {
     	$qty       = isset($data['qty']) ? (int) $data['qty'] : 0;
+    	$qty       = $qty > 0 ? $qty : 1;
     	$addressId = isset($data['address']) ? (int) $data['address'] : false;
     	$quoteItem = $this->getQuote()->getItemById($quoteItemId);
 
-    	if ($addressId && $qty > 0) {
+    	if ($addressId) {
     	    $quoteItem->setMultisippingQty((int)$quoteItem->getMultisippingQty()+$qty);
     	    $quoteItem->setQty($quoteItem->getMultisippingQty());
 

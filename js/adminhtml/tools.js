@@ -55,7 +55,7 @@ function toggleVis(obj) {
 
 function imagePreview(element){
     if($(element)){
-        var win = window.open('', 'preview', 'width=200,height=200,resizable=1,scrollbars=1');
+        var win = window.open('', 'preview', 'width=400,height=400,resizable=1,scrollbars=1');
         win.document.open();
         win.document.write('<body style="padding:0;margin:0"><img src="'+$(element).src+'" id="image_preview"/></body>');
         win.document.close();

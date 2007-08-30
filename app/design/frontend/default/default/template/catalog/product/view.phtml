@@ -51,7 +51,7 @@
                 <?foreach ($this->getGalleryImages() as $_image):?>
                     <li>
                         <a href="#" onclick="popWin('<?=$this->getGalleryUrl($_image)?>', 'gallery', 'scrollbars=yes,width=300,height=300,resizable=yes');return false;">
-                            <img src="<?=$_image->setType(0)->getSourceUrl();?>" width="68" height="68" alt=""/>
+                            <img src="<?=$_image->setType(1)->getSourceUrl();?>" width="68" height="68" alt=""/>
                         </a>
                     </li>
                 <?endforeach;?>
