@@ -20,25 +20,25 @@
 
 /************* Messages ***********/
 .error, a.error span{ color:#D40707 !important; font-style:bold !important; }
-
 .messages li {
     list-style:none; 
     min-height:23px;
-    margin-bottom:1em;
-    border-style:solid;
+    margin-bottom:11px;
     border-width:1px;
+    border-style:solid;
     background-repeat:no-repeat;
     background-position:10px 10px;
-    padding:0 8px 0 32px;
+    padding:8px 8px 2px 32px;
     font-size:.95em;
     font-weight:bold;
     }
+.messages ul { border:0; }
 .messages ul li { 
-    margin:8px 0;
+    margin:0 0 3px 0;
     border:0;
     padding:0;
     }
-.error-msg { 
+.error-msg {
     border-color:#f16048; 
     color:#df280a; 
     background-color:#faebe7;
@@ -53,9 +53,9 @@
 .notice-msg { 
     border-color:#fcd344;
     color:#3d6611; 
-    background-color:#fafaec;
     background-image:url(images/note_msg_icon.gif); 
     }
+    
 
 
 .separator { padding:0 .6em; }
@@ -124,7 +124,7 @@
     margin-left:-1px;
     }
 .content { /* Created to accomodate spacing specification for items nested in content-container */
-    margin-left:2em;
+    margin-left:2em;f
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -199,8 +199,6 @@
 
 
 
-
-
 /*********** SECTIONAL MENUS ***********/ /* This is the category-basis navigational menu - further customization of ul.tabs */
 
 /* Section Menu */
@@ -239,7 +237,6 @@
 .content-left-nav a.store span { padding-left:47px;}
 .content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
 
-/*.changed { font-style:italic; }*/
 
 
 /*************** All about headings **************/
@@ -504,56 +501,10 @@ img.attribute-global {
 .login-form h2 { font-size:1.7em; font-weight:normal; }
 .login-form h2 em { font-style:italic; color:#d24403; font-weight:bold; }
 .login-form label { color:#444444; font-weight:bold; }
-.login-form .form-buttons { margin-top:15px; margin-right:14px; text-align:right;}
+.login-form .form-buttons { margin-top:15px; margin-right:17px; text-align:right;}
 .login-box .bottom { background:url(images/login_box_bottom.jpg) no-repeat; width:581px; height:5px; position:absolute; bottom:0; right:0; overflow:hidden;}
 .login-container .legal { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 10px 8px; font-size:.95em; }
-
-/******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
-
-/* Directional and spacial */
-.left {float:left; }
-.right {float:right; }
-.v-top { vertical-align:top; }
-.v-middle { vertical-align:middle; }
-.v-bottom { vertical-align:bottom; }
-.a-left { text-align:left; }
-.a-center { text-align:center; }
-.a-right { text-align:right; }
-
-
-/* Color */
-.emph { color:#e66f20; } /* This just gives an element a little BAM! */
-
-
-/* Other cute things */
-.no-display{ display:none; }
-.pointer { cursor:pointer; }
-
-
-/* Clear */ /* This keeps our HTML free of buncha clearing elements */
-.login-box .form-buttons:after,
-ul.tabs-horiz:after,
-.header-top:after,
-dl.accordion dt:after,
-.entry-edit fieldset li:after,
-.entry-edit fieldset span:after,
-.content:after,
-#topnav:after,
-.main:after,
-.container:after,
-.footer:after,
-.header:after,
-.box-head:after,
-div.actions:after,
-.clear:after {
-    clear:both;
-    content:".";
-    display:block;
-    height:0;
-    font-size:0;
-    line-height:0;
-    visibility:hidden;
-    }
+.login-form .validation-advice { margin-left:0; }
 
 
 .no-active-category a span { color:#aaa !important; }
@@ -620,21 +571,6 @@ div.actions:after,
 
 .product-review-box td.label {width:100px; text-align:left; }
 
-/* Data Table */
-
-/*.data-table {border:1px solid #d9dde3; width:100%;}
-.data-table th {padding:5px 8px; color:#fff; white-space:nowrap;}
-.data-table tr { background:#fff; }
-.data-table th a, .data-table th a:hover { color:#fff;}
-.data-table td { padding:3px 8px; }
-.data-table td.label { font-weight:bold; }
-.data-table thead tr { background:url(../images/head_bg.gif) repeat-x 0 100% #7db0e3; }
-.data-table tfoot { border-bottom:1px solid #d9dde3;}
-.data-table tfoot tr { background:#f0f0f0; }
-.data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
-.data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
-.data-table td.last { border-right:0; }
-.data-table tr.last td { border-bottom:0; } */
 
 .data-table { border:1px solid #bebcb7;  width:100%; }
 .data-table tr { background:#fff; }
@@ -808,3 +744,51 @@ div.actions:after,
 #sc_billing_method dd ul {
 	border: none !important;
 }
+
+
+/******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
+
+/* Directional and spacial */
+.left {float:left; }
+.right {float:right; }
+.v-top { vertical-align:top; }
+.v-middle { vertical-align:middle; }
+.v-bottom { vertical-align:bottom; }
+.a-left { text-align:left; }
+.a-center { text-align:center; }
+.a-right { text-align:right; }
+
+
+/* Color */
+.emph { color:#e66f20; } /* This just gives an element a little BAM! */
+
+
+/* Other cute things */
+.no-display{ display:none; }
+.pointer { cursor:pointer; }
+
+
+/* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.login-box .form-buttons:after,
+ul.tabs-horiz:after,
+.header-top:after,
+dl.accordion dt:after,
+.entry-edit fieldset li:after,
+.entry-edit fieldset span:after,
+.content:after,
+#topnav:after,
+.main:after,
+.container:after,
+.footer:after,
+.header:after,
+.box-head:after,
+div.actions:after,
+.clear:after {
+    clear:both;
+    content:".";
+    display:block;
+    height:0;
+    font-size:0;
+    line-height:0;
+    visibility:hidden;
+    }

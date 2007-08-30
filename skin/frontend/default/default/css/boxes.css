@@ -14,9 +14,10 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-/************************************************************/
-/********************[ COMMON ELEMENTS ]*********************/
-/************************************************************/
+
+/****************************************************/
+/***********[ Mage_CSS_B Common Elements ]***********/
+/****************************************************/
 
 
 /********************** Columns */
@@ -55,7 +56,7 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 /* Form Elements */
 input.input-text, select, textarea { border:1px solid #b6b6b6; font:12px arial, helvetica, sans-serif; }
 input.input-text, textarea { padding:2px; }
-input.form-radio { margin-right:5px;}
+input.form-radio { margin-right:3px;}
 .qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label { font-weight:bold;}
 .form-buttons { /* Container for form buttons*/
@@ -146,7 +147,7 @@ p.required {
 .success { color:#3d6611; }
 .error { color:#df280a; }
 .success, .error { font-weight:bold; }
-.error-msg, .success-msg, .note-msg, .notice-msg {
+.error-msg, .success-msg, .note-msg {
     min-height:23px;
     margin-bottom:1em;
     border-style:solid;
@@ -157,7 +158,7 @@ p.required {
     font-size:.95em;
     font-weight:bold;
     }
-.error-msg li, .success-msg li, .note-msg li, .notice-msg li {margin-bottom:.2em; }
+.error-msg li, .success-msg li, .note-msg li {margin-bottom:.2em; }
 .error-msg {
     border-color:#f16048;
     color:#df280a;
@@ -170,7 +171,7 @@ p.required {
     background-color:#eff5ea;
     background-image:url(../images/success_msg_icon.gif);
     }
-.note-msg, .notice-msg {
+.note-msg {
     border-color:#fcd344;
     color:#3d6611;
     background-color:#fafaec;
@@ -319,7 +320,7 @@ table.view-by td {
 
 
 /************************************************************/
-/*************************[ LAYOUT ]*************************/
+/********************[ Mage_CSS_C Layout]********************/
 /************************************************************/
 
 
@@ -372,7 +373,6 @@ h1#logo {
     margin:3px 0 10px 12px;
     }
 .page-popup h1#logo { display:none; }
-
 
 
 /* Quick Access*/
@@ -545,7 +545,7 @@ h1#logo {
 
 
 /************************************************************/
-/*********************[ SHOP ELEMENTS ]**********************/
+/****************[ Mage_CSS_D Shop Elements]*****************/
 /************************************************************/
 
 .product-shop { float:right; }
@@ -731,8 +731,9 @@ h1#logo {
 
 
 
+
 /************************************************************/
-/***********************[ SHOP PAGES ]***********************/
+/******************[ Mage_CSS_E Shop Pages]******************/
 /************************************************************/
 
 /********************** Home */
@@ -812,7 +813,7 @@ h1#logo {
     overflow:hidden;
     width:265px;
     height:265px;
-    z-index:99;
+	z-index:9999;
     }
 .product-img-box .main-product-img img {
     position:relative;
@@ -823,7 +824,7 @@ h1#logo {
     z-index:999;
     }
 .image-zoom {
-    z-index:9; position:relative; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px; cursor:pointer; }
+	z-index:9; position:relative; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px; cursor:pointer; }
 #image { width:auto; }
 #track { position:relative; height:18px; }
 #handle { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat;  }
@@ -890,10 +891,10 @@ h1#logo {
 
 /* Product Detail sidebar */
 .mini-related-items .head h4 { background-image:url(../images/icon_clip.gif); }
-.mini-related-items .product-images { width:64px; }
-.mini-related-items .product-images input { float:left; }
-.mini-related-items .product-details { margin-left:72px; }
-.mini-related-items li { padding-left:0; padding-right:0; }
+.mini-related-items .product-images { width:70px; }
+.mini-related-items .product-images input { float:left; margin-right:4px;  }
+.mini-related-items .product-details { margin-left:78px; }
+.mini-related-items ol li { padding-left:0 ; padding-right:0; }
 
 /********************** Checkout */
 
@@ -1223,9 +1224,12 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .product-gallery-nav { padding:0 5px; }
 
 
+
+
 /************************************************************/
-/***********************[ OVERRIDES ]************************/
+/******************[ Mage_CSS_F Overrides]*******************/
 /************************************************************/
+
 
 /* Alignment */
 .v-top { vertical-align:top; }

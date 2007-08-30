@@ -33,25 +33,20 @@
 </div>
 <table cellspacing="0" width="100%">
     <tr>
-        <td style="border-right:2px solid #d5dbe1;padding-right:20px;width:300px;">
+        <td width="360" style="border-right:1px solid #ddd; padding:0 23px 23px 0;">
             <?=$this->getSetFormHtml()?>
         </td>
-        <td style="border-right:2px solid #d5dbe1;padding-left:20px;width:340px;">
-            <div class="content-header left-col-block" style="width:320px;">
-                <table class="grid-header" cellspacing="0">
-                    <tbody>
-                        <tr>
-                            <td><h3><?=__('Groups')?></h3></td>
-                            <td class="a-right">&nbsp;<?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?><br/><?=__('Double click on a group to rename it')?></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <td width="320" style="border-right:1px solid #ddd; padding:0 23px 23px 23px;">
+            <div class="content-header">
+             <h3><?=__('Groups')?></h3>
             </div>
+             <p><?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?></p>
+            <p class="note-block"><?=__('Double click on a group to rename it')?></p>
             <?=$this->getSetsFilterHtml()?>
             <?=$this->getGroupTreeHtml()?>
         </td>
-        <td style="padding-left:20px;">
-            <div class="content-header left-col-block" style="width:280px;height:30px;">
+        <td style="padding:0 0 23px 23px;">
+            <div class="content-header">
                 <table class="grid-header" cellspacing="0">
                     <tbody>
                         <tr>
@@ -60,7 +55,7 @@
                     </tbody>
                 </table>
             </div>
-            <div id="tree-div2" style="width:320px;height:400px;margin-top:5px;overflow:auto"></div>
+            <div id="tree-div2" style="height:400px; margin-top:5px;overflow:auto"></div>
             <script type="text/javascript" language="javascript">
             var TreePanels = function() {
                 // shorthand

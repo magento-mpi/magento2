@@ -14,6 +14,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 @import url('reset.css');
 @import url('boxes.css');
 @import url('menu.css');
@@ -23,71 +24,61 @@
 
 
 /** CSS Map 
+*
+*
+* Mage_CSS_A Reset
+* ---------------------------
+*** reset.css
 
- ** Resets (reset.css)
 
- ** Common elements 
- ****** Columns
- ****** Form
- ********** Form elements
- ********** Form lists 
- ********** Form Messages
- ****** Message
- ****** Headings
- ********** Category listing Heading
- ********** Page heading
- ****** Tables
- ********** Data Table
- ********** Box Table
- ********** Nested Table
- ****** Lists
- ********** Disc List
- ********** Bare List
- ****** Space Creators
- ****** Pager
+* Mage_CSS_B Common Elements
+* ---------------------------
+*** Columns
+*** Forms
+*** Message
+*** Headings
+*** Tables
+*** Lists
+*** Space Creators
+*** Pager
 
- ** Layout
- ****** Base Layout
- ********** Structure
- ********** Style
- ****** Header
- ********** Logo
- ********** Quick Access
- ********** Breadcrumbs
- ********** Mini-search
- ****** Sidebars
- ********** Currency Switcher
- ********** Base Mini
- ********** Sidebar Blocks
- ****** Footer
 
- ** Shop Elements
- ****** Rating
- ****** Prices
- ****** Catalog Listing
- ****** Layered Navigation
- ****** Tool tips
+* Mage_CSS_C Layout
+* ---------------------------
+*** Base Layout
+*** Header
+*** Sidebars
+*** Footer
 
- ** Shop Pages
- ****** Home
- ****** Search
- ****** Catalog Listing
- ********** List Type
- ********** Grid Type
- ****** Product Detail
- ****** Checkout
- ********** Shopping Cart
- ********** Onepage
- ********** Multiple Addresses
- ****** Customer
- ********** Login
- ********** Dashboard
- ********** Compare 
- ********** Reviews
 
-** Overrides
- ****** Alignment
- ****** Link highlights
+* Mage_CSS_D Shop Elements
+* ---------------------------
+*** Rating
+*** Prices
+*** Catalog Listing
+*** Layered Navigation
+*** Tool tips
 
-** Clears (clear.css)
- **/
+
+* Mage_CSS_E Shop Pages
+* ---------------------------
+*** Home
+*** Search
+*** Catalog Listing
+*** Layered Navigation
+*** Product Detail
+*** Checkout
+*** Customer
+
+
+* Mage_CSS_F Overrides
+* ---------------------------
+*** Alignment
+*** Link highlights
+
+
+* Mage_CSS_G Clears
+* ---------------------------
+*** clears.css
+
+*/

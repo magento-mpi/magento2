@@ -450,6 +450,12 @@ ul.tabs-horiz li a.active {
     width:150px;
     }
 
+.note-block {
+    margin-bottom:10px;
+    border:1px solid #fcd344;
+    background-color:#fafaec;
+    padding:6px 10px;
+    }
 
 /************* FORMS ***************/
 .required, .validation-advice { color:#EB340A; }
