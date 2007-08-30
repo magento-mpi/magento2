@@ -58,7 +58,7 @@
         <filesystem>
             <writeable>
                 <items>
-                    <path>/app/etc/config.xml</path>
+                    <path>/app/etc</path>
                     <existence>1</existence>
                     <recursive>0</recursive>
                 </items>

@@ -24,18 +24,20 @@
         <resources>
             <default_setup>
                 <connection>
-                    <host>localhost</host>
-                    <username>root</username>
-                    <password/>
-                    <dbname>magento_moshe</dbname>
+                    <host>{{db_host}}</host>
+                    <username>{{db_user}}</username>
+                    <password>{{db_pass}}</password>
+                    <dbname>{{db_name}}</dbname>
+                    <active>1</active>
                 </connection>
             </default_setup>
             <default_write>
                 <connection>
-                    <host>localhost</host>
-                    <username>root</username>
-                    <password/>
-                    <dbname>magento_moshe</dbname>
+                    <host>{{db_host}}</host>
+                    <username>{{db_user}}</username>
+                    <password>{{db_pass}}</password>
+                    <dbname>{{db_name}}</dbname>
+                    <active>1</active>
                 </connection>
             </default_write>
          </resources>

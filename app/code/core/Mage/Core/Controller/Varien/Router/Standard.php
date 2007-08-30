@@ -25,7 +25,11 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     
     public function collectRoutes($configArea, $useRouterName)
     {
-        $routers = Mage::getConfig()->getNode($configArea.'/routers')->children();
+        $routers = array();
+        $routersConfigNode = Mage::getConfig()->getNode($configArea.'/routers');
+        if($routersConfigNode) {
+        	$routers = $routersConfigNode->children();
+        }        
         foreach ($routers as $routerName=>$routerConfig) {
             $use = (string)$routerConfig->use;
             if ($use==$useRouterName) {
@@ -39,8 +43,12 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     public function fetchDefault()
     {
         $storeCode = Mage::registry('controller')->getStoreCode();
-        $store = Mage::getSingleton('core/store')->load($storeCode);
-        Mage::getSingleton('core/website')->load($store->getWebsiteId());
+        if(Mage::getConfig()->getIsInstalled()) {
+        	$store = Mage::getSingleton('core/store')->load($storeCode);
+        	Mage::getSingleton('core/website')->load($store->getWebsiteId());
+        } else {
+        	$store = Mage::getSingleton('core/store')->setId(0)->setCode($storeCode);
+        }
         
     	// set defaults
         $d = explode('/', Mage::getStoreConfig('web/default/front'));

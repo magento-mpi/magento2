@@ -34,7 +34,7 @@ class Mage_Core_Model_Translate
     
     public function __construct() 
     {
-        $this->_language = Mage::getSingleton('core/store')->getLanguageCode();
+        $this->_language = Mage::getSingleton('core/store')->getLanguageCode() ? Mage::getSingleton('core/store')->getLanguageCode() : 'en';
         $this->_translate = new Zend_Translate('array', $this->getTranslationArray(), $this->_language);
     }
     

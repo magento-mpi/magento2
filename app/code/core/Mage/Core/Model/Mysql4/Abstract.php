@@ -240,6 +240,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         } else {
             $this->_connections[$connectionName] = $this->_resources->getConnection($connectionName);
         }
+        
         return $this->_connections[$connectionName];
     }
 
@@ -258,7 +259,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
 
         $read = $this->getConnection('read');
-
+        
         $select = $this->_getLoadSelect($field, $value);
         $data = $read->fetchRow($select);
 
@@ -282,7 +283,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      */
     protected function _getLoadSelect($field, $value)
     {
-        $select = $this->getConnection('read')->select()
+	   	$select = $this->getConnection('read')->select()
             ->from($this->getMainTable())
             ->where($field.'=?', $value);
         return $select;

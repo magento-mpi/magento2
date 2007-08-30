@@ -48,7 +48,7 @@ final class Mage {
      * @var array
      */
     static private $_registry = array();
-
+    
     /**
      * Register a new variable
      *
@@ -130,6 +130,10 @@ final class Mage {
     
     public static function getStoreConfig($path, $id=null)
     {
+    	if(!self::getConfig()->getIsInstalled()) {
+    		$id = null;
+    	}
+    	
         if (empty($id)) {
             $store = Mage::getSingleton('core/store');
         } elseif (is_numeric($id)) {
@@ -342,7 +346,7 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            $installDate = Mage::getConfig()->getNode('global/install/date');
+        	$installDate = Mage::getConfig()->getNode('global/install/date');
             if ($installDate && strtotime($installDate)) {
                 echo "<pre>$e</pre>";
                 exit();
@@ -350,7 +354,7 @@ final class Mage {
             try {
                 Mage::dispatchEvent('mageRunException', array('exception'=>$e));
                 if (!headers_sent()) {
-                    header('Location:'.Mage::getBaseUrl().'install/');
+                	header('Location:'.Mage::getBaseUrl().'install/');
                 }
                 else {
                     echo "<pre>$e</pre>";

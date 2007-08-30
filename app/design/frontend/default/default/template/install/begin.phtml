@@ -22,14 +22,14 @@
 <div class="page-head">
     <h3 style="float:left;"><?=__('Welcome')?>!</h3>
     <?if(!empty($languages)):?>
-    <div class="float-right">
+   <!-- <div class="float-right">
         <label for="language">Language:</label>
         <select name="language" id="language">
         <?foreach ($languages as $code=>$info):?>
             <option value="<?=$code?>"><?=$info['name']?></option>
         <?endforeach;?>
         </select>
-    </div>
+    </div> -->
     <?endif;?>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>

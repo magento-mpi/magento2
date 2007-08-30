@@ -30,7 +30,7 @@ class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
 {
     function indexAction() 
     {
-        $this->_forward('begin', 'wizard', 'install');
+    	$this->_forward('begin', 'wizard', 'install');
     }
     
     function testAction()

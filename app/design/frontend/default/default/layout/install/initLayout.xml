@@ -64,7 +64,7 @@
             </block>
         </block>
 
-        <block type="page/html_header" name="header" as="header" />
+        <block type="page/html_header" name="header" as="header" /> 
 
         <block type="core/text_list" name="left" as="left"/>
         <block type="core/text_list" name="content" as="content"/>

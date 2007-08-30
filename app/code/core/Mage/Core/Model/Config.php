@@ -37,6 +37,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_blockClassNameCache = array();
 
     protected $_customEtcDir = null;
+    
+    protected $_isIntalled	= true;
+    
     /**
      * Constructor
      *
@@ -47,6 +50,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         parent::__construct();
     }
 
+    
+    /**
+     * Return installed flag
+     *
+     * @return boolean
+     */
+    public function getIsInstalled()
+    {
+    	return $this->_isIntalled;
+    }
+    
     /**
      * Initialization of core config
      *
@@ -67,18 +81,24 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::stop('load-base');
 
         Varien_Profiler::start('load-local');
+       
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
         if (is_readable($configFile)) {
             $this->updateCacheChecksum(filemtime($configFile));
             $mergeConfig->loadFile($configFile);
             $this->extend($mergeConfig);
+        } else {
+        	$this->_isIntalled = false;
         }
         Varien_Profiler::stop('load-local');
 
         $saveCache = true;
-        if (!$this->getNode('global/install/date')) {
+        
+        if (!$this->getNode('global/install/date') || !$this->_isIntalled) {
             Varien_Profiler::start('load-distro');
-            $this->loadDistroConfig();
+            $mergeConfig->loadString($this->loadDistroConfig());
+            
+            $this->extend($mergeConfig, true);            
             Varien_Profiler::stop('load-distro');
             $saveCache = false;
         }
@@ -95,10 +115,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         Varien_Profiler::stop('load-modules-checksum');
 
-        Varien_Profiler::start('load-db-checksum');
-        $dbConf = Mage::getResourceModel('core/config');
-        $this->updateCacheChecksum($dbConf->getChecksum('config_data,website,store,resource'));
-        Varien_Profiler::stop('load-db-checksum');
+        if($this->_isIntalled) {
+	        Varien_Profiler::start('load-db-checksum');
+	        $dbConf = Mage::getResourceModel('core/config');
+	        $this->updateCacheChecksum($dbConf->getChecksum('config_data,website,store,resource'));
+	        Varien_Profiler::stop('load-db-checksum');
+        }
 
         Varien_Profiler::start('load-cache');
         if ($this->loadCache()) {
@@ -123,13 +145,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->applyExtends();
         Varien_Profiler::stop('apply-extends');
 
-        Varien_Profiler::start('dbUpdates');
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Varien_Profiler::stop('dbUpdates');
-
-        Varien_Profiler::start('load-db');
-        $dbConf->loadToXml($this);
-        Varien_Profiler::stop('load-db');
+        if($this->_isIntalled) {
+	        Varien_Profiler::start('dbUpdates');
+	        Mage_Core_Model_Resource_Setup::applyAllUpdates();
+	        Varien_Profiler::stop('dbUpdates');
+	        
+	        Varien_Profiler::start('load-db');
+	        $dbConf->loadToXml($this);
+	        Varien_Profiler::stop('load-db');
+        }
 
         if ($saveCache) {
             Varien_Profiler::start('save-cache');
@@ -184,6 +208,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $template;
     }
 
+    public function getLocalDist($data)
+    {
+        $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
+        foreach ($data as $index=>$value) {
+            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
+        }
+        
+        return $template;
+    }
+    
     public function getDistroServerVars()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
@@ -203,7 +237,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             'protocol'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
             'host'      => $serverName,
             'port'      => $serverPort,
-            #'base_path' => $basePath,
+            'base_path' => $basePath,
         );
         return $arr;
     }

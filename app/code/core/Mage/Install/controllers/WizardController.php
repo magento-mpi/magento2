@@ -39,6 +39,9 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     
     public function beginAction()
     {
+    	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
+    	$this->setFlag('','no-postDispatch', true);
+    	
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         
@@ -72,7 +75,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     
     public function configAction()
     {
-        $this->_prepareLayout();
+    	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
+    	$this->setFlag('','no-postDispatch', true);
+        
+    	$this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $data = Mage::getSingleton('install/session')->getConfigData();
         if (empty($data)) {

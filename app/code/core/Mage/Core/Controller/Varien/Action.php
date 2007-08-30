@@ -170,9 +170,11 @@ abstract class Mage_Core_Controller_Varien_Action
             $layout->saveCache();
         }
         Varien_Profiler::stop("$_profilerKey/load");
-
-        Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('layout'=>$layout));
-
+        
+		if(!$this->getFlag('', 'no-beforeGenerateLayoutBlocksDispatch')) {
+        	Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('layout'=>$layout));
+		}
+				
         if ($generateBlocks) {
             Varien_Profiler::start("$_profilerKey/blocks");
             $layout->generateBlocks();

@@ -22,34 +22,34 @@
 <config>
     <global>
         <install>
-            <date><![CDATA[Mon, 25 Jun 2007 22:45:44 -0700]]></date>
+            <date></date>
         </install>
 
         <resources>
             <default_setup>
                 <connection>
                     <host>localhost</host>
-                    <username>root</username>
+                    <username></username>
                     <password/>
                     <dbname>magento</dbname>
 
                     <model>mysql4</model>
                     <initStatements>SET NAMES utf8</initStatements>
                     <type>pdo_mysql</type>
-                    <active>1</active>
+                    <active>0</active>
                 </connection>
             </default_setup>
             <default_write>
                 <connection>
                     <host>localhost</host>
-                    <username>root</username>
+                    <username></username>
                     <password/>
                     <dbname>magento</dbname>
 
                     <model>mysql4</model>
                     <initStatements>SET NAMES utf8</initStatements>
                     <type>pdo_mysql</type>
-                    <active>1</active>
+                    <active>0</active>
                 </connection>
             </default_write>
             <default_read>
