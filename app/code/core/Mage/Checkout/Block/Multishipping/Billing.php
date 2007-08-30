@@ -57,6 +57,10 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
             }
         }
         foreach ($methods as $methodConfig) {
+            if (!$methodConfig->is('active', 1)) {
+                continue;
+            }
+
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();
             $method = Mage::getModel($className)
