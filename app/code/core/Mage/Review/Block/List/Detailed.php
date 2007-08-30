@@ -26,7 +26,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
+class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
 {
     protected $_collection;
 
@@ -49,7 +49,6 @@ class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
            	Mage::register('product', $product);
         }
 
-        $this->assign('product', $product);
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
         $this->assign('wishlistLink', Mage::getUrl('wishlist/index/add', array('product'=>$productId)));
@@ -70,10 +69,12 @@ class Mage_Review_Block_List_Detailed extends Mage_Core_Block_Template
 
     protected function _initChildren()
     {
+        parent::_initChildren();
         $toolbar = $this->getLayout()->createBlock('page/html_pager', 'detailed_review_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);
+        return $this;
     }
 
     public function getToolbarHtml()

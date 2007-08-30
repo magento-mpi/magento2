@@ -19,6 +19,7 @@
  */
 ?>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
+<?$product=$this->getProduct()?>
 <div class="product-info-box">
 	<div class="product-essential">
 		<div class="product-img-box">
@@ -35,49 +36,22 @@
 		<?endif;?>
 
 
-	<form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
+        <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
 		<input type="hidden" name="product" value="<?=$product->getId()?>">
-		<?if($product->isBundle()):?>
-		<div class="product-attributes">
-			<?if($product->isAviableBundle()):?>
-			<table cellspacing="0" id="bundle-price-table">
-			<?foreach($product->getBundleOptionCollection() as $_bundleOption):?>
-				<tr>
-					<td class="label"><?=$_bundleOption->getLabel()?>:</td>
-					<td>
-					<?if(sizeof($_bundleOption->getLinkCollection()->getItems())>1):?>
-					<select name="bundle_option[<?=$_bundleOption->getId()?>]">
-						<?foreach ($_bundleOption->getLinkCollection() as $_option):?>
-						<option value="<?=$_option->getProductId()?>"><?=$_option->getName()?></option>
-						<?endforeach;?>
-					</select>
-					<?elseif(sizeof($_bundleOption->getLinkCollection()->getItems())==1):?>
-					<?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
-					<input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
-					<?else:?>
-					<?=__('Out of stock')?>
-					<?endif;?>
-					</td>
-				</tr>
-			<?endforeach;?>
-			</table>
-	<script type="text/javascript">decorateTable('bundle-price-table')</script>
-			<?else:?>
-			<p><?=__('This bundle is out of stock.')?></p>
-			<?endif;?>
-		</div>
-		<?elseif($product->isSuperConfig()):?>
+		
+		<?if($product->isSuperConfig()):?>
 		<?=$this->getChildHtml('super_config')?>
 		<?endif;?>
-		<?if($product->getTierPriceCount()>1):?>
-		<div class="product-pricing">
-			<ul class="bare">
-				<?foreach($_prices=$product->getFormatedTierPrice() as $_price):?>
-				<li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?></strong></li>
-				<?endforeach?>
-			</ul>
-		</div>
-		<?endif;?>
+        <?$_tierPrices = $this->getTierPrices($product)?>
+        <?if(count($_tierPrices)>0):?>
+            <div class="product-pricing">
+                <ul class="bare">
+                <?foreach($_tierPrices as $_price):?>
+                    <li><?=__('Buy')?> <?=$_price['price_qty']?> <?=__('for')?> <strong><?=$_price['formated_price']?></strong></li>
+                <?endforeach?>
+                </ul>
+            </div>
+        <?endif;?>
 		<?if($product->isSuperGroup()):?>
 	<?=$this->getChildHtml('super_group')?>
 		<?endif;?>

@@ -27,6 +27,22 @@
  */
 class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 {
+	protected function _initProduct()
+    {
+        $categoryId = (int) $this->getRequest()->getParam('category', false);
+        $productId  = (int) $this->getRequest()->getParam('id');
+
+        $product = Mage::getModel('catalog/product')
+            ->load($productId);
+
+        if ($categoryId) {
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            Mage::register('current_category', $category);
+        }
+        Mage::register('current_product', $product);
+        Mage::register('product', $product); // this need remove after all replace
+    }
+    
     public function postAction()
     {
         $url = $this->getRequest()->getServer('HTTP_REFERER', Mage::getBaseUrl());
@@ -67,6 +83,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function listAction()
     {
+        $this->_initProduct();
         $productId = $this->getRequest()->getParam('id');
         if( !$productId ) {
             $this->getResponse()->setRedirect(Mage::getBaseUrl());
