@@ -275,4 +275,17 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
         return null;
     }
     
+    public function addExcludeProductFilter($ids)
+    {
+        if (is_array($ids)) {
+            if (!empty($ids)) {
+                $this->addFieldToFilter('linked_product_id', array('nin'=>$ids));
+            }
+        }
+        elseif(is_int($ids)) {
+            $this->addFieldToFilter('linked_product_id', array('nin'=>array($ids)));
+        }
+        return $this;
+    }
+    
 }// Class Mage_Catalog_Model_Entity_Product_Link_Collection END

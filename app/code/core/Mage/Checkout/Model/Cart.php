@@ -42,6 +42,19 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         return Mage::getSingleton('customer/session');
     }
     
+    public function getProductIds()
+    {
+        $products = $this->getData('product_ids');
+        if (is_null($products)) {
+            $products = array();
+            foreach ($this->getQuote()->getAllItems() as $item) {
+            	$products[$item->getProductId()] = $item->getProductId();
+            }
+            $this->setData('product_ids', $products);
+        }
+        return $products;
+    }
+    
     public function getCustomerWishlist()
     {
         $wishlist = $this->getData('customer_wishlist');

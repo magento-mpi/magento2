@@ -40,6 +40,7 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('thumbnail')
 			->addAttributeToSort('position', 'asc')
+			->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds())
 			->useProductItem();
 			
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
