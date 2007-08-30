@@ -39,7 +39,7 @@ function enableAlphaImages(){
 				var offset = obj.style["background-position"];
 				obj.style.filter =
 				"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+img+"', sizingMethod='crop')";
-				obj.style.backgroundImage = "url('../../skins/adminhtml/images/spacer.gif')";
+				obj.style.backgroundImage = "url('"+BLANK_IMG+"')";
 				obj.style["background-position"] = offset; // reapply
 			} else if (img && img.src.match(/\.png$/i) != null) {
 				var src = img.src;
@@ -47,7 +47,7 @@ function enableAlphaImages(){
 				img.style.height = img.height + "px";
 				img.style.filter =
 				"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+src+"', sizingMethod='crop')"
-				img.src = "../../skins/adminhtml/images/spacer.gif";
+				img.src = BLANK_IMG;
 			}
 		}
 	}
