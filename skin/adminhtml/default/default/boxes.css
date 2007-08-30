@@ -21,39 +21,39 @@
 /************* Messages ***********/
 .error, a.error span{ color:#D40707 !important; font-style:bold !important; }
 .messages li {
-    list-style:none; 
-    min-height:23px;
-    margin-bottom:11px;
-    border-width:1px;
-    border-style:solid;
-    background-repeat:no-repeat;
-    background-position:10px 10px;
-    padding:8px 8px 2px 32px;
-    font-size:.95em;
-    font-weight:bold;
+    list-style:none !important; 
+    min-height:23px !important;
+    margin-bottom:11px !important;
+    border-width:1px !important;
+    border-style:solid !important;
+    background-repeat:no-repeat !important;
+    background-position:10px 10px !important;
+    padding:8px 8px 2px 32px !important;
+    font-size:.95em !important;
+    font-weight:bold !important;
     }
-.messages ul { border:0; }
+.messages ul { border:0 !important; }
 .messages ul li { 
-    margin:0 0 3px 0;
-    border:0;
-    padding:0;
+    margin:0 0 3px 0 !important;
+    border:0 !important;
+    padding:0 !important;
     }
 .error-msg {
-    border-color:#f16048; 
-    color:#df280a; 
-    background-color:#faebe7;
-    background-image:url(images/error_msg_icon.gif); 
+    border-color:#f16048 !important; 
+    color:#df280a !important; 
+    background-color:#faebe7 !important;
+    background-image:url(images/error_msg_icon.gif) !important; 
     }
 .success-msg { 
-    border-color:#446423;
-    color:#3d6611; 
-    background-color:#eff5ea;
-    background-image:url(images/success_msg_icon.gif); 
+    border-color:#446423 !important;
+    color:#3d6611 !important; 
+    background-color:#eff5ea !important;
+    background-image:url(images/success_msg_icon.gif) !important; 
     }
 .notice-msg { 
-    border-color:#fcd344;
-    color:#3d6611; 
-    background-image:url(images/note_msg_icon.gif); 
+    border-color:#fcd344 !important;
+    color:#3d6611 !important; 
+    background-image:url(images/note_msg_icon.gif) !important; 
     }
     
 

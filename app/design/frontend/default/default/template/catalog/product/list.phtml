@@ -96,10 +96,9 @@
 			<?endif;?>
 			<div class="clear"></div>
 			<p class="add-to">
-                <strong>Add to:</strong><br/><a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart"><?=__('Wishlist')?></a>
-                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
-                <span class="pipe">|</span>
-                <a href="<?=$_compareUrl?>"><?=__('Compare')?></a>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>" class="link-cart"><?=__('Add to Wishlist')?></a>
+                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?><br/>
+                <a href="<?=$_compareUrl?>"><?=__('Add to Compare')?></a>
                 <?endif;?>
 			</p>
 		</td>
