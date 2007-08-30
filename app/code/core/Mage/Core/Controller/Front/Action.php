@@ -37,4 +37,11 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
 	    $this->getResponse()->setRedirect($referer);
 	    return $this;
 	}
+	
+	public function postDispatch()
+	{
+	    parent::postDispatch();
+	    Mage::getSingleton('core/session')->setLastUrl(Mage::getUrl('*/*/*'), array('_current'=>true));
+	    return $this;
+	}
 }

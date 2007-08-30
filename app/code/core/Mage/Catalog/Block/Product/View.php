@@ -51,22 +51,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
                 $headBlock->setDescription($description);
             }            
         }
-        
-        if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
-            $breadcrumbsBlock->addCrumb('home',
-                array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
-            );
-            
-            if ($category = $this->getProduct()->getCategory()) {
-                $breadcrumbsBlock->addCrumb('category',
-                    array('label'=>$category->getName(), 'title'=>'', 'link'=>$category->getCategoryUrl())
-                );  
-            }
-            
-            $breadcrumbsBlock->addCrumb('product',
-                array('label'=>$this->getProduct()->getName())
-            );
-        }
+        $this->getLayout()->createBlock('catalog/breadcrumbs');
     }
     
     protected function _beforeToHtml()
@@ -125,7 +110,26 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $collection = $this->getProduct()->getGallery();
         return $collection;
     }
-
+    
+    public function getTierPrices($product)
+    {
+        $prices = $product->getFormatedTierPrice();
+        $res = array();
+        if (is_array($prices)) {
+            foreach ($prices as $price) {
+            	if ($product->getPrice() != $product->getFinalPrice()) {
+            	    if ($price['price']<$product->getFinalPrice()) {
+            	        $res[] = $price;
+            	    }
+            	}
+            	else {
+            	    $res[] = $price;
+            	}
+            }
+        }
+        return $res;
+    }
+    
     public function getGalleryUrl($image=null)
     {
         $params = array('id'=>$this->getProduct()->getId());

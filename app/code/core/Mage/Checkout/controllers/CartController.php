@@ -101,7 +101,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_backToCart();
         }
         catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
+                Mage::getSingleton('checkout/session')->addNotice($e->getMessage());
+            }
+            else {
+                Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            }
             $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
             if ($url) {
                 $this->getResponse()->setRedirect($url);

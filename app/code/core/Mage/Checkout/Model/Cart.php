@@ -154,7 +154,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
         if(!is_array($groupedProducts) || empty($groupedProducts)) {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-            Mage::throwException('Specify product option, please');
+            $this->getCheckoutSession()->setUseNotice(true);
+            Mage::throwException('Please specify the product option(s)');
         }
         
         foreach($product->getSuperGroupProductsLoaded() as $productLink) {
@@ -204,7 +205,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         } 
         else {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-            Mage::throwException('Specify product option, please');
+            $this->getCheckoutSession()->setUseNotice(true);
+            Mage::throwException('Please specify the product option(s)');
         }
         return $this;
     }

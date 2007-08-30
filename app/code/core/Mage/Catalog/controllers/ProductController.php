@@ -37,11 +37,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
         if ($categoryId) {
             $category = Mage::getModel('catalog/category')->load($categoryId);
-            if ($category->getId()) {
-                $product->setCategory($category);
-            }
+            Mage::register('current_category', $category);
         }
-        Mage::register('product', $product);
+        Mage::register('current_product', $product);
+        Mage::register('product', $product); // this need remove after all replace
     }
 
 	public function viewAction()

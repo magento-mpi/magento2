@@ -146,7 +146,7 @@ p.required {
 .success { color:#3d6611; }
 .error { color:#df280a; }
 .success, .error { font-weight:bold; }
-.error-msg, .success-msg, .note-msg {
+.error-msg, .success-msg, .note-msg, .notice-msg {
     min-height:23px;
     margin-bottom:1em;
     border-style:solid;
@@ -157,7 +157,7 @@ p.required {
     font-size:.95em;
     font-weight:bold;
     }
-.error-msg li, .success-msg li, .note-msg li {margin-bottom:.2em; }
+.error-msg li, .success-msg li, .note-msg li, .notice-msg li {margin-bottom:.2em; }
 .error-msg {
     border-color:#f16048;
     color:#df280a;
@@ -170,7 +170,7 @@ p.required {
     background-color:#eff5ea;
     background-image:url(../images/success_msg_icon.gif);
     }
-.note-msg {
+.note-msg, .notice-msg {
     border-color:#fcd344;
     color:#3d6611;
     background-color:#fafaec;
@@ -812,7 +812,7 @@ h1#logo {
     overflow:hidden;
     width:265px;
     height:265px;
-	z-index:99;
+    z-index:99;
     }
 .product-img-box .main-product-img img {
     position:relative;
@@ -823,7 +823,7 @@ h1#logo {
     z-index:999;
     }
 .image-zoom {
-	z-index:9; position:relative; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px; cursor:pointer; }
+    z-index:9; position:relative; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px; cursor:pointer; }
 #image { width:auto; }
 #track { position:relative; height:18px; }
 #handle { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat;  }

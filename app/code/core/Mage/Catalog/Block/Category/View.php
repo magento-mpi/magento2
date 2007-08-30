@@ -31,33 +31,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     {
         parent::_initChildren();
 
-        $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
-        if ($breadcrumbsBlock) {
-    	    $breadcrumbsBlock->addCrumb('home',
-                array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
-
-            $path = $this->getCurrentCategory()->getPathInStore();
-            $pathIds = array_reverse(explode(',', $path));
-
-            $categories = Mage::getResourceModel('catalog/category_collection')
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('url_key')
-                ->addFieldToFilter('entity_id', array('in'=>$pathIds))
-                ->load()
-                ->getItems();
-
-            // add category path breadcrumb
-            foreach ($pathIds as $categoryId) {
-                if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
-                    $breadcrumb = array(
-                        'label' => $categories[$categoryId]->getName(),
-                        'link'  => $categoryId==$this->getCurrentCategory()->getId()
-                            ? '' : $categories[$categoryId]->getCategoryUrl()
-                    );
-                    $breadcrumbsBlock->addCrumb('category'.$categoryId, $breadcrumb);
-                }
-            }
-        }
+        $this->getLayout()->createBlock('catalog/breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle($this->getCurrentCategory()->getName());

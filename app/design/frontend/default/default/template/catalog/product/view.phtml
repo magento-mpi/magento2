@@ -17,8 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com) 
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0) 
  */
-?>
-<?
+
 /**
  * Product view template
  *
@@ -51,8 +50,8 @@
                 <ul>
                 <?foreach ($this->getGalleryImages() as $_image):?>
                     <li>
-                        <a href="#" onclick="popWin('<?=$this->getGalleryUrl($_image)?>', 'gallery', 'scrollbars=no,width=300,height=300');return false;">
-                            <img src="<?=$_image->setType(2)->getSourceUrl();?>" width="68" height="68" alt=""/>
+                        <a href="#" onclick="popWin('<?=$this->getGalleryUrl($_image)?>', 'gallery', 'scrollbars=yes,width=300,height=300,resizable=yes');return false;">
+                            <img src="<?=$_image->setType(0)->getSourceUrl();?>" width="68" height="68" alt=""/>
                         </a>
                     </li>
                 <?endforeach;?>
@@ -70,12 +69,13 @@
             <?if($_product->isSuperConfig()):?>
                 <?=$this->getChildHtml('super_config')?>
             <?endif;?>
-
-            <?if($_product->getTierPriceCount()>1):?>
+            
+            <?$_tierPrices = $this->getTierPrices($_product)?>
+            <?if(count($_tierPrices)>0):?>
                 <div class="product-pricing">
                     <ul class="bare">
-                    <?foreach($_prices=$_product->getFormatedTierPrice() as $_price):?>
-                        <li><?=__('Buy')?> <?=$_price['price_qty']?> <?=__('for')?> <strong><?=$_price['price']?></strong></li>
+                    <?foreach($_tierPrices as $_price):?>
+                        <li><?=__('Buy')?> <?=$_price['price_qty']?> <?=__('for')?> <strong><?=$_price['formated_price']?></strong></li>
                     <?endforeach?>
                     </ul>
                 </div>

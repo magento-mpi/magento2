@@ -55,13 +55,13 @@ function toggleVis(obj) {
 
 function imagePreview(element){
     if($(element)){
-        var win = window.open('', 'preview', 'width=200,height=200,resizable=0,');
+        var win = window.open('', 'preview', 'width=200,height=200,resizable=1,scrollbars=1');
         win.document.open();
         win.document.write('<body style="padding:0;margin:0"><img src="'+$(element).src+'" id="image_preview"/></body>');
         win.document.close();
         Event.observe(win, 'load', function(){
             var img = win.document.getElementById('image_preview');
-            win.resizeTo(img.width+20, img.height+20)
+            win.resizeTo(img.width+40, img.height+80)
         });
     }
 }

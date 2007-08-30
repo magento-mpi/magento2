@@ -21,7 +21,14 @@
 <span class="field-row">
 <label for="gallery">Images</label>
 <table id="gallery" class="gallery" border="0" cellspacing="3" cellpadding="0">
-<thead id="gallery_thead" class="gallery"><tr class="gallery"><td class="gallery" valign="middle" align="center">Big Image</td><td class="gallery" valign="middle" align="center">Thumbnail</td><td class="gallery" valign="middle" align="center">Small Thumb</td><td class="gallery" valign="middle" align="center">Sort Order</td><td class="gallery" valign="middle" align="center">Delete</td></tr></thead>
+<thead id="gallery_thead" class="gallery">
+    <tr class="gallery">
+        <td class="gallery" valign="middle" align="center">Thumbnail</td>
+        <td class="gallery" valign="middle" align="center">Big Image</td>
+        <td class="gallery" valign="middle" align="center">Sort Order</td>
+        <td class="gallery" valign="middle" align="center">Delete</td>
+    </tr>
+</thead>
 
 <tfoot class="gallery">
 <tr class="gallery">
@@ -93,10 +100,10 @@ function addNewImage()
         newCell.align = "center";
         newCell.valign = "middle";
 
-        if (j==3) {
+        if (j==2) {
 		    newCell.appendChild( new_row_input );
         }
-        else if (j==4) {
+        else if (j==3) {
 		    newCell.innerHTML = new_row_button;
         }
         else {

@@ -29,8 +29,6 @@ class Mage_Directory_CurrencyController extends Mage_Core_Controller_Front_Actio
 {
     public function switchAction()
     {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
+        $this->_redirectToReferer();
     }
 }

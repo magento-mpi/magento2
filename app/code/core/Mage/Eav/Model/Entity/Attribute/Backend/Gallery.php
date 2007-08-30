@@ -73,11 +73,6 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
      */
     public function getConnection($type)
     {
-/*
-    	if (!isset($this->_connections[$type])) {
-    		$this->_connections[$type] = Mage::getSingleton('core/resource')->getConnection('catalog_' . $type);
-    	}
-*/
     	return $this->_connections[$type];
     }
 
@@ -91,14 +86,6 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
 
         // TOFIX
         $this->_images = new Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image_Collection($this->getConnection('read'));
-//        $this->_images = Mage::getResourceModel('eav/')
-/*
-    protected function _construct()
-    {
-        $this->_init('core/store');
-    }
-[11:54:25 PM] Dmitriy �������: Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-*/
 
         $this->_images->getSelectSql()
         	->from($this->getTable(), array('value_id', 'value', 'position'))
@@ -139,13 +126,13 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                 $data = array();
     		    $data[$entityIdField] 	= $entityId;
     		    $data['attribute_id'] 	= $attributeId;
-    		    $data['store_id']	  	= $storeId;
     		    $data['position']		= $value['position'];
     		    $data['entity_type_id'] = $entityTypeId;
+    		    $data['store_id']	  	= $storeId;
     		    
     		    if ($entityId) {
-    		        $connection->insert($this->getTable(), $data);
-    		        $lastInsertId = $connection->lastInsertId();
+		            $connection->insert($this->getTable(), $data);
+		            $lastInsertId = $connection->lastInsertId();
     		    }
     		    else {
     		        continue;
@@ -156,13 +143,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                 foreach ($types as  $type) {
                     try {
                         $io->open();
-                        // TOFIX
-                        if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
-                            $path = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload');
-                        }
-                        else {
-                            $path = $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload');
-                        }
+                        $path = Mage::getStoreConfig('system/filesystem/upload', 0);
                         $io->cp($path.'/'.$type.'/'.'image_'.$entityId.'_'.$value['value_id'].'.'.'jpg', $path.'/'.$type.'/'.'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg');
                         $io->close();
                     }
@@ -171,24 +152,20 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                     }
                     $newFileName = 'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg';
     	        }
-
+                
+    	        $condition = array($connection->quoteInto('value_id = ?', $lastInsertId));
                 if (isset($newFileName)) {
-    	            $condition = array(
-    		            $connection->quoteInto('value_id = ?', $lastInsertId)
-    	            );
                     $data = array();
     		        $data['value']		  	= $newFileName;
     	            $connection->update($this->getTable(), $data, $condition);
                 }
                 else {
-    	            $condition = array(
-    		            $connection->quoteInto('value_id = ?', $lastInsertId)
-    	            );
     	            $connection->delete($this->getTable(), $condition);
                 }
             }
             $object->setData($this->getAttribute()->getName(), array());
         }
+        return parent::beforeSave($object);
     }
 
     public function afterSave($object)
@@ -207,9 +184,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
         {
             foreach ((array)$values['position'] as $valueId => $position) {
                 if ($valueId >= 0) {
-    	            $condition = array(
-    		            $connection->quoteInto('value_id = ?', $valueId)
-    	            );
+    	            $condition = array($connection->quoteInto('value_id = ?', $valueId));
                     $data = array();
                     $data['position'] = $position;
     	            $connection->update($this->getTable(), $data, $condition);
@@ -237,7 +212,6 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                     catch (Exception $e){
                         continue;
                     }
-//                    $uploader->save(Mage::getSingleton('core/store')->getConfig('system/filesystem/upload').'/'.$type.'/', 'image_'.$entityId.'_'.$valueIds[$valueId].'.'.'jpg');
                     if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
                         $path = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload');
                     }
@@ -277,6 +251,8 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                 }
     	    }
         }
+        
+        return parent::afterSave($object);
     }
 
     public function getImageTypes()
