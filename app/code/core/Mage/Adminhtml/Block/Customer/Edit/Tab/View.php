@@ -73,6 +73,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         }
         return $this->_customer;
     }
+    
+    public function getGroupName()
+    {
+        if ($groupId = $this->getCustomer()->getCustomerGroup()) {
+            return Mage::getModel('customer/group')
+                ->load($groupId)
+                ->getCustomerGroupCode();
+        }
+    }
 
     public function getCustomerLog()
     {

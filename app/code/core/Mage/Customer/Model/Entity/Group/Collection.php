@@ -44,6 +44,10 @@ class Mage_Customer_Model_Entity_Group_Collection extends Varien_Data_Collection
     {
         return parent::_toOptionArray('customer_group_id', 'customer_group_code');
     }
+    public function toOptionHash()
+    {
+        return parent::_toOptionHash('customer_group_id', 'customer_group_code');
+    }
 
 
     public function setTaxGroupFilter($classId)

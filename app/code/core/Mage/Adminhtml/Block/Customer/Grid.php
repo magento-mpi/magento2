@@ -41,6 +41,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
+            ->addAttributeToSelect('customer_group')
             ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
             ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
@@ -74,6 +75,19 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'width'     =>'150px',
             'index'     =>'email'
         ));
+        
+        $groups = Mage::getResourceModel('customer/group_collection')
+            ->addFieldToFilter('customer_group_id', array('gt'=>0))
+            ->load()
+            ->toOptionHash();
+        
+        $this->addColumn('group', array(
+            'header'    =>__('Group'),
+            'width'     =>'100px',
+            'index'     =>'customer_group',
+            'type'  => 'options',
+            'options' => $groups,
+        ));
         $this->addColumn('Telephone', array(
             'header'    =>__('Telephone'),
             'width'     =>'100px',
@@ -81,7 +95,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
         $this->addColumn('billing_postcode', array(
             'header'    =>__('ZIP/Postal Code'),
-            'width'     =>'120px',
+            'width'     =>'90px',
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_name', array(
@@ -100,13 +114,12 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'header'    =>__('Customer Since'),
             'type'      => 'date',
             'align'     => 'center',
-            #'format'    => 'Y.m.d',
             'index'     =>'created_at',
         ));
         $this->addColumn('store_name', array(
             'header'    =>__('Signed Up From'),
             'align'     => 'center',
-            #'format'    => 'Y.m.d',
+            'width'     => '80px',
             'index'     =>'store_name',
         ));
 
