@@ -19,7 +19,7 @@
  */
 ?>
 <?if($this->getItems()->getSize()):?>
-<div class="box base-mini mini-related-items"> 
+<div class="box base-mini mini-related-items">
     <div class="head">
         <h4><?=__('Related Products')?></h4>
     </div>
@@ -27,10 +27,10 @@
         <p><strong>Check items to add to cart or <a href="#" onclick="selectAllRelated();return false;">select all</a>.</strong></p>
         <ol>
         <?foreach($this->getItems() as $_item):?>
-        <li>
+        <li<?if($_item->isSuper() || !$_item->isSaleable()):?> class="super-products"<?endif;?>>
             <div class="product-images">
             <?if(!$_item->isSuper() && $_item->isSaleable()):?>
-                <input type="checkbox" class="related-checkbox left" id="related-checkbox<?=$_item->getId()?>" name="related_products[]" value="<?=$_item->getId()?>"/> 
+                <input type="checkbox" class="related-checkbox left" id="related-checkbox<?=$_item->getId()?>" name="related_products[]" value="<?=$_item->getId()?>"/>
             <?endif;?>
                 <a href="<?=$_item->getProductUrl()?>"><img src="<?=$_item->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="50" height="50"/></a>
             </div>
