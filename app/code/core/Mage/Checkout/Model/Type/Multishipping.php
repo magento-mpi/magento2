@@ -243,11 +243,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
         foreach ($orders as $order) {
         	$order->save();
-        	$this->_emailOrderConfirmation(
-        	   $this->getCustomer()->getEmail(),
-        	   $this->getCustomer()->getName(),
-        	   $order
-            );
+        	$order->sendNewOrderEmail();
             $orderIds[] = $order->getIncrementId();
         }
         
