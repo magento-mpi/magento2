@@ -182,7 +182,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException('cannot save you subscription' . $e->getMessage());
+            Mage::throwException('Can not save your subscription: ' . $e->getMessage());
         }
 
         return $subscriber;

@@ -21,7 +21,7 @@
 <?
 /**
  * Shoping cart sidebar
- * 
+ *
  * @see Mage_Checkout_Block_Cart_Sidebar
  */
 ?>
@@ -39,7 +39,7 @@
 				<a href="<?=$_item->getProduct()->getProductUrl()?>"><img src="<?=$_item->getProduct()->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="50"/></a>
 			</div>
 			<div class="product-details">
-				<a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
+				<a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=__('Are you sure you would like to remove this item from the shopping cart?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove"/></a>
 				<a href="<?=$_item->getProduct()->getProductUrl()?>"><?=$_item->getName()?></a>
 				<br/><strong>Qty: <?=1*$_item->getQty()?></strong>
 				<?//=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
@@ -53,7 +53,7 @@
  	<?endif?>
 
 
-    
+
     <div class="actions">
         <a href="<?=$this->getUrl('checkout/cart')?>" class="left"><?=__('Go to Cart')?></a>
     <?if($this->getItemCollection()->getSize()):?>

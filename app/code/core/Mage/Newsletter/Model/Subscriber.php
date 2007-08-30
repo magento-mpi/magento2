@@ -232,8 +232,9 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
      */
     public function loadByCustomer(Mage_Customer_Model_Customer $customer)
     {
-        $this->addData($this->getResource()->loadByCustomer($customer));
-        if ($customer->getId() && !$this->getCustomerId()) {
+        $data = $this->getResource()->loadByCustomer($customer);
+        $this->addData($data);
+        if (!empty($data) && $customer->getId() && !$this->getCustomerId()) {
             $this->setCustomerId($customer->getId())->save();
         }
         return $this;
