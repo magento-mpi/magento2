@@ -27,7 +27,7 @@
 	<p><input type="checkbox" name="is_subscribed" value="1" title="<?=__('General Subscription')?>"  <?if($this->getIsSubscribed()):?> checked<?endif?>/> <label for="subscription"><?=__('General Subscription')?></label></p>
 <div class="form-buttons">
     <a href="<?=$this->getUrl('customer/account')?>" class="left">&laquo; Back</a>
-    <button type="submit" class="form-button"><span>Save</span></button>
+    <button type="submit" class="form-button"><span><?=__('Save Subscription')?></span></button>
 </div>
 </form>
 <script type="text/javascript">
