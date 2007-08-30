@@ -72,10 +72,10 @@ Ext.extend(Mage.Catalog_CategoryForm, Ext.util.Observable, {
             var form = this.panel.getForm();
             if (form) {
                 form.on('actioncomplete', function(){
-                    console.log('complete', arguments);
+                    //console.log('complete', arguments);
                 });
                 form.on('actionfailed', function(){
-                    console.log('failed', arguments);
+                    //console.log('failed', arguments);
                 });
                 form.submit();
             }

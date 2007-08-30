@@ -29,14 +29,14 @@
 
         if (checked){
         	ids_arr[ids_arr.length] = id;
-        	console.log(ids_arr);
+        	//console.log(ids_arr);
         	ids_arr = ids_arr.uniq();
         } else {
 			ids_arr = ids_arr.without(id);
         }
-        console.log(ids_arr);
+        //console.log(ids_arr);
         product_ids.value = ids_arr.join(',');
-        console.log(product_ids.value);
+        //console.log(product_ids.value);
         grid.reloadParams = {'selected_products':product_ids.value}; // add ids to request
     }
     

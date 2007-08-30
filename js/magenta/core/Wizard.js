@@ -261,7 +261,7 @@ Ext.extend(Mage.Wizard, Ext.LayoutDialog, {
         saveConn.on('requestcomplete', function(tranId, response, options) {
             var result = Ext.decode(response.responseText);
             if (result.error == 0) {
-                console.log(result);
+                //console.log(result);
                 this.fireEvent('finish', result.data);
                 this.hide();
             } else {

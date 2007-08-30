@@ -234,7 +234,6 @@ Mage.Customer = function(depend){
                         Ext.MessageBox.alert('Delete Customer', result.errorMessage);
                     }, this)
 
-                    console.log(this.customerCard);
                     delConn.request({
                         url : this.customerDelUrl,
                         method : 'POST',

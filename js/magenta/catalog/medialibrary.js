@@ -19,7 +19,7 @@
  */
 ImageDragZone = function(view, config){
     this.view = view;
-    console.log(this.view);
+    //console.log(this.view);
     ImageDragZone.superclass.constructor.call(this, view.getEl(), config);
 };
 Ext.extend(ImageDragZone, Ext.dd.DragZone, {
@@ -39,16 +39,16 @@ Ext.extend(ImageDragZone, Ext.dd.DragZone, {
             var dragData = {
                 nodes: selNodes
             };
-            console.log('dragData1', dragData);
+            //console.log('dragData1', dragData);
             if(selNodes.length == 1){
                 dragData.ddel = target.firstChild.nextSibling; // the img element
                 dragData.single = true;
             }
-            console.log('dragData2', dragData);            
-			console.log('ne inna',dragData);
+            //console.log('dragData2', dragData);            
+			//console.log('ne inna',dragData);
             return dragData;
         }
-        console.log('Inna');
+        //console.log('Inna');
         return false;
     },
     

@@ -37,7 +37,7 @@ Mage.PermissionPanel = function(){
         loadMainPanel : function() {
             this.parentLayout = Mage.Admin.getLayout();
             this.parentLayout.on('regionresized', function() {
-                console.log(arguments);    
+                //console.log(arguments);    
             });
             
             

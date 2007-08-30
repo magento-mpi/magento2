@@ -29,7 +29,7 @@ Ext.extend(Mage.core.Panel, Ext.util.Observable,{
     },
     
     update : function() {
-        console.info('update');
+        //console.info('update');
         return false;
     },
 

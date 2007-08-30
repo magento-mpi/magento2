@@ -57,7 +57,6 @@ Ext.extend(FilteredGridView, Ext.grid.GridView, {
 	updateFilters: function(){
 		var filters = [];
 		var i;
-		console.log(this.cm.config);
 		for (i=0; i < this.cm.config.length; i++) {
             column = this.cm.config[i];
 			var f = column.filter;
