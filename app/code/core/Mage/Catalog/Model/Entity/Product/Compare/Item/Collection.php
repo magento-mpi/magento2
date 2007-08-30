@@ -110,8 +110,6 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Cat
 		} else {
 			$compareCondition = 'visitor_id='.$this->getVisitorId();
 		}
-		$compareCondition.= ' AND visitor_id>0';
-    	
 		
     	
     	$attributesCollection = $this->getEntity()->getConfig()->getAttributeCollection();    

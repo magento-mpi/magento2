@@ -43,10 +43,12 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
             'label'     => __('Back'),
             'onclick'   => 'window.location.href=\'' . $this->getBackUrl() . '\'',
             'class'     => 'back',
+            'level'     => -1
         ));
         $this->_addButton('reset', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.href = window.location.href',
+            'level'     => -1
         ));
 
         $objId = $this->getRequest()->getParam($this->_objectId);
