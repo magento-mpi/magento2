@@ -58,12 +58,17 @@
         <filesystem>
             <writeable>
                 <items>
-                    <path>/app/etc</path>
-                    <existence>1</existence>
+                    <path>/app/etc/local.xml</path>
+                    <existence>0</existence>
                     <recursive>0</recursive>
                 </items>
                 <items>
                     <path>/var</path>
+                    <existence>1</existence>
+                    <recursive>1</recursive>
+                </items>
+                <items>
+                    <path>/media</path>
                     <existence>1</existence>
                     <recursive>1</recursive>
                 </items>
