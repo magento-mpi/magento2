@@ -42,6 +42,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 			Mage::registry('wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
 			Mage::registry('wishlist')->getProductCollection()
+				->addAttributeToSelect('url_key')
 				->addAttributeToSelect('name')
 	            ->addAttributeToSelect('price')
 	            ->addAttributeToSelect('image')

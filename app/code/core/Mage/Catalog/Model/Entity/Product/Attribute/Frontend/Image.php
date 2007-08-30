@@ -32,7 +32,8 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image extends Mage_Ea
     {
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = Mage::getSingleton('core/store')->getConfig('catalog/images/product_upload_url').$image;
+            $store = Mage::getSingleton('core/store');
+            $url = trim($store->getUrl(''),'/').$store->getConfig('catalog/images/product_upload_url').$image;
         }
         return $url;
     }

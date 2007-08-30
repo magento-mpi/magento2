@@ -211,14 +211,16 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 	public function sendAction()
 	{
 		try{
+
 			if(!$this->getRequest()->getParam('email')) {
 				Mage::throwException('E-mail Addresses required', 'wishlist/session');
 			}
 
 			$emails = explode(',', $this->getRequest()->getParam('email'));
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
 
 			$wishlist = Mage::getModel('wishlist/wishlist')
-				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
+				->loadByCustomer($customer, true);
 			Mage::register('wishlist', $wishlist);
 
 			$message = nl2br(htmlspecialchars($this->getRequest()->getParam('message')));
@@ -240,6 +242,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                     $email,
                     null,
 				    array(
+				        'customer'          => $customer,
 						'items'		 		=> &$wishlistBlock,
 						'addAllLink' 		=> Mage::getUrl('*/shared/allcart',array('code'=>$wishlist->getSharingCode())),
 						'viewOnSiteLink'	=> Mage::getUrl('*/shared/index',array('code'=>$wishlist->getSharingCode())),
