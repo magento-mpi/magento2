@@ -963,7 +963,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
 
             if (isset($origData[$k])) {
-                if (is_null($v) || strlen($v)==0) {
+                //if (is_null($v) || strlen($v)==0) {
+                if (is_null($v)) {
                     $delete[$attribute->getBackend()->getTable()][] = $attribute->getBackend()->getValueId();
                 } elseif ($v!==$origData[$k]) {
                     $update[$attrId] = array(
