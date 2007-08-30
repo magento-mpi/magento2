@@ -120,6 +120,9 @@
         </resources>
     </global>
     <frontend>
+        <secure_url>
+            <customer>/customer/</customer>
+        </secure_url>
         <layouts>
             <default>
                 <updates>

@@ -20,7 +20,7 @@
 ?>
 	<fieldset class="newsletter">
 		<h2 class="accent"><?=__('Newsletter')?></h2>
-		<form action="<?=$baseUrl?>newsletter/subscriber/new" method="post" id="newsletter-validate">
+		<form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate">
 				<fieldset>
 						<legend><?=__('Newsletter')?></legend>
 						<label for="newsletter">Sign up for our newsletter:</label>

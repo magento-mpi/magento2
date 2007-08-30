@@ -36,10 +36,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     protected $_blockClassNameCache = array();
 
+    protected $_secureUrlCache = array();
+
     protected $_customEtcDir = null;
-    
+
     protected $_isIntalled	= true;
-    
+
     /**
      * Constructor
      *
@@ -50,7 +52,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         parent::__construct();
     }
 
-    
+
     /**
      * Return installed flag
      *
@@ -60,7 +62,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
     	return $this->_isIntalled;
     }
-    
+
     /**
      * Initialization of core config
      *
@@ -81,7 +83,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::stop('load-base');
 
         Varien_Profiler::start('load-local');
-       
+
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
         if (is_readable($configFile)) {
             $this->updateCacheChecksum(filemtime($configFile));
@@ -93,12 +95,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::stop('load-local');
 
         $saveCache = true;
-        
+
         if (!$this->getNode('global/install/date') || !$this->_isIntalled) {
             Varien_Profiler::start('load-distro');
             $mergeConfig->loadString($this->loadDistroConfig());
-            
-            $this->extend($mergeConfig, true);            
+
+            $this->extend($mergeConfig, true);
             Varien_Profiler::stop('load-distro');
             $saveCache = false;
         }
@@ -149,7 +151,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	        Varien_Profiler::start('dbUpdates');
 	        Mage_Core_Model_Resource_Setup::applyAllUpdates();
 	        Varien_Profiler::stop('dbUpdates');
-	        
+
 	        Varien_Profiler::start('load-db');
 	        $dbConf->loadToXml($this);
 	        Varien_Profiler::stop('load-db');
@@ -214,10 +216,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         foreach ($data as $index=>$value) {
             $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
         }
-        
+
         return $template;
     }
-    
+
     public function getDistroServerVars()
     {
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
@@ -643,5 +645,23 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         	}
         }
         return $storeIds;
+    }
+
+    public function isUrlSecure($url)
+    {
+        Varien_Profiler::start(__METHOD__);
+        if (!isset($this->_secureUrlCache[$url])) {
+            $this->_secureUrlCache[$url] = false;
+            $secureUrls = $this->getNode('frontend/secure_url');
+            foreach ($secureUrls->children() as $match) {
+                if (strpos($url, (string)$match)===0) {
+                    $this->_secureUrlCache[$url] = true;
+                    break;
+                }
+            }
+        }
+        Varien_Profiler::stop(__METHOD__);
+
+        return $this->_secureUrlCache[$url];
     }
 }

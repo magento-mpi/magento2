@@ -22,7 +22,7 @@
 <?$_orders = $this->getOrders();?>
     <div class="head">
         <h4><?=__('Recent Orders')?></h4>
-        <?if( sizeof($_orders->getItems()) > 0 ):?><a href="<?=$baseUrl?>sales/order/history/"><?=__('View All')?></a><?endif;?>
+        <?if( sizeof($_orders->getItems()) > 0 ):?><a href="<?=$this->getUrl('sales/order/history')?>"><?=__('View All')?></a><?endif;?>
     </div>
 <?if( sizeof($_orders->getItems()) > 0 ):?>
     <table cellspacing="0" class="data-table" id="my-orders-table">

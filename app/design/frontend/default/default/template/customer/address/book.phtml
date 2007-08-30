@@ -81,7 +81,7 @@
                                 <li>
                     <address>
                         <?=$this->getAddressHtml($_address)?><br/>
-                                                <strong><a href="<?=$baseUrl?>customer/address/edit/id/<?=$_address->getId()?>/"><?=__('Edit')?></a></strong><span class="pipe">|</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove"><?=__('Delete')?></a></strong>
+                                                <strong><a href="<?=$this->getUrl('customer/address/edit', array('id'=>$_address->getId()))?>"><?=__('Edit')?></a></strong><span class="pipe">|</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getId()?>');" class="link-remove"><?=__('Delete')?></a></strong>
                     </address>
                                 </li>
                 <?endforeach;?>

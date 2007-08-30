@@ -39,6 +39,10 @@
       </models>
    </global>
    <frontend>
+        <secure_url>
+            <checkout_onepage>/checkout/onepage</checkout_onepage>
+            <checkout_multishipping>/checkout/multishipping</checkout_multishipping>
+        </secure_url>
       <layouts>
          <default>
             <updates>
@@ -53,7 +57,7 @@
                   <file>checkout/cart.xml</file>
                </default>
             </updates>
-         </cart>         
+         </cart>
          <onepage>
             <updates>
                <default>
@@ -67,7 +71,7 @@
                   <file>checkout/onepage/progress.xml</file>
                </default>
             </updates>
-         </onepage_progress>         
+         </onepage_progress>
          <onepage_shipping>
             <updates>
                <default>

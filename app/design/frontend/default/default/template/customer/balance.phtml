@@ -21,5 +21,5 @@
     <?=$this->getMessagesBlock()->getGroupedHtml()?>
     You account balance is: <strong><?=$customer->getStoreBalance()?></strong>
     <div class="buttons-container">
-            <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
+            <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; Back</a>
     </div>

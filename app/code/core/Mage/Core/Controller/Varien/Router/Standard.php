@@ -22,14 +22,14 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 {
     protected $_modules = array();
     protected $_dispatchData = array();
-    
+
     public function collectRoutes($configArea, $useRouterName)
     {
         $routers = array();
         $routersConfigNode = Mage::getConfig()->getNode($configArea.'/routers');
         if($routersConfigNode) {
         	$routers = $routersConfigNode->children();
-        }        
+        }
         foreach ($routers as $routerName=>$routerConfig) {
             $use = (string)$routerConfig->use;
             if ($use==$useRouterName) {
@@ -39,7 +39,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             }
         }
     }
-    
+
     public function fetchDefault()
     {
         $storeCode = Mage::registry('controller')->getStoreCode();
@@ -49,22 +49,22 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         } else {
         	$store = Mage::getSingleton('core/store')->setId(0)->setCode($storeCode);
         }
-        
+
     	// set defaults
         $d = explode('/', Mage::getStoreConfig('web/default/front'));
         $this->getFront()->setDefault(array(
-            'module'     => !empty($d[0]) ? $d[0] : 'core', 
-            'controller' => !empty($d[1]) ? $d[1] : 'index', 
+            'module'     => !empty($d[0]) ? $d[0] : 'core',
+            'controller' => !empty($d[1]) ? $d[1] : 'index',
             'action'     => !empty($d[2]) ? $d[2] : 'index'
         ));
     }
-    
+
     public function match(Zend_Controller_Request_Http $request)
     {
         $this->fetchDefault();
 
         $front = $this->getFront();
-        
+
         $p = explode('/', trim($request->getPathInfo(), '/'));
 
         // get module name
@@ -190,7 +190,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
                     if ($get = $this->getFront()->getRequest()->getQuery()) {
                         $paramsGetPost+= $get;
                     }
-                    
+
                     $params = array_merge($this->getFront()->getRequest()->getParams(), $params);
                     $params = array_diff_key($params, $paramsGetPost);
                 } elseif (is_array($params['_current'])) {
@@ -217,7 +217,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             $url .= empty($params['action']) ? '' : $params['action'].'/';
 
             $url .= $paramsStr;
-            
+
             // adding query params to current option
             $query = http_build_query($this->getFront()->getRequest()->getQuery());
             if (!empty($query) && isset($params['_current']) && $params['_current']===true) {
@@ -227,8 +227,8 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         return $url;
     }
-    
-    public function rewrite(array $p) 
+
+    public function rewrite(array $p)
     {
     	$rewrite = Mage::getConfig()->getNode('global/rewrite');
         if ($module = $rewrite->{$p[0]}) {

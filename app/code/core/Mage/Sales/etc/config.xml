@@ -111,6 +111,9 @@
         </sales>
     </global>
     <frontend>
+        <secure_url>
+            <sales>/sales/</sales>
+        </secure_url>
         <layouts>
             <customer_account>
                 <updates>

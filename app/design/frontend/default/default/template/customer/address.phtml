@@ -32,7 +32,7 @@
                         <?=nl2br($_address->toString("{{firstname}} {{lastname}}\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong>
+                        <strong><a href="<?=$this->getUrl('customer/address/form', array('address'=>$_address->getAddressId()))?>" class="red-link">Edit</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -56,7 +56,7 @@
                         <?=nl2br($_address->toString("{{firstname}} {{lastname}}\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$baseUrl?>customer/address/form/address/<?=$_address->getAddressId()?>/" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
+                        <strong><a href="<?=$this->getUrl('customer/address/form', array('address'=>$_address->getAddressId()))?>" class="red-link">Edit</a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link">Delete</a></strong>
                     </p>
                     </td>
                 </tr>
@@ -73,13 +73,13 @@
     </tr>
 </table>
 <div class="buttons-container">
-    <a href="<?=$baseUrl?>customer/account/" class="float-left">&laquo; Back</a>
-    <input type="button" onclick="window.location='<?=$baseUrl?>customer/address/form/';" value="New Address" class="input-button">
+    <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; Back</a>
+    <input type="button" onclick="window.location='<?=$this->getUrl('customer/address/form')?>';" value="New Address" class="input-button">
 </div>
 <script type="text/javascript">
     function deleteAddress(addressId) {
         if(confirm('Are you sure you want to delete this address?')) {
-            window.location='<?=$baseUrl?>customer/address/delete/address/'+addressId;
+            window.location='<?=$this->getUrl("customer/address/delete")?>address/'+addressId;
         }
         return false;
     }

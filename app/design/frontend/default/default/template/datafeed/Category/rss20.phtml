@@ -31,7 +31,7 @@
 
       <item>
          <title><?=htmlentities($item->getName());?></title>
-         <link><?=$baseUrl?>catalog/category/view/id/<?=$item->getCategoryId();?></link>
+         <link><?=$this->getUrl('catalog/category/view', array('id'=>$item->getCategoryId()))?></link>
          <description><?=htmlentities($item->getDescription());?></description>
       </item>
 

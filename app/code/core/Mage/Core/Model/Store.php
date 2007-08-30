@@ -201,7 +201,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 $params['_secure'] = true;
             }
         }
-        
+
+        if (empty($params['_secure'])) {
+            $pathInfo = isset($params['module']) ? '/'.$params['module'].(
+                isset($params['controller']) ? '/'.$params['controller'].(
+                    isset($params['action']) ? '/'.$params['action'] : '/') : '/') : '/';
+            if (Mage::getConfig()->isUrlSecure($pathInfo)) {
+                $params['_secure'] = true;
+            }
+        }
+
         $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
         $config = $this->getConfig($configKey);
         $protocol = $config['protocol'];
@@ -310,7 +319,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         } else {
             $value = $price;
         }
-        
+
 		if ($this->getCurrentCurrency() && $format) {
         	$value = $this->getCurrentCurrency()->format($value);
         }
