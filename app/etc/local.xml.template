@@ -21,6 +21,9 @@
 -->
 <config>
     <global>
+        <install>
+            <date>{{date}}</date>
+        </install>
         <resources>
             <default_setup>
                 <connection>
