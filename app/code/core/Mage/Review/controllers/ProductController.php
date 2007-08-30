@@ -88,19 +88,10 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         if( !$productId ) {
             $this->getResponse()->setRedirect(Mage::getBaseUrl());
         }
-
+        Mage::register('productId', $productId);
+        
         $this->loadLayout(array('default', 'productReviews'), 'reviews');
         $this->_initLayoutMessages('review/session');
-
-
-        Mage::register('productId', $productId);
-
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('review/list_detailed')
-                ->setUseBackLink(true)
-                ->setUsePager(true)
-        );
-
         $this->renderLayout();
     }
 

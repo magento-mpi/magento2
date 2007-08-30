@@ -32,7 +32,6 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
 
     public function __construct()
     {
-        $this->setTemplate('review/product/detailed.phtml');
         $this->setProductId(Mage::registry('productId'));
     }
 
@@ -69,7 +68,16 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
 
     protected function _initChildren()
     {
+        $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
         parent::_initChildren();
+        
+        if ($breadcrumbsBlock) {
+            $breadcrumbsBlock->addCrumb('product', array(
+                'label' =>$this->getProduct()->getName(),
+                'link'  =>$this->getProduct()->getProductUrl(),
+            ));
+            $breadcrumbsBlock->addCrumb('reviews', array('label'=>__('Product Reviews')));
+        }
         $toolbar = $this->getLayout()->createBlock('page/html_pager', 'detailed_review_list.toolbar')
             ->setCollection($this->_getCollection());
 

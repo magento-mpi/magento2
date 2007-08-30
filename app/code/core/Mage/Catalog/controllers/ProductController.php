@@ -65,22 +65,4 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(array('default', 'catalog_product_gallery'), 'catalog_product_gallery');
         $this->renderLayout();
     }
-
-    protected function _isAllowed()
-    {
-        print "Action: ".$this->getRequest()->getActionName() . "<br/>";
-    	/*switch ($this->getRequest()->getActionName()) {
-            case 'pending':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/pending');
-                break;
-            case 'all':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/all');
-                break;
-            default:
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag');
-                break;
-        }
-        */
-    }
-
 }
