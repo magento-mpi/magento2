@@ -44,7 +44,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
         }
-        if (empty($tables)) {
+        if (empty($tables) || !$this->getConnection('read')) {
             return false;
         }
         $checksumArr = $this->getConnection('read')
@@ -66,6 +66,9 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
     public function loadToXml(Mage_Core_Model_Config $xmlConfig, $cond=null)
     {
         $read = $this->getConnection('read');
+        if (!$read) {
+            return $this;
+        }
 
         #$tables = $read->fetchAll("show tables like 'core_%'");
         #print_r($tables);
