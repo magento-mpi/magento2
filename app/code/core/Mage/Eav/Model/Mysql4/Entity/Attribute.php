@@ -186,6 +186,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                 	    $write->insert($optionTable, $data);
                 	    $intOptionId = $write->lastInsertId();
                 	}
+                	else {
+                	    $data = array(
+                	       'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
+                	    );
+                	    $write->update($optionTable, $data, $write->quoteInto('option_id=?', $intOptionId));
+                	}
                     
                 	// Default value
                 	if (!isset($values[0])) {
