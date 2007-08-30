@@ -173,7 +173,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
                 $condition,
                 array(
                         'count_'.$attributeCode=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
-                        'range_'.$attributeCode=>new Zend_Db_Expr('CEIL('.$tableAlias.'.value/'.$range.')')
+                        'range_'.$attributeCode=>new Zend_Db_Expr('CEIL(('.$tableAlias.'.value+0.01)/'.$range.')')
                      )
             )
             ->group('range_'.$attributeCode);
