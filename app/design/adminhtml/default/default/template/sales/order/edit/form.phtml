@@ -109,7 +109,7 @@
                         <tr>
                             <td class="a-center"><nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium')?></nobr></td>
                             <td><?=$_history->getStatus()->getFrontendLabel()?></td>
-                            <td><?=$_history->getComments()?></td>
+                            <td><?=$_history->getComments()?>&nbsp;</td>
                         </tr>
                     <?endforeach;?>
                 </tbody>
@@ -118,7 +118,7 @@
     </div>
     <div class="box-left">
         <div style="padding: 0 2em;">
-            <div class="clear">
+            <div class="clear" style="height:20px;">
                 <h4 style="float:left; width: 11em;"><?=__('Change Order Status')?></h4>
                 <select style="float:left; width: 10em;" name="new_status">
                     <?foreach ($this->getStatuses() as $_statusId => $_statusLabel):?>

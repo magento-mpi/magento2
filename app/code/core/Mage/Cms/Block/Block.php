@@ -33,13 +33,17 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
 			return '';
 		}
         $html = '';
-        if ($block = $this->getBlockId()) {
-            $content = Mage::getModel('cms/block')
-                ->load($block)
-                ->getContent();
+        if ($blockId = $this->getBlockId()) {
+            $block = Mage::getModel('cms/block')
+                ->load($blockId);
+            if (!$block->getIsActive()) {
+                $html = '';
+            } else {
+                $content = $block->getContent();
 
-            $processor = Mage::getModel('core/email_template_filter');
-            $html = $processor->filter($content);
+                $processor = Mage::getModel('core/email_template_filter');
+                $html = $processor->filter($content);
+            }
         }
         return $html;
     }
