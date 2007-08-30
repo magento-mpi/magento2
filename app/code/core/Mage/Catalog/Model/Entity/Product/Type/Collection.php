@@ -32,16 +32,21 @@ class Mage_Catalog_Model_Entity_Product_Type_Collection extends Mage_Core_Model_
         $this->_init('catalog/product_type');
     }
     
+    public function load($printQuery = false, $logQuery = false)
+    {
+        $this->addFieldToFilter('type_id', array('nin'=>array(2)));
+        return parent::load($printQuery, $logQuery);
+    }
+    
     public function toOptionArray()
     {
     	$options = $this->_toOptionArray('type_id', 'code');
-    	    	
-    	foreach($options as $key=>$option) {
-    		if($option['value']==2) {
-    			unset($options[$key]);
-    		}
-    	}
-    	
+        return $options;
+    }
+
+    public function toOptionHash()
+    {
+    	$options = $this->_toOptionHash('type_id', 'code');
         return $options;
     }
 }
