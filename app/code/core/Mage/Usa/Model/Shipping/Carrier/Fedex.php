@@ -99,7 +99,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
         } else {
-            $r->setDestPostal('90034');
+
         }
 
         $r->setWeight($request->getPackageWeight());

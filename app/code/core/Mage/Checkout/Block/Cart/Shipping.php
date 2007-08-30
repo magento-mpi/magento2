@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstract 
+class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstract
 {
     public function getQuote()
     {
@@ -36,7 +36,7 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
             if (!empty($groups)) {
                 $ratesFilter = new Varien_Filter_Object_Grid();
                 $ratesFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
-                
+
                 foreach ($groups as $code => $groupItems) {
                 	$groups[$code] = $ratesFilter->filter($groupItems);
                 }
@@ -45,7 +45,7 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
         }
         return $this->_rates;
     }
-    
+
     public function getAddress()
     {
         if (empty($this->_address)) {
@@ -53,7 +53,7 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
         }
         return $this->_address;
     }
-    
+
     public function getCarrierName($carrierCode)
     {
         if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
@@ -61,14 +61,19 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
         }
         return $carrierCode;
     }
-    
+
     public function getAddressShippingMethod()
     {
         return $this->getAddress()->getShippingMethod();
     }
-    
+
+    public function getEstimateCountryId()
+    {
+        return $this->getQuote()->getShippingAddress()->getCountryId();
+    }
+
     public function getEstimatePostcode()
     {
         return $this->getQuote()->getShippingAddress()->getPostcode();
-    }        
+    }
 }

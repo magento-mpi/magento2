@@ -22,7 +22,7 @@
  * Template model
  *
  * Example:
- * 
+ *
  * // Loading of template
  * $emailTemplate  = Mage::getModel('core/email_template')
  *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
@@ -31,7 +31,7 @@
  *    'someString' => 'Some string value'
  * );
  * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);
- * 
+ *
  * @category   Mage
  * @package    Mage_Core
  * @author      Ivan Chepurnyi <mitch@varien.com>
@@ -46,8 +46,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
     protected $_templateFilter;
     protected $_preprocessFlag = false;
-    
-    /** 
+
+    /**
      * Return resource of template model.
      *
      * @return Mage_Newsletter_Model_Mysql4_Template
@@ -56,7 +56,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         return Mage::getResourceSingleton('core/email_template');
     }
-    
+
     public function getTemplateFilter()
     {
     	if (empty($this->_templateFilter)) {
@@ -64,10 +64,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     	}
     	return $this->_templateFilter;
     }
-  
+
     /**
      * Load template by id
-     * 
+     *
      * @param   int $templateId
      * return   Mage_Newsletter_Model_Template
      */
@@ -76,10 +76,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $this->addData($this->getResource()->load($templateId));
         return $this;
     }
-    
+
     /**
      * Load template by code
-     * 
+     *
      * @param   string $templateCode
      * return   Mage_Newsletter_Model_Template
      */
@@ -88,7 +88,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $this->addData($this->getResource()->loadByCode($templateCode));
         return $this;
     }
-    
+
     /**
      * Return template id
      * return int|null
@@ -97,16 +97,16 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         return $this->getTemplateId();
     }
-    
+
     /**
      * Set id of template
-     * @param int $value 
+     * @param int $value
      */
     public function setId($value)
     {
         return $this->setTemplateId($value);
     }
-    
+
     /**
      * Return true if this template can be used for sending queue as main template
      *
@@ -116,7 +116,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         return $this->getSenderName() && $this->getSenderEmail() && $this->getTemplateSubject();
     }
-    
+
     /**
      * Return true if template type eq text
      *
@@ -126,7 +126,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         return $this->getTemplateType() == self::TYPE_TEXT;
     }
-    
+
     /**
      * Save template
      */
@@ -135,71 +135,71 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $this->getResource()->save($this);
         return $this;
     }
-  
-    
+
+
     public function getProcessedTemplate(array $variables = array())
     {
         $processor = $this->getTemplateFilter();
-        
+
         if(!$this->_preprocessFlag) {
         	$variables['this'] = $this;
         }
-        
+
         $processor
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
-       
-        
+
+
         return $processor->filter($this->getTemplateText());
     }
-    
-    
-    
+
+
+
     public function getInclude($template, array $variables)
     {
         $thisClass = __CLASS__;
         $includeTemplate = new $thisClass();
-        
+
         $includeTemplate->loadByCode($template);
-        
+
         return $includeTemplate->getProcessedTemplate($variables);
     }
-    
+
     /**
      * Send mail to recipient
      *
      * @param   string      $email		  E-mail
      * @param   string|null $name         receiver name
      * @param   array       $variables    template variables
-     * @return boolean 
+     * @return boolean
      **/
     public function send($email, $name=null, array $variables = array())
     {
         if(!$this->isValidForSend()) {
             return false;
         }
-        
+
         if (is_null($name)) {
             $name = substr($email, 0, strpos($email, '@'));
         }
-                
+
         $variables['email'] = $email;
         $variables['name'] = $name;
-        
+
         ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
         ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
-        
+
         $mail = new Zend_Mail('utf-8');
         #$mail->setDefaultTransport(Mage::getSingleton('core/email_transport'));
         $mail->addTo($email, $name);
         $text = $this->getProcessedTemplate($variables, true);
-        
+
         if($this->isPlain()) {
             $mail->setBodyText($text);
         } else {
             $mail->setBodyHTML($text);
         }
-                    
+
         $mail->setSubject($this->getProcessedTemplateSubject($variables));
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
         try {
@@ -208,10 +208,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         catch (Exception $e) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     public function sendTransactional($templateId, $sender, $email, $name, $vars=array(), $storeId=null)
     {
     	if (is_null($storeId)) {
@@ -219,7 +219,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     	}
     	/*$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
     	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);*/
-    	
+
     	$this->load($templateId);
     	if (!$this->getId()) {
     		throw Mage::exception('Mage_Core', 'Invalid transactional email code');
@@ -229,7 +229,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     	$this->send($email, $name, $vars);
     	return $this;
 	}
-    
+
     /**
      * Delete template from DB
      */
@@ -239,18 +239,18 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $this->setId(null);
         return $this;
     }
-    
-    
-    public function getProcessedTemplateSubject(array $variables) 
+
+
+    public function getProcessedTemplateSubject(array $variables)
     {
     	$processor = $this->getTemplateFilter();
-        
+
         if(!$this->_preprocessFlag) {
         	$variables['this'] = $this;
         }
-        
+
         $processor->setVariables($variables);
-        
+
         return $processor->filter($this->getTemplateSubject());
     }
 }

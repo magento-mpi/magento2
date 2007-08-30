@@ -31,7 +31,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         return $this->getUrl('directory/json/childRegion');
     }
-    
+
     public function getCountryCollection()
     {
         $collection = $this->getData('country_collection');
@@ -42,18 +42,21 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
         }
         return $collection;
     }
-    
-    public function getCountryHtmlSelect()
+
+    public function getCountryHtmlSelect($defValue=null, $name='country_id', $id='country', $title='Country')
     {
+		if (is_null($defValue)) {
+			$defValue = $this->getCountryId();
+		}
         $html = $this->getLayout()->createBlock('core/html_select')
-            ->setName('country_id')
-            ->setId('country')
-            ->setTitle(__('Country'))
+            ->setName($name)
+            ->setId($id)
+            ->setTitle(__($title))
             ->setClass('validate-select')
-            ->setValue($this->getCountryId())
+            ->setValue($defValue)
             ->setOptions($this->getCountryCollection()->toOptionArray())
             ->getHtml();
-            
+
         return $html;
     }
 
@@ -64,13 +67,13 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             $collection = Mage::getModel('directory/region')->getResourceCollection()
                 ->addCountryFilter($this->getCountryId())
                 ->load();
-                
+
             $this->setData('region_collection', $collection);
         }
         return $collection;
     }
 
-    
+
     public function getRegionHtmlSelect()
     {
         return $this->getLayout()->createBlock('core/html_select')
@@ -82,7 +85,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             ->setOptions($this->getRegionCollection()->toOptionArray())
             ->getHtml();
     }
-    
+
     public function getCountryId()
     {
         $countryId = $this->getData('country_id');
@@ -91,7 +94,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
         }
         return $countryId;
     }
-    
+
     public function getRegionsJs()
     {
     	$regionsJs = $this->getData('regions_js');

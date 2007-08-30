@@ -29,17 +29,23 @@
 class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 {
 	protected $_productCollection;
-	
+
     public function __construct()
     {
         parent::__construct();
 		$this->setTemplate('catalogsearch/result.phtml');
     }
 
+    public function getSearch()
+    {
+        return Mage::getSingleton('catalogsearch/search');
+    }
+
     protected function _initChildren()
     {
-        $queryEscaped = $this->htmlEscape($this->getQuery());
-
+        $queryEscaped = $this->htmlEscape($this->getSearch()->getSearchQuery());
+        $this->setQuery($queryEscaped);
+        
         // add Home breadcrumb
     	$this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
@@ -47,15 +53,16 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
                     'title'=>__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
                 );
-        
+
         $title = __('Search results for:').' '.$queryEscaped;
         $this->getLayout()->getBlock('head')->setTitle($title);
-        $this->getLayout()->getBlock('root')->setHeaderTitle($title);   
+        $this->getLayout()->getBlock('root')->setHeaderTitle($title);
 
         $resultBlock = $this->getLayout()->createBlock('catalog/product_list', 'product_list')
             ->setAvailableOrders(array('name'=>__('Name'), 'price'=>__('Price')))
             ->setModes(array('list' => __('List')))
             ->setCollection($this->_getProductCollection());
+
         $this->setChild('search_result_list', $resultBlock);
     }
 
@@ -63,7 +70,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     {
         return $this->getChildHtml('search_result_list');
     }
-    
+
     /**
      * Retrieve loaded category collection
      *
@@ -74,13 +81,12 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     	if (is_null($this->_productCollection)) {
 	        $this->_productCollection = Mage::getResourceModel('catalog/product_collection');
 
-	        if ($query = $this->getQuery()) {
-		        
-		        $search = Mage::getModel('catalogsearch/search')->loadByQuery($query);
-		        if ($search->getSynonimFor()!='') {
-		        	$query = $search->getSynonimFor();
+	        if ($query = $this->getSearch()->getSearchQuery()) {
+
+	            if ($this->getSearch()->getSynonimFor()!='') {
+		        	$query = $this->getSearch()->getSynonimFor();
 		        }
-		        
+
 		        $this->_productCollection
 	            	->addAttributeToSelect('url_key')
 		            ->addAttributeToSelect('name')
@@ -89,10 +95,11 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 		            ->addAttributeToSelect('image')
 		            ->addAttributeToSelect('small_image')
 		            ->addSearchFilter($query);
-		            
+
                 Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
                 Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
-		            
+
+
 	        } else {
 	        	$this->_productCollection
 	        		->getSelect()->where('false');
@@ -101,9 +108,14 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 
     	return $this->_productCollection;
     }
-    
+
     public function getResultCount()
     {
-    	return $this->_getProductCollection()->getSize();
+        if (!$this->getData('result_count')) {
+            $size = $this->_getProductCollection()->getSize();
+    	    $this->getSearch()->updateSearch(null, $size);
+    	    $this->setResultCount($size);
+        }
+    	return $this->getData('result_count');
     }
 }

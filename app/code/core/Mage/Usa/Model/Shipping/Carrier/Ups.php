@@ -115,7 +115,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
         } else {
-            $r->setDestPostal('90034');
+
         }
 
         $r->setWeight($request->getPackageWeight());

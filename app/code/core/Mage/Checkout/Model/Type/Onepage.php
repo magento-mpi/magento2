@@ -275,11 +275,11 @@ class Mage_Checkout_Model_Type_Onepage
                 $customer->save();
 
                 $changed = false;
-                if (!$customer->getDefaultBilling()) {
+                if (isset($customerBilling) && !$customer->getDefaultBilling()) {
                     $customer->setDefaultBilling($customerBilling->getId());
                     $changed = true;
                 }
-                if (!$customer->getDefaultShipping) {
+                if (isset($customerShipping) && !$customer->getDefaultShipping()) {
                     $customer->setDefaultShipping($customerShipping->getId());
                     $changed = true;
                 }
@@ -294,10 +294,6 @@ class Mage_Checkout_Model_Type_Onepage
             $order->createFromQuoteAddress($shipping);
 
             $order->validate();
-
-            if ($order->getErrors()) {
-                //TODO: handle errors (exception?)
-            }
 
             $order->setInitialStatus();
 

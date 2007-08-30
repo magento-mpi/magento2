@@ -55,7 +55,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $this->_getCart()->init()
             ->save();
-            
+
         if (!$this->_getCart()->isValidItemsQty()) {
             Mage::getSingleton('checkout/session')
                 ->addError('The item (s) marked in red are not available in the desired quantity. Please update the quantity of the item (s).');
@@ -163,10 +163,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function estimatePostAction()
     {
+        $country = $this->getRequest()->getParam('country_id');
         $postcode = $this->getRequest()->getParam('estimate_postcode');
 
         $this->getQuote()->getShippingAddress()
-            ->setPostcode($postcode)->setCollectShippingRates(true);
+            ->setCountryId($country)
+            ->setPostcode($postcode)
+            ->setCollectShippingRates(true);
 
         $this->getQuote()/*->collectTotals()*/->save();
 

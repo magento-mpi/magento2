@@ -110,7 +110,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
         } else {
-            $r->setDestPostal('90034');
+
         }
 
         $r->setWeightPounds(floor($request->getPackageWeight()));
@@ -371,7 +371,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
             ),
 
         );
-        
+
         $methods = Mage::getStoreConfig('carriers/usps/methods');
         if (!empty($methods)) {
             $codes['method'] = explode(",", $methods);

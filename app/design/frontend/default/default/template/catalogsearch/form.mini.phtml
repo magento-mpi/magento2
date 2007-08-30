@@ -25,17 +25,17 @@
     <div id="search_autocomplete" class="search-autocomplete"></div>
     <script type="text/javascript">
         new Ajax.Autocompleter(
-            'search', 
-            'search_autocomplete', 
-            '<?=$this->getUrl('catalogsearch/ajax/suggest')?>', 
+            'search',
+            'search_autocomplete',
+            '<?=$this->getUrl('catalogsearch/ajax/suggest')?>',
             {
-                paramName:"query", 
+                paramName:"query",
                 minChars:2,
-                //indicator:"search_indicator", 
+                //indicator:"search_indicator",
                 updateElement:getSelectionId
             }
         );
-        
+
         function getSelectionId(li) {
         	if (li.title) {
             	$('search').value = li.title;

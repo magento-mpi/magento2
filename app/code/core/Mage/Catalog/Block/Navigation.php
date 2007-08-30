@@ -128,6 +128,12 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $html .= ' last';
         }
         if ($hasChildren) {
+            $cnt = 0;
+            foreach ($children as $child) {
+                if ($child->getIsActive()) {
+                    $cnt++;
+                }
+            }
         	$html .= ' parent';
         }
         $html.= '">'."\n";
@@ -135,11 +141,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         //$html.= '<span>'.$level.'</span>';
         if ($hasChildren){
             $html.= '<ul class="level' . $level . '">'."\n";
-            ++$level;
             $j = 0;
-            $cnt = $children->count();
             foreach ($children as $child) {
-            	$html.= $this->drawItem($child, $level, ++$j >= $cnt);
+            	$html.= $this->drawItem($child, $level+1, ++$j >= $cnt);
             }
             $html.= '</ul>';
         }

@@ -514,7 +514,13 @@ echo "TEST:".$i;
             if (!$className = Mage::getConfig()->getBlockClassName($type)) {
                 Mage::exception('Mage_Core', 'Invalid block type ' . $type);
             }
-            $this->_helpers[$type] = new $className();
+            $helper = new $className();
+            if ($helper) {
+                if ($helper instanceof Mage_Core_Block_Abstract) {
+                    $helper->setLayout($this);
+                }
+                $this->_helpers[$type] = $helper;
+            }
         }
         return $this->_helpers[$type];
     }

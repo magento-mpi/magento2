@@ -233,6 +233,9 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function loadByCustomer(Mage_Customer_Model_Customer $customer)
     {
         $this->addData($this->getResource()->loadByCustomer($customer));
+        if ($customer->getId() && !$this->getCustomerId()) {
+            $this->setCustomerId($customer->getId())->save();
+        }
         return $this;
     }
 
@@ -316,6 +319,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
     	try {
     		$this->setSubscriptionStatus(self::STATUS_UNSUBSCRIBED)->save();
+    		$this->sendUnsubscriptionEmail();
     		return true;
     	} catch (Exception $e) {
     		return $e;
@@ -370,6 +374,18 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     		->sendTransactional(
     		    Mage::getStoreConfig('newsletter/subscription/success_email_template'),
     		    Mage::getStoreConfig('newsletter/subscription/success_email_identity'),
+    		    $this->getEmail(),
+    		    $this->getName(),
+    		    array('subscriber'=>$this));
+    	return $this;
+    }
+
+    public function sendUnsubscriptionEmail()
+    {
+    	Mage::getModel('core/email_template')
+    		->sendTransactional(
+    		    Mage::getStoreConfig('newsletter/subscription/un_email_template'),
+    		    Mage::getStoreConfig('newsletter/subscription/un_email_identity'),
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));

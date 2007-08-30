@@ -27,39 +27,36 @@
  */
 class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Action
 {
-    public function indexAction() 
+    public function indexAction()
     {
         $searchQuery = $this->getRequest()->getParam('q', false);
 
         if ($searchQuery) {
-        	$search = Mage::getModel('catalogsearch/search')->loadByQuery($searchQuery);
+            $searchTerms = addslashes(strip_tags($searchQuery));
+        	$search = Mage::getSingleton('catalogsearch/search')
+        	   ->loadByQuery($searchTerms);
+
         	if (!$search->getId()) {
-        		
-        		$search->setSearchQuery($searchQuery)->updateSearch();
-        		
+
+        		$search->setSearchQuery($searchTerms)->updateSearch();
+
         	} elseif ($search->getRedirect()) {
-        		
+
 	    		$search->updateSearch();
         		$this->getResponse()->setRedirect($search->getRedirect());
         		return;
-        		
-        	} elseif ($search->getSynonimFor()) {
-        		
-        		$search->updateSearch();
-        		$searchQuery = $search->getSynonimFor();
-        		
+
         	}
         }
-        
-        $this->loadLayout();
-            
 
-        $this->getLayout()->getBlock('top.search')->assign('query', $searchQuery);
-        $searchResBlock = $this->getLayout()->createBlock('catalogsearch/result', 'search.result', array('query'=>$searchQuery));
+        $this->loadLayout();
+
+        $this->getLayout()->getBlock('top.search')->assign('query', htmlspecialchars($searchQuery));
+        $searchResBlock = $this->getLayout()->createBlock('catalogsearch/result', 'search.result');
         //$searchResBlock->loadByQuery($this->getRequest());
 
         $this->getLayout()->getBlock('content')->append($searchResBlock);
-        
+
         $this->renderLayout();
     }
 }

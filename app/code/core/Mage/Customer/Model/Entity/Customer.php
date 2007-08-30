@@ -124,6 +124,10 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 
 		$subscriber->setStatus($status);
 
+		if ($subscriber->getIsStatusChanged() && $status==Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED) {
+		    $subscriber->sendUnsubscriptionEmail();
+		}
+
     	if(!$subscriber->getId()) {
     		$subscriber
     			->setStoreId($customer->getStoreId())

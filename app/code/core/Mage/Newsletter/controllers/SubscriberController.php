@@ -33,7 +33,7 @@
     protected function _construct()
      {
         if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->_referer = $referer . '#newsletter-box';
+            $this->_referer = $referer;
         }
      }
 

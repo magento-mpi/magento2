@@ -74,8 +74,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     		->sendTransactional(
     		  Mage::getStoreConfig('sales/new_order/email_template'),
     		  Mage::getStoreConfig('sales/new_order/email_identity'),
-    		  $this->getEmail(),
-    		  $this->getName(),
+    		  $this->getBillingAddress()->getEmail(),
+    		  $this->getBillingAddress()->getName(),
     		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
     	return $this;
     }
@@ -91,8 +91,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     		->sendTransactional(
     		  Mage::getStoreConfig('sales/order_update/email_template'),
     		  Mage::getStoreConfig('sales/order_update/email_identity'),
-    		  $this->getEmail(),
-    		  $this->getName(),
+    		  $this->getBillingAddress()->getEmail(),
+    		  $this->getBillingAddress()->getName(),
     		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
     	return $this;
     }
