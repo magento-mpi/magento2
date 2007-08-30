@@ -30,7 +30,7 @@
             </block>
             <block type="core/text_tag" name="head.title">
                 <action method="setTagName"><tagName>title</tagName></action>
-                <action method="setContents"><contents>Magento Commerce Installation Wizard</contents></action>
+                <action method="setContents"><contents>Magento Installation Wizard</contents></action>
             </block>
             <block type="core/text_tag" name="head.icon">
                 <action method="setTagName"><tagName>link</tagName></action>

@@ -33,22 +33,22 @@
     <wizard>
         <steps>
             <begin>
-                <code>begin</code>
+                <code>Start Installation</code>
                 <controller>wizard</controller>
                 <action>begin</action>
             </begin>    
             <config>
-                <code>configuration</code>
+                <code>Configuration</code>
                 <controller>wizard</controller>
                 <action>config</action>
             </config>
             <administrator>
-                <code>administrator installation</code>
+                <code>Create Admin Account</code>
                 <controller>wizard</controller>
                 <action>administrator</action>
             </administrator>
             <end>
-                <code>end installation</code>
+                <code>You're All Set!</code>
                 <controller>wizard</controller>
                 <action>end</action>
             </end>

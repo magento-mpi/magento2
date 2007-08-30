@@ -18,9 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<h1 class="page-heading">Installation complete</h1>
-.....
-<div class="buttons-container">
-    <a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; Go to frontend</a>
-    <a href="<?=$this->getUrl('admin')?>" class="float-right">Go to backend &raquo;</a>
+<div class="page-head">
+    <h3>You're All Set!</h3>
+</div>
+<p>Get ready to experience Open-Source eCommerce Evolved.</p>
+<p>Before you continue onto your store, make note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).</p>
+<p><strong><big>xxxx-xxxxx-xxxxx-xxxxxxx</big></strong></p>
+<p>(Make sure you keep it in a safe place.)</p>
+<div class="form-buttons">
+    <button class="form-button" onclick="window.location='<?=Mage::getBaseUrl()?>'">Go to Frontend</button>&nbsp;&nbsp;
+    <button class="form-button" onclick="window.location='<?=$this->getUrl('admin')?>'">Go to Backend</button>
 </div>
