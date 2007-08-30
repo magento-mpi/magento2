@@ -124,7 +124,7 @@ var attributeOption = {
     remove : function(event){
         var element = Event.findElement(event, 'table');
         if(element){
-            var flags = element.getElementsByClassName('delete-flag')
+            var flags = $(element).getElementsByClassName('delete-flag')
             if(flags[0]){
                 flags[0].value=1;
             }
