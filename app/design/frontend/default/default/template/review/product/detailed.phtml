@@ -109,7 +109,7 @@
 				<h4><?=__('Customer Reviews')?></h4>
 			</div>
 		<?=$this->getToolbarHtml()?>
-			<ol>
+			<ol style="margin-top:15px;">
 		<?foreach( $this->getCollection()->getItems() as $_review ):?>
 				<li>
 					<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> by <em><?=$_review->getNickname()?></em>
@@ -134,8 +134,8 @@
 		</div>
 		<?=$this->getToolbarHtml()?>
 	<?else:?>
-		<!--<center style="border:1px solid #cbdcf1;padding:20px 0 20px 0;"><small><?=__('This Product Has Not Reviews')?></small></center>-->
 	<?endif;?>
+    <br/>
 	<?=$this->getChildHtml('reviewForm')?>
 	</div>
 </div>

@@ -147,7 +147,7 @@ p.required {
 .success { color:#3d6611; }
 .error { color:#df280a; }
 .success, .error { font-weight:bold; }
-.error-msg, .success-msg, .notice-msg {
+.error-msg, .success-msg, .notice-msg, .note-msg {
     min-height:23px !important;
     margin-bottom:1em !important;
     border-style:solid !important;
@@ -171,7 +171,7 @@ p.required {
     background-color:#eff5ea;
     background-image:url(../images/success_msg_icon.gif);
     }
-.notice-msg {
+.notice-msg, .note-msg {
     border-color:#fcd344;
     color:#3d6611;
     background-color:#fafaec;
@@ -1093,19 +1093,21 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /********************** Customer */
 
 /* My Account navigation */
+.account-nav { border:1px solid #bbb; }
 .account-nav .head {
-    margin:0;
-    background:url(../images/head_my_account.gif) no-repeat;
-    height:24px;
+   margin:0;
+   background:url(../images/account_nav_head_bg.gif) repeat-x 0 100% #fc9d36;
+   padding:3px 10px;
     }
-.account-nav .head h3 { display:none; }
-.account-nav ul { border:1px solid #A0B3C3; background:#E7F1F4; font-size:1.05em; }
-.account-nav li a, .account-nav li.on { padding:3px 10px;  }
-.account-nav li a { border-bottom:1px solid #d9dde3; }
-.account-nav li a:hover { background:#D9E5EE; }
-.account-nav li.on { background:#9bb6ca; color:#fff; font-weight:bold; }
+.account-nav .head h3 { color:#fff; font-size:1.1em; }
+.account-nav ul { background:#fbfaf6; font-size:1.05em; }
+.account-nav li a, .account-nav li.on { padding:3px 10px 3px 35px;  }
+.account-nav li a { display:block; border-bottom:1px solid #ddd; background:url(../images/account_nav_link_bg.gif) no-repeat 10px 8px; }
+.account-nav li a, .account-nav li a:hover { color:#5f5d5c; text-decoration:none; }
+.account-nav li a:hover { background-image:url(../images/account_nav_on_bg.gif); color:#ea7900; }
+.account-nav li.on { padding:3px 10px 3px 35px; border-bottom:1px solid #ddd; background:url(../images/account_nav_on_bg.gif) no-repeat 10px 8px; color:#ea7900; font-weight:bold; }
+.account-nav li.on a { padding:0; }
 .account-nav li.last, .account-nav li.last a { border-bottom:0; }
-.account-nav a, .account-nav a:hover { display:block; text-decoration:none; }
 
 
 /* Login */
@@ -1180,8 +1182,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .primary-address-list li {
     margin-bottom:10px;
     border:1px solid #ccc;
-    border-right-color:#999;
-    border-bottom-color:#999;
     background:url(../images/account_box_bg.gif) repeat-x #fff;
     padding:10px 13px 8px 13px;
     }
@@ -1219,7 +1219,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 /* Reviews */
 .my-review-detail .product-image { float:left; width:135px; }
-.my-review-detail .details { float:right; width:510px; }
+.my-review-detail .details { float:right; width:538px; }
 .my-review-detail .ratings-list { margin-bottom:.8em; }
 
 

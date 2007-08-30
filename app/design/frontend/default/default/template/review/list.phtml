@@ -25,10 +25,7 @@
 			<?if( $this->getUseBackLink() ):?>
 			<small>&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a></small>
 			<?else:?>
-			<a href="<?=$reviewLink?>"><small><?=__('View all')?></small></a>
-			<?endif;?>
-		<?endif;?>
-		<span class="pipe"><a href="<?=$this->getAddLink()?>#review-form"><small><?=__('Add your review')?></small></a>
+			<a href="<?=$reviewLink?>"><small><?=__('View all')?></small></a><?endif;?><?endif;?><span class="pipe">|</span><a href="<?=$this->getAddLink()?>#review-form"><small><?=__('Add your review')?></small></a>
 	</div>
     <?if( $this->getUseBackLink() ):?>
     <?=$this->getToolbarHtml()?>
