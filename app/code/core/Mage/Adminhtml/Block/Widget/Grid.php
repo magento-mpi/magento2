@@ -120,14 +120,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      * @var boolean
      */
     protected $_countTotals = false;
-    
+
     /**
-     * Totals 
+     * Totals
      *
      * @var Varien_Object
      */
     protected $_varTotals;
-    
+
     /**
      * Grid export types
      *
@@ -290,7 +290,11 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _addColumnFilterToCollection($column)
     {
         if ($this->getCollection()) {
-            $this->getCollection()->addFieldToFilter( ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex(), $column->getFilter()->getCondition());
+            $field = ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex();
+            $cond = $column->getFilter()->getCondition();
+            if ($field && isset($cond)) {
+                $this->getCollection()->addFieldToFilter($field , $cond);
+            }
         }
         return $this;
     }
@@ -496,7 +500,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_messageBlockVisibility;
     }
-    
+
     public function setDefaultLimit($limit)
     {
         $this->_defaultLimit = $limit;
@@ -574,7 +578,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $csv = '';
         $this->_prepareGrid();
-        
+
         $data = array();
         foreach ($this->_columns as $column) {
             if (!$column->getIsSystem()) {
@@ -592,7 +596,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
             $csv.= implode(',', $data)."\n";
         }
-        
+
         if ($this->getCountTotals())
         {
             $data = array();
@@ -603,7 +607,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
             $csv.= implode(',', $data)."\n";
         }
-        
+
         return $csv;
     }
 
@@ -726,7 +730,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
     	return $this->_emptyTextCss;
     }
-    
+
     /**
      * Set count totals
      *
@@ -746,7 +750,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_countTotals;
     }
-    
+
     /**
      * Set totals
      *
@@ -766,5 +770,5 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->_varTotals;
     }
-    
+
 }
