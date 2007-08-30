@@ -262,10 +262,9 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function successAction()
     {
-        //Mage::getSingleton('checkout/session')->clear();
+        $this->_getCheckout()->getCheckoutSession()->clear();
         $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
-        $this->_getCheckout()->getCheckoutSession()->clear();
     }
 }

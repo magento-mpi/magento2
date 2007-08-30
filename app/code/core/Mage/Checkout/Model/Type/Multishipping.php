@@ -250,7 +250,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             $orderIds[] = $order->getIncrementId();
         }
         
-        $this->getCheckoutSession()->setOrderIds($orderIds);
+        Mage::getSingleton('core/session')->setOrderIds($orderIds);
         $this->getQuote()
             ->setIsActive(false)
             ->save();

@@ -68,7 +68,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
             $this->_welcome = __('Welcome, %s!', Mage::getSingleton('customer/session')->getCustomer()->getName());
         }
         elseif (!$this->_welcome) {
-            $this->_welcome = $this->getDesignConfig('page/header/welcome');
+            $this->_welcome = __('Welcome to the Magento Demo Store!');//$this->getDesignConfig('page/header/welcome');
         }
             
         return $this->_welcome;
