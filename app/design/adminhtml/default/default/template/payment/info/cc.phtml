@@ -19,6 +19,6 @@
  */
 ?>
 <strong><?=__('CC Type')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcType()?></span><br/>
-<strong><?=__('CC Number')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcNumber()?></span><br/>
+<strong><?=__('CC Number')?>:</strong> <span class="nowrap">xxxx-<?=$this->getPayment()->getCcLast4()?></span><br/>
 <strong><?=__('Name on Card')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcOwner()?></span><br/>
 <strong><?=__('Expiration Date')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcExpMonth()?>/<?=$this->getPayment()->getCcExpYear()?></span>

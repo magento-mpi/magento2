@@ -19,14 +19,14 @@
  */
 
 
-class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form 
+class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
 {
     protected function _construct()
     {
-        $this->setTemplate('payment/form/ccsave.phtml');
+        $this->setTemplate('payment/form/cc.phtml');
         parent::_construct();
     }
-    
+
     public function getCcTypes()
     {
         return array(
@@ -37,7 +37,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
             'DI'=>__('Discover'),
         );
     }
-    
+
     public function getMonths()
     {
         return array(
@@ -56,7 +56,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
             12=>'12-'.__('December'),
         );
     }
-    
+
     public function getYears()
     {
         for ($yearsArr=array(''=>__('Year')), $y1=date("Y"), $y=0; $y<10; $y++) {
