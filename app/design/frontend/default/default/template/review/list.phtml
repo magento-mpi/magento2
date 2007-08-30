@@ -23,12 +23,12 @@
 		<h4><?=__('Customer Reviews')?></h4>
 		<?if($reviewCount):?>
 			<?if( $this->getUseBackLink() ):?>
-			&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a>
+			<small>&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a></small>
 			<?else:?>
-			<a href="<?=$reviewLink?>"><?=__('View all')?></a>
+			<a href="<?=$reviewLink?>"><small><?=__('View all')?></small></a>
 			<?endif;?>
 		<?endif;?>
-		| <a href="<?=$this->getAddLink()?>#review-form"><?=__('Add your review')?></a>
+		<span class="pipe"><a href="<?=$this->getAddLink()?>#review-form"><small><?=__('Add your review')?></small></a>
 	</div>
     <?if( $this->getUseBackLink() ):?>
     <?=$this->getToolbarHtml()?>

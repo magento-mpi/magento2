@@ -81,18 +81,6 @@
 #nav li.over ul li.over ul ul { left:-10000px; }
 #nav li.over ul li.over ul li.over ul { left:100px; }
 
-#nav:after {
-	content:".";
-	display:block;
-	clear:both;
-	height:0;
-	font-size:0;
-	line-height:0em;
-	overflow:hidden;
-	}
-
-
-
 
 /* Fix for the IE bug */
 
