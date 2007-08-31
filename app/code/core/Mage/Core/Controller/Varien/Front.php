@@ -22,23 +22,23 @@
 class Mage_Core_Controller_Varien_Front
 {
     protected $_request;
-    
+
     protected $_response;
-    
+
     protected $_defaults = array();
-    
+
     protected $_routers = array();
 
     protected $_urlCache = array();
-    
+
     protected $_storeCode;
-    
+
      public function setStoreCode($storeCode)
      {
      	$this->_storeCode = $storeCode;
      	return $this;
      }
-     
+
      public function getStoreCode()
      {
      	return $this->_storeCode;
@@ -53,7 +53,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this;
     }
-    
+
     public function getDefault($key=null)
     {
         if (is_null($key)) {
@@ -63,7 +63,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return false;
     }
-    
+
     public function getRequest()
     {
         if (empty($this->_request)) {
@@ -71,7 +71,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this->_request;
     }
-    
+
     public function getResponse()
     {
         if (empty($this->_response)) {
@@ -79,14 +79,14 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this->_response;
     }
-    
+
     public function addRouter($name, Mage_Core_Controller_Varien_Router_Abstract $router)
     {
         $router->setFront($this);
         $this->_routers[$name] = $router;
         return $this;
     }
-    
+
     public function getRouter($name)
     {
         if (isset($this->_routers[$name])) {
@@ -94,44 +94,44 @@ class Mage_Core_Controller_Varien_Front
         }
         return false;
     }
-    
+
     public function init()
     {
         Mage::dispatchEvent('beforeFrontRun');
 
         Varien_Profiler::start('ctrl/init');
-        
+
         // init admin modules router
         $admin = new Mage_Core_Controller_Varien_Router_Admin();
         $admin->collectRoutes('admin', 'admin');
         $this->addRouter('admin', $admin);
-        
+
         // init standard frontend modules router
         $standard = new Mage_Core_Controller_Varien_Router_Standard();
         $standard->collectRoutes('frontend', 'standard');
         $this->addRouter('standard', $standard);
-        
+
         // init custom routers
         Mage::dispatchEvent('initControllerRouters', array('front'=>$this));
 
         // init default router (articles and 404)
         $default = new Mage_Core_Controller_Varien_Router_Default();
         $this->addRouter('default', $default);
-        
+
         Varien_Profiler::stop('ctrl/init');
-        
+
         return $this;
     }
-    
+
     public function dispatch()
     {
         Varien_Profiler::start('ctrl/dispatch');
-        
+
         $request = $this->getRequest();
         $request->setPathInfo()->setDispatched(false);
-        
+
         $this->rewrite();
-        
+
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
 #Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName().'/'.$request->getActionName());
@@ -141,16 +141,16 @@ class Mage_Core_Controller_Varien_Front
                 }
             }
         }
-        
+
         Varien_Profiler::stop('ctrl/dispatch');
-        
+
         Varien_Profiler::start('ctrl/response');
         $this->getResponse()->sendResponse();
         Varien_Profiler::stop('ctrl/response');
 
         return $this;
     }
-    
+
     public function getUrl($route='', $params=array())
     {
         if (!isset($params['_current'])) {
@@ -159,17 +159,17 @@ class Mage_Core_Controller_Varien_Front
         if (isset($cacheKey) && isset($this->_urlCache[$cacheKey])) {
             return $this->_urlCache[$cacheKey];
         }
-        
+
         // no route return base url
         if (empty($route)) {
             return Mage::getBaseUrl();
         }
-        
-        
+
+
         if (is_string($route)) {
             // parse string route
             $request = $this->getRequest();
-            
+
             $p = explode('/', $route);
             $routeName = $p[0]==='*' ? $request->getModuleName() : $p[0];
             $paramsArr = array('module'=>$routeName);
@@ -196,13 +196,13 @@ class Mage_Core_Controller_Varien_Front
         }
         // merge with optional params
         $paramsArr = array_merge($paramsArr, $params);
-        
+
         // empty route supplied - return base url
         if (empty($routeName)) {
             $url = Mage::getBaseUrl();
         } elseif ($this->getRouter('admin')->getRealModuleName($routeName)) {
             // try standard router url assembly
-            $router = $this->getRouter('admin');        
+            $router = $this->getRouter('admin');
         } elseif ($this->getRouter('standard')->getRealModuleName($routeName)) {
             // try standard router url assembly
             $router = $this->getRouter('standard');
@@ -218,7 +218,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return $url;
     }
-    
+
     public function rewrite()
     {
     	$request = $this->getRequest();

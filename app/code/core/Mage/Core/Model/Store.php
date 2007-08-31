@@ -185,7 +185,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * @param   array $params
      * @return  string
      */
-    public function getUrl($params)
+    public function getUrl($params=array())
     {
         if (!is_array($params)) {
             $params = array();
@@ -217,6 +217,19 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $host = $config['host'];
         $port = $config['port'];
 
+        $url = $protocol.'://'.$host;
+        $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+        $url .= $this->getBaseUrl($params);
+
+        $this->_urlCache[$cacheKey] = $url;
+
+        return $url;
+    }
+
+    public function getBaseUrl($params=array())
+    {
+        $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
+        $config = $this->getConfig($configKey);
         if (empty($params['_type'])) {
             $basePath = $config['base_path'];
 #echo '1: '.$basePath.'<hr>';
@@ -224,14 +237,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $basePath = $this->getConfig('web/url/'.$params['_type']);
 #echo '2: '.$basePath.'<hr>';
         }
-
-        $url = $protocol.'://'.$host;
-        $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
-        $url .= empty($basePath) ? '/' : $basePath;
-
-        $this->_urlCache[$cacheKey] = $url;
-
-        return $url;
+        return empty($basePath) ? '/' : $basePath;
     }
 
     public function processSubst($str)
