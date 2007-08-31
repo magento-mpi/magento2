@@ -29,6 +29,16 @@
 		</tr>
 	</thead>
 
+	<tbody>
+<?$i=0; foreach ($_order->getAllItems() as $_item): $i++?>
+		<tr <?=$i%2?'bgcolor="#eeeded"':''?>>
+			<td align="left" valign="top" style="padding:3px 9px"><?=$_item->getName()?></td>
+			<td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
+			<td align="right" valign="top" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_item->getRowTotal())?></td>
+		</tr>
+<?endforeach?>
+	</tbody>
+
 	<tfoot>
         <tr>
             <td colspan="2" align="right" style="padding:3px 9px"><?=__('Subtotal')?></td>
@@ -58,13 +68,4 @@
         </tr>
 	</tfoot>
 
-	<tbody>
-<?$i=0; foreach ($_order->getAllItems() as $_item): $i++?>
-		<tr <?=$i%2?'bgcolor="#eeeded"':''?>>
-			<td align="left" valign="top" style="padding:3px 9px"><?=$_item->getName()?></td>
-			<td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
-			<td align="right" valign="top" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_item->getRowTotal())?></td>
-		</tr>
-<?endforeach?>
-	</tbody>
 </table>
