@@ -198,6 +198,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $user = Mage::getModel('admin/user')->load(1)->addData($data);
             $user->save();
             Mage::getSingleton('install/installer_config')->setEncryptionKey($encryptionKey)->setInstalled();
+            Mage::getSingleton('install/session')->setEncryptKey(Mage::getSingleton('install/installer_config')->getEncryptionKey());
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')->addMessage(
@@ -230,10 +231,11 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         Mage::getSingleton('install/session')->getConfigData(true);
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-
+        
+        $key = Mage::getSingleton('install/session')->getEncryptKey(true);
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.end')
             ->setTemplate('install/end.phtml')
-            ->assign('encrypt_key', (string)Mage::getConfig()->getNode('global/crypt/key'))
+            ->assign('encrypt_key', $key)
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
 
         $this->getLayout()->getBlock('content')->append($contentBlock);

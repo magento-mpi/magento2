@@ -22,9 +22,11 @@
     <h3>You're All Set!</h3>
 </div>
 <p>Get ready to experience Open-Source eCommerce Evolved.</p>
+<?if($encrypt_key):?>
 <p>Before you continue onto your store, make note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).</p>
 <p><strong><big><?=$encrypt_key?></big></strong></p>
 <p>(Make sure you keep it in a safe place.)</p>
+<?endif;?>
 <div class="form-buttons">
     <button class="form-button" onclick="window.location='<?=Mage::getBaseUrl()?>'">Go to Frontend</button>&nbsp;&nbsp;
     <button class="form-button" onclick="window.location='<?=$this->getUrl('admin')?>'">Go to Backend</button>

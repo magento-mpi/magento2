@@ -114,5 +114,9 @@ class Mage_Install_Model_Installer_Config
         $this->_encryptKey = $key;
         return $this;
     }
-
+    
+    public function getEncryptionKey()
+    {
+        return $this->_encryptKey;
+    }
 }
