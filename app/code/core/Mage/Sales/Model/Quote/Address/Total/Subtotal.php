@@ -79,6 +79,8 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
     	    $qty = $item->getQty();
     	} elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
     	    $qty = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId())->getQty();
+    	} else {
+    	    $qty = 1;
     	}
     	$item->setPrice($itemProduct->getFinalPrice($qty));
     	$item->setName($itemProduct->getName());
