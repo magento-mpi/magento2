@@ -18,8 +18,8 @@
 
 
 #nav {
-	height:28px;
 	border-top:1px solid #2d444f;
+	border-bottom:1px solid #2d444f;
 	background:url(images/nav1_bg.gif) repeat-x 0 100% #666e73;
 	padding-left:30px;
 	}
@@ -65,8 +65,9 @@
 	}
 #nav a {
 	float:left;
-	padding:6px 14px 5px 14px;
+	padding:0 14px;
 	color:#fff;
+    line-height:27px;
 	}
 #nav li.over a { color:#d6e2e5; }
 
@@ -82,6 +83,7 @@
 	float:none;
 	padding:0;
 	background:none;
+    line-height:1.3em;
 	}
 #nav ul li.over a,
 #nav ul li.over a:hover
