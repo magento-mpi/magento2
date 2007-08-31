@@ -14,9 +14,6 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-body { width:100%; display: table-cell; }
-table { empty-cells:show; }
-
 
 /* Clearing */
 ul.tabs-horiz,
@@ -71,11 +68,9 @@ button.scalable td.mr, button.scalable td.br { width:7px;}
     position:relative;
     zoom:1;
     }
-
 dl.accordion dt a {
     width:99%;
 }
-
 .no-breadcrumbs {
     font-size: 3px;
     line-height: 3px;
@@ -90,6 +85,8 @@ dl.accordion dt a {
 #nav ul li a:hover  { background:#d0dfe2;}
 #nav ul, #nav ul li, #nav ul a, #nav ul a span { zoom:1; }
 #nav ul li.parent { margin-bottom:-3px; }
+#nav ul li.parent li.parent { margin:0; }
+
 
 /*############# Dashboard #############*/
 .db-menu ul li a { display:inline-block; margin:3px 5px 0 0; padding:0 10px 2px 10px; font:bold 11px/29px Verdana, sans-serif; }
