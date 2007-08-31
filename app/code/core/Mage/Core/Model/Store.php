@@ -211,6 +211,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
         }
 
+        $url = $this->getHostUrl($params).$this->getBaseUrl($params);
+
+        $this->_urlCache[$cacheKey] = $url;
+
+        return $url;
+    }
+
+    public function getHostUrl($params=array())
+    {
         $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
         $config = $this->getConfig($configKey);
         $protocol = $config['protocol'];
@@ -219,9 +228,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80==$port || 'https'===$protocol && 443==$port) ? '' : ':'.$port;
-        $url .= $this->getBaseUrl($params);
-
-        $this->_urlCache[$cacheKey] = $url;
 
         return $url;
     }
@@ -237,7 +243,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $basePath = $this->getConfig('web/url/'.$params['_type']);
 #echo '2: '.$basePath.'<hr>';
         }
-        $basePath = preg_replace('#/([a-z0-9_-]+)/../#', '/', $basePath); // fix this
+        #$basePath = preg_replace('#/([a-z0-9_-]+)/../#', '/', $basePath); // fix this
+#print_r($basePath);
         return empty($basePath) ? '/' : $basePath;
     }
 
