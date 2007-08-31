@@ -31,7 +31,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $address->setSubtotal(0);
-        
+
         $items = $address->getAllItems();
         if (count($items)) {
             $products = $this->_getItemsProductCollection($items, $address->getStoreId());
@@ -46,7 +46,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
 
         return $this;
     }
-    
+
     /**
      * Address item initialization
      *
@@ -63,30 +63,35 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
         else {
             $superProduct = null;
         }
-        
+
         if (!$product || !$product->isVisibleInCatalog() || ($superProduct && !$superProduct->isVisibleInCatalog())) {
             return false;
         }
-        
+
         $itemProduct = clone $product;
-    	
+
     	if ($superProduct) {
     	    $itemProduct->setSuperProduct($superProduct);
     	    $item->setSuperProduct($superProduct);
     	}
-    	
-    	$item->setPrice($itemProduct->getFinalPrice($item->getQty()));
+
+    	if ($item instanceof Mage_Sales_Model_Quote_Item) {
+    	    $qty = $item->getQty();
+    	} elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
+    	    $qty = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId())->getQty();
+    	}
+    	$item->setPrice($itemProduct->getFinalPrice($qty));
     	$item->setName($itemProduct->getName());
     	$item->setTaxClassId($itemProduct->getTaxClassId());
     	$item->setWeight($itemProduct->getWeight());
     	$item->setStatus($itemProduct->getStatus());
     	$item->setProduct($itemProduct);
-        
+
     	$item->calcRowTotal();
         $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
         return true;
     }
-    
+
     /**
      * Remove item
      *
@@ -108,10 +113,10 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
                 $address->getQuote()->removeItem($item->getQuoteItemId());
             }
 	    }
-	    
+
 	    return $this;
     }
-    
+
     protected function _getItemsProductCollection($items, $storeId)
     {
     	$productIds = array();
@@ -124,7 +129,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
 			    $productIds[$item->getSuperProductId()] = $item->getParentProductId();
 			}
         }
-        
+
         $collection = Mage::getResourceModel('catalog/product_collection');
         $collection->getEntity()->setStore($storeId);
         $collection->addAttributeToFilter('entity_id', array('in'=>$productIds))
@@ -132,12 +137,12 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal
        	    ->load();
        	return $collection;
     }
-    
+
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         $address->addTotal(array(
-            'code'=>$this->getCode(), 
-            'title'=>__('Subtotal'), 
+            'code'=>$this->getCode(),
+            'title'=>__('Subtotal'),
             'value'=>$address->getSubtotal()
         ));
 
