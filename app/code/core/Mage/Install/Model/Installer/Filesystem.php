@@ -29,21 +29,23 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
 {
     const MODE_WRITE = 'write';
     const MODE_READ  = 'read';
-    
-    public function __construct() 
+
+    public function __construct()
     {
     }
-    
+
     /**
      * Check and prepare file system
      *
      */
     public function install()
     {
-        $this->_checkFilesystem();
+        if (! $this->_checkFilesystem()) {
+            throw new Exception();
+        };
         return $this;
     }
-    
+
     /**
      * Check file system by config
      *
@@ -53,7 +55,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     {
         $res = true;
         $config = Mage::getSingleton('install/config')->getPathForCheck();
-        
+
         if (isset($config['writeable'])) {
             foreach ($config['writeable'] as $item) {
                 $recursive = isset($item['recursive']) ? $item['recursive'] : false;
@@ -63,7 +65,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
         }
         return $res;
     }
-    
+
     /**
      * Check file system path
      *
@@ -89,7 +91,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
                     $setError = true;
                 }
             }
-            
+
             if ($setError) {
                 Mage::getSingleton('install/session')->addError(
                     __('Path "%s" must be writable', $fullPath)
@@ -97,7 +99,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
                 $res = false;
             }
         }
-        
+
         if ($recursive && is_dir($fullPath)) {
             foreach (new DirectoryIterator($fullPath) as $file) {
                 if (!$file->isDot() && $file->getFilename() != '.svn') {

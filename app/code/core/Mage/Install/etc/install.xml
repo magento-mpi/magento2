@@ -36,7 +36,7 @@
                 <code>Start Installation</code>
                 <controller>wizard</controller>
                 <action>begin</action>
-            </begin>    
+            </begin>
             <config>
                 <code>Configuration</code>
                 <controller>wizard</controller>
@@ -58,8 +58,8 @@
         <filesystem>
             <writeable>
                 <items>
-                    <path>/app/etc/local.xml</path>
-                    <existence>0</existence>
+                    <path>/app/etc</path>
+                    <existence>1</existence>
                     <recursive>0</recursive>
                 </items>
                 <items>
@@ -79,7 +79,6 @@
                 <mysqli/>
                 <pdo_mysql/>
                 <mcrypt/>
-                <gd/>
             </extensions>
         </php>
     </check>

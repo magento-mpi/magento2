@@ -134,19 +134,19 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_checkIfInstalled();
 
-        try {
-            Mage::getModel('install/installer_filesystem')->install();
-            Mage::getModel('install/installer_env')->install();
-        } catch (Exception $e) {
-            Mage::getSingleton('install/session')->setFsEnvErrors(true);
-            Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
-            $this->getResponse()->setRedirect($step->getUrl());
-            return false;
-        }
-
         $step = Mage::getSingleton('install/wizard')->getStepByName('config');
+
         if ($data = $this->getRequest()->getPost('config')) {
             try {
+                Mage::getSingleton('install/session')->setConfigData($data);
+                try {
+                    Mage::getModel('install/installer_filesystem')->install();
+                    Mage::getModel('install/installer_env')->install();
+                } catch (Exception $e) {
+                    Mage::getSingleton('install/session')->setFsEnvErrors(true);
+                    Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
+                    throw new Exception();
+                }
                 $data['db_active'] = true;
                 Mage::getSingleton('install/session')->setConfigData($data);
                 Mage::getSingleton('install/installer_db')->checkDatabase($data);

@@ -25,31 +25,35 @@
  * @package    Mage_Install
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Model_Installer_Env 
+class Mage_Install_Model_Installer_Env
 {
-    public function __construct() 
+    public function __construct()
     {
     }
-    
+
     public function install()
     {
-        $this->_checkPhpExtensions();
-    }
-    
-    protected function _checkPhpExtensions()
-    {
-        $config = Mage::getSingleton('install/config')->getExtensionsForCheck();
-        foreach ($config as $extension => $info) {
-            if (!empty($info) && is_array($info)) {
-                $this->_checkExtension($info);
-            }
-            else {
-                $this->_checkExtension($extension);
-            }
+        if (! $this->_checkPhpExtensions()) {
+            throw new Exception();
         }
         return $this;
     }
-    
+
+    protected function _checkPhpExtensions()
+    {
+        $res = true;
+        $config = Mage::getSingleton('install/config')->getExtensionsForCheck();
+        foreach ($config as $extension => $info) {
+            if (!empty($info) && is_array($info)) {
+                $res = $res && $this->_checkExtension($info);
+            }
+            else {
+                $res = $res && $this->_checkExtension($extension);
+            }
+        }
+        return $res;
+    }
+
     protected function _checkExtension($extension)
     {
         if (is_array($extension)) {
@@ -59,23 +63,25 @@ class Mage_Install_Model_Installer_Env
                     $oneLoaded = true;
                 }
             }
-            
+
             if (!$oneLoaded) {
                 Mage::getSingleton('install/session')->addError(
                     __('One from PHP Extensions "%s" must be loaded', implode(',', $extension))
                 );
+                return false;
             }
         }
         elseif(!extension_loaded($extension)) {
                 Mage::getSingleton('install/session')->addError(
                     __('PHP Extension "%s" must be loaded', $extension)
                 );
+            return false;
         }
         else {
             /*Mage::getSingleton('install/session')->addError(
                 __('PHP Extension "%s" loaded', $extension)
             );*/
         }
-        return $this;
+        return true;
     }
 }
