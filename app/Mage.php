@@ -51,7 +51,7 @@ final class Mage {
 
     public static function getVersion()
     {
-        return '0.6.'.preg_replace('#[^0-9]#', '', '$LastChangedRevision$');
+        return '0.6.12383';
     }
 
     /**
