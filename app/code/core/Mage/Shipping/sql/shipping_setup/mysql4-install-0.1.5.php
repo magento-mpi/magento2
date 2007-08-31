@@ -47,7 +47,7 @@ EOT
 
 $this->run(<<<EOT
 
-replace  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values 
+replace  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values
 (1,'shipping','Shipping','text','','','','',50,1,1,1,''),
 (2,'shipping/origin','Origin','text','','','','',1,1,1,1,''),
 (3,'shipping/origin/country_id','Country','select','countries','','','adminhtml/system_config_source_country',1,1,1,1,''),
@@ -55,7 +55,7 @@ replace  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type
 (3,'shipping/origin/postcode','ZIP/Postal Code','text','','','','',3,1,1,1,''),
 (2,'carriers/tablerate','Table rates','text','','','','',2,1,1,1,''),
 (3,'carriers/tablerate/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
-(1,'carriers','Shipping Carriers','text','','','','',51,1,1,1,''),
+(1,'carriers','Shipping Methods','text','','','','',51,1,1,1,''),
 (2,'shipping/option','Options','text','','','','',2,1,1,1,''),
 (3,'shipping/option/checkout_multiple','Allow Shipping to multiple addresses','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,''),
 (3,'carriers/tablerate/title','Title','text','','','','',2,1,1,1,''),
@@ -82,13 +82,13 @@ replace  into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type
 (3,'carriers/tablerate/import','Import','import','','','adminhtml/system_config_backend_shipping_tablerate','',6,0,1,0,''),
 (3,'carriers/freeshipping/cutoff_cost','Minimum order amount','text','','','','',4,1,1,1,''),
 (3,'carriers/tablerate/condition_name','Condition','select','','','','adminhtml/system_config_source_shipping_tablerate',4,1,1,0,'');
- 
+
 UPDATE `core_config_field` SET `show_in_default` = '0', `show_in_website` = '0', `show_in_store` = '0' WHERE `path` = 'carriers/pickup';
 UPDATE `core_config_field` SET `frontend_class` = 'countries' WHERE `path` ='shipping/origin/country_id';
 UPDATE `core_config_field` SET `frontend_label` = 'ZIP/Postal Code' WHERE `path` ='shipping/origin/postcode';
 UPDATE `core_config_field` SET `frontend_label` = 'Region/State' WHERE `path` ='shipping/origin/region_id';
 
-replace  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values 
+replace  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values
 ('default',0,'carriers/tablerate/active','0','',0),
 ('default',0,'carriers/tablerate/title','','',0),
 ('default',0,'carriers/pickup/active','0','',0),
@@ -111,7 +111,7 @@ replace  into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`
 ('default',0,'carriers/pickup/model','shipping/carrier_pickup','',0),
 ('default',0,'carriers/freeshipping/model','shipping/carrier_freeshipping','',0),
 ('default',0,'carriers/flatrate/model','shipping/carrier_flatrate','',0),
-('default',0,'carriers/tablerate/model','shipping/carrier_tablerate','',0); 
+('default',0,'carriers/tablerate/model','shipping/carrier_tablerate','',0);
 
 UPDATE `core_config_data` SET `value` = '0', `inherit` = '1' WHERE `path` = 'carriers/pickup/active';
 UPDATE `core_config_data` SET `inherit` = '0' WHERE `scope` = 'default' AND `path` = 'carriers/pickup/active';

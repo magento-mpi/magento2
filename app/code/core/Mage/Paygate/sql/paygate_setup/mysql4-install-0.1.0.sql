@@ -103,4 +103,4 @@ replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`i
 replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/model','paygate/payflow_pro','',0);
 replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/order_status','1','',0);
 replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/sort_order','6','',0);
-replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/title','Credit Card (Verisign)','',0);
+replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/title','Credit Card (PayflowPro)','',0);

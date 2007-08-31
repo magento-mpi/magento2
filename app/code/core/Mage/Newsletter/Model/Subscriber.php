@@ -359,6 +359,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendConfirmationRequestEmail()
     {
+        return $this;
     	Mage::getModel('core/email_template')
     		->sendTransactional(
     		    Mage::getStoreConfig('newsletter/subscription/confirm_email_template'),
@@ -371,6 +372,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendConfirmationSuccessEmail()
     {
+        return $this;
     	Mage::getModel('core/email_template')
     		->sendTransactional(
     		    Mage::getStoreConfig('newsletter/subscription/success_email_template'),
@@ -383,6 +385,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendUnsubscriptionEmail()
     {
+        return $this;
     	Mage::getModel('core/email_template')
     		->sendTransactional(
     		    Mage::getStoreConfig('newsletter/subscription/un_email_template'),
