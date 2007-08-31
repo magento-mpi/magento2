@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $filter = $this->getRequest()->getParam($this->getVarNameFilter());
         if (empty($filter)) {
-            //$this->_setFilterValues(array('stores'=>$this->getRequest()->getParam('store', 0)));
+            $this->_setFilterValues(array('stores'=>$this->getRequest()->getParam('store', 0)));
             $this->getColumn('stores')->getFilter()->setValue(null);
         }
 

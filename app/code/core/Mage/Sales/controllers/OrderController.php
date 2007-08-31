@@ -38,7 +38,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::getUrl('*/*/login', array('_secure'=>true, '_current'=>true));
+        $loginUrl = Mage::getUrl('customer/account/login', array('_secure'=>true));
         if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', 'no-dispatch', true);
         }
