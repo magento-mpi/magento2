@@ -291,7 +291,10 @@ table.pager select, table.view-by select {
     font-size:.95em;
     }
 table.pager select{
-    width:40px;
+    width:50px;
+    }
+table.view-by select {
+    width:85px;
     }
 table.pager, table.view-by {
     width:100%;
@@ -543,8 +546,10 @@ h1#logo {
 .footer .informational a { text-decoration:none; }
 .footer .legality {
     padding:13px 0;
+    color:#ecf3f6;
+    text-align:center;
     }
-
+.footer .legality a, .footer .legality a:hover { color:#ecf3f6; }
 
 /************************************************************/
 /****************[ Mage_CSS_D Shop Elements]*****************/
@@ -789,6 +794,8 @@ h1#logo {
 .listing-type-list .product-shop .price-box { float:left;text-align:left; margin:3px 13px 5px 0;}
 .listing-type-list .product-shop .product-reviews { margin:15px 0; font-size:.95em; }
 .listing-type-list .product-shop .product-reviews a, .listing-type-list .product-shop .product-reviews a:hover { color:#6e6969; }
+.listing-type-list .listing-item .rating-box { margin-bottom:6px; }
+
 
 
 /* Grid Type */
