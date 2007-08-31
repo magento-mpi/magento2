@@ -23,11 +23,12 @@
  *
  * @category   Mage
  * @package    Mage_Install
- * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Install_Model_Installer_Config
 {
     protected $_localConfigFile;
+
+    protected $_encryptKey;
 
     public function __construct()
     {
@@ -43,10 +44,19 @@ class Mage_Install_Model_Installer_Config
             }
         }
         $this->_checkHostsInfo($data);
-        $data['date']    = date('r');
+        $data['date'] = 'd-d-d-d-d';
+        $data['key'] = 'k-k-k-k-k';
         $data['var_dir'] = $data['root_dir'] . '/var';
         file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
         Mage::getConfig()->init();
+    }
+
+    public function setInstalled()
+    {
+        $localXml = file_get_contents($this->_localConfigFile);
+        $localXml = str_replace('d-d-d-d-d', date('r'), $localXml);
+        $localXml = str_replace('k-k-k-k-k', $this->_encryptKey, $localXml);
+        file_put_contents($this->_localConfigFile, $localXml);
     }
 
     public function getFormData()
@@ -95,4 +105,14 @@ class Mage_Install_Model_Installer_Config
         error_reporting($reporting_level);
         return $this;
     }
+
+    public function setEncryptionKey($key)
+    {
+        if (! $key) {
+            $key = md5(time());
+        }
+        $this->_encryptKey = $key;
+        return $this;
+    }
+
 }

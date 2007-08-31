@@ -63,6 +63,17 @@
         </li>
     </ul>
 </fieldset>
+<fieldset class="group-select wide">
+    <legend>Encryption Key</legend>
+    <h4 class="legend">Encryption Key</h4>
+    <ul>
+        <li>
+            <?/*<label for="encryption_key">Encryption Key</label><br/>*/?>
+            <input type="text" name="encryption_key" id="encryption_key" value="<?=$data->getEncryptionKey()?>" title="Encryption Key" class="input-text"/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;"><small>Magento uses this key to encrypt passwords, credit cards and more...</small></p>
+        </li>
+    </ul>
+</fieldset>
 <div class="form-buttons">
     <p class="required">* Required Fields</p>
     <button class="form-button" type="submit"/><span>Continue</span></button>

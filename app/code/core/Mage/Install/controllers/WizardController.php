@@ -24,7 +24,6 @@ set_time_limit(0);
  *
  * @category   Mage
  * @package    Mage_Install
- * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 {
@@ -36,18 +35,24 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $step->setActive(true);
         }
     }
-    
+
+    public function indexAction()
+    {
+        $this->_forward('begin');
+    }
+
     public function beginAction()
     {
+
     	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
     	$this->setFlag('','no-postDispatch', true);
-    	
+
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-        
+
         Mage::getModel('install/installer_filesystem')->install();
         Mage::getModel('install/installer_env')->install();
-        
+
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.begin')
             ->setTemplate('install/begin.phtml')
             ->assign('languages', Mage::getSingleton('install/config')->getLanguages())
@@ -57,10 +62,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append($contentBlock);
         $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
-        
+
         $this->renderLayout();
     }
-    
+
     public function beginPostAction()
     {
         $agree = $this->getRequest()->getPost('agree');
@@ -72,12 +77,12 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $this->_redirect('install');
         }
     }
-    
+
     public function configAction()
     {
     	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
     	$this->setFlag('','no-postDispatch', true);
-        
+
     	$this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $data = Mage::getSingleton('install/session')->getConfigData();
@@ -87,7 +92,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         else {
             $data = new Varien_Object($data);
         }
-        
+
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.config')
             ->setTemplate('install/config.phtml')
             ->assign('postAction', Mage::getUrl('install/wizard/configPost'))
@@ -95,14 +100,14 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
 
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');            
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }
-    
+
     public function configPostAction()
     {
-        $step = Mage::getSingleton('install/wizard')->getStepByName('config');        
+        $step = Mage::getSingleton('install/wizard')->getStepByName('config');
         if ($data = $this->getRequest()->getPost('config')) {
             try {
                 $data['db_active'] = true;
@@ -122,31 +127,34 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         }
         $this->getResponse()->setRedirect($step->getUrl());
     }
-    
+
     public function administratorAction()
     {
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');        
+        $this->_initLayoutMessages('install/session');
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.administrator')
             ->setTemplate('install/create_admin.phtml')
             ->assign('postAction', Mage::getUrl('install/wizard/administratorPost'))
             ->assign('data', new Varien_Object())
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-        
+
         $this->getLayout()->getBlock('content')->append($contentBlock);
         $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }
-    
+
     public function administratorPostAction()
     {
         $step = Mage::getSingleton('install/wizard')->getStepByName('administrator');
         $data = $this->getRequest()->getPost();
+        $encryptionKey = $data['encryption_key'];
+        unset($data['encryption_key']);
         try {
-            $user = Mage::getModel('admin/user')->setData($data);
+            $user = Mage::getModel('admin/user')->load(1)->addData($data);
             $user->save();
+            Mage::getSingleton('install/installer_config')->setEncryptionKey($encryptionKey)->setInstalled();
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')->addMessage(
@@ -157,31 +165,32 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         }
         $this->getResponse()->setRedirect($step->getNextUrl());
     }
-    
+
     public function modulesAction()
     {
         $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');        
+        $this->_initLayoutMessages('install/session');
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.modules')
             ->setTemplate('install/modules.phtml')
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-        
+
         $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');            
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         $this->renderLayout();
     }
-    
+
     public function endAction()
     {
         Mage::getSingleton('install/session')->getConfigData(true);
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-        
+
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.end')
             ->setTemplate('install/end.phtml')
+            ->assign('encrypt_key', (string)Mage::getConfig()->getNode('global/crypt/key'))
             ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-            
+
         $this->getLayout()->getBlock('content')->append($contentBlock);
         $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);

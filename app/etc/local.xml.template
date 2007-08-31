@@ -24,6 +24,9 @@
         <install>
             <date>{{date}}</date>
         </install>
+        <crypt>
+            <key>{{key}}</key>
+        </crypt>
         <resources>
             <default_setup>
                 <connection>
