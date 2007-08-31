@@ -97,6 +97,7 @@
 <?endif?>
 </head>
 <body>
+<![if !IE]><table cellspacing="0" width="100%"><tr><td><![endif]>
 <div class="wrapper">
         <div class="header">
         <?=$this->getChildHtml('header')?>
@@ -132,7 +133,10 @@
         <div class="footer">
             <?=$this->getChildHtml('footer')?>
         </div>
+        
+
        </div>
+<![if !IE]></td></tr></table><![endif]>
         <?=$this->getChildHtml('js')?>
 
 <?=$this->getChildHtml('profiler')?>

@@ -270,6 +270,7 @@ table.actions td {
     }
 
 /* The REAL MEAT of Grid */
+.grid tbody { background:#fff; }
 .grid tr .input-text { width: 95% !important; font:normal 12px Arial; }
 .grid table td {
     border-width:0 1px 1px 0;
