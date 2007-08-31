@@ -116,6 +116,9 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         if ($inputType && $inputType=='select') {
             $object->setSourceModel('eav/entity_attribute_source_table');
         }
+        else {
+            $object->setSourceModel('');
+        }
         
         return parent::_beforeSave($object);
     }
