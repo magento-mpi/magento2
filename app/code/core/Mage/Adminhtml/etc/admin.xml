@@ -266,10 +266,12 @@
              <report>
                 <title>Reports</title>
                 <children>
+                <!--
                     <sales>
                         <title>Sales Report</title>
                         <action>*/report/sales</action>
                     </sales>
+                -->
                     <shopcart>
                         <title>Shopping Cart Report</title>
                         <children>
@@ -277,24 +279,30 @@
                                 <title>Products</title>
                                 <action>*/report_shopcart/product</action>
                             </product>
+                            <!--
                             <customer>
                                 <title>Customers</title>
                                 <action>*/report_shopcart/customer</action>
                             </customer>
+                            -->
                         </children>
                     </shopcart>
+                    <!--
                     <products>
                         <title>Products Report</title>
                         <action>*/report/products</action>
                     </products>
+
                     <coupons>
                         <title>Coupons Reports</title>
                         <action>*/report/coupons</action>
                     </coupons>
+
                     <wishlist>
                         <title>Wishlist Report</title>
                         <action>*/report/wishlist</action>
                     </wishlist>
+                    -->
                     <review>
                         <title>Reviews Report</title>
                         <children>
@@ -333,6 +341,7 @@
                         <title>Search Report</title>
                         <action>*/report/search</action>
                     </search>
+                    <!--
                     <customers>
                         <title>Best Customers</title>
                         <action>*/report/customers</action>
@@ -345,6 +354,7 @@
                         <title>Order Totals</title>
                         <action>*/report/totals</action>
                     </totals>
+                    -->
                 </children>
              </report>
              <system>
