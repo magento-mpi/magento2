@@ -64,9 +64,6 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
 
-        Mage::getModel('install/installer_filesystem')->install();
-        Mage::getModel('install/installer_env')->install();
-
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.begin')
             ->setTemplate('install/begin.phtml')
             ->assign('languages', Mage::getSingleton('install/config')->getLanguages())
@@ -103,6 +100,16 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     	$this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
+
+        if (! Mage::getSingleton('install/session')->getFsEnvErrors(true)) {
+            try {
+                Mage::getModel('install/installer_filesystem')->install();
+                Mage::getModel('install/installer_env')->install();
+            } catch (Exception $e) {
+                Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
+            }
+        }
+
         $data = Mage::getSingleton('install/session')->getConfigData();
         if (empty($data)) {
             $data = Mage::getModel('install/installer_config')->getFormData();
@@ -126,6 +133,16 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function configPostAction()
     {
         $this->_checkIfInstalled();
+
+        try {
+            Mage::getModel('install/installer_filesystem')->install();
+            Mage::getModel('install/installer_env')->install();
+        } catch (Exception $e) {
+            Mage::getSingleton('install/session')->setFsEnvErrors(true);
+            Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
+            $this->getResponse()->setRedirect($step->getUrl());
+            return false;
+        }
 
         $step = Mage::getSingleton('install/wizard')->getStepByName('config');
         if ($data = $this->getRequest()->getPost('config')) {
