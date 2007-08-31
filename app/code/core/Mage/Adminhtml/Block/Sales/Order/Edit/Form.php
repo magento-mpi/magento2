@@ -123,10 +123,11 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Templat
             $className = $methodConfig->getModel();
             $method = Mage::getModel($className);
             if ($method) {
+                $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod() . '/title').'</p>';
                 $method->setPayment($this->getOrder()->getPayment());
             	$methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
             	if (!empty($methodBlock)) {
-            	    $html = $methodBlock->toHtml();
+            	    $html .= $methodBlock->toHtml();
     	        }
             }
         }
