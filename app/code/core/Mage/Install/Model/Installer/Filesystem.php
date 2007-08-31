@@ -60,7 +60,8 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
             foreach ($config['writeable'] as $item) {
                 $recursive = isset($item['recursive']) ? $item['recursive'] : false;
                 $existence = isset($item['existence']) ? $item['existence'] : false;
-                $res = $res && $this->_checkPath($item['path'], $recursive, $existence, 'write');
+                $checkRes = $this->_checkPath($item['path'], $recursive, $existence, 'write');
+                $res = $res && $checkRes;
             }
         }
         return $res;
@@ -102,7 +103,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
 
         if ($recursive && is_dir($fullPath)) {
             foreach (new DirectoryIterator($fullPath) as $file) {
-                if (!$file->isDot() && $file->getFilename() != '.svn') {
+                if (!$file->isDot() && $file->getFilename() != '.svn' && $file->getFilename() != '.htaccess') {
                     $res = $res && $this->_checkPath($path.DS.$file->getFilename(), $recursive, $existence, $mode);
                 }
             }

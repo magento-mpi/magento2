@@ -97,10 +97,6 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
     	$this->setFlag('','no-postDispatch', true);
-
-    	$this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
-
         if (! Mage::getSingleton('install/session')->getFsEnvErrors(true)) {
             try {
                 Mage::getModel('install/installer_filesystem')->install();
@@ -118,6 +114,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $data = new Varien_Object($data);
         }
 
+    	$this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.config')
             ->setTemplate('install/config.phtml')
             ->assign('postAction', Mage::getUrl('install/wizard/configPost'))
@@ -137,6 +135,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $step = Mage::getSingleton('install/wizard')->getStepByName('config');
 
         if ($data = $this->getRequest()->getPost('config')) {
+            $isError = false;
             try {
                 Mage::getSingleton('install/session')->setConfigData($data);
                 try {
@@ -145,11 +144,14 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
                 } catch (Exception $e) {
                     Mage::getSingleton('install/session')->setFsEnvErrors(true);
                     Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
-                    throw new Exception();
+                    $isError = true;
                 }
                 $data['db_active'] = true;
                 Mage::getSingleton('install/session')->setConfigData($data);
                 Mage::getSingleton('install/installer_db')->checkDatabase($data);
+                if ($isError) {
+                    throw new Exception();
+                }
                 Mage::getSingleton('install/installer_config')->install();
                 //Mage_Core_Model_Resource_Setup::applyAllUpdates();
             }
