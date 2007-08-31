@@ -48,7 +48,12 @@ final class Mage {
      * @var array
      */
     static private $_registry = array();
-    
+
+    public static function getVersion()
+    {
+        return '0.6.'.preg_replace('#[^0-9]#', '', '$LastChangedRevision$');
+    }
+
     /**
      * Register a new variable
      *
@@ -62,7 +67,7 @@ final class Mage {
         if(isset(self::$_registry[$key])){
             Mage::throwException('Mage registry key "'.$key.'" already exists');
         }
-        
+
         self::$_registry[$key] = $value;
     }
 
@@ -127,13 +132,13 @@ final class Mage {
     {
         return Mage::getConfig()->getModuleDir($type, $moduleName);
     }
-    
+
     public static function getStoreConfig($path, $id=null)
     {
     	if(!self::getConfig()->getIsInstalled()) {
     		$id = null;
     	}
-    	
+
         if (empty($id)) {
             $store = Mage::getSingleton('core/store');
         } elseif (is_numeric($id)) {
@@ -150,7 +155,7 @@ final class Mage {
         } else {
             throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
         }
-        
+
         return $store->getConfig($path);
     }
 
@@ -169,7 +174,7 @@ final class Mage {
     {
         return Mage::registry('controller')->getUrl($route, $params);
     }
-    
+
     /**
      * Get design package singleton
      *
@@ -264,7 +269,7 @@ final class Mage {
         }
         return Mage::registry($registryKey);
     }
-    
+
     public static function getHelper($type)
     {
         return Mage::registry('action')->getLayout()->getHelper($type);
@@ -291,7 +296,7 @@ final class Mage {
         }
         throw new Exception($message);
     }
-    
+
     public static function currency($value, $format=true)
     {
         try {
@@ -322,7 +327,7 @@ final class Mage {
         Varien_Profiler::stop('init/config');
 
         Mage::getConfig()->loadEventObservers('global');
-        
+
         Varien_Profiler::stop('init');
     }
 
@@ -367,7 +372,7 @@ final class Mage {
         }
         Mage::log('===================== FINISH ==========================');
     }
-    
+
     public static function cron($etcDir=null)
     {
         Mage::init($etcDir);
