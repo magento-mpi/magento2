@@ -218,7 +218,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $port = $config['port'];
 
         $url = $protocol.'://'.$host;
-        $url .= ('http'===$protocol && 80===$port || 'https'===$protocol && 443===$port) ? '' : ':'.$port;
+        $url .= ('http'===$protocol && 80==$port || 'https'===$protocol && 443==$port) ? '' : ':'.$port;
         $url .= $this->getBaseUrl($params);
 
         $this->_urlCache[$cacheKey] = $url;
