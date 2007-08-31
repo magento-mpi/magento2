@@ -39,16 +39,16 @@ class Mage_Directory_Model_Observer
             $currency = Mage::getModel('directory/currency')->load($code);
             Mage::getSingleton('core/store')->setDefaultCurrency($currency);
         }
-        
-        if ($newCode = $observer->getEvent()->getControllerAction()->getRequest()->getParam('currency')) {
+
+        if ($newCode = $observer->getEvent()->getControllerAction()->getRequest()->getParam('CURRENCY')) {
             Mage::getSingleton('core/store')->setCurrentCurrencyCode($newCode);
         }
-        
+
         $code = Mage::getSingleton('core/store')->getCurrentCurrencyCode();
         if ($code) {
             $currency = Mage::getModel('directory/currency')->load($code);
             Mage::getSingleton('core/store')->setCurrentCurrency($currency);
         }
-        
+
     }
 }

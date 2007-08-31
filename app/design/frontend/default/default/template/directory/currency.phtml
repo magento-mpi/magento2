@@ -21,7 +21,7 @@
 <?
 /**
  * Currency switcher
- * 
+ *
  * @see Mage_Directory_Block_Currency
  */
 ?>
@@ -41,7 +41,15 @@
 <script type="text/javascript">
 function changeCurrency(sObject){
     if(sObject.value){
-        setLocation('<?=$this->getSwitchUrl()?>currency/'+sObject.value+'/');
+        var url = location.href;
+        if (url.match(/[?&]CURRENCY=[A-Z]+/)) {
+            url = url.replace(/([?&]CURRENCY)=([A-Z]+)/, '$1='+sObject.value);
+        } else if (url.indexOf('?')>=0) {
+            url += '&CURRENCY='+sObject.value;
+        } else {
+            url += '?CURRENCY='+sObject.value;
+        }
+        setLocation(url);
     }
 }
 </script>
