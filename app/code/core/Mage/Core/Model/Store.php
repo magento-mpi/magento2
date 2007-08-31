@@ -237,6 +237,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $basePath = $this->getConfig('web/url/'.$params['_type']);
 #echo '2: '.$basePath.'<hr>';
         }
+        $basePath = preg_replace('#/([a-z0-9_-]+)/../#', '/', $basePath); // fix this
         return empty($basePath) ? '/' : $basePath;
     }
 
