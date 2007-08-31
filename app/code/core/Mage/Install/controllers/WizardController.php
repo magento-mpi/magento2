@@ -225,8 +225,6 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function endAction()
     {
-        $this->_checkIfInstalled();
-
         Mage::getSingleton('install/session')->getConfigData(true);
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
