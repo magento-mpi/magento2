@@ -76,7 +76,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     		  Mage::getStoreConfig('sales/new_order/email_identity'),
     		  $this->getBillingAddress()->getEmail(),
     		  $this->getBillingAddress()->getName(),
-    		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
+    		  array(
+    		      'order'=>$this,
+    		      'billing'=>$this->getBillingAddress(),
+    		      'items_html'=>Mage::getHelper('sales/order_email_items')->setOrder($this)->toHtml(),
+    		  ));
     	return $this;
     }
 

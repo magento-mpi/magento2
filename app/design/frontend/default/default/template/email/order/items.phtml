@@ -18,23 +18,53 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<table cellspacing="6" width="100%" class="data-table">
-    <thead>
+<?$_order=$this->getOrder()?>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
+	<thead>
+		<tr>
+			<th align="left" bgcolor="#d9e5ee" style="padding:3px 9px">Item</th>
+			<th align="center" bgcolor="#d9e5ee" style="padding:3px 9px">Qty</th>
+			<th align="right" bgcolor="#d9e5ee" style="padding:3px 9px">Subtotal</th>
+		</tr>
+	</thead>
+
+	<tfoot>
         <tr>
-            <th style="width:50%;"><?=__('Items Order')?></th>
-            <th class="align-center" style="width:10%;"><?=__('Qty')?></th>
-            <th class="align-center" style="width:20%;"><?=__('Price')?></th>
-            <th class="align-right" style="width:20%;"><?=__('Ext. Price')?></th>
+            <td colspan="2" align="right" style="padding:3px 9px"><?=__('Subtotal')?></td>
+            <td align="right" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td>
         </tr>
-    </thead>
-    <tbody>
-        <?foreach($order->getAllItems() as $_item):?>     
-        <tr>
-            <td><?=$_item->getName()?></td>
-            <td class="align-center"><?=$_item->getQty()?></td>
-            <td class="align-center"><?=$_item->getPrice()?></td>
-            <td class="align-right"><?=$_item->getRowTotal()?></td>
-        </tr>   
-        <?endforeach?> 
-    </tbody>
+        <?if ($_order->getDiscountAmount()):?>
+            <tr>
+                <td colspan="2" align="right" style="padding:3px 9px"><?=__('Discount')?></td>
+                <td align="right" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?></td>
+            </tr>
+        <?endif;?>
+        <?if ($_order->getShippingAmount()):?>
+            <tr>
+                <td colspan="2" align="right" style="padding:3px 9px"><?=__('Shipping Amount')?></td>
+                <td align="right" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?></td>
+            </tr>
+        <?endif;?>
+        <?if ($_order->getTaxAmount()):?>
+            <tr>
+                <td colspan="2" align="right" style="padding:3px 9px"><?=__('Tax Amount')?></td>
+                <td align="right" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?></td>
+            </tr>
+        <?endif;?>
+        <tr bgcolor="#DEE5E8">
+            <td colspan="2" align="right" style="padding:3px 9px"><strong><big><?=__('Grand Total')?></big></strong></td>
+            <td align="right" style="padding:6px 9px"><strong><big><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></big></strong></td>
+        </tr>
+	</tfoot>
+
+	<tbody>
+<?$i=0; foreach ($_order->getAllItems() as $_item): $i++?>
+		<tr <?=$i%2?'bgcolor="#eeeded"':''?>>
+			<td align="left" valign="top" style="padding:3px 9px"><?=$_item->getName()?></td>
+			<td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
+			<td align="right" valign="top" style="padding:3px 9px"><?=$_order->getOrderCurrency()->format($_item->getRowTotal())?></td>
+		</tr>
+<?endforeach?>
+	</tbody>
 </table>
