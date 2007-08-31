@@ -27,6 +27,8 @@
  */
 class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_Filter_Abstract 
 {
+    protected $_categoryId;
+    
     public function __construct()
     {
         parent::__construct();
@@ -36,6 +38,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
     {
         $filter = (int) $request->getParam($this->getRequestVar());
+        $this->_categoryId = $filter;
         $category = Mage::getModel('catalog/category')->load($filter);
         
         if ($this->_isValidCategory($category)) {
@@ -45,7 +48,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
             $this->getLayer()->getState()->addFilter(
                 $this->_createItem($category->getName(), $filter)
             );
-            $this->_items = array();
+            //$this->_items = array();
         }
         
         return $this;
@@ -61,9 +64,20 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
         return __('Category');
     }
     
+    public function getCategory()
+    {
+        if ($this->_categoryId) {
+            $category = Mage::getModel('catalog/category')->load($this->_categoryId);
+            if ($category->getId()) {
+                return $category;
+            }
+        }
+        return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+    }
+    
     protected function _initItems()
     {
-        $categoty   = Mage::getSingleton('catalog/layer')->getCurrentCategory();
+        $categoty   = $this->getCategory();
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('all_children')
