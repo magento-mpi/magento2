@@ -41,8 +41,22 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->_forward('begin');
     }
 
+    protected function _checkIfInstalled()
+    {
+        try {
+            $installDate = Mage::getConfig()->getNode('global/install/date');
+            if ($installDate && strtotime($installDate)) {
+                $this->getResponse()->setRedirect(Mage::getBaseUrl());
+            }
+        } catch (Exception $e) {
+
+        }
+    }
+
+
     public function beginAction()
     {
+        $this->_checkIfInstalled();
 
     	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
     	$this->setFlag('','no-postDispatch', true);
@@ -68,6 +82,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function beginPostAction()
     {
+        $this->_checkIfInstalled();
+
         $agree = $this->getRequest()->getPost('agree');
 
         if ($agree && $step = Mage::getSingleton('install/wizard')->getStepByName('begin')) {
@@ -80,6 +96,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function configAction()
     {
+        $this->_checkIfInstalled();
+
     	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
     	$this->setFlag('','no-postDispatch', true);
 
@@ -107,6 +125,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function configPostAction()
     {
+        $this->_checkIfInstalled();
+
         $step = Mage::getSingleton('install/wizard')->getStepByName('config');
         if ($data = $this->getRequest()->getPost('config')) {
             try {
@@ -130,6 +150,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function administratorAction()
     {
+        $this->_checkIfInstalled();
+
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
@@ -147,6 +169,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function administratorPostAction()
     {
+        $this->_checkIfInstalled();
+
         $step = Mage::getSingleton('install/wizard')->getStepByName('administrator');
         $data = $this->getRequest()->getPost();
         $encryptionKey = $data['encryption_key'];
@@ -168,6 +192,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function modulesAction()
     {
+        $this->_checkIfInstalled();
+
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $contentBlock = $this->getLayout()->createBlock('core/template', 'install.modules')
@@ -182,6 +208,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function endAction()
     {
+        $this->_checkIfInstalled();
+
         Mage::getSingleton('install/session')->getConfigData(true);
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
