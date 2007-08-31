@@ -382,6 +382,9 @@ addressesModel.prototype = {
             } else {
                 if($('deleted_'+item.id)){
                     $('deleted_'+item.id).value = 1;
+                    if(item.formBlock){
+                        item.formBlock.addClassName('no-display template');
+                    }
                 }
             }
 
