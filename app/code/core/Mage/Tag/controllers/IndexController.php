@@ -85,11 +85,6 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('catalog/session')
                         ->addSuccess('Your tag(s) have been submitted.');
 
-                $product = Mage::getModel('catalog/product')
-                    ->load($this->getRequest()->getParam('productId'));
-                $productUrl = $product->getProductUrl();
-
-                $this->getResponse()->setRedirect($productUrl);
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('catalog/session')
@@ -97,6 +92,12 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 return;
             }
         }
+
+        $product = Mage::getModel('catalog/product')
+            ->load($this->getRequest()->getParam('productId'));
+        $productUrl = $product->getProductUrl();
+
+        $this->getResponse()->setRedirect($productUrl);
     }
     /*
     public function saveAllAction()
