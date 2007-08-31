@@ -94,6 +94,8 @@ class Mage_Tax_Model_Mysql4_Rate
         );
         if ($rateObject->getTaxPostcode()) {
         	$rateArray['tax_postcode'] = $rateObject->getTaxPostcode();
+        } else {
+            $rateArray['tax_postcode'] = new Zend_Db_Expr('NULL');
         }
         if( intval($rateObject->getTaxRateId()) <= 0 ) {
             $this->_write->insert($this->_rateTable, $rateArray);
@@ -122,7 +124,7 @@ class Mage_Tax_Model_Mysql4_Rate
         $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateObject->getTaxRateId());
         $this->_write->delete($this->_rateTable, $condition);
     }
-    
+
     public function deleteAllRates()
     {
     	$this->_write->delete($this->_rateTable);
