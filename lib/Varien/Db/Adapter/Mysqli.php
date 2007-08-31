@@ -42,8 +42,11 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
         $conn->init();
 	    $conn->options(MYSQLI_OPT_LOCAL_INFILE, true);
 	    #$conn->options(MYSQLI_CLIENT_MULTI_QUERIES, true);
-		$conn->real_connect($this->_config['host'], $this->_config['username'], $this->_config['password'], $this->_config['dbname']);
-        
+		@$conn->real_connect($this->_config['host'], $this->_config['username'], $this->_config['password'], $this->_config['dbname']);
+        if (mysqli_connect_errno()) {
+            throw new Zend_Db_Adapter_Mysqli_Exception(mysqli_connect_error());
+        }
+		
         $this->_connection = $conn;
     }
     
