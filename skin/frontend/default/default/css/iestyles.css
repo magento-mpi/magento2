@@ -67,3 +67,4 @@
 .mini-related-items .product-images input { float:left; margin:-4px 2px 0 -4px; }
 .mini-related-items .product-images img { float:left; }
 .header-top-container { position:relative; }
+#nav ul li.parent { margin-bottom:-3px;}

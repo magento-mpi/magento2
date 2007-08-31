@@ -84,7 +84,7 @@ dl.accordion dt a {
 #nav ul li a { background:#e5edef;}
 #nav ul li a:hover  { background:#d0dfe2;}
 #nav ul, #nav ul li, #nav ul a, #nav ul a span { zoom:1; }
-#nav ul li.parent { margin-bottom:-3px; }
+#nav ul li.parent { margin-bottom:-3px}
 #nav ul li.parent li.parent { margin:0; }
 
 
