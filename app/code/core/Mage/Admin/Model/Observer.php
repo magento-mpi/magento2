@@ -40,7 +40,7 @@ class Mage_Admin_Model_Observer
                 if (!empty($username) && !empty($password)) {
                     $user = Mage::getModel('admin/user')->login($username, $password);
 
-                    if ( $user->getId() && $user->getIsActive() != '1' ) {
+					if ( $user->getId() && $user->getIsActive() != '1' ) {
 	                    if (!$request->getParam('messageSent')) {
 	                            Mage::getSingleton('adminhtml/session')->addError(__('Your Account has been deactivated.'));
 	                            $request->setParam('messageSent', true);

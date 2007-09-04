@@ -26,4 +26,69 @@ class Mage_Permissions_Model_User extends Mage_Core_Model_Abstract
         $this->_init('permissions/user');
     }
 
+    public function save() {
+
+		$data = array(
+			'firstname' => $this->getFirstname(),
+			'lastname' 	=> $this->getLastname(),
+			'email' 	=> $this->getEmail(),
+		);
+
+		if ( $this->getUserId() > 0 ) 			$data['user_id'] 	= $this->getUserId();
+		###########################################################################################
+		if( $this->getUsername() ) 	  			$data['username'] 	= $this->getUsername();
+		###########################################################################################
+		if ($this->getPassword()) 	  			$data['password'] 	= $this->_getEncodedPassword($this->getPassword());
+		###########################################################################################
+		if ($this->getNewPassword()) 	  		$data['password'] 	= $this->_getEncodedPassword($this->getNewPassword());
+		###########################################################################################
+		if ( !is_null($this->getIsActive()) ) 	$data['is_active'] 	= intval($this->getIsActive());
+		###########################################################################################
+		$this->setData($data);
+		$this->getResource()->save($this);
+		return $this;
+
+    }
+
+    public function delete()
+    {
+    	$this->getResource()->delete($this);
+    	return $this;
+    }
+
+	public function saveRelations()
+	{
+		$this->getResource()->_saveRelations($this);
+		return $this;
+	}
+
+	public function getRoles()
+	{
+		return $this->getResource()->_getRoles($this);
+	}
+
+	public function deleteFromRole()
+	{
+		$this->getResource()->deleteFromRole($this);
+		return $this;
+	}
+
+	public function roleUserExists()
+	{
+		$result = $this->getResource()->roleUserExists($this);
+		return ( is_array($result) && count($result) > 0 ) ? true : false;
+	}
+
+	public function add()
+	{
+		$this->getResource()->add($this);
+		return $this;
+	}
+
+	# Protected methods
+	protected function _getEncodedPassword($pwd)
+	{
+		return md5($pwd);
+	}
+
 }

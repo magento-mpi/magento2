@@ -18,16 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml permissions users controller
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author Alexander Stadnitski <alexander@varien.com>
- */
 class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controller_Action
 {
-
 
     protected function _initAction()
     {
@@ -65,11 +57,9 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
                 return;
             }
         }
-
-        // set entered data if was error when we do save
+		// Restore previously entered form data from session
         $data = Mage::getSingleton('adminhtml/session')->getUserData(true);
-        print_r($data);
-        if (! empty($data)) {
+        if (!empty($data)) {
             $model->setData($data);
         }
 
@@ -86,26 +76,20 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
     {
         if ($data = $this->getRequest()->getPost()) {
             $model = Mage::getModel('permissions/user');
-//            if ($id = $this->getRequest()->getParam('page_id')) {
-//                $model->load($id);
-//                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError('The page you are trying to save no longer exists');
-//                    Mage::getSingleton('adminhtml/session')->setPageData($data);
-//                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
-//                    return;
-//                }
-//            }
             $model->setData($data);
             try {
-                $model->save();
+            	$model->save();
+				if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
+					$model->setRoleIds( $uRoles )->setRoleUserId( $model->getUserId() )->saveRelations();
+				}
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('User was saved succesfully'));
                 Mage::getSingleton('adminhtml/session')->setUserData(false);
-                $this->_redirect('*/*/');
+                $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setUserData($data);
-                $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
+                $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
             }
         }
@@ -133,35 +117,57 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         $this->_redirect('*/*/');
     }
 
-//    public function userGridAction()
-//    {
-//        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_grid_user')->toHtml());
-//    }
-//
-//    public function deleteuserfromroleAction()
-//    {
-//        Mage::getModel("permissions/users")
-//            ->setUserId($this->getRequest()->getParam('user_id', false))
-//            ->deleteFromRole();
-//        echo json_encode(array('error' => 0, 'error_message' => 'test message'));
-//    }
-//
-//    public function adduser2roleAction()
-//    {
-//        if( Mage::getModel("permissions/users")
-//                ->setRoleId($this->getRequest()->getParam('role_id', false))
-//                ->setUserId($this->getRequest()->getParam('user_id', false))
-//                ->roleUserExists() === true ) {
-//            echo json_encode(array('error' => 1, 'error_message' => __('This user already added to the role.')));
-//        } else {
-//            Mage::getModel("permissions/users")
-//                ->setRoleId($this->getRequest()->getParam('role_id', false))
-//                ->setUserId($this->getRequest()->getParam('user_id', false))
-//                ->setFirstname($this->getRequest()->getParam('firstname', false))
-//                ->add();
-//            echo json_encode(array('error' => 0, 'error_message' => 'test message'));
-//        }
-//    }
+    public function rolesGridAction()
+    {
+        $id = $this->getRequest()->getParam('user_id');
+        $model = Mage::getModel('permissions/user');
+
+        if ($id) {
+            $model->load($id);
+        }
+
+        Mage::register('permissions_user', $model);
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tab_roles')->toHtml());
+    }
+
+    public function roleGridAction()
+    {
+        $this->getResponse()
+        	->setBody($this->getLayout()
+        	->createBlock('adminhtml/permissions_user_grid')
+        	->toHtml()
+        );
+    }
+
+    public function deleteuserfromroleAction()
+    {
+        Mage::getModel("permissions/user")
+            ->setUserId($this->getRequest()->getParam('user_id', false))
+            ->deleteFromRole();
+        echo json_encode(array('error' => 0, 'error_message' => 'test message'));
+    }
+
+    public function adduser2roleAction()
+    {
+        if (!$this->getRequest()->getParam('user_id', false)) {
+        	echo json_encode(array('error' => 1, 'error_message' => __('Invalid request.')));
+        	return false;
+        }
+
+    	if( Mage::getModel("permissions/user")
+                ->setRoleId($this->getRequest()->getParam('role_id', false))
+                ->setUserId($this->getRequest()->getParam('user_id', false))
+                ->roleUserExists() === true ) {
+            echo json_encode(array('error' => 1, 'error_message' => __('This user already added to the role.')));
+        } else {
+            Mage::getModel("permissions/user")
+                ->setRoleId($this->getRequest()->getParam('role_id', false))
+                ->setUserId($this->getRequest()->getParam('user_id', false))
+                ->setFirstname($this->getRequest()->getParam('firstname', false))
+                ->add();
+            echo json_encode(array('error' => 0, 'error_message' => 'test message'));
+        }
+    }
 
     protected function _isAllowed()
     {

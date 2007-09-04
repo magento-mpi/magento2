@@ -33,7 +33,7 @@ TRUNCATE TABLE `admin_rule`;
 
 INSERT INTO `admin_role` (`role_id`, `parent_id`, `tree_level`, `sort_order`, `role_type`, `user_id`, `role_name`) VALUES 
   (1,0,1,1,'G',0,'Administrators'),
-  (2,1,2,1,'U',1,'Admin');
+  (2,1,2,1,'U',1,'Administrator');
 
 COMMIT;
 
@@ -49,7 +49,7 @@ COMMIT;
 # Default data for the `admin_user` table
 
 INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `is_active`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`) VALUES 
-  (1,'Admin','User','admin@varien.com','admin','4297f44b13955235245b2497399d7a93',1,'2007-07-21','2007-07-21','2007-08-25 12:01:21',111,0);
+  (1,'Administrator','User','admin@varien.com','admin','4297f44b13955235245b2497399d7a93',1,'2007-07-21','2007-07-21','2007-08-25 12:01:21',111,0);
 
 COMMIT;
 

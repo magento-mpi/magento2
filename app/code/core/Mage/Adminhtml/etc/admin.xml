@@ -387,11 +387,11 @@
                         <children>
                             <users>
                                 <title>Users</title>
-                                <action>*/permission_user</action>
+                                <action>*/permissions_user</action>
                             </users>
                             <roles>
                                 <title>Roles</title>
-                                <action>*/permission_role</action>
+                                <action>*/permissions_role</action>
                             </roles>
                         </children>
                     </acl>

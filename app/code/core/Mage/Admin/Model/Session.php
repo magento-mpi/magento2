@@ -21,21 +21,21 @@
 
 /**
  * Auth session model
- * 
+ *
  * @category   Mage
  * @package    Mage_Admin
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract 
+class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     public function __construct()
     {
         $this->init('admin');
     }
-    
+
     /**
      * Check current user permission on resource and privilege
-     * 
+     *
      * Mage::getSingleton('admin/session')->isAllowed('admin/catalog')
      * Mage::getSingleton('admin/session')->isAllowed('catalog')
      *
@@ -49,7 +49,11 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             if (!preg_match('/^admin/', $resource)) {
             	$resource = 'admin/'.$resource;
             }
-        	return $this->getAcl()->isAllowed($this->getUser()->getAclRole(), $resource, $privilege);
+        	try {
+            	return $this->getAcl()->isAllowed($this->getUser()->getAclRole(), $resource, $privilege);
+        	} catch (Exception $e) {
+				return false;
+        	}
         	//return $this->getAcl()->isAllowed('G2', $resource, $privilege);
         }
         return false;

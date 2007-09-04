@@ -20,26 +20,11 @@
 
 class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function _beforeToHtml() {
-    	$this->_initForm();
-
-    	return parent::_beforeToHtml();
-    }
-
-    protected function _initForm()
+    protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
-        $user = $this->getUser();
-        $userId = false;
-        if (!empty($user)) {
-            $userId = $user->getUserId();
-        }
+        $user = Mage::registry('user_data');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
 
@@ -94,11 +79,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             )
         );
 
-        if (!empty($user)) {
-            $this->setValues($user->toArray());
-        }
-
-        if ($userId) {
+        if ($user->getUserId()) {
             $fieldset->addField('password', 'password',
                 array(
                     'name'  => 'new_password',
@@ -164,11 +145,13 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             )
         );
 
-        $data = $this->getUser()->getData();
+
+        $data = $user->getData();
 
         unset($data['password']);
 
         $form->setValues($data);
+
         $this->setForm($form);
     }
 }

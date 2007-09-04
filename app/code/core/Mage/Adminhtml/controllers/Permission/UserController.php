@@ -68,12 +68,15 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                  ->setUserId($userId)
         );
 
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/permissions_buttons')
-                ->setTemplate('permissions/userinfo.phtml')
-                ->setUserId($userId)
-                ->assign('userData', Mage::getModel('permissions/users')->load($userId))
-        );
+        if ($formData =  Mage::getSingleton('adminhtml/session')->getFormData(true) ) {
+            $data = Mage::getModel('permissions/users')->setData($formData);
+        } else {
+            $data = Mage::getModel('permissions/users')->load($userId);
+        }
+
+        Mage::register('user_data', $data);
+
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_buttons'));
 
         $this->renderLayout();
     }
@@ -113,9 +116,9 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
 
                 $uid = $user->getId();
 
-                if ( !$user->hasAssigned2Role() ) {
+                if ( !$user->hasAssigned2Role() or !$this->getRequest()->getParam('roles', false) ) {
                 	$user->setIsActive('0')->save();
-                	Mage::getSingleton('adminhtml/session')->addError('User has not assigned to any of Roles. Account has been deactivated.');
+                	Mage::getSingleton('adminhtml/session')->addError('No roles were assigned to this user. Account won\'t be active.');
                 	$this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
                 } else {
 	                Mage::getSingleton('adminhtml/session')->addSuccess('User successfully saved.');
@@ -127,6 +130,7 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser"));
             }
         } else {
+            Mage::getSingleton('adminhtml/session')->setFormData($this->getRequest()->getPost());
             Mage::getSingleton('adminhtml/session')->addError('User with the same login or email aleady exists.');
             $this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser"));
         }

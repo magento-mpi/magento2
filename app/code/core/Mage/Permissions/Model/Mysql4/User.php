@@ -26,29 +26,149 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('permissions/user', 'user_id');
         $this->_uniqueFields = array(
              array('field' => 'email', 'title' => __('Email')),
-             array('field' => 'username', 'title' => __('Username')),
+             array('field' => 'username', 'title' => __('User Name')),
         );
     }
 
-    /**
-     *
-     *
-     * @param Mage_Core_Model_Abstract $object
-     */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Mage_Core_Model_Abstract $user)
     {
-        if (! $object->getId()) {
-            $object->setCreated(now());
+        if (! $user->getId()) {
+            $user->setCreated(now());
         }
-        $object->setModified(now());
+        $user->setModified(now());
         return $this;
     }
 
-    public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
+    public function load(Mage_Core_Model_Abstract $user, $value, $field=null)
     {
         if (!intval($value) && is_string($value)) {
             $field = 'user_id';
         }
-        return parent::load($object, $value, $field);
+        return parent::load($user, $value, $field);
+    }
+
+    public function delete(Mage_Core_Model_Abstract $user)
+    {
+		$dbh = $this->getConnection( 'write' );
+		$uid = $user->getId();
+		$dbh->beginTransaction();
+		try {
+	    	$dbh->delete($this->getTable('admin_user'), "user_id=$uid");
+	    	$dbh->delete($this->getTable('admin_role'), "user_id=$uid");
+	    	$dbh->commit();
+        } catch (Mage_Core_Exception $e) {
+            throw $e;
+        } catch (Exception $e){
+            $$dbh->rollBack();
+        }
+    }
+
+    public function _saveRelations(Mage_Core_Model_Abstract $user)
+    {
+    	$rolesIds = $user->getRoleIds();
+
+    	if( !is_array($rolesIds) || count($rolesIds) == 0 ) {
+    	    return $user;
+    	}
+
+    	$this->getConnection( 'write' )->beginTransaction();
+
+        try {
+	    	$this->getConnection('write')->delete($this->getTable('admin_role'), "user_id = {$user->getRoleUserId()}");
+
+	    	foreach ($rolesIds as $rid) {
+	    		if ($rid > 0 && 0) {
+		    		$row = $this->load($rid);
+		    	} else {
+		    		$row = array('tree_level' => 0);
+		    	}
+
+		    	$this->getConnection('write')->insert($this->getTable('admin_role'), array(
+			    	'parent_id' 	=> $rid,
+			    	'tree_level' 	=> $row['tree_level'] + 1,
+			    	'sort_order' 	=> 0,
+			    	'role_type' 	=> 'U',
+			    	'user_id' 		=> $user->getRoleUserId(),
+			    	'role_name' 	=> $user->getFirstname()
+		    	));
+	    	}
+	    	$this->getConnection('write')->commit();
+        } catch (Mage_Core_Exception $e) {
+            throw $e;
+        } catch (Exception $e){
+            $this->getConnection('write')->rollBack();
+        }
+    }
+
+    public function _getRoles(Mage_Core_Model_Abstract $user)
+    {
+    	if ( !$user->getId() ) return array();
+    	$table = $this->getTable('admin_role');
+
+    	$read 	= $this->getConnection('read');
+    	$select = $read->select()->from($table, array())
+    				->joinLeft(array('ar' => $table), "(ar.role_id = `{$table}`.parent_id and ar.role_type = 'G')", array('role_id'))
+    				->where("`{$table}`.user_id = {$user->getId()}");
+
+    	return (($roles = $read->fetchCol($select)) ? $roles : array());
+    }
+
+    public function add(Mage_Core_Model_Abstract $user) {
+
+    	$dbh = $this->getConnection( 'write' );
+
+    	if ($user->getId() > 0) {
+    		$role = Mage::getModel('permissions/role')->load($user->getRoleId());
+    	} else {
+    		$role = array('tree_level' => 0);
+    	}
+
+    	$dbh->insert($this->getTable('admin_role'), array(
+		    'parent_id'	=> $user->getRoleId(),
+	    	'tree_level'=> ($role->getTreeLevel() + 1),
+	    	'sort_order'=> 0,
+	    	'role_type'	=> 'U',
+	    	'user_id'	=> $user->getUserId(),
+	    	'role_name'	=> $user->getFirstname()
+    	));
+
+    	return $this;
+    }
+
+    public function deleteFromRole(Mage_Core_Model_Abstract $user) {
+        if ( $user->getUserId() <= 0 ) return $this;
+    	$dbh = $this->getConnection( 'write' );
+    	$condition = $dbh->quoteInto("{$this->getTable('admin_role')}.role_id = ?", $user->getUserId());
+    	$dbh->delete($this->getTable('admin_role'), $condition);
+    	return $this;
+    }
+
+    public function roleUserExists(Mage_Core_Model_Abstract $user)
+    {
+    	if ( $user->getUserId() > 0 ) {
+    		$roleTable = $this->getTable('admin_role');
+    		$dbh 	= $this->getConnection('read');
+    		$select = $dbh->select()->from($roleTable)
+    			->where("parent_id = {$user->getRoleId()} AND user_id = {$user->getUserId()}");
+        	return $dbh->fetchCol($select);
+    	} else {
+    		return array();
+    	}
+    }
+
+    public function hasAssigned2Role(Mage_Core_Model_Abstract $user)
+    {
+    	if ( $user->getId() > 0 ) {
+
+    		$dbh = $this->getConnection('read');
+
+    		$select = $dbh->select();
+        	$select->from($this->getTable('admin_role'))
+        		->where("parent_id > 0 AND user_id = {$user->getUserId()}");
+        	return $dbh->fetchRow($select);
+
+    	} else {
+    		return null;
+    	}
     }
 }

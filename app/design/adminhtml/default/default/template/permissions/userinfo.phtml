@@ -23,8 +23,8 @@
         <tr>
             <td style="width:50%;">
                 <h3>
-                  <?if($this->getUserId()):?>
-                  <?=__('Edit User \'' . $userData->getFirstname() . ' ' . $userData->getLastname()) . '\''?>
+                  <?if($this->getUser()->getUserId()):?>
+                  <?=__('Edit User \'' . $this->getUser()->getFirstname() . ' ' . $this->getUser()->getLastname()) . '\''?>
                   <?else:?>
                   <?=__('Add New User')?>
                   <?endif;?>

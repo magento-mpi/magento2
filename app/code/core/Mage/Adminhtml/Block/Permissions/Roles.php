@@ -25,19 +25,19 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Permissions_Roles extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Permissions_Roles extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('permissions/roles.phtml');
     }
-    
+
     public function getAddNewUrl()
     {
         return $this->getUrl('*/*/editrole');
     }
-    
+
     public function getGridHtml()
     {
         return $this->getLayout()->createBlock('adminhtml/permissions_grid_role')->toHtml();

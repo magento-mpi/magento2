@@ -19,6 +19,7 @@
  */
 
 class Mage_Permissions_Model_Roles extends Varien_Object {
+
 	public function getResource()
 	{
         return Mage::getResourceSingleton('permissions/roles');
@@ -58,6 +59,11 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
         return Mage::getResourceModel('permissions/roles_user_collection');
     }
 
+    public function getResourcesTree()
+    {
+    	return $this->_buildResourcesArray(null, null, null, null, true);
+    }
+
     public function getResourcesList()
     {
         return $this->_buildResourcesArray();
@@ -68,7 +74,7 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
     	return $this->_buildResourcesArray(null, null, null, true);
     }
 
-    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null)
+    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false)
     {
         static $result;
         if (is_null($resource)) {
@@ -80,6 +86,9 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
             unset($config);
         } else {
         	$resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
+        	if ($rawNodes) {
+        		$resource->addAttribute("aclpath", $resourceName);
+        	}
         	if ( is_null($represent2Darray) ) {
         		$result[$resourceName]['name'] 	= __((string)$resource->attributes()->title);
         		$result[$resourceName]['level'] = $level;
@@ -89,11 +98,13 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
         }
         $children = $resource->children();
         if (empty($children)) {
+        	if ($rawNodes) return $resource;
             return $result;
         }
         foreach ($children as $child) {
-            $this->_buildResourcesArray($child, $resourceName, $level+1, $represent2Darray);
+            $this->_buildResourcesArray($child, $resourceName, $level+1, $represent2Darray, $rawNodes);
         }
+        if ($rawNodes) return $resource;
         return $result;
     }
 

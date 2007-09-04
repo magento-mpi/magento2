@@ -34,6 +34,7 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('role_name');
         $this->setDefaultDir('asc');
+        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()

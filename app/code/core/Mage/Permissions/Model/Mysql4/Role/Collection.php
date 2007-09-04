@@ -35,8 +35,13 @@ class Mage_Permissions_Model_Mysql4_Role_Collection extends Mage_Core_Model_Mysq
     public function setUserFilter($userId)
     {
         $this->addFieldToFilter('user_id', $userId);
-        $this->addFieldToFilter('role_type', 'U');
+        $this->addFieldToFilter('role_type', 'G');
         return $this;
     }
 
+    public function setRolesFilter()
+    {
+        $this->addFieldToFilter('role_type', 'G');
+        return $this;
+    }
 }

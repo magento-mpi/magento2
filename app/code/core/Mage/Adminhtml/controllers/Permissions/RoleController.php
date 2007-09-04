@@ -25,10 +25,10 @@
  * @package    Mage_Adminhtml
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
-class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controller_Action
 {
-    public function indexAction()
+
+	public function indexAction()
     {
         $this->loadLayout('baseframe');
         $this->_setActiveMenu('system/acl');
@@ -43,7 +43,11 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
 
     public function roleGridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_grid_role')->toHtml());
+        $this->getResponse()
+        	->setBody($this->getLayout()
+        	->createBlock('adminhtml/permissions_grid_role')
+        	->toHtml()
+        );
     }
 
     public function editRoleAction()
@@ -56,14 +60,13 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
             $breadCrumb = __('Add new Role');
             $breadCrumbTitle = __('Add new Role');
         }
-
         $this->loadLayout('baseframe');
-        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Permission'), __('Permission'));
         $this->_addBreadcrumb(__('Roles'), __('Roles'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
         $this->_setActiveMenu('system/acl');
+        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/permissions_editroles')
@@ -75,6 +78,7 @@ class Mage_Adminhtml_Permission_RoleController extends Mage_Adminhtml_Controller
                 ->setRoleInfo(Mage::getModel('permissions/roles')->load($roleId))
                 ->setTemplate('permissions/roleinfo.phtml')
         );
+
         $this->renderLayout();
     }
 

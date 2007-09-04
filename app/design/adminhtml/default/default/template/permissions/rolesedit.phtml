@@ -20,85 +20,98 @@
 ?>
 <div class="entry-edit">
 	<h4 class="icon-head head-edit-form fieldset-legend"><?=__('Roles Resources')?></h4>
+	<input type="hidden" name="resource" id="role_resources" value="">
 	<fieldset id="role_resources">
-		<?$_level = 0;?>
-		<?foreach ($resources as $_resource => $val):?>
-		<?
-		  	$_next = next($resources);
-		  	if( $_next['level'] < $val['level'] ) {
-				$_class = 'tree_item_last';
-			} else {
-				$_class = 'tree_item';
-			}
-			$_margin = $val['level'] * 18;
-			$_lineWidht = ( $_margin == 0 ) ? 25 : $_margin ;
-		?>
-			<div id="_<?=$_resource?>" style="position:relative;">
-				<div style="width:<?=$_lineWidht?>px;" class="tree_line">&nbsp;</div>
-				<div class="<?=$_class?>" style="margin-left:<?=$_margin?>px;">
-					<input type="checkbox" value="<?=$_resource?>" id="<?=str_replace('/', '_', rtrim($_resource, '/'))?>" title="<?=$val['name']?>" name="resource[]" <? if( isset($val['checked']) && $val['checked'] === true ) echo 'checked="true"';?> onchange="resource._toggle(this)" />
-					<label for="<?=str_replace('/', '_', rtrim($_resource, '/'))?>" class="normal <? if( isset($val['checked']) && $val['checked'] === true ) echo 'bold';?>"><?=$val['name'];?></label>
-				</div>
-			</div>
-		<?php endforeach; ?>
+		<div class="tree x-tree" id="tree-div"></div>
 	</fieldset>
 </div>
+<!-- /////////////// TREE ////////////////////////////// -->
 <script type="text/javascript">
-    var resource = function () {
-    	return {
-    		_getCheckboxes: function (obj) {
-                checkboxes = document.getElementsByTagName('input');
-                children = new Array();
-                for( i in checkboxes ) {
-                    if( checkboxes[i].type == 'checkbox' && checkboxes[i].id.match(obj.id+'_') ) {
-                        children.unshift(checkboxes[i])
-                    }
-                }
-                return children;
-       		},
+Ext.EventManager.onDocumentReady(function() {
+	var tree = new Ext.tree.TreePanel('tree-div', {
+        animate:false,
+        loader: false,
+        enableDD:false,
+        containerScroll: true,
+		rootUIProvider: Ext.tree.CheckboxNodeUI,
+		selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
+		rootVisible: false
+	});
 
-       		_getParentCheckboxes: function (obj) {
-                var ids = obj.id.split('_');
-                var parents = new Array();
-                var path = "admin";
-                for( x=0; x<ids.length; x++){
-                	var key = ids[x];
-                	if (key == "admin") continue;
-                	var o = this._findCheckboxById(path+"_"+key);
-                	if (o) {
-                		path = path + "_" + key;
-                		parents.push(o);
-                	}
-                }
-                return parents;
-       		},
+	tree.on('check', checkHandler, tree);
 
-       		_toggle: function(obj) {
-       		    var objState = obj.checked;
+	// set the root node
+    var root = new Ext.tree.TreeNode({
+        text: 'root',
+        draggable:false,
+        checked:'false',
+        id:'__root__',
+        uiProvider: Ext.tree.CheckboxNodeUI
+    });
 
-       		    if (objState) {
-       		    	var parents = this._getParentCheckboxes(obj);
-       		    	if (parents.length > 0) {
-       		    		for(var y in parents){
-       		    			parents[y].checked = objState;
-       		    		}
-       		    	}
-       		    }
+	tree.setRootNode(root);
+	bildResourcesTree(root, <?=$this->getResTreeJson()?>);
+    tree.addListener('click', resourceClick.createDelegate(this));
 
-       		    checkboxes = this._getCheckboxes(obj);
-       		    for( i in checkboxes ) {
-       		        checkboxes[i].checked = objState;
-       		    }
-       		},
+    // render the tree
+    tree.render();
+    root.expand();
+    tree.expandAll();
 
-       		_findCheckboxById: function(id)
-       		{
-       			var tmp = document.getElementsByTagName('input');
-       			for(var i in tmp){
-       				if ( tmp[i].id == id && tmp[i].type == 'checkbox' ) return tmp[i];
-       			}
-       			return null;
-       		}
-    	}
-    }();
+    $('role_resources').value = tree.getChecked().join(',');
+});
+
+function resourceClick(node, e){
+    node.getUI().check(!node.getUI().checked());
+    varienElementMethods.setHasChanges(Event.element(e), e);
+};
+
+function bildResourcesTree(parent, config){
+    if (!config) return null;
+
+	if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+        	config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if(config[i].children){
+                bildResourcesTree(node, config[i].children);
+            }
+        }
+    }
+}
+
+function checkHandler(node)
+{
+	if ( node.attributes.checked && node.parentNode ) {
+		var n = node.parentNode;
+		this.removeListener('check', checkHandler);
+		do {
+			if (!n || n.attributes.id == 'admin' || n.attributes.id == '__root__') {
+				break;
+			} else {
+				n.ui.check(true);
+			}
+		} while (n = n.parentNode );
+		this.on('check', checkHandler);
+	}
+	if ( !node.isLeaf() && node.hasChildNodes() ) {
+		this.removeListener('check', checkHandler);
+		processChildren(node, node.attributes.checked);
+		this.on('check', checkHandler);
+	}
+	$('role_resources').value = this.getChecked().join(',');
+}
+
+function processChildren(node, state)
+{
+	if ( !node.hasChildNodes() ) return false;
+	for(var i = 0; i < node.childNodes.length; i++ ) {
+		node.childNodes[i].ui.check(state);
+		if ( node.childNodes[i].hasChildNodes() ) {
+			processChildren(node.childNodes[i], state);
+		}
+	}
+	return true;
+}
 </script>

@@ -197,6 +197,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         try {
             $user = Mage::getModel('admin/user')->load(1)->addData($data);
             $user->save();
+            // Add this user to Administrators role /////
+            $administratorsRoleId = 1;
+            Mage::getModel("permissions/user")->setRoleId($administratorsRoleId)->setUserId($user->getId())->setFirstname($user->getFirstname())->add();
+            /////////////////////////////////////////////
             Mage::getSingleton('install/installer_config')->setEncryptionKey($encryptionKey)->setInstalled();
             Mage::getSingleton('install/session')->setEncryptKey(Mage::getSingleton('install/installer_config')->getEncryptionKey());
         }

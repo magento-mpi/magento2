@@ -25,26 +25,39 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
     {
         parent::__construct();
         $this->setId('permissionsUserRolesGrid');
-        $this->setDefaultSort('role_name');
+        $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
+        $this->setTitle(__('User Roles Information'));
+        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('permissions/role_collection');
-        $collection->setUserFilter(Mage::registry('permissions_user')->getUserId());
+        //$collection->setUserFilter(Mage::registry('permissions_user')->getUserId());
+        $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('role_id', array(
-            'header'    =>__('ID'),
+
+    	$this->addColumn('roles', array(
+            'header_css_class' => 'a-center',
+            'type'      => 'checkbox',
+            'name'      => 'roles[]',
+            'values'    => $this->_getSelectedRoles(),
+            'align'     => 'center',
+            'index'     => 'role_id'
+        ));
+
+        /*$this->addColumn('role_id', array(
+            'header'    =>__('Role ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
-        ));
+        ));*/
 
         $this->addColumn('role_name', array(
             'header'    =>__('Role Name'),
@@ -53,5 +66,15 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
 
         return parent::_prepareColumns();
     }
+
+    public function getGridUrl()
+    {
+        return Mage::getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('permissions_user')->getUserId()));
+    }
+
+    protected function _getSelectedRoles()
+    {
+    	return Mage::registry('permissions_user')->getRoles();
+	}
 
 }

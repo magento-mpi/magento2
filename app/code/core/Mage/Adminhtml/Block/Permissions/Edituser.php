@@ -28,15 +28,13 @@ class Mage_Adminhtml_Block_Permissions_Edituser extends Mage_Adminhtml_Block_Wid
 
     protected function _beforeToHtml()
     {
-    	$user = Mage::getModel("permissions/users")->load($this->_request->getParam('id', false));
-
         $this->addTab('account', array(
             'label'     => __('User Info'),
             'title'     => __('User Info'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_useredit')->setUser($user)->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_useredit')->toHtml(),
             'active'    => true
         ));
-        if( $this->getUserId() ) {
+        if( $this->getUser()->getUserId() ) {
             $this->addTab('roles', array(
                 'label'     => __('Roles'),
                 'title'     => __('Roles'),
@@ -44,5 +42,10 @@ class Mage_Adminhtml_Block_Permissions_Edituser extends Mage_Adminhtml_Block_Wid
             ));
         }
         return parent::_beforeToHtml();
+    }
+
+    public function getUser()
+    {
+    	return Mage::registry('user_data');
     }
 }

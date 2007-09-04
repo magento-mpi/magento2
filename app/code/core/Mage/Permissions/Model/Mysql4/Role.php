@@ -47,4 +47,5 @@ class Mage_Permissions_Model_Mysql4_Role extends Mage_Core_Model_Mysql4_Abstract
         }
         return parent::load($object, $value, $field);
     }
+
 }
