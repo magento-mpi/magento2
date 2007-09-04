@@ -39,6 +39,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
             ->addAttributeToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
+            ->addAttributeToSort('created_at', 'desc')
         ;
 
         $this->setOrders($orders);
