@@ -78,8 +78,7 @@ $numColumns = sizeof($this->getColumns());
                 <option value="200"<?if($this->getCollection()->getPageSize()==200):?> selected<?endif;?>>200</option>
             </select>
             <?=__('per page')?><span class="spacer">|</span>
-            <?=__('Total')?> <strong><?=$this->getCollection()->getSize()?></strong>
-            <?=__('records found')?>
+            <?=__('Total <strong>%d</strong> records found', $this->getCollection()->getSize())?>
         </td>
     <?endif?>
     <?if($this->getExportTypes()):?>
