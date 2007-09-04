@@ -23,16 +23,21 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {
-        $this->_controller = 'review';
-        $this->_headerText = __('Reviews');
         $this->_addButtonLabel = __('Add New Review');
         parent::__construct();
+
+        $this->_controller = 'review';
+        $this->_headerText = __('Reviews');
+
+        if( Mage::registry('usePendingFilter') === true ) {
+            $this->_removeButton('add');
+        }
     }
 }
