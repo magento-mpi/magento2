@@ -53,10 +53,12 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                     formHidden : true,
 
                     gridRowClick : function(data, click) {
-                        review.productInfoUrl = click.currentTarget.id;
-                        review.loadProductData();
-                        review.showForm();
-                        review.formHidden = false;
+                        if(click.currentTarget.id){
+                            review.productInfoUrl = click.currentTarget.id;
+                            review.loadProductData();
+                            review.showForm();
+                            review.formHidden = false;
+                        }
                     },
 
                     loadProductData : function() {
