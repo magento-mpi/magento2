@@ -30,6 +30,7 @@ Accordion.prototype = {
     
     sectionClicked: function(event) {
         this.openSection($(Event.element(event)).up('.section'));
+        Event.stop(event);
     },
     
     openSection: function(section) {
