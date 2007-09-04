@@ -23,20 +23,21 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Mage_Adminhtml_Model_System_Config_Source_Email_Template
 {
-	public function toOptionArray()
-	{
-		if(!$collection = Mage::registry('config_system_email_template')) {
-			$collection = Mage::getResourceModel('core/email_template_collection')
-				->load();
-						
-			Mage::register('config_system_email_template', $collection);
-		}
-		
-		return $collection->toOptionArray();
-	}
+    public function toOptionArray()
+    {
+        if(!$collection = Mage::registry('config_system_email_template')) {
+            $collection = Mage::getResourceModel('core/email_template_collection')
+                ->load();
+                        
+            Mage::register('config_system_email_template', $collection);
+        }
+        $options = $collection->toOptionArray();
+        array_unshift($options, array('value'=>'', 'label'=>''));
+        return $options;
+    }
 }// Class Mage_Adminhtml_Model_Newsletter_Config_Source_Template END

@@ -177,7 +177,7 @@ Object.extend(Validation, {
         var prop = '__advice'+name.camelize();
         try {
         if(Validation.isVisible(elm) && !v.test($F(elm), elm)) {
-            if(!elm[prop]) {
+            //if(!elm[prop]) {
                 var advice = Validation.getAdvice(name, elm);
                 if(advice == null) {
                     var errorMsg = useTitle ? ((elm && elm.title) ? elm.title : v.error) : v.error;
@@ -186,7 +186,7 @@ Object.extend(Validation, {
                     advice = Validation.getAdvice(name, elm);
                 }
                 this.showAdvice(elm, advice, name);
-            }
+            //}
             elm[prop] = true;
             elm.removeClassName('validation-passed');
             elm.addClassName('validation-failed');
