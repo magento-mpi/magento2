@@ -19,15 +19,25 @@
  */
 
 /**
- * Installer
+ * Installer model
  *
- * @category   Mage
- * @package    Mage_Install
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Install_Model_Installer
 {
-    public function __construct() 
+    const XML_PATH_INSTALL_DATE = 'global/install/date';
+    
+    /**
+     * Checking install status of application
+     *
+     * @return bool
+     */
+    public function isApplicationInstalled()
     {
+        $installDate = Mage::getConfig()->getNode(self::XML_PATH_INSTALL_DATE);
+        if ($installDate && strtotime($installDate)) {
+            return true;
+        }
+        return false;
     }
 }

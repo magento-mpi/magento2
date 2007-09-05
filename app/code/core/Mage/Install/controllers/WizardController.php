@@ -18,15 +18,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-set_time_limit(0);
 /**
  * Install wizard controller
- *
- * @category   Mage
- * @package    Mage_Install
  */
 class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * Prepare layout
+     *
+     * @return unknown
+     */
     protected function _prepareLayout()
     {
         $this->loadLayout('install_wizard');
@@ -34,32 +35,34 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         if ($step) {
             $step->setActive(true);
         }
+        
+        return $this;
     }
-
+    
+    /**
+     * Checking installation status
+     *
+     * @return unknown
+     */
+    protected function _checkIfInstalled()
+    {
+        if (Mage::getSingleton('install/installer')->isApplicationInstalled()) {
+            $this->getResponse()->setRedirect(Mage::getBaseUrl());
+        }
+        return $this;
+    }
+    
     public function indexAction()
     {
         $this->_forward('begin');
     }
 
-    protected function _checkIfInstalled()
-    {
-        try {
-            $installDate = Mage::getConfig()->getNode('global/install/date');
-            if ($installDate && strtotime($installDate)) {
-                $this->getResponse()->setRedirect(Mage::getBaseUrl());
-            }
-        } catch (Exception $e) {
-
-        }
-    }
-
-
     public function beginAction()
     {
         $this->_checkIfInstalled();
 
-    	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
-    	$this->setFlag('','no-postDispatch', true);
+        $this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
+        $this->setFlag('','no-postDispatch', true);
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
@@ -80,9 +83,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function beginPostAction()
     {
         $this->_checkIfInstalled();
-
         $agree = $this->getRequest()->getPost('agree');
-
         if ($agree && $step = Mage::getSingleton('install/wizard')->getStepByName('begin')) {
             $this->getResponse()->setRedirect($step->getNextUrl());
         }
@@ -106,7 +107,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             }
         }
 
-        $data = Mage::getSingleton('install/session')->getConfigData();
+        $data = Mage::getSingleton('install/session')->getConfigData(true);
         if (empty($data)) {
             $data = Mage::getModel('install/installer_config')->getFormData();
         }
@@ -130,8 +131,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
     public function configPostAction()
     {
+        set_time_limit(0);
+        
         $this->_checkIfInstalled();
-
+    
         $step = Mage::getSingleton('install/wizard')->getStepByName('config');
 
         if ($data = $this->getRequest()->getPost('config')) {
@@ -146,6 +149,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
                     Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
                     $isError = true;
                 }
+                
                 $data['db_active'] = true;
                 Mage::getSingleton('install/session')->setConfigData($data);
                 Mage::getSingleton('install/installer_db')->checkDatabase($data);

@@ -79,6 +79,7 @@
                 <mysqli/>
                 <pdo_mysql/>
                 <mcrypt/>
+                <curl/>
             </extensions>
         </php>
     </check>

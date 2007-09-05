@@ -351,8 +351,7 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-        	$installDate = Mage::getConfig()->getNode('global/install/date');
-            if ($installDate && strtotime($installDate)) {
+            if (Mage::getSingleton('install/installer')->isApplicationInstalled()) {
                 echo "<pre>$e</pre>";
                 exit();
             }

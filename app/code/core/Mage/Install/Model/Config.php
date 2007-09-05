@@ -21,12 +21,14 @@
 /**
  * Install config
  *
- * @category   Mage
- * @package    Mage_Install
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Install_Model_Config extends Varien_Simplexml_Config
 {
+    const XML_PATH_WIZARD_STEPS     = 'wizard/steps';
+    const XML_PATH_CHECK_WRITEABLE  = 'check/filesystem/writeable';
+    const XML_PATH_CHECK_EXTENSIONS = 'check/php/extensions';
+    
     public function __construct() 
     {
         parent::__construct();
@@ -36,16 +38,14 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     /**
      * Get array of wizard steps
      * 
-     * array(
-     *      $inndex => Varien_Object
-     * )
+     * array($inndex => Varien_Object )
      * 
      * @return array
      */
     public function getWizardSteps()
     {
         $steps = array();
-        foreach ((array)$this->getNode('wizard/steps') as $stepName=>$step) {
+        foreach ((array)$this->getNode(self::XML_PATH_WIZARD_STEPS) as $stepName=>$step) {
             $stepObject = new Varien_Object((array)$step);
             $stepObject->setName($stepName);
             $steps[] = $stepObject;
@@ -54,7 +54,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     }
     
     /**
-     * File system check config
+     * Retrieve writable path for checking
      * 
      * array(
      *      ['writeable'] => array(
@@ -71,7 +71,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     {
         $res = array();
         
-        $items = (array) $this->getNode('check/filesystem/writeable');
+        $items = (array) $this->getNode(self::XML_PATH_CHECK_WRITEABLE);
         
         foreach ($items['items'] as $item) {
             $res['writeable'][] = (array) $item;
@@ -80,10 +80,15 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
         return $res;
     }
     
+    /**
+     * Retrieve required PHP extensions
+     *
+     * @return array
+     */
     public function getExtensionsForCheck()
     {
         $res = array();
-        $items = (array) $this->getNode('check/php/extensions');
+        $items = (array) $this->getNode(self::XML_PATH_CHECK_EXTENSIONS);
         
         foreach ($items as $name=>$value) {
             if (!empty($value)) {

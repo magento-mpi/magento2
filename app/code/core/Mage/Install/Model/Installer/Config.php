@@ -20,14 +20,21 @@
 
 /**
  * Config installer
- *
- * @category   Mage
- * @package    Mage_Install
  */
 class Mage_Install_Model_Installer_Config
 {
+    /**
+     * Path to local configuration file
+     *
+     * @var string
+     */
     protected $_localConfigFile;
-
+    
+    /**
+     * Encryption key
+     *
+     * @var string
+     */
     protected $_encryptKey;
 
     public function __construct()

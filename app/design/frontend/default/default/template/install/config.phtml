@@ -20,111 +20,105 @@
 ?>
 
 <div class="page-head">
-    <h3>Configuration</h3>
+    <h3><?=__('Configuration')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$postAction?>" method="post" id="form-validate">
 <fieldset class="group-select">
- <legend>Connection</legend>
-    <h4 class="legend">Database Connection</h4>
+ <legend><?=__('Connection')?></legend>
+    <h4 class="legend"><?=__('Database Connection')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="host">Host <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_host]" id="host" value="<?=$data->getDbHost()?>" title="Database host" class="required-entry input-text"/>
+                <label for="host"><?=__('Host')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[db_host]" id="host" value="<?=$data->getDbHost()?>" title="<?=__('Database host')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="dbname">Database Name <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_name]" id="dbname" value="<?=$data->getDbName()?>" title="Database name" class="required-entry input-text"/>
+                <label for="dbname"><?=__('Database Name')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[db_name]" id="dbname" value="<?=$data->getDbName()?>" title="<?=__('Database name')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
-                <label for="user">User Name <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_user]" id="user" value="<?=$data->getDbUser()?>" title="Database user name" class="required-entry input-text"/>
+                <label for="user"><?=__('User Name')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[db_user]" id="user" value="<?=$data->getDbUser()?>" title="<?=__('Database user name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="password">User Password <span class="required"></span></label><br/>
-                <input type="password" name="config[db_pass]" id="password" value="<?=$data->getDbPass()?>" title="Database user password" class="input-text"/>
+                <label for="password"><?=__('User Password')?> <span class="required"></span></label><br/>
+                <input type="password" name="config[db_pass]" id="password" value="" title="<?=__('Database user password')?>" class="input-text"/>
             </div>
         </li>
     </ul>
 </fieldset>
-<!--fieldset class="group-select">
-<legend>Path configuration</legend>
-    <h3>Path configuration</h3>
-    <ul>
-        <li>
-            <label for="server_path">Server Root:<span class="required">*</span></label><br/>
-            <input type="text" name="config[server_path]" id="host" value="<?=$data->getServerPath()?>" title="Server root path" class="required-entry input-text"/>
-        </li>
-    </ul>
-</fieldset-->
 <fieldset class="group-select">
- <legend>Default store</legend>
-    <h4 class="legend">Default Store</h4>
+ <legend><?=__('Default store')?></legend>
+    <h4 class="legend"><?=__('Default store')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="host">Host <span class="required">*</span></label><br/>
-                <input type="text" name="config[host]" id="host" value="<?=$data->getHost()?>" title="Host name" class="required-entry input-text"/>
+                <label for="host"><?=__('Host')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[host]" id="host" value="<?=$data->getHost()?>" title="<?=__('Host name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="basepath">Base Path <span class="required">*</span></label><br/>
-                <input type="text" name="config[base_path]" id="basepath" value="<?=$data->getBasePath()?>" title="WWW base path" class="required-entry input-text"/>
+                <label for="basepath"><?=__('Base Path')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[base_path]" id="basepath" value="<?=$data->getBasePath()?>" title="<?=__('WWW base path')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
-                <label for="protocol">Protocol <span class="required">*</span></label><br/>
-                <select name="config[protocol]" id="protocol" title="Protocol" class="required-entry">
+                <label for="protocol"><?=__('Protocol')?> <span class="required">*</span></label><br/>
+                <select name="config[protocol]" id="protocol" title="<?=__('Protocol')?>" class="required-entry">
                     <option value="http" selected>http</option>
-                    <!--option value="https">https</option-->
                 </select>
             </div>
             <div class="input-box">
-                <label for="port">Port <span class="required">*</span></label><br/>
-                <input type="text" name="config[port]" id="port" value="<?=$data->getPort()?>" title="Port" class="required-entry input-text"/>
-                <p style="margin-top:4px; line-height:1.3em; color:#666;"><small>For HTTPS connections, default port is 443.<br/>For HTTP connections, default port is 80.</small></p>
+                <label for="port"><?=__('Port')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[port]" id="port" value="<?=$data->getPort()?>" title="<?=__('Port')?>" class="required-entry input-text"/>
+                <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                    <small><?=__('For HTTPS connections, default port is 443')?>.<br/>
+                    <?=__('For HTTP connections, default port is 80')?>.</small>
+                </p>
             </div>
         </li>
     </ul>
 </fieldset>
 <fieldset class="group-select">
- <legend>Secure connection</legend>
-    <h4 class="legend">Secure Connection</h4>
+ <legend><?=__('Secure Connection')?></legend>
+    <h4 class="legend"><?=__('Secure Connection')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="secure_host">Secure Host <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_host]" id="secure_host" value="<?=$data->getSecureHost()?>" title="Secure host name" class="required-entry input-text"/>
+                <label for="secure_host"><?=__('Secure Host')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[secure_host]" id="secure_host" value="<?=$data->getSecureHost()?>" title="<?=__('Secure host name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="secure_basepath">Secure Base Path <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_base_path]" id="secure_basepath" value="<?=$data->getSecureBasePath()?>" title="Secure www base path" class="required-entry input-text"/>
+                <label for="secure_basepath"><?=__('Secure Base Path')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[secure_base_path]" id="secure_basepath" value="<?=$data->getSecureBasePath()?>" title="<?=__('Secure www base path')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
-                <label for="secure_protocol">Secure Protocol <span class="required">*</span></label><br/>
-                <select name="config[secure_protocol]" id="secure_protocol" title="Secure protocol" class="required-entry">
-                    <option value="http">http</option>
-                    <option value="https" selected>https</option>
+                <label for="secure_protocol"><?=__('Secure Protocol')?> <span class="required">*</span></label><br/>
+                <select name="config[secure_protocol]" id="secure_protocol" title="<?=__('Secure protocol')?>" class="required-entry">
+                    <option value="http"<?if($data->getSecureProtocol()=='http'):?> selected<?endif;?>>http</option>
+                    <option value="https"<?if(!$data->getSecureProtocol() || $data->getSecureProtocol()=='http'):?> selected<?endif;?>>https</option>
                 </select>
             </div>
             <div class="input-box">
-                <label for="secure_port">Secure Port <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$data->getSecurePort()?>" title="Secure port" class="required-entry input-text"/>
-                <p style="margin-top:4px; line-height:1.3em; color:#666;"><small>For HTTPS connections, default port is 443.<br/>For HTTP connections, default port is 80.</small></p>
+                <label for="secure_port"><?=__('Secure Port')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$data->getSecurePort()?>" title="<?=__('Secure port')?>" class="required-entry input-text"/>
+                <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                    <small><?=__('For HTTPS connections, default port is 443')?>.<br/>
+                    <?=__('For HTTP connections, default port is 80')?>.</small>
+                </p>
             </div>
         </li>
     </ul>
 </fieldset>
 <div class="form-buttons">
-    <p class="required">* Required Fields</p>
-    <button class="form-button" type="submit"/><span>Continue</span></button>
+    <p class="required">* <?=__('Required Fields')?></p>
+    <button class="form-button" type="submit"/><span><?=__('Continue')?></span></button>
 </div>
-
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate');
