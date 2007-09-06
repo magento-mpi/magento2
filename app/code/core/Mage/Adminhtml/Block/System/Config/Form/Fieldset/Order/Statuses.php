@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
         foreach ($statuses as $id => $status) {
         	$html.= $this->_getFieldHtml($element, $id, $status);
         }
-        $html .= $this->_getFooterHtml($element);
+        #$html .= $this->_getFooterHtml($element);
 
         return $html;
     }
