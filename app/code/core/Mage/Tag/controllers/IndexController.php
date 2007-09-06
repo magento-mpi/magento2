@@ -30,11 +30,13 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function saveAction()
     {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
-
         if( $tagName = $this->getRequest()->getQuery('tagName') ) {
+
+            $product = Mage::getModel('catalog/product')
+                ->load($this->getRequest()->getParam('productId'));
+            $productUrl = $product->getProductUrl();
+            $this->getResponse()->setRedirect($productUrl);
+
             try {
                 if( !Mage::getSingleton('customer/session')->authenticate($this) ) {
                     return;
@@ -84,7 +86,6 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
                 Mage::getSingleton('catalog/session')
                         ->addSuccess('Your tag(s) have been submitted.');
-
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('catalog/session')
@@ -92,12 +93,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 return;
             }
         }
-
-        $product = Mage::getModel('catalog/product')
-            ->load($this->getRequest()->getParam('productId'));
-        $productUrl = $product->getProductUrl();
-
-        $this->getResponse()->setRedirect($productUrl);
+        return;
     }
     /*
     public function saveAllAction()
