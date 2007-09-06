@@ -40,7 +40,11 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
     {
         $model = Mage::registry('tag_tag');
 
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
+        $form = new Varien_Data_Form(array(
+                                        'id' => 'edit_form',
+                                        'action' => Mage::getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
+                                        'method' => 'POST'
+        ));
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 

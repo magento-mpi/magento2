@@ -23,7 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 {
@@ -52,7 +53,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 break;
         }
     }
-    
+
     public function indexAction()
     {
         $this->_initAction()
@@ -99,7 +100,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             switch( $this->getRequest()->getParam('ret') ) {
                 case 'all':
                     $url = Mage::getUrl('*/*/', array(
-                        'ret' => $this->getRequest()->getParam('ret'),
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
@@ -107,7 +107,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
                 case 'pending':
                     $url = Mage::getUrl('*/tag/pending', array(
-                        'ret' => $this->getRequest()->getParam('ret'),
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
@@ -115,7 +114,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
                 default:
                     $url = Mage::getUrl('*/*/', array(
-                        'ret' => $this->getRequest()->getParam('ret'),
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
@@ -141,12 +139,35 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('tag_id')) {
+
+            switch( $this->getRequest()->getParam('ret') ) {
+                case 'all':
+                    $url = Mage::getUrl('*/*/', array(
+                        'customer_id' => $this->getRequest()->getParam('customer_id'),
+                        'product_id' => $this->getRequest()->getParam('product_id'),
+                    ));
+                    break;
+
+                case 'pending':
+                    $url = Mage::getUrl('*/tag/pending', array(
+                        'customer_id' => $this->getRequest()->getParam('customer_id'),
+                        'product_id' => $this->getRequest()->getParam('product_id'),
+                    ));
+                    break;
+
+                default:
+                    $url = Mage::getUrl('*/*/', array(
+                        'customer_id' => $this->getRequest()->getParam('customer_id'),
+                        'product_id' => $this->getRequest()->getParam('product_id'),
+                    ));
+            }
+
             try {
                 $model = Mage::getModel('tag/tag');
                 $model->setId($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was deleted succesfully'));
-                $this->_redirect('*/*/');
+                $this->getResponse()->setRedirect($url);
                 return;
             }
             catch (Exception $e) {
@@ -156,7 +177,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             }
         }
         Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a tag to delete'));
-        $this->_redirect('*/*/');
+        $this->getResponse()->setRedirect($url);
     }
 
     /**

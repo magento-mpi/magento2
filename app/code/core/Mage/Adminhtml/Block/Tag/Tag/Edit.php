@@ -23,7 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
@@ -42,6 +43,15 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
 
         if( $this->getRequest()->getParam('customer_id') ) {
             $this->_updateButton('back', 'onclick', "setLocation('" . Mage::getUrl('*/customer/edit', array('id' => $this->getRequest()->getParam('customer_id'))) . "')");
+        }
+
+        if( $this->getRequest()->getParam('ret', false) == 'pending' ) {
+            $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/*/pending') .'\')' );
+            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array(
+                $this->_objectId => $this->getRequest()->getParam($this->_objectId),
+                'ret'           => 'pending',
+            )) .'\')' );
+            Mage::register('ret', 'pending');
         }
 
         $this->_updateButton('save', 'label', __('Save Tag'));
