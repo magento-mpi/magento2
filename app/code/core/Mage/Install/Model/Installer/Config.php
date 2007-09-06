@@ -23,6 +23,9 @@
  */
 class Mage_Install_Model_Installer_Config
 {
+    const TMP_INSTALL_DATE_VALUE= 'd-d-d-d-d';
+    const TMP_ENCRYPT_KEY_VALUE = 'k-k-k-k-k';
+    
     /**
      * Path to local configuration file
      *
@@ -30,42 +33,44 @@ class Mage_Install_Model_Installer_Config
      */
     protected $_localConfigFile;
     
-    /**
-     * Encryption key
-     *
-     * @var string
-     */
-    protected $_encryptKey;
+    protected $_configData = array();
 
     public function __construct()
     {
         $this->_localConfigFile = Mage::getBaseDir('etc').DS.'local.xml';
     }
-
+    
+    public function setConfigData($data)
+    {
+        if (is_array($data)) {
+            $this->_configData = $data;
+        }
+        return $this;
+    }
+    
+    public function getConfigData()
+    {
+        return $this->_configData;
+    }
+    
     public function install()
     {
-        $data = Mage::getSingleton('install/session')->getConfigData();
+        $data = $this->getConfigData();
         foreach (Mage::getModel('core/config')->getDistroServerVars() as $index=>$value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }
         }
+        
         $this->_checkHostsInfo($data);
-        $data['date'] = 'd-d-d-d-d';
-        $data['key'] = 'k-k-k-k-k';
+        $data['date']   = self::TMP_INSTALL_DATE_VALUE;
+        $data['key']    = self::TMP_ENCRYPT_KEY_VALUE;
         $data['var_dir'] = $data['root_dir'] . '/var';
+        
         file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
         Mage::getConfig()->init();
     }
-
-    public function setInstalled()
-    {
-        $localXml = file_get_contents($this->_localConfigFile);
-        $localXml = str_replace('d-d-d-d-d', date('r'), $localXml);
-        $localXml = str_replace('k-k-k-k-k', $this->_encryptKey, $localXml);
-        file_put_contents($this->_localConfigFile, $localXml);
-    }
-
+    
     public function getFormData()
     {
         $data = new Varien_Object();
@@ -92,38 +97,53 @@ class Mage_Install_Model_Installer_Config
     {
         $url = $data['protocol'] . '://' . $data['host'] . ':' . $data['port'] . $data['base_path'];
         $surl= $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port'] . $data['secure_base_path'];
+        
+        $this->_checkUrl($url);
+        $this->_checkUrl($surl);
 
-        $reporting_level = error_reporting(E_ERROR);
-        $checkRes = file_get_contents($url);
-        if (!$checkRes) {
-            Mage::getSingleton('install/session')->addError(
-                __('Url "%s" is not accessible', $url)
-            );
-            throw new Exception('Check url error');
-        }
-
-        $checkRes = file_get_contents($surl);
-        if (!$checkRes) {
-            Mage::getSingleton('install/session')->addError(
-                __('Url "%s" is not accessible', $surl)
-            );
-            throw new Exception('Check url error');
-        }
-        error_reporting($reporting_level);
-        return $this;
-    }
-
-    public function setEncryptionKey($key)
-    {
-        if (! $key) {
-            $key = md5(time());
-        }
-        $this->_encryptKey = $key;
         return $this;
     }
     
-    public function getEncryptionKey()
+    protected function _checkUrl($url)
     {
-        return $this->_encryptKey;
+        $client = new Varien_Http_Client($url.'install/wizard/checkHost/');
+        try {
+            $response = $client->request('GET');
+        }
+        catch (Exception $e){
+            Mage::getSingleton('install/session')->addError(__('Url "%s" is not accessible', $url));
+            throw $e;
+        }
+        /* @var $responce Zend_Http_Response */
+        
+        if ($response->getBody() != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
+            Mage::getSingleton('install/session')->addError(__('Url "%s" is not valid', $url));
+            Mage::throwException('Not valid url');
+        }
+        return $this;
+    }
+
+    public function replaceTmpInstallDate($date = null)
+    {
+        if (is_null($date)) {
+            $date = date('r');
+        }
+        $localXml = file_get_contents($this->_localConfigFile);
+        $localXml = str_replace(self::TMP_INSTALL_DATE_VALUE, date('r'), $localXml);
+        file_put_contents($this->_localConfigFile, $localXml);
+        
+        return $this;
+    }
+    
+    public function replaceTmpEncryptKey($key = null)
+    {
+        if (!$key) {
+            $key = md5(time());
+        }
+        $localXml = file_get_contents($this->_localConfigFile);
+        $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);
+        file_put_contents($this->_localConfigFile, $localXml);
+        
+        return $this;
     }
 }

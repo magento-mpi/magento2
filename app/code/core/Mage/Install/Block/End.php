@@ -19,46 +19,25 @@
  */
  
 /**
- * Config installation block
+ * Installation ending block
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Block_Config extends Mage_Install_Block_Abstract 
+class Mage_Install_Block_End extends Mage_Install_Block_Abstract
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('install/config.phtml');
+        $this->setTemplate('install/end.phtml');
     }
     
-    /**
-     * Retrieve form data post url
-     *
-     * @return string
-     */
-    public function getPostUrl()
+    public function getEncryptionKey()
     {
-        return $this->getUrl('*/*/configPost');
-    }
-    
-    /**
-     * Retrieve configuration form data object
-     *
-     * @return Varien_Object
-     */
-    public function getFormData()
-    {
-        $data = $this->getData('form_data');
-        if (is_null($data)) {
-            $data = Mage::getSingleton('install/session')->getConfigData(true);
-            if (empty($data)) {
-                $data = Mage::getModel('install/installer_config')->getFormData();
-            }
-            else {
-                $data = new Varien_Object($data);
-            }
-            $this->setFormData($data);
+        $key = $this->getData('encryption_key');
+        if (is_null($key)) {
+            $key = (string) Mage::getConfig()->getNode('global/crypt/key');
+            $this->setData('encryption_key', $key);
         }
-        return $data;
+        return $key;
     }
 }

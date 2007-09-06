@@ -27,12 +27,8 @@
  */
 class Mage_Install_Model_Installer_Db
 {
-    public function __construct() 
-    {
-    }
-    
     /**
-     * Create database
+     * Check database connection
      * 
      * $data = array(
      *      [db_host]
@@ -54,13 +50,11 @@ class Mage_Install_Model_Installer_Db
         
         try {
             $connection = Mage::getSingleton('core/resource')->createConnection('install', 'mysqli', $config);
-            $connection->query('SELECT 1');
+            $result = $connection->query('SELECT 1');
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addError(
-                $e->getMessage()
-            );
-            throw new Exception('Database connection error');
+            Mage::getSingleton('install/session')->addError($e->getMessage());
+            Mage::throwException('Database connection error');
         }
     }
 }

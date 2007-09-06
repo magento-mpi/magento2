@@ -19,46 +19,39 @@
  */
  
 /**
- * Config installation block
+ * Abstract installation block
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Block_Config extends Mage_Install_Block_Abstract 
+abstract class Mage_Install_Block_Abstract extends Mage_Core_Block_Template
 {
-    public function __construct() 
-    {
-        parent::__construct();
-        $this->setTemplate('install/config.phtml');
-    }
-    
     /**
-     * Retrieve form data post url
+     * Retrieve installer model
      *
-     * @return string
+     * @return Mage_Install_Model_Installer
      */
-    public function getPostUrl()
+    public function getInstaller()
     {
-        return $this->getUrl('*/*/configPost');
+        return Mage::getSingleton('install/installer');
     }
     
     /**
-     * Retrieve configuration form data object
+     * Retrieve wizard model
+     *
+     * @return Mage_Install_Model_Wizard
+     */
+    public function getWizard()
+    {
+        return Mage::getSingleton('install/wizard');
+    }
+    
+    /**
+     * Retrieve current installation step
      *
      * @return Varien_Object
      */
-    public function getFormData()
+    public function getCurrentStep()
     {
-        $data = $this->getData('form_data');
-        if (is_null($data)) {
-            $data = Mage::getSingleton('install/session')->getConfigData(true);
-            if (empty($data)) {
-                $data = Mage::getModel('install/installer_config')->getFormData();
-            }
-            else {
-                $data = new Varien_Object($data);
-            }
-            $this->setFormData($data);
-        }
-        return $data;
+        return $this->getWizard()->getStepByRequest($this->getRequest());
     }
 }

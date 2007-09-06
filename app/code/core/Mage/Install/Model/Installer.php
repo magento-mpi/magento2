@@ -23,9 +23,10 @@
  *
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Model_Installer
+class Mage_Install_Model_Installer extends Varien_Object
 {
-    const XML_PATH_INSTALL_DATE = 'global/install/date';
+    const XML_PATH_INSTALL_DATE     = 'global/install/date';
+    const INSTALLER_HOST_RESPONSE   = 'MAGENTO';
     
     /**
      * Checking install status of application
@@ -39,5 +40,90 @@ class Mage_Install_Model_Installer
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Check server settings
+     *
+     * @return bool
+     */
+    public function checkServer()
+    {
+        try {
+            Mage::getModel('install/installer_filesystem')->install();
+            Mage::getModel('install/installer_env')->install();
+            $result = true;
+        } catch (Exception $e) {
+            $result = false;
+        }
+        $this->setServerCheckStatus($result);
+        return $result;
+    }
+    
+    /**
+     * Retrieve server checking result status
+     *
+     * @return unknown
+     */
+    public function getServerCheckStatus()
+    {
+        $status = $this->getData('server_check_status');
+        if (is_null($status)) {
+            $status = $this->checkServer();
+        }
+        return $status;
+    }
+    
+    /**
+     * Installation config data
+     *
+     * @param   array $data
+     * @return  Mage_Install_Model_Installer
+     */
+    public function installConfig($data)
+    {
+        $data['db_active'] = true;
+        Mage::getSingleton('install/installer_db')->checkDatabase($data);
+        Mage::getSingleton('install/installer_config')
+            ->setConfigData($data)
+            ->install();
+        return $this;
+    }
+    
+    /**
+     * Database installation
+     *
+     * @return Mage_Install_Model_Installer
+     */
+    public function installDb()
+    {
+        set_time_limit(0);
+        Mage_Core_Model_Resource_Setup::applyAllUpdates();
+        return $this;
+    }
+    
+    public function createAdministrator($data)
+    {
+        $user = Mage::getModel('admin/user')->load(1)->addData($data);
+        $user->save();
+
+        Mage::getModel("permissions/user")->setRoleId(1)
+            ->setUserId($user->getId())
+            ->setFirstname($user->getFirstname())
+            ->add();
+
+        return $this;
+    }
+    
+    public function installEnryptionKey($key)
+    {
+        Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
+        return $this;
+    }
+    
+    public function finish()
+    {
+        Mage::getSingleton('install/installer_config')->replaceTmpInstallDate();
+        return $this;
     }
 }

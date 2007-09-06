@@ -19,46 +19,25 @@
  */
  
 /**
- * Config installation block
+ * Installation begin block
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Block_Config extends Mage_Install_Block_Abstract 
+class Mage_Install_Block_Begin extends Mage_Install_Block_Abstract
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('install/config.phtml');
+        $this->setTemplate('install/begin.phtml');
     }
     
-    /**
-     * Retrieve form data post url
-     *
-     * @return string
-     */
+    public function getLanguages()
+    {
+        return Mage::getSingleton('install/config')->getLanguages();
+    }
+    
     public function getPostUrl()
     {
-        return $this->getUrl('*/*/configPost');
-    }
-    
-    /**
-     * Retrieve configuration form data object
-     *
-     * @return Varien_Object
-     */
-    public function getFormData()
-    {
-        $data = $this->getData('form_data');
-        if (is_null($data)) {
-            $data = Mage::getSingleton('install/session')->getConfigData(true);
-            if (empty($data)) {
-                $data = Mage::getModel('install/installer_config')->getFormData();
-            }
-            else {
-                $data = new Varien_Object($data);
-            }
-            $this->setFormData($data);
-        }
-        return $data;
+        return Mage::getUrl('install/wizard/beginPost');
     }
 }

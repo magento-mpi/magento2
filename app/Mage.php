@@ -338,38 +338,44 @@ final class Mage {
      */
     public static function run($storeCode='', $etcDir=null)
     {
+        self::log('===================== START ==========================');
+        
         try {
             Varien_Profiler::enable();
             Varien_Profiler::start('app');
 
-            Mage::init($etcDir);
-            Mage::log('===================== START ==========================');
-
-            Mage::register('controller', new Mage_Core_Controller_Varien_Front());
-            Mage::registry('controller')->setStoreCode($storeCode)->init()->dispatch();
+            self::init($etcDir);
+            
+            $controller = new Mage_Core_Controller_Varien_Front();
+            self::register('controller', $controller);
+            
+            $controller->setStoreCode($storeCode)
+                ->init()
+                ->dispatch();
 
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            if (Mage::getSingleton('install/installer')->isApplicationInstalled()) {
-                echo "<pre>$e</pre>";
+            if (self::getSingleton('install/installer')->isApplicationInstalled()) {
+                self::printException($e);
                 exit();
             }
             try {
-                Mage::dispatchEvent('mageRunException', array('exception'=>$e));
+                self::dispatchEvent('mageRunException', array('exception'=>$e));
                 if (!headers_sent()) {
                 	header('Location:'.Mage::getBaseUrl().'install/');
                 }
                 else {
-                    echo "<pre>$e</pre>";
+                    self::printException($e);
                 }
             }
             catch (Exception $ne){
-                echo "<pre>$e</pre>";
-                echo "<pre>$ne</pre>";
+                self::printException($e);
+                self::printException($ne);
             }
         }
-        Mage::log('===================== FINISH ==========================');
+        
+        self::log('===================== FINISH ==========================');
     }
 
     public static function cron($etcDir=null)
@@ -426,5 +432,17 @@ final class Mage {
         catch (Exception $e){
 
         }
+    }
+    
+    /**
+     * Display exception
+     *
+     * @param Exception $e
+     */
+    public static function printException(Exception $e)
+    {
+        echo '<pre>';
+        echo ($e);
+        echo '</pre>';
     }
 }

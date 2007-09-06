@@ -19,10 +19,30 @@
  */
 
 /**
- * Install wizard controller
+ * Installation wizard controller
  */
 class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * Retrieve installer object
+     *
+     * @return Mage_Install_Model_Installer
+     */
+    protected function _getInstaller()
+    {
+        return Mage::getSingleton('install/installer');
+    }
+    
+    /**
+     * Retrieve wizard
+     *
+     * @return Mage_Install_Model_Wizard
+     */
+    protected function _getWizard()
+    {
+        return Mage::getSingleton('install/wizard');
+    }
+
     /**
      * Prepare layout
      *
@@ -31,11 +51,13 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     protected function _prepareLayout()
     {
         $this->loadLayout('install_wizard');
-        $step = Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest());
+        $step = $this->_getWizard()->getStepByRequest($this->getRequest());
         if ($step) {
             $step->setActive(true);
         }
         
+        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
+        $this->getLayout()->getBlock('left')->append($leftBlock);
         return $this;
     }
     
@@ -46,17 +68,23 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
      */
     protected function _checkIfInstalled()
     {
-        if (Mage::getSingleton('install/installer')->isApplicationInstalled()) {
+        if ($this->_getInstaller()->isApplicationInstalled()) {
             $this->getResponse()->setRedirect(Mage::getBaseUrl());
         }
         return $this;
     }
     
+    /**
+     * Index action
+     */
     public function indexAction()
     {
         $this->_forward('begin');
     }
-
+    
+    /**
+     * Begin installation action
+     */
     public function beginAction()
     {
         $this->_checkIfInstalled();
@@ -67,188 +95,152 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
 
-        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.begin')
-            ->setTemplate('install/begin.phtml')
-            ->assign('languages', Mage::getSingleton('install/config')->getLanguages())
-            ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()))
-            ->assign('postAction', Mage::getUrl('install/wizard/beginPost'));
-
-        $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
-        $this->getLayout()->getBlock('left')->append($leftBlock);
-
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('install/begin', 'install.begin')
+        );
+        
         $this->renderLayout();
     }
-
+    
+    /**
+     * Process begin step POST data
+     */
     public function beginPostAction()
     {
         $this->_checkIfInstalled();
+        
         $agree = $this->getRequest()->getPost('agree');
-        if ($agree && $step = Mage::getSingleton('install/wizard')->getStepByName('begin')) {
+        if ($agree && $step = $this->_getWizard()->getStepByName('begin')) {
             $this->getResponse()->setRedirect($step->getNextUrl());
         }
         else {
             $this->_redirect('install');
         }
     }
-
+    
+    /**
+     * Configuration data installation
+     */
     public function configAction()
     {
         $this->_checkIfInstalled();
+        $this->_getInstaller()->checkServer();
 
     	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
     	$this->setFlag('','no-postDispatch', true);
-        if (! Mage::getSingleton('install/session')->getFsEnvErrors(true)) {
-            try {
-                Mage::getModel('install/installer_filesystem')->install();
-                Mage::getModel('install/installer_env')->install();
-            } catch (Exception $e) {
-                Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
-            }
-        }
-
-        $data = Mage::getSingleton('install/session')->getConfigData(true);
-        if (empty($data)) {
-            $data = Mage::getModel('install/installer_config')->getFormData();
-        }
-        else {
-            $data = new Varien_Object($data);
-        }
 
     	$this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.config')
-            ->setTemplate('install/config.phtml')
-            ->assign('postAction', Mage::getUrl('install/wizard/configPost'))
-            ->assign('data', $data)
-            ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-
-        $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
-        $this->getLayout()->getBlock('left')->append($leftBlock);
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('install/config', 'install.config')
+        );
+        
         $this->renderLayout();
     }
-
+    
+    /**
+     * Process configuration POST data
+     */
     public function configPostAction()
     {
-        set_time_limit(0);
-        
         $this->_checkIfInstalled();
-    
-        $step = Mage::getSingleton('install/wizard')->getStepByName('config');
+        $step = $this->_getWizard()->getStepByName('config');
 
         if ($data = $this->getRequest()->getPost('config')) {
-            $isError = false;
             try {
-                Mage::getSingleton('install/session')->setConfigData($data);
-                try {
-                    Mage::getModel('install/installer_filesystem')->install();
-                    Mage::getModel('install/installer_env')->install();
-                } catch (Exception $e) {
-                    Mage::getSingleton('install/session')->setFsEnvErrors(true);
-                    Mage::getSingleton('install/session')->addError('<br />Please set required permissions before clicking Continue');
-                    $isError = true;
-                }
-                
-                $data['db_active'] = true;
-                Mage::getSingleton('install/session')->setConfigData($data);
-                Mage::getSingleton('install/installer_db')->checkDatabase($data);
-                if ($isError) {
-                    throw new Exception();
-                }
-                Mage::getSingleton('install/installer_config')->install();
-                //Mage_Core_Model_Resource_Setup::applyAllUpdates();
+                $this->_getInstaller()->installConfig($data);
+    	        $this->_redirect('*/*/installDb');
+    	        return $this;
             }
             catch (Exception $e){
-                $this->getResponse()->setRedirect($step->getUrl());
-                return false;
+                Mage::getSingleton('install/session')->setConfigData($data);
             }
-
-            $step = Mage::getSingleton('install/wizard')->getStepByName('config');
-	        $this->getResponse()->setRedirect($step->getNextUrl());
-	        return true;
         }
         $this->getResponse()->setRedirect($step->getUrl());
     }
-
+    
+    /**
+     * Install DB
+     */
+    public function installDbAction()
+    {
+        $this->_checkIfInstalled();
+        $step = $this->_getWizard()->getStepByName('config');
+        try {
+            $this->_getInstaller()->installDb();
+            /**
+             * Clear session config data
+             */
+            Mage::getSingleton('install/session')->getConfigData(true);
+            $this->getResponse()->setRedirect($step->getNextUrl());
+        }
+        catch (Exception $e){
+            Mage::getSingleton('install/session')->addError($e->getMessage());
+            $this->getResponse()->setRedirect($step->getUrl());
+        }
+    }
+    
+    /**
+     * Install admininstrator account
+     */
     public function administratorAction()
     {
         $this->_checkIfInstalled();
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.administrator')
-            ->setTemplate('install/create_admin.phtml')
-            ->assign('postAction', Mage::getUrl('install/wizard/administratorPost'))
-            ->assign('data', new Varien_Object())
-            ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-
-        $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
-        $this->getLayout()->getBlock('left')->append($leftBlock);
+        
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('install/admin', 'install.administrator')
+        );
         $this->renderLayout();
     }
-
+    
+    /**
+     * Process administrator instalation POST data
+     */
     public function administratorPostAction()
     {
         $this->_checkIfInstalled();
 
         $step = Mage::getSingleton('install/wizard')->getStepByName('administrator');
-        $data = $this->getRequest()->getPost();
-        $encryptionKey = $data['encryption_key'];
-        unset($data['encryption_key']);
+        $adminData      = $this->getRequest()->getPost('admin');
+        $encryptionKey  = $this->getRequest()->getPost('encryption_key');
+
         try {
-            $user = Mage::getModel('admin/user')->load(1)->addData($data);
-            $user->save();
-            // Add this user to Administrators role /////
-            $administratorsRoleId = 1;
-            Mage::getModel("permissions/user")->setRoleId($administratorsRoleId)->setUserId($user->getId())->setFirstname($user->getFirstname())->add();
-            /////////////////////////////////////////////
-            Mage::getSingleton('install/installer_config')->setEncryptionKey($encryptionKey)->setInstalled();
-            Mage::getSingleton('install/session')->setEncryptKey(Mage::getSingleton('install/installer_config')->getEncryptionKey());
+            $this->_getInstaller()->createAdministrator($adminData)
+                ->installEnryptionKey($encryptionKey);
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addMessage(
-                Mage::getModel('core/message')->error($e->getMessage())
-            );
+            Mage::getSingleton('install/session')->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
             return false;
         }
         $this->getResponse()->setRedirect($step->getNextUrl());
     }
-
-    public function modulesAction()
-    {
-        $this->_checkIfInstalled();
-
-        $this->_prepareLayout();
-        $this->_initLayoutMessages('install/session');
-        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.modules')
-            ->setTemplate('install/modules.phtml')
-            ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-
-        $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
-        $this->getLayout()->getBlock('left')->append($leftBlock);
-        $this->renderLayout();
-    }
-
+    
+    /**
+     * End installation
+     */
     public function endAction()
     {
-        Mage::getSingleton('install/session')->getConfigData(true);
+        $this->_checkIfInstalled();
+        $this->_getInstaller()->finish();
+        
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         
-        $key = Mage::getSingleton('install/session')->getEncryptKey(true);
-        $contentBlock = $this->getLayout()->createBlock('core/template', 'install.end')
-            ->setTemplate('install/end.phtml')
-            ->assign('encrypt_key', $key)
-            ->assign('step', Mage::getSingleton('install/wizard')->getStepByRequest($this->getRequest()));
-
-        $this->getLayout()->getBlock('content')->append($contentBlock);
-        $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
-        $this->getLayout()->getBlock('left')->append($leftBlock);
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('install/end', 'install.end')
+        );
         $this->renderLayout();
+    }
+    
+    /**
+     * Host validation response
+     */
+    public function checkHostAction()
+    {
+        $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
     }
 }

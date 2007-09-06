@@ -19,45 +19,29 @@
  */
  
 /**
- * Config installation block
+ * Administrator account install block
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Block_Config extends Mage_Install_Block_Abstract 
+class Mage_Install_Block_Admin extends Mage_Install_Block_Abstract
 {
     public function __construct() 
     {
         parent::__construct();
-        $this->setTemplate('install/config.phtml');
+        $this->setTemplate('install/create_admin.phtml');
     }
     
-    /**
-     * Retrieve form data post url
-     *
-     * @return string
-     */
     public function getPostUrl()
     {
-        return $this->getUrl('*/*/configPost');
+        return $this->getUrl('*/*/administratorPost');
     }
     
-    /**
-     * Retrieve configuration form data object
-     *
-     * @return Varien_Object
-     */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('install/session')->getConfigData(true);
-            if (empty($data)) {
-                $data = Mage::getModel('install/installer_config')->getFormData();
-            }
-            else {
-                $data = new Varien_Object($data);
-            }
-            $this->setFormData($data);
+            $data = new Varien_Object();
+            $this->setData('form_data', $data);
         }
         return $data;
     }

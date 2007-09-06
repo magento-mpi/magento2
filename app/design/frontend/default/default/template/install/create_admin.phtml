@@ -17,66 +17,74 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
 
+/**
+ * Administrator account installation
+ * 
+ * @see Mage_Install_Block_Admin
+ */
+?>
 <div class="page-head">
-    <h3>Create Admin Account</h3>
+    <h3><?=__('Create Admin Account')?></h3>
 </div>
-<form action="<?=$postAction?>" method="post" id="form-validate">
+<form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
 <fieldset class="group-select wide">
- <legend>Personal Information</legend>
-    <h4 class="legend">Personal Information</h4>
+ <legend><?=__('Personal Information')?></legend>
+    <h4 class="legend"><?=__('Personal Information')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="firstname">First Name <span class="required">*</span></label><br/>
-                <input type="text" name="firstname" id="firstname" value="<?=$data->getFirstname()?>" title="First Name" class="required-entry input-text"/>
+                <label for="firstname"><?=__('First Name')?> <span class="required">*</span></label><br/>
+                <input type="text" name="admin[firstname]" id="firstname" value="<?=$this->getFormData()->getFirstname()?>" title="<?=__('First Name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                <input type="text" name="lastname" id="lastname" value="<?=$data->getLastname()?>" title="Last Name" class="required-entry input-text"/>
+                <label for="lastname"><?=__('Last Name')?> <span class="required">*</span></label><br/>
+                <input type="text" name="admin[lastname]" id="lastname" value="<?=$this->getFormData()->getLastname()?>" title="<?=__('Last Name')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
-            <label for="email_address">Email <span class="required">*</span></label><br/>
-            <input type="text" name="email" id="email_address" value="<?=$data->getEmail()?>" title="Email Address" class="validate-email required-entry input-text"/>
+            <label for="email_address"><?=__('Email')?> <span class="required">*</span></label><br/>
+            <input type="text" name="admin[email]" id="email_address" value="<?=$this->getFormData()->getEmail()?>" title="<?=__('Email Address')?>" class="validate-email required-entry input-text"/>
         </li>
     </ul>
 </fieldset>
 <fieldset class="group-select wide">
-    <legend>Login Information</legend>
-    <h4 class="legend">Login Information</h4>
+    <legend><?=__('Login Information')?></legend>
+    <h4 class="legend"><?=__('Login Information')?></h4>
     <ul>
         <li>
-            <label for="username">Username <span class="required">*</span></label><br/>
-            <input type="text" name="username" id="username" value="<?=$data->getUsername()?>" title="User name" class="required-entry input-text"/>
+            <label for="username"><?=__('Username')?> <span class="required">*</span></label><br/>
+            <input type="text" name="admin[username]" id="username" value="<?=$this->getFormData()->getUsername()?>" title="<?=__('User name')?>" class="required-entry input-text"/>
         </li>
         <li>
             <div class="input-box">
-                <label for="password">Password <span class="required">*</span></label><br/>
-                <input type="password" name="password" id="password" title="Password"  class="required-entry validate-password input-text"/>
+                <label for="password"><?=__('Password')?> <span class="required">*</span></label><br/>
+                <input type="password" name="admin[password]" id="password" title="<?=__('Password')?>"  class="required-entry validate-password input-text"/>
             </div>
             <div class="input-box">
-                <label for="confirmation">Confirm Password <span class="required">*</span></label><br/>
-                <input type="password" name="confirmation" title="Password Confirmation" id="confirmation" class="required-entry validate-cpassword input-text"/>
+                <label for="confirmation"><?=__('Confirm Password')?> <span class="required">*</span></label><br/>
+                <input type="password" name="admin[confirmation]" title="<?=__('Password Confirmation')?>" id="confirmation" class="required-entry validate-cpassword input-text"/>
             </div>
         </li>
     </ul>
 </fieldset>
 <fieldset class="group-select wide">
-    <legend>Encryption Key</legend>
-    <h4 class="legend">Encryption Key</h4>
+    <legend><?=__('Encryption Key')?></legend>
+    <h4 class="legend"><?=__('Encryption Key')?></h4>
     <ul>
         <li>
-            <?/*<label for="encryption_key">Encryption Key</label><br/>*/?>
-            <input type="text" name="encryption_key" id="encryption_key" value="<?=$data->getEncryptionKey()?>" title="Encryption Key" class="input-text"/>
-            <p style="margin-top:4px; line-height:1.3em; color:#666;"><small>Magento uses this key to encrypt passwords, credit cards and more. If this field is left empty the system will create an encription key for you and will display it on the next page.</small></p>
+            <input type="text" name="encryption_key" id="encryption_key" value="<?=$this->getFormData()->getEncryptionKey()?>" title="<?=__('Encryption Key')?>" class="input-text"/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small>Magento uses this key to encrypt passwords, credit cards and more. 
+                If this field is left empty the system will create an encription key for you and will display it on the 
+                next page.</small>
+            </p>
         </li>
     </ul>
 </fieldset>
 <div class="form-buttons">
-    <p class="required">* Required Fields</p>
-    <button class="form-button" type="submit"/><span>Continue</span></button>
+    <p class="required">* <?=__('Required Fields')?></p>
+    <button class="form-button" type="submit"><span><?=__('Continue')?></span></button>
 </div>
 </form>
 <script type="text/javascript">

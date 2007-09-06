@@ -17,13 +17,20 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
 
+/**
+ * Install configuration template
+ * 
+ * @see Mage_Install_Block_Config
+ */
+?>
 <div class="page-head">
     <h3><?=__('Configuration')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
-<form action="<?=$postAction?>" method="post" id="form-validate">
+
+<?if($this->getInstaller()->getServerCheckStatus()):?>
+<form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
 <fieldset class="group-select">
  <legend><?=__('Connection')?></legend>
     <h4 class="legend"><?=__('Database Connection')?></h4>
@@ -31,20 +38,20 @@
         <li>
             <div class="input-box">
                 <label for="host"><?=__('Host')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_host]" id="host" value="<?=$data->getDbHost()?>" title="<?=__('Database host')?>" class="required-entry input-text"/>
+                <input type="text" name="config[db_host]" id="host" value="<?=$this->getFormData()->getDbHost()?>" title="<?=__('Database host')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
                 <label for="dbname"><?=__('Database Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_name]" id="dbname" value="<?=$data->getDbName()?>" title="<?=__('Database name')?>" class="required-entry input-text"/>
+                <input type="text" name="config[db_name]" id="dbname" value="<?=$this->getFormData()->getDbName()?>" title="<?=__('Database name')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
                 <label for="user"><?=__('User Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_user]" id="user" value="<?=$data->getDbUser()?>" title="<?=__('Database user name')?>" class="required-entry input-text"/>
+                <input type="text" name="config[db_user]" id="user" value="<?=$this->getFormData()->getDbUser()?>" title="<?=__('Database user name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="password"><?=__('User Password')?> <span class="required"></span></label><br/>
+                <label for="password"><?=__('User Password')?></label><br/>
                 <input type="password" name="config[db_pass]" id="password" value="" title="<?=__('Database user password')?>" class="input-text"/>
             </div>
         </li>
@@ -56,12 +63,12 @@
     <ul>
         <li>
             <div class="input-box">
-                <label for="host"><?=__('Host')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[host]" id="host" value="<?=$data->getHost()?>" title="<?=__('Host name')?>" class="required-entry input-text"/>
+                <label for="default_host"><?=__('Host')?> <span class="required">*</span></label><br/>
+                <input type="text" name="config[host]" id="default_host" value="<?=$this->getFormData()->getHost()?>" title="<?=__('Host name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
                 <label for="basepath"><?=__('Base Path')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[base_path]" id="basepath" value="<?=$data->getBasePath()?>" title="<?=__('WWW base path')?>" class="required-entry input-text"/>
+                <input type="text" name="config[base_path]" id="basepath" value="<?=$this->getFormData()->getBasePath()?>" title="<?=__('WWW base path')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
@@ -73,7 +80,7 @@
             </div>
             <div class="input-box">
                 <label for="port"><?=__('Port')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[port]" id="port" value="<?=$data->getPort()?>" title="<?=__('Port')?>" class="required-entry input-text"/>
+                <input type="text" name="config[port]" id="port" value="<?=$this->getFormData()->getPort()?>" title="<?=__('Port')?>" class="required-entry input-text"/>
                 <p style="margin-top:4px; line-height:1.3em; color:#666;">
                     <small><?=__('For HTTPS connections, default port is 443')?>.<br/>
                     <?=__('For HTTP connections, default port is 80')?>.</small>
@@ -89,24 +96,24 @@
         <li>
             <div class="input-box">
                 <label for="secure_host"><?=__('Secure Host')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_host]" id="secure_host" value="<?=$data->getSecureHost()?>" title="<?=__('Secure host name')?>" class="required-entry input-text"/>
+                <input type="text" name="config[secure_host]" id="secure_host" value="<?=$this->getFormData()->getSecureHost()?>" title="<?=__('Secure host name')?>" class="required-entry input-text"/>
             </div>
             <div class="input-box">
                 <label for="secure_basepath"><?=__('Secure Base Path')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_base_path]" id="secure_basepath" value="<?=$data->getSecureBasePath()?>" title="<?=__('Secure www base path')?>" class="required-entry input-text"/>
+                <input type="text" name="config[secure_base_path]" id="secure_basepath" value="<?=$this->getFormData()->getSecureBasePath()?>" title="<?=__('Secure www base path')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
                 <label for="secure_protocol"><?=__('Secure Protocol')?> <span class="required">*</span></label><br/>
                 <select name="config[secure_protocol]" id="secure_protocol" title="<?=__('Secure protocol')?>" class="required-entry">
-                    <option value="http"<?if($data->getSecureProtocol()=='http'):?> selected<?endif;?>>http</option>
-                    <option value="https"<?if(!$data->getSecureProtocol() || $data->getSecureProtocol()=='http'):?> selected<?endif;?>>https</option>
+                    <option value="http"<?if($this->getFormData()->getSecureProtocol()=='http'):?> selected<?endif;?>>http</option>
+                    <option value="https"<?if(!$this->getFormData()->getSecureProtocol() || $this->getFormData()->getSecureProtocol()=='https'):?> selected<?endif;?>>https</option>
                 </select>
             </div>
             <div class="input-box">
                 <label for="secure_port"><?=__('Secure Port')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$data->getSecurePort()?>" title="<?=__('Secure port')?>" class="required-entry input-text"/>
+                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$this->getFormData()->getSecurePort()?>" title="<?=__('Secure port')?>" class="required-entry input-text"/>
                 <p style="margin-top:4px; line-height:1.3em; color:#666;">
                     <small><?=__('For HTTPS connections, default port is 443')?>.<br/>
                     <?=__('For HTTP connections, default port is 80')?>.</small>
@@ -117,9 +124,15 @@
 </fieldset>
 <div class="form-buttons">
     <p class="required">* <?=__('Required Fields')?></p>
-    <button class="form-button" type="submit"/><span><?=__('Continue')?></span></button>
+    <button class="form-button" type="submit"><span><?=__('Continue')?></span></button>
 </div>
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate');
 </script>
+<?else:?>
+    <div><?=__('Please set all required settings before clicking Continue')?></div>
+    <div class="form-buttons">
+        <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('*/*/*')?>')"><span><?=__('Continue')?></span></button>
+    </div>
+<?endif;?>

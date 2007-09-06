@@ -17,26 +17,21 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
 
+/**
+ * Installation start page
+ * 
+ * @see Mage_Install_Block_Begin
+ */
+?>
 <div class="page-head">
     <h3><?=__('Welcome to Magento\'s Installation Wizard')?>!</h3>
-    <?if(!empty($languages)):?>
-   <!-- <div class="float-right">
-        <label for="language">Language:</label>
-        <select name="language" id="language">
-        <?foreach ($languages as $code=>$info):?>
-            <option value="<?=$code?>"><?=$info['name']?></option>
-        <?endforeach;?>
-        </select>
-    </div> -->
-    <?endif;?>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <?
 ?>
 <?if(count($this->getMessagesBlock()->getMessages())==0):?>
-<form action="<?=$postAction?>" method="post">
+<form action="<?=$this->getPostUrl()?>" method="post">
 <div style="height:20em; border:1px solid #ccc; margin-bottom:8px; padding:5px; background:#fff; overflow: auto; overflow-x:hidden; overflow-y:scroll;">
 <h4>Open Software License ("OSL") v. 3.0</h4>
 
