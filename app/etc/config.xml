@@ -35,7 +35,7 @@
 
                     <model>mysql4</model>
                     <initStatements>SET NAMES utf8</initStatements>
-                    <type>pdo_mysql</type>
+                    <type>mysqli</type>
                     <active>0</active>
                 </connection>
             </default_setup>

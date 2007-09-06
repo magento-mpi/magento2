@@ -109,14 +109,15 @@ class Mage_Install_Model_Installer_Config
         $client = new Varien_Http_Client($url.'install/wizard/checkHost/');
         try {
             $response = $client->request('GET');
+            /* @var $responce Zend_Http_Response */
+            $body = $response->getBody();
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')->addError(__('Url "%s" is not accessible', $url));
             throw $e;
         }
-        /* @var $responce Zend_Http_Response */
         
-        if ($response->getBody() != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
+        if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
             Mage::getSingleton('install/session')->addError(__('Url "%s" is not valid', $url));
             Mage::throwException('Not valid url');
         }

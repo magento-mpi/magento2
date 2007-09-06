@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+set_time_limit(120);
 /**
  * Installation wizard controller
  */
@@ -241,6 +241,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
      */
     public function checkHostAction()
     {
+        $this->getResponse()->setHeader('Transfer-encoding', '', true);
         $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
     }
 }

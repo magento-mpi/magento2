@@ -97,7 +97,6 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function installDb()
     {
-        set_time_limit(0);
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         return $this;
     }

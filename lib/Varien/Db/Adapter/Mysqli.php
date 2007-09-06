@@ -57,7 +57,8 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
     		$tries = 0;
 	    	try {
 	        	$result = $this->getConnection()->query($sql);
-	    	} catch (PDOException $e) {
+	    	} 
+	    	catch (Exception $e) {
 	    		if ($e->getMessage()=='SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction') {
 	    			$retry = true;
 	    		} else {
