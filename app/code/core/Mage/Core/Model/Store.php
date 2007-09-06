@@ -241,12 +241,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
         $config = $this->getConfig($configKey);
-        if (empty($params['_type'])) {
-            $basePath = $config['base_path'];
-#echo '1: '.$basePath.'<hr>';
+        if (false!==$config) {
+            if (empty($params['_type'])) {
+                $basePath = $config['base_path'];
+    #echo '1: '.$basePath.'<hr>';
+            } else {
+                $basePath = $this->getConfig('web/url/'.$params['_type']);
+    #echo '2: '.$basePath.'<hr>';
+            }
         } else {
-            $basePath = $this->getConfig('web/url/'.$params['_type']);
-#echo '2: '.$basePath.'<hr>';
+            $basePath = dirname($_SERVER['SCRIPT_NAME']);
         }
         #$basePath = preg_replace('#/([a-z0-9_-]+)/../#', '/', $basePath); // fix this
 #print_r($basePath);
