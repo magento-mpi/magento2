@@ -250,8 +250,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     #echo '2: '.$basePath.'<hr>';
             }
         } else {
-            $basePath = dirname($_SERVER['SCRIPT_NAME']);
+            $basePath = dirname($_SERVER['SCRIPT_NAME']).'/';
         }
+
         #$basePath = preg_replace('#/([a-z0-9_-]+)/../#', '/', $basePath); // fix this
 #print_r($basePath);
         return empty($basePath) ? '/' : $basePath;
