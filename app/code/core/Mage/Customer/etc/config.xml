@@ -22,14 +22,10 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.5.13</version>
+            <version>0.6.0</version>
             <depends>
                 <Mage_Eav />
             </depends>
-            <crypt>
-                <key><![CDATA[h$$@j>21#Nn 34{}~|][fksn2)*@H NdfM99f+<lml1(23nR_JN]]></key>
-            </crypt>
-            <wishlistActive>true</wishlistActive>
         </Mage_Customer>
     </modules>
     <global>

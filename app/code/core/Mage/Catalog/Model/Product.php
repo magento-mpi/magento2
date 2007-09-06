@@ -735,9 +735,11 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getImageUrl()
     {
-        //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getImage();
         $url = false;
-        if ($attribute = $this->getResource()->getAttribute('image')) {
+        if (!$this->getImage()) {
+            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+        }
+        elseif ($attribute = $this->getResource()->getAttribute('image')) {
             $url = $attribute->getFrontend()->getUrl($this);
         }
         return $url;
@@ -745,9 +747,11 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getSmallImageUrl()
     {
-        //$url = Mage::getBaseUrl(array('_admin'=>false, '_type'=>'media')).$this->getSmallImage();
         $url = false;
-        if ($attribute = $this->getResource()->getAttribute('small_image')) {
+        if (!$this->getSmallImage()) {
+            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+        }
+        elseif ($attribute = $this->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($this);
         }
         return $url;
@@ -757,7 +761,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getThumbnailUrl()
     {
         $url = false;
-        if ($attribute = $this->getResource()->getAttribute('thumbnail')) {
+        if (!$this->getThumbnail()) {
+            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+        }
+        elseif ($attribute = $this->getResource()->getAttribute('thumbnail')) {
             $url = $attribute->getFrontend()->getUrl($this);
         }
         return $url;

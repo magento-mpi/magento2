@@ -1,0 +1,48 @@
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    Mage_CatalogSearch
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+/*Table structure for table `catalogsearch` */
+
+DROP TABLE IF EXISTS `catalogsearch`;
+
+CREATE TABLE `catalogsearch` (
+  `search_id` int(10) unsigned NOT NULL auto_increment,
+  `search_query` varchar(255) NOT NULL default '',
+  `num_results` int(10) unsigned NOT NULL default '0',
+  `popularity` int(10) unsigned NOT NULL default '0',
+  `redirect` varchar(255) NOT NULL default '',
+  `synonim_for` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`search_id`),
+  KEY `search_query` (`search_query`,`popularity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `catalogsearch` */
+
+insert  into `catalogsearch`(`search_id`,`search_query`,`num_results`,`popularity`,`redirect`,`synonim_for`) values (45,'s',1,10,'','');
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

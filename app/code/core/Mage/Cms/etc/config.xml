@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.5.4</version>
+            <version>0.5.5</version>
         </Mage_Cms>
     </modules>
     <frontend>
@@ -89,13 +89,13 @@
             <groups><cms><class>Mage_Cms_Block</class></cms></groups>
         </block>
         <cms>
-        	<layouts>
-        		<empty><label>Empty</label><template>page/one-column.phtml</template></empty>
-        		<one_column><label>1 column</label><template>page/1column.phtml</template></one_column>
-        		<left_column><label>Column on the left</label><template>page/2columns-left.phtml</template></left_column>
-        		<right_column><label>Column on the right</label><template>page/2columns-right.phtml</template></right_column>
-        		<three_column><label>3 columns</label><template>page/3columns.phtml</template></three_column>
-        	</layouts>
+            <layouts>
+                <empty><label>Empty</label><template>page/one-column.phtml</template></empty>
+                <one_column><label>1 column</label><template>page/1column.phtml</template></one_column>
+                <left_column><label>Column on the left</label><template>page/2columns-left.phtml</template></left_column>
+                <right_column><label>Column on the right</label><template>page/2columns-right.phtml</template></right_column>
+                <three_column><label>3 columns</label><template>page/3columns.phtml</template></three_column>
+            </layouts>
         </cms>
         <events>
             <initControllerRouters>
@@ -107,6 +107,6 @@
                     </cms>
                 </observers>
             </initControllerRouters>
-		</events>
+        </events>
     </global>
 </config>

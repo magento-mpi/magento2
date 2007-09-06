@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Usa>
-         <version>0.2.3</version>
+         <version>0.3.0</version>
          <depends>
             <Mage_Sales />
             <Mage_Shipping />

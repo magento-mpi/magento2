@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.5.19</version>
+            <version>0.6.0</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
