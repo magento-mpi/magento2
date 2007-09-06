@@ -222,9 +222,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
         $config = $this->getConfig($configKey);
-        $protocol = $config['protocol'];
-        $host = $config['host'];
-        $port = $config['port'];
+        if (false!==$config) {
+            $protocol = $config['protocol'];
+            $host = $config['host'];
+            $port = $config['port'];
+        } else {
+            $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+            list($host, $port) = explode(':', $_SERVER['HTTP_HOST']);
+        }
 
         $url = $protocol.'://'.$host;
         $url .= ('http'===$protocol && 80==$port || 'https'===$protocol && 443==$port) ? '' : ':'.$port;
