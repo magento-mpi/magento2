@@ -164,15 +164,15 @@
         <Mage_Catalog>
             <active>true</active>
             <codePool>core</codePool>
-        </Mage_Catalog>        
+        </Mage_Catalog>
         <Mage_CatalogSearch>
             <active>true</active>
             <codePool>core</codePool>
-        </Mage_CatalogSearch>   
+        </Mage_CatalogSearch>
         <Mage_CatalogExcel>
             <active>true</active>
             <codePool>core</codePool>
-        </Mage_CatalogExcel>   
+        </Mage_CatalogExcel>
         <Mage_CatalogRule>
             <active>true</active>
             <codePool>core</codePool>
@@ -209,6 +209,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Paygate>
+        <Mage_Paypal>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Paypal>
         <Mage_Reports>
             <active>true</active>
             <codePool>core</codePool>
@@ -270,4 +274,4 @@
             <codePool>core</codePool>
         </Mage_GoogleAnalytics>
     </modules>
-</config> 
+</config>

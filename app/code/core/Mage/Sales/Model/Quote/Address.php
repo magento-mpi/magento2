@@ -23,13 +23,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 {
 	const RATES_FETCH = 1;
 	const RATES_RECALCULATE = 2;
-	
+
     protected $_quote;
 
     protected $_rates;
 
     protected $_totalModels;
-    
+
     protected $_totals = array();
 
     protected function _construct()
@@ -42,7 +42,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this->_quote = $quote;
         return $this;
     }
-    
+
     /**
      * Retrieve quote object
      *
@@ -60,7 +60,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $this
             ->setCustomerAddressId($address->getId())
             ->setCustomerId($address->getParentId())
-            ->setEmail($address->getCustomer()->getEmail())
+            ->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail())
             ->setFirstname($address->getFirstname())
             ->setLastname($address->getLastname())
             ->setCompany($address->getCompany())
@@ -75,7 +75,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-    
+
     public function exportCustomerAddress()
     {
     	$address = Mage::getModel('customer/address')
@@ -91,7 +91,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
             ->setCountryId($this->getCountryId())
             ->setTelephone($this->getTelephone())
             ->setFax($this->getFax());
-            
+
         return $address;
     }
 
@@ -398,11 +398,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     	if (!$this->getCollectShippingRates()) {
     		return $this;
     	}
-    	
+
     	$this->setCollectShippingRates(false);
 
         $this->removeAllShippingRates();
-        
+
         if (!$this->getCountryId() && !$this->getPostcode()) {
         	return $this;
         }
@@ -424,19 +424,19 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 		$found = false;
 		if ($result) {
 	        $shippingRates = $result->getAllRates();
-	        
+
 	        foreach ($shippingRates as $shippingRate) {
 	            $rate = Mage::getModel('sales/quote_address_rate')
 	                ->importShippingRate($shippingRate);
 	            $this->addShippingRate($rate);
-	
+
 	            if ($this->getShippingMethod()==$rate->getCode()) {
 	                $this->setShippingAmount($rate->getPrice());
 	                $found = true;
 	            }
 	        }
 		}
-        
+
         if (!$found) {
 	        $this->setShippingAmount(0)
 	        	->setShippingMethod('')
@@ -477,7 +477,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function getTotals()
     {
     	foreach ($this->getTotalModels() as $model) {

@@ -33,9 +33,9 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      * @var array
      */
     protected $_config = array();
-    
+
     protected $_resource;
-    
+
     /**
      * Set the configuration array for the adapter
      *
@@ -61,6 +61,9 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         }
         if (isset($this->_config['maxredirects'])) {
             curl_setopt($this->_getResource(), CURLOPT_MAXREDIRS, $this->_config['maxredirects']);
+        }
+        if (isset($this->_config['proxy'])) {
+            curl_setopt ($this->_getResource(), CURLOPT_PROXY, $this->_config['proxy']);
         }
 
         return $this;
@@ -88,7 +91,7 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         elseif ($method == Zend_Http_Client::GET) {
         	curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
         }
-        
+
         if( is_array($headers) ) {
             curl_setopt($this->_getResource(), CURLOPT_HTTPHEADER, $headers);
         }
@@ -96,7 +99,7 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         curl_setopt($this->_getResource(), CURLOPT_HEADER, true);
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYHOST, 0);
-        
+
 
         return $body;
     }
@@ -109,14 +112,14 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
     public function read()
     {
         $response = curl_exec($this->_getResource());
-        
+
         // Remove 100 and 101 responses headers
         if (Zend_Http_Response::extractCode($response) == 100 ||
             Zend_Http_Response::extractCode($response) == 101) {
             $response = preg_split('/^\r?$/m', $response, 2);
             $response = trim($response[1]);
         }
-        
+
         return $response;
     }
 
@@ -130,12 +133,22 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         $this->_resource = null;
         return $this;
     }
-    
+
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
             $this->_resource = curl_init();
         }
         return $this->_resource;
+    }
+
+    public function getErrno()
+    {
+        return curl_errno($this->_getResource());
+    }
+
+    public function getError()
+    {
+        return curl_error($this->_getResource());
     }
 }

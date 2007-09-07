@@ -26,7 +26,7 @@ result_serialized text,
 request_dump text,
 result_dump text
 );
-
+/*
 replace into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values (1,'payment','Payment Methods','text','','','','',70,1,1,1,'');
 replace into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values (2,'payment/authorizenet','Authorize.net','text','','','','',10,1,1,1,'');
 replace into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values (3,'payment/authorizenet/active','Enabled','select','','','','adminhtml/system_config_source_yesno',1,1,1,1,'');
@@ -104,3 +104,4 @@ replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`i
 replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/order_status','1','',0);
 replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/sort_order','6','',0);
 replace into `core_config_data`(`scope`,`scope_id`,`path`,`value`,`old_value`,`inherit`) values ('default',0,'payment/verisign/title','Credit Card (PayflowPro)','',0);
+*/

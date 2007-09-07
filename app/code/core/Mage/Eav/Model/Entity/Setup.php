@@ -434,114 +434,11 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 }
 
                 $this->addAttribute($entityName, $attrCode, $attr);
-                #$this->addAttributeToSet($entityName, 'Default', 'General');
             }
             $this->setDefaultSetToEntityType($entityName);
 		}
 	}
 
-    public function installEntities1($entities)
-    {
-        $conn = $this->_conn;
-
-        foreach ($entities as $entityName=>&$entity) {
-            $conn->delete($this->getTable('eav/entity_type'), $conn->quoteInto('entity_type_code=?', $entityName));
-
-            $conn->insert($this->getTable('eav/entity_type'), array(
-                'entity_type_code'=>$entityName,
-                'entity_table'=>$entity['table'],
-                'increment_model'=>isset($entity['increment_model']) ? $entity['increment_model'] : '',
-                'increment_per_store'=>isset($entity['increment_per_store']) ? $entity['increment_per_store'] : '',
-                'is_data_sharing'=>1,
-            ));
-            $entity['entity_type_id'] = $conn->lastInsertId();
-
-            $conn->insert($this->getTable('eav/attribute_set'), array(
-                'entity_type_id'=>$entity['entity_type_id'],
-                'attribute_set_name'=>isset($entity['set_name']) ? $entity['set_name'] : 'Default',
-                'sort_order'=>1,
-            ));
-            $entity['attribute_set_id'] = $conn->lastInsertId();
-
-            $conn->update($this->getTable('eav/entity_type'), array(
-                'default_attribute_set_id'=>$entity['attribute_set_id']
-            ), $conn->quoteInto('entity_type_id=?', $entity['entity_type_id']));
-
-            $conn->insert($this->getTable('eav/attribute_group'), array(
-                'attribute_set_id'=>$entity['attribute_set_id'],
-                'attribute_group_name'=>isset($entity['group_name']) ? $entity['group_name'] : 'General',
-                'sort_order'=>1,
-            ));
-            $entity['attribute_group_id'] = $conn->lastInsertId();
-
-            $sortOrder = 1;
-
-            $frontendPrefix = isset($entity['frontend_prefix']) ? $entity['frontend_prefix'] : '';
-            $backendPrefix = isset($entity['backend_prefix']) ? $entity['backend_prefix'] : '';
-            $sourcePrefix = isset($entity['source_prefix']) ? $entity['source_prefix'] : '';
-
-            foreach ($entity['attributes'] as $attrCode=>&$attr) {
-
-                $backend = '';
-                if (!empty($attr['backend'])) {
-                    if ('_'===$attr['backend']) {
-                        $backend = $backendPrefix;
-                    } elseif ('_'===$attr['backend']{0}) {
-                        $backend = $backendPrefix.$attr['backend'];
-                    } else {
-                        $backend = $attr['backend'];
-                    }
-                }
-
-                $frontend = '';
-                if (!empty($attr['frontend'])) {
-                    if ('_'===$attr['frontend']) {
-                        $frontend = $frontendPrefix;
-                    } elseif ('_'===$attr['frontend']{0}) {
-                        $frontend = $frontendPrefix.$attr['frontend'];
-                    } else {
-                        $frontend = $attr['frontend'];
-                    }
-                }
-
-                $attr['sort_order'] = isset($attr['sort_order']) ? $attr['sort_order'] : $sortOrder++;
-
-                $conn->insert($this->getTable('eav/attribute'), array(
-                    'entity_type_id'=>$entity['entity_type_id'],
-                    'attribute_code'=>$attrCode,
-                    'backend_model'=>$backend,
-                    'backend_type'=>isset($attr['type']) ? $attr['type'] : 'varchar',
-                    'backend_table'=>isset($attr['table']) ? $attr['table'] : '',
-                    'frontend_model'=>$frontend,
-                    'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
-                    'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
-                    'frontend_class'=>isset($attr['class']) ? $attr['class'] : '',
-                    'source_model'=>$sourcePrefix.(isset($attr['source']) ? $attr['source'] : ''),
-                    'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
-                    'is_visible'=>isset($attr['visible']) ? $attr['visible'] : 1,
-                    'is_required'=>isset($attr['required']) ? $attr['required'] : 0,
-                    'is_user_defined'=>isset($attr['user_defined']) ? $attr['user_defined'] : 0,
-                    'default_value'=>isset($attr['default']) ? $attr['default'] : '',
-                    'is_searchable'=>isset($attr['searchable']) ? $attr['searchable'] : 0,
-                    'is_filterable'=>isset($attr['filterable']) ? $attr['filterable'] : 0,
-                    'is_comparable'=>isset($attr['comparable']) ? $attr['comparable'] : 0,
-                    'is_visible_on_front'=>isset($attr['visible_on_front']) ? $attr['visible_on_front'] : 0,
-                    'is_unique'=>isset($attr['unique']) ? $attr['unique'] : 0,
-                ));
-                $attr['attribute_id'] = $conn->lastInsertId();
-
-                $conn->insert($this->getTable('eav/entity_attribute'), array(
-                    'entity_type_id'=>$entity['entity_type_id'],
-                    'attribute_set_id'=>$entity['attribute_set_id'],
-                    'attribute_group_id'=>$entity['attribute_group_id'],
-                    'attribute_id'=>$attr['attribute_id'],
-                    'sort_order'=>$attr['sort_order'],
-                ));
-                $attr['entity_attribute_id'] = $conn->lastInsertId();
-            }
-        }
-        return $this;
-    }
 
 /****************************** CREATE ENTITY TABLES ***********************************/
 
