@@ -1,10 +1,13 @@
 import sys, os
+import util
 from util.config import *
 from util.search import *
 from util.modifier import *
+from util.parser import *
 
 search = Search()
 modifier = Modifier()
+parser = Parser()
 
 def prepare():
     try:
@@ -31,15 +34,16 @@ def prepare():
 try: 
     os.environ['BASE_DIR'] = sys.argv[1]
 except:
-    sys.exit('Error. Invalid BASE directory')
+    print 'Invalid BASE directory\n'
+    sys.exit(util.__help__)
 
 try:
     param = sys.argv[2]
 except:
-    param = 'all'
+    param = '--insert-license'
 
 if param == '--help':
-    sys.exit("No help available yet.")
+    sys.exit(util.__help__)
 if param == '-f':
     prepare()
 
@@ -57,13 +61,19 @@ if param == '-f':
         else:
             sys.exit('No changes was made.')
     sys.exit('\nDONE')
-if param == 'all':
+if param == '--insert-license':
     prepare()
     raw_input("Now, this software will insert NOTICE OF LICENSE to each founded file.\nPress ENTER to continue or ^C to abort...")
     print "Please wait, operation may take a few minutes.\n"
 
     modifier.modify(search.files)
     print "Files successfully changed\n"
+if param == '--scan-phrases':
+    prepare()
+    raw_input("Now, this software will parse PHRASES in each founded file.\nPress ENTER to continue or ^C to abort...")
+    print "Please wait, operation may take a few minutes.\n"
+    parser.setPatterns(phrasePatterns).search(search.files)
+    print "\nDONE"
 else:
-    print "Invalid option '%s'", param
-    sys.exit()
+    print "Invalid option '" + param + "'\n"
+    sys.exit(util.__help__)
