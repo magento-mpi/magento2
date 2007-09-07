@@ -98,6 +98,35 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function installDb()
     {
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
+        $data = Mage::getSingleton('install/session')->getConfigData();
+        
+        // write host info to DB config
+        $setupModel = new Mage_Core_Model_Resource_Setup('core_setup');
+        if (!empty($data['host'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_HOST, $data['host']);
+        }
+        if (!empty($data['base_path'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_PATH, $data['base_path']);
+        }
+        if (!empty($data['protocol'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_PROTOCOL, $data['protocol']);
+        }
+        if (!empty($data['port'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_PORT, $data['port']);
+        }
+        if (!empty($data['secure_host'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_HOST, $data['secure_host']);
+        }
+        if (!empty($data['secure_base_path'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_PATH, $data['secure_base_path']);
+        }
+        if (!empty($data['secure_protocol'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_PROTOCOL, $data['secure_protocol']);
+        }
+        if (!empty($data['secure_port'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_PORT, $data['secure_port']);
+        }
+
         return $this;
     }
     

@@ -75,7 +75,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     		&& !$this->_isAllowed()) {
     		$this->_redirect('*/*/denied');
     		//$this->getRequest()->setDispatched(false);
-    		$this->setFlag('', 'no-dispatch', true);
+    		$this->setFlag('', self::FLAG_NO_DISPATCH, true);
     	}
 
     	return $this;

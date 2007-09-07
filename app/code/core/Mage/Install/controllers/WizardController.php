@@ -153,13 +153,14 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $step = $this->_getWizard()->getStepByName('config');
 
         if ($data = $this->getRequest()->getPost('config')) {
+            Mage::getSingleton('install/session')->setConfigData($data);
             try {
                 $this->_getInstaller()->installConfig($data);
     	        $this->_redirect('*/*/installDb');
     	        return $this;
             }
             catch (Exception $e){
-                Mage::getSingleton('install/session')->setConfigData($data);
+                
             }
         }
         $this->getResponse()->setRedirect($step->getUrl());

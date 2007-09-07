@@ -27,6 +27,15 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
+    const XML_PATH_UNSECURE_PROTOCOL= 'web/unsecure/protocol';
+    const XML_PATH_UNSECURE_HOST    = 'web/unsecure/host';
+    const XML_PATH_UNSECURE_PORT    = 'web/unsecure/port';
+    const XML_PATH_UNSECURE_PATH    = 'web/unsecure/base_path';
+    const XML_PATH_SECURE_PROTOCOL  = 'web/secure/protocol';
+    const XML_PATH_SECURE_HOST      = 'web/secure/host';
+    const XML_PATH_SECURE_PORT      = 'web/secure/port';
+    const XML_PATH_SECURE_PATH      = 'web/secure/base_path';
+    
     protected $_priceFilter;
 
     protected $_website;
@@ -228,7 +237,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $port = $config['port'];
         } else {
             $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-            list($host, $port) = explode(':', $_SERVER['HTTP_HOST']);
+            $hostInfo = explode(':', $_SERVER['HTTP_HOST']);
+            $host = $hostInfo[0];
+            $port = isset($hostInfo[1]) ? $hostInfo[1] : 80;
         }
 
         $url = $protocol.'://'.$host;
@@ -248,7 +259,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 $basePath = $this->getConfig('web/url/'.$params['_type']);
             }
         } else {
-            $basePath = dirname($_SERVER['SCRIPT_NAME']).'/';
+            $basePath = dirname($_SERVER['SCRIPT_NAME']);
+            $basePath.= ($basePath == '/') ? '' : '/';
         }
 
         return empty($basePath) ? '/' : $basePath;

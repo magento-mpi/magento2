@@ -258,6 +258,7 @@ abstract class Mage_Core_Controller_Varien_Action
             if (!Mage::getSingleton('install/installer')->isApplicationInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
+                return;
             }
         }
         
