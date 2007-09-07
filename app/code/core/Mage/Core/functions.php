@@ -85,6 +85,32 @@ function is_empty_date($date)
 }
 
 /**
+ * Strip magic quotes from array
+ *
+ * @param array $arr
+ */
+function stripMagicQuotes($arr)
+{
+    foreach ($arr as $k => $v) {
+        $arr[$k] = is_array($v) ? stripMagicQuotes($v) : stripslashes($v);
+    }
+    return $arr;
+}
+
+/**
+ * Checking magic quotes settings and prepare GPRC data
+ */
+function checkMagicQuotes()
+{
+    if (get_magic_quotes_gpc()) {
+        if (!empty($_GET)) $_GET = StripMagicQuotes($_GET);
+        if (!empty($_POST)) $_POST = StripMagicQuotes($_POST);
+        if (!empty($_REQUEST)) $_REQUEST = StripMagicQuotes($_REQUEST);
+        if (!empty($_COOKIE)) $_COOKIE = StripMagicQuotes($_COOKIE);
+    }    
+}
+
+/**
  * Custom error handler
  *
  * @param integer $errno

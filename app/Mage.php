@@ -35,13 +35,17 @@ ini_set('include_path', ini_get('include_path').PS.BP.'/lib'.PS.BP.'/app/code/co
 include "Mage/Core/functions.php";
 
 /**
+ * Check magic quotes settings
+ */
+checkMagicQuotes();
+
+/**
  * Main Mage hub class
  *
  * @author Moshe Gurvich <moshe@varien.com>
  * @author Andrey Korolyov <andrey@varien.com>
  */
 final class Mage {
-
     /**
      * Registry collection
      *
