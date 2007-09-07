@@ -45,10 +45,10 @@ class Mage_Install_Model_Installer_Env
         $config = Mage::getSingleton('install/config')->getExtensionsForCheck();
         foreach ($config as $extension => $info) {
             if (!empty($info) && is_array($info)) {
-                $res = $res && $this->_checkExtension($info);
+                $res = $this->_checkExtension($info) && $res;
             }
             else {
-                $res = $res && $this->_checkExtension($extension);
+                $res = $this->_checkExtension($extension) && $res;
             }
         }
         return $res;
