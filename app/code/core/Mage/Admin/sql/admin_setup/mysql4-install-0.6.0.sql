@@ -56,7 +56,7 @@ CREATE TABLE `admin_role` (
 
 /*Data for the table `admin_role` */
 
-insert  into `admin_role`(`role_id`,`parent_id`,`tree_level`,`sort_order`,`role_type`,`user_id`,`role_name`) values (1,0,1,1,'G',0,'Administrators');
+insert  into `admin_role`(`role_id`,`parent_id`,`tree_level`,`sort_order`,`role_type`,`user_id`,`role_name`) values (1,0,1,1,'G',0,'Administrators'),(2,1,2,1,'U',1,'Administrator');
 
 /*Table structure for table `admin_rule` */
 

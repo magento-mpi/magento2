@@ -106,10 +106,10 @@ class Mage_Install_Model_Installer extends Varien_Object
         $user = Mage::getModel('admin/user')->load(1)->addData($data);
         $user->save();
 
-        Mage::getModel("permissions/user")->setRoleId(1)
+        /*Mage::getModel("permissions/user")->setRoleId(1)
             ->setUserId($user->getId())
             ->setFirstname($user->getFirstname())
-            ->add();
+            ->add();*/
 
         return $this;
     }
