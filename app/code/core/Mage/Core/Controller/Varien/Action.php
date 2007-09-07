@@ -29,6 +29,11 @@
 abstract class Mage_Core_Controller_Varien_Action
 	# extends Zend_Controller_Action
 {
+    const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
+    const FLAG_NO_DISPATCH              = 'no-dispatch';
+    const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
+    const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
+    
     protected $_request;
     protected $_response;
 
@@ -90,45 +95,47 @@ abstract class Mage_Core_Controller_Varien_Action
         return $this->_request;
     }
 
-     /**
-      * Retrieve response object
-      *
-      * @return Zend_Controller_Response_Abstract
-      */
-     function getResponse()
-     {
-         return $this->_response;
-     }
+    /**
+     * Retrieve response object
+     *
+     * @return Zend_Controller_Response_Abstract
+     */
+    function getResponse()
+    {
+        return $this->_response;
+    }
 
-     function getFlag($action, $flag='')
-     {
-         if (''===$action) {
-             $action = $this->getRequest()->getActionName();
-         }
-         if (''===$flag) {
-             return $this->_flags;
-         } elseif (isset($this->_flags[$action][$flag])) {
-             return $this->_flags[$action][$flag];
-         } else {
-             return false;
-         }
-     }
+    function getFlag($action, $flag='')
+    {
+        if (''===$action) {
+            $action = $this->getRequest()->getActionName();
+        }
+        if (''===$flag) {
+            return $this->_flags;
+        } 
+        elseif (isset($this->_flags[$action][$flag])) {
+            return $this->_flags[$action][$flag];
+        } 
+        else {
+            return false;
+        }
+    }
 
-     function setFlag($action, $flag, $value)
-     {
-         if (''===$action) {
-             $action = $this->getRequest()->getActionName();
-         }
-         $this->_flags[$action][$flag] = $value;
-         return $this;
-     }
-
-     function getFullActionName($delimiter='_')
-     {
-         return $this->getRequest()->getModuleName().$delimiter.
-         $this->getRequest()->getControllerName().$delimiter.
-         $this->getRequest()->getActionName();
-     }
+    function setFlag($action, $flag, $value)
+    {
+        if (''===$action) {
+            $action = $this->getRequest()->getActionName();
+        }
+        $this->_flags[$action][$flag] = $value;
+        return $this;
+    }
+    
+    function getFullActionName($delimiter='_')
+    {
+        return $this->getRequest()->getModuleName().$delimiter.
+        $this->getRequest()->getControllerName().$delimiter.
+        $this->getRequest()->getActionName();
+    }
 
      /**
       * Get current layout
@@ -220,7 +227,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         if ($this->getRequest()->isDispatched()) {
             // preDispatch() didn't change the action, so we can continue
-            if (!$this->getFlag('', 'no-dispatch')) {
+            if (!$this->getFlag('', self::FLAG_NO_DISPATCH)) {
                 $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
                 Varien_Profiler::start($_profilerKey);
                 $this->$actionMethodName();
@@ -243,9 +250,17 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     function preDispatch()
     {
-        if ($this->getFlag('', 'no-preDispatch')) {
+        if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
             return;
         }
+        
+        if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
+            if (!Mage::getSingleton('install/installer')->isApplicationInstalled()) {
+                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                $this->_redirect('install');
+            }
+        }
+        
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';
         Varien_Profiler::start($_profilerKey);
         Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
@@ -261,7 +276,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     function postDispatch()
     {
-        if ($this->getFlag('', 'no-postDispatch')) {
+        if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
             return;
         }
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/post';

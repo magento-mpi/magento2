@@ -23,6 +23,12 @@ set_time_limit(120);
  */
 class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 {
+    public function preDispatch()
+    {
+        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
+        return parent::preDispatch();
+    }
+    
     /**
      * Retrieve installer object
      *

@@ -28,6 +28,12 @@
 
 class Mage_Install_IndexController extends Mage_Core_Controller_Front_Action
 {
+    public function preDispatch()
+    {
+        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
+        return parent::preDispatch();
+    }
+
     function indexAction() 
     {
     	$this->_forward('begin', 'wizard', 'install');
