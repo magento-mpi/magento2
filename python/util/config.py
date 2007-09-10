@@ -78,6 +78,11 @@ scanDirectories = {
             'tests/' : ('Tests_*','default'),
         }
 
+langScanDirectories = {
+            'app/code/core/Mage/' : ('Mage_*', 'Mage'),
+            'app/design/' : ('Mage', 'design_default'),
+        }
+
 checkString = 'NOTICE OF LICENSE'
 
 phrasePatterns = [
@@ -87,3 +92,6 @@ phrasePatterns = [
            re.compile("addWarning\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
            re.compile("addSuccess\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
         ]
+
+defTranslationDirName = "Translate"
+defLanguageDirName = "en"

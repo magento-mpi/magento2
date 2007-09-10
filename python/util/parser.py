@@ -7,6 +7,7 @@ class Parser:
     files       = {}
     patterns    = None
     outputDir   = './.output'
+    foundFiles  = None
 
     def __init__(self):
         if not os.path.exists(self.outputDir):
@@ -18,21 +19,22 @@ class Parser:
         return
 
     def search(self, files):
+        self.foundFiles = files
         for file in files:
             file = os.path.abspath(file)
             (root, ext) = os.path.splitext(file)
             lines = open(file, 'r').readlines()
             lineNumber = 0
-            moduleName = self.getModuleName(file)
-
-            if not self.matches.has_key(moduleName):
-                self.matches[moduleName] = []
 
             for line in lines:
                 lineNumber += 1
                 for pattern in self.patterns:
                     phrases = pattern.findall(line)
                     if phrases:
+                        moduleName = self.getModuleName(file)
+                        if not self.matches.has_key(moduleName):
+                            self.matches[moduleName] = {}
+
                         for phrase in phrases:
                             if len(phrase) > 0:
                                 fileData = {}
@@ -40,23 +42,13 @@ class Parser:
                                 fileData['line'] = lineNumber
 
                                 self.files[phrase] = fileData
-
                                 self.addPhrase(phrase, moduleName)
 
         self.writePhrases().writeFiles()
         return self
 
     def addPhrase(self, phrase, moduleName):
-        """
-        for module in self.matches:
-            if self.matches[module]:
-                del(self.matches[module][phrase])
-                self.matches[module][module+':'+phrase] = phrase
-                self.matches[moduleName].append((module+':'+phrase, phrase))
-            else:
-                self.matches[moduleName].append((phrase, phrase))
-        """
-        self.matches[moduleName].append((phrase, phrase))
+        self.matches[moduleName][phrase] = phrase
         return self
 
     def setPatterns(self, patterns):
@@ -75,23 +67,35 @@ class Parser:
 
     def writePhrases(self):
         matches = []
-        for module in self.matches:
-            for phrase in self.matches[module]:
-                matches.append(phrase)
-
         csv.register_dialect('excel', CsvSpace())
-        writer = csv.writer(open(self.outputDir + "/phrases.csv", "wb"), 'excel')
-        writer.writerows(matches)
+        for module in self.matches:
+            outputDir = self.getModuleDir(module) + '/' + defTranslationDirName + '/' + defLanguageDirName;
+            if not os.path.exists(outputDir):
+                try:
+                    os.makedirs(outputDir)
+                except (RuntimeError):
+                    print 'Unable to create output directory.'
+                    sys.exit(RuntimeError)
+            for phrase in self.matches[module]:
+                matches.append((phrase, self.matches[module][phrase]))
+                writer = csv.writer(open(outputDir + "/phrases.csv", "wb"), 'excel')
+                writer.writerows(matches)
+            matches = []
         return self
 
     def getModuleName(self, file):
-        for dir in scanDirectories:
+        for dir in langScanDirectories:
             s = re.findall("^(.*?)"+dir+"(.*?)$", file)
             if s :
                 parts = re.split("\/|\.", s[0][1])
-
         return parts[0]
-       
+      
+    def getModuleDir(self, moduleName):
+        for dir in langScanDirectories:
+            modDir = os.path.abspath(os.environ['BASE_DIR']+dir+moduleName)
+            if os.path.exists(modDir):
+                return modDir
+        raise "Unable to find '"+moduleName+"' module dir."
 
 class CsvSpace(csv.Dialect):
     delimiter        = ";"

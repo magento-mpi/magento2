@@ -9,10 +9,13 @@ search = Search()
 modifier = Modifier()
 parser = Parser()
 
-def prepare():
+def prepare(scanDirs=None):
     try:
         print "Preparing list of direstories to scan..."
-        for path in scanDirectories:
+        if not scanDirs:
+            scanDirs = scanDirectories
+
+        for path in scanDirs:
             search.addPath(path)
         print "DONE\n\n"
     except:
@@ -69,7 +72,7 @@ if param == '--insert-license':
     modifier.modify(search.files)
     print "Files successfully changed\n"
 if param == '--scan-phrases':
-    prepare()
+    prepare(langScanDirectories)
     raw_input("Now, this software will parse PHRASES in each founded file.\nPress ENTER to continue or ^C to abort...")
     print "Please wait, operation may take a few minutes.\n"
     parser.setPatterns(phrasePatterns).search(search.files)
