@@ -146,6 +146,7 @@ originModel.prototype = {
             var disabled = this.regionElement.disabled;
             if (data.length) {
                 var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry select" title="'+this.regionElement.title+'"'+(disabled?" disabled":"")+'>';
+                html+= '<option></option>';
                 for (var i in data) {
                     if(data[i].label) {
                         html+= '<option value="'+data[i].value+'"';
