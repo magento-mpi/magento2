@@ -68,7 +68,7 @@ CREATE TABLE `tax_rate` (
 
 /*Data for the table `tax_rate` */
 
-insert  into `tax_rate`(`tax_rate_id`,`tax_county_id`,`tax_region_id`,`tax_postcode`) values (1,0,12,'*'),(2,0,43,NULL);
+insert  into `tax_rate`(`tax_rate_id`,`tax_county_id`,`tax_region_id`,`tax_postcode`) values (1,0,12,NULL),(2,0,43,NULL);
 
 /*Table structure for table `tax_rate_data` */
 
