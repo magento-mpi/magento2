@@ -20,57 +20,55 @@
 ?>
 
     <div class="page-head">
-			<h3>Order #<?=$order->getOrderId()?> (<?=$order->getStatus()?>)</h3>
+			<h3><?=__('Order #%s', $order->getOrderId())?> (<?=$order->getStatus()?>)</h3>
 		</div>
-
 
     <div class="col2-set">
 			<div class="col-1">
-				<h4>Billing Information</h4>
+				<h4><?=__('Billing Information')?></h4>
 				<address>
 						<?=$order->getAddressByType('billing')->toString('{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
 						{{telephone}}')?>
 				</address>
 			</div>
 			<div class="col-2">
-				<h4>Payment Method</h4>
+				<h4><?=__('Payment Method')?></h4>
         <?=$this->getChildHtml('payment')?>
 			</div>
 		</div>
     <p></p>
 		<div class="col2-set">
 			<div class="col-1">
-				<h4>Shipping Information</h4>
+				<h4><?=__('Shipping Information')?></h4>
 				<address>
 						<?=$order->getAddressByType('shipping')->toString('{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
 						{{telephone}}')?>
 				</address></div>
 			<div class="col-2">
-				<h4>Shipping Method</h4>
+				<h4><?=__('Shipping Method')?></h4>
 				<?=$order->getShippingDescription()?>
 			</div>
 		</div>
-		
     <p></p>
     <?$_items = $order->getEntitiesByType('item')?>
     <table cellspacing="0" width="100%" class="data-table" id="my-orders-table">
         <thead>
             <tr>
-                <th>Items Order</th>
-                <th class="a-center">Qty</th>
-                <th class="a-right">Price</th>
-                <th class="a-right">Ext. Price</th>
+                <th><?=__('Items Order')?></th>
+                <th class="a-center"><?=__('Qty')?></th>
+                <th class="a-right"><?=__('Price')?></th>
+                <th class="a-right"><?=__('Ext. Price')?></th>
             </tr>
         </thead>
         <tfoot>
             <tr>
                 <td class="a-right" colspan="4">
-                    Grand Total:&nbsp;<strong><?=$order->getGrandTotal()?></strong>
+                    <?=__('Grand Total:&nbsp;<strong>%s</strong>', $order->getGrandTotal())?>
                 </td>
             </tr>
         </tfoot>
         <tbody>
-            <?foreach($_items as $_item):?>     
+            <?foreach($_items as $_item):?>
             <tr>
                 <td><?=$_item->getName()?></td>
                 <td class="a-center"><?=$_item->getQty()?></td>
@@ -82,5 +80,5 @@
     </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
     <div class="form-buttons">
-			<a href="<?=$this->getUrl('customer/order/history')?>" class="left">&laquo; Back</a>
+			<a href="<?=$this->getUrl('customer/order/history')?>" class="left">&laquo; <?=__('Back')?></a>
     </div>

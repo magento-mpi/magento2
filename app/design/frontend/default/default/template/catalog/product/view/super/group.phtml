@@ -21,10 +21,10 @@
 <table cellspacing="0" class="data-table" id="super-product-table">
 	<thead>
 		<tr>
-			<th>Product Name</th>
-			<th>SKU</th>
-			<th class="a-right">Price</th>
-			<th class="a-center">Qty</th>
+			<th><?=__('Product Name')?></th>
+			<th><?=__('SKU')?></th>
+			<th class="a-right"><?=__('Price')?></th>
+			<th class="a-center"><?=__('Qty')?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -39,7 +39,7 @@
 	<?endforeach;?>
 	<?else:?>
 	   <tr>
-	       <td colspan="4">None of the options of this product are available.</td>
+	       <td colspan="4"><?=__('None of the options of this product are available.')?></td>
 	   </tr>
 	<?endif;?>
 	</tbody>

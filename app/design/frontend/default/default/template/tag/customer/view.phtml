@@ -52,7 +52,7 @@
 		</tbody>
 	<?else:?>
 			<tr>
-			<td><p><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></p></td>
+			<td><p><?=__("Unable to find any product tagged with '%s'", $this->getTagInfo()->getName() )?></p></td>
 			</tr>
 	<?endif;?>
 	</table>

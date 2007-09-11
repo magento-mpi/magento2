@@ -21,7 +21,7 @@
 /************* Messages ***********/
 .error, a.error span{ color:#D40707 !important; font-style:bold !important; }
 .messages li {
-    list-style:none !important; 
+    list-style:none !important;
     min-height:23px !important;
     margin-bottom:11px !important;
     border-width:1px !important;
@@ -33,29 +33,29 @@
     font-weight:bold !important;
     }
 .messages ul { border:0 !important; }
-.messages ul li { 
+.messages ul li {
     margin:0 0 3px 0 !important;
     border:0 !important;
     padding:0 !important;
     }
 .error-msg {
-    border-color:#f16048 !important; 
-    color:#df280a !important; 
+    border-color:#f16048 !important;
+    color:#df280a !important;
     background-color:#faebe7 !important;
-    background-image:url(images/error_msg_icon.gif) !important; 
+    background-image:url(images/error_msg_icon.gif) !important;
     }
-.success-msg { 
+.success-msg {
     border-color:#446423 !important;
-    color:#3d6611 !important; 
+    color:#3d6611 !important;
     background-color:#eff5ea !important;
-    background-image:url(images/success_msg_icon.gif) !important; 
+    background-image:url(images/success_msg_icon.gif) !important;
     }
-.notice-msg { 
+.notice-msg {
     border-color:#fcd344 !important;
-    color:#3d6611 !important; 
-    background-image:url(images/note_msg_icon.gif) !important; 
+    color:#3d6611 !important;
+    background-image:url(images/note_msg_icon.gif) !important;
     }
-    
+
 
 
 .separator { padding:0 .6em; }
@@ -160,7 +160,7 @@
     }
 .header-right .super {
     float:right;
-    margin-bottom:14px; 
+    margin-bottom:14px;
     margin-left:1.3em;
     line-height:1.8em;
     }
@@ -584,9 +584,9 @@ img.attribute-global {
 .data-table .even { background:#eeeded !important;}
 .data-table td.last, .data-table th.last { border-right:0; }
 .data-table tr.last td, .data-table tr.last th { border-bottom:0; }
-.data-table th { 
+.data-table th {
     border-right:1px solid #c2d3e0;
-    padding:2px 8px; 
+    padding:2px 8px;
     color:#0a263c;
     white-space:nowrap;
     }
@@ -798,3 +798,8 @@ div.actions:after,
     line-height:0;
     visibility:hidden;
     }
+
+.tier-price-input .validation-advice {
+    margin:0 0 0 50px;
+    padding:0;
+}

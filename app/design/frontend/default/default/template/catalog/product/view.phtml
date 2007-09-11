@@ -33,11 +33,11 @@
                 <img id="image" src="<?=$_product->getImageUrl()?>" alt="<?=$_product->getName()?>"/>
             </p>
             <div class="image-zoom" id="track_outer">
-                <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="Zoom out" class="btn-zoom-out"/>
+                <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="<?=__('Zoom out')?>" class="btn-zoom-out"/>
                 <div id="track">
                     <div id="handle"></div>
                 </div>
-                <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="Zoom in" class="btn-zoom-in"/>
+                <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="<?=__('Zoom in')?>" class="btn-zoom-in"/>
             </div>
             <script type="text/javascript">
                 Event.observe(window, 'load', function() {

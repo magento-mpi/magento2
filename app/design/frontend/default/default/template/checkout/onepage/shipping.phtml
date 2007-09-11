@@ -20,10 +20,9 @@
 ?>
 <form id="co-shipping-form">
 <?if ($this->customerHasAddresses()):?>
-    <p><?=__('Select a shipping address from your address book or enter a %s.', '<a href="#" onclick="shipping.newAddress(true); return false;">'.__('New Address').'</a>')?></p>
+   <p><?=__('Select a shipping address from your address book or enter a %s.', '<a href="#" onclick="shipping.newAddress(true); return false;">'.__('New Address').'</a>')?></p>
    <p><?=$this->getAddressesHtmlSelect('shipping')?></p>
 <?endif?>
-
 
 <fieldset class="group-select" id="shipping-new-address-form" <?if ($this->customerHasAddresses()):?>style="display:none"<?endif?>>
     <input type="hidden" name="shipping[address_id]" value="<?=$this->getAddress()->getId()?>" id="shipping:address_id"/>
@@ -78,7 +77,7 @@
         <a href="#" class="back left" onclick="checkout.back()"><?=__('Back')?></a>
     	<button class="form-button right" onclick="shipping.save()"><span><?=__('Continue')?></span></button>
 	    <span id="shipping-please-wait" style="display:none;" class="opc-please-wait">
-	        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; Loading next step... &nbsp; 
+	        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=__('Loading next step...')?> &nbsp; 
 	    </span>
     </span>
 </div>

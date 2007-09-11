@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
@@ -90,7 +90,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
     public function getHeaderText()
     {
         if( $this->getTagInfo()->getName() ) {
-            return __('Products tagged with \'%s\'', $this->getTagInfo()->getName());
+            return __("Products tagged with '%s'", $this->getTagInfo()->getName());
         } else {
             return false;
         }

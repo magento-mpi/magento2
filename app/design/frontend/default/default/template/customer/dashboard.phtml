@@ -20,15 +20,15 @@
 ?>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <div class="input-left">
-    <h3>Personal Information</h3>
+    <h3><?=__('Personal Information')?></h3>
     <p>
         <?=$this->getCustomer()->toString('{{firstname}} {{lastname}}<br/>{{email}}')?>
         <br/>
-        <a href="<?=$this->getAccountUrl()?>">Edit</a>
+        <a href="<?=$this->getAccountUrl()?>"><?=__('Edit')?></a>
     </p>
     <h3><?=_('Newsletters')?></h3>
     <?=$this->getSubscriptionText()?>
-    <p><a href="<?=$this->getManageNewsletterUrl()?>">Edit</a></p>
+    <p><a href="<?=$this->getManageNewsletterUrl()?>"><?=__('Edit')?></a></p>
 </div>
 <div class="input-right">
 <h3><?=__('Addresses')?></h3>
@@ -36,40 +36,40 @@
     <?foreach ($_addresses as $_address):?>
     <address>
         <?=$_address->toString("{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
-        <br/><a href="<?=$this->getAddressEditUrl($_address)?>">Edit</a>
+        <br/><a href="<?=$this->getAddressEditUrl($_address)?>"><?=__('Edit')?></a>
     </address>
     <?endforeach;?>
 <?endif;?>
-<a href="<?=$this->getAddressesUrl()?>">Go to address book</a>
+<a href="<?=$this->getAddressesUrl()?>"><?=__('Go to address book')?></a>
 </div>
 <div class="clearfix"></div>
 
 <div>
-    <h3>Last 5 Orders</h3>
+    <h3><?=__('Last 5 Orders')?></h3>
     <p>
-    Order list...<br/>
-    <a href="">View</a>
+    <?=__('Order list...')?><br/>
+    <a href=""><?=__('View')?></a>
     </p>
 </div>
 
 
 <div class="input-left">
-    <h3>Personal Information</h3>
+    <h3><?=__('Personal Information')?></h3>
 </div>
 <div class="input-right">
-    <h3>Wishlist</h3>
+    <h3><?=__('Wishlist')?></h3>
 </div>
 
 <div class="input-left">
-    <h3>My Reviews</h3>
+    <h3><?=__('My Reviews')?></h3>
 </div>
 <div class="input-right">
-    <h3>My Tags</h3>
+    <h3><?=__('My Tags')?></h3>
 </div>
 
 <div class="input-left">
-    <h3>Last Viewed Items</h3>
+    <h3><?=__('Last Viewed Items')?></h3>
 </div>
 <div class="input-right">
-    <h3>Shoppping Cart</h3>
+    <h3><?=__('Shoppping Cart')?></h3>
 </div>

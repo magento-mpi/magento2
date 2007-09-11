@@ -398,7 +398,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
                     if ($this->isInvoice()) {
                         $orderItem = Mage::getModel('sales/order_item')->load($itemId);
                         if ($orderItem->getQtyToShip() < $qty) {
-                            $errors[] = __('There\'s not enough qty of product ') . $orderItem->getSku() . ' - "' . $orderItem->getName() . '"' . __(' in order to ship');
+                            $errors[] = __("There's not enough qty of product ") . $orderItem->getSku() . ' - "' . $orderItem->getName() . '"' . __(' in order to ship');
                         } else {
                             $item = Mage::getModel('sales/invoice_item')->setInvoice($this)->importOrderItem($orderItem)->setQty($qty);
                             $item->calcRowTotal()->calcRowWeight()->calcTaxAmount();
@@ -407,7 +407,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
                     } elseif ($this->isCmemo()) {
                         $invoiceItem = Mage::getModel('sales/invoice_item')->load($itemId);
                         if ($invoiceItem->getQty() < $qty) {
-                            $errors[] = __('There\'s not enough qty of product ') . $invoiceItem->getSku() . ' - "' . $invoiceItem->getName() . '"' . __(' in invoice to return');
+                            $errors[] = __("There's not enough qty of product ") . $invoiceItem->getSku() . ' - "' . $invoiceItem->getName() . '"' . __(' in invoice to return');
                         } else {
                             $item = Mage::getModel('sales/invoice_item')->setInvoice($this)->importInvoiceItem($invoiceItem)->setQty($qty);
                             $item->calcRowTotal()->calcRowWeight()->calcTaxAmount();

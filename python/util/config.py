@@ -93,5 +93,7 @@ phrasePatterns = [
            re.compile("addSuccess\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
         ]
 
-defTranslationDirName = "Translate"
-defLanguageDirName = "en"
+defTranslationDirName = "locale"
+defLanguageDirName = "en_US"
+defPhraseFileName = "translate.csv"
+defCsvDelimiter = ","

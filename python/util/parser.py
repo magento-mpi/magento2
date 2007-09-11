@@ -78,7 +78,7 @@ class Parser:
                     sys.exit(RuntimeError)
             for phrase in self.matches[module]:
                 matches.append((phrase, self.matches[module][phrase]))
-                writer = csv.writer(open(outputDir + "/phrases.csv", "wb"), 'excel')
+                writer = csv.writer(open(outputDir + "/" + defPhraseFileName, "wb"), 'excel')
                 writer.writerows(matches)
             matches = []
         return self
@@ -98,7 +98,7 @@ class Parser:
         raise "Unable to find '"+moduleName+"' module dir."
 
 class CsvSpace(csv.Dialect):
-    delimiter        = ";"
+    delimiter        = defCsvDelimiter
     lineterminator   = '\n'
     doublequote      = True
     skipinitialspace = False

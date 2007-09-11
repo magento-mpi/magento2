@@ -38,13 +38,13 @@
         <?foreach($this->getItems() as $_index=>$_item):?>
             <li class="block-compare-item">
                 <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"/>
-                <a href="<?=$this->getRemoveUrl($_item)?>" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="Remove this item"/></a>
+                <a href="<?=$this->getRemoveUrl($_item)?>" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=__('Remove this item')?>"/></a>
                 <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
             </li>
         <?endforeach;?>
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
-        <div class="actions"><a href="<?=$this->getClearUrl()?>" class="left">Clear All</a>
+        <div class="actions"><a href="<?=$this->getClearUrl()?>" class="left"><?=__('Clear All')?></a>
         <button class="form-button-alt" onclick="popWin('<?=$this->getCompareUrl()?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?=__('Compare')?></span></button></div>
     <?else:?>
         <div class="content"><p><?=__('You have no items to compare.')?></p></div>

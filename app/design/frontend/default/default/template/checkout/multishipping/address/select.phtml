@@ -19,8 +19,8 @@
  */
 ?>
 <div class="page-head button-level">
-    <h3>Change Billing Address</h3>
-    <button class="form-button-alt" onclick="setLocation('<?=$this->getAddNewUrl()?>')"><span>Add New Address</span></button>
+    <h3><?=__('Change Billing Address')?></h3>
+    <button class="form-button-alt" onclick="setLocation('<?=$this->getAddNewUrl()?>')"><span><?=__('Add New Address')?></span></button>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <div class="content-box">
@@ -30,16 +30,16 @@
     <div class="col-<?=($_index%3+1)?>">
         <div class="box">
             <p class="actions">
-                <a href="<?=$this->getEditAddressUrl($_address)?>">Edit</a><span class="separator">|</span>
-                <a href="<?=$this->getSetAddressUrl($_address)?>"><strong>Select</strong></a>
+                <a href="<?=$this->getEditAddressUrl($_address)?>"><?=__('Edit')?></a><span class="separator">|</span>
+                <a href="<?=$this->getSetAddressUrl($_address)?>"><strong><?=__('Select')?></strong></a>
             </p>
             <address>
                 <?=$_address->getFormated(true)?>
                 <?if($this->isAddressDefaultBilling($_address)):?>
-                <br/><strong>Default Billing</strong>
+                <br/><strong><?=__('Default Billing')?></strong>
                 <?endif;?>
                 <?if($this->isAddressDefaultShipping($_address)):?>
-                <br/><strong>Default Shipping</strong>
+                <br/><strong><?=__('Default Shipping')?></strong>
                 <?endif;?>
             </address>
         </div>
@@ -50,5 +50,5 @@
 <?if(!$_index || $_index%3!=0):?></div><br/><?endif;?>
 </div>
 <div class="form-buttons">
-    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Billing Information</a>
+    <a href="<?=$this->getBackUrl()?>" class="left"><?=__('&laquo; Back to Billing Information')?></a>
 </div>

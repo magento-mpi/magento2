@@ -26,39 +26,39 @@
  */
 ?>
 <div class="page-head">
-    <h3>Login or Create an Account</h3>
+    <h3><?=__('Login or Create an Account')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post" id="login-form">
 <div class="col2-set login-box">
 	<div class="col-1 new-users">
 		<div class="content">
-			<h4>New Customers</h4>
-			<p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+			<h4><?=__('New Customers')?></h4>
+			<p><?=__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.')?></p>
 		</div>
 		<div class="form-buttons">
-			<button class="form-button right" onclick="window.location='<?=$this->getCreateAccountUrl()?>';" type="button"><span>Create an Account</span></button>
+			<button class="form-button right" onclick="window.location='<?=$this->getCreateAccountUrl()?>';" type="button"><span><?=__('Create an Account')?></span></button>
 		</div>
 	</div>
 	<div class="col-2 registered-users">
 		<div class="content">
-			<h4>Registered Customers</h4>
-			<p>If you have an account with us, please log in.</p>
+			<h4><?=__('Registered Customers')?></h4>
+			<p><?=__('If you have an account with us, please log in.')?></p>
 			<ul class="form-list">
 					<li>
-                        <label for="email">Email Address <span class="required">*</span></label><br/>
-                        <input name="login[username]" value="<?=$this->getUsername()?>" title="email" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
+                        <label for="email"><?=__('Email Address')?> <span class="required">*</span></label><br/>
+                        <input name="login[username]" value="<?=$this->getUsername()?>" title="<?=__('email')?>" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
                     </li>
                     <li>
-                        <label for="pass">Password <span class="required">*</span></label><br/>
+                        <label for="pass"><?=__('Password')?> <span class="required">*</span></label><br/>
                         <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" style="width:250px;"/>
                     </li>
 				</ul>
-                <p class="required">* Required Fields</p>
+                <p class="required">* <?=__('Required Fields')?></p>
 	</div>
 	<div class="form-buttons">
-		<a href="<?=$this->getForgotPasswordUrl()?>" class="left">Forgot your password?</a>
-		<button class="form-button" type="submit" name="send" id="send2"><span>Login</span></button>
+		<a href="<?=$this->getForgotPasswordUrl()?>" class="left"><?=__('Forgot your password?')?></a>
+		<button class="form-button" type="submit" name="send" id="send2"><span><?=__('Login')?></span></button>
 	</div>
 </div>
 </div>

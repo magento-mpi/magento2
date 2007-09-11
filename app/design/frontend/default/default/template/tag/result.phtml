@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<h1 class="page-head">Search Results for "<?=$query;?>" (<a href="/taggedproducts/xml/?tag=<?=$query;?>">RSS</a>)</h1>
+<h1 class="page-head"><?=__("Search Results for '%s'", $query)?> (<a href="/taggedproducts/xml/?tag=<?=$query;?>">RSS</a>)</h1>
 <ul>
 <?php foreach ($hits as $hit) {?>
 

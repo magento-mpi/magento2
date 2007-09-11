@@ -52,7 +52,7 @@
     var coShippingMethodForm = new VarienForm('shipping-zip-form');
 	Validation.addAllThese(
     [
-	       ['validate-zip-code', 'Please enter a valid zip code. For example 90602 or 90602-1234.', function(v) {
+	       ['validate-zip-code', '<?=__('Please enter a valid zip code. For example 90602 or 90602-1234.')?>', function(v) {
                 if( $('shipping-zip-code').value.match(/(^[A-z0-9]{2,10}([\s]{0,2}|[\-]{0,2})[A-z0-9]{2,10}$)/ )) {
                     return true;
                 } else {

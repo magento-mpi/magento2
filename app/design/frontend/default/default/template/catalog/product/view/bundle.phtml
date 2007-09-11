@@ -39,11 +39,11 @@
 				<img id="image" src="<?=$_product->getImageUrl()?>" alt="<?=$_product->getName()?>"/>
 			</p>
 			<div class="image-zoom" id="track_outer">
-                <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="Zoom out" class="btn-zoom-out"/>
+                <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="<?=__('Zoom out')?>" class="btn-zoom-out"/>
 				<div id="track">
 					<div id="handle"></div>
 				</div>
-                <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="Zoom out" class="btn-zoom-in"/>
+                <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="<?=__('Zoom out')?>" class="btn-zoom-in"/>
 			</div>
     		<script type="text/javascript">
     			Event.observe(window, 'load', function() {
@@ -52,7 +52,7 @@
     		</script>
         <?if ($this->getGalleryImages() && $this->getGalleryImages()->getSize()):?>
     		<div class="more-views">
-    			<h4>More Views</h4>
+    			<h4><?=__('More Views')?></h4>
     			<ul>
     			<?foreach ($this->getGalleryImages() as $_image):?>
     				<li>
@@ -110,7 +110,7 @@
                 <div class="product-pricing">
                     <ul class="bare">
                     <?foreach($_prices=$_product->getFormatedTierPrice() as $_price):?>
-                        <li>Buy <?=$_price['price_qty']?> for <strong><?=$_price['price']?>/each</strong></li>
+                        <li><?=__('Buy %s', $_price['price_qty'])?> <?=__('for <strong>%s/each</strong>', $_price['price'])?></li>
                     <?endforeach?>
                     </ul>
                 </div>
@@ -122,31 +122,31 @@
             
             <?if(!$_product->isSuperGroup()):?>
                 <?if(!$_product->isBundle() || $_product->isAviableBundle()):?>
-                    <p><small>Availability: In stock. Ships within 24hours.</small></p>
+                    <p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
                     <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
                     <fieldset class="add-to-cart-box">
-                        <legend>Add items to cart </legend>
-                        <span class="qty-box"><label for="qty">Qty:</label> 
+                        <legend><?=__('Add items to cart')?> </legend>
+                        <span class="qty-box"><label for="qty"><?=__('Qty')?>:</label> 
                         <input name="qty" type="text" class="input-text qty" id="qty"/></span>
-                        <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button>
-                        <strong>OR</strong>
+                        <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button>
+                        <strong><?=__('OR')?></strong>
                     </fieldset>
                     <div class="add-to-box">
-                        <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a><br/>
+                        <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=__('Add to Wishlist')?></a><br/>
                         <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
                     </div>
                 <?else:?>
-                    <p><small>Availability: Out of stock.</small></p>
+                    <p><small><?=__('Availability: Out of stock.')?></small></p>
                     <p>
-                        <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a> <br/>
+                        <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=__('Add to Wishlist')?></a> <br/>
                         <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
                     </p>
                 <?endif;?>
             <?else:?>
-                <p><small>Availability: In stock. Ships within 24hours.</small></p>
-                <button class="form-button" onclick="productAddToCartForm.submit()"><span>Add to Cart</span></button> <strong>OR</strong>
+                <p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button> <strong><?=__('OR')?></strong>
                 &nbsp;&nbsp;
-                <a href="<?=$this->getAddToWishlistUrl($_product)?>">Add to Wishlist</a>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=__('Add to Wishlist')?></a>
                 <span class="pipe">|</span>
                 <a href="<?=$this->getAddToCompareUrl($_product)?>"><?=__('Add to Compare')?></a>
             <?endif;?>
@@ -161,7 +161,7 @@
     		</script>
             <div class="clear"></div>
             <div class="divider"></div>
-		    <h4>Product Description</h4>
+		    <h4><?=__('Product Description')?></h4>
 		    <div class="product-specs"><?=$_product->getDescription()?></div>
 		</div>
     </div>
@@ -171,7 +171,7 @@
 		<?if($_additional = $this->getAdditionalData()):?>
 		<div class="collateral-box attribute-specs">
 			<div class="head">
-				<h4>Product Attribute Specs</h4>
+				<h4><?=__('Product Attribute Specs')?></h4>
 			</div>
 			<table cellspacing="0" class="data-table" id="product-attribute-specs-table">
 			<?foreach ($_additional as $_data):?>

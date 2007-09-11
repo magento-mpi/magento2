@@ -20,9 +20,9 @@
 ?>
 
 	<div class="page-head">
-		<h3>Shipping Information</h3>
+		<h3><?=__('Shipping Information')?></h3>
 	</div>
-	<h4>Shipping Address | <a href="">Change Address</a></h4>
+	<h4><?=__('Shipping Address')?> | <a href=""><?=__('Change Address')?></a></h4>
 	<address>
 			<strong><?=$address->getFirstname()?> <?=$address->getLastname()?></strong><br/>
 			<?=$address->getCompany()?><br/>
@@ -31,13 +31,13 @@
 			<?if($address->getTelephone()):?>T| <?=$address->getTelephone()?><br/><?endif?>
 			<?if($address->getFax()):?>F| <?=$address->getFax()?><br/><?endif?>
 	</address>
-	<h4>Shipping Method</h4>
+	<h4><?=__('Shipping Method')?></h4>
 	<form action="<?=$action?>" method="post">
 			<fieldset>
-					<legend>Shipping Method</legend>
+					<legend><?=__('Shipping Method')?></legend>
 			</fieldset>
 			<div class="form-buttons">
 					<a href="#" onclick="window.location='<?=$this->getUrl('checkout/cart')?>'" class="left">&laquo;</a>
-					<button class="form-button"><span>Continue</span></button>
+					<button class="form-button"><span><?=__('Continue')?></span></button>
 			</div>
 	</form>

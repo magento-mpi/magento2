@@ -19,21 +19,21 @@
  */
 ?>
 <div class="page-head">
-    <h3>Order Success</h3>
+    <h3><?=__('Order Success')?></h3>
 </div>
 <div class="content-box">
-    <p><strong>Thank you for your purchase!</strong><br/></p>
+    <p><strong><?=__('Thank you for your purchase!')?></strong><br/></p>
     <p>
-        We are processing your order and you will soon receive an email with details of the order.<br/>
-        Once the order has shipped you will receive another email with a link to track its progress.
+        <?=__('We are processing your order and you will soon receive an email with details of the order.<br/>
+        Once the order has shipped you will receive another email with a link to track its progress.')?>
     </p>
     <?if($_orderIds = $this->getOrderIds()):?>
-        Your order number is <?=$_orderIds?>
+        <?=__('Your order number is %s', $_orderIds)?>
     <?endif;?>
     <p>
-        <a href="<?=$this->getUrl('customer/account/')?>">My Account</a>
+        <a href="<?=$this->getUrl('customer/account/')?>"><?=__('My Account')?></a>
     </p>
 </div>
 <div class="form-buttons">
-    <button class="form-button" onclick="setLocation('<?=$this->getContinueUrl()?>')"><span>Continue Shopping</span></button>
+    <button class="form-button" onclick="setLocation('<?=$this->getContinueUrl()?>')"><span><?=__('Continue Shopping')?></span></button>
 </div>

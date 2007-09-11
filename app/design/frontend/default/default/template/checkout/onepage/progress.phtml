@@ -20,34 +20,34 @@
 ?>
 
 <div class="box one-page-checkout-progress">
-		<h3>Your Checkout Progress</h3>
+		<h3><?=__('Your Checkout Progress')?></h3>
 	<ol>
 	
 <?if($this->getCheckout()->getStepData('billing', 'complete')):?>
 		<li>
-			<h4 class="complete">Billing Address<span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('opc-billing');return false;">Edit</a></h4>
+			<h4 class="complete"><?=__('Billing Address')?><span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('opc-billing');return false;"><?=__('Edit')?></a></h4>
 
 			<div class="content">
 				<address>
 				<?=$this->getBilling()->getFormated(true)?></address></div></li>
 <?else:?>
 		<li>
-			<h4>Billing Address</h4>
+			<h4><?=__('Billing Address')?></h4>
         </li>
 <?endif?>
 				
 <?if($this->getCheckout()->getStepData('shipping', 'complete')):?>
-		<li><h4 class="complete">Shipping Address<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-shipping');return false;">Edit</a></h4>	
+		<li><h4 class="complete"><?=__('Shipping Address')?><span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-shipping');return false;"><?=__('Edit')?></a></h4>
 			<div class="content">
 				<address><?=$this->getShipping()->getFormated(true)?></address></div></li>
 <?else:?>
 		<li>
-			<h4>Shipping Address</h4>
+			<h4><?=__('Shipping Address')?></h4>
         </li>
 <?endif?>
 
 <?if($this->getCheckout()->getStepData('shipping_method', 'complete')):?>
-        <li><h4 class="complete">Shipping Method<span class="separator">|</span><a href="#shipping_method" onclick="checkout.accordion.openSection('opc-shipping_method');return false;">Edit</a></h4>	
+        <li><h4 class="complete"><?=__('Shipping Method')?><span class="separator">|</span><a href="#shipping_method" onclick="checkout.accordion.openSection('opc-shipping_method');return false;"><?=__('Edit')?></a></h4>
 			<div class="content"><?if ($this->getShippingMethod()):?>
 				<?=$this->getShippingDescription()?>: <?=$this->getShippingAmount()?>
 			<?else:?>
@@ -56,22 +56,20 @@
 			</div></li>
 <?else:?>
 		<li>
-			<h4>Shipping Method</h4>
+			<h4><?=__('Shipping Method')?></h4>
         </li>
 <?endif?>
 				
 <?if($this->getCheckout()->getStepData('payment', 'complete')):?>
-		<li><h4 class="complete">Payment<span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-payment');return false;">Edit</a></h4>	
+		<li><h4 class="complete"><?=__('Payment')?><span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-payment');return false;"><?=__('Edit')?></a></h4>
 			<div class="content">
 			    <?=$this->getPaymentHtml()?>
 			</div>
 		</li>
 <?else:?>
 		<li>
-			<h4>Payment</h4>
+			<h4><?=__('Payment')?></h4>
         </li>
 <?endif?>
 	</ol>
 </div>
-
-

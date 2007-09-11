@@ -24,7 +24,8 @@
             <td style="width:50%;">
                 <h3>
                   <?if($this->getUser()->getUserId()):?>
-                  <?=__('Edit User \'' . $this->getUser()->getFirstname() . ' ' . $this->getUser()->getLastname()) . '\''?>
+                  <?$_userName = $this->getUser()->getFirstname() . ' ' . $this->getUser()->getLastname()?>
+                  <?=__("Edit User '%s'", $_userName)?>
                   <?else:?>
                   <?=__('Add New User')?>
                   <?endif;?>

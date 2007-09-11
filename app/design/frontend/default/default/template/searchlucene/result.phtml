@@ -18,16 +18,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<h1 class="page-head">Search Results</h1>
-<p>Search Results for : "<?=$query?>"</p>
+<h1 class="page-head"><?=__('Search Results')?></h1>
+<p><?=__("Search Results for :'%s'", $query)?></p>
 <?if(!empty($hits)):?>
     <?foreach($hits as $hit):?>
-        Score : <?=round($hit->score,3)?><br>
-        Sku : <?=$hit->sku?><br>
-        Manufacturer : <?=$hit->manufacturer?><br>
-        Shoe Type : <?=$hit->shoe_type?><br>
+        <?=__('Score :%s', round($hit->score,3))?><br>
+        <?=__('Sku :%s', $hit->sku)?><br>
+        <?=__('Manufacturer :%s', $hit->manufacturer)?><br>
+        <?=__('Shoe Type :%s', $hit->shoe_type)?><br>
         <a href="<?=$hit->url?>"><?=$hit->name?></a><br>
      <?endforeach;?>
 <?else:?>
-    <p>There are no products under search term "<?=$query?>"</p>
+    <p><?=__("There are no products under search term '%s'", $query)</p>
 <?endif;?>

@@ -35,47 +35,47 @@
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
     <fieldset class="group-select">
-        <h4 class="legend">Contact Information</h4>
+        <h4 class="legend"><?=__('Contact Information')?></h4>
         <ul>
             <li>
                 <div class="input-box">
-                    <label for="firstname">First Name <span class="required">*</span></label><br/>
-                    <input type="text" name="firstname" id="firstname" title="First Name" value="<?=( $this->getAddress()->getFirstname() ) ? $this->getAddress()->getFirstname() : $this->getCustomer()->getFirstname() ?>" class="required-entry input-text"/>
+                    <label for="firstname"><?=__('First Name')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="firstname" id="firstname" title="<?=__('First Name')?>" value="<?=( $this->getAddress()->getFirstname() ) ? $this->getAddress()->getFirstname() : $this->getCustomer()->getFirstname() ?>" class="required-entry input-text"/>
                 </div>
                 <div class="input-box">
-                    <label for="lastname">Last Name <span class="required">*</span></label><br/>
-                    <input type="text" name="lastname" id="lastname" title="Last Name" value="<?=($this->getAddress()->getLastname() ) ? $this->getAddress()->getLastname() : $this->getCustomer()->getLastname()?>" class="required-entry input-text"/>
+                    <label for="lastname"><?=__('Last Name')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="lastname" id="lastname" title="<?=__('Last Name')?>" value="<?=($this->getAddress()->getLastname() ) ? $this->getAddress()->getLastname() : $this->getCustomer()->getLastname()?>" class="required-entry input-text"/>
                 </div>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="company">Company</label><br/>
-                    <input type="text" name="company" id="company" title="Company" value="<?=$this->getAddress()->getCompany()?>" class="input-text"/>
+                    <label for="company"><?=__('Company')?></label><br/>
+                    <input type="text" name="company" id="company" title="<?=__('Company')?>" value="<?=$this->getAddress()->getCompany()?>" class="input-text"/>
                 </div>
                 <div class="input-box">
-                    <label for="telephone">Telephone <span class="required">*</span></label><br/>
-                    <input type="text" name="telephone" value="<?=$this->getAddress()->getTelephone()?>" title="Telephone" class="required-entry input-text" id="telephone"/>
+                    <label for="telephone"><?=__('Telephone')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="telephone" value="<?=$this->getAddress()->getTelephone()?>" title="<?=__('Telephone')?>" class="required-entry input-text" id="telephone"/>
                 </div>
             </li>
         </ul>
     </fieldset>
     <fieldset class="group-select">
-         <h4 class="legend">Address</h4>
+         <h4 class="legend"><?=__('Address')?></h4>
         <ul>
             <li>
-                <label for="street_1">Street Address <span class="required">*</span></label><br/>
-                <input type="text" name="street[]" value="<?=$this->getAddress()->getStreet(1)?>" title="Street Address" id="street_1" class="required-entry input-text"/>
+                <label for="street_1"><?=__('Street Address')?> <span class="required">*</span></label><br/>
+                <input type="text" name="street[]" value="<?=$this->getAddress()->getStreet(1)?>" title="<?=__('Street Address')?>" id="street_1" class="required-entry input-text"/>
             </li>
             <li>
-                <input type="text" name="street[]" value="<?=$this->getAddress()->getStreet(2)?>" title="Street Address 2" id="street_2" class="input-text"/>
+                <input type="text" name="street[]" value="<?=$this->getAddress()->getStreet(2)?>" title="<?=__('Street Address 2')?>" id="street_2" class="input-text"/>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="city">City <span class="required">*</span></label><br/>
-                    <input type="text" name="city" value="<?=$this->getAddress()->getCity()?>"  title="City" class="required-entry input-text" id="city"/>
+                    <label for="city"><?=__('City')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="city" value="<?=$this->getAddress()->getCity()?>"  title="<?=__('City')?>" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
-                    <label for="state">State / Province <span class="required">*</span></label><br/>
+                    <label for="state"><?=__('State / Province')?> <span class="required">*</span></label><br/>
 	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
 	                   <option value=""><?=__('Please select region or state')?></option>
 	                </select>
@@ -84,30 +84,30 @@
             </li>
             <li>
                 <div class="input-box">
-                    <label for="zip">Zip/Post Code <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$this->getAddress()->getPostcode()?>" title="ZIP/Post Code" id="zip" class="validate-zip-international required-entry input-text"/>
+                    <label for="zip"><?=__('Zip/Post Code')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="<?=$this->getAddress()->getPostcode()?>" title="<?=__('ZIP/Post Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
                 </div>
                 <div class="input-box">
-                    <label for="country">Country <span class="required">*</span></label><br/>
+                    <label for="country"><?=__('Country')?> <span class="required">*</span></label><br/>
                     <?=$this->getCountryHtmlSelect()?>
                 </div>
             </li>
             <li>
                 <?if($this->isDefaultBilling()):?>
-                    <strong>Default billing address</strong>
+                    <strong><?=__('Default billing address')?></strong>
                 <?elseif($this->canSetAsDefaultBilling()):?>
                     <input type="checkbox" id="primary_billing" name="default_billing" value="1"/>&nbsp;
-                    <label for="primary_billing">Use as my default <strong>billing</strong> address</label>
+                    <label for="primary_billing"><?=__('Use as my default <strong>billing</strong> address')?></label>
                 <?else:?>
                     <input type="hidden" name="default_billing" value="1"/>
                 <?endif;?>
             </li>
             <li>
                 <?if($this->isDefaultShipping()):?>
-                    <strong>Default shipping address</strong>
+                    <strong><?=__('Default shipping address')?></strong>
                 <?elseif($this->canSetAsDefaultShipping()):?>
                     <input type="checkbox" id="primary_shipping" name="default_shipping" value="1"/>&nbsp;
-                    <label for="primary_shipping">Use as my default <strong>shipping</strong> address</label>
+                    <label for="primary_shipping"><?=__('Use as my default <strong>shipping</strong> address')?></label>
                 <?else:?>
                     <input type="hidden" name="default_shipping" value="1"/>
                 <?endif;?>
@@ -115,9 +115,9 @@
         </ul>
     </fieldset>
     <div class="form-buttons">
-        <p class="required">* Required Fields</p>
-        <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back</a>
-        <button class="form-button" type="submit"/><span>Save Address</span></button>
+        <p class="required">* <?=__('Required Fields')?></p>
+        <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back')?></a>
+        <button class="form-button" type="submit"/><span><?=__('Save Address')?></span></button>
     </div>
 </form>
 <script type="text/javascript">

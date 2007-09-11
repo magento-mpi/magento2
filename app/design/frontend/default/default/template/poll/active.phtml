@@ -21,7 +21,7 @@
 <?if(isset($poll)) :?>
 <div class="box base-mini mini-poll">
 	<div class="head">
-		<h4><span>Community Poll</span></h4>
+		<h4><span><?=__('Community Poll')?></span></h4>
 	</div>
 		<div class="content">
 	<h5><?=$poll->getPollTitle();?></h5>
@@ -41,6 +41,6 @@
 					<?endif;?>
 					</form>
 				</div>
-					<div class="actions"><button href="#" class="form-button-alt right" onclick="pollForm.submit()"><span>Vote</span></button></div>
+					<div class="actions"><button href="#" class="form-button-alt right" onclick="pollForm.submit()"><span><?=__('Vote')?></span></button></div>
 				</div>
 <?endif;?>

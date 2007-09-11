@@ -20,7 +20,7 @@
 ?>
 <?if( $this->getTagInfo()->getName() ):?>
     <div class="page-head">
-    	<h3><?=__('Products tagged with \'%s\'', $this->getTagInfo()->getName())?></h3>
+    	<h3><?=__("Products tagged with '%s'", $this->getTagInfo()->getName())?></h3>
     </div>
 <?endif;?>
 <?=$this->getListHtml()?>
@@ -49,7 +49,7 @@
 		</tbody>
 	<?else:?>
 			<tr>
-			<td><p><?=__('Unable to find any product tagged with \'' . $this->getTagInfo()->getName() . '\'')?></p></td>
+			<td><p><?=__("Unable to find any product tagged with '%s'", $this->getTagInfo()->getName() )?></p></td>
 			</tr>
 	<?endif;?>
 	</table>

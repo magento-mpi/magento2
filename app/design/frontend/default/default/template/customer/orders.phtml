@@ -20,19 +20,19 @@
 ?>
 
     <div class="page-head">
-			<h3>My Orders</h3>
+			<h3><?=__('My Orders')?></h3>
 		</div>
 
 <?if($orders->getSize()):?>
     <table cellspacing="0" width="100%" class="data-table" id="my-orders-table" >
         <thead>
             <tr>
-                <th>Order #</th>
-                <th>Date</th>
+                <th><?=__('Order #')?></th>
+                <th><?=__('Date')?></th>
                 <!--<th class="align-center">Shipped To</th>-->
-                <th class="a-right">Total</th>
-                <th class="a-center">Status</th>
-                <th >Details</th>
+                <th class="a-right"><?=__('Total')?></th>
+                <th class="a-center"><?=__('Status')?></th>
+                <th ><?=__('Details')?></th>
             </tr>
         </thead>
         <tbody>
@@ -43,15 +43,15 @@
                 <!--<td class="align-center">{$page.orders[io].customer}</td>-->
                 <td class="a-right"><?=$order->getGrandTotal()?>&nbsp;</td>
                 <td class="a-center"><?=$order->getStatus()?>&nbsp;</td>
-                <td><a href="<?=$this->getUrl('customer/order/view', array('order'=>$order->getOrderId()))?>">View</a>&nbsp;</td>
+                <td><a href="<?=$this->getUrl('customer/order/view', array('order'=>$order->getOrderId()))?>"><?=__('View')?></a>&nbsp;</td>
             </tr>
         <?endforeach?>
         </tbody>
     </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?else:?>
-    <p>You have not placed any orders yet.</p>
+    <p><?=__('You have not placed any orders yet.')?></p>
 <?endif?>
     <div class="buttons-container">
-        <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; Back</a>
+        <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; <?=__('Back')?></a>
     </div>

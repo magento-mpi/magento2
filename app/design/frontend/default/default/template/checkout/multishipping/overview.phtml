@@ -19,19 +19,19 @@
  */
 ?>
 <div class="page-head">
-    <h3>Review Order</h3>
+    <h3><?=__('Review Order')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <div class="multi-address-checkout-box">
 <form action="<?=$this->getPostActionUrl()?>" method="post">
     <div class="box">
-        <h4 class="legend">Billing Information</h4>
+        <h4 class="legend"><?=__('Billing Information')?></h4>
         <div class="clear"></div>
         <div class="content col2-set">
             <div class="col-1">
                 <?$_address=$this->getBillingAddress()?>
                 <div class="head">
-                    <h4>Billing Address<span class="separator">|</span><a href="<?=$this->getEditBillingAddressUrl($_address)?>">Edit</a></h4>
+                    <h4><?=__('Billing Address')?><span class="separator">|</span><a href="<?=$this->getEditBillingAddressUrl($_address)?>"><?=__('Edit')?></a></h4>
                 </div>
                 <address>
                     <?=$_address->getFormated(true)?>
@@ -39,7 +39,7 @@
             </div>
             <div class="col-2">
                 <div class="head">
-                    <h4>Payment Method<span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>">Edit</a></h4>
+                    <h4><?=__('Payment Method')?><span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>"><?=__('Edit')?></a></h4>
                 </div>
                 <?=$this->getPaymentHtml()?>
             </div>
@@ -47,20 +47,20 @@
      </div>
 
     <div class="box">
-        <h4 class="legend">Shipping Information</h4>
+        <h4 class="legend"><?=__('Shipping Information')?></h4>
         <div class="clear"></div>
 <?foreach ($this->getShippingAddresses() as $_index => $_address):?>
-    <div class="content col2-alt-set"><h4>Address <span class="shipment-count"><?=($_index+1)?></span> of <?=$this->getShippingAddressCount()?></h4>
+    <div class="content col2-alt-set"><h4><?=__('Address')?> <span class="shipment-count"><?=($_index+1)?></span> <?=__('of')?> <?=$this->getShippingAddressCount()?></h4>
         <div class="col-1">
             <div class="head">
-                <h4>Shipping to<span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>">Edit</a></h4>
+                <h4><?=__('Shipping to')?><span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>"><?=__('Edit')?></a></h4>
             </div>
             <address>
                 <?=$_address->getFormated(true)?>
             </address>
             <br/>
             <div class="head">
-                <h4>Shipping Method<span class="separator">|</span><a href="<?=$this->getEditShippingUrl()?>">Edit</a></h4>
+                <h4><?=__('Shipping Method')?><span class="separator">|</span><a href="<?=$this->getEditShippingUrl()?>"><?=__('Edit')?></a></h4>
             </div>
             <?if($_rate=$this->getShippingAddressRate($_address)):?>
             <p><?=$_rate->getCarrierTitle()?> (<?=$_rate->getMethodDescription()?>) - <?=$_rate->getPrice()?></p>
@@ -68,7 +68,7 @@
         </div>
         <div class="col-2">
             <div class="head">
-                <h4>Items<span class="separator">|</span><a href="<?=$this->getAddressesEditUrl()?>">Edit</a></h4>
+                <h4><?=__('Items')?><span class="separator">|</span><a href="<?=$this->getAddressesEditUrl()?>"><?=__('Edit')?></a></h4>
             </div>
             <table cellspacing="0" id="overview-table-<?=$_address->getId()?>" class="data-table nested-data-table">
                 <col/>
@@ -77,10 +77,10 @@
                 <col width="70"/>
                 <thead>
                     <tr>
-                        <th>Product Name</th>
-                        <th class="a-right">Price</th>
-                        <th class="a-center">Qty</th>
-                        <th class="a-right">Subtotal</th>
+                        <th><?=__('Product Name')?></th>
+                        <th class="a-right"><?=__('Price')?></th>
+                        <th class="a-center"><?=__('Qty')?></th>
+                        <th class="a-right"><?=__('Subtotal')?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -117,12 +117,12 @@
 <table class="place-order-box" cellspacing="0">
     <tr>
         <td class="left-radius">&nbsp;</td>
-        <td class="main-radius"><big class="grand-total"><span class="label">Grand Total:</span> <span class="price"><?=$this->getTotal()?></span></big>
-            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="Place Order"/></td>
+        <td class="main-radius"><big class="grand-total"><span class="label"><?=__('Grand Total')?>:</span> <span class="price"><?=$this->getTotal()?></span></big>
+            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="<?=__('Place Order')?>"/></td>
     </tr>
 </table>
 <div class="clear"></div>
 <div class="form-buttons">
-    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; Back to Billing Information</a>
+    <a href="<?=$this->getBackUrl()?>" class="left"><?=__('&laquo; Back to Billing Information')?></a>
 </div>
 </form>

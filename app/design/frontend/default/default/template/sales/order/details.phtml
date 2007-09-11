@@ -27,7 +27,7 @@
 <?foreach ($this->getInvoices() as $_invoice):?>
     <div class="divider"></div>
     <div class="head">
-        <h3><?=__('Invoice #')?><?=$_invoice->getIncrementId()?></h3>
+        <h3><?=__('Invoice #%s', $_invoice->getIncrementId() )?></h3>
         <a href="#"><?=__('Print Invoice')?></a>
     </div>
     <div class="col2-set">

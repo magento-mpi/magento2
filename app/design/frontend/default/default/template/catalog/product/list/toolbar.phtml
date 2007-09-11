@@ -30,20 +30,20 @@
         <tr>
             <td>
             <?if($this->getLastPageNum()>1):?>
-                Items <strong><?=$this->getFirstNum()?></strong>
-                to <strong><?=$this->getLastNum()?></strong>
-                of <strong><?=$this->getTotalNum()?> total</strong>
+                <?=__('Items')?> <strong><?=$this->getFirstNum()?></strong>
+                <?=__('to')?> <strong><?=$this->getLastNum()?></strong>
+                <?=__('of')?> <strong><?=$this->getTotalNum()?> <?=__('total')?></strong>
             <?else:?>
-                <strong><?=$this->getTotalNum()?> Item(s)</strong>
+                <strong><?=$this->getTotalNum()?> <?=__('Item(s)')?></strong>
             <?endif;?>
             </td>
             <?if($this->getLastPageNum()>1):?>
             <td>
-                <strong>Page:</strong>
+                <strong><?=__('Page')?>:</strong>
                 <ol>
                 <?if (!$this->isFirstPage()):?>
                     <li>
-                        <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Previous"/></a>
+                        <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="<?=__('Previous')?>"/></a>
                     </li>
                 <?endif?>
                 <?foreach ($this->getPages() as $_page):?>
@@ -55,20 +55,20 @@
                 <?endforeach;;?>
                 <?if (!$this->isLastPage()):?>
                     <li>
-                        <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="Next"/></a>
+                        <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="<?=__('Next')?>"/></a>
                     </li>
                 <?endif?>
                 </ol>
             </td>
             <?endif;?>
             <td class="a-right">
-                Show <select name="" onchange="setLocation(this.value)">
+                <?=__('Show')?> <select name="" onchange="setLocation(this.value)">
                 <?foreach ($this->getAvailableLimit() as  $_key=>$_limit):?>
                     <option value="<?=$this->getLimitUrl($_key)?>"<?if($this->isLimitCurrent($_key)):?> selected<?endif?>>
                         <?=$_limit?>
                     </option>
                 <?endforeach;?>
-                </select> per page
+                </select> <?=__('per page')?>
             </td>
         </tr>
     </table>
@@ -79,7 +79,7 @@
             <td>
                 <?$_modes = $this->getModes();?>
                 <?if($_modes && count($_modes)>1):?>
-                View as:
+                <?=__('View as')?>:
                 <?foreach ($this->getModes() as $_code=>$_label):?>
                     <?if($this->isModeActive($_code)):?>
                         <strong><?=$_label?></strong>&nbsp;
@@ -91,7 +91,7 @@
             </td>
             <?endif;?>
             <td class="a-right">
-                Sort by <select name="" onchange="setLocation(this.value)">
+                <?=__('Sort by')?> <select name="" onchange="setLocation(this.value)">
                 <?foreach($this->getAvailableOrders() as $_key=>$_order):?>
                     <option value="<?=$this->getOrderUrl($_key, 'asc')?>"<?if($this->isOrderCurrent($_key)):?> selected<?endif;?>>
                         <?=$_order?>
@@ -99,9 +99,9 @@
                 <?endforeach;?>
                 </select>
                 <?if($this->getCurrentDirection() == 'desc'):?>
-                    <a href="<?=$this->getOrderUrl(null, 'asc')?>"><img src="<?=$this->getSkinUrl('images/sort_desc_arrow.gif')?>" alt="Set asc directory" class="v-middle"/></a>
+                    <a href="<?=$this->getOrderUrl(null, 'asc')?>"><img src="<?=$this->getSkinUrl('images/sort_desc_arrow.gif')?>" alt="<?=__('Set asc directory')?>" class="v-middle"/></a>
                 <?else:?>
-                    <a href="<?=$this->getOrderUrl(null, 'desc')?>"><img src="<?=$this->getSkinUrl('images/sort_asc_arrow.gif')?>" alt="Set desc directory" class="v-middle"/></a>
+                    <a href="<?=$this->getOrderUrl(null, 'desc')?>"><img src="<?=$this->getSkinUrl('images/sort_asc_arrow.gif')?>" alt="<?=__('Set desc directory')?>" class="v-middle"/></a>
                 <?endif;?>
             </td>
         </tr>

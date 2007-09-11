@@ -118,7 +118,7 @@ class Mage_Adminhtml_Permission_UserController extends Mage_Adminhtml_Controller
 
                 if ( !$user->hasAssigned2Role() or !$this->getRequest()->getParam('roles', false) ) {
                 	$user->setIsActive('0')->save();
-                	Mage::getSingleton('adminhtml/session')->addError('No roles were assigned to this user. Account won\'t be active.');
+                	Mage::getSingleton('adminhtml/session')->addError("No roles were assigned to this user. Account won't be active.");
                 	$this->getResponse()->setRedirect(Mage::getUrl("*/*/edituser/id/{$uid}"));
                 } else {
 	                Mage::getSingleton('adminhtml/session')->addSuccess('User successfully saved.');

@@ -20,13 +20,13 @@
 ?>
 
 <div class="page-head">
-    <h3>Your order has been received</h3>
+    <h3><?=__('Your order has been received')?></h3>
 </div>
-<p><strong>Thank you for your purchase!</strong></p>
+<p><strong><?=__('Thank you for your purchase!')?></strong></p>
 <p>
-		Your order # is: <?=Mage::getSingleton('checkout/session')->getLastRealOrderId()?>.<br/>
-		You will receive an order confirmation email with details of your order and a link to track its progress.
+		<?=__('Your order # is: %s', Mage::getSingleton('checkout/session')->getLastRealOrderId())?>.<br/>
+		<?=__('You will receive an order confirmation email with details of your order and a link to track its progress.')?>
 </p>
 <div class="form-buttons">
-		<button class="form-button" onclick="window.location='<?=$this->getUrl()?>'"><span>Continue Shopping</span></button>
+		<button class="form-button" onclick="window.location='<?=$this->getUrl()?>'"><span><?=__('Continue Shopping')?></span></button>
 </div>

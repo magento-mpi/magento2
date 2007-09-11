@@ -19,15 +19,15 @@
  */
 ?>
 
-<h2>Wishlist</h2>
+<h2><?=__('Wishlist')?></h2>
 <?if($wishlist->getSize()):?>
 <form action="<?=$this->getUrl('customer/wishlist/updatePost')?>" method="post">
     <table cellspacing="0" width="100%" class="data-table">
         <tr>
-            <th class="align-left">Product</th>
-            <th style="width:60px;" class="align-center">Status</th>
-            <th style="width:60px;" class="align-center">To cart</th>
-            <th style="width:60px;" class="align-center">Remove</th>
+            <th class="align-left"><?=__('Product')?></th>
+            <th style="width:60px;" class="align-center"><?=__('Status')?></th>
+            <th style="width:60px;" class="align-center"><?=__('To cart')?></th>
+            <th style="width:60px;" class="align-center"><?=__('Remove')?></th>
         </tr>
         <?foreach($wishlist as $item):?>
         <tr>
@@ -42,10 +42,10 @@
         <?endforeach?>
     </table>
     <div class="buttons-container">
-        <a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; Continue Shopping</a>
-        <input type="submit" value="Update" class="input-button" name="do"/>
+        <a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; <?=__('Continue Shopping')?></a>
+        <input type="submit" value="<?=__('Update')?>" class="input-button" name="do"/>
     </div>
 </form>
 <?else:?>
-    <p>You have not placed any product yet.</p>
+    <p><?=__('You have not placed any product yet.')?></p>
 <?endif?>
