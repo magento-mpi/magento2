@@ -27,11 +27,11 @@
 <div class="page-head">
     <h3><?=__('You\'re All Set')?>!</h3>
 </div>
-<p>Get ready to experience Open-Source eCommerce Evolved.</p>
+<p><?=__('Get ready to experience Open-Source eCommerce Evolved.')?></p>
 <?if($this->getEncryptionKey()):?>
-<p>Before you continue onto your store, make note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).</p>
+<p><?=__('Before you continue onto your store, make note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).')?></p>
 <p><strong><big><?=$this->getEncryptionKey()?></big></strong></p>
-<p>(Make sure you keep it in a safe place.)</p>
+<p><?=__('(Make sure you keep it in a safe place.)')?></p>
 <?endif;?>
 <div class="form-buttons">
     <button class="form-button" onclick="setLocation('<?=Mage::getBaseUrl()?>')" type="button"><?=__('Go to Frontend')?></button>&nbsp;&nbsp;
