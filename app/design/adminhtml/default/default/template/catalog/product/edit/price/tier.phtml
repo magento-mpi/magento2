@@ -67,6 +67,7 @@
 		},
 		deleteItem : function(item) {
 			$('<?=$this->getElement()->getHtmlId()?>_row_' + item).hide();
+			$('<?=$this->getElement()->getHtmlId()?>_row_' + item).addClassName('no-display template');
 			if($('<?=$this->getElement()->getHtmlId()?>_row_'+item+'delete')){
 			    $('<?=$this->getElement()->getHtmlId()?>_row_'+item+'delete').value=1;
 			}
