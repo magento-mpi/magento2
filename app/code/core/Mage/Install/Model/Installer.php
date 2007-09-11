@@ -152,6 +152,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function finish()
     {
         Mage::getSingleton('install/installer_config')->replaceTmpInstallDate();
+        Mage::getConfig()->getCache()->clean();
         return $this;
     }
 }

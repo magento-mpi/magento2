@@ -180,7 +180,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         return $this;
     }
-
+    
+    /**
+     * Retrieve cache object
+     *
+     * @return Zend_Cache_Frontend_File
+     */
     public function getCache()
     {
         if (!$this->_cache) {
