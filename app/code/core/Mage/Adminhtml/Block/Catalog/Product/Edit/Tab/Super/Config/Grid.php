@@ -65,6 +65,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
        	$collection = Mage::getResourceModel('catalog/product_collection')
        		->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
+            ->addAttributeToSelect('attribute_set_id')
+            ->addAttributeToSelect('type_id')
             ->addAttributeToSelect('price')
             ->addFieldToFilter('attribute_set_id',$product->getAttributeSetId())
             ->addFieldToFilter('type_id',1);
@@ -124,6 +126,34 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'header'    => __('Name'),
             'index'     => 'name'
         ));
+        
+        $types = Mage::getResourceModel('catalog/product_type_collection')
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('type',
+            array(
+                'header'=> __('Type'),
+                'width' => '100px',
+                'index' => 'type_id',
+                'type'  => 'options',
+                'options' => $types,
+        ));
+
+        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getConfig()->getId())
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('set_name',
+            array(
+                'header'=> __('Attrib. Set Name'),
+                'width' => '130px',
+                'index' => 'attribute_set_id',
+                'type'  => 'options',
+                'options' => $sets,
+        ));
+        
         $this->addColumn('sku', array(
             'header'    => __('SKU'),
             'width'     => '80px',
