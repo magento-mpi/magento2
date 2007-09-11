@@ -20,7 +20,7 @@
 
 /**
  * Install configuration template
- * 
+ *
  * @see Mage_Install_Block_Config
  */
 ?>
@@ -119,6 +119,19 @@
                     <?=__('For HTTP connections, default port is 80')?>.</small>
                 </p>
             </div>
+        </li>
+    </ul>
+</fieldset>
+<fieldset class="group-select">
+    <legend><?=__('Configuration options')?></legend>
+    <h4 class="legend"><?=__('Configuration options')?></h4>
+    <ul>
+        <li>
+            <input type="checkbox" name="skip_url_validation" id="skip_url_validation" value="1" <?if($this->getSkipUrlValidation()):?>checked<?endif?>>
+            <label for="skip_url_validation">Skip URL validation</label><br/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small>Check this box only if you are unable to automatically validate Magento URL, for example if HTTP authentication is required.</small>
+            </p>
         </li>
     </ul>
 </fieldset>

@@ -28,7 +28,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         return parent::preDispatch();
     }
-    
+
     /**
      * Retrieve installer object
      *
@@ -38,7 +38,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         return Mage::getSingleton('install/installer');
     }
-    
+
     /**
      * Retrieve wizard
      *
@@ -61,12 +61,12 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         if ($step) {
             $step->setActive(true);
         }
-        
+
         $leftBlock = $this->getLayout()->createBlock('install/state', 'install.state');
         $this->getLayout()->getBlock('left')->append($leftBlock);
         return $this;
     }
-    
+
     /**
      * Checking installation status
      *
@@ -79,7 +79,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         }
         return $this;
     }
-    
+
     /**
      * Index action
      */
@@ -87,7 +87,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_forward('begin');
     }
-    
+
     /**
      * Begin installation action
      */
@@ -104,17 +104,17 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('install/begin', 'install.begin')
         );
-        
+
         $this->renderLayout();
     }
-    
+
     /**
      * Process begin step POST data
      */
     public function beginPostAction()
     {
         $this->_checkIfInstalled();
-        
+
         $agree = $this->getRequest()->getPost('agree');
         if ($agree && $step = $this->_getWizard()->getStepByName('begin')) {
             $this->getResponse()->setRedirect($step->getNextUrl());
@@ -123,7 +123,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $this->_redirect('install');
         }
     }
-    
+
     /**
      * Configuration data installation
      */
@@ -140,10 +140,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('install/config', 'install.config')
         );
-        
+
         $this->renderLayout();
     }
-    
+
     /**
      * Process configuration POST data
      */
@@ -153,19 +153,21 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $step = $this->_getWizard()->getStepByName('config');
 
         if ($data = $this->getRequest()->getPost('config')) {
-            Mage::getSingleton('install/session')->setConfigData($data);
+            Mage::getSingleton('install/session')
+                ->setConfigData($data)
+                ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'));
             try {
                 $this->_getInstaller()->installConfig($data);
     	        $this->_redirect('*/*/installDb');
     	        return $this;
             }
             catch (Exception $e){
-                
+
             }
         }
         $this->getResponse()->setRedirect($step->getUrl());
     }
-    
+
     /**
      * Install DB
      */
@@ -186,7 +188,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect($step->getUrl());
         }
     }
-    
+
     /**
      * Install admininstrator account
      */
@@ -196,13 +198,13 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-        
+
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('install/admin', 'install.administrator')
         );
         $this->renderLayout();
     }
-    
+
     /**
      * Process administrator instalation POST data
      */
@@ -225,7 +227,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         }
         $this->getResponse()->setRedirect($step->getNextUrl());
     }
-    
+
     /**
      * End installation
      */
@@ -233,16 +235,16 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_checkIfInstalled();
         $this->_getInstaller()->finish();
-        
+
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
-        
+
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('install/end', 'install.end')
         );
         $this->renderLayout();
     }
-    
+
     /**
      * Host validation response
      */

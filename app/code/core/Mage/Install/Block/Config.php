@@ -17,20 +17,20 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Config installation block
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Block_Config extends Mage_Install_Block_Abstract 
+class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('install/config.phtml');
     }
-    
+
     /**
      * Retrieve form data post url
      *
@@ -40,7 +40,7 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
     {
         return $this->getUrl('*/*/configPost');
     }
-    
+
     /**
      * Retrieve configuration form data object
      *
@@ -60,5 +60,10 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
             $this->setFormData($data);
         }
         return $data;
+    }
+
+    public function getSkipUrlValidation()
+    {
+        return Mage::getSingleton('install/session')->getSkipUrlValidation();
     }
 }
