@@ -23,56 +23,57 @@
  *
  * @category   Mage
  * @package    Mage_Backup
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Backup_Model_Db
 {
-    public function __construct() 
+    public function __construct()
     {
-        
+
     }
-    
+
     public function getResource()
     {
         return Mage::getResourceSingleton('backup/db');
     }
-    
+
     public function getTables()
     {
         return $this->getResource()->getTables();
     }
-    
+
     public function getTableCreateScript($tableName, $addDropIfExists=false)
     {
         return $this->getResource()->getTableCreateScript($tableName, $addDropIfExists);
     }
-    
+
     public function getTableDataDump($tableName)
     {
         return $this->getResource()->getTableDataDump($tableName);
     }
-    
+
     public function getHeader()
     {
         return $this->getResource()->getHeader();
     }
-    
+
     public function getFooter()
     {
         return $this->getResource()->getFooter();
     }
-    
+
     public function renderSql()
     {
+        ini_set('max_execution_time', 0);
         $sql = $this->getHeader();
-        
+
         $tables = $this->getTables();
         foreach ($tables as $tableName) {
         	$sql.= $this->getTableCreateScript($tableName, true);
         	$sql.= $this->getTableDataDump($tableName);
         }
-        
+
         $sql.= $this->getFooter();
         return $sql;
     }
