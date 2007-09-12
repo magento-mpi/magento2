@@ -131,13 +131,13 @@
         </div>
     </div>
         <div class="product-collateral">
-        <?if($_additional = $this->getAdditionalData()):?>
         <div class="collateral-box">
             <div class="head">
                 <h4><?=__('Product Description')?></h4>
             </div>
             <div class="product-specs"><?=$_product->getDescription()?></div>
         </div>
+        <?if($_additional = $this->getAdditionalData()):?>
         <div class="collateral-box attribute-specs">
             <div class="head">
                 <h4><?=__('Additional Information')?></h4>
