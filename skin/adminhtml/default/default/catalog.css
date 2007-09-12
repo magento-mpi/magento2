@@ -14,17 +14,44 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-.tier-price-input 
+.tier-price-input
 {
-    
+
 }
 .tier-price-input INPUT.price
 {
-    width: 70px;
+    width: 80px;
+    margin-right:10px;
 }
 .tier-price-input INPUT.qty
 {
-    width: 50px;
+    width: 80px;
+}
+
+.tier-price-input .tier-container {
+    position:relative;
+    clear:both;
+}
+
+.tier-price-input .tier-container div {
+    float:left;
+}
+
+.tier-price-input .validation-advice {
+    margin:0 0 0 0px;
+    height:25px;
+}
+
+.tier-price-input .price-div {
+    padding-left:30px;
+}
+
+.tier-price-input .qty-div {
+    width:200px;
+}
+
+.tier-price-input .price-div .validation-advice {
+    margin:0;
 }
 
 .super-attributes {

@@ -19,35 +19,27 @@
  */
 ?>
 <?=$this->getAddButtonHtml()?>
+<div>&nbsp;</div>
 <span id="<?=$this->getElement()->getHtmlId()?>_container"></span>
 <span id="<?=$this->getElement()->getHtmlId()?>_delete_button" style="display:none"></span>
-
 <div id="<?=$this->getElement()->getHtmlId()?>_add_template" style="display:none">
 <div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row___index__">
-<table cellspacing="0">
-	<tbody>
-	 <tr>
-	  	<td class="a-left">
-		<strong><?=('Qty')?></strong>&nbsp;
-		<span>
-		  <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'">
-		</span>
-        <div style="height:20px;">&nbsp;</div>
-		</td>
-		<td class="a-left">&nbsp;
-		<strong><?=('and above. Price')?></strong>&nbsp;
-		<span>
-		  <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
-		</span>
-		<div style="height:20px;">&nbsp;</div>
-		</td>
-		<td class="a-left">
-		<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__delete'" type="hidden" name="'<?=$this->getElement()->getName()?>[__index__][delete]'" value="">
-		<?=$this->getDeleteButtonHtml()?>
-		</td>
-	  </tr>
-	</tbody>
-</table>
+    <div class="tier-container">
+        <div class="qty-div">
+            <strong><?=('Qty')?></strong>&nbsp;
+    		<span>
+    		  <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'"><strong><?=__(' and above.')?></strong>
+    		</span>
+        </div>
+        <div class="price-div">
+        	<strong><?=('Price')?></strong>&nbsp;
+    		<span>
+    		  <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
+    		</span>
+        	<input id="'<?=$this->getElement()->getHtmlId()?>_row___index__delete'" type="hidden" name="'<?=$this->getElement()->getName()?>[__index__][delete]'" value="">
+    		<?=$this->getDeleteButtonHtml()?>
+        </div>
+    </div>
 </div>
 </div>
 <script type="text/javascript">
