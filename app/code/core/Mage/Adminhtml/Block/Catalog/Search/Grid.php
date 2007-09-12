@@ -70,11 +70,11 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('synonim_for', array(
-            'header'    => __('Synonim for'),
+            'header'    => __('Synonym for'),
             'align'     => 'left',
             'index'     => 'synonim_for',
         ));
-        
+
         $this->addColumn('redirect', array(
             'header'    => __('Redirect'),
             'align'     => 'left',
