@@ -60,6 +60,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         $this->processPayments();
 
+        if ($this->getErrors()) {
+            throw Mage::exception('Mage_Sales', __('Errors during order creation'));
+        }
+
         return $this;
     }
 
@@ -194,6 +198,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setShippingDescription($address->getShippingDescription())
             ->setSubtotal($address->getSubtotal())
             ->setTaxAmount($address->getTaxAmount())
+            ->setDiscountAmount($address->getDiscountAmount())
             ->setShippingAmount($address->getShippingAmount())
             ->setGiftcertAmount($address->getGiftcertAmount())
             ->setCustbalanceAmount($address->getCustbalanceAmount())
