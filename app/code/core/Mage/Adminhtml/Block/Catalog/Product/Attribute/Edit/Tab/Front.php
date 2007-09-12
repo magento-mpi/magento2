@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
 
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
-            'label' => __('Use In Layered Navigation<br/>(Can be used only with catalog input type "Dropdown")'),
+            'label' => __("Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')"),
             'title' => __('Can be used only with catalog input type Dropdown'),
             'values' => array(
                 array('value' => '0', 'label' => __('No')),

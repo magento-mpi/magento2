@@ -63,12 +63,12 @@
     	try {
             $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
     	} catch (Exception $e) {
-    	    $session->addError(__('There was a problem with the subscription: ' . $e->getMessage()));
+    	    $session->addError(__('There was a problem with the subscription: %s', $e->getMessage()));
     	    $this->getResponse()->setRedirect($this->_referer);
     	    return;
     	}
         if ($status instanceof Exception) {
-        	$session->addError(__('There was a problem with the subscription').': '.$status);
+        	$session->addError(__('There was a problem with the subscription: %s', $status));
         } else {
 	        switch ($status) {
 	        	case Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE:

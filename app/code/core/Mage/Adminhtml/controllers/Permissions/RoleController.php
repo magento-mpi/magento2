@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controller_Action
 {
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             Mage::getModel("permissions/roles")->setId($rid)->delete();
             Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully deleted.');
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this role. Pleace try again later.');
+            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this role. Please try again later.');
         }
 
         $this->_redirect("*/*/");
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
                 ->saveRel();
             Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully saved.');
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError('Error while saving this role. Pleace try again later.');
+            Mage::getSingleton('adminhtml/session')->addError('Error while saving this role. Please try again later.');
         }
 
         $rid = $role->getId();

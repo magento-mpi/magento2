@@ -66,7 +66,7 @@ class Mage_Install_Model_Installer_Env
 
             if (!$oneLoaded) {
                 Mage::getSingleton('install/session')->addError(
-                    __('One from PHP Extensions "%s" must be loaded', implode(',', $extension))
+                    __("One from PHP Extensions '%s' must be loaded", implode(',', $extension))
                 );
                 return false;
             }
@@ -79,7 +79,7 @@ class Mage_Install_Model_Installer_Env
         }
         else {
             /*Mage::getSingleton('install/session')->addError(
-                __('PHP Extension "%s" loaded', $extension)
+                __("PHP Extension '%s' loaded", $extension)
             );*/
         }
         return true;

@@ -54,7 +54,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
                     'link'=>Mage::getBaseUrl())
                 );
 
-        $title = __('Search results for:').' '.$queryEscaped;
+        $title = __("Search results for: '%s'", $queryEscaped);
         $this->getLayout()->getBlock('head')->setTitle($title);
         $this->getLayout()->getBlock('root')->setHeaderTitle($title);
 

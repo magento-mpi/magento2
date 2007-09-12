@@ -19,7 +19,7 @@
  */
 ?>
 <h1 class="page-heading"><?=__('Currency')?></h1>
-<?=__('You current currency are')?>: <?=$currency->getCode()?>
+<?=__('You current currency are: %s', $currency->getCode())?>
 <div class="buttons-container">
      <a href="<?=Mage::getBaseUrl()?>" class="float-right"><?=__('Continue &raquo;')?></a>
 </div>
