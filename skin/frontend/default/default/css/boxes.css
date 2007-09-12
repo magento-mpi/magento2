@@ -343,7 +343,7 @@ table.view-by td {
     width:950px; 
     margin:0 auto; 
     }
-#main {
+.middle {
     min-height:400px;
     width:900px;
     margin:0 auto;
@@ -364,8 +364,8 @@ table.view-by td {
 .header-top-container { border-bottom:1px solid #415966; background:url(../images/header_top_container_bg.jpg) repeat-x 50% 0; }
 .header-top { padding:10px; }
 .header-nav-container { background:url(../images/nav_bg.jpg) repeat-y 50% 0 #0a263d; }
-.main-container { background:url(../images/main_container_bg.gif) no-repeat 50% 0 #fbfaf6; }
-#main { background:url(../images/main_bg.gif) no-repeat #fffffe;  padding:25px 25px 80px 25px; }
+.middle-container { background:url(../images/main_container_bg.gif) no-repeat 50% 0 #fbfaf6; }
+.middle { background:url(../images/main_bg.gif) no-repeat #fffffe;  padding:25px 25px 80px 25px; }
 
 
 
@@ -1006,6 +1006,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     border-style:solid;
     border-top:1px solid #fff;
     }
+.one-page-checkout .head a { display:none; }  /* Hide Edit button in step header */
 .one-page-checkout h3 { color:#999; font-size:1.05em; }
 .one-page-checkout h4 { border-bottom:1px solid #E4E4E4; padding-bottom:2px; text-transform:uppercase; }
 .one-page-checkout .step-count { background:#fff; font-size:.9em; padding:0 4px; line-height:1em; }
@@ -1013,7 +1014,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout label.label { font-size:1.05em; color:#2f2f2f; }
 .one-page-checkout .allow .head { background:#d0dce1; border-color:#a3aeb3; border-width:1px 1px 0 1px; cursor:pointer; }
 .one-page-checkout .active .head { margin-bottom:0; border:1px solid #BBAFA0; background:#F9F3E3; padding-bottom:5px; cursor:default; }
-.one-page-checkout .active .head a { display:none; } /* Removes Edit button in active selection */
+.one-page-checkout .alloq .head a { display:block; } /* Display Edit button in active selection */
 .one-page-checkout .group-select { margin-top:0; border:0; background:none; padding:0; }
 .one-page-checkout .allow h3 { color:#a4b3b9; }
 .one-page-checkout .active h3 { color:#F18200; }

@@ -59,8 +59,8 @@
 
         <!-- [start] middle -->
        <?=$this->getChildHtml('store')?>
-    <div class="main-container">
-        <div id="main" class="col-2-left-layout">
+    <div class="middle-container">
+        <div class="middle col-2-left-layout">
             <?=$this->getChildHtml('breadcrumbs')?>
 
 
@@ -69,7 +69,7 @@
             <div class="col-left side-col">
                 <?=$this->getChildHtml('left')?>&nbsp;
             </div>
-            <div class="col-main">
+            <div id="main" class="col-main">
             <!-- [start] global messages -->
                 <?=$this->getChildHtml('global_messages')?>
             <!-- [end] global messages -->
