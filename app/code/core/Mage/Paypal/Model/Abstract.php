@@ -24,7 +24,7 @@
  *
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Paypal_Model_Abstract extends Varien_Object
+abstract class Mage_Paypal_Model_Abstract extends Mage_Payment_Model_Abstract
 {
     /**
      * Get Paypal API Model

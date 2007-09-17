@@ -53,8 +53,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        $this->_getCart()->init()
-            ->save();
+        $this->_getCart()->init()->save();
 
         if (!$this->_getCart()->isValidItemsQty()) {
             Mage::getSingleton('checkout/session')

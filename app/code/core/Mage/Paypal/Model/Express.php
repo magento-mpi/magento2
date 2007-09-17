@@ -33,11 +33,11 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
             $e = $this->getApi()->getError();
             switch ($e['type']) {
                 case 'CURL':
-                    $s->addError('There was an error connecting to Paypal server: '.$e['message']);
+                    $s->addError(__('There was an error connecting to Paypal server:').' '.$e['message']);
                     break;
 
                 case 'API':
-                    $s->addError('There was an error during communication with Paypal: '.$e['short_message'].': '.$e['long_message']);
+                    $s->addError(__('There was an error during communication with Paypal:').' '.$e['short_message'].': '.$e['long_message']);
                     break;
             }
         }
@@ -48,8 +48,7 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
     {
         $block = $this->getLayout()->createBlock('paypal/form', $name)
             ->setMethod('paypal_express')
-            ->setPayment($this->getPayment())
-            ->setHidden($hidden);
+            ->setPayment($this->getPayment());
 
         return $block;
     }
@@ -90,21 +89,55 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
     public function returnFromPaypal()
     {
-        if ($this->getApi()->getUserAction()===Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT) {
-            $this->_importFromPaypalToQuote();
+        $this->_getExpressCheckoutDetails();
+
+        switch ($this->getApi()->getUserAction()) {
+            case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
+                $this->_prepareOnepageCheckout();
+                $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/review'));
+                break;
+
+            case Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT:
+                $this->getApi()->setRedirectUrl(Mage::getUrl('checkout/success'));
+                break;
         }
+        return $this;
     }
 
-    protected function _importFromPaypalToQuote()
+    protected function _getExpressCheckoutDetails()
     {
-        $a = $this->getApi();
-        $a->callGetExpressCheckoutDetails();
-
+        $api = $this->getApi();
+        if (!$api->callGetExpressCheckoutDetails()) {
+            Mage::throwException(__('Problem during communication with PayPal'));
+        }
         $q = $this->getQuote();
-        $q->getShippingAddress()->importCustomerAddress($a->getShippingAddress());
+        $a = $api->getShippingAddress();
 
-        echo "<pre>".print_r($q,1)."</pre>";
-        die;
+        $a->setCountryId(
+            Mage::getModel('directory/country')->loadByCode($a->getCountry())->getId()
+        );
+        $a->setRegionId(
+            Mage::getModel('directory/region')->loadByCode($a->getRegion(), $a->getCountryId())->getId()
+        );
+
+        $q->getShippingAddress()->importCustomerAddress($a);
+
+        $q->setCheckoutMethod('paypal_express');
+
+        $q->getPayment()
+            ->setMethod('paypal_express')
+            ->setPaypalCorrelationId($api->getCorrelationId())
+            ->setPaypalPayerId($api->getPayerId())
+            ->setPaypalPayerStatus($api->getPayerStatus())
+        ;
+
+        $q->setCollectShippingRates(true)->collectTotals()->save();
+
+    }
+
+    protected function _prepareOnepageCheckout()
+    {
+        Mage::getSingleton('checkout/session')->setStepData('shipping_method', 'allow', true);
     }
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)

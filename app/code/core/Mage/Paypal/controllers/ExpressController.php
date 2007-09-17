@@ -31,7 +31,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function errorAction()
     {
-        #$this->getRequest()->setRedirect($this->getExpress()->getApi()->getApiErrorUrl());
+        $this->_redirect('checkout/cart');
     }
 
     public function cancelAction()
@@ -40,14 +40,23 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * Get singleton with paypal express order transaction information
+     *
+     * @return Mage_Paypal_Model_Express
+     */
+    public function getExpress()
+    {
+        return Mage::getSingleton('paypal/express');
+    }
+
+    /**
      * When a customer clicks Paypal button on shopping cart
      *
      */
     public function shortcutAction()
     {
-        $ec = Mage::getSingleton('paypal/express');
-        $ec->shortcutSetExpressCheckout();
-        $this->getResponse()->setRedirect($ec->getRedirectUrl());
+        $this->getExpress()->shortcutSetExpressCheckout();
+        $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
     }
 
     /**
@@ -56,9 +65,8 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function markAction()
     {
-        $ec = Mage::getSingleton('paypal/express');
-        $ec->markSetExpressCheckout();
-        $this->getResponse()->setRedirect($ec->getRedirectUrl());
+        $this->getExpress()->markSetExpressCheckout();
+        $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
     }
 
     /**
@@ -67,9 +75,8 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function returnAction()
     {
-        $ec = Mage::getSingleton('paypal/express');
-        $ec->returnFromPaypal();
-        $this->getResponse()->setRedirect($ec->getRedirectUrl());
+        $this->getExpress()->returnFromPaypal();
+        $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
     }
 
     /**
@@ -78,8 +85,10 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function reviewAction()
     {
-        $ec = Mage::getSingleton('paypal/express');
-        $ec->commitUserAction();
-        $this->getResponse()->setRedirect($ec->getRedirectUrl());
+        Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());
+        $this->getOnepage()->initCheckout();
+        $this->loadLayout(array('default', 'paypal_onepage'), 'paypal_onepage');
+        $this->_initLayoutMessages('customer/session');
+        $this->renderLayout();
     }
 }

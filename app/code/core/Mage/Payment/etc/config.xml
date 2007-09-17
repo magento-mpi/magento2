@@ -32,7 +32,7 @@
             <class>Mage_Payment_Model</class>
          </payment>
       </models>
-      
+
       <block>
         <groups>
             <payment>
@@ -40,20 +40,6 @@
             </payment>
         </groups>
       </block>
-
-      <payment>
-        <methods>
-          <checkmo>
-            <class>Mage_Payment_Model_Checkmo</class>
-          </checkmo>
-          <ccsave>
-            <class>Mage_Payment_Model_Ccsave</class>
-          </ccsave>
-          <purchaseorder>
-            <class>Mage_Payment_Model_Purchaseorder</class>
-          </purchaseorder>
-        </methods>
-      </payment>
    </global>
 
 </config>

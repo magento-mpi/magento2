@@ -13,30 +13,34 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Paypal
+ * @package    Mage_GoogleCheckout
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Paypal API Handling Controller
+ * Google Checkout shortcut link
  *
+ * @category   Mage
+ * @package    Mage_GoogleCheckout
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Paypal_ApiController extends Mage_Core_Controller_Front_Action
+class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Text_List_Link
 {
-    public function errorAction()
+    public function getAParams()
     {
-        $this->_redirect('checkout/cart');
+        return array(
+            'href'=>$this->getUrl('googlecheckout/start', array('_secure'=>true))
+        );
     }
 
-    public function returnAction()
+    public function getInnerText()
     {
-        $this->_redirect('checkout/multishipping/overview');
+        return '<img src="'.$this->getSkinUrl('images/btn_google_checkout.gif').'" alt="'.__('Google Checkout').'"/>';
     }
 
-    public function cancelAction()
+    public function _beforeToHtml()
     {
-        $this->_redirect('checkout/cart');
+        return (bool)Mage::getStoreConfig('payment/googlecheckout/active');
     }
 }

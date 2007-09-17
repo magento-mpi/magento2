@@ -213,6 +213,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Paypal>
+        <Mage_GoogleCheckout>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_GoogleCheckout>
         <Mage_Reports>
             <active>true</active>
             <codePool>core</codePool>

@@ -49,7 +49,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('paypal/express/'.$key);
+             $value = Mage::getStoreConfig('paypal/wpp/'.$key);
              if (false===$value) {
                  $value = $default;
              }
@@ -101,17 +101,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     public function getApiUsername()
     {
-        return $this->getConfigData('api_username', 'moshe_1189061404_biz_api1.varien.com');
+        return $this->getConfigData('api_username');
     }
 
     public function getApiPassword()
     {
-        return $this->getConfigData('api_password', '1189061413');
+        return $this->getConfigData('api_password');
     }
 
     public function getApiSignature()
     {
-        return $this->getConfigData('api_signature', 'Aj2qpsTEz1yN7S4FNjLQJCnMIlOCABOYxUbWNPz1lDQbvudXNTCenXpP');
+        return $this->getConfigData('api_signature');
     }
 
     public function getButtonSource()
@@ -134,6 +134,11 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         return $this->getConfigData('proxy_port', '808');
     }
 
+    public function getDebug()
+    {
+        return $this->getConfigData('debug', true);
+    }
+
     /**
      * the page where buyers will go if there are API error
      *
@@ -141,7 +146,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getApiErrorUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_error_url', 'paypal/exress/error'));
+        return Mage::getUrl($this->getConfigData('api_error_url', 'paypal/express/error'));
     }
 
     /**
@@ -171,7 +176,12 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getUserAction()
     {
-        return $this->getConfigData('user_action', self::USER_ACTION_COMMIT);
+        return $this->getSessionData('user_action', self::USER_ACTION_CONTINUE);
+    }
+
+    public function setUserAction($data)
+    {
+        return $this->setSessionData('user_action', $data);
     }
 
     /**
@@ -300,5 +310,11 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function setError($data)
     {
         return $this->setSessionData('error', $data);
+    }
+
+    public function getCcTypeName($ccType)
+    {
+        $types = array('AE'=>'Amex', 'VI'=>'Visa', 'MC'=>'MasterCard', 'DI'=>'Discover');
+        return isset($types[$ccType]) ? $types[$ccType] : false;
     }
 }

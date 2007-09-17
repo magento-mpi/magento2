@@ -46,15 +46,6 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $this->getQuote()->getItemsSummaryQty();
     }
 
-    public function getCanDoMultishipping()
-    {
-        if( !$this->getQuote()->hasItemsWithDecimalQty() && Mage::getStoreConfig('shipping/option/checkout_multiple') ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function getTotals()
     {
         $totalsFilter = new Varien_Filter_Object_Grid();
@@ -83,21 +74,6 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     public function getCheckoutUrl()
     {
         return $this->getUrl('checkout/onepage', array('_secure'=>true));
-    }
-
-    public function getMultiShippingUrl()
-    {
-        return $this->getUrl('checkout/multishipping', array('_secure'=>true));
-    }
-
-    public function getPaypalUrl()
-    {
-        return $this->getUrl('checkout/paypal');
-    }
-
-    public function getGoogleUrl()
-    {
-        return $this->getUrl('checkout/google');
     }
 
     public function getItemDeleteUrl(Mage_Sales_Model_Quote_Item $item)

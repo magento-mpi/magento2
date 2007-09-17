@@ -13,28 +13,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Paygate
+ * @package    Mage_Paypal
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Paygate_Model_Paypal extends Mage_Payment_Model_Abstract
+/**
+ * Abstract class for Paypal Debug
+ *
+ * @author     Moshe Gurvich <moshe@varien.com>
+ */
+class Mage_Paypal_Model_Api_Debug extends Mage_Core_Model_Abstract
 {
-    public function createFormBlock($name)
+    protected function _construct()
     {
-        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
-            ->setPayment($this->getPayment())
-            ->setMethod('paypal');
-        return $block;
+        $this->_init('paypal/api_debug');
     }
-    
-    public function createInfoBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
-            ->setPayment($this->getPayment());
-        return $block;
-    }
-    
-
 }

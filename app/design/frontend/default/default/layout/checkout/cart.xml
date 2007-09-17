@@ -23,13 +23,18 @@
     <reference name="root">
         <action method="setTemplate"><template>page/1column.phtml</template></action>
     </reference>
-    
+
     <reference name="content">
         <block type="checkout/cart" name="checkout.cart">
             <action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
             <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
             <action method="chooseTemplate"/>
-            
+
+            <block type="core/text_list" name="checkout.cart.methods" as="methods">
+                <block type="checkout/onepage_link" name="checkout.cart.methods.onepage"/>
+                <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping"/>
+            </block>
+
             <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon">
                 <action method="setTemplate"><template>checkout/cart/coupon.phtml</template></action>
             </block>

@@ -25,10 +25,16 @@
  * @package    Mage_Directory
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Directory_Model_Region extends Mage_Core_Model_Abstract 
+class Mage_Directory_Model_Region extends Mage_Core_Model_Abstract
 {
-    protected function _construct() 
+    protected function _construct()
     {
         $this->_init('directory/region');
+    }
+
+    public function loadByCode($code, $countryId)
+    {
+        $this->getResource()->loadByCode($this, $code, $countryId);
+        return $this;
     }
 }

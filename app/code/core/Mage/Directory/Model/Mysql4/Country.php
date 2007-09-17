@@ -25,4 +25,22 @@ class Mage_Directory_Model_Mysql4_Country extends Mage_Core_Model_Mysql4_Abstrac
     {
         $this->_init('directory/country', 'country_id');
     }
+
+    public function loadByCode(Mage_Directory_Model_Country $country, $code)
+    {
+        switch (strlen($code)) {
+            case 2:
+                $field = 'iso2_code';
+                break;
+
+            case 3:
+                $field = 'iso3_code';
+                break;
+
+            default:
+                Mage::throwException('Invalid country code: '.$code);
+        }
+        $this->load($country, $code, $field);
+        return $this;
+    }
 }

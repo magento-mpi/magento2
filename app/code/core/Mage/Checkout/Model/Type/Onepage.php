@@ -287,7 +287,7 @@ class Mage_Checkout_Model_Type_Onepage
                     $customer->setDefaultShipping($customerShipping->getId());
                     $changed = true;
                 }
-                
+
                 if ($changed) {
                     $customer->save();
                 }
@@ -319,8 +319,9 @@ class Mage_Checkout_Model_Type_Onepage
             //$res['error']   = true;
         }
         catch (Exception $e){
-            // TODO: create response for open checkout card with error
-            echo $e;
+            $res['success'] = false;
+            $res['error'] = true;
+            $res['error_messages'] = $order->getErrors();
         }
 
         return $res;

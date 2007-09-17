@@ -34,7 +34,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_countryCollection;
     protected $_regionCollection;
     protected $_addressesCollection;
-    
+
     public function getCustomer()
     {
         if (empty($this->_customer)) {
@@ -42,7 +42,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         }
         return $this->_customer;
     }
-    
+
     public function getCheckout()
     {
         if (empty($this->_checkout)) {
@@ -50,7 +50,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         }
         return $this->_checkout;
     }
-    
+
     public function getQuote()
     {
         if (empty($this->_quote)) {
@@ -58,12 +58,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         }
         return $this->_quote;
     }
-    
+
     public function isCustomerLoggedIn()
     {
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
-    
+
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
@@ -72,7 +72,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         }
         return $this->_countryCollection;
     }
-        
+
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
@@ -82,23 +82,23 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         }
         return $this->_regionCollection;
     }
-    
+
     public function customerHasAddresses()
     {
         return $this->getCustomer()->getLoadedAddressCollection()->count()>0;
     }
-    
+
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
             $options = array();
             foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
                 $options[] = array(
-                    'value'=>$address->getId(), 
+                    'value'=>$address->getId(),
                     'label'=>$address->getStreet(-1).', '.$address->getCity().', '.$address->getRegion().' '.$address->getPostcode(),
                 );
             }
-            
+
             $addressId = $this->getAddress()->getId();
             if (empty($addressId)) {
                 if ($type=='billing') {
@@ -107,21 +107,21 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                     $addressId = $this->getCustomer()->getPrimaryShippingAddress();
                 }
             }
-            
+
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
                 ->setValue($addressId)
                 ->setOptions($options);
-                
+
             $select->addOption('', 'New Address');
-            
+
             return $select->getHtml();
         }
         return '';
     }
-    
+
     public function getCountryHtmlSelect($type)
     {
         $select = $this->getLayout()->createBlock('core/html_select')
@@ -131,14 +131,14 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             ->setClass('validate-select')
             ->setValue($this->getAddress()->getCountryId())
             ->setOptions($this->getCountryCollection()->toOptionArray());
-            
+
         if ($type==='shipping') {
             $select->setExtraParams('onchange="shipping.setSameAsBilling(false);"');
         }
-        
+
         return $select->getHtml();
     }
-    
+
 
     public function getRegionHtmlSelect($type)
     {
@@ -149,7 +149,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             ->setClass('required-entry validate-state input-text')
             ->setValue($this->getAddress()->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());
-            
+
         return $select->getHtml();
+    }
+
+    public function isPaypalExpress()
+    {
+        return $this->getQuote()->getCheckoutMethod()==='paypal_express';
     }
 }

@@ -30,8 +30,7 @@ class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
     {
         $block = $this->getLayout()->createBlock('payment/form_cc', $name)
             ->setMethod('paypal_direct')
-            ->setPayment($this->getPayment())
-            ->setHidden($hidden);
+            ->setPayment($this->getPayment());
         return $block;
     }
 
@@ -44,17 +43,25 @@ class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
-        $a = $this->getApi();
-        $a
+        $api = $this->getApi()
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
-            ->setPayment($payment)
-            ->callDoDirectPayment();
+            ->setPayment($payment);
+        ;
 
-        $payment
-            ->setTransId($a->getTransactionId())
-            ->setCcAvsStatus($a->getAvsCode())
-            ->setCcCidStatus($a->getCvv2Match());
+        if ($api->callDoDirectPayment()!==false) {
+            $payment
+                ->setStatus('APPROVED')
+                ->setCcTransId($api->getTransactionId())
+                ->setCcAvsStatus($api->getAvsCode())
+                ->setCcCidStatus($api->getCvv2Match());
 
+            $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+        } else {
+            $e = $api->getError();
+            $payment
+                ->setStatus('ERROR')
+                ->setStatusDescription($e['short_message'].': '.$e['long_message']);
+        }
         return $this;
     }
 

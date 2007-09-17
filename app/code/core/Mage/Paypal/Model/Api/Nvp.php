@@ -28,7 +28,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function getApiEndpoint()
     {
         if (!$this->hasApiEndpoint()) {
-            if ($this->getSandboxFlag()===true) {
+            if ($this->getSandboxFlag()) {
                 $default = 'https://api-3t.sandbox.paypal.com/nvp';
             } else {
                 $default = 'https://api-3t.paypal.com/nvp';
@@ -41,7 +41,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function getPaypalUrl()
     {
         if (!$this->hasPaypalUrl()) {
-            if ($this->getSandboxFlag()===true) {
+            if ($this->getSandboxFlag()) {
                 $default = 'https://www.sandbox.paypal.com/';
             } else {
                 $default = 'https://www.paypal.com/cgi-bin/';
@@ -83,6 +83,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'RETURNURL'     => $this->getReturnUrl(),
             'CANCELURL'     => $this->getCancelUrl(),
         );
+        $this->setUserAction(self::USER_ACTION_CONTINUE);
 
         // for mark SetExpressCheckout API call
         if ($a = $this->getShippingAddress()) {
@@ -97,6 +98,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 'SHIPTOZIP'         => $a->getPostcode(),
                 'PHONENUM'          => $a->getTelephone(),
             ));
+            $this->setUserAction(self::USER_ACTION_COMMIT);
         }
 
         //'---------------------------------------------------------------------------------------------------------------
@@ -228,20 +230,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'AMT'            => $this->getAmount(),
             'CURRENCYCODE'   => $this->getCurrencyCode(),
 
-            'CREDITCARDTYPE' => $p->getCcType(),
+            'CREDITCARDTYPE' => $this->getCcTypeName($p->getCcType()),
             'ACCT'           => $p->getCcNumber(),
-            'EXPDATE'        => $p->getCcExpDate(),
+            'EXPDATE'        => sprintf('%02d%02d', $p->getCcExpMonth(), $p->getCcExpYear()),
             'CVV2'           => $p->getCcCid(),
 
             'FIRSTNAME'      => $a->getFirstname(),
             'LASTNAME'       => $a->getLastname(),
-            'STREET'         => $a->getStreet(1),
+            'STREET'         => $a->getStreet(),
             'CITY'           => $a->getCity(),
-            'STATE'          => $a->getState(),
-            'ZIP'            => $a->getPostal(),
+            'STATE'          => $a->getRegion(),
+            'ZIP'            => $a->getPostcode(),
             'COUNTRYCODE'    => 'US', // only US supported for direct payment
         );
-echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
+#echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
         $resArr = $this->call('DoDirectPayment', $nvpArr);
 
         if (false===$resArr) {
@@ -390,6 +392,13 @@ echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
         }
         $nvpReq = substr($nvpReq, 1);
 
+        if ($this->getDebug()) {
+            $debug = Mage::getModel('paypal/api_debug')
+                ->setApiEndpoint($this->getApiEndpoint())
+                ->setRequestBody($nvpReq)
+                ->save();
+        }
+
         $http = new Varien_Http_Adapter_Curl();
         $config = array();
         if ($this->getUseProxy()) {
@@ -398,6 +407,10 @@ echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
         $http->setConfig($config);
         $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $nvpReq);
         $response = $http->read();
+
+        if ($this->getDebug()) {
+            $debug->setResponseBody($response)->save();
+        }
 
         $nvpReqArray = $this->deformatNVP($nvpReq);
         $this->getSession()->setNvpReqArray($nvpReqArray);

@@ -38,7 +38,7 @@ class Mage_Directory_Model_Mysql4_Region
      */
     protected $_write;
 
-    public function __construct() 
+    public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
         $this->_regionTable     = $resource->getTableName('directory/country_region');
@@ -46,7 +46,7 @@ class Mage_Directory_Model_Mysql4_Region
         $this->_read    = $resource->getConnection('directory_read');
         $this->_write   = $resource->getConnection('directory_write');
     }
-    
+
     public function getIdFieldName()
     {
         return 'region_id';
@@ -55,11 +55,26 @@ class Mage_Directory_Model_Mysql4_Region
     public function load(Mage_Directory_Model_Region $region, $regionId)
     {
         $lang = Mage::getSingleton('core/store')->getLanguageCode();
-        
+
         $select = $this->_read->select()
             ->from($this->_regionTable)
             ->where($this->_regionTable.".region_id=?", $regionId)
-            ->join($this->_regionNameTable, $this->_regionNameTable.'.region_id='.$this->_regionTable.'.region_id 
+            ->join($this->_regionNameTable, $this->_regionNameTable.'.region_id='.$this->_regionTable.'.region_id
+                AND '.$this->_regionNameTable.".language_code='$lang'");
+
+        $region->setData($this->_read->fetchRow($select));
+        return $this;
+    }
+
+    public function loadByCode(Mage_Directory_Model_Region $region, $regionCode, $countryId)
+    {
+        $lang = Mage::getSingleton('core/store')->getLanguageCode();
+
+        $select = $this->_read->select()
+            ->from($this->_regionTable)
+            ->where($this->_regionTable.".country_id=?", $countryId)
+            ->where($this->_regionTable.".code=?", $regionCode)
+            ->join($this->_regionNameTable, $this->_regionNameTable.'.region_id='.$this->_regionTable.'.region_id
                 AND '.$this->_regionNameTable.".language_code='$lang'");
 
         $region->setData($this->_read->fetchRow($select));
