@@ -80,6 +80,15 @@
                 </observers>
             </catalog_product_get_final_price>
         </events>
+        <translate>
+            <modules>
+                <Mage_CatalogRule>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_CatalogRule>
+            </modules>
+        </translate>
     </frontend>
     <crontab>
         <events>

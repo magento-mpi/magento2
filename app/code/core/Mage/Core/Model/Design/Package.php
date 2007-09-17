@@ -159,7 +159,7 @@ class Mage_Core_Model_Design_Package
 		return $baseDir;
 	}
 
-	public function getTranslateBaseDir(array $params)
+	/*public function getTranslateBaseDir(array $params)
 	{
 		$this->updateParamDefaults($params);
 		if (empty($params['_language'])) {
@@ -168,7 +168,7 @@ class Mage_Core_Model_Design_Package
 		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'].DS.$params['_language'];
 		return $baseDir;
-	}
+	}*/
 	
 	public function getSkinBaseDir(array $params=array())
 	{

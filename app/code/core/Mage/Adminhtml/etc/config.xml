@@ -32,11 +32,11 @@
    <global>
         <models>
             <adminhtml>
-            	<class>Mage_Adminhtml_Model</class>
-            	<resourceModel>adminhtml_mysql4</resourceModel>
-           	</adminhtml>
+                <class>Mage_Adminhtml_Model</class>
+                <resourceModel>adminhtml_mysql4</resourceModel>
+            </adminhtml>
             <adminhtml_mysql4>
-            	<class>Mage_Adminhtml_Model_Mysql4</class>
+                <class>Mage_Adminhtml_Model_Mysql4</class>
             </adminhtml_mysql4>
         </models>
         <block>
@@ -73,14 +73,14 @@
             </updates>
          </baseframe>
          <admin_noroute>
-         	<updates>
+            <updates>
                <admin_noroute>
                   <file>noRoute.xml</file>
                </admin_noroute>
             </updates>
          </admin_noroute>
          <admin_denied>
-         	<updates>
+            <updates>
                <admin_denied>
                   <file>denied.xml</file>
                </admin_denied>
@@ -113,15 +113,24 @@
          </action_preDispatch_adminhtml>
       </events>
       <global_search>
-		   <products>
-		      <class>adminhtml/search_catalog</class>
-		   </products>
-		   <customers>
-		      <class>adminhtml/search_customer</class>
-		   </customers>
-		   <sales>
-		      <class>adminhtml/search_order</class>
-		   </sales>
+           <products>
+              <class>adminhtml/search_catalog</class>
+           </products>
+           <customers>
+              <class>adminhtml/search_customer</class>
+           </customers>
+           <sales>
+              <class>adminhtml/search_order</class>
+           </sales>
       </global_search>
+      <translate>
+        <modules>
+            <Mage_Adminhtml>
+                <files>
+                    <default>translate.csv</default>
+                </files>
+            </Mage_Adminhtml>
+        </modules>
+      </translate>
    </adminhtml>
 </config>

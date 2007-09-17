@@ -318,8 +318,6 @@ final class Mage {
     public static function init($etcDir=null)
     {
         set_error_handler('my_error_handler');
-        date_default_timezone_set('America/Los_Angeles');
-
         Varien_Profiler::start('init');
 
         Mage::setRoot();
@@ -329,7 +327,9 @@ final class Mage {
         Varien_Profiler::start('init/config');
         Mage::getConfig()->init($etcDir);
         Varien_Profiler::stop('init/config');
-
+        
+        Mage::register('locale', Mage::getSingleton('core/locale'));
+        
         Mage::getConfig()->loadEventObservers('global');
 
         Varien_Profiler::stop('init');

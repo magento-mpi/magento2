@@ -313,7 +313,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
         }
         switch ($type) {
-            case 'var': case 'session': case 'cache_config': case 'cache_layout': case 'cache_block':
+            case 'var': 
+            case 'session': 
+            case 'cache_config': 
+            case 'cache_layout': 
+            case 'cache_block':
+            case 'cache_translate':
+            case 'cache_db':
                 if (!file_exists($dir)) {
                     mkdir($dir, 0777, true);
                 }
@@ -364,7 +370,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'cache_block':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'block';
                 break;
+            
+            case 'cache_translate':
+                $dir = $this->getBaseDir('var').DS.'cache'.DS.'translate';
+                break;
 
+            case 'cache_db':
+                $dir = $this->getBaseDir('var').DS.'cache'.DS.'db';
+                break;
         }
         return $dir;
     }
@@ -385,6 +398,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
             case 'sql':
                 $dir .= DS.'sql';
+                break;
+            
+            case 'locale':
+                $dir .= DS.'locale';
                 break;
         }
 

@@ -27,63 +27,68 @@
  * @author Moshe Gurvich <moshe@varien.com>
  */
 abstract class Mage_Core_Controller_Varien_Action
-	# extends Zend_Controller_Action
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
     const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
     
+    /**
+     * Request object
+     *
+     * @var Zend_Controller_Request_Abstract
+     */
     protected $_request;
+    
+    /**
+     * Response object
+     *
+     * @var Zend_Controller_Response_Abstract
+     */
     protected $_response;
 
-     /**
-      * Action flags
-      *
-      * for example used to disable rendering default layout
-      *
-      * @var array
-      */
-     protected $_flags = array();
+    /**
+     * Action flags
+     *
+     * for example used to disable rendering default layout
+     *
+     * @var array
+     */
+    protected $_flags = array();
 
-     /**
-      * Cunstructor
-      *
-      * @param Zend_Controller_Request_Abstract $request
-      * @param Zend_Controller_Response_Abstract $response
-      * @param array $invokeArgs
-      * @todo  remove Mage::register('action', $this);
-      */
-     public function __construct(
-     	Zend_Controller_Request_Abstract $request,
-     	Zend_Controller_Response_Abstract $response,
-     	array $invokeArgs = array())
-     {
-         $this->_request = $request;
-         $this->_response = $response;
-         #Zend_Controller_Action_HelperBroker::resetHelpers();
-         #parent::__construct($request, $response, $invokeArgs);
+    /**
+     * Cunstructor
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param Zend_Controller_Response_Abstract $response
+     * @param array $invokeArgs
+     * @todo  remove Mage::register('action', $this);
+     */
+    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+    {
+        $this->_request = $request;
+        $this->_response= $response;
 
-         if (!Mage::registry('action')) {
-             Mage::register('action', $this);
-         }
+        if (!Mage::registry('action')) {
+            Mage::register('action', $this);
+        }
 
-         $this->getLayout()->setArea('frontend');
+        $this->getLayout()->setArea('frontend');
 
-         $this->_construct();
- 
-		
-		 Varien_Profiler::start('init/session');
-		 Mage::getSingleton('core/session');
-		 Varien_Profiler::stop('init/session');
+        $this->_construct();
+        
+        Mage::getSingleton('core/translate')->init($this->getLayout()->getArea());
+		Varien_Profiler::start('init/session');
+		Mage::getSingleton('core/session');
+		Varien_Profiler::stop('init/session');
 
-		 Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
-     }
+		Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
+    }
 
-     protected function _construct()
-     {
+    protected function _construct()
+    {
 
-     }
+    }
      
     /**
      * Retrieve request object
@@ -104,7 +109,14 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         return $this->_response;
     }
-
+    
+    /**
+     * Retrieve flag value
+     *
+     * @param   string $action
+     * @param   string $flag
+     * @return  bool
+     */
     function getFlag($action, $flag='')
     {
         if (''===$action) {
@@ -120,7 +132,15 @@ abstract class Mage_Core_Controller_Varien_Action
             return false;
         }
     }
-
+    
+    /**
+     * Setting flag value
+     *
+     * @param   string $action
+     * @param   string $flag
+     * @param   string $value
+     * @return  Mage_Core_Controller_Varien_Action
+     */
     function setFlag($action, $flag, $value)
     {
         if (''===$action) {
@@ -130,25 +150,40 @@ abstract class Mage_Core_Controller_Varien_Action
         return $this;
     }
     
+    /**
+     * Retrieve full bane of current action current controller and
+     * current module
+     *
+     * @param   string $delimiter
+     * @return  string
+     */
     function getFullActionName($delimiter='_')
     {
         return $this->getRequest()->getModuleName().$delimiter.
-        $this->getRequest()->getControllerName().$delimiter.
-        $this->getRequest()->getActionName();
+            $this->getRequest()->getControllerName().$delimiter.
+            $this->getRequest()->getActionName();
     }
 
-     /**
-      * Get current layout
-      *
-      * @return Mage_Core_Model_Layout
-      */
-     function getLayout()
-     {
-         return Mage::getSingleton('core/layout');
-     }
-
-     function loadLayout($ids=null, $key='', $generateBlocks=true)
-     {
+    /**
+     * Retrieve current layout object
+     *
+     * @return Mage_Core_Model_Layout
+     */
+    function getLayout()
+    {
+        return Mage::getSingleton('core/layout');
+    }
+    
+    /**
+     * Load layout by identifier
+     *
+     * @param   string $ids
+     * @param   string $key
+     * @param   boolean $generateBlocks
+     * @return  Mage_Core_Controller_Varien_Action
+     */
+    function loadLayout($ids=null, $key='', $generateBlocks=true)
+    {
         $area = $this->getLayout()->getArea();
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
         Varien_Profiler::start("$_profilerKey/load");
@@ -189,31 +224,37 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         return $this;
-     }
+    }
+    
+    /**
+     * Rendering layout
+     *
+     * @param   string $output
+     * @return  Mage_Core_Controller_Varien_Action
+     */
+    function renderLayout($output='')
+    {
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+        Varien_Profiler::start("$_profilerKey/render");
 
-     function renderLayout($output='')
-     {
-         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
-         Varien_Profiler::start("$_profilerKey/render");
+        if ($this->getFlag('', 'no-renderLayout')) {
+            return;
+        }
 
-         if ($this->getFlag('', 'no-renderLayout')) {
-             return;
-         }
+        if (''!==$output) {
+            $this->getLayout()->addOutputBlock($output);
+        }
 
-         if (''!==$output) {
-             $this->getLayout()->addOutputBlock($output);
-         }
+        Mage::dispatchEvent('beforeRenderLayout');
+        Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
 
-         Mage::dispatchEvent('beforeRenderLayout');
-         Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
+        $output = $this->getLayout()->getOutput();
 
-         $output = $this->getLayout()->getOutput();
+        $this->getResponse()->appendBody($output);
+        Varien_Profiler::stop("$_profilerKey/render");
 
-         $this->getResponse()->appendBody($output);
-         Varien_Profiler::stop("$_profilerKey/render");
-
-         return $this;
-     }
+        return $this;
+    }
 
     public function dispatch($action)
     {
@@ -265,10 +306,8 @@ abstract class Mage_Core_Controller_Varien_Action
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';
         Varien_Profiler::start($_profilerKey);
         Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName(),
-        	array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName(),
-        	array('controller_action'=>$this));
+        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
         Varien_Profiler::stop($_profilerKey);
     }
 
@@ -282,12 +321,11 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/post';
         Varien_Profiler::start($_profilerKey);
-        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(),
-        	array('controller_action'=>$this));
-        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(),
-        	array('controller_action'=>$this));
-        Mage::dispatchEvent('action_postDispatch',
-        	array('controller_action'=>$this));
+        
+        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
+        
         Varien_Profiler::stop($_profilerKey);
     }
 
