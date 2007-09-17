@@ -77,7 +77,10 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $this->_construct();
         
+        Varien_Profiler::start('translate/init');
         Mage::getSingleton('core/translate')->init($this->getLayout()->getArea());
+        Varien_Profiler::stop('translate/init');
+        
 		Varien_Profiler::start('init/session');
 		Mage::getSingleton('core/session');
 		Varien_Profiler::stop('init/session');

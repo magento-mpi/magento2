@@ -316,10 +316,10 @@ class Mage_Core_Model_Translate
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
             $text = $text->getText();
-            if (array_key_exists($code, $this->_data)) {
+            if (array_key_exists($code, $this->getData())) {
                 $translated = $this->_data[$code];
             }
-            elseif (array_key_exists($text, $this->_data)) {
+            elseif (array_key_exists($text, $this->getData())) {
             	$translated = $this->_data[$text];
             }
             else {
@@ -327,7 +327,7 @@ class Mage_Core_Model_Translate
             }
         }
         else {
-            if (array_key_exists($text, $this->_data)) {
+            if (array_key_exists($text, $this->getData())) {
             	$translated = $this->_data[$text];
             }
             else {

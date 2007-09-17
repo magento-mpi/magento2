@@ -26,16 +26,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     protected $_checkout = null;
     protected $_quote = null;
 
-    protected function _construct()
+    public function preDispatch()
     {
-        parent::_construct();
-
         if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('checkout/cart');
         }
+        return $this;
     }
-
     /**
      * Enter description here...
      *
