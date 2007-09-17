@@ -66,8 +66,13 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
                 ->setType('db')
                 ->setPath(Mage::getBaseDir("var") . DS . "backups");
 
-        $dbDump = Mage::getModel('backup/db')->renderSql();
-        $backup->setFile($dbDump);
+        try {
+	    $dbDump = Mage::getModel('backup/db')->renderSql();
+	    $backup->setFile($dbDump);
+        }
+        catch (Exception  $e) {
+        	    // Nothing
+        }
         $this->_redirect('*/*');
     }
 
@@ -104,12 +109,17 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function deleteAction()
     {
-        $backup = Mage::getModel('backup/backup')
-                ->setTime((int)$this->getRequest()->getParam('time'))
-                ->setType($this->getRequest()->getParam('type'))
-                ->setPath(Mage::getBaseDir("var") . DS . "backups")
-                ->deleteFile();
-
+        try {
+	    	$backup = Mage::getModel('backup/backup')
+	                ->setTime((int)$this->getRequest()->getParam('time'))
+	                ->setType($this->getRequest()->getParam('type'))
+	                ->setPath(Mage::getBaseDir("var") . DS . "backups")
+	                ->deleteFile();
+        } 
+        catch (Exception $e) {
+        		// Nothing
+        }
+        
         $this->_redirect('*/*/');
 
     }
