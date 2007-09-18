@@ -40,14 +40,14 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
     {
         $collection = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
-            ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id')
-            ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id')
-            ->joinAttribute('billing_telephone', 'order_address/telephone', 'billing_address_id')
-            ->joinAttribute('billing_postcode', 'order_address/postcode', 'billing_address_id')
-            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
-            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
-            ->joinAttribute('shipping_telephone', 'order_address/telephone', 'shipping_address_id')
-            ->joinAttribute('shipping_postcode', 'order_address/postcode', 'shipping_address_id')
+            ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
+            ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
+#            ->joinAttribute('billing_telephone', 'order_address/telephone', 'billing_address_id')
+#            ->joinAttribute('billing_postcode', 'order_address/postcode', 'billing_address_id')
+            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
+            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
+#            ->joinAttribute('shipping_telephone', 'order_address/telephone', 'shipping_address_id')
+#            ->joinAttribute('shipping_postcode', 'order_address/postcode', 'shipping_address_id')
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();

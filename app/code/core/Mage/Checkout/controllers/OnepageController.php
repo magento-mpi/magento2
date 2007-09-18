@@ -28,12 +28,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function preDispatch()
     {
-        if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
+        #if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
+        if (!$this->getOnepage()->getQuote()->hasItems()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('checkout/cart');
         }
         return $this;
     }
+
     /**
      * Enter description here...
      *
@@ -174,6 +176,10 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
             $this->loadLayout('onepage_review');
             $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
+
+            if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl()) {
+                $result['redirect'] = $redirectUrl;
+            }
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }

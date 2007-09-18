@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento
  *
@@ -12,14 +13,14 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Paypal
+ * @category   design_default
+ * @package    Mage
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-class Mage_Paypal_Block_Info extends Mage_Payment_Block_Info
-{
-
-}
+-->
+<layoutUpdate>
+    <block type="paypal/express_review_details" name="root" output="toHtml">
+        <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
+    </block>
+</layoutUpdate>

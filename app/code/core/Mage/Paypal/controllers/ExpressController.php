@@ -69,6 +69,11 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
     }
 
+    public function editAction()
+    {
+        $this->getResponse()->setRedirect($this->getExpress()->getApi()->getPaypalUrl());
+    }
+
     /**
      * Return here from Paypal before final payment (continue)
      *
@@ -85,10 +90,57 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function reviewAction()
     {
-        Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());
-        $this->getOnepage()->initCheckout();
-        $this->loadLayout(array('default', 'paypal_onepage'), 'paypal_onepage');
-        $this->_initLayoutMessages('customer/session');
+        $this->loadLayout(array('default', 'paypal_express_review'), 'paypal_express_review');
+        $this->_initLayoutMessages('paypal/session');
         $this->renderLayout();
+    }
+
+    /**
+     * Get PayPal Onepage checkout model
+     *
+     * @return Mage_Paypal_Model_Express_Onepage
+     */
+    public function getReview()
+    {
+        return Mage::getSingleton('paypal/express_review');
+    }
+
+    public function saveShippingMethodAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+
+        $data = $this->getRequest()->getParam('shipping_method', '');
+        $result = $this->getReview()->saveShippingMethod($data);
+
+        if ($this->getRequest()->getParam('ajax')) {
+            $this->loadLayout('paypal_express_review_details');
+            $this->getResponse()->setBody($this->getLayout()->getBlock('root')->toHtml());
+        } else {
+            $this->_redirect('paypal/express/review');
+        }
+    }
+
+    public function saveOrderAction()
+    {
+        $result = $this->getReview()->saveOrder();
+
+        if (!empty($result['success'])) {
+            if ($this->getRequest()->getParam('ajax')) {
+                $this->getResponse()->setBody('SUCCESS');
+            } else {
+                $this->_redirect('checkout/onepage/success');
+            }
+        } else {
+            if ($this->getRequest()->getParam('ajax')) {
+                $this->getResponse()->setBody(join("\n", $result['error_messages']));
+            } else {
+                foreach ($result['error_messages'] as $error) {
+                    Mage::getSingleton('paypal/session')->addError($error);
+                }
+                $this->_redirect('paypal/express/review');
+            }
+        }
     }
 }

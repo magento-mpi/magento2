@@ -44,6 +44,11 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return Mage::registry('action')->getLayout();
     }
 
+    public function getCheckoutRedirectUrl()
+    {
+        return false;
+    }
+
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         return $this;

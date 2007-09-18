@@ -94,11 +94,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 'SHIPTOSTREET2'     => $a->getStreet(2),
                 'SHIPTOCITY'        => $a->getCity(),
                 'SHIPTOSTATE'       => $a->getRegion(),
-                'SHIPTOCOUNTRYCODE' => $a->getCountryCode(),
+                'SHIPTOCOUNTRYCODE' => $a->getCountry(),
                 'SHIPTOZIP'         => $a->getPostcode(),
                 'PHONENUM'          => $a->getTelephone(),
             ));
-            $this->setUserAction(self::USER_ACTION_COMMIT);
+            #$this->setUserAction(self::USER_ACTION_COMMIT);
         }
 
         //'---------------------------------------------------------------------------------------------------------------
@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'PAYERID'       => $this->getPayerId(),
             'PAYMENTACTION' => $this->getPaymentType(),
             'AMT'           => $this->getAmount(),
-            'CURRENCYCODE'  => $this->getCurrCodeType(),
+            'CURRENCYCODE'  => $this->getCurrencyCode(),
             'IPADDRESS'     => $this->getServerName(),
             'BUTTONSOURCE'  => $this->getButtonSource(),
         );

@@ -19,7 +19,16 @@
  */
 
 
-class Mage_Paypal_Block_Form extends Mage_Payment_Block_Form
+class Mage_Paypal_Block_Express_Info extends Mage_Payment_Block_Info
 {
+    public function toHtml()
+    {
+        if (!$this->_beforeToHtml()) {
+            return '';
+        }
 
+        $html = $this->getPayment()->getQuote()->getBillingAddress()->getEmail();
+
+        return $html;
+    }
 }

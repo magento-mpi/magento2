@@ -67,6 +67,9 @@
         </block>
    </global>
     <frontend>
+        <secure_url>
+            <paypal_express>/paypal/express</paypal_express>
+        </secure_url>
         <routers>
          <paypal>
             <use>standard</use>
@@ -84,13 +87,20 @@
                </paypal>
             </updates>
          </cart>
-         <paypal_onepage>
+         <paypal_express_review>
             <updates>
                <paypal>
-                  <file>paypal/express/onepage.xml</file>
+                  <file>paypal/express/review.xml</file>
                </paypal>
             </updates>
-         </paypal_onepage>
+         </paypal_express_review>
+         <paypal_express_review_details>
+            <updates>
+               <paypal>
+                  <file>paypal/express/review/details.xml</file>
+               </paypal>
+            </updates>
+         </paypal_express_review_details>
         </layouts>
      </frontend>
 </config>

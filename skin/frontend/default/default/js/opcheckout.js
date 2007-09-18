@@ -28,11 +28,7 @@ Checkout.prototype = {
         this.payment = '';
         this.loadWaiting = false;
 
-        if ($('opc-billing')) {
-            this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
-        } else {
-            this.steps = ['shipping_method', 'review'];
-        }
+        this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
 
         //this.onSetMethod = this.nextStep.bindAsEventListener(this);
 
@@ -254,6 +250,10 @@ Billing.prototype = {
             alert(response.message);
             return false;
         }
+        if (response.redirect) {
+            location.href = response.redirect;
+            return;
+        }
         if (response.shipping_methods_html) {
         	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
         }
@@ -392,6 +392,10 @@ Shipping.prototype = {
             catch (e) {
                 response = {};
             }
+        }
+        if (response.redirect) {
+            location.href = response.redirect;
+            return;
         }
         if (response.shipping_methods_html) {
         	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
@@ -545,6 +549,10 @@ Payment.prototype = {
             catch (e) {
                 response = {};
             }
+        }
+        if (response.redirect) {
+            location.href = response.redirect;
+            return;
         }
         if (response.review_html) {
         	$('checkout-review-load').innerHTML = response.review_html;

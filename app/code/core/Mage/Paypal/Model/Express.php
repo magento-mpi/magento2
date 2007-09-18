@@ -46,18 +46,25 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
     public function createFormBlock($name)
     {
-        $block = $this->getLayout()->createBlock('paypal/form', $name)
+        $block = $this->getLayout()->createBlock('paypal/express_form', $name)
             ->setMethod('paypal_express')
-            ->setPayment($this->getPayment());
+            ->setPayment($this->getPayment())
+            ->setTemplate('paypal/express/form.phtml');
 
         return $block;
     }
 
     public function createInfoBlock($name)
     {
-        $block = $this->getLayout()->createBlock('paypal/info', $name)
-            ->setPayment($this->getPayment());
+        $block = $this->getLayout()->createBlock('paypal/express_info', $name)
+            ->setPayment($this->getPayment())
+            ->setTemplate('paypal/express/info.phtml');
         return $block;
+    }
+
+    public function getCheckoutRedirectUrl()
+    {
+        return Mage::getUrl('paypal/express/mark');
     }
 
     public function shortcutSetExpressCheckout()
@@ -89,16 +96,15 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
     public function returnFromPaypal()
     {
-        $this->_getExpressCheckoutDetails();
-
         switch ($this->getApi()->getUserAction()) {
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
-                $this->_prepareOnepageCheckout();
+                $this->_getExpressCheckoutDetails();
                 $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/review'));
                 break;
 
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT:
-                $this->getApi()->setRedirectUrl(Mage::getUrl('checkout/success'));
+                $this->_getExpressTransactionDetails();
+                $this->getApi()->setRedirectUrl(Mage::getUrl('checkout/onepage/success'));
                 break;
         }
         return $this;
@@ -120,7 +126,13 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
             Mage::getModel('directory/region')->loadByCode($a->getRegion(), $a->getCountryId())->getId()
         );
 
-        $q->getShippingAddress()->importCustomerAddress($a);
+        $q->getBillingAddress()
+            ->setFirstname('Paypal')
+            ->setEmail($a->getEmail());
+
+        $q->getShippingAddress()
+            ->importCustomerAddress($a)
+            ->setCollectShippingRates(true);
 
         $q->setCheckoutMethod('paypal_express');
 
@@ -131,18 +143,32 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
             ->setPaypalPayerStatus($api->getPayerStatus())
         ;
 
-        $q->setCollectShippingRates(true)->collectTotals()->save();
+        $q->collectTotals()->save();
 
     }
 
-    protected function _prepareOnepageCheckout()
+    protected function _getExpressTransactionDetails()
     {
-        Mage::getSingleton('checkout/session')->setStepData('shipping_method', 'allow', true);
+        $api = $this->getApi();
+die;
     }
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
+        $api = $this->getApi();
+        $api->setAmount($payment->getOrder()->getGrandTotal())
+            ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
 
+        if ($api->callDoExpressCheckoutPayment()!==false) {
+            $payment->setStatus('APPROVED')
+                ->setCcTransId($api->getTransactionId())
+                ->setPayerId($api->getPayerId());
+        } else {
+            $e = $api->getError();
+            $payment->setStatus('ERROR')
+                ->setStatusDescription($e['short_message'].': '.$e['long_message']);
+        }
+        return $this;
     }
 
     public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)

@@ -30,7 +30,7 @@ include "Varien/Profiler.php";
 function __autoload($class)
 {
     $classFile = uc_words($class, DS).'.php';
-    
+
     Varien_Profiler::start('AUTOLOAD');
     include ($classFile);
     Varien_Profiler::stop('AUTOLOAD');
@@ -107,7 +107,7 @@ function checkMagicQuotes()
         if (!empty($_POST)) $_POST = StripMagicQuotes($_POST);
         if (!empty($_REQUEST)) $_REQUEST = StripMagicQuotes($_REQUEST);
         if (!empty($_COOKIE)) $_COOKIE = StripMagicQuotes($_COOKIE);
-    }    
+    }
 }
 
 /**
@@ -152,7 +152,7 @@ function my_error_handler($errno, $errstr, $errfile, $errline){
         if(!empty($l['args'])) foreach ($l['args'] as $i=>$arg) {
             if ($i>0) echo ", ";
             if (is_object($arg)) echo get_class($arg);
-            elseif (is_string($arg)) echo '"'.substr($arg,0,30).'"';
+            elseif (is_string($arg)) echo '"'.substr($arg,0,100).'"';
             elseif (is_null($arg)) echo 'NULL';
             elseif (is_numeric($arg)) echo $arg;
             elseif (is_array($arg)) echo "Array[".sizeof($arg)."]";

@@ -51,7 +51,7 @@ class Varien_Object
      * @var array
      */
     protected static $_underscoreCache = array();
-    
+
     protected $_isDeleted = false;
 
     /**
@@ -68,15 +68,15 @@ class Varien_Object
             $args[0] = array();
         }
         $this->_data = $args[0];
-        
+
         $this->_construct();
     }
-    
+
     protected function _construct()
     {
-        
+
     }
-    
+
     public function isDeleted($isDeleted=null)
     {
         $result = $this->_isDeleted;
@@ -85,7 +85,7 @@ class Varien_Object
         }
         return $result;
     }
-    
+
     /**
      * set name of object id field
      *
@@ -97,7 +97,7 @@ class Varien_Object
         $this->_idFieldName = $name;
         return $this;
     }
-    
+
     /**
      * Retrieve name of object id field
      *
@@ -111,7 +111,7 @@ class Varien_Object
 
     /**
      * Retrieve object id
-     * 
+     *
      * @return mixed
      */
     public function getId()
@@ -121,7 +121,7 @@ class Varien_Object
         }
         return $this->getData('id');
     }
-    
+
     /**
      * Set object id field value
      *
@@ -218,12 +218,12 @@ class Varien_Object
     {
         if (''===$key) {
             return $this->_data;
-        } 
+        }
         elseif (isset($this->_data[$key])) {
             if (is_null($index)) {
-                return $this->_data[$key];                
+                return $this->_data[$key];
             }
-            
+
             $value = $this->_data[$key];
             if (is_array($value)) {
                 return (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) ? $value[$index] : false;
@@ -409,15 +409,23 @@ class Varien_Object
     {
         switch (substr($method, 0, 3)) {
             case 'get' :
+                #$profilerKey = 'MAGIC: '.get_class($this).'::'.$method;
+                #Varien_Profiler::start($profilerKey);
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
-                return call_user_func_array(array($this, 'getData'), $args);
+                $data = call_user_func_array(array($this, 'getData'), $args);
+                #Varien_Profiler::stop($profilerKey);
+                return $data;
                 break;
 
             case 'set' :
+                #$profilerKey = 'MAGIC: '.get_class($this).'::'.$method;
+                #Varien_Profiler::start($profilerKey);
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
-                return call_user_func_array(array($this, 'setData'), $args);
+                $data = call_user_func_array(array($this, 'setData'), $args);
+                #Varien_Profiler::stop($profilerKey);
+                return $data;
                 break;
 
             case 'uns' :
@@ -492,7 +500,7 @@ class Varien_Object
         self::$_underscoreCache[$name] = $result;
         return $result;
     }
-    
+
     /**
      * serialize object attributes
      *
@@ -509,7 +517,7 @@ class Varien_Object
         if (empty($attributes)) {
             $attributes = array_keys($this->_data);
         }
-        
+
         foreach ($this->_data as $key => $value) {
             if (in_array($key, $attributes)) {
                 $data[] = $key.$valueSeparator.$quote.$value.$quote;

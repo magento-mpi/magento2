@@ -22,23 +22,23 @@
 class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
 {
     protected $_quote;
-    
+
     function _construct()
     {
         $this->_init('sales/quote_payment');
     }
-    
+
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
     }
-    
+
     public function getQuote()
     {
         return $this->_quote;
     }
-    
+
     public function importCustomerPayment(Mage_Customer_Model_Payment $payment)
     {
         $this
@@ -53,7 +53,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
             ->setCcExpYear($payment->getCcExpYear())
         ;
     }
-    
+
     public function importPostData(array $data)
     {
         $payment = Mage::getModel('customer/payment')->setData($data);
@@ -67,18 +67,29 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
         if($payment->getCcNumber()){
             $this->setCcNumberEnc($payment->encrypt($payment->getCcNumber()));
         }
-        
+
         if($payment->getCcCid()){
             $this->setCcCidEnc($payment->encrypt($payment->getCcCid()));
         }
-        
+
         if (!$this->getCcType()) {
             $types = array(3=>__('American Express'), 4=>__('Visa'), 5=>__('Master Card'), 6=>__('Discover'));
             if (isset($types[(int)substr($payment->getCcNumber(),0,1)])) {
                 $this->setCcType($types[(int)substr($payment->getCcNumber(),0,1)]);
             }
         }
-        
+
         return $this;
+    }
+
+    public function getCheckoutRedirectUrl()
+    {
+        if (!($method = $this->getMethod())
+            || !($modelName = Mage::getStoreConfig('payment/'.$method.'/model'))
+            || !($model = Mage::getModel($modelName))) {
+            return false;
+        }
+
+        return $model->getCheckoutRedirectUrl();
     }
 }

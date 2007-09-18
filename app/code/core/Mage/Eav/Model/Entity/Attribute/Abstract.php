@@ -105,6 +105,66 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         return $this->getData('attribute_code');
     }
 
+    public function setAttributeId($data)
+    {
+        return $this->setData('attribute_id', $data);
+    }
+
+    public function getAttributeId()
+    {
+        return $this->getData('attribute_id');
+    }
+
+    public function setAttributeCode($data)
+    {
+        return $this->setData('attribute_code', $data);
+    }
+
+    public function getAttributeCode()
+    {
+        return $this->getData('attribute_code');
+    }
+
+    public function setAttributeModel($data)
+    {
+        return $this->setData('attribute_model', $data);
+    }
+
+    public function getAttributeModel()
+    {
+        return $this->getData('attribute_model');
+    }
+
+    public function setBackendType($data)
+    {
+        return $this->setData('backend_type', $data);
+    }
+
+    public function getBackendType()
+    {
+        return $this->getData('backend_type');
+    }
+
+    public function setBackendModel($data)
+    {
+        return $this->setData('backend_model', $data);
+    }
+
+    public function getBackendModel()
+    {
+        return $this->getData('backend_model');
+    }
+
+    public function setBackendTable($data)
+    {
+        return $this->setData('backend_table', $data);
+    }
+
+    public function getBackendTable()
+    {
+        return $this->getData('backend_table');
+    }
+
     /**
      * Get attribute alias as "entity_type/attribute_code"
      *

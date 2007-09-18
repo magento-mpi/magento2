@@ -152,9 +152,4 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
         return $select->getHtml();
     }
-
-    public function isPaypalExpress()
-    {
-        return $this->getQuote()->getCheckoutMethod()==='paypal_express';
-    }
 }

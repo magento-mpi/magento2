@@ -55,6 +55,8 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 
 /* Form Elements */
 input.input-text, select, textarea { border:1px solid #b6b6b6; font:12px arial, helvetica, sans-serif; }
+option, optgroup { font:12px arial, helvetica, sans-serif; }
+optgroup { font-weight:bold; }
 input.input-text, textarea { padding:2px; }
 input.form-radio { margin-right:3px;}
 .qty { width:2.5em; }
@@ -335,13 +337,13 @@ table.view-by td {
     text-align:left;
     }
 .header-top {
-    position:relative; 
-    width:930px; 
-    margin:0 auto; 
+    position:relative;
+    width:930px;
+    margin:0 auto;
     }
-.header-nav { 
-    width:950px; 
-    margin:0 auto; 
+.header-nav {
+    width:950px;
+    margin:0 auto;
     }
 .middle {
     min-height:400px;

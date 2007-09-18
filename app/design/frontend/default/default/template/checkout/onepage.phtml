@@ -19,7 +19,7 @@
  */
 ?>
 <script type="text/javascript" src="<?=$baseJsUrl?>varien/accordion.js?v=2"></script>
-<script type="text/javascript" src="<?=$baseJsUrl?>varien/opcheckout.js?v=2"></script>
+<script type="text/javascript" src="<?=$this->getSkinUrl('js/opcheckout.js?v=2')?>"></script>
 <script type="text/javascript">countryRegions = <?=$this->getHelper('directory/data')->getRegionsJs()?></script>
 
 <ol id="checkoutSteps" class="one-page-checkout">
@@ -41,9 +41,9 @@
     accordion.openSection('opc-<?=$this->getActiveStep()?>');
     <?endif?>
 
-    var checkout = new Checkout(accordion, 
-    	'<?=$this->getUrl('checkout/onepage/progress')?>', 
-    	'<?=$this->getUrl('checkout/onepage/review')?>', 
+    var checkout = new Checkout(accordion,
+    	'<?=$this->getUrl('checkout/onepage/progress')?>',
+    	'<?=$this->getUrl('checkout/onepage/review')?>',
 		'<?=$this->getUrl('checkout/onepage/saveMethod')?>'
 	);
 </script>
