@@ -30,6 +30,11 @@
 	public function indexAction()
 	{
 	    $items = $this->getRequest()->getParam('items');
+
+	    if(!Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
+	         Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->getRequest()->getServer('HTTP_REFERER'));
+	    }
+
 	    if ($items) {
 	        $items = explode(',', $items);
 	        $list = Mage::getSingleton('catalog/product_compare_list');
@@ -81,8 +86,8 @@
 			if($item->getId()) {
 				$item->delete();
 			}
-		} 
-		
+		}
+
         $this->_redirectToReferer(Mage::getUrl('*/*/'));
 	}
 
