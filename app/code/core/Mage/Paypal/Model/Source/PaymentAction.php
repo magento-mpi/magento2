@@ -13,13 +13,25 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Paypal
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Sales_Model_Invoice_Total extends Varien_Object
+/**
+ *
+ * PayPal Payment Action Dropdown source
+ *
+ * @author     Moshe Gurvich <moshe@varien.com>
+ */
+class Mage_Paypal_Model_Source_PaymentAction
 {
-
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => __('Authorization')),
+            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_ORDER, 'label' => __('Order')),
+            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE, 'label' => __('Sale')),
+        );
+    }
 }

@@ -56,19 +56,25 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
                 $payment->setCcOwner($address->getFirstname() . ' ' . $address->getLastname());
             }
         }
+        $sortedMethods = array();
         foreach ($methods as $methodConfig) {
             if (!$methodConfig->is('active', 1)) {
                 continue;
             }
-
-            $methodName = $methodConfig->getName();
-            $className = $methodConfig->getClassName();
-            $method = Mage::getModel($className)
-                ->setPayment($payment);
-
-            $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
-            if (!empty($methodBlock)) {
-                $listBlock->append($methodBlock);
+            $sortedMethods[(int)$methodConfig->sort_order] = array(
+                'method_name' => $methodConfig->getName(),
+                'class_name' => $methodConfig->getClassName(),
+            );
+        }
+        ksort($sortedMethods);
+        foreach ($sortedMethods as $m) {
+            $method = Mage::getModel($m['class_name']);
+            if ($method) {
+                $method->setPayment($payment);
+                $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$m['method_name']);
+                if (!empty($methodBlock)) {
+                    $listBlock->append($methodBlock);
+                }
             }
         }
         return $listBlock->toHtml();

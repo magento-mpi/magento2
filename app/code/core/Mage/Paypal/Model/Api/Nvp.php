@@ -98,7 +98,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 'SHIPTOZIP'         => $a->getPostcode(),
                 'PHONENUM'          => $a->getTelephone(),
             ));
-            #$this->setUserAction(self::USER_ACTION_COMMIT);
+            $this->setUserAction(self::USER_ACTION_COMMIT);
         }
 
         //'---------------------------------------------------------------------------------------------------------------

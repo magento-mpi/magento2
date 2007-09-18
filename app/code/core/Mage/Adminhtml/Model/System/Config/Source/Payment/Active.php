@@ -13,13 +13,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
-class Mage_Sales_Model_Invoice_Total extends Varien_Object
+class Mage_Adminhtml_Model_System_Config_Source_Payment_Active
 {
-
+    public function toOptionArray()
+    {
+        return array(
+            array('value'=>0, 'label'=>__('No')),
+            array('value'=>1, 'label'=>__('For all types of checkout')),
+            array('value'=>2, 'label'=>__('Exclude multi-address checkout')),
+        );
+    }
 }

@@ -21,12 +21,21 @@
 
 class Mage_Core_Model_Config_Element extends Varien_Simplexml_Element
 {
-    public function is($var, $value='true')
+    public function is($var, $value=true)
     {
         $flag = $this->$var;
+
+        if ($value===true) {
+            if (!empty($flag) && (0!==strcasecmp('false', (string)$flag)) && (bool)$flag) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         return !empty($flag) && (0===strcasecmp($value, (string)$flag));
     }
-    
+
     public function getClassName()
     {
         if ($this->class) {
@@ -38,5 +47,5 @@ class Mage_Core_Model_Config_Element extends Varien_Simplexml_Element
         }
         return Mage::getConfig()->getModelClassName($model);
     }
-    
+
 }
