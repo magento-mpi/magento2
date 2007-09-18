@@ -82,7 +82,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 		try {
 			$wishlist->addNewItem($product->getId());
-			$message = $product->getName().' was successfully added to your wishlist. Click <a href="%s">here</a> to continue shopping';
+			$message = str_replace("%", "%%", $product->getName()) .' was successfully added to your wishlist. Click <a href="%s">here</a> to continue shopping';
 
 			if ($referer = Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
 			    Mage::getSingleton('customer/session')->setBeforeWishlistUrl(null);
@@ -90,7 +90,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 			else {
 			    $referer = $this->getRequest()->getServer('HTTP_REFERER');
 			}
-			$message = sprintf($message, $referer);
+			$message = str_replace("%", "%%", sprintf($message, $referer));
 			Mage::getSingleton('customer/session')->addSuccess($message);
 		}
 		catch (Exception $e) {
