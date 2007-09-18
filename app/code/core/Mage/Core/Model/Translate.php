@@ -151,6 +151,9 @@ class Mage_Core_Model_Translate
         if (!isset($this->_config[self::CONFIG_KEY_LOCALE])) {
             $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
         }
+        if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
+            $this->_config[self::CONFIG_KEY_STORE] = Mage::getSingleton('core/store')->getId();
+        }
         return $this;
     }
     
@@ -196,7 +199,7 @@ class Mage_Core_Model_Translate
         foreach ($data as $key => $value) {
             $key    = trim($key, '"');
             $value  = trim($value, '"');
-        	if (isset($this->_dataScope[$key])) {
+        	if ($scope && isset($this->_dataScope[$key])) {
         	    /**
         	     * Checking previos value
         	     */
@@ -218,14 +221,25 @@ class Mage_Core_Model_Translate
         return $this;
     }
     
+    /**
+     * Loading current theme translation
+     *
+     * @return Mage_Core_Model_Translate
+     */
     protected function _loadThemeTranslation()
     {
         //$design = Mage::getDesign();
         return $this;
     }
     
+    /**
+     * Loading current store translation from DB
+     *
+     * @return Mage_Core_Model_Translate
+     */
     protected function _loadDbTranslation()
     {
+        $this->_addData($this->getResource()->getTranslationArray(), $this->getConfig(self::CONFIG_KEY_STORE));
         return $this;
     }
     
@@ -393,6 +407,7 @@ class Mage_Core_Model_Translate
             		}
             	}
             }
+            $this->_cacheChecksum.= '_DB_'.$this->getResource()->getMainChecksum();
             $this->_cacheChecksum = md5($this->_cacheChecksum);
         }
         return $this->_cacheChecksum;

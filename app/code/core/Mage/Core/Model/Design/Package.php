@@ -21,12 +21,36 @@
 
 class Mage_Core_Model_Design_Package
 {
+    const DEFAULT_AREA      = 'frontend';
+    const DEFAULT_PACKAGE   = 'default';
+    const DEFAULT_THEME     = 'default';
+    
+    /**
+     * Package area
+     *
+     * @var string
+     */
 	protected $_area;
 	
+	/**
+	 * Package name
+	 *
+	 * @var string
+	 */
 	protected $_name;
 	
+	/**
+	 * Package theme
+	 *
+	 * @var string
+	 */
 	protected $_theme;
 	
+	/**
+	 * Package root directory
+	 *
+	 * @var string
+	 */
 	protected $_rootDir;
 	
 	protected $_config = null;
@@ -36,6 +60,12 @@ class Mage_Core_Model_Design_Package
 		
 	}
 	
+	/**
+	 * Retrieve configuration by package apth
+	 *
+	 * @param  string $path
+	 * @return mixed
+	 */
 	public function getConfig($path=null)
 	{
 		if (is_null($this->_config)) {
@@ -62,34 +92,54 @@ class Mage_Core_Model_Design_Package
 		}
 	}
 	
+	/**
+	 * Set package area
+	 *
+	 * @param  string $area
+	 * @return Mage_Core_Model_Design_Package
+	 */
 	public function setArea($area)
 	{
 		$this->_area = $area;
-		
 		return $this;
 	}
 	
+	/**
+	 * Retrieve package area
+	 *
+	 * @return unknown
+	 */
 	public function getArea()
 	{
-		if (empty($this->_area)) {
-			$this->_area = $this->getDefaultArea();
+		if (is_null($this->_area)) {
+			$this->_area = self::DEFAULT_AREA;
 		}
 		return $this->_area;
 	}
 	
+	/**
+	 * Set package name
+	 *
+	 * @param  string $name
+	 * @return Mage_Core_Model_Design_Package
+	 */
 	public function setPackageName($name)
 	{
 		$this->_name = $name;
-		
 		return $this;
 	}
 	
+	/**
+	 * Retrieve package name
+	 *
+	 * @return string
+	 */
 	public function getPackageName()
 	{
-		if (empty($this->_name)) {
+		if (is_null($this->_name)) {
 			$this->_name = Mage::getStoreConfig('design/package/name');
 			if (empty($this->_name)) {
-				$this->_name = $this->getDefaultPackage();
+				$this->_name = self::DEFAULT_PACKAGE;
 			}
 		}
 		return $this->_name;
@@ -115,26 +165,16 @@ class Mage_Core_Model_Design_Package
 			if ($type!=='default' && empty($this->_theme[$type])) {
 				$this->_theme[$type] = $this->getTheme('default');
 				if (empty($this->_theme[$type])) {
-					$this->_theme[$type] = $this->getDefaultTheme();
+					$this->_theme[$type] = self::DEFAULT_THEME;
 				}
 			}
 		}
 		return $this->_theme[$type];
 	}
 	
-	public function getDefaultArea()
-	{
-		return 'frontend';
-	}
-	
-	public function getDefaultPackage()
-	{
-		return 'default';
-	}
-	
 	public function getDefaultTheme()
 	{
-		return 'default';
+		return self::DEFAULT_THEME;
 	}
 	
 	public function updateParamDefaults(array &$params)
@@ -159,7 +199,7 @@ class Mage_Core_Model_Design_Package
 		return $baseDir;
 	}
 
-	/*public function getTranslateBaseDir(array $params)
+	public function getTranslateBaseDir(array $params)
 	{
 		$this->updateParamDefaults($params);
 		if (empty($params['_language'])) {
@@ -168,7 +208,7 @@ class Mage_Core_Model_Design_Package
 		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'].DS.$params['_language'];
 		return $baseDir;
-	}*/
+	}
 	
 	public function getSkinBaseDir(array $params=array())
 	{

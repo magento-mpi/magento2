@@ -67,7 +67,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         $this->_init('eav/entity_attribute');
     }
-
+    
     public function loadByCode($entityType, $code)
     {
         if (is_numeric($entityType)) {

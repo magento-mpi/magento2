@@ -58,4 +58,9 @@ class Mage_Core_Model_Mysql4_Translate extends Mage_Core_Model_Mysql4_Abstract
             ->where('main.store_id=0');
         return $read->fetchPairs($select);
     }
+    
+    public function getMainChecksum()
+    {
+        return parent::getChecksum($this->getMainTable());
+    }
 }
