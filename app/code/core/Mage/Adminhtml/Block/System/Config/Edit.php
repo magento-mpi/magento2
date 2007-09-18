@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setTitle($this->_section->getFrontendLabel());
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('save_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -54,6 +54,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
                     'class' => 'save',
                 ))
         );
+        return parent::_prepareLayout();
     }
     
     public function getSaveButtonHtml()

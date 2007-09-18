@@ -50,11 +50,10 @@ class Mage_Adminhtml_Block_Sales_Invoice_View_Plane extends Mage_Core_Block_Temp
         return $model;
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild( 'items', $this->getLayout()->createBlock( 'adminhtml/sales_order_view_items', 'items.grid' ));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getItemsHtml()

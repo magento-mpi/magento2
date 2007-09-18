@@ -28,14 +28,14 @@
 class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 {
     /**
-     * Enter description here...
+     * View scripts directory
      *
      * @var string
      */
     protected $_viewDir = '';
 
     /**
-     * Enter description here...
+     * Assigned variables for view
      *
      * @var array
      */
@@ -114,23 +114,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function renderView()
     {
         Varien_Profiler::start(__METHOD__);
-        #$templatesDir = Mage::getSingleton('core/store')->getDir('template');
-		#$this->setScriptPath($templatesDir.DS);
-
-        $this->assign('baseUrl', Mage::getBaseUrl());
-        $this->assign('baseSecureUrl', Mage::getBaseUrl(array('_secure'=>true)));
-        $this->assign('baseSkinUrl', Mage::getBaseUrl(array('_type'=>'skin')));
-        $this->assign('baseJsUrl', Mage::getBaseUrl(array('_type'=>'js')));
-        #$this->assign('templatesDir', $templatesDir);
-        $this->assign('currentUrl', Mage::registry('controller')->getRequest()->getRequestUri());
-        $this->assign('currentBlock', $this);
-
-
+        
         $this->setScriptPath(Mage::getBaseDir('design'));
         $params = array('_relative'=>true);
         if ($area = $this->getArea()) {
             $params['_area'] = $area;
         }
+        
         $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);
         $html = $this->fetchView($templateName);
         Varien_Profiler::stop(__METHOD__);
@@ -217,8 +207,8 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         return $this->_baseUrl;
     }
 
-    public function getJsUrl()
+    public function getJsUrl($fileName='')
     {
-        return $this->_jsUrl;
+        return $this->_jsUrl.$fileName;
     }
 }

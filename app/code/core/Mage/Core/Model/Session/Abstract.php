@@ -21,6 +21,10 @@
 
 class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_Varien
 {
+    const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
+    const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
+    const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
+    
 	public function init($namespace)
 	{
 		parent::init($namespace);
@@ -47,7 +51,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     
     public function getCookieDomain()
     {
-    	$domain = Mage::getStoreConfig('web/cookie/cookie_domain');
+    	$domain = Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN);
     	if (empty($domain)) {
     		$domainArr = explode(':', $_SERVER['HTTP_HOST']);
     		$domain = $domainArr[0];
@@ -57,7 +61,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
 
     public function getCookiePath()
     {
-    	$path = Mage::getStoreConfig('web/cookie/cookie_path');
+    	$path = Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH);
     	if (empty($path)) {
     		$path = '/';
     	}
@@ -66,7 +70,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     
     public function getCookieLifetime()
     {
-    	$lifetime = Mage::getStoreConfig('web/cookie/cookie_lifetime');
+    	$lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME);
     	if (empty($lifetime)) {
     		$lifetime = 60*60*3;
     	}

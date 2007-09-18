@@ -27,10 +27,10 @@
  */
 class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->setTitle(__('Create new customer account'));
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
     
     /**
@@ -86,7 +86,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
             return $region;
         }
         elseif ($region = $this->getFormData()->getRegionId()) {
-        	return $region;
+            return $region;
         }
         return null;
     }

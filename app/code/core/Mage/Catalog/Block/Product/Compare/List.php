@@ -27,92 +27,92 @@
  */
  class Mage_Catalog_Block_Product_Compare_List extends Mage_Core_Block_Template 
  {
- 	protected $_items = null;
- 	protected $_attributes = null;
- 	
- 	protected function _initChildren()
- 	{
- 	    if ($headBlock = $this->getLayout()->getBlock('head')) {
- 	        $headBlock->setTitle(__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
- 	    }
- 	    return parent::_initChildren();
- 	}
- 	
- 	public function getItems()
- 	{
- 		if(is_null($this->_items)) {
- 			$this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
- 			    ->useProductItem(true)
- 				->setStoreId(Mage::getSingleton('core/store')->getId());
- 			
- 			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-				$this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-			} else {
-				$this->_items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
-			}
-			
-			$this->_items
-				->loadComaparableAttributes()
-				->addAttributeToSelect('name')
-				->addAttributeToSelect('price')
-				->addAttributeToSelect('image')
-				->addAttributeToSelect('status')
-				->addAttributeToSelect('small_image')
-				->useProductItem()
-				->load();
- 		}
- 		
- 		return $this->_items;
- 	}
- 	
- 	public function getAttributes() 
- 	{
- 		if(is_null($this->_attributes)) {
- 			$this->_setAttributesFromProducts();
- 		}
- 		
- 		return $this->_attributes;
- 	}
- 	
- 	protected function _setAttributesFromProducts()
- 	{
- 		$this->_attributes = array();
- 		foreach($this->getItems() as $item) {
- 			foreach ($item->getAttributes() as $attribute) {
- 				if($attribute->getIsComparable() && !$this->hasAttribute($attribute->getAttributeCode()) && $item->getData($attribute->getAttributeCode())!==null) {
- 					$this->_attributes[] = $attribute;
- 				}
- 			}
- 		}
- 		
- 		return $this;
- 	}
- 	
- 	public function hasAttribute($code) 
- 	{
- 		foreach($this->_attributes as $attribute) {
- 			if($attribute->getAttributeCode()==$code) {
- 				return true;
- 			}
- 		}
- 		
- 		return false;
- 	}
- 	
- 	public function getProductAttributeValue($product, $attribute)
- 	{
-		if($attribute->getSourceModel()){
+    protected $_items = null;
+    protected $_attributes = null;
+    
+    protected function _prepareLayout()
+    {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle(__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
+        }
+        return parent::_prepareLayout();
+    }
+    
+    public function getItems()
+    {
+        if(is_null($this->_items)) {
+            $this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
+                ->useProductItem(true)
+                ->setStoreId(Mage::getSingleton('core/store')->getId());
+            
+            if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+            } else {
+                $this->_items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
+            }
+            
+            $this->_items
+                ->loadComaparableAttributes()
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price')
+                ->addAttributeToSelect('image')
+                ->addAttributeToSelect('status')
+                ->addAttributeToSelect('small_image')
+                ->useProductItem()
+                ->load();
+        }
+        
+        return $this->_items;
+    }
+    
+    public function getAttributes() 
+    {
+        if(is_null($this->_attributes)) {
+            $this->_setAttributesFromProducts();
+        }
+        
+        return $this->_attributes;
+    }
+    
+    protected function _setAttributesFromProducts()
+    {
+        $this->_attributes = array();
+        foreach($this->getItems() as $item) {
+            foreach ($item->getAttributes() as $attribute) {
+                if($attribute->getIsComparable() && !$this->hasAttribute($attribute->getAttributeCode()) && $item->getData($attribute->getAttributeCode())!==null) {
+                    $this->_attributes[] = $attribute;
+                }
+            }
+        }
+        
+        return $this;
+    }
+    
+    public function hasAttribute($code) 
+    {
+        foreach($this->_attributes as $attribute) {
+            if($attribute->getAttributeCode()==$code) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public function getProductAttributeValue($product, $attribute)
+    {
+        if($attribute->getSourceModel()){
             $value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
-		}
-		else {
-		    $value = $product->getData($attribute->getAttributeCode());
-		}
-		return $value ? $value : '&nbsp';
- 	}
- 	
- 	public function getPrintUrl()
- 	{
- 		return $this->getUrl('*/*/*', array('_current'=>true, 'print'=>1));
- 	}
- 	
+        }
+        else {
+            $value = $product->getData($attribute->getAttributeCode());
+        }
+        return $value ? $value : '&nbsp';
+    }
+    
+    public function getPrintUrl()
+    {
+        return $this->getUrl('*/*/*', array('_current'=>true, 'print'=>1));
+    }
+    
  } // Class Mage_Catalog_Block_Product_Compare_List end

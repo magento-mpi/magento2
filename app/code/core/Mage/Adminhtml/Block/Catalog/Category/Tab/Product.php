@@ -35,9 +35,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         $this->setUseAjax(true);
     }
     
-    /*protected function _initChildren()
+    /*protected function _prepareLayout()
     {
-        parent::_initChildren();
+        parent::_prepareLayout();
         $this->setChild('switch_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             elseif(!empty($productIds)) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));

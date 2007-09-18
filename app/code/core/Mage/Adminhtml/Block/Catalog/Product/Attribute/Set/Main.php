@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setTemplate('catalog/product/attribute/set/main.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $setId = $this->_getSetId();
 
@@ -97,6 +97,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
                     'onclick'   => 'editSet.rename()'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     public function getGroupTreeHtml()

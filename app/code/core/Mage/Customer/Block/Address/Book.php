@@ -27,12 +27,12 @@
  */
 class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
             ->setTitle(__('Address Book'));
             
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
     
     public function getAddAddressUrl()
@@ -78,7 +78,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
 
     public function getAddressHtml($address)
     {
-    	return $address->getFormated(true);
+        return $address->getFormated(true);
         //return $address->toString($address->getHtmlFormat());
     }
     

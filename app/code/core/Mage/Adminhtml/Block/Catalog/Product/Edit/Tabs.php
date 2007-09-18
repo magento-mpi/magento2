@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
         $this->setTitle(__('Product Information'));
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $product = Mage::registry('product');
 
@@ -119,27 +119,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
             if ($product->isBundle()) {
 
-            	$this->addTab('bundle', array(
-            		'label' => __('Bundle'),
-            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_bundle')->toHtml(),
-            	));
+                $this->addTab('bundle', array(
+                    'label' => __('Bundle'),
+                    'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_bundle')->toHtml(),
+                ));
             }
 
             if ($product->isSuperGroup()) {
-            	$this->addTab('super', array(
-            		'label' => __('Associated Products'),
-            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml()
-            	));
+                $this->addTab('super', array(
+                    'label' => __('Associated Products'),
+                    'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml()
+                ));
             }
             elseif ($product->isSuperConfig()) {
-            	$this->addTab('super', array(
-            		'label' => __('Associated Products'),
-            		'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config', 'admin.super.config.product')->toHtml()
-            	));
+                $this->addTab('super', array(
+                    'label' => __('Associated Products'),
+                    'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config', 'admin.super.config.product')->toHtml()
+                ));
             }
         }
         elseif ($setId) {
-        	$this->addTab('super_settings', array(
+            $this->addTab('super_settings', array(
                 'label'     => __('Configurable Product Settings'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_settings')->toHtml(),
                 'active'    => true
@@ -152,5 +152,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'active'    => true
             ));
         }
+        return parent::_prepareLayout();
     }
 }

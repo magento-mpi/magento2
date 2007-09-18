@@ -35,11 +35,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
         $this->setId('sales_order_create_shipping_address');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('select', $this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_address_select'));
         $this->setChild('form', $this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_address_form'));
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function getHeaderText()

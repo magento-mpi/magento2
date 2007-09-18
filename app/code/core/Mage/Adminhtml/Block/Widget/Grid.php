@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @var sting|null
      */
-    protected $_emptyTextCss	= 'a-center';
+    protected $_emptyTextCss    = 'a-center';
 
     /**
      * Pager visibility
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_emptyText = __('No records found.');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('export_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -168,6 +168,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                     'class'   => 'task'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     public function getExportButtonHtml()
@@ -278,7 +279,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _setFilterValues($data)
     {
-    	foreach ($this->getColumns() as $columnId => $column) {
+        foreach ($this->getColumns() as $columnId => $column) {
             if (isset($data[$columnId]) && (!empty($data[$columnId]) || strlen($data[$columnId]) > 0) && $column->getFilter()) {
                 $column->getFilter()->setValue($data[$columnId]);
                 $this->_addColumnFilterToCollection($column);
@@ -324,9 +325,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 parse_str(urldecode($filter), $data);
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
-            	$this->_setFilterValues($filter);
+                $this->_setFilterValues($filter);
             } else if(0 !== sizeof($this->_defaultFilter)) {
-            	$this->_setFilterValues($this->_defaultFilter);
+                $this->_setFilterValues($this->_defaultFilter);
             }
 
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
@@ -695,18 +696,18 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     public function setEmptyText($text)
     {
-    	$this->_emptyText = $text;
-    	return $this;
+        $this->_emptyText = $text;
+        return $this;
     }
 
-   	/**
-   	 * Return empty text for grid
-   	 *
-   	 * @return string
-   	 */
+    /**
+     * Return empty text for grid
+     *
+     * @return string
+     */
     public function getEmptyText()
     {
-    	return $this->_emptyText;
+        return $this->_emptyText;
     }
 
     /**
@@ -717,18 +718,18 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     public function setEmptyTextClass($cssClass)
     {
-    	$this->_emptyTextCss = $text;
-    	return $this;
+        $this->_emptyTextCss = $text;
+        return $this;
     }
 
-   	/**
-   	 * Return empty text CSS class
-   	 *
-   	 * @return string
-   	 */
+    /**
+     * Return empty text CSS class
+     *
+     * @return string
+     */
     public function getEmptyTextClass()
     {
-    	return $this->_emptyTextCss;
+        return $this->_emptyTextCss;
     }
 
     /**

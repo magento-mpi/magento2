@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $this->_withProductCount = true;
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -55,6 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/store_switcher')
                 ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
         );
+        return parent::_prepareLayout();
     }
     
     protected function _getDefaultStoreId()
@@ -169,7 +170,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
                 ->addIdFilter(array_keys($children))
                 ->load();
             foreach ($collection as $category) {
-            	$children[$category->getId()]->addData($category->getData());
+                $children[$category->getId()]->addData($category->getData());
             }
         }
         
@@ -191,7 +192,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         if ($node->hasChildren()) {
             $item['children'] = array();
             foreach ($node->getChildren() as $child) {
-            	$item['children'][] = $this->_getNodeJson($child, $level+1);
+                $item['children'][] = $this->_getNodeJson($child, $level+1);
             }
         }
         return $item;

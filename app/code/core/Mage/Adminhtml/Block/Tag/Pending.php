@@ -33,20 +33,20 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Core_Block_Template
         $this->setTemplate('tag/index.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         /*
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array('label' => __('Add New Tag'),
-					'class' => 'add'
-				))
+                    'class' => 'add'
+                ))
         );
         */
         $this->setChild('tagsGrid',
             $this->getLayout()->createBlock('adminhtml/tag_grid_pending')
         );
+        return parent::_prepareLayout();
     }
 
     public function getCreateButtonHtml()

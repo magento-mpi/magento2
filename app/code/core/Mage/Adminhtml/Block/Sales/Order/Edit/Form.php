@@ -57,11 +57,10 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Templat
      *
      * @return Mage_Adminhtml_Block_Sales_Order_Edit_Form
      */
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild( 'items', $this->getLayout()->createBlock( 'adminhtml/sales_order_edit_items', 'items' ));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     /**
@@ -125,10 +124,10 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Templat
             if ($method) {
                 $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod() . '/title').'</p>';
                 $method->setPayment($this->getOrder()->getPayment());
-            	$methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
-            	if (!empty($methodBlock)) {
-            	    $html .= $methodBlock->toHtml();
-    	        }
+                $methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
+                if (!empty($methodBlock)) {
+                    $html .= $methodBlock->toHtml();
+                }
             }
         }
         return $html;

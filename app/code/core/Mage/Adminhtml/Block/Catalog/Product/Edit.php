@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setId('product_edit');
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -89,6 +89,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                     'class'  => 'add'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     public function getBackButtonHtml()
@@ -147,16 +148,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getRelatedProductsJSON()
     {
-    	$result = array();
-    	
+        $result = array();
+        
         foreach (Mage::registry('product')->getRelatedProductsLoaded() as $product) {
-        	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getAttributeCodes()
-        	);
+            $result[$product->getEntityId()] = $product->toArray(
+                $product->getAttributeCollection()->getAttributeCodes()
+            );
         }
         
         if(!empty($result)) {
-        	return Zend_Json_Encoder::encode($result);
+            return Zend_Json_Encoder::encode($result);
         }
         
         return '{}';
@@ -165,16 +166,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getUpSellProductsJSON()
     {
-    	$result = array();
-    	
+        $result = array();
+        
         foreach (Mage::registry('product')->getUpSellProductsLoaded() as $product) {
-        	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getAttributeCodes()
-        	);
+            $result[$product->getEntityId()] = $product->toArray(
+                $product->getAttributeCollection()->getAttributeCodes()
+            );
         }
         
         if(!empty($result)) {
-        	return Zend_Json_Encoder::encode($result);
+            return Zend_Json_Encoder::encode($result);
         }
         
         return '{}';
@@ -182,16 +183,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getCrossSellProductsJSON()
     {
-    	$result = array();
-    	
+        $result = array();
+        
         foreach (Mage::registry('product')->getCrossSellProductsLoaded() as $product) {
-        	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getAttributeCodes()
-        	);
+            $result[$product->getEntityId()] = $product->toArray(
+                $product->getAttributeCollection()->getAttributeCodes()
+            );
         }
         
         if(!empty($result)) {
-        	return Zend_Json_Encoder::encode($result);
+            return Zend_Json_Encoder::encode($result);
         }
         
         return '{}';
@@ -199,16 +200,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getSuperGroupProductJSON()
     {
-    	$result = array();
-    	
+        $result = array();
+        
         foreach (Mage::registry('product')->getSuperGroupProductsLoaded() as $product) {
-        	$result[$product->getEntityId()] = $product->toArray(
-        		$product->getAttributeCollection()->getAttributeCodes()
-        	);
+            $result[$product->getEntityId()] = $product->toArray(
+                $product->getAttributeCollection()->getAttributeCodes()
+            );
         }
         
         if(!empty($result)) {
-        	return Zend_Json_Encoder::encode($result);
+            return Zend_Json_Encoder::encode($result);
         }
         
         return '{}';
@@ -221,7 +222,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getIsSuperGroup() 
     {
-    	return Mage::registry('product')->isSuperGroup();
+        return Mage::registry('product')->isSuperGroup();
     }
     
     public function getDeleteUrl()
@@ -261,11 +262,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     
     public function getIsConfigured()
     {
-    	if (!($superAttributes = Mage::registry('product')->getSuperAttributesIds())) {
+        if (!($superAttributes = Mage::registry('product')->getSuperAttributesIds())) {
             $superAttributes = false;
         }
                 
-    	return !Mage::registry('product')->isSuperConfig() || $superAttributes !== false;
+        return !Mage::registry('product')->isSuperConfig() || $superAttributes !== false;
     }
     
 }

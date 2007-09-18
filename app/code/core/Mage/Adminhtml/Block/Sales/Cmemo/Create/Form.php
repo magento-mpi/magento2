@@ -47,11 +47,10 @@ class Mage_Adminhtml_Block_Sales_Cmemo_Create_Form extends Mage_Adminhtml_Block_
         return Mage::registry('sales_invoice')->getOrder();
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild('items', $this->getLayout()->createBlock( 'adminhtml/sales_cmemo_create_items', 'sales_cmemo_create_items'));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getItemsHtml()

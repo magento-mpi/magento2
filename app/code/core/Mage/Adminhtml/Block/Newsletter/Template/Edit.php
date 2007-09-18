@@ -40,140 +40,141 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         }
     }
     
-    protected function _initChildren() 
+    protected function _prepareLayout() 
     {
-    	$this->setChild('back_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Back'),
-    					'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
-							'class' => 'back'
-    				)
-    			)
-    	);
-    	
-    	
-    	$this->setChild('reset_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Reset'),
-    					'onclick' => 'window.location.href = window.location.href'
-    				)
-    			)
-    	);
-    	
-    	$this->setChild('to_plain_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Convert to Plain Text'),
-    					'onclick' => 'templateControl.stripTags();',
-    					'id'	  => 'convert_button',
-							'class' => 'task'
-    				)
-    			)
-    	);
-    	
-    	
-    	$this->setChild('to_html_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Return Html Version'),
-    					'onclick' => 'templateControl.unStripTags();',
-    					'id'	  => 'convert_button_back',
-    					'style'	  => 'display:none',
-							'class' => 'task'
-    				)
-    			)
-    	);
-    	
-    	$this->setChild('toggle_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Toggle Editor'),
-    					'onclick' => 'templateControl.toggleEditor();',
-    					'id'	  => 'toggle_button',
-							'class' => 'task'
-    				)
-    			)
-    	);
-    	
-    	$this->setChild('save_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Save Template'),
-    					'onclick' => 'templateControl.save();',
-							'class' => 'save'
-    				)
-    			)
-    	);
-    	
-    	$this->setChild('preview_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Preview Template'),
-    					'onclick' => 'templateControl.preview();',
-							'class' => 'task'
-    				)
-    			)
-    	);
-    	
-    	$this->setChild('delete_button', 
-    		$this->getLayout()->createBlock('adminhtml/widget_button')
-    			->setData(
-    				array(
-    					'label'   => __('Delete Template'),
-    					'onclick' => 'templateControl.deleteTemplate();',
-							'class' => 'delete'
-    				)
-    			)
-    	);
+        $this->setChild('back_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Back'),
+                        'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
+                            'class' => 'back'
+                    )
+                )
+        );
+        
+        
+        $this->setChild('reset_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Reset'),
+                        'onclick' => 'window.location.href = window.location.href'
+                    )
+                )
+        );
+        
+        $this->setChild('to_plain_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Convert to Plain Text'),
+                        'onclick' => 'templateControl.stripTags();',
+                        'id'      => 'convert_button',
+                            'class' => 'task'
+                    )
+                )
+        );
+        
+        
+        $this->setChild('to_html_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Return Html Version'),
+                        'onclick' => 'templateControl.unStripTags();',
+                        'id'      => 'convert_button_back',
+                        'style'   => 'display:none',
+                            'class' => 'task'
+                    )
+                )
+        );
+        
+        $this->setChild('toggle_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Toggle Editor'),
+                        'onclick' => 'templateControl.toggleEditor();',
+                        'id'      => 'toggle_button',
+                            'class' => 'task'
+                    )
+                )
+        );
+        
+        $this->setChild('save_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Save Template'),
+                        'onclick' => 'templateControl.save();',
+                            'class' => 'save'
+                    )
+                )
+        );
+        
+        $this->setChild('preview_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Preview Template'),
+                        'onclick' => 'templateControl.preview();',
+                            'class' => 'task'
+                    )
+                )
+        );
+        
+        $this->setChild('delete_button', 
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Delete Template'),
+                        'onclick' => 'templateControl.deleteTemplate();',
+                            'class' => 'delete'
+                    )
+                )
+        );
+        return parent::_prepareLayout();
     }
     
     public function getBackButtonHtml()
     {
-    	return $this->getChildHtml('back_button');
+        return $this->getChildHtml('back_button');
     }
     
     public function getToggleButtonHtml()
     {
-    	return $this->getChildHtml('toggle_button');
+        return $this->getChildHtml('toggle_button');
     }
         
     public function getResetButtonHtml()
     {
-    	return $this->getChildHtml('reset_button');
+        return $this->getChildHtml('reset_button');
     }
     
     public function getToPlainButtonHtml()
     {
-    	return $this->getChildHtml('to_plain_button');
+        return $this->getChildHtml('to_plain_button');
     }
     
     public function getToHtmlButtonHtml()
     {
-    	return $this->getChildHtml('to_html_button');
+        return $this->getChildHtml('to_html_button');
     }
     
     public function getSaveButtonHtml()
     {
-    	return $this->getChildHtml('save_button');
+        return $this->getChildHtml('save_button');
     }
     
     public function getPreviewButtonHtml()
     {
-    	return $this->getChildHtml('preview_button');
+        return $this->getChildHtml('preview_button');
     }
     
     public function getDeleteButtonHtml()
     {
-    	return $this->getChildHtml('delete_button');
+        return $this->getChildHtml('delete_button');
     }
     
     /**

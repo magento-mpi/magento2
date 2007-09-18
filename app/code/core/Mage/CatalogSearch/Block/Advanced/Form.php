@@ -27,14 +27,14 @@
  */
 class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template 
 {
-    public function _initChildren()
+    public function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Catalog Advanced Search'));
         }
 
         // add Home breadcrumb
-    	$this->getLayout()->getBlock('breadcrumbs')
+        $this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
                 array('label'=>__('Home'),
                     'title'=>__('Go to Home Page'),
@@ -43,7 +43,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             ->addCrumb('search',
                 array('label'=>__('Catalog Advanced Search'))
                 );
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
     
     /**

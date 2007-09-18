@@ -50,11 +50,10 @@ class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Wi
 
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild('plane', $this->getLayout()->createBlock('adminhtml/' . $this->_controller . '_view_plane'));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getEditUrl()

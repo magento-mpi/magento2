@@ -47,11 +47,11 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         $this->assign('reviewLink', Mage::getUrl('review/product/list', array('id'=>$productId)));
     }
 
-	public function getAddLink()
-	{
-	    $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
-	    return Mage::getUrl('review/product/list', array('id' => $productId));
-	}
+    public function getAddLink()
+    {
+        $productId = Mage::registry('controller')->getRequest()->getParam('id', false);
+        return Mage::getUrl('review/product/list', array('id' => $productId));
+    }
 
     public function count()
     {
@@ -82,12 +82,13 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         return $this->getChildHtml('toolbar');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $toolbar = $this->getLayout()->createBlock('page/html_pager', 'review_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);
+        return parent::_prepareLayout();
     }
 
     protected function _getCollection()

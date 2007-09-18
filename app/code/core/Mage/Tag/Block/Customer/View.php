@@ -61,12 +61,13 @@ class Mage_Tag_Block_Customer_View extends Mage_Core_Block_Template
         return Mage::getUrl('review/product/list', array('id' => $productId));
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $toolbar = $this->getLayout()->createBlock('page/html_pager', 'customer_tag_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);
+        return parent::_prepareLayout();
     }
 
     public function getToolbarHtml()

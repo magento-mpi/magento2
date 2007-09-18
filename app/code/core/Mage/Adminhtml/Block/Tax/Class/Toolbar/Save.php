@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
         $this->setTemplate('tax/toolbar/class/save.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $classType = strtolower($this->getRequest()->getParam('classType'));
 
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
                 ->setData(array(
                     'label'     => __('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
-					'class' => 'back'
+                    'class' => 'back'
                 ))
         );
 
@@ -61,9 +61,10 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
                 ->setData(array(
                     'label'     => __('Save Class'),
                     'onclick'   => 'wigetForm.submit();return false;',
-					'class' => 'save'
+                    'class' => 'save'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     protected function _getRenameFormHtml()

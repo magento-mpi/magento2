@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Mag
         $this->setTemplate('catalog/product/attribute/set/toolbar/add.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -53,6 +53,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Mag
         $this->setChild('setForm',
             $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main_formset')
         );
+        return parent::_prepareLayout();
     }
 
     protected function _getHeader()

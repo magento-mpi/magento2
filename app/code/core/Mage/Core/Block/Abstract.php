@@ -25,9 +25,6 @@
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
  *
- * @category   Mage
- * @package    Mage_Core
- * @version    1.0
  * @author     Moshe Gurvich <moshe@varien.com>
  * @author     Soroka Dmitriy <dmitriy@varien.com>
  */
@@ -48,8 +45,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected $_children = array();
 
+    /**
+     * Children blocks HTML cache array
+     *
+     * @var array
+     */
     protected $_childrenHtmlCache = array();
-
+    
+    /**
+     * Request object
+     *
+     * @var Zend_Controller_Request_Http
+     */
     protected $_request;
 
     /**
@@ -60,14 +67,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_messagesBlock = null;
 
     protected $_helpers = array();
-
-    /**
-     * Constructor
-     *
-     * @param     string $template
-     * @return    none
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
-     */
 
     public function __construct($attributes=array())
     {
@@ -91,7 +90,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Retrieve request object
      *
-     * @return Zend_Controller_Request_Abstract
+     * @return Zend_Controller_Request_Http
      */
     public function getRequest()
     {
@@ -99,7 +98,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Retrieve request object
+     * Retrieve current action object
      *
      * @return Mage_Core_Controller_Varien_Action
      */
@@ -107,12 +106,17 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return Mage::registry('action');
     }
-
+    
+    /**
+     * Set layout object
+     *
+     * @param   Mage_Core_Model_Layout $layout
+     * @return  Mage_Core_Block_Abstract
+     */
     public function setLayout(Mage_Core_Model_Layout $layout)
     {
         $this->_layout = $layout;
-        $this->_afterSetLayout();
-        $this->_initChildren();
+        $this->_prepareLayout();
         return $this;
     }
 
@@ -123,18 +127,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @return Mage_Core_Block_Abstract
      */
-    protected function _initChildren()
-    {
-        return $this;
-    }
-
-    protected function _afterSetLayout()
+    protected function _prepareLayout()
     {
         return $this;
     }
 
     /**
-     * get layout object
+     * Retrieve layout object
      *
      * @return Mage_Core_Model_Layout
      */
@@ -143,7 +142,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this->_layout;
     }
 
-    public function getDesignConfig($path) {
+    public function getDesignConfig($path) 
+    {
     	return Mage::getDesign()->getConfig($path);
     }
 

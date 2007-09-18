@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
         $this->setTemplate('catalog/product/attribute/set/toolbar/main.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('addButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -44,6 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
                     'class' => 'add',
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     protected function getNewButtonHtml()

@@ -43,7 +43,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         return Mage::getModel('tag/tag')->load($this->getTagId());
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $title = $this->getHeaderText();
         $this->getLayout()->getBlock('head')->setTitle($title);
@@ -54,6 +54,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
             ->setModes(array('list' => __('List'), 'grid' => __('Grid')))
             ->setCollection($this->_getCollection());
         $this->setChild('search_result_list', $resultBlock);
+        return parent::_prepareLayout();
     }
 
     public function getProductListHtml()
@@ -84,7 +85,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     public function getResultCount()
     {
-    	return $this->_getProductCollection()->getSize();
+        return $this->_getProductCollection()->getSize();
     }
 
     public function getHeaderText()

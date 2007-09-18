@@ -45,10 +45,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method extends Mage_Adminh
         return 'head-payment-method';
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('form', $this->getLayout()->createBlock('adminhtml/sales_order_create_billing_method_form'));
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
 }

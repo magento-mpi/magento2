@@ -27,9 +27,9 @@
  */
 class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
+        parent::_prepareLayout();
 
         $this->getLayout()->createBlock('catalog/breadcrumbs');
 

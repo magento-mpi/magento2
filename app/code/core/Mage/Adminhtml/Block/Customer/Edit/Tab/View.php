@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         $this->setTemplate('customer/tab/view.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('sales', $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_sales'));
 
@@ -64,6 +64,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         ));
 
         $this->setChild('accordion', $accordion);
+        return parent::_prepareLayout();
     }
 
     public function getCustomer()

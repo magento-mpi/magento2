@@ -35,11 +35,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
         $this->setId('sales_order_create_billing_address');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('select', $this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address_select'));
         $this->setChild('form', $this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address_form'));
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function getHeaderText()

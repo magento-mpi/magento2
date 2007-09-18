@@ -42,11 +42,10 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_
         return Mage::registry('sales_invoice');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild('items', $this->getLayout()->createBlock( 'adminhtml/sales_invoice_edit_items', 'sales_invoice_edit_items'));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getItemsHtml()

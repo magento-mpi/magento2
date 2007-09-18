@@ -42,11 +42,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
         return Mage::registry('sales_order');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild( 'items', $this->getLayout()->createBlock( 'adminhtml/sales_order_view_items', 'items.grid' ));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getItemsHtml()
@@ -81,10 +80,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
             if ($method) {
                 $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getOrder()->getPayment()->getMethod() . '/title').'</p>';
                 $method->setPayment($this->getOrder()->getPayment());
-            	$methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
-            	if (!empty($methodBlock)) {
-            	    $html .= $methodBlock->toHtml();
-    	        }
+                $methodBlock = $method->createInfoBlock('payment.method.'.$methodName);
+                if (!empty($methodBlock)) {
+                    $html .= $methodBlock->toHtml();
+                }
             }
         }
         return $html;

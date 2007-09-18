@@ -47,11 +47,10 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create_Form extends Mage_Adminhtml_Bloc
         return Mage::registry('sales_invoice')->getOrder();
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild('items', $this->getLayout()->createBlock( 'adminhtml/sales_invoice_create_items', 'sales_invoice_create_items'));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getItemsHtml()
@@ -79,11 +78,11 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create_Form extends Mage_Adminhtml_Bloc
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
         if ($model->getEntityId()) {
-        	$fieldset->addField('entity_id', 'hidden', array(
+            $fieldset->addField('entity_id', 'hidden', array(
                 'name' => 'entity_id',
             ));
         } else {
-        	$fieldset->addField('order_id', 'hidden', array(
+            $fieldset->addField('order_id', 'hidden', array(
                 'name' => 'order_id',
             ));
         }

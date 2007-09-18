@@ -45,18 +45,17 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
         ));
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild( 'grid',
             $this->getLayout()->createBlock( 'adminhtml/' . $this->_controller . '_grid',
             $this->_controller . '.grid')->setSaveParametersInSession(true) );
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getCreateUrl()
     {
-    	return $this->getUrl('*/*/new');
+        return $this->getUrl('*/*/new');
     }
 
     public function getGridHtml()

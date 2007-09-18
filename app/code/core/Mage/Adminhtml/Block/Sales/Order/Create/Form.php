@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         $this->setTemplate('sales/order/create/form.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('before', $this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/form/before.phtml'));
         $childNames = array();
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
             $this->setChild($name, $this->getLayout()->createBlock('adminhtml/sales_order_create_' . $name));
         }
         $this->setChild('after', $this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/form/after.phtml'));
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function getSaveUrl()

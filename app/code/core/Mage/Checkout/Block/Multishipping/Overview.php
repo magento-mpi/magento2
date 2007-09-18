@@ -27,12 +27,12 @@
  */
 class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Multishipping_Abstract
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Review Order') . ' - ' . $headBlock->getDefaultTitle());
         }
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function getBillingAddress()
@@ -50,7 +50,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
             ->createInfoBlock($this->getData('name').'.payment');
         
         $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
-		$html .= $block->toHtml();
+        $html .= $block->toHtml();
         
         return $html;
     }
@@ -82,7 +82,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
 
     public function getShippingAddressItems($address)
     {
-		$priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
+        $priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
         $itemsFilter->addFilter($priceFilter, 'price');

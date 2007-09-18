@@ -39,13 +39,13 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
     {
         $productId = $this->getProductId();
         if(!$product = Mage::registry('product')) {
-        	$storeId = (int) Mage::getSingleton('core/store')->getId();
-        	$product = Mage::getModel('catalog/product')
-        		->setStoreId($storeId)
-            	->load($productId)
-            	->setStoreId($storeId);
+            $storeId = (int) Mage::getSingleton('core/store')->getId();
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId($storeId)
+                ->load($productId)
+                ->setStoreId($storeId);
 
-           	Mage::register('product', $product);
+            Mage::register('product', $product);
         }
 
         $this->assign('customerIsLogin', Mage::getSingleton('customer/session')->isLoggedIn());
@@ -66,10 +66,10 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
         return $this->getCollection()->getSize();
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
-        parent::_initChildren();
+        parent::_prepareLayout();
         
         if ($breadcrumbsBlock) {
             $breadcrumbsBlock->addCrumb('product', array(

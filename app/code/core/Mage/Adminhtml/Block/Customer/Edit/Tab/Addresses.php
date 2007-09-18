@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         return Mage::getUrl('directory/json/childRegion');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                     'class'  => 'delete'
                 ))
         );
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getDeleteButtonHtml()

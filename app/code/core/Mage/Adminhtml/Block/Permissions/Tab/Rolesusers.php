@@ -28,13 +28,14 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
 
         $users = Mage::getModel("permissions/users")->getCollection()->load();
         $this->setTemplate('permissions/rolesusers.phtml')
-        	->assign('users', $users->getItems())
-        	->assign('roleId', $roleId);
+            ->assign('users', $users->getItems())
+            ->assign('roleId', $roleId);
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/permissions_role_grid_user', 'taxClassGrid'));
+        return parent::_prepareLayout();
     }
 
     protected function _getGridHtml()

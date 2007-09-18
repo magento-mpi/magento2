@@ -34,19 +34,19 @@ class Mage_Adminhtml_Block_System_Email_Template extends Mage_Core_Block_Templat
         $this->setTemplate('system/email/template/list.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-    	$this->setChild('grid', $this->getLayout()->createBlock('adminhtml/system_email_template_grid', 'email.template.grid'));
-        return $this;
+        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/system_email_template_grid', 'email.template.grid'));
+        return parent::_prepareLayout();
     }
     
     public function getCreateUrl()
     {
-    	return $this->getUrl('*/*/new');
+        return $this->getUrl('*/*/new');
     }
     
     public function getHeaderText()
     {
-    	return __('Transactional Emails');
+        return __('Transactional Emails');
     }
 }

@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Core_Block_Template
         $this->setTemplate('catalog/product.phtml');
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('add_new_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -41,16 +41,17 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Core_Block_Template
                     'label'     => __('Add Product'),
                     'onclick'   => "setLocation('".Mage::getUrl('*/*/new')."')",
                     'class'   => 'add'
-					))
-				);
-				
+                    ))
+                );
+                
         $this->setChild('store_switcher', 
             $this->getLayout()->createBlock('adminhtml/store_switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
         );
-				
+                
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/catalog_product_grid', 'product.grid'));
+        return parent::_prepareLayout();
     }
     
     public function getAddNewButtonHtml()

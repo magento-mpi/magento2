@@ -47,14 +47,14 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Core_Block_Te
         return parent::toHtml();
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete'),
                     'onclick'   => 'answer.del(this)',
-					'class' => 'delete delete-poll-answer'
+                    'class' => 'delete delete-poll-answer'
                 ))
         );
 
@@ -63,9 +63,10 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Core_Block_Te
                 ->setData(array(
                     'label'     => __('Add New Answer'),
                     'onclick'   => 'answer.add(this)',
-					'class' => 'add'
+                    'class' => 'add'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     public function getDeleteButtonHtml()

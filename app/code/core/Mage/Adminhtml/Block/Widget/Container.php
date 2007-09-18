@@ -88,15 +88,14 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Core_Block_Template
         return $this;
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         foreach ($this->_buttons as $level => $buttons) {
             foreach ($buttons as $id => $data) {
                 $this->setChild($id . '_button', $this->getLayout()->createBlock('adminhtml/widget_button')->setData($data));
             }
         }
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getButtonsHtml()

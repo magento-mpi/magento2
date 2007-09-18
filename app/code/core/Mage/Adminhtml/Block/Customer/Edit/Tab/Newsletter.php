@@ -77,10 +77,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
         return null;
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('grid',
             $this->getLayout()->createBlock('adminhtml/customer_edit_tab_newsletter_grid','newsletter.grid')
         );
+        return parent::_prepareLayout();
     }
 }

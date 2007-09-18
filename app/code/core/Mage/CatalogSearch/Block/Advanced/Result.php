@@ -27,11 +27,11 @@
  */
 class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Product_List
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
+        parent::_prepareLayout();
         
-    	$this->getLayout()->getBlock('breadcrumbs')
+        $this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
                 array('label'=>__('Home'),
                     'title'=>__('Go to Home Page'),
@@ -54,7 +54,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
     {
         if (is_null($this->_productCollection)) {
             $this->_productCollection = Mage::getResourceModel('catalog/product_collection')
-            	->addAttributeToSelect('url_key')
+                ->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('description')
@@ -74,36 +74,36 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
         $values = $this->getRequest()->getQuery();
         
         foreach ($attributes as $attribute) {
-        	$code      = $attribute->getAttributeCode();
-        	$condition = false;
-        	
-        	if (isset($values[$code])) {
-        	    $value = $values[$code];
-        	    if (is_array($value)) {
-        	        if ((isset($value['from']) && strlen($value['from']) > 0) || (isset($value['to']) && strlen($value['to']) > 0)) {
-        	            $condition = $value;
-        	        }
-        	        elseif(!isset($value['from']) && !isset($value['to'])) {
-        	            if ($attribute->getBackend()->getType() == 'int') {
-        	                $condition = array('in'=>$value);
-        	            }
-        	        }
-        	    }
-        	    else {
-        	        if (strlen($value)>0) {
-        	            if (in_array($attribute->getBackend()->getType(), array('varchar', 'text'))) {
-        	                $condition = array('like'=>'%'.$value.'%');
-        	            }
-        	            else {
-        	                $condition = $value;
-        	            }
-        	        }
-        	    }
-        	}
-        	
-        	if ($condition) {
-        	    $this->_getProductCollection()->addFieldToFilter($code, $condition);
-        	}
+            $code      = $attribute->getAttributeCode();
+            $condition = false;
+            
+            if (isset($values[$code])) {
+                $value = $values[$code];
+                if (is_array($value)) {
+                    if ((isset($value['from']) && strlen($value['from']) > 0) || (isset($value['to']) && strlen($value['to']) > 0)) {
+                        $condition = $value;
+                    }
+                    elseif(!isset($value['from']) && !isset($value['to'])) {
+                        if ($attribute->getBackend()->getType() == 'int') {
+                            $condition = array('in'=>$value);
+                        }
+                    }
+                }
+                else {
+                    if (strlen($value)>0) {
+                        if (in_array($attribute->getBackend()->getType(), array('varchar', 'text'))) {
+                            $condition = array('like'=>'%'.$value.'%');
+                        }
+                        else {
+                            $condition = $value;
+                        }
+                    }
+                }
+            }
+            
+            if ($condition) {
+                $this->_getProductCollection()->addFieldToFilter($code, $condition);
+            }
         }
         return $this;
     }

@@ -68,11 +68,10 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
         ));
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
         $this->setChild('form', $this->getLayout()->createBlock('adminhtml/' . $this->_controller . '_' . $this->_mode . '_form'));
-        return $this;
+        return parent::_prepareLayout();
     }
 
     public function getBackUrl()

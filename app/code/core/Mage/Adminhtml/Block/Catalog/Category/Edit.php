@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setTemplate('catalog/category/edit.phtml');
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('tabs',
             $this->getLayout()->createBlock('adminhtml/catalog_category_tabs', 'tabs')
@@ -64,6 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
                     'onclick'   => "setLocation('".Mage::getUrl('*/*/*', array('_current'=>true))."')"
                 ))
         );
+        return parent::_prepareLayout();
     }
     
     public function hasStoreRootCategory()

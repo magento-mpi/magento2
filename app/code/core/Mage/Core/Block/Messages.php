@@ -34,10 +34,10 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
      */
     protected $_messages;
 
-    public function _initChildren()
+    public function _prepareLayout()
     {
         $this->addMessages(Mage::getSingleton('core/session')->getMessages(true));
-        parent::_initChildren();
+        parent::_prepareLayout();
     }
 
     /**
@@ -55,7 +55,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
     public function addMessages(Mage_Core_Model_Message_Collection $messages)
     {
         foreach ($messages->getItems() as $message) {
-        	$this->getMessageCollection()->add($message);
+            $this->getMessageCollection()->add($message);
         }
         return $this;
     }
@@ -94,7 +94,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
     {
         $html = '<ul id="admin_messages">';
         foreach ($this->getMessages($type) as $message) {
-        	$html.= '<li class="'.$message->getType().'-msg">'.$message->getText().'</li>';
+            $html.= '<li class="'.$message->getType().'-msg">'.$message->getText().'</li>';
         }
         $html .= '</ul>';
         return $html;
@@ -125,8 +125,8 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
 
                 foreach ( $messages as $message ) {
                     $html.= '<li>';
-                	$html.= $message->getText();
-                	$html.= '</li>';
+                    $html.= $message->getText();
+                    $html.= '</li>';
                 }
                 $html .= '</ul>';
                 $html .= '</li>';

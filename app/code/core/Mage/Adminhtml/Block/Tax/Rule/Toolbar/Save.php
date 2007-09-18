@@ -35,14 +35,14 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setTemplate('tax/toolbar/rule/save.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
-					'class' => 'back'
+                    'class' => 'back'
                 ))
         );
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
                 ->setData(array(
                     'label'     => __('Save Rule'),
                     'onclick'   => 'wigetForm.submit();return false;',
-					'class' => 'save'
+                    'class' => 'save'
                 ))
         );
 
@@ -68,9 +68,10 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
                 ->setData(array(
                     'label'     => __('Delete Rule'),
                     'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('rule' => $this->getRequest()->getParam('rule'))) . '\')',
-					'class' => 'delete'
+                    'class' => 'delete'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     public function getBackButtonHtml()

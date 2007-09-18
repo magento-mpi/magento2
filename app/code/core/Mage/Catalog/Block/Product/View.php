@@ -34,7 +34,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         parent::_construct();
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             if ($title = $this->getProduct()->getMetaTitle()) {
@@ -52,6 +52,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             }            
         }
         $this->getLayout()->createBlock('catalog/breadcrumbs');
+        return parent::_prepareLayout();
     }
     
     protected function _beforeToHtml()
@@ -64,13 +65,13 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         $product = $this->getProduct();
 
-		$groupCollection = $product->getSuperGroupProducts()
-			->addAttributeToSelect('name')
+        $groupCollection = $product->getSuperGroupProducts()
+            ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('sku')
-			->addAttributeToSort('position', 'asc')
-			->useProductItem();
-			
+            ->addAttributeToSort('position', 'asc')
+            ->useProductItem();
+            
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($groupCollection);
         return $this;
     }
@@ -91,15 +92,15 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $product = $this->getProduct();
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
-        	if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined()) {
-        	    $value = $attribute->getFrontend()->getValue($product);
-        	    if (strlen($value)) {
-            	    $data[$attribute->getAttributeCode()] = array(
-            	       'label' => __($attribute->getFrontend()->getLabel()),
-            	       'value' => $attribute->getFrontend()->getValue($product)//$product->getData($attribute->getAttributeCode())
-            	    );
-        	    }
-        	}
+            if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined()) {
+                $value = $attribute->getFrontend()->getValue($product);
+                if (strlen($value)) {
+                    $data[$attribute->getAttributeCode()] = array(
+                       'label' => __($attribute->getFrontend()->getLabel()),
+                       'value' => $attribute->getFrontend()->getValue($product)//$product->getData($attribute->getAttributeCode())
+                    );
+                }
+            }
         }
         return $data;
     }
@@ -117,14 +118,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $res = array();
         if (is_array($prices)) {
             foreach ($prices as $price) {
-            	if ($product->getPrice() != $product->getFinalPrice()) {
-            	    if ($price['price']<$product->getFinalPrice()) {
-            	        $res[] = $price;
-            	    }
-            	}
-            	else {
-            	    $res[] = $price;
-            	}
+                if ($product->getPrice() != $product->getFinalPrice()) {
+                    if ($price['price']<$product->getFinalPrice()) {
+                        $res[] = $price;
+                    }
+                }
+                else {
+                    $res[] = $price;
+                }
             }
         }
         return $res;

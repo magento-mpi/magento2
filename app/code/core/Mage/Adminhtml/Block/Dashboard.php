@@ -33,11 +33,11 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
         $this->setTemplate('dashboard/index.phtml');
     }
     
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-    	/*$this->setChild('product', 
-    		$this->getLayout()->createBlock('adminhtml/dashboard_product', 'dashboard_product')
-    	);*/
-    	return $this;
+        /*$this->setChild('product', 
+            $this->getLayout()->createBlock('adminhtml/dashboard_product', 'dashboard_product')
+        );*/
+        return $this;
     }
 }

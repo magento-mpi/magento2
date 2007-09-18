@@ -28,7 +28,7 @@
  */
 class Mage_Catalog_Block_Breadcrumbs extends Mage_Core_Block_Template
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbsBlock->addCrumb('home',
@@ -62,6 +62,7 @@ class Mage_Catalog_Block_Breadcrumbs extends Mage_Core_Block_Template
                 $breadcrumbsBlock->addCrumb('product', array('label'=>$this->getProduct()->getName()));
             }
         }
+        return parent::_prepareLayout();
     }
     
     protected function _isCategoryLink($categoryId)

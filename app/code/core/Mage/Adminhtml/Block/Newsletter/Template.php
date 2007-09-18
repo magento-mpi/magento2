@@ -35,19 +35,19 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
     }
 
        
-    protected function _initChildren()
-    {    	
+    protected function _prepareLayout()
+    {       
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_template_grid', 'newsletter.template.grid'));
-        return $this;
+        return parent::_prepareLayout();
     }
-	
+    
     public function getCreateUrl()
     {
-    	return $this->getUrl('*/*/new');
+        return $this->getUrl('*/*/new');
     }
     
     public function getHeaderText()
     {
-    	return __('Newsletter Templates');
+        return __('Newsletter Templates');
     }
 }

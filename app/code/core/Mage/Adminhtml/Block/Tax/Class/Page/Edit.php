@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setTemplate('tax/class/page/edit.phtml');
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $classType = strtolower($this->getRequest()->getParam('classType'));
         $this->setChild('renameForm', $this->getLayout()->createBlock("adminhtml/tax_class_form_rename"));
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
                 ->setData(array(
                     'label'     => __('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/tax_class_'. strtolower($this->getRequest()->getParam('classType')) ).'\'',
-					'class' => 'back'
+                    'class' => 'back'
                 ))
         );
 
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
                 ->setData(array(
                     'label'     => __('Save Class'),
                     'onclick'   => 'renameForm.submit();return false;',
-					'class' => 'save'
+                    'class' => 'save'
                 ))
         );
 
@@ -70,9 +70,10 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
                 ->setData(array(
                     'label'     => __('Delete Class'),
                     'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('classId' => $this->getRequest()->getParam('classId'), 'classType' => $this->getRequest()->getParam('classType'))) . '\')',
-					'class' => 'delete'
+                    'class' => 'delete'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     protected function _getRenameFormHtml()

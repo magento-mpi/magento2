@@ -21,20 +21,20 @@
 class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
 {
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->setTemplate('permissions/userinfo.phtml');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('permissions/userinfo.phtml');
+    }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
-					'class' => 'back'
+                    'class' => 'back'
                 ))
         );
 
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
                 ->setData(array(
                     'label'     => __('Save Role'),
                     'onclick'   => 'roleForm.submit();return false;',
-					'class' => 'save'
+                    'class' => 'save'
                 ))
         );
 
@@ -60,9 +60,10 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
                 ->setData(array(
                     'label'     => __('Delete Role'),
                     'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('rid' => $this->getRequest()->getParam('rid'))) . '\')',
-					'class' => 'delete'
+                    'class' => 'delete'
                 ))
         );
+        return parent::_prepareLayout();
     }
 
     public function getBackButtonHtml()
@@ -90,6 +91,6 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
 
     public function getUser()
     {
-    	return Mage::registry('user_data');
+        return Mage::registry('user_data');
     }
 }

@@ -33,7 +33,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
         $this->setTemplate('catalog/layer/view.phtml');
     }
     
-    public function _initChildren()
+    public function _prepareLayout()
     {
         $this->setChild('layer_state',
             $this->getLayout()->createBlock('catalog/layer_state'));
@@ -45,11 +45,12 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
             
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
-        	$this->setChild($attribute->getAttributeCode().'_filter',
+            $this->setChild($attribute->getAttributeCode().'_filter',
                 $this->getLayout()->createBlock('catalog/layer_filter_attribute')
                     ->setAttributeModel($attribute)
                     ->init());
         }
+        return parent::_prepareLayout();
     }
     
     public function getStateHtml()
@@ -75,7 +76,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
         
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
-        	$filters[] = $this->getChild($attribute->getAttributeCode().'_filter');
+            $filters[] = $this->getChild($attribute->getAttributeCode().'_filter');
         }
         return $filters;
     }
@@ -103,9 +104,9 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     public function canShowOptions()
     {
         foreach ($this->getFilters() as $filter) {
-        	if ($filter->getItemsCount()) {
-        	    return true;
-        	}
+            if ($filter->getItemsCount()) {
+                return true;
+            }
         }
         return false;
     }

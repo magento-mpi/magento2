@@ -27,12 +27,12 @@
  */
 class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Multishipping_Abstract
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Billing Information') . ' - ' . $headBlock->getDefaultTitle());
         }
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function getAddress()

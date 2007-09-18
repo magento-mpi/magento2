@@ -45,10 +45,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Coupons extends Mage_Adminhtml_Blo
         return 'head-promo-quote';
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         $this->setChild('form', $this->getLayout()->createBlock('adminhtml/sales_order_create_coupons_form'));
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function toHtml()

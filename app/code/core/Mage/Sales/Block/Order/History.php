@@ -47,9 +47,9 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(__('My Orders'));
     }
 
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
-        parent::_initChildren();
+        parent::_prepareLayout();
 
         $pager = $this->getLayout()->createBlock('page/html_pager', 'sales.order.history.pager')
             ->setCollection($this->getOrders());

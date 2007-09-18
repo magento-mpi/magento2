@@ -52,9 +52,9 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         return $this->_urls['baseSecure'];
     }
 
-    public function getJsUrl()
+    public function getJsUrl($fileName='')
     {
-        return $this->_urls['js'];
+        return $this->_urls['js'].$fileName;
     }
 
     public function getCurrentUrl()

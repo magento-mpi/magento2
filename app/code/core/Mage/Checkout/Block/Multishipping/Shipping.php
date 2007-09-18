@@ -27,12 +27,12 @@
  */
 class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Multishipping_Abstract
 {
-    protected function _initChildren()
+    protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
         }
-        return parent::_initChildren();
+        return parent::_prepareLayout();
     }
 
     public function getAddresses()
@@ -54,7 +54,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
     {
         $items = $address->getAllItems();
         foreach ($items as $item) {
-        	$item->setQuoteItem($this->getCheckout()->getQuote()->getItemById($item->getQuoteItemId()));
+            $item->setQuoteItem($this->getCheckout()->getQuote()->getItemById($item->getQuoteItemId()));
         }
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
@@ -74,7 +74,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Checkout_Block_Mul
             $ratesFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
 
             foreach ($groups as $code => $groupItems) {
-            	$groups[$code] = $ratesFilter->filter($groupItems);
+                $groups[$code] = $ratesFilter->filter($groupItems);
             }
         }
         return $groups;
