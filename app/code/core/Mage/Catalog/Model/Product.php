@@ -67,6 +67,21 @@ class Mage_Catalog_Model_Product extends Varien_Object
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
+    
+    public function getAttributeSetId()
+    {
+        return $this->getData('attribute_set_id');
+    }
+    
+    public function getStoreId()
+    {
+        return $this->getData('store_id');
+    }
+    
+    public function getTypeId()
+    {
+        return $this->getData('type_id');
+    }
 
     /**
      * Retrieve product category id

@@ -164,7 +164,17 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         return $this->getData('backend_table');
     }
-
+    
+    public function getIsVisibleOnFront()
+    {
+        return $this->getData('is_visible_on_front');
+    }
+    
+    public function getDefaultValue()
+    {
+        return $this->getData('default_value');
+    }
+    
     /**
      * Get attribute alias as "entity_type/attribute_code"
      *

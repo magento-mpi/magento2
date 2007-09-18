@@ -407,35 +407,39 @@ class Varien_Object
      */
     public function __call($method, $args)
     {
+        //$profilerKey = 'MAGIC: '.get_class($this).'::'.$method;
+        //Varien_Profiler::start($profilerKey);
         switch (substr($method, 0, 3)) {
             case 'get' :
-                #$profilerKey = 'MAGIC: '.get_class($this).'::'.$method;
-                #Varien_Profiler::start($profilerKey);
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
                 $data = call_user_func_array(array($this, 'getData'), $args);
-                #Varien_Profiler::stop($profilerKey);
+                
+                //Varien_Profiler::stop($profilerKey);
                 return $data;
                 break;
 
             case 'set' :
-                #$profilerKey = 'MAGIC: '.get_class($this).'::'.$method;
-                #Varien_Profiler::start($profilerKey);
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
                 $data = call_user_func_array(array($this, 'setData'), $args);
-                #Varien_Profiler::stop($profilerKey);
+                
+                //Varien_Profiler::stop($profilerKey);
                 return $data;
                 break;
 
             case 'uns' :
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
+                
+                //Varien_Profiler::stop($profilerKey);
                 return call_user_func_array(array($this, 'unsetData'), $args);
                 break;
 
             case 'has' :
                 $key = $this->_underscore(substr($method,3));
+                
+                //Varien_Profiler::stop($profilerKey);
                 return isset($this->_data[$key]);
                 break;
         }

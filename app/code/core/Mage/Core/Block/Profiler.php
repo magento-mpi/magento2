@@ -42,12 +42,13 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
         $out .= '<tr><th>Code Profiler</th><th>Time</th><th>Cnt</th><th>RealMem</th><th>Emalloc</th></tr>';
         foreach ($timers as $name=>$timer) {
             $sum = Varien_Profiler::fetch($name,'sum');
-            if ($sum<.0005) {
+            $count = Varien_Profiler::fetch($name,'count');
+            if ($sum<.0005 && $count<10) {
                 continue;
             }
             $out .= '<tr><td>'.$name.'</td><td>'
             	.number_format(Varien_Profiler::fetch($name,'sum'),4).'</td><td>'
-            	.Varien_Profiler::fetch($name,'count').'</td><td>'
+            	.$count.'</td><td>'
             	.number_format(Varien_Profiler::fetch($name,'realmem')).'</td><td>'
             	.number_format(Varien_Profiler::fetch($name,'emalloc')).'</td></tr>'
             	.'</td></tr>';

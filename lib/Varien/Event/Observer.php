@@ -61,4 +61,44 @@ class Varien_Event_Observer extends Varien_Object
         
         return $this;
     }
+    
+    public function getName()
+    {
+        return $this->getData('name');
+    }
+    
+    public function setName($data)
+    {
+        return $this->setData('name', $data);
+    }
+
+    public function getEventName()
+    {
+        return $this->getData('event_name');
+    }
+    
+    public function setEventName($data)
+    {
+        return $this->setData('event_name', $data);
+    }
+    
+    public function getCallback()
+    {
+        return $this->getData('callback');
+    }
+    
+    public function setCallback($data)
+    {
+        return $this->setData('callback', $data);
+    }
+    
+    public function getEvent()
+    {
+        return $this->getData('event');
+    }
+    
+    public function setEvent($data)
+    {
+        return $this->setData('event', $data);
+    }
 }

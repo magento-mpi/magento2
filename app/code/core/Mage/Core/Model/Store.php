@@ -19,10 +19,8 @@
  */
 
 /**
- * Store
+ * Store model
  *
- * @category   Mage
- * @package    Mage_Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
@@ -55,7 +53,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $this->_init('core/store');
     }
-
+    
+    /**
+     * Loading store data
+     *
+     * @param   mixed $id
+     * @param   string $field
+     * @return  Mage_Core_Model_Store
+     */
     public function load($id, $field=null)
     {
         if (!is_numeric($id) && is_null($field)) {
@@ -64,13 +69,28 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-
+    
+    /**
+     * Retrieve store identifier
+     *
+     * @return int
+     */
     public function getId()
     {
         if (is_null(parent::getId())) {
             $this->setId($this->getConfig('system/store/id'));
         }
         return parent::getId();
+    }
+    
+    /**
+     * Retrieve store code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->getData('code');
     }
 
     public function getConfig($path) {

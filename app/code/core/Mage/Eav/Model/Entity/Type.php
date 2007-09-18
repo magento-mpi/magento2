@@ -18,7 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Entity type model
+ * 
+ * @author Moshe Gurvich <moshe@varien.com>
+ */
 class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
 {
     protected $_attributes;
@@ -36,6 +40,12 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return $this;
     }
     
+    /**
+     * Retrieve entity type attributes collection
+     *
+     * @param   int $setId
+     * @return  Varien_Data_Collection_Db
+     */
     public function getAttributeCollection($setId = null)
     {
         if (is_null($setId)) {
@@ -55,6 +65,11 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return $collection;
     }
     
+    /**
+     * Retrieve entity tpe sets collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
@@ -104,5 +119,40 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         $entityStoreConfig->save();
         
         return $incrementId;
+    }
+    
+    public function getIsDataSharing()
+    {
+        return $this->getData('is_data_sharing');
+    }
+    
+    public function getEntityIdField()
+    {
+        return $this->getData('entity_id_field');
+    }
+    
+    public function getEntityTable()
+    {
+        return $this->getData('entity_table');
+    }
+    
+    public function getValueTablePrefix()
+    {
+        return $this->getData('value_table_prefix');
+    }
+    
+    public function getDataSharingKey()
+    {
+        return $this->getData('data_sharing_key');
+    }
+    
+    public function getDefaultAttributeSetId()
+    {
+        return $this->getData('default_attribute_set_id');
+    }
+    
+    public function getEntityTypeId()
+    {
+        return $this->getData('entity_type_id');
     }
 }

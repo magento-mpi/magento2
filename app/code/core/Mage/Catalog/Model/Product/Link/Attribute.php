@@ -43,4 +43,8 @@ class Mage_Catalog_Model_Product_Link_Attribute extends Mage_Core_Model_Abstract
 		return $this->getResource()->getTypeTable($this);
 	}
 	
+	public function getProductLinkAttributeCode()
+	{
+	    return $this->getData('product_link_attribute_code');
+	}
 }// Class Mage_Catalog_Model_Product_Link_Attribute END

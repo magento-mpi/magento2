@@ -92,4 +92,14 @@ class Varien_Event extends Varien_Object
         $this->getObservers()->dispatch($this);
         return $this;
     }
+    
+    /**
+     * Retrieve event name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getData('name');
+    }
 }
