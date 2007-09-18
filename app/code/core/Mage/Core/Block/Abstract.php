@@ -121,7 +121,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Initialization of childen blocks
+     * Preparing global layout
      *
      * You can redefine this method in child classes
      *
