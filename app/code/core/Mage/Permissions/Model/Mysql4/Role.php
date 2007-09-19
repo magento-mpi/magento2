@@ -33,7 +33,7 @@ class Mage_Permissions_Model_Mysql4_Role extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if (! $object->getId()) {
+        if ( !$object->getId() ) {
             $object->setCreated(now());
         }
         $object->setModified(now());

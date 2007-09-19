@@ -98,14 +98,20 @@ class Mage_Permissions_Model_Roles extends Varien_Object {
         }
         $children = $resource->children();
         if (empty($children)) {
-        	if ($rawNodes) return $resource;
-            return $result;
+        	if ($rawNodes) {
+        	    return $resource;
+        	} else {
+                return $result;
+        	}
         }
         foreach ($children as $child) {
             $this->_buildResourcesArray($child, $resourceName, $level+1, $represent2Darray, $rawNodes);
         }
-        if ($rawNodes) return $resource;
-        return $result;
+        if ($rawNodes) {
+            return $resource;
+        } else {
+            return $result;
+        }
     }
 
 }

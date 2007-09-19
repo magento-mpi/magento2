@@ -77,7 +77,8 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 	    	$this->getConnection('write')->delete($this->getTable('admin_role'), "user_id = {$user->getRoleUserId()}");
 
 	    	foreach ($rolesIds as $rid) {
-	    		if ($rid > 0 && 0) {
+	    	    $rid = intval($rid);
+	    		if ($rid > 0) {
 		    		$row = $this->load($rid);
 		    	} else {
 		    		$row = array('tree_level' => 0);
@@ -102,9 +103,10 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 
     public function _getRoles(Mage_Core_Model_Abstract $user)
     {
-    	if ( !$user->getId() ) return array();
-    	$table = $this->getTable('admin_role');
-
+    	if ( !$user->getId() ) {
+    	    return array();
+    	}
+    	$table  = $this->getTable('admin_role');
     	$read 	= $this->getConnection('read');
     	$select = $read->select()->from($table, array())
     				->joinLeft(array('ar' => $table), "(ar.role_id = `{$table}`.parent_id and ar.role_type = 'G')", array('role_id'))
@@ -116,13 +118,19 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
     public function add(Mage_Core_Model_Abstract $user) {
 
     	$dbh = $this->getConnection( 'write' );
+    	
+    	$aRoles = $this->hasAssigned2Role($user);
+	    if ( sizeof($aRoles) > 0 ) {
+	        foreach($aRoles as $idx => $data){
+	            $dbh->delete($this->getTable('admin_role'), "role_id = {$data['role_id']}");
+	        }
+	    }
 
     	if ($user->getId() > 0) {
     		$role = Mage::getModel('permissions/role')->load($user->getRoleId());
     	} else {
     		$role = array('tree_level' => 0);
     	}
-
     	$dbh->insert($this->getTable('admin_role'), array(
 		    'parent_id'	=> $user->getRoleId(),
 	    	'tree_level'=> ($role->getTreeLevel() + 1),
@@ -136,7 +144,9 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
     }
 
     public function deleteFromRole(Mage_Core_Model_Abstract $user) {
-        if ( $user->getUserId() <= 0 ) return $this;
+        if ( $user->getUserId() <= 0 ) {
+            return $this;
+        }
     	$dbh = $this->getConnection( 'write' );
     	$condition = $dbh->quoteInto("{$this->getTable('admin_role')}.role_id = ?", $user->getUserId());
     	$dbh->delete($this->getTable('admin_role'), $condition);
@@ -165,7 +175,7 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
     		$select = $dbh->select();
         	$select->from($this->getTable('admin_role'))
         		->where("parent_id > 0 AND user_id = {$user->getUserId()}");
-        	return $dbh->fetchRow($select);
+        	return $dbh->fetchAll($select);
 
     	} else {
     		return null;

@@ -46,8 +46,8 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tabs extends Mage_Adminhtml_Blo
         ));
 
         $this->addTab('roles_section', array(
-            'label'     => __('Roles'),
-            'title'     => __('Roles'),
+            'label'     => __('User Role'),
+            'title'     => __('User Role'),
             'content'   => $this->getLayout()->createBlock('adminhtml/permissions_user_edit_tab_roles')->toHtml(),
         ));
         return parent::_beforeToHtml();

@@ -34,16 +34,21 @@ class Mage_Permissions_Model_User extends Mage_Core_Model_Abstract
 			'email' 	=> $this->getEmail(),
 		);
 
-		if ( $this->getUserId() > 0 ) 			$data['user_id'] 	= $this->getUserId();
-		###########################################################################################
-		if( $this->getUsername() ) 	  			$data['username'] 	= $this->getUsername();
-		###########################################################################################
-		if ($this->getPassword()) 	  			$data['password'] 	= $this->_getEncodedPassword($this->getPassword());
-		###########################################################################################
-		if ($this->getNewPassword()) 	  		$data['password'] 	= $this->_getEncodedPassword($this->getNewPassword());
-		###########################################################################################
-		if ( !is_null($this->getIsActive()) ) 	$data['is_active'] 	= intval($this->getIsActive());
-		###########################################################################################
+		if ( $this->getUserId() > 0 ) {
+		    $data['user_id'] 	= $this->getUserId();
+		}
+		if( $this->getUsername() ) {
+		    $data['username'] 	= $this->getUsername();
+		}
+		if ($this->getPassword()) {
+		    $data['password'] 	= $this->_getEncodedPassword($this->getPassword());
+		}
+		if ($this->getNewPassword()) {
+		    $data['password'] 	= $this->_getEncodedPassword($this->getNewPassword());
+		}
+		if ( !is_null($this->getIsActive()) ) {
+		    $data['is_active'] 	= intval($this->getIsActive());
+		}
 		$this->setData($data);
 		$this->getResource()->save($this);
 		return $this;

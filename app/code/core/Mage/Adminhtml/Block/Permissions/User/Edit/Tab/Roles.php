@@ -45,8 +45,9 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
 
     	$this->addColumn('roles', array(
             'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'roles[]',
+            'header'    => __('Assigned Role'),
+            'type'      => 'radio',
+            'name'      => 'role',
             'values'    => $this->_getSelectedRoles(),
             'align'     => 'center',
             'index'     => 'role_id'

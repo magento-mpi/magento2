@@ -145,6 +145,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'checkbox':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_checkbox';
                 break;
+            case 'radio':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_radio';
+                break;
             case 'input':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_input';
                 break;
