@@ -75,11 +75,10 @@ class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 
         try {
 	    	$this->getConnection('write')->delete($this->getTable('admin_role'), "user_id = {$user->getRoleUserId()}");
-
-	    	foreach ($rolesIds as $rid) {
+            foreach ($rolesIds as $rid) {
 	    	    $rid = intval($rid);
 	    		if ($rid > 0) {
-		    		$row = $this->load($rid);
+		    		$row = $this->load($user, $rid);
 		    	} else {
 		    		$row = array('tree_level' => 0);
 		    	}

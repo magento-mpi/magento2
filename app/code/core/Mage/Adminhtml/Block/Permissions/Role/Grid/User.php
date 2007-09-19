@@ -48,14 +48,43 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
 
     protected function _prepareColumns()
     {
-        $this->addColumn('role_name',
-            array(
-                'header'=>__('Role User'),
-                'align' =>'left',
-                'index' => 'role_name'
-            )
-        );
-
+        
+        $this->addColumn('role_user_id', array(
+            'header'    =>__('User ID'),
+            'width'     =>5,
+            'align'     =>'left',
+            'sortable'  =>false,
+            'index'     =>'user_id'
+            //'type'      => 'checkbox'
+        ));
+        $this->addColumn('role_user_username', array(
+            'header'    =>__('User Name'),
+            'align'     =>'left',
+            'index'     =>'username'
+        ));
+        $this->addColumn('role_user_firstname', array(
+            'header'    =>__('First Name'),
+            'align'     =>'left',
+            'index'     =>'firstname'
+        ));
+        $this->addColumn('role_user_lastname', array(
+            'header'    =>__('Last Name'),
+            'align'     =>'left',
+            'index'     =>'lastname'
+        ));
+        $this->addColumn('role_user_email', array(
+            'header'    =>__('Email'),
+            'width'     =>40,
+            'align'     =>'left',
+            'index'     =>'email'
+        ));
+        $this->addColumn('role_user_is_active', array(
+            'header'    => __('Status'),
+            'index'     => 'is_active',
+            'align'     =>'left',
+            'type'      => 'options',
+            'options'   => array('1' => __('Active'), '0' => __('Inactive')),
+        ));
        $this->addColumn('grid_actions',
             array(
                 'header'=>__('Actions'),
