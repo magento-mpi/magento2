@@ -100,7 +100,9 @@ class Mage_Install_Model_Installer extends Varien_Object
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         $data = Mage::getSingleton('install/session')->getConfigData();
         
-        // write host info to DB config
+        /**
+         * Saving host information into DB
+         */
         $setupModel = new Mage_Core_Model_Resource_Setup('core_setup');
         if (!empty($data['host'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_HOST, $data['host']);
@@ -125,6 +127,20 @@ class Mage_Install_Model_Installer extends Varien_Object
         }
         if (!empty($data['secure_port'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_PORT, $data['secure_port']);
+        }
+        
+        /**
+         * Saving locale information into DB
+         */
+        $locale = Mage::getSingleton('install/session')->getLocaleData();
+        if (!empty($locale['locale'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $locale['locale']);
+        }
+        if (!empty($locale['timezone'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $locale['timezone']);
+        }
+        if (!empty($locale['currency'])) {
+            $setupModel->setConfigData(Mage_Core_Model_Locale::XML_PATH_DEFAULT_CURRENCY, $locale['currency']);
         }
 
         return $this;

@@ -52,7 +52,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @var array
      */
     protected $_output = array();
-
+    
+    /**
+     * Layout area (f.e. admin, frontend)
+     *
+     * @var string
+     */
     protected $_area;
 
     protected $_helpers = array();
@@ -62,47 +67,27 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
         parent::__construct($data);
     }
-
+    
+    /**
+     * Set layout area
+     *
+     * @param   string $area
+     * @return  Mage_Core_Model_Layout
+     */
     public function setArea($area)
     {
     	$this->_area = $area;
     	return $this;
     }
-
+    
+    /**
+     * Retrieve layout area
+     *
+     * @return string
+     */
     public function getArea()
     {
     	return $this->_area;
-    }
-
-    public function getCache()
-    {
-        if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
-                'cache_dir'=>Mage::getBaseDir('cache_layout')
-            ));
-        }
-        return $this->_cache;
-    }
-
-    public function setBlockCache($frontend='Core', $backend='File',
-    	array $frontendOptions=array(), array $backendOptions=array())
-    {
-        if (empty($frontendOptions['lifetime'])) {
-            $frontendOptions['lifetime'] = 7200;
-        }
-        if (empty($backendOptions['cache_dir'])) {
-            $backendOptions['cache_dir'] = Mage::getBaseDir('cache_block');
-        }
-        $this->_blockCache = Zend_Cache::factory($frontend, $backend, $frontendOptions, $backendOptions);
-        return $this;
-    }
-
-    public function getBlockCache()
-    {
-        if (empty($this->_blockCache)) {
-            $this->setBlockCache();
-        }
-        return $this->_blockCache;
     }
 
     /**
@@ -115,6 +100,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (Mage::getSingleton('core/store')->getCode()) {
             $id = Mage::getSingleton('core/store')->getCode() . '_' . $id;
         }
+        
         $this->setCacheId($id);
         if (!$this->loadCache()) {
             $this->loadString('<layout/>');
@@ -123,19 +109,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this;
     }
 
-    public function setSubst($subst)
-    {
-        foreach ($subst as $k=>$v) {
-            $this->_subst['keys'][] = '{{'.$k.'}}';
-            $this->_subst['values'][] = $v;
-        }
-        return $this;
-    }
-
     /**
      * Load layout configuration update from file
      *
-     * @param string $fileName
+     * @param   string $fileName
+     * @return  Mage_Core_Model_Layout
      */
     public function loadUpdateFile($fileName)
     {
@@ -151,7 +129,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
     public function mergeUpdate($update)
     {
-        #$update->prepare($args);
         foreach ($update->children() as $child) {
             if ($child->getName()==='remove') {
                 if (isset($child['method'])) {
@@ -172,7 +149,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $parent = $this->getNode();
         }
         foreach ($parent->children() as $children) {
-echo "TEST:".$children[0];
+
             for ($i=0, $l=sizeof($children); $i<$l; $i++) {
                 $child = $children[$i];
                 if ($child->getName()==='block' && $blockName===(string)$child['name']) {
@@ -193,7 +170,6 @@ echo "TEST:".$children[0];
             for ($i=0, $l=sizeof($children); $i<$l; $i++) {
                 $child = $children[$i];
                 if ($child->getName()==='action' && $blockName===(string)$child['name'] && $method===(string)$child['method']) {
-echo "TEST:".$i;
                     unset($parent->action[$i]);
                 }
                 $this->removeAction($blockName, $method, $child);
@@ -384,15 +360,11 @@ echo "TEST:".$i;
      * @param     string $blockName
      * @param     array $attributes
      * @return    Mage_Core_Block_Abstract
-     * @author    Moshe Gurvich <moshe@varien.com>
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
      */
     public function createBlock($type, $name='', array $attributes = array())
     {
-        #Mage::start(__METHOD__);
-
         if (!$className = Mage::getConfig()->getBlockClassName($type)) {
-            Mage::exception('Invalid block type ' . $type);
+            Mage::throwException(__('Invalid block type: %s', $type));
         }
 
         $block = new $className();
@@ -405,7 +377,7 @@ echo "TEST:".$i;
             $name = 'ANONYMOUS_'.sizeof($this->_blocks);
         }
         elseif (isset($this->_blocks[$name])) {
-            throw new Exception('Block with name "'.$name.'" already exists');
+            Mage::throwException(__('Block with name "%s" already exists', $name));
         }
 
         $block->setType($type)
@@ -414,8 +386,6 @@ echo "TEST:".$i;
             ->setLayout($this);
 
         $this->_blocks[$name] = $block;
-
-        #Mage::stop(__METHOD__, true);
 
         return $this->_blocks[$name];
     }
@@ -512,7 +482,7 @@ echo "TEST:".$i;
     {
         if (!isset($this->_helpers[$type])) {
             if (!$className = Mage::getConfig()->getBlockClassName($type)) {
-                Mage::exception('Mage_Core', 'Invalid block type ' . $type);
+                Mage::throwException(__('Invalid block type: %s', $type));
             }
             $helper = new $className();
             if ($helper) {
@@ -523,5 +493,36 @@ echo "TEST:".$i;
             }
         }
         return $this->_helpers[$type];
+    }
+
+    public function getCache()
+    {
+        if (!$this->_cache) {
+            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
+                'cache_dir'=>Mage::getBaseDir('cache_layout')
+            ));
+        }
+        return $this->_cache;
+    }
+
+    public function setBlockCache($frontend='Core', $backend='File',
+    	array $frontendOptions=array(), array $backendOptions=array())
+    {
+        if (empty($frontendOptions['lifetime'])) {
+            $frontendOptions['lifetime'] = 7200;
+        }
+        if (empty($backendOptions['cache_dir'])) {
+            $backendOptions['cache_dir'] = Mage::getBaseDir('cache_block');
+        }
+        $this->_blockCache = Zend_Cache::factory($frontend, $backend, $frontendOptions, $backendOptions);
+        return $this;
+    }
+
+    public function getBlockCache()
+    {
+        if (empty($this->_blockCache)) {
+            $this->setBlockCache();
+        }
+        return $this->_blockCache;
     }
 }

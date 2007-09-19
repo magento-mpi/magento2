@@ -32,6 +32,7 @@ abstract class Mage_Core_Controller_Varien_Action
     const FLAG_NO_DISPATCH              = 'no-dispatch';
     const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
+    const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
     
     /**
      * Request object
@@ -77,15 +78,15 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $this->_construct();
         
-        Varien_Profiler::start('translate/init');
-        Mage::getSingleton('core/translate')->init($this->getLayout()->getArea());
-        Varien_Profiler::stop('translate/init');
-        
 		Varien_Profiler::start('init/session');
 		Mage::getSingleton('core/session');
 		Varien_Profiler::stop('init/session');
 
 		Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
+		
+        Varien_Profiler::start('translate/init');
+        Mage::getSingleton('core/translate')->init($this->getLayout()->getArea());
+        Varien_Profiler::stop('translate/init');
     }
 
     protected function _construct()
@@ -216,7 +217,7 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         Varien_Profiler::stop("$_profilerKey/load");
         
-		if(!$this->getFlag('', 'no-beforeGenerateLayoutBlocksDispatch')) {
+		if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
         	Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('layout'=>$layout));
 		}
 				

@@ -37,6 +37,11 @@
                 <controller>wizard</controller>
                 <action>begin</action>
             </begin>
+            <locale>
+                <code>Localization</code>
+                <controller>wizard</controller>
+                <action>locale</action>
+            </locale>
             <config>
                 <code>Configuration</code>
                 <controller>wizard</controller>

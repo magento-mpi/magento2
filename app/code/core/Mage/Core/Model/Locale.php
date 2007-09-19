@@ -28,7 +28,15 @@ class Mage_Core_Model_Locale
     /**
      * Default locale name
      */
-    const DEFAULT_LOCALE = 'en_US';
+    const DEFAULT_LOCALE    = 'en_US';
+    const DEFAULT_TIMEZONE  = 'America/Los_Angeles';
+    const DEFAULT_CURRENCY  = 'USD';
+    
+    const XML_PATH_DEFAULT_LOCALE   = 'general/local/locale';
+    const XML_PATH_DEFAULT_TIMEZONE = 'general/local/timezone';
+    const XML_PATH_DEFAULT_CURRENCY = 'general/currency/default';
+    
+    protected $_defaultLocale;
     
     /**
      * Locale object
@@ -42,6 +50,20 @@ class Mage_Core_Model_Locale
         $this->setLocale($locale);
     }
     
+    public function setDefaultLocale($locale)
+    {
+        $this->_defaultLocale = $locale;
+        return $this;
+    }
+    
+    public function getDefaultLocale()
+    {
+        if (!$this->_defaultLocale) {
+            $this->_defaultLocale = self::DEFAULT_LOCALE;
+        }
+        return $this->_defaultLocale;
+    }
+    
     /**
      * Set locale
      *
@@ -50,17 +72,29 @@ class Mage_Core_Model_Locale
      */
     public function setLocale($locale = null)
     {
+        Mage::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
+        
         $locale = Mage::getStoreConfig('locale');
         if (!$locale) {
-            $locale = self::DEFAULT_LOCALE;
+            $locale = $this->getDefaultLocale();
         }
         $this->_locale = new Zend_Locale($locale);
         
         /**
          * @todo retrieve timezone from config
          */
-        date_default_timezone_set('America/Los_Angeles');
+        date_default_timezone_set($this->getTimezone());
         return $this;
+    }
+    
+    public function getTimezone()
+    {
+        return self::DEFAULT_TIMEZONE;
+    }
+    
+    public function getCurrency()
+    {
+        return self::DEFAULT_CURRENCY;
     }
     
     /**

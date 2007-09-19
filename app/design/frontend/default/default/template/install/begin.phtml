@@ -25,7 +25,7 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=__("Welcome to Magento's Installation Wizard")?>!</h3>
+    <h3><?=$this->__("Welcome to Magento's Installation Wizard")?>!</h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <?
@@ -88,9 +88,12 @@ function changeSubmitStatus(obj) {
     }
 }
 </script>
-    <p><input type="checkbox" name="agree" value="1" id="agree" onclick="changeSubmitStatus(this)"/><label for="agree">&nbsp; <?=__('I agree to the above terms and conditions')?>.</label></p>
+    <p>
+        <input type="checkbox" name="agree" value="1" id="agree" onclick="changeSubmitStatus(this)"/>
+        <label for="agree">&nbsp; <?=$this->__('I agree to the above terms and conditions')?>.</label>
+    </p>
     <div class="form-buttons">
-        <button class="form-button" type="submit" id="submitButton" disabled="true"><span><?=__('Continue')?></span></button>
+        <button class="form-button" type="submit" id="submitButton" disabled="true"><span><?=$this->__('Continue')?></span></button>
     </div>
 </form>
 <script type="text/javascript">

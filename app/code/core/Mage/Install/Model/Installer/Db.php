@@ -54,7 +54,7 @@ class Mage_Install_Model_Installer_Db
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')->addError($e->getMessage());
-            Mage::throwException('Database connection error');
+            Mage::throwException(__('Database connection error'));
         }
     }
 }

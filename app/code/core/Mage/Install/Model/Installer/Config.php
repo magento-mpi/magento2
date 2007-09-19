@@ -120,7 +120,7 @@ class Mage_Install_Model_Installer_Config
         }
 
         if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            Mage::getSingleton('install/session')->addError(__("Url '%s' is not valid", $url));
+            Mage::getSingleton('install/session')->addError(__('Url "%s" is not valid', $url));
             Mage::throwException('Not valid url');
         }
         return $this;

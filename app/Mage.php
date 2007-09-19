@@ -107,7 +107,7 @@ final class Mage {
         if (is_dir($appRoot) and is_readable($appRoot)) {
             Mage::register('appRoot', $appRoot);
         } else {
-            Mage::exception($appRoot.' is not a directory or not readable by this user');
+            Mage::throwException($appRoot.' is not a directory or not readable by this user');
         }
     }
 
@@ -328,7 +328,7 @@ final class Mage {
         Mage::getConfig()->init($etcDir);
         Varien_Profiler::stop('init/config');
         
-        Mage::register('locale', Mage::getSingleton('core/locale'));
+        //Mage::register('locale', Mage::getSingleton('core/locale'));
         
         Mage::getConfig()->loadEventObservers('global');
 

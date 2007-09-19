@@ -52,7 +52,7 @@
       </resources>
       
       <block>
-	    <groups><install><class>Mage_Install_Block</class></install></groups>
+        <groups><install><class>Mage_Install_Block</class></install></groups>
       </block>
    </global>
    
@@ -86,6 +86,15 @@
                </checkConnection>
             </observers>
          </mageRunException>
+         <core_locale_set_locale>
+            <observers>
+               <bind_locale>
+                  <type>singleton</type>
+                  <class>install/observer</class>
+                  <method>bindLocale</method>
+               </bind_locale>
+            </observers>
+         </core_locale_set_locale>
       </events>
 
       <routers>
@@ -97,5 +106,14 @@
             </args>
          </install>
       </routers>
+      <translate>
+        <modules>
+            <Mage_Install>
+                <files>
+                    <default>translate.csv</default>
+                </files>
+            </Mage_Install>
+        </modules>
+      </translate>
    </frontend>
 </config>

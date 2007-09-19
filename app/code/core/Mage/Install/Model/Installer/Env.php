@@ -27,13 +27,11 @@
  */
 class Mage_Install_Model_Installer_Env
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function install()
     {
-        if (! $this->_checkPhpExtensions()) {
+        if (!$this->_checkPhpExtensions()) {
             throw new Exception();
         }
         return $this;
@@ -66,7 +64,7 @@ class Mage_Install_Model_Installer_Env
 
             if (!$oneLoaded) {
                 Mage::getSingleton('install/session')->addError(
-                    __("One from PHP Extensions '%s' must be loaded", implode(',', $extension))
+                    __('One from PHP Extensions "%s" must be loaded', implode(',', $extension))
                 );
                 return false;
             }

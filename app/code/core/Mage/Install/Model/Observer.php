@@ -13,34 +13,25 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Install
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Base html block
+ * Installation event observer
  *
- * @version    1.0 
- * @author	   Soroka Dmitriy <dmitriy@varien.com>
- * @date       Thu Feb 08 05:56:43 EET 2007
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Core_Block_Text_List extends Mage_Core_Block_Text 
+class Mage_Install_Model_Observer
 {
-	function toHtml()
-	{
-	    $this->setText('');
-	    $list = $this->getData('sorted_children_list');
-	    if (!empty($list)) {
-    	    foreach ($list as $name) {
-    	        $block = $this->getLayout()->getBlock($name);
-    	        if (!$block) {
-    	            Mage::throwException(__('Invalid block: %s', $name));
-    	        }
-    	        $this->addText($block->toHtml());
-    	    }
-	    }
-	    return parent::toHtml();
-	}
-}// Class Mage_Core_Block_List END
+    public function bindLocale($observer)
+    {
+        if ($locale=$observer->getEvent()->getLocale()) {
+            if ($choosedLocale = Mage::getSingleton('install/session')->getLocale()) {
+                $locale->setDefaultLocale($choosedLocale);
+            }
+        }
+        return $this;
+    }
+}

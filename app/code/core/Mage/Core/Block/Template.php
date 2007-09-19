@@ -61,11 +61,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
-     * Enter description here...
+     * Assign variable
      *
-     * @param string|array $key
-     * @param mixed $value
-     * @return Mage_Core_Block_Template
+     * @param   string|array $key
+     * @param   mixed $value
+     * @return  Mage_Core_Block_Template
      */
     public function assign($key, $value=null)
     {
@@ -81,7 +81,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
-     * Enter description here...
+     * Set template location dire
      *
      * @param string $dir
      * @return Mage_Core_Block_Template

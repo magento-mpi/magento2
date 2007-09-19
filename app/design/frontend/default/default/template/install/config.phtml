@@ -42,7 +42,7 @@
             </div>
             <div class="input-box">
                 <label for="dbname"><?=__('Database Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[db_name]" id="dbname" value="<?=$this->getFormData()->getDbName()?>" title="<?=__('Database name')?>" class="required-entry input-text"/>
+                <input type="text" name="config[db_name]" id="dbname" value="<?=$this->getFormData()->getDbName()?>" title="<?=__('Database Name')?>" class="required-entry input-text"/>
             </div>
         </li>
         <li>
@@ -82,8 +82,8 @@
                 <label for="port"><?=__('Port')?> <span class="required">*</span></label><br/>
                 <input type="text" name="config[port]" id="port" value="<?=$this->getFormData()->getPort()?>" title="<?=__('Port')?>" class="required-entry input-text"/>
                 <p style="margin-top:4px; line-height:1.3em; color:#666;">
-                    <small><?=__('For HTTPS connections, default port is 443')?>.<br/>
-                    <?=__('For HTTP connections, default port is 80')?>.</small>
+                    <small><?=__('For HTTPS connections, default port is 443.')?><br/>
+                    <?=__('For HTTP connections, default port is 80.')?></small>
                 </p>
             </div>
         </li>
@@ -106,17 +106,17 @@
         <li>
             <div class="input-box">
                 <label for="secure_protocol"><?=__('Secure Protocol')?> <span class="required">*</span></label><br/>
-                <select name="config[secure_protocol]" id="secure_protocol" title="<?=__('Secure protocol')?>" class="required-entry">
+                <select name="config[secure_protocol]" id="secure_protocol" title="<?=__('Secure Protocol')?>" class="required-entry">
                     <option value="http"<?if($this->getFormData()->getSecureProtocol()=='http'):?> selected<?endif;?>>http</option>
                     <option value="https"<?if(!$this->getFormData()->getSecureProtocol() || $this->getFormData()->getSecureProtocol()=='https'):?> selected<?endif;?>>https</option>
                 </select>
             </div>
             <div class="input-box">
                 <label for="secure_port"><?=__('Secure Port')?> <span class="required">*</span></label><br/>
-                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$this->getFormData()->getSecurePort()?>" title="<?=__('Secure port')?>" class="required-entry input-text"/>
+                <input type="text" name="config[secure_port]" id="secure_port" value="<?=$this->getFormData()->getSecurePort()?>" title="<?=__('Secure Port')?>" class="required-entry input-text"/>
                 <p style="margin-top:4px; line-height:1.3em; color:#666;">
-                    <small><?=__('For HTTPS connections, default port is 443')?>.<br/>
-                    <?=__('For HTTP connections, default port is 80')?>.</small>
+                    <small><?=__('For HTTPS connections, default port is 443.')?><br/>
+                    <?=__('For HTTP connections, default port is 80.')?></small>
                 </p>
             </div>
         </li>
@@ -128,7 +128,7 @@
     <ul>
         <li>
             <input type="checkbox" name="skip_url_validation" id="skip_url_validation" value="1" <?if($this->getSkipUrlValidation()):?>checked<?endif?>>
-            <label for="skip_url_validation">Skip URL validation</label><br/>
+            <label for="skip_url_validation"><?=__('Skip URL validation')?></label><br/>
             <p style="margin-top:4px; line-height:1.3em; color:#666;">
                 <small><?=__('Check this box only if you are unable to automatically validate Magento URL, for example if HTTP authentication is required.')?></small>
             </p>

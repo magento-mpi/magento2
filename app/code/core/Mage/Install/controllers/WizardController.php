@@ -95,8 +95,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_checkIfInstalled();
 
-        $this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
-        $this->setFlag('','no-postDispatch', true);
+    	$this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+    	$this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
@@ -123,7 +123,53 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $this->_redirect('install');
         }
     }
+    
+    /**
+     * Localization settings
+     */
+    public function localeAction()
+    {
+        $this->_checkIfInstalled();
+    	$this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+    	$this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
+    	$this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('install/locale', 'install.locale')
+        );
+
+        $this->renderLayout();
+    }
+    
+    /**
+     * Change current locale
+     */
+    public function localeChangeAction()
+    {
+        $this->_checkIfInstalled();
+        
+        $locale = $this->getRequest()->getParam('locale');
+        Mage::getSingleton('install/session')->setLocale($locale);
+        
+        $this->_redirect('*/*/locale');
+    }
+    
+    /**
+     * Saving localization settings
+     */
+    public function localePostAction()
+    {
+        $this->_checkIfInstalled();
+        $step = $this->_getWizard()->getStepByName('locale');
+        
+        if ($data = $this->getRequest()->getPost('config')) {
+            Mage::getSingleton('install/session')->setLocaleData($data);
+        }
+        
+        $this->getResponse()->setRedirect($step->getNextUrl());
+    }
+    
     /**
      * Configuration data installation
      */
@@ -132,8 +178,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->_checkIfInstalled();
         $this->_getInstaller()->checkServer();
 
-    	$this->setFlag('','no-beforeGenerateLayoutBlocksDispatch', true);
-    	$this->setFlag('','no-postDispatch', true);
+    	$this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+    	$this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
     	$this->_prepareLayout();
         $this->_initLayoutMessages('install/session');

@@ -37,7 +37,6 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         $this->_urls = array(
             'base'      => Mage::getBaseUrl(),
             'baseSecure'=> Mage::getBaseUrl(array('_secure'=>true)),
-            'js'        => Mage::getBaseUrl(array('_type'=>'js')),
             'current'   => $this->getRequest()->getRequestUri()
         );
     }
@@ -50,11 +49,6 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     public function getBaseSecureUrl()
     {
         return $this->_urls['baseSecure'];
-    }
-
-    public function getJsUrl($fileName='')
-    {
-        return $this->_urls['js'].$fileName;
     }
 
     public function getCurrentUrl()

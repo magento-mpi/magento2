@@ -38,8 +38,8 @@
     </reference>
     
     <reference name="right">
-    	<block type="checkout/cart_sidebar" name="cart_sidebar" before="-">
-    		<action method="setTemplate"><template>checkout/cart/sidebar.phtml</template></action>
-    	</block>
+        <block type="checkout/cart_sidebar" name="cart_sidebar" before="-">
+            <action method="setTemplate"><template>checkout/cart/sidebar.phtml</template></action>
+        </block>
     </reference>
 </layoutUpdate>

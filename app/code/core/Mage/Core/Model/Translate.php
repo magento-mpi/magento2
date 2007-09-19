@@ -197,8 +197,8 @@ class Mage_Core_Model_Translate
     protected function _addData($data, $scope)
     {
         foreach ($data as $key => $value) {
-            $key    = trim($key, '"');
-            $value  = trim($value, '"');
+            $key    = $this->_prepareDataString($key);
+            $value  = $this->_prepareDataString($value);
         	if ($scope && isset($this->_dataScope[$key])) {
         	    /**
         	     * Checking previos value
@@ -219,6 +219,11 @@ class Mage_Core_Model_Translate
         	}
         }
         return $this;
+    }
+    
+    protected function _prepareDataString($string)
+    {
+        return str_replace('""', '"', trim($string, '"'));
     }
     
     /**
