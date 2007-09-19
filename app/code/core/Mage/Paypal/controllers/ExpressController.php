@@ -124,23 +124,26 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     public function saveOrderAction()
     {
+        $address = $this->getReview()->getQuote()->getShippingAddress();
+        if (!$address->getShippingMethod()) {
+            if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
+                $this->getReview()->saveShippingMethod($shippingMethod);
+            } else {
+                Mage::getSingleton('paypal/session')->addError(__('Please select a valid shipping method'));
+                $this->_redirect('paypal/express/review');
+                return;
+            }
+        }
+
         $result = $this->getReview()->saveOrder();
 
         if (!empty($result['success'])) {
-            if ($this->getRequest()->getParam('ajax')) {
-                $this->getResponse()->setBody('SUCCESS');
-            } else {
-                $this->_redirect('checkout/onepage/success');
-            }
+            $this->_redirect('checkout/onepage/success');
         } else {
-            if ($this->getRequest()->getParam('ajax')) {
-                $this->getResponse()->setBody(join("\n", $result['error_messages']));
-            } else {
-                foreach ($result['error_messages'] as $error) {
-                    Mage::getSingleton('paypal/session')->addError($error);
-                }
-                $this->_redirect('paypal/express/review');
+            foreach ($result['error_messages'] as $error) {
+                Mage::getSingleton('paypal/session')->addError($error);
             }
+            $this->_redirect('paypal/express/review');
         }
     }
 }

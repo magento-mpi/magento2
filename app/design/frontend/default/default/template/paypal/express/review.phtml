@@ -47,6 +47,9 @@
 
                 <form method="post" action="<?=$this->getUrl('paypal/express/saveShippingMethod')?>">
                     <select name="shipping_method" id="shipping_method" style="width:250px" onchange="saveShippingMethod(this.value)">
+                    <?if(!$this->getAddressShippingMethod()):?>
+                        <option value=""><?=__('Please select a shipping method...')?></option>
+                    <?endif?>
                     <?foreach ($_shippingRateGroups as $code => $_rates):?>
                         <optgroup label="<?=$this->getCarrierName($code)?>" style="font-style:normal;">
                         <?foreach ($_rates as $_rate):?>
@@ -100,7 +103,7 @@
 
     <form method="post" action="<?=$this->getUrl('paypal/express/saveOrder')?>">
         <p class="a-right">
-            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="<?=__('Place Order')?>" onclick="saveOrder(); return false;"/>
+            <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="<?=__('Place Order')?>" onclick="return saveOrder();"/>
         </p>
     </form>
 
@@ -122,17 +125,10 @@
 
     function saveOrder()
     {
-        var url = '<?=$this->getUrl('paypal/express/saveOrder')?>';
-        url += (url.indexOf('?')>=0 ? '&' : '?') + 'ajax=1';
-        new Ajax.Request(url, {
-            method: 'post',
-            onSuccess: function(transport) {
-                if (transport.responseText=='SUCCESS') {
-                    location.href = '<?=$this->getUrl('checkout/onepage/success')?>';
-                } else {
-                    alert(transport.responseText);
-                }
-            }
-        });
+        if ($('shipping_method').value=='') {
+            alert('Please select a valid shipping method before submitting the order.');
+            return false;
+        }
+        return true;
     }
 </script>

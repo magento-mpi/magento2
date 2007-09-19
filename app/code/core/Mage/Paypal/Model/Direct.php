@@ -41,10 +41,19 @@ class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
         return $block;
     }
 
+    public function getPaymentAction()
+    {
+        $paymentAction = Mage::getStoreConfig('payment/paypal_direct/payment_action');
+        if (!$paymentAction) {
+            $paymentAction = Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH;
+        }
+        return $paymentAction;
+    }
+
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         $api = $this->getApi()
-            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH)
+            ->setPaymentType($this->getPaymentAction())
             ->setAmount($payment->getOrder()->getGrandTotal())
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
             ->setPayment($payment);

@@ -67,10 +67,19 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
         return Mage::getUrl('paypal/express/mark');
     }
 
+    public function getPaymentAction()
+    {
+        $paymentAction = Mage::getStoreConfig('payment/paypal_express/payment_action');
+        if (!$paymentAction) {
+            $paymentAction = Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH;
+        }
+        return $paymentAction;
+    }
+
     public function shortcutSetExpressCheckout()
     {
         $this->getApi()
-            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH)
+            ->setPaymentType($this->getPaymentAction())
             ->setAmount($this->getQuote()->getGrandTotal())
             ->setCurrencyCode($this->getQuote()->getStoreCurrencyCode())
             ->callSetExpressCheckout();
@@ -82,11 +91,12 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
     public function markSetExpressCheckout()
     {
+        $address = $this->getQuote()->getShippingAddress();
         $this->getApi()
-            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH)
-            ->setAmount($this->getQuote()->getGrandTotal())
+            ->setPaymentType($this->getPaymentAction())
+            ->setAmount($address->getGrandTotal())
             ->setCurrencyCode($this->getQuote()->getStoreCurrencyCode())
-            ->setShippingAddress($this->getQuote()->getShippingAddress())
+            ->setShippingAddress($address)
             ->callSetExpressCheckout();
 
         $this->catchError();
