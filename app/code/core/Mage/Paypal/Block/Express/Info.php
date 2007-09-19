@@ -27,7 +27,12 @@ class Mage_Paypal_Block_Express_Info extends Mage_Payment_Block_Info
             return '';
         }
 
-        $html = $this->getPayment()->getQuote()->getBillingAddress()->getEmail();
+        $p = $this->getPayment();
+        if ($p instanceof Mage_Sales_Model_Quote_Payment) {
+            $html = $this->getPayment()->getQuote()->getBillingAddress()->getEmail();
+        } elseif ($p instanceof Mage_Sales_Model_Order_Payment) {
+            $html = $this->getPayment()->getOrder()->getBillingAddress()->getEmail();
+        }
 
         return $html;
     }

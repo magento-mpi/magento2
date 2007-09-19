@@ -176,6 +176,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $a->setRegion($resArr['SHIPTOSTATE']);
         $a->setPostcode($resArr['SHIPTOZIP']);
         $a->setCountry($resArr['SHIPTOCOUNTRYCODE']);
+        $a->setTelephone(__('N/A'));
 
         return $resArr;
     }
@@ -326,7 +327,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'TRANSACTIONID' => $this->getTransactionId(),
         );
 
-        $resArr = $this->call('DoGetTransactionDetails', $nvpArr);
+        $resArr = $this->call('GetTransactionDetails', $nvpArr);
 
         if (false===$resArr) {
             return false;
@@ -444,9 +445,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $errorArr = array(
             'type' => 'API',
             'ack' => $nvpResArray['ACK'],
-            'correlation_id' => $nvpResArray['CORRELATIONID'],
-            'version' => $nvpResArray['VERSION'],
         );
+        if (isset($nvpResArray['VERSION'])) {
+            $errorArr['version'] = $nvpResArray['VERSION'];
+        }
+        if (isset($nvpResArray['CORRELATIONID'])) {
+            $errorArr['correlation_id'] = $nvpResArray['CORRELATIONID'];
+        }
         for ($i=0; isset($nvpResArray['L_SHORTMESSAGE'.$i]); $i++) {
             $errorArr['code'] = $nvpResArray['L_ERRORCODE'.$i];
             $errorArr['short_message'] = $nvpResArray['L_SHORTMESSAGE'.$i];
@@ -468,6 +473,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $intial=0;
         $nvpArray = array();
+
+        $nvpstr = strpos($nvpstr, "\r\n\r\n")!==false ? substr($nvpstr, strpos($nvpstr, "\r\n\r\n")+4) : $nvpstr;
 
         while(strlen($nvpstr)) {
             //postion of Key

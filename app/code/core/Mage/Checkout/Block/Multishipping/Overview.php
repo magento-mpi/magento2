@@ -45,13 +45,15 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
         $payment = $this->getCheckout()->getQuote()->getPayment();
         $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
 
-        $block = Mage::getModel($model)
-            ->setPayment($payment)
-            ->createInfoBlock($this->getData('name').'.payment');
-        
+        $block = Mage::getModel($model);
+        if ($block) {
+            $block->setPayment($payment)
+                ->createInfoBlock($this->getData('name').'.payment');
+        }
+
         $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
         $html .= $block->toHtml();
-        
+
         return $html;
     }
 
@@ -123,7 +125,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     {
         return $this->getUrl('*/multishipping_address/editBilling', array('id'=>$address->getCustomerAddressId()));
     }
-    
+
     public function getEditShippingUrl()
     {
         return $this->getUrl('*/*/backtoshipping');

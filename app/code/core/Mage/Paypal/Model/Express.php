@@ -103,8 +103,7 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
                 break;
 
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT:
-                $this->_getExpressTransactionDetails();
-                $this->getApi()->setRedirectUrl(Mage::getUrl('checkout/onepage/success'));
+                $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/saveOrder'));
                 break;
         }
         return $this;
@@ -145,12 +144,6 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
         $q->collectTotals()->save();
 
-    }
-
-    protected function _getExpressTransactionDetails()
-    {
-        $api = $this->getApi();
-die;
     }
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
