@@ -31,7 +31,7 @@ class Varien_File_Uploader
 {
     /**
      * Uploaded file handle (copy of $_FILES[] element)
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -39,7 +39,7 @@ class Varien_File_Uploader
 
     /**
      * Uploaded file mime type
-     * 
+     *
      * @var string
      * @access protected
      */
@@ -47,7 +47,7 @@ class Varien_File_Uploader
 
     /**
      * Upload type. Used to right handle $_FILES array.
-     * 
+     *
      * @var Varien_File_Uploader::SINGLE_STYLE|Varien_File_Uploader::MULTIPLE_STYLE
      * @access protected
      */
@@ -56,7 +56,7 @@ class Varien_File_Uploader
     /**
      * The name of uploaded file. By default it is original file name, but when
      * we will change file name, this variable will be changed too.
-     * 
+     *
      * @var string
      * @access protected
      */
@@ -64,25 +64,25 @@ class Varien_File_Uploader
 
     /**
      * The name of destination directory
-     * 
+     *
      * @var string
      * @access protected
      */
     protected $_uploadedFileDir;
 
     /**
-     * If this variable is set to TRUE, our library will be able to automaticaly create 
+     * If this variable is set to TRUE, our library will be able to automaticaly create
      * non-existant directories.
-     * 
+     *
      * @var bool
      * @access protected
      */
     protected $_allowCreateFolders = true;
 
     /**
-     * If this variable is set to TRUE, uploaded file name will be changed if some file with the same 
-     * name already exists in the destination directory (if enabled). 
-     * 
+     * If this variable is set to TRUE, uploaded file name will be changed if some file with the same
+     * name already exists in the destination directory (if enabled).
+     *
      * @var bool
      * @access protected
      */
@@ -90,7 +90,7 @@ class Varien_File_Uploader
 
     /**
      * If this variable is set to TRUE, files despersion will be supported.
-     * 
+     *
      * @var bool
      * @access protected
      */
@@ -108,7 +108,7 @@ class Varien_File_Uploader
 
     const SINGLE_STYLE = 0;
     const MULTIPLE_STYLE = 1;
-    
+
     function __construct($fileId)
     {
         $this->_setUploadFileId($fileId);
@@ -123,9 +123,9 @@ class Varien_File_Uploader
     /**
      * Used to save uploaded file into destination folder with
      * original or new file name (if specified)
-     * 
-     * @param string $destinationFolder 
-     * @param string $newFileName 
+     *
+     * @param string $destinationFolder
+     * @param string $newFileName
      * @access public
      * @return void|bool
      */
@@ -142,13 +142,13 @@ class Varien_File_Uploader
         if( !is_writable($destinationFolder) ) {
             throw new Exception('Destination folder is not writable or does not exists.');
         }
-        
+
         $result = false;
-        
+
         $destFile = $destinationFolder;
         $fileName = ( isset($newFileName) ) ? $newFileName : $this->_file['name'];
         $fileExtension = substr($fileName, strrpos($fileName, '.')+1);
-        
+
         if( !$this->chechAllowedExtension($fileExtension) ) {
             throw new Exception('Disallowed file type.');
         }
@@ -179,7 +179,10 @@ class Varien_File_Uploader
 
         if( $result ) {
             chmod($destFile, 0777);
-            $this->_uploadedFileName = ( $this->_enableFilesDispersion ) ? $this->_addDirSeparator($this->_dispretionPath) . $fileName : $fileName;
+            if ( $this->_enableFilesDispersion ) {
+                $fileName = str_replace(DIRECTORY_SEPARATOR, '/', $this->_addDirSeparator($this->_dispretionPath)) . $fileName;
+            }
+            $this->_uploadedFileName = $fileName;
             $this->_uploadedFileDir = $destinationFolder;
             $result = $this->_file;
             $result['path'] = $destinationFolder;
@@ -188,7 +191,7 @@ class Varien_File_Uploader
             return $result;
         }
     }
-    
+
     protected function _addDirSeparator($dir)
     {
         if (substr($dir,-1) != DIRECTORY_SEPARATOR) {
@@ -196,11 +199,11 @@ class Varien_File_Uploader
         }
         return $dir;
     }
-    
+
     /**
      * Used to check if uploaded file mime type is valid or not
-     * 
-     * @param array $validTypes 
+     *
+     * @param array $validTypes
      * @access public
      * @return bool
      */
@@ -209,14 +212,14 @@ class Varien_File_Uploader
         if( count($validTypes) > 0 ) {
             if( !in_array($this->_getMimeType(), $validTypes) ) {
                 return false;
-            } 
+            }
         }
         return true;
     }
 
     /**
      * Returns a name of uploaded file
-     * 
+     *
      * @access public
      * @return string
      */
@@ -227,8 +230,8 @@ class Varien_File_Uploader
 
     /**
      * Used to set {@link _allowCreateFolders} value
-     * 
-     * @param mixed $flag 
+     *
+     * @param mixed $flag
      * @access public
      * @return void
      */
@@ -237,11 +240,11 @@ class Varien_File_Uploader
         $this->_allowCreateFolders = $flag;
         return $this;
     }
-    
+
     /**
      * Used to set {@link _allowRenameFiles} value
-     * 
-     * @param mixed $flag 
+     *
+     * @param mixed $flag
      * @access public
      * @return void
      */
@@ -253,8 +256,8 @@ class Varien_File_Uploader
 
     /**
      * Used to set {@link _enableFilesDispersion} value
-     * 
-     * @param mixed $flag 
+     *
+     * @param mixed $flag
      * @access public
      * @return void
      */
@@ -262,7 +265,7 @@ class Varien_File_Uploader
     {
         $this->_enableFilesDispersion = $flag;
     }
-    
+
     public function setAllowedExtensions($extensions=array())
     {
         foreach ((array)$extensions as $extension) {
@@ -270,7 +273,7 @@ class Varien_File_Uploader
         }
         return $this;
     }
-    
+
     public function chechAllowedExtension($extension)
     {
         if (is_null($this->_allowedExtensions)) {
@@ -300,11 +303,11 @@ class Varien_File_Uploader
 
             $fileAttributes = $_FILES[$file[0]];
             $tmp_var = array();
-            
+
             foreach( $fileAttributes as $attributeName => $attributeValue ) {
                 $tmp_var[$attributeName] = $attributeValue[$file[1]];
             }
-            
+
             $fileAttributes = $tmp_var;
             $this->_file = $fileAttributes;
         } elseif( count($fileId) > 0 ) {
@@ -320,11 +323,15 @@ class Varien_File_Uploader
         if( !$destinationFolder ) {
             return;
         }
-
+        $destinationFolder = str_replace('/', DIRECTORY_SEPARATOR, $destinationFolder);
         $path = explode(DIRECTORY_SEPARATOR, $destinationFolder);
         $newPath = null;
         $oldPath = null;
         foreach( $path as $key => $directory ) {
+            if (strlen($directory)===2 && $directory{1}===':') {
+                $newPath = $directory;
+                continue;
+            }
             $newPath.= ( $newPath != DIRECTORY_SEPARATOR ) ? DIRECTORY_SEPARATOR . $directory : $directory;
             if( is_dir($newPath) ) {
                 $oldPath = $newPath;

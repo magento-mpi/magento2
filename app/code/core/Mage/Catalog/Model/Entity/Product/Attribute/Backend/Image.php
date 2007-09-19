@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Image extends Mage_Eav
                 ->saveAttribute($object, $this->getAttribute()->getName());
             return;
         }
-        
+
         try {
             $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
@@ -48,9 +48,9 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Image extends Mage_Eav
         catch (Exception $e){
             return $this;
         }
-        
+
         $uploader->save(Mage::getSingleton('core/store')->getConfig('catalog/images/product_upload_path'));
-        
+
         if ($fileName = $uploader->getUploadedFileName()) {
             $object->setData($this->getAttribute()->getName(), $fileName);
             $this->getAttribute()->getEntity()
