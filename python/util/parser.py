@@ -36,6 +36,7 @@ class Parser:
                             self.matches[moduleName] = {}
 
                         for phrase in phrases:
+                            phrase = phrase[1]
                             if len(phrase) > 0:
                                 fileData = {}
                                 fileData['filename'] = file
@@ -91,6 +92,7 @@ class Parser:
         return parts[0]
       
     def getModuleDir(self, moduleName):
+        print moduleName
         for dir in langScanDirectories:
             modDir = os.path.abspath(os.environ['BASE_DIR']+dir+moduleName)
             if os.path.exists(modDir):
