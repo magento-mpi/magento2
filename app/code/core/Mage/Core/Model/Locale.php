@@ -101,7 +101,7 @@ class Mage_Core_Model_Locale
             $locale = $this->getDefaultLocale();
         }
 
-        setlocale(LC_ALL, $locale);
+        //setlocale(LC_ALL, $locale);
         $this->_locale = new Zend_Locale($locale);
         
         /**
@@ -178,7 +178,8 @@ class Mage_Core_Model_Locale
         	        continue;
         	    }
         	    $options[] = array(
-        	       'label' => ucfirst($languages[$data[0]]) . ' (' . $countries[$data[1]] . ')',
+        	       //'label' => ucfirst($languages[$data[0]]) . ' (' . $countries[$data[1]] . ')',
+        	       'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')',
         	       'value' => $code,
         	    );
         	}
