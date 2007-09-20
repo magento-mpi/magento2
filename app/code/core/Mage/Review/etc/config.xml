@@ -130,5 +130,14 @@
                 </args>
             </review>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Review>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Review>
+            </modules>
+        </translate>
     </frontend>
 </config>

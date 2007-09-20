@@ -172,5 +172,14 @@
             </args>
          </checkout>
       </routers>
+      <translate>
+        <modules>
+            <Mage_Checkout>
+                <files>
+                    <default>translate.csv</default>
+                </files>
+            </Mage_Checkout>
+        </modules>
+      </translate>
    </frontend>
 </config>

@@ -37,7 +37,7 @@
          <googlecheckout_mysql4>
             <class>Mage_GoogleCheckout_Model_Mysql4</class>
             <entities>
-            	<debug><table>googlecheckout_debug</table></debug>
+                <debug><table>googlecheckout_debug</table></debug>
             </entities>
          </googlecheckout_mysql4>
       </models>
@@ -85,5 +85,14 @@
             </updates>
          </cart>
         </layouts>
+        <translate>
+            <modules>
+                <Mage_GoogleCheckout>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_GoogleCheckout>
+            </modules>
+        </translate>
      </frontend>
 </config>

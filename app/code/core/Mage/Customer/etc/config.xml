@@ -204,5 +204,14 @@
                 </args>
             </customer>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Customer>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Customer>
+            </modules>
+        </translate>
     </frontend>
 </config>

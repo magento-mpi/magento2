@@ -46,6 +46,15 @@
                 </observers>
             </action_noRoute>
         </events>
+        <translate>
+            <modules>
+                <Mage_Cms>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Cms>
+            </modules>
+        </translate>
     </frontend>
     <global>
         <models>

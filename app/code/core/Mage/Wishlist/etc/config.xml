@@ -97,5 +97,14 @@
                 </args>
             </wishlist>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Wishlist>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Wishlist>
+            </modules>
+        </translate>
     </frontend>
 </config>

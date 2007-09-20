@@ -139,5 +139,14 @@
                 </args>
             </sales>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Sales>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Sales>
+            </modules>
+        </translate>
     </frontend>
 </config>

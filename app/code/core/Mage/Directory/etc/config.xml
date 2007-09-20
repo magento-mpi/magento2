@@ -117,6 +117,15 @@
                 </args>
             </directory>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Directory>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Directory>
+            </modules>
+        </translate>
     </frontend>
 </config>
 

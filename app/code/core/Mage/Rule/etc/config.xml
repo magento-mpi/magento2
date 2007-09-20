@@ -32,15 +32,26 @@
                 <resourceModel>rule_mysql4</resourceModel>
             </rule>
             <rule_mysql4>
-            	<class>Mage_Rule_Model_Mysql4</class>
+                <class>Mage_Rule_Model_Mysql4</class>
             </rule_mysql4>
         </models>
         <block>
-        	<groups>
-        		<rule>
-        			<class>Mage_Rule_Block</class>
-        		</rule>
-        	</groups>
+            <groups>
+                <rule>
+                    <class>Mage_Rule_Block</class>
+                </rule>
+            </groups>
         </block>
     </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Rule>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Rule>
+            </modules>
+        </translate>
+    </frontend>
 </config>

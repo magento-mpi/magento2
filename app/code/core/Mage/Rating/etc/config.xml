@@ -86,4 +86,15 @@
             </groups>
         </block>
     </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Rating>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Rating>
+            </modules>
+        </translate>
+    </frontend>
 </config>

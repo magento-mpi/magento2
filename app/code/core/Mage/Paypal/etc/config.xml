@@ -37,7 +37,7 @@
          <paypal_mysql4>
             <class>Mage_Paypal_Model_Mysql4</class>
             <entities>
-            	<api_debug><table>paypal_api_debug</table></api_debug>
+                <api_debug><table>paypal_api_debug</table></api_debug>
             </entities>
          </paypal_mysql4>
       </models>
@@ -102,5 +102,14 @@
             </updates>
          </paypal_express_review_details>
         </layouts>
+        <translate>
+            <modules>
+                <Mage_Paypal>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Paypal>
+            </modules>
+        </translate>
      </frontend>
 </config>

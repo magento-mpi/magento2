@@ -110,5 +110,14 @@
                 </args>
             </newsletter>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Newsletter>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Newsletter>
+            </modules>
+        </translate>
     </frontend>
 </config>

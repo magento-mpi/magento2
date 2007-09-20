@@ -124,5 +124,14 @@
                 </args>
             </tag>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Tag>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Tag>
+            </modules>
+        </translate>
     </frontend>
 </config>

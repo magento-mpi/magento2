@@ -41,5 +41,15 @@
         </groups>
       </block>
    </global>
-
+   <frontend>
+        <translate>
+            <modules>
+                <Mage_Payment>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Payment>
+            </modules>
+        </translate>
+   </frontend>
 </config>

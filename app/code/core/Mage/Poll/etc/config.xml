@@ -44,6 +44,15 @@
                 </args>
             </poll>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Poll>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Poll>
+            </modules>
+        </translate>
     </frontend>
     <global>
         <models>

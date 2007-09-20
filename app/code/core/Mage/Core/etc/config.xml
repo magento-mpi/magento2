@@ -105,5 +105,14 @@
                 </args>
             </core>
         </routers>
+        <translate>
+            <modules>
+                <Mage_Core>
+                    <files>
+                        <default>translate.csv</default>
+                    </files>
+                </Mage_Core>
+            </modules>
+        </translate>
     </frontend>
 </config>
