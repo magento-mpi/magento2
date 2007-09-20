@@ -20,17 +20,17 @@
 ?>
 <? $_order = $this->getOrder() ?>
 <div class="page-head button-level">
-    <h3><?=__('Order #')?><?=$_order->getRealOrderId()?> - <small><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></small></h3>
+    <h3><?=__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatus($_order->getStatusId())->getFrontendLabel())?></h3>
     <?/*<a href="#"><?=__('View Invoices')?></a>*/?>
 </div>
-<p><strong><?=__('Order Date')?>:</strong> <?=$this->formatDate($_order->getCreatedAt(), 'long')?></p>
+<p><?=__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=__('Shipping Address')?></h4>
         <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
     </div>
     <div class="col-2">
-        <h4><?=__('Shipping Method')?><?/* | <a href="#"><?=__('Track')?></a>*/?></h4>
+        <h4><?=__('Shipping Method')?><?/* | <a href="#"><?=__('Track Order')?></a>*/?></h4>
         <?=$_order->getShippingDescription()?>
     </div>
 </div>
@@ -40,7 +40,7 @@
         <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
     </div>
     <div class="col-2">
-        <h4><?=__('Billing Method')?></h4>
+        <h4><?=__('Payment Method')?></h4>
         <?=$this->getPaymentInfoHtml()?>
     </div>
 </div>
@@ -95,7 +95,7 @@
 <?$_history = $this->getOrder()->getVisibleStatusHistory()?>
 <?if (count($_history)):?>
     <div class="clear">&nbsp;</div>
-    <h4><?=__('About your order')?></h4>
+    <h4><?=__('About Your Order')?></h4>
     <div>
         <dl>
             <?foreach ($_history as $_historyItem):?>

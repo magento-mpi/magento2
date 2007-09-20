@@ -20,14 +20,14 @@
 ?>
 <?$_order = $this->getOrder()?>
 <div class="page-head button-level">
-    <h2><?=__('My Orders - Detail')?></h2>
+    <h2><?=__('My Orders - Details')?></h2>
     <button class="form-button"><span><?=__('Print All Invoices')?></span></button>
 </div>
-<h3><?=__('Order #')?><?=$_order->getRealOrderId()?></h3>
+<h3><?=__('Order #%s', $_order->getRealOrderId())?></h3>
 <?foreach ($this->getInvoices() as $_invoice):?>
     <div class="divider"></div>
     <div class="head">
-        <h3><?=__('Invoice #%s', $_invoice->getIncrementId() )?></h3>
+        <h3><?=__('Invoice #%s', $_invoice->getIncrementId())?></h3>
         <a href="#"><?=__('Print Invoice')?></a>
     </div>
     <div class="col2-set">
@@ -59,7 +59,7 @@
             <?=$_order->getShippingMethod()?> <?=$_order->getShippingDescription()?>
         </div>
         <div class="col-2">
-            <h4><?=__('Billing Method')?></h4>
+            <h4><?=__('Payment Method')?></h4>
             <?$_payment = $_order->getPayment()?>
             <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
         </div>
@@ -71,7 +71,7 @@
             <tr>
                 <th><?=__('Product Name')?></th>
                 <th class="a-right"><?=__('Price')?></th>
-                <th class="a-center"><?=__('Qty')?></th>
+                <th class="a-center"><?=__('Qty Ordered')?></th>
                 <th class="a-center"><?=__('Qty Shipped')?></th>
                 <th class="a-right"><?=__('Subtotal')?></th>
             </tr>

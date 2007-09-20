@@ -21,7 +21,7 @@
 <div class="account-box ad-tags">
 	<div class="head">
 			<h4><?=__('My Recent Tags')?></h4>
-			<a href="<?=$this->getAllTagsUrl()?>"><?=__('View All')?></a>
+			<a href="<?=$this->getAllTagsUrl()?>"><?=__('View All Tags')?></a>
 	</div>
 	<ol>
 		<?$iterator = 0?>
@@ -30,7 +30,7 @@
 				<div class="count"><?=++$iterator?></div>
 				<div class="content">
 					<a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a><br/>
-					<strong><?=__('Tags')?>:</strong>
+					<strong><?=__('Tags:')?></strong>
 						<?$_i = 0;?>
 						<?foreach( $_item->getProductTags() as $_tag ):?>
 							<a href="<?=$_tag->getViewTagUrl()?>"><?=$_tag->getName()?></a><?if(++$_i != sizeof($_item->getProductTags()->getItems())):?>,<?endif;?>

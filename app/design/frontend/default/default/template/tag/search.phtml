@@ -19,7 +19,7 @@
  */
 ?>
 <div class="page-head">
-	<h3><?=__("Products tagged with '%s'", $query)?> (<a href="/tag/index/xml?tag=<?=$query;?>">rss</a>)</h3>
+	<h3><?=__("Products tagged with '%s' (<a href='%s'>RSS</a>)", $query, '/tag/index/xml?tag='.$query)?></h3>
 </div>
 <?php if (!empty($collection)) {?>
 <ol>

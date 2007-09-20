@@ -21,7 +21,7 @@
 <script type="text/javascript">countryRegions = <?=$this->getHelper('directory/data')->getRegionsJs()?></script>
 
 <div class="page-head">
-	<h3><?if($data->getAddressId()):?><?=__('Edit')?><?else:?><?=__('New')?><?endif?> <?=__('Address Entry')?></h3>
+	<h3><?if($data->getAddressId()):?><?=__('Edit Address Entry')?><?else:?><?=__('New Address Entry')?><?endif?></h3>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
 <input type="hidden" name="address_id" value="<?=$data->getAddressId()?>">
@@ -63,17 +63,17 @@
                 <input type="text" name="city" value="<?=$data->getCity()?>"  title="<?=__('City')?>" class="required-entry input-text" id="city"/>
 							</div>
 							<div class="input-box">
-                    <label for="state"><?=__('State / Province')?> <span class="required">*</span></label><br/>
-		                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
-			                	<option value=""><?=__('Please select region or state')?></option>
+                    <label for="state"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+		                <select id="region_id" name="region_id" title="<?=__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+			                	<option value=""><?=__('Please select region, state or province')?></option>
 			                </select>
-			                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State / Province')?>" class="required-entry  input-text" style="display:none"/>
+			                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" style="display:none"/>
 							</div>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="zip"><?=__('Zip/Post Code')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="<?=__('ZIP/Post Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
+                    <label for="zip"><?=__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="<?=$data->getPostcode()?>" title="<?=__('Zip/Postal Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
                 </div>
 								<div class="input-box">
 								<label for="country"><?=__('Country')?> <span class="required">*</span></label><br/>
@@ -94,17 +94,17 @@
             <?foreach ($primaryTypes as $code=>$type):?>
                 <li>
                 <?if ($address->isPrimary($type['address_type_id'])):?>
-                    <?=__("This is My Primary <strong>%s</strong> Address", $type['name'])?>
+                    <?=__("This is My Primary %s Address", ucfirst($type['name']))?>
                 <?else:?>
                     <input type="checkbox" id="primary_<?=$code?>" name="primary_types[]" value="<?=$type['address_type_id']?>"/>&nbsp;
-                    <label for="primary_<?=$code?>"><?=__("Use as My Primary <strong>%s</strong> Address", $type['name'])?></label>
+                    <label for="primary_<?=$code?>"><?=__("Use as My Primary %s Address", ucfirst($type['name']))?></label>
                 <?endif?>
                 </li>
             <?endforeach?>
         </ul>
     </fieldset>
     <div class="form-buttons">
-        <p class="required">* <?=__('Required Fields')?></p>
+        <p class="required"><?=__('* Required Fields')?></p>
         <a href="<?=$this->getUrl('customer/address')?>" class="left">&laquo; <?=__('Back')?></a>
         <button class="form-button" type="submit"><span><?=__('Save Address')?></span></button>
     </div>

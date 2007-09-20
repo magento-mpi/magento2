@@ -23,7 +23,7 @@
 	<p><label for="estimate_postcode"><?=__('Enter your destination to get a shipping estimate.')?></label></p>
     <p><label for="country_id"><?=__('Country')?></label><br/><?=$this->getHelper('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId())?></p>
 	<p><label for="postcode"><?=__('Zip/Postal Code')?></label><br/><input class="input-text" id="postcode" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/></p>
-	<p><button type="submit" class="form-button-alt"><span><?=__('Get Quote')?></span></button></p>
+	<p><button type="submit" class="form-button-alt"><span><?=__('Get a Quote')?></span></button></p>
 </form>
 <?if (($_shippingRateGroups = $this->getEstimateRates())):?>
 <form id="co-shipping-method-form" action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>">
@@ -46,7 +46,7 @@
             </dd>
         <?endforeach;?>
     </dl>
-    <button type="submit" class="form-button-alt" name="do" value="<?=__('Update')?>"><span><?=__('Update total')?></span></button>
+    <button type="submit" class="form-button-alt" name="do" value="<?=__('Update Total')?>"><span><?=__('Update Total')?></span></button>
 </form>
 <script type="text/javascript">
     var coShippingMethodForm = new VarienForm('shipping-zip-form');

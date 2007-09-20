@@ -30,16 +30,14 @@
         <tr>
             <td>
             <?if($this->getLastPageNum()>1):?>
-                <?=__('Items')?> <strong><?=$this->getFirstNum()?></strong>
-                <?=__('to')?> <strong><?=$this->getLastNum()?></strong>
-                <?=__('of')?> <strong><?=$this->getTotalNum()?> <?=__('total')?></strong>
+                <?=__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum())?>
             <?else:?>
-                <strong><?=$this->getTotalNum()?> <?=__('Item(s)')?></strong>
+                <strong><?=__('%s Item(s)', $this->getTotalNum())?></strong>
             <?endif;?>
             </td>
             <?if($this->getLastPageNum()>1):?>
             <td>
-                <strong><?=__('Page')?>:</strong>
+                <strong><?=__('Page:')?></strong>
                 <ol>
                 <?if (!$this->isFirstPage()):?>
                     <li>
@@ -99,9 +97,9 @@
                 <?endforeach;?>
                 </select>
                 <?if($this->getCurrentDirection() == 'desc'):?>
-                    <a href="<?=$this->getOrderUrl(null, 'asc')?>"><img src="<?=$this->getSkinUrl('images/sort_desc_arrow.gif')?>" alt="<?=__('Set asc directory')?>" class="v-middle"/></a>
+                    <a href="<?=$this->getOrderUrl(null, 'asc')?>"><img src="<?=$this->getSkinUrl('images/sort_desc_arrow.gif')?>" alt="<?=__('Set Ascending Direction')?>" class="v-middle"/></a>
                 <?else:?>
-                    <a href="<?=$this->getOrderUrl(null, 'desc')?>"><img src="<?=$this->getSkinUrl('images/sort_asc_arrow.gif')?>" alt="<?=__('Set desc directory')?>" class="v-middle"/></a>
+                    <a href="<?=$this->getOrderUrl(null, 'desc')?>"><img src="<?=$this->getSkinUrl('images/sort_asc_arrow.gif')?>" alt="<?=__('Set Descending Direction')?>" class="v-middle"/></a>
                 <?endif;?>
             </td>
         </tr>

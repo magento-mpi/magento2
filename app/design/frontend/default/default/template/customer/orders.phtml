@@ -43,14 +43,14 @@
                 <!--<td class="align-center">{$page.orders[io].customer}</td>-->
                 <td class="a-right"><?=$order->getGrandTotal()?>&nbsp;</td>
                 <td class="a-center"><?=$order->getStatus()?>&nbsp;</td>
-                <td><a href="<?=$this->getUrl('customer/order/view', array('order'=>$order->getOrderId()))?>"><?=__('View')?></a>&nbsp;</td>
+                <td><a href="<?=$this->getUrl('customer/order/view', array('order'=>$order->getOrderId()))?>"><?=__('View Order')?></a>&nbsp;</td>
             </tr>
         <?endforeach?>
         </tbody>
     </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?else:?>
-    <p><?=__('You have not placed any orders yet.')?></p>
+    <p><?=__('You have placed no orders yet.')?></p>
 <?endif?>
     <div class="buttons-container">
         <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; <?=__('Back')?></a>

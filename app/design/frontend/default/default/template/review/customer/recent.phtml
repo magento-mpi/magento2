@@ -22,7 +22,7 @@
 <div class="account-box ad-reviews">
     <div class="head">
         <h4><?=__('My Recent Reviews')?></h4>
-        <a href="<?=$this->getAllReviewsUrl()?>"><small><?=__('View All')?></small></a>
+        <a href="<?=$this->getAllReviewsUrl()?>"><small><?=__('View All Reviews')?></small></a>
     </div>
     <?$iterator = 0?>
     <?foreach ($this->getCollection() as $_review):?>
@@ -33,7 +33,7 @@
                 <a href="<?=$this->getReviewUrl($_review->getReviewId())?>"><?=$_review->getName()?></a>
                 <?if($_review->getSum()):?>
                 <div class="ratings">
-                    <small><?=__('RATING')?>:</small>
+                    <small><?=__('Rating:')?></small>
                         <div class="rating-box">
                             <div class="rating" style="width:<?=( $_review->getSum() / $_review->getCount() )?>%;"></div>
                         </div>

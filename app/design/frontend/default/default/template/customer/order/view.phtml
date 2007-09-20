@@ -20,7 +20,7 @@
 ?>
 
     <div class="page-head">
-			<h3><?=__('Order #%s', $order->getOrderId())?> (<?=$order->getStatus()?>)</h3>
+			<h3><?=__('Order #%s (%s)', $order->getOrderId(), $order->getStatus())?></h3>
 		</div>
 
     <div class="col2-set">
@@ -63,7 +63,7 @@
         <tfoot>
             <tr>
                 <td class="a-right" colspan="4">
-                    <?=__('Grand Total:&nbsp;<strong>%s</strong>', $order->getGrandTotal())?>
+                    <?=__('Grand Total: %s', $order->getGrandTotal())?>
                 </td>
             </tr>
         </tfoot>

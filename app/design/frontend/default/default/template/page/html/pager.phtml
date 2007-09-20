@@ -30,11 +30,9 @@
     <tr>
         <td>
         <?if($this->getLastPageNum()>1):?>
-            <?=__('Items')?> <strong><?=$this->getFirstNum()?></strong>
-            <?=__('to')?> <strong><?=$this->getLastNum()?></strong>
-            <?=__('of')?> <strong><?=$this->getTotalNum()?> <?=__('total')?></strong>
+            <?=__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum())?>
         <?else:?>
-            <strong><?=$this->getTotalNum()?> <?=__('Item(s)')?></strong>
+            <strong<?=__('%s Item(s)', $this->getTotalNum())?></strong>
         <?endif;?>
         </td>
         <?if($this->getLastPageNum()>1):?>
@@ -43,7 +41,7 @@
             <ol>
             <?if (!$this->isFirstPage()):?>
                 <li>
-                    <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="<?=__('Previous')?>"/></a>
+                    <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="<?=__('Previous Page')?>"/></a>
                 </li>
             <?endif?>
             <?foreach ($this->getPages() as $_page):?>
@@ -55,7 +53,7 @@
             <?endforeach;;?>
             <?if (!$this->isLastPage()):?>
                 <li>
-                    <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="<?=__('Next')?>"/></a>
+                    <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="<?=__('Next Page')?>"/></a>
                 </li>
             <?endif?>
             </ol>

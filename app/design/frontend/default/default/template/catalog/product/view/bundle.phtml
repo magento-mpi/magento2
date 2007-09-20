@@ -39,11 +39,11 @@
 				<img id="image" src="<?=$_product->getImageUrl()?>" alt="<?=$_product->getName()?>"/>
 			</p>
 			<div class="image-zoom" id="track_outer">
-                <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="<?=__('Zoom out')?>" class="btn-zoom-out"/>
+                <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="<?=__('Zoom Out')?>" class="btn-zoom-out"/>
 				<div id="track">
 					<div id="handle"></div>
 				</div>
-                <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="<?=__('Zoom out')?>" class="btn-zoom-in"/>
+                <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="<?=__('Zoom Out')?>" class="btn-zoom-in"/>
 			</div>
     		<script type="text/javascript">
     			Event.observe(window, 'load', function() {
@@ -90,7 +90,7 @@
                                 <?$_option=$_bundleOption->getLinkCollection()->getFirstItem()?>
                                 <input type="hidden" name="bundle_option[<?=$_bundleOption->getId()?>]" value="<?=$_option->getProductId()?>" /><?=$_option->getName()?>
                             <?else:?>
-                                <?=__('Out of stock')?>
+                                <?=__('Out of Stock')?>
                             <?endif;?>
                             </td>
                         </tr>
@@ -110,7 +110,7 @@
                 <div class="product-pricing">
                     <ul class="bare">
                     <?foreach($_prices=$_product->getFormatedTierPrice() as $_price):?>
-                        <li><?=__('Buy %s', $_price['price_qty'])?> <?=__('for <strong>%s/each</strong>', $_price['price'])?></li>
+                        <li><?=__('Buy %s for <strong>%s each</strong>', $_price['price_qty'], $_price['price'])?></li>
                     <?endforeach?>
                     </ul>
                 </div>
@@ -122,10 +122,10 @@
             
             <?if(!$_product->isSuperGroup()):?>
                 <?if(!$_product->isBundle() || $_product->isAviableBundle()):?>
-                    <p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
+                    <p><small><?=__('Availability: In stock. Ships within 24 hours.')?></small></p>
                     <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
                     <fieldset class="add-to-cart-box">
-                        <legend><?=__('Add items to cart')?> </legend>
+                        <legend><?=__('Add Items to Cart')?> </legend>
                         <span class="qty-box"><label for="qty"><?=__('Qty')?>:</label> 
                         <input name="qty" type="text" class="input-text qty" id="qty"/></span>
                         <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button>
@@ -143,7 +143,7 @@
                     </p>
                 <?endif;?>
             <?else:?>
-                <p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <p><small><?=__('Availability: In stock. Ships within 24 hours.')?></small></p>
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button> <strong><?=__('OR')?></strong>
                 &nbsp;&nbsp;
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=__('Add to Wishlist')?></a>

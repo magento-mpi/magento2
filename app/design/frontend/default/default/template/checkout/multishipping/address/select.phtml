@@ -30,8 +30,8 @@
     <div class="col-<?=($_index%3+1)?>">
         <div class="box">
             <p class="actions">
-                <a href="<?=$this->getEditAddressUrl($_address)?>"><?=__('Edit')?></a><span class="separator">|</span>
-                <a href="<?=$this->getSetAddressUrl($_address)?>"><strong><?=__('Select')?></strong></a>
+                <a href="<?=$this->getEditAddressUrl($_address)?>"><?=__('Edit Address')?></a><span class="separator">|</span>
+                <a href="<?=$this->getSetAddressUrl($_address)?>"><strong><?=__('Select Address')?></strong></a>
             </p>
             <address>
                 <?=$_address->getFormated(true)?>

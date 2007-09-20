@@ -47,17 +47,17 @@
 			<ul class="form-list">
 					<li>
                         <label for="email"><?=__('Email Address')?> <span class="required">*</span></label><br/>
-                        <input name="login[username]" value="<?=$this->getUsername()?>" title="<?=__('email')?>" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
+                        <input name="login[username]" value="<?=$this->getUsername()?>" title="<?=__('Email Address')?>" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
                     </li>
                     <li>
                         <label for="pass"><?=__('Password')?> <span class="required">*</span></label><br/>
                         <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" style="width:250px;"/>
                     </li>
 				</ul>
-                <p class="required">* <?=__('Required Fields')?></p>
+                <p class="required"><?=__('* Required Fields')?></p>
 	</div>
 	<div class="form-buttons">
-		<a href="<?=$this->getForgotPasswordUrl()?>" class="left"><?=__('Forgot your password?')?></a>
+		<a href="<?=$this->getForgotPasswordUrl()?>" class="left"><?=__('Forgot Your Password?')?></a>
 		<button class="form-button" type="submit" name="send" id="send2"><span><?=__('Login')?></span></button>
 	</div>
 </div>

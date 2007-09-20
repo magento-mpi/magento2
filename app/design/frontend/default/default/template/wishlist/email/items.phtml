@@ -26,7 +26,7 @@
 		<td width="32%">
 			<p align="center"><a href="#"><img src="<?=$item->getSmallImageUrl()?>" style="border:1px solid #ccc;" width="135"></a></p>
 			<p align="center"><a href="#" style="color:#203548;"><strong><?=$item->getName()?></strong></a></p>
-			<p align="center"><a href="<?=$item->getProductUrl()?>" style="color:#1E7EC8;"><?=__('More Details')?></a> <small>|</small> <a href="<?=$this->getUrl('checkout/cart/add', array('product'=>$item->getId()))?>" style="color:#DC6809;"><strong><?=__('Add to Cart')?></strong></a>
+			<p align="center"><a href="<?=$item->getProductUrl()?>" style="color:#1E7EC8;"><?=__('View Product')?></a> <small>|</small> <a href="<?=$this->getUrl('checkout/cart/add', array('product'=>$item->getId()))?>" style="color:#DC6809;"><strong><?=__('Add to Cart')?></strong></a>
 			</p></td>
     	<?if ($i%3!=0):?>
     		<td width="2%"></td>

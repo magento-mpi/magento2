@@ -20,7 +20,7 @@
 ?>
 <form id="co-shipping-form">
 <?if ($this->customerHasAddresses()):?>
-   <p><?=__('Select a shipping address from your address book or enter a %s.', '<a href="#" onclick="shipping.newAddress(true); return false;">'.__('New Address').'</a>')?></p>
+   <p><?=__('Select a shipping address from your address book or enter a new address.')?></p>
    <p><?=$this->getAddressesHtmlSelect('shipping')?></p>
 <?endif?>
 
@@ -38,7 +38,7 @@
             <input type="text" id="shipping:company" name="shipping[company]" value="<?=$this->getAddress()->getCompany()?>" title="<?=__('Company')?>" class="input-text" onchange="shipping.setSameAsBilling(false);"/></div>
 <?if(false):?>
             <div class="input-box">
-            <label for="shipping:email"><?=__('Email')?> <span class="required">*</span></label><br/>
+            <label for="shipping:email"><?=__('Email Address')?> <span class="required">*</span></label><br/>
             <input type="text" name="shipping[email]" id="shipping:email" value="<?=$this->getAddress()->getEmail()?>" title="<?=__('Email Address')?>" class="validate-email required-entry input-text"/></div>
 <?endif?>
             </li>
@@ -51,12 +51,12 @@
             <div class="input-box">
             <label for="shipping:region"><?=__('State/Province')?> <span class="required">*</span></label><br/>
             <select id="shipping:region_id" name="shipping[region_id]" title="<?=__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
-            	<option value=""><?=__('Please select region or state')?></option>
+            	<option value=""><?=__('Please select region, state or province')?></option>
             </select>
             <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="required-entry  input-text" style="display:none"/></div></li>
         <li><div class="input-box">
-            <label for="shipping:postcode"><?=__('Zip')?> <span class="required">*</span></label><br/>
-            <input type="text" title="<?=__('ZIP/Postal Code')?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip-international required-entry input-text" onchange="shipping.setSameAsBilling(false);"/></div>
+            <label for="shipping:postcode"><?=__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
+            <input type="text" title="<?=__('Zip/Postal Code')?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip-international required-entry input-text" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
             <label for="shipping:country_id"><?=__('Country')?> <span class="required">*</span></label><br/>
             <?=$this->getCountryHtmlSelect('shipping')?>
@@ -69,10 +69,10 @@
             <input type="text" name="shipping[fax]" value="<?=$this->getAddress()->getFax()?>" title="<?=__('Fax')?>" class="input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);"/></div></li>
     </ul>
 </fieldset>
-    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($this->getAddress()->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/> &nbsp;<label for="shipping:same_as_billing"><?=__('Use billing address')?></label></p>
+    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($this->getAddress()->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/> &nbsp;<label for="shipping:same_as_billing"><?=__('Use Billing Address')?></label></p>
 </form>
 <div class="form-buttons">
-    <p class="required">* <?=__('Required Fields')?></p>
+    <p class="required"><?=__('* Required Fields')?></p>
     <span id="shipping-buttons-container">
         <a href="#" class="back left" onclick="checkout.back()"><?=__('Back')?></a>
     	<button class="form-button right" onclick="shipping.save()"><span><?=__('Continue')?></span></button>

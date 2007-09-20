@@ -47,16 +47,16 @@
                     <?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
                 </td>
                 <td align="center">
-                    <textarea name="description[<?=$item->getWishlistItemId()?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?=( $this->getEscapedDescription($item) ) ? __($this->getEscapedDescription($item)) : __('Please enter your comments...') ?></textarea>
+                    <textarea name="description[<?=$item->getWishlistItemId()?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?=( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : __('Please, enter your comments...') ?></textarea>
                 </td>
                 <td>
                     <?=$this->getFormatedDate($item->getAddedAt())?>
                 </td>
                 <td class="a-center">
                 <?if($item->isSaleable()):?>
-                    <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>');return false;" class="link-cart"><?=__('Add to cart')?></a><br/>
+                    <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>');return false;" class="link-cart"><?=__('Add to Cart')?></a><br/>
                 <?endif;?>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" /><?=__('Remove')?></a>
+                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" /><?=__('Remove Item')?></a>
                 </td>
             </tr>
         <?endforeach?>
@@ -65,7 +65,7 @@
 <script type="text/javascript">decorateTable('wishlist-table')</script>
     <div class="form-buttons">
         <button onclick="setLocation('<?=$this->getUrl('*/*/share')?>')" class="form-button-alt" type="button"><span><?=__('Share Wishlist')?></span></button>&nbsp;
-        <button onclick="setLocation('<?=$this->getUrl('*/*/allcart')?>')" class="form-button-alt"  type="button"><span><?=__('Add all to cart')?></span></button>&nbsp;
+        <button onclick="setLocation('<?=$this->getUrl('*/*/allcart')?>')" class="form-button-alt"  type="button"><span><?=__('Add All to Cart')?></span></button>&nbsp;
         <button type="submit" class="form-button" name="do"><span><?=__('Update Wishlist')?></span></button>
     </div>
 </form>
@@ -74,16 +74,16 @@
 <?endif?>
 <script type="text/javascript">
 function confirmRemoveWishlistItem(url){
-    if(confirm('<?=__('Are you sure?')?>')) {
+    if(confirm('<?=__('Are you sure you want to remove this product from your wishlist?')?>')) {
         setLocation(url);
     }
 }
 
 function focusComment(obj) {
-    if( obj.value == '<?=__('Please enter your comments...')?>' ) {
+    if( obj.value == '<?=__('Please, enter your comments...')?>' ) {
         obj.value = '';
     } else if( obj.value == '' ) {
-        obj.value = '<?=__('Please enter your comments...')?>';
+        obj.value = '<?=__('Please, enter your comments...')?>';
     }
 }
 </script>

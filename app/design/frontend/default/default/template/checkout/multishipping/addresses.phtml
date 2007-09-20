@@ -41,7 +41,7 @@
             <tr>
                 <th><?=__('Product')?></th>
                 <th class="a-center"><?=__('Qty')?></th>
-                <th><?=__('Sent to')?></th>
+                <th><?=__('Send to')?></th>
                 <th><?=__('Remove')?></th>
             </tr>
         </thead>
@@ -60,7 +60,7 @@
                 </td>
                 <td class="a-center"><input name="ship[<?=$_index?>][<?=$_item->getQuoteItemId()?>][qty]" value="<?=$_item->getQty()?>" size="2" class="input-text qty"/></td>
                 <td><?=$this->getAddressesHtmlSelect($_item, $_index)?></td>
-                <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="<?=__('Remove item')?>"/></td>
+                <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="<?=__('Remove Item')?>"/></td>
             </tr>
         <?endforeach;?>
         </tbody>

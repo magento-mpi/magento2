@@ -32,7 +32,7 @@
 			<h3 class="product-name"><?=$product->getName()?></h3>
 		<?=$this->getChildHtml('rating')?>
 		<?if( $reviewCount ):?>
-			<a href="#customer-reviews" class="no-wrap"><small>( <?=__('%s Reviews', $reviewCount)?> )</small></a>
+			<a href="#customer-reviews" class="no-wrap"><small><?=__('(%s Reviews)', $reviewCount)?></small></a>
 		<?endif;?>
 
         <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
@@ -46,7 +46,7 @@
             <div class="product-pricing">
                 <ul class="bare">
                 <?foreach($_tierPrices as $_price):?>
-                    <li><?=__('Buy')?> <?=$_price['price_qty']?> <?=__('for')?> <strong><?=$_price['formated_price']?></strong></li>
+                    <li><?=__('Buy %s for %s', $_price['price_qty'], $_price['formated_price'])?></li>
                 <?endforeach?>
                 </ul>
             </div>
@@ -59,7 +59,7 @@
 			<p><small><?=__('Availability: In stock. Ships within 24hours.')?></small></p>
 			<?=$this->getHelper('catalog/product')->getPriceHtml($product)?>
 			<fieldset class="add-to-cart-box">
-				<legend><?=__('Add items to cart')?></legend>
+				<legend><?=__('Add Items to Cart')?></legend>
 				<span class="qty-box"><label for="qty"><?=__('Qty')?>:</label> <input name="qty" type="text" class="input-text qty" id="qty"/></span>
 				<button class="form-button" onclick="productAddToCartForm.submit()"><span><?=__('Add to Cart')?></span></button> <strong><?=__('OR')?></strong>
 			</fieldset>
@@ -96,7 +96,7 @@
 		<div class="clear"></div>
 		<div class="divider"></div>
 
-		<p><a href="<?=$product->getProductUrl()?>">&laquo; <?=__('Back to main product info')?></a></p>
+		<p><a href="<?=$product->getProductUrl()?>">&laquo; <?=__('Back to Main Product Info')?></a></p>
 
 		</div>
 		</div>
@@ -111,7 +111,7 @@
 			<ol style="margin-top:15px;">
 		<?foreach( $this->getCollection()->getItems() as $_review ):?>
 				<li>
-					<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('by <em>%s</em>', $_review->getNickname())?>
+					<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('by %s', $_review->getNickname())?>
 					<table class="ratings-list" cellspacing="0">
 						<tbody>
 						<?foreach( $_review->getRatingVotes() as $_vote ):?>
@@ -126,7 +126,7 @@
 						<?endforeach;?>
 						</tbody>
 					</table>
-					<p><?=nl2br($_review->getDetail())?> (<?=__('Posted on %s', $this->formatDate($_review->getCreatedAt()), 'long')?>)</p></li>
+					<p><?=nl2br($_review->getDetail())?> <?=__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long')?></p></li>
 				<li>
 		<?endforeach;?>
 			</ol>

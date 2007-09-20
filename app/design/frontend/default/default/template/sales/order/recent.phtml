@@ -45,13 +45,13 @@
 					<td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?>&nbsp;</td>
 					<td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?>&nbsp;</td>
 					<td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em>&nbsp;</td>
-					<td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a>*/?>&nbsp;</td>
+					<td class="last a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View Order')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track Order')?></a>*/?>&nbsp;</td>
 				</tr>
 			<?endforeach;?>
         </tbody>
     </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?else:?>
-    <p><?=__('You have not placed any orders.');?></p>
+    <p><?=__('You have placed no orders.');?></p>
 <?endif;?>
 </div>

@@ -35,7 +35,7 @@
     <div class="details">
         <h3><?=$this->getProductData()->getName()?></h3>
         <?if( $this->getRating() && $this->getRating()->getSize()):?>
-        <strong><?=__('PRODUCT RATING:')?></strong>
+        <strong><?=__('Product Rating:')?></strong>
             <?foreach ($this->getRating() as $_rating):?>
             <?if($_rating->getPercent()):?>
             	<div class="ratings">
@@ -48,7 +48,7 @@
             <?endforeach;?>
         <?endif;?>
         <div class="clear"></div>
-        <strong><?=__('PRODUCT REVIEW')?></strong> ( <?=__('submitted on')?> <?=$this->dateFormat($this->getReviewData()->getCreatedAt())?>):
+        <?=__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt()))?>
             <div class="description">
                 <p><?=nl2br($this->getReviewData()->getDetail())?></p>
             </div>

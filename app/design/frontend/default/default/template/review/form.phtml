@@ -21,7 +21,7 @@
 <div class="page-head">
 	<h3><?=__('Write Your Own Review')?></h3>
 </div>
-<h4><?=__("You're reviewing")?>: <span class="normal-weight"><?=$this->getProductInfo()->getName()?></span></h4>
+<h4><?=__("You're reviewing: %s", $this->getProductInfo()->getName())?></h4>
 <form action="<?=$this->getAction()?>" method="post" id="review-form">
 <div>
 	<?if( $this->getRatings() && $this->getRatings()->getSize()):?>
@@ -42,7 +42,7 @@
 		<?$_oddIterator = 1;?>
 		<?foreach ($this->getRatings() as $_rating):?>
 			<tr class="odd<?if($_oddIterator == $this->getRatings()->getSize()): $_oddIterator = 0;?> last<?endif;?>">
-				<td class="label"><?=__($_rating->getRatingCode())?></td>
+				<td class="label"><?=$_rating->getRatingCode()?></td>
 			<?$_iterator = 1;?>
 			<?foreach ($_rating->getOptions() as $_option):?>
 				<!--<td <?if($_iterator == 5):?>class="last"<?endif;?> style="width:60px;"><input type="radio" <?if($_iterator == 5): $_iterator=0;?>class="validate-one-required-by-name"<?endif;?> name="ratings[<?=$_rating->getId()?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>"/></td>-->
@@ -67,7 +67,7 @@
     
     <p>
         <div>
-        <label for="summary_field"><?=__('Summary of your review')?></label><br>
+        <label for="summary_field"><?=__('Summary of Your Review')?></label><br>
         <input class="input-text  required-entry" id="summary_field" style="width: 450px;" type="text" value="<?=$data->getTitle()?>"/>
         </div>
     </p>
@@ -87,7 +87,7 @@
 
 	Validation.addAllThese(
     [
-	       ['validate-rating', '<?=__('Please select from each ratings above')?>', function(v) {
+	       ['validate-rating', '<?=__('Please select one of each ratings above')?>', function(v) {
                 var trs = $('product-review-table').getElementsBySelector('tr');
                 var inputs;
                 var error = 1;

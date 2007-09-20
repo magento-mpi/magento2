@@ -22,7 +22,7 @@
     <h4><?=__('Product Tags')?></h4>
 </div>
     <?if( $this->getCount() ):?>
-    <h5><?=__('Other people marked this product with these tags')?>:</h5>
+    <h5><?=__('Other people marked this product with these tags:')?></h5>
         <ul class="tags-list">
             <?$_iterator = 0;?>
             <?foreach( $this->getTags() as $_tag ):?>
@@ -30,7 +30,7 @@
             <?endforeach;?>
         </ul>
     <?endif;?>
-<h5><?=__('Add your tags')?>:</h5>
+<h5><?=__('Add Your Tags:')?></h5>
 <div class="add-tag-box">
     <form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="get">
         <div class="input-box">
@@ -42,5 +42,5 @@
         var addTagForm = new VarienForm('addTagForm');
     </script>
     <div class="clear"></div>
-    <small><?=__("Use spaces to separate tags. Use single quotes(') for phrases")?>.</small>
+    <small><?=__("Use spaces to separate tags. Use single quotes(') for phrases.")?></small>
 </div>

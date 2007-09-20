@@ -19,15 +19,15 @@
  */
 ?>
 <h1 class="page-head"><?=__('Search Results')?></h1>
-<p><?=__("Search Results for :'%s'", $query)?></p>
+<p><?=__("Search Results for: '%s'", $query)?></p>
 <?if(!empty($hits)):?>
     <?foreach($hits as $hit):?>
-        <?=__('Score :%s', round($hit->score,3))?><br>
-        <?=__('Sku :%s', $hit->sku)?><br>
-        <?=__('Manufacturer :%s', $hit->manufacturer)?><br>
-        <?=__('Shoe Type :%s', $hit->shoe_type)?><br>
+        <?=__('Score: %s', round($hit->score,3))?><br>
+        <?=__('SKU: %s', $hit->sku)?><br>
+        <?=__('Manufacturer: %s', $hit->manufacturer)?><br>
+        <?=__('Shoe Type: %s', $hit->shoe_type)?><br>
         <a href="<?=$hit->url?>"><?=$hit->name?></a><br>
      <?endforeach;?>
 <?else:?>
-    <p><?=__("There are no products under search term '%s'", $query)</p>
+    <p><?=__("There are no products under search term '%s'", $query)?></p>
 <?endif;?>

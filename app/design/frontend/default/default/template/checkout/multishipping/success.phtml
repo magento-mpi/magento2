@@ -24,8 +24,7 @@
 <div class="content-box">
     <p><strong><?=__('Thank you for your purchase!')?></strong><br/></p>
     <p>
-        <?=__('We are processing your order and you will soon receive an email with details of the order.<br/>
-        Once the order has shipped you will receive another email with a link to track its progress.')?>
+        <?=__('We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.')?>
     </p>
     <?if($_orderIds = $this->getOrderIds()):?>
         <?=__('Your order number is %s', $_orderIds)?>

@@ -75,17 +75,17 @@
                     <input type="text" name="city" value="<?=$this->getAddress()->getCity()?>"  title="<?=__('City')?>" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
-                    <label for="state"><?=__('State / Province')?> <span class="required">*</span></label><br/>
-	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
-	                   <option value=""><?=__('Please select region or state')?></option>
+                    <label for="state"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+	                <select id="region_id" name="region_id" title="<?=__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+	                   <option value=""><?=__('Please select region, state or province')?></option>
 	                </select>
-	                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State / Province')?>" class="input-text" style="display:none"/>
+	                <input type="text" id="region" name="region" value="<?=$this->getAddress()->getRegion()?>"  title="<?=__('State/Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="zip"><?=__('Zip/Post Code')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$this->getAddress()->getPostcode()?>" title="<?=__('ZIP/Post Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
+                    <label for="zip"><?=__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="<?=$this->getAddress()->getPostcode()?>" title="<?=__('Zip/Postal Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="country"><?=__('Country')?> <span class="required">*</span></label><br/>
@@ -94,20 +94,20 @@
             </li>
             <li>
                 <?if($this->isDefaultBilling()):?>
-                    <strong><?=__('Default billing address')?></strong>
+                    <strong><?=__('Default Billing Address')?></strong>
                 <?elseif($this->canSetAsDefaultBilling()):?>
                     <input type="checkbox" id="primary_billing" name="default_billing" value="1"/>&nbsp;
-                    <label for="primary_billing"><?=__('Use as my default <strong>billing</strong> address')?></label>
+                    <label for="primary_billing"><?=__('Use as my default billing address')?></label>
                 <?else:?>
                     <input type="hidden" name="default_billing" value="1"/>
                 <?endif;?>
             </li>
             <li>
                 <?if($this->isDefaultShipping()):?>
-                    <strong><?=__('Default shipping address')?></strong>
+                    <strong><?=__('Default Shipping Address')?></strong>
                 <?elseif($this->canSetAsDefaultShipping()):?>
                     <input type="checkbox" id="primary_shipping" name="default_shipping" value="1"/>&nbsp;
-                    <label for="primary_shipping"><?=__('Use as my default <strong>shipping</strong> address')?></label>
+                    <label for="primary_shipping"><?=__('Use as my default shipping address')?></label>
                 <?else:?>
                     <input type="hidden" name="default_shipping" value="1"/>
                 <?endif;?>
@@ -115,7 +115,7 @@
         </ul>
     </fieldset>
     <div class="form-buttons">
-        <p class="required">* <?=__('Required Fields')?></p>
+        <p class="required"><?=__('* Required Fields')?></p>
         <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back')?></a>
         <button class="form-button" type="submit"/><span><?=__('Save Address')?></span></button>
     </div>

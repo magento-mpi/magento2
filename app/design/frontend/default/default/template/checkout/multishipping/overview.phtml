@@ -31,7 +31,7 @@
             <div class="col-1">
                 <?$_address=$this->getBillingAddress()?>
                 <div class="head">
-                    <h4><?=__('Billing Address')?><span class="separator">|</span><a href="<?=$this->getEditBillingAddressUrl($_address)?>"><?=__('Edit')?></a></h4>
+                    <h4><?=__('Billing Address')?><span class="separator">|</span><a href="<?=$this->getEditBillingAddressUrl($_address)?>"><?=__('Change Billing Address')?></a></h4>
                 </div>
                 <address>
                     <?=$_address->getFormated(true)?>
@@ -39,7 +39,7 @@
             </div>
             <div class="col-2">
                 <div class="head">
-                    <h4><?=__('Payment Method')?><span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>"><?=__('Edit')?></a></h4>
+                    <h4><?=__('Payment Method')?><span class="separator">|</span><a href="<?=$this->getEditBillingUrl()?>"><?=__('Change Payment Method')?></a></h4>
                 </div>
                 <?=$this->getPaymentHtml()?>
             </div>
@@ -50,17 +50,17 @@
         <h4 class="legend"><?=__('Shipping Information')?></h4>
         <div class="clear"></div>
 <?foreach ($this->getShippingAddresses() as $_index => $_address):?>
-    <div class="content col2-alt-set"><h4><?=__('Address')?> <span class="shipment-count"><?=($_index+1)?></span> <?=__('of')?> <?=$this->getShippingAddressCount()?></h4>
+    <div class="content col2-alt-set"><h4><?=__('Address %s of %s', ($_index+1), $this->getShippingAddressCount())?></h4>
         <div class="col-1">
             <div class="head">
-                <h4><?=__('Shipping to')?><span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>"><?=__('Edit')?></a></h4>
+                <h4><?=__('Shipping to')?><span class="separator">|</span><a href="<?=$this->getEditShippingAddressUrl($_address)?>"><?=__('Change Shipping Address')?></a></h4>
             </div>
             <address>
                 <?=$_address->getFormated(true)?>
             </address>
             <br/>
             <div class="head">
-                <h4><?=__('Shipping Method')?><span class="separator">|</span><a href="<?=$this->getEditShippingUrl()?>"><?=__('Edit')?></a></h4>
+                <h4><?=__('Shipping Method')?><span class="separator">|</span><a href="<?=$this->getEditShippingUrl()?>"><?=__('Change Shipping Method')?></a></h4>
             </div>
             <?if($_rate=$this->getShippingAddressRate($_address)):?>
             <p><?=$_rate->getCarrierTitle()?> (<?=$_rate->getMethodDescription()?>) - <?=$_rate->getPrice()?></p>
@@ -68,7 +68,7 @@
         </div>
         <div class="col-2">
             <div class="head">
-                <h4><?=__('Items')?><span class="separator">|</span><a href="<?=$this->getAddressesEditUrl()?>"><?=__('Edit')?></a></h4>
+                <h4><?=__('Items')?><span class="separator">|</span><a href="<?=$this->getAddressesEditUrl()?>"><?=__('Edit Items')?></a></h4>
             </div>
             <table cellspacing="0" id="overview-table-<?=$_address->getId()?>" class="data-table nested-data-table">
                 <col/>
@@ -117,7 +117,7 @@
 <table class="place-order-box" cellspacing="0">
     <tr>
         <td class="left-radius">&nbsp;</td>
-        <td class="main-radius"><big class="grand-total"><span class="label"><?=__('Grand Total')?>:</span> <span class="price"><?=$this->getTotal()?></span></big>
+        <td class="main-radius"><big class="grand-total"><span class="label"><?=__('Grand Total:')?></span> <span class="price"><?=$this->getTotal()?></span></big>
             <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="<?=__('Place Order')?>"/></td>
     </tr>
 </table>

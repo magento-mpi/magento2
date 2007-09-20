@@ -21,7 +21,7 @@
 <?if($this->getItems()->getSize()):?>
 <div class="box base-mini cross-sell">
     <div class="head">
-        <h4><span><?=__('Cross-sell')?></span></h4>
+        <h4><span><?=__('Cross-sell Products')?></span></h4>
     </div>
     <ol id="cross-sell-products">
      <?foreach($this->getItems() as $_item):?>
@@ -33,7 +33,7 @@
                 <a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
                 <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
                 <a href="<?=$this->getAddToCartUrl($_item)?>"><?=__('Add to Cart')?></a>
-                <a href="<?=$this->getAddToWishlistUrl($_item)?>"><?=__('Wishlist')?></a>
+                <a href="<?=$this->getAddToWishlistUrl($_item)?>"><?=__('Add to Wishlist')?></a>
             </div>
         </li>
     <?endforeach;?>

@@ -37,18 +37,18 @@
             </td>            
             <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
             <td class="align-center">
-            	<input type="button" value="<?=__('Add to cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('checkout/cart/add',array('product_id'=>$item->getProductId()))?>')" class="input-button" /><br/>
-            	<input type="button" value="<?=__('Add to My Wishlist')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/index/add',array('product'=>$item->getProductId()))?>')" class="input-button" /><br/>
+            	<input type="button" value="<?=__('Add to Cart')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('checkout/cart/add',array('product_id'=>$item->getProductId()))?>')" class="input-button" /><br/>
+            	<input type="button" value="<?=__('Add to Wishlist')?>" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/index/add',array('product'=>$item->getProductId()))?>')" class="input-button" /><br/>
             </td>
         </tr>
         <?endforeach?>
     </table>
     <div class="buttons-container">
-        <input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart', array('_current'=>true))?>')" value="<?=__('Add all to cart')?>" class="input-button" />    	
+        <input type="button" onclick="wishlistControl.navigateToUrl('<?=$this->getUrl('*/*/allcart', array('_current'=>true))?>')" value="<?=__('Add All to Cart')?>" class="input-button" />    	
     </div>
 </form>
 <?else:?>
-    <p><?=__('You have not placed any product yet.')?></p>
+    <p><?=__('You have placed no product yet.')?></p>
 <?endif?>
 <script type="text/javascript">
 var wishlistControl = {

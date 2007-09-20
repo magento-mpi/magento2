@@ -31,7 +31,7 @@
             <th><?=__('Date')?></th>
             <th><?=__('Ship to')?></th>
             <th><?=__('Order Total')?></th>
-            <th><?=__('Status')?></th>
+            <th><?=__('Order Status')?></th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -44,7 +44,7 @@
                 <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
                 <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
                 <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
-                <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track')?></a>*/?></td>
+                <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View Order')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track Order')?></a>*/?></td>
             </tr>
         <?endforeach;?>
     </tbody>
@@ -52,5 +52,5 @@
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?=$this->getPagerHtml();?>
 <?else:?>
-    <p><?=__('You have not placed any orders.');?></p>
+    <p><?=__('You have placed no orders.');?></p>
 <?endif?>

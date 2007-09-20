@@ -24,7 +24,7 @@
         <h4><?=__('Related Products')?></h4>
     </div>
     <div class="content">
-        <p><strong><?=__('Check items to add to cart or')?> <a href="#" onclick="selectAllRelated();return false;"><?=__('select all')?></a>.</strong></p>
+        <p><strong><?=__('Check items to add to the cart or select all.')?></strong></p>
         <ol>
         <?foreach($this->getItems() as $_item):?>
         <li<?if($_item->isSuper() || !$_item->isSaleable()):?> class="super-products"<?endif;?>>
@@ -38,7 +38,7 @@
                     <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
                     <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
                     <?if($_item->isSuper()):?>
-                        <a href="<?=$_item->getProductUrl()?>">View Details</a><br/>
+                        <a href="<?=$_item->getProductUrl()?>"><?=__('View Details')?></a><br/>
                     <?else:?>
                         <a href="<?=$this->getAddToWishlistUrl($_item)?>" class="link-cart"><?=__('Add to Wishlist')?></a>
                     <?endif;?>

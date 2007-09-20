@@ -26,7 +26,7 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=__('Create Account')?></h3>
+    <h3><?=__('Create an Account')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post" id="form-validate">
@@ -47,13 +47,13 @@
             </li>
             <li>
                 <div class="input-box">
-					<label for="email_address"><?=__('Email')?> <span class="required">*</span></label><br/>
+					<label for="email_address"><?=__('Email Address')?> <span class="required">*</span></label><br/>
 					<input type="text" name="email" id="email_address" value="<?=$this->getFormData()->getEmail()?>" title="<?=__('Email Address')?>" class="validate-email required-entry input-text"/>
 				</div>
             </li>
             <li>
-                <input type="checkbox" name="is_subscribed" title="<?=__('Sign up for newsletter')?>" value="1" id="is_subscribed" <?if($this->getFormData()->getIsSubscribed()):?> checked<?endif?>/>
-                <label for="is_subscribed"><?=__('Sign up for newsletter')?></label>
+                <input type="checkbox" name="is_subscribed" title="<?=__('Sign Up for Newsletter')?>" value="1" id="is_subscribed" <?if($this->getFormData()->getIsSubscribed()):?> checked<?endif?>/>
+                <label for="is_subscribed"><?=__('Sign Up for Newsletter')?></label>
             </li>
         </ul>
     </fieldset>
@@ -85,17 +85,17 @@
                     <input type="text" name="city" value="<?=$this->getFormData()->getCity()?>"  title="<?=__('City')?>" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
-                	<label for="state"><?=__('State / Province')?> <span class="required">*</span></label><br/>
-	                <select id="region_id" name="region_id" title="<?=__('State / Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getFormData()->getRegionId()?>">
-	                	<option value=""><?=__('Please select region or state')?></option>
+                	<label for="state"><?=__('State/Province')?> <span class="required">*</span></label><br/>
+	                <select id="region_id" name="region_id" title="<?=__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getFormData()->getRegionId()?>">
+	                	<option value=""><?=__('Please select region, state or province')?></option>
 	                </select>
-	                <input type="text" id="region" name="region" value="<?=$this->getRegion()?>"  title="<?=__('State / Province')?>" class="input-text" style="display:none"/>
+	                <input type="text" id="region" name="region" value="<?=$this->getRegion()?>"  title="<?=__('State/Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
             <li>
                 <div class="input-box">
-                    <label for="zip"><?=__('Zip/Post Code')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$this->getFormData()->getPostcode()?>" title="<?=__('ZIP/Post Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
+                    <label for="zip"><?=__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="postcode" value="<?=$this->getFormData()->getPostcode()?>" title="<?=__('Zip/Postal Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="country"><?=__('Country')?> <span class="required">*</span></label><br/>
@@ -117,13 +117,13 @@
                 </div>
                 <div class="input-box">
                     <label for="confirmation"><?=__('Confirm Password')?> <span class="required">*</span></label><br/>
-                    <input type="password" name="confirmation" title="<?=__('Password Confirmation')?>" id="confirmation" class="required-entry validate-cpassword input-text"/>
+                    <input type="password" name="confirmation" title="<?=__('Confirm Password')?>" id="confirmation" class="required-entry validate-cpassword input-text"/>
                 </div>
             </li>
         </ul>
     </fieldset>
     <div class="form-buttons">
-        <p class="required">* <?=__('Required Fields')?></p>
+        <p class="required"><?=__('* Required Fields')?></p>
         <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back')?></a>
         <button class="form-button" type="submit"><span><?=__('Submit')?></span></button>
     </div>

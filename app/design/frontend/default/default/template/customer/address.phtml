@@ -32,7 +32,7 @@
                         <?=nl2br($_address->toString("{{firstname}} {{lastname}}\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getUrl('customer/address/form', array('address'=>$_address->getAddressId()))?>" class="red-link"><?=__('Edit')?></a></strong>
+                        <strong><a href="<?=$this->getUrl('customer/address/form', array('address'=>$_address->getAddressId()))?>" class="red-link"><?=__('Edit Address')?></a></strong>
                     </p>
                     </td>
                 </tr>
@@ -46,7 +46,7 @@
             <?endif?>
             </table>
         </td>
-        <td style="width:50%;"><h3><?=__('Additional Entries')?></h3>
+        <td style="width:50%;"><h3><?=__('Additional Address Entries')?></h3>
             <table width="100%" cellspacing="0"> 
             <?if(!empty($alternativeAddresses)):?>    
                 <?foreach($alternativeAddresses as $_address):?>
@@ -56,7 +56,7 @@
                         <?=nl2br($_address->toString("{{firstname}} {{lastname}}\n{{street}}\n{{city}}, {{regionName}} {{postcode}}\nT: {{telephone}}"))?>
                     </address>
                     <p>
-                        <strong><a href="<?=$this->getUrl('customer/address/form', array('address'=>$_address->getAddressId()))?>" class="red-link"><?=__('Edit')?></a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link"><?=__('Delete')?></a></strong>
+                        <strong><a href="<?=$this->getUrl('customer/address/form', array('address'=>$_address->getAddressId()))?>" class="red-link"><?=__('Edit Address')?></a></strong><span class="separator">&nbsp;|&nbsp;</span><strong><a href="#" onclick="return deleteAddress('<?=$_address->getAddressId()?>');" class="red-link"><?=__('Delete Address')?></a></strong>
                     </p>
                     </td>
                 </tr>
