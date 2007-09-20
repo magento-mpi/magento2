@@ -110,7 +110,7 @@
                 <div class="product-pricing">
                     <ul class="bare">
                     <?foreach($_prices=$_product->getFormatedTierPrice() as $_price):?>
-                        <li><?=__('Buy %s for <strong>%s each</strong>', $_price['price_qty'], $_price['price'])?></li>
+                        <li><?=__('Buy %s for %s each', $_price['price_qty'], $_price['price'])?></li>
                     <?endforeach?>
                     </ul>
                 </div>

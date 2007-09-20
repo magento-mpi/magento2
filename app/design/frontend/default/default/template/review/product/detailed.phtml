@@ -111,7 +111,7 @@
 			<ol style="margin-top:15px;">
 		<?foreach( $this->getCollection()->getItems() as $_review ):?>
 				<li>
-					<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('by %s', $_review->getNickname())?>
+					<a href="<?=$this->getReviewUrl($_review->getId())?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('Review by %s', $_review->getNickname())?>
 					<table class="ratings-list" cellspacing="0">
 						<tbody>
 						<?foreach( $_review->getRatingVotes() as $_vote ):?>

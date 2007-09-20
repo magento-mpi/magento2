@@ -45,7 +45,7 @@
             </div>
             <?endif;?>
         <?endif;?>
-            <a href="<?=$_review->getReviewUrl()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('by %s', $_review->getNickname())?>
+            <a href="<?=$_review->getReviewUrl()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('Review by %s', $_review->getNickname())?>
             <p class="no-padding"><?=nl2br($_review->getDetail())?></p>
         </li>
     <?endforeach;?>

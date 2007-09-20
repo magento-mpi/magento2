@@ -8,7 +8,7 @@
 "Magento Commerce Demo Store","Magento Commerce Demo Store"
 "Skip to Main Content","Skip to Main Content"
 "Previous Page","Previous Page"
-"Items %s to %s of %s total","Items %s to %s of %s total"
+"Items %s to %s of %s total","Items <strong>%s</strong> to <strong>%s</strong> of <strong>%s</strong> total"
 "%s Item(s)","%s Item(s)"
 "Help Us to Keep Magento Healthy","Help Us to Keep Magento Healthy"
 "Page:","Page:"
