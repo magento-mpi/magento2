@@ -19,7 +19,7 @@
  */
 ?>
 <div class="header-top">
-    <a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl('images/logo.gif')?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
+    <a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl(__('images/logo.gif'))?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
     <div class="header-right">
         <p class="super">
             <?=__("Logged in as <strong>%s</strong>", $user->getUsername())?><span class="separator">|</span><?=__("%s", date("F jS, Y"))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a><br/>

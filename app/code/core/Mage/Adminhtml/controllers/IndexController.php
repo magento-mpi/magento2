@@ -99,7 +99,16 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $this->_outTemplate('example');
     }
-
+    
+    public function changeLocaleAction()
+    {
+        $locale = $this->getRequest()->getParam('locale');
+        if ($locale) {
+            Mage::getSingleton('adminhtml/session')->setLocale($locale);
+        }
+        $this->_redirect('*');
+    }
+    
     protected function _isAllowed()
     {
     	/*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {
@@ -112,5 +121,4 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     	*/
     	return true;
     }
-
 }

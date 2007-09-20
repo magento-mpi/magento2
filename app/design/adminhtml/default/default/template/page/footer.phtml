@@ -18,6 +18,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<p class="bug-report">Help us keep Magento healthy - <a href="http://www.magentocommerce.com/bug-tracking" target="varien_external"><strong>Report all bugs</strong></a></p>
-<p class="legality"><img src="<?=$this->getSkinUrl('images/varien_logo.gif')?>" class="v-middle">&nbsp;&nbsp;<?=__('Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA')?> <a href="http://www.varien.com" target="varien_external">Varien</a>. &copy; <?=__('Copyright 2007')?>.</p>
+<p class="bug-report">
+    <?=__('Help us keep Magento healthy')?> - <a href="http://www.magentocommerce.com/bug-tracking" target="varien_external"><strong><?=__('Report all bugs')?></strong></a><br/>
+    <?=__('Interface Locale')?>: <?=$this->getLanguageSelect()?>
+</p>
+<p class="legality">
+    <img src="<?=$this->getSkinUrl('images/varien_logo.gif')?>" class="v-middle">&nbsp;&nbsp;
+    <?=__('Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA')?> 
+    <a href="http://www.varien.com" target="varien_external">Varien</a>. &copy; <?=__('Copyright 2007')?>.
+</p>
 Magento <strong>v <?=Mage::getVersion()?></strong>
+<script type="text/javascript">
+    function setInterfaceLanguage(evt){
+        var elem = Event.element(evt);
+        if(elem){
+            setLocation('<?=$this->getChangeLocaleUrl()?>locale/'+elem.value+'/referer64/<?=$this->getBase64CurrentUrl()?>');
+        }
+    }
+    Event.observe('interface_locale', 'change', setInterfaceLanguage)
+</script>

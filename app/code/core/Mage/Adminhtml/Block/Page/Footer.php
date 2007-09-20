@@ -33,22 +33,21 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
         $this->setShowProfiler(true);
     }
     
-    public function getProfiler()
+    public function getChangeLocaleUrl()
     {
-        return $this->getLayout()->createBlock('core/profiler')->toHtml();
+        return $this->getUrl('*/index/changeLocale');
     }
     
-    public function getProfilerTimers()
+    public function getLanguageSelect()
     {
-        return Varien_Profiler::getTimers();
-    }
-    
-    public function formatTime($time)
-    {
-        $time = number_format($time, 5);
-        if ($time>0.01) {
-            $time = ''.$time.'';
-        }
-        return $time;
+        $html = $this->getLayout()->createBlock('core/html_select')
+            ->setName('locale')
+            ->setId('interface_locale')
+            ->setTitle(__('Interface Language'))
+            ->setExtraParams('style="width:200px"')
+            ->setValue(Mage::getSingleton('core/locale')->getLocaleCode())
+            ->setOptions(Mage::getSingleton('core/locale')->getOptionLocales())
+            ->getHtml();
+        return $html;
     }
 }

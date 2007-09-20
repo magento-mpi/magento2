@@ -150,7 +150,9 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->_checkIfInstalled();
         
         $locale = $this->getRequest()->getParam('locale');
-        Mage::getSingleton('install/session')->setLocale($locale);
+        if ($locale) {
+            Mage::getSingleton('install/session')->setLocale($locale);
+        }
         
         $this->_redirect('*/*/locale');
     }

@@ -66,6 +66,11 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
         return $this->getUrl('*/*/localeChange');
     }
     
+    /**
+     * Retrieve locale dropdown HTML
+     *
+     * @return string
+     */
     public function getLocaleSelect()
     {
         $html = $this->getLayout()->createBlock('core/html_select')
@@ -74,61 +79,16 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->setTitle(__('Locale'))
             ->setClass('required-entry')
             ->setValue($this->getLocale()->__toString())
-            ->setOptions($this->_getLocaleOptions())
+            ->setOptions(Mage::getSingleton('core/locale')->getOptionLocales())
             ->getHtml();
         return $html;
     }
     
-    protected function _getLocaleOptions()
-    {
-        $locales    = $this->getLocale()->getLocaleList();
-        $languages  = $this->getLocale()->getLanguageTranslationList();
-        $countries  = $this->getLocale()->getTranslationList('country');
-        
-        $options = array();
-        foreach ($locales as $code=>$active) {
-        	if (strstr($code, '_')) {
-        	    $data = explode('_', $code);
-        	    if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
-        	        continue;
-        	    }
-        	    $options[] = array(
-        	       'label' => ucfirst($languages[$data[0]]) . ' (' . $countries[$data[1]] . ')',
-        	       'value' => $code,
-        	    );
-        	}
-        }
-        return $options;
-    }
-    
-    public function getLanguageSelect()
-    {
-        $html = $this->getLayout()->createBlock('core/html_select')
-            ->setName('config[language]')
-            ->setId('language')
-            ->setTitle(__('Language'))
-            ->setClass('required-entry')
-            ->setValue($this->getLocale()->getLanguage())
-            ->setOptions($this->_getLanguageOptions())
-            ->getHtml();
-        return $html;
-    }
-    
-    protected function _getLanguageOptions()
-    {
-        $languages = $this->getLocale()->getLanguageTranslationList();
-        $options = array();
-        foreach ($languages as $code=>$name) {
-        	if (strlen($code)==2) {
-        	    $options[] = array(
-        	       'label' => $name,
-        	       'value' => $code,
-        	    );
-        	}
-        }
-        return $options;
-    }
-
+    /**
+     * Retrieve timezone dropdown HTML
+     *
+     * @return string
+     */
     public function getTimezoneSelect()
     {
         $html = $this->getLayout()->createBlock('core/html_select')
@@ -137,31 +97,26 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->setTitle(__('Time Zone'))
             ->setClass('required-entry')
             ->setValue($this->getTimezone())
-            ->setOptions($this->_getTimezoneOptions())
+            ->setOptions(Mage::getSingleton('core/locale')->getOptionTimezones())
             ->getHtml();
         return $html;
     }
     
-    protected function _getTimezoneOptions()
-    {
-        $zones = $this->getLocale()->getTranslationList('timezone');
-        $options = array();
-        ksort($zones);
-        foreach ($zones as $code=>$name) {
-            $name = trim($name);
-    	    $options[] = array(
-    	       'label' => empty($name) ? $code : $name . ' (' . $code . ')',
-    	       'value' => $code,
-    	    );
-        }
-        return $options;
-    }
-    
+    /**
+     * Retrieve timezone
+     *
+     * @return string
+     */
     public function getTimezone()
     {
         return Mage::getSingleton('core/locale')->getTimezone();
     }
     
+    /**
+     * Retrieve currency dropdown html
+     *
+     * @return string
+     */
     public function getCurrencySelect()
     {
         $html = $this->getLayout()->createBlock('core/html_select')
@@ -170,27 +125,16 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->setTitle(__('Default Currency'))
             ->setClass('required-entry')
             ->setValue($this->getCurrency())
-            ->setOptions($this->_getCurrencyOptions())
+            ->setOptions(Mage::getSingleton('core/locale')->getOptionCurrencies())
             ->getHtml();
         return $html;
     }
     
-    protected function _getCurrencyOptions()
-    {
-        $currencies = $this->getLocale()->getTranslationList('currency');
-        $options = array();
-        foreach ($currencies as $code=>$name) {
-            if (strstr($name, '(')) {
-                continue;
-            }
-    	    $options[] = array(
-    	       'label' => $name,
-    	       'value' => $code,
-    	    );
-        }
-        return $options;
-    }
-    
+    /**
+     * Retrieve currency
+     *
+     * @return string
+     */
     public function getCurrency()
     {
         return Mage::getSingleton('core/locale')->getCurrency();
