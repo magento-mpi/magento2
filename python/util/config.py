@@ -86,11 +86,11 @@ langScanDirectories = {
 checkString = 'NOTICE OF LICENSE'
 
 phrasePatterns = [
-           re.compile("__\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"].*?\)"),
-           re.compile("addError\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
-           re.compile("addNotice\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
-           re.compile("addWarning\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
-           re.compile("addSuccess\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
+           re.compile("__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)"),
+#           re.compile("addError\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
+#           re.compile("addNotice\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
+#           re.compile("addWarning\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
+#           re.compile("addSuccess\([\s]{0,2}[\'|\\\"](.*?)[\'|\\\"][\s]{0,2}\)"),
         ]
 
 defTranslationDirName = "locale"
