@@ -80,7 +80,7 @@ scanDirectories = {
 
 langScanDirectories = {
             'app/code/core/Mage/' : ('Mage_*', 'Mage'),
-            'app/design/' : ('Mage', 'design_default'),
+            'app/design/frontend/default/default/template/' : ('Mage', 'design_default'),
         }
 
 checkString = 'NOTICE OF LICENSE'
