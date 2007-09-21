@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
-        $collection = Mage::getModel('permissions/roles')->getUsersCollection();
+        $collection = Mage::getModel('admin/permissions_roles')->getUsersCollection();
         $collection->setRoleFilter($roleId);
         $this->setCollection($collection);
         return parent::_prepareCollection();

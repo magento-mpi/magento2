@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
 
         $roleId = $this->_request->getParam('rid', false);
 
-        $users = Mage::getModel("permissions/users")->getCollection()->load();
+        $users = Mage::getModel("admin/permissions_users")->getCollection()->load();
         $this->setTemplate('permissions/rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);

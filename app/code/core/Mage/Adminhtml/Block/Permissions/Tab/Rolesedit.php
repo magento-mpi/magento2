@@ -25,8 +25,8 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
 
         $rid = Mage::registry('controller')->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel("permissions/roles")->getResourcesList();
-		$rules_set = Mage::getResourceModel("permissions/rules_collection")->getByRoles($rid)->load();
+        $resources = Mage::getModel("admin/permissions_roles")->getResourcesList();
+		$rules_set = Mage::getResourceModel("admin/permissions_rules_collection")->getByRoles($rid)->load();
 
 		$selrids = array();
 
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
     {
         $rid = Mage::registry('controller')->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel("permissions/roles")->getResourcesTree();
+        $resources = Mage::getModel("admin/permissions_roles")->getResourcesTree();
 
         $rootArray = $this->_getNodeJson($resources);
         $json = Zend_Json::encode(isset($rootArray['children']) ? $rootArray['children'] : array());

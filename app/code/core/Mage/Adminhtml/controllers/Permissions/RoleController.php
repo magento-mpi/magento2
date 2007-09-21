@@ -75,7 +75,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/permissions_buttons')
                 ->setRoleId($roleId)
-                ->setRoleInfo(Mage::getModel('permissions/roles')->load($roleId))
+                ->setRoleInfo(Mage::getModel('admin/permissions_roles')->load($roleId))
                 ->setTemplate('permissions/roleinfo.phtml')
         );
 
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $rid = $this->getRequest()->getParam('rid', false);
         try {
-            Mage::getModel("permissions/roles")->setId($rid)->delete();
+            Mage::getModel("admin/permissions_roles")->setId($rid)->delete();
             Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully deleted.');
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError('Error while deleting this role. Please try again later.');
@@ -101,14 +101,14 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $resource = explode(',', $this->getRequest()->getParam('resource', false));
         //if ( $resource[0] == '__root__') unset($resource[0]);
         try {
-            $role = Mage::getModel("permissions/roles")
+            $role = Mage::getModel("admin/permissions_roles")
                     ->setId($rid)
                     ->setName($this->getRequest()->getParam('rolename', false))
                     ->setPid($this->getRequest()->getParam('parent_id', false))
                     ->setRoleType('G')
                     ->save();
 
-            Mage::getModel("permissions/rules")
+            Mage::getModel("admin/permissions_rules")
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();

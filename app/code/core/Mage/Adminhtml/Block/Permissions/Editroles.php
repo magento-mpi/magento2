@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
     protected function _beforeToHtml()
     {
         $roleId = $this->_request->getParam('rid', false);
-    	$role = Mage::getModel("permissions/roles")
+    	$role = Mage::getModel("admin/permissions_roles")
     	   ->load($roleId);
 
     	$this->addTab('info', array(

@@ -47,7 +47,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
     public function editAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('permissions/user');
+        $model = Mage::getModel('admin/permissions_user');
 
         if ($id) {
             $model->load($id);
@@ -75,12 +75,14 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $model = Mage::getModel('permissions/user');
+            $model = Mage::getModel('admin/permissions_user');
             $model->setData($data);
             try {
             	$model->save();
 				if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
-					$model->setRoleIds( $uRoles )->setRoleUserId( $model->getUserId() )->saveRelations();
+				    if ( 1 == sizeof($uRoles) ) {
+				        $model->setRoleIds( $uRoles )->setRoleUserId( $model->getUserId() )->saveRelations();
+				    }
 				}
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('User was saved succesfully'));
                 Mage::getSingleton('adminhtml/session')->setUserData(false);
@@ -100,8 +102,11 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
     {
         if ($id = $this->getRequest()->getParam('user_id')) {
             try {
-                $model = Mage::getModel('permissions/user');
+                $model = Mage::getModel('admin/permissions_user');
                 $model->setId($id);
+                /*
+                $loggedUser = Mage::getSingleton('admin/session')->getUser();
+                */
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('User was deleted succesfully'));
                 $this->_redirect('*/*/');
@@ -120,7 +125,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('permissions/user');
+        $model = Mage::getModel('admin/permissions_user');
 
         if ($id) {
             $model->load($id);
@@ -141,7 +146,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 
     public function deleteuserfromroleAction()
     {
-        Mage::getModel("permissions/user")
+        Mage::getModel("admin/permissions_user")
             ->setUserId($this->getRequest()->getParam('user_id', false))
             ->deleteFromRole();
         echo json_encode(array('error' => 0, 'error_message' => 'test message'));
@@ -154,13 +159,13 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         	return false;
         }
 
-    	if( Mage::getModel("permissions/user")
+    	if( Mage::getModel("admin/permissions_user")
                 ->setRoleId($this->getRequest()->getParam('role_id', false))
                 ->setUserId($this->getRequest()->getParam('user_id', false))
                 ->roleUserExists() === true ) {
             echo json_encode(array('error' => 1, 'error_message' => __('This user already added to the role.')));
         } else {
-            Mage::getModel("permissions/user")
+            Mage::getModel("admin/permissions_user")
                 ->setRoleId($this->getRequest()->getParam('role_id', false))
                 ->setUserId($this->getRequest()->getParam('user_id', false))
                 ->setFirstname($this->getRequest()->getParam('firstname', false))
