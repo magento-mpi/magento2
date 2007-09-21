@@ -82,6 +82,12 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 				if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
 				    if ( 1 == sizeof($uRoles) ) {
 				        $model->setRoleIds( $uRoles )->setRoleUserId( $model->getUserId() )->saveRelations();
+				    } else if ( sizeof($uRoles) > 1 ) { 
+				        //@FIXME: stupid fix of previous multi-roles logic.
+				        //@TODO:  make proper DB upgrade in the future revisions.
+				        $rs = array();
+				        $rs[0] = $uRoles[0];
+				        $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
 				    }
 				}
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('User was saved succesfully'));
