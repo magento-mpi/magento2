@@ -19,55 +19,55 @@
  */
 ?>
 <div class="page-head">
-	<h3><?=__('Edit Account Information')?></h3>
+    <h3><?=$this->__('Edit Account Information')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
 <fieldset class="group-select">
-    <h4 class="legend"><?=__('Account Information')?></h4>
+    <h4 class="legend"><?=$this->__('Account Information')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="firstname"><?=__('First Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="firstname" value="<?=$customer->getFirstname()?>" title="<?=__('First Name')?>"  class="required-entry input-text"/>
+                <label for="firstname"><?=$this->__('First Name')?> <span class="required">*</span></label><br/>
+                <input type="text" name="firstname" value="<?=$customer->getFirstname()?>" title="<?=$this->__('First Name')?>"  class="required-entry input-text"/>
             </div>
             <div class="input-box">
-                <label for="lastname"><?=__('Last Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="lastname" value="<?=$customer->getLastname()?>" title="<?=__('Last Name')?>"  class="required-entry input-text"/>
+                <label for="lastname"><?=$this->__('Last Name')?> <span class="required">*</span></label><br/>
+                <input type="text" name="lastname" value="<?=$customer->getLastname()?>" title="<?=$this->__('Last Name')?>"  class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
-            <label for="email_address"><?=__('Email Address')?> <span class="required">*</span></label><br/>
-            <input type="text" name="email" value="<?=$customer->getEmail()?>" title="<?=__('Email Address')?>" class="required-entry validate-email input-text"/>
+            <label for="email_address"><?=$this->__('Email Address')?> <span class="required">*</span></label><br/>
+            <input type="text" name="email" value="<?=$customer->getEmail()?>" title="<?=$this->__('Email Address')?>" class="required-entry validate-email input-text"/>
             </div>
         </li>
     </ul>
 </fieldset>
 <fieldset class="group-select">
-    <h4 class="legend"><?=__('Change Password')?></h4>
+    <h4 class="legend"><?=$this->__('Change Password')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="current_password"><?=__('Current Password')?></label><br/>
+                <label for="current_password"><?=$this->__('Current Password')?></label><br/>
                 <input type="password" class="input-text validate-password" name="current_password" id="current_password"/>
             </div>
         </li>
         <li>
             <div class="input-box">
-                <label for="password"><?=__('New Password')?></label><br/>
+                <label for="password"><?=$this->__('New Password')?></label><br/>
                 <input type="password" class="validate-password input-text" name="password" id="password"/>
             </div>
             <div class="input-box">
-                <label for="confirmation"><?=__('Confirm New Password')?></label><br/>
+                <label for="confirmation"><?=$this->__('Confirm New Password')?></label><br/>
                 <input type="password" class="validate-cpassword input-text" name="confirmation" id="confirmation"/>
             </div>
         </li>
     </ul>
 </fieldset>
 <div class="form-buttons">
-    <p class="required"><?=__('* Required Fields')?></p>
-    <button type="submit" class="form-button"><span><?=__('Save')?></span></button>
+    <p class="required"><?=$this->__('* Required Fields')?></p>
+    <button type="submit" class="form-button"><span><?=$this->__('Save')?></span></button>
 </div>
 </form>
 <script type="text/javascript">

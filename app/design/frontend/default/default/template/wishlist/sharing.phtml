@@ -19,39 +19,39 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=__('Share Your Wishlist')?></h3>
+    <h3><?=$this->__('Share Your Wishlist')?></h3>
 </div><?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getSendUrl()?>" id="form-validate" method="post">
         <ul class="form-list">
             <li>
-                <label for="email_address"><?=__('Email addresses, separated by commas')?> <span class="required">*</span></label><br/>
+                <label for="email_address"><?=$this->__('Email addresses, separated by commas')?> <span class="required">*</span></label><br/>
                 <textarea name="email" cols="60" rows="5" class="validate-emails required-entry"><?=$this->getEnteredData('email')?></textarea>
             </li>
             <li>
-                <label for="email_address"><?=__('Message')?></label><br/>
+                <label for="email_address"><?=$this->__('Message')?></label><br/>
                 <textarea name="message" cols="60" rows="5"><?=$this->getEnteredData('message')?></textarea>
             </li>
         </ul>
     <div class="form-buttons">
-            <p class="required"><?=__('* Required Fields')?></p>
-            <button type="submit" class="form-button"><span><?=__('Share Wishlist')?></span></button>
+            <p class="required"><?=$this->__('* Required Fields')?></p>
+            <button type="submit" class="form-button"><span><?=$this->__('Share Wishlist')?></span></button>
     </div>
 </form>
 <script type="text/javascript">
 <!--
 Validation.addAllThese([
-	['validate-emails', '<?=__('Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')?>', function (v) {
+    ['validate-emails', '<?=$this->__('Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')?>', function (v) {
                 if(Validation.get('IsEmpty').test(v)) {
-                	return true;
+                    return true;
                 }
 
                 var valid_regexp = /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/;
                 var emails = v.split(',');
 
                 for (var i=0; i<emails.length; i++) {
-                	if(!valid_regexp.test(emails[i].strip())) {
-                		return false;
-                	}
+                    if(!valid_regexp.test(emails[i].strip())) {
+                        return false;
+                    }
                 }
 
                 return true;

@@ -21,10 +21,10 @@
 <?if($this->getItems()->getSize()):?>
 <div class="box base-mini mini-related-items">
     <div class="head">
-        <h4><?=__('Related Products')?></h4>
+        <h4><?=$this->__('Related Products')?></h4>
     </div>
     <div class="content">
-        <p><strong><?=__('Check items to add to the cart or select all.')?></strong></p>
+        <p><strong><?=$this->__('Check items to add to the cart or select all.')?></strong></p>
         <ol>
         <?foreach($this->getItems() as $_item):?>
         <li<?if($_item->isSuper() || !$_item->isSaleable()):?> class="super-products"<?endif;?>>
@@ -38,9 +38,9 @@
                     <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
                     <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
                     <?if($_item->isSuper()):?>
-                        <a href="<?=$_item->getProductUrl()?>"><?=__('View Details')?></a><br/>
+                        <a href="<?=$_item->getProductUrl()?>"><?=$this->__('View Details')?></a><br/>
                     <?else:?>
-                        <a href="<?=$this->getAddToWishlistUrl($_item)?>" class="link-cart"><?=__('Add to Wishlist')?></a>
+                        <a href="<?=$this->getAddToWishlistUrl($_item)?>" class="link-cart"><?=$this->__('Add to Wishlist')?></a>
                     <?endif;?>
             </div>
         </li>

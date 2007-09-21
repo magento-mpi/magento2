@@ -20,56 +20,56 @@
 ?>
 
 <div class="box one-page-checkout-progress">
-		<h3><?=__('Your Checkout Progress')?></h3>
-	<ol>
-	
+        <h3><?=$this->__('Your Checkout Progress')?></h3>
+    <ol>
+    
 <?if($this->getCheckout()->getStepData('billing', 'complete')):?>
-		<li>
-			<h4 class="complete"><?=__('Billing Address')?><span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('opc-billing');return false;"><?=__('Change Billing Address')?></a></h4>
+        <li>
+            <h4 class="complete"><?=$this->__('Billing Address')?><span class="separator">|</span><a href="#billing" onclick="checkout.accordion.openSection('opc-billing');return false;"><?=$this->__('Change Billing Address')?></a></h4>
 
-			<div class="content">
-				<address>
-				<?=$this->getBilling()->getFormated(true)?></address></div></li>
+            <div class="content">
+                <address>
+                <?=$this->getBilling()->getFormated(true)?></address></div></li>
 <?else:?>
-		<li>
-			<h4><?=__('Billing Address')?></h4>
+        <li>
+            <h4><?=$this->__('Billing Address')?></h4>
         </li>
 <?endif?>
-				
+                
 <?if($this->getCheckout()->getStepData('shipping', 'complete')):?>
-		<li><h4 class="complete"><?=__('Shipping Address')?><span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-shipping');return false;"><?=__('Change Shipping Address')?></a></h4>
-			<div class="content">
-				<address><?=$this->getShipping()->getFormated(true)?></address></div></li>
+        <li><h4 class="complete"><?=$this->__('Shipping Address')?><span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-shipping');return false;"><?=$this->__('Change Shipping Address')?></a></h4>
+            <div class="content">
+                <address><?=$this->getShipping()->getFormated(true)?></address></div></li>
 <?else:?>
-		<li>
-			<h4><?=__('Shipping Address')?></h4>
+        <li>
+            <h4><?=$this->__('Shipping Address')?></h4>
         </li>
 <?endif?>
 
 <?if($this->getCheckout()->getStepData('shipping_method', 'complete')):?>
-        <li><h4 class="complete"><?=__('Shipping Method')?><span class="separator">|</span><a href="#shipping_method" onclick="checkout.accordion.openSection('opc-shipping_method');return false;"><?=__('Change Shipping Method')?></a></h4>
-			<div class="content"><?if ($this->getShippingMethod()):?>
-				<?=$this->getShippingDescription()?>: <?=$this->getShippingAmount()?>
-			<?else:?>
-				<?=__('Shipping method was not selected yet')?>
-			<?endif?>
-			</div></li>
+        <li><h4 class="complete"><?=$this->__('Shipping Method')?><span class="separator">|</span><a href="#shipping_method" onclick="checkout.accordion.openSection('opc-shipping_method');return false;"><?=$this->__('Change Shipping Method')?></a></h4>
+            <div class="content"><?if ($this->getShippingMethod()):?>
+                <?=$this->getShippingDescription()?>: <?=$this->getShippingAmount()?>
+            <?else:?>
+                <?=$this->__('Shipping method was not selected yet')?>
+            <?endif?>
+            </div></li>
 <?else:?>
-		<li>
-			<h4><?=__('Shipping Method')?></h4>
+        <li>
+            <h4><?=$this->__('Shipping Method')?></h4>
         </li>
 <?endif?>
-				
+                
 <?if($this->getCheckout()->getStepData('payment', 'complete')):?>
-		<li><h4 class="complete"><?=__('Payment Method')?><span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-payment');return false;"><?=__('Change Payment Method')?></a></h4>
-			<div class="content">
-			    <?=$this->getPaymentHtml()?>
-			</div>
-		</li>
+        <li><h4 class="complete"><?=$this->__('Payment Method')?><span class="separator">|</span><a href="#payment" onclick="checkout.accordion.openSection('opc-payment');return false;"><?=$this->__('Change Payment Method')?></a></h4>
+            <div class="content">
+                <?=$this->getPaymentHtml()?>
+            </div>
+        </li>
 <?else:?>
-		<li>
-			<h4><?=__('Payment Method')?></h4>
+        <li>
+            <h4><?=$this->__('Payment Method')?></h4>
         </li>
 <?endif?>
-	</ol>
+    </ol>
 </div>

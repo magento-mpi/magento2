@@ -25,36 +25,36 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=__('Localization')?></h3>
+    <h3><?=$this->__('Localization')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 
 <form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
 <fieldset class="group-select">
- <legend><?=__('Locale')?></legend>
-    <h4 class="legend"><?=__('Locale settings')?></h4>
+ <legend><?=$this->__('Locale')?></legend>
+    <h4 class="legend"><?=$this->__('Locale settings')?></h4>
     <ul>
         <li>
             <div class="input-box">
-                <label for="locale"><?=__('Locale')?> <span class="required">*</span></label><br/>
+                <label for="locale"><?=$this->__('Locale')?> <span class="required">*</span></label><br/>
                 <?=$this->getLocaleSelect()?>
             </div>
         </li>
         <li>
             <div class="input-box">
-                <label for="timezone"><?=__('Time Zone')?> <span class="required">*</span></label><br/>
+                <label for="timezone"><?=$this->__('Time Zone')?> <span class="required">*</span></label><br/>
                 <?=$this->getTimezoneSelect()?>
             </div>
             <div class="input-box">
-                <label for="currency"><?=__('Default Currency')?> <span class="required">*</span></label><br/>
+                <label for="currency"><?=$this->__('Default Currency')?> <span class="required">*</span></label><br/>
                 <?=$this->getCurrencySelect()?>
             </div>
         </li>
     </ul>
 </fieldset>
 <div class="form-buttons">
-    <p class="required">* <?=__('Required Fields')?></p>
-    <button class="form-button" type="submit"><span><?=__('Continue')?></span></button>
+    <p class="required">* <?=$this->__('Required Fields')?></p>
+    <button class="form-button" type="submit"><span><?=$this->__('Continue')?></span></button>
 </div>
 </form>
 <script type="text/javascript">

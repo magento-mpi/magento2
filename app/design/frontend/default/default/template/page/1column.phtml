@@ -40,7 +40,7 @@
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/iestyles.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('css/ie7.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if lt IE 7]>
-		<link rel="stylesheet" href="<?=$this->getSkinUrl('css/ie7minus.css')?>" type="text/css" media="all"/>
+        <link rel="stylesheet" href="<?=$this->getSkinUrl('css/ie7minus.css')?>" type="text/css" media="all"/>
         <script type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js" ></script>
         <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js" ></script>
     <![endif]-->
@@ -50,7 +50,7 @@
 
 <body>
 
-    <p class="demo-notice"><span><?=__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>
+    <p class="demo-notice"><span><?=$this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>
         <!-- [start] header -->
         <div class="header">
             <?=$this->getChildHtml('header')?>
@@ -59,7 +59,7 @@
 
         <!-- [start] middle -->
         <?=$this->getChildHtml('store')?>
-		<div class="middle-container">
+        <div class="middle-container">
             <div class="middle col-1-layout">
 <?=$this->getChildHtml('breadcrumbs')?>
             <!-- [start] center -->
@@ -73,14 +73,14 @@
             <!-- [end] center -->
 
         </div>
-			</div>
+            </div>
         <!-- [end] middle -->
 
         <!-- [start] footer -->
         <div class="footer-container">
-					<div class="footer">
+                    <div class="footer">
             <?=$this->getChildHtml('footer')?>
-						</div>
+                        </div>
         </div>
         <!-- [end] footer -->
 

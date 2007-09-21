@@ -21,24 +21,24 @@
 <?$l=$this->getWishlist()->count()?>
 <div style="border:1px solid #BEBCB7; padding:15px; background:#F8F7F5;">
 <table cellspacing="0" cellpadding="0">
-	<tr>
-	<?$i=0; foreach($this->getWishlist() as $item): $i++?>
-		<td width="32%">
-			<p align="center"><a href="#"><img src="<?=$item->getSmallImageUrl()?>" style="border:1px solid #ccc;" width="135"></a></p>
-			<p align="center"><a href="#" style="color:#203548;"><strong><?=$item->getName()?></strong></a></p>
-			<p align="center"><a href="<?=$item->getProductUrl()?>" style="color:#1E7EC8;"><?=__('View Product')?></a> <small>|</small> <a href="<?=$this->getUrl('checkout/cart/add', array('product'=>$item->getId()))?>" style="color:#DC6809;"><strong><?=__('Add to Cart')?></strong></a>
-			</p></td>
-    	<?if ($i%3!=0):?>
-    		<td width="2%"></td>
-    	<?else:?>
-    	   </tr>
-        	<tr>
-        		<td colspan="5">&nbsp;</td>
-        	</tr>
-        	<?if ($i<$l):?>
-        	   <tr>
-        	<?endif?>
-    	<?endif?>
+    <tr>
+    <?$i=0; foreach($this->getWishlist() as $item): $i++?>
+        <td width="32%">
+            <p align="center"><a href="#"><img src="<?=$item->getSmallImageUrl()?>" style="border:1px solid #ccc;" width="135"></a></p>
+            <p align="center"><a href="#" style="color:#203548;"><strong><?=$item->getName()?></strong></a></p>
+            <p align="center"><a href="<?=$item->getProductUrl()?>" style="color:#1E7EC8;"><?=$this->__('View Product')?></a> <small>|</small> <a href="<?=$this->getUrl('checkout/cart/add', array('product'=>$item->getId()))?>" style="color:#DC6809;"><strong><?=$this->__('Add to Cart')?></strong></a>
+            </p></td>
+        <?if ($i%3!=0):?>
+            <td width="2%"></td>
+        <?else:?>
+           </tr>
+            <tr>
+                <td colspan="5">&nbsp;</td>
+            </tr>
+            <?if ($i<$l):?>
+               <tr>
+            <?endif?>
+        <?endif?>
     <?endforeach?>
 </table>
 </div>

@@ -20,19 +20,19 @@
 ?>
 <?$_order = $this->getOrder()?>
 <div class="page-head button-level">
-    <h2><?=__('My Orders - Details')?></h2>
-    <button class="form-button"><span><?=__('Print All Invoices')?></span></button>
+    <h2><?=$this->__('My Orders - Details')?></h2>
+    <button class="form-button"><span><?=$this->__('Print All Invoices')?></span></button>
 </div>
-<h3><?=__('Order #%s', $_order->getRealOrderId())?></h3>
+<h3><?=$this->__('Order #%s', $_order->getRealOrderId())?></h3>
 <?foreach ($this->getInvoices() as $_invoice):?>
     <div class="divider"></div>
     <div class="head">
-        <h3><?=__('Invoice #%s', $_invoice->getIncrementId())?></h3>
-        <a href="#"><?=__('Print Invoice')?></a>
+        <h3><?=$this->__('Invoice #%s', $_invoice->getIncrementId())?></h3>
+        <a href="#"><?=$this->__('Print Invoice')?></a>
     </div>
     <div class="col2-set">
         <div class="col-1">
-            <h4><?=__('Shipping Address')?></h4>
+            <h4><?=$this->__('Shipping Address')?></h4>
             <?$_shipping = $_invoice->getShippingAddress()?>
             <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
             <?=$_shipping->getCompany()?><br/>
@@ -42,7 +42,7 @@
             if ($_shipping->getFax()):?><br /><strong>F</strong> | <?=$_shipping->getFax()?><?endif;?></address>
         </div>
         <div class="col-2">
-            <h4><?=__('Billing Address')?></h4>
+            <h4><?=$this->__('Billing Address')?></h4>
             <?$_billing = $_invoice->getbillingAddress()?>
             <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
             <?=$_billing->getCompany()?><br/>
@@ -55,25 +55,25 @@
     <br/>
     <div class="col2-set">
         <div class="col-1">
-            <h4><?=__('Shipping Method')?></h4>
+            <h4><?=$this->__('Shipping Method')?></h4>
             <?=$_order->getShippingMethod()?> <?=$_order->getShippingDescription()?>
         </div>
         <div class="col-2">
-            <h4><?=__('Payment Method')?></h4>
+            <h4><?=$this->__('Payment Method')?></h4>
             <?$_payment = $_order->getPayment()?>
             <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
         </div>
     </div>
     <br/>
-    <h4><?=__('Items Ordered')?></h4>
+    <h4><?=$this->__('Items Ordered')?></h4>
     <table cellspacing="0" class="data-table">
         <thead>
             <tr>
-                <th><?=__('Product Name')?></th>
-                <th class="a-right"><?=__('Price')?></th>
-                <th class="a-center"><?=__('Qty Ordered')?></th>
-                <th class="a-center"><?=__('Qty Shipped')?></th>
-                <th class="a-right"><?=__('Subtotal')?></th>
+                <th><?=$this->__('Product Name')?></th>
+                <th class="a-right"><?=$this->__('Price')?></th>
+                <th class="a-center"><?=$this->__('Qty Ordered')?></th>
+                <th class="a-center"><?=$this->__('Qty Shipped')?></th>
+                <th class="a-right"><?=$this->__('Subtotal')?></th>
             </tr>
         </thead>
         <tbody>
@@ -92,7 +92,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" class="a-right"><?=__('Order Subtotal')?></td>
+                <td colspan="4" class="a-right"><?=$this->__('Order Subtotal')?></td>
                 <td class="last a-right"><?=$_order->getOrderCurrency()->format($_invoice->getSubtotal())?></td>
             </tr>
         </tfoot>

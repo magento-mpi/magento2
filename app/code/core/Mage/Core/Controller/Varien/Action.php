@@ -34,6 +34,11 @@ abstract class Mage_Core_Controller_Varien_Action
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
     
+    const PARAM_NAME_SUCCESS_URL        = 'success_url';
+    const PARAM_NAME_ERROR_URL          = 'error_url';
+    const PARAM_NAME_REFERER_URL        = 'referer_url';
+    const PARAM_NAME_BASE64_URL         = 'referer_64';
+    
     /**
      * Request object
      *
@@ -378,9 +383,27 @@ abstract class Mage_Core_Controller_Varien_Action
 
     }
 
+    protected function _initLayoutMessages($messagesStorage)
+    {
+        if ($storage = Mage::getSingleton($messagesStorage)) {
+            $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        }
+        else {
+            Mage::throwException(__('Invalid messages storage "%s" for layout messages initialization', (string)$messagesStorage));
+        }
+        return $this;
+    }
+    
+    /**
+     * Set redirect into responce
+     *
+     * @param   string $path
+     * @param   array $arguments
+     */
     protected function _redirect($path, $arguments=array())
     {
         $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
+        return $this;
     }
 
     /**
@@ -390,11 +413,12 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected function _redirectSuccess($defaultUrl)
     {
-        $successUrl = $this->getRequest()->getParam('success_url');
+        $successUrl = $this->getRequest()->getParam(self::PARAM_NAME_SUCCESS_URL);
         if (empty($successUrl)) {
             $successUrl = $defaultUrl;
         }
         $this->getResponse()->setRedirect($successUrl);
+        return $this;
     }
 
     /**
@@ -404,21 +428,36 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected function _redirectError($defaultUrl)
     {
-        $errorUrl = $this->getRequest()->getParam('error_url');
+        $errorUrl = $this->getRequest()->getParam(self::PARAM_NAME_ERROR_URL);
         if (empty($errorUrl)) {
             $errorUrl = $defaultUrl;
         }
         $this->getResponse()->setRedirect($errorUrl);
+        return $this;
     }
-
-    protected function _initLayoutMessages($messagesStorage)
+    
+    /**
+     * Set referer url for redirect in responce
+     *
+     * @param   string $defaultUrl
+     * @return  Mage_Core_Controller_Varien_Action
+     */
+    protected function _redirectReferer($defaultUrl)
     {
-        if ($storage = Mage::getSingleton($messagesStorage)) {
-            $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
+        if (empty($refererUrl)) {
+            $refererUrl = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL);
         }
-        else {
-            Mage::throwException('Invalid messages storage');
+        if (empty($refererUrl)) {
+            $refererUrl = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
+            if (!empty($refererUrl)) {
+                $refererUrl = base64_decode($refererUrl);
+            }
         }
+        if (empty($refererUrl)) {
+            $refererUrl = $defaultUrl;
+        }
+        $this->getResponse()->setRedirect($refererUrl);
         return $this;
     }
 }

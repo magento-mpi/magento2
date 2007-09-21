@@ -338,8 +338,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getBlockHtml($name)
     {
-        if (!($layout = $this->getLayout())
-            && !($layout = Mage::registry('action')->getLayout())) {
+        if (!($layout = $this->getLayout()) && !($layout = Mage::registry('action')->getLayout())) {
             return '';
         }
         if (!($block = $layout->getBlock($name))) {
@@ -426,58 +425,36 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
 
     }
-
+    
+    /**
+     * Generate url by action data and parameters
+     *
+     * @param   string $params
+     * @param   array $params2
+     * @return  string
+     */
     public function getUrl($params='', $params2=array())
     {
         return Mage::registry('controller')->getUrl($params, $params2);
     }
+    
+    public function getUrlBase64($params='', $params2=array())
+    {
+        return base64_encode($this->getUrl($params, $params2));
+    }
 
+    /**
+     * Retrieve url of skins file
+     *
+     * @param   string $file path to file in skin
+     * @param   array $params
+     * @return  string
+     */
     public function getSkinUrl($file=null, array $params=array())
     {
     	return Mage::getDesign()->getSkinUrl($file, $params);
     }
-
-    public function getCacheKey()
-    {
-        if (!$this->hasData('cache_key')) {
-            $this->setCacheKey($this->getName());
-        }
-        return $this->getData('cache_key');
-    }
-
-    public function getCacheTags()
-    {
-        if (!$this->hasData('cache_tags')) {
-            return array();
-        }
-        return $this->getData('cache_tags');
-    }
-
-    public function getCacheLifetime()
-    {
-        if (!$this->hasData('cache_lifetime')) {
-            return null;
-        }
-        return $this->getData('cache_lifetime');
-    }
-
-    protected function _loadCache()
-    {
-        if (is_null($this->getCacheLifetime())) {
-            return false;
-        }
-        return $this->getLayout()->getBlockCache()->load($this->getCacheKey());
-    }
-
-    protected function _saveCache($data)
-    {
-        if (is_null($this->getCacheLifetime())) {
-            return false;
-        }
-        $this->getLayout()->getBlockCache()->save($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
-        return $this;
-    }
-
+    
     /**
      * Retrieve messages block
      *
@@ -543,5 +520,47 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getModuleName());
         array_unshift($args, $expr);
         return Mage::getSingleton('core/translate')->translate($args);
+    }
+    
+    
+    public function getCacheKey()
+    {
+        if (!$this->hasData('cache_key')) {
+            $this->setCacheKey($this->getName());
+        }
+        return $this->getData('cache_key');
+    }
+
+    public function getCacheTags()
+    {
+        if (!$this->hasData('cache_tags')) {
+            return array();
+        }
+        return $this->getData('cache_tags');
+    }
+
+    public function getCacheLifetime()
+    {
+        if (!$this->hasData('cache_lifetime')) {
+            return null;
+        }
+        return $this->getData('cache_lifetime');
+    }
+
+    protected function _loadCache()
+    {
+        if (is_null($this->getCacheLifetime())) {
+            return false;
+        }
+        return $this->getLayout()->getBlockCache()->load($this->getCacheKey());
+    }
+
+    protected function _saveCache($data)
+    {
+        if (is_null($this->getCacheLifetime())) {
+            return false;
+        }
+        $this->getLayout()->getBlockCache()->save($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
+        return $this;
     }
 }// Class Mage_Home_ContentBlock END

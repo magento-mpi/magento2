@@ -19,31 +19,31 @@
  */
 ?>
 <table cellspacing="0" class="data-table" id="checkout-review-table">
-	<thead>
-		<tr>
-			<th><?=__('Product Name')?></th>
-			<th class="a-right"><?=__('Price')?></th>
-			<th class="a-center"><?=__('Qty')?></th>
-			<th class="a-right"><?=__('Subtotal')?></th>
-		</tr>
-	</thead>
-	<tfoot>
+    <thead>
+        <tr>
+            <th><?=$this->__('Product Name')?></th>
+            <th class="a-right"><?=$this->__('Price')?></th>
+            <th class="a-center"><?=$this->__('Qty')?></th>
+            <th class="a-right"><?=$this->__('Subtotal')?></th>
+        </tr>
+    </thead>
+    <tfoot>
 <?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
         <tr>
             <td style="<?=$total->getStyle()?>" class="a-right" colspan="3"><?=$total->getTitle()?></td>
             <td style="<?=$total->getStyle()?>" class="a-right"><?=$total->getValue()?></td>
         </tr>
 <?endforeach?>
-	</tfoot>
-	<tbody>
+    </tfoot>
+    <tbody>
 <?$l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++?>
         <tr>
-			<td><?=$item->getName()?></td>
-			<td class="a-right"><?=$item->getPrice()?></td>
-			<td class="a-center"><?=$item->getQty()?></td>
-			<td class="a-right"><?=$item->getRowTotal()?></td>
-		</tr>
+            <td><?=$item->getName()?></td>
+            <td class="a-right"><?=$item->getPrice()?></td>
+            <td class="a-center"><?=$item->getQty()?></td>
+            <td class="a-right"><?=$item->getRowTotal()?></td>
+        </tr>
 <?endforeach?>
-	</tbody>
+    </tbody>
 </table>
 <script type="text/javascript">decorateTable('checkout-review-table')</script>

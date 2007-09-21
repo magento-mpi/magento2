@@ -19,14 +19,14 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=__('My Account')?></h3>
+    <h3><?=$this->__('My Account')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <?=$this->getChildHtml('hello')?>
 <?=$this->getChildHtml('top')?>
 <div class="account-box ad-account-info">
     <div class="head">
-        <h4><?=__('Account Information')?></h4>
+        <h4><?=$this->__('Account Information')?></h4>
     </div>
     <?=$this->getChildHtml('info')?>
     <?=$this->getChildHtml('address')?>

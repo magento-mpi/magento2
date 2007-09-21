@@ -28,13 +28,13 @@
 <?$_categories=$this->getCurrentChildCategories()?>
 <?if($_categories->count()):?>
 <div class="box layered-nav">
-		<div class="head">
-			<h3><?=__('Browse By')?></h3>
-		</div>
-		<div class="border-creator">
+        <div class="head">
+            <h3><?=$this->__('Browse By')?></h3>
+        </div>
+        <div class="border-creator">
         <div class="narrow-by">
-								<dl id="narrow-by-list">
-                <dt><?=__('Category')?></dt>
+                                <dl id="narrow-by-list">
+                <dt><?=$this->__('Category')?></dt>
                 <dd>
                     <ol>
                     <?foreach ($_categories as $_category):?>
@@ -46,9 +46,9 @@
                     <?endforeach?>
                     </ol>
                 </dd>
-								</dl><script type="text/javascript">decorateDataList('narrow-by-list')</script>
-							</div>
-						</div>
-					</div>
+                                </dl><script type="text/javascript">decorateDataList('narrow-by-list')</script>
+                            </div>
+                        </div>
+                    </div>
 <?endif;?>
 <!-- [ends] .browse-by // -->

@@ -20,24 +20,24 @@
 ?>
 <?if(isset($poll)) :?>
 <div class="box base-mini mini-poll">
-	<div class="head">
-		<h4><span><?=__('Community Poll')?></span></h4>
-	</div>
-	<div class="content">
-	<h5><?=$poll->getPollTitle();?></h5>
-	<?if( $poll_answers ):?>
-		<table cellspacing="0">
-			<tbody>
-					<?foreach( $poll_answers as $answer ):?>
-							<tr>
-									<td class="label"><?=$answer->getAnswerTitle()?></td>
-									<td class="item"><?=$answer->getVotesCount()?> (<?=$answer->getPercent()?>%)</td>
-				</tr>
-					<?endforeach;?>
-			</tbody>
-		</table>
-	<?endif;?>
-	</div>
+    <div class="head">
+        <h4><span><?=$this->__('Community Poll')?></span></h4>
+    </div>
+    <div class="content">
+    <h5><?=$poll->getPollTitle();?></h5>
+    <?if( $poll_answers ):?>
+        <table cellspacing="0">
+            <tbody>
+                    <?foreach( $poll_answers as $answer ):?>
+                            <tr>
+                                    <td class="label"><?=$answer->getAnswerTitle()?></td>
+                                    <td class="item"><?=$answer->getVotesCount()?> (<?=$answer->getPercent()?>%)</td>
+                </tr>
+                    <?endforeach;?>
+            </tbody>
+        </table>
+    <?endif;?>
+    </div>
 </div>
 <?endif;?>
 <!-- [ends] .mini-poll-results // -->

@@ -42,6 +42,11 @@ class Mage_Core_Model_Locale
     const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
     const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
     
+    const FORMAT_TYPE_FULL  = 'full';
+    const FORMAT_TYPE_LONG  = 'long';
+    const FORMAT_TYPE_MEDIUM= 'medium';
+    const FORMAT_TYPE_SHORT = 'short';
+    
     /**
      * Default locale code
      *
@@ -81,7 +86,11 @@ class Mage_Core_Model_Locale
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $this->_defaultLocale = self::DEFAULT_LOCALE;
+            $locale = Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE);
+            if (!$locale) {
+                $locale = self::DEFAULT_LOCALE;
+            }
+            $this->_defaultLocale = $locale;
         }
         return $this->_defaultLocale;
     }
@@ -95,14 +104,7 @@ class Mage_Core_Model_Locale
     public function setLocale($locale = null)
     {
         Mage::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
-        
-        $locale = Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE);
-        if (!$locale) {
-            $locale = $this->getDefaultLocale();
-        }
-
-        //setlocale(LC_ALL, $locale);
-        $this->_locale = new Zend_Locale($locale);
+        $this->_locale = new Zend_Locale($this->getDefaultLocale());
         
         /**
          * @todo retrieve timezone from config
@@ -251,6 +253,11 @@ class Mage_Core_Model_Locale
         return $options;
     }
     
+    /**
+     * Retrieve array of allowed locales
+     *
+     * @return array
+     */
     public function getAllowLocales()
     {
         $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CODES)->asArray();
@@ -260,6 +267,11 @@ class Mage_Core_Model_Locale
         return array();
     }
     
+    /**
+     * Retrieve array of allowed currencies
+     *
+     * @return unknown
+     */
     public function getAllowCurrencies()
     {
         $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CURRENCIES)->asArray();
@@ -267,5 +279,72 @@ class Mage_Core_Model_Locale
             return array_keys($data);
         }
         return $data;
+    }
+    
+    /**
+     * Retrieve ISO date format
+     *
+     * @param   string $type
+     * @return  string
+     */
+    public function getDateFormat($type=null)
+    {
+        return $this->getLocale()->getTranslation($type, 'dateformat');
+    }
+    
+    /**
+     * Retrieve ISO time format
+     *
+     * @param   string $type
+     * @return  string
+     */
+    public function getTimeFormat($type=null)
+    {
+        return $this->getLocale()->getTranslation($type, 'timeformat');
+    }
+    
+    public function getDateTimeFormat($type)
+    {
+        return $this->getDateFormat($type) . ' ' . $this->getTimeFormat($type);
+    }
+    
+    /**
+     * Retrieve date format by strftime function
+     *
+     * @param   string $type
+     * @return  string
+     */
+    public function getDateStrFormat($type)
+    {
+        $convert = array('yyyy-MM-ddTHH:mm:ssZZZZ'=>'%c',   'EEEE'=>'%A',   'EEE'=>'%a','D'=>'%j', 
+                         'MMMM'=>'%B',  'MMM'=>'%b',        'MM'=>'%m',     'M'=>'%m',  'dd'=>'%d', 
+                         'd'=>'%e',     'yyyy'=>'%Y',       'yy'=>'%y');
+        $format = $this->getDateFormat($type);
+        foreach ($convert as $key=>$value) {
+        	$format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
+        }
+        return $format;
+    }
+    
+    /**
+     * Retrieve time format by strftime function
+     *
+     * @param   string $type
+     * @return  string
+     */
+    public function getTimeStrFormat($type)
+    {
+        $convert = array('a'=>'%p', 'hh'=>'%I', 'HH'=>'%H', 'mm'=>'%M', 'ss'=>'%S', 'z'=>'%Z', 'v'=>'%Z');
+        
+        $format = $this->getTimeFormat($type);
+        foreach ($convert as $key=>$value) {
+        	$format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
+        }
+        return $format;
+    }
+    
+    public function date($date=null, $part=null)
+    {
+        return new Zend_Date($date, $part, $this->getLocale());
     }
 }

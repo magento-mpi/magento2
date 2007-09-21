@@ -19,18 +19,18 @@
  */
 ?>
 <?if(!empty($collection) && $collection->getSize()):?>
-	<div class="head">
-		<h4><?=__('Customer Reviews')?></h4>
-		<?if($reviewCount):?>
-			<?if( $this->getUseBackLink() ):?>
-			<small>&laquo; <a href="<?=$backLink?>"><?=__('Back')?></a></small>
-			<?else:?>
-			<a href="<?=$reviewLink?>"><small><?=__('View All Reviews')?></small></a><?endif;?><?endif;?><span class="pipe">|</span><a href="<?=$this->getAddLink()?>#review-form"><small><?=__('Add Your Review')?></small></a>
-	</div>
+    <div class="head">
+        <h4><?=$this->__('Customer Reviews')?></h4>
+        <?if($reviewCount):?>
+            <?if( $this->getUseBackLink() ):?>
+            <small>&laquo; <a href="<?=$backLink?>"><?=$this->__('Back')?></a></small>
+            <?else:?>
+            <a href="<?=$reviewLink?>"><small><?=$this->__('View All Reviews')?></small></a><?endif;?><?endif;?><span class="pipe">|</span><a href="<?=$this->getAddLink()?>#review-form"><small><?=$this->__('Add Your Review')?></small></a>
+    </div>
     <?if( $this->getUseBackLink() ):?>
     <?=$this->getToolbarHtml()?>
     <?endif;?>
-	<ol id="customer-reviews">
+    <ol id="customer-reviews">
     <?foreach ($this->getCollection() as $_review):?>
         <li>
         <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
@@ -45,17 +45,17 @@
             </div>
             <?endif;?>
         <?endif;?>
-            <a href="<?=$_review->getReviewUrl()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> <?=__('Review by %s', $_review->getNickname())?>
+            <a href="<?=$_review->getReviewUrl()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> <?=$this->__('Review by %s', $_review->getNickname())?>
             <p class="no-padding"><?=nl2br($_review->getDetail())?></p>
         </li>
     <?endforeach;?>
-	</ol>
-	<?if( $this->getUseBackLink() ):?>
-	<?=$this->getToolbarHtml()?>
-	<?endif;?>
+    </ol>
+    <?if( $this->getUseBackLink() ):?>
+    <?=$this->getToolbarHtml()?>
+    <?endif;?>
 <?else:?>
-	<div class="head">
-		<h4><?=__('Customer Reviews')?></h4>
-	</div>
-	<p><a href="<?=$reviewLink?>#review-form"><?=__('Be the first to review this product')?></a></p>
+    <div class="head">
+        <h4><?=$this->__('Customer Reviews')?></h4>
+    </div>
+    <p><a href="<?=$reviewLink?>#review-form"><?=$this->__('Be the first to review this product')?></a></p>
 <?endif;?>

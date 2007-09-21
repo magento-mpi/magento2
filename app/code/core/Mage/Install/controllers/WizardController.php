@@ -291,6 +291,7 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
             $this->getLayout()->createBlock('install/end', 'install.end')
         );
         $this->renderLayout();
+        Mage::getSingleton('install/session')->clear();
     }
 
     /**

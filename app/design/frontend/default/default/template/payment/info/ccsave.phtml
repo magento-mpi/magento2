@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<strong><?=__('Name on Card')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcOwner()?></span><br/>
-<strong><?=__('Card Type')?>:</strong> <span class="nowrap"><?=$this->getCcTypeName($this->getPayment()->getCcType())?></span><br/>
-<strong><?=__('Credit Card Number')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcNumber()?></span><br/>
-<strong><?=__('Expiration Date')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcExpMonth()?>/<?=$this->getPayment()->getCcExpYear()?></span>
+<strong><?=$this->__('Name on Card')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcOwner()?></span><br/>
+<strong><?=$this->__('Card Type')?>:</strong> <span class="nowrap"><?=$this->getCcTypeName($this->getPayment()->getCcType())?></span><br/>
+<strong><?=$this->__('Credit Card Number')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcNumber()?></span><br/>
+<strong><?=$this->__('Expiration Date')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcExpMonth()?>/<?=$this->getPayment()->getCcExpYear()?></span>

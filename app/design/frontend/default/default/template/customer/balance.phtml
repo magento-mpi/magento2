@@ -19,7 +19,7 @@
  */
 ?>
     <?=$this->getMessagesBlock()->getGroupedHtml()?>
-    <?=__('Your account balance is: %s', $customer->getStoreBalance())?> 
+    <?=$this->__('Your account balance is: %s', $customer->getStoreBalance())?> 
     <div class="buttons-container">
-            <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; <?=__('Back')?></a>
+            <a href="<?=$this->getUrl('customer/account')?>" class="float-left">&laquo; <?=$this->__('Back')?></a>
     </div>

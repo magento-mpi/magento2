@@ -21,39 +21,39 @@
 <?if($this->getProductData()->getId()):?>
 <div class="account-box">
     <div class="page-head">
-        <h4><?=__('Review Details')?></h4>
+        <h4><?=$this->__('Review Details')?></h4>
     </div>
 
     <div class="my-review-detail">
         <div class="product-image">
             <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="100" width="100"></a><br>
             <?if( $this->getRating() && $this->getRating()->getSize()):?>
-            <small><?=__('Average Customer Rating')?>:</small></p>
-			<?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
-			<?endif;?>
+            <small><?=$this->__('Average Customer Rating')?>:</small></p>
+            <?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
+            <?endif;?>
     </div>
     <div class="details">
         <h3><?=$this->getProductData()->getName()?></h3>
         <?if( $this->getRating() && $this->getRating()->getSize()):?>
-        <strong><?=__('Product Rating:')?></strong>
+        <strong><?=$this->__('Product Rating:')?></strong>
             <?foreach ($this->getRating() as $_rating):?>
             <?if($_rating->getPercent()):?>
-            	<div class="ratings">
-            	   <?=__($_rating->getRatingCode())?>
-            		<div class="rating-box">
-            			<div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
-            		</div>
-            	</div>
+                <div class="ratings">
+                   <?=$this->__($_rating->getRatingCode())?>
+                    <div class="rating-box">
+                        <div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
+                    </div>
+                </div>
             <?endif;?>
             <?endforeach;?>
         <?endif;?>
         <div class="clear"></div>
-        <?=__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt()))?>
+        <?=$this->__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt()))?>
             <div class="description">
                 <p><?=nl2br($this->getReviewData()->getDetail())?></p>
             </div>
         </div>
     </div>
-    <div class="form-buttons"><a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=__('Back to Product Reviews')?></a></div><br />
+    <div class="form-buttons"><a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to Product Reviews')?></a></div><br />
 </div>
 <?endif;?>

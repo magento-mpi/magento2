@@ -20,18 +20,18 @@
 ?>
 <?$_orders = $this->getOrders();?>
 <div class="page-head">
-    <h3><?=__('My Orders')?></h3>
+    <h3><?=$this->__('My Orders')?></h3>
 </div>
 <?=$this->getPagerHtml();?>
 <?if($_orders->getSize()):?>
 <table cellspacing="0" class="data-table" id="my-orders-table">
     <thead>
         <tr>
-            <th><?=__('Order #')?></th>
-            <th><?=__('Date')?></th>
-            <th><?=__('Ship to')?></th>
-            <th><?=__('Order Total')?></th>
-            <th><?=__('Order Status')?></th>
+            <th><?=$this->__('Order #')?></th>
+            <th><?=$this->__('Date')?></th>
+            <th><?=$this->__('Ship to')?></th>
+            <th><?=$this->__('Order Total')?></th>
+            <th><?=$this->__('Order Status')?></th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -44,7 +44,7 @@
                 <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
                 <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
                 <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
-                <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=__('View Order')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=__('Track Order')?></a>*/?></td>
+                <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=$this->__('View Order')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=$this->__('Track Order')?></a>*/?></td>
             </tr>
         <?endforeach;?>
     </tbody>
@@ -52,5 +52,5 @@
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?=$this->getPagerHtml();?>
 <?else:?>
-    <p><?=__('You have placed no orders.');?></p>
+    <p><?=$this->__('You have placed no orders.');?></p>
 <?endif?>

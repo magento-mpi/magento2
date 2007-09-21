@@ -20,8 +20,8 @@
 ?>
 <form action="<?=$formAction?>" method="post">
     <table width="100%" class="mini-login">
-        <tr><td><?=__('Email')?>:</td><td><input name="login[username]"></td></tr>
-        <tr><td><?=__('Password')?>:</td><td><input name="login[password]"></td></tr>
-        <tr><td>&nbsp;</td><td><input type="submit" value="<?=__('Login')?>"></td></tr>
+        <tr><td><?=$this->__('Email')?>:</td><td><input name="login[username]"></td></tr>
+        <tr><td><?=$this->__('Password')?>:</td><td><input name="login[password]"></td></tr>
+        <tr><td>&nbsp;</td><td><input type="submit" value="<?=$this->__('Login')?>"></td></tr>
     </table>
 </form>

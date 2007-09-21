@@ -22,10 +22,10 @@
 <p><img <?if($_width):?>width="<?=$_width?>"<?endif;?> src="<?=$this->getImageUrl()?>?<?=time()?>" alt="<?=$this->htmlEscape($this->getProduct()->getName())?>" id="product-gallery-image"/></p>
 
 <?if($_prevUrl = $this->getPreviusImageUrl()):?>
-<a href="<?=$_prevUrl?>" class="product-gallery-nav"><strong>&laquo; <?=__('Prev')?></strong></a>
+<a href="<?=$_prevUrl?>" class="product-gallery-nav"><strong>&laquo; <?=$this->__('Prev')?></strong></a>
 <?endif;?>
 <?if($_nextUrl = $this->getNextImageUrl()):?>
-<a href="<?=$_nextUrl?>" class="product-gallery-nav"><strong><?=__('Next')?> &raquo;</strong></a>
+<a href="<?=$_nextUrl?>" class="product-gallery-nav"><strong><?=$this->__('Next')?> &raquo;</strong></a>
 <?endif;?>
 
 <script type="text/javascript">

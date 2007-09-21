@@ -26,7 +26,7 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=__('Select Shipping Method')?></h3>
+    <h3><?=$this->__('Select Shipping Method')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostActionUrl()?>" method="post">
@@ -34,12 +34,12 @@
 <?foreach ($this->getAddresses() as $_index => $_address):?>
   <div class="box">
     <div class="count-head">
-        <h4><?=__('Address %s of %s', ($_index+1), $this->getAddressCount())?></h4>
+        <h4><?=$this->__('Address %s of %s', ($_index+1), $this->getAddressCount())?></h4>
     </div>
     <div class="content col2-alt-set">
         <div class="col-1">
             <div class="head">
-                <h5><?=__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=__('Change Shipping Address')?></a></h5>
+                <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a></h5>
             </div>
             <address>
                 <?=$_address->getFormated(true)?>
@@ -48,10 +48,10 @@
             <div class="shipping-method-pointer">
                 <img src="<?=$this->getSkinUrl('images/shipping_method_pointer.gif')?>" class="pointer">
                 <div class="head">
-                    <h5><?=__('Shipping Method')?></h5>
+                    <h5><?=$this->__('Shipping Method')?></h5>
                 </div>
                 <?if (!($_shippingRateGroups = $this->getShippingRates($_address))):?>
-                    <strong><?=__('Sorry, no quotes are available for this order at this time.')?></strong>
+                    <strong><?=$this->__('Sorry, no quotes are available for this order at this time.')?></strong>
                 <?else:?>
                 <dl class="shipment-methods">
                     <?foreach ($_shippingRateGroups as $code => $_rates):?>
@@ -77,15 +77,15 @@
         </div>
         <div class="col-2">
             <div class="head">
-                <h5><?=__('Items')?><span class="pipe">|</span><a href="<?=$this->getItemsEditUrl($_address)?>"><?=__('Edit Items')?></a></h5>
+                <h5><?=$this->__('Items')?><span class="pipe">|</span><a href="<?=$this->getItemsEditUrl($_address)?>"><?=$this->__('Edit Items')?></a></h5>
             </div>
             <table cellspacing="0" id="shipping-table-<?=$_address->getId()?>" class="data-table nested-table">
                 <col/>
                 <col width="30"/>
                 <thead>
                     <tr>
-                        <th><?=__('Product Name')?></th>
-                        <th class="a-center"><?=__('Qty')?></th>
+                        <th><?=$this->__('Product Name')?></th>
+                        <th class="a-center"><?=$this->__('Qty')?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,7 +107,7 @@
 <?endforeach;?>
 </div>
 <div class="form-buttons">
-    <a href="<?=$this->getBackUrl()?>" class="left"><?=__('&laquo; Back to Select Addresses')?></a>
-    <button class="form-button" type="submit"><span><?=__('Continue to Billing Information')?></span></button>
+    <a href="<?=$this->getBackUrl()?>" class="left"><?=$this->__('&laquo; Back to Select Addresses')?></a>
+    <button class="form-button" type="submit"><span><?=$this->__('Continue to Billing Information')?></span></button>
 </div>
 </form>

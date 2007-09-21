@@ -28,7 +28,7 @@
 <?if($this->getCurrencyCount()):?>
 <div class="box currency-switcher">
     <div class="head">
-        <h4><?=__('Select Your Currency')?></h4>
+        <h4><?=$this->__('Select Your Currency')?></h4>
     </div>
         <select name="currency" onchange="changeCurrency(this)">
         <?foreach ($this->getCurrencies() as $_currency):?>

@@ -18,10 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<form id="search_mini_form" action="<?=$this->getUrl('catalogsearch/result')?>" method="get" onsubmit="if (getElementById('search').value == '<?=__('Search entire store here...')?>' || getElementById('search').value == '') return false;">
+<form id="search_mini_form" action="<?=$this->getUrl('catalogsearch/result')?>" method="get" onsubmit="if (getElementById('search').value == '<?=$this->__('Search entire store here...')?>' || getElementById('search').value == '') return false;">
     <fieldset class="mini-search">
-	<legend><?=__('Search Site')?></legend>
-	<input id="search" type="text" class="input-text" name="q" value="<?if(!empty($query)):?><?=$query?><?else:?><?=__('Search entire store here...')?><?endif?>" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/> <input type="image" src="<?=$this->getSkinUrl('images/btn_mini_search.gif')?>" alt="<?=__('Search')?>"/>
+    <legend><?=$this->__('Search Site')?></legend>
+    <input id="search" type="text" class="input-text" name="q" value="<?if(!empty($query)):?><?=$query?><?else:?><?=$this->__('Search entire store here...')?><?endif?>" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/> <input type="image" src="<?=$this->getSkinUrl('images/btn_mini_search.gif')?>" alt="<?=$this->__('Search')?>"/>
     <div id="search_autocomplete" class="search-autocomplete"></div>
     <script type="text/javascript">
         new Ajax.Autocompleter(
@@ -37,13 +37,13 @@
         );
 
         function getSelectionId(li) {
-        	if (li.title) {
-            	$('search').value = li.title;
-        	}
+            if (li.title) {
+                $('search').value = li.title;
+            }
             $('search_mini_form').submit();
         }
     </script>
-	</fieldset>
+    </fieldset>
 </form>
 
 

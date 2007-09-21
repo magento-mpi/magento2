@@ -22,31 +22,31 @@
 /*
  * Aviable methods
  * getCanDisplayContainer() - container visibility flag
- * getItems()				- comapare items collection
- * getId()					- html id of block
- * getJsObjectName()		- js object name of controller
- * getAddUrlTemplate()		- add url template
- * getRemoveUrlTemplate()	- remove url template
+ * getItems()               - comapare items collection
+ * getId()                  - html id of block
+ * getJsObjectName()        - js object name of controller
+ * getAddUrlTemplate()      - add url template
+ * getRemoveUrlTemplate()   - remove url template
  */
 ?>
 <div class="box base-mini  mini-compare-products">
     <div class="head">
-        <h4><?=__('Compare Products - %d Items', $this->getItems()->getSize())?></span></h4>
+        <h4><?=$this->__('Compare Products - %d Items', $this->getItems()->getSize())?></span></h4>
     </div>
     <?if($this->getItems()->getSize()>0):?>
         <ol id="compare-items">
         <?foreach($this->getItems() as $_index=>$_item):?>
             <li class="block-compare-item">
                 <input type="hidden" class="compare-item-id" value="<?=$_item->getId()?>"/>
-                <a href="<?=$this->getRemoveUrl($_item)?>" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=__('Remove This Item')?>"/></a>
+                <a href="<?=$this->getRemoveUrl($_item)?>" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove This Item')?>"/></a>
                 <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
             </li>
         <?endforeach;?>
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
-        <div class="actions"><a href="<?=$this->getClearUrl()?>" class="left"><?=__('Clear All Items')?></a>
-        <button class="form-button-alt" onclick="popWin('<?=$this->getCompareUrl()?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?=__('Compare Items')?></span></button></div>
+        <div class="actions"><a href="<?=$this->getClearUrl()?>" class="left"><?=$this->__('Clear All Items')?></a>
+        <button class="form-button-alt" onclick="popWin('<?=$this->getCompareUrl()?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?=$this->__('Compare Items')?></span></button></div>
     <?else:?>
-        <div class="content"><p><?=__('You have no items to compare.')?></p></div>
+        <div class="content"><p><?=$this->__('You have no items to compare.')?></p></div>
     <?endif;?>
 </div>

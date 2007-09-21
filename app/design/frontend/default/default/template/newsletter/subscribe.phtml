@@ -19,13 +19,13 @@
  */
 ?>
 <div class="box base-mini mini-newsletter">
-	<div class="head">
-		<h4><?=__('Newsletter')?><a name="newsletter-box"></a></h4>
-	</div>
+    <div class="head">
+        <h4><?=$this->__('Newsletter')?><a name="newsletter-box"></a></h4>
+    </div>
 <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate-detail">
-	<fieldset class="content">
-			<legend><?=__('Newsletter')?></legend>
-			<!--
+    <fieldset class="content">
+            <legend><?=$this->__('Newsletter')?></legend>
+            <!--
             <?if( $message = $this->getErrorMessage() ):?>
                 <p class="error"><?=$message?></p>
             <?endif;?>
@@ -33,10 +33,10 @@
                 <p class="success"><?=$message?></p>
             <?endif;?>
             -->
-			<label for="newsletter">Sign up for our newsletter:</label>
-			<input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/>
-			<button type="submit" class="form-button-alt"><span>Subscribe</span></button>
-	</fieldset>
+            <label for="newsletter">Sign up for our newsletter:</label>
+            <input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/>
+            <button type="submit" class="form-button-alt"><span>Subscribe</span></button>
+    </fieldset>
 </form>
 <script type="text/javascript">
 <!--

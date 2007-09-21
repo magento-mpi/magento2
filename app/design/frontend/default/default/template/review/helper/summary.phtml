@@ -20,14 +20,14 @@
 ?>
 <?if($this->getProduct()->getRatingSummary()->getReviewsCount()):?>
 <div class="ratings">
-	<div class="rating-box">
-		<div class="rating" style="width:<?=$this->getProduct()->getRatingSummary()->getRatingSummary()?>%"></div>
-	</div>
+    <div class="rating-box">
+        <div class="rating" style="width:<?=$this->getProduct()->getRatingSummary()->getRatingSummary()?>%"></div>
+    </div>
     <div class="clear"></div>
-	<a href="<?=$this->getUrl('review/product/list', array('id' => $this->getProduct()->getId()))?>"><small class="count"><?=__('%d Review(s)', $this->getProduct()->getRatingSummary()->getReviewsCount())?></small></a><span class="pipe">|</span><a href="<?=$this->getAddLink()?>#review-form"><small><?=__('Add Your Review')?></small></a>
+    <a href="<?=$this->getUrl('review/product/list', array('id' => $this->getProduct()->getId()))?>"><small class="count"><?=$this->__('%d Review(s)', $this->getProduct()->getRatingSummary()->getReviewsCount())?></small></a><span class="pipe">|</span><a href="<?=$this->getAddLink()?>#review-form"><small><?=$this->__('Add Your Review')?></small></a>
 </div>
 <?endif;?>
 
 <?if( !$this->getProduct()->getRatingSummary()->getReviewsCount() && $this->getDisplayBlock() ):?>
-    <p><a href="<?=$this->getAddLink()?>#review-form"><?=__('Be the first to review this product')?></a></p>
+    <p><a href="<?=$this->getAddLink()?>#review-form"><?=$this->__('Be the first to review this product')?></a></p>
 <?endif;?>

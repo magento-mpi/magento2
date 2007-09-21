@@ -50,7 +50,7 @@
 
 <body>
 
-    <p class="demo-notice"><span><?=__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>
+    <p class="demo-notice"><span><?=$this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>
         <!-- [start] header -->
         <div class="header">
             <?=$this->getChildHtml('header')?>
@@ -60,10 +60,10 @@
         <!-- [start] middle -->
         <?=$this->getChildHtml('store')?>
 
-			<div class="middle-container">
-				<div class="middle col-2-right-layout">
+            <div class="middle-container">
+                <div class="middle col-2-right-layout">
         <!-- [start] center -->
-					<div id="main" class="col-main account-main">
+                    <div id="main" class="col-main account-main">
                 <!-- [start] global messages -->
                     <?=$this->getChildHtml('global_messages')?>
                 <!-- [end] global messages -->

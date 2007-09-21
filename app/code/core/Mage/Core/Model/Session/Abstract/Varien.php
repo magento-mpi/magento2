@@ -84,4 +84,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     	$this->unsetData();
     	return $this;
     }
+    
+    public function clear()
+    {
+        return $this->unsetAll();
+    }
 }

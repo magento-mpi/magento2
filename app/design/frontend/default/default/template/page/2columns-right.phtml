@@ -49,7 +49,7 @@
 </head>
 
 <body>
-    <p class="demo-notice"><span><?=__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>
+    <p class="demo-notice"><span><?=$this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>
         <!-- [start] header -->
         <div class="header">
             <?=$this->getChildHtml('header')?>
@@ -60,7 +60,7 @@
         <?=$this->getChildHtml('store')?>
 
 <div class="middle-container">
-			<div class="middle col-2-right-layout">
+            <div class="middle col-2-right-layout">
 <?=$this->getChildHtml('breadcrumbs')?>
             <!-- [start] center -->
                 <div id="main" class="col-main">

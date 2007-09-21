@@ -176,11 +176,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve HTML of template
      *
-     * @param string $tplName
-     * @param array $assign
-     * @return string
+     * @param   string $tplName
+     * @param   array $assign
+     * @return  string
      */
     public function tpl($tplName, array $assign=array())
     {
@@ -191,7 +191,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         }
         return $block->setTemplate("$tplName.phtml")->toHtml();
     }
-
+    
+    /**
+     * Retirve escaped data
+     *
+     * @param   mixed $data
+     * @return  mixed
+     */
     public function htmlEscape($data)
     {
         if (is_array($data)) {

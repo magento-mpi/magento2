@@ -19,7 +19,7 @@
  */
 ?>
 <div class="page-head">
-	<h3><?=__('My Wishlist')?></h3>
+    <h3><?=$this->__('My Wishlist')?></h3>
 </div>
 
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
@@ -32,9 +32,9 @@
     <col/>
         <thead>
             <tr>
-                <th><?=__('Product')?></th>
-                <th><?=__('Comment')?></th>
-                <th><?=__('Added On')?></th>
+                <th><?=$this->__('Product')?></th>
+                <th><?=$this->__('Comment')?></th>
+                <th><?=$this->__('Added On')?></th>
                 <th class="a-center">&nbsp;</th>
             </tr>
         </thead>
@@ -54,9 +54,9 @@
                 </td>
                 <td class="a-center">
                 <?if($item->isSaleable()):?>
-                    <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>');return false;" class="link-cart"><?=__('Add to Cart')?></a><br/>
+                    <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Cart')?></a><br/>
                 <?endif;?>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" /><?=__('Remove Item')?></a>
+                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" /><?=$this->__('Remove Item')?></a>
                 </td>
             </tr>
         <?endforeach?>
@@ -64,26 +64,26 @@
     </table>
 <script type="text/javascript">decorateTable('wishlist-table')</script>
     <div class="form-buttons">
-        <button onclick="setLocation('<?=$this->getUrl('*/*/share')?>')" class="form-button-alt" type="button"><span><?=__('Share Wishlist')?></span></button>&nbsp;
-        <button onclick="setLocation('<?=$this->getUrl('*/*/allcart')?>')" class="form-button-alt"  type="button"><span><?=__('Add All to Cart')?></span></button>&nbsp;
-        <button type="submit" class="form-button" name="do"><span><?=__('Update Wishlist')?></span></button>
+        <button onclick="setLocation('<?=$this->getUrl('*/*/share')?>')" class="form-button-alt" type="button"><span><?=$this->__('Share Wishlist')?></span></button>&nbsp;
+        <button onclick="setLocation('<?=$this->getUrl('*/*/allcart')?>')" class="form-button-alt"  type="button"><span><?=$this->__('Add All to Cart')?></span></button>&nbsp;
+        <button type="submit" class="form-button" name="do"><span><?=$this->__('Update Wishlist')?></span></button>
     </div>
 </form>
 <?else:?>
-    <p><?=__('You have no items in your wishlist.')?></p>
+    <p><?=$this->__('You have no items in your wishlist.')?></p>
 <?endif?>
 <script type="text/javascript">
 function confirmRemoveWishlistItem(url){
-    if(confirm('<?=__('Are you sure you want to remove this product from your wishlist?')?>')) {
+    if(confirm('<?=$this->__('Are you sure you want to remove this product from your wishlist?')?>')) {
         setLocation(url);
     }
 }
 
 function focusComment(obj) {
-    if( obj.value == '<?=__('Please, enter your comments...')?>' ) {
+    if( obj.value == '<?=$this->__('Please, enter your comments...')?>' ) {
         obj.value = '';
     } else if( obj.value == '' ) {
-        obj.value = '<?=__('Please, enter your comments...')?>';
+        obj.value = '<?=$this->__('Please, enter your comments...')?>';
     }
 }
 </script>

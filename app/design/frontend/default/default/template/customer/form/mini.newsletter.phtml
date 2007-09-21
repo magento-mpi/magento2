@@ -18,19 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-	<fieldset class="newsletter">
-		<h2 class="accent"><?=__('Newsletter')?></h2>
-		<form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate">
-				<fieldset>
-						<legend><?=__('Newsletter')?></legend>
-						<label for="newsletter"><?=__('Sign up for our newsletter')?>:</label>
-						<input name="email" id="newsletter" type="text" class="required-entry validate-email input-text"/>
-						<input type="submit" value="<?=__('Submit')?>" alt="<?=__('Subscribe')?>" class="input-button"/>
-				</fieldset>
-		</form>
+    <fieldset class="newsletter">
+        <h2 class="accent"><?=$this->__('Newsletter')?></h2>
+        <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate">
+                <fieldset>
+                        <legend><?=$this->__('Newsletter')?></legend>
+                        <label for="newsletter"><?=$this->__('Sign up for our newsletter')?>:</label>
+                        <input name="email" id="newsletter" type="text" class="required-entry validate-email input-text"/>
+                        <input type="submit" value="<?=$this->__('Submit')?>" alt="<?=$this->__('Subscribe')?>" class="input-button"/>
+                </fieldset>
+        </form>
         <script type="text/javascript">
         <!--
             var newsletterSubscriberForm = new VarienForm('newsletter-validate');
         //-->
         </script>
-	</fieldset>
+    </fieldset>

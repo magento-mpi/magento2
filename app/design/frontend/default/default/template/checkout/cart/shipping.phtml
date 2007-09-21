@@ -18,12 +18,12 @@
  */
 ?>
 <div class="shipping-estimate box">
-<h4><?=__('Estimate Shipping and Tax')?></h4>
+<h4><?=$this->__('Estimate Shipping and Tax')?></h4>
 <form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post" id="shipping-zip-form">
-	<p><label for="estimate_postcode"><?=__('Enter your destination to get a shipping estimate.')?></label></p>
-    <p><label for="country_id"><?=__('Country')?></label><br/><?=$this->getHelper('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId())?></p>
-	<p><label for="postcode"><?=__('Zip/Postal Code')?></label><br/><input class="input-text" id="postcode" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/></p>
-	<p><button type="submit" class="form-button-alt"><span><?=__('Get a Quote')?></span></button></p>
+    <p><label for="estimate_postcode"><?=$this->__('Enter your destination to get a shipping estimate.')?></label></p>
+    <p><label for="country_id"><?=$this->__('Country')?></label><br/><?=$this->getHelper('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId())?></p>
+    <p><label for="postcode"><?=$this->__('Zip/Postal Code')?></label><br/><input class="input-text" id="postcode" name="estimate_postcode" value="<?=$this->getEstimatePostcode()?>"/></p>
+    <p><button type="submit" class="form-button-alt"><span><?=$this->__('Get a Quote')?></span></button></p>
 </form>
 <?if (($_shippingRateGroups = $this->getEstimateRates())):?>
 <form id="co-shipping-method-form" action="<?=$this->getUrl('checkout/cart/estimateUpdatePost')?>">
@@ -46,13 +46,13 @@
             </dd>
         <?endforeach;?>
     </dl>
-    <button type="submit" class="form-button-alt" name="do" value="<?=__('Update Total')?>"><span><?=__('Update Total')?></span></button>
+    <button type="submit" class="form-button-alt" name="do" value="<?=$this->__('Update Total')?>"><span><?=$this->__('Update Total')?></span></button>
 </form>
 <script type="text/javascript">
     var coShippingMethodForm = new VarienForm('shipping-zip-form');
-	Validation.addAllThese(
+    Validation.addAllThese(
     [
-	       ['validate-zip-code', '<?=__('Please enter a valid zip code. For example 90602 or 90602-1234.')?>', function(v) {
+           ['validate-zip-code', '<?=$this->__('Please enter a valid zip code. For example 90602 or 90602-1234.')?>', function(v) {
                 if( $('shipping-zip-code').value.match(/(^[A-z0-9]{2,10}([\s]{0,2}|[\-]{0,2})[A-z0-9]{2,10}$)/ )) {
                     return true;
                 } else {

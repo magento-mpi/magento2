@@ -26,8 +26,8 @@
  */
 ?>
 <div class="page-head-alt button-level">
-    <h3><?=__('Shopping Cart')?></h3>
-    <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=__('Proceed to Checkout')?>"/></a>
+    <h3><?=$this->__('Shopping Cart')?></h3>
+    <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=$this->__('Proceed to Checkout')?>"/></a>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
@@ -41,20 +41,20 @@
     <thead>
         <tr>
             <th>&nbsp;</th>
-            <th><?=__('Product Name')?></th>
-            <th class="a-center"><?=__('Remove Product')?></th>
+            <th><?=$this->__('Product Name')?></th>
+            <th class="a-center"><?=$this->__('Remove Product')?></th>
             <?if($this->isWishlistActive()):?>
-            <th class="a-center"><?=__('Move to Wishlist')?></th>
+            <th class="a-center"><?=$this->__('Move to Wishlist')?></th>
             <?endif?>
-            <th class="a-right"><?=__('Unit Price')?></th>
-            <th class="a-center"><?=__('Qty')?></th>
-            <th class="a-right"><?=__('Subtotal')?></th>
+            <th class="a-right"><?=$this->__('Unit Price')?></th>
+            <th class="a-center"><?=$this->__('Qty')?></th>
+            <th class="a-right"><?=$this->__('Subtotal')?></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
             <td colspan="<?if($this->isWishlistActive()):?>7<?else:?>6<?endif?>" class="a-right">
-                <button class="form-button-alt" type="submit"><span><?=__('Update Shopping Cart')?></span></button>
+                <button class="form-button-alt" type="submit"><span><?=$this->__('Update Shopping Cart')?></span></button>
             </td>
         </tr>
     </tfoot>

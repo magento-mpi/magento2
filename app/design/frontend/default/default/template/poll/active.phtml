@@ -20,27 +20,27 @@
 ?>
 <?if(isset($poll)) :?>
 <div class="box base-mini mini-poll">
-	<div class="head">
-		<h4><span><?=__('Community Poll')?></span></h4>
-	</div>
-		<div class="content">
-	<h5><?=$poll->getPollTitle();?></h5>
+    <div class="head">
+        <h4><span><?=$this->__('Community Poll')?></span></h4>
+    </div>
+        <div class="content">
+    <h5><?=$poll->getPollTitle();?></h5>
 
-						 <form name="pollForm" action="<?=$action?>" method="post">
-					<?if( $poll_answers ):?>
-							<table cellspacing="2">
-								<tbody>
-									<?foreach( $poll_answers as $answer ):?>
-									<tr>
-										<td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>"/></td>
-										<td><label for="vote_<?=$answer->getId()?>"><?=$answer->getAnswerTitle()?></label>&nbsp;</td>
-									</tr>
-									<?endforeach;?>
-								</tbody>
-							</table>
-					<?endif;?>
-					</form>
-				</div>
-					<div class="actions"><button href="#" class="form-button-alt right" onclick="pollForm.submit()"><span><?=__('Vote')?></span></button></div>
-				</div>
+                         <form name="pollForm" action="<?=$action?>" method="post">
+                    <?if( $poll_answers ):?>
+                            <table cellspacing="2">
+                                <tbody>
+                                    <?foreach( $poll_answers as $answer ):?>
+                                    <tr>
+                                        <td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>"/></td>
+                                        <td><label for="vote_<?=$answer->getId()?>"><?=$answer->getAnswerTitle()?></label>&nbsp;</td>
+                                    </tr>
+                                    <?endforeach;?>
+                                </tbody>
+                            </table>
+                    <?endif;?>
+                    </form>
+                </div>
+                    <div class="actions"><button href="#" class="form-button-alt right" onclick="pollForm.submit()"><span><?=$this->__('Vote')?></span></button></div>
+                </div>
 <?endif;?>

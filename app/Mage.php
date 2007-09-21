@@ -360,7 +360,7 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            if (self::getSingleton('install/installer')->isApplicationInstalled()) {
+            if (self::getSingleton('install/installer') && self::getSingleton('install/installer')->isApplicationInstalled()) {
                 self::printException($e);
                 exit();
             }

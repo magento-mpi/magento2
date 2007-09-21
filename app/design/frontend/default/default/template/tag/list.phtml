@@ -19,10 +19,10 @@
  */
 ?>
 <div class="head">
-    <h4><?=__('Product Tags')?></h4>
+    <h4><?=$this->__('Product Tags')?></h4>
 </div>
     <?if( $this->getCount() ):?>
-    <h5><?=__('Other people marked this product with these tags:')?></h5>
+    <h5><?=$this->__('Other people marked this product with these tags:')?></h5>
         <ul class="tags-list">
             <?$_iterator = 0;?>
             <?foreach( $this->getTags() as $_tag ):?>
@@ -30,17 +30,17 @@
             <?endforeach;?>
         </ul>
     <?endif;?>
-<h5><?=__('Add Your Tags:')?></h5>
+<h5><?=$this->__('Add Your Tags:')?></h5>
 <div class="add-tag-box">
     <form name="addTagForm" id="addTagForm" action="<?=$this->getFormAction();?>"  method="get">
         <div class="input-box">
             <input type="text" class="input-text required-entry" name="tagName" />
         </div>
-        <button class="form-button-alt" onclick="addTagForm.submit();"><span><?=__('Add Tags')?></span></button>
+        <button class="form-button-alt" onclick="addTagForm.submit();"><span><?=$this->__('Add Tags')?></span></button>
     </form>
     <script type="text/javascript">
         var addTagForm = new VarienForm('addTagForm');
     </script>
     <div class="clear"></div>
-    <small><?=__("Use spaces to separate tags. Use single quotes(') for phrases.")?></small>
+    <small><?=$this->__("Use spaces to separate tags. Use single quotes(') for phrases.")?></small>
 </div>

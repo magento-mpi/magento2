@@ -19,7 +19,7 @@
  */
 ?>
 <?if (!($_shippingRateGroups = $this->getShippingRates())):?>
-    <strong><?=__('Sorry, no quotes are available for this order at this time.')?></strong>
+    <strong><?=$this->__('Sorry, no quotes are available for this order at this time.')?></strong>
 <?else:?>
 <form id="co-shipping-method-form">
 <dl class="shipment-methods">

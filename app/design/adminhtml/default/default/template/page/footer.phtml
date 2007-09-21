@@ -32,7 +32,7 @@ Magento <strong>v <?=Mage::getVersion()?></strong>
     function setInterfaceLanguage(evt){
         var elem = Event.element(evt);
         if(elem){
-            setLocation('<?=$this->getChangeLocaleUrl()?>locale/'+elem.value+'/referer64/<?=$this->getBase64CurrentUrl()?>');
+            setLocation('<?=$this->getChangeLocaleUrl()?>locale/'+elem.value+'/<?=$this->getRefererParamName()?>/<?=$this->getUrlForReferer()?>');
         }
     }
     Event.observe('interface_locale', 'change', setInterfaceLanguage)

@@ -21,25 +21,25 @@
 <div class="col2-set">
     <div class="col-1">
         <div class="inner-head">
-            <h5><?=__('Contact Information')?></h5>
+            <h5><?=$this->__('Contact Information')?></h5>
             <a href="<?=$this->getUrl('customer/account/edit')?>">Edit</a>
         </div>
         <p>
         <?=$this->getCustomer()->toString('{{firstname}} {{lastname}}<br />{{email}}')?><br/>
-        <a href="<?=$this->getChangePasswordUrl()?>"><?=__('Change Password')?></a>
+        <a href="<?=$this->getChangePasswordUrl()?>"><?=$this->__('Change Password')?></a>
         </p>
     </div>
 
     <div class="col-2">
         <div class="inner-head">
-            <h5><?=__('Newsletters')?></h5>
+            <h5><?=$this->__('Newsletters')?></h5>
             <a href="<?=$this->getUrl('newsletter/manage')?>">Edit</a>
         </div>
         <p>
             <?if( $this->getIsSubscribed() ):?>
-                <?=__("You are currently subscribed to 'General Subscription'.")?>
+                <?=$this->__("You are currently subscribed to 'General Subscription'.")?>
             <?else:?>
-                <?=__('You are currently subscribed to no newsletters.')?>
+                <?=$this->__('You are currently subscribed to no newsletters.')?>
             <?endif;?>
         </p>
     </div>

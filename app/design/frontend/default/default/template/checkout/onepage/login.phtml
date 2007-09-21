@@ -19,44 +19,44 @@
  */
 ?>
 <div class="col2-set">
-	<div class="col-1">
-	<h4><?=__('Checkout as a Guest or Register')?></h4>
+    <div class="col-1">
+    <h4><?=$this->__('Checkout as a Guest or Register')?></h4>
 
-<p><?=__('You may check out as a guest or register with us for future convenience:')?></p>
+<p><?=$this->__('You may check out as a guest or register with us for future convenience:')?></p>
 <ul class="form-list">
-    <li><input type="radio" name="checkout_method" id="login:guest" value="guest"<?if($this->getQuote()->getCheckoutMethod()=='guest'):?> checked<?endif?>/> <label for="login:guest"><?=__('Checkout as Guest')?></label></li>
-    <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getQuote()->getCheckoutMethod()=='register'):?> checked<?endif?>/> <label for="login:register"><?=__('Register')?></label></li>
+    <li><input type="radio" name="checkout_method" id="login:guest" value="guest"<?if($this->getQuote()->getCheckoutMethod()=='guest'):?> checked<?endif?>/> <label for="login:guest"><?=$this->__('Checkout as Guest')?></label></li>
+    <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getQuote()->getCheckoutMethod()=='register'):?> checked<?endif?>/> <label for="login:register"><?=$this->__('Register')?></label></li>
 </ul>
 
-<strong><?=__('Register and save time!')?></strong><br/>
+<strong><?=$this->__('Register and save time!')?></strong><br/>
 <ul class="disc">
-    <li><?=__('Fast and easy check out')?></li>
-    <li><?=__('Easy access to your order history and status')?></li>
+    <li><?=$this->__('Fast and easy check out')?></li>
+    <li><?=$this->__('Easy access to your order history and status')?></li>
 </ul>
 <div class="form-buttons">
-    <button class="form-button" onclick="checkout.setMethod();"><span><?=__('Continue')?></span></button>
+    <button class="form-button" onclick="checkout.setMethod();"><span><?=$this->__('Continue')?></span></button>
 
 </div>
-	</div>
+    </div>
 <div class="col-2">
-	<h4>Login</h4>
+    <h4>Login</h4>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 
-		<form id="login-form" action="<?=$this->getPostAction()?>" method="post">
-				<p><strong><?=__('Already registered?')?></strong><br/>
-				<?=__('Log in below to take advantage of Express Checkout:')?></p>
-				<ul class="form-list">
-						<li><div class="input-box"><label for="email"><?=__('Email Address')?> <span class="required">*</span></label><br/>
-							<input type="text" class="input-text required-entry validate-email" id="email" name="login[username]"/></div></li>
-						<li><div class="input-box"><label for="password"><?=__('Password')?> <span class="required">*</span></label><br/>
-							<input type="password" class="input-text required-entry" id="password" name="login[password]" /></div></li>
-				</ul>
-				<div class="form-buttons">
-					<p class="required"><?=__('* Required Fields')?></p>
-						<a href="<?=$this->getUrl('customer/account/forgotpassword')?>" class="left"><?=__('Forgot your password?')?></a><button type="submit" class="form-button"><span><?=__('Login')?></span></button>
-				</div>
-		</form>
-	</div>
+        <form id="login-form" action="<?=$this->getPostAction()?>" method="post">
+                <p><strong><?=$this->__('Already registered?')?></strong><br/>
+                <?=$this->__('Log in below to take advantage of Express Checkout:')?></p>
+                <ul class="form-list">
+                        <li><div class="input-box"><label for="email"><?=$this->__('Email Address')?> <span class="required">*</span></label><br/>
+                            <input type="text" class="input-text required-entry validate-email" id="email" name="login[username]"/></div></li>
+                        <li><div class="input-box"><label for="password"><?=$this->__('Password')?> <span class="required">*</span></label><br/>
+                            <input type="password" class="input-text required-entry" id="password" name="login[password]" /></div></li>
+                </ul>
+                <div class="form-buttons">
+                    <p class="required"><?=$this->__('* Required Fields')?></p>
+                        <a href="<?=$this->getUrl('customer/account/forgotpassword')?>" class="left"><?=$this->__('Forgot your password?')?></a><button type="submit" class="form-button"><span><?=$this->__('Login')?></span></button>
+                </div>
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript">

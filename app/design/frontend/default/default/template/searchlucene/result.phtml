@@ -18,16 +18,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<h1 class="page-head"><?=__('Search Results')?></h1>
-<p><?=__("Search Results for: '%s'", $query)?></p>
+<h1 class="page-head"><?=$this->__('Search Results')?></h1>
+<p><?=$this->__("Search Results for: '%s'", $query)?></p>
 <?if(!empty($hits)):?>
     <?foreach($hits as $hit):?>
-        <?=__('Score: %s', round($hit->score,3))?><br>
-        <?=__('SKU: %s', $hit->sku)?><br>
-        <?=__('Manufacturer: %s', $hit->manufacturer)?><br>
-        <?=__('Shoe Type: %s', $hit->shoe_type)?><br>
+        <?=$this->__('Score: %s', round($hit->score,3))?><br>
+        <?=$this->__('SKU: %s', $hit->sku)?><br>
+        <?=$this->__('Manufacturer: %s', $hit->manufacturer)?><br>
+        <?=$this->__('Shoe Type: %s', $hit->shoe_type)?><br>
         <a href="<?=$hit->url?>"><?=$hit->name?></a><br>
      <?endforeach;?>
 <?else:?>
-    <p><?=__("There are no products under search term '%s'", $query)?></p>
+    <p><?=$this->__("There are no products under search term '%s'", $query)?></p>
 <?endif;?>

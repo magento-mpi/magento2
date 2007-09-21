@@ -30,18 +30,18 @@
     <tr>
         <td>
         <?if($this->getLastPageNum()>1):?>
-            <?=__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum())?>
+            <?=$this->__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum())?>
         <?else:?>
-            <strong<?=__('%s Item(s)', $this->getTotalNum())?></strong>
+            <strong<?=$this->__('%s Item(s)', $this->getTotalNum())?></strong>
         <?endif;?>
         </td>
         <?if($this->getLastPageNum()>1):?>
         <td>
-            <strong><?=__('Page:')?></strong>
+            <strong><?=$this->__('Page:')?></strong>
             <ol>
             <?if (!$this->isFirstPage()):?>
                 <li>
-                    <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="<?=__('Previous Page')?>"/></a>
+                    <a href="<?=$this->getPreviousPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="<?=$this->__('Previous Page')?>"/></a>
                 </li>
             <?endif?>
             <?foreach ($this->getPages() as $_page):?>
@@ -53,20 +53,20 @@
             <?endforeach;;?>
             <?if (!$this->isLastPage()):?>
                 <li>
-                    <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="<?=__('Next Page')?>"/></a>
+                    <a href="<?=$this->getNextPageUrl()?>"><img src="<?=$this->getSkinUrl('images/pager_arrow_right.gif')?>" alt="<?=$this->__('Next Page')?>"/></a>
                 </li>
             <?endif?>
             </ol>
         </td>
         <?endif;?>
         <td class="a-right">
-            <?=__('Show')?> <select onchange="setLocation(this.value)">
+            <?=$this->__('Show')?> <select onchange="setLocation(this.value)">
             <?foreach ($this->getAvailableLimit() as  $_key=>$_limit):?>
                 <option value="<?=$this->getLimitUrl($_key)?>"<?if($this->isLimitCurrent($_key)):?> selected<?endif?>>
                     <?=$_limit?>
                 </option>
             <?endforeach;?>
-            </select> <?=__('per page')?>
+            </select> <?=$this->__('per page')?>
         </td>
     </tr>
 </table>
