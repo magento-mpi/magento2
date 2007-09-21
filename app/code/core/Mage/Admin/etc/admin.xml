@@ -112,7 +112,21 @@
 						<roles title="Roles" />
 						<users title="Users" />
 					</acl>
-					<config title="Configuration" />
+                    <config title="Configuration" >
+                        <general title="General Section" />
+                        <web title="Web Section" />
+                        <design title="Design Section" />
+                        <tracking title="Web Tracking Section" />
+                        <wishlist title="Wishlist Section" />
+                        <shipping title="Shipping Section" />
+                        <shipping_methods title="Shipping Methods Section" />
+                        <payment_methods title="Payment Methods Section" />
+                        <system title="System Section" />
+                        <advanced title="Advanced Section" />
+                        <store_email_addresses title="Store Email Addresses Section" />
+                        <paypal title="PayPal Section" />
+                        <developer title="Developer Section" />
+                    </config>
 					<currency title="Manage Currency" />
 					<email_template title="Transactional Emails" />
 					<myaccount title="My Account" />
