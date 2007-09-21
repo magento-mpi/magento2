@@ -336,5 +336,9 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_' . $type . '_view'))
             ->renderLayout();
     }
-
+    
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('sales/invoice');
+    }
 }

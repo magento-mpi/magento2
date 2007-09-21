@@ -113,6 +113,8 @@
 						<users title="Users" />
 					</acl>
                     <config title="Configuration" >
+                        <website title="Website Section" />
+                        <store title="Store Section" />
                         <general title="General Section" />
                         <web title="Web Section" />
                         <design title="Design Section" />

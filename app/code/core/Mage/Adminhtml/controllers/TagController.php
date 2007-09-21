@@ -39,21 +39,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
-    protected function _isAllowed()
-    {
-        switch ($this->getRequest()->getActionName()) {
-            case 'pending':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/pending');
-                break;
-            case 'all':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/all');
-                break;
-            default:
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag');
-                break;
-        }
-    }
-
     public function indexAction()
     {
         $this->_initAction()
@@ -223,4 +208,18 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
+    protected function _isAllowed()
+    {
+        switch ($this->getRequest()->getActionName()) {
+            case 'pending':
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/pending');
+                break;
+            case 'all':
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag/all');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('catalog/tag');
+                break;
+        }
+    }
 }

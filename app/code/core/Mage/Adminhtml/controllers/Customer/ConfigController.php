@@ -47,5 +47,4 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('customer/config');
     }
-
 }

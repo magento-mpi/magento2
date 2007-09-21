@@ -377,5 +377,4 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
     }
-
 }

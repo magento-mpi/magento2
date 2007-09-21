@@ -68,4 +68,9 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     	$grid = $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid');
     	$this->getResponse()->setBody($grid->toHtml());
     }
+    
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/subscriber');
+    }
 }// Class Mage_Adminhtml_Newsletter_SubscriberController END

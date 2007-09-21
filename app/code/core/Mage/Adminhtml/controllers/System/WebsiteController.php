@@ -87,4 +87,9 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
     {
         $this->_redirect('*/system_config');        
     }
+    
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('system/config/website');
+    }
 }
