@@ -100,13 +100,17 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 
     public function deleteAction()
     {
+        $currentUser = Mage::getSingleton('admin/session')->getUser();
+        
         if ($id = $this->getRequest()->getParam('user_id')) {
+            if ( $currentUser->getId() == $id ) {
+                Mage::getSingleton('adminhtml/session')->addError(__('You can not delete self account'));
+                $this->_redirect('*/*/edit', array('user_id' => $id));
+                return;
+            }
             try {
                 $model = Mage::getModel('admin/permissions_user');
                 $model->setId($id);
-                /*
-                $loggedUser = Mage::getSingleton('admin/session')->getUser();
-                */
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('User was deleted succesfully'));
                 $this->_redirect('*/*/');

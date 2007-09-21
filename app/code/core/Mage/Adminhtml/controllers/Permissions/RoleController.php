@@ -85,11 +85,18 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     public function deleteAction()
     {
         $rid = $this->getRequest()->getParam('rid', false);
+        $currentUser = Mage::getModel('admin/permissions_user')->setId(Mage::getSingleton('admin/session')->getUser()->getId());
+        if ( in_array($rid, $currentUser->getRoles()) ) {
+            Mage::getSingleton('adminhtml/session')->addError(__('You can not delete self assigned roles.'));
+            $this->_redirect('*/*/editrole', array('rid' => $rid));
+            return;
+        }
+       
         try {
             Mage::getModel("admin/permissions_roles")->setId($rid)->delete();
-            Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully deleted.');
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Role successfully deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this role. Please try again later.');
+            Mage::getSingleton('adminhtml/session')->addError(__('Error while deleting this role. Please try again later.'));
         }
 
         $this->_redirect("*/*/");
@@ -99,7 +106,6 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $rid = $this->getRequest()->getParam('role_id', false);
         $resource = explode(',', $this->getRequest()->getParam('resource', false));
-        //if ( $resource[0] == '__root__') unset($resource[0]);
         try {
             $role = Mage::getModel("admin/permissions_roles")
                     ->setId($rid)
@@ -112,9 +118,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
-            Mage::getSingleton('adminhtml/session')->addSuccess('Role successfully saved.');
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Role successfully saved.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError('Error while saving this role. Please try again later.');
+            Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this role. Please try again later.'));
         }
 
         $rid = $role->getId();

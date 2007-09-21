@@ -54,7 +54,6 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
         	} catch (Exception $e) {
 				return false;
         	}
-        	//return $this->getAcl()->isAllowed('G2', $resource, $privilege);
         }
         return false;
     }
