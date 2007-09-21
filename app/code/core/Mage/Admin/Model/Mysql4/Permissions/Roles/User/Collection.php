@@ -29,10 +29,7 @@ class Mage_Admin_Model_Mysql4_Permissions_Roles_User_Collection extends Varien_D
 
         $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
         $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin/user');
-        /*$this->_sqlSelect->from($this->_roleTable, '*');
-        $this->_sqlSelect->where("{$this->_roleTable}.role_type='U'");*/
-        ///////////////////
-        $this->_sqlSelect->from($this->_roleTable, '*')
+        $this->_sqlSelect->from($this->_roleTable, array('role_id', 'role_name', 'tree_level', 'sort_order', 'role_type'))
                             ->joinLeft(array('usr' => $this->_userTable), "(usr.user_id = `{$this->_roleTable}`.user_id)", array('*'));
         $this->_sqlSelect->where("{$this->_roleTable}.role_type='U'");
     }

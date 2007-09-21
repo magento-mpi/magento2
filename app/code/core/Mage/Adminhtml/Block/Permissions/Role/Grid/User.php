@@ -48,36 +48,48 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
 
     protected function _prepareColumns()
     {
+        $this->addColumn('in_role_users', array(
+            'header_css_class' => 'a-center',
+            'type'      => 'checkbox',
+            'name'      => 'in_role_users',
+            'values'    => Array(),
+            'align'     => 'center',
+            'index'     => 'user_id'
+        ));
         
         $this->addColumn('role_user_id', array(
             'header'    =>__('User ID'),
             'width'     =>5,
             'align'     =>'left',
-            'sortable'  =>false,
+            'sortable'  =>true,
             'index'     =>'user_id'
-            //'type'      => 'checkbox'
         ));
+        
         $this->addColumn('role_user_username', array(
             'header'    =>__('User Name'),
             'align'     =>'left',
             'index'     =>'username'
         ));
+        
         $this->addColumn('role_user_firstname', array(
             'header'    =>__('First Name'),
             'align'     =>'left',
             'index'     =>'firstname'
         ));
+        
         $this->addColumn('role_user_lastname', array(
             'header'    =>__('Last Name'),
             'align'     =>'left',
             'index'     =>'lastname'
         ));
+        
         $this->addColumn('role_user_email', array(
             'header'    =>__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'
         ));
+        
         $this->addColumn('role_user_is_active', array(
             'header'    => __('Status'),
             'index'     => 'is_active',
@@ -85,6 +97,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
             'type'      => 'options',
             'options'   => array('1' => __('Active'), '0' => __('Inactive')),
         ));
+        
        $this->addColumn('grid_actions',
             array(
                 'header'=>__('Actions'),
