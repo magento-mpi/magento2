@@ -30,10 +30,10 @@
                     <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>
             </select></div></li>
-        <li><div class="input-box"><label for="cc_number"><?=__('Card Number')?> <span class="required">*</span></label><br/>
-            <input type="text" id="cc_number" name="payment[cc_number]" title="<?=__('Card Number')?>" class="required-entry input-text" value=""/></div></li>
-        <li><div class="input-box"><label for="name_on_card"><?=__('Name on Card')?> <span class="required">*</span></label><br/>
-            <input type="text" title="<?=__('Name on Card')?>" class="required-entry input-text" id="cc_owner" name="payment[cc_owner]" value="<?=$this->getPayment()->getCcOwner()?>"/></div></li>
+        <li><div class="input-box"><label for="cc_number"><?=__('Credit Card Number')?> <span class="required">*</span></label><br/>
+            <input type="text" id="cc_number" name="payment[cc_number]" title="<?=__('Credit Card Number')?>" class="required-entry input-text" value=""/></div></li>
+        <li><div class="input-box"><label for="name_on_card"><?=__('Name on the Card')?> <span class="required">*</span></label><br/>
+            <input type="text" title="<?=__('Name on the Card')?>" class="required-entry input-text" id="cc_owner" name="payment[cc_owner]" value="<?=$this->getPayment()->getCcOwner()?>"/></div></li>
         <li><div class="input-box"><label for="expiration"><?=__('Expiration Date')?> <span class="required">*</span></label><br/>
 
             <select id="expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">

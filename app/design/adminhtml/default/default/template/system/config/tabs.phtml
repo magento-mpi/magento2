@@ -19,7 +19,7 @@
  */
 ?>
 <div class="switcher" style="margin-bottom:10px;">
-    <label for="store_switcher"><?=__('Current Configuration Scope')?>:</label>
+    <label for="store_switcher"><?=__('Current Configuration Scope:')?></label>
     <select id="store_switcher" class="system-config-store-switcher" onchange="location.href=this.options[this.selectedIndex].getAttribute('url')">
     <?foreach ($this->getStoreSelectOptions() as $_value=>$_option):?>
       <option value="<?=$_value?>" url="<?=$_option['url']?>" <?=$_option['selected']?'selected':''?> style="<?=$_option['style']?>">
@@ -40,7 +40,7 @@
 <?foreach ($tabs as $_tab):?>
     <li>
         <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
-            <span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please correct before saving.')?>"></div><?=$_tab->getLabel()?></span>
+            <span><div class="changed" title="<?=__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=__('This tab contains invalid data. Please, solve the problem before saving.')?>"></div><?=$_tab->getLabel()?></span>
         </a>
         <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
     </li>

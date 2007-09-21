@@ -30,7 +30,7 @@
                         <th class="no-link"><nobr><?=__('Product Name')?></nobr></th>
                         <th class="no-link"><nobr><?=__('Price')?></nobr></th>
                         <th class="no-link"><nobr><?=__('Qty')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Total')?></nobr></th>
+                        <th class="no-link"><nobr><?=__('Subtotal')?></nobr></th>
                         <th class="no-link">&nbsp;</th>
                     </tr>
                 </thead>
@@ -44,7 +44,7 @@
                             <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text sc_items_grid" style="width: 30px !important;" value="<?=$_item->getQty()*1?>"/></td>
                             <td><nobr><?=$this->getSession()->formatPrice($_item->getRowTotal())?></nobr></td>
                             <td><nobr>
-                                <a href="javascript: void(0);" onclick="sc_itemRemove(<?=$_item->getId()?>)"><?=__('Remove')?></a><?if ($this->getIsOldCustomer()):?> | <?=__('Move to:')?>
+                                <a href="javascript: void(0);" onclick="sc_itemRemove(<?=$_item->getId()?>)"><?=__('Remove Item')?></a><?if ($this->getIsOldCustomer()):?> | <?=__('Move Item to:')?>
                                 <select onchange="sc_itemMove(<?=$_item->getId()?>,this.options[this.selectedIndex].value)">
                                     <option value=""></option>
                                     <option value="cart"><?=__('Shopping Cart')?></option>

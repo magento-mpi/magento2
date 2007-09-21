@@ -22,7 +22,7 @@
     <? $_invoice = $this->getInvoice() ?>
     <div class="box-left">
         <div class="entry-view">
-            <h4 class="icon-head head-order-date"><?=__('Invoice Date')?>: <?=$this->getInvoiceDateFormatted()?></h4>
+            <h4 class="icon-head head-order-date"><?=__('Invoice Date: %s', $this->getInvoiceDateFormatted())?></h4>
         </div>
         <div class="entry-view">
             <h4 class="icon-head head-shipping-address"><?=__('Shipping Address')?></h4>
@@ -46,7 +46,7 @@
     </div>
     <div class="box-right">
         <div class="entry-view">
-            <h4 class="icon-head head-customer-view"><?=__('Invoice Status')?>: <?=$_invoice->getStatusName($_invoice->getInvoiceStatusId())?></h4>
+            <h4 class="icon-head head-customer-view"><?=__('Invoice Status: %s', $_invoice->getStatusName($_invoice->getInvoiceStatusId()))?></h4>
         </div>
         <div class="entry-view">
             <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>
@@ -65,7 +65,7 @@
             <div class="box customer-personal-brief">
                 <?$_payment = $_invoice->getOrder()->getPayment()?>
                 <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
-                <?if (! $_invoice->getPayment()):?><br/><strong><?=__('Not Charged Yet')?></strong><?endif;?>
+                <?if (! $_invoice->getPayment()):?><br/><strong><?=__("Haven't been charged yet")?></strong><?endif;?>
             </div>
         </div>
     </div>
@@ -81,8 +81,8 @@
         <table cellspacing="0">
             <tfoot>
                 <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getGrandTotal())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Total Payed')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getTotalPaid())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getTotalDue())?></strong></td></tr>
+                <tr><td class="label"><strong><?=__('Totally Paid')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getTotalPaid())?></strong></td></tr>
+                <tr><td class="label"><strong><?=__('Totally Due')?></strong></td><td class="emph"><strong><?=$_invoice->getOrderCurrency()->format($_invoice->getTotalDue())?></strong></td></tr>
             </tfoot>
             <tbody>
                 <tr><td><?=__('Subtotal')?></td><td><?=$_invoice->getOrderCurrency()->format($_invoice->getSubtotal())?></td></tr>

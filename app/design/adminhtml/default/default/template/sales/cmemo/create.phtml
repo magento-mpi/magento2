@@ -47,7 +47,7 @@
         </div>
         <div class="box-right">
             <div class="entry-view">
-                <h4 class="icon-head head-customer-view"><?=__('Invoice Status')?>: <?=$_invoice->getStatusName($_invoice->getInvoiceStatusId())?></h4>
+                <h4 class="icon-head head-customer-view"><?=__('Invoice Status: %s', $_invoice->getStatusName($_invoice->getInvoiceStatusId()))?></h4>
             </div>
             <div class="entry-view">
                 <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>

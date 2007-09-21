@@ -22,13 +22,13 @@
     <a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl(__('images/logo.gif'))?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
     <div class="header-right">
         <p class="super">
-            <?=__("Logged in as <strong>%s</strong>", $user->getUsername())?><span class="separator">|</span><?=__("%s", date("F jS, Y"))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a><br/>
-            <a href="http://www.magentocommerce.com" target="varien_external">Connect with the Magento Community</a>
-        </p>
-        <fieldset>
+            <?=__("Logged in as %s", $user->getUsername())?><span class="separator">|</span><?=__("Today is %s", date("F jS, Y"))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a><br/>
+            <a href="http://www.magentocommerce.com" target="varien_external"><?=__('Connect with the Magento Community')?></a>
+        </p>                                                                                                        
+        <fieldset>                                                                                      
             <legend>Search</legend>
             <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
-                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=__('Working...')?>" align="absmiddle"/>
+                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=__('Loading...')?>" align="absmiddle"/>
             </span>
             <?$defSearch = __('Global Record Search')?>
             <input id="global_search" name="query" type="text" class="input-text" value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " onblur="if(this.value=='')this.value='<?=$defSearch?>';" />

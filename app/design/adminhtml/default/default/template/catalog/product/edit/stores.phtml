@@ -25,7 +25,7 @@
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li><?=__("Items that you don't want to show in catalog or search results must be set status 'Disabled' on the specific store.")?></li>
+            <li><?=__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.")?></li>
         </ul>
     </li>
 </ul>
@@ -49,10 +49,9 @@
                 <span class="field-row">
                     <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
                     <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
-                    <span id="store_<?=$_store->getId()?>_from" style="display:none">(
-                        <?=__('copy data from')?>:
-                        <?=$this->getChooseFromStoreHtml()?>
-                    )</span>
+                    <span id="store_<?=$_store->getId()?>_from" style="display:none">
+                        <?=__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
+                    </span>
                 </span>
                 <?endif;?>
             <?endforeach;?>

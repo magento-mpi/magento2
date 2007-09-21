@@ -22,7 +22,7 @@
     <? $_order = $this->getOrder() ?>
     <div class="box-left">
         <div class="entry-view">
-            <h4 class="icon-head head-order-date"><?=__('Invoice Date')?>: <?=$this->getOrderDateFormatted()?></h4>
+            <h4 class="icon-head head-order-date"><?=__('Invoice Date: %s', $this->getOrderDateFormatted())?></h4>
         </div>
         <div class="entry-view">
             <h4 class="icon-head head-shipping-address"><?=__('Shipping Address')?></h4>
@@ -46,7 +46,7 @@
     </div>
     <div class="box-right">
         <div class="entry-view">
-            <h4 class="icon-head head-customer-view"><?=__('Invoice Status')?>: <?=__('Paid')?></h4>
+            <h4 class="icon-head head-customer-view"><?=__('Invoice Status: Paid')?></h4>
         </div>
         <div class="entry-view">
             <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>

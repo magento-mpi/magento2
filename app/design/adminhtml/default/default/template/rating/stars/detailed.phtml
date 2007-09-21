@@ -23,7 +23,7 @@
         <?foreach ($this->getRating() as $_rating):?>
         <?if($_rating->getPercent()):?>
         	<div class="ratings">
-        	   <?=__($_rating->getRatingCode())?>
+        	   <?=$_rating->getRatingCode()?>
         		<div class="rating-box">
         			<div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
         		</div>
@@ -32,5 +32,5 @@
         <?endforeach;?>
     </div>
 <?else:?>
-    <?=__('Rating Not Available')?>
+    <?=__("Rating isn't Available")?>
 <?endif;?>

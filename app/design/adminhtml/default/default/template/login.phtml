@@ -40,20 +40,20 @@
 			<form method="post" action="" id="loginForm">
 
 				<fieldset class="login-form">
-					<h2><em>Log in</em> to Admin Panel</h2>
+					<h2><?=__('Log in to Admin Panel')?></h2>
                     <div id="messages">
                         <?=$this->getMessagesBlock()->getGroupedHtml()?>
                     </div>
-					<div class="input-box"><label for="#">User Name:</label><br/>
+					<div class="input-box"><label for="#"><?=__('User Name:')?></label><br/>
 						<input type="text" name="login[username]" value="<?=$username?>" class="required-entry input-text"/></div>
-					<div class="input-box"><label for="#">Password</label><br/>
+					<div class="input-box"><label for="#"><?=__('Password:')?></label><br/>
 						<input type="password" name="login[password]" type="password" class="required-entry input-text" value="" /></div>
 					<div class="clear"></div>
 					<div class="form-buttons">
-						<input onclick="loginForm.submit()" type="image" src="<?=$this->getSkinUrl('images/btn_login.gif')?>" value="Login"/>
+						<input onclick="loginForm.submit()" type="image" src="<?=$this->getSkinUrl('images/btn_login.gif')?>" value="<?=__('Login')?>"/>
 					</div>
 				</fieldset>
-				<p class="legal">&copy; Copyright 2007 <a href="http://www.varien.com" target="varien-external">Varien</a>. Magento is a trademark of Irubin Consulting Inc</p>
+				<p class="legal"><?=__('&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc')?></p>
 			</form>
 			<div class="bottom"></div>
 			<script type="text/javascript">

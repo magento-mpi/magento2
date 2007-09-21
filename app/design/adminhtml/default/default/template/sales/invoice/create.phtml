@@ -23,7 +23,7 @@
         <? $_order = $this->getOrder() ?>
         <div class="box-left">
             <div class="entry-view">
-                <h4 class="icon-head head-order-date"><?=__('Order Date')?>: <?=$this->getOrderDateFormatted()?></h4>
+                <h4 class="icon-head head-order-date"><?=__('Order Date: %s', $this->getOrderDateFormatted())?></h4>
             </div>
             <div class="entry-view">
                 <h4 class="icon-head head-shipping-address"><?=__('Shipping Address')?></h4>
@@ -47,7 +47,7 @@
         </div>
         <div class="box-right">
             <div class="entry-view">
-                <h4 class="icon-head head-customer-view"><?=__('Order Status')?>: <?=$_order->getStatus()->getFrontendLabel()?></h4>
+                <h4 class="icon-head head-customer-view"><?=__('Order Status: %s', $_order->getStatus()->getFrontendLabel())?></h4>
             </div>
             <div class="entry-view">
                 <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>
@@ -80,8 +80,8 @@
             <table cellspacing="0">
                 <tfoot>
                     <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Total Payed')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=__('Totally Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=__('Totally Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>
                 </tfoot>
                 <tbody>
                     <tr><td><?=__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td></tr>

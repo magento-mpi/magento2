@@ -21,7 +21,7 @@
 <?$_address = $this->getAddress()?>
 <?if (! $this->getIsOldCustomer()):?>
     <span class="field-row">
-        <label for="billing_address:email"><?=__('Email')?></label>
+        <label for="billing_address:email"><?=__('Email Address')?></label>
         <input id="billing_address:email" name="email" value="<?=$_address->getEmail()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
     </span>
 <?endif;?>
@@ -62,7 +62,7 @@
     <?=$this->getCountryHtmlSelect('billing')?>
 </span>
 <span class="field-row">
-    <label for="billing_address:postcode"><?=__('Zip/Post Code')?></label>
+    <label for="billing_address:postcode"><?=__('Zip/Postal Code')?></label>
     <input id="billing_address:postcode" name="postcode" value="<?=$_address->getPostcode()?>" class="input-text" type="text" onkeyup="sc_addressChange(this)"/>
 </span>
 <span class="field-row">

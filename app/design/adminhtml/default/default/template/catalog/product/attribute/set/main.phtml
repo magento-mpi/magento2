@@ -208,7 +208,7 @@
                         }
 
                         if( editSet.SystemNodesExists(editSet.currentNode) ) {
-                            alert('<?=__('This group contains system attributes.\nPlease, move system attributes to another group and try again.')?>');
+                            alert('<?=__('This group contains system attributes. Please, move system attributes to another group and try again.')?>');
                             return;
                         }
 
@@ -245,7 +245,7 @@
                     },
 
                     addGroup : function() {
-                        var group_name = prompt("<?=__('Please Enter New Group Name')?>","");
+                        var group_name = prompt("<?=__('Please, enter a new group name')?>","");
 
                         if( group_name == '' ) {
                             this.addGroup();
@@ -308,7 +308,7 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
-                            alert('<?=__('You can not remove system attribute from this set.')?>');
+                            alert('<?=__('You cannot remove system attribute from this set.')?>');
                             return false;
                         }
                     },
@@ -322,7 +322,7 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
-                            alert('<?=__('You can not remove system attribute from this set.')?>');
+                            alert('<?=__('You cannot remove system attribute from this set.')?>');
                             return false;
                         }
                     },

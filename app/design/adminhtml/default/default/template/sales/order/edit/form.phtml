@@ -24,7 +24,7 @@
     <input type="hidden" name="order_id" value="<?=$_order->getId()?>"/>
     <div class="box-left">
         <div class="entry-view">
-            <h4><?=__('Order Date')?>: <?=$this->getOrderDateFormatted()?></h4>
+            <h4><?=__('Order Date: %s', $this->getOrderDateFormatted())?></h4>
         </div>
         <div class="entry-view">
             <h4><?=__('Shipping Address')?></h4>
@@ -48,7 +48,7 @@
     </div>
     <div class="box-right">
         <div class="entry-view">
-            <h4><?=__('Order Status')?>: <?=$this->getOrderStatus()?></h4>
+            <h4><?=__('Order Status: %s', $this->getOrderStatus())?></h4>
         </div>
         <div class="entry-view">
             <h4><?=__('Billing Address')?></h4>
@@ -80,8 +80,8 @@
         <table cellspacing="0">
             <tfoot>
                 <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
-                <?/*<tr><td class="label"><strong><?=__('Total Payed')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>*/?>
+                <?/*<tr><td class="label"><strong><?=__('Totally Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
+                <tr><td class="label"><strong><?=__('Totally Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>*/?>
             </tfoot>
             <tbody>
                 <tr><td><?=__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?>&nbsp</td></tr>
@@ -127,11 +127,11 @@
                 </select>
             </div>
             <div>
-                <h4><?=__('Order Comment')?>:</h4>
+                <h4><?=__('Order Comment:')?></h4>
                 <textarea style="width: 100%; height: 10em;" name="comments"></textarea>
             </div>
             <div>
-                <input type="checkbox" id="notify_customer" name="notify_customer" value="1"> <label for="notify_customer"><?=__('Send comment to customer')?></label>
+                <input type="checkbox" id="notify_customer" name="notify_customer" value="1"> <label for="notify_customer"><?=__('Send Comment to the Customer')?></label>
             </div>
         </div>
     </div>

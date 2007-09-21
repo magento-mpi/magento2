@@ -24,7 +24,7 @@ var roleId = '<?=$roleId?>';
 var role = function () {
 	return {
 		deleteFromRole: function (uid) {
-		    if( !confirm('<?=__('Are you sure you want to do it?')?>') ) {
+		    if( !confirm('<?=__('Are you sure you want to delete this user from this role?')?>') ) {
 		        return false;
 		    }
 			var req = new Ajax.Request('<?=$this->getUrl('*/permissions_user/deleteuserfromrole')?>', {
@@ -66,7 +66,7 @@ var role = function () {
                     <?=$this->_getJsObjectName()?>.reload();
 				},
 				onFailure: function() {
-					alert('Something went wrong...');
+					alert('<?=__('Something went wrong...')?>');
 				}
 			});
 		}
@@ -88,7 +88,7 @@ var role = function () {
 				<td class="tr"></td>
 			</tr>
 			<tr>
-				<td class="ml"><?=__('Add')?></td>
+				<td class="ml"><?=__('Add User to Role')?></td>
 				<td class="mr"></td>
 			</tr>
 			<tr>

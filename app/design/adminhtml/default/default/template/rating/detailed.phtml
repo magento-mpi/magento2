@@ -35,7 +35,7 @@
 		<tbody>
 		<?foreach ($this->getRating() as $_rating):?>
 			<tr class="odd<?if($_oddIterator == $this->getRating()->getSize()): $_oddIterator = 0;?> last<?endif;?>">
-				<td class="label"><?=__($_rating->getRatingCode())?></td>
+				<td class="label"><?=$_rating->getRatingCode()?></td>
 			<?$_iterator = 1;?>
 			<?$_options = ( $_rating->getRatingOptions() ) ? $_rating->getRatingOptions() : $_rating->getOptions()?>
 		    <?foreach ($_options as $_option):?>
@@ -52,7 +52,7 @@
 <script type="text/javascript">
 	Validation.addAllThese(
     [
-	       ['validate-rating', '<?=__('Please select from each ratings above')?>', function(v) {
+	       ['validate-rating', '<?=__('Please select one of each ratings above')?>', function(v) {
                 var trs = $('product-review-table').getElementsBySelector('tr');
                 var inputs;
                 var error = 1;
@@ -82,5 +82,5 @@
     );
 </script>
 <?else:?>
-    <?=__('Rating Not Available')?>
+    <?=__("Rating isn't Available")?>
 <?endif;?>

@@ -23,7 +23,7 @@
 <script type="text/javascript">
 var cartControl = {
 	removeItem: function (itemId) {
-		if(!confirm('<?=__('Are You Sure?')?>')) {
+		if(!confirm('<?=__('Are you sure the you want to remove this item?')?>')) {
 			return false;
 		}
 		<?=$this->getJsObjectName()?>.reloadParams = {'delete':itemId}
