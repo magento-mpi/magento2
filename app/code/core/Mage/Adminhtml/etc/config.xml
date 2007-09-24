@@ -92,7 +92,7 @@
         <modules>
             <Mage_Adminhtml>
                 <files>
-                    <default>translate.csv</default>
+                    <default>Mage_Adminhtml.csv</default>
                 </files>
             </Mage_Adminhtml>
         </modules>

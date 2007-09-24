@@ -350,6 +350,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         	case 'design':
         		$dir = Mage::getRoot().DS.'design';
         		break;
+            
+        	case 'locale':
+        	    $dir = Mage::getRoot().DS.'locale';
+        	    break;
 
             case 'var':
                 $dir = $this->getTempVarDir();

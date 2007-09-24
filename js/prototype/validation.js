@@ -181,6 +181,9 @@ Object.extend(Validation, {
                 var advice = Validation.getAdvice(name, elm);
                 if(advice == null) {
                     var errorMsg = useTitle ? ((elm && elm.title) ? elm.title : v.error) : v.error;
+                    if(Translator){
+                        errorMsg = Translator.translate(errorMsg);
+                    }
                     advice = '<div class="validation-advice" id="advice-' + name + '-' + Validation.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
                     this.insertAdvice(elm, advice);
                     advice = Validation.getAdvice(name, elm);
@@ -292,7 +295,7 @@ Validation.addAllThese([
                 var test = new Date(v);
                 return Validation.get('IsEmpty').test(v) || !isNaN(test);
             }],
-    ['validate-email', 'Please enter a valid email address. For example johndoe@domain.com .', function (v) {
+    ['validate-email', 'Please enter a valid email address. For example johndoe@domain.com.', function (v) {
                 //return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
                 return Validation.get('IsEmpty').test(v) || /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i.test(v)
             }],
@@ -328,7 +331,7 @@ Validation.addAllThese([
                             (parseInt(RegExp.$1, 10) == d.getDate()) &&
                             (parseInt(RegExp.$3, 10) == d.getFullYear() );
             }],
-    ['validate-currency-dollar', 'Please enter a valid $ amount. For example $100.00 .', function(v) {
+    ['validate-currency-dollar', 'Please enter a valid $ amount. For example $100.00.', function(v) {
                 // [$]1[##][,###]+[.##]
                 // [$]1###+[.##]
                 // [$]0.##
@@ -375,7 +378,7 @@ Validation.addAllThese([
                 else
                     return true;
             }],
-    ['validate-cc-number', 'Please enter a valid credit card number', function(v) {
+    ['validate-cc-number', 'Please enter a valid credit card number.', function(v) {
                 // remove non-numerics
                 return validateCreditCard(v);
             }]

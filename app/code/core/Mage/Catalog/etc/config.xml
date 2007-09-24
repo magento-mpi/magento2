@@ -199,7 +199,7 @@
         <modules>
             <Mage_Catalog>
                 <files>
-                    <default>translate.csv</default>
+                    <default>Mage_Catalog.csv</default>
                 </files>
             </Mage_Catalog>
         </modules>
