@@ -459,56 +459,56 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 
     public function getCode($type, $code='')
     {
-        static $codes = array(
+        $codes = array(
 
             'method'=>array(
-                'PRIORITYOVERNIGHT'                => 'Priority Overnight',
-                'STANDARDOVERNIGHT'                => 'Standard Overnight',
-                'FIRSTOVERNIGHT'                   => 'First Overnight',
-                'FEDEX2DAY'                        => '2Day',
-                'FEDEXEXPRESSSAVER'                => 'Express Saver',
-                'INTERNATIONALPRIORITY'            => 'International Priority',
-                'INTERNATIONALECONOMY'             => 'International Economy',
-                'INTERNATIONALFIRST'               => 'International First',
-                'FEDEX1DAYFREIGHT'                 => '1 Day Freight',
-                'FEDEX2DAYFREIGHT'                 => '2 Day Freight',
-                'FEDEX3DAYFREIGHT'                 => '3 Day Freight',
-                'FEDEXGROUND'                      => 'Ground',
-                'GROUNDHOMEDELIVERY'               => 'Home Delivery',
-                'INTERNATIONALPRIORITY FREIGHT'    => 'Intl Priority Freight',
-                'INTERNATIONALECONOMY FREIGHT'     => 'Intl Economy Freight',
-                'EUROPEFIRSTINTERNATIONALPRIORITY' => 'Europe First Priority',
+                'PRIORITYOVERNIGHT'                => __('Priority Overnight'),
+                'STANDARDOVERNIGHT'                => __('Standard Overnight'),
+                'FIRSTOVERNIGHT'                   => __('First Overnight'),
+                'FEDEX2DAY'                        => __('2Day'),
+                'FEDEXEXPRESSSAVER'                => __('Express Saver'),
+                'INTERNATIONALPRIORITY'            => __('International Priority'),
+                'INTERNATIONALECONOMY'             => __('International Economy'),
+                'INTERNATIONALFIRST'               => __('International First'),
+                'FEDEX1DAYFREIGHT'                 => __('1 Day Freight'),
+                'FEDEX2DAYFREIGHT'                 => __('2 Day Freight'),
+                'FEDEX3DAYFREIGHT'                 => __('3 Day Freight'),
+                'FEDEXGROUND'                      => __('Ground'),
+                'GROUNDHOMEDELIVERY'               => __('Home Delivery'),
+                'INTERNATIONALPRIORITY FREIGHT'    => __('Intl Priority Freight'),
+                'INTERNATIONALECONOMY FREIGHT'     => __('Intl Economy Freight'),
+                'EUROPEFIRSTINTERNATIONALPRIORITY' => __('Europe First Priority'),
             ),
 
             'dropoff'=>array(
-                'REGULARPICKUP'         => 'Regular Pickup',
-                'REQUESTCOURIER'        => 'Request Courier',
-                'DROPBOX'               => 'Drop Box',
-                'BUSINESSSERVICECENTER' => 'Business Service Center',
-                'STATION'               => 'Station',
+                'REGULARPICKUP'         => __('Regular Pickup'),
+                'REQUESTCOURIER'        => __('Request Courier'),
+                'DROPBOX'               => __('Drop Box'),
+                'BUSINESSSERVICECENTER' => __('Business Service Center'),
+                'STATION'               => __('Station'),
             ),
 
             'packaging'=>array(
-                'FEDEXENVELOPE' => 'FedEx Envelope',
-                'FEDEXPAK'      => 'FedEx Pak',
-                'FEDEXBOX'      => 'FedEx Box',
-                'FEDEXTUBE'     => 'FedEx Tube',
-                'FEDEX10KGBOX'  => 'FedEx 10kg Box',
-                'FEDEX25KGBOX'  => 'FedEx 25kg Box',
-                'YOURPACKAGING' => 'Your Packaging',
+                'FEDEXENVELOPE' => __('FedEx Envelope'),
+                'FEDEXPAK'      => __('FedEx Pak'),
+                'FEDEXBOX'      => __('FedEx Box'),
+                'FEDEXTUBE'     => __('FedEx Tube'),
+                'FEDEX10KGBOX'  => __('FedEx 10kg Box'),
+                'FEDEX25KGBOX'  => __('FedEx 25kg Box'),
+                'YOURPACKAGING' => __('Your Packaging'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code type: '.$type);
+//            throw Mage::exception('Mage_Shipping', __('Invalid FedEx XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid FedEx XML code for type '.$type.': '.$code);
+//            throw Mage::exception('Mage_Shipping', __('Invalid FedEx XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

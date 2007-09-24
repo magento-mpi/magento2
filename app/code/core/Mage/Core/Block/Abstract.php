@@ -76,7 +76,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $this->_request = Mage::registry('controller')->getRequest();
         }
         else {
-            throw new Exception("Can't retrieve request object");
+            throw new Exception(__("Can't retrieve request object"));
         }
 
         $this->_construct();

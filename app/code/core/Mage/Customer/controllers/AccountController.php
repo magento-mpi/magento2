@@ -83,7 +83,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 if (!empty($username) && !empty($password)) {
                     if (!$session->login($username, $password)) {
                         // _('invalid login or password')
-                        $session->addError('Invalid login or password');
+                        $session->addError(__('Invalid login or password'));
                         Mage::getSingleton('customer/session')->setUsername($username);
                     }
                 }
@@ -198,7 +198,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                     $customer->sendPasswordReminderEmail();
 
                     Mage::getSingleton('customer/session')
-                        ->addSuccess(__('A new password was sent.'));
+                        ->addSuccess(__('A new password was sent'));
 
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                     return;
@@ -210,7 +210,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             }
             else {
                 Mage::getSingleton('customer/session')
-                    ->addError('This email address was not found in our records.');
+                    ->addError(__('This email address was not found in our records'));
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
@@ -257,7 +257,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomer($customer)
-                    ->addSuccess('Account information saved successfully');
+                    ->addSuccess(__('Account information was successfully saved'));
 
                 $this->_redirect('customer/account');
                 return;
@@ -300,14 +300,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 //                $customer->changePassword($this->getRequest()->getPost());
 //
 //                Mage::getSingleton('customer/session')
-//                    ->addSuccess('password has been successfully updated');
+//                    ->addSuccess(__('Password was successfully updated'));
 //
 //                $this->_redirect('customer/account');
 //                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
 //                return;
 //            }
 //            catch (Mage_Core_Exception $e) {
-//                Mage::getSingleton('customer/session')->addError('an error updating the password');
+//                Mage::getSingleton('customer/session')->addError(__('Error while updating the password'));
 //            }
 //        }
 //        $this->getResponse()->setRedirect(Mage::getUrl('*/*/changePassword', array('_secure'=>true)));

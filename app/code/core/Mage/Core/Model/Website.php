@@ -55,7 +55,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
             $config = Mage::getConfig()->getNode('websites/'.$this->getCode().'/'.$path);
             if (!$config) {
             	return false;
-                #throw Mage::exception('Mage_Core', 'Invalid websites configuration path: '.$path);
+                #throw Mage::exception('Mage_Core', __('Invalid websites configuration path: %s', $path));
             }
             if (!$config->children()) {
                 $value = (string)$config;

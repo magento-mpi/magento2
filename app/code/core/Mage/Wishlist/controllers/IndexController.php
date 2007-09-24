@@ -46,7 +46,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
 		}
 		catch (Exception $e) {
-			Mage::getSingleton('wishlist/session')->addError('Cannot create wishlist');
+			Mage::getSingleton('wishlist/session')->addError(__('Cannot create wishlist'));
 		}
 
 		Mage::register('wishlist', $wishlist);
@@ -64,7 +64,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
 		}
 		catch (Exception $e) {
-			Mage::getSingleton('customer/session')->addError('Cannot create wishlist');
+			Mage::getSingleton('customer/session')->addError(__('Cannot create wishlist'));
 			$this->_redirect('*');
 			return;
 		}
@@ -72,7 +72,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		$productId = (int) $this->getRequest()->getParam('product');
 		$product = Mage::getModel('catalog/product')->load($productId);
 		if (!$product->getId()) {
-		    Mage::getSingleton('customer/session')->addError('Can not specify product');
+		    Mage::getSingleton('customer/session')->addError(__('Cannot specify product'));
 		    $this->_redirect('*');
 		    return;
 		}
@@ -210,7 +210,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		try{
 
 			if(!$this->getRequest()->getParam('email')) {
-				Mage::throwException('E-mail Addresses required', 'wishlist/session');
+				Mage::throwException(__('E-mail Addresses required'), 'wishlist/session');
 			}
 
 			$emails = explode(',', $this->getRequest()->getParam('email'));
@@ -249,7 +249,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 			$wishlist->setShared(1);
 			$wishlist->save();
-			Mage::getSingleton('customer/session')->addSuccess('Your Wishlist successfully shared');
+			Mage::getSingleton('customer/session')->addSuccess(__('Your Wishlist was successfully shared'));
 			$this->_redirect('*/*');
 		}
 		catch (Exception $e) {

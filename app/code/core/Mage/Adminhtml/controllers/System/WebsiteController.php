@@ -71,7 +71,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
             $model->setData($data);
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Website was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Website was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 $this->_redirect('*/system_config/edit', array('website'=>$model->getCode()));
             } catch (Exception $e) {

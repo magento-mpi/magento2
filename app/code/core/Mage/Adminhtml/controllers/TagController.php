@@ -107,7 +107,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             // $tag->setStoreId(Mage::getSingleton('core/store')->getId());
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
                 $this->getResponse()->setRedirect($url);
                 return;
@@ -151,7 +151,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('tag/tag');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was successfully deleted'));
                 $this->getResponse()->setRedirect($url);
                 return;
             }

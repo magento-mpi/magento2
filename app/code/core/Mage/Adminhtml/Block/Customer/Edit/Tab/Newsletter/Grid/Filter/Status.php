@@ -30,11 +30,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status exten
 {
 	protected static $_statuses = array(
 		null										=>	null,
-		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> 'Sent',
-		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> 'Cancel',
-		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> 'Not Sent',
-		Mage_Newsletter_Model_Queue::STATUS_SENDING => 'Sending',
-		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> 'Paused'
+		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
+		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancel'),
+		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
+		Mage_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
+		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
 	);
 
 	protected function _getOptions()

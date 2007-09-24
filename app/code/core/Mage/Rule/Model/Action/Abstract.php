@@ -100,8 +100,8 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=' => 'to',
-            '+=' => 'by',
+            '=' => __('to'),
+            '+=' => __('by'),
         ));
         return $this;
     }
@@ -144,7 +144,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>'Please choose an action to add...'),
+            array('value'=>'', 'label'=>__('Please choose an action to add...')),
         );
     }
 

@@ -210,7 +210,7 @@
 
             foreach ($values as $v) {
                 if (!$this->_getEntityAlias($v[$entityIdField])) {
-                    throw Mage::exception('Mage_Eav', 'Data integrity: No header row found for attribute');
+                    throw Mage::exception('Mage_Eav', __('Data integrity: No header row found for attribute'));
                 }
                 if (!isset($attrById[$v['attribute_id']])) {
                     $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();

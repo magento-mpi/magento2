@@ -43,17 +43,17 @@ class Mage_Adminhtml_Block_Customer_Online_Filter extends Mage_Adminhtml_Block_W
                     'onchange' => 'this.form.submit()',
                     'values' => array(
                         array(
-                            'label' => 'All',
+                            'label' => __('All'),
                             'value' => '',
                         ),
 
                         array(
-                            'label' => 'Customers Only',
+                            'label' => __('Customers Only'),
                             'value' => 'filterCustomers',
                         ),
 
                         array(
-                            'label' => 'Visitors Only',
+                            'label' => __('Visitors Only'),
                             'value' => 'filterGuests',
                         )
                     ),

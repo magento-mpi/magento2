@@ -48,7 +48,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Config extends Mage_Eav_Model_Entit
             }
             
             if (!$rootNode) {
-                throw Mage::exception('Mage_Eav', 'No options root node found');
+                throw Mage::exception('Mage_Eav', __('No options root node found'));
             }
             foreach ($rootNode->children() as $option) {
                 //$this->_options[(string)$option->value] = (string)$option->label;

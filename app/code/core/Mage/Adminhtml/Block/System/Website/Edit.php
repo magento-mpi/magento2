@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_System_Website_Edit extends Mage_Adminhtml_Block_Widg
     public function getHeaderText()
     {
         if (Mage::registry('admin_current_website')->getId()) {
-            return __('Edit Website') . " '" . Mage::registry('admin_current_website')->getName() . "'";
+            return __("Edit Website '%s'", Mage::registry('admin_current_website')->getName());
         }
         else {
             return __('New Website');

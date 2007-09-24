@@ -87,7 +87,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 //            if ($id = $this->getRequest()->getParam('page_id')) {
 //                $model->load($id);
 //                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError('The page you are trying to save no longer exists');
+//                    Mage::getSingleton('adminhtml/session')->addError(__('The page you are trying to save no longer exists'));
 //                    Mage::getSingleton('adminhtml/session')->setPageData($data);
 //                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
 //                    return;
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 if ($autoApply) {
                 	$this->_forward('applyRules');
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 $model = Mage::getModel('catalogrule/rule');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         try {
             $resource = Mage::getResourceSingleton('catalogrule/rule');
             $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Rules were applied successfully'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Rules were successfully applied'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(__('Unable to apply rules'));
             throw $e;

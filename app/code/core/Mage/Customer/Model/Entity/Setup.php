@@ -31,7 +31,7 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'attributes' => array(
                 	'store_id' => array(
 						'type'=>'static',
-						'label'=>'Create In',
+						'label'=>__('Create In'),
 						'input'=>'select',
 						'source'=>'customer_entity/customer_attribute_source_store',
 						'backend'=>'customer_entity/customer_attribute_backend_store',
@@ -39,21 +39,21 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 					),
                 	'created_in' => array(
 						'type'=>'int',
-						'label'=>'Created From',
+						'label'=>__('Created From'),
 						'input'=>'select',
 						'source'=>'customer_entity/customer_attribute_source_store',
                 		'sort_order'=>2,
 					),
                 	'firstname' => array(
-                		'label'=>'First Name',
+                		'label'=>__('First Name'),
                 		'sort_order'=>3,
                 	),
                 	'lastname' => array(
-                		'label'=>'Last Name',
+                		'label'=>__('Last Name'),
                 		'sort_order'=>4,
                 	),
                 	'email' => array(
-                		'label'=>'Email', 
+                		'label'=>__('Email'),
                 		'class'=>'validate-email',
                 		'sort_order'=>5,
                 	),
@@ -65,14 +65,14 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 	'customer_group' => array(
                 		'type'=>'int', 
                 		'input'=>'select', 
-                		'label'=>'Customer Group', 
+                		'label'=>__('Customer Group'),
                 		'source'=>'customer_entity/customer_attribute_source_group',
                 		'sort_order'=>6,
                 	),
                 	'store_balance' => array(
                 		'type'=>'decimal', 
                 		'input'=>'hidden', 
-                		'label'=>'Balance', 
+                		'label'=>__('Balance'),
                 		'class'=>'validate-number',
                 		'sort_order'=>7,
                 	),
@@ -95,24 +95,24 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'=>'customer/entity',
                 'attributes' => array(
                 	'firstname' => array(
-                		'label'=>'First Name',
+                		'label'=>__('First Name'),
                 		'sort_order'=>1,
                 	),
                 	'lastname' => array(
-                		'label'=>'Last Name',
+                		'label'=>__('Last Name'),
                 		'sort_order'=>2,
                 	),
                 	'country_id' => array(
                 		'type'=>'int', 
                 		'input'=>'select', 
-                		'label'=>'Country', 
+                		'label'=>__('Country'),
                 		'class'=>'countries input-text', 
                 		'source'=>'customer_entity/address_attribute_source_country',
                 		'sort_order'=>6,
                 	),
                 	'region' => array(
                 		'backend'=>'customer_entity/address_attribute_backend_region', 
-                		'label'=>'State/Province', 
+                		'label'=>__('State/Province'),
                 		'class'=>'regions',
                 		'sort_order'=>7,
                 	),
@@ -124,31 +124,31 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 		'sort_order'=>8,
                 	),
                 	'postcode' => array(
-                		'label'=>'Zip/Post Code',
+                		'label'=>__('Zip/Postal Code'),
                 		'sort_order'=>9,
                 	),
                 	'city' => array(
-                		'label'=>'City',
+                		'label'=>__('City'),
                 		'sort_order'=>5,
                 	),
                 	'street' => array(
                 		'type'=>'text', 
                 		'backend'=>'customer_entity/address_attribute_backend_street', 
                 		'input'=>'textarea', 
-                		'label'=>'Street Address',
+                		'label'=>__('Street Address'),
                 		'sort_order'=>4,
                 	),
                 	'telephone' => array(
-                		'label'=>'Telephone',
+                		'label'=>__('Telephone'),
                 		'sort_order'=>10,
                 	),
                 	'fax' => array(
-                		'label'=>'Fax', 
+                		'label'=>__('Fax'),
                 		'required'=>false,
                 		'sort_order'=>11,
                 	),
                 	'company' => array(
-                		'label'=>'Company', 
+                		'label'=>__('Company'),
                 		'required'=>false,
                 		'sort_order'=>3,
                 	),
@@ -158,7 +158,7 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'customer_payment'=>array(
                 'table'=>'customer/entity',
                 'attributes' => array(
-                	'method_type'=>array('type'=>'int', 'input'=>'select', 'label'=>'Payment Method'),
+                	'method_type'=>array('type'=>'int', 'input'=>'select', 'label'=>__('Payment Method')),
                 ),
             ),
         );

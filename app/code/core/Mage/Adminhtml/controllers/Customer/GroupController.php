@@ -90,7 +90,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
                     ->setTaxClassId($this->getRequest()->getParam('tax_class'))
                     ->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer Group was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer Group was successfully saved'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
                 $customerGroup->load($id);
                 $customerGroup->delete();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer Group was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer Group was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {

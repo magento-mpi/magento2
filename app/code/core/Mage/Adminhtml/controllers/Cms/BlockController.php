@@ -88,7 +88,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
 //            if ($id = $this->getRequest()->getParam('block_id')) {
 //                $model->load($id);
 //                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError('The block you are trying to save no longer exists');
+//                    Mage::getSingleton('adminhtml/session')->addError(__('The block you are trying to save no longer exists'));
 //                    Mage::getSingleton('adminhtml/session')->setPageData($data);
 //                    $this->_redirect('*/*/edit', array('block_id' => $this->getRequest()->getParam('block_id')));
 //                    return;
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
             $model->setData($data);
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Block was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Block was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setBlockData(false);
                 $this->_redirect('*/*/');
             } catch (Exception $e) {
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
                 $model = Mage::getModel('cms/block');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Block was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Block was succesfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }

@@ -30,8 +30,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid_Filter_Type extends Mage_A
 {
 	protected static $_types = array(
 		null										=>	null,
-		Mage_Newsletter_Model_Template::TYPE_HTML   => 'HTML',
-		Mage_Newsletter_Model_Template::TYPE_TEXT 	=> 'Text'
+		Mage_Newsletter_Model_Template::TYPE_HTML   => __('HTML'),
+		Mage_Newsletter_Model_Template::TYPE_TEXT 	=> __('Text'),
 	);
 	
 	protected function _getOptions() 

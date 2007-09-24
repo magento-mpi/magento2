@@ -89,7 +89,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 //            if ($id = $this->getRequest()->getParam('page_id')) {
 //                $model->load($id);
 //                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError('The page you are trying to save no longer exists');
+//                    Mage::getSingleton('adminhtml/session')->addError(__('The page you are trying to save no longer exists'));
 //                    Mage::getSingleton('adminhtml/session')->setPageData($data);
 //                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
 //                    return;
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             $model->setData($data);
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 $this->_redirect('*/*/');
                 return;
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('cms/page');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Page was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }

@@ -66,7 +66,7 @@
             $this->_columns[$columnId] = $column;
         }*/
         else {
-            throw new Exception('Wrong column format');
+            throw new Exception(__('Wrong column format'));
         }
 
         $this->_columns[$columnId]->setId($columnId);

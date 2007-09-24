@@ -73,24 +73,24 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
 
     public function getCode($type, $code='')
     {
-        static $codes = array(
+        $codes = array(
 
             'condition_name'=>array(
-                'package_weight' => 'Weight vs. Destination',
-                'package_value'  => 'Price vs. Destination',
-                'package_qty'    => '# of Items vs. Destination',
+                'package_weight' => __('Weight vs. Destination'),
+                'package_value'  => __('Price vs. Destination'),
+                'package_qty'    => __('# of Items vs. Destination'),
             ),
 
             'condition_name_short'=>array(
-                'package_weight' => 'Weight (and above)',
-                'package_value'  => 'Order Subtotal (and above)',
-                'package_qty'    => '# Items (and above)',
+                'package_weight' => __('Weight (and above)'),
+                'package_value'  => __('Order Subtotal (and above)'),
+                'package_qty'    => __('# Items (and above)'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid TableRate code type: '.$type);
+            throw Mage::exception('Mage_Shipping', __('Invalid TableRate code type: %s', $type));
         }
 
         if (''===$code) {
@@ -98,7 +98,7 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
         }
 
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid TableRate code for type '.$type.': '.$code);
+            throw Mage::exception('Mage_Shipping', __('Invalid TableRate code for type %s: %s', $type, $code));
         }
 
         return $codes[$type][$code];

@@ -33,11 +33,11 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
             $e = $this->getApi()->getError();
             switch ($e['type']) {
                 case 'CURL':
-                    $s->addError(__('There was an error connecting to Paypal server:').' '.$e['message']);
+                    $s->addError(__('There was an error connecting to Paypal server: %s', $e['message']));
                     break;
 
                 case 'API':
-                    $s->addError(__('There was an error during communication with Paypal:').' '.$e['short_message'].': '.$e['long_message']);
+                    $s->addError(__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
                     break;
             }
         }

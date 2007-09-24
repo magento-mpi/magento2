@@ -275,7 +275,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             try {
                 $product->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess('Product saved');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')
@@ -301,7 +301,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ->load($productId);
         try {
             $product->copy();
-            Mage::getSingleton('adminhtml/session')->addSuccess('Product duplicated');
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Product duplicated'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$product->getId()));
         }
         catch (Exception $e){
@@ -335,7 +335,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setId($id);
             try {
                 $product->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess('Product deleted');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')

@@ -182,7 +182,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException('Can not save your subscription: ' . $e->getMessage());
+            Mage::throwException(__('Cannot save your subscription: %s', $e->getMessage()));
         }
 
         return $subscriber;
@@ -231,7 +231,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
                 	$session->addError($message);
                 }
             }
-            Mage::throwException('form not filled correct');
+            Mage::throwException(__('Form was filled incorrectly'));
         }
 
         return $data;
@@ -245,7 +245,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     public function delete($subscriberId)
     {
         if(!(int)$subscriberId) {
-            Mage::throwException('Ivalid subscriber id');
+            Mage::throwException(__('Ivalid subscriber ID'));
         }
 
         $this->_write->beginTransaction();
@@ -256,7 +256,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch (Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException('Cannot delete subscriber');
+            Mage::throwException(__('Cannot delete subscriber'));
         }
     }
 
@@ -273,7 +273,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch (Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException('Cannot mark as received subscriber');
+            Mage::throwException(__('Cannot mark as received subscriber'));
         }
     	return $this;
     }

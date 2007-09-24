@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
     public function getHeaderText()
     {
         if (Mage::registry('admin_current_store')->getId()) {
-            return __('Edit Store') . " '" . Mage::registry('admin_current_store')->getName() . "'";
+            return __("Edit Store '%s'", Mage::registry('admin_current_store')->getName());
         }
         else {
             return __('New Store');

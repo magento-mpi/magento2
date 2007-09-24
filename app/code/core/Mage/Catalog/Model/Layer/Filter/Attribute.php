@@ -46,7 +46,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
     {
         $attribute = $this->getData('attribute_model');
         if (is_null($attribute)) {
-            Mage::throwException('Attribute model do not defined');
+            Mage::throwException(__('Attribute model do not defined'));
         }
         return $attribute;
     }

@@ -42,7 +42,7 @@ class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abs
 	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/pickup/title'));
 	    	
 	    	$method->setMethod('store');
-	    	$method->setMethodTitle('Store Pickup');
+	    	$method->setMethodTitle(__('Store Pickup'));
 	    	
 	    	$method->setPrice(0);
 	    	$method->setCost(0);

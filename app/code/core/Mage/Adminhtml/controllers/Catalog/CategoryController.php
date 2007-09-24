@@ -144,10 +144,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             try {
                 Mage::getModel('catalog/category')->load($id)
                     ->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess('Category deleted');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Category deleted'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError('Category delete error');
+                Mage::getSingleton('adminhtml/session')->addError(__('Category delete error'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
             try {
                 $category->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess('Category saved');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Category saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')

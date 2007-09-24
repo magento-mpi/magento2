@@ -79,7 +79,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             $entityTypeId = $entityType->getId();
         }
         if (empty($entityTypeId)) {
-            throw Mage::exception('Mage_Eav', 'Invalid entity supplied');
+            throw Mage::exception('Mage_Eav', __('Invalid entity supplied'));
         }
         $this->getResource()->loadByCode($this, $entityTypeId, $code);
         return $this;

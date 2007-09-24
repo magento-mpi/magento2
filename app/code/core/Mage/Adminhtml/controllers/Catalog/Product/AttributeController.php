@@ -109,7 +109,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
-            Mage::getSingleton('adminhtml/session')->addError('Attribute with the same code already exists');
+            Mage::getSingleton('adminhtml/session')->addError(__('Attribute with the same code already exists'));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product attribute was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product attribute was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setAttributeData(false);
                 $this->_redirect('*/*/');
                 return;
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             try {
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product attribute was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product attribute was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }

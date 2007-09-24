@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Export extends Varien_Data_F
         );
         
         $data = array(
-            'label'     => 'Export CSV',
+            'label'     => __('Export CSV'),
             'onclick'   => 'setLocation(\''.Mage::getUrl("*/*/exportTablerates", $params) . 'conditionName/\' + $(\'carriers_tablerate_condition_name\').value + \'/\' )',
             'class'     => '',
         );

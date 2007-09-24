@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_Edit extends Mage_Adminhtml_Block_Widget_
     public function getHeaderText()
     {
         if (Mage::registry('sales_order')->getId()) { // TOCHECK
-            return __('Edit Order #') . Mage::registry('sales_order')->getRealOrderId();
+            return __('Edit Order #%s', Mage::registry('sales_order')->getRealOrderId());
         }
         else {
             return __('New Order');

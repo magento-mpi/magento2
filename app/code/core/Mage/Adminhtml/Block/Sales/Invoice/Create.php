@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create extends Mage_Adminhtml_Block_Wid
 
     public function getHeaderText()
     {
-        return __('New Invoice for Order #') . Mage::registry('sales_invoice')->getOrder()->getRealOrderId();
+        return __('New Invoice for Order #%s', Mage::registry('sales_invoice')->getOrder()->getRealOrderId());
     }
 
     public function getBackUrl()

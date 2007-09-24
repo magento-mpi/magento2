@@ -160,13 +160,13 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
 
             try {
                 $invoice->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Invoice was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Invoice was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setInvoiceData(false);
                 if (Mage_Sales_Model_Invoice::STATUS_OPEN == $invoice->getInvoiceStatusId()) {
                     try {
                         $invoice->processPayment();
                         // TODO - redirect to print form
-                        Mage::getSingleton('adminhtml/session')->addSuccess(__('Invoice was charged succesfully'));
+                        Mage::getSingleton('adminhtml/session')->addSuccess(__('Invoice was successfully charged'));
                         $this->_redirect('*/sales_invoice/edit/', array('invoice_id' => $invoice->getId()));
                         return;
                     } catch (Exception $e) {
@@ -332,7 +332,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         }
 
         $this->_initAction()
-            ->_addBreadcrumb(('View Invoice'), __('View Invoice'))
+            ->_addBreadcrumb(__('View Invoice'), __('View Invoice'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_' . $type . '_view'))
             ->renderLayout();
     }

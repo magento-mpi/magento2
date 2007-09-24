@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
     public function getHeaderText()
     {
         if (Mage::registry('tag_tag')->getId()) {
-            return __('Edit Tag') . " '" . Mage::registry('tag_tag')->getName() . "'";
+            return __("Edit Tag '%s'", Mage::registry('tag_tag')->getName());
         }
         else {
             return __('New Tag');

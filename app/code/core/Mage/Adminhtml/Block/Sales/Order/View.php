@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        return __('Order #') . Mage::registry('sales_order')->getRealOrderId();
+        return __('Order #%s', Mage::registry('sales_order')->getRealOrderId());
     }
 
     public function getCreateInvoiceUrl()

@@ -260,28 +260,28 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
         static $codes = array(
 
             'service'=>array(
-                'E' => 'Express',
-                'N' => 'Next Afternoon',
-                'S' => 'Second Day Service',
-                'G' => 'Ground',
+                'E' => __('Express'),
+                'N' => __('Next Afternoon'),
+                'S' => __('Second Day Service'),
+                'G' => __('Ground'),
             ),
 
             'shipment_type'=>array(
-                'L' => 'Letter',
-                'P' => 'Package',
+                'L' => __('Letter'),
+                'P' => __('Package'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid DHL XML code type: '.$type);
+//            throw Mage::exception('Mage_Shipping', __('Invalid DHL XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid DHL XML code for type '.$type.': '.$code);
+//            throw Mage::exception('Mage_Shipping', __('Invalid DHL XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

@@ -98,7 +98,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (empty($frontendLabel[0])) {
-                Mage::throwException('Frontend label is not defined');
+                Mage::throwException(__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0]);
             
@@ -196,7 +196,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                     
                 	// Default value
                 	if (!isset($values[0])) {
-                	    Mage::throwException('Default otion value is not defined');
+                	    Mage::throwException(__('Default option value is not defined'));
                 	}
                 	
                 	$defaultValue = $values[0];

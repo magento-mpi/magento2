@@ -56,7 +56,7 @@ class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Mo
             return (float) $xml;
         }
         catch (Exception $e) {
-            Mage::throwException('Can not retrieve rate from ' . $url);
+            Mage::throwException(__('Cannot retrieve rate from %s', $url));
         }
     }
 }

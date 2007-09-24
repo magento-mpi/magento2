@@ -124,7 +124,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
         try {
             $order->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Order was cancelled successfully'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Order was successfully cancelled'));
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
             return;
         } catch (Exception $e) {
@@ -167,7 +167,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
             try {
                 $order->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Order status was changed successfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Order status was successfully changed'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
                 return;
             } catch (Exception $e) {

@@ -243,43 +243,43 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
 
     public function getCode($type, $code='')
     {
-        static $codes = array(
+        $codes = array(
             'action'=>array(
                 'single'=>'3',
                 'all'=>'4',
             ),
 
             'method'=>array(
-                '1DM'    => 'Next Day Air Early AM',
-                '1DML'   => 'Next Day Air Early AM Letter',
-                '1DA'    => 'Next Day Air',
-                '1DAL'   => 'Next Day Air Letter',
-                '1DAPI'  => 'Next Day Air Intra (Puerto Rico)',
-                '1DP'    => 'Next Day Air Saver',
-                '1DPL'   => 'Next Day Air Saver Letter',
-                '2DM'    => '2nd Day Air AM',
-                '2DML'   => '2nd Day Air AM Letter',
-                '2DA'    => '2nd Day Air',
-                '2DAL'   => '2nd Day Air Letter',
-                '3DS'    => '3 Day Select',
-                'GND'    => 'Ground',
-                'GNDCOM' => 'Ground Commercial',
-                'GNDRES' => 'Ground Residential',
-                'STD'    => 'Canada Standard',
-                'XPR'    => 'Worldwide Express',
-                'WXS'    => 'Worldwide Express',
-                'XPRL'   => 'Worldwide Express Letter',
-                'XDM'    => 'Worldwide Express Plus',
-                'XDML'   => 'Worldwide Express Plus Letter',
-                'XPD'    => 'Worldwide Expedited',
+                '1DM'    => __('Next Day Air Early AM'),
+                '1DML'   => __('Next Day Air Early AM Letter'),
+                '1DA'    => __('Next Day Air'),
+                '1DAL'   => __('Next Day Air Letter'),
+                '1DAPI'  => __('Next Day Air Intra (Puerto Rico)'),
+                '1DP'    => __('Next Day Air Saver'),
+                '1DPL'   => __('Next Day Air Saver Letter'),
+                '2DM'    => __('2nd Day Air AM'),
+                '2DML'   => __('2nd Day Air AM Letter'),
+                '2DA'    => __('2nd Day Air'),
+                '2DAL'   => __('2nd Day Air Letter'),
+                '3DS'    => __('3 Day Select'),
+                'GND'    => __('Ground'),
+                'GNDCOM' => __('Ground Commercial'),
+                'GNDRES' => __('Ground Residential'),
+                'STD'    => __('Canada Standard'),
+                'XPR'    => __('Worldwide Express'),
+                'WXS'    => __('Worldwide Express Saver'),
+                'XPRL'   => __('Worldwide Express Letter'),
+                'XDM'    => __('Worldwide Express Plus'),
+                'XDML'   => __('Worldwide Express Plus Letter'),
+                'XPD'    => __('Worldwide Expedited'),
             ),
 
             'pickup'=>array(
-                'RDP'    => 'Regular Daily Pickup',
-                'OCA'    => 'On Call Air',
-                'OTP'    => 'One Time Pickup',
-                'LC'     => 'Letter Center',
-                'CC'     => 'Customer Counter',
+                'RDP'    => __('Regular Daily Pickup'),
+                'OCA'    => __('On Call Air'),
+                'OTP'    => __('One Time Pickup'),
+                'LC'     => __('Letter Center'),
+                'CC'     => __('Customer Counter'),
             ),
 
             'container'=>array(
@@ -292,12 +292,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             ),
 
             'container_description'=>array(
-                'CP'     => 'Customer Packaging',
-                'ULE'    => 'UPS Letter Envelope',
-                'UT'     => 'UPS Tube',
-                'UEB'    => 'UPS Express Box',
-                'UW25'   => 'UPS Worldwide 25 kilo',
-                'UW10'   => 'UPS Worldwide 10 kilo',
+                'CP'     => __('Customer Packaging'),
+                'ULE'    => __('UPS Letter Envelope'),
+                'UT'     => __('UPS Tube'),
+                'UEB'    => __('UPS Express Box'),
+                'UW25'   => __('UPS Worldwide 25 kilo'),
+                'UW10'   => __('UPS Worldwide 10 kilo'),
             ),
 
             'dest_type'=>array(
@@ -306,20 +306,20 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
             ),
 
             'dest_type_description'=>array(
-                'RES'    => 'Residential',
-                'COM'    => 'Commercial',
+                'RES'    => __('Residential'),
+                'COM'    => __('Commercial'),
             )
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code type: '.$type);
+//            throw Mage::exception('Mage_Shipping', __('Invalid UPS CGI code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid UPS CGI code for type '.$type.': '.$code);
+//            throw Mage::exception('Mage_Shipping', __('Invalid UPS CGI code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Bl
 
     public function getHeaderText()
     {
-        return 'Header Text';
+        return __('Header Text');
     }
 
     public function getHeaderCssClass()
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Bl
                 ->setValue($addressId)
                 ->setOptions($options);
 
-            $select->addOption('', 'New Address');
+            $select->addOption('', __('New Address'));
 
             return $select->getHtml();
         }

@@ -124,7 +124,7 @@ class Mage_Customer_Model_Mysql4_Customer
         }
         catch (Exception $e){
             $this->_write->rollBack();
-            Mage::throwException('saving customer error');
+            Mage::throwException(__('Error during saving customer'));
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE001'));
         }
         
@@ -146,13 +146,13 @@ class Mage_Customer_Model_Mysql4_Customer
         if ($testCustomer->getId()) {
             if ($customer->getId()) {
                 if ($testCustomer->getId() != $customer->getId()) {
-                    Mage::throwException('customer email already exist', 'customer/session');
+                    Mage::throwException(__('Customer email already exists'), 'customer/session');
                     /*throw Mage::exception('Mage_Customer')
                         ->addMessage(Mage::getModel('customer/message')->error('CSTE002'));*/
                 }
             }
             else {
-                Mage::throwException('customer email already exist', 'customer/session');
+                Mage::throwException(__('Customer email already exists'), 'customer/session');
                 /*throw Mage::exception('Mage_Customer')
                     ->addMessage(Mage::getModel('customer/message')->error('CSTE003'));*/
             }
@@ -168,7 +168,7 @@ class Mage_Customer_Model_Mysql4_Customer
     public function delete($customerId)
     {
         if (!$customerId) {
-            Mage::throwException('invalid customer id');
+            Mage::throwException(__('Invalid customer ID'));
             /*throw Mage::exception('Mage_Customer')
                 ->addMessage(Mage::getModel('customer/message')->error('CSTE009'));*/
         }
@@ -180,7 +180,7 @@ class Mage_Customer_Model_Mysql4_Customer
             $this->_write->commit();
         }
         catch (Exception $e){
-            Mage::throwException('can not delete customer');
+            Mage::throwException(__('Cannot delete customer'));
             /*throw Mage::exception('Mage_Customer')
                 ->addMessage(Mage::getModel('customer/message')->error('CSTE010'));*/
         }
@@ -203,17 +203,17 @@ class Mage_Customer_Model_Mysql4_Customer
     {
         if ($checkCurrent) {
             if (empty($data['current_password'])) {
-                Mage::throwException('current customer password is empty');
+                Mage::throwException(__('Current customer password is empty'));
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE005'));
             }
             if (!$this->_checkPassword($customerId, $data['current_password'])) {
-                Mage::throwException('invalid current password');
+                Mage::throwException(__('Invalid current password'));
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE006'));
             }
         }
         
         if ($data['password'] != $data['confirmation']) {
-            Mage::throwException('new passwords do not match');
+            Mage::throwException(__('New passwords do not match'));
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE007'));
         }
         
@@ -227,7 +227,7 @@ class Mage_Customer_Model_Mysql4_Customer
         catch (Exception $e){
             $this->_write->rollBack();
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE008'));
-            Mage::throwException('updating the password error');
+            Mage::throwException(__('Error during updating the password'));
         }
         
         return $this;

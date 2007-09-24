@@ -188,7 +188,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     public function getIdFieldName()
     {
         if (empty($this->_idFieldName)) {
-            throw Mage::exception('Mage_Core', 'Empty field id name');
+            throw Mage::exception('Mage_Core', __('Empty field id name'));
         }
         return $this->_idFieldName;
     }
@@ -201,7 +201,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
     public function getMainTable()
     {
         if (empty($this->_mainTable)) {
-            throw Mage::exception('Mage_Core', 'Empty main table name');
+            throw Mage::exception('Mage_Core', __('Empty main table name'));
         }
         return $this->getTable($this->_mainTable);
     }
@@ -334,7 +334,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         catch (Exception $e) {
             $write->rollBack();
-            Mage::throwException('Exception while saving the object:' . $e->getMessage());
+            Mage::throwException(__('Exception while saving the object: %s', $e->getMessage()));
         }
 
         return $this;
@@ -397,7 +397,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
             }
         }
         if ( !empty($existent) ) {
-            throw Mage::exception( 'Mage_Core', implode(', ', $existent) . ' already exist' . (count($existent) == 1 ? 's' : '') );
+            throw Mage::exception( 'Mage_Core', ( count($existent) == 1 ? __('%s already exists', implode(', ', $existent)) : __('%s already exist', implode(', ', $existent)) ) );
         }
         return $this;
     }
@@ -425,7 +425,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
 
         } catch(Exception $e) {
             $write->rollBack();
-            Mage::throwException('Exception while deleting the object');
+            Mage::throwException(__('Exception while deleting the object'));
         }
         return $this;
     }

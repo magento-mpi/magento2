@@ -64,7 +64,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 $this->getRequest()->getParam('store'),
                 $this->getRequest()->getPost('groups')
             );
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Configuration Successfully Saved'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Configuration successfully saved'));
             $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
             return;
         } catch( Exception $e ) {
@@ -92,7 +92,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         
         $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
         
-        $csvHeader = array('"Country"', '"Region/State"', '"ZIP/Postal Code"', '"'.$conditionName.'"', '"Shipping Price"');
+        $csvHeader = array('"'.__('Country').'"', '"'.__('Region/State').'"', '"'.__('Zip/Postal Code').'"', '"'.$conditionName.'"', '"'.__('Shipping Price').'"');
         $csv .= implode(',', $csvHeader)."\n";
         
         foreach ($tableratesCollection->getItems() as $item) {

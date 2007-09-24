@@ -206,7 +206,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	    $address->setShippingMethod($methods[$address->getId()]);
         	}
         	elseif (!$address->getShippingMethod()) {
-        	    Mage::throwException('Please select shipping methods for all addresses');
+        	    Mage::throwException(__('Please select shipping methods for all addresses'));
         	}
         }
         $addresses = $this->getQuote()
@@ -218,7 +218,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     public function setPaymentMethod($payment)
     {
         if (!isset($payment['method'])) {
-            Mage::throwException('Payment method do not defined');
+            Mage::throwException(__('Payment method do not defined'));
         }
 
         $this->getQuote()->getPayment()

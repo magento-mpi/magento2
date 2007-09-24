@@ -166,7 +166,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function asString($format='')
     {
-        $str = __("If %s of these conditions are %", $this->getAttributeName(), $this->getOperatorName());
+        $str = __("If %s of these conditions are %s:", $this->getAttributeName(), $this->getOperatorName());
         return $str;
     }
 

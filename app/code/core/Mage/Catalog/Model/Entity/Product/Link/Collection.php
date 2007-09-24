@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     	$this->_loadLinkAttributes();
     	
     	if(!($attribute = $this->getLinkAttributeCollection()->getItemByCodeAndLinkType($code, $linkType))) {
-    		Mage::throwException('Invalid Attribute Requested');
+    		Mage::throwException(__('Invalid Attribute Requested'));
     	}
     	    	
     	return $attribute;

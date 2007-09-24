@@ -113,7 +113,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if ($product->getId() && $product->isVisibleInCatalog()) {
             if (!$product->isInStock()) {
                 $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                Mage::throwException('This product is out of stock');
+                Mage::throwException(__('This product is out of stock'));
             }
 
             switch ($product->getTypeId()) {
@@ -127,12 +127,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                     $this->_addGroupedProduct($product, $qty);
                     break;
                 default:
-                    Mage::throwException('Indefinite product type');
+                    Mage::throwException(__('Indefinite product type'));
                     break;
             }
         }
         else {
-            Mage::throwException('Product do not exist');
+            Mage::throwException(__('Product do not exist'));
         }
 
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
@@ -150,7 +150,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         if (!$this->_setProductQuoteQty($product, $qty)) {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-            Mage::throwException('Requested quantity is not available');
+            Mage::throwException(__('Requested quantity is not available'));
         }
 
         $this->getQuote()->addCatalogProduct($product);
@@ -170,7 +170,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if(!is_array($groupedProducts) || empty($groupedProducts)) {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
             $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException('Please specify the product option(s)');
+            Mage::throwException(__('Please specify the product option(s)'));
         }
 
         foreach($product->getSuperGroupProductsLoaded() as $productLink) {
@@ -183,7 +183,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
                     if (!$subProduct->isInStock() || !$this->_setProductQuoteQty($subProduct, $qty)) {
                         $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                        Mage::throwException('Requested quantity is not available');
+                        Mage::throwException(__('Requested quantity is not available'));
                     }
                     $this->getQuote()->addCatalogProduct($subProduct);
                 }
@@ -208,12 +208,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
             if (!$subProduct->isInStock()) {
                 $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                Mage::throwException('This product is out of stock');
+                Mage::throwException(__('This product is out of stock'));
             }
 
             if (!$this->_setProductQuoteQty($subProduct, $qty)) {
                 $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-                Mage::throwException('Requested quantity is not available');
+                Mage::throwException(__('Requested quantity is not available'));
             }
 
             $this->getQuote()->addCatalogProduct($subProduct);
@@ -221,7 +221,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         else {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
             $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException('Please specify the product option(s)');
+            Mage::throwException(__('Please specify the product option(s)'));
         }
         return $this;
     }

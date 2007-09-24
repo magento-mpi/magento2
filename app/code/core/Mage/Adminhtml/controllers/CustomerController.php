@@ -141,7 +141,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($customer->getId()) {
             try {
                 $customer->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess('Customer was deleted');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer was deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -214,7 +214,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->sendPasswordReminderEmail();
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess('Customer was saved');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

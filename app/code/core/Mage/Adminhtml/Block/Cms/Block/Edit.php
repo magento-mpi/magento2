@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
     public function getHeaderText()
     {
         if (Mage::registry('cms_block')->getId()) {
-            return __('Edit Block') . " '" . Mage::registry('cms_block')->getTitle() . "'";
+            return __("Edit Block '%s'", Mage::registry('cms_block')->getTitle());
         }
         else {
             return __('New Block');

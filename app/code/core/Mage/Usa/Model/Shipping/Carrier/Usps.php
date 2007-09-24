@@ -288,17 +288,17 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
 
     public function getCode($type, $code='')
     {
-        static $codes = array(
+        $codes = array(
 
             'service'=>array(
-                'FIRST CLASS' => 'First-Class',
-                'PRIORITY'    => 'Priority Mail',
-                'EXPRESS'     => 'Express Mail',
-                'BPM'         => 'Bound Printed Matter',
-                'PARCEL'      => 'Parcel Post',
-                'MEDIA'       => 'Media Mail',
-                'LIBRARY'     => 'Library',
-//                'ALL'         => 'All Services',
+                'FIRST CLASS' => __('First-Class'),
+                'PRIORITY'    => __('Priority Mail'),
+                'EXPRESS'     => __('Express Mail'),
+                'BPM'         => __('Bound Printed Matter'),
+                'PARCEL'      => __('Parcel Post'),
+                'MEDIA'       => __('Media Mail'),
+                'LIBRARY'     => __('Library'),
+//                'ALL'         => __('All Services'),
             ),
 
 /*
@@ -346,28 +346,28 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
             ),
 
             'first_class_mail_type'=>array(
-                'LETTER'      => 'Letter',
-                'FLAT'        => 'Flat',
-                'PARCEL'      => 'Parcel',
+                'LETTER'      => __('Letter'),
+                'FLAT'        => __('Flat'),
+                'PARCEL'      => __('Parcel'),
             ),
 
             'container'=>array(
-                'VARIABLE'           => 'Variable',
-                'FLAT RATE BOX'      => 'Flat Rate Box',
-                'FLAT RATE ENVELOPE' => 'Flat Rate Envelope',
-                'RECTANGULAR'        => 'Rectangular',
-                'NONRECTANGULAR'     => 'Non-rectangular',
+                'VARIABLE'           => __('Variable'),
+                'FLAT RATE BOX'      => __('Flat Rate Box'),
+                'FLAT RATE ENVELOPE' => __('Flat Rate Envelope'),
+                'RECTANGULAR'        => __('Rectangular'),
+                'NONRECTANGULAR'     => __('Non-rectangular'),
             ),
 
             'size'=>array(
-                'REGULAR'     => 'Regular',
-                'LARGE'       => 'Large',
-                'OVERSIZE'    => 'Oversize',
+                'REGULAR'     => __('Regular'),
+                'LARGE'       => __('Large'),
+                'OVERSIZE'    => __('Oversize'),
             ),
 
             'machinable'=>array(
-                'true'        => 'Yes',
-                'false'       => 'No',
+                'true'        => __('Yes'),
+                'false'       => __('No'),
             ),
 
         );
@@ -380,14 +380,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         }
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code type: '.$type);
+//            throw Mage::exception('Mage_Shipping', __('Invalid USPS XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', 'Invalid USPS XML code for type '.$type.': '.$code);
+//            throw Mage::exception('Mage_Shipping', __('Invalid USPS XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

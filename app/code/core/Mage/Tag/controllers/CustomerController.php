@@ -109,11 +109,11 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
             try {
                 $model->delete();
 
-                Mage::getSingleton('tag/session')->addSuccess( 'You tag successfully removed.' );
+                Mage::getSingleton('tag/session')->addSuccess(__('You tag was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')->addError( 'Unable to remove tag. Please, try again later.' );
+                Mage::getSingleton('tag/session')->addError(__('Unable to remove tag. Please, try again later.'));
             }
         } else {
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
@@ -150,7 +150,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
 
                     if( !$tagModel->getName() ) {
                         $isNew = true;
-                        $message = 'Thank you. Your tag accepted for moderation.';
+                        $message = __('Thank you. Your tag accepted for moderation.');
                     }
 
                     $tagModel->setName($tagName)
@@ -179,11 +179,11 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 }
 
                 Mage::getSingleton('tag/session')
-                    ->addSuccess( ($message) ? $message : 'You tag successfully saved.' );
+                    ->addSuccess( ($message) ? $message : __('You tag was successfully saved') );
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('tag/session')
-                    ->addError( 'Unable to save your tag. Please, try again later.' );
+                    ->addError( __('Unable to save your tag. Please, try again later.') );
                 return;
             }
         }

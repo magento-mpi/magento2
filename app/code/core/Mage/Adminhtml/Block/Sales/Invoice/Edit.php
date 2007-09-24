@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit extends Mage_Adminhtml_Block_Widge
 
     public function getHeaderText()
     {
-        return __('Edit Invoice #') . " '" . Mage::registry('sales_invoice')->getIncrementId() . "'";
+        return __('Edit Invoice #%s', Mage::registry('sales_invoice')->getIncrementId());
     }
 
 }

@@ -235,7 +235,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->_columns[$columnId] = $column;
         }*/
         else {
-            throw new Exception('Wrong column format');
+            throw new Exception(__('Wrong column format'));
         }
 
         $this->_columns[$columnId]->setId($columnId);

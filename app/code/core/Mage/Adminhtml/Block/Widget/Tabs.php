@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
         	$this->_tabs[$tabId] = $tab;
         }
         else {
-            throw new Exception('Wrong tab configuration');
+            throw new Exception(__('Wrong tab configuration'));
         }
 
         if (is_null($this->_tabs[$tabId]->getUrl())) {

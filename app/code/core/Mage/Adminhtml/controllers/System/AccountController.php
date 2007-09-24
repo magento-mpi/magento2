@@ -52,14 +52,14 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         if( !$user->userExists() ) {
             try {
                 $user->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Account successfully saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Account successfully saved'));
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(__('Error while saving account. Please try again later.'));
+                Mage::getSingleton('adminhtml/session')->addError(__('Error while saving account. Please, try again later'));
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
             }
         } else {
-            Mage::getSingleton('adminhtml/session')->addError(__('User with the same User Name or Email aleady exists.'));
+            Mage::getSingleton('adminhtml/session')->addError(__('User with the same User Name or Email aleady exists'));
             $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
         }
     }

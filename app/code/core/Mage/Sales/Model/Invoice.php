@@ -326,7 +326,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
             if (self::TYPE_INVOICE == $this->getInvoiceType()) {
                 // we are creating new invoice for order
                 if (! $this->getOrder()) {
-                    Mage::throwException('No order for invoice');
+                    Mage::throwException(__('No order for invoice'));
                 }
                 foreach ($this->getOrder()->getAddressesCollection() as $address) {
 //                    print_r($address->getData());
@@ -335,7 +335,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
             } elseif (self::TYPE_CMEMO == $this->getInvoiceType()) {
                 // we are creating new memo for invoice
                 if (! $this->getInvoice()) {
-                    Mage::throwException('No invoice for credit memo');
+                    Mage::throwException(__('No invoice for credit memo'));
                 }
                 foreach ($this->getInvoice()->getAddressesCollection() as $address) {
                     $this->addAddress(Mage::getModel('sales/invoice_address')->importInvoiceAddress($address));

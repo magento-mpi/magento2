@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Poll_Edit extends Mage_Adminhtml_Block_Widget_Form_Co
     public function getHeaderText()
     {
         if( Mage::registry('poll_data') && Mage::registry('poll_data')->getId() ) {
-            return __('Edit Poll') . " '" . Mage::registry('poll_data')->getPollTitle() . "'";
+            return __("Edit Poll '%s'", Mage::registry('poll_data')->getPollTitle());
         } else {
             return __('New Poll');
         }

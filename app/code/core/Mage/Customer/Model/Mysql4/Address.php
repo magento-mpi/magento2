@@ -125,7 +125,7 @@ class Mage_Customer_Model_Mysql4_Address
             if ($useTransaction) {
                 $this->_write->rollBack();
             }
-            Mage::throwException('customer address save error');
+            Mage::throwException(__('Error during saving customer address'));
         }
         
         return $this;
@@ -150,7 +150,7 @@ class Mage_Customer_Model_Mysql4_Address
         );
         
         if (empty($data['customer_id'])) {
-            Mage::throwException('invalid customer id in address data');
+            Mage::throwException(__('Invalid customer ID in the address data'));
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE021'));
         }
         
@@ -166,7 +166,7 @@ class Mage_Customer_Model_Mysql4_Address
                 $data['region'] = $region->getName();
             }
             else {
-                Mage::throwException('invalid region for country specified in address');
+                Mage::throwException(__('Invalid region for country specified in the address'));
                 //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE022'));
             }
         }
@@ -202,7 +202,7 @@ class Mage_Customer_Model_Mysql4_Address
         }
         catch (Exception $e){
             $this->_write->rollBack();
-            Mage::throwException('customer delete error');
+            Mage::throwException(__('Error during customer deletion'));
             //throw Mage::exception('Mage_Customer')->addMessage(Mage::getModel('customer/message')->error('CSTE023'));
         }
         return $this;

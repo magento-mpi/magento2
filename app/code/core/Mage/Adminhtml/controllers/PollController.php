@@ -59,7 +59,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('poll/poll');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -119,7 +119,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                     }
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll succesfully saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPollData(false);
 
                 $this->_redirect('*/*/');

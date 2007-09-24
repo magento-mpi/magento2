@@ -24,7 +24,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps_Source_Freemethod extends Mage_Usa_Mo
     public function toOptionArray()
     {
         $arr = parent::toOptionArray();
-        array_unshift($arr, array('value'=>'', 'label'=>'None'));
+        array_unshift($arr, array('value'=>'', 'label'=>__('None')));
         return $arr;
     }
 }

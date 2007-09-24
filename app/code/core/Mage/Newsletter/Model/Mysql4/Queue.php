@@ -42,11 +42,11 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     public function addSubscribersToQueue(Mage_Newsletter_Model_Queue $queue, array $subscriberIds) 
     {
     	if (count($subscriberIds)==0) {
-    		Mage::throwException('No subscribers selected');
+    		Mage::throwException(__('No subscribers selected'));
     	}
     	
     	if (!$queue->getId() && $queue->getQueueStatus()!=Mage_Newsletter_Model_Queue::STATUS_NEVER) {
-    		Mage::throwException('Invalid queue selected');
+    		Mage::throwException(__('Invalid queue selected'));
     	}
     	
     	$select = $this->getConnection('read')->select();

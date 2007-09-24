@@ -90,7 +90,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 				        $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
 				    }
 				}
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('User was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('User was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setUserData(false);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         
         if ($id = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $id ) {
-                Mage::getSingleton('adminhtml/session')->addError(__('You can not delete self account'));
+                Mage::getSingleton('adminhtml/session')->addError(__('You cannot delete account of yourself'));
                 $this->_redirect('*/*/edit', array('user_id' => $id));
                 return;
             }
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
                 $model = Mage::getModel('admin/permissions_user');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('User was deleted succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('User was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }

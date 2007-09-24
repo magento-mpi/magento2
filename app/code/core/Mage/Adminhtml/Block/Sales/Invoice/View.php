@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_View extends Mage_Adminhtml_Block_Widge
 
     public function getHeaderText()
     {
-        return __('Invoice #') . Mage::registry('sales_invoice')->getIncrementId();
+        return __('Invoice #%s', Mage::registry('sales_invoice')->getIncrementId());
     }
 
     public function getCreateMemoUrl()

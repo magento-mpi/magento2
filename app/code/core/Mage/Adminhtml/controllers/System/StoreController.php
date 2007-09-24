@@ -71,7 +71,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $model->setData($data);
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Store was saved succesfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Store was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 $this->_redirect('*/system_config/edit', array('store'=>$model->getCode()));
             } catch (Exception $e) {

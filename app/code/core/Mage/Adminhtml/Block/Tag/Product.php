@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Tag_Product extends Mage_Adminhtml_Block_Widget_Grid_
         $tagInfo = Mage::getModel('tag/tag')
             ->load(Mage::registry('tagId'));
 
-        $this->_headerText = __("Products Tagged With '%s'", $tagInfo->getName());
+        $this->_headerText = __("Products Tagged with '%s'", $tagInfo->getName());
     }
 
 }

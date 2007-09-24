@@ -62,13 +62,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $rateModel->setData($postData);
                 $rateModel->save();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
-                Mage::getSingleton('adminhtml/session')->addSuccess('Tax rate successfully saved.');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rate was successfully saved'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                #Mage::getSingleton('adminhtml/session')->addError('Error while saving this rate. Please try again later.');
+                #Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this rate. Please try again later.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
@@ -95,13 +95,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $rateModel->setTaxRateId($rateId);
                 $rateModel->delete();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
-                Mage::getSingleton('adminhtml/session')->addSuccess('Tax rate successfully deleted.');
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rate was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                Mage::getSingleton('adminhtml/session')->addError('Error while deleting this rate. Please try again later.');
+                Mage::getSingleton('adminhtml/session')->addError(__('Error while deleting this rate. Please try again later.'));
             }
         }
     }
@@ -171,13 +171,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     		&& !empty($_FILES['import_rates_file']['tmp_name'])) {
     		try {
     			$this->_importRates();
-				Mage::getSingleton('adminhtml/session')->addSuccess('Tax rates file has been imported successfully');
+				Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rates file has been successfully imported'));
     		} catch (Exception $e) {
-    			Mage::getSingleton('adminhtml/session')->addError('Error during import: '.$e);
+    			Mage::getSingleton('adminhtml/session')->addError(__('Error during import: %s', $e));
     		}
     	} else {
 
-    		Mage::getSingleton('adminhtml/session')->addError('Invalid file upload attempt');
+    		Mage::getSingleton('adminhtml/session')->addError(__('Invalid file upload attempt'));
 
     	}
     	$this->_redirect('*/*/importExport');

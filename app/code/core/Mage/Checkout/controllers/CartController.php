@@ -57,7 +57,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         if (!$this->_getCart()->isValidItemsQty()) {
             Mage::getSingleton('checkout/session')
-                ->addError('The item (s) marked in red are not available in the desired quantity. Please update the quantity of the item (s).');
+                ->addError(__('The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s).'));
         }
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
@@ -125,7 +125,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->save();
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addError('Cannot update shopping cart');
+            Mage::getSingleton('checkout/session')->addError(__('Cannot update shopping cart'));
         }
         $this->_backToCart();
 
@@ -141,7 +141,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->save();
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addError('Cannot move item to wishlist');
+            Mage::getSingleton('checkout/session')->addError(__('Cannot move item to wishlist'));
         }
         $this->_backToCart();
     }
@@ -154,7 +154,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     		$cart->removeItem($id)
     		  ->save();
     	} catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError('Cannot remove item');
+            Mage::getSingleton('checkout/session')->addError(__('Cannot remove item'));
     	}
 
     	$this->_redirectToReferer();

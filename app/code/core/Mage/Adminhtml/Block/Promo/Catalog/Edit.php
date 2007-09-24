@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
         
         $this->_addButton('save_apply', array(
         	'class'=>'save',
-        	'label'=>'Save and Apply',
+        	'label'=>__('Save and Apply'),
         	'onclick'=>"$('rule_auto_apply').value=1; editForm.submit()",
         ));
     }
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
     {
         $rule = Mage::registry('current_promo_catalog_rule');
         if ($rule->getRuleId()) {
-            return __('Edit Rule') . " '" . $rule->getName() . "'";
+            return __("Edit Rule '%s'", $rule->getName());
         }
         else {
             return __('New Rule');

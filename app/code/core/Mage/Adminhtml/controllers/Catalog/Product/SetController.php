@@ -145,10 +145,10 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 ->setId($setId)
                 ->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess('Attribute Set Successfully Removed.');
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('Attribute set was successfully removed.'));
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError('Error while deleting this set.');
+            Mage::getSingleton('adminhtml/session')->addError(__('Error while deleting this set.'));
             if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                 $this->getResponse()->setRedirect($referer);
             }

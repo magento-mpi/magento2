@@ -85,11 +85,11 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 }
 
                 Mage::getSingleton('catalog/session')
-                        ->addSuccess('Your tag(s) have been submitted.');
+                        ->addSuccess(__('Your tag(s) have been submitted'));
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('catalog/session')
-                    ->addError('Unable to save tag(s).');
+                    ->addError(__('Unable to save tag(s)'));
                 return;
             }
         }
