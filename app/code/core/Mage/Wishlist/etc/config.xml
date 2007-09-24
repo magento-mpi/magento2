@@ -85,7 +85,7 @@
             <modules>
                 <Mage_Wishlist>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Wishlist.csv</default>
                     </files>
                 </Mage_Wishlist>
             </modules>

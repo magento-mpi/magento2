@@ -88,7 +88,7 @@
             <modules>
                 <Mage_Core>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Core.csv</default>
                     </files>
                 </Mage_Core>
             </modules>

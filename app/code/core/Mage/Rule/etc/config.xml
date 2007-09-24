@@ -46,7 +46,7 @@
             <modules>
                 <Mage_Rule>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Rule.csv</default>
                     </files>
                 </Mage_Rule>
             </modules>

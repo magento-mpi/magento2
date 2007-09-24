@@ -112,7 +112,7 @@
             <modules>
                 <Mage_Directory>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Directory.csv</default>
                     </files>
                 </Mage_Directory>
             </modules>

@@ -89,7 +89,7 @@
             <modules>
                 <Mage_Rating>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Rating.csv</default>
                     </files>
                 </Mage_Rating>
             </modules>

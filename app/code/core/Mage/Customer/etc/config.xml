@@ -143,7 +143,7 @@
             <modules>
                 <Mage_Customer>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Customer.csv</default>
                     </files>
                 </Mage_Customer>
             </modules>

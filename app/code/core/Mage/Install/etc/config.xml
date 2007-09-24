@@ -100,7 +100,7 @@
         <modules>
             <Mage_Install>
                 <files>
-                    <default>translate.csv</default>
+                    <default>Mage_Install.csv</default>
                 </files>
             </Mage_Install>
         </modules>

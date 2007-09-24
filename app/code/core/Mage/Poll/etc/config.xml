@@ -39,7 +39,7 @@
             <modules>
                 <Mage_Poll>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Poll.csv</default>
                     </files>
                 </Mage_Poll>
             </modules>

@@ -98,7 +98,7 @@
             <modules>
                 <Mage_Newsletter>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Newsletter.csv</default>
                     </files>
                 </Mage_Newsletter>
             </modules>

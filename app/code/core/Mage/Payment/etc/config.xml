@@ -44,7 +44,7 @@
             <modules>
                 <Mage_Payment>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Payment.csv</default>
                     </files>
                 </Mage_Payment>
             </modules>

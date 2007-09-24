@@ -76,7 +76,7 @@
         <modules>
             <Mage_Checkout>
                 <files>
-                    <default>translate.csv</default>
+                    <default>Mage_Checkout.csv</default>
                 </files>
             </Mage_Checkout>
         </modules>

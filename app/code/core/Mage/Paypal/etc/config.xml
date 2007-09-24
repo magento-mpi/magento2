@@ -83,7 +83,7 @@
             <modules>
                 <Mage_Paypal>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Paypal.csv</default>
                     </files>
                 </Mage_Paypal>
             </modules>

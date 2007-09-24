@@ -91,7 +91,7 @@
             <modules>
                 <Mage_Tag>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Tag.csv</default>
                     </files>
                 </Mage_Tag>
             </modules>

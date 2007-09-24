@@ -50,7 +50,7 @@
             <modules>
                 <Mage_Cms>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_Cms.csv</default>
                     </files>
                 </Mage_Cms>
             </modules>

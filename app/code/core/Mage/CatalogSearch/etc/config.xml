@@ -82,7 +82,7 @@
         <modules>
             <Mage_Search>
                 <files>
-                    <default>translate.csv</default>
+                    <default>Mage_Search.csv</default>
                 </files>
             </Mage_Search>
         </modules>

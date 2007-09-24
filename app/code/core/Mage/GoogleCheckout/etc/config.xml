@@ -80,7 +80,7 @@
             <modules>
                 <Mage_GoogleCheckout>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_GoogleCheckout.csv</default>
                     </files>
                 </Mage_GoogleCheckout>
             </modules>
