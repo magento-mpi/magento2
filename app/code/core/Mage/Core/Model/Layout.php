@@ -136,20 +136,26 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getDatabaseLayoutUpdate($handle)
     {
         $package = Mage::getSingleton('core/design_package');
-        $collection = Mage::getResourceModel('core/layout_collection')
-            ->addPackageFilter($package->getPackageName())
-            ->addThemeFilter($package->getTheme('layout'))
-            ->addHandleFilter($handle)
-            ->load();
-
-        $this->updateCacheChecksum(Mage::getResourceModel('core/layout')->getTableChecksum());
-
-        $updateStr = '';
-        foreach ($collection->getIterator() as $update) {
-            $updateStr .= $update->getLayoutUpdate();
+        
+        try {
+            $collection = Mage::getResourceModel('core/layout_collection')
+                ->addPackageFilter($package->getPackageName())
+                ->addThemeFilter($package->getTheme('layout'))
+                ->addHandleFilter($handle)
+                ->load();
+    
+            $this->updateCacheChecksum(Mage::getResourceModel('core/layout')->getTableChecksum());
+            
+            $updateStr = '';
+            foreach ($collection->getIterator() as $update) {
+                $updateStr .= $update->getLayoutUpdate();
+            }
+            $updateStr = $this->processFileData($updateStr);
+            $updateXml = simplexml_load_string($updateStr);
         }
-        $updateStr = $this->processFileData($updateStr);
-        $updateXml = simplexml_load_string($updateStr);
+        catch (Exception $e){
+            $updateXml = '';
+        }
         return $updateXml;
     }
 

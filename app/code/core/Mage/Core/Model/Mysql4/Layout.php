@@ -28,7 +28,6 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
 
     public function getTableChecksum()
     {
-        $checksums = $this->getConnection('read')->fetchRow('checksum table '.$this->getMainTable());
-        return $checksums['Checksum'];
+        return $this->getChecksum($this->getMainTable());
     }
 }
