@@ -114,9 +114,14 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     		return false;
     	}
 
-    	$status = ( $customer->getIsSubscribed()
+    	if($customer->hasIsSubscribed()) {
+    	    $status = ( $customer->getIsSubscribed()
     			    ? Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED
     			    : Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
+    	} else {
+    	    $status = $subscriber->getStatus();
+    	}
+
 
     	if($status != $subscriber->getStatus()) {
     		$subscriber->setIsStatusChanged(true);
@@ -132,6 +137,9 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     		$subscriber
     			->setStoreId($customer->getStoreId())
     			->setCustomerId($customer->getId())
+    			->setEmail($customer->getEmail());
+    	} else {
+    	       $subscriber
     			->setEmail($customer->getEmail());
     	}
 
