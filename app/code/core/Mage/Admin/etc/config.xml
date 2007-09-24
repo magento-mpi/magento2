@@ -62,20 +62,11 @@
             <connection><use>core_read</use></connection>
          </admin_read>
       </resources>
-        <block>
-            <groups><admin><class>Mage_Admin_Block</class></admin></groups>
-        </block>
+        <blocks>
+            <admin><class>Mage_Admin_Block</class></admin>
+        </blocks>
    </global>
    <adminhtml>
-      <layouts>
-         <admin>
-            <updates>
-               <admin>
-                  <file>admin/init.xml</file>
-               </admin>
-            </updates>
-         </admin>
-      </layouts>
       <events>
          <action_preDispatch_admin>
             <observers>

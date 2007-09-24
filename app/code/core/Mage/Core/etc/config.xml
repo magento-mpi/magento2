@@ -45,13 +45,16 @@
                     <session>
                         <table>core_session</table>
                     </session>
+                    <layout>
+                        <table>core_layout</table>
+                    </layout>
                 </entities>
             </core_mysql4>
         </models>
 
-        <block>
-            <groups><core><class>Mage_Core_Block</class></core></groups>
-        </block>
+        <blocks>
+            <core><class>Mage_Core_Block</class></core>
+        </blocks>
          <locale>
             <allow>
                 <codes>
@@ -72,29 +75,6 @@
 
     </global>
     <frontend>
-        <layouts>
-            <noRoute>
-                <updates>
-                    <core>
-                        <file>core/noRoute.xml</file>
-                    </core>
-                </updates>
-            </noRoute>
-            <default>
-                <updates>
-                    <page>
-                        <file>core/default.xml</file>
-                    </page>
-                </updates>
-            </default>
-            <print>
-                <updates>
-                    <page>
-                        <file>core/print.xml</file>
-                    </page>
-                </updates>
-            </print>
-        </layouts>
         <routers>
             <core>
                 <use>standard</use>

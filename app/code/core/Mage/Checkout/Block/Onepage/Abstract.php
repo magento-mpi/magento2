@@ -35,6 +35,11 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_regionCollection;
     protected $_addressesCollection;
 
+    /**
+     * Get logged in customer
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     public function getCustomer()
     {
         if (empty($this->_customer)) {
@@ -102,9 +107,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             $addressId = $this->getAddress()->getId();
             if (empty($addressId)) {
                 if ($type=='billing') {
-                    $addressId = $this->getCustomer()->getPrimaryBillingAddress();
+                    $address = $this->getCustomer()->getPrimaryBillingAddress();
                 } else {
-                    $addressId = $this->getCustomer()->getPrimaryShippingAddress();
+                    $address = $this->getCustomer()->getPrimaryShippingAddress();
+                }
+                if ($address) {
+                    $addressId = $address->getId();
                 }
             }
 

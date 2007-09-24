@@ -29,9 +29,9 @@
         </Mage_Customer>
     </modules>
     <global>
-        <block>
-            <groups><customer><class>Mage_Customer_Block</class></customer></groups>
-        </block>
+        <blocks>
+            <customer><class>Mage_Customer_Block</class></customer>
+        </blocks>
         <models>
             <customer>
                 <class>Mage_Customer_Model</class>
@@ -119,71 +119,6 @@
         <secure_url>
             <customer>/customer/</customer>
         </secure_url>
-        <layouts>
-            <default>
-                <updates>
-                    <customer>
-                        <file>customer/initLayout.xml</file>
-                    </customer>
-                </updates>
-            </default>
-            <customer_login>
-                <updates>
-                    <default>
-                        <file>customer/login.xml</file>
-                    </default>
-                </updates>
-            </customer_login>
-            <customer_logout>
-                <updates>
-                    <default>
-                        <file>customer/logout.xml</file>
-                    </default>
-                </updates>
-            </customer_logout>
-            <customer_register>
-                <updates>
-                    <default>
-                        <file>customer/register.xml</file>
-                    </default>
-                </updates>
-            </customer_register>
-            <customer_account>
-                <updates>
-                    <default>
-                        <file>customer/account.xml</file>
-                    </default>
-                </updates>
-            </customer_account>
-            <customer_dashboard>
-                <updates>
-                    <default>
-                        <file>customer/dashboard.xml</file>
-                    </default>
-                </updates>
-            </customer_dashboard>
-            <customer_address_book>
-                <updates>
-                    <default>
-                        <file>customer/address/book.xml</file>
-                    </default>
-                </updates>
-            </customer_address_book>
-            <customer_address>
-                <updates>
-                    <default>
-                        <file>customer/address.xml</file>
-                    </default>
-                </updates>
-            </customer_address>
-            <wishlist>
-                <updates>
-                    <default>
-                        <file>customer/wishlist.xml</file>
-                    </default>
-                </updates>
-            </wishlist>
-        </layouts>
         <events>
             <beforeGenerateLayoutBlocks>
                 <observers>

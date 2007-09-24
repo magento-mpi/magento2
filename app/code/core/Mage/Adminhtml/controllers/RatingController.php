@@ -31,7 +31,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->_initEnityId();
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         $this->_setActiveMenu('catalog/ratings');
         $this->_addBreadcrumb(__('Ratings'), __('Ratings'));
@@ -43,7 +43,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->_initEnityId();
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         $this->_setActiveMenu('catalog/ratings');
         $this->_addBreadcrumb(__('Ratings'), __('Ratings'));

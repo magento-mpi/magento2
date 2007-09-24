@@ -30,9 +30,9 @@
         </Mage_Wishlist>
     </modules>
     <global>
-        <block>
-            <groups><wishlist><class>Mage_Wishlist_Block</class></wishlist></groups>
-        </block>
+        <blocks>
+            <wishlist><class>Mage_Wishlist_Block</class></wishlist>
+        </blocks>
         <models>
             <wishlist>
                 <class>Mage_Wishlist_Model</class>
@@ -72,22 +72,6 @@
         </resources>
     </global>
     <frontend>
-        <layouts>
-            <default>
-                <updates>
-                    <wishlist>
-                        <file>wishlist/initLayout.xml</file>
-                    </wishlist>
-                </updates>
-            </default>
-            <customer_account>
-                <updates>
-                    <wishlist_account>
-                        <file>wishlist/account.xml</file>
-                    </wishlist_account>
-                </updates>
-            </customer_account>
-        </layouts>
         <routers>
             <wishlist>
                 <use>standard</use>

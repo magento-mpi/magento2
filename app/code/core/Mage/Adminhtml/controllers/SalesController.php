@@ -30,7 +30,7 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('sales');
 
         $block = $this->getLayout()->createBlock('adminhtml/sales', 'sales');

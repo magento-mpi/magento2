@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -13,17 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<layoutUpdate>
-    <reference name="customer_account_dashboard">
-        <action method="unsetChild"><name>top</name></action>
-        <block type="sales/order_recent" name="customer_account_dashboard_top" as="top">
-            <action method="setTemplate"><template>sales/order/recent.phtml</template></action>
-        </block>
-    </reference>
-</layoutUpdate>
+
+
+class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('core/layout', 'layout_id');
+    }
+
+    public function getTableChecksum()
+    {
+        $checksums = $this->getConnection('read')->fetchRow('checksum table '.$this->getMainTable());
+        return $checksums['Checksum'];
+    }
+}

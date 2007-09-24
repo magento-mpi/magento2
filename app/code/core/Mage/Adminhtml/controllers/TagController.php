@@ -31,7 +31,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('catalog/tag')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Tags'), __('Tags'))

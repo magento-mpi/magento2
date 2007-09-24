@@ -33,13 +33,13 @@ class Mage_Catalog_Model_Category extends Varien_Object
     const DM_PRODUCT= 'PRODUCTS';
     const DM_PAGE   = 'PAGE';
     const DM_MIXED  = 'PRODUCTS_AND_PAGE';
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
-    
+
     /**
      * Retrieve category resource model
      *
@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
     {
         return Mage::getResourceSingleton('catalog/category');
     }
-    
+
     /**
      * Retrieve category tree model
      *
@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
     {
         return Mage::getResourceModel('catalog/category_tree');
     }
-    
+
     /**
      * Set category and resource model store id
      *
@@ -72,7 +72,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $this->setData('store_id', $storeId);
         return $this;
     }
-    
+
     /**
      * Retrieve category store id
      *
@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $this->getResource()->load($this, $categoryId);
         return $this;
     }
-    
+
     /**
      * Save category
      *
@@ -105,7 +105,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $this->getResource()->save($this);
         return $this;
     }
-    
+
     /**
      * Delete category
      *
@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-    
+
     /**
      * Move category
      *
@@ -137,7 +137,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
     {
         return $this->getResource()->getConfig()->getDefaultAttributeSetId();
     }
-    
+
     /**
      * Get category products collection
      *
@@ -149,7 +149,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
             //->addCategoryFilter($this->getId());
         return $collection;
     }
-    
+
     /**
      * Retrieve all customer attributes
      *
@@ -161,12 +161,12 @@ class Mage_Catalog_Model_Category extends Varien_Object
             ->loadAllAttributes($this)
             ->getAttributesByCode();
     }
-    
+
     /**
      * Retrieve array of product id's for category
-     * 
+     *
      * array($productId => $position)
-     * 
+     *
      * @return array
      */
     public function getProductsPosition()
@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
         if (!$this->getId()) {
             return array();
         }
-        
+
         $arr = $this->getData('products_position');
         if (is_null($arr)) {
             $arr = $this->getResource()->getProductsPosition($this);
@@ -182,7 +182,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
         }
         return $arr;
     }
-    
+
     /**
      * Retrieve array of store ids for category
      *
@@ -197,20 +197,20 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $this->setData('store_ids', $storeIds);
         return $storeIds;
     }
-    
-    
-    public function getLayoutUpdateFileName()
+
+
+    public function getLayoutUpdateHandle()
     {
-        $layout = 'catalog/category/';
+        $layout = 'catalog_category_';
         if ($this->getIsAnchor()) {
-            $layout.= 'layered.xml';
+            $layout.= 'layered';
         }
         else {
-            $layout.= 'default.xml';
+            $layout.= 'default';
         }
         return $layout;
     }
-    
+
     /**
      * Get category url
      *
@@ -225,13 +225,13 @@ class Mage_Catalog_Model_Category extends Varien_Object
         ));
         return $url;
     }
-    
+
     public function formatUrlKey($str)
     {
     	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
     	$urlKey = strtolower($urlKey);
     	$urlKey = trim($urlKey, '-');
-    	
+
     	return $urlKey;
     }
 

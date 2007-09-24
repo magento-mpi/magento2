@@ -51,22 +51,12 @@
          </install_read>
       </resources>
       
-      <block>
-        <groups><install><class>Mage_Install_Block</class></install></groups>
-      </block>
+      <blocks>
+        <install><class>Mage_Install_Block</class></install>
+      </blocks>
    </global>
    
    <frontend>
-      <layouts>
-         <install_wizard>
-            <updates>
-               <install>
-                  <file>install/initLayout.xml</file>
-               </install>
-            </updates>
-         </install_wizard>
-      </layouts>
-
       <events>
          <action_preDispatch>
             <observers>

@@ -37,7 +37,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
             return;
         }
 
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         $this->_setActiveMenu('newsletter/queue');
 
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
     		->load($this->getRequest()->getParam('id'));
 
 
-    	$this->loadLayout('baseframe');
+    	$this->loadLayout();
 
     	$this->_setActiveMenu('newsletter/queue');
 

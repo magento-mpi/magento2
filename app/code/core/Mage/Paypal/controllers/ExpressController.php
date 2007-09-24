@@ -90,7 +90,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function reviewAction()
     {
-        $this->loadLayout(array('default', 'paypal_express_review'), 'paypal_express_review');
+        $this->loadLayout();
         $this->_initLayoutMessages('paypal/session');
         $this->renderLayout();
     }

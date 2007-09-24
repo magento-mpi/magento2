@@ -36,7 +36,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $this->_redirect('*/sales_order');
         return;
 
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $block = $this->getLayout()->createBlock('core/template', 'system.info')
             ->setTemplate('system/info.phtml');
 

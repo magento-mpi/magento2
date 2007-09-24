@@ -40,7 +40,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('catalog/attributes')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Manage Product Attributes'), __('Manage Product Attributes'))

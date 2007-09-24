@@ -64,7 +64,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('sales/order')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Orders'), __('Orders'))

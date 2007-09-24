@@ -33,13 +33,11 @@
          </payment>
       </models>
 
-      <block>
-        <groups>
+      <blocks>
             <payment>
                 <class>Mage_Payment_Block</class>
             </payment>
-        </groups>
-      </block>
+      </blocks>
    </global>
    <frontend>
         <translate>

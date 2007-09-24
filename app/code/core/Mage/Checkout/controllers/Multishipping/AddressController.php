@@ -42,7 +42,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
      */
     public function newShippingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'customer_address'), 'multishipping_addresses');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Shipping Address'))
@@ -76,7 +76,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function editShippingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'customer_address'), 'multishipping_addresses');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Shipping Address'))
@@ -105,7 +105,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function selectBillingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'multishipping_address_select'), 'multishipping_address_select');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
@@ -113,7 +113,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function newBillingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'customer_address'), 'multishipping_addresses');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Create Billing Address'))
@@ -130,7 +130,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function editAddressAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'customer_address'), 'multishipping_addresses');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Address'))
@@ -147,7 +147,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function editBillingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'customer_address'), 'multishipping_addresses');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
             $addressForm->setTitle(__('Edit Billing Address'))

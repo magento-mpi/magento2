@@ -47,7 +47,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('system/currency');
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_currency'));
         $this->renderLayout();
@@ -74,7 +74,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
     public function editAction()
     {
         $this->_initCurrency();
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('system/currency');
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_currency_edit_tabs'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_currency_edit'));

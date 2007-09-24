@@ -31,9 +31,9 @@
         </Mage_Newsletter>
     </modules>
     <global>
-        <block>
-            <groups><newsletter><class>Mage_Newsletter_Block</class></newsletter></groups>
-        </block>
+        <blocks>
+            <newsletter><class>Mage_Newsletter_Block</class></newsletter>
+        </blocks>
         <models>
             <newsletter>
                 <class>Mage_Newsletter_Model</class>
@@ -85,22 +85,6 @@
         </resources>
     </global>
     <frontend>
-        <layouts>
-            <default>
-                <updates>
-                    <newsletter>
-                        <file>newsletter/initLayout.xml</file>
-                    </newsletter>
-                </updates>
-            </default>
-            <customer_account>
-                <updates>
-                    <newsletter_account>
-                        <file>newsletter/account.xml</file>
-                    </newsletter_account>
-                </updates>
-            </customer_account>
-        </layouts>
         <routers>
             <newsletter>
                 <use>standard</use>

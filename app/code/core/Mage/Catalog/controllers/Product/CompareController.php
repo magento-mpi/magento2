@@ -43,7 +43,7 @@
             return;
 	    }
 
-		$this->loadLayout(array('default', 'catalog_compare'), 'catalog_compare');
+		$this->loadLayout();
 		$this->renderLayout();
 	}
 

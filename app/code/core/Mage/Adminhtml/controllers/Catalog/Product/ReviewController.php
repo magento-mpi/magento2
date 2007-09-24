@@ -30,7 +30,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 {
 	public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('catalog/review');
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/review_main'));
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function pendingAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('catalog/review');
 
         Mage::register('usePendingFilter', true);
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function editAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('catalog/review');
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/review_edit'));
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function newAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('catalog/review');
 
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);

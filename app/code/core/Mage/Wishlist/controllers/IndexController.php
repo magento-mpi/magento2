@@ -52,11 +52,8 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		Mage::register('wishlist', $wishlist);
 
 
-		$this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
+		$this->loadLayout();
 		$this->_initLayoutMessages('customer/session');
-		$this->getLayout()->getBlock('content')
-			->append($this->getLayout()->createBlock('wishlist/customer_wishlist','customer.wishlist'));
 		$this->renderLayout();
 	}
 

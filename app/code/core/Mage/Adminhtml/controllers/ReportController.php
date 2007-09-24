@@ -30,7 +30,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 {
     public function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }

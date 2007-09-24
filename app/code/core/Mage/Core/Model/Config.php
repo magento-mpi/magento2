@@ -40,7 +40,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     protected $_customEtcDir = null;
 
-    protected $_isIntalled	= true;
+    protected $_isInstalled	= true;
 
     /**
      * Constructor
@@ -60,7 +60,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getIsInstalled()
     {
-    	return $this->_isIntalled;
+    	return $this->_isInstalled;
     }
 
     /**
@@ -90,13 +90,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $mergeConfig->loadFile($configFile);
             $this->extend($mergeConfig);
         } else {
-        	$this->_isIntalled = false;
+        	$this->_isInstalled = false;
         }
         Varien_Profiler::stop('load-local');
 
         $saveCache = true;
 
-        if (!$this->getNode('global/install/date') || !$this->_isIntalled) {
+        if (!$this->getNode('global/install/date') || !$this->_isInstalled) {
             Varien_Profiler::start('load-distro');
             $mergeConfig->loadString($this->loadDistroConfig());
 
@@ -117,7 +117,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         Varien_Profiler::stop('load-modules-checksum');
 
-        if($this->_isIntalled) {
+        if($this->_isInstalled) {
 	        Varien_Profiler::start('load-db-checksum');
 	        $dbConf = Mage::getResourceModel('core/config');
 	        $this->updateCacheChecksum($dbConf->getChecksum('config_data,website,store,resource'));
@@ -147,7 +147,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->applyExtends();
         Varien_Profiler::stop('apply-extends');
 
-        if($this->_isIntalled) {
+        if($this->_isInstalled) {
 	        Varien_Profiler::start('dbUpdates');
 	        Mage_Core_Model_Resource_Setup::applyAllUpdates();
 	        Varien_Profiler::stop('dbUpdates');
@@ -180,7 +180,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         return $this;
     }
-    
+
     /**
      * Retrieve cache object
      *
@@ -313,10 +313,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             throw Mage::exception('Mage_Core', 'Invalid base dir type specified: '.$type);
         }
         switch ($type) {
-            case 'var': 
-            case 'session': 
-            case 'cache_config': 
-            case 'cache_layout': 
+            case 'var':
+            case 'session':
+            case 'cache_config':
+            case 'cache_layout':
             case 'cache_block':
             case 'cache_translate':
             case 'cache_db':
@@ -370,7 +370,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'cache_block':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'block';
                 break;
-            
+
             case 'cache_translate':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'translate';
                 break;
@@ -399,7 +399,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'sql':
                 $dir .= DS.'sql';
                 break;
-            
+
             case 'locale':
                 $dir .= DS.'locale';
                 break;
@@ -513,8 +513,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return false;
         }
 
-        if (isset($config->classes->$class)) {
-            $className = (string)$config->classes->$class;
+        if (isset($config->rewrite->$class)) {
+            $className = (string)$config->rewrite->$class;
         } else {
 #echo $groupRootNode.', '.$class.'<hr>';
             $className = $config->getClassName();
@@ -534,8 +534,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $typeArr = explode('/', $blockType);
         if (!empty($typeArr[1])) {
-            return $this->getGrouppedClassName('global/block/groups/'.$typeArr[0], $typeArr[1]);
+            return $this->getGrouppedClassName('global/blocks/'.$typeArr[0], $typeArr[1]);
         } else {
+            return $blockType;
+
             if (isset($this->_blockClassNameCache[$blockType])) {
                 return $this->_blockClassNameCache[$blockType];
             }

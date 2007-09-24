@@ -167,41 +167,11 @@
             </connection>
          </catalog_read>
       </resources>
-      <block>
-         <groups><catalog><class>Mage_Catalog_Block</class></catalog></groups>
-      </block>
+      <blocks>
+         <catalog><class>Mage_Catalog_Block</class></catalog>
+      </blocks>
    </global>
    <frontend>
-      <layouts>
-         <default>
-            <updates>
-               <catalog>
-                  <file>catalog/initLayout.xml</file>
-               </catalog>
-            </updates>
-         </default>
-         <catalog_compare>
-            <updates>
-                <default>
-                    <file>catalog/product/compare.xml</file>
-                </default>
-            </updates>
-         </catalog_compare>
-         <catalog_product_view>
-            <updates>
-                <default>
-                    <file>catalog/product/view.xml</file>
-                </default>
-            </updates>
-         </catalog_product_view>
-         <catalog_product_gallery>
-            <updates>
-                <default>
-                    <file>catalog/product/gallery.xml</file>
-                </default>
-            </updates>
-         </catalog_product_gallery>
-      </layouts>
       <routers>
          <catalog>
             <use>standard</use>

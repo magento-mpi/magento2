@@ -85,7 +85,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             return;
         }
 
-        $this->loadLayout(array('default', 'customer_login'), 'customer_login');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
 
         // set account create url
@@ -105,7 +105,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             return;
         }
 
-        $this->loadLayout(array('default', 'customer_register'), 'customer_register');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
 
         if ($registerForm = $this->getLayout()->getBlock('customer_form_register')) {
@@ -129,7 +129,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             return;
         }
         $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES);
-        $this->loadLayout(array('default', 'multishipping', 'multishipping_addresses'), 'multishipping_addresses');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
@@ -176,7 +176,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function shippingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'multishipping_shipping'), 'multishipping_shipping');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
@@ -207,7 +207,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function billingAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'multishipping_billing'), 'multishipping_billing');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
@@ -238,7 +238,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function overviewAction()
     {
-        $this->loadLayout(array('default', 'multishipping', 'multishipping_overview'), 'multishipping_overview');
+        $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
@@ -263,7 +263,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function successAction()
     {
         $this->_getCheckout()->getCheckoutSession()->clear();
-        $this->loadLayout(array('default', 'multishipping', 'multishipping_success'), 'multishipping_success');
+        $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }

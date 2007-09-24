@@ -30,7 +30,7 @@ class Mage_Tag_ListController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
-        $this->loadLayout(array('default', 'tags_all'), 'tags_all');
+        $this->loadLayout();
         $this->renderLayout();
     }
 }

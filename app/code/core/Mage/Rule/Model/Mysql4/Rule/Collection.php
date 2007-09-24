@@ -25,7 +25,7 @@
  * @package    Mage_Rule
  * @author     Moshe Gurvich (moshe@varien.com)
  */
-class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
+class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
      * Quote rule environment
@@ -33,29 +33,29 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
      * @var Mage_Rule_Model_Environment
      */
     protected $_env;
-    
+
     protected function _construct()
     {
-    	$this->_init('rule/rule')
+    	$this->_init('rule/rule');
     }
-    
+
     /**
      * Initialize resource collection variables
      *
      * Example:
      */
     /*
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
-        
+
         $ruleTable = Mage::getSingleton('core/resource')->getTableName('sales/quote_rule');
         $this->_sqlSelect->from($ruleTable)->order('sort_order');
-        
+
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/quote_rule'));
     }
     */
-    
+
     /**
      * Set environment for all rules in collection
      *
@@ -67,7 +67,7 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
         $this->_env = $env;
         return $this;
     }
-    
+
     /**
      * Retrieve environment for the rules in collection
      *
@@ -81,7 +81,7 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
         }
         return $this->_env;
     }
-    
+
     /**
      * Overload default addItem method to set environment for the rules
      *
@@ -94,7 +94,7 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
         parent::addItem($rule);
         return $this;
     }
-    
+
     /**
      * Set filter for the collection based on the environment
      *
@@ -103,9 +103,9 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
     public function setActiveFilter()
     {
         $e = $this->getEnv()->getData();
-        
+
         $this->_sqlSelect->where("is_active=1");
-        
+
         if (!empty($e['now'])) {
             if (!is_numeric($e['now'])) {
                 $e['now'] = strtotime($e['now']);
@@ -118,7 +118,7 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
 
         return $this;
     }
-    
+
     /**
      * Process the quote with all the rules in collection
      *

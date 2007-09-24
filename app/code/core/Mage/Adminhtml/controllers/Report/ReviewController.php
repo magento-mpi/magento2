@@ -30,7 +30,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 {
     public function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Review'), __('Reviews'));
         return $this;

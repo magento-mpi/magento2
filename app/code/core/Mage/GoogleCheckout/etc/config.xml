@@ -62,9 +62,9 @@
             </connection>
          </googlecheckout_read>
       </resources>
-        <block>
-            <groups><googlecheckout><class>Mage_GoogleCheckout_Block</class></googlecheckout></groups>
-        </block>
+        <blocks>
+            <googlecheckout><class>Mage_GoogleCheckout_Block</class></googlecheckout>
+        </blocks>
    </global>
     <frontend>
         <routers>
@@ -76,15 +76,6 @@
             </args>
          </googlecheckout>
         </routers>
-        <layouts>
-         <cart>
-            <updates>
-               <googlecheckout>
-                  <file>google/checkout/cart.xml</file>
-               </googlecheckout>
-            </updates>
-         </cart>
-        </layouts>
         <translate>
             <modules>
                 <Mage_GoogleCheckout>

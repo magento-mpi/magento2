@@ -137,7 +137,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('sales/tax_rates')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Tax'), __('Tax'));
@@ -158,7 +158,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
     public function importExportAction()
     {
-    	$this->loadLayout('baseframe')
+    	$this->loadLayout()
     		->_setActiveMenu('sales/tax_importExport')
     		->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_importExport'))
     		->renderLayout();

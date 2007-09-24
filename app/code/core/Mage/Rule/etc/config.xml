@@ -35,13 +35,11 @@
                 <class>Mage_Rule_Model_Mysql4</class>
             </rule_mysql4>
         </models>
-        <block>
-            <groups>
+        <blocks>
                 <rule>
                     <class>Mage_Rule_Block</class>
                 </rule>
-            </groups>
-        </block>
+        </blocks>
     </global>
     <frontend>
         <translate>

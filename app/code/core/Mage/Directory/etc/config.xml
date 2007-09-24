@@ -30,9 +30,9 @@
    </modules>
 
     <global>
-        <block>
-            <groups><directory><class>Mage_Directory_Block</class></directory></groups>
-        </block>
+        <blocks>
+            <directory><class>Mage_Directory_Block</class></directory>
+        </blocks>
         <models>
             <directory>
                 <class>Mage_Directory_Model</class>
@@ -88,15 +88,6 @@
     </global>
 
     <frontend>
-        <layouts>
-            <default>
-                <updates>
-                    <directory>
-                        <file>directory/initLayout.xml</file>
-                    </directory>
-                </updates>
-            </default>
-        </layouts>
         <events>
             <action_preDispatch>
                 <observers>

@@ -203,7 +203,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'AMT'           => $this->getAmount(),
             'CURRENCYCODE'  => $this->getCurrencyCode(),
             'IPADDRESS'     => $this->getServerName(),
-            'BUTTONSOURCE'  => $this->getButtonSource(),
+            'BUTTONSOURCE'  => $this->getButtonSourceEc(),
         );
 
          /* Make the call to PayPal to finalize payment
@@ -230,6 +230,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'PAYMENTACTION'  => $this->getPaymentType(),
             'AMT'            => $this->getAmount(),
             'CURRENCYCODE'   => $this->getCurrencyCode(),
+            'BUTTONSOURCE'   => $this->getButtonSourceDp(),
 
             'CREDITCARDTYPE' => $this->getCcTypeName($p->getCcType()),
             'ACCT'           => $p->getCcNumber(),

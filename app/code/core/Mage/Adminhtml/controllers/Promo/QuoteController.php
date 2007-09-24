@@ -32,7 +32,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('promo/quote')
             ->_addBreadcrumb(__('Promotions'), __('Promotions'))
         ;

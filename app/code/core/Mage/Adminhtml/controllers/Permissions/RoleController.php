@@ -30,7 +30,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
 
 	public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('system/acl');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             $breadCrumb = __('Add new Role');
             $breadCrumbTitle = __('Add new Role');
         }
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Permission'), __('Permission'));
         $this->_addBreadcrumb(__('Roles'), __('Roles'), Mage::getUrl('*/*/'));

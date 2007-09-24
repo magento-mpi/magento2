@@ -81,6 +81,9 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      */
     public function write($method, $url, $http_ver = '1.1', $headers = array(), $body = '')
     {
+        if ($url instanceof Zend_Uri_Http) {
+            $url = $url->getUri();
+        }
         // set url to post to
         curl_setopt($this->_getResource(), CURLOPT_URL, $url);
         curl_setopt($this->_getResource(), CURLOPT_RETURNTRANSFER, true);

@@ -59,7 +59,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('checkout/session')
                 ->addError('The item (s) marked in red are not available in the desired quantity. Please update the quantity of the item (s).');
         }
-        $this->loadLayout(array('default', 'cart'), 'cart');
+        $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
 
         $this->renderLayout();

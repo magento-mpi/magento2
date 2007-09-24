@@ -62,7 +62,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     public function galleryAction()
     {
         $this->_initProduct();
-        $this->loadLayout(array('default', 'catalog_product_gallery'), 'catalog_product_gallery');
+        $this->loadLayout();
         $this->renderLayout();
     }
 }

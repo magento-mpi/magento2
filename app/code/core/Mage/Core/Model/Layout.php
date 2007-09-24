@@ -26,11 +26,11 @@
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
     /**
-     * Layout arguments substitution
+     * Pool of default package layout updates
      *
-     * @var array
+     * @var Mage_Core_Layout_Element
      */
-    protected $_subst = array('keys'=>array(), 'values'=>array());
+    protected $_packageLayouts;
 
     /**
      * Blocks registry
@@ -52,7 +52,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @var array
      */
     protected $_output = array();
-    
+
     /**
      * Layout area (f.e. admin, frontend)
      *
@@ -65,9 +65,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function __construct($data=array())
     {
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+        $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         parent::__construct($data);
     }
-    
+
     /**
      * Set layout area
      *
@@ -79,7 +80,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     	$this->_area = $area;
     	return $this;
     }
-    
+
     /**
      * Retrieve layout area
      *
@@ -90,23 +91,66 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     	return $this->_area;
     }
 
-    /**
-     * Initialize layout configuration for $id key
-     *
-     * @param string $id
-     */
-    public function init($id)
+    public function init($cacheKey)
     {
-        if (Mage::getSingleton('core/store')->getCode()) {
-            $id = Mage::getSingleton('core/store')->getCode() . '_' . $id;
-        }
-        
-        $this->setCacheId($id);
-        if (!$this->loadCache()) {
-            $this->loadString('<layout/>');
-            $this->setCacheChecksum('');
-        }
+        $package = Mage::getSingleton('core/design_package');
+        $storeCode = Mage::getSingleton('core/store')->getCode();
+
+        $this->setCacheId(($storeCode ? $storeCode.'_' : '')
+            .$package->getArea().'_'
+            .$package->getPackageName().'_'
+            .$package->getTheme('layout').'_'
+            .$cacheKey);
+
+        $this->setCacheTags(array(
+            'store:'.$storeCode,
+            'theme:'.$package->getArea().'.'.$package->getPackageName().'.'.$package->getTheme('layout'),
+        ));
+
         return $this;
+    }
+
+    public function getPackageLayoutUpdate($handle=null)
+    {
+        $layoutFilename = Mage::getSingleton('core/design_package')->getLayoutFilename('main.xml');
+        if (empty($this->_packageLayouts)) {
+            $updateStr = file_get_contents($layoutFilename);
+            $updateStr = $this->processFileData($updateStr);
+            $this->_packageLayouts = simplexml_load_string($updateStr, $this->_elementClass);
+            if (empty($this->_packageLayouts)) {
+                throw Mage::exception('Mage_Core', __('Could not load default layout file'));
+            }
+        }
+
+        $this->updateCacheChecksum(filemtime($layoutFilename));
+
+        if (is_null($handle)) {
+            return $this->_packageLayouts;
+        }
+        if (!$this->_packageLayouts->$handle) {
+            return false;
+        }
+        return $this->_packageLayouts->$handle;
+    }
+
+    public function getDatabaseLayoutUpdate($handle)
+    {
+        $package = Mage::getSingleton('core/design_package');
+        $collection = Mage::getResourceModel('core/layout_collection')
+            ->addPackageFilter($package->getPackageName())
+            ->addThemeFilter($package->getTheme('layout'))
+            ->addHandleFilter($handle)
+            ->load();
+
+        $this->updateCacheChecksum(Mage::getResourceModel('core/layout')->getTableChecksum());
+
+        $updateStr = '';
+        foreach ($collection->getIterator() as $update) {
+            $updateStr .= $update->getLayoutUpdate();
+        }
+        $updateStr = $this->processFileData($updateStr);
+        $updateXml = simplexml_load_string($updateStr);
+        return $updateXml;
     }
 
     /**
@@ -127,17 +171,44 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this;
     }
 
+    /**
+     * Merge layout update to current layout
+     *
+     * @param string|Mage_Core_Model_Layout_Element $update
+     * @return Mage_Core_Model_Layout_Update
+     */
     public function mergeUpdate($update)
     {
+        if (!$update) {
+            return $this;
+        }
+
+        if (is_string($update)) {
+            $this->mergeUpdate($this->getPackageLayoutUpdate($update));
+            $this->mergeUpdate($this->getDatabaseLayoutUpdate($update));
+            return $this;
+        }
+
+        if (!$update instanceof Mage_Core_Model_Layout_Element) {
+            throw Mage::exception('Mage_Core', 'Invalid layout update argument, expected Mage_Core_Model_Layout_Element');
+        }
         foreach ($update->children() as $child) {
-            if ($child->getName()==='remove') {
-                if (isset($child['method'])) {
-                    $this->removeAction((string)$child['name'], (string)$child['method']);
-                } else {
-                    $this->removeBlock((string)$child['name']);
-                }
-            } else {
-                $this->getNode()->appendChild($child);
+            switch ($child->getName()) {
+                case 'update':
+                    $handle = (string)$child['handle'];
+                    $this->mergeUpdate($this->getPackageLayoutUpdate($handle));
+                    break;
+
+                case 'remove':
+                    if (isset($child['method'])) {
+                        $this->removeAction((string)$child['name'], (string)$child['method']);
+                    } else {
+                        $this->removeBlock((string)$child['name']);
+                    }
+                    break;
+
+                default:
+                    $this->getNode()->appendChild($child);
             }
         }
         return $this;
@@ -217,6 +288,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function generateBlocks($parent=null)
     {
         if (empty($parent)) {
+            if (!$this->getCacheSaved()) {
+                $this->saveCache();
+            }
             $parent = $this->getNode();
         }
         foreach ($parent as $node) {

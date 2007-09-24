@@ -144,7 +144,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
     protected function _initAction()
     {
         $classType = strtolower($this->getRequest()->getParam('classType'));
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('sales/tax/tax_classes_' . $classType)
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Tax'), __('Tax'))

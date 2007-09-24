@@ -78,13 +78,11 @@
                 </connection>
             </rating_read>
         </resources>
-        <block>
-            <groups>
+        <blocks>
                 <rating>
                     <class>Mage_Rating_Block</class>
                 </rating>
-            </groups>
-        </block>
+        </blocks>
     </global>
     <frontend>
         <translate>

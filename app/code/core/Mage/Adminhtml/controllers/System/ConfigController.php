@@ -40,7 +40,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         $this->_setActiveMenu('system/config');
 

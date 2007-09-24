@@ -55,7 +55,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
         Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());
         $this->getOnepage()->initCheckout();
-        $this->loadLayout(array('default', 'onepage'), 'checkout_onepage');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
     }
@@ -65,19 +65,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function progressAction()
     {
-        $this->loadLayout('onepage_progress');
+        $this->loadLayout('');
         $this->renderLayout();
     }
 
     public function shippingMethodAction()
     {
-        $this->loadLayout('onepage_shipping');
+        $this->loadLayout('');
         $this->renderLayout();
     }
 
     public function reviewAction()
     {
-        $this->loadLayout('onepage_review');
+        $this->loadLayout('');
         $this->renderLayout();
     }
 
@@ -93,13 +93,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
         Mage::getSingleton('checkout/session')->clear();
         $this->loadLayout();
-
-        $block = $this->getLayout()->createBlock('core/template', 'checkout.success')
-            ->setTemplate('checkout/success.phtml');
-
-        $this->getLayout()->getBlock('content')->append($block);
         Mage::dispatchEvent('order_success_page_view');
-
         $this->renderLayout();
     }
 
@@ -136,7 +130,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
             if (!empty($data['use_for_shipping'])) {
-	            $this->loadLayout('onepage_shipping');
+	            $this->loadLayout('checkout_onepage_shippingMethod');
 	            $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
             }
 
@@ -151,7 +145,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
             $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
 
-            $this->loadLayout('onepage_shipping');
+            $this->loadLayout('checkout_onepage_shippingMethod');
             $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
@@ -174,7 +168,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $data = $this->getRequest()->getPost('payment', array());
             $result = $this->getOnepage()->savePayment($data);
 
-            $this->loadLayout('onepage_review');
+            $this->loadLayout('checkout_onepage_review');
             $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
 
             if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl()) {

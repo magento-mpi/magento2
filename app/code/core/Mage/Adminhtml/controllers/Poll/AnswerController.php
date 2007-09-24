@@ -30,7 +30,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 {
     public function editAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         $this->_setActiveMenu('cms/poll');
         $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'), Mage::getUrl('*/*/'));

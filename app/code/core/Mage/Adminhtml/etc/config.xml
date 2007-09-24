@@ -39,11 +39,11 @@
                 <class>Mage_Adminhtml_Model_Mysql4</class>
             </adminhtml_mysql4>
         </models>
-        <block>
-            <groups><adminhtml><class>Mage_Adminhtml_Block</class></adminhtml></groups>
-        </block>
+        <blocks>
+            <adminhtml><class>Mage_Adminhtml_Block</class></adminhtml>
+        </blocks>
    </global>
-   
+
    <admin>
       <routers>
          <adminhtml>
@@ -55,52 +55,8 @@
          </adminhtml>
       </routers>
    </admin>
-   
+
    <adminhtml>
-      <layouts>
-         <adminhtml>
-            <updates>
-               <adminhtml>
-                  <file>init.xml</file>
-               </adminhtml>
-            </updates>
-         </adminhtml>
-         <baseframe>
-            <updates>
-               <baseframe>
-                  <file>baseframe.xml</file>
-               </baseframe>
-            </updates>
-         </baseframe>
-         <admin_noroute>
-            <updates>
-               <admin_noroute>
-                  <file>noRoute.xml</file>
-               </admin_noroute>
-            </updates>
-         </admin_noroute>
-         <admin_denied>
-            <updates>
-               <admin_denied>
-                  <file>denied.xml</file>
-               </admin_denied>
-            </updates>
-         </admin_denied>
-         <preview>
-            <updates>
-               <baseframe>
-                  <file>preview.xml</file>
-               </baseframe>
-            </updates>
-         </preview>
-         <systemPreview>
-            <updates>
-               <baseframe>
-                  <file>system/preview.xml</file>
-               </baseframe>
-            </updates>
-         </systemPreview>
-      </layouts>
       <events>
          <action_preDispatch_adminhtml>
             <observers>

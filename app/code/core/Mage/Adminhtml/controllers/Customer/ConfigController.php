@@ -29,7 +29,7 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('customer/config');
         $this->_addBreadcrumb(__('Customer'), __('Customer'));
         $this->_addBreadcrumb(__('Config'), __('Config'));

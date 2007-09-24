@@ -90,19 +90,15 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         }
         Mage::register('productId', $productId);
         
-        $this->loadLayout(array('default', 'productReviews'), 'reviews');
+        $this->loadLayout();
         $this->_initLayoutMessages('review/session');
         $this->renderLayout();
     }
 
     public function viewAction()
     {
-        $this->loadLayout(array('default', 'reviews'), 'reviews');
+        $this->loadLayout();
         $this->_initLayoutMessages('review/session');
-        $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('review/view')
-        );
-
         $this->renderLayout();
     }
 }

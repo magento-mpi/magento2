@@ -29,7 +29,7 @@ class Mage_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('system');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->renderLayout();

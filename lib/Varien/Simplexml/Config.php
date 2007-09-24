@@ -37,7 +37,11 @@ class Varien_Simplexml_Config
 
     protected $_cacheId = null;
 
+    protected $_cacheTags = array();
+
     protected $_cacheChecksum = false;
+
+    protected $_cacheSaved = false;
 
     /**
      * Cache resource object
@@ -146,6 +150,17 @@ class Varien_Simplexml_Config
         return $this->_cache;
     }
 
+    public function setCacheSaved($flag)
+    {
+        $this->_cacheSaved = $flag;
+        return $this;
+    }
+
+    public function getCacheSaved()
+    {
+        return $this->_cacheSaved;
+    }
+
     public function setCacheId($id)
     {
         $this->_cacheId = $id;
@@ -155,6 +170,17 @@ class Varien_Simplexml_Config
     public function getCacheId()
     {
         return $this->_cacheId;
+    }
+
+    public function setCacheTags($tags)
+    {
+        $this->_cacheTags = $tags;
+        return $this;
+    }
+
+    public function getCacheTags()
+    {
+        return $this->_cacheTags;
     }
 
     public function setCacheChecksum($data)
@@ -190,6 +216,11 @@ class Varien_Simplexml_Config
         return $this->getCacheId().'__CHECKSUM';
     }
 
+    public function fetchCacheChecksum()
+    {
+        return false;
+    }
+
     public function validateCacheChecksum()
     {
         $newChecksum = $this->getCacheChecksum();
@@ -213,20 +244,33 @@ class Varien_Simplexml_Config
         $xml = simplexml_load_string($xmlString, $this->_elementClass);
         if ($xml) {
             $this->_xml = $xml;
+            $this->setCacheSaved(true);
             return true;
         }
 
         return false;
     }
 
-    public function saveCache($tags=array())
+    public function saveCache($tags=null)
     {
-    	if ($this->getCacheChecksum()) {
-	        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
-
-	        $xmlString = $this->getNode()->asXml();
-	        $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
+        if ($this->getCacheSaved()) {
+            return $this;
+        }
+    	if (!$this->getCacheChecksum()) {
+    	    return $this;
     	}
+
+    	if (is_null($tags)) {
+    	    $tags = $this->_cacheTags;
+    	}
+
+        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
+
+        $xmlString = $this->getNode()->asXml();
+        $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
+
+        $this->setCacheSaved(true);
+
         return $this;
     }
 

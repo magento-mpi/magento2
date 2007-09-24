@@ -34,7 +34,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
             return;
         }
 
-    	$this->loadLayout('baseframe');
+    	$this->loadLayout();
         $this->_setActiveMenu('system/email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
     public function newAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('system/email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), Mage::getUrl('*/*'));
 

@@ -27,6 +27,15 @@ class Mage_Core_Model_Layout_Element extends Varien_Simplexml_Element
             case 'layoutUpdate':
                 break;
 
+            case 'layout':
+                break;
+
+            case 'update':
+                break;
+
+            case 'remove':
+                break;
+
             case 'block':
                 $this->prepareBlock($args);
                 break;

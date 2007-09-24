@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -13,23 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<layoutUpdate>
 
-    <block type="page/html" name="root" output="toHtml">
-        <action method="setTemplate"><template>page/print.phtml</template></action>
 
-        <block type="core/store" name="store" as="store"/>
-
-        <block type="page/html_head" name="head" as="head"/>
-
-        <block type="core/text_list" name="content" as="content"/>
-
-    </block>
-
-</layoutUpdate>
+class Mage_Core_Model_Layout_Data extends Mage_Core_Model_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('core/layout');
+    }
+}

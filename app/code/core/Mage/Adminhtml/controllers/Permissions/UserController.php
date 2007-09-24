@@ -23,7 +23,7 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('system/acl')
             ->_addBreadcrumb(__('System'), __('System'))
             ->_addBreadcrumb(__('Permissions'), __('Permissions'))

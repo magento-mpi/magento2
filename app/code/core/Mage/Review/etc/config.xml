@@ -75,52 +75,13 @@
                 </connection>
             </review_read>
         </resources>
-        <block>
-            <groups>
+        <blocks>
                 <review>
                     <class>Mage_Review_Block</class>
                 </review>
-            </groups>
-        </block>
+        </blocks>
     </global>
     <frontend>
-        <layouts>
-            <customer_dashboard>
-                <updates>
-                    <review_dashboard>
-                        <file>review/dashboard.xml</file>
-                    </review_dashboard>
-                </updates>
-            </customer_dashboard>
-            <reviews>
-                <updates>
-                    <reviews>
-                        <file>review/reviews.xml</file>
-                    </reviews>
-                </updates>
-            </reviews>
-            <productReviews>
-                <updates>
-                    <productReviews>
-                        <file>review/reviewsLeft.xml</file>
-                    </productReviews>
-                </updates>
-            </productReviews>
-            <customer_account>
-                <updates>
-                    <review_account>
-                        <file>review/account.xml</file>
-                    </review_account>
-                </updates>
-            </customer_account>
-            <catalog_product_view>
-                <updates>
-                    <review>
-                        <file>review/product.xml</file>
-                    </review>
-                </updates>
-            </catalog_product_view>
-        </layouts>
         <routers>
             <review>
                 <use>standard</use>

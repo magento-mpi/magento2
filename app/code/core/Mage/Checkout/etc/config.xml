@@ -29,9 +29,9 @@
       </Mage_Checkout>
    </modules>
    <global>
-      <block>
-         <groups><checkout><class>Mage_Checkout_Block</class></checkout></groups>
-      </block>
+      <blocks>
+         <checkout><class>Mage_Checkout_Block</class></checkout>
+      </blocks>
       <models>
          <checkout>
             <class>Mage_Checkout_Model</class>
@@ -43,106 +43,6 @@
             <checkout_onepage>/checkout/onepage</checkout_onepage>
             <checkout_multishipping>/checkout/multishipping</checkout_multishipping>
         </secure_url>
-      <layouts>
-         <default>
-            <updates>
-               <checkout>
-                  <file>checkout/initLayout.xml</file>
-               </checkout>
-            </updates>
-         </default>
-         <cart>
-            <updates>
-               <default>
-                  <file>checkout/cart.xml</file>
-               </default>
-            </updates>
-         </cart>
-         <onepage>
-            <updates>
-               <default>
-                  <file>checkout/onepage.xml</file>
-               </default>
-            </updates>
-         </onepage>
-         <onepage_progress>
-            <updates>
-               <default>
-                  <file>checkout/onepage/progress.xml</file>
-               </default>
-            </updates>
-         </onepage_progress>
-         <onepage_shipping>
-            <updates>
-               <default>
-                  <file>checkout/onepage/shipping.xml</file>
-               </default>
-            </updates>
-         </onepage_shipping>
-         <onepage_review>
-            <updates>
-               <default>
-                  <file>checkout/onepage/review.xml</file>
-               </default>
-            </updates>
-         </onepage_review>
-         <standard>
-            <updates>
-               <default>
-                  <file>checkout/standard.xml</file>
-               </default>
-            </updates>
-         </standard>
-         <multishipping>
-            <updates>
-               <default>
-                  <file>checkout/multishipping.xml</file>
-               </default>
-            </updates>
-         </multishipping>
-         <multishipping_addresses>
-            <updates>
-               <default>
-                  <file>checkout/multishipping/addresses.xml</file>
-               </default>
-            </updates>
-         </multishipping_addresses>
-         <multishipping_shipping>
-            <updates>
-               <default>
-                  <file>checkout/multishipping/shipping.xml</file>
-               </default>
-            </updates>
-         </multishipping_shipping>
-         <multishipping_billing>
-            <updates>
-               <default>
-                  <file>checkout/multishipping/billing.xml</file>
-               </default>
-            </updates>
-         </multishipping_billing>
-         <multishipping_address_select>
-            <updates>
-               <default>
-                  <file>checkout/multishipping/address/select.xml</file>
-               </default>
-            </updates>
-         </multishipping_address_select>
-         <multishipping_overview>
-            <updates>
-               <default>
-                  <file>checkout/multishipping/overview.xml</file>
-               </default>
-            </updates>
-         </multishipping_overview>
-         <multishipping_success>
-            <updates>
-               <default>
-                  <file>checkout/multishipping/success.xml</file>
-               </default>
-            </updates>
-         </multishipping_success>
-      </layouts>
       <events>
          <customerLogin>
             <observers>

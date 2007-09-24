@@ -29,7 +29,7 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('catalog');
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
 

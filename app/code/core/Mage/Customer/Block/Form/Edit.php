@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -13,16 +12,24 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<layoutUpdate>
-    <reference name="left">
-        <block type="tag/popular" name="tags_popular">
-            <action method="setTemplate"><template>tag/popular.phtml</template></action>
-        </block>
-    </reference>
-</layoutUpdate>
+
+/**
+ * Customer edit form block
+ *
+ * @category   Mage
+ * @package    Mage_Customer
+ * @author     Moshe Gurvich <moshe@varien.com>
+ */
+class Mage_Customer_Block_Form_Edit extends Mage_Core_Block_Template
+{
+    public function getCustomer()
+    {
+        return Mage::getSingleton('customer/session')->getCustomer();
+    }
+
+}

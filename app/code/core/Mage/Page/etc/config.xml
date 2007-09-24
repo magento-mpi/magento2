@@ -34,13 +34,11 @@
                 <class>Mage_Page_Model</class>
             </page>
         </models>
-        <block>
-            <groups>
+        <blocks>
                 <page>
                     <class>Mage_Page_Block</class>
                 </page>
-            </groups>
-        </block>
+        </blocks>
    </global>
    <frontend>
         <translate>

@@ -46,38 +46,25 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
 
     public function historyAction()
     {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('sales/order_history', 'sales.order.history'));
-
+        $this->loadLayout();
         $this->renderLayout();
     }
 
     public function viewAction()
     {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
-        $block = $this->getLayout()->createBlock('sales/order_view', 'sales.order.view');
-        $this->getLayout()->getBlock('content')->append($block);
-
+        $this->loadLayout();
         $this->renderLayout();
     }
 
     public function detailsAction()
     {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('sales/order_details', 'sales.order.details'));
-
+        $this->loadLayout();
         $this->renderLayout();
     }
 
     public function printAction()
     {
         $this->loadLayout('print');
-
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('sales/order_details', 'sales.order.details'));
-
         $this->renderLayout();
     }
 

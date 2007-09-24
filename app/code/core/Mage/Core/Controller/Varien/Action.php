@@ -33,19 +33,19 @@ abstract class Mage_Core_Controller_Varien_Action
     const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
-    
+
     const PARAM_NAME_SUCCESS_URL        = 'success_url';
     const PARAM_NAME_ERROR_URL          = 'error_url';
     const PARAM_NAME_REFERER_URL        = 'referer_url';
     const PARAM_NAME_BASE64_URL         = 'referer_64';
-    
+
     /**
      * Request object
      *
      * @var Zend_Controller_Request_Abstract
      */
     protected $_request;
-    
+
     /**
      * Response object
      *
@@ -82,13 +82,13 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getLayout()->setArea('frontend');
 
         $this->_construct();
-        
+
 		Varien_Profiler::start('init/session');
 		Mage::getSingleton('core/session');
 		Varien_Profiler::stop('init/session');
 
 		Mage::getConfig()->loadEventObservers($this->getLayout()->getArea());
-		
+
         Varien_Profiler::start('translate/init');
         Mage::getSingleton('core/translate')->init($this->getLayout()->getArea());
         Varien_Profiler::stop('translate/init');
@@ -98,7 +98,7 @@ abstract class Mage_Core_Controller_Varien_Action
     {
 
     }
-     
+
     /**
      * Retrieve request object
      *
@@ -118,7 +118,7 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         return $this->_response;
     }
-    
+
     /**
      * Retrieve flag value
      *
@@ -133,15 +133,15 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         if (''===$flag) {
             return $this->_flags;
-        } 
+        }
         elseif (isset($this->_flags[$action][$flag])) {
             return $this->_flags[$action][$flag];
-        } 
+        }
         else {
             return false;
         }
     }
-    
+
     /**
      * Setting flag value
      *
@@ -158,7 +158,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->_flags[$action][$flag] = $value;
         return $this;
     }
-    
+
     /**
      * Retrieve full bane of current action current controller and
      * current module
@@ -182,7 +182,7 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         return Mage::getSingleton('core/layout');
     }
-    
+
     /**
      * Load layout by identifier
      *
@@ -191,41 +191,36 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   boolean $generateBlocks
      * @return  Mage_Core_Controller_Varien_Action
      */
-    function loadLayout($ids=null, $key='', $generateBlocks=true)
+    function loadLayout($handles=null, $cacheId=null, $generateBlocks=true)
     {
-        $area = $this->getLayout()->getArea();
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
         Varien_Profiler::start("$_profilerKey/load");
 
-        if (''===$key) {
-            if (is_array($ids)) {
-                Mage::exception('Mage_Core', 'Please specify key for loadLayout('.$area.', Array('.join(',',$ids).'))');
-            }
-            $key = $area.'_'.$ids;
-        }
-        
-        $key = Mage::getDesign()->getPackageName().'_'.$key;
-
-        if (is_null($ids)) {
-            $ids = array('default', $this->getFullActionName());
-        } elseif (is_string($ids)) {
-            $ids = array($ids);
+        if (is_null($handles)) {
+            $handles = array('default');
+        } elseif (is_string($handles)) {
+            $handles = array($handles);
         }
 
-        $layout = $this->getLayout()->init($key);
+        $handles[] = $this->getFullActionName();
 
-        if (!$layout->getNode()) {
-            foreach ($ids as $id) {
-                $layout->loadUpdatesFromConfig($area, $id);
+        if (!$cacheId) {
+            $cacheId = join('-', $handles);
+        }
+
+        $layout = $this->getLayout()->init($cacheId);
+
+        if (!$layout->loadCache()) {
+            foreach ($handles as $handle) {
+                $layout->mergeUpdate($handle);
             }
-            $layout->saveCache();
         }
         Varien_Profiler::stop("$_profilerKey/load");
-        
+
 		if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
         	Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('layout'=>$layout));
 		}
-				
+
         if ($generateBlocks) {
             Varien_Profiler::start("$_profilerKey/blocks");
             $layout->generateBlocks();
@@ -234,14 +229,14 @@ abstract class Mage_Core_Controller_Varien_Action
 
         return $this;
     }
-    
+
     /**
      * Rendering layout
      *
      * @param   string $output
      * @return  Mage_Core_Controller_Varien_Action
      */
-    function renderLayout($output='')
+    public function renderLayout($output='')
     {
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
         Varien_Profiler::start("$_profilerKey/render");
@@ -303,7 +298,7 @@ abstract class Mage_Core_Controller_Varien_Action
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
             return;
         }
-        
+
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
             if (!Mage::getSingleton('install/installer')->isApplicationInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
@@ -311,7 +306,7 @@ abstract class Mage_Core_Controller_Varien_Action
                 return;
             }
         }
-        
+
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';
         Varien_Profiler::start($_profilerKey);
         Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
@@ -330,11 +325,11 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/post';
         Varien_Profiler::start($_profilerKey);
-        
+
         Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
         Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
         Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
-        
+
         Varien_Profiler::stop($_profilerKey);
     }
 
@@ -393,7 +388,7 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         return $this;
     }
-    
+
     /**
      * Set redirect into responce
      *
@@ -435,7 +430,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getResponse()->setRedirect($errorUrl);
         return $this;
     }
-    
+
     /**
      * Set referer url for redirect in responce
      *

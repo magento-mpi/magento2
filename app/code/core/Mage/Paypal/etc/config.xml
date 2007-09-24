@@ -62,9 +62,9 @@
             </connection>
          </paypal_read>
       </resources>
-        <block>
-            <groups><paypal><class>Mage_Paypal_Block</class></paypal></groups>
-        </block>
+        <blocks>
+            <paypal><class>Mage_Paypal_Block</class></paypal>
+        </blocks>
    </global>
     <frontend>
         <secure_url>
@@ -79,29 +79,6 @@
             </args>
          </paypal>
         </routers>
-        <layouts>
-         <cart>
-            <updates>
-               <paypal>
-                  <file>paypal/cart.xml</file>
-               </paypal>
-            </updates>
-         </cart>
-         <paypal_express_review>
-            <updates>
-               <paypal>
-                  <file>paypal/express/review.xml</file>
-               </paypal>
-            </updates>
-         </paypal_express_review>
-         <paypal_express_review_details>
-            <updates>
-               <paypal>
-                  <file>paypal/express/review/details.xml</file>
-               </paypal>
-            </updates>
-         </paypal_express_review_details>
-        </layouts>
         <translate>
             <modules>
                 <Mage_Paypal>

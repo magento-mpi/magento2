@@ -19,48 +19,71 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-Supported layout update handles:
+Supported layout update handles (action):
+- wishlist_index_index
+- paypal_express_review
+- checkout_cart_index
+- catalog_product_gallery
+- catalog_product_compare_index
+- tag_list_index
+- tag_customer_index
+- tag_customer_view
+- tag_customer_edit
+- review_product_list
+- review_product_view
+- review_customer_index
+- sales_order_history
+- sales_order_view
+- sales_order_details
+- sales_order_print
+- customer_account_index
+- customer_address_index
+- customer_address_view
+- customer_account_login
+- customer_account_logoutSuccess
+- customer_account_create
+- customer_account_forgotPassword
+- customer_account_edit
+- customer_review_index
+- customer_review_view
+- newsletter_manage_index
+- checkout_multishipping_login
+- checkout_multishipping_register
+- checkout_multishipping_addresses
+- checkout_multishipping_shipping
+- checkout_multishipping_billing
+- checkout_multishipping_overview
+- checkout_multishipping_success
+- checkout_onepage_index
+- checkout_onepage_progress
+- checkout_onepage_shippingMethod
+- checkout_onepage_review
+- checkout_onepage_success
+- catalogsearch_advanced_form
+- catalogsearch_advanced_result
+- catalogsearch_result_index
+
+Supported layout update handles (special):
 - default
 - noRoute
 - print
 - install_wizard
-- customer_login
-- customer_logout
-- customer_register
+- customer_logged_in
+- customer_logged_out
 - customer_account
-- customer_dashboard
-- customer_address_book
 - customer_address
-- wishlist
-- catalog_compare
+- catalog_category_default
+- catalog_category_layered
 - catalog_product_view
-- catalog_product_gallery
-- catalogsearch_advanced_form
-- catalogsearch_advanced_result
-- cart
-- onepage
-- onepage_progress
-- onepage_shipping
-- onepage_review
-- multishipping
-- multishipping_addresses
-- multishipping_shipping
-- multishipping_billing
-- multishipping_address_select
-- multishipping_overview
-- multishipping_success
-- paypal_express_review
+- checkout_multishipping
 - paypal_express_review_details
-- reviews
-- productReviews
-- tags_all
 
 -->
 <layout>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Default layout, loads most of the pages
------------------------------------------------------------------------- -->
+-->
 
     <default>
         <!-- Mage_Core -->
@@ -187,11 +210,6 @@ Default layout, loads most of the pages
             </block>
         </reference>
 
-        <!-- Mage_Sales -->
-        <reference name="root">
-            <action method="unsetChild" name="right" />
-        </reference>
-
         <!-- Mage_Tag -->
         <reference name="left">
             <block type="tag/popular" name="tags_popular">
@@ -208,9 +226,9 @@ Default layout, loads most of the pages
 
     </default>
 
-<!-- ----------------------------------------------------------------------
+<!--
 No route, will show on 404 page not found (currently not in use)
------------------------------------------------------------------------- -->
+-->
 
     <noRoute>
         <!-- Mage_Core -->
@@ -223,9 +241,9 @@ No route, will show on 404 page not found (currently not in use)
         -->
     </noRoute>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Page layout for printing
------------------------------------------------------------------------- -->
+-->
 
     <print>
         <!-- Mage_Page -->
@@ -241,9 +259,9 @@ Page layout for printing
         </block>
     </print>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Installation wizard step pages layout
------------------------------------------------------------------------- -->
+-->
 
     <install_wizard>
         <!-- Mage_Install -->
@@ -298,11 +316,31 @@ Installation wizard step pages layout
         </block>
     </install_wizard>
 
-<!-- ----------------------------------------------------------------------
-Layout for customer login page
------------------------------------------------------------------------- -->
+<!--
+Load this update on every page when customer is logged in
+-->
 
-    <customer_login>
+    <customer_logged_in>
+        <reference name="top.left.links">
+            <action method="addLink"><li/><a>href="{{baseUrl}}customer/account/logout/"</a><label>Log Out</label></action>
+        </reference>
+    </customer_logged_in>
+
+<!--
+Load this update on every page when customer is logged out
+-->
+
+    <customer_logged_out>
+        <reference name="top.left.links">
+            <action method="addLink"><li/><a>href="{{baseUrl}}customer/account/"</a><label>Log In</label></action>
+        </reference>
+    </customer_logged_out>
+
+<!--
+Layout for customer login page
+-->
+
+    <customer_account_login>
         <!-- Mage_Customer -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -312,13 +350,13 @@ Layout for customer login page
                 <action method="setTemplate"><template>customer/form/login.phtml</template></action>
             </block>
         </reference>
-    </customer_login>
+    </customer_account_login>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Layout for customer log out page
------------------------------------------------------------------------- -->
+-->
 
-    <customer_logout>
+    <customer_account_logoutSuccess>
         <!-- Mage_Customer -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -328,13 +366,13 @@ Layout for customer log out page
                 <action method="setTemplate"><template>customer/logout.phtml</template></action>
             </block>
         </reference>
-    </customer_logout>
+    </customer_account_logoutSuccess>
 
-<!-- ----------------------------------------------------------------------
+<!--
 New customer registration
------------------------------------------------------------------------- -->
+-->
 
-    <customer_register>
+    <customer_account_create>
         <!-- Mage_Customer -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -344,11 +382,35 @@ New customer registration
                 <action method="setTemplate"><template>customer/form/register.phtml</template></action>
             </block>
         </reference>
-    </customer_register>
+    </customer_account_create>
 
-<!-- ----------------------------------------------------------------------
+    <customer_account_forgotPassword>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setHeaderTitle" translate="title"><title>Password forgotten</title></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="forgotPassword">
+                <action method="setTemplate"><template>customer/form/forgotpassword.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_forgotPassword>
+
+    <customer_account_edit>
+        <update handle="cutomer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title"><title>Edit Account Info</title></action>
+        </reference>
+        <reference name="content">
+            <block type="customer/form_edit" name="customer_edit">
+                <action method="setTemplate"><template>customer/form/edit.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_edit>
+
+<!--
 Customer account pages, rendered for all tabs in dashboard
------------------------------------------------------------------------- -->
+-->
 
     <customer_account>
         <!-- Mage_Customer -->
@@ -391,11 +453,11 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
     </customer_account>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Customer account home dashboard layout
------------------------------------------------------------------------- -->
+-->
 
-    <customer_dashboard>
+    <customer_account_index>
         <!-- Mage_Customer -->
         <reference name="root">
             <action method="setTemplate"><template>page/dashboard.phtml</template></action>
@@ -453,24 +515,24 @@ Customer account home dashboard layout
                 <action method="setTemplate"><template>tag/customer/recent.phtml</template></action>
             </block>
         </reference>
-    </customer_dashboard>
+    </customer_account_index>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Customer account address book
------------------------------------------------------------------------- -->
+-->
 
-    <customer_address_book>
+    <customer_address_index>
         <!-- Mage_Customer -->
         <reference name="content">
             <block type="customer/address_book" name="address_book" before="-">
                 <action method="setTemplate"><template>customer/address/book.phtml</template></action>
             </block>
         </reference>
-    </customer_address_book>
+    </customer_address_index>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Customer account address edit page
------------------------------------------------------------------------- -->
+-->
 
     <customer_address>
         <!-- Mage_Customer -->
@@ -481,22 +543,68 @@ Customer account address edit page
         </reference>
     </customer_address>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Wishlist page
------------------------------------------------------------------------- -->
+-->
 
-    <wishlist>
+    <wishlist_index_index>
         <!-- Mage_Wishlist -->
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="wishlist/customer_wishlist" name="customer.wishlist"/>
+        </reference>
         <reference name="right">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
         </reference>
-    </wishlist>
+    </wishlist_index_index>
 
-<!-- ----------------------------------------------------------------------
+<!--
+Category default layout
+-->
+
+    <catalog_category_default>
+        <reference name="left">
+            <block type="catalog/navigation" name="catalog.leftnav" before="-">
+                <action method="setTemplate"><template>catalog/navigation/left.phtml</template></action>
+            </block>
+            <block type="directory/currency" name="currency" before="-">
+                <action method="setTemplate"><template>directory/currency.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="catalog/category_view" name="category.products">
+                <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+                <block type="catalog/product_list" name="product_list"></block>
+            </block>
+        </reference>
+    </catalog_category_default>
+
+<!--
+Category layered navigation layout
+-->
+
+    <catalog_category_layered>
+        <reference name="left">
+            <block type="catalog/layer_view" name="catalog.leftnav" before="-">
+                <action method="setTemplate"><template>catalog/layer/view.phtml</template></action>
+            </block>
+            <block type="directory/currency" name="currency" before="-">
+                <action method="setTemplate"><template>directory/currency.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="catalog/category_view" name="category.products">
+                <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+                <block type="catalog/product_list" name="product_list"></block>
+            </block>
+        </reference>
+    </catalog_category_layered>
+
+<!--
 Compare products page
------------------------------------------------------------------------- -->
+-->
 
-    <catalog_compare>
+    <catalog_product_compare_index>
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/one-column.phtml</template></action>
@@ -510,11 +618,11 @@ Compare products page
                 <action method="setTemplate"><template>catalog/product/compare/list.phtml</template></action>
             </block>
         </reference>
-    </catalog_compare>
+    </catalog_product_compare_index>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Product view
------------------------------------------------------------------------- -->
+-->
 
     <catalog_product_view>
         <!-- Mage_Catalog -->
@@ -556,9 +664,9 @@ Product view
         </reference>
     </catalog_product_view>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Product additional images gallery popup
------------------------------------------------------------------------- -->
+-->
 
     <catalog_product_gallery>
         <!-- Mage_Catalog -->
@@ -572,9 +680,9 @@ Product additional images gallery popup
         </reference>
     </catalog_product_gallery>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Advanced search form
------------------------------------------------------------------------- -->
+-->
 
     <catalogsearch_advanced_form>
         <!-- Mage_Catalogsearch -->
@@ -588,9 +696,9 @@ Advanced search form
         </reference>
     </catalogsearch_advanced_form>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Advanced search results
------------------------------------------------------------------------- -->
+-->
 
     <catalogsearch_advanced_result>
         <!-- Mage_Catalogsearch -->
@@ -605,11 +713,11 @@ Advanced search results
         </reference>
     </catalogsearch_advanced_result>
 
-<!-- ----------------------------------------------------------------------
+<!--
 Shopping cart
------------------------------------------------------------------------- -->
+-->
 
-    <cart>
+    <checkout_cart_index>
         <!-- Mage_Checkout -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -646,13 +754,310 @@ Shopping cart
         <reference name="checkout.cart.methods">
             <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
         </reference>
-    </cart>
+    </checkout_cart_index>
 
-<!-- ----------------------------------------------------------------------
+
+
+
+
+<!--
+PayPal Express Review page after shortcut link invocation
+-->
+
+    <paypal_express_review>
+        <!-- Mage_Paypal -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="paypal/express_review" name="paypal_express_review">
+                <action method="setTemplate"><template>paypal/express/review.phtml</template></action>
+                <block type="paypal/express_review_details" name="paypal_express_review_details" as="details">
+                    <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
+                </block>
+            </block>
+        </reference>
+    </paypal_express_review>
+
+<!--
+PayPal Express Review details block
+-->
+
+    <paypal_express_review_details>
+        <!-- Mage_Paypal -->
+        <block type="paypal/express_review_details" name="root" output="toHtml">
+            <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
+        </block>
+    </paypal_express_review_details>
+
+<!--
+Product reviews page (?)
+-->
+
+    <reviews>
+        <!-- Mage_Review -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+    </reviews>
+
+<!--
+Product reviews page
+-->
+
+    <review_product_list>
+        <!-- Mage_Review -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="review/list_detailed" name="product.info">
+                <action method="setTemplate"><param>1</param></action>
+                <action method="setUsePager"><param>1</param></action>
+                <action method="setTemplate"><template>review/product/detailed.phtml</template></action>
+                <block type="catalog/product_view_super_config" name="product.info.config" as="super_config">
+                    <action method="setTemplate"><template>catalog/product/view/super/config.phtml</template></action>
+                </block>
+                <block type="catalog/product_view_super_group" name="product.info.group" as="super_group">
+                    <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
+                </block>
+            </block>
+        </reference>
+    </review_product_list>
+
+    <review_product_view>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="review/view" name="review_view"/>
+        </reference>
+    </review_product_view>
+
+    <review_customer_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="review/customer_list" name="review_customer_list"/>
+        </reference>
+    </review_customer_index>
+
+<!--
+All tags page
+-->
+
+    <tag_list_index>
+        <!-- Mage_Tag -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="tag/all" name="tags_all">
+                <action method="setTemplate"><template>tag/cloud.phtml</template></action>
+            </block>
+        </reference>
+    </tag_list_index>
+
+    <tag_customer_index>
+        <update handle="customer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title"><title>My Account</title></action>
+        </reference>
+        <reference name="content">
+            <block type="tag/customer_tags" name="customer_tags"/>
+        </reference>
+    </tag_customer_index>
+
+    <tag_customer_view>
+        <update handle="customer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title"><title>My Account</title></action>
+        </reference>
+        <reference name="content">
+            <block type="tag/customer_view" name="customer_view"/>
+        </reference>
+    </tag_customer_view>
+
+    <tag_customer_edit>
+        <update handle="customer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title"><title>My Account</title></action>
+        </reference>
+        <reference name="content">
+            <block type="tag/customer_edit" name="customer_edit"/>
+        </reference>
+    </tag_customer_edit>
+
+
+    <sales_order_history>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_history" name="sales.order.history"/>
+        </reference>
+    </sales_order_history>
+
+    <sales_order_view>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_view" name="sales.order.view"/>
+        </reference>
+    </sales_order_view>
+
+    <sales_order_details>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_details" name="sales.order.details"/>
+        </reference>
+    </sales_order_details>
+
+    <sales_order_print>
+        <reference name="content">
+            <block type="sales/order_details" name="sales.order.details"/>
+        </reference>
+    </sales_order_print>
+
+    <customer_address_form>
+        <update handle="customer_account"/>
+        <update handle="customer_address"/>
+    </customer_address_form>
+
+
+<!--
+Multi address shipping checkout main layout,
+will be rendered on all checkout pages
+-->
+
+    <checkout_multishipping>
+        <!-- Mage_Checkout -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/multishipping_state" name="checkout_state">
+                <action method="setTemplate"><template>checkout/multishipping/state.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping>
+
+    <checkout_multishipping_login>
+        <update handle="customer_account_login"/>
+    </checkout_multishipping_login>
+
+    <checkout_multishipping_register>
+        <update handle="customer_account_create"/>
+    </checkout_multishipping_register>
+
+<!--
+Multi address shipping checkout selection of address per item page
+-->
+
+    <checkout_multishipping_address_select>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_address_select" name="checkout_address_select">
+                <action method="setTemplate"><template>checkout/multishipping/address/select.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_address_select>
+
+    <checkout_multishipping_address_newShipping>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_newShipping>
+
+    <checkout_multishipping_address_editShipping>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_editShipping>
+
+    <checkout_multishipping_address_editAddress>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_editAddress>
+
+    <checkout_multishipping_address_editBilling>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_editBilling>
+
+<!--
+Multi address shipping checkout address page
+-->
+
+    <checkout_multishipping_addresses>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_addresses" name="checkout_addresses">
+                <action method="setTemplate"><template>checkout/multishipping/addresses.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_addresses>
+
+<!--
+Multi address shipping checkout shipping information
+-->
+
+    <checkout_multishipping_shipping>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_shipping" name="checkout_shipping">
+                <action method="setTemplate"><template>checkout/multishipping/shipping.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_shipping>
+
+<!--
+Multi address shipping checkout billing information
+-->
+
+    <checkout_multishipping_billing>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_billing" name="checkout_billing">
+                <action method="setTemplate"><template>checkout/multishipping/billing.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_billing>
+
+<!--
+Multi address shipping checkout overview
+-->
+
+    <checkout_multishipping_overview>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_overview" name="checkout_overview">
+                <action method="setTemplate"><template>checkout/multishipping/overview.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_overview>
+
+<!--
+Multi address shipping checkout success
+-->
+
+    <checkout_multishipping_success>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_success" name="checkout_success">
+                <action method="setTemplate"><template>checkout/multishipping/success.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_success>
+
+<!--
 One page checkout main layout
------------------------------------------------------------------------- -->
+-->
 
-    <onepage>
+    <checkout_onepage_index>
         <!-- Mage_Checkout -->
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
@@ -693,218 +1098,78 @@ One page checkout main layout
                 </block>
             </block>
         </reference>
-    </onepage>
+    </checkout_onepage_index>
 
-<!-- ----------------------------------------------------------------------
+<!--
 One page checkout progress block
------------------------------------------------------------------------- -->
+-->
 
-    <onepage_progress>
+    <checkout_onepage_progress>
         <!-- Mage_Checkout -->
         <block type="checkout/onepage_progress" name="root" output="toHtml">
             <action method="setTemplate"><template>checkout/onepage/progress.phtml</template></action>
         </block>
-    </onepage_progress>
+    </checkout_onepage_progress>
 
-<!-- ----------------------------------------------------------------------
+<!--
 One page checkout shipping methods block
------------------------------------------------------------------------- -->
+-->
 
-    <onepage_shipping>
+    <checkout_onepage_shippingMethod>
         <!-- Mage_Checkout -->
         <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml">
             <action method="setTemplate"><template>checkout/onepage/shipping_method/available.phtml</template></action>
         </block>
-    </onepage_shipping>
+    </checkout_onepage_shippingMethod>
 
-<!-- ----------------------------------------------------------------------
+
+<!--
 One page checkout order review block
------------------------------------------------------------------------- -->
+-->
 
-    <onepage_review>
+    <checkout_onepage_review>
         <!-- Mage_Checkout -->
         <block type="checkout/onepage_review_info" name="root" output="toHtml">
             <action method="setTemplate"><template>checkout/onepage/review/info.phtml</template></action>
         </block>
-    </onepage_review>
+    </checkout_onepage_review>
 
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout main layout,
-will be rendered on all checkout pages
------------------------------------------------------------------------- -->
-
-    <multishipping>
-        <!-- Mage_Checkout -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-        </reference>
+    <checkout_onepage_success>
         <reference name="content">
-            <block type="checkout/multishipping_state" name="checkout_state">
-                <action method="setTemplate"><template>checkout/multishipping/state.phtml</template></action>
+            <block type="core/template" name="checkout.success">
+                <action method="setTemplate"><template>checkout/success.phtml</template></action>
             </block>
         </reference>
-    </multishipping>
+    </checkout_onepage_success>
 
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout address page
------------------------------------------------------------------------- -->
 
-    <multishipping_address>
-        <!-- Mage_Checkout -->
+    <customer_review_index>
+        <update handle="customer_account"/>
         <reference name="content">
-            <block type="checkout/multishipping_addresses" name="checkout_addresses">
-                <action method="setTemplate"><template>checkout/multishipping/addresses.phtml</template></action>
+            <block type="review/customer_list">
+                <action method="setUsePager"><flag>1</flag></action>
             </block>
         </reference>
-    </multishipping_address>
+    </customer_review_index>
 
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout shipping information
------------------------------------------------------------------------- -->
-
-    <multishipping_shipping>
-        <!-- Mage_Checkout -->
+    <customer_review_view>
+        <update handle="customer_account"/>
         <reference name="content">
-            <block type="checkout/multishipping_shipping" name="checkout_shipping">
-                <action method="setTemplate"><template>checkout/multishipping/shipping.phtml</template></action>
-            </block>
+            <block type="review/customer_view" name="customers_review"/>
         </reference>
-    </multishipping_shipping>
+    </customer_review_view>
 
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout billing information
------------------------------------------------------------------------- -->
-
-    <multishipping_billing>
-        <!-- Mage_Checkout -->
+    <newsletter_manage_index>
+        <update handle="customer_account"/>
         <reference name="content">
-            <block type="checkout/multishipping_billing" name="checkout_billing">
-                <action method="setTemplate"><template>checkout/multishipping/billing.phtml</template></action>
-            </block>
+            <block type="customer/newsletter" name="customer_newsletter"/>
         </reference>
-    </multishipping_billing>
+    </newsletter_manage_index>
 
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout selection of address per item page
------------------------------------------------------------------------- -->
 
-    <multishipping_address_select>
-        <!-- Mage_Checkout -->
+    <catalogsearch_result_index>
         <reference name="content">
-            <block type="checkout/multishipping_address_select" name="checkout_address_select">
-                <action method="setTemplate"><template>checkout/multishipping/address/select.phtml</template></action>
-            </block>
+            <block type="catalogsearch/result" name="search.result"/>
         </reference>
-    </multishipping_address_select>
-
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout overview
------------------------------------------------------------------------- -->
-
-    <multishipping_overview>
-        <!-- Mage_Checkout -->
-        <reference name="content">
-            <block type="checkout/multishipping_overview" name="checkout_overview">
-                <action method="setTemplate"><template>checkout/multishipping/overview.phtml</template></action>
-            </block>
-        </reference>
-    </multishipping_overview>
-
-<!-- ----------------------------------------------------------------------
-Multi address shipping checkout success
------------------------------------------------------------------------- -->
-
-    <multishipping_success>
-        <!-- Mage_Checkout -->
-        <reference name="content">
-            <block type="checkout/multishipping_success" name="checkout_success">
-                <action method="setTemplate"><template>checkout/multishipping/success.phtml</template></action>
-            </block>
-        </reference>
-    </multishipping_success>
-
-<!-- ----------------------------------------------------------------------
-PayPal Express Review page after shortcut link invocation
------------------------------------------------------------------------- -->
-
-    <paypal_express_review>
-        <!-- Mage_Paypal -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-        </reference>
-        <reference name="content">
-            <block type="paypal/express_review" name="paypal_express_review">
-                <action method="setTemplate"><template>paypal/express/review.phtml</template></action>
-                <block type="paypal/express_review_details" name="paypal_express_review_details" as="details">
-                    <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
-                </block>
-            </block>
-        </reference>
-    </paypal_express_review>
-
-<!-- ----------------------------------------------------------------------
-PayPal Express Review details block
------------------------------------------------------------------------- -->
-
-    <paypal_express_review_details>
-        <!-- Mage_Paypal -->
-        <block type="paypal/express_review_details" name="root" output="toHtml">
-            <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
-        </block>
-    </paypal_express_review_details>
-
-<!-- ----------------------------------------------------------------------
-Product reviews page (?)
------------------------------------------------------------------------- -->
-
-    <reviews>
-        <!-- Mage_Review -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
-        </reference>
-    </reviews>
-
-<!-- ----------------------------------------------------------------------
-Product reviews page
------------------------------------------------------------------------- -->
-
-    <productReviews>
-        <!-- Mage_Review -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-        </reference>
-        <reference name="head">
-            <action method="addJs"><script>varien/product.js</script></action>
-        </reference>
-        <reference name="content">
-            <block type="review/list_detailed" name="product.info">
-                <action method="setTemplate"><param>1</param></action>
-                <action method="setUsePager"><param>1</param></action>
-                <action method="setTemplate"><template>review/product/detailed.phtml</template></action>
-                <block type="catalog/product_view_super_config" name="product.info.config" as="super_config">
-                    <action method="setTemplate"><template>catalog/product/view/super/config.phtml</template></action>
-                </block>
-                <block type="catalog/product_view_super_group" name="product.info.group" as="super_group">
-                    <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
-                </block>
-            </block>
-        </reference>
-    </productReviews>
-
-<!-- ----------------------------------------------------------------------
-All tags page
------------------------------------------------------------------------- -->
-
-    <tags_all>
-        <!-- Mage_Tag -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-        </reference>
-        <reference name="content">
-            <block type="tag/all" name="tags_all">
-                <action method="setTemplate"><template>tag/cloud.phtml</template></action>
-            </block>
-        </reference>
-    </tags_all>
-
+    </catalogsearch_result_index>
 </layout>

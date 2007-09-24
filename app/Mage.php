@@ -327,9 +327,9 @@ final class Mage {
         Varien_Profiler::start('init/config');
         Mage::getConfig()->init($etcDir);
         Varien_Profiler::stop('init/config');
-        
+
         //Mage::register('locale', Mage::getSingleton('core/locale'));
-        
+
         Mage::getConfig()->loadEventObservers('global');
 
         Varien_Profiler::stop('init');
@@ -343,16 +343,16 @@ final class Mage {
     public static function run($storeCode='', $etcDir=null)
     {
         self::log('===================== START ==========================');
-        
+
         try {
             Varien_Profiler::enable();
             Varien_Profiler::start('app');
 
             self::init($etcDir);
-            
+
             $controller = new Mage_Core_Controller_Varien_Front();
             self::register('controller', $controller);
-            
+
             $controller->setStoreCode($storeCode)
                 ->init()
                 ->dispatch();
@@ -360,7 +360,8 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            if (self::getSingleton('install/installer') && self::getSingleton('install/installer')->isApplicationInstalled()) {
+            $installer = self::getSingleton('install/installer');
+            if (!$installer || $installer->isApplicationInstalled()) {
                 self::printException($e);
                 exit();
             }
@@ -378,7 +379,7 @@ final class Mage {
                 self::printException($ne);
             }
         }
-        
+
         self::log('===================== FINISH ==========================');
     }
 
@@ -437,7 +438,7 @@ final class Mage {
 
         }
     }
-    
+
     /**
      * Display exception
      *

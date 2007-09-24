@@ -29,7 +29,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
 {
     protected function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_setActiveMenu('system/config')
             ->_addBreadcrumb(__('System'), __('System'))
         ;

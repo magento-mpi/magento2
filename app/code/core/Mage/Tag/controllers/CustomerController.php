@@ -37,12 +37,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
             return;
         }
 
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->loadLayout();
         $this->_initLayoutMessages('tag/session');
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('tag/customer_tags'));
-
         $this->renderLayout();
     }
 
@@ -54,12 +50,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         }
         Mage::register('tagId', $this->getRequest()->getParam('tagId'));
 
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->loadLayout();
         $this->_initLayoutMessages('tag/session');
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('tag/customer_view'));
-
         $this->renderLayout();
     }
 
@@ -70,7 +62,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
             return;
         }
 
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->loadLayout();
         $this->_initLayoutMessages('tag/session');
 
         $tagId = $this->getRequest()->getParam('tagId');
@@ -92,8 +84,6 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         }
 
         $this->_initLayoutMessages('customer/session');
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('tag/customer_edit'));
 
         $this->renderLayout();
     }

@@ -29,7 +29,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 {
     public function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Shopping Cart'), __('Shopping Cart'));
         return $this;

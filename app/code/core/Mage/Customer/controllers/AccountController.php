@@ -49,7 +49,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
      */
     public function indexAction()
     {
-        $this->loadLayout(array('default', 'customer_dashboard'), 'customer_dashboard');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
 
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('customer/account_dashboard'));
@@ -63,7 +63,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
      */
     public function loginAction()
     {
-        $this->loadLayout(array('default', 'customer_login'), 'customer_login');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
 
         $this->renderLayout();
@@ -109,7 +109,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 
     public function logoutSuccessAction()
     {
-        $this->loadLayout(array('default', 'customer_logout'), 'customer_logout');
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -124,7 +124,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
             return;
         }
 
-        $this->loadLayout(array('default', 'customer_register'), 'customer_register');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
 
 
@@ -181,16 +181,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
     {
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
-        $this->getLayout()->getBlock('root')
-            ->setTemplate('page/1column.phtml');
-        $block = $this->getLayout()->createBlock('core/template')
-            ->setTemplate('customer/form/forgotpassword.phtml')
-            ->assign('action', Mage::getUrl('*/*/forgotpasswordpost'));
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Password forgotten'));
-
-        $this->getLayout()->getBlock('content')->append($block);
-
         $this->renderLayout();
     }
 
@@ -229,7 +219,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 
     public function editAction()
     {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
 
         $data = Mage::getSingleton('customer/session')->getCustomerFormData(true);
@@ -237,15 +227,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
         if (!empty($data)) {
             $customer->addData($data);
         }
-
-        $block = $this->getLayout()->createBlock('core/template')
-            ->setTemplate('customer/form/edit.phtml')
-            ->assign('action',      Mage::getUrl('customer/account/editPost'))
-            ->assign('customer',    $customer);
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('Edit Account Info'));
-
-        $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
     }
 
@@ -332,38 +313,38 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 //        $this->getResponse()->setRedirect(Mage::getUrl('*/*/changePassword', array('_secure'=>true)));
 //    }
 
-    public function mytagsAction() {
-        $this->loadLayout();
-
-        $collection = Mage::getModel('tag/tag')->getCollection();
-        $collection->addStoreFilter(Mage::getSingleton('core/store')->getId())
-            ->addStatusFilter(1)
-            ->addEntityFilter('customer', Mage::getSingleton('customer/session')->getCustomerId())
-            ->load();
-
-        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
-            ->assign('collection', $collection->getItems())
-            ->setTemplate('tag/mytags.phtml');
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Tags'));
-
-        $this->getLayout()->getBlock('content')->append($block);
-
-        $this->renderLayout();
-    }
-
-    public function balanceAction()
-    {
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
-        $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
-            ->setTemplate('customer/balance.phtml')
-            ->assign('customer', Mage::getSingleton('customer/session')->getCustomer());
-
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Balance'));
-
-        $this->getLayout()->getBlock('content')->append($block);
-
-        $this->renderLayout();
-    }
+//    public function mytagsAction() {
+//        $this->loadLayout();
+//
+//        $collection = Mage::getModel('tag/tag')->getCollection();
+//        $collection->addStoreFilter(Mage::getSingleton('core/store')->getId())
+//            ->addStatusFilter(1)
+//            ->addEntityFilter('customer', Mage::getSingleton('customer/session')->getCustomerId())
+//            ->load();
+//
+//        $block = $this->getLayout()->createBlock('core/template', 'customer.newsletter')
+//            ->assign('collection', $collection->getItems())
+//            ->setTemplate('tag/mytags.phtml');
+//
+//        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Tags'));
+//
+//        $this->getLayout()->getBlock('content')->append($block);
+//
+//        $this->renderLayout();
+//    }
+//
+//    public function balanceAction()
+//    {
+//        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+//
+//        $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
+//            ->setTemplate('customer/balance.phtml')
+//            ->assign('customer', Mage::getSingleton('customer/session')->getCustomer());
+//
+//        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Balance'));
+//
+//        $this->getLayout()->getBlock('content')->append($block);
+//
+//        $this->renderLayout();
+//    }
 }// Class Mage_Customer_AccountController END

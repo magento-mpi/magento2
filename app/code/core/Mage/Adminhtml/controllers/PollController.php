@@ -30,7 +30,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('cms/poll');
         $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'));
 
@@ -40,7 +40,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('cms/poll');
         $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'), Mage::getUrl('*/*/'));
         $this->_addBreadcrumb(__('Edit Poll'), __('Edit Poll'));

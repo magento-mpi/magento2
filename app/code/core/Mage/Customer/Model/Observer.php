@@ -33,14 +33,9 @@ class Mage_Customer_Model_Observer
     {
     	$layout = $observer->getEvent()->getLayout();
     	if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-    		$layout->loadUpdateFile(
-    			Mage::getDesign()->getLayoutFilename('customer/loggedIn.xml')
-    		);
+    		$layout->mergeUpdate('customer_logged_in');
     	} else  {
-    		$layout->loadUpdateFile(
-    			Mage::getDesign()->getLayoutFilename('customer/loggedOut.xml')
-    		);
-
+			$layout->mergeUpdate('customer_logged_out');
     	}
     }
 }

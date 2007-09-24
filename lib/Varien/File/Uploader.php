@@ -321,13 +321,21 @@ class Varien_File_Uploader
     private function _createDestinationFolder($destinationFolder)
     {
         if( !$destinationFolder ) {
-            return;
+            return $this;
         }
+        if (!(@is_dir($destinationFolder) || @mkdir($destinationFolder, 0777, true))) {
+            throw new Exception("Unable to create directory '{$destinationFolder}'.");
+        }
+        return $this;
+
         $destinationFolder = str_replace('/', DIRECTORY_SEPARATOR, $destinationFolder);
         $path = explode(DIRECTORY_SEPARATOR, $destinationFolder);
         $newPath = null;
         $oldPath = null;
         foreach( $path as $key => $directory ) {
+            if (trim($directory)=='') {
+                continue;
+            }
             if (strlen($directory)===2 && $directory{1}===':') {
                 $newPath = $directory;
                 continue;

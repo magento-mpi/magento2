@@ -34,7 +34,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
             return;
         }
 
-    	$this->loadLayout('baseframe');
+    	$this->loadLayout();
         $this->_setActiveMenu('newsletter/template');
        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
 
     public function newAction()
     {
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('newsletter/template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'), Mage::getUrl('*/*'));
 

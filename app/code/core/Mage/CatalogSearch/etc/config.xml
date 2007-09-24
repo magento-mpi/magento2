@@ -64,27 +64,11 @@
             </connection>
          </catalogsearch_read>
       </resources>
-      <block>
-         <groups><catalogsearch><class>Mage_CatalogSearch_Block</class></catalogsearch></groups>
-      </block>
+      <blocks>
+         <catalogsearch><class>Mage_CatalogSearch_Block</class></catalogsearch>
+      </blocks>
    </global>
    <frontend>
-      <layouts>
-         <catalogsearch_advanced_form>
-            <updates>
-                <default>
-                    <file>catalogsearch/advanced/form.xml</file>
-                </default>
-            </updates>
-         </catalogsearch_advanced_form>
-         <catalogsearch_advanced_result>
-            <updates>
-                <default>
-                    <file>catalogsearch/advanced/result.xml</file>
-                </default>
-            </updates>
-         </catalogsearch_advanced_result>
-      </layouts>
       <routers>
          <catalogsearch>
             <use>standard</use>

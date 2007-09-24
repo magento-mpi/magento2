@@ -36,7 +36,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
         }
 
         $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
 		$this->_setActiveMenu('newsletter/problem');
 

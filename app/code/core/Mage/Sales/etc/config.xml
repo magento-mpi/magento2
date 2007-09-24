@@ -77,9 +77,9 @@
                 </connection>
             </sales_read>
         </resources>
-        <block>
-            <groups><sales><class>Mage_Sales_Block</class></sales></groups>
-        </block>
+        <blocks>
+            <sales><class>Mage_Sales_Block</class></sales>
+        </blocks>
         <sales>
             <quote>
                 <totals>
@@ -114,22 +114,6 @@
         <secure_url>
             <sales>/sales/</sales>
         </secure_url>
-        <layouts>
-            <customer_account>
-                <updates>
-                    <sales_account>
-                        <file>sales/account.xml</file>
-                    </sales_account>
-                </updates>
-            </customer_account>
-            <customer_dashboard>
-                <updates>
-                    <sales_dashboard>
-                        <file>sales/dashboard.xml</file>
-                    </sales_dashboard>
-                </updates>
-            </customer_dashboard>
-        </layouts>
         <routers>
             <sales>
                 <use>standard</use>

@@ -38,4 +38,14 @@
             <copyright><![CDATA[&copy; 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
         </footer>
 	</page>
+
+	<themes>
+	   <default>
+
+	   </default>
+
+	   <custom>
+	       <fallback_theme>default</fallback_theme>
+	   </custom>
+	</themes>
 </config>

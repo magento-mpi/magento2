@@ -83,7 +83,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
     public function deniedAction()
     {
-    	$this->loadLayout(array('baseframe', 'admin_denied'), 'admin_denied');
+    	$this->loadLayout(array('default', 'admin_denied'), 'admin_denied');
         $this->renderLayout();
     }
 
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
     public function norouteAction($coreRoute = null)
     {
-        $this->loadLayout(array('baseframe', 'admin_noroute'), 'admin_noroute');
+        $this->loadLayout(array('default', 'admin_noroute'), 'admin_noroute');
         $this->renderLayout();
     }
 }

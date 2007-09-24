@@ -33,9 +33,9 @@
    	  <models>
    	  	 <google_analytics><class>Mage_GoogleAnalytics_Model</class></google_analytics>
    	  </models>
-      <block>
-	    <groups><google_analytics><class>Mage_GoogleAnalytics_Block</class></google_analytics></groups>
-      </block>
+      <blocks>
+	    <google_analytics><class>Mage_GoogleAnalytics_Block</class></google_analytics>
+      </blocks>
       
         <resources>
             <googleanalytics_setup>
@@ -50,16 +50,6 @@
    </global>
    
    <frontend>
-        <layouts>
-            <default>
-                <updates>
-                    <google_analytics>
-                        <file>google/urchin/initLayout.xml</file>
-                    </google_analytics>
-                </updates>
-            </default>
-        </layouts>
-        
         <events>
         	<order_success_page_view>
         		<observers>

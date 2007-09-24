@@ -37,7 +37,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     		return;
     	}
 
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
         $this->_setActiveMenu('system');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Tools'), __('Tools'));

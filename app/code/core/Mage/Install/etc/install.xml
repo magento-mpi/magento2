@@ -81,6 +81,7 @@
         </filesystem>
         <php>
             <extensions>
+                <simplexml/>
                 <mysqli/>
                 <pdo_mysql/>
                 <mcrypt/>

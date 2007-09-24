@@ -94,9 +94,9 @@
                 </connection>
             </cms_read>
         </resources>
-        <block>
-            <groups><cms><class>Mage_Cms_Block</class></cms></groups>
-        </block>
+        <blocks>
+            <cms><class>Mage_Cms_Block</class></cms>
+        </blocks>
         <cms>
             <layouts>
                 <empty><label>Empty</label><template>page/one-column.phtml</template></empty>

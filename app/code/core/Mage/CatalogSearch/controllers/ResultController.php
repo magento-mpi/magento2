@@ -50,13 +50,7 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
         }
 
         $this->loadLayout();
-
         $this->getLayout()->getBlock('top.search')->assign('query', htmlspecialchars($searchQuery));
-        $searchResBlock = $this->getLayout()->createBlock('catalogsearch/result', 'search.result');
-        //$searchResBlock->loadByQuery($this->getRequest());
-
-        $this->getLayout()->getBlock('content')->append($searchResBlock);
-
         $this->renderLayout();
     }
 }

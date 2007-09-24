@@ -29,7 +29,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 {
     public function _initAction()
     {
-        $this->loadLayout('baseframe')
+        $this->loadLayout()
             ->_addBreadcrumb(__('Reports'), __('Reports'))
             ->_addBreadcrumb(__('Tag'), __('Tag'));
         return $this;

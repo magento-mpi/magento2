@@ -24,42 +24,43 @@ class Mage_Core_Model_Design_Package
     const DEFAULT_AREA      = 'frontend';
     const DEFAULT_PACKAGE   = 'default';
     const DEFAULT_THEME     = 'default';
-    
+    const FALLBACK_THEME    = 'default';
+
     /**
      * Package area
      *
      * @var string
      */
 	protected $_area;
-	
+
 	/**
 	 * Package name
 	 *
 	 * @var string
 	 */
 	protected $_name;
-	
+
 	/**
 	 * Package theme
 	 *
 	 * @var string
 	 */
 	protected $_theme;
-	
+
 	/**
 	 * Package root directory
 	 *
 	 * @var string
 	 */
 	protected $_rootDir;
-	
+
 	protected $_config = null;
-	
+
 	public function __construct()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Retrieve configuration by package apth
 	 *
@@ -72,13 +73,13 @@ class Mage_Core_Model_Design_Package
 			$filename = $this->getEtcFilename('config.xml');
 			$config = Mage::getModel('core/config_base');
 			$config->loadFile($filename);
-			
+
 			if (empty($config)) {
 				$filename = $this->getEtcFilename('config.xml', array('_theme'=>$this->getDefaultTheme()));
 				$config = Mage::getModel('core/config_base');
-				$config->loadFile($filename);	
+				$config->loadFile($filename);
 			}
-			
+
 			if (empty($config)) {
 				$this->_config = false;
 			} else {
@@ -91,7 +92,7 @@ class Mage_Core_Model_Design_Package
 			return (string)$this->_config->getNode($path);
 		}
 	}
-	
+
 	/**
 	 * Set package area
 	 *
@@ -103,7 +104,7 @@ class Mage_Core_Model_Design_Package
 		$this->_area = $area;
 		return $this;
 	}
-	
+
 	/**
 	 * Retrieve package area
 	 *
@@ -116,7 +117,7 @@ class Mage_Core_Model_Design_Package
 		}
 		return $this->_area;
 	}
-	
+
 	/**
 	 * Set package name
 	 *
@@ -128,7 +129,7 @@ class Mage_Core_Model_Design_Package
 		$this->_name = $name;
 		return $this;
 	}
-	
+
 	/**
 	 * Retrieve package name
 	 *
@@ -144,20 +145,26 @@ class Mage_Core_Model_Design_Package
 		}
 		return $this->_name;
 	}
-	
-	public function setTheme($type, $theme=null)
+
+	public function setTheme()
 	{
-		if (is_null($theme)) {
-			$theme = $type;
-			foreach (array('layout', 'template', 'skin', 'translate') as $type) {
-				$this->_theme[$type] = $theme;
-			}
-		} else {
-			$this->_theme[$type] = $theme;
+	    switch (func_num_args()) {
+	        case 1:
+    			foreach (array('layout', 'template', 'skin', 'translate') as $type) {
+    				$this->_theme[$type] = func_get_arg(0);
+    			}
+    			break;
+
+	        case 2:
+			    $this->_theme[func_get_arg(0)] = func_get_arg(1);
+			    break;
+
+	        default:
+	            throw Mage::exception(__('Wrong number of arguments for %s', __METHOD__));
 		}
 		return $this;
 	}
-	
+
 	public function getTheme($type)
 	{
 		if (empty($this->_theme[$type])) {
@@ -171,12 +178,12 @@ class Mage_Core_Model_Design_Package
 		}
 		return $this->_theme[$type];
 	}
-	
+
 	public function getDefaultTheme()
 	{
 		return self::DEFAULT_THEME;
 	}
-	
+
 	public function updateParamDefaults(array &$params)
 	{
 		if (empty($params['_area'])) {
@@ -190,7 +197,7 @@ class Mage_Core_Model_Design_Package
 		}
 		return $this;
 	}
-	
+
 	public function getBaseDir(array $params)
 	{
 		$this->updateParamDefaults($params);
@@ -209,7 +216,7 @@ class Mage_Core_Model_Design_Package
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'].DS.$params['_language'];
 		return $baseDir;
 	}
-	
+
 	public function getSkinBaseDir(array $params=array())
 	{
 		$this->updateParamDefaults($params);
@@ -217,7 +224,7 @@ class Mage_Core_Model_Design_Package
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'];
 		return $baseDir;
 	}
-	
+
 	public function getSkinBaseUrl(array $params=array())
 	{
 		$this->updateParamDefaults($params);
@@ -225,12 +232,12 @@ class Mage_Core_Model_Design_Package
 			.$params['_area'].'/'.$params['_package'].'/'.$params['_theme'].'/';
 		return $baseUrl;
 	}
-	
+
 	/**
      * Get absolute file path for requested file or false if doesn't exist
      *
      * Possible params:
-     * - _type: 
+     * - _type:
      * 	 - layout
      *   - template
      *   - skin
@@ -238,12 +245,12 @@ class Mage_Core_Model_Design_Package
      * - _package: design package, if not set = default
      * - _theme: if not set = default
      * - _file: path relative to theme root
-     * 
+     *
      * @see Mage_Core_Model_Config::getBaseDir
      * @param string $file
      * @param array $params
      * @return string|boolean
-     * 
+     *
      */
     public function validateFile($file, array $params)
     {
@@ -252,11 +259,11 @@ class Mage_Core_Model_Design_Package
     		case 'skin':
     			$fileName = $this->getSkinBaseDir($params);
     			break;
-    			
+
     		case 'translate':
     			$fileName = $this->getTranslateBasedir($params);
     			break;
-    			
+
     		default:
     			$fileName = $this->getBaseDir($params);
     			break;
@@ -271,12 +278,12 @@ class Mage_Core_Model_Design_Package
     	Varien_Profiler::stop(__METHOD__);
     	return $fileName;
     }
-    
+
     /**
      * Use this one to get existing file name with fallback to default
      *
      * $params['_type'] is required
-     * 
+     *
      * @param string $file
      * @param array $params
      * @return string
@@ -302,31 +309,31 @@ class Mage_Core_Model_Design_Package
 		Varien_Profiler::stop(__METHOD__);
 		return $filename;
     }
-    
+
     public function getEtcFilename($file, array $params=array())
-    {   
-        $params['_type'] = 'etc'; 
-    	return $this->getFilename($file, $params); 
+    {
+        $params['_type'] = 'etc';
+    	return $this->getFilename($file, $params);
     }
-    
+
     public function getLayoutFilename($file, array $params=array())
     {
     	$params['_type'] = 'layout';
     	return $this->getFilename($file, $params);
     }
-    
+
     public function getTemplateFilename($file, array $params=array())
     {
     	$params['_type'] = 'template';
     	return $this->getFilename($file, $params);
     }
-    
+
     public function getTranslateFilename($file, array $params=array())
     {
     	$params['_type'] = 'translate';
     	return $this->getFilename($file, $params);
     }
-    
+
     /**
      * Get skin file url
      *
@@ -357,7 +364,7 @@ class Mage_Core_Model_Design_Package
 				}
 			}
     	}
-		
+
     	$url = $this->getSkinBaseUrl($params).(!empty($file) ? $file : '');
     	Varien_Profiler::stop(__METHOD__);
     	return $url;

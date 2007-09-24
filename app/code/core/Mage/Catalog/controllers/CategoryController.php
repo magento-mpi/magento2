@@ -43,9 +43,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         Mage::register('current_category', $category);
         $this->loadLayout(null, '', false);
 
-        $this->getLayout()->loadUpdateFile(
-            Mage::getDesign()->getLayoutFilename($category->getLayoutUpdateFileName())
-        );
+        $this->getLayout()->mergeUpdate($category->getLayoutUpdateHandle());
         $this->getLayout()->generateBlocks();
         $this->renderLayout();
     }

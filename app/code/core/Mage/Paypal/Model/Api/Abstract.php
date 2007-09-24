@@ -114,9 +114,14 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         return $this->getConfigData('api_signature');
     }
 
-    public function getButtonSource()
+    public function getButtonSourceEc()
     {
-        return $this->getConfigData('button_source', 'Varien_ShoppingCart_EC_US');
+        return $this->getConfigData('button_source', 'Varien_Cart_EC_US');
+    }
+
+    public function getButtonSourceDp()
+    {
+        return $this->getConfigData('button_source', 'Varien_Cart_DP_US');
     }
 
     public function getUseProxy()

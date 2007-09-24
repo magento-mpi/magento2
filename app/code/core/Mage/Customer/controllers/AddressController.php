@@ -43,7 +43,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         if (Mage::getSingleton('customer/session')->getCustomer()->getLoadedAddressCollection()->getSize())
         {
-            $this->loadLayout(array('default', 'customer_account', 'customer_address_book'), 'customer_address_book');
+            $this->loadLayout();
             $this->_initLayoutMessages('customer/session');
             $this->renderLayout();
         }
@@ -67,7 +67,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
-        $this->loadLayout(array('default', 'customer_account', 'customer_address'), 'customer_address');
+        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('customer/address/');

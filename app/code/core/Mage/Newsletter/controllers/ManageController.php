@@ -47,12 +47,7 @@ class Mage_Newsletter_ManageController extends Mage_Core_Controller_Front_Action
 
 	public function indexAction()
 	{
-        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
-
-		$this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('customer/newsletter')
-        );
-
+        $this->loadLayout();
 		$this->renderLayout();
 	}
 

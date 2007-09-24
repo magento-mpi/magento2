@@ -49,7 +49,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $this->_forward('grid');
             return;
         }
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         /**
          * Set active menu item
@@ -83,7 +83,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->_initCustomer();
-        $this->loadLayout('baseframe');
+        $this->loadLayout();
 
         $customer = Mage::registry('current_customer');
 
