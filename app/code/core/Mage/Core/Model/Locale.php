@@ -61,6 +61,8 @@ class Mage_Core_Model_Locale
      */
     protected $_locale;
     
+    protected $_cache;
+    
     public function __construct($locale = null) 
     {
         $this->setLocale($locale);
@@ -303,6 +305,12 @@ class Mage_Core_Model_Locale
         return $this->getLocale()->getTranslation($type, 'timeformat');
     }
     
+    /**
+     * Retrieve ISO datetime format
+     *
+     * @param   string $type
+     * @return  string
+     */
     public function getDateTimeFormat($type)
     {
         return $this->getDateFormat($type) . ' ' . $this->getTimeFormat($type);
@@ -343,8 +351,48 @@ class Mage_Core_Model_Locale
         return $format;
     }
     
-    public function date($date=null, $part=null)
+    /**
+     * Create Zend_Date object for current locale
+     *
+     * @param   mixed $date
+     * @param   string $part
+     * @return  Zend_Date
+     */
+    public function date($date=null, $part=null, $locale=null)
     {
-        return new Zend_Date($date, $part, $this->getLocale());
+        if (is_null($locale)) {
+            $locale = $this->getLocale();
+        }
+        return new Zend_Date($date, $part, $locale);
+    }
+    
+    /**
+     * Create Zend_Currency object for current locale
+     *
+     * @param   string $currency
+     * @return  Zend_Currency
+     */
+    public function currency($currency)
+    {
+        Varien_Profiler::start('locale/currency');
+        $currency = new Zend_Currency($currency, null, $this->getLocale());
+        Varien_Profiler::stop('locale/currency');
+        return $currency;
+    }
+    
+    /**
+     * Retrieve cache object
+     *
+     * @return Zend_Cache_Frontend_File
+     */
+    public function getCache()
+    {
+        if (!$this->_cache) {
+            $this->_cache = Zend_Cache::factory('Core', 'File', 
+                array('automatic_serialization'=>true), 
+                array('cache_dir'=>Mage::getBaseDir('cache_translate'))
+            );
+        }
+        return $this->_cache;
     }
 }

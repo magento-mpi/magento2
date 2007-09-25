@@ -28,6 +28,8 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
 {
+    protected $_locale;
+    
     protected function _prepareLayout()
     {
         if ($this->getLayout()->getBlock('root')) {
@@ -41,9 +43,18 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
         /*if (!($format = Mage::getStoreConfig('general/local/date_format_short'))) {
             $format = '%m/%e/%Y';
         }*/
-        $format = Mage::getSingleton('core/locale')->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-        $html = '<div class="range"><div class="range-line date"><span class="label">' . __('From').':</span> <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/> <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" align="absmiddle" id="'.$this->_getHtmlId().'_from_trig" title="Date selector" /></div>';
-        $html.= '<div class="range-line date"><span class="label">' . __('To').' :</span> <input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/> <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" align="absmiddle" id="'.$this->_getHtmlId().'_to_trig" title="Date selector" /></div></div>';
+        $format =$this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $html = '<div class="range"><div class="range-line date">
+            <span class="label">' . __('From').':</span> 
+            <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/> 
+            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" align="absmiddle" id="'.$this->_getHtmlId().'_from_trig" title="Date selector" />
+            </div>';
+        $html.= '<div class="range-line date">
+            <span class="label">' . __('To').' :</span> 
+            <input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/> 
+            <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" align="absmiddle" id="'.$this->_getHtmlId().'_to_trig" title="Date selector" />
+            </div></div>';
+        $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]" value="'.$this->getLocale()->getLocaleCode().'"/>';
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField : "'.$this->_getHtmlId().'_from",
@@ -62,7 +73,16 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
         </script>';
         return $html;
     }
-
+    
+    public function getEscapedValue($index=null)
+    {
+        $value = $this->getValue($index);
+        if ($value instanceof Zend_Date) {
+            return $value->toString($this->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+        }
+        return $value;
+    }
+    
     public function getValue($index=null)
     {
         if ($index) {
@@ -81,6 +101,34 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
     public function getCondition()
     {
         $value = $this->getValue();
+        
         return $value;
+    }
+    
+    public function setValue($value)
+    {
+        if (isset($value['locale'])) {
+            if (!empty($value['from'])) {
+                $value['from'] = $this->getLocale()->date($value['from'], Zend_Date::DATE_SHORT, $value['locale']);
+            }
+            if (!empty($value['to'])) {
+                $value['to'] = $this->getLocale()->date($value['to'], Zend_Date::DATE_SHORT, $value['locale']);
+            }
+        }
+        $this->setData('value', $value);
+        return $this;
+    }
+    
+    /**
+     * Retrieve locale
+     *
+     * @return Mage_Core_Model_Locale
+     */
+    public function getLocale()
+    {
+        if (!$this->_locale) {
+            $this->_locale = Mage::getSingleton('core/locale');
+        }
+        return $this->_locale;
     }
 }

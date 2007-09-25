@@ -21,6 +21,9 @@
 
 class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 {
+    const ISO_DATE_FORMAT       = 'yyyy-MM-dd';
+    const ISO_DATETIME_FORMAT   = 'yyyy-MM-dd HH-mm-ss';
+    
     protected $_transactionLevel=0;
     protected $_connectionFlagsSet=false;
 
@@ -53,11 +56,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
     public function convertDate($date)
     {
+        if ($date instanceof Zend_Date) {
+            return $date->toString(self::ISO_DATE_FORMAT);
+        }
         return strftime('%Y-%m-%d', strtotime($date));
     }
 
     public function convertDateTime($datetime)
     {
+        if ($datetime instanceof Zend_Date) {
+            return $datetime->toString(self::ISO_DATETIME_FORMAT);
+        }
         return strftime('%Y-%m-%d %H:%M:%S', strtotime($datetime));
     }
     

@@ -646,7 +646,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         return $this->getCurrentUrl();
     }
-
+    
+    /**
+     * Retrieve grid 
+     *
+     * @param   string $paramName
+     * @param   mixed $default
+     * @return  mixed
+     */
     public function getParam($paramName, $default=null)
     {
         $session = Mage::getSingleton('adminhtml/session');
