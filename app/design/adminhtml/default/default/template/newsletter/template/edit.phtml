@@ -30,6 +30,9 @@
                 <?=$this->getToHtmlButtonHtml();?>
                 <?endif?>
                 <?=$this->getSaveButtonHtml();?>
+                <?if($this->getEditMode()):?>
+                <?=$this->getSaveAsButtonHtml();?>
+                <?endif?>
                 <?=$this->getPreviewButtonHtml();?>
                 <?if($this->getEditMode()):?>
                 <?=$this->getDeleteButtonHtml();?>
@@ -40,6 +43,7 @@
 </div>
 <form action="<?=$this->getSaveUrl()?>" method="POST" id="newsletter_template_edit_form">
 <input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
+<input type="hidden" id="save_as_flag" name="_save_as_flag" value="<?=$this->getSaveAsFlag()?>" />
 <?=$this->getForm()?>
 </form>
 <form action="<?=$this->getPreviewUrl()?>" method="POST" id="newsletter_template_preview_form" target="_blank">
@@ -52,6 +56,7 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
+        templateName: false,
         isEditor: false,
         init: function () {
         	if ($('convert_button_back')) {
@@ -90,6 +95,32 @@
             templateForm.submit();
             return false;
         },
+        saveAs: function() {
+            if (this.typeChange) {
+                $('change_flag_element').value = '1';
+            }
+
+            if($F('code').blank() || $F('code')==templateControl.templateName) {
+               value = prompt('<?=__('Please enter new template name')?>', templateControl.templateName + '<?=__(' Copy')?>');
+               if(!value) {
+                   if(value !== null) {
+                       $('code').value = '';
+                       templateForm.submit();
+                   }
+                   return false;
+               } else {
+                   $('code').value = value;
+               }
+            }
+
+            $('save_as_flag').value = '1';
+
+            if(this.isEditor) {
+            	tinyMCE.triggerSave();
+            }
+            templateForm.submit();
+            return false;
+        },
         preview: function() {
             if (this.typeChange) {
                 $('preview_type').value = 1;
@@ -111,4 +142,5 @@
     };
 
     templateControl.init();
+    templateControl.templateName = "<?=$this->getJsTemplateName()?>";
 </script>

@@ -96,6 +96,10 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 $template->setTemplateType($type);
             }
 
+            if($this->getRequest()->getParam('_save_as_flag')) {
+                $template->setId(null);
+            }
+
             $template->save();
             $this->_redirect('*/*');
         }

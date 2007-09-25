@@ -29,8 +29,8 @@
 class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
     protected $_template;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('newsletter/template/edit.phtml');
@@ -39,10 +39,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
             $this->_template->load($templateId);
         }
     }
-    
-    protected function _prepareLayout() 
+
+    protected function _prepareLayout()
     {
-        $this->setChild('back_button', 
+        $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -52,9 +52,9 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        
-        $this->setChild('reset_button', 
+
+
+        $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -63,8 +63,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        $this->setChild('to_plain_button', 
+
+        $this->setChild('to_plain_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -75,9 +75,9 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        
-        $this->setChild('to_html_button', 
+
+
+        $this->setChild('to_html_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -89,8 +89,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        $this->setChild('toggle_button', 
+
+        $this->setChild('toggle_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -101,8 +101,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        $this->setChild('save_button', 
+
+        $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -112,8 +112,19 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        $this->setChild('preview_button', 
+
+        $this->setChild('save_as_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(
+                    array(
+                        'label'   => __('Save As'),
+                        'onclick' => 'templateControl.saveAs();',
+                            'class' => 'save'
+                    )
+                )
+        );
+
+        $this->setChild('preview_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -123,8 +134,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     )
                 )
         );
-        
-        $this->setChild('delete_button', 
+
+        $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
@@ -136,50 +147,56 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         );
         return parent::_prepareLayout();
     }
-    
+
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('back_button');
     }
-    
+
     public function getToggleButtonHtml()
     {
         return $this->getChildHtml('toggle_button');
     }
-        
+
     public function getResetButtonHtml()
     {
         return $this->getChildHtml('reset_button');
     }
-    
+
     public function getToPlainButtonHtml()
     {
         return $this->getChildHtml('to_plain_button');
     }
-    
+
     public function getToHtmlButtonHtml()
     {
         return $this->getChildHtml('to_html_button');
     }
-    
+
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
     }
-    
+
     public function getPreviewButtonHtml()
     {
         return $this->getChildHtml('preview_button');
     }
-    
+
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
     }
-    
+
+    public function getSaveAsButtonHtml()
+    {
+        return $this->getChildHtml('save_as_button');
+    }
+
+
     /**
      * Set edit flag for block
-     * 
+     *
      * @param boolean $value
      * @return Mage_Adminhtml_Block_Newsletter_Template_Edit
      */
@@ -188,7 +205,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         $this->_editMode = $value;
         return $this;
     }
-    
+
     /**
      * Return edit flag for block
      *
@@ -198,34 +215,44 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     {
         return $this->_editMode;
     }
-    
+
     /**
      * Return header text for form
      *
      * @return string
      */
-    public function getHeaderText() 
+    public function getHeaderText()
     {
         if($this->getEditMode()) {
           return __('Edit Newsletter Template');
         }
-        
+
         return  __('New Newsletter Template');
     }
-    
-       
+
+
     /**
      * Return form block HTML
      *
      * @return string
      */
-    public function getForm() 
+    public function getForm()
     {
         return $this->getLayout()->createBlock('adminhtml/newsletter_template_edit_form')
             ->renderPrepare($this->_template)
             ->toHtml();
     }
-    
+
+    /**
+     * Return return template name for JS
+     *
+     * @return string
+     */
+    public function getJsTemplateName()
+    {
+        return addcslashes($this->_template->getTemplateCode(), "\"\r\n\\");
+    }
+
     /**
      * Return action url for form
      *
@@ -235,7 +262,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     {
         return Mage::getUrl('*/*/save');
     }
-    
+
     /**
      * Return preview action url for form
      *
@@ -245,12 +272,12 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     {
         return Mage::getUrl('*/*/preview');
     }
-    
+
     public function isTextType()
     {
         return $this->_template->isPlain();
     }
-    
+
     /**
      * Return delete url for customer group
      *
@@ -260,6 +287,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     {
         return Mage::getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
     }
-       
-   
+
+    public function getSaveAsFlag()
+    {
+        return $this->getRequest()->getParam('_save_as_flag') ? '1' : '';
+    }
+
 }
