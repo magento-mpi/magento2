@@ -28,14 +28,20 @@
 
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
-	protected static $_statuses = array(
-		null										=>	null,
-		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
-		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancel'),
-		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
-		Mage_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
-		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
-	);
+	protected static $_statuses;
+	
+	public function __construct()
+	{
+	    self::$_statuses = array(
+	    		null										=>	null,
+        		Mage_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
+        		Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancel'),
+        		Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
+        		Mage_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
+        		Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
+        	);
+        parent::__construct();
+	}
 
 	protected function _getOptions()
 	{
