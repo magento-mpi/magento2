@@ -86,6 +86,7 @@
                 <pdo_mysql/>
                 <mcrypt/>
                 <curl/>
+                <iconv/>
             </extensions>
         </php>
     </check>

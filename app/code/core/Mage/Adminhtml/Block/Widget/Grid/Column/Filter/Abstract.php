@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Core_
     
     protected function _getHtmlName()
     {
-        return $this->getColumn()->getId();//$this->getColumn()->getGrid()->getVarNameFilter().'['.$this->getColumn()->getId().']';
+        return $this->getColumn()->getId();
     }
     
     protected function _getHtmlId()

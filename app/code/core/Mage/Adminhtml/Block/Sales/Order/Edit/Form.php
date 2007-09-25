@@ -81,8 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Templat
      */
     public function getOrderDateFormatted($format='short')
     {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getOrder()->getCreatedAt()));
-        return $dateFormatted;
+        return $this->formatDate($this->getOrder()->getCreatedAt(), $format);
     }
 
     /**

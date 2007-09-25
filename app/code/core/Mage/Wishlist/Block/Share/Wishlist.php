@@ -23,63 +23,63 @@
  *
  * @category   Mage
  * @package    Mage_Wishlist
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 {
-	protected $_wishlistLoaded = false;
-	protected $_customer = null;
+    protected $_wishlistLoaded = false;
+    protected $_customer = null;
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->setTemplate('wishlist/shared.phtml');
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('wishlist/shared.phtml');
         Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle($this->getHeader());
-	}
+    }
 
-	public function getWishlist()
-	{
-		if(!$this->_wishlistLoaded) {
-			Mage::registry('shared_wishlist')->getItemCollection()
-				->addAttributeToSelect('name')
-	            ->addAttributeToSelect('price')
-	            ->addAttributeToSelect('image')
-	            ->addAttributeToSelect('small_image')
-	            ->addAttributeToSelect('thumbnail')
-	            ->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
-				->load();
+    public function getWishlist()
+    {
+        if(!$this->_wishlistLoaded) {
+            Mage::registry('shared_wishlist')->getItemCollection()
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price')
+                ->addAttributeToSelect('image')
+                ->addAttributeToSelect('small_image')
+                ->addAttributeToSelect('thumbnail')
+                ->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
+                ->load();
 
-			$this->_wishlistLoaded = true;
-		}
+            $this->_wishlistLoaded = true;
+        }
 
-		return Mage::registry('shared_wishlist')->getItemCollection();
-	}
+        return Mage::registry('shared_wishlist')->getItemCollection();
+    }
 
-	public function getWishlistCustomer()
-	{
-		if(is_null($this->_customer)) {
-			$this->_customer = Mage::getModel('customer/customer')
-				->load(Mage::registry('shared_wishlist')->getCustomerId());
+    public function getWishlistCustomer()
+    {
+        if(is_null($this->_customer)) {
+            $this->_customer = Mage::getModel('customer/customer')
+                ->load(Mage::registry('shared_wishlist')->getCustomerId());
 
-		}
+        }
 
-		return $this->_customer;
-	}
+        return $this->_customer;
+    }
 
 
-	public function getEscapedDescription(Mage_Wishlist_Model_Item $item)
-	{
-		return htmlspecialchars($item->getDescription());
-	}
+    public function getEscapedDescription(Mage_Wishlist_Model_Item $item)
+    {
+        return htmlspecialchars($item->getDescription());
+    }
 
-	public function getHeader()
-	{
-		return __("%s's Wishlist", $this->getWishlistCustomer()->getFirstname());
-	}
+    public function getHeader()
+    {
+        return __("%s's Wishlist", $this->getWishlistCustomer()->getFirstname());
+    }
 
-	public function getFormatedDate($date)
-	{
-		return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($date));
-	}
+    public function getFormatedDate($date)
+    {
+        return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+    }
 }// Class Mage_Wishlist_Block_Customer_Wishlist END

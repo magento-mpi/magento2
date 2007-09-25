@@ -373,7 +373,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
 
 		if ($this->getCurrentCurrency() && $format) {
-        	$value = $this->getCurrentCurrency()->format($value);
+        	//$value = $this->getCurrentCurrency()->format($value);
+        	$value = Mage::getSingleton('core/locale')->currency($this->getCurrentCurrency()->getCode())->toCurrency($value);
         }
         return $value;
     }

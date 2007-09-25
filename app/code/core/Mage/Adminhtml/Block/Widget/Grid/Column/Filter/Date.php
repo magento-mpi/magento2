@@ -40,9 +40,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
 
     public function getHtml()
     {      
-        /*if (!($format = Mage::getStoreConfig('general/local/date_format_short'))) {
-            $format = '%m/%e/%Y';
-        }*/
         $format =$this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $html = '<div class="range"><div class="range-line date">
             <span class="label">' . __('From').':</span> 

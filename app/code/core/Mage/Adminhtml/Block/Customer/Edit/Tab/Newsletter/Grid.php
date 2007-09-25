@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         $this->setUseAjax(true);
         
     
-		$this->setEmptyText(__('No Newsletter Found'));
-	        
+        $this->setEmptyText(__('No Newsletter Found'));
+            
     }
     
     public function getGridUrl()
@@ -49,9 +49,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('newsletter/queue_collection')
-			->addTemplateInfo()
-			->addSubscriberFilter(Mage::registry('subscriber')->getId());
-			
+            ->addTemplateInfo()
+            ->addSubscriberFilter(Mage::registry('subscriber')->getId());
+            
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -59,60 +59,61 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
 
     protected function _prepareColumns()
     {
+        $datetimeFormat = Mage::getSingleton('core/locale')->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $this->addColumn('id', array(
-            'header'    =>	__('ID'),
-            'align'     =>	'left',
-            'index'     =>	'queue_id',
-            'width'		=>	10
+            'header'    =>  __('ID'),
+            'align'     =>  'left',
+            'index'     =>  'queue_id',
+            'width'     =>  10
         ));
         
         $this->addColumn('start_at', array(
-            'header'    =>	__('Newsletter Start'),
-            'type'      =>	'date',
-            'align'     =>	'center',
-            'index'     =>	'queue_start_at',
-            'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
-            'default'	=> 	' ---- '
+            'header'    =>  __('Newsletter Start'),
+            'type'      =>  'date',
+            'align'     =>  'center',
+            'index'     =>  'queue_start_at',
+            'format'    =>  $datetimeFormat,
+            'default'   =>  ' ---- '
         ));
         
         $this->addColumn('finish_at', array(
-            'header'    =>	__('Newsletter Finish'),
-            'type'      => 	'date',
-            'align'     => 	'center',
-            'index'     =>	'queue_finish_at',
-            'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
-            'default'	=> 	' ---- '
+            'header'    =>  __('Newsletter Finish'),
+            'type'      =>  'date',
+            'align'     =>  'center',
+            'index'     =>  'queue_finish_at',
+            'format'    =>  $datetimeFormat,
+            'default'   =>  ' ---- '
         ));
         
         $this->addColumn('letter_sent_at', array(
-            'header'    =>	__('Newsletter Received'),
-            'type'      => 	'date',
-            'align'     => 	'center',
-            'index'     =>	'letter_sent_at',
-            'format'	=>	Mage::getStoreConfig('general/local/datetime_format_short'),
-            'default'	=> 	' ---- '
+            'header'    =>  __('Newsletter Received'),
+            'type'      =>  'date',
+            'align'     =>  'center',
+            'index'     =>  'letter_sent_at',
+            'format'    =>  $datetimeFormat,
+            'default'   =>  ' ---- '
         ));
         
         $this->addColumn('template_subject', array(
-            'header'    =>	__('Subject'),
-            'align'     =>	'center',
-            'index'     =>	'template_subject'
+            'header'    =>  __('Subject'),
+            'align'     =>  'center',
+            'index'     =>  'template_subject'
         ));
         
          $this->addColumn('status', array(
-            'header'    =>	__('Status'),
-            'align'     =>	'center',
-            'filter'	=>	'adminhtml/customer_edit_tab_newsletter_grid_filter_status',
-            'index'		=> 'queue_status',
-            'renderer'	=>	'adminhtml/customer_edit_tab_newsletter_grid_renderer_status'
+            'header'    =>  __('Status'),
+            'align'     =>  'center',
+            'filter'    =>  'adminhtml/customer_edit_tab_newsletter_grid_filter_status',
+            'index'     => 'queue_status',
+            'renderer'  =>  'adminhtml/customer_edit_tab_newsletter_grid_renderer_status'
         ));
         
         $this->addColumn('action', array(
-            'header'    =>	__('Action'),
-            'align'     =>	'center',
-            'filter'	=>	false,
-            'sortable'	=>	false,
-            'renderer'	=>	'adminhtml/customer_edit_tab_newsletter_grid_renderer_action'
+            'header'    =>  __('Action'),
+            'align'     =>  'center',
+            'filter'    =>  false,
+            'sortable'  =>  false,
+            'renderer'  =>  'adminhtml/customer_edit_tab_newsletter_grid_renderer_action'
         ));
                 
         

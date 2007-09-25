@@ -318,6 +318,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'cache_config':
             case 'cache_layout':
             case 'cache_block':
+            case 'cache_locale':
             case 'cache_translate':
             case 'cache_db':
                 if (!file_exists($dir)) {
@@ -375,10 +376,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'block';
                 break;
 
+            case 'cache_locale':
+                $dir = $this->getBaseDir('var').DS.'cache'.DS.'locale';
+                break;
+                
             case 'cache_translate':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'translate';
                 break;
-
+                
             case 'cache_db':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'db';
                 break;

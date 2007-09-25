@@ -33,21 +33,23 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
 	 * Date format string
 	 */
 	protected static $_format = null;
-
+    
+	/**
+	 * Retrieve datetime format
+	 *
+	 * @return unknown
+	 */
 	protected function _getFormat()
 	{
 	    $format = $this->getColumn()->getFormat();
 	    if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    //self::$_format = Mage::getStoreConfig('general/local/datetime_format_medium');
                     self::$_format = Mage::getSingleton('core/locale')->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
                 }
                 catch (Exception $e) {
+                
                 }
-				if (!(self::$_format)) {
-				    self::$_format = '%a, %b %e %Y [%I:%M %p]';
-				}
 			}
 			$format = self::$_format;
 	    }
@@ -62,14 +64,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
      */
     public function render(Varien_Object $row)
     {
-        /*if ($data = $row->getData($this->getColumn()->getIndex())) {
-			$format = $this->_getFormat();
-        	if (false === strstr($format, '%')) {
-        	    return date($format, strtotime($data));
-        	}
-            return strftime($format, strtotime($data));
-        }
-        return $this->getColumn()->getDefault();*/
         if ($data = $row->getData($this->getColumn()->getIndex())) {
 			$format = $this->_getFormat();
 			return Mage::getSingleton('core/locale')->date($data)->toString($format);

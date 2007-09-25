@@ -84,7 +84,7 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
 
     public function dateFormat($date)
     {
-         return strftime(Mage::getStoreConfig('general/local/date_format_short'), strtotime($date));
+        return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
     protected function _beforeToHtml()

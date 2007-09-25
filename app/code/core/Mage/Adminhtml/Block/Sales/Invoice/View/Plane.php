@@ -63,8 +63,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_View_Plane extends Mage_Core_Block_Temp
 
     public function getOrderDateFormatted($format='short')
     {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getOrder()->getCreatedAt()));
-        return $dateFormatted;
+        return $this->formatDate($this->getOrder()->getCreatedAt(), $format);
     }
 
 }

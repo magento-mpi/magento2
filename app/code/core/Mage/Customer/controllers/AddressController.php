@@ -125,7 +125,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             }
             catch (Exception $e){
                 Mage::getSingleton('customer/session')
-                    ->addError(__('There was an error while deleting the address');
+                    ->addError(__('There was an error while deleting the address'));
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));

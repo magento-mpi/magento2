@@ -147,7 +147,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getDesignConfig($path)
     {
-    	return Mage::getDesign()->getConfig($path);
+        return Mage::getDesign()->getConfig($path);
     }
     
     /**
@@ -414,9 +414,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _beforeToHtml()
     {
-    	if (Mage::getStoreConfig('advanced/modules_disable_output/'.$this->getModuleName())) {
-    		return false;
-    	}
+        if (Mage::getStoreConfig('advanced/modules_disable_output/'.$this->getModuleName())) {
+            return false;
+        }
         return true;
     }
     
@@ -452,7 +452,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getSkinUrl($file=null, array $params=array())
     {
-    	return Mage::getDesign()->getSkinUrl($file, $params);
+        return Mage::getDesign()->getSkinUrl($file, $params);
     }
     
     /**
@@ -484,13 +484,33 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->getLayout()->getHelper($type);
     }
-
+    
+    /**
+     * Retrieve formating date
+     *
+     * @param   string $date
+     * @param   string $format
+     * @param   bool $showTime
+     * @return  string
+     */
     public function formatDate($date, $format='short', $showTime=false)
     {
-        if ('short'!==$format && 'medium'!==$format && 'long'!==$format) {
+        if (Mage_Core_Model_Locale::FORMAT_TYPE_FULL    !==$format && 
+            Mage_Core_Model_Locale::FORMAT_TYPE_LONG    !==$format && 
+            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM  !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
             return $date;
         }
-        return strftime(Mage::getStoreConfig('general/local/date'.($showTime?'time':'').'_format_'.$format), strtotime($date));
+        $date = Mage::getSingleton('core/locale')->date(strtotime($date));
+        
+        if ($showTime) {
+            $format = Mage::getSingleton('core/locale')->getDateTimeFormat($format);
+        }
+        else {
+            $format = Mage::getSingleton('core/locale')->getDateFormat($format);
+        }
+        
+        return $date->toString($format);
     }
     
     /**

@@ -55,8 +55,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_
 
     public function getInvoiceDateFormatted($format='short')
     {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getInvoice()->getCreatedAt()));
-        return $dateFormatted;
+        return $this->formatDate($this->getInvoice()->getCreatedAt(), $format);
     }
 
     public function getSaveUrl()

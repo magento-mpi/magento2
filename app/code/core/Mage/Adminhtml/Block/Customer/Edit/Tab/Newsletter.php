@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
     {
         $subscriber = Mage::registry('subscriber');
         if($subscriber->getChangeStatusAt()) {
-            return strftime(Mage::getStoreConfig('general/local/datetime_format_medium'), strtotime($subscriber->getChangeStatusAt()));
+            return $this->formatDate($subscriber->getChangeStatusAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
         }
 
         return null;

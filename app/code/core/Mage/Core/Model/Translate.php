@@ -289,7 +289,7 @@ class Mage_Core_Model_Translate
     public function getData()
     {
         if (is_null($this->_data)) {
-            Mage::throwException(__('You need init translate area'));
+            Mage::throwException('You need init translate area');
         }
         return $this->_data;
     }
@@ -307,7 +307,11 @@ class Mage_Core_Model_Translate
         return $this->_locale;
     }
     
-    
+    /**
+     * Retrieve DB resource model
+     *
+     * @return unknown
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('core/translate');
@@ -358,7 +362,6 @@ class Mage_Core_Model_Translate
             }
         }
         
-        //$translated = $this->getTranslate()->_($text);
         array_unshift($args, $translated);
         $result = call_user_func_array('sprintf', $args);
         return $result;

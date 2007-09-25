@@ -90,6 +90,6 @@ class Mage_Review_Block_Customer_View extends Mage_Core_Block_Template
 
     public function dateFormat($date)
     {
-         return strftime(Mage::getStoreConfig('general/local/date_format_long'), strtotime($date));
+        return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_LONG);
     }
 }

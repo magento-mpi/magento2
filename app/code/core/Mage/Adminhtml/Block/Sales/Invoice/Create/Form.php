@@ -60,8 +60,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create_Form extends Mage_Adminhtml_Bloc
 
     public function getOrderDateFormatted($format='short')
     {
-        $dateFormatted = strftime(Mage::getStoreConfig('general/local/date_format_' . $format), strtotime($this->getOrder()->getCreatedAt()));
-        return $dateFormatted;
+        return $this->formatDate($this->getOrder()->getCreatedAt(), $format);
     }
 
     public function getSaveUrl()

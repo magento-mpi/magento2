@@ -65,6 +65,7 @@ class Mage_Core_Model_Locale
     
     public function __construct($locale = null) 
     {
+        Zend_Locale_Data::setCache($this->getCache());
         $this->setLocale($locale);
     }
     
@@ -390,7 +391,7 @@ class Mage_Core_Model_Locale
         if (!$this->_cache) {
             $this->_cache = Zend_Cache::factory('Core', 'File', 
                 array('automatic_serialization'=>true), 
-                array('cache_dir'=>Mage::getBaseDir('cache_translate'))
+                array('cache_dir'=>Mage::getBaseDir('cache_locale'))
             );
         }
         return $this->_cache;
