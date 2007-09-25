@@ -20,25 +20,25 @@
 
 /**
  * Newsletter queue collection.
- * 
+ *
  * @category   Mage
  * @package    Mage_Newsletter
  * @author      Ivan Chepurnyi <mitch@varien.com>
- */ 
+ */
 
-class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
+class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 	protected $_addSubscribersFlag = false;
-	
+
 	/**
 	 * Initializes collection
 	 */
     protected function _construct()
     {
-        $this->_init('newsletter/queue');        
+        $this->_init('newsletter/queue');
     }
-    
-    
+
+
     /**
      * Joines templates information
      *
@@ -51,43 +51,43 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
    		$this->_joinedTables['template'] = true;
    		return $this;
     }
-    
-    protected  function _addSubscriberInfoToSelect() 
+
+    protected  function _addSubscriberInfoToSelect()
     {
     	$this->getSize(); // Executing of count query!
     	$this->getSelect()
     		->joinLeft(array('link_total'=>$this->getTable('queue_link')),
-    								 'main_table.queue_id=link_total.queue_id', 
+    								 'main_table.queue_id=link_total.queue_id',
     								 array(
-    								 	new Zend_Db_Expr('COUNT(link_total.queue_link_id) AS subscribers_total')
+    								 	new Zend_Db_Expr('COUNT(DISTINCT link_total.queue_link_id) AS subscribers_total')
     								 ))
  			->joinLeft(array('link_sent'=>$this->getTable('queue_link')),
-    								 'main_table.queue_id=link_sent.queue_id and link_sent.letter_sent_at IS NOT NULL', 
+    								 'main_table.queue_id=link_sent.queue_id and link_sent.letter_sent_at IS NOT NULL',
     								 array(
-    								 	new Zend_Db_Expr('COUNT(link_sent.queue_link_id) AS subscribers_sent')
+    								 	new Zend_Db_Expr('COUNT(DISTINCT link_sent.queue_link_id) AS subscribers_sent')
     								 ))
     		->group('main_table.queue_id');
     }
-    
+
     public function load($printQuery=false, $logQuery=false) {
     	if($this->_addSubscribersFlag) {
     		$this->_addSubscriberInfoToSelect();
     	}
-    	
+
     	return parent::load($printQuery, $logQuery);
     }
-    
+
     /**
      * Joines subscribers information
      *
      * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
      */
-    public function addSubscribersInfo() 
+    public function addSubscribersInfo()
     {
     	$this->_addSubscribersFlag = true;
     	return $this;
     }
-    
+
     public function addFieldToFilter($field, $condition)
     {
     	if(in_array($field, array('subscribers_total', 'subscribers_sent'))) {
@@ -97,33 +97,33 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     		return parent::addFieldToFilter($field, $condition);
     	}
     }
-    
+
     protected function _getIdsFromLink($field, $condition) {
     	$select = $this->getConnection()->select()
     		->from($this->getTable('queue_link'), array('queue_id', 'COUNT(queue_link_id) as total'))
     		->group('queue_id')
     		->having($this->_getConditionSql('total', $condition));
-    	
+
     	if($field == 'subscribers_sent') {
     		$select->where('letter_sent_at IS NOT NULL');
     	}
-    	
+
     	$idList = $this->getConnection()->fetchCol($select);
-    	
+
     	if(count($idList)) {
     		return $idList;
     	}
-    	
+
     	return array(0);
     }
-    
+
     /**
      * Set filter for queue by subscriber.
      *
      * @param 	int		$subscriberId
      * @return 	Mage_Newsletter_Model_Mysql4_Queue_Collection
      */
-    public function addSubscriberFilter($subscriberId) 
+    public function addSubscriberFilter($subscriberId)
     {
     	$this->getSelect()
     		->join(array('link'=>$this->getTable('queue_link')),
@@ -131,42 +131,42 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     								 array('letter_sent_at')
     								 )
  			->where('link.subscriber_id = ?', $subscriberId);
-    	
+
     	return $this;
     }
-    
+
     /**
      * Add filter by only ready fot sending item
      *
      * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
      */
-    public function addOnlyForSendingFilter() 
+    public function addOnlyForSendingFilter()
     {
     	$this->getSelect()
-    		->where('main_table.queue_status in (?)', array(Mage_Newsletter_Model_Queue::STATUS_SENDING, 
+    		->where('main_table.queue_status in (?)', array(Mage_Newsletter_Model_Queue::STATUS_SENDING,
     														Mage_Newsletter_Model_Queue::STATUS_NEVER))
     		->where('main_table.queue_start_at < ?', now())
     		->where('main_table.queue_start_at IS NOT NULL');
-    	
+
     	return $this;
     }
-    
+
     /**
      * Add filter by only not sent items
      *
      * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
      */
-    public function addOnlyUnsentFilter() 
+    public function addOnlyUnsentFilter()
     {
     	$this->getSelect()
     		->where('main_table.queue_status = ?',	Mage_Newsletter_Model_Queue::STATUS_NEVER);
-    	
+
    		return $this;
     }
-    
+
     public function toOptionArray()
     {
         return $this->_toOptionArray('queue_id', 'template_subject');
     }
-    
+
 }
