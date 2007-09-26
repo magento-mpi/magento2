@@ -21,9 +21,6 @@
 /**
  * One page checkout status
  *
- * @category   Mage
- * @category   Mage
- * @package    Mage_Checkout
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_Abstract

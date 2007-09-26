@@ -91,12 +91,13 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function getFilter()
     {
         if (!$this->_filter) {
-            $this->_filter = new Mage_Directory_Model_Currency_Filter(
+            /*$this->_filter = new Mage_Directory_Model_Currency_Filter(
                 $this->getOutputFormat(), 
                 $this->getFormatDecimals(), 
                 $this->getFormatDecPoint(), 
                 $this->getFormatThousandsSep()
-            );
+            );*/
+            $this->_filter = new Mage_Directory_Model_Currency_Filter($this->getCode());
         }
         
         return $this->_filter;        
@@ -110,6 +111,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function format($price)
     {
-        return $this->getFilter()->filter($price);
+        //return $this->getFilter()->filter($price);
+        return Mage::getModel('core/locale')->currency($this->getCode())->toCurrency($price);
     }
 }

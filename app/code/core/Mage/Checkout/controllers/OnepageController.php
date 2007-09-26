@@ -28,6 +28,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function preDispatch()
     {
+        parent::preDispatch();
         #if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
         if (!$this->getOnepage()->getQuote()->hasItems()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
