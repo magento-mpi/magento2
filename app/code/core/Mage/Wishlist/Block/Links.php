@@ -47,18 +47,16 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
 	public function getWishlist()
 	{
 		if(is_null($this->_wishlist)) {
-			$this->_wishlist = Mage::getModel('wishlist/wishlist')
-				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
 
+            $customerId = Mage::getSingleton('customer/session')->getId();
+			$this->_wishlist = Mage::getModel('wishlist/wishlist')
+				->loadByCustomer($customerId);
+
+Varien_Profiler::start('TEST2: '.__METHOD__);
 			$this->_wishlist->getProductCollection()
-				->addAttributeToSelect('name')
-				->addAttributeToSelect('price')
-                ->addAttributeToSelect('small_image')
 				->addAttributeToFilter('store_id', array('in'=>$this->_wishlist->getSharedStoreIds()))
-				->addAttributeToSort('added_at', 'desc')
-                ->setCurPage(1)
-				->setPageSize(3)
 				->load();
+Varien_Profiler::stop('TEST2: '.__METHOD__);
 		}
 
 		return $this->_wishlist;

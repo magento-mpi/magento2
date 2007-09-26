@@ -35,8 +35,8 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	        /**
 	         * Collect totals need for update quote products
 	         */
-	        $this->getQuote()->collectTotals()
-	           ->save();
+	        #$this->getQuote()->collectTotals()
+	        #   ->save();
 	        $collection = Mage::getResourceModel('sales/quote_item_collection')
 	           ->addAttributeToSelect('*')
 	           ->setQuoteFilter($this->getQuote()->getId())
@@ -44,11 +44,12 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	           ->setPageSize(3)
 	           ->load();
 
+
             $this->setData('item_collection', $collection);
 	    }
 		return $collection;
 	}
-    
+
 	public function getSubtotal()
 	{
 	    foreach ($this->getQuote()->getTotals() as $total) {
@@ -58,7 +59,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	    }
 	    return false;
 	}
-	
+
 	/**
 	 * Retrieve quote
 	 *
@@ -73,14 +74,14 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 	{
 		return true;
 	}
-    
+
 	public function getRemoveItemUrl($item)
 	{
 	    return $this->getUrl('checkout/cart/delete',array('id'=>$item->getId()));
 	}
-	
+
 	public function getMoveToWishlistItemUrl($item)
 	{
 	    return $this->getUrl('checkout/cart/moveToWishlist',array('id'=>$item->getId()));
-	}	
+	}
 }// Class Mage_Wishlist_Block_Customer_Sidebar END

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.6.2</version>
+             <version>0.6.3</version>
         </Mage_Core>
     </modules>
 
@@ -45,9 +45,12 @@
                     <session>
                         <table>core_session</table>
                     </session>
-                    <layout>
-                        <table>core_layout</table>
-                    </layout>
+                    <layout_update>
+                        <table>core_layout_update</table>
+                    </layout_update>
+                    <layout_link>
+                        <table>core_layout_link</table>
+                    </layout_link>
                 </entities>
             </core_mysql4>
         </models>

@@ -70,6 +70,8 @@ class Mage_Install_Model_Installer_Config
         $data['var_dir'] = $data['root_dir'] . '/var';
 
         file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
+        chmod($this->_localConfigFile, 0777);
+
         Mage::getConfig()->init();
     }
 

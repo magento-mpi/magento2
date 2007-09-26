@@ -46,7 +46,7 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
             if ($sum<.0005 && $count<10) {
                 continue;
             }
-            $out .= '<tr><td>'.$name.'</td><td>'
+            $out .= '<tr><td align="left">'.$name.'</td><td>'
             	.number_format(Varien_Profiler::fetch($name,'sum'),4).'</td><td>'
             	.$count.'</td><td>'
             	.number_format(Varien_Profiler::fetch($name,'realmem')).'</td><td>'

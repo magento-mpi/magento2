@@ -24,4 +24,9 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
 }
 
 require 'app/Mage.php';
+
+Mage::useCache('config', false);
+Mage::useCache('layout', false);
+Mage::useCache('eav', false);
+
 Mage::run('base');

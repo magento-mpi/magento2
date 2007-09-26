@@ -26,23 +26,31 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstract 
+class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstract
 {
 	protected $_customerIdFieldName = 'customer_id';
-	
+
 	protected function _construct()
 	{
 		$this->_init('wishlist/wishlist', 'wishlist_id');
 	}
-	
+
 	public function getCustomerIdFieldName()
 	{
 		return $this->_customerIdFieldName;
 	}
-	
+
 	public function setCustomerIdFieldName($fieldName)
 	{
 		$this->_customerIdFieldName = $fieldName;
 		return $this;
 	}
+
+//	public function fetchItemsCount(Mage_Wishlist_Model_Wishlist $wishlist)
+//	{
+//	    $read = $this->getConnection('read');
+//	    $select = $read->select()->from($this->getTable('wishlist/item'))
+//	       ->where('wishlist_id=?', $wishlist->getId())
+//	       ->where()
+//	}
 }// Class Mage_Wishlist_Model_Mysql4_Wishlist END

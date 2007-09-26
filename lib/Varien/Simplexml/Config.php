@@ -185,7 +185,9 @@ class Varien_Simplexml_Config
 
     public function setCacheChecksum($data)
     {
-    	if (false===$data || 0===$data) {
+        if (is_null($data)) {
+            $this->_cacheChecksum = null;
+        } elseif (false===$data || 0===$data) {
     		$this->_cacheChecksum = false;
     	} else {
         	$this->_cacheChecksum = md5($data);
@@ -256,7 +258,7 @@ class Varien_Simplexml_Config
         if ($this->getCacheSaved()) {
             return $this;
         }
-    	if (!$this->getCacheChecksum()) {
+    	if (false===$this->getCacheChecksum()) {
     	    return $this;
     	}
 
@@ -264,7 +266,9 @@ class Varien_Simplexml_Config
     	    $tags = $this->_cacheTags;
     	}
 
-        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
+    	if (!is_null($this->getCacheChecksum())) {
+            $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
+    	}
 
         $xmlString = $this->getNode()->asXml();
         $this->getCache()->save($xmlString, $this->getCacheId(), $tags);

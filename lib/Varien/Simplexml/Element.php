@@ -21,24 +21,24 @@
 
 /**
  * Extends SimpleXML to add valuable functionality to SimpleXMLElement class
- * 
+ *
  * @category   Varien
  * @package    Varien_Simplexml
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Varien_Simplexml_Element extends SimpleXMLElement 
+class Varien_Simplexml_Element extends SimpleXMLElement
 {
     /**
      * Would keep reference to parent node
-     * 
+     *
      * If SimpleXMLElement would support complicated attributes
-     * 
-     * @todo make use of spl_object_hash to keep global array of simplexml elements 
+     *
+     * @todo make use of spl_object_hash to keep global array of simplexml elements
      *       to emulate complicated attributes
      * @var Varien_Simplexml_Element
      */
     protected $_parent = null;
-    
+
     /**
      * For future use
      *
@@ -48,10 +48,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     {
         #$this->_parent = $element;
     }
-    
+
     /**
      * Returns parent node for the element
-     * 
+     *
      * Currently using xpath
      *
      * @return Varien_Simplexml_Element
@@ -66,10 +66,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         }
         return $parent;
     }
-    
+
     /**
      * Find a descendant of a node by path
-     * 
+     *
      * @todo Do we need to make it xpath look-a-like?
      * @todo param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
      * @param string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
@@ -79,7 +79,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     {
         #$node = $this->xpath($path);
         #return $node[0];
-        
+
         $pathArr = explode('/', $path);
         $desc = $this;
         foreach ($pathArr as $nodeName) {
@@ -117,7 +117,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     public function asArray()
     {
     	$r = array();
-    	
+
     	$attributes = $this->attributes();
     	foreach($attributes as $k=>$v) {
     		if ($v) $r['@'][$k] = (string) $v;
@@ -134,10 +134,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     			$r[$childName][$index] = $element->asArray();
     		}
     	}
-    	
+
     	return $r;
 	}
-	
+
 	/**
 	 * Makes nicely formatted XML from the node
 	 *
@@ -149,19 +149,19 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	{
 	    $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
 	    $out = $pad."<".$this->getName();
-	    
+
 	    if ($attributes = $this->attributes()) {
 	        foreach ($attributes as $key=>$value) {
 	            $out .= ' '.$key.'="'.str_replace('"', '\"', (string)$value).'"';
 	        }
 	    }
-	    
+
 	    if ($children = $this->children()) {
 	        $out .= ">\n";
 	        foreach ($children as $child) {
 	            $out .= $child->asNiceXml('', $level+1);
 	        }
-	        $out .= $pad."</".$this->getName().">\n";    
+	        $out .= $pad."</".$this->getName().">\n";
 	    } else {
 	        $value = (string)$this;
 	        if (empty($value)) {
@@ -170,14 +170,23 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	            $out .= ">".$this->xmlentities($value)."</".$this->getName().">\n";
 	        }
 	    }
-	    
+
 	    if (0===$level && !empty($filename)) {
 	        file_put_contents($filename, $out);
 	    }
-	    
+
 	    return $out;
 	}
-	
+
+	public function innerXml()
+	{
+	    $out = '';
+	    foreach ($this->children() as $child) {
+	        $out .= $child->asNiceXml();
+	    }
+	    return $out;
+	}
+
 	/**
 	 * Converts meaningful xml characters to xml entities
 	 *
@@ -189,10 +198,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	    if (empty($value)) {
 	        $value = (string)$this;
 	    }
-	    
+
 	    return str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), $value);
 	}
-    
+
 	/**
 	 * Appends $source to current node
 	 *
@@ -207,21 +216,21 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             $child = $this->addChild($source->getName(), (string)$source);
         }
         $child->setParent($this);
-        
+
         $attributes = $source->attributes();
         foreach ($attributes as $key=>$value) {
             $child->addAttribute($key, (string)$value);
         }
-        
+
         foreach ($source as $sourceChild) {
             $child->appendChild($sourceChild);
         }
         return $this;
     }
-    
+
     /**
      * Extends current node with xml from $source
-     * 
+     *
      * If $overwrite is false will merge only missing nodes
      * Otherwise will overwrite existing nodes
      *
@@ -234,14 +243,14 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         if (!$source instanceof Varien_Simplexml_Element) {
             return $this;
         }
-        
+
         foreach ($source->children() as $child) {
             $this->extendChild($child, $overwrite);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Extends one node
      *
@@ -253,10 +262,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     {
         // this will be our new target node
         $targetChild = null;
-        
+
         // name of the source node
         $sourceName = $source->getName();
-        
+
         // here we have children of our source node
         $sourceChildren = $source->children();
 
@@ -280,11 +289,11 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             }
             return $this;
         }
-        
+
         if (isset($this->$sourceName)) {
             $targetChild = $this->$sourceName;
         }
-        
+
         if (is_null($targetChild)) {
             // if child target is not found create new and descend
             $targetChild = $this->addChild($sourceName);
@@ -293,12 +302,12 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $targetChild->addAttribute($key, $value);
             }
         }
-        
+
         // finally add our source node children to resulting new target node
         foreach ($sourceChildren as $childKey=>$childNode) {
             $targetChild->extendChild($childNode, $overwrite);
-        }        
-        
+        }
+
         return $this;
     }
 /*
@@ -306,10 +315,10 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     {
         // this will be our new target node
         $targetChild = null;
-        
+
         // name of the source node
         $sourceName = $source->getName();
-        
+
         // here we have children of our source node
         $sourceChildren = $source->children();
 
@@ -328,7 +337,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             }
             return $this;
         }
-        
+
         if (isset($this->$sourceName)) {
             // search for target child with same name subnode as node's name
             if (isset($source->$mergeBy)) {
@@ -351,7 +360,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $targetChild = $this->$sourceName;
             }
         }
-        
+
         if (is_null($targetChild)) {
             // if child target is not found create new and descend
             $targetChild = $this->addChild($sourceName);
@@ -359,23 +368,23 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $targetChild->addAttribute($key, $value);
             }
         }
-        
+
         // finally add our source node children to resulting new target node
         foreach ($sourceChildren as $childKey=>$childNode) {
             $targetChild->extendChildByNode($childNode, $overwrite, $mergeBy);
-        }        
-        
+        }
+
         return $this;
     }
-    
+
     function extendChildByAttribute($source, $overwrite=false, $mergeBy='name')
     {
         // this will be our new target node
         $targetChild = null;
-        
+
         // name of the source node
         $sourceName = $source->getName();
-        
+
         // here we have children of our source node
         $sourceChildren = $source->children();
 
@@ -394,7 +403,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             }
             return $this;
         }
-        
+
         if (isset($this->$sourceName)) {
             // search for target child with same name subnode as node's name
             if (isset($source[$mergeBy])) {
@@ -417,7 +426,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $targetChild = $this->$sourceName;
             }
         }
-        
+
         if (is_null($targetChild)) {
             // if child target is not found create new and descend
             $targetChild = $this->addChild($sourceName);
@@ -425,12 +434,12 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $targetChild->addAttribute($key, $value);
             }
         }
-        
+
         // finally add our source node children to resulting new target node
         foreach ($sourceChildren as $childKey=>$childNode) {
             $targetChild->extendChildByAttribute($childNode, $overwrite, $mergeBy);
-        }        
-        
+        }
+
         return $this;
     }
 */

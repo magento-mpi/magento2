@@ -102,7 +102,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
          return Mage::getSingleton('core/layout');
      }
 
-     function loadLayout($ids=null, $key='', $generateBlocks=true)
+     function loadLayout($ids=null, $generateBlocks=true)
      {
         $area = 'front';
         Varien_Profiler::start('ctrl/dispatch/action/load');
@@ -216,7 +216,7 @@ abstract class Mage_Core_Controller_Zend_Action extends Zend_Controller_Action
         $status = ( $this->getRequest()->getParam('__status__') ) ? $this->getRequest()->getParam('__status__') : new Varien_Object();
         Mage::dispatchEvent('action_noRoute', array('action'=>$this, 'status'=>$status));
         if( $status->getLoaded() !== true || $status->getForwarded() === true || !is_null($coreRoute) ) {
-            $this->loadLayout(array('default', 'noRoute'), 'noRoute');
+            $this->loadLayout(array('default', 'noRoute'));
             $this->renderLayout();
         } else {
             $status->setForwarded(true);

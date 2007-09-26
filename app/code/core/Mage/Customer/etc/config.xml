@@ -120,15 +120,15 @@
             <customer>/customer/</customer>
         </secure_url>
         <events>
-            <beforeGenerateLayoutBlocks>
+            <beforeLoadLayout>
                 <observers>
                     <accountIsLoggedIn>
                         <type>singleton</type>
                         <class>customer/observer</class>
-                        <method>beforeGenerateLayoutBlocks</method>
+                        <method>beforeLoadLayout</method>
                     </accountIsLoggedIn>
                 </observers>
-            </beforeGenerateLayoutBlocks>
+            </beforeLoadLayout>
         </events>
         <routers>
             <customer>

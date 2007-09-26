@@ -277,7 +277,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
      */
 //    public function changePasswordAction()
 //    {
-//        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+//        $this->loadLayout(array('default', 'customer_account'));
 //        $this->_initLayoutMessages('customer/session');
 //
 //        $block = $this->getLayout()->createBlock('core/template')
@@ -335,7 +335,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 //
 //    public function balanceAction()
 //    {
-//        $this->loadLayout(array('default', 'customer_account'), 'customer_account');
+//        $this->loadLayout(array('default', 'customer_account'));
 //
 //        $block = $this->getLayout()->createBlock('core/template', 'customer.balance')
 //            ->setTemplate('customer/balance.phtml')

@@ -42,16 +42,21 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
         $this->_init('wishlist/wishlist');
     }
 
-    public function loadByCustomer(Mage_Customer_Model_Customer $customer, $create=false)
+    public function loadByCustomer($customer, $create=false)
     {
+        if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customer = $customer->getId();
+        }
+
         $this->getResource()->load($this,
-            $customer->getId(),
+            $customer,
             $this->getResource()->getCustomerIdFieldName());
         if(!$this->getId() && $create) {
-            $this->setCustomerId($customer->getId());
+            $this->setCustomerId($customer);
             $this->setSharingCode($this->_getSharingRandomCode());
             $this->save();
         }
+
         return $this;
     }
 
@@ -80,7 +85,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
 
         return $this->_itemCollection;
     }
-    
+
     public function getProductCollection()
     {
         $collection = $this->getData('product_collection');

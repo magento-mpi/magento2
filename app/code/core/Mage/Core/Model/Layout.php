@@ -26,11 +26,11 @@
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
     /**
-     * Pool of default package layout updates
+     * Layout Update module
      *
-     * @var Mage_Core_Layout_Element
+     * @var Mage_Core_Layout_Update
      */
-    protected $_packageLayouts;
+    protected $_update;
 
     /**
      * Blocks registry
@@ -60,6 +60,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_area;
 
+    /**
+     * Helper blocks cache for this layout
+     *
+     * @var array
+     */
     protected $_helpers = array();
 
     public function __construct($data=array())
@@ -67,6 +72,19 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         parent::__construct($data);
+    }
+
+    /**
+     * Layout update instance
+     *
+     * @return Mage_Core_Model_Layout_Update
+     */
+    public function getUpdate()
+    {
+        if (!$this->_update) {
+            $this->_update = Mage::getModel('core/layout_update');
+        }
+        return $this->_update;
     }
 
     /**
@@ -91,199 +109,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     	return $this->_area;
     }
 
-    public function init($cacheKey)
+    public function generateXml()
     {
-        $package = Mage::getSingleton('core/design_package');
-        $storeCode = Mage::getSingleton('core/store')->getCode();
-
-        $this->setCacheId(($storeCode ? $storeCode.'_' : '')
-            .$package->getArea().'_'
-            .$package->getPackageName().'_'
-            .$package->getTheme('layout').'_'
-            .$cacheKey);
-
-        $this->setCacheTags(array(
-            'store:'.$storeCode,
-            'theme:'.$package->getArea().'.'.$package->getPackageName().'.'.$package->getTheme('layout'),
-        ));
-
+#echo "<textarea style='width:100%; height:500px'>".htmlentities($this->getUpdate()->asString())."</textarea>"; #die;
+        $this->setXml($this->getUpdate()->asSimplexml());
         return $this;
-    }
-
-    public function getPackageLayoutUpdate($handle=null)
-    {
-        $layoutFilename = Mage::getSingleton('core/design_package')->getLayoutFilename('main.xml');
-        if (empty($this->_packageLayouts)) {
-            $updateStr = file_get_contents($layoutFilename);
-            $updateStr = $this->processFileData($updateStr);
-            $this->_packageLayouts = simplexml_load_string($updateStr, $this->_elementClass);
-            if (empty($this->_packageLayouts)) {
-                throw Mage::exception('Mage_Core', __('Could not load default layout file'));
-            }
-        }
-
-        $this->updateCacheChecksum(filemtime($layoutFilename));
-
-        if (is_null($handle)) {
-            return $this->_packageLayouts;
-        }
-        if (!$this->_packageLayouts->$handle) {
-            return false;
-        }
-        return $this->_packageLayouts->$handle;
-    }
-
-    public function getDatabaseLayoutUpdate($handle)
-    {
-        $package = Mage::getSingleton('core/design_package');
-        
-        try {
-            $collection = Mage::getResourceModel('core/layout_collection')
-                ->addPackageFilter($package->getPackageName())
-                ->addThemeFilter($package->getTheme('layout'))
-                ->addHandleFilter($handle)
-                ->load();
-    
-            $this->updateCacheChecksum(Mage::getResourceModel('core/layout')->getTableChecksum());
-            
-            $updateStr = '';
-            foreach ($collection->getIterator() as $update) {
-                $updateStr .= $update->getLayoutUpdate();
-            }
-            $updateStr = $this->processFileData($updateStr);
-            $updateXml = simplexml_load_string($updateStr);
-        }
-        catch (Exception $e){
-            $updateXml = '';
-        }
-        return $updateXml;
-    }
-
-    /**
-     * Load layout configuration update from file
-     *
-     * @param   string $fileName
-     * @return  Mage_Core_Model_Layout
-     */
-    public function loadUpdateFile($fileName)
-    {
-        $mergeLayout = Mage::getModel('core/layout');
-        $mergeLayout->loadFile($fileName);
-        if ($mergeLayout) {
-        	$this->updateCacheChecksum(filemtime($fileName));
-        	$this->mergeUpdate($mergeLayout->getNode());
-        }
-
-        return $this;
-    }
-
-    /**
-     * Merge layout update to current layout
-     *
-     * @param string|Mage_Core_Model_Layout_Element $update
-     * @return Mage_Core_Model_Layout_Update
-     */
-    public function mergeUpdate($update)
-    {
-        if (!$update) {
-            return $this;
-        }
-
-        if (is_string($update)) {
-            $this->mergeUpdate($this->getPackageLayoutUpdate($update));
-            $this->mergeUpdate($this->getDatabaseLayoutUpdate($update));
-            return $this;
-        }
-
-        if (!$update instanceof Mage_Core_Model_Layout_Element) {
-            throw Mage::exception('Mage_Core', __('Invalid layout update argument, expected Mage_Core_Model_Layout_Element'));
-        }
-        foreach ($update->children() as $child) {
-            switch ($child->getName()) {
-                case 'update':
-                    $handle = (string)$child['handle'];
-                    $this->mergeUpdate($this->getPackageLayoutUpdate($handle));
-                    break;
-
-                case 'remove':
-                    if (isset($child['method'])) {
-                        $this->removeAction((string)$child['name'], (string)$child['method']);
-                    } else {
-                        $this->removeBlock((string)$child['name']);
-                    }
-                    break;
-
-                default:
-                    $this->getNode()->appendChild($child);
-            }
-        }
-        return $this;
-    }
-
-    public function removeBlock($blockName, $parent=null)
-    {
-        if (is_null($parent)) {
-            $parent = $this->getNode();
-        }
-        foreach ($parent->children() as $children) {
-
-            for ($i=0, $l=sizeof($children); $i<$l; $i++) {
-                $child = $children[$i];
-                if ($child->getName()==='block' && $blockName===(string)$child['name']) {
-                    unset($parent->block[$i]);
-                }
-                $this->removeBlock($blockName, $child);
-            }
-        }
-        return $this;
-    }
-
-    public function removeAction($blockName, $method, $parent=null)
-    {
-        if (is_null($parent)) {
-            $parent = $this->getNode();
-        }
-        foreach ($parent->children() as $children) {
-            for ($i=0, $l=sizeof($children); $i<$l; $i++) {
-                $child = $children[$i];
-                if ($child->getName()==='action' && $blockName===(string)$child['name'] && $method===(string)$child['method']) {
-                    unset($parent->action[$i]);
-                }
-                $this->removeAction($blockName, $method, $child);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Load all updates from main config for the $area and $id
-     *
-     * @param string $area
-     * @param string $id
-     * @return boolean
-     */
-    public function loadUpdatesFromConfig($area, $id)
-    {
-        $updates = Mage::getConfig()->getNode("$area/layouts/$id/updates");
-        if (!empty($updates)) {
-            foreach ($updates->children() as $update) {
-                $fileName = Mage::getDesign()->getLayoutFilename((string)$update->file);
-                $this->loadUpdateFile($fileName);
-            }
-        }
-        return $this;
-    }
-
-    public function processFileData($data)
-    {
-        $substKeys = array();
-        $substValues = array();
-        $subst = Mage::getConfig()->getPathVars();
-        foreach ($subst as $k=>$v) {
-            $substKeys[] = '{{'.$k.'}}';
-            $substValues[] = $v;
-        }
-        return str_replace($substKeys, $substValues, $data);
     }
 
     /**
@@ -294,9 +124,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function generateBlocks($parent=null)
     {
         if (empty($parent)) {
-            if (!$this->getCacheSaved()) {
-                $this->saveCache();
-            }
             $parent = $this->getNode();
         }
         foreach ($parent as $node) {
@@ -575,16 +402,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this->_helpers[$type];
     }
 
-    public function getCache()
-    {
-        if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
-                'cache_dir'=>Mage::getBaseDir('cache_layout')
-            ));
-        }
-        return $this->_cache;
-    }
-
     public function setBlockCache($frontend='Core', $backend='File',
     	array $frontendOptions=array(), array $backendOptions=array())
     {
@@ -605,4 +422,97 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this->_blockCache;
     }
+
+
+
+//    public function getCache()
+//    {
+//        if (!$this->_cache) {
+//            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
+//                'cache_dir'=>Mage::getBaseDir('cache_layout')
+//            ));
+//        }
+//        return $this->_cache;
+//    }
+//
+//
+//    /**
+//     * Merge layout update to current layout
+//     *
+//     * @param string|Mage_Core_Model_Layout_Element $update
+//     * @return Mage_Core_Model_Layout_Update
+//     */
+//    public function mergeUpdate1($update)
+//    {
+//        if (!$update) {
+//            return $this;
+//        }
+//
+//        if (is_string($update)) {
+//            $this->mergeUpdate($this->getPackageLayoutUpdate($update));
+//            $this->mergeUpdate($this->getDatabaseLayoutUpdate($update));
+//            return $this;
+//        }
+//
+//        if (!$update instanceof Mage_Core_Model_Layout_Element) {
+//            throw Mage::exception('Mage_Core', __('Invalid layout update argument, expected Mage_Core_Model_Layout_Element'));
+//        }
+//        foreach ($update->children() as $child) {
+//            switch ($child->getName()) {
+//                case 'update':
+//                    $handle = (string)$child['handle'];
+//                    $this->mergeUpdate($this->getPackageLayoutUpdate($handle));
+//                    break;
+//
+//                case 'remove':
+//                    if (isset($child['method'])) {
+//                        $this->removeAction((string)$child['name'], (string)$child['method']);
+//                    } else {
+//                        $this->removeBlock((string)$child['name']);
+//                    }
+//                    break;
+//
+//                default:
+//                    $this->getNode()->appendChild($child);
+//            }
+//        }
+//        return $this;
+//    }
+//
+//    public function removeBlock($blockName, $parent=null)
+//    {
+//        if (is_null($parent)) {
+//            $parent = $this->getNode();
+//        }
+//        foreach ($parent->children() as $children) {
+//
+//            for ($i=0, $l=sizeof($children); $i<$l; $i++) {
+//                $child = $children[$i];
+//                if ($child->getName()==='block' && $blockName===(string)$child['name']) {
+//                    unset($parent->block[$i]);
+//                }
+//                $this->removeBlock($blockName, $child);
+//            }
+//        }
+//        return $this;
+//    }
+//
+//    public function removeAction($blockName, $method, $parent=null)
+//    {
+//        if (is_null($parent)) {
+//            $parent = $this->getNode();
+//        }
+//        foreach ($parent->children() as $children) {
+//            for ($i=0, $l=sizeof($children); $i<$l; $i++) {
+//                $child = $children[$i];
+//                if ($child->getName()==='action' && $blockName===(string)$child['name'] && $method===(string)$child['method']) {
+//                    unset($parent->action[$i]);
+//                }
+//                $this->removeAction($blockName, $method, $child);
+//            }
+//        }
+//        return $this;
+//    }
+
+
 }

@@ -33,7 +33,6 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $this->init('customer');
         Mage::dispatchEvent('initCustomerSession', array('customer_session'=>$this));
-
     }
 
     /**
@@ -59,11 +58,14 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($this->_customer instanceof Mage_Customer_Model_Customer) {
             return $this->_customer;
         }
-
+Varien_Profiler::start('TEST1: '.__METHOD__);
         $customer = Mage::getModel('customer/customer');
+Varien_Profiler::stop('TEST1: '.__METHOD__);
+Varien_Profiler::start('TEST2: '.__METHOD__);
         if ($this->getId()) {
             $customer->load($this->getId());
         }
+Varien_Profiler::stop('TEST2: '.__METHOD__);
         $this->setCustomer($customer);
         return $this->_customer;
     }

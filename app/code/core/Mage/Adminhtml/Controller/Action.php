@@ -83,20 +83,20 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
     public function deniedAction()
     {
-    	$this->loadLayout(array('default', 'admin_denied'), 'admin_denied');
+    	$this->loadLayout(array('default', 'admin_denied'));
         $this->renderLayout();
     }
 
-    public function loadLayout($ids=null, $key='', $generateBlocks=true)
+    public function loadLayout($ids=null, $generateBlocks=true, $generateXml=true)
     {
-        parent::loadLayout($ids, $key, $generateBlocks);
+        parent::loadLayout($ids, $generateBlocks, $generateXml);
         $this->_initLayoutMessages('adminhtml/session');
         return $this;
     }
 
     public function norouteAction($coreRoute = null)
     {
-        $this->loadLayout(array('default', 'admin_noroute'), 'admin_noroute');
+        $this->loadLayout(array('default', 'admin_noroute'));
         $this->renderLayout();
     }
 }

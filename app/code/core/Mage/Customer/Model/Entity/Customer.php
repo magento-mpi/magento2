@@ -31,7 +31,8 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        $this->setType('customer')->setConnection(
+        $this->setType('customer');
+        $this->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')
         );

@@ -184,48 +184,89 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Load layout by identifier
+     * Load layout by handles(s)
      *
-     * @param   string $ids
-     * @param   string $key
+     * @param   string $handles
+     * @param   string $cacheId
      * @param   boolean $generateBlocks
      * @return  Mage_Core_Controller_Varien_Action
      */
-    function loadLayout($handles=null, $cacheId=null, $generateBlocks=true)
+    public function loadLayout($handles=null, $generateBlocks=true, $generateXml=true)
     {
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+
+        // if handles were specified in arguments load them first
+        $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
+
+        // add default layout handles for this action
+        $this->addActionLayoutHandles();
+
+        // dispatch event for adding handles to layout update
+    	Mage::dispatchEvent('beforeLoadLayout', array('action'=>$this, 'layout'=>$this->getLayout()));
+
+    	// load layout updates by specified handles
         Varien_Profiler::start("$_profilerKey/load");
-
-        if (is_null($handles)) {
-            $handles = array('default');
-        } elseif (is_string($handles)) {
-            $handles = array($handles);
-        }
-
-        $handles[] = $this->getFullActionName();
-
-        if (!$cacheId) {
-            $cacheId = join('-', $handles);
-        }
-
-        $layout = $this->getLayout()->init($cacheId);
-
-        if (!$layout->loadCache()) {
-            foreach ($handles as $handle) {
-                $layout->mergeUpdate($handle);
-            }
-        }
+        $this->getLayout()->getUpdate()->load();
         Varien_Profiler::stop("$_profilerKey/load");
 
+		if (!$generateXml) {
+		    return $this;
+		}
+        $this->generateLayoutXml();
+
+        if (!$generateBlocks) {
+            return $this;
+        }
+        $this->generateLayoutBlocks();
+
+        return $this;
+    }
+
+    public function addActionLayoutHandles()
+    {
+        $update = $this->getLayout()->getUpdate();
+
+        // load store handle
+        $update->addHandle('STORE_'.Mage::getSingleton('core/store')->getCode());
+
+        // load theme handle
+        $package = Mage::getSingleton('core/design_package');
+        $update->addHandle('THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout'));
+
+        // load action handle
+        $update->addHandle($this->getFullActionName());
+
+        return $this;
+    }
+
+    public function generateLayoutXml()
+    {
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+        // dispatch event for adding text layouts
 		if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-        	Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('layout'=>$layout));
+        	Mage::dispatchEvent('beforeGenerateLayoutXml', array('action'=>$this, 'layout'=>$this->getLayout()));
 		}
 
-        if ($generateBlocks) {
-            Varien_Profiler::start("$_profilerKey/blocks");
-            $layout->generateBlocks();
-            Varien_Profiler::stop("$_profilerKey/blocks");
-        }
+		// generate xml from collected text updates
+		Varien_Profiler::start("$_profilerKey/xml");
+		$this->getLayout()->generateXml();
+		Varien_Profiler::stop("$_profilerKey/xml");
+
+        return $this;
+    }
+
+    public function generateLayoutBlocks()
+    {
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+		// dispatch event for adding xml layout elements
+		if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
+        	Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('action'=>$this, 'layout'=>$this->getLayout()));
+		}
+
+        // generate blocks from xml layout
+        Varien_Profiler::start("$_profilerKey/blocks");
+        $this->getLayout()->generateBlocks();
+        Varien_Profiler::stop("$_profilerKey/blocks");
 
         return $this;
     }
@@ -242,6 +283,7 @@ abstract class Mage_Core_Controller_Varien_Action
         Varien_Profiler::start("$_profilerKey/render");
 
         if ($this->getFlag('', 'no-renderLayout')) {
+            Varien_Profiler::stop("$_profilerKey/render");
             return;
         }
 
@@ -343,7 +385,7 @@ abstract class Mage_Core_Controller_Varien_Action
         if ($status->getLoaded() !== true
         	|| $status->getForwarded() === true
         	|| !is_null($coreRoute) ) {
-            $this->loadLayout(array('default', 'noRoute'), 'noRoute');
+            $this->loadLayout(array('default', 'noRoute'));
             $this->renderLayout();
         } else {
             $status->setForwarded(true);

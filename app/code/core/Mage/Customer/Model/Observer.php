@@ -29,13 +29,11 @@
  */
 class Mage_Customer_Model_Observer
 {
-    public function beforeGenerateLayoutBlocks($observer)
+    public function beforeLoadLayout($observer)
     {
-    	$layout = $observer->getEvent()->getLayout();
-    	if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-    		$layout->mergeUpdate('customer_logged_in');
-    	} else  {
-			$layout->mergeUpdate('customer_logged_out');
-    	}
+        $loggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+
+    	$observer->getEvent()->getLayout()->getUpdate()
+    	   ->addHandle('customer_logged_'.($loggedIn?'in':'out'));
     }
 }

@@ -44,8 +44,8 @@
 
 	   </default>
 
-	   <custom>
+	   <xmas>
 	       <fallback_theme>default</fallback_theme>
-	   </custom>
+	   </xmas>
 	</themes>
 </config>

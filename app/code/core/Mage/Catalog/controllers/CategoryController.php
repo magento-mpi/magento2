@@ -41,10 +41,18 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         }
 
         Mage::register('current_category', $category);
-        $this->loadLayout(null, '', false);
 
-        $this->getLayout()->mergeUpdate($category->getLayoutUpdateHandle());
-        $this->getLayout()->generateBlocks();
+        $update = $this->getLayout()->getUpdate();
+        $update->addHandle('default');
+        $this->addActionLayoutHandles();
+
+        $update->addHandle($category->getLayoutUpdateHandle());
+        $update->addHandle('CATEGORY_'.$category->getId());
+        $update->load();
+
+        $this->generateLayoutXml()->generateLayoutBlocks();
+
+        $this->_initLayoutMessages('catalog/session');
         $this->renderLayout();
     }
 

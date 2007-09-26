@@ -30,7 +30,11 @@ error_reporting(E_ALL | E_STRICT);
 /**
  * Include path
  */
-ini_set('include_path', ini_get('include_path').PS.BP.'/lib'.PS.BP.'/app/code/core'.PS);
+ini_set('include_path', ini_get('include_path')
+    .PS.BP.'/lib'
+    .PS.BP.'/app/code/core'
+    .PS.BP.'/app/code/local'
+    .PS.BP.'/app/code/community');
 
 include "Mage/Core/functions.php";
 
@@ -52,6 +56,8 @@ final class Mage {
      * @var array
      */
     static private $_registry = array();
+
+    static private $_useCache = array();
 
     public static function getVersion()
     {
@@ -120,6 +126,15 @@ final class Mage {
     public static function getRoot()
     {
         return Mage::registry('appRoot');
+    }
+
+    public static function useCache($type, $flag=null)
+    {
+        $value = isset(self::$_useCache[$type]) ? self::$_useCache[$type] : false;
+        if (!is_null($flag)) {
+            self::$_useCache[$type] = $flag;
+        }
+        return $value;
     }
 
     /**

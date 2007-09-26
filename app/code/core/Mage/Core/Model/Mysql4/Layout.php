@@ -23,11 +23,34 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
-        $this->_init('core/layout', 'layout_id');
+        $this->_init('core/layout_update', 'layout_update_id');
     }
 
-    public function getTableChecksum()
+    /**
+     * Retrieve layout updates by handle
+     *
+     * @param string $handle
+     * @param array $params
+     */
+    public function fetchUpdatesByHandle($handle, $params = array())
     {
-        return $this->getChecksum($this->getMainTable());
+        $storeId = isset($params['store_id']) ? $params['store_id'] : Mage::getSingleton('core/store')->getId();
+        $package = isset($params['package']) ? $params['package'] : Mage::getSingleton('core/design_package')->getPackageName();
+        $theme = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
+
+        $read = $this->getConnection('read');
+        $select = $read->select()->from(array('update'=>$this->getMainTable()), 'xml')
+            ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
+            ->where('link.store_id=?', $storeId)
+            ->where('link.package=?', $package)
+            ->where('link.theme=?', $theme);
+
+        $updateStr = '';
+        if ($updates = $read->fetchAll($select)) {
+            foreach ($updates as $update) {
+                $updateStr .= $update['xml'];
+            }
+        }
+        return $updateStr;
     }
 }

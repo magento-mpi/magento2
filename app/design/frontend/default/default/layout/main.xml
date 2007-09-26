@@ -20,22 +20,6 @@
  */
 
 Supported layout update handles (action):
-- wishlist_index_index
-- paypal_express_review
-- checkout_cart_index
-- catalog_product_gallery
-- catalog_product_compare_index
-- tag_list_index
-- tag_customer_index
-- tag_customer_view
-- tag_customer_edit
-- review_product_list
-- review_product_view
-- review_customer_index
-- sales_order_history
-- sales_order_view
-- sales_order_details
-- sales_order_print
 - customer_account_index
 - customer_address_index
 - customer_address_view
@@ -47,6 +31,32 @@ Supported layout update handles (action):
 - customer_review_index
 - customer_review_view
 - newsletter_manage_index
+- tag_list_index
+- tag_customer_index
+- tag_customer_view
+- tag_customer_edit
+- review_product_list
+- review_product_view
+- review_customer_index
+- sales_order_history
+- sales_order_view
+- sales_order_details
+- sales_order_print
+- wishlist_index_index
+
+- catalog_product_gallery
+- catalog_product_compare_index
+- catalogsearch_advanced_form
+- catalogsearch_advanced_result
+- catalogsearch_result_index
+
+- checkout_cart_index
+- paypal_express_review
+- checkout_onepage_index
+- checkout_onepage_progress
+- checkout_onepage_shippingMethod
+- checkout_onepage_review
+- checkout_onepage_success
 - checkout_multishipping_login
 - checkout_multishipping_register
 - checkout_multishipping_addresses
@@ -54,14 +64,6 @@ Supported layout update handles (action):
 - checkout_multishipping_billing
 - checkout_multishipping_overview
 - checkout_multishipping_success
-- checkout_onepage_index
-- checkout_onepage_progress
-- checkout_onepage_shippingMethod
-- checkout_onepage_review
-- checkout_onepage_success
-- catalogsearch_advanced_form
-- catalogsearch_advanced_result
-- catalogsearch_result_index
 
 Supported layout update handles (special):
 - default

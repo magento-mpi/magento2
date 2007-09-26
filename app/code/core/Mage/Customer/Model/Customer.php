@@ -53,7 +53,11 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('customer/customer');
+        Varien_Profiler::start('TEST1: '.__METHOD__);
+        $resource = Mage::getResourceSingleton('customer/customer');
+        Varien_Profiler::stop('TEST1: '.__METHOD__);
+
+        return $resource;
     }
 
     /**
@@ -373,10 +377,10 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     {
     	Mage::getModel('core/email_template')
     		->sendTransactional(
-    		    Mage::getStoreConfig('customer/create_account/email_template'), 
+    		    Mage::getStoreConfig('customer/create_account/email_template'),
     		    Mage::getStoreConfig('customer/create_account/email_identity'),
-                $this->getEmail(), 
-                $this->getName(), 
+                $this->getEmail(),
+                $this->getName(),
                 array('customer'=>$this));
     	return $this;
     }
@@ -387,8 +391,8 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     		->sendTransactional(
     		  Mage::getStoreConfig('customer/password/forgot_email_template'),
     		  Mage::getStoreConfig('customer/password/forgot_email_identity'),
-    		  $this->getEmail(), 
-    		  $this->getName(), 
+    		  $this->getEmail(),
+    		  $this->getName(),
     		  array('customer'=>$this));
     	return $this;
     }

@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
 
     protected function _getHeader()
     {
-        return __("Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}'");
+        return __("Edit Attribute Set '%s'", $this->_getSetData()->getAttributeSetName());
     }
 
     public function getMoveUrl()

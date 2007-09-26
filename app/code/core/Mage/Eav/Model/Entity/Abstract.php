@@ -178,8 +178,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     public function setType($type)
     {
+
+        Varien_Profiler::start('EAV_SETTYPE: ');#.get_class($this).'::'.__FUNCTION__);
         if (is_string($type)) {
-            $config = Mage::getModel('eav/entity_type')->loadByCode($type);
+            $config = Mage::getSingleton('eav/config')->getEntityType($type);
+            #$config = Mage::getModel('eav/entity_type')->loadByCode($type);
             #Mage::getConfig()->getNode("global/entities/$type");
         } elseif ($type instanceof Mage_Eav_Model_Entity_Type) {
             $config = $type;
@@ -192,6 +195,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         $this->_config = $config;
+        Varien_Profiler::stop('EAV_SETTYPE: ');#.get_class($this).'::'.__FUNCTION__);
 
         $this->_afterSetConfig();
 
@@ -422,7 +426,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 return $this->_attributesById[$attributeId];
             }
 
-            $attributeInstance = Mage::getModel('eav/entity_attribute')->load($attributeId);
+            #$attributeInstance = Mage::getModel('eav/entity_attribute')->load($attributeId);
+            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getTypeId(), $attributeId);
             $attributeCode = $attributeInstance->getAttributeCode();
 
         } elseif (is_string($attribute)) {
@@ -432,7 +437,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             if (isset($this->_attributesByCode[$attributeCode])) {
                 return $this->_attributesByCode[$attributeCode];
             }
-            $attributeInstance = Mage::getModel('eav/entity_attribute')->loadByCode($this->getConfig(), $attributeCode);
+            #$attributeInstance = Mage::getModel('eav/entity_attribute')->loadByCode($this->getConfig(), $attributeCode);
+            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getTypeId(), $attributeCode);
 
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 
@@ -517,7 +523,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         else {
             $setId = $this->getConfig()->getDefaultAttributeSetId();
         }
-        
+
         $attributes = $this->getConfig()->getAttributeCollection($setId);
         if ($setId) {
             $attributes->setAttributeSetFilter($setId);

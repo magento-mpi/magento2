@@ -70,41 +70,52 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function init($etcDir=null)
     {
         #return $this->initLive();
+        $this->setCacheChecksum(null);
+        $saveCache = true;
+
+        Varien_Profiler::start('config/load-cache');
+        if ($this->loadCache()) {
+            if (!Mage::useCache('config')) {
+                $this->getCache()->remove($this->getCacheId());
+                $saveCache = false;
+            } else {
+                Varien_Profiler::stop('config/load-cache');
+                return $this;
+            }
+        }
+        Varien_Profiler::stop('config/load-cache');
 
         $this->_customEtcDir = $etcDir;
 
         $mergeConfig = new Mage_Core_Model_Config_Base();
 
         // load base config
-        Varien_Profiler::start('load-base');
+        Varien_Profiler::start('config/load-base');
         $configFile = Mage::getBaseDir('etc').DS.'config.xml';
-        $this->setCacheChecksum(filemtime($configFile));
+        #$this->setCacheChecksum(filemtime($configFile));
         $this->loadFile($configFile);
-        Varien_Profiler::stop('load-base');
+        Varien_Profiler::stop('config/load-base');
 
-        Varien_Profiler::start('load-local');
-
+        Varien_Profiler::start('config/load-local');
         $configFile = Mage::getBaseDir('etc').DS.'local.xml';
         if (is_readable($configFile)) {
-            $this->updateCacheChecksum(filemtime($configFile));
+            #$this->updateCacheChecksum(filemtime($configFile));
             $mergeConfig->loadFile($configFile);
             $this->extend($mergeConfig);
         } else {
         	$this->_isInstalled = false;
         }
-        Varien_Profiler::stop('load-local');
-
-        $saveCache = true;
+        Varien_Profiler::stop('config/load-local');
 
         if (!$this->getNode('global/install/date') || !$this->_isInstalled) {
-            Varien_Profiler::start('load-distro');
+            Varien_Profiler::start('config/load-distro');
             $mergeConfig->loadString($this->loadDistroConfig());
 
             $this->extend($mergeConfig, true);
-            Varien_Profiler::stop('load-distro');
+            Varien_Profiler::stop('config/load-distro');
             $saveCache = false;
         }
-
+/*
         Varien_Profiler::start('load-modules-checksum');
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
@@ -123,16 +134,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	        $this->updateCacheChecksum($dbConf->getChecksum('config_data,website,store,resource'));
 	        Varien_Profiler::stop('load-db-checksum');
         }
+*/
 
-        Varien_Profiler::start('load-cache');
-        if ($this->loadCache()) {
-            Varien_Profiler::stop('load-cache');
-            return true;
-        } else {
-            Varien_Profiler::stop('load-cache');
-        }
 
-        Varien_Profiler::start('load-modules');
+        Varien_Profiler::start('config/load-modules');
+        $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
                 $configFile = $this->getModuleDir('etc', $modName).DS.'config.xml';
@@ -141,26 +147,27 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
             }
         }
-        Varien_Profiler::stop('load-modules');
+        Varien_Profiler::stop('config/load-modules');
 
-        Varien_Profiler::start('apply-extends');
+        Varien_Profiler::start('config/apply-extends');
         $this->applyExtends();
-        Varien_Profiler::stop('apply-extends');
+        Varien_Profiler::stop('config/apply-extends');
 
         if($this->_isInstalled) {
 	        Varien_Profiler::start('dbUpdates');
 	        Mage_Core_Model_Resource_Setup::applyAllUpdates();
 	        Varien_Profiler::stop('dbUpdates');
 
-	        Varien_Profiler::start('load-db');
+	        Varien_Profiler::start('config/load-db');
+	        $dbConf = Mage::getResourceModel('core/config');
 	        $dbConf->loadToXml($this);
-	        Varien_Profiler::stop('load-db');
+	        Varien_Profiler::stop('config/load-db');
         }
 
         if ($saveCache) {
-            Varien_Profiler::start('save-cache');
+            Varien_Profiler::start('config/save-cache');
             $this->saveCache();
-            Varien_Profiler::stop('save-cache');
+            Varien_Profiler::stop('config/save-cache');
         }
 
         return $this;
@@ -351,7 +358,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         	case 'design':
         		$dir = Mage::getRoot().DS.'design';
         		break;
-            
+
         	case 'locale':
         	    $dir = Mage::getRoot().DS.'locale';
         	    break;
@@ -379,11 +386,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'cache_locale':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'locale';
                 break;
-                
+
             case 'cache_translate':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'translate';
                 break;
-                
+
             case 'cache_db':
                 $dir = $this->getBaseDir('var').DS.'cache'.DS.'db';
                 break;

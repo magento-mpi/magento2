@@ -552,6 +552,69 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     }
 
     /**
+     * Join a table
+     *
+     * @param string $table
+     * @param string $bind
+     * @param string|array $fields
+     * @param null|array $cond
+     * @param string $joinType
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function joinTable($table, $bind, $fields=null, $cond=null, $joinType='inner')
+    {
+        // validate table
+        if (strpos($table, '/')!==false) {
+            $table = Mage::getSingleton('core/resource')->getTableName($table);
+        }
+        $tableAlias = $table;
+
+        // validate fields and aliases
+        if (!$fields) {
+            throw Mage::exception('Mage_Eav', __('Invalid joined fields'));
+        }
+        foreach ($fields as $alias=>$field) {
+            if (isset($this->_joinFields[$alias])) {
+                throw Mage::exception('Mage_Eav', __('Joined field with this alias (%s) is already declared', $alias));
+            }
+            $this->_joinFields[$alias] = array(
+                'table'=>$tableAlias,
+                'field'=>$field,
+            );
+        }
+
+        // validate bind
+        list($pk, $fk) = explode('=', $bind);
+        $bindCond = $tableAlias.'.'.$pk.'='.$this->_getAttributeFieldName($fk);
+
+        // process join type
+        switch ($joinType) {
+            case 'left':
+                $joinMethod = 'joinLeft';
+                break;
+
+            default:
+                $joinMethod = 'join';
+        }
+        $condArr = array($bindCond);
+
+        // add where condition if needed
+        if (!is_null($cond)) {
+            if (is_array($cond)) {
+                foreach ($cond as $k=>$v) {
+                    $condArr[] = $this->_getConditionSql($tableAlias.'.'.$k, $v);
+                }
+            } else {
+                $condArr[] = str_replace('{{table}}', $tableAlias, $cond);
+            }
+        }
+        $cond = '('.join(') AND (', $condArr).')';
+
+// join table
+        $this->getSelect()->$joinMethod(array($tableAlias=>$table), $cond, $fields);
+    }
+
+    /**
      * Remove an attribute from selection list
      *
      * @param string $attribute

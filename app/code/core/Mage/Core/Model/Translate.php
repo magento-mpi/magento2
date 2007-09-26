@@ -27,79 +27,79 @@ class Mage_Core_Model_Translate
 {
     const CSV_SEPARATOR     = ',';
     const SCOPE_SEPARATOR   = '::';
-    
+
     const CONFIG_KEY_AREA   = 'area';
     const CONFIG_KEY_LOCALE = 'locale';
     const CONFIG_KEY_STORE  = 'store';
-    
+
     /**
      * Locale name
      *
      * @var string
      */
     protected $_locale;
-    
+
     /**
      * Translation object
      *
      * @var Zend_Translate_Adapter
      */
     protected $_translate;
-    
+
     /**
      * Translator configuration array
      *
      * @var array
      */
     protected $_config;
-    
+
     /**
      * Cache object
      *
      * @var Zend_Cache_Frontend_File
      */
     protected $_cache;
-    
+
     /**
      * Cache identifier
      *
      * @var string
      */
     protected $_cacheId;
-    
+
     /**
      * Cache checksum
      *
      * @var string
      */
     protected $_cacheChecksum;
-    
+
     /**
      * Checksum cache identifier
      *
      * @var string
      */
     protected $_cacheChecksumId;
-    
+
     /**
      * Translation data
      *
      * @var array
      */
     protected $_data;
-    
+
     /**
      * Translation data for data scope (per module)
      *
      * @var array
      */
     protected $_dataScope;
-    
-    public function __construct() 
+
+    public function __construct()
     {
-        
+
     }
-    
+
     /**
      * Initialization translation data
      *
@@ -111,20 +111,20 @@ class Mage_Core_Model_Translate
         $this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
         if (!$this->_data = $this->_loadCache()) {
             $this->_data = array();
-            
+
             foreach ($this->getModulesConfig() as $moduleName=>$info) {
                 $info = $info->asArray();
                 $this->_loadModuleTranslation($moduleName, $info['files']);
             }
-            
+
             $this->_loadThemeTranslation();
             $this->_loadDbTranslation();
             $this->_saveCache();
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Retrieve modules configuration by translation
      *
@@ -138,7 +138,7 @@ class Mage_Core_Model_Translate
         }
         return $config;
     }
-    
+
     /**
      * Initialize configuration
      *
@@ -156,7 +156,7 @@ class Mage_Core_Model_Translate
         }
         return $this;
     }
-    
+
     /**
      * Retrieve config value by key
      *
@@ -170,7 +170,7 @@ class Mage_Core_Model_Translate
         }
         return null;
     }
-    
+
     /**
      * Loading data from module translation files
      *
@@ -186,7 +186,7 @@ class Mage_Core_Model_Translate
         }
         return $this;
     }
-    
+
     /**
      * Adding translation data
      *
@@ -220,12 +220,12 @@ class Mage_Core_Model_Translate
         }
         return $this;
     }
-    
+
     protected function _prepareDataString($string)
     {
         return str_replace('""', '"', trim($string, '"'));
     }
-    
+
     /**
      * Loading current theme translation
      *
@@ -236,7 +236,7 @@ class Mage_Core_Model_Translate
         //$design = Mage::getDesign();
         return $this;
     }
-    
+
     /**
      * Loading current store translation from DB
      *
@@ -247,7 +247,7 @@ class Mage_Core_Model_Translate
         $this->_addData($this->getResource()->getTranslationArray(), $this->getConfig(self::CONFIG_KEY_STORE));
         return $this;
     }
-    
+
     /**
      * Retrieve translation file for module
      *
@@ -261,7 +261,7 @@ class Mage_Core_Model_Translate
         $file.= DS.$this->getLocale().DS.$fileName;
         return $file;
     }
-    
+
     /**
      * Retrieve data from file
      *
@@ -280,7 +280,7 @@ class Mage_Core_Model_Translate
         }
         return $data;
     }
-    
+
     /**
      * Retrieve translation data
      *
@@ -289,11 +289,11 @@ class Mage_Core_Model_Translate
     public function getData()
     {
         if (is_null($this->_data)) {
-            Mage::throwException('You need init translate area');
+            Mage::throwException('Translation data is not initialized. Please contact developers.');
         }
         return $this->_data;
     }
-    
+
     /**
      * Retrieve locale
      *
@@ -316,7 +316,7 @@ class Mage_Core_Model_Translate
     {
         return Mage::getResourceSingleton('core/translate');
     }
-    
+
     /**
      * Retrieve translation object
      *
@@ -329,7 +329,7 @@ class Mage_Core_Model_Translate
         }
         return $this->_translate;
     }
-    
+
     /**
      * Translate
      *
@@ -339,7 +339,7 @@ class Mage_Core_Model_Translate
     public function translate($args)
     {
         $text = array_shift($args);
-        
+
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
             $text = $text->getText();
@@ -361,12 +361,12 @@ class Mage_Core_Model_Translate
                 $translated = $text;
             }
         }
-        
+
         array_unshift($args, $translated);
         $result = call_user_func_array('sprintf', $args);
         return $result;
     }
-    
+
     /**
      * Retrieve cache identifier
      *
@@ -388,7 +388,7 @@ class Mage_Core_Model_Translate
         }
         return $this->_cacheId;
     }
-    
+
     /**
      * Retrieve cache checksum identifier
      *
@@ -398,7 +398,7 @@ class Mage_Core_Model_Translate
     {
         return $this->getCacheId().'_CHECKSUM';
     }
-    
+
     /**
      * Retrieve cache checksum
      *
@@ -424,7 +424,7 @@ class Mage_Core_Model_Translate
         }
         return $this->_cacheChecksum;
     }
-    
+
     /**
      * Retrieve checksum validation status
      *
@@ -439,7 +439,7 @@ class Mage_Core_Model_Translate
         }
         return false;
     }
-    
+
     /**
      * Retrieve cache object
      *
@@ -448,14 +448,14 @@ class Mage_Core_Model_Translate
     public function getCache()
     {
         if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File', 
-                array('automatic_serialization'=>true), 
+            $this->_cache = Zend_Cache::factory('Core', 'File',
+                array('automatic_serialization'=>true),
                 array('cache_dir'=>Mage::getBaseDir('cache_translate'))
             );
         }
         return $this->_cache;
     }
-    
+
     /**
      * Loading data cache
      *
@@ -469,7 +469,7 @@ class Mage_Core_Model_Translate
         }
         return $this->getCache()->load($this->getCacheId());
     }
-    
+
     /**
      * Saving data cache
      *

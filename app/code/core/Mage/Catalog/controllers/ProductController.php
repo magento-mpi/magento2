@@ -52,7 +52,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $this->loadLayout();
+        $update = $this->getLayout()->getUpdate();
+        $update->addHandle('default');
+        $this->addActionLayoutHandles();
+
+        $update->addHandle('PRODUCT_'.$product->getId());
+        $update->load();
+
+        $this->generateLayoutXml()->generateLayoutBlocks();
+
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('tag/session');
         $this->_initLayoutMessages('checkout/session');
