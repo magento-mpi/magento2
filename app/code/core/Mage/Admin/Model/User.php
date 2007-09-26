@@ -136,4 +136,9 @@ class Mage_Admin_Model_User extends Varien_Object
     {
         return $this->getFirstname().$separator.$this->getLastname();
     }
+    
+    public function hasAssigned2Role($userId)
+    {
+        return $this->getResource()->hasAssigned2Role($userId);
+    }
 }

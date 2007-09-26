@@ -190,7 +190,6 @@ class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Ab
         	$select->from($this->getTable('admin/role'))
         		->where("parent_id > 0 AND user_id = {$user->getUserId()}");
         	return $dbh->fetchAll($select);
-
     	} else {
     		return null;
     	}

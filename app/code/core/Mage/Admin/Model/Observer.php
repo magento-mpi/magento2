@@ -36,7 +36,10 @@ class Mage_Admin_Model_Observer
 
         if (!$user) {
             if ($request->getPost('login')) {
-                extract($request->getPost('login'));
+                $postLogin  = $request->getPost('login');
+                $username   = $postLogin['username'];
+                $password   = $postLogin['password'];
+                
                 if (!empty($username) && !empty($password)) {
                     $user = Mage::getModel('admin/user')->login($username, $password);
 
@@ -45,6 +48,11 @@ class Mage_Admin_Model_Observer
 	                            Mage::getSingleton('adminhtml/session')->addError(__('Your Account has been deactivated.'));
 	                            $request->setParam('messageSent', true);
 	                    }
+					} elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
+	                    if (!$request->getParam('messageSent')) {
+	                            Mage::getSingleton('adminhtml/session')->addError(__('Access Deny.'));
+	                            $request->setParam('messageSent', true);
+	                    }					    
                     } else {
 	                    if ($user->getId()) {
 	                        $session->setUser($user);
@@ -73,6 +81,7 @@ class Mage_Admin_Model_Observer
                 $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
             }
             if ($user->getReloadAclFlag()) {
+                $user->unsetData('password');
                 $user->setReloadAclFlag('0')->save();
             }
         }

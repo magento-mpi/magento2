@@ -98,18 +98,15 @@ class Mage_Admin_Model_Mysql4_User
             if ( !is_null($user->getReloadAclFlag()) ) {
                 $data['reload_acl_flag'] = $user->getReloadAclFlag();
             }
-            
+            if ($user->getPassword()) {
+                $data['password'] = md5($user->getPassword());
+            }
+         
             if ($user->getId()) {
-                if ($user->getPassword()) {
-                    $data['password'] = $user->getPassword();
-                }
                 $condition = $this->_write->quoteInto('user_id=?', $user->getId());
                 $this->_write->update($this->_userTable, $data, $condition);
             } else { 
                 $data['created'] = now();
-                if ($user->getPassword()) {
-                    $data['password'] = md5($user->getPassword());
-                }
                 $this->_write->insert($this->_userTable, $data);
                 $user->setUserId($this->_write->lastInsertId());
             }
@@ -128,5 +125,19 @@ class Mage_Admin_Model_Mysql4_User
     public function delete()
     {
             
+    }
+
+    public function hasAssigned2Role($userId)
+    {
+        if ( $userId > 0 ) {
+    		$dbh          = $this->_read;
+    		$roleTable    = Mage::getSingleton('core/resource')->getTableName('admin/role');
+    		$select = $dbh->select();
+        	$select->from($roleTable)
+        		->where("parent_id > 0 AND user_id = {$userId}");
+        	return $dbh->fetchAll($select);
+    	} else {
+    		return null;
+    	}
     }
 }
