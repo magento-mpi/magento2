@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
 				'value'	  =>	$queue->getStores(),
 				'select_all' => __('Select All Stores'),
-				'deselect_all' => __('Deselect All Stores'),
+				'deselect_all' => __('Unselect All Stores'),
 			));
 		} else {
 			$fieldset->addField('date','date',array(
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
 				'value'	  =>	$queue->getStores(),
 				'select_all' => __('Select All Stores'),
-				'deselect_all' => __('Deselect All Stores')
+				'deselect_all' => __('Unselect All Stores')
 			));
 		}
 

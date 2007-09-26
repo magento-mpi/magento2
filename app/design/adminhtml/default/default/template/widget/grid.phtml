@@ -55,7 +55,7 @@ $numColumns = sizeof($this->getColumns());
             <?$_curPage  = $this->getCollection()->getCurPage()?>
             <?$_lastPage = $this->getCollection()->getLastPageNumber()?>
             <?if($_curPage>1):?>
-                <a href="#" title="<?=__('Previus page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage-1)?>');return false;"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Go to Previous page" class="arrow"/></a>
+                <a href="#" title="<?=__('Previous page')?>" onclick="<?=$this->getId()?>JsObject.setPage('<?=($_curPage-1)?>');return false;"><img src="<?=$this->getSkinUrl('images/pager_arrow_left.gif')?>" alt="Go to Previous page" class="arrow"/></a>
             <?else:?>
                 <img src="<?=$this->getSkinUrl('images/pager_arrow_left_off.gif')?>" alt="Go to Previous page" class="arrow"/>
             <?endif;?>

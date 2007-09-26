@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));    
         
         $this->addColumn('taged', array(
-            'header'    =>__('Number of Use'),
+            'header'    =>__('Number of Uses'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,

@@ -111,7 +111,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                #Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. May be set with the same name already exists.'));
+                #Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this set. Set with the same name already exists.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             } else {
                 Mage::getSingleton('adminhtml/session')->addError(__('Attribute set with the same name already exists.'));

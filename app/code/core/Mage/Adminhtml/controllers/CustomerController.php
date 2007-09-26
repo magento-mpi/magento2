@@ -339,7 +339,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         # Checking if we received email. If not - ERROR
         if( !($accountData['email']) ) {
             $response->setError(1);
-            Mage::getSingleton('adminhtml/session')->addError(__("Please, fill in 'email' field."));
+            Mage::getSingleton('adminhtml/session')->addError(__("Please fill in 'email' field."));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         } else {

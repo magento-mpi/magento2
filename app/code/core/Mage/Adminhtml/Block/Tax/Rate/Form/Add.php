@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                             array(
                                 'name' => 'tax_region_id',
                                 'label' => __('State'),
-                                'title' => __('Please, select State'),
+                                'title' => __('Please select State'),
                                 'class' => 'required-entry',
                                 'required' => true,
                                 'values' => $regions,
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                             array(
                                 'name' => 'tax_county_id',
                                 'label' => __('County'),
-                                'title' => __('Please, select County'),
+                                'title' => __('Please select County'),
                                 'values' => array(
                                     array(
                                         'label' => '*',

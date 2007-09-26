@@ -141,7 +141,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
 
             $order = Mage::getModel('sales/order')->load($orderId);
             if (! $order->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('The order you are trying to create invoice for, no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(__('The order you are trying to create invoice for no longer exists'));
                 Mage::getSingleton('adminhtml/session')->setInvoiceData($data);
                 $this->_redirect('*/sales_invoice/new/', array('order_id' => $orderId));
                 return;
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
 
             $invoice = Mage::getModel('sales/invoice')->load($invoiceId);
             if (! $invoice->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('The invoice you are trying to create creadit memo for, no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(__('The invoice you are trying to create credit memo for no longer exists'));
                 Mage::getSingleton('adminhtml/session')->setInvoiceData($data);
                 $this->_redirect('*/sales_invoice/cmemo/', array('invoice_id' => $invoiceId));
                 return;

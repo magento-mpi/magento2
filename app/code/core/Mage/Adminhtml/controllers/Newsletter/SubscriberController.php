@@ -57,7 +57,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 	    		Mage::getModel('newsletter/queue')
 	    			->load($this->getRequest()->getParam('queue'))
 	    			->addSubscribersToQueue($this->getRequest()->getParam('subscriber', array()));
-	    		Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected subscribers was successfully added to selected queue'));
+	    		Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected subscribers were successfully added to the selected queue'));
     		} 
     		catch (Exception $e) {
     			Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

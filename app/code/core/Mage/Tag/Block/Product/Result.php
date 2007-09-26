@@ -104,6 +104,6 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     public function getNoResultText()
     {
-        return __('No mathces found.');
+        return __('No matches found.');
     }
 }

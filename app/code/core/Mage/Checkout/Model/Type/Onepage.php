@@ -129,7 +129,7 @@ class Mage_Checkout_Model_Type_Onepage
             if ($customer->getId()) {
                 $res = array(
                     'error' => 1,
-                    'message' => __('There is already a customer registered using this email')
+                    'message' => __('There is already a customer registered using this email address')
                 );
                 return $res;
             }

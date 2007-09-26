@@ -69,8 +69,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
             'title' => __('Can be used only with catalog input type Dropdown'),
             'values' => array(
                 array('value' => '0', 'label' => __('No')),
-                array('value' => '1', 'label' => __('Fiterable (with results)')),
-                array('value' => '2', 'label' => __('Fiterable (no results)')),
+                array('value' => '1', 'label' => __('Filterable (with results)')),
+                array('value' => '2', 'label' => __('Filterable (no results)')),
             ),
         ));
 

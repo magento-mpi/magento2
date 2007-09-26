@@ -118,7 +118,7 @@
     	$result = Mage::getModel('newsletter/subscriber')->unsubscribe($this->getRequest()->getParam('email'));
 
     	if ($result instanceof Exception) {
-    		$session->addError(__('There was a problem with the unsubscription: %s', $status));
+    		$session->addError(__('There was a problem with the un-subscription: %s', $status));
     	} else {
     		$session->addSuccess(__('You have been successfully unsubscribed'));
     	}

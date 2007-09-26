@@ -105,7 +105,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/product/all')
-            ->_addBreadcrumb(__('Poducts Report (Total)'), __('Products Report (Total)'))
+            ->_addBreadcrumb(__('Products Report (Total)'), __('Products Report (Total)'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_all'))
             ->renderLayout();
     }

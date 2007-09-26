@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                                     array(
                                         'url' => $actionsUrl .'groupId/$group_id/' . $classType,
                                         'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do it?')
+                                        'confirm' => __('Are you sure you want to take this action?')
                                     )
                                 )
             )

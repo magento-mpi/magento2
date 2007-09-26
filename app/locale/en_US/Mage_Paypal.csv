@@ -9,7 +9,7 @@
 "Problem during communication with PayPal","Problem during communication with PayPal"
 "MasterCard","MasterCard"
 "There was an error during communication with Paypal: %s - %s","There was an error during communication with Paypal: %s - %s"
-"There was an error connecting to Paypal server: %s","There was an error connecting to Paypal server: %s"
+"There was an error connecting to the Paypal server: %s","There was an error connecting to the Paypal server: %s"
 "Order","Order"
 "Authorization","Authorization"
 "Change Payment Method","Change Payment Method"

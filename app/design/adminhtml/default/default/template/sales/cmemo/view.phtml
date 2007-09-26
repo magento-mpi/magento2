@@ -80,8 +80,8 @@
         <table cellspacing="0">
             <tfoot>
                 <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getGrandTotal())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Totally Paid')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTotalPaid())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Totally Due')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTotalDue())?></strong></td></tr>
+                <tr><td class="label"><strong><?=__('Total Paid')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTotalPaid())?></strong></td></tr>
+                <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_cmemo->getOrderCurrency()->format($_cmemo->getTotalDue())?></strong></td></tr>
             </tfoot>
             <tbody>
                 <tr><td><?=__('Subtotal')?></td><td><?=$_cmemo->getOrderCurrency()->format($_cmemo->getSubtotal())?></td></tr>

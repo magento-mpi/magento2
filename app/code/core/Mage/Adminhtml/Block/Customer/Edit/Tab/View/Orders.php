@@ -80,12 +80,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => __('Ship to Firstname'),
+            'header' => __('Ship to First name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => __('Ship to Lastname'),
+            'header' => __('Ship to Last name'),
             'index' => 'shipping_lastname',
         ));
 

@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button','unsubscribe.button')
                 ->setData(
                     array(
-                        'label' => __('Unsubscibe Selected'),
+                        'label' => __('Unsubscribe Selected'),
                         'onclick' => 'problemController.unsubscribe();'
                     )
                 )

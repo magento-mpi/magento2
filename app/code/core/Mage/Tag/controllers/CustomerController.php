@@ -150,7 +150,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
 
                     if( !$tagModel->getName() ) {
                         $isNew = true;
-                        $message = __('Thank you. Your tag accepted for moderation.');
+                        $message = __('Thank you. Your tag has been accepted for moderation.');
                     }
 
                     $tagModel->setName($tagName)

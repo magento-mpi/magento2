@@ -132,7 +132,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             }
         }
         else {
-            Mage::throwException(__('Product do not exist'));
+            Mage::throwException(__('Product does not exist'));
         }
 
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
@@ -290,10 +290,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             }
         }
         if (!$allAvailable) {
-            $this->getCheckoutSession()->addError(__('Some of the products you requested are not available'));
+            $this->getCheckoutSession()->addError(__('Some of the products you requested are unavailable'));
         }
         if (!$allAdded) {
-            $this->getCheckoutSession()->addError(__('Some of the products you requested are not available in desired quantity'));
+            $this->getCheckoutSession()->addError(__('Some of the products you requested are not available in the desired quantity'));
         }
         return $this;
     }

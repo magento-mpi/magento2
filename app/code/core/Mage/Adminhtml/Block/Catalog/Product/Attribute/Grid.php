@@ -137,8 +137,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
             'index'=>'is_filterable',
             'type' => 'options',
             'options' => array(
-                '1' => __('Fiterable (with results)'),
-                '2' => __('Fiterable (no results)'),
+                '1' => __('Filterable (with results)'),
+                '2' => __('Filterable (no results)'),
                 '0' => __('No'),
             ),
             'align' => 'center',

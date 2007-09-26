@@ -74,7 +74,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             }
             catch (Exception $e){
                 Mage::getSingleton('review/session')
-                    ->addSuccess(__('Unable to post review. Please, try again later.'));
+                    ->addSuccess(__('Unable to post review. Please try again later.'));
             }
         }
 

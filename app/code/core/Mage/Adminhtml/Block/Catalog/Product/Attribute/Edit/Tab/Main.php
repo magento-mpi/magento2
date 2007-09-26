@@ -153,7 +153,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'title' => __('Apply To'),
             'values' => array(
                 array('value' => '0', 'label' => __('All Products')),
-                array('value' => '1', 'label' => __('Phisical Products')),
+                array('value' => '1', 'label' => __('Physical Products')),
                 array('value' => '2', 'label' => __('Virtual Products')),
             ),
         ));*/

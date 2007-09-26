@@ -80,8 +80,8 @@
             <table cellspacing="0">
                 <tfoot>
                     <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Totally Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Totally Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>
                 </tfoot>
                 <tbody>
                     <tr><td><?=__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td></tr>

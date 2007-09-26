@@ -78,22 +78,22 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('billing_firstname', array(
-            'header' => __('Bill to Firstname'),
+            'header' => __('Bill to First name'),
             'index' => 'billing_firstname',
         ));
 
         $this->addColumn('billing_lastname', array(
-            'header' => __('Bill to Lastname'),
+            'header' => __('Bill to Last name'),
             'index' => 'billing_lastname',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => __('Ship to Firstname'),
+            'header' => __('Ship to First name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => __('Ship to Lastname'),
+            'header' => __('Ship to Last name'),
             'index' => 'shipping_lastname',
         ));
 

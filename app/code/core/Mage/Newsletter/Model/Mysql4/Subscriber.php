@@ -245,7 +245,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     public function delete($subscriberId)
     {
         if(!(int)$subscriberId) {
-            Mage::throwException(__('Ivalid subscriber ID'));
+            Mage::throwException(__('Invalid subscriber ID'));
         }
 
         $this->_write->beginTransaction();
