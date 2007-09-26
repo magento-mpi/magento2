@@ -88,7 +88,6 @@ class Mage_Admin_Model_Mysql4_Acl
     {
         foreach ($rolesArr as $role) {
             $parent = $role['parent_id']>0 ? Mage_Admin_Model_Acl::ROLE_TYPE_GROUP.$role['parent_id'] : null;
-
             switch ($role['role_type']) {
                 case Mage_Admin_Model_Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
@@ -118,8 +117,6 @@ class Mage_Admin_Model_Mysql4_Acl
      */
     function loadRules(Mage_Admin_Model_Acl $acl, array $rulesArr)
     {
-        #$acl->allow('G2', null, null, null);// FIXME
-        #$acl->allow('G1', null, null, null);// FIXME
     	foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
             $resource = $rule['resource_id'];
@@ -130,10 +127,21 @@ class Mage_Admin_Model_Mysql4_Acl
                 $assertClass = Mage::getSingleton('admin/config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
-            if ( $rule['permission'] == 'allow' ) {
-            	$acl->allow($role, $resource, $privileges, $assert);
-            } else if ( $rule['permission'] == 'deny' ) {
-            	$acl->deny($role, $resource, $privileges, $assert);
+            try {
+                if ( $rule['permission'] == 'allow' ) {
+                	$acl->allow($role, $resource, $privileges, $assert);
+                } else if ( $rule['permission'] == 'deny' ) {
+                	$acl->deny($role, $resource, $privileges, $assert);
+                }
+            } catch (Exception $e) {
+                $m = $e->getMessage();
+                if ( eregi("^Resource '(.*)' not found", $m) ) {
+                    // Deleting non existent resource rule from rules table
+                    $cond = $this->_write->quoteInto('resource_id = ?', $resource);
+                    $this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin/rule'), $cond);
+                } else {
+                    //TODO: We need to log such exceptions to somewhere like a system/errors.log
+                }
             }
             /*
             switch ($rule['permission']) {
