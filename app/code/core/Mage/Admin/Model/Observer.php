@@ -73,7 +73,7 @@ class Mage_Admin_Model_Observer
                 $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
             }
             if ($user->getReloadAclFlag()) {
-                $user->setReloadAclFlag(0)->save();
+                $user->setReloadAclFlag('0')->save();
             }
         }
     }

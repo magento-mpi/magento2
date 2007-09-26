@@ -186,19 +186,19 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         	    break;
         
         	case "customer":
-        	    if ( $permissions->isAllowed('customer/config') ) {
+        	    if ( $permissions->isAllowed('system/config/customers') ) {
         	        $showTab = true;
         	    }
         	    break;
         
         	case "sales":
-        	    if ( $permissions->isAllowed('sales/config') ) {
+        	    if ( $permissions->isAllowed('system/config/sales') ) {
         	        $showTab = true;
         	    }
         	    break;
         
         	case "newsletter":
-        	    if ( $permissions->isAllowed('newsletter/config') ) {
+        	    if ( $permissions->isAllowed('system/config/newsletter') ) {
         	        $showTab = true;
         	    }
         	    break;
@@ -210,7 +210,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         	    break;
         
         	case "catalog":
-        	    if ( $permissions->isAllowed('catalog/config') ) {
+        	    if ( $permissions->isAllowed('system/config/catalog') ) {
         	        $showTab = true;
         	    }            	   
         	    break;

@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Mysql4_Roles_Collection extends Varien_Data_Collection_Db
 class Mage_Admin_Model_Mysql4_Permissions_Roles_Collection extends Varien_Data_Collection_Db
 {
 	protected $_usersTable;

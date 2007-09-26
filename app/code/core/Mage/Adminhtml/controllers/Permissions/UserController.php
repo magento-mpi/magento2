@@ -154,36 +154,6 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         );
     }
 
-    public function deleteuserfromroleAction()
-    {
-        Mage::getModel("admin/permissions_user")
-            ->setUserId($this->getRequest()->getParam('user_id', false))
-            ->deleteFromRole();
-        echo json_encode(array('error' => 0, 'error_message' => 'test message'));
-    }
-
-    public function adduser2roleAction()
-    {
-        if (!$this->getRequest()->getParam('user_id', false)) {
-        	echo json_encode(array('error' => 1, 'error_message' => __('Invalid request.')));
-        	return false;
-        }
-
-    	if( Mage::getModel("admin/permissions_user")
-                ->setRoleId($this->getRequest()->getParam('role_id', false))
-                ->setUserId($this->getRequest()->getParam('user_id', false))
-                ->roleUserExists() === true ) {
-            echo json_encode(array('error' => 1, 'error_message' => __('This user already added to the role.')));
-        } else {
-            Mage::getModel("admin/permissions_user")
-                ->setRoleId($this->getRequest()->getParam('role_id', false))
-                ->setUserId($this->getRequest()->getParam('user_id', false))
-                ->setFirstname($this->getRequest()->getParam('firstname', false))
-                ->add();
-            echo json_encode(array('error' => 0, 'error_message' => 'test message'));
-        }
-    }
-
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('system/acl/users');

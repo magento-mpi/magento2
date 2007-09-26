@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Roles extends Varien_Object {
 class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
 
 	public function getResource()
@@ -75,6 +74,11 @@ class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
     	return $this->_buildResourcesArray(null, null, null, true);
     }
 
+    public function getRoleUsers()
+    {
+        return $this->getResource()->getRoleUsers($this);
+    }
+    
     protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false)
     {
         static $result;

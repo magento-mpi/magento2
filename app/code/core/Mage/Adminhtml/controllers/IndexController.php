@@ -69,23 +69,34 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
         $items = array();
-        if (empty($searchModules)) {
-            $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>__('No search modules registered'), 'description'=>__('Please make sure that all global admin search modules are installed and activated.'));
+
+        if ( !Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ) {
+            $items[] = array(
+                'id'=>'error', 
+                'type'=>'Error', 
+                'name'=>__('Access Deny'), 
+                'description'=>__('You have not enought permissions to use this functionality.')
+            );
             $totalCount = 1;
         } else {
-            $start = $this->getRequest()->getParam('start', 1);
-            $limit = $this->getRequest()->getParam('limit', 10);
-            $query = $this->getRequest()->getParam('query', '');
-            foreach ($searchModules->children() as $searchConfig) {
-                $className = $searchConfig->getClassName();
-                if (empty($className)) {
-                    continue;
+            if (empty($searchModules)) {
+                $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>__('No search modules registered'), 'description'=>__('Please make sure that all global admin search modules are installed and activated.'));
+                $totalCount = 1;
+            } else {
+                $start = $this->getRequest()->getParam('start', 1);
+                $limit = $this->getRequest()->getParam('limit', 10);
+                $query = $this->getRequest()->getParam('query', '');
+                foreach ($searchModules->children() as $searchConfig) {
+                    $className = $searchConfig->getClassName();
+                    if (empty($className)) {
+                        continue;
+                    }
+                    $searchInstance = new $className();
+                    $results = $searchInstance->setStart($start)->setLimit($limit)->setQuery($query)->load()->getResults();
+                    $items = array_merge_recursive($items, $results);
                 }
-                $searchInstance = new $className();
-                $results = $searchInstance->setStart($start)->setLimit($limit)->setQuery($query)->load()->getResults();
-                $items = array_merge_recursive($items, $results);
+                $totalCount = sizeof($items);
             }
-            $totalCount = sizeof($items);
         }
 
         $block = $this->getLayout()->createBlock('core/template')

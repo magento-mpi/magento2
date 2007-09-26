@@ -60,10 +60,6 @@
                             </classes_product>
                         </children>
                     </tax>
-                    <config>
-                        <title>Configuration</title>
-                        <action>*/system_config/edit/section/sales/</action>
-                    </config>
                 </children>
              </sales>
              <catalog>
@@ -145,10 +141,6 @@
                         <title>Datafeeds</title>
                         <action>*/catalog_datafeed/</action>
                     </datafeed>-->
-                    <config>
-                        <title>Configuration</title>
-                        <action>*/system_config/edit/section/catalog/</action>
-                    </config>
                 </children>
              </catalog>
             <!--
@@ -178,11 +170,6 @@
                         <action>*/customer_online/</action>
                         <resource>admin/customer/online</resource>
                     </online>
-                    <config>
-                        <title>Configuration</title>
-                        <action>*/system_config/edit/section/customer/</action>
-                        <resource>admin/customer/config</resource>
-                    </config>
                 </children>
              </customer>
              <promo>
@@ -256,11 +243,6 @@
                         <action>*/newsletter_problem/</action>
                         <resource>admin/newsletter/problem</resource>
                     </problem>
-                    <config>
-                        <title>Configuration</title>
-                        <action>*/system_config/edit/section/newsletter/</action>
-                        <resource>admin/newsletter/config</resource>
-                    </config>
                 </children>
              </newsletter>
              <report>

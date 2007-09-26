@@ -40,14 +40,17 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
     public function saveAction()
     {
         $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-
-        $user = Mage::getModel("permissions/users")
+        $pwd    = null;
+        
+        $user = Mage::getModel("admin/permissions_user")
                 ->setId($userId)
                 ->setUsername($this->getRequest()->getParam('username', false))
                 ->setFirstname($this->getRequest()->getParam('firstname', false))
                 ->setLastname($this->getRequest()->getParam('lastname', false))
-                ->setEmail(strtolower($this->getRequest()->getParam('email', false)))
-                ->setPassword($this->getRequest()->getParam('password', false));
+                ->setEmail(strtolower($this->getRequest()->getParam('email', false)));
+        if ( $this->getRequest()->getParam('password', false) ) {
+            $user->setPassword($this->getRequest()->getParam('password', false));
+        }
 
         if( !$user->userExists() ) {
             try {

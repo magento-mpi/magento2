@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Abstract
 {
 
@@ -56,12 +55,15 @@ class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Ab
 		try {
 	    	$dbh->delete($this->getTable('admin/user'), "user_id=$uid");
 	    	$dbh->delete($this->getTable('admin/role'), "user_id=$uid");
-	    	$dbh->commit();
         } catch (Mage_Core_Exception $e) {
             throw $e;
+            return false;
         } catch (Exception $e){
             $$dbh->rollBack();
+            return false;
         }
+        $dbh->commit();
+        return true;
     }
 
     public function _saveRelations(Mage_Core_Model_Abstract $user)
@@ -147,8 +149,11 @@ class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Ab
         if ( $user->getUserId() <= 0 ) {
             return $this;
         }
+        if ( $user->getRoleId() <= 0 ) {
+            return $this;
+        }
     	$dbh = $this->getConnection( 'write' );
-    	$condition = $dbh->quoteInto("{$this->getTable('admin/role')}.role_id = ?", $user->getUserId());
+    	$condition = "`{$this->getTable('admin/role')}`.user_id = ".$dbh->quote($user->getUserId())." AND `{$this->getTable('admin/role')}`.parent_id = ".$dbh->quote($user->getRoleId());
     	$dbh->delete($this->getTable('admin/role'), $condition);
     	return $this;
     }
@@ -164,6 +169,15 @@ class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Ab
     	} else {
     		return array();
     	}
+    }
+    
+    public function userExists(Mage_Core_Model_Abstract $user)
+    {
+        $usersTable = $this->getTable('admin/user');
+        $select = $this->getConnection('read')->select();
+        $select->from($usersTable);
+        $select->where("({$usersTable}.username = '{$user->getUsername()}' OR {$usersTable}.email = '{$user->getEmail()}') AND {$usersTable}.user_id != '{$user->getId()}'");
+        return $this->getConnection('read')->fetchRow($select);
     }
 
     public function hasAssigned2Role(Mage_Core_Model_Abstract $user)

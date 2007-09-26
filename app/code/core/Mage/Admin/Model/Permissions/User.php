@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_User extends Mage_Core_Model_Abstract
 class Mage_Admin_Model_Permissions_User extends Mage_Core_Model_Abstract
 {
 
@@ -35,8 +34,8 @@ class Mage_Admin_Model_Permissions_User extends Mage_Core_Model_Abstract
 			'email' 	=> $this->getEmail(),
 		);
 
-		if ( $this->getUserId() > 0 ) {
-		    $data['user_id'] 	= $this->getUserId();
+		if ( $this->getId() > 0 ) {
+		    $data['user_id'] 	= $this->getId();
 		}
 		if( $this->getUsername() ) {
 		    $data['username'] 	= $this->getUsername();
@@ -44,16 +43,18 @@ class Mage_Admin_Model_Permissions_User extends Mage_Core_Model_Abstract
 		if ($this->getPassword()) {
 		    $data['password'] 	= $this->_getEncodedPassword($this->getPassword());
 		}
+
 		if ($this->getNewPassword()) {
 		    $data['password'] 	= $this->_getEncodedPassword($this->getNewPassword());
 		}
+
 		if ( !is_null($this->getIsActive()) ) {
 		    $data['is_active'] 	= intval($this->getIsActive());
 		}
+		
 		$this->setData($data);
 		$this->getResource()->save($this);
 		return $this;
-
     }
 
     public function delete()
@@ -90,7 +91,17 @@ class Mage_Admin_Model_Permissions_User extends Mage_Core_Model_Abstract
 		$this->getResource()->add($this);
 		return $this;
 	}
+	
+	public function userExists()
+    {
+        $result = $this->getResource()->userExists($this);
+        return ( is_array($result) && count($result) > 0 ) ? true : false;
+    }
 
+    public function getCollection() {
+        return Mage::getResourceModel('admin/permissions_user_collection');
+    }
+    
 	# Protected methods
 	protected function _getEncodedPassword($pwd)
 	{

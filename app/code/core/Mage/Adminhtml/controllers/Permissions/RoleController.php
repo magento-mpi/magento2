@@ -104,8 +104,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
 
     public function saveRoleAction()
     {
-        $rid = $this->getRequest()->getParam('role_id', false);
-        $resource = explode(',', $this->getRequest()->getParam('resource', false));
+        $rid        = $this->getRequest()->getParam('role_id', false);
+        $resource   = explode(',', $this->getRequest()->getParam('resource', false));
+        $roleUsers  = $this->getRequest()->getParam('in_role_user', null);
         try {
             $role = Mage::getModel("admin/permissions_roles")
                     ->setId($rid)
@@ -118,6 +119,19 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
+            
+            $oldRoleUsers = Mage::getModel("admin/permissions_roles")->setId($role->getId())->getRoleUsers($role);
+            if ( sizeof($oldRoleUsers) > 0 ) {
+                foreach($oldRoleUsers as $oUid) {
+                    $this->_deleteUserFromRole($oUid, $role->getId());
+                }
+            }
+            if ( $roleUsers ) {
+                foreach ($roleUsers as $nRuid) {
+                    $this->_addUserToRole($nRuid, $role->getId());
+                }
+            }
+            
             Mage::getSingleton('adminhtml/session')->addSuccess(__('Role successfully saved.'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this role. Please try again later.'));
@@ -132,6 +146,33 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_role_grid_user')->toHtml());
     }
 
+    protected function _deleteUserFromRole($userId, $roleId)
+    {
+        try {
+            Mage::getModel("admin/permissions_user")
+                ->setRoleId($roleId)
+                ->setUserId($userId)
+                ->deleteFromRole();
+        } catch (Exception $e) {
+            throw $e;
+            return false;
+        }
+        return true;
+    }
+
+    protected function _addUserToRole($userId, $roleId)
+    {
+        $user = Mage::getModel("admin/permissions_user")->load($userId);
+        $user->setRoleId($roleId)->setUserId($userId);
+        
+    	if( $user->roleUserExists() === true ) {
+            return false;
+        } else {
+            $user->add();
+            return true;
+        }
+    }    
+    
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('system/acl/roles');

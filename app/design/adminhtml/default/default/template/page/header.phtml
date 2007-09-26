@@ -25,6 +25,7 @@
             <?=__("Logged in as %s", $user->getUsername())?><span class="separator">|</span><?=__("Today is %s", date("F jS, Y"))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a><br/>
             <a href="http://www.magentocommerce.com" target="varien_external"><?=__('Connect with the Magento Community')?></a>
         </p>                                                                                                        
+        <?php if ( Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ): ?>
         <fieldset>                                                                                      
             <legend>Search</legend>
             <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
@@ -50,5 +51,6 @@
                 }
             </script>
         </fieldset>
+        <?php endif;?>
     </div>
 </div>

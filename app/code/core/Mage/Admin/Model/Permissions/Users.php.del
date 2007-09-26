@@ -22,7 +22,7 @@
 class Mage_Admin_Model_Permissions_Users extends Varien_Object {
     
     public function getResource() {
-        return Mage::getResourceSingleton('admiin/permissions_users');
+        return Mage::getResourceSingleton('admin/permissions_users');
     }
 
     public function load($userId) {

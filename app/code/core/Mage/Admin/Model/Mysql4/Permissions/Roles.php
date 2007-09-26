@@ -18,12 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Mysql4_Roles {
 class Mage_Admin_Model_Mysql4_Permissions_Roles {
 	protected $_usersTable;
 	protected $_roleTable;
 	protected $_ruleTable;
-	protected $_usersRelTable;
 
     /**
      * Read connection
@@ -45,7 +43,6 @@ class Mage_Admin_Model_Mysql4_Permissions_Roles {
         $this->_usersTable        = $resources->getTableName('admin/user');
         $this->_roleTable         = $resources->getTableName('admin/role');
         $this->_ruleTable         = $resources->getTableName('admin/rule');
-        //$this->_usersRelTable         = $resources->getTableName('permissions/admin_users_in_roles');
 
         $this->_read    = $resources->getConnection('admin_read');
         $this->_write   = $resources->getConnection('admin_write');
@@ -81,7 +78,7 @@ class Mage_Admin_Model_Mysql4_Permissions_Roles {
     													   ));
     		$role->setId($this->_write->lastInsertId());
     	}
-
+        $this->_updateRoleUsersAcl($role);
     	return $role->getId();
     }
 
@@ -97,6 +94,29 @@ class Mage_Admin_Model_Mysql4_Permissions_Roles {
             throw $e;
         } catch (Exception $e){
             $this->_write->rollBack();
+        }
+    }
+    
+    public function getRoleUsers(Mage_Admin_Model_Permissions_Roles $role)
+    {
+        $read 	= $this->_read;
+        $select = $read->select()->from($this->_roleTable, array('user_id'))->where("(parent_id = {$role->getId()} AND role_type = 'U') AND user_id > 0");
+        return $read->fetchCol($select);
+    }
+    
+    private function _updateRoleUsersAcl(Mage_Admin_Model_Permissions_Roles $role)
+    {
+        $write  = $this->_write;
+        $users  = $this->getRoleUsers($role);
+        $rowsCount = 0;
+        if ( sizeof($users) > 0 ) {
+            $inStatement = implode(", ", $users);
+            $rowsCount = $write->update($this->_usersTable, array('reload_acl_flag' => 1), "user_id IN({$inStatement})");
+        }
+        if ($rowsCount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

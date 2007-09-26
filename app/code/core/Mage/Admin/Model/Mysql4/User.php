@@ -92,19 +92,24 @@ class Mage_Admin_Model_Mysql4_User
                 'lastname'  => $user->getLastname(),
                 'email'     => $user->getEmail(),
                 'username'  => $user->getUsername(),
-                'modified'  => now(),
-                //'reload_acl_flag' =>$user->getReloadAclFlag(),
+                'modified'  => now()
             );
-            
-            if ($user->getPassword()) {
-                $data['password'] = md5($user->getPassword());
+
+            if ( !is_null($user->getReloadAclFlag()) ) {
+                $data['reload_acl_flag'] = $user->getReloadAclFlag();
             }
             
             if ($user->getId()) {
+                if ($user->getPassword()) {
+                    $data['password'] = $user->getPassword();
+                }
                 $condition = $this->_write->quoteInto('user_id=?', $user->getId());
                 $this->_write->update($this->_userTable, $data, $condition);
             } else { 
                 $data['created'] = now();
+                if ($user->getPassword()) {
+                    $data['password'] = md5($user->getPassword());
+                }
                 $this->_write->insert($this->_userTable, $data);
                 $user->setUserId($this->_write->lastInsertId());
             }
@@ -113,6 +118,7 @@ class Mage_Admin_Model_Mysql4_User
         }
         catch (Exception $e)
         {
+            $this->_write->rollback();
             throw $e;
         }
         

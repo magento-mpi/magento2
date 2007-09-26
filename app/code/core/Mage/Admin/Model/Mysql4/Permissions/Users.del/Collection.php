@@ -18,12 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Mysql4_Users_Collection extends Varien_Data_Collection_Db {
 class Mage_Admin_Model_Mysql4_Permissions_Users_Collection extends Varien_Data_Collection_Db {
-	protected $_usersTable;
+	
+    protected $_usersTable;
 	protected $_roleTable;
 	protected $_ruleTable;
-	protected $_usersRelTable;
 
     public function __construct()
     {
@@ -34,9 +33,8 @@ class Mage_Admin_Model_Mysql4_Permissions_Users_Collection extends Varien_Data_C
         $this->_usersTable        = $resources->getTableName('admin/user');
         $this->_roleTable         = $resources->getTableName('admin/role');
         $this->_ruleTable         = $resources->getTableName('admin/rule');
-        //$this->_usersRelTable	  = $resources->getTableName('permissions/admin_users_in_roles');
 
-        $this->_sqlSelect->from($this->_usersTable);
+        $this->_sqlSelect->from($this->_usersTable, array('user_id', '*'));
     }
 
     public function addRoleFilter($roleId)

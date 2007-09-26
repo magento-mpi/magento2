@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Mysql4_Permissions {
 class Mage_Admin_Model_Mysql4_Permissions_Permissions {
 
 	protected $_usersTable;

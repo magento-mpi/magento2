@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Mysql4_Rules {
 class Mage_Admin_Model_Mysql4_Permissions_Rules {
 	protected $_usersTable;
 	protected $_roleTable;
@@ -57,14 +56,6 @@ class Mage_Admin_Model_Mysql4_Permissions_Rules {
 
     }
 
-    /*
-    Mage::getModel("permissions/rules")
-    		->setRoleId($rid)
-    		->setResources($this->getRequest()->getParam('resource', false))
-    		->saveRel();
-
-    		rule_id, role_type, role_id, resource_id, privileges, assert_id
-	*/
     public function saveRel(Mage_Admin_Model_Permissions_Rules $rule) {
     	$this->_write->beginTransaction();
 
@@ -72,20 +63,23 @@ class Mage_Admin_Model_Mysql4_Permissions_Rules {
         	$roleId = $rule->getRoleId();
 	    	$this->_write->delete($this->_ruleTable, "role_id = {$roleId}");
 	    	$masterResources = Mage::getModel('admin/permissions_roles')->getResourcesList2D();
-	    	
-	    	
-	    	
+            $masterAdmin = false;
 	    	if ( $postedResources = $rule->getResources() ) {
 		    	foreach ($masterResources as $index => $resName) {
-		    		$permission = ( in_array($resName, $postedResources) )? 'allow' : 'deny';
-		    		$this->_write->insert($this->_ruleTable, array(
-			    		'role_type' 	=> 'G',
-			    		'resource_id' 	=> trim($resName, '/'),
-			    		'privileges' 	=> '', # FIXME !!!
-			    		'assert_id' 	=> 0,
-			    		'role_id' 		=> $roleId,
-			    		'permission'	=> $permission
-			    		));
+		    		if ( !$masterAdmin ) {
+    		    	    $permission = ( in_array($resName, $postedResources) )? 'allow' : 'deny';
+    		    		$this->_write->insert($this->_ruleTable, array(
+    			    		'role_type' 	=> 'G',
+    			    		'resource_id' 	=> trim($resName, '/'),
+    			    		'privileges' 	=> '', # FIXME !!!
+    			    		'assert_id' 	=> 0,
+    			    		'role_id' 		=> $roleId,
+    			    		'permission'	=> $permission
+    			    		));
+		    		}
+    		    	if ( $resName == 'admin' && $permission == 'allow' ) {
+    		    	    $masterAdmin = true;
+    		    	}
 		    	}
 	    	}
 

@@ -41,18 +41,18 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     {
         $roleId = $this->getRequest()->getParam('rid');
         $collection = Mage::getModel('admin/permissions_roles')->getUsersCollection();
-        $collection->setRoleFilter($roleId);
+        //$collection->setRoleFilter($roleId);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('in_role_users', array(
+        $this->addColumn('in_role_user', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_role_users',
-            'values'    => Array(),
+            'name'      => 'in_role_user[]',
+            'values'    => $this->_getUsers(),
             'align'     => 'center',
             'index'     => 'user_id'
         ));
@@ -98,7 +98,8 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
             'options'   => array('1' => __('Active'), '0' => __('Inactive')),
         ));
         
-       $this->addColumn('grid_actions',
+       /*
+        $this->addColumn('grid_actions',
             array(
                 'header'=>__('Actions'),
                 'width'=>5,
@@ -113,6 +114,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
                                 )
             )
         );
+        */
 
         return parent::_prepareColumns();
     }
@@ -121,5 +123,16 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     {
         $roleId = $this->getRequest()->getParam('rid');
         return Mage::getUrl('*/*/editrolegrid', array('rid' => $roleId));
+    }
+    
+    protected function _getUsers()
+    {
+        $roleId = $this->getRequest()->getParam('rid');
+        $users  = Mage::getModel('admin/permissions_roles')->setId($roleId)->getRoleUsers();
+        if (sizeof($users) > 0) {
+            return array_values($users);
+        } else {
+            return array();
+        }
     }
 }
