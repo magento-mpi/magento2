@@ -24,8 +24,8 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-alter table `rating_option_vote_aggregated` add column `store_id` smallint (5)UNSIGNED  DEFAULT '0' NOT NULL  after `percent`
-
+alter table `rating_option_vote_aggregated` add column `store_id` smallint (5)UNSIGNED  DEFAULT '0' NOT NULL ;
+alter table `rating_option_vote` add column `value` tinyint (3) DEFAULT '0' NOT NULL  after `percent`;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

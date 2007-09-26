@@ -42,7 +42,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         Mage::register('current_product', $product);
         Mage::register('product', $product); // this need remove after all replace
     }
-    
+
     public function postAction()
     {
         $url = $this->getRequest()->getServer('HTTP_REFERER', Mage::getBaseUrl());
@@ -56,6 +56,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                     ->setStatusId(2) // pending
                     ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                     ->setStoreId(Mage::getSingleton('core/store')->getId())
+                    ->setStores(array(Mage::getSingleton('core/store')->getId()))
                     ->save();
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
@@ -74,7 +75,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             }
             catch (Exception $e){
                 Mage::getSingleton('review/session')
-                    ->addSuccess(__('Unable to post review. Please try again later.'));
+                    ->addError(__('Unable to post review. Please, try again later.'));
             }
         }
 
@@ -89,7 +90,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect(Mage::getBaseUrl());
         }
         Mage::register('productId', $productId);
-        
+
         $this->loadLayout();
         $this->_initLayoutMessages('review/session');
         $this->renderLayout();

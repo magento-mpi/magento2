@@ -13,34 +13,30 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Review
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Review summary resource model
+ * Adminhtml customer wishlist grid filter by store
  *
  * @category   Mage
- * @package    Mage_Review
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @package    Mage_Adminhtml
+ * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Review_Model_Mysql4_Review_Summary extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Adminhtml_Block_Review_Grid_Filter_Visible extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
-    public function __construct()
-    {
-        $this->_init('review/review_aggregate', 'entity_pk_value');
-    }
+	protected function _getOptions()
+	{
+		$options = Mage::registry('stores_select_collection')->toOptionArray();
+		array_unshift($options, array('label'=>'','value'=>''));
+		return $options;
+	}
 
-    protected function _getLoadSelect($field, $value)
-    {
-        $read = $this->getConnection('read');
-
-	   	$select = $read->select()
-            ->from($this->getMainTable())
-            ->where('store_id = ?', Mage::getSingleton('core/store')->getId())
-            ->where($field.'=?', $value);
-        return $select;
-    }
-}
+	public function getCondition()
+	{
+		return $this->getValue();
+	}
+}// Class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Filter_Visible END

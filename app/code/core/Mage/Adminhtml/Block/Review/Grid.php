@@ -55,6 +55,8 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $collection->addStatusFilter($model->getPendingStatus());
         }
 
+        $collection->addStoreData();
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -125,6 +127,21 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'filter_index'  => 'rdt.detail',
         ));
 
+        // Collection for stores filters
+        if(!$collection = Mage::registry('stores_select_collection')) {
+            $collection =  Mage::getResourceModel('core/store_collection')
+                ->load();
+            Mage::register('stores_select_collection', $collection);
+        }
+
+        $this->addColumn('visible_in', array(
+            'header'    => __('Visible In'),
+            'type'      => 'select',
+            'index'     => 'stores',
+            'filter'      => 'adminhtml/review_grid_filter_visible',
+            'renderer'      => 'adminhtml/review_grid_renderer_visible'
+        ));
+
         $this->addColumn('name', array(
             'header'    => __('Product Name'),
             'align'     =>'left',
@@ -139,6 +156,8 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'width'     => '50px',
             'index'     => 'sku',
         ));
+
+
 
         return parent::_prepareColumns();
     }

@@ -162,7 +162,12 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         $productId = $this->getRequest()->getParam('product_id', false);
         if ($data = $this->getRequest()->getPost()) {
+            if(isset($data['select_stores'])) {
+                $data['stores'] = $data['select_stores'];
+            }
+
             $review = Mage::getModel('review/review')->setData($data);
+
             $product = Mage::getModel('catalog/product')
                 ->load($productId);
 

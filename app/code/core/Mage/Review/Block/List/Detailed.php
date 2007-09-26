@@ -70,7 +70,7 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
     {
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
         parent::_prepareLayout();
-        
+
         if ($breadcrumbsBlock) {
             $breadcrumbsBlock->addCrumb('product', array(
                 'label' =>$this->getProduct()->getName(),

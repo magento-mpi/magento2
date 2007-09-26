@@ -38,6 +38,8 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
             ->load()
             ->toOptionArray();
 
+         $stores = Mage::getSingleton('core/store')->getResourceCollection()->load()->toOptionArray();
+
         $form = new Varien_Data_Form(array(
                                         'id' => 'edit_form',
                                         'action' => Mage::getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
@@ -73,6 +75,16 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
                                 'values'    => $statuses,
                             )
         );
+
+        $fieldset->addField('stores', 'multiselect', array(
+                                'label'     => __('Visible In'),
+                                'required'  => true,
+                                'name'      => 'stores[]',
+                                'values'    => $stores,
+                                'value'     => $review->getStores()
+                            )
+        );
+
 
         $fieldset->addField('nickname', 'text', array(
                                 'label'     => __('Nickname'),

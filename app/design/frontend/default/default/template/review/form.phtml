@@ -64,11 +64,11 @@
         <input class="input-text required-entry" name="nickname" id="nickname_field" style="width: 450px;" type="text" value="<?=$data->getNickname()?>"/>
         </div>
     </p>
-    
+
     <p>
         <div>
         <label for="summary_field"><?=$this->__('Summary of Your Review')?></label><br>
-        <input class="input-text  required-entry" id="summary_field" style="width: 450px;" type="text" value="<?=$data->getTitle()?>"/>
+        <input name="title" class="input-text  required-entry" id="summary_field" style="width: 450px;" type="text" value="<?=$data->getTitle()?>"/>
         </div>
     </p>
     <p>

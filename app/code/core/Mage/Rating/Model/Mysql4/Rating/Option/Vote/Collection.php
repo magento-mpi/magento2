@@ -45,6 +45,12 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
         return $this;
     }
 
+    public function setStoreFilter($storeId)
+    {
+        $this->_sqlSelect->join(array('store'=>$this->getTable('review/review_store')), 'main_table.review_id=store.review_id AND store.store_id=' . (int)$storeId, array());
+        return $this;
+    }
+
     public function addRatingInfo()
     {
         $this->_sqlSelect->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*");

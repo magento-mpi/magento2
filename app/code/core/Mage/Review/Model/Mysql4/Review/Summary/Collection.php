@@ -45,4 +45,10 @@ class Mage_Review_Model_Mysql4_Review_Summary_Collection extends Varien_Data_Col
             ->where('entity_type = ?', $entityType);
         return $this;
     }
+
+    public function addStoreFilter($storeId)
+    {
+        $this->_sqlSelect->where('store_id = ?', $storeId);
+        return $this;
+    }
 }

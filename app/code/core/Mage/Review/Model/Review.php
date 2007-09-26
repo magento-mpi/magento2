@@ -77,9 +77,9 @@ class Mage_Review_Model_Review extends Varien_Object
         return Mage::getResourceModel('review/review_status_collection');
     }
 
-    public function getTotalReviews($entityPkValue, $approvedOnly=false)
+    public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
     {
-        return $this->getResource()->getTotalReviews($entityPkValue, $approvedOnly);
+        return $this->getResource()->getTotalReviews($entityPkValue, $approvedOnly, $storeId);
     }
 
     public function aggregate()
@@ -110,6 +110,7 @@ class Mage_Review_Model_Review extends Varien_Object
 
         $summaryData = Mage::getResourceModel('review/review_summary_collection')
             ->addEntityFilter($entityIds)
+            ->addStoreFilter(Mage::getSingleton('core/store')->getId())
             ->load();
 
         foreach( $collection->getItems() as $_item ) {

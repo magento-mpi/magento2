@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Review>
-            <version>0.6.0</version>
+            <version>0.6.1</version>
             <depends>
                 <Mage_Core />
             </depends>
@@ -52,6 +52,9 @@
                     <review_aggregate>
                         <table>review_entity_summary</table>
                     </review_aggregate>
+                    <review_store>
+                        <table>review_store</table>
+                    </review_store>
                 </entities>
             </review_mysql4>
         </models>

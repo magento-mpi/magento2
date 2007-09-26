@@ -32,6 +32,8 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
     protected $_reviewDetailTable;
     protected $_reviewStatusTable;
     protected $_reviewEntityTable;
+    protected $_reviewStoreTable;
+    protected $_addStoreDataFlag = false;
 
     public function __construct()
     {
@@ -43,9 +45,10 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         $this->_reviewDetailTable   = $resources->getTableName('review/review_detail');
         $this->_reviewStatusTable   = $resources->getTableName('review/review_status');
         $this->_reviewEntityTable   = $resources->getTableName('review/review_entity');
+        $this->_reviewStoreTable   = $resources->getTableName('review/review_store');
 
-        $this->_sqlSelect->from($this->_reviewTable)
-            ->join($this->_reviewDetailTable, $this->_reviewTable.'.review_id='.$this->_reviewDetailTable.'.review_id');
+        $this->_sqlSelect->from(array('main_table'=>$this->_reviewTable))
+            ->join(array('detail'=>$this->_reviewDetailTable), 'main_table.review_id=detail.review_id');
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('review/review'));
     }
@@ -53,7 +56,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
     public function addCustomerFilter($customerId)
     {
         $this->addFilter('customer',
-            $this->getConnection()->quoteInto($this->_reviewDetailTable.'.customer_id=?', $customerId),
+            $this->getConnection()->quoteInto('detail.customer_id=?', $customerId),
             'string');
         return $this;
     }
@@ -66,10 +69,19 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
      */
     public function addStoreFilter($storeId)
     {
-        $this->addFilter('store',
-            $this->getConnection()->quoteInto($this->_reviewDetailTable.'.store_id=?', $storeId),
-            'string');
+        $this->_sqlSelect->join(array('store'=>$this->_reviewStoreTable), 'main_table.review_id=store.review_id AND store.store_id=' . (int)$storeId, array());
+        return $this;
+    }
 
+    /**
+     * Add stores data
+     *
+     * @param   int $storeId
+     * @return  Varien_Data_Collection_Db
+     */
+    public function addStoreData()
+    {
+        $this->_addStoreDataFlag = true;
         return $this;
     }
 
@@ -90,7 +102,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         }
         elseif (is_string($entity)) {
             $this->_sqlSelect->join($this->_reviewEntityTable,
-                $this->_reviewTable.'.entity_id='.$this->_reviewEntityTable.'.entity_id');
+                'main_table.entity_id='.$this->_reviewEntityTable.'.entity_id');
 
             $this->addFilter('entity',
                 $this->getConnection()->quoteInto($this->_reviewEntityTable.'.entity_code=?', $entity),
@@ -98,7 +110,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         }
 
         $this->addFilter('entity_pk_value',
-            $this->getConnection()->quoteInto($this->_reviewTable.'.entity_pk_value=?', $pkValue),
+            $this->getConnection()->quoteInto('main_table.entity_pk_value=?', $pkValue),
             'string');
 
         return $this;
@@ -126,7 +138,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         }
         elseif (is_string($status)) {
             $this->_sqlSelect->join($this->_reviewStatusTable,
-                $this->_reviewTable.'.status_id='.$this->_reviewStatusTable.'.status_id');
+                'main_table.status_id='.$this->_reviewStatusTable.'.status_id');
 
             $this->addFilter('status',
                 $this->getConnection()->quoteInto($this->_reviewStatusTable.'.status_code=?', $status),
@@ -162,10 +174,43 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
 
         return $this;
     }
-    /*
-    public function load($a=false, $b=false)
+
+    public function load($printQuery=false, $logQuery=false)
     {
-        parent::load(1);
+        parent::load($printQuery, $logQuery);
+        if($this->_addStoreDataFlag) {
+            $this->_addStoreData();
+        }
+
+
+
+        return $this;
     }
-    */
+
+    protected function _addStoreData()
+    {
+        $reviewsIds = $this->getColumnValues('review_id');
+        $storesToReviews = array();
+        if (count($reviewsIds)>0) {
+            $select = $this->getConnection()->select()
+                ->from($this->_reviewStoreTable)
+                ->where('review_id IN(?)', $reviewsIds);
+            $result = $this->getConnection()->fetchAll($select);
+            foreach ($result as $row) {
+                if (!isset($storesToReviews[$row['review_id']])) {
+                    $storesToReviews[$row['review_id']] = array();
+                }
+                $storesToReviews[$row['review_id']][] = $row['store_id'];
+            }
+        }
+
+        foreach ($this as $item) {
+            if(isset($storesToReviews[$item->getId()])) {
+                $item->setStores($storesToReviews[$item->getId()]);
+            } else {
+                $item->setStores(array());
+            }
+        }
+    }
+
 }

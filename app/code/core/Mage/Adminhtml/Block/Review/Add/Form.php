@@ -35,9 +35,12 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             ->load()
             ->toOptionArray();
 
+
+        $stores = Mage::getSingleton('core/store')->getResourceCollection()->load()->toOptionArray();
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
+
 
         $fieldset->addField('product_name', 'note', array(
                                 'label'     => __('Product'),
@@ -57,6 +60,14 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
                                 'required'  => true,
                                 'name'      => 'status_id',
                                 'values'    => $statuses,
+                            )
+        );
+
+         $fieldset->addField('select_stores', 'multiselect', array(
+                                'label'     => __('Visible In'),
+                                'required'  => true,
+                                'name'      => 'select_stores[]',
+                                'values'    => $stores
                             )
         );
 

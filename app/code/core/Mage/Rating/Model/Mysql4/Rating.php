@@ -34,40 +34,80 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $this->_uniqueFields = array( array('field' => 'rating_code', 'title' => __('Rating with the same title') ) );
     }
 
-    public function getEntitySummary($object)
+    public function getEntitySummary($object, $onlyForCurrentStore = true)
     {
         $read = $this->getConnection('read');
         $sql = "SELECT
                     SUM({$this->getTable('rating_vote')}.percent) as sum,
-                    COUNT(*) as count
+                    COUNT(*) as count,
+                    {$this->getTable('review/review_store')}.store_id
                 FROM
                     {$this->getTable('rating_vote')}
+                LEFT JOIN
+                    {$this->getTable('review/review_store')}
+                    ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id
                 WHERE
                     {$read->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $object->getEntityPkValue())}
-                GROUP BY
-                    {$this->getTable('rating_vote')}.entity_pk_value";
-        $data = $read->fetchRow($sql);
 
-        $object->addData( (is_array($data)) ? $data : array() );
-        return $object;
+                GROUP BY
+                    {$this->getTable('rating_vote')}.entity_pk_value, {$this->getTable('review/review_store')}.store_id";
+
+        $data = $read->fetchAll($sql);
+        if($onlyForCurrentStore) {
+            foreach ($data as $row) {
+                if($row['store_id']==Mage::getSingleton('core/store')->getId()) {
+                    $object->addData( $row );
+                }
+            }
+            return $object;
+        }
+
+        $result = array();
+
+        foreach ($data as $row) {
+            $clone = clone $object;
+            $clone->addData( $row );
+            $result[] = $clone;
+        }
+
+        return $result;
     }
 
-    public function getReviewSummary($object)
+    public function getReviewSummary($object, $onlyForCurrentStore = true)
     {
         $read = $this->getConnection('read');
         $sql = "SELECT
                     SUM({$this->getTable('rating_vote')}.percent) as sum,
-                    COUNT(*) as count
+                    COUNT(*) as count,
+                    {$this->getTable('review/review_store')}.store_id
                 FROM
                     {$this->getTable('rating_vote')}
-                WHERE
+                LEFT JOIN
+                    {$this->getTable('review/review_store')}
+                    ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id
+                  WHERE
                     {$read->quoteInto($this->getTable('rating_vote').'.review_id=?', $object->getReviewId())}
                 GROUP BY
-                    {$this->getTable('rating_vote')}.review_id";
+                    {$this->getTable('rating_vote')}.review_id, {$this->getTable('review/review_store')}.store_id";
 
-        $data = $read->fetchRow($sql);
+        $data = $read->fetchAll($sql);
+        if($onlyForCurrentStore) {
+            foreach ($data as $row) {
+                if($row['store_id']==Mage::getSingleton('core/store')->getId()) {
+                    $object->addData( $row );
+                }
+            }
+            return $object;
+        }
 
-        $object->addData( (is_array($data)) ? $data : array() );
-        return $object;
+        $result = array();
+
+        foreach ($data as $row) {
+            $clone = clone $object;
+            $clone->addData( $row );
+            $result[] = $clone;
+        }
+
+        return $result;
     }
 }

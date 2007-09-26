@@ -78,15 +78,15 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
      * @return Varien_Data_Collection_Db
      */
 
-    public function getEntitySummary($entityPkValue)
+    public function getEntitySummary($entityPkValue,  $onlyForCurrentStore = true)
     {
         $this->setEntityPkValue($entityPkValue);
-        return $this->getResource()->getEntitySummary($this);
+        return $this->getResource()->getEntitySummary($this, $onlyForCurrentStore);
     }
 
-    public function getReviewSummary($reviewId)
+    public function getReviewSummary($reviewId,  $onlyForCurrentStore = true)
     {
         $this->setReviewId($reviewId);
-        return $this->getResource()->getReviewSummary($this);
+        return $this->getResource()->getReviewSummary($this, $onlyForCurrentStore);
     }
 }

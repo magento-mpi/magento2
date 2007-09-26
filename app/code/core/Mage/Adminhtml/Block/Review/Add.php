@@ -53,8 +53,9 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                     formHidden : true,
 
                     gridRowClick : function(data, click) {
-                        if(click.currentTarget.id){
-                            review.productInfoUrl = click.currentTarget.id;
+
+                        if(Event.findElement(click,\'TR\').id){
+                            review.productInfoUrl = Event.findElement(click,\'TR\').id;
                             review.loadProductData();
                             review.showForm();
                             review.formHidden = false;
@@ -78,7 +79,7 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                             alert(response.message);
                         } else if( response.id ){
                             $("product_id").value = response.id;
-                            console.log(response);
+
                             $("product_name").innerHTML = \'<a href="' . Mage::getUrl('*/catalog_product/edit') . 'id/\' + response.id + \'" target="_blank">\' + response.name + \'</a>\';
                         } else if( response.message ) {
                             alert(response.message);
