@@ -52,7 +52,9 @@ class Mage_Core_Model_Translate
      * @var array
      */
     protected $_config;
-
+    
+    protected $_useCache = true;
+    
     /**
      * Cache object
      *
@@ -408,12 +410,9 @@ class Mage_Core_Model_Translate
      *
      * @return string
      */
-    public function getCacheChecksum()
+    /*public function getCacheChecksum()
     {
         if (is_null($this->_cacheChecksum)) {
-            /**
-             * Collect module files checksum
-             */
             foreach ($this->getModulesConfig() as $moduleName=>$info) {
             	$info = $info->asArray();
             	foreach ($info['files'] as $file) {
@@ -427,14 +426,14 @@ class Mage_Core_Model_Translate
             $this->_cacheChecksum = md5($this->_cacheChecksum);
         }
         return $this->_cacheChecksum;
-    }
+    }*/
 
     /**
      * Retrieve checksum validation status
      *
      * @return bool
      */
-    public function isCacheChecksumValid()
+    /*public function isCacheChecksumValid()
     {
         $old    = $this->getCache()->load($this->getCacheChecksumId());
         $current= $this->getCacheChecksum();
@@ -442,7 +441,7 @@ class Mage_Core_Model_Translate
             return true;
         }
         return false;
-    }
+    }*/
 
     /**
      * Retrieve cache object
@@ -468,10 +467,12 @@ class Mage_Core_Model_Translate
      */
     protected function _loadCache()
     {
-        if (!$this->isCacheChecksumValid()) {
+        //if (!$this->isCacheChecksumValid()) {
+        if (!$this->_canUseCache()) {
             return false;
         }
-        return $this->getCache()->load($this->getCacheId());
+        $data = $this->getCache()->load($this->getCacheId());
+        return $data;
     }
 
     /**
@@ -482,8 +483,16 @@ class Mage_Core_Model_Translate
      */
     protected function _saveCache()
     {
-        $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId());
+        //$this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId());
+        if (!$this->_canUseCache()) {
+            return $this;
+        }
         $this->getCache()->save($this->getData(), $this->getCacheId());
         return $this;
+    }
+    
+    protected function _canUseCache()
+    {
+        return $this->_useCache;
     }
 }
