@@ -42,15 +42,6 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     public function fetchDefault()
     {
-        $storeCode = Mage::registry('controller')->getStoreCode();
-        if(Mage::getConfig()->getIsInstalled()) {
-        	$store = Mage::getSingleton('core/store')->load($storeCode);
-        	Mage::getSingleton('core/website')->load($store->getWebsiteId());
-        } else {
-        	$store = Mage::getSingleton('core/store')->setId(0)->setCode($storeCode);
-        }
-
-    	// set defaults
         $d = explode('/', Mage::getStoreConfig('web/default/front'));
         $this->getFront()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : 'core',

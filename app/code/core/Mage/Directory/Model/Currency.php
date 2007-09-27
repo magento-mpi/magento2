@@ -111,7 +111,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function format($price)
     {
-        //return $this->getFilter()->filter($price);
+        $price = (int) $price;
         return Mage::getModel('core/locale')->currency($this->getCode())->toCurrency($price);
     }
 }

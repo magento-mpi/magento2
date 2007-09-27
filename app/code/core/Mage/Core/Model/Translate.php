@@ -132,6 +132,10 @@ class Mage_Core_Model_Translate
      */
     public function getModulesConfig()
     {
+        if (!Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')) {
+            return array();
+        }
+        
         $config = Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')->children();
         if (!$config) {
             return array();
@@ -152,7 +156,7 @@ class Mage_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
         }
         if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
-            $this->_config[self::CONFIG_KEY_STORE] = Mage::getSingleton('core/store')->getId();
+            $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
         return $this;
     }
@@ -302,7 +306,7 @@ class Mage_Core_Model_Translate
     public function getLocale()
     {
         if (is_null($this->_locale)) {
-            $this->_locale = Mage::getSingleton('core/locale')->getLocaleCode();
+            $this->_locale = Mage::app()->getLocale()->getLocaleCode();
         }
         return $this->_locale;
     }

@@ -67,6 +67,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_messagesBlock = null;
 
     protected $_helpers = array();
+    
+    /**
+     * Parent block
+     *
+     * @var Mage_Core_Block_Abstract
+     */
+    protected $_parentBlock;
 
     public function __construct($attributes=array())
     {
@@ -92,6 +99,28 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getRequest()
     {
         return $this->_request;
+    }
+    
+    /**
+     * Retrieve parent block
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getParentBlock()
+    {
+        return $this->_parentBlock;
+    }
+    
+    /**
+     * Set parent block
+     *
+     * @param   Mage_Core_Block_Abstract $block
+     * @return  Mage_Core_Block_Abstract
+     */
+    public function setParentBlock(Mage_Core_Block_Abstract $block)
+    {
+        $this->_parentBlock = $block;
+        return $this;
     }
 
     /**

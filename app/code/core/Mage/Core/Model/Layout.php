@@ -206,7 +206,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $parentName = $parent->getBlockName();
         }
 
-        $_profilerKey = 'BLOCK: '.$parentName.' -> '.$method;
+        $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
         Varien_Profiler::start($_profilerKey);
 
         if (!empty($parentName)) {

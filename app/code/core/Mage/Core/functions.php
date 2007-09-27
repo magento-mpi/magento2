@@ -103,10 +103,10 @@ function stripMagicQuotes($arr)
 function checkMagicQuotes()
 {
     if (get_magic_quotes_gpc()) {
-        if (!empty($_GET)) $_GET = StripMagicQuotes($_GET);
-        if (!empty($_POST)) $_POST = StripMagicQuotes($_POST);
-        if (!empty($_REQUEST)) $_REQUEST = StripMagicQuotes($_REQUEST);
-        if (!empty($_COOKIE)) $_COOKIE = StripMagicQuotes($_COOKIE);
+        if (!empty($_GET)) $_GET = stripMagicQuotes($_GET);
+        if (!empty($_POST)) $_POST = stripMagicQuotes($_POST);
+        if (!empty($_REQUEST)) $_REQUEST = stripMagicQuotes($_REQUEST);
+        if (!empty($_COOKIE)) $_COOKIE = stripMagicQuotes($_COOKIE);
     }
 }
 
@@ -118,7 +118,7 @@ function checkMagicQuotes()
  * @param string $errfile
  * @param integer $errline
  */
-function my_error_handler($errno, $errstr, $errfile, $errline){
+function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
     $errno = $errno & error_reporting();
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);

@@ -23,12 +23,6 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
 {
     public function fetchDefault()
     {
-    	if(Mage::getConfig()->getIsInstalled())  {
-	        Mage::getSingleton('core/store')->load(0);
-	        Mage::getSingleton('core/website')->load(0);
-    	} else {
-    		$store = Mage::getSingleton('core/store')->setId(0)->setStoreCode(Mage::registry('controller')->getStoreCode());
-    	}
     	// set defaults
         $d = explode('/', Mage::getStoreConfig('web/default/admin'));
         $this->getFront()->setDefault(array(

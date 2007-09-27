@@ -1,0 +1,117 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+/**
+ * Application area nodel
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Core_Model_App_Area
+{
+    const AREA_GLOBAL   = 'global';
+    const AREA_FRONTEND = 'frontend';
+    const AREA_ADMIN    = 'admin';
+    
+    const PART_CONFIG   = 'config';
+    const PART_EVENTS   = 'events';
+    const PART_TRANSLATE= 'translate';
+    const PART_DESIGN   = 'design';
+    
+    protected $_loadedParts;
+    protected $_code;
+    
+    public function __construct($areaCode) 
+    {
+        $this->_code = $areaCode;
+    }
+    
+    /**
+     * Load area data
+     *
+     * @param   string|null $part
+     * @return  Mage_Core_Model_App_Area
+     */
+    public function load($part=null)
+    {
+        if (is_null($part)) {
+            $this->_loadPart(self::PART_CONFIG)
+                ->_loadPart(self::PART_EVENTS)
+                ->_loadPart(self::PART_TRANSLATE)
+                ->_loadPart(self::PART_DESIGN);
+        }
+        else {
+            $this->_loadPart($part);
+        }
+        return $this;
+    }
+    
+    /**
+     * Loading part of area
+     *
+     * @param   string $part
+     * @return  Mage_Core_Model_App_Area
+     */
+    protected function _loadPart($part)
+    {
+        if (isset($this->_loadedParts[$part])) {
+            return $this;
+        }
+        Varien_Profiler::start('app/area/loadPart/'.$this->_code.'/'.$part);
+        switch ($part) {
+            case self::PART_CONFIG:
+                $this->_initConfig();
+                break;
+            case self::PART_EVENTS:
+                $this->_initEvents();
+                break;
+            case self::PART_TRANSLATE:
+                $this->_initTranslate();
+                break;
+            case self::PART_DESIGN:
+                $this->_initDesign();
+                break;
+        }
+        $this->_loadedParts[$part] = true;
+        Varien_Profiler::stop('app/area/loadPart/'.$this->_code.'/'.$part);
+        return $this;
+    }
+    
+    protected function _initConfig()
+    {
+        
+    }
+    
+    protected function _initEvents()
+    {
+        Mage::app()->getConfig()->loadEventObservers($this->_code);
+        return $this;
+    }
+    
+    protected function _initTranslate()
+    {
+        Mage::app()->getTranslator()->init($this->_code);
+        return $this;
+    }
+    
+    protected function _initDesign()
+    {
+        
+    }
+}

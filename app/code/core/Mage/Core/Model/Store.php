@@ -366,6 +366,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function convertPrice($price, $format=false)
     {
+        $price = (int) $price;
         if ($this->getCurrentCurrency() && $this->getDefaultCurrency()) {
             $value = $this->getDefaultCurrency()->convert($price, $this->getCurrentCurrency());
         } else {

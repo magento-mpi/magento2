@@ -21,28 +21,31 @@
 
 class Mage_Core_Controller_Varien_Front
 {
+    /**
+     * Request object
+     *
+     * @var Zend_Controller_Request_Http
+     */
     protected $_request;
-
+    
+    /**
+     * Response object
+     *
+     * @var Zend_Controller_Response_Http
+     */
     protected $_response;
-
+    
+    
     protected $_defaults = array();
-
+    
+    /**
+     * Available routers array
+     *
+     * @var array
+     */
     protected $_routers = array();
 
     protected $_urlCache = array();
-
-    protected $_storeCode;
-
-     public function setStoreCode($storeCode)
-     {
-     	$this->_storeCode = $storeCode;
-     	return $this;
-     }
-
-     public function getStoreCode()
-     {
-     	return $this->_storeCode;
-     }
 
     public function setDefault($key, $value=null)
     {
@@ -63,7 +66,12 @@ class Mage_Core_Controller_Varien_Front
         }
         return false;
     }
-
+    
+    /**
+     * Retrieve request object
+     *
+     * @return Zend_Controller_Request_Http
+     */
     public function getRequest()
     {
         if (empty($this->_request)) {
@@ -71,7 +79,12 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this->_request;
     }
-
+    
+    /**
+     * Retrieve response object
+     *
+     * @return Zend_Controller_Response_Http
+     */
     public function getResponse()
     {
         if (empty($this->_response)) {
@@ -79,14 +92,27 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this->_response;
     }
-
+    
+    /**
+     * Adding new router
+     *
+     * @param   string $name
+     * @param   Mage_Core_Controller_Varien_Router_Abstract $router
+     * @return  Mage_Core_Controller_Varien_Front
+     */
     public function addRouter($name, Mage_Core_Controller_Varien_Router_Abstract $router)
     {
         $router->setFront($this);
         $this->_routers[$name] = $router;
         return $this;
     }
-
+    
+    /**
+     * Retrieve router by name
+     *
+     * @param   string $name
+     * @return  Mage_Core_Controller_Varien_Router_Abstract
+     */
     public function getRouter($name)
     {
         if (isset($this->_routers[$name])) {
@@ -134,7 +160,6 @@ class Mage_Core_Controller_Varien_Front
 
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
-#Mage::log('DISPATCH: '.$request->getModuleName().'/'.$request->getControllerName().'/'.$request->getActionName());
             foreach ($this->_routers as $router) {
                 if ($router->match($this->getRequest())) {
                     break;

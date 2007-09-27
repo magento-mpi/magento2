@@ -58,15 +58,20 @@
 
    <adminhtml>
       <events>
-         <action_preDispatch_adminhtml>
+         <action_preDispatch_admin>
             <observers>
                <auth>
                   <type>singleton</type>
                   <class>admin/observer</class>
                   <method>actionPreDispatchAdmin</method>
                </auth>
+               <store>
+                  <type>singleton</type>
+                  <class>adminhtml/observer</class>
+                  <method>bindStore</method>
+               </store>
             </observers>
-         </action_preDispatch_adminhtml>
+         </action_preDispatch_admin>
          <core_locale_set_locale>
             <observers>
                <bind_locale>

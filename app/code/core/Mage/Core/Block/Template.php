@@ -93,10 +93,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve block view from file (template)
      *
-     * @param string $fileName
-     * @return string
+     * @param   string $fileName
+     * @return  string
      */
     public function fetchView($fileName)
     {

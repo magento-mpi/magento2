@@ -56,6 +56,13 @@ final class Mage {
      * @var array
      */
     static private $_registry = array();
+    
+    /**
+     * Application model
+     *
+     * @var Mage_Core_Model_App
+     */
+    static private $_app;
 
     static private $_useCache = array();
 
@@ -328,28 +335,25 @@ final class Mage {
     }
 
     /**
-     * Initialize Mage
+     * Initialize and retrieve application
+     *
+     * @param   string $store
+     * @param   string $etcDir
+     * @return  Mage_Core_Model_App
      */
-    public static function init($etcDir=null)
+    public static function app($store='', $etcDir='')
     {
-        set_error_handler('my_error_handler');
-        Varien_Profiler::start('init');
-
-        Mage::setRoot();
-        Mage::register('events', new Varien_Event_Collection());
-        Mage::register('config', new Mage_Core_Model_Config());
-
-        Varien_Profiler::start('init/config');
-        Mage::getConfig()->init($etcDir);
-        Varien_Profiler::stop('init/config');
-
-        //Mage::register('locale', Mage::getSingleton('core/locale'));
-
-        Mage::getConfig()->loadEventObservers('global');
-
-        Varien_Profiler::stop('init');
+        if (is_null(self::$_app)) {
+            Mage::setRoot();
+            Mage::register('events', new Varien_Event_Collection());
+            Mage::register('config', new Mage_Core_Model_Config());
+            
+            self::$_app = new Mage_Core_Model_App($store, $etcDir);
+            self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+        }
+        return self::$_app;
     }
-
+    
     /**
      * Front end main entry point
      *
@@ -362,16 +366,10 @@ final class Mage {
         try {
             Varien_Profiler::enable();
             Varien_Profiler::start('app');
-
-            self::init($etcDir);
-
-            $controller = new Mage_Core_Controller_Varien_Front();
-            self::register('controller', $controller);
-
-            $controller->setStoreCode($storeCode)
-                ->init()
-                ->dispatch();
-
+            
+            self::app($storeCode, $etcDir);
+            self::app()->getFrontController()->dispatch();
+            
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
