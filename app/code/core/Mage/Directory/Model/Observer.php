@@ -33,7 +33,7 @@ class Mage_Directory_Model_Observer
      * @param Varien_Event_Observer $observer
      */
     public function actionPreDispatch($observer)
-    {
+    {#return;///MOSHE
         $code = Mage::getSingleton('core/store')->getDefaultCurrencyCode();
         if ($code) {
             $currency = Mage::getModel('directory/currency')->load($code);

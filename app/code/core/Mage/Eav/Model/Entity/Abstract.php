@@ -179,7 +179,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function setType($type)
     {
 
-        Varien_Profiler::start('EAV_SETTYPE: ');#.get_class($this).'::'.__FUNCTION__);
         if (is_string($type)) {
             $config = Mage::getSingleton('eav/config')->getEntityType($type);
             #$config = Mage::getModel('eav/entity_type')->loadByCode($type);
@@ -195,7 +194,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         $this->_config = $config;
-        Varien_Profiler::stop('EAV_SETTYPE: ');#.get_class($this).'::'.__FUNCTION__);
 
         $this->_afterSetConfig();
 
@@ -1170,6 +1168,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     protected function _afterSetConfig()
     {
+
         $defaultAttributes = $this->_getDefaultAttributes();
 
         if ($this->getConfig()->getIsDataSharing()) {
@@ -1181,8 +1180,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $attributes = $this->getAttributesByCode();
         foreach ($defaultAttributes as $attr) {
             if (empty($attributes[$attr]) && !$this->getAttribute($attr)) {
-                $this->addAttribute(Mage::getModel('eav/entity_attribute')
-                    ->setAttributeCode($attr)->setBackendType('static'));
+                $attribute = Mage::getModel('eav/entity_attribute');
+                $attribute->setAttributeCode($attr);
+                $attribute->setBackendType('static');
+                $this->addAttribute($attribute);
             }
         }
     }

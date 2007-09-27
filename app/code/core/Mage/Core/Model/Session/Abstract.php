@@ -24,22 +24,22 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
-    
-	public function init($namespace)
+
+	public function init($namespace, $sessionName=null)
 	{
-		parent::init($namespace);
+		parent::init($namespace, $sessionName);
 		$hostArr = explode(':', $_SERVER['HTTP_HOST']);
 		$this->addHost($hostArr[0]);
 		return $this;
 	}
-	
+
     public function isValidForHost($host)
     {
     	$hostArr = explode(':', $host);
     	$hosts = $this->getSessionHosts();
     	return (!empty($hosts[$host[0]]));
     }
-    
+
     public function addHost($host)
     {
     	$hostArr = explode(':', $host);
@@ -48,7 +48,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     	$this->setSessionHosts($hosts);
     	return $this;
     }
-    
+
     public function getCookieDomain()
     {
     	$domain = Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN);
@@ -67,7 +67,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     	}
     	return $path;
     }
-    
+
     public function getCookieLifetime()
     {
     	$lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME);
@@ -76,7 +76,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     	}
     	return $lifetime;
     }
-    
+
 
     /**
      * Retrieve messages from session
@@ -89,7 +89,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         if (!$this->getData('messages')) {
             $this->setMessages(Mage::getModel('core/message_collection'));
         }
-        
+
         if ($clear) {
             $messages = clone $this->getData('messages');
             $this->getData('messages')->clear();
@@ -97,7 +97,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         }
         return $this->getData('messages');
     }
-    
+
     /**
      * Adding new message to message collection
      *
@@ -109,7 +109,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $this->getMessages()->add($message);
         return $this;
     }
-    
+
     /**
      * Adding new error message
      *
@@ -121,7 +121,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $this->addMessage(Mage::getSingleton('core/message')->error($message));
         return $this;
     }
-    
+
     /**
      * Adding new warning message
      *
@@ -133,7 +133,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $this->addMessage(Mage::getSingleton('core/message')->warning($message));
         return $this;
     }
-    
+
     /**
      * Adding new nitice message
      *
@@ -145,7 +145,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $this->addMessage(Mage::getSingleton('core/message')->notice($message));
         return $this;
     }
-    
+
     /**
      * Adding new success message
      *
@@ -157,7 +157,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $this->addMessage(Mage::getSingleton('core/message')->success($message));
         return $this;
     }
-    
+
     /**
      * Adding messages array to message collection
      *
@@ -173,5 +173,5 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         }
         return $this;
     }
-    
+
 }

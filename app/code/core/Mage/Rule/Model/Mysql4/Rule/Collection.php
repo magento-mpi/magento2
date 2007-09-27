@@ -88,7 +88,7 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
      * @param Mage_Rule_Model_Abstract $rule
      * @return Mage_Rule_Model_Mysql4_Rule_Collection
      */
-    public function addItem(Mage_Rule_Model_Abstract $rule)
+    public function addItem(Varien_Object $rule)
     {
         $rule->setEnv($this->getEnv())->setIsCollectionValidated(true);
         parent::addItem($rule);

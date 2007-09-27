@@ -93,7 +93,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
     }
 
     public function loadByAction($observer)
-    {
+    {#return;///MOSHE
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
@@ -104,7 +104,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
 
     public function save($observer = null)
-    {
+    {#return;///MOSHE
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
@@ -155,7 +155,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
     }
 
     public function bindCustomer($observer)
-    {
+    {#return;///MOSHE
         if ($observer->getEvent()->getCustomerSession() && $observer->getEvent()->getCustomerSession()->isLoggedIn()) {
             $this->setCustomerId($observer->getEvent()->getCustomerSession()->getCustomerId());
         }

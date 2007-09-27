@@ -28,7 +28,6 @@
  * @author     Andrey Korolyov <andrey@varien.com>
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-
 class Varien_Object
 {
     /**
@@ -414,7 +413,7 @@ class Varien_Object
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
                 $data = call_user_func_array(array($this, 'getData'), $args);
-                
+
                 //Varien_Profiler::stop($profilerKey);
                 return $data;
                 break;
@@ -423,7 +422,7 @@ class Varien_Object
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
                 $data = call_user_func_array(array($this, 'setData'), $args);
-                
+
                 //Varien_Profiler::stop($profilerKey);
                 return $data;
                 break;
@@ -431,14 +430,14 @@ class Varien_Object
             case 'uns' :
                 $key = $this->_underscore(substr($method,3));
                 array_unshift($args, $key);
-                
+
                 //Varien_Profiler::stop($profilerKey);
                 return call_user_func_array(array($this, 'unsetData'), $args);
                 break;
 
             case 'has' :
                 $key = $this->_underscore(substr($method,3));
-                
+
                 //Varien_Profiler::stop($profilerKey);
                 return isset($this->_data[$key]);
                 break;

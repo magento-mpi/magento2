@@ -21,19 +21,19 @@
 
 class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 {
-    public function start()
+    public function start($sessionName=null)
     {
     	if (isset($_SESSION)) {
     		return $this;
     	}
-    	
+
         Varien_Profiler::start(__METHOD__.'/setOptions');
         session_save_path(Mage::getBaseDir('session'));
         Varien_Profiler::stop(__METHOD__.'/setOptions');
 /*
         $sessionResource = Mage::getResourceSingleton('core/session');
         $sessionResource->setSaveHandler();
-*/      
+*/
 
 		if ($this->hasCookieLifetime()) {
 			ini_set('session.cookie_lifetime', $this->getCookieLifetime());
@@ -44,18 +44,22 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 		if ($this->hasCookieDomain()) {
 			ini_set('session.cookie_domain', $this->getCookieDomain());
 		}
-		
+
+		if (!empty($sessionName)) {
+		    session_name($sessionName);
+		}
+
         Varien_Profiler::start(__METHOD__.'/start');
         session_start();
         Varien_Profiler::stop(__METHOD__.'/start');
 
         return $this;
     }
-    
-    public function init($namespace)
+
+    public function init($namespace, $sessionName=null)
     {
     	if (!isset($_SESSION)) {
-    		$this->start();
+    		$this->start($sessionName);
     	}
         if (!isset($_SESSION[$namespace])) {
         	$_SESSION[$namespace] = array();
@@ -64,7 +68,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         return $this;
     }
-    
+
     public function getData($key='', $clear=false)
     {
         $data = parent::getData($key);
@@ -78,13 +82,13 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     {
         return session_id();
     }
-    
+
     public function unsetAll()
     {
     	$this->unsetData();
     	return $this;
     }
-    
+
     public function clear()
     {
         return $this->unsetAll();

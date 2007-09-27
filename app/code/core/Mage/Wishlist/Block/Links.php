@@ -32,7 +32,8 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
 
     public function addWishlistLink()
     {
-        $count = $this->getWishlistItems()->getSize();
+        $count = $this->getWishlist()->getItemsCount();
+        #$count = $this->getWishlistItems()->getSize();
         if( $count > 1 ) {
             $text = __('My Wishlist (%d items)', $count);
         } elseif( $count == 1 ) {
@@ -51,12 +52,13 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
             $customerId = Mage::getSingleton('customer/session')->getId();
 			$this->_wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer($customerId);
-
+/*
 Varien_Profiler::start('TEST2: '.__METHOD__);
 			$this->_wishlist->getProductCollection()
 				->addAttributeToFilter('store_id', array('in'=>$this->_wishlist->getSharedStoreIds()))
 				->load();
 Varien_Profiler::stop('TEST2: '.__METHOD__);
+*/
 		}
 
 		return $this->_wishlist;

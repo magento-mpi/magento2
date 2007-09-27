@@ -46,11 +46,12 @@ class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstrac
 		return $this;
 	}
 
-//	public function fetchItemsCount(Mage_Wishlist_Model_Wishlist $wishlist)
-//	{
-//	    $read = $this->getConnection('read');
-//	    $select = $read->select()->from($this->getTable('wishlist/item'))
-//	       ->where('wishlist_id=?', $wishlist->getId())
-//	       ->where()
-//	}
+	public function fetchItemsCount(Mage_Wishlist_Model_Wishlist $wishlist)
+	{
+	    $read = $this->getConnection('read');
+	    $select = $read->select()->from($this->getTable('wishlist/item'), 'count(*)')
+	       ->where('wishlist_id=?', $wishlist->getId())
+	       ->where('store_id in (?)', $wishlist->getSharedStoreIds());
+	    return $read->fetchOne($select);
+	}
 }// Class Mage_Wishlist_Model_Mysql4_Wishlist END

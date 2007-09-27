@@ -45,13 +45,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         $this->_options[] = array('value'=>$value, 'label'=>$label);
         return $this;
     }
-    
-    public function setName($name)
-    {
-        $this->setData('name', $name);
-        return $this;
-    }
-    
+
     public function setId($id)
     {
         $this->setData('id', $id);
@@ -68,11 +62,6 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
     {
         $this->setData('title', $title);
         return $this;
-    }
-    
-    public function getName()
-    {
-        return $this->getData('name');
     }
     
     public function getId()

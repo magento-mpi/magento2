@@ -63,7 +63,7 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
         $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
         $block = Mage::getModel($model)
             ->setPayment($payment)
-            ->createInfoBlock($this->getData('name').'.payment');
+            ->createInfoBlock($this->getName().'.payment');
         
         $html.= $block->toHtml();
         

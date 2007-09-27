@@ -35,7 +35,11 @@
       <models>
          <checkout>
             <class>Mage_Checkout_Model</class>
+            <resourceModel>checkout_mysql4</resourceModel>
          </checkout>
+         <checkout_mysql4>
+            <class>Mage_Checkout_Model_Mysql4</class>
+         </checkout_mysql4>
       </models>
    </global>
    <frontend>

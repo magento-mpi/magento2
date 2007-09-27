@@ -172,4 +172,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
         return $this;
     }
 
+    public function getItemsCount()
+    {
+        return $this->getResource()->fetchItemsCount($this);
+    }
+
 }// Class Mage_Wishlist_Model_Wishlist END

@@ -31,16 +31,13 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 	function toHtml()
 	{
 	    $this->setText('');
-	    $list = $this->getData('sorted_children_list');
-	    if (!empty($list)) {
-    	    foreach ($list as $name) {
-    	        $block = $this->getLayout()->getBlock($name);
-    	        if (!$block) {
-    	            Mage::throwException(__('Invalid block: %s', $name));
-    	        }
-    	        $this->addText($block->toHtml());
-    	    }
-	    }
+		foreach ($this->getSortedChildren() as $name) {
+			$block = $this->getLayout()->getBlock($name);
+			if (!$block) {
+				Mage::throwException(__('Invalid block: %s', $name));
+			}
+			$this->addText($block->toHtml());
+		}
 	    return parent::toHtml();
 	}
 }// Class Mage_Core_Block_List END

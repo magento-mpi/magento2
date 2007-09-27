@@ -46,9 +46,10 @@ class Mage_Eav_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
     public function fetchEntityTypeData($entityType)
     {
-        $data = array();
-
         $read = $this->getConnection('read');
+        if (!$read) {
+            return false;
+        }
         $select = $read->select()->from($this->getMainTable());
         if (is_numeric($entityType)) {
             $select->where('entity_type_id=?', $entityType);
@@ -60,6 +61,7 @@ class Mage_Eav_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             return false;
         }
 
+        $data = array();
         $data['entity_type'] = $row;
 
         $select = $read->select()->from($this->getTable('eav/attribute'))

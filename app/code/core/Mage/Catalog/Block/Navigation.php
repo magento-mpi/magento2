@@ -71,13 +71,13 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     public function getCurrentChildCategories()
     {
         $layer = Mage::getSingleton('catalog/layer');
-        $categoty   = $layer->getCurrentCategory();
+        $category   = $layer->getCurrentCategory();
         $collection = Mage::getResourceModel('catalog/category_collection')
 			->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
-            ->addIdFilter($categoty->getChildren())
+            ->addIdFilter($category->getChildren())
             ->load();
 
         $productCollection = Mage::getResourceModel('catalog/product_collection');

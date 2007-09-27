@@ -67,6 +67,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_helpers = array();
 
+    /**
+     * Flag to have blocks' output go directly to browser as oppose to return result
+     *
+     * @var boolean
+     */
+    protected $_directOutput = false;
+
     public function __construct($data=array())
     {
         $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
@@ -107,6 +114,17 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getArea()
     {
     	return $this->_area;
+    }
+
+    public function setDirectOutput($flag)
+    {
+        $this->_directOutput = $flag;
+        return $this;
+    }
+
+    public function getDirectOutput()
+    {
+        return $this->_directOutput;
     }
 
     public function generateXml()
@@ -155,7 +173,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $_profilerKey = 'BLOCK: '.$blockName;
         Varien_Profiler::start($_profilerKey);
-
         $block = $this->addBlock($className, $blockName);
 
         if (!empty($node['parent'])) {
@@ -191,7 +208,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-
         Varien_Profiler::stop($_profilerKey);
 
         return $this;
@@ -306,13 +322,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function addBlock($block, $blockName)
     {
+
         if (is_string($block)) {
             $blockObj = new $block();
         } else {
             $blockObj = $block;
         }
 
-        $blockObj->setData('name', $blockName);
+        $blockObj->setName($blockName);
         $blockObj->setLayout($this);
         $this->_blocks[$blockName] = $blockObj;
 

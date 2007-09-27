@@ -28,7 +28,6 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Renderer extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
-    protected $_parent = null;
     protected $_element = null;
     
     public function __construct()
@@ -57,10 +56,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Renderer exten
     
     public function getParent()
     {
-        if(!$this->_parent && $this->getData('parent')) {
-            $this->setParent($this->getData('parent'));
-        }
-        
         return $this->_parent;
     }
         

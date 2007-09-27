@@ -225,7 +225,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function removeAllAddresses()
     {
         foreach ($this->getAddressesCollection() as $address) {
@@ -331,7 +331,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         return sizeof($this->getAllItems())>0;
     }
-    
+
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
@@ -384,7 +384,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (!$product->getQty()) {
             $product->setQty(1);
         }
-        
+
         $item = $this->getItemByProduct($product);
         if (!$item) {
             $item = Mage::getModel('sales/quote_item');
@@ -395,7 +395,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
         return $item;
     }
-    
+
     /**
      * Retrieve quote item by product id
      *
@@ -420,11 +420,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     public function getItemsSummaryQty()
     {
         $qty = $this->getData('all_items_qty');
         if (is_null($qty)) {
+#            $qty = Mage::getResourceModel('sales_entity/quote')->fetchItemsSummaryQty($this);
             $qty = 0;
             foreach ($this->getAllItems() as $item) {
             	$qty+= $item->getQty();
@@ -433,7 +434,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $qty;
     }
-    
+
 /*********************** PAYMENTS ***************************/
 
     public function getPaymentsCollection()
@@ -495,7 +496,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
         return $payment;
     }
-    
+
     public function removePayment()
     {
     	$this->getPayment()->isDeleted(true);

@@ -30,7 +30,7 @@
 class Mage_Customer_Model_Observer
 {
     public function beforeLoadLayout($observer)
-    {
+    {#return;///MOSHE
         $loggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
 
     	$observer->getEvent()->getLayout()->getUpdate()

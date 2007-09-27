@@ -57,9 +57,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->addActionLayoutHandles();
 
         $update->addHandle('PRODUCT_'.$product->getId());
-        $update->load();
 
-        $this->generateLayoutXml()->generateLayoutBlocks();
+        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
 
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('tag/session');

@@ -48,7 +48,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
         $block = Mage::getModel($model);
         if ($block) {
             $block->setPayment($payment)
-                ->createInfoBlock($this->getData('name').'.payment');
+                ->createInfoBlock($this->getName().'.payment');
         }
 
         $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';

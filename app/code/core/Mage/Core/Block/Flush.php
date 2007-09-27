@@ -40,15 +40,12 @@ class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 
 	    ob_implicit_flush();
 	    
-	    $list = $this->getData('sorted_children_list');
-	    if (!empty($list)) {
-    	    foreach ($list as $name) {
-    	        $block = $this->getLayout()->getBlock($name);
-    	        if (!$block) {
-    	            Mage::exception(__('Invalid block: %s', $name));
-    	        }
-    	        echo $block->toHtml();
-    	    }
-	    }
+		foreach ($this->getSortedChildren() as $name) {
+			$block = $this->getLayout()->getBlock($name);
+			if (!$block) {
+				Mage::exception(__('Invalid block: %s', $name));
+			}
+			echo $block->toHtml();
+		}
 	}
 }// Class Mage_Core_Block_List END

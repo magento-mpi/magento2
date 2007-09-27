@@ -63,7 +63,7 @@ abstract class Mage_Core_Controller_Varien_Action
     protected $_flags = array();
 
     /**
-     * Cunstructor
+     * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
@@ -82,7 +82,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getLayout()->setArea('frontend');
 
         $this->_construct();
-        
+
         Mage::app()->loadArea($this->getLayout()->getArea());
     }
 
@@ -193,13 +193,7 @@ abstract class Mage_Core_Controller_Varien_Action
         // add default layout handles for this action
         $this->addActionLayoutHandles();
 
-        // dispatch event for adding handles to layout update
-    	Mage::dispatchEvent('beforeLoadLayout', array('action'=>$this, 'layout'=>$this->getLayout()));
-
-    	// load layout updates by specified handles
-        Varien_Profiler::start("$_profilerKey/load");
-        $this->getLayout()->getUpdate()->load();
-        Varien_Profiler::stop("$_profilerKey/load");
+        $this->loadLayoutUpdates();
 
 		if (!$generateXml) {
 		    return $this;
@@ -227,6 +221,21 @@ abstract class Mage_Core_Controller_Varien_Action
 
         // load action handle
         $update->addHandle($this->getFullActionName());
+
+        return $this;
+    }
+
+    public function loadLayoutUpdates()
+    {
+        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
+
+        // dispatch event for adding handles to layout update
+    	Mage::dispatchEvent('beforeLoadLayout', array('action'=>$this, 'layout'=>$this->getLayout()));
+
+    	// load layout updates by specified handles
+        Varien_Profiler::start("$_profilerKey/load");
+        $this->getLayout()->getUpdate()->load();
+        Varien_Profiler::stop("$_profilerKey/load");
 
         return $this;
     }
@@ -285,6 +294,8 @@ abstract class Mage_Core_Controller_Varien_Action
 
         Mage::dispatchEvent('beforeRenderLayout');
         Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
+
+        $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();
 

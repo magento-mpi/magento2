@@ -27,11 +27,11 @@
  */
 class Mage_Admin_Model_User extends Varien_Object
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
     }
-    
+
     /**
      * Get user id
      *
@@ -41,7 +41,7 @@ class Mage_Admin_Model_User extends Varien_Object
     {
         return $this->getUserId();
     }
-    
+
     /**
      * Get user ACL role
      *
@@ -51,7 +51,7 @@ class Mage_Admin_Model_User extends Varien_Object
     {
         return 'U'.$this->getUserId();
     }
-    
+
     /**
      * Get resource model
      *
@@ -61,7 +61,7 @@ class Mage_Admin_Model_User extends Varien_Object
     {
         return Mage::getResourceSingleton('admin/user');
     }
-    
+
     /**
      * Login user
      *
@@ -78,20 +78,20 @@ class Mage_Admin_Model_User extends Varien_Object
         if (Zend_Auth_Result::SUCCESS!==$resultCode) {
             return $this;
         }
-        
+
         $this->addData((array)$authAdapter->getResultRowObject());
-        
+
         $this->getResource()->recordLogin($this);
-        
+
         return $this;
     }
-    
+
     public function reload()
     {
         $this->load($this->getId());
         return $this;
     }
-    
+
     /**
      * Load user data by user id
      *
@@ -103,13 +103,13 @@ class Mage_Admin_Model_User extends Varien_Object
         $this->setData($this->getResource()->load($userId));
         return $this;
     }
-    
+
     public function loadByUsername($username)
     {
         $this->setData($this->getResource()->loadByUsername($username));
         return $this;
     }
-    
+
     /**
      * Save user data
      *
@@ -120,7 +120,7 @@ class Mage_Admin_Model_User extends Varien_Object
         $this->getResource()->save($this);
         return $this;
     }
-    
+
     /**
      * Delete user
      *
@@ -131,12 +131,12 @@ class Mage_Admin_Model_User extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-    
+
     public function getName($separator=' ')
     {
         return $this->getFirstname().$separator.$this->getLastname();
     }
-    
+
     public function hasAssigned2Role($userId)
     {
         return $this->getResource()->hasAssigned2Role($userId);

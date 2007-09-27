@@ -18,8 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-include "Varien/Profiler.php";
+#error_log('========================'."\n", 3, 'var/log/magento.log');
 
 /**
  * Class autoload
@@ -29,11 +28,17 @@ include "Varien/Profiler.php";
  */
 function __autoload($class)
 {
+    #static $loaded;
+    #if (isset($loaded[$class])) {
+    #    return;
+    #}
+#$timer = microtime(true);
     $classFile = uc_words($class, DS).'.php';
-
     Varien_Profiler::start('AUTOLOAD');
+    #$loaded[$class] = 1;
     include ($classFile);
     Varien_Profiler::stop('AUTOLOAD');
+#error_log($_SERVER['REMOTE_ADDR'].' - AUTOLOAD: '.$class.': '.(microtime(true)-$timer)."\n", 3, 'var/log/magento.log');
 }
 
 /**

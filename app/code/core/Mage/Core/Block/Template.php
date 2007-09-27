@@ -114,13 +114,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function renderView()
     {
         Varien_Profiler::start(__METHOD__);
-        
+
         $this->setScriptPath(Mage::getBaseDir('design'));
         $params = array('_relative'=>true);
         if ($area = $this->getArea()) {
             $params['_area'] = $area;
         }
-        
+
         $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);
         $html = $this->fetchView($templateName);
         Varien_Profiler::stop(__METHOD__);
@@ -157,22 +157,25 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function toHtml()
     {
-        if ($html = $this->_loadCache()) {
+        if (!($html = $this->_loadCache())) {
+
+            if (!$this->_beforeToHtml()) {
+                return '';
+            }
+
+            if (!$this->getTemplateName()) {
+                return '';
+            }
+
+            $html = $this->renderView();
+            $this->_saveCache($html);
+        }
+        if ($this->getLayout()->getDirectOutput()) {
+            echo $html;
+            return '';
+        } else {
             return $html;
         }
-
-        if (!$this->_beforeToHtml()) {
-            return '';
-        }
-
-        if (!$this->getTemplateName()) {
-            return '';
-        }
-
-        $html = $this->renderView();
-        $this->_saveCache($html);
-
-        return $html;
     }
 
     /**
@@ -191,7 +194,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         }
         return $block->setTemplate("$tplName.phtml")->toHtml();
     }
-    
+
     /**
      * Retirve escaped data
      *

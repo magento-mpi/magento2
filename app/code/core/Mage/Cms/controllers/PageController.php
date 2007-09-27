@@ -38,11 +38,15 @@ class Mage_Cms_PageController extends Mage_Core_Controller_Front_Action
 
 		$this->loadLayout();
 
-		$template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');
-		$this->getLayout()->getBlock('root')->setTemplate($template);
+		if ($root = $this->getLayout()->getBlock('root')) {
+    		$template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');
+    		$root->setTemplate($template);
+		}
 
-		$block = $this->getLayout()->createBlock('cms/page')->setPage($page);
-		$this->getLayout()->getBlock('content')->append($block);
+		if ($content = $this->getLayout()->getBlock('content')) {
+    		$block = $this->getLayout()->createBlock('cms/page')->setPage($page);
+    		$content->append($block);
+		}
 
 		$this->renderLayout();
 	}
