@@ -57,7 +57,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
         if ($data = $row->getData($this->getColumn()->getIndex())) {
         	$currency_code = $this->_getCurrencyCode($row);
         	if (!$currency_code) return $data;
-        	$data = Mage::getSingleton('core/locale')->currency($currency_code)->toCurrency($data);
+        	$data = round($data, 2);
+        	$data =Mage::app()->getLocale()->currency($currency_code)->toCurrency($data);
         	return $data;
         }
         return null;

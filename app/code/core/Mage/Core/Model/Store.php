@@ -366,7 +366,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function convertPrice($price, $format=false)
     {
-        $price = (int) $price;
         if ($this->getCurrentCurrency() && $this->getDefaultCurrency()) {
             $value = $this->getDefaultCurrency()->convert($price, $this->getCurrentCurrency());
         } else {
@@ -375,7 +374,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
 		if ($this->getCurrentCurrency() && $format) {
         	//$value = $this->getCurrentCurrency()->format($value);
-        	$value = Mage::getSingleton('core/locale')->currency($this->getCurrentCurrency()->getCode())->toCurrency($value);
+        	$value = $this->formatPrice($value);
         }
         return $value;
     }

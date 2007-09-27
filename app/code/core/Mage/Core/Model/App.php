@@ -155,7 +155,7 @@ class Mage_Core_Model_App
      */
     public function loadAreaPart($area, $part)
     {
-        $this->getArea($area, $part);
+        $this->getArea($area)->load($part);
         return $this;
     }
     

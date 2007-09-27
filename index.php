@@ -28,5 +28,6 @@ require 'app/Mage.php';
 Mage::useCache('config', false);
 Mage::useCache('layout', false);
 Mage::useCache('eav', false);
+Mage::useCache('translate', false);
 
 Mage::run('base');

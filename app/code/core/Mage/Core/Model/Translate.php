@@ -111,19 +111,23 @@ class Mage_Core_Model_Translate
     public function init($area)
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
-        if (!$this->_data = $this->_loadCache()) {
-            $this->_data = array();
-
-            foreach ($this->getModulesConfig() as $moduleName=>$info) {
-                $info = $info->asArray();
-                $this->_loadModuleTranslation($moduleName, $info['files']);
+        if ($this->_data = $this->_loadCache()) {
+            if ($this->_canUseCache()) {
+                return $this;
             }
-
-            $this->_loadThemeTranslation();
-            $this->_loadDbTranslation();
-            $this->_saveCache();
+            $this->getCache()->remove($this->getCacheId());
         }
 
+        $this->_data = array();
+
+        foreach ($this->getModulesConfig() as $moduleName=>$info) {
+            $info = $info->asArray();
+            $this->_loadModuleTranslation($moduleName, $info['files']);
+        }
+
+        $this->_loadThemeTranslation();
+        $this->_loadDbTranslation();
+        $this->_saveCache();
         return $this;
     }
 
@@ -493,6 +497,7 @@ class Mage_Core_Model_Translate
     
     protected function _canUseCache()
     {
-        return $this->_useCache;
+        //return $this->_useCache;
+        return Mage::useCache('translate');
     }
 }
