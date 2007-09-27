@@ -45,7 +45,7 @@ abstract class Mage_Core_Model_Message_Abstract
     
     public function getText()
     {
-        return __($this->getCode());
+        return $this->getCode();
     }
     
     public function getType()
