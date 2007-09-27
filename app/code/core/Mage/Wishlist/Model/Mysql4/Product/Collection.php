@@ -43,6 +43,7 @@ class Mage_Wishlist_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_E
 		    'store_id' => 'store_id',
 		    'added_at' => 'added_at',
 		    'wishlist_id' => 'wishlist_id',
+		    'wishlist_item_id' => 'wishlist_item_id',
 		), array('wishlist_id'=>$wishlist->getId()));
 		/*
 		$this->joinField('wishlist_item_id', 'wishlist/item', 'wishlist_item_id',  'product_id=e_id', array('wishlist_id'=>$wishlist->getId()))
