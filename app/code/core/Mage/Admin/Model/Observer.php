@@ -50,7 +50,7 @@ class Mage_Admin_Model_Observer
 	                    }
 					} elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
 	                    if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(__('Access Deny.'));
+	                            Mage::getSingleton('adminhtml/session')->addError(__('Access Denied.'));
 	                            $request->setParam('messageSent', true);
 	                    }					    
                     } else {
