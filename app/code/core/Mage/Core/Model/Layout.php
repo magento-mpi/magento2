@@ -411,6 +411,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (!$className = Mage::getConfig()->getBlockClassName($type)) {
                 Mage::throwException(__('Invalid block type: %s', $type));
             }
+            
             $helper = new $className();
             if ($helper) {
                 if ($helper instanceof Mage_Core_Block_Abstract) {
@@ -420,6 +421,15 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         return $this->_helpers[$type];
+    }
+    
+    public function helper($name)
+    {
+        if (!isset($this->_helpers[$name])) {
+            $class = Mage::getConfig()->getHelperClassName($name);
+            $this->_helpers[$name] = new $class();
+        }
+        return $this->_helpers[$name];
     }
 
     public function setBlockCache($frontend='Core', $backend='File',

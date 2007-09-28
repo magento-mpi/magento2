@@ -1,0 +1,1147 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+Supported layout update handles (action):
+- customer_account_index
+- customer_address_index
+- customer_address_view
+- customer_account_login
+- customer_account_logoutSuccess
+- customer_account_create
+- customer_account_forgotPassword
+- customer_account_edit
+- customer_review_index
+- customer_review_view
+- newsletter_manage_index
+- tag_list_index
+- tag_customer_index
+- tag_customer_view
+- tag_customer_edit
+- review_product_list
+- review_product_view
+- review_customer_index
+- sales_order_history
+- sales_order_view
+- sales_order_details
+- sales_order_print
+- wishlist_index_index
+
+- catalog_product_gallery
+- catalog_product_compare_index
+- catalogsearch_advanced_form
+- catalogsearch_advanced_result
+- catalogsearch_result_index
+
+- checkout_cart_index
+- paypal_express_review
+- checkout_onepage_index
+- checkout_onepage_progress
+- checkout_onepage_shippingMethod
+- checkout_onepage_review
+- checkout_onepage_success
+- checkout_multishipping_login
+- checkout_multishipping_register
+- checkout_multishipping_addresses
+- checkout_multishipping_shipping
+- checkout_multishipping_billing
+- checkout_multishipping_overview
+- checkout_multishipping_success
+
+Supported layout update handles (special):
+- default
+- noRoute
+- print
+- install_wizard
+- customer_logged_in
+- customer_logged_out
+- customer_account
+- customer_address
+- catalog_category_default
+- catalog_category_layered
+- catalog_product_view
+- checkout_multishipping
+- paypal_express_review_details
+
+-->
+<layout>
+
+<!--
+Default layout, loads most of the pages
+-->
+
+    <default>
+        <!-- Mage_Core -->
+        <block type="page/html" name="root" output="toHtml">
+            <action method="setTemplate"><template>page/3columns.phtml</template></action>
+            <block type="core/template" name="header" as="header">
+                <action method="setTemplate"><template>page/html/header.phtml</template></action>
+            </block>
+            <!--block type="page/html_header" name="header" as="header">
+                <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
+                <block type="page/html_toplinks" name="top.right.links" as="topRightLinks"/>
+                <block type="core/template" name="top.search" as="topSearch">
+                    <action method="setTemplate"><template>catalogsearch/form.mini.phtml</template></action>
+                </block>
+                <block type="core/text_list" name="top.menu" as="topMenu"/>
+
+            </block-->
+
+            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+
+            <block type="core/text_list" name="left" as="left"/>
+
+            <block type="core/messages" name="global_messages" as="global_messages"/>
+            <block type="core/messages" name="messages" as="messages"/>
+
+            <block type="core/text_list" name="content" as="content"/>
+
+            <block type="core/text_list" name="right" as="right">
+                <block type="wishlist/customer_sidebar" name="wishlist.sidebar">
+                    <action method="setTemplate"><template>wishlist/sidebar.phtml</template></action>
+                </block>
+            </block>
+
+            <block type="page/html_footer" name="footer" as="footer">
+                <action method="setTemplate"><template>page/html/footer.phtml</template></action>
+                <block type="core/store_switcher" name="store_switcher">
+                    <action method="setTemplate"><template>core/stores.phtml</template></action>
+                </block>
+                <block type="cms/block" name="footer_links">
+                    <action method="setBlockId"><block_id>footer_links</block_id></action>
+                </block>
+            </block>
+
+            <block type="core/text_list" name="before_body_end" as="before_body_end"/>
+        </block>
+
+        <block type="core/profiler" output="toHtml"/>
+
+        <!-- Mage_Catalog -->
+        <reference name="top.menu">
+            <block type="catalog/navigation" name="catalog.topnav">
+                <action method="setTemplate"><template>catalog/navigation/top.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="left">
+            <block type="core/template" name="left.permanent.callout">
+                <action method="setTemplate"><template>callouts/left_col.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar" >
+                <action method="setTemplate"><template>catalog/product/compare/sidebar.phtml</template></action>
+            </block>
+            <block type="core/template" name="right.permanent.callout">
+                <action method="setTemplate"><template>callouts/right_col.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Checkout -->
+        <reference name="right">
+            <block type="checkout/cart_sidebar" name="cart_sidebar" before="-">
+                <action method="setTemplate"><template>checkout/cart/sidebar.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Customer -->
+        <reference name="top.left.links">
+            <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}customer/account/"</a><label>My Account</label></action>
+        </reference>
+
+        <!-- Mage_Directory -->
+        <!--
+        <reference name="left">
+            <block type="directory/currency" name="left.currency">
+                <action method="setTemplate"><template>directory/currency.phtml</template></action>
+            </block>
+        </reference>
+        -->
+
+        <!-- Mage_GoogleAnalytics -->
+        <reference name="before_body_end">
+            <block type="google_analytics/urchin" name="urchin"/>
+        </reference>
+
+        <!-- Mage_Newsletter -->
+        <reference name="right">
+            <block type="newsletter/subscribe" name="right.newsletter">
+                <action method="setTemplate"><template>newsletter/subscribe.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Poll -->
+        <reference name="right">
+            <block type="poll/activePoll" name="right.poll">
+                <action method="setPollTemplate"><template>poll/active.phtml</template><type>poll</type></action>
+                <action method="setPollTemplate"><template>poll/result.phtml</template><type>results</type></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Tag -->
+        <reference name="left">
+            <block type="tag/popular" name="tags_popular">
+                <action method="setTemplate"><template>tag/popular.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Wishlist -->
+        <reference name="right">
+            <block type="wishlist/customer_sidebar" name="wishlist_sidebar" as="wishlist"  before="-">
+                <action method="setTemplate"><template>wishlist/sidebar.phtml</template></action>
+            </block>
+        </reference>
+
+    </default>
+
+<!--
+No route, will show on 404 page not found (currently not in use)
+-->
+
+    <noRoute>
+        <!-- Mage_Core -->
+        <!--
+        <reference name="content">
+            <block type="core/text" name="content.noRoute">
+                <action method="setText"><text><![CDATA[<div class="page-head"><h3>404 Error</h3></div><p>Page not found.</p>]]></text></action>
+            </block>
+        </reference>
+        -->
+    </noRoute>
+
+<!--
+Page layout for printing
+-->
+
+    <print>
+        <!-- Mage_Page -->
+        <block type="page/html" name="root" output="toHtml">
+            <action method="setTemplate"><template>page/print.phtml</template></action>
+
+            <block type="core/store" name="store" as="store"/>
+
+            <block type="page/html_head" name="head" as="head"/>
+
+            <block type="core/text_list" name="content" as="content"/>
+
+        </block>
+    </print>
+
+<!--
+Installation wizard step pages layout
+-->
+
+    <install_wizard>
+        <!-- Mage_Install -->
+        <block type="core/template" name="root" output="toHtml">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <block type="core/text_list" name="head" as="head">
+                <block type="core/text_tag" name="head.content_type">
+                    <action method="setTagName"><tagName>meta</tagName></action>
+                    <action method="setTagParam"><name>http-equiv</name><value>Content-Type</value></action>
+                    <action method="setTagParam"><name>content</name><value>text/html; charset=utf8</value></action>
+                </block>
+                <block type="core/text_tag" name="head.title">
+                    <action method="setTagName"><tagName>title</tagName></action>
+                    <action method="setContents"><contents>Magento Installation Wizard</contents></action>
+                </block>
+                <block type="core/text_tag" name="head.icon">
+                    <action method="setTagName"><tagName>link</tagName></action>
+                    <action method="setTagParam"><name>rel</name><value>icon</value></action>
+                    <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
+                    <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
+                </block>
+                <block type="core/text_tag" name="head.shortcut_icon">
+                    <action method="setTagName"><tagName>link</tagName></action>
+                    <action method="setTagParam"><name>rel</name><value>shortcut icon</value></action>
+                    <action method="setTagParam"><name>href</name><value>{{baseUrl}}favicon.ico</value></action>
+                    <action method="setTagParam"><name>type</name><value>image/x-icon</value></action>
+                </block>
+                <block type="core/text_tag_js" name="head.js.prototype">
+                    <action method="setSrc"><src>prototype/prototype.js</src></action>
+                </block>
+                <block type="core/text_tag_js" name="head.js.prototype.validation">
+                    <action method="setSrc"><src>prototype/validation.js</src></action>
+                </block>
+                <block type="core/text_tag_js" name="head.js.prototype.effects">
+                    <action method="setSrc"><src>scriptaculous/effects.js</src></action>
+                </block>
+                <block type="core/text_tag_js" name="head.js.translate">
+                    <action method="setSrc"><src>mage/translate.js</src></action>
+                </block>
+                <block type="core/text_tag_js" name="head.js.varien">
+                    <action method="setSrc"><src>varien/js.js</src></action>
+                </block>
+                <block type="core/text_tag_js" name="head.js.varien.form">
+                    <action method="setSrc"><src>varien/form.js</src></action>
+                </block>
+                <block type="core/text_tag_css" name="head.css.main">
+                    <action method="setHref"><href>frontend/default/default/css/styles.css</href></action>
+                </block>
+            </block>
+
+            <block type="page/html_header" name="header" as="header" />
+
+            <block type="core/text_list" name="left" as="left"/>
+            <block type="core/text_list" name="content" as="content"/>
+        </block>
+    </install_wizard>
+
+<!--
+Load this update on every page when customer is logged in
+-->
+
+    <customer_logged_in>
+        <reference name="top.left.links">
+            <action method="addLink"><li/><a>href="{{baseUrl}}customer/account/logout/"</a><label>Log Out</label></action>
+        </reference>
+    </customer_logged_in>
+
+<!--
+Load this update on every page when customer is logged out
+-->
+
+    <customer_logged_out>
+        <reference name="top.left.links">
+            <action method="addLink"><li/><a>href="{{baseUrl}}customer/account/"</a><label>Log In</label></action>
+        </reference>
+    </customer_logged_out>
+
+<!--
+Layout for customer login page
+-->
+
+    <customer_account_login>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="customer/form_login" name="customer_form_login">
+                <action method="setTemplate"><template>customer/form/login.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_login>
+
+<!--
+Layout for customer log out page
+-->
+
+    <customer_account_logoutSuccess>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="customer_logout">
+                <action method="setTemplate"><template>customer/logout.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_logoutSuccess>
+
+<!--
+New customer registration
+-->
+
+    <customer_account_create>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="customer/form_register" name="customer_form_register">
+                <action method="setTemplate"><template>customer/form/register.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_create>
+
+    <customer_account_forgotPassword>
+        <reference name="content">
+            <block type="core/template" name="forgotPassword">
+                <action method="setTemplate"><template>customer/form/forgotpassword.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_forgotPassword>
+
+    <customer_account_edit>
+        <update handle="cutomer_account"/>
+        <reference name="content">
+            <block type="customer/form_edit" name="customer_edit">
+                <action method="setTemplate"><template>customer/form/edit.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_edit>
+
+<!--
+Customer account pages, rendered for all tabs in dashboard
+-->
+
+    <customer_account>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+
+        <reference name="left">
+            <block type="customer/account_navigation" name="customer_account_navigation" before="-">
+                <action method="setTemplate"><template>customer/account/navigation.phtml</template></action>
+                <action method="addLink" translate="label"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
+                <action method="addLink" translate="label"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+                <action method="addLink" translate="label"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label><base>{{baseSecureUrl}}</base></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Sales -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
+        </reference>
+
+        <!-- Mage_Review -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label"><name>reviews</name><path>review/customer/</path><label>My Product Reviews</label></action>
+        </reference>
+
+        <!-- Mage_Tag -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
+        </reference>
+
+        <!-- Mage_Newsletter -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label"><name>newsletter</name><path>newsletter/manage/</path><label>Newsletter Subscriptions</label></action>
+        </reference>
+
+        <!-- Mage_Wishlist -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label"><name>wishlist</name><path>wishlist/</path><label>My Wishlist</label></action>
+        </reference>
+    </customer_account>
+
+<!--
+Customer account home dashboard layout
+-->
+
+    <customer_account_index>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/dashboard.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="customer/account_dashboard" name="customer_account_dashboard">
+                <action method="setTemplate"><template>customer/account/dashboard.phtml</template></action>
+                <block type="customer/account_dashboard_hello" name="customer_account_dashboard_hello" as="hello">
+                    <action method="setTemplate"><template>customer/account/dashboard/hello.phtml</template></action>
+                </block>
+                <block type="core/template" name="customer_account_dashboard_top" as="top" />
+                <block type="customer/account_dashboard_info" name="customer_account_dashboard_info" as="info">
+                    <action method="setTemplate"><template>customer/account/dashboard/info.phtml</template></action>
+                </block>
+                <block type="customer/account_dashboard_newsletter" name="customer_account_dashboard_newsletter" as="newsletter">
+                    <action method="setTemplate"><template>customer/account/dashboard/newsletter.phtml</template></action>
+                </block>
+                <block type="customer/account_dashboard_address" name="customer_account_dashboard_address" as="address">
+                    <action method="setTemplate"><template>customer/account/dashboard/address.phtml</template></action>
+                </block>
+                <block type="core/template" name="customer_account_dashboard_info1" as="info1" />
+                <block type="core/template" name="customer_account_dashboard_info2" as="info2" />
+            </block>
+        </reference>
+        <reference name="right">
+            <action method="unsetChild"><name>wishlist</name></action>
+            <action method="unsetChild"><name>right.poll</name></action>
+            <action method="unsetChild"><name>catalog_compare_sidebar</name></action>
+            <action method="unsetChild"><name>right.newsletter</name></action>
+            <block type="customer/account_dashboard_sidebar" name="customer_account_dashboard_sidebar">
+                <action method="setTemplate"><template>customer/account/dashboard/sidebar.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Sales -->
+        <reference name="customer_account_dashboard">
+            <action method="unsetChild"><name>top</name></action>
+            <block type="sales/order_recent" name="customer_account_dashboard_top" as="top">
+                <action method="setTemplate"><template>sales/order/recent.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Review -->
+        <reference name="customer_account_dashboard">
+            <action method="unsetChild"><name>customer_account_dashboard_info1</name></action>
+            <block type="review/customer_recent" name="customer_account_dashboard_info1" as="info1">
+                <action method="setTemplate"><template>review/customer/recent.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Tag -->
+        <reference name="customer_account_dashboard">
+            <action method="unsetChild"><name>customer_account_dashboard_info2</name></action>
+            <block type="tag/customer_recent" name="customer_account_dashboard_info2" as="info2">
+                <action method="setTemplate"><template>tag/customer/recent.phtml</template></action>
+            </block>
+        </reference>
+    </customer_account_index>
+
+<!--
+Customer account address book
+-->
+
+    <customer_address_index>
+        <!-- Mage_Customer -->
+        <reference name="content">
+            <block type="customer/address_book" name="address_book" before="-">
+                <action method="setTemplate"><template>customer/address/book.phtml</template></action>
+            </block>
+        </reference>
+    </customer_address_index>
+
+<!--
+Customer account address edit page
+-->
+
+    <customer_address>
+        <!-- Mage_Customer -->
+        <reference name="content">
+            <block type="customer/address_edit" name="customer_address_edit">
+                <action method="setTemplate"><template>customer/address/edit.phtml</template></action>
+            </block>
+        </reference>
+    </customer_address>
+
+<!--
+Wishlist page
+-->
+
+    <wishlist_index_index>
+        <!-- Mage_Wishlist -->
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="wishlist/customer_wishlist" name="customer.wishlist"/>
+        </reference>
+        <reference name="right">
+            <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
+        </reference>
+    </wishlist_index_index>
+
+<!--
+Category default layout
+-->
+
+    <catalog_category_default>
+        <reference name="left">
+            <block type="catalog/navigation" name="catalog.leftnav" before="-">
+                <action method="setTemplate"><template>catalog/navigation/left.phtml</template></action>
+            </block>
+            <block type="directory/currency" name="currency" before="-">
+                <action method="setTemplate"><template>directory/currency.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="catalog/category_view" name="category.products">
+                <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+                <block type="catalog/product_list" name="product_list"></block>
+            </block>
+        </reference>
+    </catalog_category_default>
+
+<!--
+Category layered navigation layout
+-->
+
+    <catalog_category_layered>
+        <reference name="left">
+            <block type="catalog/layer_view" name="catalog.leftnav" before="-">
+                <action method="setTemplate"><template>catalog/layer/view.phtml</template></action>
+            </block>
+            <block type="directory/currency" name="currency" before="-">
+                <action method="setTemplate"><template>directory/currency.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="catalog/category_view" name="category.products">
+                <action method="setTemplate"><template>catalog/category/view.phtml</template></action>
+                <block type="catalog/product_list" name="product_list"></block>
+            </block>
+        </reference>
+    </catalog_category_layered>
+
+<!--
+Compare products page
+-->
+
+    <catalog_product_compare_index>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
+            <action method="addJs"><script>varien/product.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="catalog/product_compare_list" name="catalog.compare.list">
+                <action method="setTemplate"><template>catalog/product/compare/list.phtml</template></action>
+            </block>
+        </reference>
+    </catalog_product_compare_index>
+
+<!--
+Product view
+-->
+
+    <catalog_product_view>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="catalog/product_view" name="product.info">
+                <action method="setTemplate"><template>catalog/product/view.phtml</template></action>
+                <block type="catalog/product_view_super_config" name="product.info.config" as="super_config">
+                    <action method="setTemplate"><template>catalog/product/view/super/config.phtml</template></action>
+                </block>
+                <block type="catalog/product_view_super_group" name="product.info.group" as="super_group">
+                    <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
+                </block>
+                <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products">
+                    <action method="setTemplate"><template>catalog/product/list/upsell.phtml</template></action>
+                </block>
+                <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="catalog/product_list_related" name="catalog.product.related" before="-">
+                <action method="setTemplate"><template>catalog/product/list/related.phtml</template></action>
+            </block>
+        </reference>
+
+        <!-- Mage_Review -->
+        <reference name="product.info.additional">
+            <block type="review/list" name="product_review_list"></block>
+        </reference>
+
+        <!-- Mage_Tag -->
+        <reference name="product.info.additional">
+            <block type="tag/product_list" name="product_tag_list" before="-"></block>
+        </reference>
+    </catalog_product_view>
+
+<!--
+Product additional images gallery popup
+-->
+
+    <catalog_product_gallery>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="catalog/product_gallery" name="catalog_product_gallery">
+                <action method="setTemplate"><template>catalog/product/gallery.phtml</template></action>
+            </block>
+        </reference>
+    </catalog_product_gallery>
+
+<!--
+Advanced search form
+-->
+
+    <catalogsearch_advanced_form>
+        <!-- Mage_Catalogsearch -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form">
+                <action method="setTemplate"><template>catalogsearch/advanced/form.phtml</template></action>
+            </block>
+        </reference>
+    </catalogsearch_advanced_form>
+
+<!--
+Advanced search results
+-->
+
+    <catalogsearch_advanced_result>
+        <!-- Mage_Catalogsearch -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form">
+                <action method="setTemplate"><template>catalogsearch/advanced/form.phtml</template></action>
+            </block>
+            <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result"></block>
+        </reference>
+    </catalogsearch_advanced_result>
+
+<!--
+Shopping cart
+-->
+
+    <checkout_cart_index>
+        <!-- Mage_Checkout -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/cart" name="checkout.cart">
+                <action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
+                <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+                <action method="chooseTemplate"/>
+
+                <block type="core/text_list" name="checkout.cart.methods" as="methods">
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage"/>
+                    <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping"/>
+                </block>
+
+                <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon">
+                    <action method="setTemplate"><template>checkout/cart/coupon.phtml</template></action>
+                </block>
+                <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping">
+                    <action method="setTemplate"><template>checkout/cart/shipping.phtml</template></action>
+                </block>
+                <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell">
+                    <action method="setTemplate"><template>checkout/cart/crosssell.phtml</template></action>
+                </block>
+            </block>
+        </reference>
+
+        <!-- Mage_Paypal -->
+        <reference name="checkout.cart.methods">
+            <block type="paypal/link_shortcut" name="checkout.cart.methods.paypal_express"/>
+        </reference>
+
+        <!-- Mage_Googlecheckout -->
+        <reference name="checkout.cart.methods">
+            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
+        </reference>
+    </checkout_cart_index>
+
+
+
+
+
+<!--
+PayPal Express Review page after shortcut link invocation
+-->
+
+    <paypal_express_review>
+        <!-- Mage_Paypal -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="paypal/express_review" name="paypal_express_review">
+                <action method="setTemplate"><template>paypal/express/review.phtml</template></action>
+                <block type="paypal/express_review_details" name="paypal_express_review_details" as="details">
+                    <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
+                </block>
+            </block>
+        </reference>
+    </paypal_express_review>
+
+<!--
+PayPal Express Review details block
+-->
+
+    <paypal_express_review_details>
+        <!-- Mage_Paypal -->
+        <block type="paypal/express_review_details" name="root" output="toHtml">
+            <action method="setTemplate"><template>paypal/express/review/details.phtml</template></action>
+        </block>
+    </paypal_express_review_details>
+
+<!--
+Product reviews page (?)
+-->
+
+    <reviews>
+        <!-- Mage_Review -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+    </reviews>
+
+<!--
+Product reviews page
+-->
+
+    <review_product_list>
+        <!-- Mage_Review -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="review/list_detailed" name="product.info">
+                <action method="setTemplate"><param>1</param></action>
+                <action method="setUsePager"><param>1</param></action>
+                <action method="setTemplate"><template>review/product/detailed.phtml</template></action>
+                <block type="catalog/product_view_super_config" name="product.info.config" as="super_config">
+                    <action method="setTemplate"><template>catalog/product/view/super/config.phtml</template></action>
+                </block>
+                <block type="catalog/product_view_super_group" name="product.info.group" as="super_group">
+                    <action method="setTemplate"><template>catalog/product/view/super/group.phtml</template></action>
+                </block>
+            </block>
+        </reference>
+    </review_product_list>
+
+    <review_product_view>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="review/view" name="review_view"/>
+        </reference>
+    </review_product_view>
+
+    <review_customer_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="review/customer_list" name="review_customer_list"/>
+        </reference>
+    </review_customer_index>
+
+<!--
+All tags page
+-->
+
+    <tag_list_index>
+        <!-- Mage_Tag -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="tag/all" name="tags_all">
+                <action method="setTemplate"><template>tag/cloud.phtml</template></action>
+            </block>
+        </reference>
+    </tag_list_index>
+
+    <tag_customer_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="tag/customer_tags" name="customer_tags"/>
+        </reference>
+    </tag_customer_index>
+
+    <tag_customer_view>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="tag/customer_view" name="customer_view"/>
+        </reference>
+    </tag_customer_view>
+
+    <tag_customer_edit>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="tag/customer_edit" name="customer_edit"/>
+        </reference>
+    </tag_customer_edit>
+
+
+    <sales_order_history>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_history" name="sales.order.history"/>
+        </reference>
+    </sales_order_history>
+
+    <sales_order_view>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_view" name="sales.order.view"/>
+        </reference>
+    </sales_order_view>
+
+    <sales_order_details>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_details" name="sales.order.details"/>
+        </reference>
+    </sales_order_details>
+
+    <sales_order_print>
+        <reference name="content">
+            <block type="sales/order_details" name="sales.order.details"/>
+        </reference>
+    </sales_order_print>
+
+    <customer_address_form>
+        <update handle="customer_account"/>
+        <update handle="customer_address"/>
+    </customer_address_form>
+
+
+<!--
+Multi address shipping checkout main layout,
+will be rendered on all checkout pages
+-->
+
+    <checkout_multishipping>
+        <!-- Mage_Checkout -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/multishipping_state" name="checkout_state">
+                <action method="setTemplate"><template>checkout/multishipping/state.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping>
+
+    <checkout_multishipping_login>
+        <update handle="customer_account_login"/>
+    </checkout_multishipping_login>
+
+    <checkout_multishipping_register>
+        <update handle="customer_account_create"/>
+    </checkout_multishipping_register>
+
+<!--
+Multi address shipping checkout selection of address per item page
+-->
+
+    <checkout_multishipping_address_select>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_address_select" name="checkout_address_select">
+                <action method="setTemplate"><template>checkout/multishipping/address/select.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_address_select>
+
+    <checkout_multishipping_address_newShipping>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_newShipping>
+
+    <checkout_multishipping_address_editShipping>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_editShipping>
+
+    <checkout_multishipping_address_editAddress>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_editAddress>
+
+    <checkout_multishipping_address_editBilling>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_editBilling>
+
+<!--
+Multi address shipping checkout address page
+-->
+
+    <checkout_multishipping_addresses>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_addresses" name="checkout_addresses">
+                <action method="setTemplate"><template>checkout/multishipping/addresses.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_addresses>
+
+<!--
+Multi address shipping checkout shipping information
+-->
+
+    <checkout_multishipping_shipping>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_shipping" name="checkout_shipping">
+                <action method="setTemplate"><template>checkout/multishipping/shipping.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_shipping>
+
+<!--
+Multi address shipping checkout billing information
+-->
+
+    <checkout_multishipping_billing>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_billing" name="checkout_billing">
+                <action method="setTemplate"><template>checkout/multishipping/billing.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_billing>
+
+<!--
+Multi address shipping checkout overview
+-->
+
+    <checkout_multishipping_overview>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_overview" name="checkout_overview">
+                <action method="setTemplate"><template>checkout/multishipping/overview.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_overview>
+
+<!--
+Multi address shipping checkout success
+-->
+
+    <checkout_multishipping_success>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_success" name="checkout_success">
+                <action method="setTemplate"><template>checkout/multishipping/success.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_multishipping_success>
+
+<!--
+One page checkout main layout
+-->
+
+    <checkout_onepage_index>
+        <!-- Mage_Checkout -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="right">
+            <action method="unsetChildren"></action>
+            <block type="checkout/onepage_progress" name="checkout.progress" before="-">
+                <action method="setTemplate"><template>checkout/onepage/progress.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="checkout/onepage" name="checkout.onepage">
+                <action method="setTemplate"><template>checkout/onepage.phtml</template></action>
+                <block type="checkout/onepage_login" name="checkout.onepage.login" as="login">
+                    <action method="setTemplate"><template>checkout/onepage/login.phtml</template></action>
+                </block>
+                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing">
+                    <action method="setTemplate"><template>checkout/onepage/billing.phtml</template></action>
+                </block>
+                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping">
+                    <action method="setTemplate"><template>checkout/onepage/shipping.phtml</template></action>
+                </block>
+                <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method">
+                    <action method="setTemplate"><template>checkout/onepage/shipping_method.phtml</template></action>
+                    <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available">
+                        <action method="setTemplate"><template>checkout/onepage/shipping_method/available.phtml</template></action>
+                    </block>
+                </block>
+                <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment">
+                    <action method="setTemplate"><template>checkout/onepage/payment.phtml</template></action>
+                    <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods"/>
+                </block>
+                <block type="checkout/onepage_review" name="checkout.onepage.review" as="review">
+                    <action method="setTemplate"><template>checkout/onepage/review.phtml</template></action>
+                    <block type="checkout/onepage_review_info" name="checkout.onepage.review.info" as="info">
+                        <action method="setTemplate"><template>checkout/onepage/review/info.phtml</template></action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </checkout_onepage_index>
+
+<!--
+One page checkout progress block
+-->
+
+    <checkout_onepage_progress>
+        <!-- Mage_Checkout -->
+        <block type="checkout/onepage_progress" name="root" output="toHtml">
+            <action method="setTemplate"><template>checkout/onepage/progress.phtml</template></action>
+        </block>
+    </checkout_onepage_progress>
+
+<!--
+One page checkout shipping methods block
+-->
+
+    <checkout_onepage_shippingMethod>
+        <!-- Mage_Checkout -->
+        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml">
+            <action method="setTemplate"><template>checkout/onepage/shipping_method/available.phtml</template></action>
+        </block>
+    </checkout_onepage_shippingMethod>
+
+
+<!--
+One page checkout order review block
+-->
+
+    <checkout_onepage_review>
+        <!-- Mage_Checkout -->
+        <block type="checkout/onepage_review_info" name="root" output="toHtml">
+            <action method="setTemplate"><template>checkout/onepage/review/info.phtml</template></action>
+        </block>
+    </checkout_onepage_review>
+
+    <checkout_onepage_success>
+        <reference name="content">
+            <block type="core/template" name="checkout.success">
+                <action method="setTemplate"><template>checkout/success.phtml</template></action>
+            </block>
+        </reference>
+    </checkout_onepage_success>
+
+
+    <customer_review_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="review/customer_list">
+                <action method="setUsePager"><flag>1</flag></action>
+            </block>
+        </reference>
+    </customer_review_index>
+
+    <customer_review_view>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="review/customer_view" name="customers_review"/>
+        </reference>
+    </customer_review_view>
+
+    <newsletter_manage_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="customer/newsletter" name="customer_newsletter"/>
+        </reference>
+    </newsletter_manage_index>
+
+
+    <catalogsearch_result_index>
+        <reference name="content">
+            <block type="catalogsearch/result" name="search.result"/>
+        </reference>
+    </catalogsearch_result_index>
+</layout>

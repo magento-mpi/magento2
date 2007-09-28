@@ -1,0 +1,88 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?if($_section=='subject'):?>
+Welcome <?=$customer->getName()?>
+<?else:?>
+    <?if($_type=='html'):?>
+Welcome <strong><?=$customer->getName()?></strong>!
+
+<p>Thank you very much for creating an account.</p>
+
+<p>To officially log in when you're visiting our site, simply click on "Login" or "My Account" located at the top of every page, and then enter your e-mail address and the password you have chosen.</p>
+
+<p>==========================================<br/>
+Use the following values when prompted to log in:<br/>
+E-mail: <?=$customer->getEmail()?><br/>
+Password: <?=$customer->getPassword()?><br/>
+==========================================</p>
+
+When you log in to your account, you will be able to do the following:<br/>
+
+* Proceed through checkout faster when making a purchase<br/>
+* Check the status of orders<br/>
+* View past orders<br/>
+* Make changes to your account information<br/>
+* Change your password<br/>
+* Store up to 5 alternative shipping addresses (for shipping to multiple family members and friends!)<br/>
+
+If you have any questions about your account or any other matter, please feel free to contact us at 
+<a href="mailto:magento@varien.com">magento@varien.com</a> or by phone at 1-111-111-1111.<br/>
+<br/>
+Thanks again!
+
+    <?else:?>
+Welcome <?=$customer->getName()?>!
+
+Thank you very much for creating an account.
+
+To officially log in when you're visiting our site, simply click on "Login" or "My Account" located at the top of every page, and then enter your e-mail address and the password you have chosen.
+
+==========================================
+
+Use the following values when prompted to log in:
+
+E-mail: <?=$customer->getEmail()?>
+
+Password: <?=$customer->getPassword()?>
+
+==========================================
+
+When you log in to your account, you will be able to do the following:
+
+* Proceed through checkout faster when making a purchase
+
+* Check the status of orders
+
+* View past orders
+
+* Make changes to your account information
+
+* Change your password
+
+* Store up to 5 alternative shipping addresses (for shipping to multiple family members and friends!)
+
+If you have any questions about your account or any other matter, please feel free to contact us at 
+magento@varien.com or by phone at 1-111-111-1111.
+
+
+Thanks again!
+    <?endif?>
+<?endif?>

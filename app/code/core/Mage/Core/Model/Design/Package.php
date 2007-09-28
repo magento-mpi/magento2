@@ -23,7 +23,7 @@ class Mage_Core_Model_Design_Package
 {
     const DEFAULT_AREA      = 'frontend';
     const DEFAULT_PACKAGE   = 'default';
-    const DEFAULT_THEME     = 'default';
+    const DEFAULT_THEME     = 'optimal';
     const FALLBACK_THEME    = 'default';
 
     /**

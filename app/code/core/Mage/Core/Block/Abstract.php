@@ -593,6 +593,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->getLayout()->getHelper($type);
     }
+    
+    public function helper($name)
+    {
+        return $this->getLayout()->helper($name);
+    }
 
     /**
      * Retrieve formating date

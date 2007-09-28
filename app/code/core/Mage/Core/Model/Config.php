@@ -562,6 +562,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $className;
         }
     }
+    
+    public function getHelperClassName($name)
+    {
+        $name = str_replace('/', '_Helper_', $name);
+        return 'Mage_' . uc_words($name);
+    }
 
     public function getModelClassName($modelClass)
     {
