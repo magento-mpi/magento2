@@ -99,7 +99,7 @@ class Mage_Admin_Model_Mysql4_User
                 $data['reload_acl_flag'] = $user->getReloadAclFlag();
             }
             if ($user->getPassword()) {
-                $data['password'] = md5($user->getPassword());
+                $data['password'] = $this->_encryptPassword($user->getPassword());
             }
          
             if ($user->getId()) {
@@ -140,4 +140,10 @@ class Mage_Admin_Model_Mysql4_User
     		return null;
     	}
     }
+
+    private function _encryptPassword($pwStr)
+    {
+        return md5($pwStr);
+    }
+
 }
