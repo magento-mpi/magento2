@@ -213,7 +213,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                         continue;
                     }
                     if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
-                        $path = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload');
+                        $path = Mage::app()->getStore()->getConfig('system/filesystem/upload');
                     }
                     else {
                         $path = $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload');

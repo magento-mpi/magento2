@@ -110,7 +110,7 @@ class Mage_Review_Model_Review extends Varien_Object
 
         $summaryData = Mage::getResourceModel('review/review_summary_collection')
             ->addEntityFilter($entityIds)
-            ->addStoreFilter(Mage::getSingleton('core/store')->getId())
+            ->addStoreFilter(Mage::app()->getStore()->getId())
             ->load();
 
         foreach( $collection->getItems() as $_item ) {

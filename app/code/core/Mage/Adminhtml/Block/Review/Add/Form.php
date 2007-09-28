@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             ->toOptionArray();
 
 
-        $stores = Mage::getSingleton('core/store')->getResourceCollection()->load()->toOptionArray();
+        $stores = Mage::app()->getStore()->getResourceCollection()->load()->toOptionArray();
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));

@@ -104,7 +104,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                     ));
             }
 
-            // $tag->setStoreId(Mage::getSingleton('core/store')->getId());
+            // $tag->setStoreId(Mage::app()->getStore()->getId());
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was successfully saved'));

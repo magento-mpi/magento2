@@ -92,6 +92,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         return $this;
     }
 
+    public function getDirectOutput()
+    {
+        return $this->getLayout()->getDirectOutput();
+    }
+
     /**
      * Retrieve block view from file (template)
      *
@@ -101,9 +106,19 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function fetchView($fileName)
     {
         extract ($this->_viewVars);
-        ob_start();
+        $do = $this->getDirectOutput();
+
+        if (!$do) {
+            ob_start();
+        }
+
         include $this->_viewDir.DS.$fileName;
-        return ob_get_clean();
+
+        if (!$do) {
+            return ob_get_clean();
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -170,12 +185,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             $html = $this->renderView();
             $this->_saveCache($html);
         }
-        if ($this->getLayout()->getDirectOutput()) {
-            echo $html;
-            return '';
-        } else {
-            return $html;
-        }
+        return $html;
     }
 
     /**
@@ -185,14 +195,12 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      * @param   array $assign
      * @return  string
      */
-    public function tpl($tplName, array $assign=array())
+    public function tpl($tplName, array $args=array())
     {
-        $block = $this->getLayout()->createBlock('core/template');
-        /* @var $block Mage_Core_Block_Template */
-        foreach ($assign as $k=>$v) {
-            $block->assign($k, $v);
-        }
-        return $block->setTemplate("$tplName.phtml")->toHtml();
+        extract($args);
+        ob_start();
+        include $this->_viewDir.DS.$tplName;
+        return ob_get_clean();
     }
 
     /**

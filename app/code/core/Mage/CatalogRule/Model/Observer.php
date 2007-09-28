@@ -34,7 +34,7 @@ class Mage_CatalogRule_Model_Observer
         if ($observer->hasStoreId()) {
             $sId = $observer->getStoreId();
         } else {
-            $sId = Mage::getSingleton('core/store')->getId();
+            $sId = Mage::app()->getStore()->getId();
         }
         
         if ($observer->hasCustomerGroupId()) {

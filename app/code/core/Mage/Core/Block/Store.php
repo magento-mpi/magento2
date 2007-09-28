@@ -31,7 +31,7 @@ class Mage_Core_Block_Store extends Mage_Core_Block_Template
     {
         $this->setTemplate('core/store.phtml');
 
-        $website = Mage::getSingleton('core/website');
+        $website = Mage::app()->getWebsite();
         $storeCodes = $website->getStoreCodes();
         
         $arrLanguages = array();
@@ -39,7 +39,7 @@ class Mage_Core_Block_Store extends Mage_Core_Block_Template
             if ($storeCode!='admin') {
                 $store = Mage::getModel('core/store')->setCode($storeCode);
                 $language = $store->getConfig('general/local/language');
-            	if (Mage::getSingleton('core/store')->getLanguageCode() != $language) {
+            	if (Mage::app()->getStore()->getLanguageCode() != $language) {
             	    $arrLanguages[$language] = $store->getUrl(array());
             	}
             	else {

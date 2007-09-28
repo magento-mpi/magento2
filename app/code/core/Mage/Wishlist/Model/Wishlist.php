@@ -155,7 +155,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->setStore(Mage::getSingleton('core/store'));
+            $this->setStore(Mage::app()->getStore());
         }
         return $this->_store;
     }

@@ -31,7 +31,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image extends Varien_Objec
     public function getSourceUrl()
     {
         if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
-            $url = Mage::getSingleton('core/store')->getConfig('web/url/upload') . $this->getType() . '/' . $this->getValue();
+            $url = Mage::app()->getStore()->getConfig('web/url/upload') . $this->getType() . '/' . $this->getValue();
         }
         else {
             $url = $this->getAttribute()->getEntity()->getStore()->getConfig('web/url/upload') . $this->getType() . '/' . $this->getValue();
@@ -42,7 +42,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image extends Varien_Objec
     public function getSourcePath()
     {
         if ($this->getAttribute()->getEntity()->getStoreId() == 0) {
-            $url = Mage::getSingleton('core/store')->getConfig('system/filesystem/upload') . '/' .$this->getType() . '/' . $this->getValue();
+            $url = Mage::app()->getStore()->getConfig('system/filesystem/upload') . '/' .$this->getType() . '/' . $this->getValue();
         }
         else {
             $url = $this->getAttribute()->getEntity()->getStore()->getConfig('system/filesystem/upload') . '/' . $this->getType() . '/' . $this->getValue();

@@ -39,7 +39,7 @@ class Mage_Review_Model_Mysql4_Review_Summary extends Mage_Core_Model_Mysql4_Abs
 
 	   	$select = $read->select()
             ->from($this->getMainTable())
-            ->where('store_id = ?', Mage::getSingleton('core/store')->getId())
+            ->where('store_id = ?', Mage::app()->getStore()->getId())
             ->where($field.'=?', $value);
         return $select;
     }

@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
             ->load()
             ->toOptionArray();
 
-         $stores = Mage::getSingleton('core/store')->getResourceCollection()->load()->toOptionArray();
+         $stores = Mage::app()->getStore()->getResourceCollection()->load()->toOptionArray();
 
         $form = new Varien_Data_Form(array(
                                         'id' => 'edit_form',

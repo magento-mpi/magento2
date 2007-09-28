@@ -37,8 +37,8 @@ class Mage_Adminhtml_Model_Observer
     
     public function bindStore()
     {
-        Mage::getSingleton('core/store')->load(0);
-        Mage::getSingleton('core/website')->load(0);
+        Mage::app()->getStore()->load(0);
+        Mage::app()->getWebsite()->load(0);
         return $this;
     }
 }

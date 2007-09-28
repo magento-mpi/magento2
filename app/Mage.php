@@ -189,7 +189,7 @@ final class Mage {
     	}
 
         if (empty($id)) {
-            $store = Mage::getSingleton('core/store');
+            $store = Mage::app()->getStore();
         } elseif (is_numeric($id)) {
             $store = Mage::getModel('core/store')->load($id);
             if (!$store->getCode()) {
@@ -216,7 +216,7 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        return Mage::getSingleton('core/store')->getUrl($params);
+        return Mage::app()->getStore()->getUrl($params);
     }
 
     public static function getUrl($route='', $params=array())
@@ -349,7 +349,7 @@ final class Mage {
     public static function currency($value, $format=true)
     {
         try {
-            $value = Mage::getSingleton('core/store')->convertPrice($value, $format);
+            $value = Mage::app()->getStore()->convertPrice($value, $format);
         }
         catch (Exception $e){
             $value = $e->getMessage();

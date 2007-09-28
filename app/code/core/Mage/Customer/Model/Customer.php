@@ -400,7 +400,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     public function getCustomerGroup()
     {
     	if (!$this->getData('customer_group')) {
-    		$storeId = $this->getStoreId() ? $this->getStoreId() : Mage::getSingleton('core/store')->getId();
+    		$storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
     		$this->setCustomerGroup(Mage::getStoreConfig('customer/create_account/default_group', $storeId));
     	}
     	return $this->getData('customer_group');
@@ -422,8 +422,8 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     public function getStore()
     {
         if (is_null($this->_store)) {
-            if ($this->getStoreId() == Mage::getSingleton('core/store')->getId()) {
-                $this->_store = Mage::getSingleton('core/store');
+            if ($this->getStoreId() == Mage::app()->getStore()->getId()) {
+                $this->_store = Mage::app()->getStore();
             } else {
                 $this->_store = Mage::getModel('core/store')->load($this->getStoreId());
             }

@@ -36,7 +36,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory/country');
         $countryNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_name');
         
-        $lang = Mage::getSingleton('core/store')->getLanguageCode();
+        $lang = Mage::app()->getStore()->getLanguageCode();
         
         $this->_sqlSelect->from($this->_countryTable);
         $this->_sqlSelect->join($countryNameTable, "$countryNameTable.country_id=$this->_countryTable.country_id AND $countryNameTable.language_code='$lang'");

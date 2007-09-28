@@ -62,7 +62,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         }
 
         $rootCategory = Mage::getModel('catalog/category')
-            ->load(Mage::getSingleton('core/store')->getConfig('catalog/category/root_id'));
+            ->load(Mage::app()->getStore()->getConfig('catalog/category/root_id'));
 
         if (!in_array($category->getId(), explode(',', $rootCategory->getAllChildren()))) {
             return false;

@@ -414,8 +414,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
         $request->setPackageQty($this->getItemQty());
-        $request->setStoreId(Mage::getSingleton('core/store')->getId());
-        $request->setWebsiteId(Mage::getSingleton('core/store')->getWebsiteId());
+        $request->setStoreId(Mage::app()->getStore()->getId());
+        $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
         $request->setFreeShipping($this->getFreeShipping());
 
         $result = Mage::getModel('shipping/shipping')

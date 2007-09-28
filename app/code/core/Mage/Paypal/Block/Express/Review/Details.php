@@ -49,7 +49,7 @@ class Mage_Paypal_Block_Express_Review_Details extends Mage_Core_Block_Template
 
     public function getItems()
     {
-		$priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
+		$priceFilter = Mage::app()->getStore()->getPriceFilter();
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
         $itemsFilter->addFilter($priceFilter, 'price');
@@ -61,7 +61,7 @@ class Mage_Paypal_Block_Express_Review_Details extends Mage_Core_Block_Template
     {
         $totals = $this->getAddress()->getTotals();
         $totalsFilter = new Varien_Filter_Object_Grid();
-        $totalsFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'value');
+        $totalsFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'value');
         return $totalsFilter->filter($totals);
     }
 }

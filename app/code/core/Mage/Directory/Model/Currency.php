@@ -60,7 +60,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     {
         $code = $this->getData('language_code');
         if (is_null($code)) {
-            $code = Mage::getSingleton('core/store')->getLanguageCode();
+            $code = Mage::app()->getStore()->getLanguageCode();
         }
         return $code;
     }

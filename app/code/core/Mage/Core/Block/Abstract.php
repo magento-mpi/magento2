@@ -610,13 +610,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
             return $date;
         }
-        $date = Mage::getSingleton('core/locale')->date(strtotime($date));
+        $date = Mage::app()->getLocale()->date(strtotime($date));
 
         if ($showTime) {
-            $format = Mage::getSingleton('core/locale')->getDateTimeFormat($format);
+            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
         }
         else {
-            $format = Mage::getSingleton('core/locale')->getDateFormat($format);
+            $format = Mage::app()->getLocale()->getDateFormat($format);
         }
 
         return $date->toString($format);
@@ -648,7 +648,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getModuleName());
         array_unshift($args, $expr);
-        return Mage::getSingleton('core/translate')->translate($args);
+        return Mage::app()->getTranslator()->translate($args);
     }
 
 

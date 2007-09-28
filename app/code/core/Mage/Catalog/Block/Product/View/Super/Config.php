@@ -49,7 +49,7 @@
     {
         $attributes = array();
         $options = array();
-        $store = Mage::getSingleton('core/store');
+        $store = Mage::app()->getStore();
         
         foreach ($this->getAllowProducts() as $productId => $productAttributes) {
         	foreach ($productAttributes as $attribute) {
@@ -139,7 +139,7 @@
     {
     	$value = Mage::registry('product')->getPricingValue($value);
     	$numberSign = $value >= 0 ? '+' : '-';
-    	return ' ' . $numberSign . ' ' . Mage::getSingleton('core/store')->formatPrice(abs($value));
+    	return ' ' . $numberSign . ' ' . Mage::app()->getStore()->formatPrice(abs($value));
     }
     
     public function isSelectedOption($value, $attribute) 

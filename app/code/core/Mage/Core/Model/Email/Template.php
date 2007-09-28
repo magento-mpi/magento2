@@ -215,7 +215,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function sendTransactional($templateId, $sender, $email, $name, $vars=array(), $storeId=null)
     {
     	if (is_null($storeId)) {
-    		$storeId = Mage::getSingleton('core/store')->getId();
+    		$storeId = Mage::app()->getStore()->getId();
     	}
     	/*$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
     	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);*/

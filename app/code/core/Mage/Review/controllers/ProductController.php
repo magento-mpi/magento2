@@ -55,8 +55,8 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                     ->setEntityPkValue($productId)
                     ->setStatusId(2) // pending
                     ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                    ->setStoreId(Mage::getSingleton('core/store')->getId())
-                    ->setStores(array(Mage::getSingleton('core/store')->getId()))
+                    ->setStoreId(Mage::app()->getStore()->getId())
+                    ->setStores(array(Mage::app()->getStore()->getId()))
                     ->save();
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());

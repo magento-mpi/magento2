@@ -48,7 +48,7 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
         if( !$this->_collection ) {
             $model = Mage::getModel('tag/tag');
             $this->_collection = $model->getResourceCollection()
-                ->addStoreFilter(Mage::getSingleton('core/store')->getId())
+                ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addStatusFilter($model->getApprovedStatus())
                 ->addPopularity()
                 ->addProductFilter($this->_getProductId())

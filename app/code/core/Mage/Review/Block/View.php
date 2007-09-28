@@ -63,7 +63,7 @@ class Mage_Review_Block_View extends Mage_Core_Block_Template
             $ratingCollection = Mage::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->setStoreFilter(Mage::getSingleton('core/store')->getId())
+                ->setStoreFilter(Mage::app()->getStore()->getId())
                 ->addRatingInfo()
                 ->load();
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
@@ -82,7 +82,7 @@ class Mage_Review_Block_View extends Mage_Core_Block_Template
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(Mage::getModel('review/review')->getTotalReviews($this->getProductData()->getId(), false, Mage::getSingleton('core/store')->getId()));
+            $this->setTotalReviewsCache(Mage::getModel('review/review')->getTotalReviews($this->getProductData()->getId(), false, Mage::app()->getStore()->getId()));
         }
         return $this->getTotalReviewsCache();
     }

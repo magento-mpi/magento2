@@ -61,7 +61,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         $tagModel->loadByName($tagName);
 
                         $tagModel->setName($tagName)
-                                ->setStoreId(Mage::getSingleton('core/store')->getId())
+                                ->setStoreId(Mage::app()->getStore()->getId())
                                 ->setStatus( ( $tagModel->getId() && $tagModel->getStatus() != $tagModel->getPendingStatus() ) ? $tagModel->getStatus() : $tagModel->getPendingStatus() )
                                 ->save();
 
@@ -76,7 +76,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         $tagRelationModel->setTagId($tagModel->getId())
                             ->setCustomerId($customerId)
                             ->setProductId($this->getRequest()->getParam('productId'))
-                            ->setStoreId(Mage::getSingleton('core/store')->getId())
+                            ->setStoreId(Mage::app()->getStore()->getId())
                             ->setCreatedAt( now() )
                             ->save();
                     } else {

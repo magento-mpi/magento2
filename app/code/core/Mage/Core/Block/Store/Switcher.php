@@ -36,7 +36,7 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getSingleton('core/store')
+            $stores = Mage::app()->getStore()
                 ->getWebsite()
                     ->getStoreCollection()
                         ->load();
@@ -48,6 +48,6 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
     
     public function getCurrentStoreId()
     {
-        return Mage::getSingleton('core/store')->getId();
+        return Mage::app()->getStore()->getId();
     }
 }

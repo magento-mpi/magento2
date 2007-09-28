@@ -32,7 +32,7 @@
  		$product = Mage::registry('product');
  		if($product->isSuperConfig()) {
  			$price = $product->getCalculatedPrice((array)$this->getRequest()->getParam('super_attribute', array()));
- 			return Mage::getSingleton('core/store')->formatPrice($price);
+ 			return Mage::app()->getStore()->formatPrice($price);
  		}
  		
  		return $product->getFormatedPrice();

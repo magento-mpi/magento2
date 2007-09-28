@@ -63,7 +63,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
             $groups = $this->getAddress()->getGroupedAllShippingRates();
             if (!empty($groups)) {
                 $ratesFilter = new Varien_Filter_Object_Grid();
-                $ratesFilter->addFilter(Mage::getSingleton('core/store')->getPriceFilter(), 'price');
+                $ratesFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'price');
 
                 foreach ($groups as $code => $groupItems) {
                 	$groups[$code] = $ratesFilter->filter($groupItems);

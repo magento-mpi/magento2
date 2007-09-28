@@ -40,7 +40,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
     {
         $locale = $this->getData('locale');
         if (is_null($locale)) {
-            $locale = Mage::getSingleton('core/locale')->getLocale();
+            $locale = Mage::app()->getLocale()->getLocale();
             $this->setData('locale', $locale);
         }
         return $locale;
@@ -79,7 +79,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->setTitle(__('Locale'))
             ->setClass('required-entry')
             ->setValue($this->getLocale()->__toString())
-            ->setOptions(Mage::getSingleton('core/locale')->getOptionLocales())
+            ->setOptions(Mage::app()->getLocale()->getOptionLocales())
             ->getHtml();
         return $html;
     }
@@ -97,7 +97,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->setTitle(__('Time Zone'))
             ->setClass('required-entry')
             ->setValue($this->getTimezone())
-            ->setOptions(Mage::getSingleton('core/locale')->getOptionTimezones())
+            ->setOptions(Mage::app()->getLocale()->getOptionTimezones())
             ->getHtml();
         return $html;
     }
@@ -109,7 +109,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getTimezone()
     {
-        return Mage::getSingleton('core/locale')->getTimezone();
+        return Mage::app()->getLocale()->getTimezone();
     }
     
     /**
@@ -125,7 +125,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->setTitle(__('Default Currency'))
             ->setClass('required-entry')
             ->setValue($this->getCurrency())
-            ->setOptions(Mage::getSingleton('core/locale')->getOptionCurrencies())
+            ->setOptions(Mage::app()->getLocale()->getOptionCurrencies())
             ->getHtml();
         return $html;
     }
@@ -137,7 +137,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getCurrency()
     {
-        return Mage::getSingleton('core/locale')->getCurrency();
+        return Mage::app()->getLocale()->getCurrency();
     }
     
     public function getFormData()

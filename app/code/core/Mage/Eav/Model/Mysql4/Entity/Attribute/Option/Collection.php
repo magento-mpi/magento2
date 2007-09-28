@@ -44,7 +44,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
     public function setStoreFilter($storeId=null, $useDefaultValue=true)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::getSingleton('core/store')->getId();
+            $storeId = Mage::app()->getStore()->getId();
         }
         if ($useDefaultValue) {
             $this->getSelect()

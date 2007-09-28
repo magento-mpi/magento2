@@ -87,7 +87,7 @@ class Mage_Shipping_Model_Rate_Result
 	
 	public function asArray()
 	{
-        $currencyFilter = Mage::getSingleton('core/store')->getPriceFilter();
+        $currencyFilter = Mage::app()->getStore()->getPriceFilter();
         $rates = array();
         $allRates = $this->getAllRates();
         foreach ($allRates as $rate) {

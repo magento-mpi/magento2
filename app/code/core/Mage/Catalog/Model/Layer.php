@@ -95,7 +95,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function getCurrentStore()
     {
-        return Mage::getSingleton('core/store');
+        return Mage::app()->getStore();
     }
 
     public function getFilterableAttributes()

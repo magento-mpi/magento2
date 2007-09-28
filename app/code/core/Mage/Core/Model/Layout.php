@@ -158,6 +158,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case 'action':
                     $this->_generateAction($node, $parent);
                     break;
+
+                case 'template':
+                    $this->_generateTemplate($node);
+                    break;
             }
         }
     }
@@ -251,7 +255,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         return $this;
     }
-
 
     /**
      * Save block in blocks registry

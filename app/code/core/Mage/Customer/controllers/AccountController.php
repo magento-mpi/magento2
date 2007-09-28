@@ -152,7 +152,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomerAsLoggedIn($customer)
-                    ->addSuccess(__('Thank you for registering with %s', Mage::getSingleton('core/store')->getName()) );
+                    ->addSuccess(__('Thank you for registering with %s', Mage::app()->getStore()->getName()) );
 
                 $customer->sendNewAccountEmail();
 
@@ -317,7 +317,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
 //        $this->loadLayout();
 //
 //        $collection = Mage::getModel('tag/tag')->getCollection();
-//        $collection->addStoreFilter(Mage::getSingleton('core/store')->getId())
+//        $collection->addStoreFilter(Mage::app()->getStore()->getId())
 //            ->addStatusFilter(1)
 //            ->addEntityFilter('customer', Mage::getSingleton('customer/session')->getCustomerId())
 //            ->load();

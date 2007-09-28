@@ -55,7 +55,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $data = $read->fetchAll($sql);
         if($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if($row['store_id']==Mage::getSingleton('core/store')->getId()) {
+                if($row['store_id']==Mage::app()->getStore()->getId()) {
                     $object->addData( $row );
                 }
             }
@@ -93,7 +93,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $data = $read->fetchAll($sql);
         if($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if($row['store_id']==Mage::getSingleton('core/store')->getId()) {
+                if($row['store_id']==Mage::app()->getStore()->getId()) {
                     $object->addData( $row );
                 }
             }

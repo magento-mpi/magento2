@@ -34,20 +34,20 @@ class Mage_Directory_Model_Observer
      */
     public function actionPreDispatch($observer)
     {#return;///MOSHE
-        $code = Mage::getSingleton('core/store')->getDefaultCurrencyCode();
+        $code = Mage::app()->getStore()->getDefaultCurrencyCode();
         if ($code) {
             $currency = Mage::getModel('directory/currency')->load($code);
-            Mage::getSingleton('core/store')->setDefaultCurrency($currency);
+            Mage::app()->getStore()->setDefaultCurrency($currency);
         }
 
         if ($newCode = $observer->getEvent()->getControllerAction()->getRequest()->getParam('CURRENCY')) {
-            Mage::getSingleton('core/store')->setCurrentCurrencyCode($newCode);
+            Mage::app()->getStore()->setCurrentCurrencyCode($newCode);
         }
 
-        $code = Mage::getSingleton('core/store')->getCurrentCurrencyCode();
+        $code = Mage::app()->getStore()->getCurrentCurrencyCode();
         if ($code) {
             $currency = Mage::getModel('directory/currency')->load($code);
-            Mage::getSingleton('core/store')->setCurrentCurrency($currency);
+            Mage::app()->getStore()->setCurrentCurrency($currency);
         }
 
     }

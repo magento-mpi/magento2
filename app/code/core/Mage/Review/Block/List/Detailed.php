@@ -39,7 +39,7 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
     {
         $productId = $this->getProductId();
         if(!$product = Mage::registry('product')) {
-            $storeId = (int) Mage::getSingleton('core/store')->getId();
+            $storeId = (int) Mage::app()->getStore()->getId();
             $product = Mage::getModel('catalog/product')
                 ->setStoreId($storeId)
                 ->load($productId)
@@ -96,7 +96,7 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
             $this->_collection = Mage::getModel('review/review')->getCollection();
 
             $this->_collection
-                ->addStoreFilter(Mage::getSingleton('core/store')->getId())
+                ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addEntityFilter('product', $this->getProductId())
                 ->addStatusFilter('approved')
                 ->setDateOrder();

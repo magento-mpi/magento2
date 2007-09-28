@@ -551,7 +551,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 }
             }
             if (is_null($this->_store)) {
-                $this->setStore(Mage::getSingleton('core/store'));
+                $this->setStore(Mage::app()->getStore());
             }
         }
         return $this->_store;

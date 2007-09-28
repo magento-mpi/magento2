@@ -40,7 +40,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     protected function _construct()
     {
         $this->_alnumFilter = new Zend_Filter_Alnum();
-        $this->_priceFilter = Mage::getSingleton('core/store')->getPriceFilter();
+        $this->_priceFilter = Mage::app()->getStore()->getPriceFilter();
         $this->_qtyFilter = new Varien_Filter_Sprintf('%d');
         $this->_isWishlistActive = Mage::getStoreConfig('wishlist/general/active')
             && Mage::getSingleton('customer/session')->isLoggedIn();

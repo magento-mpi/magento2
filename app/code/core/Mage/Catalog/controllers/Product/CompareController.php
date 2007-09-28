@@ -94,7 +94,7 @@
 	public function clearAction()
 	{
 		$items = Mage::getResourceModel('catalog/product_compare_item_collection')
-				->setStoreId(Mage::getSingleton('core/store')->getId());
+				->setStoreId(Mage::app()->getStore()->getId());
 
         if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 			$items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());

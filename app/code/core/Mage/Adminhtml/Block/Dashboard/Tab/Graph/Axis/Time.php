@@ -118,7 +118,7 @@
     public function getDateFormat() 
     {
         if(!$this->getData('date_format')) {
-            return Mage::getSingleton('core/locale')->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         }
         
         return $this->getData('date_format');

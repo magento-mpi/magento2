@@ -34,7 +34,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         try {
             $currencies = Mage::getResourceModel('directory/currency_collection')
                 ->addLanguageFilter()
-                ->addCodeFilter(Mage::getSingleton('core/store')->getAvailableCurrencyCodes())
+                ->addCodeFilter(Mage::app()->getStore()->getAvailableCurrencyCodes())
                 ->load();
         }
         catch (Exception $e){
@@ -42,7 +42,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         }
             
         $this->assign('currencies', $currencies);
-        $this->assign('currentCurrencyCode', Mage::getSingleton('core/store')->getCurrentCurrencyCode());
+        $this->assign('currentCurrencyCode', Mage::app()->getStore()->getCurrentCurrencyCode());
     }
     
     public function getCurrencyCount()
@@ -56,7 +56,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         if (is_null($collection)) {
             $collection =  Mage::getResourceModel('directory/currency_collection')
                 ->addLanguageFilter()
-                ->addCodeFilter(Mage::getSingleton('core/store')->getAvailableCurrencyCodes())
+                ->addCodeFilter(Mage::app()->getStore()->getAvailableCurrencyCodes())
                 ->load();
             $this->setData('currencies', $collection);
         }
@@ -72,7 +72,7 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
     {
         $code = $this->getData('current_currency_code');
         if (is_null($code)) {
-            $code = Mage::getSingleton('core/store')->getCurrentCurrencyCode();
+            $code = Mage::app()->getStore()->getCurrentCurrencyCode();
             $this->setData('current_currency_code', $code);
         }
         return $code;

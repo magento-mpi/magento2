@@ -49,7 +49,7 @@ function __autoload($class)
  */
 function __()
 {
-    return Mage::getSingleton('core/translate')->translate(func_get_args());
+    return Mage::app()->getTranslator()->translate(func_get_args());
 }
 
 /**

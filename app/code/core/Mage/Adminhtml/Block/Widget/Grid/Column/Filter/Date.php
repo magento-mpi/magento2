@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = Mage::getSingleton('core/locale');
+            $this->_locale = Mage::app()->getLocale();
         }
         return $this->_locale;
     }

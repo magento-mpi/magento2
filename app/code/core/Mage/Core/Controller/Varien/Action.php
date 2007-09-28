@@ -213,7 +213,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $update = $this->getLayout()->getUpdate();
 
         // load store handle
-        $update->addHandle('STORE_'.Mage::getSingleton('core/store')->getCode());
+        $update->addHandle('STORE_'.Mage::app()->getStore()->getCode());
 
         // load theme handle
         $package = Mage::getSingleton('core/design_package');
@@ -295,6 +295,7 @@ abstract class Mage_Core_Controller_Varien_Action
         Mage::dispatchEvent('beforeRenderLayout');
         Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
 
+        #ob_implicit_flush();
         $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();

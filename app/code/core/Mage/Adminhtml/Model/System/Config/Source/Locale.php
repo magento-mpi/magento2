@@ -27,6 +27,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Locale
 {
     public function toOptionArray()
     {
-        return Mage::getSingleton('core/locale')->getOptionLocales();
+        return Mage::app()->getLocale()->getOptionLocales();
     }
 }

@@ -111,7 +111,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('thumbnail')
-            ->setStoreId(Mage::getSingleton('core/store')->getId())
+            ->setStoreId(Mage::app()->getStore()->getId())
             ->addLinkTypeFilter()
             ->addStoreFilter()
             ->setPageSize($this->_maxItemCount);

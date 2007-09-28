@@ -89,7 +89,7 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
  	{
  		if( !$this->_compareItems ) {
  			$this->_compareItems = Mage::getResourceModel('catalog/product_compare_item_collection')
- 				->setStoreId(Mage::getSingleton('core/store')->getId());
+ 				->setStoreId(Mage::app()->getStore()->getId());
 			$this->_compareItems->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
 			$this->_compareItems
 				->addAttributeToSelect('name')

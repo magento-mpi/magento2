@@ -45,7 +45,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
         $storeId = $this->getRequest()->getParam('store');
         
         $prodCollection = Mage::getResourceModel('catalog/product_collection')
-            ->setStoreId(Mage::getSingleton('core/store')->getId())
+            ->setStoreId(Mage::app()->getStore()->getId())
             ->distinct(true)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
@@ -183,7 +183,7 @@ class Mage_Admin_ProductController extends Mage_Core_Controller_Front_Action
     {
         if (isset($_FILES['image'])) {
             $id = $this->getRequest()->getParam('product', -1);
-            $fileDir = Mage::getSingleton('core/store')->getDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
+            $fileDir = Mage::app()->getStore()->getDir('media').DS.'catalog'.DS.'product'.DS.($id%997);
             if (!file_exists($fileDir)) {
                 mkdir($fileDir, 0777, true);
                 chmod($fileDir, 0777);

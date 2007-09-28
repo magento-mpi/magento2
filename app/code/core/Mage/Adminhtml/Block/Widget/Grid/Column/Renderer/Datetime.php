@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
 	    if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    self::$_format = Mage::getSingleton('core/locale')->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+                    self::$_format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
                 }
                 catch (Exception $e) {
                 
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
 			$format = $this->_getFormat();
-			return Mage::getSingleton('core/locale')->date($data)->toString($format);
+			return Mage::app()->getLocale()->date($data)->toString($format);
         }
         return $this->getColumn()->getDefault();
     }

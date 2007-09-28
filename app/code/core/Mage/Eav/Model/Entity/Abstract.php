@@ -290,7 +290,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     public function setStore($storeId=null)
     {
-        $current = Mage::getSingleton('core/store');
+        $current = Mage::app()->getStore();
 
         if (is_null($storeId)) {
             $this->_store = $current;

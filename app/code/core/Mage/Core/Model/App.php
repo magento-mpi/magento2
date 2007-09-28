@@ -17,10 +17,10 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Applcation model
- * 
+ *
  * Application need have: areas, store, locale, translator, design package
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
@@ -28,87 +28,87 @@
 class Mage_Core_Model_App
 {
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
-    
+
     /**
      * Application loaded areas array
      *
      * @var array
      */
     protected $_areas = array();
-    
+
     /**
      * Application store object
      *
      * @var Mage_Core_Model_Store
      */
     protected $_store;
-    
+
     /**
      * Application website object
      *
      * @var Mage_Core_Model_Website
      */
     protected $_website;
-    
+
     /**
      * Application location object
      *
      * @var Mage_Core_Model_Locale
      */
     protected $_locale;
-    
+
     /**
      * Application translate object
      *
      * @var Mage_Core_Model_Translate
      */
     protected $_translator;
-    
+
     /**
      * Application design package object
      *
      * @var Mage_Core_Model_Design_Package
      */
     protected $_design;
-    
+
     /**
      * Application layout object
      *
      * @var Mage_Core_Model_Layout
      */
     protected $_layout;
-    
+
     /**
      * Application configuration object
      *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
-    
+
     /**
      * Application front controller
      *
      * @var Mage_Core_Controller_Varien_Front
      */
     protected $_frontController;
-    
-    public function __construct($store, $etcDir) 
+
+    public function __construct($store, $etcDir)
     {
         Varien_Profiler::start('app/construct');
-        
+
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         $this->_config  = Mage::getConfig()->init($etcDir);
         Mage::getSingleton('core/session');
-        
+
         $this->_store   = Mage::getSingleton('core/store')->load($store);
         $this->_website = Mage::getSingleton('core/website');
-        
+
         if ($this->_store->getWebsiteId()) {
             $this->_website->load($this->_store->getWebsiteId());
         }
 		Varien_Profiler::stop('app/construct');
     }
-    
+
     /**
      * Initialize application front controller
      *
@@ -121,7 +121,7 @@ class Mage_Core_Model_App
         $this->_frontController->init();
         return $this;
     }
-    
+
     /**
      * Redeclare custom error handler
      *
@@ -133,7 +133,7 @@ class Mage_Core_Model_App
         set_error_handler($handler);
         return $this;
     }
-    
+
     /**
      * Loading application area
      *
@@ -145,7 +145,7 @@ class Mage_Core_Model_App
         $this->getArea($code)->load();
         return $this;
     }
-    
+
     /**
      * Loding part of area data
      *
@@ -158,7 +158,7 @@ class Mage_Core_Model_App
         $this->getArea($area)->load($part);
         return $this;
     }
-    
+
     /**
      * Retrieve application area
      *
@@ -172,7 +172,7 @@ class Mage_Core_Model_App
         }
         return $this->_areas[$code];
     }
-    
+
     /**
      * Retrieve application store object
      *
@@ -182,7 +182,17 @@ class Mage_Core_Model_App
     {
         return $this->_store;
     }
-    
+
+    /**
+     * Retrieve application website object
+     *
+     * @return Mage_Core_Model_Website
+     */
+    public function getWebsite()
+    {
+        return $this->_website;
+    }
+
     /**
      * Retrieve application locale object
      *
@@ -195,7 +205,7 @@ class Mage_Core_Model_App
         }
         return $this->_locale;
     }
-    
+
     /**
      * Retrieve translate object
      *
@@ -208,7 +218,7 @@ class Mage_Core_Model_App
         }
         return $this->_translator;
     }
-    
+
     /**
      * Retrieve configuration object
      *
@@ -218,7 +228,7 @@ class Mage_Core_Model_App
     {
         return $this->_config;
     }
-    
+
     /**
      * Retrieve front controller object
      *

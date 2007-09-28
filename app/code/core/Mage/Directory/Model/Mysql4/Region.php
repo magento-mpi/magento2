@@ -54,7 +54,7 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function load(Mage_Directory_Model_Region $region, $regionId)
     {
-        $lang = Mage::getSingleton('core/store')->getLanguageCode();
+        $lang = Mage::app()->getStore()->getLanguageCode();
 
         $select = $this->_read->select()
             ->from($this->_regionTable)
@@ -68,7 +68,7 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function loadByCode(Mage_Directory_Model_Region $region, $regionCode, $countryId)
     {
-        $lang = Mage::getSingleton('core/store')->getLanguageCode();
+        $lang = Mage::app()->getStore()->getLanguageCode();
 
         $select = $this->_read->select()
             ->from($this->_regionTable)

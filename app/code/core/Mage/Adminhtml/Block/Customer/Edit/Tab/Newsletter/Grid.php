@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
 
     protected function _prepareColumns()
     {
-        $datetimeFormat = Mage::getSingleton('core/locale')->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $datetimeFormat = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $this->addColumn('id', array(
             'header'    =>  __('ID'),
             'align'     =>  'left',

@@ -239,11 +239,11 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $price = $this->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::getSingleton('core/store')->formatPrice($price[$index]['price']);
+                $price[$index]['formated_price'] = Mage::app()->getStore()->formatPrice($price[$index]['price']);
             }
         }
         else {
-            $price = Mage::getSingleton('core/store')->formatPrice($price);
+            $price = Mage::app()->getStore()->formatPrice($price);
         }
 
         return $price;
