@@ -207,6 +207,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 $parentBlock->append($block);
             }
         }
+        if (!empty($node['template'])) {
+            $block->setTemplate((string)$node['template']);
+        }
 
         if (!empty($node['output'])) {
             $method = (string)$node['output'];
@@ -411,7 +414,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (!$className = Mage::getConfig()->getBlockClassName($type)) {
                 Mage::throwException(__('Invalid block type: %s', $type));
             }
-            
+
             $helper = new $className();
             if ($helper) {
                 if ($helper instanceof Mage_Core_Block_Abstract) {
@@ -422,7 +425,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this->_helpers[$type];
     }
-    
+
     public function helper($name)
     {
         if (!isset($this->_helpers[$name])) {
