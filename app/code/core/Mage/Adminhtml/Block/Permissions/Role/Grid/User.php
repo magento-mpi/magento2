@@ -31,12 +31,35 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultSort('role_name');
+        $this->setDefaultSort('role_user_id');
         $this->setDefaultDir('asc');
         $this->setId('roleUserGrid');
+        $this->setDefaultFilter(array('in_role_user'=>1));
         $this->setUseAjax(true);
     }
 
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($column->getId() == 'in_role_users') {
+            $inRoleIds = $this->_getUsers();
+            if (empty($inRoleIds)) {
+                $inRoleIds = 0;
+            }
+            if ($column->getFilter()->getValue()) {
+            	$this->getCollection()->addFieldToFilter('user_id', array('in'=>$inRoleIds));
+            }
+            else {
+                if($inRoleIds) {
+                	$this->getCollection()->addFieldToFilter('user_id', array('nin'=>$inRoleIds));
+            	}
+            }
+        }
+        else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
+    }    
+    
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
@@ -48,10 +71,10 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
 
     protected function _prepareColumns()
     {
-        $this->addColumn('in_role_user', array(
+        $this->addColumn('in_role_users', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_role_user[]',
+            'name'      => 'in_role_user',
             'values'    => $this->_getUsers(),
             'align'     => 'center',
             'index'     => 'user_id'
