@@ -13,22 +13,22 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
-{
-	public function indexAction($coreRoute = null)
-    {
-    	Mage::getSingleton('cms/page')->load(Mage::getStoreConfig('web/default/cms_home_page'));
-    	$this->_forward('view', 'page');
-    }
 
-    public function noRouteAction($coreRoute = null)
+class Mage_Adminhtml_Model_System_Config_Source_Cms_Page
+{
+    protected $_options;
+
+    public function toOptionArray()
     {
-    	Mage::getSingleton('cms/page')->load(Mage::getStoreConfig('web/default/cms_no_route'));
-    	$this->_forward('view', 'page');
+        if (!$this->_options) {
+            $this->_options = Mage::getResourceModel('cms/page_collection')
+                ->load()->toOptionArray();
+        }
+        return $this->_options;
     }
 }

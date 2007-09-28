@@ -263,11 +263,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Save block in blocks registry
      *
      * @param string $name
-     * @param Mage_Core_Block_Abstract $block
+     * @param Mage_Core_Model_Layout $block
      */
     public function setBlock($name, $block)
     {
         $this->_blocks[$name] = $block;
+        return $this;
     }
 
     /**

@@ -34,4 +34,9 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Mage_Core_Model_Mysql4_Colle
         $this->_init('cms/page');
     }
 
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('identifier', 'title');
+    }
+
 }

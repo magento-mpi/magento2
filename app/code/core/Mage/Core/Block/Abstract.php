@@ -205,7 +205,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getLayout()
     {
-        #return $this->getData('layout');
         return $this->_layout;
     }
 
@@ -249,6 +248,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     public function setName($name)
     {
+        if (!empty($this->_name) && $this->getLayout()) {
+            $this->getLayout()
+                ->unsetBlock($this->_name)
+                ->setBlock($name, $this);
+        }
         $this->_name = $name;
         return $this;
     }
@@ -321,8 +325,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $blockName = $this->getName().'.'.$suffix;
 
             if ($this->getLayout()) {
-                $this->getLayout()->unsetBlock($block->getName());
-                $this->getLayout()->setBlock($blockName, $block);
+                $this->getLayout()
+                    ->unsetBlock($block->getName())
+                    ->setBlock($blockName, $block);
             }
 
             $block->setName($blockName);
@@ -593,7 +598,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->getLayout()->getHelper($type);
     }
-    
+
     public function helper($name)
     {
         return $this->getLayout()->helper($name);

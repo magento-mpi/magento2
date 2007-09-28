@@ -18,17 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
-{
-	public function indexAction($coreRoute = null)
-    {
-    	Mage::getSingleton('cms/page')->load(Mage::getStoreConfig('web/default/cms_home_page'));
-    	$this->_forward('view', 'page');
-    }
+$this->addConfigField('web/default/cms_home_page', 'CMS Home Page', array(
+    'frontend_type'=>'select',
+    'source_model'=>'adminhtml/system_config_source_cms_page',
+    'sort_order'=>1,
+), 'home');
 
-    public function noRouteAction($coreRoute = null)
-    {
-    	Mage::getSingleton('cms/page')->load(Mage::getStoreConfig('web/default/cms_no_route'));
-    	$this->_forward('view', 'page');
-    }
-}
+$this->addConfigField('web/default/cms_no_route', 'CMS No Route Page', array(
+    'frontend_type'=>'select',
+    'source_model'=>'adminhtml/system_config_source_cms_page',
+    'sort_order'=>2,
+), 'no-route');
