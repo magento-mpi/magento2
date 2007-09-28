@@ -34,6 +34,63 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $this->_uniqueFields = array( array('field' => 'rating_code', 'title' => __('Rating with the same title') ) );
     }
 
+    protected function _getLoadSelect($field, $value)
+    {
+        $read = $this->getConnection('read');
+
+        $select = $read->select()
+            ->from(array('main'=>$this->getMainTable()), array('rating_id', 'entity_id', 'position'))
+            ->joinLeft(array('title'=>$this->getTable('rating_title')),
+                          'main.rating_id=title.rating_id AND title.store_id = '. (int) Mage::getSingleton('core/store')->getId(),
+                          array('IF(title.value IS NULL, main.rating_code, title.value) AS rating_code'))
+            ->where('main.'.$field.'=?', $value);
+        return $select;
+    }
+
+    protected function _afterLoad(Mage_Core_Model_Abstract $object) {
+        parent::_afterLoad($object);
+        $select = $this->getConnection('read')->select()
+            ->from($this->getTable('rating_title'))
+            ->where('rating_id=?', $object->getId());
+
+        $data = $this->getConnection('read')->fetchAll($select);
+        $storeCodes = array();
+        foreach ($data as $row) {
+            $storeCodes[$row['store_id']] = $row['value'];
+        }
+        if(sizeof($storeCodes)>0) {
+            $object->setRatingCodes($storeCodes);
+        }
+        return $this;
+    }
+
+    protected function _afterSave(Mage_Core_Model_Abstract $object) {
+        parent::_afterSave($object);
+
+        if($object->hasRatingCodes()) {
+            try {
+                $this->getConnection('write')->beginTransaction();
+                $condition = $this->getConnection('write')->quoteInto('rating_id = ?', $object->getId());
+                $this->getConnection('write')->delete($this->getTable('rating_title'), $condition);
+                if ($ratingCodes = $object->getRatingCodes()) {
+                    foreach ($ratingCodes as $storeId=>$value) {
+                        $data = new Varien_Object();
+                        $data->setRatingId($object->getId())
+                            ->setStoreId($storeId)
+                            ->setValue($value);
+                        $this->getConnection('write')->insert($this->getTable('rating_title'), $data->getData());
+                    }
+                }
+                $this->getConnection('write')->commit();
+            }
+            catch (Exception $e) {
+                $this->getConnection('write')->rollBack();
+            }
+        }
+
+        return $this;
+    }
+
     public function getEntitySummary($object, $onlyForCurrentStore = true)
     {
         $read = $this->getConnection('read');

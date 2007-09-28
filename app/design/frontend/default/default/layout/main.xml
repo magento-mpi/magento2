@@ -726,7 +726,7 @@ Product reviews page
         </reference>
         <reference name="content">
             <block type="review/list_detailed" name="product.info" template="review/product/detailed.phtml">
-                <action method="setTemplate"><param>1</param></action>
+                <!--<action method="setTemplate"><param>1</param></action> -->
                 <action method="setUsePager"><param>1</param></action>
                 <block type="catalog/product_view_super_config" name="product.info.config" as="super_config" template="catalog/product/view/super/config.phtml"/>
                 <block type="catalog/product_view_super_group" name="product.info.group" as="super_group" template="catalog/product/view/super/group.phtml"/>

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
     {
         $review = Mage::registry('review_data');
         $product = Mage::getModel('catalog/product')->load($review->getEntityPkValue());
-
+        $customer = Mage::getModel('customer/customer')->load($review->getCustomerId());
         $statuses = Mage::getModel('review/review')
             ->getStatusCollection()
             ->load()
@@ -52,6 +52,18 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
         $fieldset->addField('product_name', 'note', array(
                                 'label'     => __('Product'),
                                 'text'      => '<a href="' . Mage::getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" target="_blank">' . $product->getName() . '</a>',
+                            )
+        );
+
+        if($customer->getId()) {
+            $customerText = __('<a href="%1$s" target="_blank">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', Mage::getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $customer->getFirstname(), $customer->getLastname(), $customer->getEmail());
+        } else {
+            $customerText  = __('Guest');
+        }
+
+        $fieldset->addField('customer', 'note', array(
+                                'label'     => __('Posted By'),
+                                'text'      => $customerText,
                             )
         );
 

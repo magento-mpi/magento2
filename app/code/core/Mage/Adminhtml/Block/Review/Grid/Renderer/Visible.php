@@ -19,7 +19,7 @@
  */
 
 /**
- * Adminhtml customers wishlist grid item renderer for item visibility
+ * Adminhtml review grid item renderer for item visibility
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -44,4 +44,4 @@ class Mage_Adminhtml_Block_Review_Grid_Renderer_Visible extends Mage_Adminhtml_B
 		}
 		return $sharedNames;
 	}
-}// Class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Visible END
+}// Class Mage_Adminhtml_Block_Review_Grid_Renderer_Visible END

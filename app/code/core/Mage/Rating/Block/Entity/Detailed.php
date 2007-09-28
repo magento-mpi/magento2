@@ -50,6 +50,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()
+            ->addRatingPerStoreName(Mage::getSingleton('core/store')->getId())
             ->load();
 
         if ($entityId) {

@@ -53,7 +53,10 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
 
     public function addRatingInfo()
     {
-        $this->_sqlSelect->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*");
+        $this->_sqlSelect->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*")
+            ->joinLeft(array('title'=>$this->getTable('rating/rating_title')),
+                          "main_table.rating_id=title.rating_id AND title.store_id = ". (int) Mage::getSingleton('core/store')->getId(),
+                          array("IF(title.value IS NULL, {$this->getTable('rating/rating')}.rating_code, title.value) AS rating_code"));
         return $this;
     }
 

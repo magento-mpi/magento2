@@ -39,6 +39,8 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
         $this->_init('rating/rating');
     }
 
+
+
     /**
      * add entity filter
      *
@@ -126,6 +128,13 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
         	    $rating->setSummary($item['sum']/$item['count']);
         	}
         }
+        return $this;
+    }
+
+    public function addRatingPerStoreName($storeId) {
+        $this->getSelect()->joinLeft(array('title'=>$this->getTable('rating_title')),
+                          'main_table.rating_id=title.rating_id AND title.store_id = '. (int) $storeId,
+                          array('IF(title.value IS NULL, main_table.rating_code, title.value) AS rating_code'));
         return $this;
     }
 }

@@ -142,6 +142,14 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'renderer'      => 'adminhtml/review_grid_renderer_visible'
         ));
 
+        $this->addColumn('type', array(
+            'header'    => __('Type'),
+            'type'      => 'select',
+            'index'     => 'type',
+            'filter'      => 'adminhtml/review_grid_filter_type',
+            'renderer'      => 'adminhtml/review_grid_renderer_type'
+        ));
+
         $this->addColumn('name', array(
             'header'    => __('Product Name'),
             'align'     =>'left',

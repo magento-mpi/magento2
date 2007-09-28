@@ -19,24 +19,17 @@
  */
 
 /**
- * Adminhtml review grid filter by store
+ * Adminhtml review grid item renderer for item type
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Review_Grid_Filter_Visible extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Mage_Adminhtml_Block_Review_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-	protected function _getOptions()
+	public function render(Varien_Object $row)
 	{
-		$options = Mage::registry('stores_select_collection')->toOptionArray();
-		array_unshift($options, array('label'=>'','value'=>''));
-		return $options;
+		return ($row->getCustomerId() ? __('Customer') : __('Guest'));
 	}
-
-	public function getCondition()
-	{
-		return $this->getValue();
-	}
-}// Class Mage_Adminhtml_Block_Review_Grid_Filter_Visible END
+}// Class Mage_Adminhtml_Block_Review_Grid_Renderer_Type END

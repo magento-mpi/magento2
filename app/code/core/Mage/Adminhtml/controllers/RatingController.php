@@ -67,6 +67,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                 $ratingModel = Mage::getModel('rating/rating');
 
                 $ratingModel->setRatingCode($this->getRequest()->getParam('rating_code'))
+                      ->setRatingCodes($this->getRequest()->getParam('rating_codes'))
                       ->setId($this->getRequest()->getParam('id'))
                       ->setEntityId(Mage::registry('entityId'))
                       ->save();
