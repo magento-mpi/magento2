@@ -1,1 +1,0 @@
-Create checkout Shipping, Billing, etc classes
