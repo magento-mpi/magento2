@@ -40,8 +40,7 @@ Default layout, loads most of the pages (?)
 -->
 
     <adminhtml>
-        <block type="core/template" name="root" output="toHtml">
-            <action method="setTemplate"><template>layout.phtml</template></action>
+        <block type="core/template" name="root" output="toHtml" template="layout.phtml">
             <action method="assign"><var>baseUrl</var><value>{{baseUrl}}</value></action>
         </block>
     </adminhtml>
@@ -53,9 +52,7 @@ Default layout, loads most of the pages
     <default>
         <block type="adminhtml/page" name="root" output="toHtml">
             <block type="adminhtml/page_header" name="header" as="header"></block>
-            <block type="page/js_translate" name="js_translate" as="js_translate">
-                <action method="setTemplate"><template>page/js/translate.phtml</template></action>
-            </block>
+            <block type="page/js_translate" name="js_translate" as="js_translate" template="page/js/translate.phtml"/>
             <block type="adminhtml/page_menu" name="menu" as="menu"></block>
             <block type="adminhtml/widget_breadcrumbs" name="breadcrumbs" as="breadcrumbs"></block>
             <block type="core/text_list" name="left" as="left"/>
@@ -96,8 +93,7 @@ Base preview layout (?)
 -->
 
     <preview>
-        <block type="core/template" name="root" output="toHtml">
-            <action method="setTemplate"><template>newsletter/template/preview.phtml</template></action>
+        <block type="core/template" name="root" output="toHtml" template="newsletter/template/preview.phtml">
             <block type="adminhtml/newsletter_template_preview" name="content" as="content"></block>
         </block>
     </preview>
@@ -107,8 +103,7 @@ Base preview layout
 -->
 
     <systemPreview>
-        <block type="core/template" name="root" output="toHtml">
-            <action method="setTemplate"><template>system/email/template/preview.phtml</template></action>
+        <block type="core/template" name="root" output="toHtml" template="system/email/template/preview.phtml">
             <block type="adminhtml/system_email_template_preview" name="content" as="content"></block>
         </block>
     </systemPreview>
