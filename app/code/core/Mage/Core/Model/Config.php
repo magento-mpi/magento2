@@ -563,6 +563,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
     }
     
+    /**
+     * Retrieve helper class name
+     *
+     * @param   string $name
+     * @return  string
+     */
     public function getHelperClassName($name)
     {
         $name = str_replace('/', '_Helper_', $name);

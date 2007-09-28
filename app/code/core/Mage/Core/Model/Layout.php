@@ -425,7 +425,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this->_helpers[$type];
     }
-
+    
+    /**
+     * Retrieve helper object
+     *
+     * @param   helper name $name
+     * @return  Mage_Core_Helper_Abstract
+     */
     public function helper($name)
     {
         if (!isset($this->_helpers[$name])) {

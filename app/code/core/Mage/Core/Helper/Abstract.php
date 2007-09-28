@@ -25,20 +25,114 @@
  */
 abstract class Mage_Core_Helper_Abstract
 {
+    /**
+     * Cache object
+     *
+     * @var Zend_Cache_Frontend_File
+     */
     protected static $_cache;
     
+    /**
+     * Helper module name
+     *
+     * @var string
+     */
+    protected $_moduleName;
+    
+    /**
+     * Rrtrieve helper cache object
+     *
+     * @return Zend_Cache_Frontend_File
+     */
     protected function _getCache()
     {
-        
+        if (!self::$_cache) {
+            self::$_cache = Zend_Cache::factory('Core', 'File',
+                array(),
+                array('cache_dir'=>Mage::getBaseDir('cache_helper'))
+            );
+        }
+        return self::$_cache;
     }
     
-    protected function _loadCache()
+    /**
+     * Loading cache data
+     *
+     * @param   string $id
+     * @return  mixed
+     */
+    protected function _loadCache($id)
     {
-        
+        return $this->_getCache()->load($id);
     }
     
-    protected function _saveCache()
+    /**
+     * Saving cache
+     *
+     * @param   mixed $data
+     * @param   string $id
+     * @param   array $tags
+     * @return  Mage_Core_Helper_Abstract
+     */
+    protected function _saveCache($data, $id, $tags=array())
     {
-        
+        $this->_getCache()->save($data, $id, $tags);
+        return $this;
+    }
+    
+    /**
+     * Removing cache
+     *
+     * @param   string $id
+     * @return  Mage_Core_Helper_Abstract
+     */
+    protected function _removeCache($id)
+    {
+        $this->_getCache()->remove($id);
+        return $this;
+    }
+    
+    /**
+     * Cleaning cache
+     *
+     * @param   array $tags
+     * @return  Mage_Core_Helper_Abstract
+     */
+    protected function _cleanCache($tags=array())
+    {
+        if (empty($tags)) {
+            $this->_getCache()->clean(Zend_Cache::CLEANING_MODE_ALL);
+        }
+        else {
+            $this->_getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
+        }
+        return $this;
+    }
+    
+    /**
+     * Retrieve helper module name
+     *
+     * @return string
+     */
+    protected function _getModuleName()
+    {
+        if (!$this->_moduleName) {
+            $class = get_class($this);
+            $this->_moduleName = substr($class, 0, strpos($class, '_Helper'));
+        }
+        return $this->_moduleName;
+    }
+    
+    /**
+     * Translate
+     *
+     * @return string
+     */
+    public function __()
+    {
+        $args = func_get_args();
+        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getModuleName());
+        array_unshift($args, $expr);
+        return Mage::app()->getTranslator()->translate($args);
     }
 }

@@ -25,57 +25,47 @@
             <a href="<?=$this->getUrl('')?>"><img src="<?=$this->getSkinUrl('images/logo.gif')?>" alt=""/></a>
         </h1>
         <p class="no-show"><a href="#main"><strong><?=$this->__('Skip to Main Content')?> &raquo;</strong></a></p>
-        <form id="search_mini_form" action="<?=$this->getUrl('catalogsearch/result')?>" method="get" onsubmit="if (getElementById('search').value == '<?=$this->__('Search entire store here...')?>' || getElementById('search').value == '') return false;">
+        <form id="search_mini_form" action="<?=$this->getUrl('catalogsearch/result')?>" method="get">
             <fieldset class="mini-search">
             <legend><?=$this->__('Search Site')?></legend>
-            <input id="search" type="text" class="input-text" name="q" value="<?if(!empty($query)):?><?=$query?><?else:?><?=$this->__('Search entire store here...')?><?endif?>" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/> 
+            <input id="search" type="text" class="input-text" name="q" value="<?=empty($query)?'':$query?>"/> 
             <input type="image" src="<?=$this->getSkinUrl('images/btn_mini_search.gif')?>" alt="<?=$this->__('Search')?>"/>
-            <div id="search_autocomplete" class="search-autocomplete"></div>
-            <script type="text/javascript">
-                new Ajax.Autocompleter(
-                    'search',
-                    'search_autocomplete',
-                    '<?=$this->getUrl('catalogsearch/ajax/suggest')?>',
-                    {
-                        paramName:"query",
-                        minChars:2,
-                        //indicator:"search_indicator",
-                        updateElement:getSelectionId
-                    }
-                );
-                function getSelectionId(li) {
-                    if (li.title) {
-                        $('search').value = li.title;
-                    }
-                    $('search_mini_form').submit();
-                }
-            </script>
             </fieldset>
         </form>
         <div class="quick-access">
             <div class="account-access">
             <?if($this->helper('customer/data')->isLoggedIn()):?>
-               <strong><?=__('Welcome, %s', 'test')?></strong> 
+               <strong><?=__('Welcome, %s', $this->helper('customer/data')->getCustomerName())?></strong> 
                 <ul>
-                    <li><a href="<?=$this->getUrl('customer/account')?>"><?=__('My Account')?></a></li>
-                    <li class="last"><a href="<?=$this->getUrl('customer/logout')?>"><?=__('Log Out')?></a></li>
+                    <li><a href="<?=$this->helper('customer/data')->getAccountUrl()?>"><?=__('My Account')?></a></li>
+                    <li class="last"><a href="<?=$this->helper('customer/data')->getLogoutUrl()?>"><?=__('Log Out')?></a></li>
                 </ul>
             <?else:?>
                 <strong><?=__('Welcome to Magento Demo Store!')?></strong> 
                 <ul>
-                    <li class=""><a href="<?=$this->getUrl('customer/account')?>"><?=__('My Account')?></a></li>
-                    <li class="last"><a href="<?=$this->getUrl('customer/login')?>"><?=__('Log In')?></a></li>
+                    <li class=""><a href="<?=$this->helper('customer/data')->getAccountUrl()?>"><?=__('My Account')?></a></li>
+                    <li class="last"><a href="<?=$this->helper('customer/data')->getLoginUrl()?>"><?=__('Log In')?></a></li>
                 </ul>            
             <?endif;?>
             </div>
             <div class="shop-access">
                 <ul>
-                    <li class=""><a href="/">test</a></li>
-                    <li class="last"><a href="/">test</a></li>
+                    <li><a href="<?=$this->helper('checkout/cart')->getCartUrl()?>"><?=__('My cart')?></a></li>
+                    <li><a href="<?=$this->getUrl('wishlist')?>"><?=__('My Wishlist')?></a></li>
+                    <li class="last"><a href="<?=$this->getUrl('checkout')?>"><?=__('Checkout')?></a></li>
                 </ul>
             </div>
         </div>
 
     </div>
 </div>
-<?=$this->getChildHtml('topMenu')?>
+<div class="header-nav-container">
+    <div class="header-nav">
+        <h4 class="no-show"><?=$this->__('Category Navigation:')?></h4>
+        <ul id="nav">
+        <?foreach ($this->helper('catalog/category')->getStoreCategories() as $_category):?>
+            <li><a href="<?=$this->helper('catalog/category')->getCategoryUrl($_category)?>"><?=$_category->getName()?></a></li>
+        <?endforeach?>
+        </ul>
+    </div>
+</div>

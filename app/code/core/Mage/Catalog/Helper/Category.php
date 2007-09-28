@@ -25,5 +25,52 @@
  */
 class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Retrieve category children nodes
+     *
+     * @param   int $parent
+     * @param   int $maxChildLevel
+     * @return  Varien_Data_Tree_Node_Collection
+     */
+    protected function _getChildCategories($parent, $maxChildLevel=1)
+    {
+        $collection = Mage::getResourceModel('catalog/category_collection')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('is_active');
+
+        $tree = Mage::getResourceModel('catalog/category_tree');
+
+        $nodes = $tree->loadNode($parent)
+            ->loadChildren($maxChildLevel-1)
+            ->getChildren();
+        $tree->addCollectionData($collection);
+
+        return $nodes;
+    }
+
+    /**
+     * Retrieve current store categories
+     *
+     * @param   int $maxChildLevel
+     * @return  Varien_Data_Tree_Node_Collection
+     */
+    public function getStoreCategories($maxChildLevel=1)
+    {
+        $parent = Mage::app()->getStore()->getConfig('catalog/category/root_id');
+        return $this->_getChildCategories($parent, $maxChildLevel);
+    }
     
+    /**
+     * Retrieve category url
+     *
+     * @param   Mage_Catalog_Model_Category $category
+     * @return  string
+     */
+    public function getCategoryUrl($category)
+    {
+        return Mage::getModel('catalog/category')
+			->setData($category->getData())
+			->getCategoryUrl();
+    }
 }

@@ -25,5 +25,10 @@
  */
 class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Abstract
 {
+    public function getProduct()
+    {
+        
+    }
+    
     
 }

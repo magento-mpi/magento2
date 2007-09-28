@@ -29,4 +29,34 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
+    
+    public function getCustomerName()
+    {
+        return Mage::getSingleton('customer/session')->getCustomer()->getName();
+    }
+    
+    public function getCurrentCustomer()
+    {
+        
+    }
+    
+    public function getCustomerAddress()
+    {
+        
+    }
+    
+    public function getLoginUrl()
+    {
+        return Mage::getUrl('customer/account/login');
+    }
+
+    public function getLogoutUrl()
+    {
+        return Mage::getUrl('customer/account/logout');
+    }
+    
+    public function getAccountUrl()
+    {
+        return Mage::getUrl('customer/account');
+    }
 }

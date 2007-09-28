@@ -206,17 +206,6 @@ class Mage_Core_Model_Design_Package
 		return $baseDir;
 	}
 
-	public function getTranslateBaseDir(array $params)
-	{
-		$this->updateParamDefaults($params);
-		if (empty($params['_language'])) {
-			$params['_language'] = Mage::getStoreConfig('general/local/language');
-		}
-		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
-			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'].DS.$params['_language'];
-		return $baseDir;
-	}
-
 	public function getSkinBaseDir(array $params=array())
 	{
 		$this->updateParamDefaults($params);
@@ -325,12 +314,6 @@ class Mage_Core_Model_Design_Package
     public function getTemplateFilename($file, array $params=array())
     {
     	$params['_type'] = 'template';
-    	return $this->getFilename($file, $params);
-    }
-
-    public function getTranslateFilename($file, array $params=array())
-    {
-    	$params['_type'] = 'translate';
     	return $this->getFilename($file, $params);
     }
 

@@ -25,5 +25,18 @@
  */
 class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Abstract
 {
+    public function getItemCount()
+    {
+        
+    }
     
+    public function getCartUrl()
+    {
+        return Mage::getUrl('checkout/cart');
+    }
+    
+    public function getLastItems()
+    {
+        
+    }
 }
