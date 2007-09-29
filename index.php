@@ -23,7 +23,7 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
     exit;
 }
 
-require 'app/Mage.php';
+require_once 'app/Mage.php';
 
 Mage::useCache('config', false);
 Mage::useCache('layout', false);

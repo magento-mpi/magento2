@@ -33,7 +33,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_SECURE_HOST      = 'web/secure/host';
     const XML_PATH_SECURE_PORT      = 'web/secure/port';
     const XML_PATH_SECURE_PATH      = 'web/secure/base_path';
-    
+
     protected $_priceFilter;
 
     protected $_website;
@@ -53,7 +53,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $this->_init('core/store');
     }
-    
+
     /**
      * Loading store data
      *
@@ -69,7 +69,28 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-    
+
+    public function loadConfig($code)
+    {
+        if (is_numeric($code)) {
+            foreach (Mage::getConfig()->getNode('stores')->children() as $storeCode=>$store) {
+                if ((int)$store->system->store->id==$code) {
+                    $code = $storeCode;
+                    break;
+                }
+            }
+        } else {
+            $store = Mage::getConfig()->getNode('stores/'.$code);
+        }
+        if (!empty($store)) {
+            $this->setCode($code);
+            $id = (int)$store->system->store->id;
+            $this->setId($id)->setStoreId($id);
+            $this->setWebsiteId((int)$store->system->website->id);
+        }
+        return $this;
+    }
+
     /**
      * Retrieve store identifier
      *
@@ -82,7 +103,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::getId();
     }
-    
+
     /**
      * Retrieve store code
      *

@@ -77,6 +77,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
      */
     public function getCustomerId()
     {
+        return $this->getId();
         return $this->getCustomer()->getId();
     }
 
@@ -87,6 +88,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
      */
     public function isLoggedIn()
     {
+        return (bool)$this->getId();
         $customer = $this->getCustomer();
         return ($customer instanceof Mage_Customer_Model_Customer) && $customer->getId();
     }

@@ -64,11 +64,11 @@ class Mage_Log_Model_Visitor extends Varien_Object
     {
         $session = Mage::getSingleton('core/session');
         $now = $this->getResource()->getNow();
+
         $data = $this->getResource()->load($session->getLogVisitorId());
         if ($data) {
             $this->setData($data);
         } else {
-
             $this->setSessionId($session->getSessionId());
             $this->setFirstVisitAt($now);
         }
@@ -94,10 +94,11 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function loadByAction($observer)
     {#return;///MOSHE
+        /*
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
-
+        */
         $this->load(Mage::getSingleton('core/session')->getSessionId());
         return $this;
     }
@@ -105,6 +106,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function save($observer = null)
     {#return;///MOSHE
+
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
@@ -112,13 +114,13 @@ class Mage_Log_Model_Visitor extends Varien_Object
         $this->setResourceVisitorId();
 
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        if( empty($customerId) ) {
-            $this->setLogoutNeeded(1);
-        }
+        #if( empty($customerId) ) {
+        #    $this->setLogoutNeeded(1);
+        #}
 
-        $this->getResource()
-            ->logVisitor($this)
-            ->logUrl($this);
+        #$this->getResource()
+        #    ->logVisitor($this);
+        #    ->logUrl($this);
 
         Mage::getSingleton('core/session')->setLogVisitorId($this->getVisitorId());
 
@@ -156,7 +158,10 @@ class Mage_Log_Model_Visitor extends Varien_Object
 
     public function bindCustomer($observer)
     {#return;///MOSHE
-        if ($observer->getEvent()->getCustomerSession() && $observer->getEvent()->getCustomerSession()->isLoggedIn()) {
+        $session = $observer->getEvent()->getCustomerSession();
+        $isLoggedIn = $session && $session->isLoggedIn();
+        return;
+        if ($isLoggedIn) {
             $this->setCustomerId($observer->getEvent()->getCustomerSession()->getCustomerId());
         }
     }

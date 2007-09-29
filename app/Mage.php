@@ -273,7 +273,8 @@ final class Mage {
      */
     public static function dispatchEvent($name, array $data=array())
     {
-        return Mage::registry('events')->dispatch($name, $data);
+        $result = Mage::registry('events')->dispatch($name, $data);
+        return $result;
     }
 
     /**

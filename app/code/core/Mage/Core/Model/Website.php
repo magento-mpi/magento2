@@ -28,12 +28,12 @@
 class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 {
     protected $_configCache = array();
-    
+
     public function _construct()
     {
         $this->_init('core/website');
     }
-    
+
     public function load($id, $field=null)
     {
         if (!is_numeric($id) && is_null($field)) {
@@ -42,7 +42,27 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-    
+
+    public function loadConfig($code)
+    {
+        if (is_numeric($code)) {
+            foreach (Mage::getConfig()->getNode('websites')->children() as $websiteCode=>$website) {
+                if ((int)$website->system->website->id==$code) {
+                    $code = $websiteCode;
+                    break;
+                }
+            }
+        } else {
+            $store = Mage::getConfig()->getNode('websites/'.$code);
+        }
+        if (!empty($website)) {
+            $this->setCode($code);
+            $id = (int)$website->system->website->id;
+            $this->setId($id)->setStoreId($id);
+        }
+        return $this;
+    }
+
     /**
      * Get website config data
      *
@@ -69,7 +89,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return $this->_configCache[$path];
     }
-    
+
     public function getStoreCodes()
     {
         $stores = Mage::getConfig()->getNode('stores')->children();
@@ -81,25 +101,25 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return $storeCodes;
     }
-    
-    public function getStoreCollection() 
+
+    public function getStoreCollection()
     {
 		return $this->_storesCollection = Mage::getResourceModel('core/store_collection')
 			->addWebsiteFilter($this->getId());
     }
-    
-    public function getStoresIds($notEmpty=false) 
+
+    public function getStoresIds($notEmpty=false)
     {
     	$ids = array();
-    	
+
     	foreach ($this->getStoreCollection()->getItems() as $item) {
     		$ids[] = $item->getId();
     	}
-    	
+
     	if(count($ids)== 0 && $notEmpty) {
     		$ids[] = 0;
     	}
-    	
+
     	return $ids;
     }
 }
