@@ -322,6 +322,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         switch ($type) {
             case 'var':
             case 'session':
+            case 'cache':
             case 'cache_config':
             case 'cache_layout':
             case 'cache_block':
@@ -369,6 +370,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
             case 'session':
                 $dir = $this->getBaseDir('var').DS.'session';
+                break;
+            
+            case 'cache':
+                $dir = $this->getBaseDir('var').DS.'cache';
                 break;
 
             case 'cache_config':

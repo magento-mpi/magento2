@@ -66,7 +66,7 @@ class Mage_Core_Model_Locale
     
     public function __construct($locale = null) 
     {
-        Zend_Locale_Data::setCache($this->getCache());
+        Zend_Locale_Data::setCache(Mage::app()->getCache());
         $this->setLocale($locale);
     }
     
@@ -175,20 +175,20 @@ class Mage_Core_Model_Locale
         
         $allowed    = $this->getAllowLocales();
         foreach ($locales as $code=>$active) {
-        	if (strstr($code, '_')) {
-        	    if (!in_array($code, $allowed)) {
-        	        continue;
-        	    }
-        	    $data = explode('_', $code);
-        	    if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
-        	        continue;
-        	    }
-        	    $options[] = array(
-        	       //'label' => ucfirst($languages[$data[0]]) . ' (' . $countries[$data[1]] . ')',
-        	       'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')',
-        	       'value' => $code,
-        	    );
-        	}
+            if (strstr($code, '_')) {
+                if (!in_array($code, $allowed)) {
+                    continue;
+                }
+                $data = explode('_', $code);
+                if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
+                    continue;
+                }
+                $options[] = array(
+                   //'label' => ucfirst($languages[$data[0]]) . ' (' . $countries[$data[1]] . ')',
+                   'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')',
+                   'value' => $code,
+                );
+            }
         }
         return $options;
     }
@@ -205,10 +205,10 @@ class Mage_Core_Model_Locale
         ksort($zones);
         foreach ($zones as $code=>$name) {
             $name = trim($name);
-    	    $options[] = array(
-    	       'label' => empty($name) ? $code : $name . ' (' . $code . ')',
-    	       'value' => $code,
-    	    );
+            $options[] = array(
+               'label' => empty($name) ? $code : $name . ' (' . $code . ')',
+               'value' => $code,
+            );
         }
         return $options;
     }
@@ -224,10 +224,10 @@ class Mage_Core_Model_Locale
         $countries  = $this->getLocale()->getTranslationList('country');
         
         foreach ($countries as $code=>$name) {
-    	    $options[] = array(
-    	       'label' => $name,
-    	       'value' => $code,
-    	    );
+            $options[] = array(
+               'label' => $name,
+               'value' => $code,
+            );
         }
         return $options;
     }
@@ -249,10 +249,10 @@ class Mage_Core_Model_Locale
             /*if (strstr($name, '(')) {
                 continue;
             }*/
-    	    $options[] = array(
-    	       'label' => $name,
-    	       'value' => $code,
-    	    );
+            $options[] = array(
+               'label' => $name,
+               'value' => $code,
+            );
         }
         return $options;
     }
@@ -331,7 +331,7 @@ class Mage_Core_Model_Locale
                          'd'=>'%e',     'yyyy'=>'%Y',       'yy'=>'%y');
         $format = $this->getDateFormat($type);
         foreach ($convert as $key=>$value) {
-        	$format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
+            $format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
         }
         return $format;
     }
@@ -348,7 +348,7 @@ class Mage_Core_Model_Locale
         
         $format = $this->getTimeFormat($type);
         foreach ($convert as $key=>$value) {
-        	$format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
+            $format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
         }
         return $format;
     }
@@ -382,21 +382,5 @@ class Mage_Core_Model_Locale
         }
         Varien_Profiler::stop('locale/currency');
         return self::$_currencyCache[$this->getLocaleCode()][$currency];
-    }
-    
-    /**
-     * Retrieve cache object
-     *
-     * @return Zend_Cache_Frontend_File
-     */
-    public function getCache()
-    {
-        if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File', 
-                array('automatic_serialization'=>true), 
-                array('cache_dir'=>Mage::getBaseDir('cache_locale'))
-            );
-        }
-        return $this->_cache;
     }
 }

@@ -159,7 +159,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * @param   string $type
      * @return  string
      */
-    public function getDir($type)
+    /*public function getDir($type)
     {
         if (isset($this->_dirCache[$type])) {
             return $this->_dirCache[$type];
@@ -227,7 +227,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getTempVarDir()
     {
         return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
-    }
+    }*/
 
     /**
      * Get store url
@@ -393,9 +393,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $value = $price;
         }
 
-		if ($this->getCurrentCurrency() && $format) {
-        	//$value = $this->getCurrentCurrency()->format($value);
-        	$value = $this->formatPrice($value);
+        if ($this->getCurrentCurrency() && $format) {
+            //$value = $this->getCurrentCurrency()->format($value);
+            $value = $this->formatPrice($value);
         }
         return $value;
     }
@@ -440,10 +440,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
             return explode(',', $stores);
         } else {
-        	$this->updateDatasharing();
-        	if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
-	            return explode(',', $stores);
-	        }
+            $this->updateDatasharing();
+            if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
+                return explode(',', $stores);
+            }
         }
         return array();
     }
@@ -455,6 +455,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function updateDatasharing()
     {
-    	$this->getResource()->updateDatasharing();
+        $this->getResource()->updateDatasharing();
     }
 }

@@ -91,6 +91,13 @@ class Mage_Core_Model_App
      * @var Mage_Core_Controller_Varien_Front
      */
     protected $_frontController;
+    
+    /**
+     * Cache object
+     *
+     * @var Zend_Cache_Core
+     */
+    protected $_cache;
 
     public function __construct($store, $etcDir)
     {
@@ -252,11 +259,122 @@ class Mage_Core_Model_App
         return $this->_frontController;
     }
 
+    /**
+     * Retrieve application installation flag
+     *
+     * @return bool
+     */
     public function isInstalled()
     {
         if (Mage::getSingleton('install/installer')) {
             return Mage::getSingleton('install/installer')->isApplicationInstalled();
         }
         return false;
+    }
+    
+    /**
+     * Generate cahce id with application specific data
+     *
+     * @param   string $id
+     * @return  string
+     */
+    protected function _getCacheId($id=null)
+    {
+        if ($id) {
+            $id = strtoupper($id);
+        }
+        return $id;
+    }
+    
+    /**
+     * Generate cache tags from cache id
+     *
+     * @param   string $id
+     * @param   array $tags
+     * @return  array
+     */
+    protected function _getCacheIdTags($id, $tags=array())
+    {
+        $idTags = explode('_', $id);
+        
+        $first = true;
+        foreach ($idTags as $tag) {
+            $newTag = $first ? $tag : $newTag . '_' . $tag;
+        	if (!in_array($newTag, $tags)) {
+        	    $tags[] = $tag;
+        	}
+        	$first = false;
+        }
+        
+        return $tags;
+    }
+    
+    /**
+     * Retrieve cache object
+     *
+     * @return Zend_Cache_Core
+     */
+    public function getCache()
+    {
+        if (!$this->_cache) {
+            $this->_cache = Zend_Cache::factory('Core', 'File',
+                array('caching'=>true, 'lifetime'=>7200),
+                array(
+                    'cache_dir'=>Mage::getBaseDir('cache'), 
+                    'hashed_directory_level'=>1, 
+                    'hashed_directory_umask'=>0777,
+                    'file_name_prefix'=>'mage')
+            );
+        }
+        return $this->_cache;
+    }
+    
+    /**
+     * Loading cache data
+     *
+     * @param   string $id
+     * @return  mixed
+     */
+    public function loadCache($id)
+    {
+        return $this->getCache()->load($this->_getCacheId($id));
+    }
+    
+    /**
+     * Saving cache data
+     *
+     * @param   mixed $data
+     * @param   string $id
+     * @param   array $tags
+     * @return  Mage_Core_Model_App
+     */
+    public function saveCache($data, $id, $tags=array())
+    {
+        $this->getCache()->save($data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags));
+        return $this;
+    }
+    
+    /**
+     * Remove cache
+     *
+     * @param   string $id
+     * @return  Mage_Core_Model_App
+     */
+    public function removeCache($id)
+    {
+        $this->getCache()->remove($this->_getCacheId($id));
+        return $this;
+    }
+    
+    /**
+     * Cleaning cache
+     *
+     * @param   array $tags
+     * @return  Mage_Core_Model_App
+     */
+    public function cleanCache($tags=array())
+    {
+        $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
+        return $this;
     }
 }
