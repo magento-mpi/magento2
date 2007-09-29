@@ -83,11 +83,24 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     ->save();
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                foreach ($arrRatingId as $voteId=>$optionId) {
-                	Mage::getModel('rating/rating')
-                	   ->setVoteId($voteId)
-                	   ->setReviewId($review->getId())
-                	   ->updateOptionVote($optionId);
+                $votes =  Mage::getModel('rating/rating_option_vote')
+                    ->getResourceCollection()
+                    ->setReviewFilter($reviewId)
+                    ->addOptionInfo()
+                    ->load()
+                    ->addRatingOptions();
+                foreach ($arrRatingId as $ratingId=>$optionId) {
+                	       if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
+                 	          Mage::getModel('rating/rating')
+                  	       ->setVoteId($vote->getId())
+                    	       ->setReviewId($review->getId())
+                     	       ->updateOptionVote($optionId);
+
+                        } else {
+                            Mage::getModel('rating/rating')
+                    	       ->setReviewId($review->getId())
+                     	       ->addOptionVote($optionId);
+                        }
                 }
 
                 $review->aggregate();
@@ -199,6 +212,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         return;
+    }
+
+    public function ratingItemsAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/review_rating_detailed')->setIndependentMode()->toHtml());
     }
 
     protected function _isAllowed()

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
                             )
         );
 
-        $stores = Mage::getSingleton('core/store')->getResourceCollection()->load()->toOptionArray();
+        $stores = Mage::app()->getStore()->getResourceCollection()->load()->toOptionArray();
         foreach($stores as $store) {
             $fieldset->addField('rating_code_' . $store['value'], 'text', array(
                                     'label'     =>  $store['label'],
@@ -92,6 +92,18 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
             }
         }
 
+        $fieldset = $form->addFieldset('visibility_form', array('legend'=>__('Rating Visibility')));
+        $fieldset->addField('stores', 'multiselect', array(
+                                'label'     => __('Visible In'),
+                                'required'  => true,
+                                'name'      => 'stores[]',
+                                'values'    => $stores
+                            )
+        );
+
+        if(Mage::registry('rating_data')) {
+            $form->getElement('stores')->setValue(Mage::registry('rating_data')->getStores());
+        }
 
         return parent::_prepareForm();
     }

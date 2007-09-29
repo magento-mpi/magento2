@@ -32,6 +32,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
     protected $_ratingVoteTable;
     protected $_aggregateTable;
     protected $_reviewStoreTable;
+    protected $_ratingStoreTable;
 
     protected $_read;
     protected $_write;
@@ -45,6 +46,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
         $this->_ratingVoteTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
         $this->_aggregateTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote_aggregated');
         $this->_reviewStoreTable  = Mage::getSingleton('core/resource')->getTableName('review/review_store');
+        $this->_ratingStoreTable  = Mage::getSingleton('core/resource')->getTableName('rating/rating_store');
 
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('rating_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('rating_write');
@@ -134,6 +136,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
                       array('COUNT(vote.vote_id) AS vote_count',
                               'SUM(vote.value) AS vote_value_sum'))
             ->joinLeft(array('store'=>$this->_reviewStoreTable), 'vote.review_id=store.review_id', 'store_id')
+            ->join(array('rstore'=>$this->_ratingStoreTable), 'vote.rating_id=rstore.rating_id AND rstore.store_id=store.store_id', array())
             ->where('vote.rating_id = ?', $vote->getRatingId())
             ->where('vote.entity_pk_value = ?', $vote->getEntityPkValue())
             ->group('vote.rating_id')
@@ -166,7 +169,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
 
          foreach ($toDelete as $storeId) {
              $condition = $this->_write->quoteInto("primary_id = ?", $oldData[$storeId]);
-             $this->_delete->update($this->_aggregateTable, $condition);
+             $this->_write->delete($this->_aggregateTable, $condition);
          }
         /* Wrong
         if( $oldData['primary_id'] > 0 ) {

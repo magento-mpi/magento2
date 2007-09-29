@@ -113,6 +113,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
             $votesCollection = Mage::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
+                ->setStoreFilter(Mage::app()->getStore()->getId())
                 ->load();
             $item->setRatingVotes( $votesCollection );
         }

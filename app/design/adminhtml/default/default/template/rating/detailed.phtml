@@ -39,7 +39,7 @@
 			<?$_iterator = 1;?>
 			<?$_options = ( $_rating->getRatingOptions() ) ? $_rating->getRatingOptions() : $_rating->getOptions()?>
 		    <?foreach ($_options as $_option):?>
-				<td style="width:60px;" <?if($_iterator == 5):?>class="last"<?endif;?>><input type="radio" name="ratings[<?=( $_rating->getVoteId() ) ? $_rating->getVoteId() : $_rating->getId() ?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>" <?if( $_option->getId() == $_rating->getOptionId() ):?>checked="true"<?endif;?> /></td>
+				<td style="width:60px;" <?if($_iterator == 5):?>class="last"<?endif;?>><input type="radio" name="ratings[<?=( $_rating->getVoteId() ) ? $_rating->getVoteId() : $_rating->getId() ?>]" id="<?=$_rating->getRatingCode()?>_<?=$_option->getValue()?>" value="<?=$_option->getId()?>" <?if( $this->isSelected($_option, $_rating)):?>checked="true"<?endif;?> /></td>
             <?$_iterator++?>
 			<?endforeach;?>
 			</tr>

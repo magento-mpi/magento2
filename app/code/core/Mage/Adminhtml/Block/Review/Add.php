@@ -73,6 +73,11 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                         toggleVis("reset_button");
                     },
 
+                    updateRating: function() {
+                        elements = [$("select_stores"), $("rating_detail").getElementsBySelector("input[type=\'radio\']")].flatten();
+                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems').'", {parameters:Form.serializeElements(elements)});
+                    },
+
                     reqSuccess :function(o) {
                         var response = Ext.util.JSON.decode(o.responseText);
                         if( response.error ) {
@@ -87,6 +92,10 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                     }
                 }
             }();
+
+             Event.observe(window, \'load\', function(){
+                 Event.observe($("select_stores"), \'change\', review.updateRating);
+           });
         ';
     }
 

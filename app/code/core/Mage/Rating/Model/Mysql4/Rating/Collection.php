@@ -77,6 +77,20 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
         return $this;
     }
 
+    public function setStoreFilter($storeId)
+    {
+        if(is_array($storeId)) {
+           $storeId = array($storeId);
+        }
+        $condition = $this->getConnection()->quoteInto('store.store_id IN(?)', $storeId);
+
+        $this->getSelect()->join(array('store'=>$this->getTable('rating_store')), 'main_table.rating_id = store.rating_id')
+            ->group('main_table.rating_id')
+            ->where($condition);
+        $this->setPositionOrder();
+        return $this;
+    }
+
     /**
      * add options to ratings in collection
      *
@@ -100,7 +114,7 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
         return $this;
     }
 
-    public function addEntitySummaryToItem($entityPkValue)
+    public function addEntitySummaryToItem($entityPkValue, $storeId)
     {
         $arrRatingId = $this->getColumnValues('rating_id');
 
@@ -114,6 +128,12 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
                     COUNT(*) as count
                 FROM
                     {$this->getTable('rating_vote')}
+                INNER JOIN
+                    {$this->getTable('review/review_store')}
+                    ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id AND {$this->getTable('review/review_store')}.store_id = ". (int) $storeId . "
+                INNER JOIN
+                    {$this->getTable('rating/rating_store')} AS rst
+                    ON rst.rating_id = {$this->getTable('rating_vote')}.rating_id AND rst.store_id = ". (int) $storeId . "
                 WHERE
                     {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.rating_id IN (?)', $arrRatingId)}
                     AND {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $entityPkValue)}
@@ -124,9 +144,9 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
 
         foreach ($data as $item) {
         	$rating = $this->getItemById($item['rating_id']);
-        	if ($rating && $item['count']>0) {
-        	    $rating->setSummary($item['sum']/$item['count']);
-        	}
+            	if ($rating && $item['count']>0) {
+            	    $rating->setSummary($item['sum']/$item['count']);
+            	}
         }
         return $this;
     }
@@ -137,4 +157,6 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
                           array('IF(title.value IS NULL, main_table.rating_code, title.value) AS rating_code'));
         return $this;
     }
+
+
 }

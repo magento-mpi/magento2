@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Rating>
-            <version>0.6.2</version>
+            <version>0.6.3</version>
             <depends>
                 <Mage_Core />
             </depends>
@@ -40,6 +40,9 @@
                     <rating>
                         <table>rating</table>
                     </rating>
+                    <rating_store>
+                        <table>rating_store</table>
+                    </rating_store>
                     <rating_title>
                         <table>rating_title</table>
                     </rating_title>

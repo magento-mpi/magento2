@@ -159,7 +159,8 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
             $votesCollection = Mage::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
-                ->addRatingInfo()
+                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->addRatingInfo(Mage::app()->getStore()->getId())
                 ->load();
             $item->setRatingVotes( $votesCollection );
         }

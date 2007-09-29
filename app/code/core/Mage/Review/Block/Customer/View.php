@@ -63,7 +63,7 @@ class Mage_Review_Block_Customer_View extends Mage_Core_Block_Template
             $ratingCollection = Mage::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->addRatingInfo()
+                ->addRatingInfo(Mage::app()->getStore()->getId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())
                 ->load();
 

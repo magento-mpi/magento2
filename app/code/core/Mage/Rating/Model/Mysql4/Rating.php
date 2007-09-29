@@ -61,6 +61,20 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         if(sizeof($storeCodes)>0) {
             $object->setRatingCodes($storeCodes);
         }
+
+        $storesSelect = $this->getConnection('read')->select()
+            ->from($this->getTable('rating_store'))
+            ->where('rating_id=?', $object->getId());
+
+        $stores = $this->getConnection('read')->fetchAll($storesSelect);
+
+        $putStores = array();
+        foreach ($stores as $store) {
+            $putStores[] = $store['store_id'];
+        }
+
+        $object->setStores($putStores);
+
         return $this;
     }
 
@@ -74,6 +88,9 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                 $this->getConnection('write')->delete($this->getTable('rating_title'), $condition);
                 if ($ratingCodes = $object->getRatingCodes()) {
                     foreach ($ratingCodes as $storeId=>$value) {
+                        if(trim($value)=='') {
+                            continue;
+                        }
                         $data = new Varien_Object();
                         $data->setRatingId($object->getId())
                             ->setStoreId($storeId)
@@ -84,6 +101,22 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                 $this->getConnection('write')->commit();
             }
             catch (Exception $e) {
+                $this->getConnection('write')->rollBack();
+            }
+        }
+
+        if($object->hasStores()) {
+            try {
+                $condition = $this->getConnection('write')->quoteInto('rating_id = ?', $object->getId());
+                $this->getConnection('write')->delete($this->getTable('rating_store'), $condition);
+                foreach ($object->getStores() as $storeId) {
+                    $storeInsert = new Varien_Object();
+                    $storeInsert->setStoreId($storeId);
+                    $storeInsert->setRatingId($object->getId());
+                    $this->getConnection('write')->insert($this->getTable('rating_store'), $storeInsert->getData());
+                }
+            }
+            catch (Exception  $e) {
                 $this->getConnection('write')->rollBack();
             }
         }
@@ -103,6 +136,9 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                 LEFT JOIN
                     {$this->getTable('review/review_store')}
                     ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id
+                INNER JOIN
+                    {$this->getTable('rating/rating_store')} AS rst
+                    ON rst.rating_id = {$this->getTable('rating_vote')}.rating_id AND rst.store_id = {$this->getTable('review/review_store')}.store_id
                 WHERE
                     {$read->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $object->getEntityPkValue())}
 
@@ -110,6 +146,8 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                     {$this->getTable('rating_vote')}.entity_pk_value, {$this->getTable('review/review_store')}.store_id";
 
         $data = $read->fetchAll($sql);
+
+
         if($onlyForCurrentStore) {
             foreach ($data as $row) {
                 if($row['store_id']==Mage::app()->getStore()->getId()) {
@@ -142,12 +180,16 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                 LEFT JOIN
                     {$this->getTable('review/review_store')}
                     ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id
-                  WHERE
+                INNER JOIN
+                    {$this->getTable('rating/rating_store')} AS rst
+                    ON rst.rating_id = {$this->getTable('rating_vote')}.rating_id AND rst.store_id = {$this->getTable('review/review_store')}.store_id
+                WHERE
                     {$read->quoteInto($this->getTable('rating_vote').'.review_id=?', $object->getReviewId())}
                 GROUP BY
                     {$this->getTable('rating_vote')}.review_id, {$this->getTable('review/review_store')}.store_id";
 
         $data = $read->fetchAll($sql);
+
         if($onlyForCurrentStore) {
             foreach ($data as $row) {
                 if($row['store_id']==Mage::app()->getStore()->getId()) {

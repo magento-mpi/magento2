@@ -50,11 +50,12 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()
-            ->addRatingPerStoreName(Mage::getSingleton('core/store')->getId())
+            ->setStoreFilter(Mage::app()->getStore()->getId())
+            ->addRatingPerStoreName(Mage::app()->getStore()->getId())
             ->load();
 
         if ($entityId) {
-            $ratingCollection->addEntitySummaryToItem($entityId);
+            $ratingCollection->addEntitySummaryToItem($entityId, Mage::app()->getStore()->getId());
         }
 
         $this->assign('collection', $ratingCollection);

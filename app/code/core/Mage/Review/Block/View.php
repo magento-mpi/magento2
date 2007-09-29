@@ -64,7 +64,7 @@ class Mage_Review_Block_View extends Mage_Core_Block_Template
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())
-                ->addRatingInfo()
+                ->addRatingInfo(Mage::app()->getStore()->getId())
                 ->load();
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }

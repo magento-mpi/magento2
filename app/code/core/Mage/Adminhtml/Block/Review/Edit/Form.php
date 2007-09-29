@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
         $fieldset->addField('detailed_rating', 'note', array(
                                 'label'     => __('Detailed Rating'),
                                 'required'  => true,
-                                'text'      => $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml(),
+                                'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
                             )
         );
 
@@ -88,14 +88,16 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
                             )
         );
 
-        $fieldset->addField('stores', 'multiselect', array(
+        $fieldset->addField('select_stores', 'multiselect', array(
                                 'label'     => __('Visible In'),
                                 'required'  => true,
                                 'name'      => 'stores[]',
-                                'values'    => $stores,
-                                'value'     => $review->getStores()
+                                'values'    => $stores
                             )
         );
+
+
+
 
 
         $fieldset->addField('nickname', 'text', array(
@@ -122,6 +124,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
         $form->setUseContainer(true);
         $form->setValues($review->getData());
+        $form->getElement('select_stores')->setValue($review->getStores());
         $this->setForm($form);
         return parent::_prepareForm();
     }
