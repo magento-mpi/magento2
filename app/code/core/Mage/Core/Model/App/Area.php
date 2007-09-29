@@ -34,12 +34,41 @@ class Mage_Core_Model_App_Area
     const PART_TRANSLATE= 'translate';
     const PART_DESIGN   = 'design';
     
+    /**
+     * Array of area loaded parts
+     *
+     * @var array
+     */
     protected $_loadedParts;
+    
+    /**
+     * Area code
+     *
+     * @var string
+     */
     protected $_code;
     
-    public function __construct($areaCode) 
+    /**
+     * Area application
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+    
+    public function __construct($areaCode, $application) 
     {
         $this->_code = $areaCode;
+        $this->_application = $application;
+    }
+    
+    /**
+     * Retrieve area application
+     *
+     * @return Mage_Core_Model_App
+     */
+    public function getApplication()
+    {
+        return $this->_application;
     }
     
     /**

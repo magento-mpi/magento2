@@ -323,10 +323,8 @@ abstract class Mage_Core_Controller_Varien_Action
                 Varien_Profiler::start($_profilerKey);
                 $this->$actionMethodName();
                 Varien_Profiler::stop($_profilerKey);
+                $this->postDispatch();
             }
-
-            $this->postDispatch();
-
         }
     }
 
@@ -346,7 +344,7 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!Mage::getSingleton('install/installer')->isApplicationInstalled()) {
+            if (!Mage::app()->isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;

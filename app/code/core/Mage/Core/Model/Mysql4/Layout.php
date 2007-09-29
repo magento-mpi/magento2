@@ -39,16 +39,19 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
         $theme = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
 
         $read = $this->getConnection('read');
-        $select = $read->select()->from(array('update'=>$this->getMainTable()), 'xml')
-            ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
-            ->where('link.store_id=?', $storeId)
-            ->where('link.package=?', $package)
-            ->where('link.theme=?', $theme);
-
         $updateStr = '';
-        if ($updates = $read->fetchAll($select)) {
-            foreach ($updates as $update) {
-                $updateStr .= $update['xml'];
+        
+        if ($read) {
+            $select = $read->select()->from(array('update'=>$this->getMainTable()), 'xml')
+                ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
+                ->where('link.store_id=?', $storeId)
+                ->where('link.package=?', $package)
+                ->where('link.theme=?', $theme);
+    
+            if ($updates = $read->fetchAll($select)) {
+                foreach ($updates as $update) {
+                    $updateStr .= $update['xml'];
+                }
             }
         }
         return $updateStr;

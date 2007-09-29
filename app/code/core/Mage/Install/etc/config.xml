@@ -55,8 +55,20 @@
         <install><class>Mage_Install_Block</class></install>
       </blocks>
    </global>
-   
+
    <frontend>
+      <routers>
+         <install>
+            <use>standard</use>
+            <args>
+                <module>Mage_Install</module>
+                <frontName>install</frontName>
+            </args>
+         </install>
+      </routers>
+   </frontend>
+   
+   <install>
       <events>
          <action_preDispatch>
             <observers>
@@ -87,15 +99,6 @@
          </core_locale_set_locale>
       </events>
 
-      <routers>
-         <install>
-            <use>standard</use>
-            <args>
-                <module>Mage_Install</module>
-                <frontName>install</frontName>
-            </args>
-         </install>
-      </routers>
       <translate>
         <modules>
             <Mage_Install>
@@ -105,5 +108,5 @@
             </Mage_Install>
         </modules>
       </translate>
-   </frontend>
+   </install>
 </config>

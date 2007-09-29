@@ -97,15 +97,25 @@ class Mage_Core_Model_App
         Varien_Profiler::start('app/construct');
 
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
+        date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+        
         $this->_config  = Mage::getConfig()->init($etcDir);
+        
         Mage::getSingleton('core/session');
 
-        $this->_store   = Mage::getSingleton('core/store')->load($store);
+        $this->_store   = Mage::getSingleton('core/store');
         $this->_website = Mage::getSingleton('core/website');
-
-        if ($this->_store->getWebsiteId()) {
-            $this->_website->load($this->_store->getWebsiteId());
+        
+        if ($this->isInstalled()) {
+            $this->_store->load($store);
+            if ($this->_store->getWebsiteId()) {
+                $this->_website->load($this->_store->getWebsiteId());
+            }
         }
+        else {
+            $this->_store->setCode($store);
+        }
+        
 		Varien_Profiler::stop('app/construct');
     }
 
@@ -168,7 +178,7 @@ class Mage_Core_Model_App
     public function getArea($code)
     {
         if (!isset($this->_areas[$code])) {
-            $this->_areas[$code] = new Mage_Core_Model_App_Area($code);
+            $this->_areas[$code] = new Mage_Core_Model_App_Area($code, $this);
         }
         return $this->_areas[$code];
     }
@@ -240,5 +250,13 @@ class Mage_Core_Model_App
             $this->_initFrontController();
         }
         return $this->_frontController;
+    }
+    
+    public function isInstalled()
+    {
+        if (Mage::getSingleton('install/installer')) {
+            return Mage::getSingleton('install/installer')->isApplicationInstalled();
+        }
+        return false;
     }
 }

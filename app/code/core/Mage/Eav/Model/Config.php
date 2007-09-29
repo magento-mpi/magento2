@@ -100,7 +100,7 @@ class Mage_Eav_Model_Config
             $id = intval($this->_data[$id]);
         }
         $obj = Mage::getModel('eav/entity_type');
-        if ($data = $this->_data[$id]) {
+        if (isset($this->_data[$id])) {
             $obj->setData($this->_data[$id]['entity_type']);
         }
         return $obj;

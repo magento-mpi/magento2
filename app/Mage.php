@@ -395,8 +395,8 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            $installer = self::getSingleton('install/installer');
-            if (!$installer || $installer->isApplicationInstalled()) {
+            echo $e;
+            if (self::app()->isInstalled()) {
                 self::printException($e);
                 exit();
             }

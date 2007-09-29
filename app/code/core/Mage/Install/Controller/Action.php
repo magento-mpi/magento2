@@ -13,29 +13,24 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Install
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Install index controller
- *
- * @category   Mage
- * @package    Mage_Install
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- */
 
-class Mage_Install_IndexController extends Mage_Install_Controller_Action
+class Mage_Install_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
-    public function preDispatch()
+    protected function _construct()
     {
-        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
-        return parent::preDispatch();
-    }
+        parent::_construct();
+        
+        Mage::getDesign()->setArea('install')
+            ->setPackageName('default')
+            ->setTheme('default');
 
-    function indexAction() 
-    {
-        $this->_forward('begin', 'wizard', 'install');
+        $this->getLayout()->setArea('install');
+        
+        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
     }
-}// Class IndexController END
+}

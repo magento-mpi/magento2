@@ -21,7 +21,7 @@ set_time_limit(120);
 /**
  * Installation wizard controller
  */
-class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
+class Mage_Install_WizardController extends Mage_Install_Controller_Action
 {
     public function preDispatch()
     {
@@ -95,8 +95,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     {
         $this->_checkIfInstalled();
 
-    	$this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-    	$this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
@@ -130,10 +130,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
     public function localeAction()
     {
         $this->_checkIfInstalled();
-    	$this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-    	$this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
-    	$this->_prepareLayout();
+        $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('install/locale', 'install.locale')
@@ -180,10 +180,10 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
         $this->_checkIfInstalled();
         $this->_getInstaller()->checkServer();
 
-    	$this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
-    	$this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
-    	$this->_prepareLayout();
+        $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('install/config', 'install.config')
@@ -206,8 +206,8 @@ class Mage_Install_WizardController extends Mage_Core_Controller_Front_Action
                 ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'));
             try {
                 $this->_getInstaller()->installConfig($data);
-    	        $this->_redirect('*/*/installDb');
-    	        return $this;
+                $this->_redirect('*/*/installDb');
+                return $this;
             }
             catch (Exception $e){
 
