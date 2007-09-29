@@ -49,10 +49,9 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
             $this->addTab('roles', array(
                 'label'     => __('Role Users'),
                 'title'     => __('Role Users'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_rolesusers')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_rolesusers', 'role.users.grid')->toHtml(),
             ));
         }
-
         return parent::_beforeToHtml();
     }
 }

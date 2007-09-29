@@ -200,6 +200,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'checkbox':
                 $filterClass = 'adminhtml/widget_grid_column_filter_checkbox';
                 break;
+            case 'radio':
+                $filterClass = 'adminhtml/widget_grid_column_filter_radio';
+                break;
             default:
                 $filterClass = 'adminhtml/widget_grid_column_filter_text';
                 break;

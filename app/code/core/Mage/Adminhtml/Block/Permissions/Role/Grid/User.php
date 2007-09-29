@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         $this->setDefaultSort('role_user_id');
         $this->setDefaultDir('asc');
         $this->setId('roleUserGrid');
-        $this->setDefaultFilter(array('in_role_user'=>1));
+        $this->setDefaultFilter(array('in_role_users'=>1));
         $this->setUseAjax(true);
     }
 
@@ -63,8 +63,8 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
+        Mage::register('RID', $roleId);
         $collection = Mage::getModel('admin/permissions_roles')->getUsersCollection();
-        //$collection->setRoleFilter($roleId);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         $this->addColumn('in_role_users', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_role_user',
+            'name'      => 'in_role_users',
             'values'    => $this->_getUsers(),
             'align'     => 'center',
             'index'     => 'user_id'
@@ -148,14 +148,29 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         return Mage::getUrl('*/*/editrolegrid', array('rid' => $roleId));
     }
     
-    protected function _getUsers()
+    protected function _getUsers($json=false)
     {
-        $roleId = $this->getRequest()->getParam('rid');
+        if ( $this->getRequest()->getParam('in_role_user') != "" ) {
+            return $this->getRequest()->getParam('in_role_user');
+        }
+        $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
         $users  = Mage::getModel('admin/permissions_roles')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
-            return array_values($users);
+            if ( $json ) {
+                $jsonUsers = Array();
+                foreach($users as $usrid) $jsonUsers[$usrid] = 0;
+                return Zend_Json::encode((object)$jsonUsers);
+            } else {
+                return array_values($users);
+            }
         } else {
-            return array();
+            if ( $json ) {
+                return '{}';
+            } else {
+                return array();
+            }
         }
     }
+
 }
+

@@ -54,6 +54,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Radio extends Mage_Adminh
         }
         return '<input type="radio" name="'.$this->getColumn()->getName().'" value="' . $row->getId() . '" class="radio"'.$checked.'/>';
     }
+
+    public function renderHeader()
+    {
+        $checked = '';
+        if ($filter = $this->getColumn()->getFilter()) {
+            $checked = $filter->getValue() ? 'checked' : '';
+        }
+        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" onclick="'.$this->getColumn()->getGrid()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" '.$checked.' title="'.__('Select All').'"/>';
+    }
     
     public function renderProperty()
     {

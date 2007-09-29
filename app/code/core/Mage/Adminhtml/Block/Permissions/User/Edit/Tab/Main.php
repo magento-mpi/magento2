@@ -126,7 +126,12 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Main extends Mage_Adminhtml
             'style'		=> 'width: 80px',
             'options'	=> array('1' => __('Active'), '0' => __('Inactive')),
         ));
-
+        
+    	$fieldset->addField('user_roles', 'hidden', array(
+            'name' => 'user_roles',
+            'id'   => '_user_roles',
+        ));
+        
         $data = $model->getData();
 
         unset($data['password']);

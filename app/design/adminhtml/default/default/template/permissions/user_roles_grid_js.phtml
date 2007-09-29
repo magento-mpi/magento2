@@ -1,0 +1,52 @@
+<script type="text/javascript">
+<!--
+<?$myBlock = $this->getLayout()->getBlock('user.roles.grid');?>
+
+<?if($myBlock->getJsObjectName()):?>
+////////////////////////////////////////////////////////////////
+    var warning = false;
+    var userRoles = $H(<?=$myBlock->_getSelectedRoles(true)?>);
+    if (userRoles.size() > 0) warning = true;
+    $('user_user_roles').value = userRoles.toQueryString();
+
+    function registerUserRole(grid, element, checked){
+        if(checked){
+            userRoles.each(function(o){userRoles.remove(o[0]);});
+            userRoles[element.value] = 0;
+        } else {
+            userRoles.remove(element.value);
+        }
+        $('user_user_roles').value = userRoles.toQueryString();
+        grid.reloadParams = {'user_roles[]':userRoles.keys()};
+    }
+
+    function roleRowClick(grid, event){
+        var trElement = Event.findElement(event, 'tr');
+        var isInput   = Event.element(event).tagName == 'INPUT';
+        if(trElement){
+            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            if(checkbox[0]){
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                if (warning) {
+                    alert("<?=__('Warning!\r\nThis action will remove this user from already assigned role')?>");
+                    warning = false;
+                }
+                <?=$myBlock->getJsObjectName()?>.setCheckboxChecked(checkbox[0], checked);
+            }
+        }
+    }
+
+    function rolesRowInit(grid, row){
+        var checkbox = $(row).getElementsByClassName('checkbox')[0];
+        var position = $(row).getElementsByClassName('input-text')[0];
+    }
+////////////////////////////////////////////////////////////////
+<?=$myBlock->getJsObjectName()?>.rowClickCallback = roleRowClick;
+<?=$myBlock->getJsObjectName()?>.initRowCallback = rolesRowInit;
+<?=$myBlock->getJsObjectName()?>.checkboxCheckCallback = registerUserRole;
+<?=$myBlock->getJsObjectName()?>.rows.each(function(row){rolesRowInit(<?=$myBlock->getJsObjectName()?>, row)});
+
+<?endif;?>
+
+//-->
+</script>

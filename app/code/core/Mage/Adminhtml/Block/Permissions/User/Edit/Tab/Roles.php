@@ -27,14 +27,36 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         $this->setId('permissionsUserRolesGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
+        $this->setDefaultFilter(array('assigned_user_role'=>1));
         $this->setTitle(__('User Roles Information'));
         $this->setUseAjax(true);
     }
 
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($column->getId() == 'assigned_user_role') {
+            $userRoles = $this->_getSelectedRoles();
+            if (empty($userRoles)) {
+                $userRoles = 0;
+            }
+            if ($column->getFilter()->getValue()) {
+            	$this->getCollection()->addFieldToFilter('role_id', array('in'=>$userRoles));
+            }
+            else {
+                if($userRoles) {
+                	$this->getCollection()->addFieldToFilter('role_id', array('nin'=>$userRoles));
+            	}
+            }
+        }
+        else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
+    }
+    
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('admin/permissions_role_collection');
-        //$collection->setUserFilter(Mage::registry('permissions_user')->getUserId());
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -43,9 +65,9 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
     protected function _prepareColumns()
     {
 
-    	$this->addColumn('roles', array(
+    	$this->addColumn('assigned_user_role', array(
             'header_css_class' => 'a-center',
-            'header'    => __('Assigned Role'),
+            'header'    => __('Assigned'),
             'type'      => 'radio',
             'name'      => 'roles[]',
             'values'    => $this->_getSelectedRoles(),
@@ -73,9 +95,19 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         return Mage::getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('permissions_user')->getUserId()));
     }
 
-    protected function _getSelectedRoles()
+    protected function _getSelectedRoles($json=false)
     {
-    	return Mage::registry('permissions_user')->getRoles();
+        if ( $this->getRequest()->getParam('user_roles') != "" ) {
+            return $this->getRequest()->getParam('user_roles');
+        }
+        $uRoles = Mage::registry('permissions_user')->getRoles();
+    	if ($json) {
+            $jsonRoles = Array();
+            foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
+            return Zend_Json::encode((object)$jsonRoles);
+    	} else {
+            return $uRoles;
+    	}
 	}
 
 }

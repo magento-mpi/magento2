@@ -64,12 +64,14 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         }
 
         Mage::register('permissions_user', $model);
-
+        
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit User') : __('New User'), $id ? __('Edit User') : __('New User'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/permissions_user_edit')->setData('action', Mage::getUrl('*/permissions_user/save')))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tabs'))
-            ->renderLayout();
+            ->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tabs'));
+        
+        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('permissions/user_roles_grid_js.phtml'));
+        $this->renderLayout();
     }
 
     public function saveAction()
@@ -79,7 +81,9 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
             $model->setData($data);
             try {
             	$model->save();
-				if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
+				if ( $uRoles = $this->getRequest()->getParam('user_roles', false) ) {
+                    parse_str($uRoles, $uRoles);
+                    $uRoles = array_keys($uRoles);
 				    if ( 1 == sizeof($uRoles) ) {
 				        $model->setRoleIds( $uRoles )->setRoleUserId( $model->getUserId() )->saveRelations();
 				    } else if ( sizeof($uRoles) > 1 ) { 

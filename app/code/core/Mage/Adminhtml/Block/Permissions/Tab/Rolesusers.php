@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
 
     protected function _prepareLayout()
     {
-        $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/permissions_role_grid_user', 'taxClassGrid'));
+        $this->setChild('userGrid', $this->getLayout()->createBlock('adminhtml/permissions_role_grid_user', 'roleUsersGrid'));
         return parent::_prepareLayout();
     }
 
@@ -47,4 +47,5 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesusers extends Mage_Adminhtml_Blo
     {
         return $this->getChild('userGrid')->getJsObjectName();
     }
+    
 }

@@ -78,7 +78,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
                 ->setRoleInfo(Mage::getModel('admin/permissions_roles')->load($roleId))
                 ->setTemplate('permissions/roleinfo.phtml')
         );
-
+        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('permissions/role_users_grid_js.phtml'));
         $this->renderLayout();
     }
 
@@ -107,6 +107,8 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $rid        = $this->getRequest()->getParam('role_id', false);
         $resource   = explode(',', $this->getRequest()->getParam('resource', false));
         $roleUsers  = $this->getRequest()->getParam('in_role_user', null);
+        parse_str($roleUsers, $roleUsers);
+        $roleUsers = array_keys($roleUsers);
         try {
             $role = Mage::getModel("admin/permissions_roles")
                     ->setId($rid)
@@ -137,8 +139,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this role. Please try again later.'));
         }
 
-        $rid = $role->getId();
+        //$rid = $role->getId();
         $this->getResponse()->setRedirect(Mage::getUrl("*/*/editrole/rid/$rid"));
+        return;
     }
 
     public function editrolegridAction()
