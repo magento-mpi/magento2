@@ -30,6 +30,8 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         Varien_Profiler::start(__METHOD__.'/setOptions');
         session_save_path(Mage::getBaseDir('session'));
         Varien_Profiler::stop(__METHOD__.'/setOptions');
+
+        session_module_name('files');
 /*
         $sessionResource = Mage::getResourceSingleton('core/session');
         $sessionResource->setSaveHandler();

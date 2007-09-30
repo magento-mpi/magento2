@@ -28,9 +28,8 @@
 class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 {
     protected $_filter;
-    
 
-    protected function _construct() 
+    protected function _construct()
     {
         $this->_init('directory/currency');
     }
@@ -44,7 +43,13 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     {
         return $this->getData('currency_code');
     }
-    
+
+    public function load($id, $field=null)
+    {
+        $this->setData('currency_code', $id);
+        return $this;
+    }
+
     /**
      * Get currency rate
      *
@@ -55,7 +60,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->getRate($this->getCode(), $toCurrency);
     }
-    
+
     public function getLanguageCode()
     {
         $code = $this->getData('language_code');
@@ -64,7 +69,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         }
         return $code;
     }
-    
+
     /**
      * Convert price to currency format
      *
@@ -82,7 +87,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         }
         throw new Exception(__('Undefined rate from "%s-%s"', $this->getCode(), $toCurrency->getCode()));
     }
-    
+
     /**
      * Get currency filter
      *
@@ -93,10 +98,10 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         if (!$this->_filter) {
             $this->_filter = new Mage_Directory_Model_Currency_Filter($this->getCode());
         }
-        
-        return $this->_filter;        
+
+        return $this->_filter;
     }
-    
+
     /**
      * Format price to currency format
      *

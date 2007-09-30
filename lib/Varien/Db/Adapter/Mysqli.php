@@ -38,18 +38,37 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
         if (false===$conn || mysqli_connect_errno()) {
             throw new Zend_Db_Adapter_Mysqli_Exception(mysqli_connect_errno());
         }
-        
+
         $conn->init();
 	    $conn->options(MYSQLI_OPT_LOCAL_INFILE, true);
 	    #$conn->options(MYSQLI_CLIENT_MULTI_QUERIES, true);
-		@$conn->real_connect($this->_config['host'], $this->_config['username'], $this->_config['password'], $this->_config['dbname']);
+
+	    $port = !empty($this->_config['port']) ? $this->_config['port'] : null;
+	    $socket = !empty($this->_config['unix_socket']) ? $this->_config['unix_socket'] : null;
+	    // socket specified in host config
+	    if (strpos($this->_config['host'], '/')!==false) {
+	        $socket = $this->_config['host'];
+	        $this->_config['host'] = null;
+	    } elseif (strpos($this->_config['host'], ':')!==false) {
+	        list($this->_config['host'], $port) = explode(':', $this->_config['host']);
+	    }
+
+#echo "<pre>".print_r($this->_config,1)."</pre>"; die;
+		@$conn->real_connect(
+		    $this->_config['host'],
+		    $this->_config['username'],
+		    $this->_config['password'],
+		    $this->_config['dbname'],
+		    $port,
+		    $socket
+		);
         if (mysqli_connect_errno()) {
             throw new Zend_Db_Adapter_Mysqli_Exception(mysqli_connect_error());
         }
-		
+
         $this->_connection = $conn;
     }
-    
+
     public function raw_query($sql)
     {
     	do {
@@ -57,7 +76,7 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
     		$tries = 0;
 	    	try {
 	        	$result = $this->getConnection()->query($sql);
-	    	} 
+	    	}
 	    	catch (Exception $e) {
 	    		if ($e->getMessage()=='SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction') {
 	    			$retry = true;
@@ -67,10 +86,10 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 	    		$tries++;
 	    	}
     	} while ($retry && $tries<10);
-        
+
         return $result;
     }
-    
+
     public function raw_fetchRow($sql, $field=null)
     {
         if (!$result = $this->raw_query($sql)) {
@@ -85,7 +104,7 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
             return isset($row[$field]) ? $row[$field] : false;
         }
     }
-    
+
     public function multi_query($sql)
 	{
 	    $this->beginTransaction();
@@ -105,13 +124,13 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 				throw new Zend_Db_Adapter_Mysqli_Exception('Level2:'.$this->getConnection()->error);
 			}
 	    } catch (Exception $e) {
-			$this->rollback();	
+			$this->rollback();
 			throw $e;
 	    }
-		
+
 		return true;
 	}
-	
+
 	public function dropForeignKey($table, $fk)
 	{
         $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');
@@ -120,7 +139,7 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
         }
         return true;
 	}
-	
+
 	public function dropKey($table, $key)
 	{
 	    $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');

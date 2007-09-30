@@ -36,9 +36,9 @@ class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config
      * Constructor
      *
      */
-    public function __construct()
+    public function __construct($sourceData=null)
     {
         $this->_elementClass = 'Mage_Core_Model_Config_Element';
-        parent::__construct();
+        parent::__construct($sourceData);
     }
 }

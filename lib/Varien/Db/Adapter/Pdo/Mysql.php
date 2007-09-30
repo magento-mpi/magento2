@@ -23,7 +23,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 {
     const ISO_DATE_FORMAT       = 'yyyy-MM-dd';
     const ISO_DATETIME_FORMAT   = 'yyyy-MM-dd HH-mm-ss';
-    
+
     protected $_transactionLevel=0;
     protected $_connectionFlagsSet=false;
 
@@ -69,12 +69,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
         return strftime('%Y-%m-%d %H:%M:%S', strtotime($datetime));
     }
-    
+
 
     protected function _connect()
     {
-    	parent::_connect();
-    	
+        if (strpos($this->_config['host'], '/')!==false) {
+            $this->_config['unix_socket'] = $this->_config['host'];
+            $this->_config['host'] = null;
+        } elseif (strpos($this->_config['host'], ':')!==false) {
+            list($this->_config['host'], $this->_config['port']) = explode(':', $this->_config['host']);
+        }
+#echo "<pre>".print_r($this->_config,1)."</pre>";
+        parent::_connect();
+
     	if (!$this->_connectionFlagsSet) {
     		$this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
     		#$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
@@ -98,10 +105,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 	    		$tries++;
 	    	}
     	} while ($retry && $tries<10);
-        
+
         return $result;
     }
-    
+
     public function raw_fetchRow($sql, $field=null)
     {
         if (!$result = $this->raw_query($sql)) {
@@ -116,7 +123,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             return isset($row[$field]) ? $row[$field] : false;
         }
     }
-    
+
     public function multi_query($sql)
     {
     	$result = $this->raw_query($sql);
@@ -131,7 +138,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
         return true;
 	}
-	
+
 	public function dropKey($table, $key)
 	{
 	    $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');

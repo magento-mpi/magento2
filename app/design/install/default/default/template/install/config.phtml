@@ -39,6 +39,9 @@
             <div class="input-box">
                 <label for="host"><?=$this->__('Host')?> <span class="required">*</span></label><br/>
                 <input type="text" name="config[db_host]" id="host" value="<?=$this->getFormData()->getDbHost()?>" title="<?=$this->__('Database host')?>" class="required-entry input-text"/>
+                <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                    <small><?=$this->__('You can specify server port, ex.: localhost:3307<br/>If you are not using default UNIX socket, you can specify it here instead of host, ex.: /var/run/mysqld/mysqld.sock')?></small>
+                </p>
             </div>
             <div class="input-box">
                 <label for="dbname"><?=$this->__('Database Name')?> <span class="required">*</span></label><br/>

@@ -46,10 +46,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Constructor
      *
      */
-    function __construct()
+    function __construct($sourceData=null)
     {
         $this->setCacheId('config_global');
-        parent::__construct();
+        parent::__construct($sourceData);
     }
 
 
@@ -202,7 +202,33 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $this->_cache;
     }
+/*
+    public function saveCache($tags=null)
+    {
+        foreach ($this->getNode('stores')->children() as $storeCode=>$store) {
+            if ($storeCode==='default') {
+                continue;
+            }
+            $storeConfig = Mage::getModel('core/config_base', '<config/>');
+            foreach (array('global', 'modules', 'frontend') as $node) {
+                $nodeConfig = $storeConfig->getNode()->addChild($node);
+                foreach ($this->getNode($node)->children() as $child) {
+                    $nodeConfig->appendChild($child);
+                }
+            }
+            $stores = $storeConfig->getNode()->addChild('stores')->appendChild($store);
+            $storeConfig
+                ->setCache($this->getCache())
+                ->setCacheId('CONFIG_STORE_'.$storeCode)
+                ->setCacheChecksum(null);
+            $storeConfig->saveCache();
+        }
 
+        parent::saveCache($tags);
+
+        return $this;
+    }
+*/
     public function getTempVarDir()
     {
         $dir = dirname(Mage::getRoot()).DS.'var';
@@ -567,7 +593,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $className;
         }
     }
-    
+
     /**
      * Retrieve helper class name
      *

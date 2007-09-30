@@ -45,6 +45,9 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 
     public function loadConfig($code)
     {
+        if (!Mage::getConfig()->getNode('websites')) {
+            return $this;
+        }
         if (is_numeric($code)) {
             foreach (Mage::getConfig()->getNode('websites')->children() as $websiteCode=>$website) {
                 if ((int)$website->system->website->id==$code) {
@@ -53,7 +56,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
                 }
             }
         } else {
-            $store = Mage::getConfig()->getNode('websites/'.$code);
+            $website = Mage::getConfig()->getNode('websites/'.$code);
         }
         if (!empty($website)) {
             $this->setCode($code);
