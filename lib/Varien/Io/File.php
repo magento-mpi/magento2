@@ -92,9 +92,13 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function mkdir($dir, $mode=0777, $recursive=true)
     {
-        chdir($this->_cwd);
+        if ($this->_cwd) {
+            chdir($this->_cwd);
+        }
         $result = @mkdir($dir, $mode, $recursive);
-        chdir($this->_iwd);
+        if ($this->_iwd) {
+            chdir($this->_iwd);
+        }
         return $result;
     }
     
@@ -249,9 +253,13 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function chmod($filename, $mode)
     {
-        chdir($this->_cwd);
+        if ($this->_cwd) {
+            chdir($this->_cwd);
+        }
         $result = @chmod($filename, $mode);
-        chdir($this->_iwd);
+        if ($this->_iwd) {
+            chdir($this->_iwd);
+        }
         return $result;
     }
 
@@ -298,7 +306,7 @@ class Varien_Io_File extends Varien_Io_Abstract
                 }
 
                 $list_item['text'] = $entry;
-                $list_item['mod_date'] = date ('d/m/Y H:i:s', filectime($fullpath));
+                $list_item['mod_date'] = date ('Y-m-d H:i:s', filectime($fullpath));
                 $list_item['permitions'] = $this->_parsePermissions(fileperms($fullpath));
                 $list_item['owner'] = $this->_getFileOwner($fullpath);
 

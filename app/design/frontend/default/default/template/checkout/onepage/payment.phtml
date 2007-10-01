@@ -22,6 +22,12 @@
     <dl class="payment-methods">
         <?=$this->getChildHtml('methods')?>
     </dl>
+    <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none">
+        <a href="#" id="payment-tool-tip-close" class="btn-close"><img src="<?=$this->getSkinUrl('images/btn_window_close.gif')?>" alt="<?=$this->__('Close')?>"/></a>
+        <div class="block-content">
+        <img src="<?=$this->getSkinUrl('images/cvv.gif')?>" alt="<?=$this->__('Card Verification Number Visual Reference')?>"/>
+        </div>
+    </div>    
 </form>
 <div class="form-buttons">
     <p class="required"><?=$this->__('* Required Fields')?></p>
@@ -33,6 +39,25 @@
         </span>
     </span>
 </div>
+
+<script type="text/javascript">
+    function toggleToolTip(event){
+        if($('payment-tool-tip')){
+            $('payment-tool-tip').setStyle({
+                top: (Event.pointerY(event)-400)+'px',
+                left: (Event.pointerX(event)+100)+'px'
+            })
+            $('payment-tool-tip').toggle();
+        }
+        Event.stop(event);
+    }
+    if($('payment-tool-tip-close')){
+        Event.observe($('payment-tool-tip-close'), 'click', toggleToolTip);
+    }
+    $$('.cvv-what-is-this').each(function(element){
+        Event.observe(element, 'click', toggleToolTip);
+    });
+</script>
 
 <script type="text/javascript">
     var payment = new Payment('co-payment-form', '<?=$this->getUrl('checkout/onepage/savePayment')?>');

@@ -369,7 +369,7 @@ New customer registration
     </customer_account_forgotPassword>
 
     <customer_account_edit>
-        <update handle="cutomer_account"/>
+        <update handle="customer_account"/>
         <reference name="root">
             <action method="setHeaderTitle" translate="title"><title>Edit Account Info</title></action>
         </reference>
@@ -475,6 +475,7 @@ Customer account address book
 
     <customer_address_index>
         <!-- Mage_Customer -->
+        <update handle="customer_account"/>
         <reference name="content">
             <block type="customer/address_book" name="address_book" before="-" template="customer/address/book.phtml"/>
         </reference>
@@ -861,6 +862,15 @@ Multi address shipping checkout selection of address per item page
             <block type="checkout/multishipping_address_select" name="checkout_address_select" template="checkout/multishipping/address/select.phtml"/>
         </reference>
     </checkout_multishipping_address_select>
+
+    <checkout_multishipping_address_selectBilling>
+        <update handle="checkout_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="checkout/multishipping_address_select" name="checkout_address_select" template="checkout/multishipping/address/select.phtml"/>
+        </reference>
+    </checkout_multishipping_address_selectBilling>
+
 
     <checkout_multishipping_address_newShipping>
         <update handle="checkout_multishipping"/>

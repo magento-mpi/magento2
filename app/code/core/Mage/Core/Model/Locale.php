@@ -114,6 +114,8 @@ class Mage_Core_Model_Locale
          * @todo retrieve timezone from config
          */
         date_default_timezone_set($this->getTimezone());
+        
+        Zend_Locale_Format::setOptions(array('number_format'=>'#,##0.00'));
         return $this;
     }
     
@@ -365,6 +367,7 @@ class Mage_Core_Model_Locale
         if (is_null($locale)) {
             $locale = $this->getLocale();
         }
+        
         return new Zend_Date($date, $part, $locale);
     }
     

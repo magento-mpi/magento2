@@ -43,7 +43,14 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     {
         return $this->getData('currency_code');
     }
-
+    
+    /**
+     * Loading currency data
+     *
+     * @param   string $id
+     * @param   string $field
+     * @return  Mage_Directory_Model_Currency
+     */
     public function load($id, $field=null)
     {
         $this->setData('currency_code', $id);
@@ -59,15 +66,6 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function getRate($toCurrency)
     {
         return $this->getResource()->getRate($this->getCode(), $toCurrency);
-    }
-
-    public function getLanguageCode()
-    {
-        $code = $this->getData('language_code');
-        if (is_null($code)) {
-            $code = Mage::app()->getStore()->getLanguageCode();
-        }
-        return $code;
     }
 
     /**
@@ -111,6 +109,6 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function format($price)
     {
         $price = round(floatval($price), 2);
-        return Mage::getModel('core/locale')->currency($this->getCode())->toCurrency($price);
+        return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price);
     }
 }

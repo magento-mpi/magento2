@@ -25,14 +25,19 @@
  */
 class Mage_Directory_Model_Currency_Filter implements Zend_Filter_Interface
 {
+    /**
+     * Rate value
+     *
+     * @var decimal
+     */
     protected $_rate;
-    protected $_currency;
     
-    /*public function __construct($format, $decimals=null, $decPoint='.', $thousandsSep=',', $rate=1)
-    {
-        parent::__construct($format, $decimals, $decPoint, $thousandsSep);
-        $this->_rate = $rate;
-    }*/
+    /**
+     * Currency object
+     *
+     * @var Zend_Currency
+     */
+    protected $_currency;
     
     public function __construct($code, $rate=1)
     {
@@ -62,6 +67,5 @@ class Mage_Directory_Model_Currency_Filter implements Zend_Filter_Interface
         $value = $this->_rate*$value;
         $value = round($value, 2);
         return $this->_currency->toCurrency($value);
-        //return parent::filter($value);
     }
 }

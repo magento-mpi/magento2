@@ -42,7 +42,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
 
     public function getPaymentHtml()
     {
-        $payment = $this->getCheckout()->getQuote()->getPayment();
+        /*$payment = $this->getCheckout()->getQuote()->getPayment();
         $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
 
         $block = Mage::getModel($model);
@@ -54,7 +54,20 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
         $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
         $html .= $block->toHtml();
 
+        return $html;*/
+        $payment = $this->getCheckout()->getQuote()->getPayment();
+        
+        $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
+
+        $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
+        $block = Mage::getModel($model)
+            ->setPayment($payment)
+            ->createInfoBlock($this->getName().'.payment');
+        
+        $html.= $block->toHtml();
+        
         return $html;
+        
     }
 
     public function getShippingAddresses()
