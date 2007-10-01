@@ -101,6 +101,18 @@ class Mage_Review_Block_List extends Mage_Core_Block_Template
         return $this->_getCollection();
     }
 
+    public function getAverage($ratingVotes)
+    {
+        $avarage = 0;
+        $total  = 0;
+        foreach ($ratingVotes as $vote) {
+            $avarage+= $vote->getPercent();
+            $total ++;
+        }
+
+        return $total ? ceil($avarage / $total) : 0;
+    }
+
     protected function _beforeToHtml()
     {
         $this->_getCollection()

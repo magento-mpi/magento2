@@ -34,16 +34,11 @@
     <?foreach ($this->getCollection() as $_review):?>
         <li>
         <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
-            <?$avarage = 0;?>
-            <?foreach( $_review->getRatingVotes()->getItems() as $_vote ):?>
-            <?$avarage+= $_vote->getPercent();?>
-            <?endforeach;?>
-            <?if($_review->getRatingVotes()->getSize()):?>
-            <?$avarage = ceil($avarage / $_review->getRatingVotes()->getSize())?>
+
             <div class="rating-box">
-                <div class="rating" style="width:<?=$avarage?>%;"></div>
+                <div class="rating" style="width:<?=$this->getAverage($_review->getRatingVotes())?>%;"></div>
             </div>
-            <?endif;?>
+
         <?endif;?>
             <a href="<?=$_review->getReviewUrl()?>" name="<?=$_review->getTitle()?>"><strong><?=$_review->getTitle()?></strong></a> <?=$this->__('Review by %s', $_review->getNickname())?>
             <p class="no-padding"><?=nl2br($_review->getDetail())?></p>
