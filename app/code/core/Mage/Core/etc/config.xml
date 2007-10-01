@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.6.3</version>
+             <version>0.6.4</version>
         </Mage_Core>
     </modules>
 

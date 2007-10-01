@@ -61,6 +61,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
     	if (empty($this->_templateFilter)) {
     		$this->_templateFilter = Mage::getModel('core/email_template_filter');
+    		$this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks());
     	}
     	return $this->_templateFilter;
     }
@@ -192,6 +193,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $mail = new Zend_Mail('utf-8');
         #$mail->setDefaultTransport(Mage::getSingleton('core/email_transport'));
         $mail->addTo($email, $name);
+
+        $this->setUseAbsoluteLinks(true);
         $text = $this->getProcessedTemplate($variables, true);
 
         if($this->isPlain()) {

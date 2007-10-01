@@ -20,13 +20,13 @@
 
 
 class Mage_CatalogExcel_Model_Export
-{		
+{
 	public function getWorkbookXml()
 	{
 		$res = Mage::getResourceModel('catalogexcel/export');
-		
-		$xml = '<?xml version="1.0"?>
-<?mso-application progid="Excel.Sheet"?>
+
+		$xml = '<'.'?xml version="1.0"?'.'>
+<'.'?mso-application progid="Excel.Sheet"?'.'>
 <Workbook
   xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -41,10 +41,10 @@ class Mage_CatalogExcel_Model_Export
 '.$this->getWorksheetXml('Attribute Sets', $res->fetchAttributeSets()).'
 '.$this->getWorksheetXml('Attribute Options', $res->fetchAttributeOptions()).'
 </Workbook>';
-		
+
 		return $xml;
 	}
-	
+
 	public function getWorksheetXml($name, $data)
 	{
 		$xml = '<Worksheet ss:Name="'.$name.'"><ss:Table>';
@@ -63,7 +63,7 @@ class Mage_CatalogExcel_Model_Export
 			$xml .= '</ss:Row>';
 		}
 		$xml .= '</ss:Table></Worksheet>';
-		
+
 		return $xml;
 	}
 }

@@ -22,6 +22,14 @@
 
 class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 {
+    protected $_useAbsoluteLinks = false;
+
+    public function setUseAbsoluteLinks($flag)
+    {
+        $this->_useAbsoluteLinks = $flag;
+        return $this;
+    }
+
 	public function blockDirective($construction)
 	{
 		$blockParameters = $this->_getIncludeParameters($construction[2]);
@@ -71,6 +79,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 	public function skinDirective($construction)
 	{
 		$params = $this->_getIncludeParameters($construction[2]);
+		$params['_absolute'] = $this->_useAbsoluteLinks;
 
 		$url = Mage::getDesign()->getSkinUrl($params['url']);
 
@@ -80,6 +89,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 	public function storeDirective($construction)
 	{
     	$params = $this->_getIncludeParameters($construction[2]);
+    	$params['_absolute'] = $this->_useAbsoluteLinks;
 
     	$path = $params['url'];
     	unset($params['url']);

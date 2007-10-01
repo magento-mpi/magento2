@@ -32,8 +32,7 @@ function collectAllModules()
 
 function collectModuleFiles($module)
 {
-    #$text = `cat \`find app/code/core/Mage/Core/[MBC]* -name "*.php"\``;
-    $files = explode("\n", `find app/code/core/Mage/$module/[MBC]* -name "*.php"`);
+    $files = explode("\n", `find app/code/core/Mage/$module/[MBCH]* -name "*.php"`);
 
     $unsorted = array();
     ob_implicit_flush();
@@ -47,9 +46,9 @@ function collectModuleFiles($module)
         $text = file_get_contents($fileName)."\n";
 
         $text = preg_replace('#<\?php#m', '', $text);
-        $text = preg_replace('#(?<=\s)/\*[^/].*?\*/#s', '', $text);
-        $text = preg_replace('#^\s*(//|\#).*$#m', '', $text);
-        $text = preg_replace('#^\s+#m', '', $text);
+        #$text = preg_replace('#(?<=\s)/\*[^/].*?\*/#s', '', $text);
+        #$text = preg_replace('#^\s*(//|\#).*$#m', '', $text);
+        #$text = preg_replace('#^\s+#m', '', $text);
 
         $unsorted[] = array(
             'text'=>$text,
@@ -78,9 +77,14 @@ function collectModuleFiles($module)
     foreach ($sorted as $a) {
         $text .= $a['text'];
     }
-    file_put_contents('var/cache/code/'.$module.'.php', $text);
+    if ('*'===$module) {
+        file_put_contents('var/cache/code/all.php', $text);
+    } else {
+        file_put_contents('var/cache/code/'.$module.'.php', $text);
+    }
 
     echo "<hr>Done!";
 }
 
-collectAllModules();
+collectModuleFiles('*');
+#collectAllModules();

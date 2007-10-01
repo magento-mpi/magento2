@@ -13,34 +13,19 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Adminhtml system templates grid block type item renderer
+ * URL
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @package    Mage_Core
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
-
-class Mage_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Core_Model_Url extends Varien_Object
 {
-	protected static $_types = array(
-		Mage_Newsletter_Model_Template::TYPE_HTML   => 'HTML',
-		Mage_Newsletter_Model_Template::TYPE_TEXT 	=> 'Text',
-	);
-    public function render(Varien_Object $row)
-    {
 
-        $str = __('Unknown');
-
-        if(isset(self::$_types[$row->getTemplateType()])) {
-            $str = self::$_types[$row->getTemplateType()];
-        }
-
-        return __($str);
-    }
 }

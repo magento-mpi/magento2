@@ -270,6 +270,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function getHostUrl($params=array())
     {
+        if ($this->getConfig('web/url/use_relative') && empty($params['_absolute'])) {
+            return '';
+        }
         $configKey = 'web/'.(empty($params['_secure']) ? 'unsecure' : 'secure');
         $config = $this->getConfig($configKey);
         if (false!==$config) {

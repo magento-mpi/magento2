@@ -66,19 +66,19 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function progressAction()
     {
-        $this->loadLayout('');
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 
     public function shippingMethodAction()
     {
-        $this->loadLayout('');
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 
     public function reviewAction()
     {
-        $this->loadLayout('');
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 
