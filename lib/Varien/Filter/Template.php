@@ -111,7 +111,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
     
     public function varDirective($construction)
     {
-    	$replacedValue = $this->_getVariable($construction[2], $construction[0]);
+    	$replacedValue = $this->_getVariable($construction[2], '');
     	return $replacedValue;
     }
     
