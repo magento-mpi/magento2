@@ -42,7 +42,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Visible exte
 		$sharedNames = array();
 
 		foreach($sharedIds as $sharedId) {
-			$sharedNames[] = $collection->getItemById($sharedId)->getName();
+		         $store = $collection->getItemById($sharedId)
+			if($store) {
+		              $sharedNames[] = $store->getName();
+			}
 		}
 
 		return $sharedNames;
