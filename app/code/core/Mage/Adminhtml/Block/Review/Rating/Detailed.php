@@ -105,9 +105,11 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Core_Block_Templa
             return false;
         }
 
-        foreach($this->_voteCollection as $vote) {
-            if($option->getId() == $vote->getOptionId()) {
-                return true;
+        if($this->_voteCollection) {
+            foreach($this->_voteCollection as $vote) {
+                if($option->getId() == $vote->getOptionId()) {
+                    return true;
+                }
             }
         }
 
