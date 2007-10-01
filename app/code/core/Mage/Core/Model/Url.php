@@ -73,6 +73,20 @@ class Mage_Core_Model_Url extends Varien_Object
      * - query: (?)'param1=value1&param2=value2'
      * - query_array: array('param1'=>'value1', 'param2'=>'value2')
      * - fragment: (#)'fragment-anchor'
+     *
+     * URL structure:
+     *
+     * https://user:password@host:443/base_path/route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
+     *       \__________A___________/\______________________________B______________________________/
+     * \__________________C___________________/\_________________D___________________/ \_____E_____/
+     *                                         \____________________________F______________________/
+     *
+     * - A: authority
+     * - B: path
+     * - C: absolute_base_url
+     * - D: action_path
+     * - E: route_params
+     * - F: route_path
      */
 
     protected function _construct()
@@ -158,6 +172,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function refreshAbsoluteBase()
     {
+        $this->unsetData('secure');
         $this->unsetData('scheme');#->getScheme();
         $this->unsetData('host');#->getHost();
         $this->unsetData('port');#->getPort();
@@ -174,7 +189,8 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function setSecure($flag)
     {
-        $this->setData('secure', $flag)->refreshAbsoluteBase();
+        $this->refreshAbsoluteBase();
+        $this->setData('secure', $flag);
         return $this;
     }
 
@@ -184,7 +200,8 @@ class Mage_Core_Model_Url extends Varien_Object
             if ($this->getType()===self::TYPE_SKIN || $this->getType()===self::TYPE_JS) {
                 $flag = $this->isCurrentlySecure();
             } else {
-                $flag = Mage::getConfig()->isUrlSecure($this->getActionPath());
+                $flag = Mage::getConfig()->isUrlSecure('/'.$this->getActionPath());
+                #print_r('TEST: '.$this->getActionPath().':'.$flag.'; ');
             }
         }
         return $this->getData('secure');
@@ -208,13 +225,14 @@ class Mage_Core_Model_Url extends Varien_Object
             } else {
                 $store = Mage::getModel('core/store')->load($data);
             }
-        } elseif ($store instanceof Mage_Core_Model_Store) {
+        } elseif ($data instanceof Mage_Core_Model_Store) {
             $store = $data;
         } else {
             throw Mage::exception('Mage_Core', 'Wrong store argument specified');
         }
 
-        $this->setData('store', $store)->refreshAbsoluteBase();
+        $this->setData('store', $store);
+        $this->refreshAbsoluteBase();
         return $this;
     }
 
@@ -232,7 +250,7 @@ class Mage_Core_Model_Url extends Varien_Object
             throw Mage::exception('Mage_Core', 'Invalid scheme specified');
         }
 
-        $this->setData('secure', $data===self::SCHEME_SECURE);
+        #$this->setData('secure', $data===self::SCHEME_SECURE);
 
         return $this->setData('scheme', $data);
     }
@@ -327,9 +345,56 @@ class Mage_Core_Model_Url extends Varien_Object
         return $this->getData('authority');
     }
 
+    public function getHostUrl()
+    {
+        $url = $url = $this->getScheme().':'.$this->getAuthority();
+        return $url;
+    }
+
     public function getAbsoluteBaseUrl()
     {
-        $url = $this->getScheme().':'.$this->getAuthority().$this->getBasePath();
+        $url = $this->getHostUrl().$this->getBasePath();
+        return $url;
+    }
+
+    public function getBaseUrlCacheId()
+    {
+        $id = $this->getStore()->getId().'-'.($this->getSecure() ? 1 : 0);
+        return $id;
+    }
+
+    public function getBaseUrl($params=array())
+    {
+        if (isset($params['_secure'])) {
+            $this->setSecure(!empty($params['_secure']));
+        }
+
+        $cacheId = $this->getBaseUrlCacheId();
+        if (isset(self::$_baseUrlCache[$cacheId])) {
+            $url = self::$_baseUrlCache[$cacheId];
+        } else {
+            if ($this->getRelativeUrl()) {
+                $url = $this->getBasePath();
+            } else {
+                $url = $this->getAbsoluteBaseUrl();
+            }
+            self::$_baseUrlCache[$cacheId] = $url;
+
+            $this->checkCookieDomains();
+        }
+
+        if (isset($params['_type'])) {
+            switch ($params['_type']) {
+                case self::TYPE_JS:
+                    $url .= 'js/';
+                    break;
+
+                case self::TYPE_SKIN:
+                    $url .= 'skin/';
+                    break;
+            }
+        }
+
         return $url;
     }
 
@@ -370,7 +435,27 @@ class Mage_Core_Model_Url extends Varien_Object
             }
         }
 
-        return $this->setData('route_path', $data);
+        $this->setData('route_path', $data);
+
+        return $this;
+    }
+
+    public function getActionPath()
+    {
+        $hasParams = (bool)$this->getRouteParams();
+
+        $path = $this->getRouteName();
+        if ($this->getControllerName()) {
+            $path .= '/'.$this->getControllerName();
+        } elseif ($hasParams) {
+            $path .= '/'.$this->getDefaultControllerName();
+        }
+        if ($this->getActionName()) {
+            $path .= '/'.$this->getActionName();
+        } elseif ($hasParams) {
+            $path .= '/'.$this->getDefaultActionName();
+        }
+        return $path;
     }
 
     public function getRoutePath()
@@ -383,17 +468,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $router = Mage::app()->getFrontController()->getRouterByRoute($this->getRouteName());
             $routePath = $router->getUrl($this->getRouteName(), $params);
             */
-            $routePath = $this->getRouteName();
-            if ($this->getControllerName()) {
-                $routePath .= '/'.$this->getControllerName();
-            } elseif ($this->getRouteParams()) {
-                $routePath .= '/'.$this->getDefaultControllerName();
-            }
-            if ($this->getActionName()) {
-                $routePath .= '/'.$this->getActionName();
-            } elseif ($this->getRouteParams()) {
-                $routePath .= '/'.$this->getDefaultActionName();
-            }
+            $routePath = $this->getActionPath();
             if ($this->getRouteParams()) {
                 foreach ($this->getRouteParams() as $key=>$value) {
                     $routePath .='/'.$key.'/'.$value;
@@ -407,7 +482,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setRouteName($data)
     {
-        $this->unsetData('route_path');
+        $this->unsetData('route_path')->unsetData('controller_name')->unsetData('action_name');
         return $this->setData('route_name', $data);
     }
 
@@ -418,6 +493,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setControllerName($data)
     {
+        $this->unsetData('route_path')->unsetData('action_name');
         return $this->setData('controller_name', $data);
     }
 
@@ -428,6 +504,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setActionName($data)
     {
+        $this->unsetData('route_path');
         return $this->setData('action_name', $data);
     }
 
@@ -464,6 +541,9 @@ class Mage_Core_Model_Url extends Varien_Object
                 }
             } else {
                 foreach ($this->getRequest()->getUserParams() as $key=>$value) {
+                    if (isset($data[$key])) {
+                        continue;
+                    }
                     $data[$key] = $value;
                 }
                 foreach ($this->getRequest()->getQuery() as $key=>$value) {
@@ -509,31 +589,9 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setRouteParams($routeParams);
         }
 
-        $cacheId = $this->getBaseUrlCacheId();
-        if (isset(self::$_baseUrlCache[$cacheId])) {
-            $url = self::$_baseUrlCache[$cacheId];
-        } else {
-            if ($this->getRelativeUrl()) {
-                $url = $this->getBasePath();
-            } else {
-                $url = $this->getAbsoluteBaseUrl();
-            }
-            self::$_baseUrlCache[$cacheId] = $url;
-
-            $this->checkCookieDomains();
-        }
-
-        $url .= $this->getRoutePath();
+        $url = $this->getBaseUrl().$this->getRoutePath();
 
         return $url;
-    }
-
-    public function getBaseUrlCacheId()
-    {
-        $id = $this->getStore()->getId()
-            .'-'.($this->getSecure() ? 1 : 0)
-        ;
-        return $id;
     }
 
     /**
@@ -623,6 +681,8 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function getUrl($routePath=null, $routeParams=null)
     {
+        #$this->refreshAbsoluteBase();
+
         $url = $this->getRouteUrl($routePath, $routeParams);
 
         if ($this->getQuery()) {

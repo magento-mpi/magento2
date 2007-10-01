@@ -218,7 +218,8 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        return Mage::app()->getStore()->getUrl($params);
+        return Mage::getSingleton('core/url')->getBaseUrl($params);
+        #return Mage::app()->getStore()->getUrl($params);
     }
 
     public static function getUrl($route='', $params=array())

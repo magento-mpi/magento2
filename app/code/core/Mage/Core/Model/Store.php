@@ -237,6 +237,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getUrl($params=array())
     {
+        return Mage::getSingleton('core/url')->setStore($this)->getBaseUrl($params);
+
         if (!is_array($params)) {
             $params = array();
         }
