@@ -228,11 +228,11 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setScheme($data)
     {
-        if ($data!==SCHEME_SECURE && $data!==SCHEME_UNSECURE) {
+        if ($data!==self::SCHEME_SECURE && $data!==self::SCHEME_UNSECURE) {
             throw Mage::exception('Mage_Core', 'Invalid scheme specified');
         }
 
-        $this->setData('secure', $data===SCHEME_SECURE);
+        $this->setData('secure', $data===self::SCHEME_SECURE);
 
         return $this->setData('scheme', $data);
     }

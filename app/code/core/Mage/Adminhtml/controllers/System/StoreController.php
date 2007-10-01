@@ -35,12 +35,12 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         ;
         return $this;
     }
-    
+
     public function newAction()
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $id = $this->getRequest()->getParam('store');
@@ -63,10 +63,11 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit')->setData('action', Mage::getUrl('*/system_store/save')))
             ->renderLayout();
     }
-    
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+            Mage::getConfig()->getCache()->remove('config_global');
             $model = Mage::getModel('core/store');
             $model->setData($data);
             try {
@@ -82,10 +83,10 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             }
         }
     }
-    
+
     public function deleteAction()
     {
-        $this->_redirect('*/system_config');        
+        $this->_redirect('*/system_config');
     }
 
     protected function _isAllowed()

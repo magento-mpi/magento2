@@ -35,12 +35,12 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
         ;
         return $this;
     }
-    
+
     public function newAction()
     {
         $this->_forward('edit');
     }
-    
+
     public function editAction()
     {
         $id = $this->getRequest()->getParam('website');
@@ -63,10 +63,11 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_website_edit')->setData('action', Mage::getUrl('*/system_website/save')))
             ->renderLayout();
     }
-    
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+            Mage::getConfig()->getCache()->remove('config_global');
             $model = Mage::getModel('core/website');
             $model->setData($data);
             try {
@@ -82,12 +83,12 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
             }
         }
     }
-    
+
     public function deleteAction()
     {
-        $this->_redirect('*/system_config');        
+        $this->_redirect('*/system_config');
     }
-    
+
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('system/config/website');
