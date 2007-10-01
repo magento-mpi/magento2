@@ -79,10 +79,11 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
 
     public function setStoreFilter($storeId)
     {
-        if(is_array($storeId)) {
-           $storeId = array($storeId);
+        if(!is_array($storeId)) {
+           $storeId = array($storeId === null ? -1 : $storeId);
         }
         $condition = $this->getConnection()->quoteInto('store.store_id IN(?)', $storeId);
+
 
         $this->getSelect()->join(array('store'=>$this->getTable('rating_store')), 'main_table.rating_id = store.rating_id')
             ->group('main_table.rating_id')
