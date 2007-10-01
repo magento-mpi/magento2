@@ -1,0 +1,1 @@
+update tax_rate set tax_postcode=null where tax_postcode='*';
