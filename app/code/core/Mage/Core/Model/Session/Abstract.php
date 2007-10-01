@@ -25,6 +25,8 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
 
+    const SESSION_ID_QUERY_PARAM = 'SID';
+
 	public function init($namespace, $sessionName=null)
 	{
 		parent::init($namespace, $sessionName);
@@ -174,4 +176,20 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         return $this;
     }
 
+    public function setSessionId($id=null)
+    {
+        if (is_null($id)) {
+            if (isset($_GET[self::SESSION_ID_QUERY_PARAM])) {
+                if ($tryId = Mage::decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
+                    $id = $tryId;
+                }
+            }
+        }
+        $domains = $this->getCookieDomains();
+        if (empty($domains[$_SERVER['HTTP_HOST']])) {
+            $domains[$_SERVER['HTTP_HOST']] = 1;
+            $this->setCookieDomains($domains);
+        }
+        parent::setSessionId($id);
+    }
 }

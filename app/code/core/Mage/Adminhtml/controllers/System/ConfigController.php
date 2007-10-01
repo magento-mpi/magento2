@@ -58,6 +58,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     public function saveAction()
     {
         try {
+            Mage::getConfig()->getCache()->remove('config_global');
             Mage::getResourceModel('adminhtml/config')->saveSectionPost(
                 $this->getRequest()->getParam('section'),
                 $this->getRequest()->getParam('website'),
@@ -71,7 +72,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::getSingleton('adminhtml/session')->addError(nl2br($e->getMessage()));
             $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
         }
-    }    
+    }
 
     public function exportTableratesAction()
     {
@@ -88,13 +89,13 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $tableratesCollection->setWebsiteFilter($websiteModel->getId());
         $tableratesCollection->load();
 
-        $csv = '';                                            
-        
+        $csv = '';
+
         $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
-        
+
         $csvHeader = array('"'.__('Country').'"', '"'.__('Region/State').'"', '"'.__('Zip/Postal Code').'"', '"'.$conditionName.'"', '"'.__('Shipping Price').'"');
         $csv .= implode(',', $csvHeader)."\n";
-        
+
         foreach ($tableratesCollection->getItems() as $item) {
             if ($item->getData('dest_country') == '') {
                 $country = '*';
@@ -119,11 +120,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                               );
             $csv .= implode(',', $csvData)."\n";
         }
-        
+
         header("Content-disposition: attachment; filename=tablerates.csv");
         echo $csv;
     }
-    
+
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('system/config');

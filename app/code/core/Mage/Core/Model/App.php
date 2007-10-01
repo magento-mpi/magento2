@@ -91,7 +91,7 @@ class Mage_Core_Model_App
      * @var Mage_Core_Controller_Varien_Front
      */
     protected $_frontController;
-    
+
     /**
      * Cache object
      *
@@ -271,7 +271,7 @@ class Mage_Core_Model_App
         }
         return false;
     }
-    
+
     /**
      * Generate cahce id with application specific data
      *
@@ -285,7 +285,7 @@ class Mage_Core_Model_App
         }
         return $id;
     }
-    
+
     /**
      * Generate cache tags from cache id
      *
@@ -296,7 +296,7 @@ class Mage_Core_Model_App
     protected function _getCacheIdTags($id, $tags=array())
     {
         $idTags = explode('_', $id);
-        
+
         $first = true;
         foreach ($idTags as $tag) {
             $newTag = $first ? $tag : $newTag . '_' . $tag;
@@ -305,10 +305,10 @@ class Mage_Core_Model_App
         	}
         	$first = false;
         }
-        
+
         return $tags;
     }
-    
+
     /**
      * Retrieve cache object
      *
@@ -320,15 +320,15 @@ class Mage_Core_Model_App
             $this->_cache = Zend_Cache::factory('Core', 'File',
                 array('caching'=>true, 'lifetime'=>7200),
                 array(
-                    'cache_dir'=>Mage::getBaseDir('cache'), 
-                    'hashed_directory_level'=>1, 
+                    'cache_dir'=>Mage::getBaseDir('cache'),
+                    'hashed_directory_level'=>1,
                     'hashed_directory_umask'=>0777,
                     'file_name_prefix'=>'mage')
             );
         }
         return $this->_cache;
     }
-    
+
     /**
      * Loading cache data
      *
@@ -339,7 +339,7 @@ class Mage_Core_Model_App
     {
         return $this->getCache()->load($this->_getCacheId($id));
     }
-    
+
     /**
      * Saving cache data
      *
@@ -353,7 +353,7 @@ class Mage_Core_Model_App
         $this->getCache()->save($data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags));
         return $this;
     }
-    
+
     /**
      * Remove cache
      *
@@ -365,7 +365,7 @@ class Mage_Core_Model_App
         $this->getCache()->remove($this->_getCacheId($id));
         return $this;
     }
-    
+
     /**
      * Cleaning cache
      *

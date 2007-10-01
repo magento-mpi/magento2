@@ -89,6 +89,8 @@ final class Mage {
 
     static private $_useCache = array();
 
+    static private $_crypt;
+
     public static function getVersion()
     {
         return '0.6.12383';
@@ -221,7 +223,8 @@ final class Mage {
 
     public static function getUrl($route='', $params=array())
     {
-        return Mage::registry('controller')->getUrl($route, $params);
+        return Mage::getSingleton('core/url')->getUrl($route, $params);
+        #return Mage::registry('controller')->getUrl($route, $params);
     }
 
     /**
@@ -356,6 +359,31 @@ final class Mage {
             $value = $e->getMessage();
         }
     	return $value;
+    }
+
+    public static function getCrypt()
+    {
+        if (!self::$_crypt) {
+            $key = (string)Mage::getConfig()->getNode('global/crypt/key');
+            self::$_crypt = Varien_Crypt::factory()->init($key);
+        }
+        return self::$_crypt;
+    }
+
+    public static function encrypt($data)
+    {
+        Varien_Profiler::start(__METHOD__);
+        $result = base64_encode(self::getCrypt()->encrypt($data));
+        Varien_Profiler::stop(__METHOD__);
+        return $result;
+    }
+
+    public static function decrypt($data)
+    {
+        Varien_Profiler::start(__METHOD__);
+        $result = trim(self::getCrypt()->decrypt(base64_decode($data)));
+        Varien_Profiler::stop(__METHOD__);
+        return $result;
     }
 
     /**

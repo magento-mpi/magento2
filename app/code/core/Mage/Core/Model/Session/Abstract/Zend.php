@@ -33,17 +33,17 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
      * @var Zend_Session_Namespace
      */
     protected $_namespace;
-    
+
     public function getNamespace()
     {
     	return $this->_namespace;
     }
-    
+
     public function start()
     {
         Varien_Profiler::start(__METHOD__.'/setOptions');
         $options = array(
-        	'save_path'=>Mage::getBaseDir('session'), 
+        	'save_path'=>Mage::getBaseDir('session'),
         	'use_only_cookies'=>'off',
         );
         if ($this->getCookieDomain()) {
@@ -64,14 +64,14 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         	Zend_Session::setSaveHandler($sessionResource);
         }
         Varien_Profiler::stop(__METHOD__.'/setHandler');
-*/     
+*/
         Varien_Profiler::start(__METHOD__.'/start');
         Zend_Session::start();
         Varien_Profiler::stop(__METHOD__.'/start');
-        
+
         return $this;
     }
-    
+
     /**
      * Initialization session namespace
      *
@@ -82,13 +82,13 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
     	if (!Zend_Session::sessionExists()) {
     		$this->start();
     	}
-    	
+
         Varien_Profiler::start(__METHOD__.'/init');
         $this->_namespace = new Zend_Session_Namespace($namespace, Zend_Session_Namespace::SINGLE_INSTANCE);
         Varien_Profiler::stop(__METHOD__.'/init');
         return $this;
     }
-    
+
     /**
      * Redeclaration object setter
      *
@@ -104,7 +104,7 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         $this->_namespace->data->setData($key, $value, $isChanged);
         return $this;
     }
-    
+
     /**
      * Redeclaration object getter
      *
@@ -119,14 +119,14 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         }
 
         $data = $this->_namespace->data->getData($var);
-        
+
         if ($clear) {
             $this->_namespace->data->unsetData($var);
         }
 
         return $data;
     }
-    
+
     /**
      * Cleare session data
      *
@@ -137,7 +137,7 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         $this->_namespace->unsetAll();
         return $this;
     }
-    
+
     /**
      * Retrieve current session identifier
      *
@@ -148,5 +148,11 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         return Zend_Session::getId();
     }
 
-
+    public function setSessionId($id=null)
+    {
+        if (!is_null($id)) {
+            Zend_Session::setId($id);
+        }
+        return $this;
+    }
 }

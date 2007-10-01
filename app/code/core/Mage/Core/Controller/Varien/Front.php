@@ -27,17 +27,17 @@ class Mage_Core_Controller_Varien_Front
      * @var Zend_Controller_Request_Http
      */
     protected $_request;
-    
+
     /**
      * Response object
      *
      * @var Zend_Controller_Response_Http
      */
     protected $_response;
-    
-    
+
+
     protected $_defaults = array();
-    
+
     /**
      * Available routers array
      *
@@ -66,7 +66,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return false;
     }
-    
+
     /**
      * Retrieve request object
      *
@@ -79,7 +79,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this->_request;
     }
-    
+
     /**
      * Retrieve response object
      *
@@ -92,7 +92,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return $this->_response;
     }
-    
+
     /**
      * Adding new router
      *
@@ -106,7 +106,7 @@ class Mage_Core_Controller_Varien_Front
         $this->_routers[$name] = $router;
         return $this;
     }
-    
+
     /**
      * Retrieve router by name
      *
@@ -221,10 +221,19 @@ class Mage_Core_Controller_Varien_Front
         }
         // merge with optional params
         $paramsArr = array_merge($paramsArr, $params);
+        $router = $this->getRouterByRoute($routeName);
+        $url = $router->getUrl($routeName, $paramsArr);
+        if (isset($cacheKey)) {
+            $this->_urlCache[$cacheKey] = $url;
+        }
+        return $url;
+    }
 
+    public function getRouterByRoute($routeName)
+    {
         // empty route supplied - return base url
         if (empty($routeName)) {
-            $url = Mage::getBaseUrl();
+            $router = $this->getRouter('standard');
         } elseif ($this->getRouter('admin')->getRealModuleName($routeName)) {
             // try standard router url assembly
             $router = $this->getRouter('admin');
@@ -237,11 +246,8 @@ class Mage_Core_Controller_Varien_Front
             // get default router url
             $router = $this->getRouter('default');
         }
-        $url = $router->getUrl($routeName, $paramsArr);
-        if (isset($cacheKey)) {
-            $this->_urlCache[$cacheKey] = $url;
-        }
-        return $url;
+
+        return $router;
     }
 
     public function rewrite()
