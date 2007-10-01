@@ -30,7 +30,7 @@ class Mage_Paypal_Model_Source_PaymentAction
     {
         return array(
             array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => __('Authorization')),
-            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_ORDER, 'label' => __('Order')),
+            #array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_ORDER, 'label' => __('Order')),
             array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE, 'label' => __('Sale')),
         );
     }
