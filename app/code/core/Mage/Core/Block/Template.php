@@ -197,10 +197,17 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function tpl($tplName, array $args=array())
     {
+        $block = $this->getLayout()->createBlock('core/template');
+        /* @var $block Mage_Core_Block_Template */
+        foreach ($assign as $k=>$v) {
+            $block->assign($k, $v);
+        }
+        return $block->setTemplate($tplName)->toHtml();
+/*
         extract($args);
         ob_start();
         include $this->_viewDir.DS.$tplName;
-        return ob_get_clean();
+        return ob_get_clean(); */
     }
 
     /**

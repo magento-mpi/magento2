@@ -66,6 +66,19 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         return $this;
     }
 
+	public function removeItem($type, $name)
+	{
+		if (!isset($this->_additionalCssJs[$type])) {
+			return $this;
+		}
+		$key = array_search($name, $this->_additionalCssJs[$type]);
+		if (false===$key) {
+			return $this;
+		}
+		unset($this->_additionalCssJs[$type][$key]);
+		return $this;
+	}
+
     public function getAdditionalCssJs()
     {
         $lines = '';

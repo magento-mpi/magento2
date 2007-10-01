@@ -50,7 +50,8 @@
 .generic-product-list li:after,
 .listing-type-list .listing-item:after,
 .listing-type-list .product-info .product-reviews:after,
-.my-review-detail:after {
+.my-review-detail:after,
+.shopping-cart-totals .checkout-types:after {
 	content:".";
 	display:block;
 	clear:both;

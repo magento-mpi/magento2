@@ -28,6 +28,7 @@
 <div class="page-head-alt button-level">
     <h3><?=$this->__('Shopping Cart')?></h3>
     <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=$this->__('Proceed to Checkout')?>"/></a>
+	<!--<a class="img-btn btn-checkout" href="<?=$this->getCheckoutUrl()?>"><span><?=__('Proceed to Checkout')?></span></a>-->
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">

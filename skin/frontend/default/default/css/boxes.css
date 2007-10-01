@@ -89,7 +89,24 @@ input.form-radio { margin-right:3px;}
     border:1px solid #406a83;
     background-color:#618499;
     }
-
+.btn-checkout {
+	display:block;
+	float:right;
+	background:transparent url(../images/btn_proceed_to_checkout_rad.gif) no-repeat 100% 0;
+	font-size:15px;
+	font-weight:bold;
+	padding-right:8px;
+	}
+.btn-checkout, .btn-checkout:hover { 
+	color:#fef5e5;
+	text-decoration:none;
+	}
+.btn-checkout span {
+	display:block;
+	padding:0 17px 0 25px;
+	background:transparent url(../images/btn_proceed_to_checkout_bg.gif) no-repeat;
+	line-height:40px;
+	}
 
 /* Form lists */
 .form-list li { margin-bottom:6px; }
@@ -610,6 +627,7 @@ h1#logo {
     }
 .old-price .price {
     text-decoration:line-through;
+	white-space:nowrap;
     }
 .special-price {
     color:#cd5033;
@@ -618,7 +636,7 @@ h1#logo {
     line-height:1em;
     }
 .special-price .label { font-weight:normal; }
-
+.special-price .price { white-space:nowrap; }
 
 
 /********************** Generic Box */
@@ -945,7 +963,7 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
     font-size:1.3em;
     }
 .shopping-cart-totals .checkout-types { margin:15px; }
-.shopping-cart-totals .checkout-types li { margin:10px 0; }
+.shopping-cart-totals .checkout-types li { clear:both;  margin:10px 0; }
 .shopping-cart-collaterals {
     float:left;
     width:605px;
