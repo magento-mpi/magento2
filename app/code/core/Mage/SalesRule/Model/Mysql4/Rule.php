@@ -19,7 +19,7 @@
  */
 
 
-class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract 
+class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
@@ -36,7 +36,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     	}
         parent::_beforeSave($object);
     }
-    
+
     public function updateRuleProductData(Mage_SalesRule_Model_Rule $rule)
     {
         foreach ($rule->getActions()->getActions() as $action) {
@@ -47,26 +47,26 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $read = $this->getConnection('read');
         $write = $this->getConnection('write');
-        
+
         $write->delete($this->getTable('salesrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
-        
+
         if (!$rule->getIsActive()) {
             return $this;
         }
-        
+
         if ($rule->getUsesPerCoupon()>0) {
         	$usedPerCoupon = $read->fetchOne('select count(*) from salesrule_customer where rule_id=?', $ruleId);
         	if ($usedPerCoupon>=$rule->getUsesPerCoupon()) {
         		return $this;
         	}
         }
-        
+
         $productIds = explode(',', $rule->getProductIds());
         $storeIds = explode(',', $rule->getStoreIds());
         $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
-        
+
         $fromTime = strtotime($rule->getFromDate());
-        $toTime = strtotime($rule->getToDate());
+        $toTime = strtotime($rule->getToDate())+86400;
         $couponCode = $rule->getCouponCode() ? "'".$rule->getCouponCode()."'" : 'NULL';
         $sortOrder = (int)$rule->getSortOrder();
 
@@ -74,7 +74,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $header = 'replace into '.$this->getTable('salesrule/rule_product').' (rule_id, from_time, to_time, store_id, customer_group_id, product_id, coupon_code, sort_order) values ';
         try {
             $write->beginTransaction();
-            
+
             foreach ($productIds as $productId) {
                 foreach ($storeIds as $storeId) {
                     foreach ($customerGroupIds as $customerGroupId) {
@@ -91,18 +91,18 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $sql = $header.join(',', $rows);
                 $write->query($sql);
             }
-            
+
             $write->commit();
         } catch (Exception $e) {
-            
+
             $write->rollback();
             throw $e;
-            
+
         }
-        
+
         return $this;
     }
-    
+
     public function getCustomerUses($rule, $customerId)
     {
     	$read = $this->getConnection('read');

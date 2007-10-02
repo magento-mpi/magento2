@@ -53,7 +53,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
 
         $fromTime = strtotime($rule->getFromDate());
-        $toTime = strtotime($rule->getToDate());
+        $toTime = strtotime($rule->getToDate())+86400;
         $sortOrder = (int)$rule->getSortOrder();
         $actionOperator = $action->getOperator();
         $actionAmount = $action->getValue();
