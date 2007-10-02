@@ -137,6 +137,7 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
         $q->getBillingAddress()
             ->setFirstname('Paypal')
+            ->setLastname('Account')
             ->setEmail($a->getEmail());
 
         $q->getShippingAddress()
