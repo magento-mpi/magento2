@@ -97,7 +97,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         Mage::log('Add entity filter to review collection');
         if (is_numeric($entity)) {
             $this->addFilter('entity',
-                $this->getConnection()->quoteInto($this->_reviewTable.'.entity_id=?', $entity),
+                $this->getConnection()->quoteInto('main_table.entity_id=?', $entity),
                 'string');
         }
         elseif (is_string($entity)) {
@@ -133,7 +133,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         Mage::log('Add status filter to review collection');
         if (is_numeric($status)) {
             $this->addFilter('status',
-                $this->getConnection()->quoteInto($this->_reviewTable.'.status_id=?', $status),
+                $this->getConnection()->quoteInto('main_table.status_id=?', $status),
                 'string');
         }
         elseif (is_string($status)) {
@@ -149,7 +149,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
 
     public function setDateOrder($dir='DESC')
     {
-        $this->setOrder('created_at', $dir);
+        $this->setOrder('main_table.created_at', $dir);
         return $this;
     }
 
@@ -170,8 +170,8 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
 
     public function addReviewsTotalCount()
     {
-        $this->_sqlSelect->joinLeft(array('r' => $this->_reviewTable), "{$this->_reviewTable}.entity_pk_value = r.entity_pk_value", 'COUNT(r.review_id) as total_reviews');
-        $this->_sqlSelect->group("{$this->_reviewTable}.review_id");
+        $this->_sqlSelect->joinLeft(array('r' => $this->_reviewTable), 'main_table.entity_pk_value = r.entity_pk_value', 'COUNT(r.review_id) as total_reviews');
+        $this->_sqlSelect->group('main_table.review_id');
 
         return $this;
     }
