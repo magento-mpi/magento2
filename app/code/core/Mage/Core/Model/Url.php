@@ -27,9 +27,10 @@
  */
 class Mage_Core_Model_Url extends Varien_Object
 {
-    const TYPE_LINK = 'link';
+    const TYPE_ROUTE = 'route';
     const TYPE_SKIN = 'skin';
     const TYPE_JS = 'js';
+    const TYPE_MEDIA = 'media';
 
     const SCHEME_UNSECURE = 'http';
     const SCHEME_SECURE = 'https';
@@ -53,7 +54,7 @@ class Mage_Core_Model_Url extends Varien_Object
      * - request
      *
      * - relative_url: true, false
-     * - type: 'link', 'skin'
+     * - type: 'route', 'skin', 'js', 'media'
      * - store: instanceof Mage_Core_Model_Store
      * - secure: true, false
      *
@@ -80,6 +81,7 @@ class Mage_Core_Model_Url extends Varien_Object
      *       \__________A___________/\______________________________B______________________________/
      * \__________________C___________________/\_________________D___________________/ \_____E_____/
      *                                         \____________________________F______________________/
+     * \_____________________________________________G_____________________________________________/
      *
      * - A: authority
      * - B: path
@@ -87,6 +89,7 @@ class Mage_Core_Model_Url extends Varien_Object
      * - D: action_path
      * - E: route_params
      * - F: route_path
+     * - G: route_url
      */
 
     protected function _construct()
@@ -130,7 +133,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function isCurrentlySecure()
     {
-        return (bool)$_SERVER['HTTPS'];
+        return !empty($_SERVER['HTTPS']);
     }
 
     public function setRequest(Zend_Controller_Request_Http $request)
@@ -165,7 +168,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getType()
     {
         if (!$this->hasData('type')) {
-            $this->setData('type', self::TYPE_LINK);
+            $this->setData('type', self::TYPE_ROUTE);
         }
         return $this->getData('type');
     }
@@ -197,11 +200,11 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getSecure()
     {
         if (!$this->hasData('secure')) {
-            if ($this->getType()===self::TYPE_SKIN || $this->getType()===self::TYPE_JS) {
-                $flag = $this->isCurrentlySecure();
+            if ($this->getType()===self::TYPE_ROUTE) {
+                $this->setData('secure', Mage::getConfig()->isUrlSecure('/'.$this->getActionPath()));
             } else {
-                $flag = Mage::getConfig()->isUrlSecure('/'.$this->getActionPath());
-                #print_r('TEST: '.$this->getActionPath().':'.$flag.'; ');
+            #if ($this->getType()===self::TYPE_SKIN || $this->getType()===self::TYPE_JS || $this->getType()===self::TYPE_MEDIA) {
+                $this->setData('secure', $this->isCurrentlySecure());
             }
         }
         return $this->getData('secure');
@@ -365,8 +368,15 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function getBaseUrl($params=array())
     {
+        if (isset($params['_type'])) {
+            $this->setType($params['_type']);
+        }
         if (isset($params['_secure'])) {
             $this->setSecure(!empty($params['_secure']));
+        }
+        if ($this->getType()==self::TYPE_ROUTE
+            && Mage::getConfig()->isUrlSecure('/'.$this->getActionPath())) {
+            $this->setSecure(true);
         }
 
         $cacheId = $this->getBaseUrlCacheId();
@@ -391,6 +401,10 @@ class Mage_Core_Model_Url extends Varien_Object
 
                 case self::TYPE_SKIN:
                     $url .= 'skin/';
+                    break;
+
+                case self::TYPE_MEDIA:
+                    $url .= 'media/';
                     break;
             }
         }
@@ -474,12 +488,12 @@ class Mage_Core_Model_Url extends Varien_Object
                     $routePath .='/'.$key.'/'.$value;
                 }
             }
-            
+
             $lastSymb = substr($routePath, -1, 1);
             if ($lastSymb && $lastSymb !== '/') {
                 $routePath.= '/';
             }
-            
+
             $this->setData('route_path', $routePath);
         }
         return $this->getData('route_path');
@@ -520,23 +534,18 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setRouteParams(array $data)
     {
-        if (!empty($data['_type'])) {
-            if (self::TYPE_JS===$type || self::TYPE_SKIN===$type) {
-                $this->setType($type);
-            } else {
-                $this->setType(self::TYPE_LINK);
-            }
+        if (isset($data['_type'])) {
+            $this->setType($data['_type']);
             unset($data['_type']);
-        } else {
-            $this->setType(self::TYPE_LINK);
         }
 
-        if (!empty($data['_secure'])) {
-            $this->setSecure(true);
+        if (isset($data['_secure'])) {
+            $this->setSecure((bool)$data['_secure']);
             unset($data['_secure']);
         }
 
-        if (!empty($data['_current'])) {
+        $this->setUseUrlCache(true);
+        if (isset($data['_current'])) {
             if (is_array($data['_current'])) {
                 foreach ($data['_current'] as $key) {
                     if (!$this->getRequest()->getUserParam($key)) {
@@ -544,7 +553,7 @@ class Mage_Core_Model_Url extends Varien_Object
                     }
                     $data[$key] = $this->getRequest()->getUserParam($key);
                 }
-            } else {
+            } elseif ($data['_current']) {
                 foreach ($this->getRequest()->getUserParams() as $key=>$value) {
                     if (isset($data[$key])) {
                         continue;
@@ -554,11 +563,9 @@ class Mage_Core_Model_Url extends Varien_Object
                 foreach ($this->getRequest()->getQuery() as $key=>$value) {
                     $this->setQueryParam($key, $value);
                 }
+                $this->setUseUrlCache(false);
             }
             unset($data['_current']);
-            $this->setUseUrlCache(false);
-        } else {
-            $this->setUseUrlCache(true);
         }
 
         $this->unsetData('route_path');

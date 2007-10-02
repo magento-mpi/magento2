@@ -69,7 +69,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-    
+
     /**
      * Loading store configuration data
      *
@@ -119,7 +119,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         return $this->getData('code');
     }
-    
+
     /**
      * Retrieve store configuration data
      *
@@ -170,7 +170,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      *
      * @param   array $params
      * @return  string
-     */
+     *
     public function getUrl($params=array())
     {
         return Mage::getSingleton('core/url')->setStore($this)->getBaseUrl($params);
@@ -247,7 +247,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         return empty($basePath) ? '/' : $basePath;
     }
-
+    */
     public function processSubst($str)
     {
         if (!is_string($str)) {

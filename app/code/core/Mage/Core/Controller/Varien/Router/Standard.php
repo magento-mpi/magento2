@@ -157,7 +157,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $class = $realModule.'_'.uc_words($controller).'Controller';
         return $class;
     }
-
+/*
     public function getUrl($routeName, $params=array())
     {
         static $reservedKeys = array('module'=>1, 'controller'=>1, 'action'=>1, 'array'=>1);
@@ -218,7 +218,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         return $url;
     }
-
+*/
     public function rewrite(array $p)
     {
     	$rewrite = Mage::getConfig()->getNode('global/rewrite');

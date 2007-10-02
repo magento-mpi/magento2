@@ -175,7 +175,7 @@ class Mage_Core_Controller_Varien_Front
 
         return $this;
     }
-
+/*
     public function getUrl($route='', $params=array())
     {
         if (!isset($params['_current'])) {
@@ -228,7 +228,7 @@ class Mage_Core_Controller_Varien_Front
         }
         return $url;
     }
-
+*/
     public function getRouterByRoute($routeName)
     {
         // empty route supplied - return base url
