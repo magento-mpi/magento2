@@ -56,32 +56,11 @@ class Mage_Core_Model_Translate
     protected $_useCache = true;
     
     /**
-     * Cache object
-     *
-     * @var Zend_Cache_Frontend_File
-     */
-    protected $_cache;
-
-    /**
      * Cache identifier
      *
      * @var string
      */
     protected $_cacheId;
-
-    /**
-     * Cache checksum
-     *
-     * @var string
-     */
-    protected $_cacheChecksum;
-
-    /**
-     * Checksum cache identifier
-     *
-     * @var string
-     */
-    protected $_cacheChecksumId;
 
     /**
      * Translation data
@@ -400,70 +379,6 @@ class Mage_Core_Model_Translate
     }
 
     /**
-     * Retrieve cache checksum identifier
-     *
-     * @return string
-     */
-    public function getCacheChecksumId()
-    {
-        return $this->getCacheId().'_CHECKSUM';
-    }
-
-    /**
-     * Retrieve cache checksum
-     *
-     * @return string
-     */
-    /*public function getCacheChecksum()
-    {
-        if (is_null($this->_cacheChecksum)) {
-            foreach ($this->getModulesConfig() as $moduleName=>$info) {
-            	$info = $info->asArray();
-            	foreach ($info['files'] as $file) {
-            		$file = $this->_getModuleFilePath($moduleName, $file);
-            		if (file_exists($file)) {
-            		    $this->_cacheChecksum.= $moduleName . filemtime($file);
-            		}
-            	}
-            }
-            $this->_cacheChecksum.= '_DB_'.$this->getResource()->getMainChecksum();
-            $this->_cacheChecksum = md5($this->_cacheChecksum);
-        }
-        return $this->_cacheChecksum;
-    }*/
-
-    /**
-     * Retrieve checksum validation status
-     *
-     * @return bool
-     */
-    /*public function isCacheChecksumValid()
-    {
-        $old    = $this->getCache()->load($this->getCacheChecksumId());
-        $current= $this->getCacheChecksum();
-        if ($old && $old === $current) {
-            return true;
-        }
-        return false;
-    }*/
-
-    /**
-     * Retrieve cache object
-     *
-     * @return Zend_Cache_Frontend_File
-     */
-    public function getCache()
-    {
-        if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File',
-                array('automatic_serialization'=>true),
-                array('cache_dir'=>Mage::getBaseDir('cache_translate'))
-            );
-        }
-        return $this->_cache;
-    }
-
-    /**
      * Loading data cache
      *
      * @param   string $area
@@ -471,11 +386,10 @@ class Mage_Core_Model_Translate
      */
     protected function _loadCache()
     {
-        //if (!$this->isCacheChecksumValid()) {
         if (!$this->_canUseCache()) {
             return false;
         }
-        $data = $this->getCache()->load($this->getCacheId());
+        $data = Mage::app()->loadCache($this->getCacheId());
         return $data;
     }
 
@@ -487,11 +401,10 @@ class Mage_Core_Model_Translate
      */
     protected function _saveCache()
     {
-        //$this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId());
         if (!$this->_canUseCache()) {
             return $this;
         }
-        $this->getCache()->save($this->getData(), $this->getCacheId());
+        Mage::app()->saveCache($this->getData(), $this->getCacheId(), array('translate'));
         return $this;
     }
     

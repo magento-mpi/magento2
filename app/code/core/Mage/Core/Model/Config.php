@@ -195,12 +195,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getCache()
     {
-        if (!$this->_cache) {
+        /*if (!$this->_cache) {
             $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
                 'cache_dir'=>Mage::getBaseDir('cache_config')
             ));
         }
-        return $this->_cache;
+        return $this->_cache;*/
+        return Mage::app()->getCache();
     }
 /*
     public function saveCache($tags=null)
@@ -349,12 +350,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'var':
             case 'session':
             case 'cache':
-            case 'cache_config':
-            case 'cache_layout':
-            case 'cache_block':
-            case 'cache_locale':
-            case 'cache_translate':
-            case 'cache_db':
                 if (!file_exists($dir)) {
                     mkdir($dir, 0777, true);
                 }
@@ -400,30 +395,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             
             case 'cache':
                 $dir = $this->getBaseDir('var').DS.'cache';
-                break;
-
-            case 'cache_config':
-                $dir = $this->getBaseDir('var').DS.'cache'.DS.'config';
-                break;
-
-            case 'cache_layout':
-                $dir = $this->getBaseDir('var').DS.'cache'.DS.'layout';
-                break;
-
-            case 'cache_block':
-                $dir = $this->getBaseDir('var').DS.'cache'.DS.'block';
-                break;
-
-            case 'cache_locale':
-                $dir = $this->getBaseDir('var').DS.'cache'.DS.'locale';
-                break;
-
-            case 'cache_translate':
-                $dir = $this->getBaseDir('var').DS.'cache'.DS.'translate';
-                break;
-
-            case 'cache_db':
-                $dir = $this->getBaseDir('var').DS.'cache'.DS.'db';
                 break;
         }
         return $dir;

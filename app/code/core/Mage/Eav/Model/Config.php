@@ -55,12 +55,13 @@ class Mage_Eav_Model_Config
      */
     public function getCache()
     {
-        if (!$this->_cache) {
+        /*if (!$this->_cache) {
             $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
                 'cache_dir'=>Mage::getBaseDir('cache_config')
             ));
         }
-        return $this->_cache;
+        return $this->_cache;*/
+        return Mage::app()->getCache();
     }
 
     public function getResource()

@@ -40,13 +40,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_blocks = array();
 
     /**
-     * Blocks cache
-     *
-     * @var Zend_Cache_Core
-     */
-    protected $_blockCache = null;
-
-    /**
      * Cache of block callbacks to output during rendering
      *
      * @var array
@@ -115,21 +108,36 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
     	return $this->_area;
     }
-
+    
+    /**
+     * Declaring layout direct output flag
+     *
+     * @param   bool $flag
+     * @return  Mage_Core_Model_Layout
+     */
     public function setDirectOutput($flag)
     {
         $this->_directOutput = $flag;
         return $this;
     }
-
+    
+    /**
+     * Retrieve derect output flag
+     *
+     * @return bool
+     */
     public function getDirectOutput()
     {
         return $this->_directOutput;
     }
-
+    
+    /**
+     * Loyout xml generation
+     *
+     * @return Mage_Core_Model_Layout
+     */
     public function generateXml()
     {
-#echo "<textarea style='width:100%; height:500px'>".htmlentities($this->getUpdate()->asString())."</textarea>"; #die;
         $this->setXml($this->getUpdate()->asSimplexml());
         return $this;
     }
@@ -442,7 +450,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this->_helpers[$name];
     }
 
-    public function setBlockCache($frontend='Core', $backend='File',
+    /*public function setBlockCache($frontend='Core', $backend='File',
     	array $frontendOptions=array(), array $backendOptions=array())
     {
         if (empty($frontendOptions['lifetime'])) {
@@ -453,15 +461,15 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         $this->_blockCache = Zend_Cache::factory($frontend, $backend, $frontendOptions, $backendOptions);
         return $this;
-    }
+    }*/
 
-    public function getBlockCache()
+    /*public function getBlockCache()
     {
         if (empty($this->_blockCache)) {
             $this->setBlockCache();
         }
         return $this->_blockCache;
-    }
+    }*/
 
 
 

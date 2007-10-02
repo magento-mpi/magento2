@@ -46,13 +46,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _getCache()
     {
-        if (!self::$_cache) {
-            self::$_cache = Zend_Cache::factory('Core', 'File',
-                array(),
-                array('cache_dir'=>Mage::getBaseDir('cache_helper'))
-            );
-        }
-        return self::$_cache;
+        return Mage::app()->getCache();
     }
     
     /**
@@ -63,7 +57,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _loadCache($id)
     {
-        return $this->_getCache()->load($id);
+        return Mage::app()->loadCache($id);
     }
     
     /**
@@ -76,7 +70,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _saveCache($data, $id, $tags=array())
     {
-        $this->_getCache()->save($data, $id, $tags);
+        Mage::app()->saveCache($data, $id, $tags);
         return $this;
     }
     
@@ -88,7 +82,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _removeCache($id)
     {
-        $this->_getCache()->remove($id);
+        Mage::app()->removeCache($id);
         return $this;
     }
     
@@ -100,12 +94,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _cleanCache($tags=array())
     {
-        if (empty($tags)) {
-            $this->_getCache()->clean(Zend_Cache::CLEANING_MODE_ALL);
-        }
-        else {
-            $this->_getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
-        }
+        Mage::app()->cleanCache($tags);
         return $this;
     }
     

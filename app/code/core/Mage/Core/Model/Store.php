@@ -69,7 +69,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-
+    
+    /**
+     * Loading store configuration data
+     *
+     * @param   string $code
+     * @return  Mage_Core_Model_Store
+     */
     public function loadConfig($code)
     {
         if (is_numeric($code)) {
@@ -113,7 +119,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         return $this->getData('code');
     }
-
+    
+    /**
+     * Retrieve store configuration data
+     *
+     * @param   string $path
+     * @return  Mage_Core_Model_Store
+     */
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 
@@ -141,7 +153,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve store website
      *
      * @return Mage_Core_Model_Website
      */
@@ -152,82 +164,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->_website;
     }
-
-    /**
-     * Get store directory by type
-     *
-     * @param   string $type
-     * @return  string
-     */
-    /*public function getDir($type)
-    {
-        if (isset($this->_dirCache[$type])) {
-            return $this->_dirCache[$type];
-        }
-        $dir = $this->getConfig("system/filesystem/$type");
-        if (!$dir) {
-            $dir = $this->getDefaultDir($type);
-        }
-
-        if (!$dir) {
-            throw Mage::exception('Mage_Core', __('Invalid base dir type specified: %s', $type));
-        }
-
-        switch ($type) {
-            case 'var': case 'session': case 'cache_config': case 'cache_layout': case 'cache_block':
-                if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-                break;
-        }
-
-        $dir = str_replace('/', DS, $dir);
-
-        $this->_dirCache[$type] = $dir;
-
-        return $dir;
-    }
-
-    public function getDefaultDir($type)
-    {
-        $dir = Mage::getRoot();
-        switch ($type) {
-            case 'etc':
-                $dir = Mage::getRoot().DS.'etc';
-                break;
-
-            case 'code':
-                $dir = Mage::getRoot().DS.'code';
-                break;
-
-            case 'var':
-                $dir = $this->getTempVarDir();
-                break;
-
-            case 'session':
-                $dir = $this->getDir('var').DS.'session';
-                break;
-
-            case 'cache_config':
-                $dir = $this->getDir('var').DS.'cache'.DS.'config';
-                break;
-
-            case 'cache_layout':
-                $dir = $this->getDir('var').DS.'cache'.DS.'layout';
-                break;
-
-            case 'cache_block':
-                $dir = $this->getDir('var').DS.'cache'.DS.'block';
-                break;
-
-        }
-        return $dir;
-    }
-
-    public function getTempVarDir()
-    {
-        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : '/tmp').'/magento/var';
-    }*/
 
     /**
      * Get store url

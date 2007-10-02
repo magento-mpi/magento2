@@ -21,8 +21,6 @@
 /**
  * Store
  *
- * @category   Mage
- * @package    Mage_Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
@@ -42,7 +40,13 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-
+    
+    /**
+     * Load website configuration
+     *
+     * @param   string $code
+     * @return  Mage_Core_Model_Website
+     */
     public function loadConfig($code)
     {
         if (!Mage::getConfig()->getNode('websites')) {
@@ -92,7 +96,12 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return $this->_configCache[$path];
     }
-
+    
+    /**
+     * Retrieve website store codes
+     *
+     * @return array
+     */
     public function getStoreCodes()
     {
         $stores = Mage::getConfig()->getNode('stores')->children();
@@ -104,13 +113,24 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return $storeCodes;
     }
-
+    
+    /**
+     * Retrieve website stores collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
     public function getStoreCollection()
     {
 		return $this->_storesCollection = Mage::getResourceModel('core/store_collection')
 			->addWebsiteFilter($this->getId());
     }
-
+    
+    /**
+     * Retrieve website sore ids
+     *
+     * @param   bool $notEmpty
+     * @return  array
+     */
     public function getStoresIds($notEmpty=false)
     {
     	$ids = array();

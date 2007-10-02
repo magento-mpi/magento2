@@ -34,13 +34,6 @@ class Mage_Core_Model_Layout_Update
     protected $_packageLayout;
 
     /**
-     * Cache object
-     *
-     * @var Zend_Cache_Core
-     */
-    protected $_cache;
-
-    /**
      * Cache key
      *
      * @var string
@@ -168,24 +161,9 @@ class Mage_Core_Model_Layout_Update
         return $this;
     }
 
-    /**
-     * Get Layout Updates Cache Object
-     *
-     * @return Zend_Cache_Core
-     */
-    public function getCache()
-    {
-        if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File', array(), array(
-                'cache_dir'=>Mage::getBaseDir('cache_layout')
-            ));
-        }
-        return $this->_cache;
-    }
-
     public function loadCache()
     {
-        $result = $this->getCache()->load($this->getCacheId());
+        $result = Mage::app()->loadCache($this->getCacheId());
         if (false===$result) {
             return false;
         }
@@ -205,7 +183,7 @@ class Mage_Core_Model_Layout_Update
             return false;
         }
         $str = $this->asString();
-        return $this->getCache()->save($str, $this->getCacheId(), $this->getHandles());
+        return Mage::app()->saveCache($str, $this->getCacheId(), $this->getHandles());
     }
 
     /**
