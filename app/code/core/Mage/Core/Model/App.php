@@ -99,7 +99,16 @@ class Mage_Core_Model_App
      */
     protected $_cache;
 
-    public function __construct($store, $etcDir)
+    public function __construct() {}
+    
+    /**
+     * Initialize application
+     *
+     * @param string $store
+     * @param string $etcDir
+     * @return Mage_Core_Model_App
+     */
+    public function init($store, $etcDir)
     {
         Varien_Profiler::start('app/construct');
 
@@ -124,6 +133,7 @@ class Mage_Core_Model_App
         }
 
 		Varien_Profiler::stop('app/construct');
+		return $this;
     }
 
     /**

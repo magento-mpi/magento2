@@ -35,31 +35,12 @@ ini_set('include_path', ini_get('include_path')
     .PS.BP.'/app/code/core'
     .PS.BP.'/app/code/local'
     .PS.BP.'/app/code/community'
-#    .PS.BP.'/var/cache/code'
 );
 
 include_once "Mage/Core/functions.php";
 include_once "Varien/Profiler.php";
 
 Varien_Profiler::enable();
-/*
-Varien_Profiler::start('pre-includes');
-include_once "Core.php";
-include_once "Eav.php";
-include_once "Page.php";
-include_once "Rule.php";
-include_once "Directory.php";
-include_once "SalesRule.php";
-include_once "Cms.php";
-include_once "Log.php";
-include_once "Install.php";
-include_once "Customer.php";
-include_once "Catalog.php";
-include_once "Checkout.php";
-include_once "CatalogRule.php";
-include_once "GoogleAnalytics.php";
-Varien_Profiler::stop('pre-includes');
-*/
 
 /**
  * Check magic quotes settings
@@ -397,11 +378,13 @@ final class Mage {
     public static function app($store='', $etcDir='')
     {
         if (is_null(self::$_app)) {
+            self::$_app = new Mage_Core_Model_App();
+            
             Mage::setRoot();
             Mage::register('events', new Varien_Event_Collection());
             Mage::register('config', new Mage_Core_Model_Config());
 
-            self::$_app = new Mage_Core_Model_App($store, $etcDir);
+            self::$_app->init($store, $etcDir);
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
         return self::$_app;
