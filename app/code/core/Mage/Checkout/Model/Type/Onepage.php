@@ -151,7 +151,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
         if ($address->getCustomerPassword()) {
             $customer = Mage::getModel('customer/customer');
-            $this->getQuote()->setPasswordHash($customer->hashPassword($address->getCustomerPassword()));
+            $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
         }
         $this->getQuote()->save();
 
@@ -349,7 +349,8 @@ class Mage_Checkout_Model_Type_Onepage
         $customer->setFirstname($billing->getFirstname());
         $customer->setLastname($billing->getLastname());
         $customer->setEmail($billing->getEmail());
-        $customer->setPasswordHash($quote->getPasswordHash());
+        $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
+        $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
 
         $customer->save();
 

@@ -248,6 +248,28 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     {
         return md5($password);
     }
+    
+    /**
+     * Encrypt password
+     *
+     * @param   string $password
+     * @return  string
+     */
+    public function encryptPassword($password)
+    {
+        return Mage::encrypt($password);
+    }
+    
+    /**
+     * Decrypt password
+     *
+     * @param   string $password
+     * @return  string
+     */
+    public function decryptPassword($password)
+    {
+        return Mage::decrypt($password);
+    }
 
     /**
      * Retrieve primary address by type(attribute)

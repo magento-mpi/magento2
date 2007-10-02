@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Backup
- * @author� � � Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection

@@ -73,13 +73,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
     protected function _connect()
     {
+        if ($this->_connection) {
+            return;
+        }
+
         if (strpos($this->_config['host'], '/')!==false) {
             $this->_config['unix_socket'] = $this->_config['host'];
             $this->_config['host'] = null;
         } elseif (strpos($this->_config['host'], ':')!==false) {
             list($this->_config['host'], $this->_config['port']) = explode(':', $this->_config['host']);
         }
-#echo "<pre>".print_r($this->_config,1)."</pre>";
+
         parent::_connect();
 
     	if (!$this->_connectionFlagsSet) {

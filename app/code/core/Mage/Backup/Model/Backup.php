@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Backup
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @authorï¿½ ï¿½ ï¿½ Ivan Chepurnyi <mitch@varien.com>
  */ 
 class Mage_Backup_Model_Backup extends Varien_Object
 {
@@ -55,7 +55,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         list ($time, $type) = explode("_", substr($fileName, 0, strrpos($fileName, ".")));
         $this->addData(array('time' => (int)$time,
                              'path' => $filePath,
-                             'time_formated' => date('m/d/Y H:i:s', (int)$time)))
+                             'time_formated' => date('Y-m-d H:i:s', (int)$time)))
              ->setType($type);
         return $this;
     }

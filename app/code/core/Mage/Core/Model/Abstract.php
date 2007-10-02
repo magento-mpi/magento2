@@ -71,10 +71,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
 
     public function getIdFieldName()
     {
-        if (!parent::getIdFieldName()) {
-            $this->setIdFieldName($this->getResource()->getIdFieldName());
+        if (!($fieldName = parent::getIdFieldName())) {
+            $fieldName = $this->getResource()->getIdFieldName();
+            $this->setIdFieldName($fieldName);
         }
-        return parent::getIdFieldName();
+        return $fieldName;
     }
     
     public function getId()
