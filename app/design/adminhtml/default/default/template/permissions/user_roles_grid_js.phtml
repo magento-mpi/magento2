@@ -2,7 +2,7 @@
 <!--
 <?$myBlock = $this->getLayout()->getBlock('user.roles.grid');?>
 
-<?if($myBlock->getJsObjectName()):?>
+<?if( is_object($myBlock) && $myBlock->getJsObjectName()):?>
 ////////////////////////////////////////////////////////////////
     var warning = false;
     var userRoles = $H(<?=$myBlock->_getSelectedRoles(true)?>);

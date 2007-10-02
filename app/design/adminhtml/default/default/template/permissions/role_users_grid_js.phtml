@@ -2,7 +2,7 @@
 <!--
 <?$myBlock = $this->getLayout()->getBlock('roleUsersGrid');?>
 
-<?if($myBlock->getJsObjectName()):?>
+<?if( is_object($myBlock) && $myBlock->getJsObjectName() ):?>
     var warning = false;
     var inRoleUsers = $H(<?=$myBlock->_getUsers(true)?>);
     if (inRoleUsers.size() > 0) warning = true;
