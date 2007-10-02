@@ -19,13 +19,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
- 
+
  $stores = Mage::getModel('core/store')->getResourceCollection()->load();
- $stores = $stores->toArray(array('store_id'));
- 
-Mage::getResourceModel('rating/rating_collection')->load()
-    ->walk('setStores', array($stores))
-    ->walk('save');
+ $storesForSave = array(0);
+ foreach($stores as $store) {
+     $storesForSave[] = $store->getId();
+ }
+
+$ratingCollection = Mage::getModel('rating/rating')->getResourceCollection()->load();
+$ratingCollection->walk('setStores', array($storesForSave));
+$ratingCollection->walk('save');
 
 
 ?>
