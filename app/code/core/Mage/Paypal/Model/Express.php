@@ -106,9 +106,9 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 
     public function returnFromPaypal()
     {
+        $this->_getExpressCheckoutDetails();
         switch ($this->getApi()->getUserAction()) {
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
-                $this->_getExpressCheckoutDetails();
                 $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/review'));
                 break;
 
