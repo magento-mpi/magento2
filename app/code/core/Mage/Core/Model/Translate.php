@@ -390,6 +390,7 @@ class Mage_Core_Model_Translate
             return false;
         }
         $data = Mage::app()->loadCache($this->getCacheId());
+        $data = unserialize($data);
         return $data;
     }
 
@@ -404,7 +405,7 @@ class Mage_Core_Model_Translate
         if (!$this->_canUseCache()) {
             return $this;
         }
-        Mage::app()->saveCache($this->getData(), $this->getCacheId(), array('translate'));
+        Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array('translate'));
         return $this;
     }
     

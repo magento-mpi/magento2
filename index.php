@@ -25,9 +25,9 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
 
 require_once 'app/Mage.php';
 
-Mage::useCache('config', false);
-Mage::useCache('layout', false);
-Mage::useCache('eav', false);
-Mage::useCache('translate', false);
+Mage::useCache('config', true);
+Mage::useCache('layout', true);
+Mage::useCache('eav', true);
+Mage::useCache('translate', true);
 
 Mage::run('base');
