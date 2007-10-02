@@ -26,28 +26,11 @@
 abstract class Mage_Core_Helper_Abstract
 {
     /**
-     * Cache object
-     *
-     * @var Zend_Cache_Frontend_File
-     */
-    protected static $_cache;
-    
-    /**
      * Helper module name
      *
      * @var string
      */
     protected $_moduleName;
-    
-    /**
-     * Rrtrieve helper cache object
-     *
-     * @return Zend_Cache_Frontend_File
-     */
-    protected function _getCache()
-    {
-        return Mage::app()->getCache();
-    }
     
     /**
      * Loading cache data

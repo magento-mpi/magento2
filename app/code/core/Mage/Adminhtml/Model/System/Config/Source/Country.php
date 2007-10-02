@@ -21,14 +21,24 @@
 
 class Mage_Adminhtml_Model_System_Config_Source_Country
 {
-    public function toOptionArray($isMultiselect=false)
+    protected $_options;
+    
+    public function toOptionArray($isMultiselect)
     {
-        if($isMultiselect){
-            $firstItem = false;
+        if (!$this->_options) {
+            $this->_options = Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray(false);
+            foreach ($this->_options as $index=>$data) {
+                if ($data['title'] && $label = Mage::app()->getLocale()->getLocale()->getCountryTranslation($data['title'])) {
+                    $this->_options[$index]['label'] = $label;
+                }
+            }
         }
-        else{
-            $firstItem = '';
+        
+        $options = $this->_options;
+        if(!$isMultiselect){
+            array_unshift($options, array('value'=>'', 'label'=>''));
         }
-        return Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray($firstItem);
+
+        return $options;
     }
 }

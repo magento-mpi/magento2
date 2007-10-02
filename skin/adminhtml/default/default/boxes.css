@@ -424,6 +424,7 @@ fieldset.config td {
     }
 fieldset.config td.label {
     padding-right:10px;
+    width:170px;
     }
 fieldset.config td.value {
     padding-right:5px;
@@ -741,14 +742,14 @@ img.attribute-global {
     width: 8em;
 }
 #sc_billing_method .entry-edit fieldset label {
-	float: none;
+    float: none;
 }
 #sc_billing_method dd {
-	outline-color: none !important;
-	margin-left: 20px;
+    outline-color: none !important;
+    margin-left: 20px;
 }
 #sc_billing_method dd ul {
-	border: none !important;
+    border: none !important;
 }
 
 

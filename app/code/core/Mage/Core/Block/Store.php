@@ -35,18 +35,6 @@ class Mage_Core_Block_Store extends Mage_Core_Block_Template
         $storeCodes = $website->getStoreCodes();
         
         $arrLanguages = array();
-        foreach ($storeCodes as $storeCode) {
-            if ($storeCode!='admin') {
-                $store = Mage::getModel('core/store')->setCode($storeCode);
-                $language = $store->getConfig('general/local/language');
-            	if (Mage::app()->getStore()->getLanguageCode() != $language) {
-            	    $arrLanguages[$language] = $store->getUrl(array());
-            	}
-            	else {
-            	    $arrLanguages[$language] = false;
-            	}
-            }
-        }
         $this->assign('languages', $arrLanguages);
     }
 }

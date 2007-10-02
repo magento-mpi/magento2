@@ -389,11 +389,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return array();
     }
 
-    public function getLanguageCode()
-    {
-        return $this->getConfig('general/local/language');
-    }
-
     public function updateDatasharing()
     {
         $this->getResource()->updateDatasharing();

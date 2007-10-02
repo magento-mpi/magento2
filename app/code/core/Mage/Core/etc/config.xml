@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.6.5</version>
+             <version>0.6.8</version>
         </Mage_Core>
     </modules>
 
@@ -58,7 +58,7 @@
         <blocks>
             <core><class>Mage_Core_Block</class></core>
         </blocks>
-         <locale>
+        <locale>
             <allow>
                 <codes>
                     <en_US/>
@@ -72,10 +72,16 @@
                     <EUR/>
                     <RUB/>
                     <UAH/>
+                    <CAD/>
+                    <AED/>
+                    <AUD/>
+                    <CNY/>
+                    <JPY/>
+                    <MXN/>
+                    <PLN/>
                 </currencies>
             </allow>
-         </locale>
-
+        </locale>
     </global>
     <frontend>
         <routers>
