@@ -28,12 +28,9 @@
 
 class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_tagRelTable;
-
     protected function _construct()
     {
         $this->_init('tag/tag');
-        $this->_tagRelTable = $this->getTable('tag/relation');
     }
 
     public function load($printQuery = false, $logQuery = false)
@@ -41,27 +38,29 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         return parent::load($printQuery, $logQuery);
     }
 
-    public function addPopularity($limit=null)
+    public function addPopularity($limit=null, $storeId=0)
     {
+        $joinCondition  = $this->getConnection()->quoteInto('summary.store_id = ?', $storeId);
+
         $this->getSelect()
-            ->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id', array('tag_relation_id', 'popularity' => 'COUNT(DISTINCT '.$this->_tagRelTable.'.tag_relation_id)'))
-            ->group('main_table.tag_id');
+            ->joinLeft(array('summary'=>$this->getTable('tag/summary')), 'main_table.tag_id=summary.tag_id AND ' . $joinCondition, array('popularity','customers','products','uses','historical_uses'));
+
         if (! is_null($limit)) {
             $this->getSelect()->limit($limit);
         }
         return $this;
     }
 
+    /* Not neaded now
     public function addFieldToFilter($field, $condition)
     {
-        if ('popularity' == $field) {
-            // TOFIX
-            $this->_sqlSelect->having($this->_getConditionSql('count(' . $this->_tagRelTable . '.tag_relation_id)', $condition));
+        if (in_array($field, array('popularity','customers','products','uses','historical_uses'))) {
+            $this->_sqlSelect->where($this->_getConditionSql('summary.' . $field, $condition));
         } else {
             parent::addFieldToFilter($field, $condition);
         }
         return $this;
-    }
+    }*/
 
     /**
      * Get sql for get record count
@@ -111,7 +110,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function joinRel()
     {
-        $this->getSelect()->joinLeft($this->_tagRelTable, 'main_table.tag_id='.$this->_tagRelTable.'.tag_id');
+        $this->getSelect()->joinLeft(array('relation'=>$this->getTable('tag/relation')), 'main_table.tag_id=relation.tag_id');
         return $this;
     }
 }

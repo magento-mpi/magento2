@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Tag>
-            <version>0.6.0</version>
+            <version>0.6.1</version>
             <depends>
                 <Mage_Core />
             </depends>
@@ -50,6 +50,9 @@
                     <relation>
                         <table>tag_relation</table>
                     </relation>
+                    <summary>
+                        <table>tag_relation</table>
+                    </summary>
                 </entities>
             </tag_mysql4>
         </models>

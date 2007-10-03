@@ -88,12 +88,12 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'actions'    => array(
                 array(
                     'caption'   => __('View Products'),
-                    'url'       => Mage::getUrl('*/*/product/tag_id/$tag_id', array('ret' => 'pending')),
+                    'url'       => Mage::getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
 
                 array(
                     'caption'   => __('View Customers'),
-                    'url'       => Mage::getUrl('*/*/customer/tag_id/$tag_id', array('ret' => 'pending')),
+                    'url'       => Mage::getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 )
             ),
         ));
