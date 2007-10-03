@@ -29,7 +29,7 @@ class Mage_Core_Model_Locale
      * Default locale name
      */
     const DEFAULT_LOCALE    = 'en_US';
-    const DEFAULT_TIMEZONE  = 'America/Los_Angeles';
+    const DEFAULT_TIMEZONE  = 'UTC';
     const DEFAULT_CURRENCY  = 'USD';
     
     /**
@@ -111,11 +111,6 @@ class Mage_Core_Model_Locale
     {
         Mage::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
         $this->_locale = new Zend_Locale($this->getDefaultLocale());
-        
-        /**
-         * @todo retrieve timezone from config
-         */
-        date_default_timezone_set($this->getTimezone());
         
         Zend_Locale_Format::setOptions(array('number_format'=>'#,##0.00'));
         return $this;
@@ -370,7 +365,9 @@ class Mage_Core_Model_Locale
             $locale = $this->getLocale();
         }
         
-        return new Zend_Date($date, $part, $locale);
+        $date = new Zend_Date($date, $part, $locale);
+        $date->setTimezone(Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE));
+        return $date;
     }
     
     /**
