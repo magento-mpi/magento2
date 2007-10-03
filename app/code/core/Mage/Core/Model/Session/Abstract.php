@@ -39,7 +39,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     {
     	$hostArr = explode(':', $host);
     	$hosts = $this->getSessionHosts();
-    	return (!empty($hosts[$host[0]]));
+    	return (!empty($hosts[$hostArr[0]]));
     }
 
     public function addHost($host)
@@ -185,11 +185,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
                 }
             }
         }
-        $domains = $this->getCookieDomains();
-        if (empty($domains[$_SERVER['HTTP_HOST']])) {
-            $domains[$_SERVER['HTTP_HOST']] = 1;
-            $this->setCookieDomains($domains);
-        }
+        $this->addHost($_SERVER['HTTP_HOST']);
         parent::setSessionId($id);
     }
 }

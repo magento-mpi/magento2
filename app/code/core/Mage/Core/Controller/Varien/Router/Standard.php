@@ -107,6 +107,18 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 	        }
         }
 
+        $shouldBeSecure = Mage::getConfig()->isUrlSecure($module.'/'.$controller.'/'.$action);
+        $isSecure = (bool)$request->getServer('HTTPS');
+        if ($shouldBeSecure!=$isSecure) {
+            $url = Mage::getModel('core/url')
+                ->setSecure($shouldBeSecure)
+                ->getHostUrl();
+            $url .= $request->getRequestUri();
+            Mage::app()->getFrontController()->getResponse()
+                ->setRedirect($url)
+                ->sendResponse();
+        }
+
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
             include $controllerFileName;

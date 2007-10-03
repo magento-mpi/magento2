@@ -199,13 +199,13 @@ final class Mage {
      */
     public static function getBaseUrl($params=array())
     {
-        return Mage::getSingleton('core/url')->getBaseUrl($params);
+        return Mage::getModel('core/url')->getBaseUrl($params);
         #return Mage::app()->getStore()->getUrl($params);
     }
 
     public static function getUrl($route='', $params=array())
     {
-        return Mage::getSingleton('core/url')->getUrl($route, $params);
+        return Mage::getModel('core/url')->getUrl($route, $params);
         #return Mage::registry('controller')->getUrl($route, $params);
     }
 
