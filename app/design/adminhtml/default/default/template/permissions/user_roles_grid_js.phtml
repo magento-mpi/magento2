@@ -45,7 +45,9 @@
 
     function rolesRowInit(grid, row){
         var checkbox = $(row).getElementsByClassName('radio')[0];
-        radioBoxes[checkbox.value] = {'status' : ((checkbox.checked) ? 1 : 0), 'object' : checkbox};
+        if (checkbox) {
+            radioBoxes[checkbox.value] = {'status' : ((checkbox.checked) ? 1 : 0), 'object' : checkbox};
+        }
     }
 
 <?=$myBlock->getJsObjectName()?>.rowClickCallback = roleRowClick;

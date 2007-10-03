@@ -44,7 +44,9 @@
 
     function roleUsersRowInit(grid, row){
         var checkbox = $(row).getElementsByClassName('checkbox')[0];
-        checkBoxes[checkbox.value] = {'status' : ((checkbox.checked) ? 1 : 0), 'object' : checkbox};
+        if (checkbox) {
+            checkBoxes[checkbox.value] = {'status' : ((checkbox.checked) ? 1 : 0), 'object' : checkbox};
+        }
     }
 
 <?=$myBlock->getJsObjectName()?>.rowClickCallback = roleUsersRowClick;
