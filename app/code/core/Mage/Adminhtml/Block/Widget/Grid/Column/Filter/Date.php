@@ -112,6 +112,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
                 $value['to'] = $this->getLocale()->date($value['to'], Zend_Date::DATE_SHORT, $value['locale']);
             }
         }
+        if (empty($value['from']) && empty($value['to'])) {
+            $value = null;
+        }
         $this->setData('value', $value);
         return $this;
     }

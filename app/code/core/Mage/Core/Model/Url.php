@@ -450,16 +450,16 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $hasParams = (bool)$this->getRouteParams();
 
-        $path = $this->getRouteName();
+        $path = $this->getRouteName() . '/';
         if ($this->getControllerName()) {
-            $path .= '/'.$this->getControllerName();
+            $path .= $this->getControllerName() . '/';
         } elseif ($hasParams) {
-            $path .= '/'.$this->getDefaultControllerName();
+            $path .= $this->getDefaultControllerName() . '/';
         }
         if ($this->getActionName()) {
-            $path .= '/'.$this->getActionName();
+            $path .= $this->getActionName() . '/';
         } elseif ($hasParams) {
-            $path .= '/'.$this->getDefaultActionName();
+            $path .= $this->getDefaultActionName() . '/';
         }
         return $path;
     }
@@ -477,7 +477,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $routePath = $this->getActionPath();
             if ($this->getRouteParams()) {
                 foreach ($this->getRouteParams() as $key=>$value) {
-                    $routePath .='/'.$key.'/'.$value;
+                    $routePath .=$key.'/'.$value.'/';
                 }
             }
 
