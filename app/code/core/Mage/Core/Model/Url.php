@@ -101,14 +101,12 @@ class Mage_Core_Model_Url extends Varien_Object
     public function parseUrl($url)
     {
         $a = parse_url($url);
-        $this->setScheme($a['scheme']);
-        $this->setHost($a['host']);
-        $this->setPort($a['port']);
-        $this->setUser($a['user']);
-        $this->setPassword($a['pass']);
-        $this->setPath($a['path']);
-        $this->setQuery($a['query']);
-        $this->setFragment($a['fragment']);
+        foreach (array('scheme'=>'setScheme', 'host'=>'setHost', 'port'=>'setPort', 'user'=>'setUser', 'pass'=>'setPassword',
+            'path'=>'setPath', 'query'=>'setQuery', 'fragment'=>'setFragment') as $component=>$method) {
+            if (isset($a[$component])) {
+                $this->$method($a[$component]);
+            }
+        }
         return $this;
     }
 

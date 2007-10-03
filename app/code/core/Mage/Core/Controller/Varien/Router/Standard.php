@@ -107,7 +107,8 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 	        }
         }
 
-        $shouldBeSecure = Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
+        $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https'
+            && Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
         $isSecure = (bool)$request->getServer('HTTPS');
         if ($shouldBeSecure!=$isSecure) {
             $url = Mage::getModel('core/url')
