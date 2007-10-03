@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Directory
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 {

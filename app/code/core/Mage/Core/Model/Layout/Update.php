@@ -168,7 +168,7 @@ class Mage_Core_Model_Layout_Update
             return false;
         }
         if (!Mage::useCache('layout')) {
-            $this->getCache()->clean();
+            Mage::app()->removeCache($this->getCacheId());
             return false;
         }
 

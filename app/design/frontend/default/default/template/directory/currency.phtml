@@ -31,9 +31,9 @@
         <h4><?=$this->__('Select Your Currency')?></h4>
     </div>
         <select name="currency" onchange="changeCurrency(this)">
-        <?foreach ($this->getCurrencies() as $_currency):?>
-            <option value="<?=$_currency->getCurrencyCode()?>"<?if($_currency->getCurrencyCode()==$this->getCurrentCurrencyCode()):?> selected="selected"<?endif;?>>
-                <?=$_currency->getCurrencyName()?> - <?=$_currency->getCurrencyCode()?>
+        <?foreach ($this->getCurrencies() as $_code => $_name):?>
+            <option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected="selected"<?endif;?>>
+                <?=$_name?> - <?=$_code?>
             </option>
         <?endforeach;?>
         </select>
@@ -41,7 +41,7 @@
 <script type="text/javascript">
 function changeCurrency(sObject){
     if(sObject.value){
-        var url = location.href;
+        /*var url = location.href;
         if (url.match(/[?&]CURRENCY=[A-Z]+/)) {
             url = url.replace(/([?&]CURRENCY)=([A-Z]+)/, '$1='+sObject.value);
         } else if (url.indexOf('?')>=0) {
@@ -49,7 +49,8 @@ function changeCurrency(sObject){
         } else {
             url += '?CURRENCY='+sObject.value;
         }
-        setLocation(url);
+        setLocation(url);*/
+        setLocation('<?=$this->helper('directory/url')->getSwitchCurrencyUrl()?>currency/'+sObject.value);
     }
 }
 </script>

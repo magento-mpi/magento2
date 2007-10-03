@@ -27,40 +27,27 @@
  */
 class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
 {
-    public function __construct($data=array()) 
-    {
-        parent::__construct($data);
-        
-        try {
-            $currencies = Mage::getResourceModel('directory/currency_collection')
-                ->addLanguageFilter()
-                ->addCodeFilter(Mage::app()->getStore()->getAvailableCurrencyCodes())
-                ->load();
-        }
-        catch (Exception $e){
-            $currencies = array();
-        }
-            
-        $this->assign('currencies', $currencies);
-        $this->assign('currentCurrencyCode', Mage::app()->getStore()->getCurrentCurrencyCode());
-    }
-    
+    /**
+     * Retrieve count of currencies
+     *
+     * @return int
+     */
     public function getCurrencyCount()
     {
-        return $this->getCurrencies()->getSize();
+        return count($this->getCurrencies());
     }
     
     public function getCurrencies()
     {
-        $collection = $this->getData('currencies');
-        if (is_null($collection)) {
-            $collection =  Mage::getResourceModel('directory/currency_collection')
-                ->addLanguageFilter()
-                ->addCodeFilter(Mage::app()->getStore()->getAvailableCurrencyCodes())
-                ->load();
-            $this->setData('currencies', $collection);
+        $currencies = $this->getData('currencies');
+        if (is_null($currencies)) {
+            $currencies = array();
+            $codes = Mage::app()->getStore()->getAvailableCurrencyCodes();
+            foreach ($codes as $code) {
+            	$currencies[$code] = Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
+            }
         }
-        return $collection;
+        return $currencies;
     }
     
     public function getSwitchUrl()

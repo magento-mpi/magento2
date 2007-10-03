@@ -23,15 +23,22 @@
  *
  * @category   Mage
  * @package    Mage_Directory
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstract
 {
-    protected $_currencyTable;
-    protected $_currencyNameTable;
+    /**
+     * Currency rate table
+     *
+     * @var string
+     */
     protected $_currencyRateTable;
-    protected $_countryCurrencyTable;
     
+    /**
+     * Currency rate cache array
+     *
+     * @var array
+     */
     protected static $_rateCache;
     
     protected function _construct()
@@ -42,29 +49,18 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
     public function __construct() 
     {
         $resource = Mage::getSingleton('core/resource');
-        $this->_currencyTable       = $resource->getTableName('directory/currency');
-        $this->_currencyNameTable   = $resource->getTableName('directory/currency_name');
         $this->_currencyRateTable   = $resource->getTableName('directory/currency_rate');
-        $this->_countryCurrencyTable= $resource->getTableName('directory/country_currency');
         
         parent::__construct();
     }
     
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
-    {
-        $read = $this->getConnection('read');
-        if ($read && $object->getId()) {            
-            $select = $read->select()
-                ->from($this->_currencyTable)
-                ->join($this->_currencyNameTable, "$this->_currencyNameTable.currency_code=$this->_currencyTable.currency_code")
-                ->where($this->_currencyTable.'.currency_code=?', $object->getId())
-                ->where($this->_currencyNameTable.'.language_code=?', $object->getLanguageCode());
-            $data = $read->fetchRow($select);
-            $object->addData($data);
-        }
-        return $this;
-    }
-    
+    /**
+     * Retrieve currency rate
+     *
+     * @param   string $currencyFrom
+     * @param   string $currencyTo
+     * @return  float
+     */
     public function getRate($currencyFrom, $currencyTo)
     {
         if ($currencyFrom instanceof Mage_Directory_Model_Currency) {
@@ -88,9 +84,16 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
                 
             self::$_rateCache[$currencyFrom][$currencyTo] = $read->fetchOne($select);
         }
+        
         return self::$_rateCache[$currencyFrom][$currencyTo];
     }
     
+    /**
+     * Saving currency rates
+     *
+     * @param   Mage_Core_Model_Abstract $object
+     * @return  Mage_Directory_Model_Mysql4_Currency
+     */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);

@@ -17,21 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Currency controller
+ * Directory data helper
  *
- * @category   Mage
- * @package    Mage_Directory
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Directory_CurrencyController extends Mage_Core_Controller_Front_Action
+class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public function switchAction()
-    {
-        if ($curency = $this->getRequest()->getParam('currency')) {
-            Mage::app()->getStore()->setCurrentCurrencyCode($curency);
-        }
-        $this->_redirectReferer(Mage::getBaseUrl());
-    }
+    
 }

@@ -26,10 +26,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Currency
     public function toOptionArray($isMultiselect)
     {
         if (!$this->_options) {
-            /*$this->_options = Mage::getResourceModel('directory/currency_collection')
-                ->addLanguageFilter('en')
-                ->loadData()
-                ->toOptionArray();*/
             $this->_options = Mage::app()->getLocale()->getOptionCurrencies();
         }
         $options = $this->_options;

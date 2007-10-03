@@ -96,8 +96,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>prototype/prototype.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
                 <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
-                <action method="addJs"><script>mage/translate.js</script></action>
-                <block type="page/js_translate" name="js_translate" as="js_translate" template="page/js/translate.phtml"/>
             </block>
 
             <block type="page/html_header" name="header" as="header">
@@ -165,15 +163,6 @@ Default layout, loads most of the pages
         <reference name="top.left.links">
             <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}customer/account/"</a><label>My Account</label></action>
         </reference>
-
-        <!-- Mage_Directory -->
-        <!--
-        <reference name="left">
-            <block type="directory/currency" name="left.currency">
-                <action method="setTemplate"><template>directory/currency.phtml</template></action>
-            </block>
-        </reference>
-        -->
 
         <!-- Mage_GoogleAnalytics -->
         <reference name="before_body_end">

@@ -37,11 +37,14 @@ class Mage_Core_Model_Locale
      */
     const XML_PATH_DEFAULT_LOCALE   = 'general/locale/code';
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
-    const XML_PATH_DEFAULT_CURRENCY = 'general/locale/currency';
-    const XML_PATH_DEFAULT_COUNTRY  = 'general/locale/country';
+    const XML_PATH_DEFAULT_CURRENCY = 'general/currency/base';
+    const XML_PATH_DEFAULT_COUNTRY  = 'general/country/default';
     const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
     const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
     
+    /**
+     * Date and time format codes
+     */
     const FORMAT_TYPE_FULL  = 'full';
     const FORMAT_TYPE_LONG  = 'long';
     const FORMAT_TYPE_MEDIUM= 'medium';
@@ -61,7 +64,6 @@ class Mage_Core_Model_Locale
      */
     protected $_locale;
     
-    protected $_cache;
     protected static $_currencyCache = array();
     
     public function __construct($locale = null) 

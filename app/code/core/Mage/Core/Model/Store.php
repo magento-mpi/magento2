@@ -317,7 +317,42 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getAvailableCurrencyCodes()
     {
-        return explode(',', $this->getConfig('general/currency/allow'));
+        $codes = $this->getData('available_currency_codes');
+        if (is_null($codes)) {
+            $codes = explode(',', $this->getConfig('general/currency/allow'));
+            $this->setData('available_currency_codes', $codes);
+        }
+        return $codes;
+    }
+    
+    /**
+     * Retrieve store default currency
+     *
+     * @return Mage_Directory_Model_Currency
+     */
+    public function getDefaultCurrency()
+    {
+        $currency = $this->getData('default_currency');
+        if (is_null($currency)) {
+            $currency = Mage::getModel('directory/currency')->load($this->getDefaultCurrencyCode());
+            $this->setData('default_currency', $currency);
+        }
+        return $currency;
+    }
+    
+    /**
+     * Retrieve store current currency
+     *
+     * @return Mage_Directory_Model_Currency
+     */
+    public function getCurrentCurrency()
+    {
+        $currency = $this->getData('current_currency');
+        if (is_null($currency)) {
+            $currency = Mage::getModel('directory/currency')->load($this->getCurrentCurrencyCode());
+            $this->setData('current_currency', $currency);
+        }
+        return $currency;
     }
 
     /**

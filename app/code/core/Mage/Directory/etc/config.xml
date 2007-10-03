@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Directory>
-         <version>0.6.0</version>
+         <version>0.6.1</version>
          <depends>
             <Mage_Core />
          </depends>
@@ -56,15 +56,9 @@
                     <country_region_name>
                         <table>directory_country_region_name</table>
                     </country_region_name>
-                    <currency>
-                        <table>directory_currency</table>
-                    </currency>
                     <currency_rate>
                         <table>directory_currency_rate</table>
                     </currency_rate>
-                    <currency_name>
-                        <table>directory_currency_name</table>
-                    </currency_name>
                 </entities>
             </directory_mysql4>
         </models>
@@ -88,17 +82,6 @@
     </global>
 
     <frontend>
-        <events>
-            <action_preDispatch>
-                <observers>
-                    <directoryObserver>
-                        <type>singleton</type>
-                        <class>directory/observer</class>
-                        <method>actionPreDispatch</method>
-                    </directoryObserver>
-                </observers>
-            </action_preDispatch>
-        </events>
         <routers>
             <directory>
                 <use>standard</use>
