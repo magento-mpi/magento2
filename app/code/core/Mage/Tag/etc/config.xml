@@ -51,7 +51,7 @@
                         <table>tag_relation</table>
                     </relation>
                     <summary>
-                        <table>tag_relation</table>
+                        <table>tag_summary</table>
                     </summary>
                 </entities>
             </tag_mysql4>
