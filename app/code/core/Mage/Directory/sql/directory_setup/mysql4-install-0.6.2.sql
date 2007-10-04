@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento
  *
@@ -13,13 +12,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Directory
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->startSetup()
-    ->run("
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
 DROP TABLE IF EXISTS `directory_country_name`;
 DROP TABLE IF EXISTS `directory_country_currency`;
 
@@ -87,6 +93,7 @@ CREATE TABLE `directory_currency_rate` (
 /*Data for the table `directory_currency_rate` */
 
 insert  into `directory_currency_rate`(`currency_from`,`currency_to`,`rate`) values ('AED','AED',1.0000),('AED','AUD',0.3078),('AED','CAD',0.2717),('AED','CNY',2.0440),('AED','EUR',0.1924),('AED','JPY',31.5383),('AED','MXN',2.9684),('AED','PLN',0.7256),('AED','RUB',6.7926),('AED','UAH',1.3768),('AED','USD',0.2723),('AUD','AED',3.2484),('AUD','AUD',1.0000),('AUD','CAD',0.8827),('AUD','CNY',6.6399),('AUD','EUR',0.6251),('AUD','JPY',102.4543),('AUD','MXN',9.6426),('AUD','PLN',2.3572),('AUD','RUB',22.0652),('AUD','UAH',4.4725),('AUD','USD',0.8846),('CAD','AED',3.6803),('CAD','AUD',1.1329),('CAD','CAD',1.0000),('CAD','CNY',7.5227),('CAD','EUR',0.7082),('CAD','JPY',116.0653),('CAD','MXN',10.9245),('CAD','PLN',2.6706),('CAD','RUB',24.9987),('CAD','UAH',5.0671),('CAD','USD',1.0022),('CNY','AED',0.4892),('CNY','AUD',0.1506),('CNY','CAD',0.1329),('CNY','CNY',1.0000),('CNY','EUR',0.0941),('CNY','JPY',15.4288),('CNY','MXN',1.4522),('CNY','PLN',0.3550),('CNY','RUB',3.3231),('CNY','UAH',0.6736),('CNY','USD',0.1332),('EUR','AED',5.1963),('EUR','AUD',1.5996),('EUR','CAD',1.4119),('EUR','CNY',10.6215),('EUR','EUR',1.0000),('EUR','JPY',163.8769),('EUR','MXN',15.4247),('EUR','PLN',3.7707),('EUR','RUB',35.2966),('EUR','UAH',7.1545),('EUR','USD',1.4150),('JPY','AED',0.0317),('JPY','AUD',0.0098),('JPY','CAD',0.0086),('JPY','CNY',0.0648),('JPY','EUR',0.0061),('JPY','JPY',1.0000),('JPY','MXN',0.0941),('JPY','PLN',0.0230),('JPY','RUB',0.2154),('JPY','UAH',0.0437),('JPY','USD',0.0086),('MXN','AED',0.3369),('MXN','AUD',0.1037),('MXN','CAD',0.0915),('MXN','CNY',0.6886),('MXN','EUR',0.0648),('MXN','JPY',10.6252),('MXN','MXN',1.0000),('MXN','PLN',0.2445),('MXN','RUB',2.2883),('MXN','UAH',0.4638),('MXN','USD',0.0917),('PLN','AED',1.3781),('PLN','AUD',0.4242),('PLN','CAD',0.3745),('PLN','CNY',2.8169),('PLN','EUR',0.2652),('PLN','JPY',43.4646),('PLN','MXN',4.0907),('PLN','PLN',1.0000),('PLN','RUB',9.3608),('PLN','UAH',1.8974),('PLN','USD',0.3753),('RUB','AED',0.1472),('RUB','AUD',0.0453),('RUB','CAD',0.0400),('RUB','CNY',0.3009),('RUB','EUR',0.0283),('RUB','JPY',4.6429),('RUB','MXN',0.4370),('RUB','PLN',0.1068),('RUB','RUB',1.0000),('RUB','UAH',0.2027),('RUB','USD',0.0401),('UAH','AED',0.7263),('UAH','AUD',0.2236),('UAH','CAD',0.1973),('UAH','CNY',1.4846),('UAH','EUR',0.1398),('UAH','JPY',22.9055),('UAH','MXN',2.1560),('UAH','PLN',0.5270),('UAH','RUB',4.9335),('UAH','UAH',1.0000),('UAH','USD',0.1978),('USD','AED',3.6722),('USD','AUD',1.1305),('USD','CAD',0.9978),('USD','CNY',7.5061),('USD','EUR',0.7067),('USD','JPY',115.8050),('USD','MXN',10.9005),('USD','PLN',2.6649),('USD','RUB',24.9437),('USD','UAH',5.0560),('USD','USD',1.0000);
-    ")
-    ->endSetup();
-$this->run('UPDATE eav_attribute SET backend_type="varchar" WHERE attribute_code="country_id"');
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
