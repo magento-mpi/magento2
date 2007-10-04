@@ -123,6 +123,5 @@
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
     //dataForm.setElementsRelation('country', 'state', '<?=$this->getUrl('directory/json/childRegion')?>');
-       
     new RegionUpdater('country', 'region', 'region_id', <?=$this->getHelper('directory/data')->getRegionsJs()?>);
 </script>

@@ -53,9 +53,9 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function getResource()
     {
-        Varien_Profiler::start('TEST1: '.__METHOD__);
+        Varien_Profiler::start('Customer->getResource: '.__METHOD__);
         $resource = Mage::getResourceSingleton('customer/customer');
-        Varien_Profiler::stop('TEST1: '.__METHOD__);
+        Varien_Profiler::stop('Customer->getResource: '.__METHOD__);
 
         return $resource;
     }

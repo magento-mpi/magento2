@@ -100,6 +100,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     ->setId($addressId);
             	$collection->addItem($addressModel);
             }
+            
             $customer->setLoadedAddressCollection($collection);
         }
 
