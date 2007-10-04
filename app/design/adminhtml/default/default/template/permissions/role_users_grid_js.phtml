@@ -49,9 +49,27 @@
         }
     }
 
+    function myhandler(o)
+    {
+        if (checkBoxes.size() > 0) {
+            if ( !confirm("<?=__('Warning!\r\nThis action will remove those users from already assigned roles\r\nAre you sure?')?>") ) {
+                o.checked = false;
+                for(i in checkBoxes) {
+                    if( checkBoxes[i].status == 1) { 
+                        checkBoxes[i].object.checked = true;
+                    }
+                }
+                return false;
+            }
+            warning = false;
+        }
+        for(i in checkBoxes) <?=$myBlock->getJsObjectName()?>.setCheckboxChecked(checkBoxes[i].object, o.checked);
+    }
+    
 <?=$myBlock->getJsObjectName()?>.rowClickCallback = roleUsersRowClick;
 <?=$myBlock->getJsObjectName()?>.initRowCallback = roleUsersRowInit;
 <?=$myBlock->getJsObjectName()?>.checkboxCheckCallback = registerUserRole;
+<?=$myBlock->getJsObjectName()?>.checkCheckboxes = myhandler;
 <?=$myBlock->getJsObjectName()?>.rows.each(function(row){roleUsersRowInit(<?=$myBlock->getJsObjectName()?>, row)});
 <?endif;?>
 //-->
