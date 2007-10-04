@@ -377,6 +377,9 @@ final class Mage {
 
     public static function encrypt($data)
     {
+        if (!self::app()->isInstalled()) {
+            return $data;
+        }
         Varien_Profiler::start(__METHOD__);
         $result = base64_encode(self::getCrypt()->encrypt($data));
         Varien_Profiler::stop(__METHOD__);
@@ -385,6 +388,9 @@ final class Mage {
 
     public static function decrypt($data)
     {
+        if (!self::app()->isInstalled()) {
+            return $data;
+        }
         Varien_Profiler::start(__METHOD__);
         $result = trim(self::getCrypt()->decrypt(base64_decode($data)));
         Varien_Profiler::stop(__METHOD__);

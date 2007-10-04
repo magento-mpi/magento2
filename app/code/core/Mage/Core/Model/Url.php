@@ -27,16 +27,16 @@
  */
 class Mage_Core_Model_Url extends Varien_Object
 {
-    const TYPE_ROUTE = 'route';
-    const TYPE_SKIN = 'skin';
-    const TYPE_JS = 'js';
-    const TYPE_MEDIA = 'media';
+    const TYPE_ROUTE    = 'route';
+    const TYPE_SKIN     = 'skin';
+    const TYPE_JS       = 'js';
+    const TYPE_MEDIA    = 'media';
 
-    const SCHEME_UNSECURE = 'http';
-    const SCHEME_SECURE = 'https';
+    const SCHEME_UNSECURE   = 'http';
+    const SCHEME_SECURE     = 'https';
 
     const PORT_UNSECURE = 80;
-    const PORT_SECURE = 443;
+    const PORT_SECURE   = 443;
 
     static protected $_configDataCache;
     static protected $_baseUrlCache;
@@ -97,14 +97,23 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $this->setStore(null);
     }
-
+    
     public function parseUrl($url)
     {
-        $a = parse_url($url);
-        foreach (array('scheme'=>'setScheme', 'host'=>'setHost', 'port'=>'setPort', 'user'=>'setUser', 'pass'=>'setPassword',
-            'path'=>'setPath', 'query'=>'setQuery', 'fragment'=>'setFragment') as $component=>$method) {
-            if (isset($a[$component])) {
-                $this->$method($a[$component]);
+        $data   = parse_url($url);
+        $parts  = array(
+            'scheme'=>'setScheme', 
+            'host'  =>'setHost', 
+            'port'  =>'setPort', 
+            'user'  =>'setUser', 
+            'pass'  =>'setPassword',
+            'path'  =>'setPath', 
+            'query' =>'setQuery', 
+            'fragment'=>'setFragment');
+            
+        foreach ($parts as $component=>$method) {
+            if (isset($data[$component])) {
+                $this->$method($data[$component]);
             }
         }
         return $this;
