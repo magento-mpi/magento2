@@ -62,10 +62,33 @@
             <allow>
                 <codes>
                     <en_US/>
-                    <ru_RU/>
                     <de_DE/>
-                    <pl_PL/>
                     <ja_JP/>
+                    <pt_BR/>
+                    <zh_CH/>
+                    <zh_TW/>
+                    <cs_CZ/>
+                    <da_DK/>
+                    <nl_NL/>
+                    <fi_FI/>
+                    <fr_FR/>
+                    <el_GR/>
+                    <iw_IL/>
+                    <hu_HU/>
+                    <id_ID/>
+                    <it_IT/>
+                    <no_NO/>
+                    <pl_PL/>
+                    <pt_PT/>
+                    <ro_RO/>
+                    <ru_RU/>
+                    <sl_SL/>
+                    <es_ES/>
+                    <sv_SE/>
+                    <th_TH/>
+                    <tr_TR/>
+                    <en_GB/>
+                    <vn_VN/>
                 </codes>
                 <currencies>
                     <USD/>

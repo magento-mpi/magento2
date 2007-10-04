@@ -158,133 +158,133 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
     public function importExportAction()
     {
-    	$this->loadLayout()
-    		->_setActiveMenu('sales/tax_importExport')
-    		->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_importExport'))
-    		->renderLayout();
+        $this->loadLayout()
+            ->_setActiveMenu('sales/tax_importExport')
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_importExport'))
+            ->renderLayout();
     }
 
     public function importPostAction()
     {
-    	$result = false;
-    	if ($this->getRequest()->isPost()
-    		&& !empty($_FILES['import_rates_file']['tmp_name'])) {
-    		try {
-    			$this->_importRates();
-				Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rates file has been successfully imported'));
-    		} catch (Exception $e) {
-    			Mage::getSingleton('adminhtml/session')->addError(__('Error during import: %s', $e));
-    		}
-    	} else {
+        $result = false;
+        if ($this->getRequest()->isPost()
+            && !empty($_FILES['import_rates_file']['tmp_name'])) {
+            try {
+                $this->_importRates();
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rates file has been successfully imported'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError(__('Error during import: %s', $e));
+            }
+        } else {
 
-    		Mage::getSingleton('adminhtml/session')->addError(__('Invalid file upload attempt'));
+            Mage::getSingleton('adminhtml/session')->addError(__('Invalid file upload attempt'));
 
-    	}
-    	$this->_redirect('*/*/importExport');
+        }
+        $this->_redirect('*/*/importExport');
     }
 
     protected function _importRates()
     {
-    	$filename = $_FILES['import_rates_file']['tmp_name'];
-    	$rows = array();
+        $filename = $_FILES['import_rates_file']['tmp_name'];
+        $rows = array();
 
-		$rates = $this->_importFileToArray($filename);
+        $rates = $this->_importFileToArray($filename);
 
-    	$rateModel = Mage::getModel('tax/rate');
-    	$rateDataModel = Mage::getModel('tax/rate_data');
+        $rateModel = Mage::getModel('tax/rate');
+        $rateDataModel = Mage::getModel('tax/rate_data');
 
-    	$rateModel->deleteAllRates();
+        $rateModel->deleteAllRates();
 
-    	foreach ($rates as $rate) {
-    		$rateModel->setData($rate)->save();
-    	}
+        foreach ($rates as $rate) {
+            $rateModel->setData($rate)->save();
+        }
 
-    	return true;
+        return true;
     }
 
     protected function _importFileToArray($filename)
     {
-    	$rateTypes = array();
-    	$typeCollection = Mage::getResourceModel('tax/rate_type_collection')->load();
-    	foreach ($typeCollection as $type) {
-    		$rateTypes[$type->getTypeName()] = $type->getTypeId();
-    	}
+        $rateTypes = array();
+        $typeCollection = Mage::getResourceModel('tax/rate_type_collection')->load();
+        foreach ($typeCollection as $type) {
+            $rateTypes[$type->getTypeName()] = $type->getTypeId();
+        }
 
-    	$regions = array();
-    	$regionCollection = Mage::getResourceModel('directory/region_collection')
-    		->addCountryFilter(223)->load();
-    	foreach ($regionCollection as $region) {
-    		$regions[$region->getCode()] = $region->getRegionId();
-    	}
+        $regions = array();
+        $regionCollection = Mage::getResourceModel('directory/region_collection')
+            ->addCountryFilter('US')->load();
+        foreach ($regionCollection as $region) {
+            $regions[$region->getCode()] = $region->getRegionId();
+        }
 
-    	$fp = fopen($filename, 'r');
-    	$cols = array();
-    	$rates = array();
-    	while ($row = fgetcsv($fp, 300, ',', '"')) {
-    		if (empty($cols)) {
-    			$regionName = __('State/Province');
-    			$postcodeName = __('Zip/Postal Code');
-    			foreach ($row as $k=>$v) {
-    				if ($v==$regionName) {
-    					$cols[$k] = 'region_name';
-    				} elseif ($v==$postcodeName) {
-    					$cols[$k] = 'postcode';
-	    				} elseif (!empty($rateTypes[$v])) {
-	    					$cols[$k] = $rateTypes[$v];
-	    				}
-    			}
-    			continue;
-    		}
-			$rate = array('tax_region_id'=>null, 'tax_postcode'=>null);
-    		foreach ($row as $k=>$v) {
-    			switch ($cols[$k]) {
-    				case 'region_name':
-    					$rate['tax_region_id'] = $regions[$v];
-    					break;
+        $fp = fopen($filename, 'r');
+        $cols = array();
+        $rates = array();
+        while ($row = fgetcsv($fp, 300, ',', '"')) {
+            if (empty($cols)) {
+                $regionName = __('State/Province');
+                $postcodeName = __('Zip/Postal Code');
+                foreach ($row as $k=>$v) {
+                    if ($v==$regionName) {
+                        $cols[$k] = 'region_name';
+                    } elseif ($v==$postcodeName) {
+                        $cols[$k] = 'postcode';
+                        } elseif (!empty($rateTypes[$v])) {
+                            $cols[$k] = $rateTypes[$v];
+                        }
+                }
+                continue;
+            }
+            $rate = array('tax_region_id'=>null, 'tax_postcode'=>null);
+            foreach ($row as $k=>$v) {
+                switch ($cols[$k]) {
+                    case 'region_name':
+                        $rate['tax_region_id'] = $regions[$v];
+                        break;
 
-    				case 'postcode':
-						$rate['tax_postcode'] = $v;
-    					break;
+                    case 'postcode':
+                        $rate['tax_postcode'] = $v;
+                        break;
 
-    				default:
-    					$rate['rate_data'][$cols[$k]] = $v;
-    			}
-    		}
-    		$rates[] = $rate;
-    	}
-    	fclose($fp);
-    	@unlink($filename);
+                    default:
+                        $rate['rate_data'][$cols[$k]] = $v;
+                }
+            }
+            $rates[] = $rate;
+        }
+        fclose($fp);
+        @unlink($filename);
 
-    	return $rates;
+        return $rates;
     }
 
     public function exportPostAction()
     {
-    	$rateTypes = array();
-    	$typeCollection = Mage::getResourceModel('tax/rate_type_collection')->load();
-    	foreach ($typeCollection as $type) {
-    		$rateTypes[$type->getTypeId()] = $type->getTypeName();
-    	}
+        $rateTypes = array();
+        $typeCollection = Mage::getResourceModel('tax/rate_type_collection')->load();
+        foreach ($typeCollection as $type) {
+            $rateTypes[$type->getTypeId()] = $type->getTypeName();
+        }
 
-    	$rateCollection = Mage::getResourceModel('tax/rate_collection')->addAttributes()->load();
-    	$content = '';
-    	foreach ($rateCollection as $rate) {
-    		if (empty($content)) {
-    			$content .= '"'.__('State/Province').'","'.__('Zip/Postal Code').'"';
-    			$template = '"{{region_name}}","{{tax_postcode}}"';
-    			foreach ($rate->getData() as $k=>$v) {
-    				if (!preg_match('#^rate_value_([0-9]+)$#', $k, $m)) {
-    					continue;
-    				}
-    				$content.= ',"'.$rateTypes[$m[1]].'"';
-    				$template.= ',"{{'.$k.'}}"';
-    			}
-    			$content.= "\r\n";
-    		}
-    		$content.= $rate->toString($template)."\r\n";
-    	}
+        $rateCollection = Mage::getResourceModel('tax/rate_collection')->addAttributes()->load();
+        $content = '';
+        foreach ($rateCollection as $rate) {
+            if (empty($content)) {
+                $content .= '"'.__('State/Province').'","'.__('Zip/Postal Code').'"';
+                $template = '"{{region_name}}","{{tax_postcode}}"';
+                foreach ($rate->getData() as $k=>$v) {
+                    if (!preg_match('#^rate_value_([0-9]+)$#', $k, $m)) {
+                        continue;
+                    }
+                    $content.= ',"'.$rateTypes[$m[1]].'"';
+                    $template.= ',"{{'.$k.'}}"';
+                }
+                $content.= "\r\n";
+            }
+            $content.= $rate->toString($template)."\r\n";
+        }
 
-    	$fileName = 'tax_rates.csv';
+        $fileName = 'tax_rates.csv';
 
         header('HTTP/1.1 200 OK');
         header('Content-Disposition: attachment; filename='.$fileName);
@@ -299,7 +299,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     protected function _isAllowed()
     {
 
-    	switch ($this->getRequest()->getActionName()) {
+        switch ($this->getRequest()->getActionName()) {
             case 'importExport':
                 return Mage::getSingleton('admin/session')->isAllowed('sales/tax/import_export');
                 break;

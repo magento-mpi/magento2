@@ -90,7 +90,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $countryId = $this->getData('country_id');
         if (is_null($countryId)) {
-            $countryId = (int) Mage::getStoreConfig('general/country/default');
+            $countryId = Mage::getStoreConfig('general/country/default');
         }
         return $countryId;
     }

@@ -27,7 +27,7 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
     protected $_result = null;
@@ -108,7 +108,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Shipping_Model_Carrier_Ab
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
-            $destCountry = 223;
+            $destCountry = self::USA_COUNTRY_ID;
         }
         $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
 

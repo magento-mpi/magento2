@@ -54,13 +54,14 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function load(Mage_Directory_Model_Region $region, $regionId)
     {
-        $lang = Mage::app()->getStore()->getLanguageCode();
+        $locale = Mage::app()->getLocale()->getLocaleCode();
 
         $select = $this->_read->select()
-            ->from($this->_regionTable)
-            ->where($this->_regionTable.".region_id=?", $regionId)
-            ->join($this->_regionNameTable, $this->_regionNameTable.'.region_id='.$this->_regionTable.'.region_id
-                AND '.$this->_regionNameTable.".language_code='$lang'");
+            ->from(array('region'=>$this->_regionTable))
+            ->where('region.region_id=?', $regionId)
+            ->join(array('rname'=>$this->_regionNameTable), 
+                'rname.region_id=region.region_id AND rname.locale=\''.$locale.'\'',
+                array('name'));
 
         $region->setData($this->_read->fetchRow($select));
         return $this;
@@ -68,14 +69,15 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function loadByCode(Mage_Directory_Model_Region $region, $regionCode, $countryId)
     {
-        $lang = Mage::app()->getStore()->getLanguageCode();
+        $locale = Mage::app()->getLocale()->getLocaleCode();
 
         $select = $this->_read->select()
-            ->from($this->_regionTable)
-            ->where($this->_regionTable.".country_id=?", $countryId)
-            ->where($this->_regionTable.".code=?", $regionCode)
-            ->join($this->_regionNameTable, $this->_regionNameTable.'.region_id='.$this->_regionTable.'.region_id
-                AND '.$this->_regionNameTable.".language_code='$lang'");
+            ->from(array('region'=>$this->_regionTable))
+            ->where('region.country_id=?', $countryId)
+            ->where('region.code=?', $regionCode)
+            ->join(array('rname'=>$this->_regionNameTable), 
+                'rname.region_id=region.region_id AND rname.locale=\''.$locale.'\'',
+                array('name'));
 
         $region->setData($this->_read->fetchRow($select));
         return $this;

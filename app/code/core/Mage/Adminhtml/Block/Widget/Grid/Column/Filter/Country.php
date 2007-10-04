@@ -17,23 +17,18 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-class Mage_Adminhtml_Model_System_Config_Source_Country
+ 
+/**
+ * Country grid filter
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Country extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select 
 {
-    protected $_options;
-    
-    public function toOptionArray($isMultiselect)
+    protected function _getOptions()
     {
-        if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray(false);
-        }
-        
-        $options = $this->_options;
-        if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=>''));
-        }
-
+        $options = Mage::getResourceModel('directory/country_collection')->load()->toOptionArray(false);
+        array_unshift($options, array('value'=>'', 'label'=>__('All countries')));
         return $options;
-    }
+    }    
 }

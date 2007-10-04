@@ -25,7 +25,7 @@
  * @package    Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
     protected $_result = null;
@@ -91,7 +91,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
-            $destCountry = 223;
+            $destCountry = self::USA_COUNTRY_ID;
         }
         $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
 
@@ -133,24 +133,24 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 //          $requestHeader->addChild('CarrierCode', 'FDXE');
 //          $requestHeader->addChild('CarrierCode', 'FDXG');
             /**
-             *  FDXE – FedEx Express
-             *  FDXG – FedEx Ground
+             *  FDXE ï¿½ FedEx Express
+             *  FDXG ï¿½ FedEx Ground
              */
 
         $xml->addChild('ShipDate', date('Y-m-d'));
 //      $xml->addChild('ReturnShipmentIndicator', 'NONRETURN');
         /**
-         *  • NONRETURN
-         *  • PRINTRETURNLABEL
-         *  • EMAILLABEL
+         *  ï¿½ NONRETURN
+         *  ï¿½ PRINTRETURNLABEL
+         *  ï¿½ EMAILLABEL
          */
         $xml->addChild('DropoffType', $r->getDropoffType());
         /**
-         *  • REGULARPICKUP
-         *  • REQUESTCOURIER
-         *  • DROPBOX
-         *  • BUSINESSSERVICECENTER
-         *  • STATION
+         *  ï¿½ REGULARPICKUP
+         *  ï¿½ REQUESTCOURIER
+         *  ï¿½ DROPBOX
+         *  ï¿½ BUSINESSSERVICECENTER
+         *  ï¿½ STATION
          *  Only REGULARPICKUP, REQUESTCOURIER, and STATION are
          *  allowed with international freight shipping.
          */
@@ -159,41 +159,41 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
         }
         /**
          *  One of the following FedEx Services is optional:
-         *  • PRIORITYOVERNIGHT
-         *  • STANDARDOVERNIGHT
-         *  • FIRSTOVERNIGHT
-         *  • FEDEX2DAY
-         *  • FEDEXEXPRESSSAVER
-         *  • INTERNATIONALPRIORITY
-         *  • INTERNATIONALECONOMY
-         *  • INTERNATIONALFIRST
-         *  • FEDEX1DAYFREIGHT
-         *  • FEDEX2DAYFREIGHT
-         *  • FEDEX3DAYFREIGHT
-         *  • FEDEXGROUND
-         *  • GROUNDHOMEDELIVERY
-         *  • INTERNATIONALPRIORITY FREIGHT
-         *  • INTERNATIONALECONOMY FREIGHT
-         *  • EUROPEFIRSTINTERNATIONALPRIORITY
-         *  If provided, only that service’s estimated charges will be returned.
+         *  ï¿½ PRIORITYOVERNIGHT
+         *  ï¿½ STANDARDOVERNIGHT
+         *  ï¿½ FIRSTOVERNIGHT
+         *  ï¿½ FEDEX2DAY
+         *  ï¿½ FEDEXEXPRESSSAVER
+         *  ï¿½ INTERNATIONALPRIORITY
+         *  ï¿½ INTERNATIONALECONOMY
+         *  ï¿½ INTERNATIONALFIRST
+         *  ï¿½ FEDEX1DAYFREIGHT
+         *  ï¿½ FEDEX2DAYFREIGHT
+         *  ï¿½ FEDEX3DAYFREIGHT
+         *  ï¿½ FEDEXGROUND
+         *  ï¿½ GROUNDHOMEDELIVERY
+         *  ï¿½ INTERNATIONALPRIORITY FREIGHT
+         *  ï¿½ INTERNATIONALECONOMY FREIGHT
+         *  ï¿½ EUROPEFIRSTINTERNATIONALPRIORITY
+         *  If provided, only that serviceï¿½s estimated charges will be returned.
          */
         $xml->addChild('Packaging', $r->getPackaging());
         /**
          *  One of the following package types is required:
-         *  • FEDEXENVELOPE
-         *  • FEDEXPAK
-         *  • FEDEXBOX
-         *  • FEDEXTUBE
-         *  • FEDEX10KGBOX
-         *  • FEDEX25KGBOX
-         *  • YOURPACKAGING
+         *  ï¿½ FEDEXENVELOPE
+         *  ï¿½ FEDEXPAK
+         *  ï¿½ FEDEXBOX
+         *  ï¿½ FEDEXTUBE
+         *  ï¿½ FEDEX10KGBOX
+         *  ï¿½ FEDEX25KGBOX
+         *  ï¿½ YOURPACKAGING
          *  If value entered is FEDEXENVELOPE, FEDEX10KGBOX, or
          *  FEDEX25KGBOX, an MPS rate quote is not allowed.
          */
         $xml->addChild('WeightUnits', 'LBS');
         /**
-         *  • LBS
-         *  • KGS
+         *  ï¿½ LBS
+         *  ï¿½ KGS
          *  LBS is required for a U.S. FedEx Express rate quote.
          */
         $xml->addChild('Weight', $r->getWeight());
@@ -247,8 +247,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
          *  Required if dimensions are entered.
          *  Only applicable if the package type is YOURPACKAGING.
          *  The valid unit of measure codes for the package dimensions are:
-         *  IN – Inches
-         *  CM – Centimeters
+         *  IN ï¿½ Inches
+         *  CM ï¿½ Centimeters
          *  U.S. FedEx Express must be in inches.
          */
 
@@ -261,8 +261,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
 //          $specialServices->addChild('DangerousGoods', 'true')->addChild('Accessibility', 'ACCESSIBLE');
         /**
          *  Valid values:
-         *  ACCESSIBLE – accessible DG
-         *  INACCESSIBLE – inaccessible DG
+         *  ACCESSIBLE ï¿½ accessible DG
+         *  INACCESSIBLE ï¿½ inaccessible DG
          */
 //          $specialServices->addChild('DryIce', 'true');
 //          $specialServices->addChild('ResidentialDelivery', 'true');
@@ -282,17 +282,17 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
          *  Optional.
          *  Specifies the Delivery Signature Option requested for the shipment.
          *  Valid values:
-         *  • DELIVERWITHOUTSIGNATURE
-         *  • INDIRECT
-         *  • DIRECT
-         *  • ADULT
+         *  ï¿½ DELIVERWITHOUTSIGNATURE
+         *  ï¿½ INDIRECT
+         *  ï¿½ DIRECT
+         *  ï¿½ ADULT
          *  For FedEx Express shipments, the DELIVERWITHOUTSIGNATURE
          *  option will not be allowed when the following special services are
          *  requested:
-         *  • Alcohol
-         *  • Hold at Location
-         *  • Dangerous Goods
-         *  • Declared Value greater than $500
+         *  ï¿½ Alcohol
+         *  ï¿½ Hold at Location
+         *  ï¿½ Dangerous Goods
+         *  ï¿½ Declared Value greater than $500
          */
 
         /**
@@ -301,9 +301,9 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
          *  HomeDelivery / Type
          *  One of the following values are required for FedEx Home Delivery
          *  shipments:
-         *  • DATECERTAIN
-         *  • EVENING
-         *  • APPOINTMENT
+         *  ï¿½ DATECERTAIN
+         *  ï¿½ EVENING
+         *  ï¿½ APPOINTMENT
          *
          *  PackageCount
          *  Required for multiple-piece shipments (MPS).
@@ -324,8 +324,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
          *  Only applicable if valid Variable Handling Type is present.
          *  Apply fixed or variable handling charges at package or shipment level.
          *  Valid values:
-         *  • PACKAGE
-         *  • SHIPMENT
+         *  ï¿½ PACKAGE
+         *  ï¿½ SHIPMENT
          *  The value "SHIPMENT" is applicable only on last piece of FedEx
          *  Ground or FedEx Express MPS shipment only.
          *  Note: Value "SHIPMENT" = shipment level affects the entire shipment.
@@ -337,10 +337,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Shipping_Model_Carrier_
          *  Specifies what type of Variable Handling charges to assess and on
          *  which amount.
          *  Valid values:
-         *  • FIXED_AMOUNT
-         *  • PERCENTAGE_OF_BASE
-         *  • PERCENTAGE_OF_NET
-         *  • PERCENTAGE_OF_NET_ EXCL_TAXES
+         *  ï¿½ FIXED_AMOUNT
+         *  ï¿½ PERCENTAGE_OF_BASE
+         *  ï¿½ PERCENTAGE_OF_NET
+         *  ï¿½ PERCENTAGE_OF_NET_ EXCL_TAXES
          *
          *  VariableHandlingCharges / AmountOrPercentage
          *  Optional.

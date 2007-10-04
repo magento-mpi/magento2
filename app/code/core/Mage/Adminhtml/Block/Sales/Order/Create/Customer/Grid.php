@@ -54,7 +54,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_regione', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
-            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'), 'left')
             ->joinField('store_name', 'core/store', 'name', 'store_id=store_id', null, 'left');
 
         $this->setCollection($collection);
@@ -92,10 +91,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
             'width'     =>'120px',
             'index'     =>'billing_postcode',
         ));
-        $this->addColumn('billing_country_name', array(
+        $this->addColumn('billing_country_id', array(
             'header'    =>__('Country'),
             'width'     =>'100px',
-            'index'     =>'billing_country_name',
+            'type'      =>'country',
+            'index'     =>'billing_country_id',
         ));
         $this->addColumn('billing_regione', array(
             'header'    =>__('State/Province'),

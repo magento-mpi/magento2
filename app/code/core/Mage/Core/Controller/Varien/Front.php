@@ -175,60 +175,7 @@ class Mage_Core_Controller_Varien_Front
 
         return $this;
     }
-/*
-    public function getUrl($route='', $params=array())
-    {
-        if (!isset($params['_current'])) {
-            $cacheKey = md5($route.serialize($params));
-        }
-        if (isset($cacheKey) && isset($this->_urlCache[$cacheKey])) {
-            return $this->_urlCache[$cacheKey];
-        }
-
-        // no route return base url
-        if (empty($route)) {
-            return Mage::getBaseUrl();
-        }
-
-
-        if (is_string($route)) {
-            // parse string route
-            $request = $this->getRequest();
-
-            $p = explode('/', $route);
-            $routeName = $p[0]==='*' ? $request->getModuleName() : $p[0];
-            $paramsArr = array('module'=>$routeName);
-            if (isset($p[1])) {
-                $paramsArr['controller'] = $p[1]==='*' ? $request->getControllerName() : $p[1];
-                if (isset($p[2])) {
-                    $paramsArr['action'] = $p[2]==='*' ? $request->getActionName() : $p[2];
-                    for ($i=3, $l=sizeof($p); $i<$l; $i+=2) {
-                        $paramsArr[$p[$i]] = isset($p[$i+1]) ? $p[$i+1] : '';
-                    }
-                }
-            }
-        } elseif (is_array($route)) {
-            // parse array route
-            $routeName = $route['module'];
-            $paramsArr = $route;
-        } else {
-            // unknown route format
-            $url = '';
-            if (isset($cacheKey)) {
-                $this->_urlCache[$cacheKey] = $url;
-            }
-            return $url;
-        }
-        // merge with optional params
-        $paramsArr = array_merge($paramsArr, $params);
-        $router = $this->getRouterByRoute($routeName);
-        $url = $router->getUrl($routeName, $paramsArr);
-        if (isset($cacheKey)) {
-            $this->_urlCache[$cacheKey] = $url;
-        }
-        return $url;
-    }
-*/
+    
     public function getRouterByRoute($routeName)
     {
         // empty route supplied - return base url

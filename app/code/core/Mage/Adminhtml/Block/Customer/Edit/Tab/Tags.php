@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -44,8 +44,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
             ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing')
             ->joinAttribute('billing_city', 'customer_address/city', 'default_billing')
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
-            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
-            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'));
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing');
         
         $this->setCollection($collection);
         
@@ -84,10 +83,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
             'header'    =>__('ZIP/Post Code'),
             'index'     =>'billing_postcode',
         ));
-        $this->addColumn('billing_country_name', array(
-            'header'    =>__('Country'),
-            #'filter'    => 'adminhtml/customer_grid_filter_country',
-            'index'     =>'billing_country_name',
+        $this->addColumn('billing_country_id', array(
+            'header'    => __('Country'),
+            'type'      => 'country',
+            'index'     => 'billing_country_id',
         ));
         $this->addColumn('customer_since', array(
             'header'    =>__('Customer Since'),

@@ -39,10 +39,13 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
         $this->_regionTable     = Mage::getSingleton('core/resource')->getTableName('directory/country_region');
         $this->_regionNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_region_name');
 
-        $lang = Mage::app()->getStore()->getLanguageCode();
+        $locale = Mage::app()->getLocale()->getLocaleCode();
 
-        $this->_sqlSelect->from($this->_regionTable);
-        $this->_sqlSelect->join($this->_regionNameTable, "$this->_regionNameTable.region_id=$this->_regionTable.region_id AND $this->_regionNameTable.language_code='$lang'");
+        $this->_sqlSelect->from(array('region'=>$this->_regionTable),
+            array('region_id'=>'region_id', 'country_id'=>'country_id', 'code'=>'code', 'default_name'=>'default_name')
+        );
+        $this->_sqlSelect->joinLeft(array('rname'=>$this->_regionNameTable), 
+            "region.region_id=rname.region_id AND rname.locale='$locale'", array('name'));
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/region'));
     }
@@ -51,9 +54,9 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         if (!empty($countryId)) {
     	    if (is_array($countryId)) {
-	            $this->addFieldToFilter("$this->_regionTable.country_id", array('in'=>$countryId));    		
+	            $this->addFieldToFilter('region.country_id', array('in'=>$countryId));    		
     	    } else {
-	            $this->addFieldToFilter("$this->_regionTable.country_id", $countryId);    		
+	            $this->addFieldToFilter('region.country_id', $countryId);    		
     	    }
         }
         return $this;
@@ -61,8 +64,8 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
 
     public function addCountryCodeFilter($countryCode)
     {
-        $this->_sqlSelect->joinLeft($this->_countryTable, "{$this->_regionTable}.country_id = {$this->_countryTable}.country_id");
-        $this->_sqlSelect->where("{$this->_countryTable}.iso3_code = '{$countryCode}'");
+        $this->_sqlSelect->joinLeft(array('country'=>$this->_countryTable), 'region.country_id=country.country_id');
+        $this->_sqlSelect->where("country.iso3_code = '{$countryCode}'");
         return $this;
     }
 
@@ -70,9 +73,9 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         if (!empty($regionCode)) {
             if (is_array($regionCode)) {
-                $this->_sqlSelect->where("{$this->_regionTable}.code IN ('".implode("','", $regionCode)."')");
+                $this->_sqlSelect->where("region.code IN ('".implode("','", $regionCode)."')");
             } else {
-                $this->_sqlSelect->where("{$this->_regionTable}.code = '{$regionCode}'");
+                $this->_sqlSelect->where("{region.code = '{$regionCode}'");
             }
         }
         return $this;
@@ -80,7 +83,11 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
 
     public function toOptionArray()
     {
-        $options = $this->_toOptionArray('region_id', 'name', array('title'=>'iso2_code'));
+        $options = array();
+        foreach ($this as $item) {
+        	$options[]['value'] = $item->getId();
+        	$options[]['label'] = $item->getName();
+        }
         if (count($options)>0) {
             array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>__('')));
         }

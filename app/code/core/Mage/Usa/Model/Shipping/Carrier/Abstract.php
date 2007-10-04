@@ -13,27 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Usa
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-class Mage_Adminhtml_Model_System_Config_Source_Country
+ 
+/**
+ * Abstract USA shipping carrier model
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
 {
-    protected $_options;
-    
-    public function toOptionArray($isMultiselect)
-    {
-        if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray(false);
-        }
-        
-        $options = $this->_options;
-        if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=>''));
-        }
-
-        return $options;
-    }
+    const USA_COUNTRY_ID = 'US';
 }

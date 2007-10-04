@@ -67,7 +67,7 @@ final class Mage {
      * @var Mage_Core_Model_App
      */
     static private $_app;
-
+    
     static private $_useCache = array();
 
     static private $_crypt;
@@ -200,13 +200,11 @@ final class Mage {
     public static function getBaseUrl($params=array())
     {
         return Mage::getModel('core/url')->getBaseUrl($params);
-        #return Mage::app()->getStore()->getUrl($params);
     }
 
     public static function getUrl($route='', $params=array())
     {
         return Mage::getModel('core/url')->getUrl($route, $params);
-        #return Mage::registry('controller')->getUrl($route, $params);
     }
 
     /**
@@ -263,18 +261,25 @@ final class Mage {
     }
 
     /**
-     * Get model class
+     * Retrieve model object
      *
-     * @link Mage_Core_Model_Config::getModelInstance
-     * @param string $modelClass
-     * @param array $arguments
-     * @return Varien_Object
+     * @link    Mage_Core_Model_Config::getModelInstance
+     * @param   string $modelClass
+     * @param   array $arguments
+     * @return  Varien_Object
      */
     public static function getModel($modelClass='', $arguments=array())
     {
         return Mage::getConfig()->getModelInstance($modelClass, $arguments);
     }
-
+    
+    /**
+     * Retrieve model object singleton
+     *
+     * @param   string $modelClass
+     * @param   array $arguments
+     * @return  Varien_Object
+     */
     public static function getSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_singleton/'.$modelClass;
@@ -285,17 +290,24 @@ final class Mage {
     }
 
     /**
-     * Get resource model class
+     * Retrieve object of resource model
      *
-     * @param string $modelClass
-     * @param array $arguments
-     * @return Object
+     * @param   string $modelClass
+     * @param   array $arguments
+     * @return  Object
      */
     public static function getResourceModel($modelClass, $arguments=array())
     {
         return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
     }
-
+    
+    /**
+     * Retrieve resource vodel object singleton
+     *
+     * @param   string $modelClass
+     * @param   array $arguments
+     * @return  object
+     */
     public static function getResourceSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_resource_singleton/'.$modelClass;
@@ -304,10 +316,22 @@ final class Mage {
         }
         return Mage::registry($registryKey);
     }
-
+    
+    
     public static function getHelper($type)
     {
         return Mage::registry('action')->getLayout()->getHelper($type);
+    }
+    
+    /**
+     * Retrieve helper object by type
+     *
+     * @param   string $type
+     * @return  Mage_Core_Helper_Abstract
+     */
+    public static function helper($type)
+    {
+        return Mage::registry('action')->getLayout()->helper($type);
     }
 
     /**
@@ -321,7 +345,6 @@ final class Mage {
     {
         $className = $module.'_Exception';
         return new $className($message, $code);
-        //throw new $className($message, $code);
     }
 
     public static function throwException($message, $mesageStorage=null)

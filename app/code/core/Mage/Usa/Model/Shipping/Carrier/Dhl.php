@@ -26,7 +26,7 @@
  * @package    Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
     protected $_result = null;
@@ -257,15 +257,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Shipping_Model_Carrier_Ab
 
     public function getCode($type, $code='')
     {
-        static $codes = array(
-
+        static $codes;
+        $codes = array(
             'service'=>array(
                 'E' => __('Express'),
                 'N' => __('Next Afternoon'),
                 'S' => __('Second Day Service'),
                 'G' => __('Ground'),
             ),
-
             'shipment_type'=>array(
                 'L' => __('Letter'),
                 'P' => __('Package'),

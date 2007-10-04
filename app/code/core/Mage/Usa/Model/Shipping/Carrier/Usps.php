@@ -27,12 +27,11 @@
  * @package    Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
     protected $_result = null;
     protected $_defaultGatewayUrl = 'http://production.shippingapis.com/ShippingAPI.dll';
-    #protected $_defaultGatewayUrl = 'https://secure.shippingaps.com/ShippingAPI.dll';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -96,7 +95,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
-            $destCountry = 223;
+            $destCountry = self::USA_COUNTRY_ID;
         }
         $r->setDestCountryId($destCountry);
 
@@ -132,7 +131,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
     {
         $r = $this->_rawRequest;
 
-        if ($r->getDestCountryId() == 223) {
+        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
             $xml = new SimpleXMLElement('<RateV3Request/>');
 
             $xml->addAttribute('USERID', $r->getUserId());
@@ -208,7 +207,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Shipping_Model_Carrier_A
                         $allowedMethods = explode(",", Mage::getStoreConfig('carriers/usps/allowed_methods'));
                         $allMethods = $this->getCode('method');
                         $newMethod = false;
-                        if ($r->getDestCountryId() == 223) {
+                        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
 //                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$postage->MailService))) {

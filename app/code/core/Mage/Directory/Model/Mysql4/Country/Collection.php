@@ -34,13 +34,8 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
         parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
         
         $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory/country');
-        $countryNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_name');
         
-        $lang = Mage::app()->getStore()->getLanguageCode();
-        
-        $this->_sqlSelect->from($this->_countryTable);
-        $this->_sqlSelect->join($countryNameTable, "$countryNameTable.country_id=$this->_countryTable.country_id AND $countryNameTable.language_code='$lang'");
-
+        $this->_sqlSelect->from(array('country'=>$this->_countryTable));
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/country'));
     }
     
@@ -48,7 +43,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     {
         $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow'));
         if (!empty($allowCountries)) {
-            $this->addFieldToFilter("$this->_countryTable.country_id", array('in'=>$allowCountries));
+            $this->addFieldToFilter("country.country_id", array('in'=>$allowCountries));
         }
 
         $this->load();
@@ -70,9 +65,9 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     {
         if (!empty($countryCode)) {
             if (is_array($countryCode)) {
-                $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code IN ('".implode("','", $countryCode)."')");
+                $this->_sqlSelect->where("country.{$iso}_code IN ('".implode("','", $countryCode)."')");
             } else {
-                $this->_sqlSelect->where("{$this->_countryTable}.{$iso}_code = '{$countryCode}'");
+                $this->_sqlSelect->where("country.{$iso}_code = '{$countryCode}'");
             }
         }
         return $this;
@@ -82,35 +77,35 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
     {
         if (!empty($countryId)) {
             if (is_array($countryId)) {
-                $this->_sqlSelect->where("{$this->_countryTable}.country_id IN ('".implode("','", $countryId)."')");
+                $this->_sqlSelect->where("country.country_id IN ('".implode("','", $countryId)."')");
             } else {
-                $this->_sqlSelect->where("{$this->_countryTable}.country_id = '{$countryId}'");
+                $this->_sqlSelect->where("country.country_id = '{$countryId}'");
             }
         }
         return $this;
     }
 
-    public function toHtmlOptions($default=false)
-    {
-        $out = '';
-        /*if(!$default) {
-            $default = $this->getDefault()->getCountryId();
-        }*/
-        foreach ($this->getItems() as $index => $item) {
-            $out.='<option value="'.$item->countryId.'"';
-            if ($default == $item->countryId) {
-                $out.=' selected';
-            }
-            $out.='>' . $item->name;
-            $out.="</option>\n";
-        }
-         
-        return $out;
-    }
-    
     public function toOptionArray($emptyLabel = '')
     {
         $options = $this->_toOptionArray('country_id', 'name', array('title'=>'iso2_code'));
+        
+        $sort = array();
+        foreach ($options as $index=>$data) {
+            $name = Mage::app()->getLocale()->getLocale()->getCountryTranslation($data['value']);
+            if (!empty($name)) {
+                $sort[$name] = $data['value'];
+            }
+        }
+        
+        ksort($sort);
+        $options = array();
+        foreach ($sort as $label=>$value) {
+        	$options[] = array(
+        	   'value' => $value,
+        	   'label' => $label
+        	);
+        }
+        
         if (count($options)>0 && $emptyLabel !== false) {
             array_unshift($options, array('value'=>'', 'label'=>$emptyLabel));
         }

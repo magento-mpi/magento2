@@ -430,11 +430,25 @@ abstract class Mage_Core_Controller_Varien_Action
             $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
         }
         else {
-            Mage::throwException(__('Invalid messages storage "%s" for layout messages initialization', (string)$messagesStorage));
+            Mage::throwException(
+                __('Invalid messages storage "%s" for layout messages initialization', (string)$messagesStorage)
+            );
         }
         return $this;
     }
-
+    
+    /**
+     * Set redirect url into response
+     *
+     * @param   string $url
+     * @return  Mage_Core_Controller_Varien_Action
+     */
+    protected function _redirectUrl($url)
+    {
+        $this->getResponse()->setRedirect($url);
+        return $this;
+    }
+    
     /**
      * Set redirect into responce
      *

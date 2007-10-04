@@ -24,7 +24,7 @@ $conn->multi_query(<<<EOT
 DROP TABLE IF EXISTS `usa_postcode`;
 
 CREATE TABLE `usa_postcode` (                              
-                `country_id` smallint(6) unsigned NOT NULL default '0',  
+                `country_id` varchar(2) unsigned NOT NULL default '0',  
                 `postcode` varchar(16) NOT NULL default '',              
                 `region_id` int(10) unsigned NOT NULL default '0',       
                 `county` varchar(50) NOT NULL default '',                
