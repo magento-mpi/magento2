@@ -613,7 +613,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param   bool $showTime
      * @return  string
      */
-    public function formatDate($date, $format='short', $showTime=false)
+    public function formatDate($date=null, $format='short', $showTime=false)
     {
         if (Mage_Core_Model_Locale::FORMAT_TYPE_FULL    !==$format &&
             Mage_Core_Model_Locale::FORMAT_TYPE_LONG    !==$format &&
@@ -621,7 +621,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
             return $date;
         }
-        $date = Mage::app()->getLocale()->date(strtotime($date));
+        if (is_null($date)) {
+            $date = Mage::app()->getLocale()->date(time());
+        }
+        else {
+            $date = Mage::app()->getLocale()->date(strtotime($date));
+        }
 
         if ($showTime) {
             $format = Mage::app()->getLocale()->getDateTimeFormat($format);

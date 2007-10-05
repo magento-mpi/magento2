@@ -22,7 +22,7 @@
     <a href="<?=$homeLink?>"><img src="<?=$this->getSkinUrl(__('images/logo.gif'))?>" alt="<?=__('Magento Logo')?>" class="logo"/></a>
     <div class="header-right">
         <p class="super">
-            <?=__("Logged in as %s", $user->getUsername())?><span class="separator">|</span><?=__("Today is %s", date("F jS, Y"))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a><br/>
+            <?=__("Logged in as %s", $user->getUsername())?><span class="separator">|</span><?=__("Today is %s", $this->formatDate(null, 'long'))?><span class="separator">|</span><a href="<?=$logoutLink?>" class="link-logout"><?=__('Log Out')?></a><br/>
             <a href="http://www.magentocommerce.com" target="varien_external"><?=__('Connect with the Magento Community')?></a>
         </p>                                                                                                        
         <?php if ( Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ): ?>
