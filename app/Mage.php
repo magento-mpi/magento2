@@ -167,7 +167,7 @@ final class Mage {
 
     public static function getStoreConfig($path, $id=null)
     {
-    	if(!self::getConfig()->getIsInstalled()) {
+    	if(!self::app()->isInstalled()) {
     		$id = null;
     	}
 
@@ -437,7 +437,6 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            echo $e;
             if (self::app()->isInstalled()) {
                 self::printException($e);
                 exit();
@@ -445,7 +444,8 @@ final class Mage {
             try {
                 self::dispatchEvent('mageRunException', array('exception'=>$e));
                 if (!headers_sent()) {
-                	header('Location:'.Mage::getBaseUrl().'install/');
+                	//header('Location:'.Mage::getBaseUrl().'install/');
+                	header('Location:'.self::getUrl('install'));
                 }
                 else {
                     self::printException($e);

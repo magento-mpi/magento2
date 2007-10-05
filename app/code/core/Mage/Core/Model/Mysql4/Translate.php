@@ -34,11 +34,11 @@ class Mage_Core_Model_Mysql4_Translate extends Mage_Core_Model_Mysql4_Abstract
 
     public function getTranslationArray($storeId=null)
     {
-        if(!Mage::getConfig()->getIsInstalled()) {
-        	return array();
+        if(!Mage::app()->isInstalled()) {
+            return array();
         }
 
-    	if (is_null($storeId)) {
+        if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
         }
 

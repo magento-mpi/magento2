@@ -75,7 +75,7 @@ class Mage_Checkout_Helper_Url extends Mage_Core_Helper_Url
     }
     
     /**
-     * One Page checkout urls
+     * One Page (OP) checkout urls
      */
     public function getOPCheckoutUrl()
     {

@@ -23,12 +23,43 @@
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 {
-    public function getProduct()
+    /**
+     * Retrieve product view page url
+     *
+     * @param   mixed $product
+     * @return  string
+     */
+    public function getProductUrl($product)
+    {
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $urlKey = $product->getUrlKey() ? $product->getUrlKey() : $product->getName();
+            $params = array(
+                's'         => $this->_prepareString($urlKey),
+                'id'        => $product->getId(),
+                'category'  => $product->getCategoryId()
+            );
+            return $this->_getUrl('catalog/product/view', $params);
+        }
+        if ((int) $product) {
+            return $this->_getUrl('catalog/product/view', array('id'=>$product));
+        }
+        return false;
+    }
+    
+    public function getImageUrl()
     {
         
     }
     
+    public function getSmallImageUrl()
+    {
+        
+    }
     
+    public function getThumbnailUrl()
+    {
+        
+    }
 }

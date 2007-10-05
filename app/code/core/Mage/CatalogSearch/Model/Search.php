@@ -18,7 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Catalog search model
+ */
 class Mage_CatalogSearch_Model_Search extends Mage_Core_Model_Abstract
 {
     protected function _construct()

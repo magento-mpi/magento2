@@ -20,10 +20,6 @@
 
 /**
  * Catalog Search Controller
- *
- * @category   Mage
- * @package    Mage_CatalogSearch
- * @module     Catalog
  */
 class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Action
 {
@@ -37,11 +33,8 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
         	   ->loadByQuery($searchTerms);
 
         	if (!$search->getId()) {
-
         		$search->setSearchQuery($searchTerms)->updateSearch();
-
         	} elseif ($search->getRedirect()) {
-
 	    		$search->updateSearch();
         		$this->getResponse()->setRedirect($search->getRedirect());
         		return;

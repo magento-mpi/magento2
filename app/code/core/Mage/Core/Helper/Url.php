@@ -65,14 +65,23 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
         return base64_encode($this->getCurrentUrl());
     }
     
+    /**
+     * Retrieve homepage url
+     *
+     * @return string
+     */
     public function getHomeUrl()
     {
-        
+        return Mage::getBaseUrl();
     }
     
-    public function getBackUrl()
+    protected function _prepareString($string)
     {
-        
+        $string = preg_replace('#[^0-9a-z]+#i', '-', $string);
+        $string = strtolower($string);
+        $string = trim($string, '-');
+    	
+        return $string;
     }
     
     protected function _getUrl($paramStr, $params = array())

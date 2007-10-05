@@ -30,12 +30,6 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 {
     protected $_productCollection;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalogsearch/result.phtml');
-    }
-
     public function getSearch()
     {
         return Mage::getSingleton('catalogsearch/search');

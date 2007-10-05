@@ -25,21 +25,21 @@ class Mage_Core_Model_Resource_Setup
     const VERSION_COMPARE_LOWER  = -1;
     const VERSION_COMPARE_GREATER= 1;
     
-    protected $_resourceName = null;
-    protected $_resourceConfig = null;
-    protected $_connectionConfig = null;
-    protected $_moduleConfig = null;
-    protected $_conn = null;
-    protected $_tables = array();
-    protected $_setupCache = array();
+    protected $_resourceName    = null;
+    protected $_resourceConfig  = null;
+    protected $_connectionConfig= null;
+    protected $_moduleConfig    = null;
+    protected $_conn        = null;
+    protected $_tables      = array();
+    protected $_setupCache  = array();
 
     
     public function __construct($resourceName)
     {
         $config = Mage::getConfig();
-        $this->_resourceName = $resourceName;
-        $this->_resourceConfig = $config->getResourceConfig($resourceName);
-        $this->_connectionConfig = $config->getResourceConnectionConfig($resourceName);
+        $this->_resourceName    = $resourceName;
+        $this->_resourceConfig  = $config->getResourceConfig($resourceName);
+        $this->_connectionConfig= $config->getResourceConnectionConfig($resourceName);
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
         $this->_conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
