@@ -1,0 +1,20 @@
+﻿There was a problem with the un-subscription: %s,Wystąpił błąd podczas wypisywania z newsletera: %s
+Cannot delete subscriber,Nie można usunąć subskrybenta
+Cannot mark as received subscriber,Nie można oznaczyć subskrybenta 
+You have been successfully unsubscribed,Zostałeś wypisany z newslettera
+Duplicate of template code,Duplikuj kod szablonu
+There was an error while saving your subscription,Błąd podczas zapisywania subskrybcji
+Your subscription was successfully confirmed,Subskrybcja została potwierdzona
+Cannot delete template,Nie można usunąć szablonu
+Confirmation request has been sent,Potwierdzenie zostało wysłane
+Form was filled incorrectly,Formularz zawiera błędy
+Thank you for your subscription,Dziękujemy za zapisanie się na newsletter
+The subscription was successfully saved,Subskrybcja została zapisana
+Invalid queue selected,Wybrano nieprawidłową kolejkę
+Invalid subscription ID,Nieprawidłowe ID subskrybcji
+Invalid subscription confirmation code,Nieprawidłowy kod potwierdzający subskrybcję
+Invalid subscriber ID,Nieprawidłowe ID subskrybenta
+No subscribers selected,Nie wybrano żadnych subskrybentów
+There was a problem with the subscription: %s,Wystąpił błąd z subskrybcją: %s
+Cannot save your subscription: %s,Nie można zapisać subskrybcji: %s
+Newsletter,Newsletter

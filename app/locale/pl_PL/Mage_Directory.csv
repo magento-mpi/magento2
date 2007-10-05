@@ -1,0 +1,8 @@
+﻿Invalid country code: %s,Niepoprawny kod kraju: %s;
+State/Province,Województwo;
+"Undefined rate from ""%s-%s"",""Niezdefiniowana stawka od """"%s-%s""""""";
+Cannot retrieve rate from %s,Nie można ustalić stawki dla %s;
+Currency,Waluta;
+Your current currency is: %s,Aktualna waluta to %s;
+Continue &raquo;,Kontynuuj &raquo
+Select Your Currency,Wybierz walutę;

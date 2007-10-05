@@ -1,0 +1,1102 @@
+﻿Sales,Sprzedaż
+Orders,Zamówienia
+Invoices,Faktury
+Tax,Podatek
+Manage Tax Rules,Zarządzaj regułami podatków
+Manage Tax Rates,Zarządzaj stawkami podatków
+Import / Export Tax Rates,Importuj / Eksportuj stawki podatków
+Customer Tax Classes,Klasy podatku dla klienta
+Product Tax Classes,Klasy podatku dla produktów
+Configuration,Konfiguracja
+Catalog,Sklep
+Manage Products,Zarządzaj produktami
+Manage Categories,Zarządzaj kategoriami
+Attributes,Cechy
+Manage Attributes,Zarządzaj cechami
+Manage Attribute Sets,Zarządzaj zestawami cech
+"Reviews &amp Ratings,Recenzje &amp oceny" Ratings,Reviews &amp Ratings
+Customer Reviews,Recenzje klientów
+Pending Reviews,Recenzje oczekujące
+All Reviews,Wszystkie recenzje
+Manage Ratings,Zarządzaj ocenami
+Tags,Tagi
+Pending Tags,Tagi oczekujące
+All Tags,Wszystkie tagi
+Customers' Tags,Tagi klientów
+Products' Tags,Tagi produktów
+Search,Szukaj
+Datafeeds,Export danych
+Dashboard,Dashboard
+Customers,Klienci
+Manage Customers,Zarządzaj klientami
+Customer Groups,Grupy klientów
+Online Customers,Klienci online
+Promotions,Promocje
+Catalog Price Rules,Reguły sklepu
+Shopping Cart Price Rules,Reguły koszyka
+CMS,Zarządzanie treścią
+Manage Pages,Zardządzaj stronami
+Static Blocks,Bloki statyczne
+Poll Manager,Ankiety
+Newsletter,Newsletter
+Newsletter Templates,Szablony newslettera
+Subscribers,Subskrybenci
+Newsletter Queue,Kolejka newslettera
+Newsletter Problem Reports,Problemy w wysyłce newslettera
+Reports,Raporty
+Sales Report,Raport sprzedaży
+Shopping Cart Report,Raport koszyków
+Products,Produkty
+Products Report,Raport produktów
+Coupons Reports,Raport kuponów
+Wishlist Report,Raport listy życzeń
+Reviews Report,Raport recenzji
+Customers Reviews,Recenzje klientów
+Products Reviews,Recenzje produtków
+Tags Report,Rapor tagów
+Products (Total),Produkty (w sumie)
+Popular,Popularne
+Search Report,Raport wyszukiwania
+Best Customers,Najlepsi klienci
+Recent Orders,Ostatnie zamówienia
+Order Totals,Sumy zamówień
+System,System
+My Account,Moje konto
+Tools,Narzędzia
+Backups,Kopie zapasowe
+Manage Currency,Waluty
+Transactional Emails,Emaile transakcyjne
+Permissions,Uprawnienia
+Users,Użytkownicy
+Roles,Grupy użytkowników
+Invoice Information,Informacje o fakturze
+Store Name,Nazwa sklepu
+Create Backup,Zrób backup
+Title,Tytuł
+Add New User,Dodaj użytkownika
+Unknown,Nieznany
+View Order,Zobacz zamówienie
+Number of Unique Tags,Liczba unikalnych tagów
+State/Province,Województwo
+No Newsletter Found,Brak newslettera
+Session Start Time,Czas sesji
+Edit Queue,Edycja kolejki
+Edit Review '%s',Ediycja recenzji '%s'
+Comparable,Porównywalny
+Number of Reviews,Ilość recenzji
+Block Title,Nazwa bloku
+Add New,Dodaj nowy
+Add New Image,Dodaj nowe zdjęcie
+Unable to find a user to delete,Nie znaleziono użytkownika do usunięcia
+Related Products,Produkty podobne
+Items in Cart,Produktów w koszyku
+This user no longer exists,Taki użytkownik nie istnieje
+Shipping Method,Metoda dostawy
+Signed Up From,Zapisany z
+Cancel Order,Usuń zamówienie
+Can be used only with catalog input type Dropdown,Można używać tylko z rozwijaną listą po stronie sklepu
+Error while deleting this rate. Please try again later.,Błąd w trakcie kasowania stawki. Ponów próbę.
+Save Account,Zapisz zmiany w koncie
+Shopcart Products,Shopcart Products
+Addresses,Adresy
+Number Purchased,Ilość kupionych produktów
+Rule Name,Nazwa reguły
+You cannot delete this attribute,Nie możesz skasować tej cechy
+List only,Tylko lista
+Last Modified,Ostatnia modyfikacja
+Reset Filter,Resetuj filtr
+Please make sure that all global admin search modules are installed and activated.,Please make sure that all global admin search modules are installed and activated.
+Global,Globalny
+New Address,Nowy adres
+Delete Category,Usuń kategorię
+Tag,Tag
+Are you sure you want to delete this attribute set?,Are you sure you want to delete this attribute set?
+Physical Products,Produkty trwałe
+Created at,Utworzono dnia
+User Roles Information,Informacja o grupach użytkowników
+Currency Information,Informacje o walutach
+Carts,Carts
+Attribute Label,Nazwa cechy
+Credit Memo Information,Informacje o dokumencie kredytowym
+Error Code,Kod błędu
+Product attribute was successfully saved,Product attribute was successfully saved
+Tag Detail,Szczegóły taga
+State,Województwo
+Website was successfully saved,Website was successfully saved
+Delete Address,Usuń adres
+"""Error while deleting this tax class. Please, try again later."",""Nie powiodło się kasowanie klasy podatku. Ponów próbę."""
+Unique Value (not shared with other products),Unikalna wartość (nie jest współdzielona z innymi produktami)
+The invoice you are trying to create credit memo for no longer exists,The invoice you are trying to create credit memo for no longer exists
+Edit Tag '%s',Edit Tag '%s'
+Rating Options,Ustawienia ocen
+Add Attribute,Dodaj cechę
+Error while saving this group. Please try again later.,Nie udało się zapisać grupy. Ponów próbę.
+Summary of review,Podsumowanie recenzji
+Cancel,Anuluj
+HTML,HTML
+New Invoice for Order #%s,Nowa faktura dla zamówienia nr.%s
+Add Tier,Dodaj poziom
+Role Resources,Dostępne zasoby dla grupy
+Edit Tax Rule,Edycja reguły podatku
+Qty Backordered,Ilość brakująca do realizacji zamówienia
+Subscribed to Newsletter?,Czy zapisany na newsletter?
+Categories,Kategorie
+Up-sells,Produkty alternatywne
+Add New Attribute,Dodaj nową cechę
+Tax Amount,Wartość podatku
+Stop further rules processing,Zaniechaj przetwarzania kolejnych reguł
+Parent Category,Kategoria nadrzędna
+New Block,Nowy blok
+This account is,To konto jest
+Unable to get product id.,Nie udało się ustalić id produktu
+Add Selected Product to Order,Dodaj zaznaczone produkty do zamówienia
+Language,Język
+Products Report (Total),Raport produktów (Sumaryczny)
+Default config,Domyślna konfiguracja
+Page Status,Status strony
+Order #,Zamówienie nr.
+Save Block,Zapisz blok
+View Products,Zobacz produkty
+Last Name,Nazwisko
+Backend Table,Backend Table
+Back,Powrót
+Customer with the same email already exists.,Klient o tym samym adresie email już istnieje
+ZIP/Postal Code,Kod pocztowy
+Visitors Only,Tylko odwiedzający
+New Group,Nowa grupa
+Date Added,Data dodania
+Home,Strona główna
+Attrib. Set Name,Nazwa zestawu cech
+Zip/Post Code,Kod pocztowy
+No Templates Found,Nie znaleziono szablonów
+Role Info,Informacje o grupie uprawnień
+Edit Poll '%s',Edycja ankiety '%s'
+New Customer,Nowy klient
+Group,Grupa
+Poll Question,Pytanie do ankiety
+"""Error while saving account. Please, try again later"",""Błąd podczas zapisywania zmian w koncie. Ponów próbę."""
+Add New Poll,Dodaj nową ankietę
+"""Duplicate Row #%s (Country """"%s"""", Region/State """"%s"""", Zip """"%s"""" and Value """"%s"""")"",""Zduplikowany wiersz nr.%s (Kraj """"%s"""", Województwo """"%s"""", Kod pocztowy """"%s"""" i wartość """"%s"""")"""
+Header Text,Tekst nagłówka
+Invalid file upload attempt,Próba wgrania pliku zakończona niepowodzeniem.
+The order you are trying to create invoice for no longer exists,Zamówienie dla którego chcesz utworzyć fakturę nie istnieje
+Shipped to Last Name,Nazwisko (Dostawa)
+Votes Count,Ilość głosów
+Edit User,Edycja użytkownika
+Add New Tax Rate,Dodaj nową stawkę podatku
+Status,Status
+Edit Poll Answer,Edytuj pytanie do ankiety
+This user already added to the role.,Ten użytkownik został dodany do grupy.
+
+Save Attribute,Zapisz cechę
+User ID,ID użytkownika
+Do you really want to cancel the queue?,Czy na pewno chcesz anulować kolejkę?
+Save Rate,Zapisz stawkę
+Queue Start,Start kolejki
+Cross-sells,Sprzedaże krzyżowe
+Delete Rating,Usuń ocenę
+Import Rates From www.webservicex.net,Importuj stawki ze strony www.webservicex.net
+Rule was successfully saved,Reguła została zapisana
+Required,Wymagane
+N/A,n/d
+Continue,Dalej
+Grid only,Tylko lista
+View Invoice,Podgląd faktury
+Use default,Użyj domyślnych ustawień
+Category move error,Błąd podczas przenoszenia kategorii
+Time,Czas
+Set Root Category For Store,Ustaw kategorię podstawową dla sklepu
+Backend Table Title,Nazwa tabeli administratora
+Product Information,Informacje o produkcie
+New Website,Nowa strona
+Tax Rate,Stawka podatku
+Text,Tekst
+Input Validation for Store Owner,Sprawdzanie poprawności danych dla właściciela sklepu
+Revenue,Zysk
+No records found.,Brak wyników.
+Save Website,Zapisz witrynę
+Last Activity,Ostatnio aktywny
+Included Product Categories,Zawarte kategorie produktów
+Error while saving this tax class. Class with the same name already exists.,Nastąpił błąd w trakcie zapisywania tej klasy podatku. W systemie jest już klasa o tej samej nazwie.
+Name In Store,Nazwa w sklepie
+"""Error while deleting this tax rule. Please, try again later."",""Błąd podczas kasowania reguły podatku. Spróbuj ponownie."""
+User was successfully deleted,Użytkownik został usunięty
+New Currency,Nowa waluta
+Add New Review,Dodaj nową recenzję
+Store Code,Kod sklepu
+View Customers,Zobacz klientów
+Number of Total Tags,Łączna ilość tagów
+Role successfully saved.,Grupa została zapisana.
+Delete Block,Usuń blok
+Subscriber,Subskrybent
+Customer Since,Klient od
+Password Management,Zarządzanie hasłami
+Global Attribute,Cecha globalna
+Delete Attribute Set,Usuń zestaw cech
+Rating Name,Nazwa oceny
+Paused,Zatrzymany
+Product ID,ID produktu
+Add Product,Dodaj produkt
+Poll was successfully deleted,Ankieta została usunięta
+Uses per coupon,Ilość użyć dla kuponu
+Format,Format
+Configuration successfully saved,Zapisano konfigurację
+Coupon Code,Kod kuponu
+No Items Found,Nie znaleziono elementów
+Checkout Price Rule,Reguła cenowa dla zamówienia
+Use In Layered Navigation,Używane w dynamicznej nawigacji
+Invalid Table Rates File Format,Nieprawidłowy format pliku dla stawek wg. tabeli
+Website Code,Kod strony
+Save Tag,Zapisz tag
+Tag Name,Nazwa taga
+Manage Currencies,Zarządzaj walutami
+Credit Memo was not saved,Dokument kredytowy nie został zapisany
+Product Tax Class Information,Informacje o stawce podatku dla produktu
+new customer,nowy klient
+Unable to find an attribute to delete,Nie znaleziono cechy do usunięcia
+Delete Selected Group,Usuń zaznaczoną grupę
+Delete Rule,Skasuj regułę
+For matching items only,Dla produktów spełniających kryteria
+Url,Adres www
+Customer Group was successfully saved,Grupa klientów została zapisana
+Delete Review,Usuń recenzję
+Maximum Qty Discount is Applied to,Maksymalna zniżka ilościowa jest stosowana dla
+Grid (default) / List,Wyświetlanie w kolumnach / Lista
+Manage Product Attributes,Zarządzaj cechami produktów
+New System Template,Nowy szablon systemowy
+Website Name,Nazwa strony
+Edit Block,Edycja bloku
+View,Zobacz
+Delete Customer,Usuń klienta
+"""Please, select Product Tax Class"",""Wybierz klasę podatku"""
+Search was successfully deleted,Usunięto wyszukiwanie
+Save Newsletter,Zapisz newsletter
+Letters,Litery
+Synonym for,Synonim dla
+Conditions,Warunki
+or,lub
+%s Tax Classes,%s klas podatku
+Attribute Identifier<br/>(For internal use. Must be unique with no spaces),Identyfikator cechy<br/>(Widoczny tylko dla administratora.Musi być unikalny i nie posiadać spacji)
+Convert to Plain Text,Konwertuj na tekst niesformatowany
+Apply,Zastosuj
+Apply Rules,Zastosuj
+Save Search,Zapisz wyszukiwanie
+Synonym For,Synonim dla
+Review was saved successfully,Recenzja została zapisana
+Delete Selected Problems,Usuń zaznaczone problemy
+"""Invalid Country """"%s"""" in the Row #%s"",""Nieprawidłowy kraj """"%s"""" w wierszu #%s"""
+You cannot delete account of yourself,Nie możesz usunąć swojego konta
+From Date,Data od
+Number Of Reviews,Ilość recenzji
+Manage Label / Options,Zarządzaj Manage Label / Options
+Not Sent,Nie wysłane
+Discount amount,Wartość zniżki
+"""Error while adding a group. Please, try again later."",""Błąd podczas dodawania grupy. Ponów próbę"""
+Resume,Resume
+Redirect URL,Adres dla przekierowania
+Invoice was charged succesfully,Faktura została dodana
+Sort order,Kolejność wyświetlania
+Delete Store,Usuń sklep
+Doc Number,Numer dokumentu
+Edit Answer '%s',Edycja odpowiedź '%s'
+All types,Wszystkie rodzaje
+Subtotal,Podsuma
+Coupon code,Kod kuponu
+User Information,Informacje o użytkowniku
+Add new Role, Dodaj nową grupę uprawnień
+# of Use,ilość użyć
+New Customer Group,Nowa grupa klientów
+For all types of checkout,Dla wszystkich typów realizacji zamówienia
+New Newsletter Template,Nowy szablon newslettera
+User Info,Informacje o użytkowniku
+Edit Tag,Edycja taga
+Error while saving this rate. Please try again later.,Nastąpił błąd podczas zapisu stawki. Ponów próbę.
+Customer Group was successfully deleted,Grupa klientów została usunięta
+New Customer Tax Class,Nowa klasa podatku dla klienta
+Block was successfully saved,Blok został zapisany
+Online,Online
+Queue Finish,Koniec kolejki
+Class Name,Nazwa klasy
+Stores,Sklepy
+Role ID,ID grupy
+Rate With %s,Oceń z %s
+Poll information,Informacje o ankiecie
+Poducts Report,Raport dla produktów
+Edit Search,Edycja kryteriów wyszukiwania
+Last date subscribed,Data ostatniej subskrypcji
+Add,Dodaj
+Datetime,Datetime
+Default Qty,Domyślna ilość
+Are you sure you want to cancel this order?,Czy na pewno chcesz anulować to zamówienie?
+Edit Poll,Edycja ankiety
+Category deleted,Kategoria została usunięta
+Qty To Add,Ilość do dodania
+Backend Model,Model administracyjny
+User was successfully saved,Użytkowik został usunięty
+Create Product Settings,Stwórz ustawienia dla produktu
+From,Z
+Newsletter Information,Informacje o newsletterze
+Select Configurable Attributes ,Wybierz konfigurowalne cechy
+Attribute Information,Informacje o cesze
+Store Information,Informacje o sklepie
+n/a,n/d
+Edit Website,Edycja strony
+Edit Set Name,Edycja nazwy zestawu
+Tax rate was successfully saved,Stawka podatku została usunięta
+Billing Address,Adres płatnika
+Rules were successfully applied,Reguły zostały zastosowane
+This search no longer exists,To wyszukiwanie już nie istnieje
+This attribute shares the same value in all the stores,Ta cecha posiada tą samą wartość we wszystkich sklepach
+Data Type for Saving in Database,Typ danych do zapisania w bazie
+Tag was successfully saved,Tag został zapisany
+Use advanced conditions,Użyj zaawansowanych warunków
+Save,Zapisz
+Type,Rodzaj
+Purchased at,Kupiono w
+Enable,Włącz
+Recipients,Odbiorcy
+Permission,Uprawnienia
+Promo,Promocja
+Class Details,Szczegóły klasy
+Category saved,Kategoria została zapisana
+Name In %s,Nazwa w %s
+Zip/Postal Code,Kod pocztowy
+Empty,Pusty
+Product Name,Nazwa produktu
+NOT LOGGED IN,NIE ZALOGOWANY
+Role successfully deleted.,Grupa uprawnień została usunięta
+Edit Search '%s',Edycja wyszukiwania '%s'
+Tax rule was successfully deleted,Reguła podatku została usunięta
+None,Brak
+Per Order,Na zamówienie
+Number Added,Ilość dych
+For shipment with matching items,Dla wysyłki i produktów spełniających kryteria
+Tax rates file has been successfully imported,Stawki podatkowe zostały zaimportowane
+Ship to Firstname,Imię (dostawa)
+New Search,Nowe wyszukiwanie
+Edit Rule,Edycja reguły
+Letters(a-z) or Numbers(0-9),Litery(a-z) lub liczby(0-9)
+Visible on Catalog Pages on Front-end,Widoczny w sklepie
+Edit User '%s',Edycja użytkownika '%s'
+Rule Information,Informacje o regule
+CSV,CSV
+Submit Order,Wyślij zamówienie
+Options,Opcje
+Edit Customer Group,Edycja grupy klientów
+Delete,Usuń
+Error while saving this group. Group with the same name already exists.,Błąd podczas zapisywania danych grupy. Grupa o takiej samej nazwie już istnieje.
+Last date unsubscribed,Data ostatniego wypisania z newslettera
+Text Area,Pole typu textarea
+Queue Newsletter,Kolejka newslettera
+Bought From,Kupione od
+Visitor,Odwiedzający
+New Product Attribute,Nowa cecha produktu
+Currency,Waluta
+Error while deleting this set.,Błąd w trakcie kasowania zestawu.
+Please select a product,Wybierz produkt
+User Role,Uprawnienia użytkownika
+Assigned Role,Przypisany poziom uprawnień
+Date Created,Data utworzenia
+SKU,Kod producenta
+Conditions and Actions,Warunki i działania
+Pause,Pauza
+Review,Recenzja
+Integer Number,Wartość typu int (integer)
+Option Label,Nazwa opcji
+Recently Compared,Ostatnio porównywane
+Start,Start
+Rates,Stawki
+Bundle,Zestaw
+Save Answer,Zapisz odpowiedź
+Number of Uses,Ilość użyć
+Delete Rate,Skasuj stawkę
+Shopping Cart,Koszyk
+Save Customer,Zapisz klienta
+Apply To,Zastosuj do
+Website,Witryna
+Template Subject,Tytuł szablonu
+Attribute Properties,Właściwości cech
+Customer was successfully saved,Klient został zapisany
+Create Credit Memo,Stwórz dokument kredytowy
+Order #%s,Zamówienie nr.%s
+Shipping Address,Adres dostawy
+Attribute Identifier,Identyfikator cechy
+Globally Editable,Edytowalne globalnie
+Category Data,Dane kategorii
+Customer Tax Class Information,Informacje o klasie podatku klienta
+Selected subscribers were successfully added to the selected queue,Zaznaczeni subskrybenci zostali dodani do kolejki
+Date,Data
+Nickname,Nick
+Customers Tagged Product,Tagi dodane przez klienta
+Product Rating,Ocena produktu
+Edit %s Tax Class Title,Edycja tytułu klasy podatku %s
+Customer Groups,Grupy klientów
+Text Field,Pole tekstowe
+Enabled,Włączony
+All,Wszystkie
+Integer,
+Bill to Lastname,Nazwisko (płatnik)
+Backup,Kopia zapasowa
+Dropdown,Lista rozwijana
+New Store,Nowy sklep
+Product Tags (Total),Tagi produktu (w sumie)
+Toggle Editor,Włącz/wyłącz edytor
+Code,Kod
+Search Information,Informacje o wyszukiwaniu
+Option Title,Tytuł dla opcji
+ZIP/Post Code,Kod pocztowy
+Tax class was successfully saved,Stawka podatku została zapisana
+Name<br/>(For internal use),Nazwa<br/>(do użytku wewnętrznego)
+Qty,Ilość
+Rating Title,Nazwa oceny
+Advanced Conditions,Zaawansowane warunki
+Tax Class,Klasa podatku
+Keywords,Słowa kluczowe
+New Rule,Nowa reguła
+Fixed amount discount,Zniżka o stałej wartości
+Redirect,Przekierowanie
+You cannot edit this attribute,Nie możesz edytować tej cechy
+Unsubcribed,Wypisany z newslettera
+Edit Invoice #%s,Edycja faktury nr.%s
+Add Group,Dodaj grupę
+DB,Baza danych
+Tier Pricing,Poziomy cen
+New Email Template,Nowy szablon email
+Results,Wyniki
+First Name,Imię
+Save Poll,Zapisz ankietę
+Product Attribute Sets,Zestawy cech produktu
+Save Category,Zapisz kategorię
+Customer Information,Informacje o kliencie
+Create New Order,Utwórz zamówienie
+"""Invalid Region/State """"%s"""" in the Row #%s"",""Nieprawidłowe województwo """"%s"""" w wierszu #%s"""
+This invoice no longer exists,Ta faktura już nie istnieje
+Create New Credit Memo,Utwórz nowy dokument kredytowy
+New Customer Groups,Nowe grupy klientów
+Bought from wishlists,Kupione z poziomu listy życzeń
+Products Tagged with '%s',Produkty oznaczone tagiem '%s'
+Edit Role,Edycja grupy uprawnień
+Edit Order,Edycja zamówienia
+Edit Rating,Edycja oceny
+Add New Block,Dodaj nowy blok
+New Credit Memo for Invoice #,Nowy dokument kredytowy dla faktury nr.
+Name,Nazwa
+Not activated,Nieaktywny
+Invalid request,Nieprawidłowe żądanie
+Exclude multi-address checkout,Wyklucza dostawę do wielu adresów
+Add New Attribute Set,Nowy zestaw cech produktów
+Delete Invoice,Usuń fakturę
+Wrong column format,Nieprawidłowy format kolumny
+Edit Order #%s,Edycja zamówienia nr.%s
+Review was successfully saved,Recenzja została zapisana
+All Stores,Wszystkie sklepy
+Summary of Review,Podsumowanie recenzji
+Date Posted,Data wysłania
+Qty Shipped,Ilość dostarczona
+Save config,Zapisz zmiany
+Invoice was successfully charged,Faktura została opłacona
+Actions,Akcje
+Export,Eksport
+Please select State,Wybierz województwo
+All countries,Wszystkie państwa
+Selected problems successfully deleted,Zaznaczone problemy zostały usunięte
+Save Store,Zapisz sklep
+Percent of product price discount,Procent zniżki dla ceny produktu
+Save Page,Zapisz stronę
+Error while saving this tax class. Please try again later.,Nastąpił błąd podczas próby zapisania stawki podatku. Ponów próbę.
+Customers Only,Tylko klienci
+Catalog Price Rule,Reguła cenowa dla strony
+Customer doesn't have primary billing address,Klient nie posiada podstawowego adresu płatnika
+Virtual Products,Produkty wirtualne
+Add New Answer,Dodaj nowe pytanie
+Unable to find a poll to delete,Nie można znaleźć ankiety do usunięcia
+All tags,Wszystkie tagi
+%s Tax Classes Title,%s tytuł klasy podatku
+Product name,Nazwa produktu
+(Will make search for the query above return results for this search.),(Pozwoli zwrócić wyniki wyszukiwania dla tego synonimu)
+Subcribed,Zapisany na newsletter
+Edit Group,Edycja grupy
+Number Viewed,Ilość wyświetleń
+Rating Information,Informacje o ocenie
+Bill to Firstname,Imię (płatnik)
+Attribute set successfully saved.,Zestaw cech został zapisany
+Attribute Model,Attribute Model
+Error while saving this tax rule. Please try again later.,Nastąpił błąd podczas próby zapisania klasy podatku. Ponów próbę.
+Attribute with the same code already exists,Cecha o podanym kodzie już istnieje
+Qty Returned,Ilość zwrócona
+Delete Template,Usuń szablon
+Add Answer,Dodaj odpowiedź
+Add New Tag,Dodaj nowy tag
+Save Review,Zapisz recenzję
+Answer was successfully saved,Odpowiedź została zapisana
+Delete Search,Usuń warunek
+New Poll,Nowa ankieta
+"""Please, select Rate"",""Wybierz stawkę"""
+Save Role,Zapisz poziom uprawnień
+All rates were imported,Wszystkie stawki zostały zaimportowane
+Reviews,Recenzje
+Edit Invoice,Edycja faktury
+Multiple Select,Pole wielokrotnego wyboru
+Visible,Widoczny
+Rating,Ocena
+Template Name,Nazwa szablonu
+Product Type,Typ produktu
+Please select a customer,Wybierz klienta
+Tax rate was successfully deleted,Stawka podatku została usunięta
+Free ground shipping,Bezpłatna dostawa pocztą lądową
+Default price,Domyślna cena
+Disabled,Wyłączony
+No description,Brak opisu
+Delete Tag,Usuń tag
+Product saved,Produkt został zapisany
+Please select a store,Wybierz sklep
+This rule no longer exists,Reguła nie istnieje
+This rule no longer exists,Reguła nie istnieje
+Ratings,Oceny
+Save Currency,Zapisz walutę
+Ship to Last name,Nazwisko (dostawa)
+Add New Search,Dodaj nowe wyszukiwanie
+Delete Poll,Usuń ankietę
+Priority,Priorytet
+Product Reviews,Recenzje produktów
+Invoice was not charged,Faktura nie została zapłacona
+Sent,Wysłane
+Assigned Options,Przypisane opcje
+Tax rule was successfully saved,Reguła dla podatku została zapisana
+IP Address,Adres IP
+Settings,Ustawienia
+Queue Subject,Tytuł kolejki
+Add New Category,Dodaj nową kategorię
+Inactive,Nieaktywny
+Add New Customer,Dodaj nowego klienta
+Apply To Configurable/Grouped Product,Zastosuj dla konfigurowalnych / grupowanych produktów
+Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown'),Używane w dynamicznej nawigacji<br/>(można używać tylko z rozwijanymi listami)
+Customer was deleted,Klient został usunięty
+Please fill in 'email' field.,Uzupełnij pole 'email'.
+Qty Cancelled, Anulowana ilość
+Sending,Wysyłanie
+Searchable on Front-end,Możliwe wyszukiwanie w sklepie
+Duplicate,Duplikat
+Wrong tab configuration,Zła konfiguracja zakładek
+Add New Page,Dodaj nową stronę
+"""Edit """"%s"""""",""Edytuj """"%s"""""""
+Submit Invoice,Wyślij fakturę
+Product duplicated,Produkt zduplikowany
+Delete Role,Skasuj grupę uprawnień
+Identifier,Identyfikator
+Poll Answers,Odpowiedzi do ankiety
+Wishlists,Listy życzeń
+Last Url,Ostatni adres URL
+Edit Block '%s',Edycja bloku '%s'
+Tax Rule Information,Informacje o regule dla podatku
+Edit Class Details,Edycja szczegółów klasy
+Rule was successfully deleted,Ręta
+Attribute Set,Zestaw cech
+Customer View,Widok klienta
+Sender Email,Adres email nadawcy
+Products Tags,Tagi produktów
+HTTP (unsecure),HTTP (nieszyfrowany)
+Add Option,Dodaj opcję
+Shipping Price,Cena dostawy
+Edit Website '%s',Edycja witryny '%s'
+Create New Customer,Utwórz klienta
+Edit Newsletter,Edycja newslettera
+# of Uses,ilość użyć
+Number of times deleted,Ile razy skasowano
+Newsletter Finish,Koniec newslettera
+Closed,Zakmnięty
+Edit Page '%s',Edycja strony '%s'
+Product deleted,Produkt został usunięty
+Preview,Podgląd
+Save Attribute Set,Zapisz zestaw cech
+Store was successfully saved,Sklep został zapisany
+You have not enought permissions to login.,Nie masz uprawnień aby się zalogować
+Product Attributes,Cechyuktów
+Return Html Version,Przełącz na wersję HTML
+Save Order,Zapisz zamówienie
+There are no items in customer's shopping cart at the moment, Aktualnie klient nie posiada żadnych produktów w koszyku
+Group Information,Informacje o grupie
+User Name,Nazwa użytkownika
+New Password,Nowe hasło
+Average rating,Średnia ocena
+New User,Nowy użytkownik
+Active,Aktywny
+You can not delete self assigned roles.,Nie możesz usuwać samodzielnie przypisanych grup
+Invoice was successfully saved,Faktura została usunięta
+Qty Ordered,Ilość zamówiona
+XML,XML
+Send auto-generated password,Wyślij automatycznie wygenerowane hasło
+Order Information,Informacje o zamówieniu
+List (default) / Grid,Lista (domyślna) / Widok kolumnowy
+Newsletter Received,Newsletter otrzymany
+Queue Date Start,Start kolejki
+SEF URL Identifier,Identyfikator adresu SEO
+Product SKU,Kod producenta produktu
+Grand Total,Suma całkowita
+Selected problem subscribers successfully unsubscribed,Subskrybenci dla których wystąpił zaznaczony problem zostali usunięci
+Category Products,Produkty kategorii
+Action,Akcja
+Role Users,Grupa użytkowników
+Date Closed,Data zamknięcia
+Are you sure? This order will be cancelled and a new one will be created instead,Czy jesteś pewien? To zamówienie zostanie usunięte a w miejsce niego zostanie utworzone nowe
+Sender Name,Nazwa nadawcy
+Approved,Zaakceptowane
+Save and Apply,Zapisz i zastosuj
+Product Tax Class,Klasa podatku dla produktu
+Block was succesfully deleted,Blok został usunięty
+Products Report (Total),Raport produktów (sumaryczny)
+Open,Otwarty
+Any,Jakikolwiek
+Edit Store,Edycja sklepu
+Added,Dodany
+Configurable Product Settings, Ustawienia produktów konfigurowalnych
+Content,Zawartość
+Role Name,Nazwa poziomu uprawnień
+Select All,Zaznacz wszystkie
+in,w
+Are you sure you want to take this action?,Czy na pewno?
+Role Information,Informacje o poziomie uprawnień
+Options Control,Kontrola opcji
+Meta Keywords,Słowa kluczowe META
+Please select products to add,Zaznacz produkty do dodania
+Sender,Nadawca
+Product,Produkt
+Tax Rules,Reguły podatków
+Newsletter Start,Start newslettera
+Unable to find a block to delete,Nie można znaleźć bloku do usunięcia
+New Tax Rate,Nowa stawka podatku
+Rating was successfully deleted,Ocena została usunięta
+Error during import: %s,Błąd podczas importu: %s
+Delete Answer,Usuń odpowiedź
+Edit Customer Groups,Edycja grup klientów
+"""Please, select County"",""Wybierz państwo"""
+Customer Tags,Tagi klientów
+(eg: domain.com/identifier),(np: domena.com/identyfikator)
+No search modules registered,Brak zarejestrowanych modułów wyszukiwania
+New Product Tax Class,Nowa klasa podatku dla produktu
+Save Rule,Zapisz regułę
+Edit Sorting,Edycja kolejności
+The block you are trying to save no longer exists,Blok który próbujesz zapisać nie istnieje
+Customers Report,Raporty klientów
+Download,Pobieranie
+Detail,Szczegóły
+Created On,Utworzono
+Category delete error,Błąd w trakcie kasowania kategorii
+Review successfully deleted,Recenzja została usunięta
+Root,Nadrzędny
+ID,ID
+Number of Responses,Ilość odpowiedzi
+Meta Description,Opis META
+Source Model,Model źródłowy
+Unselect All Stores,Odznacz wszystkie sklepy
+Add New Group,Dodaj nową grupę
+Summary Rating,Podsumowanie oceny
+Rate,Stawka
+Yes,Tak
+Search Query,Zapytanie do wyszukiwarki
+Template Information,Informacje o szablonie
+Date Start,Data rozpoczęcia
+Total,Sumarycznie
+Price,Cena
+Filterable (no results),Filtrowalne (brak wyników)
+Date Expire,Data wygaśnięcia
+Number Fulfilled,Ilość wystarczająca do realizacji zamówienia
+New Category,Nowa kategoria
+Save Rating,Zapisz ocenę
+Delete Option, Usuń opcję
+Save Invoice,Zapisz fakturę
+Unable to apply rules,Nie udało się zastosować reguł
+New Tag,Nowy tag
+User Email,Email użytkownika
+Based On,Bazujący na
+Edit Customer's Address,Edycja adresu klienta
+New Order,Now zamówienie
+Group Name,Nazwa grupy
+Tax Rate Information,Informacje o stawce podatku
+Queue Information,Informacje o kolejce
+Guest,Gość
+Varchar,Wartość typu varchar
+Number of results<br/>(For last time placed),Ilość wyników<br/>(od ostatniego razu)
+Add New Customer Group,Dodaj nową grupę klientów
+Product attribute was successfully deleted,Cecha produktu została usunięta
+Unable to find answer to delete.,Nie znaleziono odpowiedzi do usunięcia
+Unable to find a tag to delete,Nie znaleziono taga do usunięcia
+Meta Data,Dane META
+Save User,Zapisz użytkownika
+Template Type,Typ szablonu
+"""Invalid %s """"%s"""" in the Row #%s"",""Błędny %s """"%s"""" w wierszu #%s"""
+Reset,Resetuj
+Hits,Kliknięć
+Page was successfully deleted,Strona została usunięta
+Page Title,Tytuł strony
+User with the same User Name or Email aleady exists,Użytkownik o takim loginie lub adresie email już istnieje
+Customers Tagged '%s',Oznaczone przez klientów '%s'
+Region/State,Województwo
+Values Required,Wartości wymagane
+This order no longer exists,Takie zamówienie nie istnieje
+Account status,Status konta
+Product Tags,Tagi produktów
+Item Status,Status produktu
+Interface Language,Język interfejsu
+Cancelled,Anulowane
+Position,Pozycja
+Items Ordered,Ilość zamówiona  
+Rating was successfully saved,Ocena została usunięta
+New Product,Nowy produkt
+Purchase On,Kupiono  
+Fiterable (with results),Filtrowalny (z wynikami)
+Password,Hasło
+Shipped to First Name,Imię (dostawa)
+Catalog Input Type for Store Owner,Catalog Input Type for Store Owner
+Decimal Number,Wartość liczbowa
+Wishlist,Lista życzeń
+Create New Invoice,Utwórz nową fakturę
+Credit Memo was saved succesfully,Dokument kredytowy został zapisany
+Tax Rates,Stawki podatku
+Submit Credit Memo,Wyślij dokument kredytowy
+Unable to find a page to delete,Nie znaleziono strony do usunięcia
+Purchased from (store),Kupione w sklepie
+Added From,Dodano z
+Payment Method,Forma płatności
+Poll was successfully saved,Ankieta została zapisana
+New Rating,Nowa ocena
+Delete Tier,Usuń poziom
+Telephone,Telefon
+New Page,Nowa strona
+Error Text,Tekst błędu
+Edit Rule '%s',Edycja grupy uprawnień '%s'
+Page Information,Informacje o stronie
+Delete Page,Usuń stronę
+There are no items in customer's wishlist at the moment,Nie ma produktów na liście życzeń klienta
+This attribute no longer exists,Taka cecha nie istnieje
+CMS Pages, Strony CMS
+Attribute set was successfully removed.,Zestaw cech został usunięty
+You successfully logged out.,Wylogowałeś się
+Total Tags,Tagów w sumie
+Visibility,Widoczny
+Edit Template,Edycja szablonu
+Frontend Properties,Ustawienia sklepu od strony klienta
+Pending,Oczekujący
+Error while deleting a group. Please try again later.,Błąd w trakcie kasowania grupy. Ponów próbę.
+Use website,Użyj witryny
+No problems found,Nie znaleziono problemów
+Edit Store '%s',Edycja sklepu '%s'
+Delete Customer Group,Usuń grupę klientów
+CMS Blocks,Bloki w systemie zarządzania treścią
+Popular Tags,Popularne tagi
+Edit Page,Edycja strony
+Edit Tax Rate,Edycja stawki podatku
+Set Name,Nazwa zestawu
+Tax class,Klasa podatku
+Add New Rule,Dodaj nową regułę
+Uses per customer,Użyć na klienta
+HTTPS (SSL),HTTPS (SSL)
+Template Content,Treść szablonu
+Order was not cancelled,Zamówienie nie zostało anulowane
+Invoice #%s,Faktura nr. #%s
+Comparable on Front-end,Porównywalne w sklepie
+Save Template,Zapisz szablon
+Newsletter Subscription,Subskrybcja newslettera
+Delete User,Usuń użytkownika
+"""Invalid Shipping Price """"%s"""" in the Row #%s"",""Błędna cena dostawy """"%s"""" w wierszu #%s"""
+Customers Tags,Tagi klientów
+Image,Zdjęcie
+Subscribers From,Subskrybent OD
+Account Information,Informacje o koncie
+Order status was successfully changed,Status został zmieniony
+New Set Name,Nowa nazwa zestawu
+Create Order,Utwórz zamówienie
+Invoice was not saved,Faktura nie została zapisana
+Invoice was updated succesfully,Faktura została zaktualizowana
+Invoice #,Faktura nr.
+Static,Statyczny
+Date Updated,Data aktualizacji
+Tag use,Użycie taga
+Order was successfully cancelled,Zamówienie zostało anulowane
+Message,Wiadomość
+Subject,Temat
+Save Customer Group,Zapisz grupę klientów
+This page no longer exists,Ta strona nie istnieje
+Search was successfully saved,Wyszukiwanie zostało zapisane
+Rating information,Informacje o ocenie
+Answer Title,Tytuł odpowiedzi
+Order #%s (%s),Zamówienie nr.%s (%s)
+No,Nie
+Edit Invoice #,Edycja faktury nr.
+Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}',Edytuj zestaw cech '{$this->_getSetData()->getAttributeSetName()}'
+All Products,Wszystkie produkty
+Export CSV,Export CSV
+Save And Resume,Zapisz i kontynuuj.
+View Newsletter,Zobacz newsletter
+To Date,Data do
+Matching Products,Produkty spełniające kryteria
+The page you are trying to save no longer exists,Strona którą chcesz zapisać nie istnieje
+Save Class,Zapisz klasę
+Edit %s Tax Class,Edycja klasy podatku %s
+User description,Opis użytkownika
+Config,Konfiguracja
+Order Total,Suma zamówienia
+Store,Sklep
+"""Please, select Customer Tax Class"",""Wybierz klasę podatku dla klienta"""
+Error while saving this set. Set with the same name already exists.,Nie udało się zapisać zestawu. Zestaw o takiej nazwie już istnieje.
+Add New Role,Dodaj nową grupę uprawnień
+Discount,Rabat
+Unsubscribe Selected,Wypisz zaznaczonych z newslettera
+Yes/No,Tak/Nie
+Edit Email Template,Edycja szablonu email
+Visible In,Widoczny w
+Manage Blocks,Zarządzaj blokami
+New Tax Rule,Nowa reguła podatku
+This block no longer exists,Ten blok już nie istnieje
+Delete Attribute,Usuń cechę
+Decimal,Wartość decymalna
+Edit System Template,Edycja szablonu systemowego
+Frontend Model,Frontend Model
+Default Store,Domyślny sklep
+Detailed Rating,Szczegółowa ocena
+Save And Continue Edit,Zapisz i kontynuuj edycję
+Are you sure you want to do this?,Czy na pewno?
+Customer Tax Class,Klasa podatku dla klienta
+Feature Products,Produkty polecane
+New Review,Nowa recenzja
+Number of Uses,Ilość użyć
+Invalid Answer,Błędna odpowiedź
+Website Information,Informacje o witrynie
+Attribute set with the same name already exists.,Zestaw cech o podanej nazwie już istnieje.
+Searchable,Możliwe wyszukiwanie
+Error while saving this role. Please try again later.,Błąd podczas zapisu grupy. Ponów próbę.
+Group was successfully deleted,Grupa została usunięta
+Order was not changed,Zamówienie nie zostało zmienione
+Per Item,Za sztukę
+Edit Product Attribute,Edycja cechy produktu
+System Properties,Właściwości systemowe
+County,Powiat
+General Information,Informacje ogólne
+ex. http://domain.com,np. http://domena.pl
+Manage Catalog Categories,Zarządzaj kategoriami
+Wishlist vs. Regular Order,Lista życzeń względem zwykłego zamówienia
+New Template,Nowy szablon
+Delete Website,Usuń witrynę
+All stores,Wszystkie sklepy
+Purchased On,Kupiono dnia
+Edit Order Status,Edycja statusu zamówienia
+Layout,Wygląd
+Password Confirmation,Potwierdzenie hasła
+Tag was successfully deleted,Tag został usunięty
+Catalog Searches,Wyszukiwania w sklepie
+To,Do
+Error while deleting this role. Please try again later.,Błąd podczas kasowania grupy. Ponów próbę.
+Select All Stores,Wybierz wszystkie sklepy
+Offline,Offline
+Recently Viewed,Ostatnio oglądane
+Description,Opis
+Tax class was successfully deleted,Klasa podatku została usunięta
+Are you sure?,Czy na pewno?
+Never,Nigdy
+Block Information,Informacje o bloku
+Email,Email
+Included Customer Groups,Uwzględnione grupy klientów
+Disable,Wyłącz
+Delete Class,Usuń klasę
+Poll Information,Informacje o ankiecie
+Create Newsletter Template,Stwórz szablon newslettera
+Coupons,Kupony
+Customer,Klient
+Last Review,Ostatnia recenzja
+Polls,Ankiety
+Edit,Edycja
+Country,Państwo
+Remove,Usuń
+Account successfully saved,Konto zostało zapisane
+Days in Wishlist,Dni na liście życzeń
+Page was successfully saved,Strona została zapisana
+Manage Product Sets,Zarządzaj zestawami produktów
+Review Details,Szczegóły recenzji
+Add New Rating,Dodaj nową ocenę
+for,dla
+You cannot update this attribute,Nie można zaktualizować cechy
+Attribute Code,Kod cechy
+Add New Set,Dodaj nowy zestaw
+Associated Products,Produkty powiązane
+Edit Newsletter Template,Edycja szablonu newslettera
+There is already a customer registered using this email,W bazie istnieje już klient używający tego adresu email
+Processed,Przetwarzanie
+Credit Card Type,Typ karty kredytowej
+Rating isn't Available,Ocena niedostępna
+"""This tab contains invalid data. Please, solve the problem before saving."",""W tej zakładce znajdują się błędne dane. Popraw je zanim zapiszesz zmiany"""
+Remove Item,Usuń
+Subscribe to Newsletter,Zapisz na newsletter
+Are you sure that you want to delete this template?,Czy na pewno chcesz usunąć ten szablon?
+3 stars,3 gwiazdki
+Order Date: %s,Data zamówienia: %s
+Number of times wishlists have been shared (emailed): %s,Ilość razy kiedy lista życzeń została wysłana do innych: %s
+Double click on a group to rename it,Kliknij na grupie dwukrotnie aby zmienić jej nazwę
+Total Due,Pozostało
+Gift Certificate,Bon prezentowy
+Assigned Answers,Przypisane odpowiedzi
+Fax,Fax
+Magento Admin,Administracja Magento
+Newsletter Message Preview,Podgląd newslettera
+"Name on the Card: %s,""<strong>Nazwa na karcie:</strong> <span class=""""nowrap"""">%s</span>"""
+4 stars,4 gwiazdki
+Company,Firma
+Invoice Date,Data faktury
+Visitors,Odwiedzający
+5 stars,5 gwiazdek
+Choose Store,Wybierz sklep
+Import Tax Rates,Importuj stawki podatku
+Attribute Name:,Nazwa cechy:
+Product In Stores,Produkt w sklepach
+Option Title:,Tytuł opcji:
+Order Status,Status zamówienia
+Shipping,Dostawa
+Unassigned Attributes,Nieprzypisane cechy
+"""Sorry, this feature is coming soon..."",""Ta funkcjonalność pojawi się niedługo. Przepraszamy..."""
+Option,Opcja
+Add User to Role,Dodaj użytkownika do grupy
+Invoice Status: %s,Status faktury: %s
+Magento Commerce - Administrative Panel,Magento Commerce - Panel Administracyjny
+Fixed,Stały
+Name on the Card,Nazwa na karcie
+Move Item to:,Przenieś do:
+Same as Billing Address,Taki sam jak adres płatnika
+Are you sure you want to cancel adding of this address?,Czy na pewno chcesz anulować dodawanie tego adresu?
+Interface Locale: %s,Wartość locale: %s
+Apply Coupon Code,Zastosuj kod kuponu
+Invoice Date: %s,Data faktury: %s
+"Expiration Date: %s,""<strong>Data ważności:</strong> <span class=""""nowrap"""">%s</span>"""
+per page,na stronę
+Add New Class,Dodaj nową klasę
+Super product attributes configuration,Konfiguracja cech dla produktów wiązanych
+Magento ver. %s,Magento <strong>ver. %s</strong>
+Who's Online,Osoby online
+Previous page,Poprzednia strona
+Something went wrong...,Wystąpił nieoczekiwany błąd...
+Lifetime Sales,Całkowita sprzedaż
+Default Billing Address,Domyślny adres płatnika
+"""Set root category for this store in the <a href=""""%s"""">configuration</a>"",""Ustaw kategorię podstawową dla sklepu w <a href=""""%s"""">Konfiguracji</a>"""
+Set as Default Shipping Address,Ustaw jako podstawowy adres wysyłki
+ and above., i powyżej.
+Logged in as %s,Zalogowany jako <strong>%s</strong>
+Failed,Niepowodzenie
+Are you sure that you want to delete this tag?,Czy na pewno chcesz usunąć ten tag?
+Option:,Opcja:
+Customers that have wishlist: %s%,Klienci posiadający listę życzeń: %s%
+Are you sure you want to delete this address?,Czy na pewno chcesz skasować ten adres?
+Percentage,Procent
+Log in to Admin Panel,<em>Zaloguj się</em> do Panelu Administracyjnego
+Thumbnail,Miniatura
+Please enter a new group name,Wpisz nazwę nowej grupy
+Backups Control,Zarządzanie kopiami zapasowymi
+Add to Queue,Dodaj do kolejki
+Number of items bought from a wishlist: %s,Ilość produktów zakupionych z listy życzeń: %s
+Newsletter Subscribers,Subskrybenci newslettera
+Set as Default Billing Address,Ustaw jako domyślny adres płatnika
+Are you sure you want to delete it?,Czy na pewno skasować?
+"""We're in our typing table, coding away more features for Magento. Thank you for your patience."",""We're in our typing table, coding away more features for Magento.<br/>Thank you for your patience."""
+User Name:,Nazwa użytkownika:
+Order Comment:,Komentarze do zamówienia:
+Card Verification Number,Numer CVV2" Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc,""&copy"" Copyright 2007 <a href=""""http://www.varien.com"""" target=""""varien-external"""">Varien</a>. Magento is a trademark of Irubin Consulting Inc"""
+"&copy Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc,""&copy Copyright 2007 <a href=""""http://www.varien.com"""" target=""""varien-external"""">Varien</a>. Magento is a trademark of Irubin Consulting Inc"""
+Default Shipping Address,Domyślny adres dostawy
+Customer Balance,Stan konta klienta
+Current Configuration Scope:,Aktualnie edytujesz ustawienia:
+Please select one of each of the ratings above,Wybierz po jednej ocenie w każdej sekcji powyżej
+Log Out,Wyloguj się
+"""Sorry, no quotes are available for this order at this time."",""Sorry, no quotes are available for this order at this time."""
+Customer has no addresses,Klient nie posiada adresów
+Comment,Komentarz
+Loading...,Wczytywanie...
+Credit Memo Date: %s,Data dokumentu kredytowego: %s
+Price:,Cena:
+Qty To Return,Ilość do zwrotu
+New Customer Address,Nowy adres klienta
+Export to:,Exportuj do:
+Images,Zdjęcia
+Total Paid,Zapłacono w sumie
+"Credit Card Number: %s,""<strong>Kod CVV2:</strong> <span class=""""nowrap"""">%s</span>"""
+Update Qty,Aktualizuj ilość
+Product Categories,Kategorie produktu
+City,Miasto
+Items Shipped,Dostarczone produkty
+Select from existing customer addresses:,Wybierz spośród istniejących adresów klienta:
+Please confirm site switching. All data that hasn't been saved will be lost.,Potwierdź przełączenie widoku. Niezapisane dane zostaną utracone.
+Primary Billing Address,Podstawowy adres płatnika
+Order History,Historia zamówień
+Date and Time,Data i Czas
+Street Address,Ulica
+Are you sure you want to delete this category?,Czy na pewno usunąć kategorię?
+User Roles,Uprawnienia użytkowników
+Answer Title:,Tytuł odpowiedzi:
+Customer Group: %s,<strong>Grupa klientów:</strong> %s
+Groups,Grupy
+Are you sure the you want to remove this item?,Czy na pewno chcesz usunąć ten produkt?
+Number of wishlist conversions: %s,Liczba konwersji za pomocą listy życzeń: %s
+Unable to complete request. Please try again later.,Nie udało się zrealizować zadania. Ponów próbę.
+Global Record Search,Globalne wyszukiwanie
+Send Comment to the Customer,Wyślij komentarze do klienta
+Sort Order,Kolejność wyświetlania
+Please select one or more attributes.,Wybierz jedną lub więcej cech
+Please add one or more options,Dodaj jedną lub więcej opcji
+Connect with the Magento Community,Dołącz do społeczności Magento
+Manage Options (values of your attribute),Zarządzaj opcjami (wartościami cech)
+Add New Tax Rule,Dodaj nową regułę dla podatku
+Are you sure you want to delete this user from this role?,Czy chcesz usunąć tego użytkownika z tej grupy?
+"Help Us Keep Magento Healthy - Report All Bugs,""Help Us Keep Magento Healthy - <a href=""""http://www.magentocommerce.com/bug-tracking"""" target=""""varien_external""""><strong>Report All Bugs</strong</a>>"""
+Dashboard Control,Dashboard Control
+Credit Card Number,Numer karty kredytowej
+Total %d records found,Znaleziono w sumie <strong>%d</strong> rekordów
+Sales Statistics,Statystyki sprzedaży
+Purchase Order Number,Numer zamówienia
+Average Sale,Średnia sprzedaż
+Log into Magento Admin Page,Zaloguj się w panelu
+Account Created in: %s,<strong>Konto założone w :</strong> %s
+Order Status: %s,Status zamówienia: %s
+Password:,Hasło:
+Personal Information,Informacje osobiste
+Votes Count:,Ilość głosów:
+Next page,Następna strona
+(Copy data from: %s),(Kopiuj dane z: %s)
+Export Tax Rates,Eksportuj stawki podatku
+1 star,1 gwiazdka
+Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.,Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.
+Add New Template,Dodaj nowy szablon
+Change Order Status,Zmień status zamówienia
+"Credit Card Type: %s,""<strong>Typ karty kredytowej:</strong> <span class=""""nowrap"""">%s</span>"""
+Add to Order,Dodaj do zamówienia
+What is this?,Co to jest?
+Invoice Status: Paid,Status faktury: opłacona
+Customer Addresses,Adresy klienta
+"Purchase Order Number: %s,""<strong>Numer zamówienia:</strong> <span class=""""nowrap"""">%s</span>"""
+Expiration Date: %s/%s,Data ważności: %s/%s
+Expiration Date,Data ważności
+Last Log In: %s (%s),<strong>Ostatnie logowanie:</strong> %s (<strong>%s</strong>)
+Number of wishlists: %s,Ilość list życzeń: %s
+Big Image,Duże zdjęcie
+Tax Rates Import / Export,Import / eksport stawek podatku
+Magento Logo,Logo Magento
+A name is required,Nazwa jest wymagana
+images/logo.gif,images/logo.gif
+Email Address,Adres email
+Email Preview,Podgląd email
+If you do not specify an option value for a store then the default value will be used.,If you do not specify an option value for a store then the default value will be used.<strong>%s</strong>
+"of %s pages,z &nbsp<strong>%s</strong> stron"
+Account Created on: %s,<strong>Konto utworzone:</strong> %s
+"Credit Card Number: xxxx-%s,""<strong>Numer karty kredytowej:</strong> <span class=""""nowrap"""">xxxx-%s</span>"""
+Haven't been charged yet,Jeszcze nie opłacony
+Customer Notes,Notatki o kliencie
+Login,Logowanie
+Page,Strona
+Add New Address,Dodaj nowy adres
+Are you sure that you want to strip all tags?,Czy na pewno chcesz usunąć znaczniki? is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy" Copyright 2007.,""Magento &trade"" is a registered Trademark of Irubin Consulting Inc. DBA <a href=""""http://www.varien.com"""" target=""""varien_external"""">Varien</a>. &copy"" Copyright 2007."""
+"Magento &trade is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy Copyright 2007.,""Magento &trade is a registered Trademark of Irubin Consulting Inc. DBA <a href=""""http://www.varien.com"""" target=""""varien_external"""">Varien</a>. &copy Copyright 2007."""
+Roles Resources,Zasoby dostępne dla grupy
+"""Manage Titles (Size, Color, etc.)"",""Zarządzaj tytułami (Rozmiar, Kolor itp.)"""
+Are you sure that you want to strip tags?,Czy na pewno chcesz usunąć znaczniki?
+Are you sure that you want to remove this item?,Czy na pewno chcesz usunąć produkt?
+You cannot remove system attribute from this set.,Nie możesz usunąć cechy systemowej z tego zestawu.
+This group contains system attributes. Please move system attributes to another group and try again.,Nie możesz usunąć cech z tego zestawu. Przenieś je do innego zestawu i ponów próbę.
+The information in this tab has been changed.,Zawrartość sekcji się zmieniła.
+Number of wishlist referrals: %s,Ilość osób poleconych za pośrednictwem listy życzeń: %s
+Today is %s,%s
+2 stars,2 gwiazdki

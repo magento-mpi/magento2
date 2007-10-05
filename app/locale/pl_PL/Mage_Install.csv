@@ -1,0 +1,69 @@
+﻿Time Zone,Strefa czasowa
+Default Currency, Domyślna waluta
+"One from PHP Extensions ""%s"" must be loaded,""Jedno z rozszerzeń PHP: """"%s"""" musi być załadowane"""
+Database connection error,Błąd połączenia z bazą
+"PHP Extension ""%s"" must be loaded,""Rozszerzenie PHP: """"%s"""" musi być załadowane"""
+"Url ""%s"" is invalid,""Adres """"%s"""" jest nieprawidłowy"""
+Locale,Locale
+"Url ""%s"" is not accessible,""Url """"%s"""" nie jest dostępny"""
+This Url is invalid,Ten url jest nieprawidłowy
+"Path ""%s"" must be writable,""Ścieżka """"%s"""" musi mieć prawa zapisu"""
+PHP Extension '%s' loaded,Rozszerzenie PHP '%s' załadowane
+Database Name,Nazwa bazy
+Installation Guide,Przewodnik instalacji
+Confirm Password,Potwierdź hasło
+Secure host name,Adres https
+Password Confirmation,Potwierdź hasło
+Go to Frontend,Przejdź do sklepu
+Secure Protocol,Protokół szyfrowania
+"For HTTPS connections, default port is 443.,""Dla HTTPS domyślny port to 443."""
+I agree to the above terms and conditions,Zgadzam się z warunkami licencji
+First Name,Imię
+"Before you continue to your store, please make a note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).,""Zapisz kod szyfrujący i zachowaj go w bezpiecznym miejscu. Jest on wykorzystywany do szyfrowania danych w sklepie."
+Database Connection,Połączenie z bazą
+Secure Connection,Połączenie bezpieczne
+Create Admin Account,Stwórz konto administratora
+Email,Email
+Host name,Host
+Go to Backend,Przejdź do panelu administracyjnego
+Base Path,Ścieżka bazowa
+Login Information,Informacje o logowaniu
+Password,Hasło
+Localization,Lokalizacja
+Secure www base path,Ścieżka bazowa dla połączenia SSL
+User Name,Nazwa użytkownika
+Skip URL validation,Pomiń sprawdzanie URL
+User Password,Hasło użytkownika
+Host,Host
+Welcome to Magento's Installation Wizard,Witaj w instalatorze Magento
+WWW base path,Ścieżka bazowa WWW
+"For HTTP connections, the default port is 80.,""Dla połączeń HTTP domyślny port to 80."""
+Secure Port,Port SSL
+Required Fields,Pola wymagane
+Configuration, Konfiguracja
+You're All Set,Koniec!
+Having trouble installing Magento?,Czy masz problem z instalacją Magento?
+Username,Użytkownik
+Installation,Instalacja
+Email Address,Adres email
+(Make sure you keep it in a safe place.),(Zachowaj w bezpiecznym miejscu.)
+Connection,Połączenie
+Continue,Kontynuuj
+Locale settings,Ustawienia Locale
+Secure Base Path,Ścieżka bazowa dla połączeń https
+Configuration options,Opcje konfiguracji
+Database user name,Użytkownik bazy
+Check out our,Sprawdź nasze
+Protocol,Protokół
+"Magento uses this key to encrypt passwords, credit cards and more. If this field is left empty the system will create an encription key for you and will display it on the next page.,""Magento korzysta z tego klucza aby szyfrować dane. Wprowadź go lub pozos"
+Database host,Host połączenia z bazą
+Last Name,Nazwisko
+Secure Host,Host SSL
+Default store,Domyślny sklep
+Get ready to experience Open-Source eCommerce Evolved.,Przygotuj się na nowe rozwiązanie ecommerce.
+Please set all required settings before clicking Continue,Uzupełnij wszystkie pola przed kontunuowaniem
+"Check this box only if you are unable to automatically validate Magento URL, for example if HTTP authentication is required.,""Zaznacz tylko jeżeli otrzymujesz błąd walidacji URL"""
+Database user password,Hasło do bazy
+Encryption Key,Klucz szyfrowania
+Port,Port
+Personal Information,Dane personalne
