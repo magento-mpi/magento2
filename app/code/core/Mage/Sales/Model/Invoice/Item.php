@@ -39,6 +39,14 @@ class Mage_Sales_Model_Invoice_Item extends Mage_Core_Model_Abstract
         return $this->_invoice;
     }
 
+    public function getProduct()
+    {
+        if (!$this->hasData('product') && $this->getProductId()) {
+            $this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
+        }
+        return $this->getData('product');
+    }
+
     public function importOrderItem(Mage_Sales_Model_Order_Item $item)
     {
         $this->setParentId($this->getInvoice()->getId())

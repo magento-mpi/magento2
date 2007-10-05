@@ -76,6 +76,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if ($this->_connection) {
             return;
         }
+        
+        if (!extension_loaded('pdo_mysql')) {
+            throw new Zend_Db_Adapter_Exception('pdo_mysql extension is not installed');
+        }
 
         if (strpos($this->_config['host'], '/')!==false) {
             $this->_config['unix_socket'] = $this->_config['host'];

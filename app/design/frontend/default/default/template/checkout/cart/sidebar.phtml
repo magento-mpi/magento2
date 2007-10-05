@@ -28,7 +28,7 @@
 <?if($this->getCanDisplayCart()):?>
 <div class="box base-mini mini-cart">
     <div class="head">
-        <h4><?=$this->__('My Cart - <a href="%s">%d item(s)</a>', $this->getUrl('checkout/cart'), $this->getItemCollection()->getSize())?></span></h4>
+        <h4><?=$this->__('My Cart - <a href="%s">%d item(s)</a>', $this->getUrl('checkout/cart'), $this->getItemCollection()->getSize())?></h4>
         <h5><?=$this->__('Last added items')?></h5>
     </div>
     <?if($this->getItemCollection()->getSize()):?>

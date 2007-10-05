@@ -58,6 +58,14 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this->_order;
     }
 
+    public function getProduct()
+    {
+        if (!$this->hasData('product') && $this->getProductId()) {
+            $this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
+        }
+        return $this->getData('product');
+    }
+
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
     {
         $this->setQuoteItemId($item->getId())

@@ -32,7 +32,7 @@
                                 <tbody>
                                     <?foreach( $poll_answers as $answer ):?>
                                     <tr>
-                                        <td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>"/></td>
+                                        <td><input type="radio" name="vote" id="vote_<?=$answer->getId()?>" value="<?=$answer->getAnswerId()?>" /></td>
                                         <td><label for="vote_<?=$answer->getId()?>"><?=$answer->getAnswerTitle()?></label>&nbsp;</td>
                                     </tr>
                                     <?endforeach;?>
@@ -41,6 +41,6 @@
                     <?endif;?>
                     </form>
                 </div>
-                    <div class="actions"><button href="#" class="form-button-alt right" onclick="pollForm.submit()"><span><?=$this->__('Vote')?></span></button></div>
+                    <div class="actions"><button class="form-button-alt right" onclick="pollForm.submit()"><span><?=$this->__('Vote')?></span></button></div>
                 </div>
 <?endif;?>

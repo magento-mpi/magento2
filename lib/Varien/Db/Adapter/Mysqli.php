@@ -32,6 +32,9 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
         if ($this->_connection) {
             return;
         }
+        if (!extension_loaded('mysqli')) {
+            throw new Zend_Db_Adapter_Exception('mysqli extension is not installed');
+        }
         // Suppress connection warnings here.
         // Throw an exception instead.
         @$conn = new mysqli();
