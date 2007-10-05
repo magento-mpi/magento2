@@ -1,0 +1,154 @@
+Proceed to Checkout,Treceti la verificare
+Checkout method,Metoda de verificare
+Please select shipping methods for all addresses,Va rugam selectati metodele de livrare pentru toate adresele
+Shipping Methods,Metode de livrare
+Payment method is not defined,Metoda de plata nu este definita
+State/Province,Statul/Provincia
+Please specify the product option(s),Va rugam specificati optiunea(e) produsului
+Edit Shipping Address,Editati adresa de livrare
+Order Success,Comanda succes
+Create Billing Address,Creati adresa de factura
+Checkout,Verificare
+Invalid data,Data invalida
+Edit Address,Editati adresa
+Order Review,Revedeti comanda
+Billing Information,Informatia de factura
+Place Order,Puneti comanda
+Change Billing Address,Schimbati adresa de factura
+Select Addresses,Selectati adresele
+Shipping Method,Metoda de livrare
+Indefinite product type,Tip de produs indefinit
+Cannot remove item,Nu pot sterge obiectul
+Total for this address,Total pentru aceasta adresa
+Product does not exist,Produsul nu exista
+Country,tara
+Clear,Stergeti
+Shipping Information,Informatia de livrare
+Create Shipping Address,Creati adresa de livrare
+Edit Billing Address,Editati adresa de factura
+Some of the products you requested are not available in the desired quantity,Citeva din produsele cerute nu sint valabile in cantitatea dorita
+Some of the products you requested are unavailable,Citeva din produsele cerute nu sint valabile
+My Cart (%d item),Carutul meu (%d obiecte)
+Cannot update shopping cart,Nu pot actualiza carutul de cumparaturi
+Checkout with Multiple Addresses,Verificare cu adrese multiple
+Ship to Multiple Addresses,Livrati la adrese multiple
+My Cart,Carutul meu
+Review Order,Revedeti comanda
+The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s).,Obiectul(e) marcate in rosu nu este valabil in cantitatea dorita. Va rugam actualizati cantitatea obiectului(lor).
+This product is out of stock,Acest produs nu este in stoc
+Payment Information,Informatia de plata
+Requested quantity is not available,Cantitatea ceruta nu este valabila
+Cannot move item to wishlist,Nu pot muta obiectul in lista de dorinte.
+My Cart (%d items),Carutul meu(%d obiecte)
+There is already a customer registered using this email address,Este deja un client inregistrat folosind aceasta adresa de email
+Send to,Trimis la
+Remove Item,Stergeti obiectul
+"Based on your selection, you may be interested in the following items:","Bazat pe selectie, Ati putea fi interesat in urmatoarele obiecte:"
+Thank you for your purchase!,Va multumim pentru cumparaturi!
+&laquo; Back to Select Addresses,&laquo; Inapoi la adresele selectate
+Submitting order information..., Trimite informatia de comanda...
+Get a Quote,Luati o cota
+Are you sure you would like to remove this item from the shopping cart?,Sinteti sigur ca vreti sa stergeti acest obiect din carutul de cumparaturi?
+Fax,Fax
+Loading next step...,Incarcam urmatorul pas...
+Company,Compania
+Apply Coupon,Aplicati cuponul
+Already registered?,Deja inregistrat?
+Subtotal,Subtotal
+Register,Inregistrati
+Continue to Billing Information,Continuati catre informatia de factura
+Your order # is: %s,Comanda # este: %s
+Select Shipping Method,Selectati metoda de livrare
+Update Shopping Cart,Actualizati carutul de cumparaturi
+Select Address,Selectati adresa
+Telephone,Telefonul
+Shipping method has not been selected yet,Metoda de livrare nu a fost inca selectata
+You have no items in your shopping cart.,Nu aveti obiecte in carutul de cumparaturi.
+&laquo; Back to Shopping Cart,&laquo; Inapoi la carut
+Confirm Password,Confirmati parola
+Estimate Shipping and Tax,Estimati livrarea si taxele
+Last added items,Ultimele obiecte adaugate
+Log in below to take advantage of Express Checkout:,Intrati mai jos pentru a lua avantaj de verificarea express:
+Continue to Success,Continuati la succes
+Billing Address,Adresa de factura
+Go to Cart,Mergeti la carut
+Select a shipping address from your address book or enter a new address.,"Selectati o adresa de livrare din cartea de adrese sau intrati o <a href=""#"" onclick=""shipping.newAddress(true); return false;"">adresa noua</a>."
+You will receive an order confirmation email with details of your order and a link to track its progress.,Veti primi un email de confirmare a comenzii, cu detalii despre comanda si un link pentru a urma progresul ei.
+Your Checkout Progress,Progresul verificarii
+&laquo; Back to Billing Information,&laquo; Inapoi la informatia de factura
+&laquo; Back to Shipping Information,&laquo; Inapoi la informatia de livrare
+You may check out as a guest or register with us for future convenience:,Puteti verifica la iesire ca vizitator sau va puteti inregistra cu noi pentru convenienta viitoare:
+Continue Shopping,Continuati cumparaturile
+Zip/Postal Code,Zip/Codul postal
+Update Qty &amp; Addresses,Actualizati cantitatea si adresele
+Product Name,Numele produsului
+Your order number is %s,Numarul comenzii este %s
+* Required Fields,* Cimpuri cerute
+Items,Obiecte
+Continue to Shipping Information,Continuati catre informatia de livrare
+Ship to this address,Livrati la aceasta adresa
+"Sorry, no quotes are available for this order at this time.","Ne pare rau, cotele nu sint valabile pentru aceasta comanda acum."
+Please enter a valid zip code. For example 90602 or 90602-1234.,Va rugam intrati un zip/cod postal valid. Spre exemplu: 90602 sau 90602-1234.
+Remove Product,Stergeti produsul
+Last Name,Numele de familie
+Back,Inapoi
+Change Payment Method,Schimbati metoda de plata
+Grand Total:,Total:
+Shipping to,Livrat la
+Address %s of %s,"Adresa <span class=""shipment-count"">%s</span> din %s"
+We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.,Comanda este in proces si in curind veti primi un email cu detaliile comenzii.<br/>Imediat ce comanda a fost livrata veti primi un alt email cu un link pentru a urma progresul ei.
+Change Shipping Method,Schimbati metoda de livrare
+Shopping Cart,Carut de cumparaturi
+Forgot your password?,Ati uitat parola?
+Enter your destination to get a shipping estimate.,Intrati destinatia pentru a primi un estimat de livrare.
+My Account,Acontul meu
+Street Address,Adresa strazii
+Shipping Address,Adresa de livrare
+Select a billing address from your address book or enter a new address.,"Selectati adresa de factura din cartea de adrese sau intrati o <a href=""#"" onclick=""billing.newAddress(true); return false;"">noua adresa</a>."
+Continue to Overview,Continuati catre revedere
+"Please <a href=""%s"">continue shopping</a>.","Va rugam <a href=""%s"">continuati cumparaturile</a>."
+Edit Your Cart,Editati carutul
+You have no items in your cart.,Nu aveti obiecte in carut.
+Easy access to your order history and status,Acces usor la istoria comenzii si statut
+Register and save time!,Inregistrati-va sa economisiti timp!
+Fast and easy check out,Verificare rapida si usoara
+Use Billing Address,Folositi adresa de factura
+Add to Wishlist,Adaugati la lista de dorinte
+"My Cart - <a href=""%s"">%d item(s)</a>","Carutul meu <span class=""count"">- <a href=""%s"">%d obiect(e)</a></span>"
+Move to Wishlist,Mutati la lista de dorinte
+Default Shipping,Livrarea standard
+Checkout as a Guest or Register,Verificati ca visitator sau integistrati-va
+Qty,Cantitate
+Enter your coupon code if you have the one.,Intrati codul de cupon daca aveti unul.
+Done,Facut
+Close,Inchis
+City,Orasul
+Card Verification Number Visual Reference,Referinta la numarul vizual de verificare a cartii
+First Name,Numele
+Unit Price,Pret de unitate
+"Please select region, state or province","Va rugam selectati regiunea, statul sau provincia"
+Product,Produs
+Payment Method,Metoda de plata
+Price,Pret
+Street Address 2,Adresa strazii 2
+Address,Adresa
+Password,Parola
+Update Total,Actualizati totalul
+Change Shipping Address,Schimbati adresa de livrare
+Email Address,Adresa de email
+Edit,Editati 
+Add to Cart,Adaugati in carut
+Edit Items,Editati obiectele
+Remove,Stergeti
+Continue,Continuati
+Forgot an Item?,Ati uitat un obiect?
+Shopping Cart is Empty,Carutul de cumparaturi este gol
+Login,Intrare
+Add New Address,Adaugati adresa noua
+Default Billing,Factura standard
+Enter a New Address,Intrati o adresa noua
+Checkout as Guest,Verificati ca vizitator
+Discount Codes,Coduri de rabat
+Select State/Province...,Selectati statul/provincia...
+Continue to Review Your Order,Continuati catre revederea comenzii
+Your order has been received,Comanda a fost primita

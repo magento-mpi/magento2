@@ -1,0 +1,119 @@
+SKU,SKU
+Category,Categorie
+Please select static block ...,Va rugan selectati blocul static ...
+Static block and products,Blocul static si produse
+Go to Home Page,Merge-ti la pagina casa
+Images,Imagini
+Small Image,Imagine mica
+Products only,Numai produse
+Meta Keywords,Cuvinte cheie meta
+Data integrity: No header row found for attribute,Integritatea datelor: Nu se gaseste grupa de capatii pentru atribut
+Page Title,Titlul paginii
+Status,Statutul
+Description,Descriptie
+Cannot retrieve current category object,Nu pot recupera obiectul de categorie curenta
+Tier Price,Pret de treapta
+Price,Pret
+Meta Title,Titlul meta
+Static block only,Numai bloc static
+Visibility,Visibilitate
+Thumbnail,Imagine foarte mica
+Filter model name must be declared,Fitrul numelui de model trebuie sa fie declarat
+Filter must be as object. Set correct filter please,Fitrul trebuie sa fie ca obiect. Va rugam, seta-ti filt corect
+Base Image,Imaginea baza
+Prices,Preturi
+Grid,Grrila
+Is Qty Decimal,Este cantitatea decimala
+Manufacturer,Manufacturier
+Page Layout,Aspectul paginii
+Best Value,Cea mai buna valoare
+Name,Nume
+Invalid Attribute Requested,Atribut cerut invalid
+Meta Description,Descriptie meta
+Short Description,Descriptie scurta
+Is Anchor,Este ancora
+List,Lista
+Filters must be as array,Filtrele trebuie sa fie complete
+Meta Information,Informatie meta
+No layout updates,Nici o actualizare a aspectului
+General,General
+Compare Products List,Comparati listea de produse
+Invalid block: %s,Bloc invalid: %s
+CMS Block,Bloc CMS
+"Attribute source ""%s"" not found","Sursa atributelor ""%s"" nu se gaseste"
+All,Toate
+Qty,Cantitate
+Attribute model not defined,Atributul modelului nu este definit
+Weight,Greutate
+Color,Coloare
+URL key,Cheie URL
+Image,Imagine
+Choose option...,Alegeti optiunea...
+Is Active,Este activa
+Cost,Cost
+Image Gallery,Galerie de imagini
+Display Mode,Modul de afisare
+"Attribute saver ""%s"" not found","Salvatorul atributului ""%s"" nu se gaseste"
+Home,Acasa
+Tax Class,Clasa de taxe
+Minimal Price,Pretul minim
+Special Price:,Pretul special:
+Add to Compare,Adaugati la comparare
+Clear All Items,Sterge-ti toate obiectele
+Availability: In stock. Ships within 24hours.,Valabilitate: In stoc. Se livreaza in 24 de ore.
+Next,Urmatorul
+Quick Overview,Vedere rapida
+Add to My Wishlist,Adaugati la lista de dorinte
+Add Items to Cart,Adaugati obiectele in carut
+Related Products,Produse asociate
+See all %s,Vedeti toate %s
+Best Selling Products,Cele mai bune produse vindute
+Product Attribute Specs,Atributele specifice ale produsului
+Prev,Anterior
+Choose an Option...,Alegeti o optiune...
+View as,Vedeti ca
+This bundle is out of stock.,Balotul nu este in stoc.
+Shopping Options,Optiuni de cumparare
+Compare Products,Comparati produsele
+Product Description,Descriptia produsului
+Remove This Item,Sterge-ti acest obiect
+Shop by,Cumparati la
+More Views,Alte vederi
+There are no products matching the selection.,Nu sint produse egale cu selectia.
+Remove Product,Sterge-ti produsul
+Product Name,Numele produsului
+Availability: Out of stock.,Valabilitate: Nu este in stoc.
+Page:,Pagina:
+You have no items to compare.,Nu aveti obiecte de comparat.
+Buy %s for %s each,Cumparati %s pentru <strong>%s fiecare</strong>
+Compare Items,Comparati obiectele
+Zoom In,Mariti
+Add to Cart,Adaugati la carut
+No options of this product are available.,Nu sint optiuni valabile pentru acest produs.
+Zoom Out,Micsorati
+Items %s to %s of %s total,Obiectele <strong>%s</strong> pina la <strong>%s</strong> din <strong>%s</strong> total
+Regular Price:,Pret normal:
+Print This Page,Imprimati aceasta pagina
+Old Price:,Pret vechi:
+Compare Products - %d Items,"Comparati produsele <span class=""count"">- %d obiecte</span>"
+Sort by,Sortat cu 
+Availability: In stock. Ships within 24 hours.,Valabilitate: In stoc. Se livreaza in 24 de ore.
+Add to Wishlist,Adaugati la lista de dorinte
+View Details,Vedeti
+Browse By,Browse By detaliile
+Out of Stock,Nu este in stoc
+Check items to add to the cart or select all.,"Marcati obiectele care vor fi adaugate in carut sau <a href=""#"" onclick=""selectAllRelated();return false;"">selectati toate</a>."
+Show,Arata
+per page,pe pagina
+Close Window,Inchide-ti fereastra
+Set Ascending Direction,Setati directia de urcare
+Cross-sell Products,Produse X-Vindute
+Learn More,Cititi mai mult
+Category Navigation:,Navigarea categoriei:
+Set Descending Direction,Setati directia de coborire
+You may also be interested in the following product(s),Veti fi de asemenea interesat in urmatorul produs(e)
+Additional Information,Informatii suplimentare
+Previous,Anterior
+Currently Shopping by,Cumparind in curent
+OR,SAU
+%s Item(s),%s Obiect(e)

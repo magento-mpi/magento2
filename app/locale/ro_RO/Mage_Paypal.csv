@@ -1,0 +1,34 @@
+N/A,N/A
+Invalid data,Data invalida
+Paypal Checkout,Checkout cu Paypal
+Please select a valid shipping method,Va rugam selectati o metoda de livrare valida
+Sale,Vinzare
+Discover,Discover
+Amex,Amex
+Visa,Visa
+Problem during communication with PayPal,Problema in comunicarea cu Paypal
+MasterCard,MasterCard
+There was an error during communication with Paypal: %s - %s,A fost o eroare in comunicarea cu Paypal: %s - %s
+There was an error connecting to the Paypal server: %s,A fost o eroare in conectarea cu servuitorul Paypal: %s
+Order,Comanda
+Authorization,Autorizatie
+Change Payment Method,Schimbati metoda de plata
+Update Shipping Method,Actualizati metoda de livrare
+Payment Method,Metoda de plata
+Place an Order,Pune-ti o comanda
+Shipping Method,Metoda de livrare
+Billing Information,Informatia de factura
+"Sorry, no quotes are available for this order at this time.","Imi pare rau, cotari pentru aceasta comanda nu sint valabile acum."
+Price,Pret
+Shipping Information,Informatia de livrare
+Qty,Cantitate
+Review Order,Revedeti comanda
+Edit Shopping Cart,Editati carutul de cumparaturi
+Change Shipping Address,Schimbati adresa de livrare
+Product Name,Numele produsului
+PayPal Account,Acont PayPal
+Your billing address will be ignored and you will be redirected to PayPal website,Adresa de factura va fi ignorata si veti fi redirectionat catre website-ul PayPal
+Items in Your Shopping Cart,Obiecte in carutul de cumparaturi
+Subtotal,Subtotal
+Shipping Address,Adresa de livrare
+Please select a shipping method...,Va rugam selecta-ti o metoda de livrare...
