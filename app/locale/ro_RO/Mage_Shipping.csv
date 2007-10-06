@@ -1,9 +1,9 @@
-# of Items vs. Destination,# de obiecte contra destinatiei
-Price vs. Destination,Pret contra destinatie
-Weight (and above),Greutate (si peste)
-Store Pickup,Luare la magazin
-Invalid Table Rate code type: %s,Tip de cod al tabelei de rate invalid: %s
-# of Items (and above),# de obiecte (si peste)
-Weight vs. Destination,Greutate contra destinatie
-Invalid Table Rate code for type %s: %s,Cod invalid al tabelei de rate pentru tipul %s: %s
-Order Subtotal (and above),Subtotalul comenzii (si peste)
+"# of Items vs. Destination","# de obiecte contra destinatiei"
+"Price vs. Destination","Pret contra destinatie"
+"Weight (and above)","Greutate (si peste)"
+"Store Pickup","Luare la magazin"
+"Invalid Table Rate code type: %s","Tip de cod al tabelei de rate invalid: %s"
+"# of Items (and above)","# de obiecte (si peste)"
+"Weight vs. Destination","Greutate contra destinatie"
+"Invalid Table Rate code for type %s: %s","Cod invalid al tabelei de rate pentru tipul %s: %s"
+"Order Subtotal (and above)","Subtotalul comenzii (si peste)"

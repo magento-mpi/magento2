@@ -1,4 +1,4 @@
-Cannot read backup file,Nu pot citi fila de backup
+"Cannot read backup file","Nu pot citi fila de backup"
 "File compressed with Zlib, but this extension is not installed on server","Fila comprimata cu Zlib, dat aceasta extensie nu este instalata in servuitor"
-Backup file doesn't exist,Fila de backup nu exista
-Wrong order of creation for new backup,Comanda gresita la crearea unui nou backup
+"Backup file doesn't exist","Fila de backup nu exista"
+"Wrong order of creation for new backup","Comanda gresita la crearea unui nou backup"
