@@ -740,10 +740,10 @@ Item Status,Status produktu
 Interface Language,Język interfejsu
 Cancelled,Anulowane
 Position,Pozycja
-Items Ordered,Ilość zamówiona  
+Items Ordered,Ilość zamówiona
 Rating was successfully saved,Ocena została usunięta
 New Product,Nowy produkt
-Purchase On,Kupiono  
+Purchase On,Kupiono
 Fiterable (with results),Filtrowalny (z wynikami)
 Password,Hasło
 Shipped to First Name,Imię (dostawa)
@@ -823,7 +823,7 @@ Answer Title,Tytuł odpowiedzi
 Order #%s (%s),Zamówienie nr.%s (%s)
 No,Nie
 Edit Invoice #,Edycja faktury nr.
-Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}',Edytuj zestaw cech '{$this->_getSetData()->getAttributeSetName()}'
+Edit Attribute Set '%s',Edytuj zestaw cech '%s'
 All Products,Wszystkie produkty
 Export CSV,Export CSV
 Save And Resume,Zapisz i kontynuuj.

@@ -200,7 +200,7 @@ Required,Ceruta
 N/A,Nu este valabila
 Continue,Continua-ti
 Grid only,Numai grila
-View Invoice,Vedeti factura 
+View Invoice,Vedeti factura
 Use default,Folosi-ti baza
 Category move error,Eroare in mutarea categoriei
 Time,Ora
@@ -335,7 +335,7 @@ User was successfully saved,Folositorul a fost salvat cu succes
 Create Product Settings,Creati setarile produsului
 From,De la
 Newsletter Information,Informatia scrisorii de noutati
-Select Configurable Attributes ,Selectati atributele configurabile 
+Select Configurable Attributes ,Selectati atributele configurabile
 Attribute Information,Informatia de atribut
 Store Information,Informatia de magazin
 n/a,nu este valabil
@@ -823,7 +823,7 @@ Answer Title,Titlul raspunsului
 Order #%s (%s),Comanda #%s (%s)
 No,Nu
 Edit Invoice #,Editati factura #
-Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}',Editati setul de atribute '{$this->_getSetData()->getAttributeSetName()}'
+Edit Attribute Set '%s',Editati setul de atribute '%s'
 All Products,Toate produsele
 Export CSV,Exportati fila CSV
 Save And Resume,Salvati si continuati

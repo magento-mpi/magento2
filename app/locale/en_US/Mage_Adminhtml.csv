@@ -820,7 +820,7 @@
 "Order #%s (%s)","Order #%s (%s)"
 "No","No"
 "Edit Invoice #","Edit Invoice #"
-"Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}'","Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}'"
+"Edit Attribute Set '%s'","Edit Attribute Set '%s'"
 "All Products","All Products"
 "Export CSV","Export CSV"
 "Save And Resume","Save And Resume"
