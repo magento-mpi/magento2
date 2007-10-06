@@ -48,7 +48,7 @@
             <checkout_multishipping>/checkout/multishipping</checkout_multishipping>
         </secure_url>
       <events>
-         <customerLogin>
+         <customer_login>
             <observers>
                <loadCustomerQuote>
                   <type>singleton</type>
@@ -56,8 +56,8 @@
                   <method>loadCustomerQuote</method>
                </loadCustomerQuote>
             </observers>
-         </customerLogin>
-         <customerLogout>
+         </customer_login>
+         <customer_logout>
             <observers>
                <unsetAll>
                   <type>singleton</type>
@@ -65,7 +65,7 @@
                   <method>unsetAll</method>
                </unsetAll>
             </observers>
-         </customerLogout>
+         </customer_logout>
       </events>
       <routers>
          <checkout>

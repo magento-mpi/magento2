@@ -51,8 +51,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 		    session_name($sessionName);
 		}
 
-		$this->setSessionId();
-
         Varien_Profiler::start(__METHOD__.'/start');
         session_start();
         Varien_Profiler::stop(__METHOD__.'/start');

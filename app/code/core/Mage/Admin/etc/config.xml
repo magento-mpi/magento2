@@ -68,7 +68,7 @@
    </global>
    <adminhtml>
       <events>
-         <action_preDispatch_admin>
+         <controller_action_predispatch_admin>
             <observers>
                <auth>
                   <type>singleton</type>
@@ -76,7 +76,7 @@
                   <method>actionPreDispatchAdmin</method>
                </auth>
             </observers>
-         </action_preDispatch_admin>
+         </controller_action_predispatch_admin>
       </events>
    </adminhtml>
 </config>

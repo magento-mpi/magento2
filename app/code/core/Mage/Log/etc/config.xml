@@ -95,7 +95,7 @@
     </global>
     <frontend>
         <events>
-            <customerLogin>
+            <customer_login>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -103,8 +103,8 @@
                         <method>bindCustomerLogin</method>
                     </log>
                 </observers>
-            </customerLogin>
-            <customerLogout>
+            </customer_login>
+            <customer_logout>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -112,8 +112,8 @@
                         <method>bindCustomerLogout</method>
                     </log>
                 </observers>
-            </customerLogout>
-            <action_preDispatch>
+            </customer_logout>
+            <controller_action_predispatch>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -121,8 +121,8 @@
                         <method>loadByAction</method>
                     </log>
                 </observers>
-            </action_preDispatch>
-            <initCheckoutSession>
+            </controller_action_predispatch>
+            <checkout_session_init>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -130,8 +130,8 @@
                         <method>bindCheckoutSession</method>
                     </log>
                 </observers>
-            </initCheckoutSession>
-            <initCustomerSession>
+            </checkout_session_init>
+            <customer_session_init>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -139,8 +139,8 @@
                         <method>bindCustomer</method>
                     </log>
                 </observers>
-            </initCustomerSession>
-            <initQuote>
+            </customer_session_init>
+            <checkout_quote_init>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -148,8 +148,8 @@
                         <method>bindQuoteCreate</method>
                     </log>
                 </observers>
-            </initQuote>
-            <destroyQuote>
+            </checkout_quote_init>
+            <checkout_quote_destroy>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -157,8 +157,8 @@
                         <method>bindQuoteDelete</method>
                     </log>
                 </observers>
-            </destroyQuote>
-            <action_postDispatch>
+            </checkout_quote_destroy>
+            <controller_action_postdispatch>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -166,7 +166,7 @@
                         <method>save</method>
                     </log>
                 </observers>
-            </action_postDispatch>
+            </controller_action_postdispatch>
         </events>
     </frontend>
 </config>

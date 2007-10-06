@@ -52,7 +52,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-    	#Mage::getSingleton('customer/session')->setTest('onepage');
+        #Mage::getSingleton('customer/session')->setTest('onepage');
 
         Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());
         $this->getOnepage()->initCheckout();
@@ -84,17 +84,17 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function successAction()
     {
-    	$lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
-    	$lastOrderId = $this->getOnepage()->getCheckout()->getLastOrderId();
+        $lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
+        $lastOrderId = $this->getOnepage()->getCheckout()->getLastOrderId();
 
-    	if (!$lastQuoteId || !$lastOrderId) {
+        if (!$lastQuoteId || !$lastOrderId) {
             $this->_redirect('checkout/cart');
             return;
         }
 
         Mage::getSingleton('checkout/session')->clear();
         $this->loadLayout();
-        Mage::dispatchEvent('order_success_page_view');
+        Mage::dispatchEvent('checkout_onepage_controller_success_action');
         $this->renderLayout();
     }
 
@@ -131,8 +131,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
             if (!empty($data['use_for_shipping'])) {
-	            $this->loadLayout('checkout_onepage_shippingMethod');
-	            $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
+                $this->loadLayout('checkout_onepage_shippingMethod');
+                $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
             }
 
             $this->getResponse()->setBody(Zend_Json::encode($result));

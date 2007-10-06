@@ -474,15 +474,14 @@ final class Mage {
      * @param integer $level
      * @param string $file
      */
-    public static function log($message, $level=Zend_Log::DEBUG, $file = '')
+    public static function log($message, $level=null, $file = '')
     {
 		return;
 
         static $loggers = array();
-
-        if (empty($file)) {
-            $file = 'system.log';
-        }
+        
+        $level  = is_null($level) ? Zend_Log::DEBUG : $level;
+        $file   = empty($file) ? 'system.log' : $file;
 
         try {
             if (empty($loggers[$file])) {

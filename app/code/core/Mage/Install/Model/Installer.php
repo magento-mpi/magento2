@@ -25,7 +25,6 @@
  */
 class Mage_Install_Model_Installer extends Varien_Object
 {
-    const XML_PATH_INSTALL_DATE     = 'global/install/date';
     const INSTALLER_HOST_RESPONSE   = 'MAGENTO';
     
     /**
@@ -35,11 +34,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function isApplicationInstalled()
     {
-        $installDate = Mage::getConfig()->getNode(self::XML_PATH_INSTALL_DATE);
-        if ($installDate && strtotime($installDate)) {
-            return true;
-        }
-        return false;
+        return Mage::app()->isInstalled();
     }
     
     /**

@@ -71,7 +71,7 @@
         </resources>
 
         <events>
-            <sales_order_afterSave>
+            <sales_quote_save_after>
                 <observers>
                     <salesrule>
                         <type>singleton</type>
@@ -79,7 +79,7 @@
                         <method>sales_order_afterSave</method>
                     </salesrule>
                 </observers>
-            </sales_order_afterSave>
+            </sales_quote_save_after>
         </events>
     </global>
 </config>

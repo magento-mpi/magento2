@@ -21,7 +21,7 @@
 
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
-	protected $_customer;
+    protected $_customer;
     protected $_addresses;
     protected $_items;
     protected $_payments;
@@ -80,35 +80,35 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setStoreToBaseRate($currency->getResource()->getRate($storeCurrency, $baseCurrency));
         $this->setStoreToQuoteRate($currency->getResource()->getRate($storeCurrency, $quoteCurrency));
 
-    	Mage::dispatchEvent('beforeSaveQuote', array('quote'=>$this));
-    	parent::_beforeSave();
+        Mage::dispatchEvent('sales_quote_save_before', array('quote'=>$this));
+        parent::_beforeSave();
     }
 
 /*********************** CUSTOMER ***************************/
 
-	public function setCustomer(Mage_Customer_Model_Customer $customer)
-	{
-		$this->_customer = $customer;
-		$this->setCustomerId($customer->getId());
-		$this->setCustomerTaxClassId($customer->getTaxClassId());
-		return $this;
-	}
+    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    {
+        $this->_customer = $customer;
+        $this->setCustomerId($customer->getId());
+        $this->setCustomerTaxClassId($customer->getTaxClassId());
+        return $this;
+    }
 
-	public function getCustomer()
-	{
-	    if (is_null($this->_customer)) {
-	        $customer = Mage::getModel('customer/customer');
-	        /* @var $customer Mage_Customer_Model_Customer */
-	        if ($customerId = $this->getCustomerId()) {
-	            $customer->load($customerId);
-	            if (! $customer->getId()) {
-	                $this->setCustomerId(null);
-	            }
-	        }
-	        $this->_customer = $customer;
-	    }
-		return $this->_customer;
-	}
+    public function getCustomer()
+    {
+        if (is_null($this->_customer)) {
+            $customer = Mage::getModel('customer/customer');
+            /* @var $customer Mage_Customer_Model_Customer */
+            if ($customerId = $this->getCustomerId()) {
+                $customer->load($customerId);
+                if (! $customer->getId()) {
+                    $this->setCustomerId(null);
+                }
+            }
+            $this->_customer = $customer;
+        }
+        return $this->_customer;
+    }
 
 /*********************** ADDRESSES ***************************/
 
@@ -335,9 +335,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
-        	if ($item->getProduct()->getQtyIsDecimal()) {
-        	    return true;
-        	}
+            if ($item->getProduct()->getQtyIsDecimal()) {
+                return true;
+            }
         }
         return false;
     }
@@ -407,15 +407,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         foreach ($this->getAllItems() as $item) {
             if ($item->getSuperProductId()) {
                 if ($product->getSuperProduct() && $item->getSuperProductId() == $product->getSuperProduct()->getId()) {
-                	if ($item->getProductId() == $product->getId()) {
-                	    return $item;
-                	}
+                    if ($item->getProductId() == $product->getId()) {
+                        return $item;
+                    }
                 }
             }
             else {
-            	if ($item->getProductId() == $product->getId()) {
-            	    return $item;
-            	}
+                if ($item->getProductId() == $product->getId()) {
+                    return $item;
+                }
             }
         }
         return false;
@@ -428,7 +428,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 #            $qty = Mage::getResourceModel('sales_entity/quote')->fetchItemsSummaryQty($this);
             $qty = 0;
             foreach ($this->getAllItems() as $item) {
-            	$qty+= $item->getQty();
+                $qty+= $item->getQty();
             }
             $this->setData('all_items_qty', $qty);
         }
@@ -499,8 +499,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function removePayment()
     {
-    	$this->getPayment()->isDeleted(true);
-    	return $this;
+        $this->getPayment()->isDeleted(true);
+        return $this;
     }
 
 /*********************** TOTALS ***************************/

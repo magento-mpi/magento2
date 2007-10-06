@@ -36,7 +36,7 @@
          </cms>
         </routers>
         <events>
-            <action_noRoute>
+            <controller_action_noroute>
                 <observers>
                     <cms>
                         <type>singleton</type>
@@ -44,7 +44,7 @@
                         <method>noRoute</method>
                     </cms>
                 </observers>
-            </action_noRoute>
+            </controller_action_noroute>
         </events>
         <translate>
             <modules>
@@ -107,7 +107,7 @@
             </layouts>
         </cms>
         <events>
-            <initControllerRouters>
+            <controller_front_init_routers>
                 <observers>
                     <cms>
                         <type>singleton</type>
@@ -115,7 +115,7 @@
                         <method>initControllerRouters</method>
                     </cms>
                 </observers>
-            </initControllerRouters>
+            </controller_front_init_routers>
         </events>
     </global>
 </config>

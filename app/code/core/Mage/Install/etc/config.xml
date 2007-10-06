@@ -70,7 +70,7 @@
    
    <install>
       <events>
-         <action_preDispatch>
+         <controller_action_predispatch>
             <observers>
                <checkConnection>
                   <type>singleton</type>
@@ -78,8 +78,8 @@
                   <method>checkDbConnection</method>
                </checkConnection>
             </observers>
-         </action_preDispatch>
-         <mageRunException>
+         </controller_action_predispatch>
+         <mage_run_exception>
             <observers>
                <checkConnection>
                   <type>singleton</type>
@@ -87,7 +87,7 @@
                   <method>checkDbConnection</method>
                </checkConnection>
             </observers>
-         </mageRunException>
+         </mage_run_exception>
          <core_locale_set_locale>
             <observers>
                <bind_locale>

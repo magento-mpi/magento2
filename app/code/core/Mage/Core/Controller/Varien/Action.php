@@ -82,7 +82,8 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getLayout()->setArea('frontend');
 
         $this->_construct();
-
+        
+        Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
         Mage::app()->loadArea($this->getLayout()->getArea());
     }
 
@@ -197,9 +198,9 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $this->loadLayoutUpdates();
 
-		if (!$generateXml) {
-		    return $this;
-		}
+        if (!$generateXml) {
+            return $this;
+        }
         $this->generateLayoutXml();
 
         if (!$generateBlocks) {
@@ -232,9 +233,9 @@ abstract class Mage_Core_Controller_Varien_Action
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
 
         // dispatch event for adding handles to layout update
-    	Mage::dispatchEvent('beforeLoadLayout', array('action'=>$this, 'layout'=>$this->getLayout()));
+        Mage::dispatchEvent('controller_action_layout_load_before', array('action'=>$this, 'layout'=>$this->getLayout()));
 
-    	// load layout updates by specified handles
+        // load layout updates by specified handles
         Varien_Profiler::start("$_profilerKey/load");
         $this->getLayout()->getUpdate()->load();
         Varien_Profiler::stop("$_profilerKey/load");
@@ -246,14 +247,14 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
         // dispatch event for adding text layouts
-		if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-        	Mage::dispatchEvent('beforeGenerateLayoutXml', array('action'=>$this, 'layout'=>$this->getLayout()));
-		}
+        if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
+            Mage::dispatchEvent('controller_action_layout_generate_xml_before', array('action'=>$this, 'layout'=>$this->getLayout()));
+        }
 
-		// generate xml from collected text updates
-		Varien_Profiler::start("$_profilerKey/xml");
-		$this->getLayout()->generateXml();
-		Varien_Profiler::stop("$_profilerKey/xml");
+        // generate xml from collected text updates
+        Varien_Profiler::start("$_profilerKey/xml");
+        $this->getLayout()->generateXml();
+        Varien_Profiler::stop("$_profilerKey/xml");
 
         return $this;
     }
@@ -261,10 +262,10 @@ abstract class Mage_Core_Controller_Varien_Action
     public function generateLayoutBlocks()
     {
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
-		// dispatch event for adding xml layout elements
-		if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-        	Mage::dispatchEvent('beforeGenerateLayoutBlocks', array('action'=>$this, 'layout'=>$this->getLayout()));
-		}
+        // dispatch event for adding xml layout elements
+        if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
+            Mage::dispatchEvent('controller_action_layout_generate_blocks_before', array('action'=>$this, 'layout'=>$this->getLayout()));
+        }
 
         // generate blocks from xml layout
         Varien_Profiler::start("$_profilerKey/blocks");
@@ -294,8 +295,8 @@ abstract class Mage_Core_Controller_Varien_Action
             $this->getLayout()->addOutputBlock($output);
         }
 
-        Mage::dispatchEvent('beforeRenderLayout');
-        Mage::dispatchEvent('beforeRenderLayout_'.$this->getFullActionName());
+        Mage::dispatchEvent('controller_action_layout_render_before');
+        Mage::dispatchEvent('controller_action_layout_render_before_'.$this->getFullActionName());
 
         #ob_implicit_flush();
         $this->getLayout()->setDirectOutput(false);
@@ -310,7 +311,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function dispatch($action)
     {
-    	$actionMethodName = $this->getActionMethodName($action);
+        $actionMethodName = $this->getActionMethodName($action);
 
         if (!is_callable(array($this, $actionMethodName))) {
             $actionMethodName = 'norouteAction';
@@ -355,9 +356,9 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';
         Varien_Profiler::start($_profilerKey);
-        Mage::dispatchEvent('action_preDispatch', array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
-        Mage::dispatchEvent('action_preDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('controller_action_predispatch', array('controller_action'=>$this));
+        Mage::dispatchEvent('controller_action_predispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('controller_action_predispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
         Varien_Profiler::stop($_profilerKey);
     }
 
@@ -372,9 +373,9 @@ abstract class Mage_Core_Controller_Varien_Action
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/post';
         Varien_Profiler::start($_profilerKey);
 
-        Mage::dispatchEvent('action_postDispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
-        Mage::dispatchEvent('action_postDispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
-        Mage::dispatchEvent('action_postDispatch', array('controller_action'=>$this));
+        Mage::dispatchEvent('controller_action_postdispatch_'.$this->getFullActionName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('controller_action_postdispatch_'.$this->getRequest()->getModuleName(), array('controller_action'=>$this));
+        Mage::dispatchEvent('controller_action_postdispatch', array('controller_action'=>$this));
 
         Varien_Profiler::stop($_profilerKey);
     }
@@ -382,23 +383,23 @@ abstract class Mage_Core_Controller_Varien_Action
     function norouteAction($coreRoute = null)
     {
         $status = ( $this->getRequest()->getParam('__status__') )
-        	? $this->getRequest()->getParam('__status__')
-        	: new Varien_Object();
+            ? $this->getRequest()->getParam('__status__')
+            : new Varien_Object();
 
-        Mage::dispatchEvent('action_noRoute', array('action'=>$this, 'status'=>$status));
+        Mage::dispatchEvent('controller_action_noroute', array('action'=>$this, 'status'=>$status));
         if ($status->getLoaded() !== true
-        	|| $status->getForwarded() === true
-        	|| !is_null($coreRoute) ) {
+            || $status->getForwarded() === true
+            || !is_null($coreRoute) ) {
             $this->loadLayout(array('default', 'noRoute'));
             $this->renderLayout();
         } else {
             $status->setForwarded(true);
             #$this->_forward('cmsNoRoute', 'index', 'cms');
             $this->_forward(
-            	$status->getForwardAction(),
-            	$status->getForwardController(),
-            	$status->getForwardModule(),
-            	array('__status__' => $status));
+                $status->getForwardAction(),
+                $status->getForwardController(),
+                $status->getForwardModule(),
+                array('__status__' => $status));
         }
     }
 

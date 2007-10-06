@@ -32,7 +32,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function __construct()
     {
         $this->init('customer');
-        Mage::dispatchEvent('initCustomerSession', array('customer_session'=>$this));
+        Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
     }
 
     /**
@@ -105,7 +105,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
         $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
         if ($customer && $customer->getId()) {
             $this->setCustomer($customer);
-            Mage::dispatchEvent('customerLogin');
+            Mage::dispatchEvent('customer_login', array('customer'=>$customer));
             return true;
         }
         return false;
@@ -114,7 +114,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        Mage::dispatchEvent('customerLogin');
+        Mage::dispatchEvent('customer_login', array('customer'=>$customer));
         return $this;
     }
 
@@ -129,7 +129,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
         $customer = Mage::getModel('customer/customer')->load($customerId);
         if ($customer) {
             $this->setCustomer($customer);
-            Mage::dispatchEvent('customerLogin');
+            Mage::dispatchEvent('customer_login', array('customer'=>$customer));
             return true;
         }
         return false;
@@ -143,7 +143,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            Mage::dispatchEvent('customerLogout', array('customer' => $this->getCustomer()) );
+            Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
             $this->setId(null);
         }
         return $this;

@@ -27,6 +27,8 @@
  */
 class Mage_Core_Model_App
 {
+    const XML_PATH_INSTALL_DATE = 'global/install/date';
+    
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     /**
@@ -116,8 +118,6 @@ class Mage_Core_Model_App
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
         $this->_config  = Mage::getConfig()->init($etcDir);
-
-        Mage::getSingleton('core/session');
 
         $this->_store   = Mage::getSingleton('core/store');
         $this->_website = Mage::getSingleton('core/website');
@@ -276,8 +276,9 @@ class Mage_Core_Model_App
      */
     public function isInstalled()
     {
-        if (Mage::getSingleton('install/installer')) {
-            return Mage::getSingleton('install/installer')->isApplicationInstalled();
+        $installDate = Mage::getConfig()->getNode(self::XML_PATH_INSTALL_DATE);
+        if ($installDate && strtotime($installDate)) {
+            return true;
         }
         return false;
     }

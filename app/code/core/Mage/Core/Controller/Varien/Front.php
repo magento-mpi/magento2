@@ -123,7 +123,7 @@ class Mage_Core_Controller_Varien_Front
 
     public function init()
     {
-        Mage::dispatchEvent('beforeFrontRun');
+        Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
         Varien_Profiler::start('ctrl/init');
 
@@ -138,7 +138,7 @@ class Mage_Core_Controller_Varien_Front
         $this->addRouter('standard', $standard);
 
         // init custom routers
-        Mage::dispatchEvent('initControllerRouters', array('front'=>$this));
+        Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
 
         // init default router (articles and 404)
         $default = new Mage_Core_Controller_Varien_Router_Default();
@@ -199,19 +199,19 @@ class Mage_Core_Controller_Varien_Front
 
     public function rewrite()
     {
-    	$request = $this->getRequest();
-    	$config = Mage::getConfig()->getNode('global/rewrite');
-    	if (!$config) {
-    		return;
-    	}
-    	foreach ($config->children() as $rewrite) {
-    		$from = (string)$rewrite->from;
-    		$to = (string)$rewrite->to;
-    		if (empty($from) || empty($to)) {
-    			continue;
-    		}
-    		$pathInfo = preg_replace($from, $to, $request->getPathInfo());
-    		$request->setPathInfo($pathInfo);
-    	}
+        $request = $this->getRequest();
+        $config = Mage::getConfig()->getNode('global/rewrite');
+        if (!$config) {
+            return;
+        }
+        foreach ($config->children() as $rewrite) {
+            $from = (string)$rewrite->from;
+            $to = (string)$rewrite->to;
+            if (empty($from) || empty($to)) {
+                continue;
+            }
+            $pathInfo = preg_replace($from, $to, $request->getPathInfo());
+            $request->setPathInfo($pathInfo);
+        }
     }
 }

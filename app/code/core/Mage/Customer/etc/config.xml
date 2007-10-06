@@ -120,7 +120,7 @@
             <customer>/customer/</customer>
         </secure_url>
         <events>
-            <beforeLoadLayout>
+            <controller_action_layout_load_before>
                 <observers>
                     <accountIsLoggedIn>
                         <type>singleton</type>
@@ -128,7 +128,7 @@
                         <method>beforeLoadLayout</method>
                     </accountIsLoggedIn>
                 </observers>
-            </beforeLoadLayout>
+            </controller_action_layout_load_before>
         </events>
         <routers>
             <customer>

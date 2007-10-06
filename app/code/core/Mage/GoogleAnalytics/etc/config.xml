@@ -30,11 +30,11 @@
    </modules>
 
    <global>
-   	  <models>
-   	  	 <google_analytics><class>Mage_GoogleAnalytics_Model</class></google_analytics>
-   	  </models>
+      <models>
+         <google_analytics><class>Mage_GoogleAnalytics_Model</class></google_analytics>
+      </models>
       <blocks>
-	    <google_analytics><class>Mage_GoogleAnalytics_Block</class></google_analytics>
+        <google_analytics><class>Mage_GoogleAnalytics_Block</class></google_analytics>
       </blocks>
       
         <resources>
@@ -51,15 +51,15 @@
    
    <frontend>
         <events>
-        	<order_success_page_view>
-        		<observers>
-        			<urchin>
-        				<type>singleton</type>
-        				<class>google_analytics/observer</class>
-        				<method>order_success_page_view</method>
-        			</urchin>
-        		</observers>
-        	</order_success_page_view>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <urchin>
+                        <type>singleton</type>
+                        <class>google_analytics/observer</class>
+                        <method>order_success_page_view</method>
+                    </urchin>
+                </observers>
+            </checkout_onepage_controller_success_action>
         </events>
     </frontend>
 </config>

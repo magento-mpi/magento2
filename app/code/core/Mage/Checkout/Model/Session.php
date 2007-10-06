@@ -29,8 +29,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function __construct()
     {
         $this->init('checkout');
-        #echo $this->getSessionId().';'.$this->_namespace->data->getQuoteId().';'.$this->getQuoteId();
-        Mage::dispatchEvent('initCheckoutSession', array('checkout_session'=>$this));
+        Mage::dispatchEvent('checkout_session_init', array('checkout_session'=>$this));
     }
 
     public function unsetAll()
@@ -57,7 +56,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             }
             if (!$this->getQuoteId()) {
                 $quote->initNewQuote()->save();
-                Mage::dispatchEvent('initQuote', array('quote'=>$quote));
+                Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
                 $this->setQuoteId($quote->getId());
             }
             if ($this->getQuoteId() && !$quote->getCustomerId()) {
@@ -82,16 +81,16 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 foreach ($this->getQuote()->getAllItems() as $item) {
                     $item->setId(null);
                     $found = false;
-		            foreach ($customerQuote->getAllItems() as $quoteItem) {
-		                if ($quoteItem->getProductId()==$item->getProductId()) {
-		                    $quoteItem->setQty($quoteItem->getQty() + $item->getQty());
-		                    $found = true;
-		                    break;
-		                }
-		            }
-		            if (!$found) {
-                    	$customerQuote->addItem($item);
-		            }
+                    foreach ($customerQuote->getAllItems() as $quoteItem) {
+                        if ($quoteItem->getProductId()==$item->getProductId()) {
+                            $quoteItem->setQty($quoteItem->getQty() + $item->getQty());
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        $customerQuote->addItem($item);
+                    }
                 }
                 $customerQuote->save();
             }
@@ -144,7 +143,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function clear()
     {
-        Mage::dispatchEvent('destoryQuote', array('quote'=>$this->getQuote()));
+        Mage::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
     }

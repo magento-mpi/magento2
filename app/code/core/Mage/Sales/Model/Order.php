@@ -74,18 +74,18 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
-    	Mage::getModel('core/email_template')
-    		->sendTransactional(
-    		  Mage::getStoreConfig('sales/new_order/email_template'),
-    		  Mage::getStoreConfig('sales/new_order/email_identity'),
-    		  $this->getBillingAddress()->getEmail(),
-    		  $this->getBillingAddress()->getName(),
-    		  array(
-    		      'order'=>$this,
-    		      'billing'=>$this->getBillingAddress(),
-    		      'items_html'=>Mage::getHelper('sales/order_email_items')->setOrder($this)->toHtml(),
-    		  ));
-    	return $this;
+        Mage::getModel('core/email_template')
+            ->sendTransactional(
+              Mage::getStoreConfig('sales/new_order/email_template'),
+              Mage::getStoreConfig('sales/new_order/email_identity'),
+              $this->getBillingAddress()->getEmail(),
+              $this->getBillingAddress()->getName(),
+              array(
+                  'order'=>$this,
+                  'billing'=>$this->getBillingAddress(),
+                  'items_html'=>Mage::getHelper('sales/order_email_items')->setOrder($this)->toHtml(),
+              ));
+        return $this;
     }
 
     /**
@@ -95,22 +95,22 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendOrderUpdateEmail()
     {
-    	Mage::getModel('core/email_template')
-    		->sendTransactional(
-    		  Mage::getStoreConfig('sales/order_update/email_template'),
-    		  Mage::getStoreConfig('sales/order_update/email_identity'),
-    		  $this->getBillingAddress()->getEmail(),
-    		  $this->getBillingAddress()->getName(),
-    		  array('order'=>$this, 'billing'=>$this->getBillingAddress()));
-    	return $this;
+        Mage::getModel('core/email_template')
+            ->sendTransactional(
+              Mage::getStoreConfig('sales/order_update/email_template'),
+              Mage::getStoreConfig('sales/order_update/email_identity'),
+              $this->getBillingAddress()->getEmail(),
+              $this->getBillingAddress()->getName(),
+              array('order'=>$this, 'billing'=>$this->getBillingAddress()));
+        return $this;
     }
 
 
 
     protected function _beforeSave()
     {
-    	Mage::dispatchEvent('beforeSaveOrder', array('order'=>$this));
-    	parent::_beforeSave();
+        Mage::dispatchEvent('sales_order_save_before', array('order'=>$this));
+        parent::_beforeSave();
     }
 
 /*********************** QUOTES ***************************/
@@ -146,16 +146,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->setPayment($payment);
 
         foreach ($address->getAllItems() as $addressItem) {
-        	$item = Mage::getModel('sales/order_item');
-        	if ($addressItem instanceof Mage_Sales_Model_Quote_Item) {
-        	    /* @var $item Mage_Sales_Model_Order_Item */
+            $item = Mage::getModel('sales/order_item');
+            if ($addressItem instanceof Mage_Sales_Model_Quote_Item) {
+                /* @var $item Mage_Sales_Model_Order_Item */
                 $item->importQuoteItem($addressItem);
-	            $this->addItem($item);
-        	} elseif ($addressItem instanceof Mage_Sales_Model_Quote_Address_Item) {
-        	    /* @var $item Mage_Sales_Model_Order_Item */
-        		$item->importQuoteAddressItem($addressItem);
-	            $this->addItem($item);
-        	}
+                $this->addItem($item);
+            } elseif ($addressItem instanceof Mage_Sales_Model_Quote_Address_Item) {
+                /* @var $item Mage_Sales_Model_Order_Item */
+                $item->importQuoteAddressItem($addressItem);
+                $this->addItem($item);
+            }
         }
 
         return $this;
@@ -583,8 +583,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function _afterSave()
     {
-    	Mage::dispatchEvent('sales_order_afterSave', array('order'=>$this));
-    	parent::_afterSave();
+        Mage::dispatchEvent('sales_quote_save_after', array('order'=>$this));
+        parent::_afterSave();
     }
 
     /**
