@@ -100,4 +100,10 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         $this->_productCollection = $collection;
         return $this;
     }
+    
+    public function addAttribute($code)
+    {
+        $this->_getProductCollection()->addAttributeToSelect($code);
+        return $this;
+    }
 }

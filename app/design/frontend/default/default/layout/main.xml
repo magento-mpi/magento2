@@ -81,7 +81,7 @@ Supported layout update handles (special):
 - paypal_express_review_details
 
 -->
-<layout>
+<layout version="0.1.0">
 
 <!--
 Default layout, loads most of the pages
