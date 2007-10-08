@@ -111,8 +111,6 @@ class Mage_Core_Model_Locale
     {
         Mage::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
         $this->_locale = new Zend_Locale($this->getDefaultLocale());
-        
-        Zend_Locale_Format::setOptions(array('number_format'=>'#,##0.00'));
         return $this;
     }
     
@@ -382,7 +380,8 @@ class Mage_Core_Model_Locale
     {
         Varien_Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
-            self::$_currencyCache[$this->getLocaleCode()][$currency] = new Zend_Currency($currency, null, $this->getLocale());
+            self::$_currencyCache[$this->getLocaleCode()][$currency] = 
+                new Zend_Currency($currency, $this->getLocale());
         }
         Varien_Profiler::stop('locale/currency');
         return self::$_currencyCache[$this->getLocaleCode()][$currency];
