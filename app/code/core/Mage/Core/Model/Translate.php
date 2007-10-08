@@ -261,8 +261,6 @@ class Mage_Core_Model_Translate
     {
         $data = array();
         if (file_exists($file)) {
-            /*$translator = new Zend_Translate('csv', $file, $this->getLocale(), array('separator'=>self::CSV_SEPARATOR));
-            $data = $translator->getMessages();*/
             $parser = new Varien_File_Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);
@@ -278,7 +276,8 @@ class Mage_Core_Model_Translate
     public function getData()
     {
         if (is_null($this->_data)) {
-            Mage::throwException('Translation data is not initialized. Please contact developers.');
+            return array();
+            //Mage::throwException('Translation data is not initialized. Please contact developers.');
         }
         return $this->_data;
     }
