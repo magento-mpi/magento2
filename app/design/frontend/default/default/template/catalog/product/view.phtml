@@ -99,7 +99,7 @@
                 <?endif;?>
                 <div class="add-to-box">
                     <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a><br/>
-                    <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
+                    <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
                     <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
                     <?endif;?>
                 </div>
@@ -110,7 +110,7 @@
                 &nbsp;&nbsp;
                 <?endif;?>
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a>
-                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?>
+                <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
                 <span class="pipe">|</span>
                 <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
                 <?endif;?>

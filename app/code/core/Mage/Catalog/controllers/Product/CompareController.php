@@ -61,7 +61,7 @@
 		    Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
 		}
 
-		$this->_redirectToReferer();
+		$this->_redirectReferer();
 	}
 
 	/**
@@ -88,7 +88,7 @@
 			}
 		}
 
-        $this->_redirectToReferer(Mage::getUrl('*/*/'));
+        $this->_redirectReferer();
 	}
 
 	public function clearAction()
@@ -106,6 +106,6 @@
 
 		$items->walk('delete');
 
-        $this->_redirectToReferer();
+        $this->_redirectReferer();
 	}
  } // Class Mage_Catalog_CompareController end

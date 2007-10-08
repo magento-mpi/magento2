@@ -89,9 +89,13 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item_Collection extends Mage_Cat
 	public function _addJoinToSelect()
 	{
 		$this->joinField('catalog_compare_item_id', 'catalog/compare_item','catalog_compare_item_id', 'product_id=entity_id', $this->getConditionForJoin());
-		$this->joinField('product_id', 'catalog/compare_item','product_id', 'catalog_compare_item_id=catalog_compare_item_id');
+		/*$this->joinField('product_id', 'catalog/compare_item','product_id', 'catalog_compare_item_id=catalog_compare_item_id');
 		$this->joinField('customer_id', 'catalog/compare_item', 'customer_id', 'catalog_compare_item_id=catalog_compare_item_id');
-		$this->joinField('visitor_id', 'catalog/compare_item', 'visitor_id', 'catalog_compare_item_id=catalog_compare_item_id');
+		$this->joinField('visitor_id', 'catalog/compare_item', 'visitor_id', 'catalog_compare_item_id=catalog_compare_item_id');*/
+		$this->joinTable(
+            'catalog/compare_item', 
+            'catalog_compare_item_id=catalog_compare_item_id', 
+            array('product_id', 'customer_id', 'visitor_id'));
 		$this->joinField('store_id', 
                     'catalog/product_store', 
                     'store_id', 

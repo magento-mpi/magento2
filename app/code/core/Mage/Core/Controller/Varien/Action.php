@@ -37,7 +37,7 @@ abstract class Mage_Core_Controller_Varien_Action
     const PARAM_NAME_SUCCESS_URL        = 'success_url';
     const PARAM_NAME_ERROR_URL          = 'error_url';
     const PARAM_NAME_REFERER_URL        = 'referer_url';
-    const PARAM_NAME_BASE64_URL         = 'referer_64';
+    const PARAM_NAME_BASE64_URL         = 'r64';
 
     /**
      * Request object
@@ -498,8 +498,9 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   string $defaultUrl
      * @return  Mage_Core_Controller_Varien_Action
      */
-    protected function _redirectReferer($defaultUrl)
+    protected function _redirectReferer($defaultUrl=null)
     {
+        $defaultUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
         $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
         if (empty($refererUrl)) {
             $refererUrl = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL);

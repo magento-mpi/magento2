@@ -21,7 +21,6 @@
 
 class Mage_Log_Model_Visitor extends Varien_Object
 {
-
     protected $_resource;
 
     public function getResource()
@@ -93,20 +92,14 @@ class Mage_Log_Model_Visitor extends Varien_Object
     }
 
     public function loadByAction($observer)
-    {#return;///MOSHE
-        /*
-        if ($this->isModuleIgnored($observer)) {
-            return $this;
-        }
-        */
+    {
         $this->load(Mage::getSingleton('core/session')->getSessionId());
         return $this;
     }
 
 
     public function save($observer = null)
-    {#return;///MOSHE
-
+    {
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
@@ -157,7 +150,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
     }
 
     public function bindCustomer($observer)
-    {#return;///MOSHE
+    {
         $session = $observer->getEvent()->getCustomerSession();
         $isLoggedIn = $session && $session->isLoggedIn();
         return;

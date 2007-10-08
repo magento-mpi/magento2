@@ -29,7 +29,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
 {
 	public function getAddToCartUrl($product)
 	{
-	    return $this->getUrl('checkout/cart/add',array('product'=>$product->getId()));
+	    return $this->helper('checkout/cart')->getAddUrl($product);
 	}
 	
 	public function getAddToWishlistUrl($product)
@@ -39,9 +39,6 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
 	
 	public function getAddToCompareUrl($product)
 	{
-	    if ($product->isSuper()) {
-	        return false;
-	    }
-	    return $this->getUrl('catalog/product_compare/add',array('product'=>$product->getId()));
+	    return $this->helper('catalog/product_compare')->getAddUrl($product);
 	}
 }

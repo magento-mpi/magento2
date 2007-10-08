@@ -19,28 +19,13 @@
  */
  
 /**
- * Shopping cart helper
+ * Checkout default helper
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
+class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public function getItemCount()
-    {
-        
-    }
-    
-    public function getAddUrl($product)
-    {
-        return $this->_getUrl('checkout/cart/add', array('product'=>$product->getId()));
-    }
-    
-    public function getCartUrl()
-    {
-        return $this->_getUrl('checkout/cart');
-    }
-    
-    public function getLastItems()
+    public function getQuoteItemName($item)
     {
         
     }
