@@ -40,8 +40,8 @@
                 <td>
 
                     <h5><a href="<?=$_product->getProductUrl()?>"><?=$_product->getName()?></a></h5>
-                    <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
-                    <?=$this->getHelper('review/helper')->getSummaryHtml($_product, 'short')?>
+                    <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
+                    <?=$this->helper('review/product')->getSummaryHtml($_product, 'short')?>
                     <p><?=$_product->getDescription()?></p>
                 </td>
                 <td class="a-center">

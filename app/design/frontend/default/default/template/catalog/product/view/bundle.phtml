@@ -123,7 +123,7 @@
             <?if(!$_product->isSuperGroup()):?>
                 <?if(!$_product->isBundle() || $_product->isAviableBundle()):?>
                     <p><small><?=$this->__('Availability: In stock. Ships within 24 hours.')?></small></p>
-                    <?=$this->getHelper('catalog/product')->getPriceHtml($_product)?>
+                    <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
                     <fieldset class="add-to-cart-box">
                         <legend><?=$this->__('Add Items to Cart')?> </legend>
                         <span class="qty-box"><label for="qty"><?=$this->__('Qty')?>:</label> 

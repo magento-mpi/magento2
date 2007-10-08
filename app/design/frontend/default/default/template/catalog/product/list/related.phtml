@@ -36,7 +36,7 @@
             </div>
             <div class="product-details">
                     <a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-                    <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                    <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                     <?if($_item->isSuper()):?>
                         <a href="<?=$_item->getProductUrl()?>"><?=$this->__('View Details')?></a><br/>
                     <?else:?>

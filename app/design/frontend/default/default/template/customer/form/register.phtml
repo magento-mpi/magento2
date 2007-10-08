@@ -132,6 +132,6 @@
     var dataForm = new VarienForm('form-validate', true);
     <?if($this->getShowAddressFields()):?>
     //dataForm.setElementsRelation('country', 'state', '<?=$this->getLoadrRegionUrl()?>');
-    new RegionUpdater('country', 'region', 'region_id', <?=$this->getHelper('directory/data')->getRegionsJs()?>);
+    new RegionUpdater('country', 'region', 'region_id', <?=$this->helper('directory')->getRegionJson()?>);
     <?endif?>
 </script>

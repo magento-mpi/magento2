@@ -44,7 +44,7 @@
                 <td>
                     <div><a href="<?=$item->getProductUrl()?>"><img src="<?=$item->getThumbnailUrl()?>" alt="<?=$this->htmlEscape($item->getName())?>" width="113"/></a></div>
                     <div><a href="<?=$item->getProductUrl()?>" title="<?=$this->htmlEscape($item->getName())?>"><?=$item->getName()?></a></div>
-                    <?=$this->getHelper('catalog/product')->getPriceHtml($item)?>
+                    <?=$this->helper('catalog/product')->getPriceHtml($item)?>
                 </td>
                 <td align="center">
                     <textarea name="description[<?=$item->getWishlistItemId()?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?=( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : __('Please, enter your comments...') ?></textarea>

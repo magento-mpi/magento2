@@ -48,6 +48,63 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return false;
     }
     
+    /**
+     * Retrieve product price
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  float
+     */
+    public function getPrice($product)
+    {
+        return $product->getPrice();
+    }
+    
+    /**
+     * Retrieve product final price
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  float
+     */
+    public function getFinalPrice($product)
+    {
+        return $product->getFinalPrice();
+    }
+    
+    /**
+     * Retrieve product price html block
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  string
+     */
+    public function getPriceHtml($product)
+    {
+        $html = '';
+        if ($product->getPrice() == $product->getFinalPrice()) {
+            $html = '<div class="price-box">
+                <span class="regular-price" id="product-price-'.$product->getId().'">
+                '.Mage::helper('core')->currency($product->getPrice()).'
+                </span><br/>
+                </div>';
+        }
+        else {
+            $html.= '<div class="price-box">
+                <span class="special-price">
+                    <span class="label">'.$this->__('Special Price:').'</span> 
+                    <span class="price" id="product-price-'.$product->getId().'">
+                    '.Mage::helper('core')->currency($product->getFinalPrice()).'
+                    </span>
+                </span><br/>
+                <span class="old-price">
+                    <span class="label">'.$this->__('Regular Price:').'</span> 
+                    <span class="price">
+                    '.Mage::helper('core')->currency($product->getPrice()).'
+                    </span>
+                </span>
+            </div>';
+        }
+        return $html;
+    }
+    
     public function getImageUrl()
     {
         

@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<script type="text/javascript">countryRegions = <?=$this->getHelper('directory/data')->getRegionsJs()?></script>
+<script type="text/javascript">countryRegions = <?=$this->helper('directory')->getRegionJson()?></script>
 
 <div class="page-head">
     <h3><?if($data->getAddressId()):?><?=$this->__('Edit Address Entry')?><?else:?><?=$this->__('New Address Entry')?><?endif?></h3>

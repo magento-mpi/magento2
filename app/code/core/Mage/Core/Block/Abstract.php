@@ -598,6 +598,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getHelper($type)
     {
         return $this->getLayout()->getHelper($type);
+        //return $this->helper($type);
     }
 
     public function helper($name)

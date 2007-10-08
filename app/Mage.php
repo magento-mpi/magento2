@@ -355,7 +355,7 @@ final class Mage {
         throw new Exception($message);
     }
 
-    public static function currency($value, $format=true)
+    /*public static function currency($value, $format=true)
     {
         try {
             $value = Mage::app()->getStore()->convertPrice($value, $format);
@@ -395,7 +395,7 @@ final class Mage {
         $result = trim(self::getCrypt()->decrypt(base64_decode($data)));
         Varien_Profiler::stop(__METHOD__);
         return $result;
-    }
+    }*/
 
     /**
      * Initialize and retrieve application
@@ -442,7 +442,7 @@ final class Mage {
                 exit();
             }
             try {
-                self::dispatchEvent('mageRunException', array('exception'=>$e));
+                self::dispatchEvent('mage_run_exception', array('exception'=>$e));
                 if (!headers_sent()) {
                 	//header('Location:'.Mage::getBaseUrl().'install/');
                 	header('Location:'.self::getUrl('install'));

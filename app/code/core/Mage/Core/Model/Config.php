@@ -519,6 +519,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getHelperClassName($name)
     {
+        if (!strstr($name, '/')) {
+            $name.= '/data';
+        }
         $name = str_replace('/', '_Helper_', $name);
         return 'Mage_' . uc_words($name);
     }

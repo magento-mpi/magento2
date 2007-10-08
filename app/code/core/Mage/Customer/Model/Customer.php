@@ -257,7 +257,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function encryptPassword($password)
     {
-        return Mage::encrypt($password);
+        return Mage::helper('core')->encrypt($password);
     }
     
     /**
@@ -268,7 +268,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function decryptPassword($password)
     {
-        return Mage::decrypt($password);
+        return Mage::helper('core')->decrypt($password);
     }
 
     /**
@@ -283,9 +283,9 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         $primaryAddress = false;
         if ($addressId) {
             foreach ($this->getLoadedAddressCollection() as $address) {
-            	if ($addressId == $address->getId()) {
-            	    return $address;
-            	}
+                if ($addressId == $address->getId()) {
+                    return $address;
+                }
             }
         }
         return $primaryAddress;
@@ -375,9 +375,9 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         $addresses = array();
         $primatyIds = $this->getPrimaryAddressIds();
         foreach ($this->getLoadedAddressCollection() as $address) {
-        	if (!in_array($address->getId(), $primatyIds)) {
-        	    $addresses[] = $address;
-        	}
+            if (!in_array($address->getId(), $primatyIds)) {
+                $addresses[] = $address;
+            }
         }
         return $addresses;
     }
@@ -397,43 +397,43 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
 
     public function sendNewAccountEmail()
     {
-    	Mage::getModel('core/email_template')
-    		->sendTransactional(
-    		    Mage::getStoreConfig('customer/create_account/email_template'),
-    		    Mage::getStoreConfig('customer/create_account/email_identity'),
+        Mage::getModel('core/email_template')
+            ->sendTransactional(
+                Mage::getStoreConfig('customer/create_account/email_template'),
+                Mage::getStoreConfig('customer/create_account/email_identity'),
                 $this->getEmail(),
                 $this->getName(),
                 array('customer'=>$this));
-    	return $this;
+        return $this;
     }
 
     public function sendPasswordReminderEmail()
     {
-    	Mage::getModel('core/email_template')
-    		->sendTransactional(
-    		  Mage::getStoreConfig('customer/password/forgot_email_template'),
-    		  Mage::getStoreConfig('customer/password/forgot_email_identity'),
-    		  $this->getEmail(),
-    		  $this->getName(),
-    		  array('customer'=>$this));
-    	return $this;
+        Mage::getModel('core/email_template')
+            ->sendTransactional(
+              Mage::getStoreConfig('customer/password/forgot_email_template'),
+              Mage::getStoreConfig('customer/password/forgot_email_identity'),
+              $this->getEmail(),
+              $this->getName(),
+              array('customer'=>$this));
+        return $this;
     }
 
     public function getCustomerGroup()
     {
-    	if (!$this->getData('customer_group')) {
-    		$storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-    		$this->setCustomerGroup(Mage::getStoreConfig('customer/create_account/default_group', $storeId));
-    	}
-    	return $this->getData('customer_group');
+        if (!$this->getData('customer_group')) {
+            $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
+            $this->setCustomerGroup(Mage::getStoreConfig('customer/create_account/default_group', $storeId));
+        }
+        return $this->getData('customer_group');
     }
 
     public function getTaxClassId()
     {
-    	if (!$this->getData('tax_class_id')) {
-			$this->setTaxClassId(Mage::getModel('customer/group')->load($this->getCustomerGroup())->getTaxClassId());
-    	}
-    	return $this->getData('tax_class_id');
+        if (!$this->getData('tax_class_id')) {
+            $this->setTaxClassId(Mage::getModel('customer/group')->load($this->getCustomerGroup())->getTaxClassId());
+        }
+        return $this->getData('tax_class_id');
     }
 
     /**

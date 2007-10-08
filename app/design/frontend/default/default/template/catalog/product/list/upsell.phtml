@@ -30,8 +30,8 @@
             <td>
                 <p class="product-image"><a href="<?=$_link->getProductUrl()?>"><img src="<?=$_link->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_link->getName()?>"/></a></p>
                 <h5><a href="<?=$_link->getProductUrl()?>"><?=$_link->getName()?></a></h5>
-                <?=$this->getHelper('catalog/product')->getPriceHtml($_link)?>
-                <?=$this->getHelper('review/helper')->getSummaryHtml($_link)?>
+                <?=$this->helper('catalog/product')->getPriceHtml($_link)?>
+                <?=$this->helper('review/product')->getSummaryHtml($_link)?>
             </td>
             <?else:?>
             <td class="empty-product">&nbsp;</td>

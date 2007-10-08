@@ -625,7 +625,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $session = Mage::getSingleton('core/session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    self::$_encryptedSessionId = Mage::encrypt($session->getSessionId());
+                    self::$_encryptedSessionId = Mage::helper('core')->encrypt($session->getSessionId());
                 }
                 $this->setQueryParam(
                     Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,

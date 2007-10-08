@@ -28,7 +28,7 @@
             <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="100" width="100"></a><br>
             <?if( $this->getRating() && $this->getRating()->getSize()):?>
             <small><?=$this->__('Average Customer Rating')?>:</small></p>
-            <?=$this->getHelper('review/helper')->getSummaryHtml($this->getProductData())?>
+            <?=$this->helper('review/product')->getSummaryHtml($this->getProductData())?>
             <?endif;?>
     </div>
     <div class="details">

@@ -49,8 +49,8 @@
                 <td>
                     <a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
                     <h5><a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
-                    <?=$this->getHelper('review/helper')->getSummaryHtml($_item, 'short')?>
-                    <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                    <?=$this->helper('review/product')->getSummaryHtml($_item, 'short')?>
+                    <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                     <?if($_item->isSaleable()):?>
                     <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=$this->__('Add to Cart')?></span></button><br/>
                     <?endif;?>
@@ -70,7 +70,7 @@
                 <td>
                     <?switch ($_attribute->getAttributeCode()) {
                         case "price":?>
-                            <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                            <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                             <?break;
                         case "small_image":?>
                             <img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
@@ -92,7 +92,7 @@
                  <td class="label">&nbsp;</td>
                 <?endif;?>
                 <td>
-                        <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                        <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                         <?if($_item->isSaleable()):?>
                         <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=$this->__('Add to Cart')?></span></button><br/>
                         <?endif;?>

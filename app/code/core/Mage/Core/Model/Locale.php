@@ -366,7 +366,9 @@ class Mage_Core_Model_Locale
         }
         
         $date = new Zend_Date($date, $part, $locale);
-        $date->setTimezone(Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE));
+        if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
+            $date->setTimezone($timezone);
+        }
         return $date;
     }
     

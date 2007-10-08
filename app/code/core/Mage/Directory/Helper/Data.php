@@ -25,5 +25,41 @@
  */
 class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    protected $_countryCollection;
+    protected $_regionCollection;
+    protected $_regionJson;
     
+    public function getCountryCollection()
+    {
+        if (!$this->_countryCollection) {
+            $this->_countryCollection = Mage::getModel('directory/country')->getResourceCollection()
+                ->loadByStore();
+        }
+        return $this->_countryCollection;
+    }
+
+    public function getRegionJson()
+    {
+    	if (!$this->_regionJson) {
+	    	$countryIds = array();
+	    	foreach ($this->getCountryCollection() as $country) {
+	    		$countryIds[] = $country->getCountryId();
+	    	}
+    		$collection = Mage::getModel('directory/region')->getResourceCollection()
+    			->addCountryFilter($countryIds)
+    			->load();
+	    	$regions = array();
+	    	foreach ($collection as $region) {
+	    		if (!$region->getRegionId()) {
+	    			continue;
+	    		}
+	    		$regions[$region->getCountryId()][$region->getRegionId()] = array(
+	    			'code'=>$region->getCode(),
+	    			'name'=>$region->getName()
+	    		);
+	    	}
+	    	$this->_regionJson = Zend_Json::encode($regions);
+    	}
+    	return $this->_regionJson;
+    }
 }

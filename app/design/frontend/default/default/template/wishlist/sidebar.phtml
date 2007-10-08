@@ -34,7 +34,7 @@
             <div class="product-details">
                 <a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=$this->__('Are You sure?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Item')?>"/></a>
                 <a href="#"><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a>
-                <?=$this->getHelper('catalog/product')->getPriceHtml($_item)?>
+                <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                 <?if($_item->isSaleable()):?>
                 <a href="<?=$this->getAddToCartItemUrl($_item)?>" class="link-cart"><?=$this->__('Add to Cart')?></a>
                 <?endif;?>
