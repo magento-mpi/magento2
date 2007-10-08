@@ -229,7 +229,7 @@ class Mage_Log_Model_Visitor extends Varien_Object
         return $this;
     }
 
-    public function bindQuoteDestoy()
+    public function bindQuoteDestroy($observer)
     {
         $this->setResourceVisitorId();
         $quoteId = $observer->getEvent()->getQuote()->getQuoteId();

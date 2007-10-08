@@ -154,7 +154,7 @@
                     <log>
                         <type>singleton</type>
                         <class>log/visitor</class>
-                        <method>bindQuoteDelete</method>
+                        <method>bindQuoteDestroy</method>
                     </log>
                 </observers>
             </checkout_quote_destroy>
