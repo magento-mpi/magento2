@@ -180,16 +180,18 @@ class Mage_Core_Model_Locale
                 if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
                     continue;
                 }
-                /*$options[] = array(
-                   //'label' => ucfirst($languages[$data[0]]) . ' (' . $countries[$data[1]] . ')',
-                   'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')',
-                   'value' => $code,
-                );*/
                 $options[$code] = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
             }
         }
         asort($options);
-        return $options;
+        $result = array();
+        foreach ($options as $key=>$value) {
+        	$result[] = array(
+        	   'value' => $key,
+        	   'label' => $value
+        	);
+        }
+        return $result;
     }
     
     /**
