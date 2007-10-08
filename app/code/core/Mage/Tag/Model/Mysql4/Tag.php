@@ -49,4 +49,31 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
             return false;
         }
     }
+
+    public function aggregate($object)
+    {
+        $select = $this->getConnection('read')->select()
+            ->from(array('main'=>$this->getTable('relation')), array('uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(main.customer_id)','products'=>'COUNT(main.product_id)'))
+            ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id')
+            ->group('main.tag_id')
+            ->group('main.store_id');
+
+
+        echo $select;
+
+        return $object;
+    }
+
+    public function addSummary($object)
+    {
+        $select = $this->getConnection('read')->select()
+            ->from($this->getTable('summary'))
+            ->where('tag_id = ?', $object->getId())
+            ->where('store_id = ?', $object->getStoreId());
+
+        $row = $this->getConnection('read')->fetchAll($select);
+
+        $object->addData($row);
+        return $object;
+    }
 }

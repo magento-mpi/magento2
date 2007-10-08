@@ -43,6 +43,19 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    public function aggregate()
+    {
+        $this->getResource()->aggregate($this);
+        return $this;
+    }
+
+    public function addSummary($storeId)
+    {
+        $this->setStoreId($storeId);
+        $this->getResource()->addSummary($this);
+        return $this;
+    }
+
     public function getApprovedStatus()
     {
         return self::STATUS_APPROVED;

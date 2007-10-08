@@ -28,6 +28,9 @@
 
 class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+
+    protected $_joinFlags = array();
+
     protected function _construct()
     {
         $this->_init('tag/tag');
@@ -38,29 +41,64 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         return parent::load($printQuery, $logQuery);
     }
 
-    public function addPopularity($limit=null, $storeId=0)
+    public function setJoinFlag($table)
     {
-        $joinCondition  = $this->getConnection()->quoteInto('summary.store_id = ?', $storeId);
-
-        $this->getSelect()
-            ->joinLeft(array('summary'=>$this->getTable('tag/summary')), 'main_table.tag_id=summary.tag_id AND ' . $joinCondition, array('popularity','customers','products','uses','historical_uses'));
-
-        if (! is_null($limit)) {
-            $this->getSelect()->limit($limit);
-        }
+        $this->_joinFlags[$table] = true;
         return $this;
     }
 
-    /* Not neaded now
+    public function getJoinFlag($table)
+    {
+        return isset($this->_joinFlags[$table]);
+    }
+
+    public function unsetJoinFlag($table=null)
+    {
+        if (is_null($table)) {
+            $this->_joinFlags = array();
+        } elseif ($this->getJoinFlag($table)) {
+            unset($this->_joinFlags[$table]);
+        }
+
+        return $this;
+    }
+
+
+    public function addPopularity($limit=null)
+    {
+        $this->getSelect()
+            ->joinLeft(array('relation'=>$this->getTable('tag/relation')), 'main_table.tag_id=relation.tag_id', array('tag_relation_id', 'popularity' => 'COUNT(DISTINCT relation.tag_relation_id)'))
+            ->group('main_table.tag_id');
+        if (! is_null($limit)) {
+            $this->getSelect()->limit($limit);
+        }
+
+        $this->setJoinFlag('relation');
+        return $this;
+    }
+
+    public function addSummary($storeId)
+    {
+        $joinCondition = $this->getConnection()->quoteInto('summary.store_id = ?', $storeId);
+        $this->getSelect()
+            ->joinLeft(array('summary'=>$this->getTable('tag/summary')), 'main_table.tag_id=summary.tag_id AND ' . $joinCondition);
+
+        $this->setJoinFlag('summary');
+        return $this;
+    }
+
     public function addFieldToFilter($field, $condition)
     {
-        if (in_array($field, array('popularity','customers','products','uses','historical_uses'))) {
-            $this->_sqlSelect->where($this->_getConditionSql('summary.' . $field, $condition));
+        if ($this->getJoinFlag('relation') && 'popularity' == $field) {
+            // TOFIX
+            $this->getSelect()->where($this->_getConditionSql('count(relation.tag_relation_id)', $condition));
+        } elseif ($this->getJoinFlag('summary') && in_array($field, array('customers', 'products', 'uses', 'historical_uses', 'popularity'))) {
+            $this->getSelect()->where($this->_getConditionSql('summary.'.$field, $condition));
         } else {
-            parent::addFieldToFilter($field, $condition);
+           parent::addFieldToFilter($field, $condition);
         }
         return $this;
-    }*/
+    }
 
     /**
      * Get sql for get record count
@@ -85,7 +123,13 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function addStoreFilter($storeId)
     {
-        $this->addFieldToFilter('main_table.store_id', $storeId);
+        //$this->addFieldToFilter('main_table.store_id', $storeId);
+
+        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 'main_table.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $storeId);
+        if($this->getJoinFlag('relation')) {
+            $this->getSelect()->where('relation.store_id = ?', $storeId);
+        }
+
         return $this;
     }
 
@@ -97,19 +141,20 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function addProductFilter($productId)
     {
-        $this->addFieldToFilter("{$this->_tagRelTable}.product_id", $productId);
+        $this->addFieldToFilter('relation.product_id', $productId);
         return $this;
     }
 
     public function addCustomerFilter($customerId)
     {
         $this->getSelect()
-            ->where("{$this->_tagRelTable}.customer_id = ?", $customerId);
+            ->where('relation.customer_id = ?', $customerId);
         return $this;
     }
 
     public function joinRel()
     {
+        $this->setJoinFlag('relation');
         $this->getSelect()->joinLeft(array('relation'=>$this->getTable('tag/relation')), 'main_table.tag_id=relation.tag_id');
         return $this;
     }
