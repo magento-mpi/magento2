@@ -35,8 +35,8 @@
     <?foreach ($this->getItems() as $_item):?>
         <tr>
             <td>
-                <?=$this->getHelper('checkout/item')->getItemName($_item)?>
-                <?=$this->getHelper('checkout/item')->getItemDescription($_item)?>
+                <?=$this->helper('checkout')->getQuoteItemProductName($_item)?>
+                <?=$this->helper('checkout')->getQuoteItemProductDescription($_item)?>
             </td>
             <td class="a-right"><?=$_item->getPrice()?></td>
             <td class="a-center"><?=$_item->getQty()?></td>

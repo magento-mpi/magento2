@@ -25,8 +25,125 @@
  */
 class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public function getQuoteItemName($item)
+    /**
+     * Retrieve quote item product url
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  string
+     */
+    public function getQuoteItemProductUrl($item)
     {
+        if ($superProduct = $item->getSuperProduct()) {
+            return $superProduct->getProductUrl();
+        }
         
+        if ($product = $item->getProduct()) {
+            return $product->getProductUrl();
+        }
+        return '';
+    }
+    
+    /**
+     * Retrieve quote item product image url
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  string
+     */
+    public function getQuoteItemProductImageUrl($item)
+    {
+        if ($superProduct = $item->getSuperProduct()) {
+            return $superProduct->getThumbnailUrl();
+        }
+        
+        if ($product = $item->getProduct()) {
+            return $product->getThumbnailUrl();
+        }
+        return '';
+    }
+    
+    /**
+     * Retrieve quote item product name
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  string
+     */
+    public function getQuoteItemProductName($item)
+    {
+        $superProduct = $item->getSuperProduct();
+        if ($superProduct && $superProduct->isConfigurable()) {
+            return $superProduct->getName();
+        }
+        
+        if ($product = $item->getProduct()) {
+            return $product->getName();
+        }
+        return $item->getName();
+    }
+    
+    /**
+     * Retrieve quote item product description
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  string
+     */
+    public function getQuoteItemProductDescription($item)
+    {
+        if ($superProduct = $item->getSuperProduct()) {
+            if ($superProduct->isConfigurable()) {
+                return $this->_getConfigurableProductDescription($item->getProduct());
+            }
+        }
+        return '';
+    }
+    
+    /**
+     * Retrieve quote item qty
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  int || float
+     */
+    public function getQuoteItemQty($item)
+    {
+        $qty = $item->getQty();
+        if ($product = $item->getProduct()) {
+            if ($product->getQtyIsDecimal()) {
+                return number_format($qty, 2, null, '');
+            }
+        }
+        return number_format($qty, 0, null, '');
+    }
+    
+    /**
+     * Retrieve quote item product in stock flag
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  bool
+     */
+    public function getQuoteItemProductIsInStock($item)
+    {
+        if ($item->getProduct()->isSaleable()) {
+            if ($item->getProduct()->getQty()>=$item->getQty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    protected function _getConfigurableProductDescription($product)
+    {
+ 		$html = '<ul class="super-product-attributes">';
+ 		foreach ($product->getSuperProduct()->getSuperAttributes(true) as $attribute) {
+ 			$html.= '<li><strong>' . $attribute->getFrontend()->getLabel() . ':</strong> ';
+ 			if($attribute->getSourceModel()) {
+ 				$html.= $this->htmlEscape(
+ 				   $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()))
+                );
+ 			} else {
+ 				$html.= $this->htmlEscape($product->getData($attribute->getAttributeCode()));
+ 			}
+ 			$html.='</li>';
+ 		}
+ 		$html.='</ul>';
+ 		return $html;
     }
 }

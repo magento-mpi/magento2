@@ -78,36 +78,36 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 
     public function getItemDeleteUrl(Mage_Sales_Model_Quote_Item $item)
     {
-    	return $this->getUrl('checkout/cart/delete', array('id'=>$item->getId()));
+        return $this->getUrl('checkout/cart/delete', array('id'=>$item->getId()));
     }
 
     public function getItemUrl($item)
     {
-        return $this->getHelper('checkout/item')->getItemUrl($item);
+        return $this->helper('checkout')->getQuoteItemProductUrl($item);
     }
 
     public function getItemImageUrl($item)
     {
-        return $this->getHelper('checkout/item')->getItemImageUrl($item);
+        return $this->helper('checkout')->getQuoteItemProductImageUrl($item);
     }
 
     public function getItemName($item)
     {
-        return $this->getHelper('checkout/item')->getItemName($item);
+        return $this->helper('checkout')->getQuoteItemProductName($item);
     }
 
     public function getItemDescription($item)
     {
-        return $this->getHelper('checkout/item')->getItemDescription($item);
+        return $this->helper('checkout')->getQuoteItemProductDescription($item);
     }
 
     public function getItemQty($item)
     {
-        return $this->getHelper('checkout/item')->getItemQty($item);
+        return $this->helper('checkout')->getQuoteItemQty($item);
     }
 
     public function getItemIsInStock($item)
     {
-        return $this->getHelper('checkout/item')->getItemIsInStock($item);
+        return $this->helper('checkout')->getQuoteItemProductIsInStock($item);
     }
 }

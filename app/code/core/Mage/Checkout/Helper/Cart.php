@@ -25,11 +25,12 @@
  */
 class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 {
-    public function getItemCount()
-    {
-        
-    }
-    
+    /**
+     * Retrieve url for add product to cart
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  string
+     */
     public function getAddUrl($product)
     {
         return $this->_getUrl('checkout/cart/add', array('product'=>$product->getId()));
@@ -41,6 +42,16 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
     }
     
     public function getLastItems()
+    {
+        
+    }
+    
+    public function getItemCollection()
+    {
+        
+    }
+
+    public function getItemCount()
     {
         
     }

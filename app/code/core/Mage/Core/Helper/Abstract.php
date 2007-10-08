@@ -107,4 +107,20 @@ abstract class Mage_Core_Helper_Abstract
         array_unshift($args, $expr);
         return Mage::app()->getTranslator()->translate($args);
     }
+    
+    /**
+     * Escape data
+     *
+     * @param   mixed $data
+     * @return  mixed
+     */
+    public function htmlEscape($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $item) {
+            	return $this->htmlEscape($item);
+            }
+        }
+        return htmlspecialchars($data);
+    }
 }

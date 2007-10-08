@@ -109,7 +109,11 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getTimezone()
     {
-        return Mage::app()->getLocale()->getTimezone();
+        $timezon = Mage::app()->getLocale()->getTimezone();
+        if ($timezon == Mage_Core_Model_Locale::DEFAULT_TIMEZONE) {
+            $timezon = 'America/Los_Angeles';
+        }
+        return $timezon;
     }
     
     /**
