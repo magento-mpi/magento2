@@ -79,6 +79,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             ->setStoreId(Mage::app()->getStore()->getId())
                             ->setCreatedAt( now() )
                             ->save();
+                        $tagModel->aggregate();
                     } else {
                         continue;
                     }

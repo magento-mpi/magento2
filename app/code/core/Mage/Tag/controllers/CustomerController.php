@@ -162,9 +162,13 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 $tagRalationModel = Mage::getModel('tag/tag_relation');
                 $tagRalationModel->loadByTagCustomer(null, $tagId, $customerId);
 
-                if( $tagRalationModel->getCustomerId() == $customerId ) {
+                if ($tagRalationModel->getCustomerId() == $customerId ) {
                     $productId = $tagRalationModel->getProductId();
-                    $tagRalationModel->delete();
+                    if ($tagRalationModel->getTagId()!=$tagModel->getId()) {
+                        $tagRalationModel->setActive(0)->save();
+                    } else {
+                        $tagRalationModel->delete();
+                    }
 
                     $newTagRalationModel = Mage::getModel('tag/tag_relation')
                         ->setTagId($tagModel->getId())
@@ -174,7 +178,9 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                         ->save();
                 }
 
+
                 if( $tagModel->getId() ) {
+                    $tagModel->aggregate();
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/view', array('tagId' => $tagModel->getId())));
                 }
 

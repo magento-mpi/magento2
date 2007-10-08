@@ -84,7 +84,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
             switch( $this->getRequest()->getParam('ret') ) {
                 case 'all':
-                    $url = Mage::getUrl('*/*/*', array(
+                    $url = Mage::getUrl('*/*/index', array(
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
@@ -107,6 +107,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             // $tag->setStoreId(Mage::app()->getStore()->getId());
             try {
                 $model->save();
+                $model->aggregate();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
                 $this->getResponse()->setRedirect($url);

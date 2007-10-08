@@ -31,11 +31,37 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
  	protected $_entitiesAlias = array();
  	protected $_customerFilterId;
 
+ 	protected $_joinFlags = array();
+
 	public function __construct()
 	{
 	    parent::__construct();
         $this->getSelect()->group('e.entity_id');
 	}
+
+	public function setJoinFlag($table)
+         {
+            $this->_joinFlags[$table] = true;
+            return $this;
+        }
+
+        public function getJoinFlag($table)
+        {
+            return isset($this->_joinFlags[$table]);
+        }
+
+        public function unsetJoinFlag($table=null)
+        {
+            if (is_null($table)) {
+                $this->_joinFlags = array();
+            } elseif ($this->getJoinFlag($table)) {
+                unset($this->_joinFlags[$table]);
+            }
+
+            return $this;
+        }
+
+
 
     public function addGroupByTag()
     {
@@ -43,11 +69,14 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
             ->group('tr.tag_relation_id');
         return $this;
     }
-    
+
     public function addStoreFilter($storeId)
     {
-        $this->getSelect()
-            ->where('t.store_id = ?', $storeId);
+        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 't.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $storeId);
+        if($this->getJoinFlag('relation')) {
+            $this->getSelect()->where('relation.store_id = ?', $storeId);
+        }
+
         return $this;
     }
 
@@ -124,7 +153,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
         $this->getSelect()
             ->join(array('tr' => $tagRelationTable), "tr.product_id = e.entity_id")
             ->join(array('t' => $tagTable), "t.tag_id = tr.tag_id", array(
-                'tag_id', 'name', 'status', 'store_id', 'tag_name' => 'name'
+                'tag_id', 'name', 'status', 'tag_name' => 'name'
             ));
     }
 
