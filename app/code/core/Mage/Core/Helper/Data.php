@@ -45,9 +45,83 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     	return $value;
     }
     
-    public function date($date=null, $format='short', $showTime=false)
+    /**
+     * Format and convert currency using current store option
+     *
+     * @param   float $value
+     * @return  string
+     */
+    public function formatCurrency($value)
     {
+        return $this->currency($value, true);
+    }
+    
+    /**
+     * Format date using current locale options
+     *
+     * @param   date $date
+     * @param   string $format
+     * @param   bool $showTime
+     * @return  string
+     */
+    public function formatDate($date=null, $format='short', $showTime=false)
+    {
+        if (Mage_Core_Model_Locale::FORMAT_TYPE_FULL    !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_LONG    !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM  !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
+            return $date;
+        }
         
+        if (is_null($date)) {
+            $date = Mage::app()->getLocale()->date(time());
+        }
+        else {
+            $date = Mage::app()->getLocale()->date(strtotime($date));
+        }
+
+        if ($showTime) {
+            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+        }
+        else {
+            $format = Mage::app()->getLocale()->getDateFormat($format);
+        }
+
+        return $date->toString($format);        
+    }
+    
+    /**
+     * Format time using current locale options
+     *
+     * @param   date $date
+     * @param   string $format
+     * @param   bool $showTime
+     * @return  string
+     */
+    public function formatTime($time=null, $format='short', $showDate=false)
+    {
+        if (Mage_Core_Model_Locale::FORMAT_TYPE_FULL    !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_LONG    !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM  !==$format &&
+            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
+            return $date;
+        }
+        
+        if (is_null($time)) {
+            $date = Mage::app()->getLocale()->date(time());
+        }
+        else {
+            $date = Mage::app()->getLocale()->date(strtotime($time));
+        }
+
+        if ($showDate) {
+            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+        }
+        else {
+            $format = Mage::app()->getLocale()->getTimeFormat($format);
+        }
+
+        return $date->toString($format);        
     }
     
     /**

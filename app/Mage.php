@@ -70,8 +70,6 @@ final class Mage {
     
     static private $_useCache = array();
 
-    static private $_crypt;
-
     public static function getVersion()
     {
         return '0.6.12383';
@@ -354,48 +352,6 @@ final class Mage {
         }
         throw new Exception($message);
     }
-
-    /*public static function currency($value, $format=true)
-    {
-        try {
-            $value = Mage::app()->getStore()->convertPrice($value, $format);
-        }
-        catch (Exception $e){
-            $value = $e->getMessage();
-        }
-    	return $value;
-    }
-
-    public static function getCrypt()
-    {
-        if (!self::$_crypt) {
-            $key = (string)Mage::getConfig()->getNode('global/crypt/key');
-            self::$_crypt = Varien_Crypt::factory()->init($key);
-        }
-        return self::$_crypt;
-    }
-
-    public static function encrypt($data)
-    {
-        if (!self::app()->isInstalled()) {
-            return $data;
-        }
-        Varien_Profiler::start(__METHOD__);
-        $result = base64_encode(self::getCrypt()->encrypt($data));
-        Varien_Profiler::stop(__METHOD__);
-        return $result;
-    }
-
-    public static function decrypt($data)
-    {
-        if (!self::app()->isInstalled()) {
-            return $data;
-        }
-        Varien_Profiler::start(__METHOD__);
-        $result = trim(self::getCrypt()->decrypt(base64_decode($data)));
-        Varien_Profiler::stop(__METHOD__);
-        return $result;
-    }*/
 
     /**
      * Initialize and retrieve application

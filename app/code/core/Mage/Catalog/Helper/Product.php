@@ -71,6 +71,36 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     }
     
     /**
+     * Retrieve base image url
+     *
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return '';
+    }
+    
+    /**
+     * Retrieve small image url
+     *
+     * @return unknown
+     */
+    public function getSmallImageUrl()
+    {
+        return '';
+    }
+    
+    /**
+     * Retrieve thumbnail image url
+     *
+     * @return unknown
+     */
+    public function getThumbnailUrl()
+    {
+        return '';
+    }
+    
+    /**
      * Retrieve product price html block
      *
      * @param   Mage_Catalog_Model_Product $product
@@ -103,20 +133,5 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             </div>';
         }
         return $html;
-    }
-    
-    public function getImageUrl()
-    {
-        
-    }
-    
-    public function getSmallImageUrl()
-    {
-        
-    }
-    
-    public function getThumbnailUrl()
-    {
-        
     }
 }
