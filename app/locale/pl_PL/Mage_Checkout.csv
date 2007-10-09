@@ -1,154 +1,154 @@
-﻿Proceed to Checkout,Złóż zamówienie
-Checkout method,Metoda dostawy
-Please select shipping methods for all addresses,Wybierz metody wysyłki dla adresów
-Shipping Methods,Formy wysyłki
-Payment method is not defined,Forma płatności nie została wybrana
-State/Province,Województwo
-Please specify the product option(s),Wybierz opcje dla produktu
-Edit Shipping Address,Edytuj adres wysyłki
-Order Success,Zamówienie zostało przyjęte
-Create Billing Address,Utwórz adres płatnika
-Checkout,Zamówienie
-Invalid data,Nieprawidłowe dane
-Edit Address,Edycja adresu
-Order Review,Podgląd zamówienia
-Billing Information,Informacje o płatności
-Place Order,Złóż zamówienie
-Change Billing Address,Zmień adres płatnika
-Select Addresses,Wybierz adresy
-Shipping Method,Forma wysyłki
-Indefinite product type,Niezdefiniowany typ produktu
-Cannot remove item,Nie można usunąć produktu
-Total for this address,W sumie dla tego adresu
-Product does not exist,Produkt nie istnieje
-Country,Państwo
-Clear,Wyczyść
-Shipping Information,Informacje o dostawie
-Create Shipping Address,Utwórz adres dostawy
-Edit Billing Address,Edycja adresu płatnika
-Some of the products you requested are not available in the desired quantity,Niektóre z wybranych produktów nie są dostępne we wskazanej ilości
-Some of the products you requested are unavailable,Niektóre z wybranych produktów nie są dostępne
-My Cart (%d item),Koszyk (produktów: %d)
-Cannot update shopping cart,Nie można zaktualizować koszyka
-Checkout with Multiple Addresses,Zamówienie z wieloma adresami
-Ship to Multiple Addresses,Dostawa z wieloma adresami
-My Cart,Koszyk
-Review Order,Podgląd zamówienia
-The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s),Produkty oznaczone kolorem czerwonym nie są dostępne we wskazanej ilości. Zaktualizuj ich ilość.
-This product is out of stock,Produktu nie ma w magazynie
-Payment Information,Informacje o płatności
-Requested quantity is not available,Wybrana ilość nie jest dostępna
-Cannot move item to wishlist,Nie można przenieść produktu do listy życzeń
-My Cart (%d items),Koszyk produktów: %d)
-There is already a customer registered using this email address, Ten adres email jest już używany przez innego klienta
-Send to,Wysyłka do
-Remove Item,Usuń produkt
-"Based on your selection, you may be interested in the following items:,""Bazując na wybranych przez ciebie produktach, chcemy zaproponować ci również:"""
-Thank you for your purchase!,Dziękujemy za złożenie zamówienia!
-&laquo" Back to Select Addresses,&laquo Wróć aby wybrać adresy"
-Submitting order information...,Przetwarzanie zamówienia...
-Get a Quote,Otrzymaj wycenę
-Are you sure you would like to remove this item from the shopping cart?,Czy na pewno chcesz usunąć ten produkt z koszyka?
-Fax,Fax
-Loading next step...,Ładowanie kolejnego kroku...
-Company,Firma
-Apply Coupon,Użyj kuponu
-Already registered?,Czy już jesteś zarejestrowany?
-Subtotal,Wartość produktów
-Register,Zarejestruj
-Continue to Billing Information,Przejdź dalej do szczegółów płatności
-Your order # is: %s,Numer zamówienia to : %s
-Select Shipping Method,Wybierz formę dostawy
-Update Shopping Cart,Aktualizuj koszyk
-Select Address,Wybierz adres
-Telephone,Telefon
-Shipping method has not been selected yet,Nie wybrano jeszcze formy wysyłki
-You have no items in your shopping cart.,Nie masz produktów w koszyku
-&laquo" Back to Shopping Cart,&laquo Wróć do koszyka"
-Confirm Password,Potwierdź hasło
-Estimate Shipping and Tax,Wylicz przybliżone koszty dostawy i podatek
-Last added items,Ostatnio dodane produkty
-Log in below to take advantage of Express Checkout:,Zaloguj się poniżej aby szybciej złożyć zamówienie
-Continue to Success,Kontynuuj aby potwierdzić
-Billing Address,Adres płatnika
-Go to Cart,Przejdź do koszyka
-"Select a shipping address from your address book or enter a new address.,""Wybierz adres dostawy z książki adresowej lub <a href=""""#"""" onclick=""""shipping.newAddress(true)" return false">utwórz nowy adres</a>."""
-You will receive an order confirmation email with details of your order and a link to track its progress.,W ciągu kilku minut otrzymasz email z potwierdzeniem oraz linkiem do śledzenia statusu zamówienia.
-Your Checkout Progress,Postęp realizacji zamówienia
-&laquo" Back to Billing Information,&laquo Wróć do danych płatnika"
-&laquo" Back to Shipping Information,&laquo Wróć do wyboru formy dostawy"
-You may check out as a guest or register with us for future convenience:,Możesz złożyć zamówienie bez rejestracji lub założyć konto aby w przyszłości wygodniej składać zamówienia:
-Continue Shopping,Kontynuuj zakupy 
-Zip/Postal Code,Kod pocztowy
-Update Qty &amp Addresses,Zmień ilość i adresy
-Product Name,Nazwa produktu
-Your order number is %s,Numer twojego zamówienia to %s
-* Required Fields,* Pola wymagane
-Items,Produkty
-Continue to Shipping Information,Przejdź do informacji o dostawie
-Ship to this address,Dostawa pod wskazany adres
-"Sorry, no quotes are available for this order at this time.,""Sorry, no quotes are available for this order at this time."""
-Please enter a valid zip code. For example 90602 or 90602-1234.,Wpisz poprawny kod pocztowy np.00-020
-Remove Product,Usuń produkt
-Last Name,Nazwisko
-Back,Powrót
-Change Payment Method,Zmień formę płatności
-Grand Total:,Suma zamówienia:
-Shipping to,Dostawa do
-"Address %s of %s,""Adres <span class=""""shipment-count"""">%s</span> z %s"""
-We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.,Przetwarzamy twoje zamówienie. W niedługim czasie otrzymasz email potwierdzający z linkiem do śledzenia statusu zamówienia.
-Change Shipping Method,Zmień formę wysyłki
-Shopping Cart,Koszyk
-Forgot your password?,Zapomniałeś hasła?
-Enter your destination to get a shipping estimate.,Wpisz miejsce docelowe dla paczki aby uzyskać przybliżoną informację o kosztach wysyłki.
-My Account,Twoje konto
-Street Address,Ulica
-Shipping Address,Adres dostawy
-"Select a billing address from your address book or enter a new address.,""Wybierz adres płatnika z książki adresowej lub <a href=""""#"""" onclick=""""billing.newAddress(true)" return false">utwórz nowy adres</a>."""
-Continue to Overview,Przejdź dalej aby potwierdzić szczegóły
-"Please <a href=""%s"">continue shopping</a>.,""<a href=""""%s"""">Kontynuuj zakupy</a>."""
-Edit Your Cart,Edytuj koszyk
-You have no items in your cart.,W koszyku nie masz żadnych produktów
-Easy access to your order history and status,Szybki dostęp do statusów i historii zamówień
-Register and save time!,Zarejestruj się aby szybciej robić zakupy!
-Fast and easy check out,Szybszy proces zamawiania
-Use Billing Address,Użyj adresu płatnika
-Add to Wishlist,Dodaj do listy życzeń
-"My Cart - <a href=""%s"">%d item(s)</a>,""Koszyk <span class=""""count"""">- <a href=""""%s"""">%d produkt(ów)</a></span>"""
-Move to Wishlist,Przenieś do listy życzeń
-Default Shipping,Domyślny adres dostawy
-Checkout as a Guest or Register,Złóż zamówienie bez rejestracji lub załóż konto w sklepie
-Qty,Ilość
-Enter your coupon code if you have the one.,Wpisz kod kuponu rabatowego jeżeli jesteś w jego posiadaniu.
-Done,Zrobione
-Close,Zamknij
-City,Miasto
-Card Verification Number Visual Reference,Kod CVV2
-First Name,Imię
-Unit Price,Cena jednostkowa
-"Please select region, state or province,""Wybierz województwo"""
-Product,Produkt
-Payment Method,Forma płatności
-Price,Cena
-Street Address 2,Ulica cd.
-Address,Adres
-Password,Hasło
-Update Total,Aktualizuj sumę
-Change Shipping Address,Zmień adres dostawy
-Email Address,Adres email
-Edit,Edycja
-Add to Cart,Do koszyka
-Edit Items,Edytuj produkty
-Remove,Usuń
-Continue,Kontynuuj
-Forgot an Item?,Zapomniałeś dodać produkt?
-Shopping Cart is Empty,Koszyk jest pusty
-Login,Logowanie
-Add New Address,Dodaj nowy adres
-Default Billing,Domyślny adres płatnika
-Enter a New Address,Dodaj nowy adres
-Checkout as Guest,Złóż zamówienie bez rejestracji
-Discount Codes,Kody zniżkowe
-Select State/Province...,Wybierz województwo...
-Continue to Review Your Order,Kontynuuj aby potwierdzić dane zamówienia
-Your order has been received,Zamówienie zostało przekazane do sklepu
+"Proceed to Checkout","Złóż zamówienie"
+"Checkout method","Metoda dostawy"
+"Please select shipping methods for all addresses","Wybierz metody wysyłki dla adresów"
+"Shipping Methods","Formy wysyłki"
+"Payment method is not defined","Forma płatności nie została wybrana"
+"State/Province","Województwo"
+"Please specify the product option(s)","Wybierz opcje dla produktu"
+"Edit Shipping Address","Edytuj adres wysyłki"
+"Order Success","Zamówienie zostało przyjęte"
+"Create Billing Address","Utwórz adres płatnika"
+"Checkout","Zamówienie"
+"Invalid data","Nieprawidłowe dane"
+"Edit Address","Edycja adresu"
+"Order Review","Podgląd zamówienia"
+"Billing Information","Informacje o płatności"
+"Place Order","Złóż zamówienie"
+"Change Billing Address","Zmień adres płatnika"
+"Select Addresses","Wybierz adresy"
+"Shipping Method","Forma wysyłki"
+"Indefinite product type","Niezdefiniowany typ produktu"
+"Cannot remove item","Nie można usunąć produktu"
+"Total for this address","W sumie dla tego adresu"
+"Product does not exist","Produkt nie istnieje"
+"Country","Państwo"
+"Clear","Wyczyść"
+"Shipping Information","Informacje o dostawie"
+"Create Shipping Address","Utwórz adres dostawy"
+"Edit Billing Address","Edycja adresu płatnika"
+"Some of the products you requested are not available in the desired quantity","Niektóre z wybranych produktów nie są dostępne we wskazanej ilości"
+"Some of the products you requested are unavailable","Niektóre z wybranych produktów nie są dostępne"
+"My Cart (%d item)","Koszyk (produktów: %d)"
+"Cannot update shopping cart","Nie można zaktualizować koszyka"
+"Checkout with Multiple Addresses","Zamówienie z wieloma adresami"
+"Ship to Multiple Addresses","Dostawa z wieloma adresami"
+"My Cart","Koszyk"
+"Review Order","Podgląd zamówienia"
+"The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s)","Produkty oznaczone kolorem czerwonym nie są dostępne we wskazanej ilości. Zaktualizuj ich ilość."
+"This product is out of stock","Produktu nie ma w magazynie"
+"Payment Information","Informacje o płatności"
+"Requested quantity is not available","Wybrana ilość nie jest dostępna"
+"Cannot move item to wishlist","Nie można przenieść produktu do listy życzeń"
+"My Cart (%d items)","Koszyk produktów: %d)"
+"There is already a customer registered using this email address","Ten adres email jest już używany przez innego klienta"
+"Send to","Wysyłka do"
+"Remove Item","Usuń produkt"
+"Based on your selection, you may be interested in the following items:","Bazując na wybranych przez ciebie produktach, chcemy zaproponować ci również:"
+"Thank you for your purchase!","Dziękujemy za złożenie zamówienia!"
+"&laquo; Back to Select Addresses","&laquo; Wróć aby wybrać adresy"
+"Submitting order information...","Przetwarzanie zamówienia..."
+"Get a Quote","Otrzymaj wycenę"
+"Are you sure you would like to remove this item from the shopping cart?","Czy na pewno chcesz usunąć ten produkt z koszyka?"
+"Fax","Fax"
+"Loading next step...","Ładowanie kolejnego kroku..."
+"Company","Firma"
+"Apply Coupon","Użyj kuponu"
+"Already registered?","Czy już jesteś zarejestrowany?"
+"Subtotal","Wartość produktów"
+"Register","Zarejestruj"
+"Continue to Billing Information","Przejdź dalej do szczegółów płatności"
+"Your order # is: %s","Numer zamówienia to : %s"
+"Select Shipping Method","Wybierz formę dostawy"
+"Update Shopping Cart","Aktualizuj koszyk"
+"Select Address","Wybierz adres"
+"Telephone","Telefon"
+"Shipping method has not been selected yet","Nie wybrano jeszcze formy wysyłki"
+"You have no items in your shopping cart.","Nie masz produktów w koszyku"
+"&laquo; Back to Shopping Cart","&laquo; Wróć do koszyka"
+"Confirm Password","Potwierdź hasło"
+"Estimate Shipping and Tax","Wylicz przybliżone koszty dostawy i podatek"
+"Last added items","Ostatnio dodane produkty"
+"Log in below to take advantage of Express Checkout:","Zaloguj się poniżej aby szybciej złożyć zamówienie"
+"Continue to Success","Kontynuuj aby potwierdzić"
+"Billing Address","Adres płatnika"
+"Go to Cart","Przejdź do koszyka"
+"Select a shipping address from your address book or enter a new address.","Wybierz adres dostawy z książki adresowej lub <a href=""#"" onclick=""shipping.newAddress(true) return false"">utwórz nowy adres</a>."""
+"You will receive an order confirmation email with details of your order and a link to track its progress.","W ciągu kilku minut otrzymasz email z potwierdzeniem oraz linkiem do śledzenia statusu zamówienia."
+"Your Checkout Progress","Postęp realizacji zamówienia"
+"&laquo; Back to Billing Information","&laquo; Wróć do danych płatnika"
+"&laquo; Back to Shipping Information","&laquo; Wróć do wyboru formy dostawy"
+"You may check out as a guest or register with us for future convenience:","Możesz złożyć zamówienie bez rejestracji lub założyć konto aby w przyszłości wygodniej składać zamówienia:"
+"Continue Shopping","Kontynuuj zakupy"
+"Zip/Postal Code","Kod pocztowy"
+"Update Qty &amp; Addresses","Zmień ilość i adresy"
+"Product Name","Nazwa produktu"
+"Your order number is %s","Numer twojego zamówienia to %s"
+"* Required Fields","* Pola wymagane"
+"Items","Produkty"
+"Continue to Shipping Information","Przejdź do informacji o dostawie"
+"Ship to this address","Dostawa pod wskazany adres"
+"Sorry, no quotes are available for this order at this time.","Sorry, no quotes are available for this order at this time."
+"Please enter a valid zip code. For example 90602 or 90602-1234.","Wpisz poprawny kod pocztowy np.00-020"
+"Remove Product","Usuń produkt"
+"Last Name","Nazwisko"
+"Back","Powrót"
+"Change Payment Method","Zmień formę płatności"
+"Grand Total:","Suma zamówienia:"
+"Shipping to","Dostawa do"
+"Address %s of %s","Adres <span class=""shipment-count"">%s</span> z %s"
+"We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.","Przetwarzamy twoje zamówienie. W niedługim czasie otrzymasz email potwierdzający z linkiem do śledzenia statusu zamówienia."
+"Change Shipping Method","Zmień formę wysyłki"
+"Shopping Cart","Koszyk"
+"Forgot your password?","Zapomniałeś hasła?"
+"Enter your destination to get a shipping estimate.","Wpisz miejsce docelowe dla paczki aby uzyskać przybliżoną informację o kosztach wysyłki."
+"My Account","Twoje konto"
+"Street Address","Ulica"
+"Shipping Address","Adres dostawy"
+"Select a billing address from your address book or enter a new address.","Wybierz adres płatnika z książki adresowej lub <a href=""#"" onclick=""billing.newAddress(true) return false"">utwórz nowy adres</a>."""
+"Continue to Overview","Przejdź dalej aby potwierdzić szczegóły"
+"Please <a href=""%s"">continue shopping</a>.","<a href=""%s"">Kontynuuj zakupy</a>."
+"Edit Your Cart","Edytuj koszyk"
+"You have no items in your cart.","W koszyku nie masz żadnych produktów"
+"Easy access to your order history and status","Szybki dostęp do statusów i historii zamówień"
+"Register and save time!","Zarejestruj się aby szybciej robić zakupy!"
+"Fast and easy check out","Szybszy proces zamawiania"
+"Use Billing Address","Użyj adresu płatnika"
+"Add to Wishlist","Dodaj do listy życzeń"
+"My Cart - <a href=""%s"">%d item(s)</a>","Koszyk <span class=""count"">- <a href=""%s"">%d produkt(ów)</a></span>"
+"Move to Wishlist","Przenieś do listy życzeń"
+"Default Shipping","Domyślny adres dostawy"
+"Checkout as a Guest or Register","Złóż zamówienie bez rejestracji lub załóż konto w sklepie"
+"Qty","Ilość"
+"Enter your coupon code if you have the one.","Wpisz kod kuponu rabatowego jeżeli jesteś w jego posiadaniu."
+"Done","Zrobione"
+"Close","Zamknij"
+"City","Miasto"
+"Card Verification Number Visual Reference","Kod CVV2"
+"First Name","Imię"
+"Unit Price","Cena jednostkowa"
+"Please select region, state or province","Wybierz województwo"
+"Product","Produkt"
+"Payment Method","Forma płatności"
+"Price","Cena"
+"Street Address 2","Ulica cd."
+"Address","Adres"
+"Password","Hasło"
+"Update Total","Aktualizuj sumę"
+"Change Shipping Address","Zmień adres dostawy"
+"Email Address","Adres email"
+"Edit","Edycja"
+"Add to Cart","Do koszyka"
+"Edit Items","Edytuj produkty"
+"Remove","Usuń"
+"Continue","Kontynuuj"
+"Forgot an Item?","Zapomniałeś dodać produkt?"
+"Shopping Cart is Empty","Koszyk jest pusty"
+"Login","Logowanie"
+"Add New Address","Dodaj nowy adres"
+"Default Billing","Domyślny adres płatnika"
+"Enter a New Address","Dodaj nowy adres"
+"Checkout as Guest","Złóż zamówienie bez rejestracji"
+"Discount Codes","Kody zniżkowe"
+"Select State/Province...","Wybierz województwo..."
+"Continue to Review Your Order","Kontynuuj aby potwierdzić dane zamówienia"
+"Your order has been received","Zamówienie zostało przekazane do sklepu"

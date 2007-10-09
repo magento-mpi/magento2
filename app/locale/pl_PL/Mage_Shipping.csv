@@ -1,9 +1,9 @@
-﻿# of Items vs. Destination,Ilość produktów w zależności od lokalizacji
-Price vs. Destination,Cena w zależności od lokalizacji
-Weight (and above),Waga (i powyżej)
-Store Pickup,Odbiór osobisty w sklepie
-Invalid Table Rate code type: %s,Nieprawidłowy kod dla tabeli stawek: %s
-# of Items (and above),Ilość produktów (i powyżej)
-Weight vs. Destination,Waga w zależności od lokalizacji
-Invalid Table Rate code for type %s: %s,Nieprawidłowy kod dla tabeli stawek %s: %s
-Order Subtotal (and above),Podsuma zamówienia (i powyżej)
+"# of Items vs. Destination","Ilość produktów w zależności od lokalizacji"
+"Price vs. Destination","Cena w zależności od lokalizacji"
+"Weight (and above)","Waga (i powyżej)"
+"Store Pickup","Odbiór osobisty w sklepie"
+"Invalid Table Rate code type: %s","Nieprawidłowy kod dla tabeli stawek: %s"
+"# of Items (and above)","Ilość produktów (i powyżej)"
+"Weight vs. Destination","Waga w zależności od lokalizacji"
+"Invalid Table Rate code for type %s: %s","Nieprawidłowy kod dla tabeli stawek %s: %s"
+"Order Subtotal (and above)","Podsuma zamówienia (i powyżej)"
