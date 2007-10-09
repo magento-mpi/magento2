@@ -38,7 +38,11 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function load($printQuery = false, $logQuery = false)
     {
-        return parent::load($printQuery, $logQuery);
+        parent::load($printQuery, $logQuery);
+        if ($this->getJoinFlag('add_stores_after')) {
+            $this->_addStoresVisibility();
+        }
+        return $this;
     }
 
     public function setJoinFlag($table)
@@ -96,26 +100,29 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     {
         $tagIds = $this->getColumnValues('tag_id');
 
+        $tagsStores = array();
         if (sizeof($tagIds)>0) {
             $select = $this->getConnection()->select()
                 ->from($this->getTable('summary'), array('store_id','tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
+            $tagsRaw = $this->getConnection()->fetchAll($select);
+            foreach ($tagsRaw as $tag) {
+                if (!isset($tagsStores[$tag['tag_id']])) {
+                    $tagsStores[$tag['tag_id']] = array();
+                }
 
+                $tagsStores[$tag['tag_id']][] = $tag['store_id'];
+            }
         }
 
         foreach ($this as $item) {
-
+            if(isset($tagsStores[$item->getId()])) {
+                $item->setStores($tagsStores[$item->getId()]);
+            } else {
+                $item->setStores(array());
+            }
         }
 
-        return $this;
-    }
-
-    public function load($printQuery=false, $logQuery=false)
-    {
-        parent::load($printQuery, $logQuery);
-        if ($this->getJoinFlag('add_stores_after')) {
-            $this->_addStoresVisibility();
-        }
         return $this;
     }
 
