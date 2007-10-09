@@ -557,14 +557,14 @@ class Mage_Core_Model_Url extends Varien_Object
         if (isset($data['_current'])) {
             if (is_array($data['_current'])) {
                 foreach ($data['_current'] as $key) {
-                    if (!$this->getRequest()->getUserParam($key)) {
+                    if (array_key_exists($key, $data) || !$this->getRequest()->getUserParam($key)) {
                         continue;
                     }
                     $data[$key] = $this->getRequest()->getUserParam($key);
                 }
             } elseif ($data['_current']) {
                 foreach ($this->getRequest()->getUserParams() as $key=>$value) {
-                    if (isset($data[$key])) {
+                    if (array_key_exists($key, $data)) {
                         continue;
                     }
                     $data[$key] = $value;

@@ -38,15 +38,16 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
     
     protected function _prepareLayout()
     {
+        $url = Mage::getUrl('*/*/add', array(
+            '_current'=>true, 
+            'parent'=>$this->getCategoryId(),
+            'id'=>null,
+        ));
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Add New'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/*/add', array(
-                        '_current'=>true, 
-                        'parent'=>$this->getCategoryId(),
-                        'id'=>null,
-                        ))."')",
+                    'onclick'   => "setLocation('".$url."')",
                     'class' => 'add'
                 ))
         );
