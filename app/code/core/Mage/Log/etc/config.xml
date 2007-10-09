@@ -22,7 +22,7 @@
 <config>
     <modules>
     <Mage_Log>
-        <version>0.5.0</version>
+        <version>0.5.1</version>
         <depends>
             <Mage_Core />
             <Mage_Customer />
@@ -95,6 +95,24 @@
     </global>
     <frontend>
         <events>
+            <controller_action_predispatch>
+                <observers>
+                    <log>
+                        <type>singleton</type>
+                        <class>log/visitor</class>
+                        <method>initByRequest</method>
+                    </log>
+                </observers>
+            </controller_action_predispatch>
+            <controller_action_postdispatch>
+                <observers>
+                    <log>
+                        <type>singleton</type>
+                        <class>log/visitor</class>
+                        <method>saveByRequest</method>
+                    </log>
+                </observers>
+            </controller_action_postdispatch>
             <customer_login>
                 <observers>
                     <log>
@@ -113,33 +131,6 @@
                     </log>
                 </observers>
             </customer_logout>
-            <controller_action_predispatch>
-                <observers>
-                    <log>
-                        <type>singleton</type>
-                        <class>log/visitor</class>
-                        <method>loadByAction</method>
-                    </log>
-                </observers>
-            </controller_action_predispatch>
-            <checkout_session_init>
-                <observers>
-                    <log>
-                        <type>singleton</type>
-                        <class>log/visitor</class>
-                        <method>bindCheckoutSession</method>
-                    </log>
-                </observers>
-            </checkout_session_init>
-            <customer_session_init>
-                <observers>
-                    <log>
-                        <type>singleton</type>
-                        <class>log/visitor</class>
-                        <method>bindCustomer</method>
-                    </log>
-                </observers>
-            </customer_session_init>
             <checkout_quote_init>
                 <observers>
                     <log>
@@ -158,15 +149,6 @@
                     </log>
                 </observers>
             </checkout_quote_destroy>
-            <controller_action_postdispatch>
-                <observers>
-                    <log>
-                        <type>singleton</type>
-                        <class>log/visitor</class>
-                        <method>save</method>
-                    </log>
-                </observers>
-            </controller_action_postdispatch>
         </events>
     </frontend>
 </config>

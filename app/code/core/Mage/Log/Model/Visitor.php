@@ -19,65 +19,69 @@
  */
 
 
-class Mage_Log_Model_Visitor extends Varien_Object
+class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
 {
-    protected $_resource;
-
-    public function getResource()
+    protected function _construct()
     {
-        if( !$this->_resource ) {
-            $this->_resource = Mage::getResourceModel('log/visitor');
-        }
-        return $this->_resource;
+        $this->_init('log/visitor');
     }
 
-    public function collectBrowserData()
+    /**
+     * Retrieve session object
+     *
+     * @return Mage_Core_Model_Session_Abstract
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('core/session');
+    }
+    
+    /**
+     * Retrieve visitor resource model
+     *
+     * @return mixed
+     */
+    public function getResource()
+    {
+        return Mage::getResourceSingleton('log/visitor');
+    }
+    
+    /**
+     * Initialize visitor information from server data
+     *
+     * @return Mage_Log_Model_Visitor
+     */
+    public function initServerData()
     {
         $s = $_SERVER;
         $this->addData(array(
-            'server_addr'=>!empty($s['SERVER_ADDR']) ? ip2long($s['SERVER_ADDR']) : '',
-            'remote_addr'=>!empty($s['REMOTE_ADDR']) ? ip2long($s['REMOTE_ADDR']) : '',
-            'http_secure'=>(int) !empty($s['HTTPS']),
-            'http_host'=>!empty($s['HTTP_HOST']) ? $s['HTTP_HOST'] : '',
-            'http_user_agent'=>!empty($s['HTTP_USER_AGENT']) ? $s['HTTP_USER_AGENT'] : '',
-            'http_accept_language'=>!empty($s['HTTP_ACCEPT_LANGUAGE']) ? $s['HTTP_ACCEPT_LANGUAGE'] : '',
-            'http_accept_charset'=>!empty($s['HTTP_ACCEPT_CHARSET']) ? $s['HTTP_ACCEPT_CHARSET'] : '',
-            'request_uri'=>!empty($s['REQUEST_URI']) ? $s['REQUEST_URI'] : '',
+            'server_addr'       => empty($s['SERVER_ADDR']) ? '' : ip2long($s['SERVER_ADDR']),
+            'remote_addr'       => empty($s['REMOTE_ADDR']) ? '' : ip2long($s['REMOTE_ADDR']),
+            'http_secure'       => (int) !empty($s['HTTPS']),
+            'http_host'         => empty($s['HTTP_HOST']) ? '' : $s['HTTP_HOST'],
+            'http_user_agent'   => empty($s['HTTP_USER_AGENT']) ? '' : $s['HTTP_USER_AGENT'],
+            'http_accept_language'=> empty($s['HTTP_ACCEPT_LANGUAGE']) ? '' : $s['HTTP_ACCEPT_LANGUAGE'],
+            'http_accept_charset'=> empty($s['HTTP_ACCEPT_CHARSET']) ? '' : $s['HTTP_ACCEPT_CHARSET'],
+            'request_uri'       => empty($s['REQUEST_URI']) ? '' : $s['REQUEST_URI'],
+            'session_id'        => $this->_getSession()->getSessionId(),
+            'http_referer'      => empty($s['HTTP_REFERER']) ? '' : $s['HTTP_REFERER'],
         ));
-
-        if ($this->getFirstVisitAt()==$this->getLastVisitAt() && !empty($s['HTTP_REFERER'])) {
-            $this->setHttpReferer($s['HTTP_REFERER']);
-        }
 
         return $this;
     }
-
+    
+    /**
+     * Retrieve url from model data
+     *
+     * @return string
+     */
     public function getUrl()
     {
         $url = 'http' . ($this->getHttpSecure() ? 's' : '') . '://';
         $url .= $this->getHttpHost().$this->getRequestUri();
         return $url;
     }
-
-    public function load()
-    {
-        $session = Mage::getSingleton('core/session');
-        $now = $this->getResource()->getNow();
-
-        $data = $this->getResource()->load($session->getLogVisitorId());
-        if ($data) {
-            $this->setData($data);
-        } else {
-            $this->setSessionId($session->getSessionId());
-            $this->setFirstVisitAt($now);
-        }
-        $this->setLastVisitAt($now);
-
-        $this->collectBrowserData();
-
-        return $this;
-    }
-
+    
     public function isModuleIgnored($observer)
     {
         $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
@@ -90,82 +94,111 @@ class Mage_Log_Model_Visitor extends Varien_Object
         }
         return false;
     }
-
-    public function loadByAction($observer)
-    {
-        $this->load(Mage::getSingleton('core/session')->getSessionId());
-        return $this;
-    }
-
-
-    public function save($observer = null)
+    
+    /**
+     * Initialization visitor information by request
+     * 
+     * Used in event "controller_action_predispatch"
+     * 
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_Log_Model_Visitor
+     */
+    public function initByRequest($observer)
     {
         if ($this->isModuleIgnored($observer)) {
             return $this;
         }
-
-        $this->setResourceVisitorId();
-
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        #if( empty($customerId) ) {
-        #    $this->setLogoutNeeded(1);
-        #}
-
-        #$this->getResource()
-        #    ->logVisitor($this);
-        #    ->logUrl($this);
-
-        Mage::getSingleton('core/session')->setLogVisitorId($this->getVisitorId());
-
+        
+        $this->setData($this->_getSession()->getVisitorData());
+        $this->initServerData();
+        
+        if (!$this->getId()) {
+            $this->setFirstVisitAt(now());
+            $this->setIsNewVisitor(true);
+            $this->save();
+        }
         return $this;
     }
-
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
+    
     /**
-     * Bind checkout session qouote id
-     *
-     * Used in event "initCheckoutSession" observer
-     *
+     * Saving visitor information by request
+     * 
+     * Used in event "controller_action_postdispatch"
+     * 
      * @param   Varien_Event_Observer $observer
      * @return  Mage_Log_Model_Visitor
      */
-    public function bindCheckoutSession($observer)
+    public function saveByRequest($observer)
     {
-        if ($observer->getEvent()->getCheckoutSession()) {
-            $this->setQuoteId($observer->getEvent()->getCheckoutSession()->getQuoteId());
+        if ($this->isModuleIgnored($observer)) {
+            return $this;
+        }
+        
+        $this->setLastVisitAt(now());
+        $this->save();
+        
+        $this->_getSession()->setVisitorData($this->getData());
+        return $this;
+    }
+    
+    /**
+     * Bind customer data when customer login
+     * 
+     * Used in event "customer_login"
+     * 
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_Log_Model_Visitor
+     */
+    public function bindCustomerLogin($observer)
+    {
+        if (!$this->getCustomerId() && $customer = $observer->getEvent()->getCustomer()) {
+            $this->setCustomerId($customer->getId());
         }
         return $this;
     }
 
-    public function bindStore($observer)
+    public function bindCustomerLogout($observer)
     {
-        if ($store = $observer->getEvent()->getStore()) {
-            $this->setStoreId($store->getId());
+        if ($this->getCustomerId() && $customer = $observer->getEvent()->getCustomer()) {
+            $this->setIsCustomerLogout(true);
         }
+        return $this;
     }
 
-    public function bindCustomer($observer)
+    public function bindQuoteCreate($observer)
     {
-        $session = $observer->getEvent()->getCustomerSession();
-        $isLoggedIn = $session && $session->isLoggedIn();
-        return;
-        if ($isLoggedIn) {
-            $this->setCustomerId($observer->getEvent()->getCustomerSession()->getCustomerId());
-        }
+        /*$quoteId = $observer->getEvent()->getQuote()->getQuoteId();
+        if( $quoteId ) {
+            $this->setQuoteId($quoteId);
+            $this->setQuoteCreatedAt($this->getResource()->getNow());
+            $this->getResource()->logQuote($this);
+        }*/
+
+        return $this;
     }
 
+    public function bindQuoteDestroy($observer)
+    {
+        /*$quoteId = $observer->getEvent()->getQuote()->getQuoteId();
+        if( $quoteId ) {
+            $this->setQuoteId($quoteId);
+            $this->setQuoteDeletedAt($this->getResource()->getNow());
+            $this->getResource()->logQuote($this);
+        }*/
+
+        return $this;
+    }
+    
+    /**
+     * Methods for research (depends from customer online admin section)
+     */
     public function addIpData($data)
     {
         $ipData = array();
         $data->setIpData($ipData);
         return $this;
     }
-
+    
     public function addCustomerData($data)
     {
         $customerId = $data->getCustomerId();
@@ -190,66 +223,5 @@ class Mage_Log_Model_Visitor extends Varien_Object
         }
         $data->setQuoteData(Mage::getModel('sales/quote')->load($quoteId));
         return $this;
-    }
-
-    public function bindCustomerLogin()
-    {
-        $this->setResourceVisitorId();
-        $session = Mage::getSingleton('customer/session');
-        $this->setLoginAt( $this->getResource()->getNow() );
-        $this->setCustomerId( $session->getCustomerId() );
-        $this->getResource()
-            ->logCustomer($this);
-
-        return $this;
-    }
-
-    public function bindCustomerLogout($observer)
-    {
-        $this->setResourceVisitorId();
-        $eventData = $observer->getEvent()->getData();
-        $this->setLogoutAt( $this->getResource()->getNow() );
-        $this->setCustomerId( $eventData['customer']->getCustomerId() );
-        $this->getResource()->logCustomer($this);
-        Mage::getSingleton('core/session')->setLogVisitorId(null);
-
-        return $this;
-    }
-
-    public function bindQuoteCreate($observer)
-    {
-        $this->setResourceVisitorId();
-        $quoteId = $observer->getEvent()->getQuote()->getQuoteId();
-        if( $quoteId ) {
-            $this->setQuoteId($quoteId);
-            $this->setQuoteCreatedAt($this->getResource()->getNow());
-            $this->getResource()->logQuote($this);
-        }
-
-        return $this;
-    }
-
-    public function bindQuoteDestroy($observer)
-    {
-        $this->setResourceVisitorId();
-        $quoteId = $observer->getEvent()->getQuote()->getQuoteId();
-        if( $quoteId ) {
-            $this->setQuoteId($quoteId);
-            $this->setQuoteDeletedAt($this->getResource()->getNow());
-            $this->getResource()->logQuote($this);
-        }
-
-        return $this;
-    }
-
-    public function setResourceVisitorId()
-    {
-        $session = Mage::getSingleton('core/session');
-        if( intval($session->getLogVisitorId()) > 0 ) {
-            $this->setSessionVisitorId($session->getLogVisitorId());
-            $this->setVisitorId($session->getLogVisitorId());
-        } else {
-            $session->setLogVisitorId($this->getVisitorId());
-        }
     }
 }

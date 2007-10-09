@@ -177,68 +177,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $class = $realModule.'_'.uc_words($controller).'Controller';
         return $class;
     }
-/*
-    public function getUrl($routeName, $params=array())
-    {
-        static $reservedKeys = array('module'=>1, 'controller'=>1, 'action'=>1, 'array'=>1);
 
-        if (is_string($params)) {
-            $paramsArr = explode('/', $params);
-            $params = array('controller'=>$paramsArr[0], 'action'=>$paramsArr[1]);
-        }
-
-        $url = Mage::getBaseUrl($params);
-
-        $url .= $routeName.'/';
-
-        if (!empty($params)) {
-            if (!empty($params['_current'])) {
-                if ($params['_current']===true) {
-                    $paramsGetPost = array();
-                    if ($post = $this->getFront()->getRequest()->getPost()) {
-                        $paramsGetPost+= $post;
-                    }
-                    if ($get = $this->getFront()->getRequest()->getQuery()) {
-                        $paramsGetPost+= $get;
-                    }
-
-                    $params = array_merge($this->getFront()->getRequest()->getParams(), $params);
-                    $params = array_diff_key($params, $paramsGetPost);
-                } elseif (is_array($params['_current'])) {
-                    foreach ($params['_current'] as $param) {
-                        $params[$param] = $this->getFront()->getRequest()->getParam($param);
-                    }
-                }
-            }
-            $paramsStr = '';
-            foreach ($params as $key=>$value) {
-                if (!empty($key) && !isset($reservedKeys[$key]) && '_'!==$key{0} && !empty($value)) {
-                    $paramsStr .= $key.'/'.$value.'/';
-                }
-            }
-
-            if (empty($params['controller']) && !empty($paramsStr)) {
-                $params['controller'] = $this->getFront()->getDefault('controller');
-            }
-            $url .= empty($params['controller']) ? '' : $params['controller'].'/';
-
-            if (empty($params['action']) && !empty($paramsStr)) {
-                $params['action'] = $this->getFront()->getDefault('action');
-            }
-            $url .= empty($params['action']) ? '' : $params['action'].'/';
-
-            $url .= $paramsStr;
-
-            // adding query params to current option
-            $query = http_build_query($this->getFront()->getRequest()->getQuery());
-            if (!empty($query) && isset($params['_current']) && $params['_current']===true) {
-                $url .= '?' . $query;
-            }
-        }
-
-        return $url;
-    }
-*/
     public function rewrite(array $p)
     {
     	$rewrite = Mage::getConfig()->getNode('global/rewrite');
