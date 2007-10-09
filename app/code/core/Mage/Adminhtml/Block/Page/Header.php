@@ -29,14 +29,22 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Core_Block_Template
 {
     public function __construct() 
     {
+        parent::__construct();
         $this->setTemplate('page/header.phtml');
     }
     
-    public function toHtml()
+    public function getHomeLink()
     {
-        $this->assign('homeLink', Mage::getUrl('*'));
-        $this->assign('user', Mage::getSingleton('admin/session')->getUser());
-        $this->assign('logoutLink', Mage::getUrl('*/index/logout'));
-        return parent::toHtml();
+        return Mage::getUrl('*');
+    }
+    
+    public function getUser()
+    {
+        return Mage::getSingleton('admin/session')->getUser();
+    }
+    
+    public function getLogoutLink()
+    {
+        return Mage::getUrl('*/index/logout');
     }
 }

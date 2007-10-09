@@ -79,17 +79,17 @@ abstract class Mage_Core_Controller_Varien_Action
             Mage::register('action', $this);
         }
 
-        $this->getLayout()->setArea('frontend');
-
         $this->_construct();
-        
-        Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
-        Mage::app()->loadArea($this->getLayout()->getArea());
     }
 
     protected function _construct()
     {
 
+    }
+    
+    public function hasAction($action)
+    {
+        return is_callable(array($this, $this->getActionMethodName($action)));
     }
 
     /**
@@ -342,16 +342,19 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     function preDispatch()
     {
-        if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
-            return;
-        }
-
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
             if (!Mage::app()->isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
             }
+        }
+        
+        Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
+        Mage::app()->loadArea($this->getLayout()->getArea());
+        
+        if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
+            return;
         }
 
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName().'/pre';

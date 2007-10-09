@@ -86,6 +86,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         }
         $controllerFileName = $this->getControllerFileName($realModule, $controller);
         if (!$controllerFileName || !is_readable($controllerFileName)) {
+            return false;
         	$controller = 'index';
             $action = 'noroute';
             $controllerFileName = $this->getControllerFileName($realModule, $controller);
@@ -93,6 +94,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         $controllerClassName = $this->getControllerClassName($realModule, $controller);
         if (!$controllerClassName) {
+            return false;
         	$controller = 'index';
             $action = 'noroute';
             $controllerFileName = $this->getControllerFileName($realModule, $controller);
@@ -127,6 +129,10 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         }
         // instantiate controller class
         $controllerInstance = new $controllerClassName($request, $front->getResponse());
+        
+        if (!$controllerInstance->hasAction($action)) {
+            return false;
+        }
 
         // set values only after all the checks are done
         $request->setModuleName($module);

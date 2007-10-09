@@ -21,6 +21,13 @@
 
 class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Action 
 {
+    public function preDispatch()
+    {
+        $this->getLayout()->setArea('frontend');
+        parent::preDispatch();
+        return $this;
+    }
+    
 	public function postDispatch()
 	{
 	    parent::postDispatch();

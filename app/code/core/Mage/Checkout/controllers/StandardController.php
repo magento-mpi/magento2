@@ -22,13 +22,12 @@
 class Mage_Checkout_StandardController extends Mage_Core_Controller_Front_Action 
 {
     protected $_data = array();
-    
-    protected function _construct()
-    {
-        parent::_construct();
 
-        $this->_data['params'] = $this->getRequest()->getParams();
-    }
+	public function preDispatch()
+	{
+		$this->_data['params'] = $this->getRequest()->getParams();
+		parent::preDispatch();
+	}
     
     function indexAction()
     {

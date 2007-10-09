@@ -21,17 +21,6 @@
 
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
-    protected function _construct()
-    {
-        parent::_construct();
-
-        Mage::getDesign()->setArea('adminhtml')
-            ->setPackageName('default')
-            ->setTheme('default');
-
-        $this->getLayout()->setArea('adminhtml');
-    }
-
     protected function _setActiveMenu($menuPath)
     {
         $this->getLayout()->getBlock('menu')->setActive($menuPath);
@@ -69,14 +58,21 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
     public function preDispatch()
     {
-    	parent::preDispatch();
-    	if ($this->getRequest()->isDispatched()
-    		&& $this->getRequest()->getActionName()!=='denied'
-    		&& !$this->_isAllowed()) {
-    		$this->_redirect('*/*/denied');
-    		//$this->getRequest()->setDispatched(false);
-    		$this->setFlag('', self::FLAG_NO_DISPATCH, true);
-    	}
+        Mage::getDesign()->setArea('adminhtml')
+            ->setPackageName('default')
+            ->setTheme('default');
+
+        $this->getLayout()->setArea('adminhtml');
+        
+        parent::preDispatch();
+
+        if ($this->getRequest()->isDispatched()
+            && $this->getRequest()->getActionName()!=='denied'
+            && !$this->_isAllowed()) {
+            $this->_redirect('*/*/denied');
+            //$this->getRequest()->setDispatched(false);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
 
     	return $this;
     }

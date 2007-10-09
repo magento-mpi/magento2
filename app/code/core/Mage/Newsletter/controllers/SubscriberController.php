@@ -30,11 +30,12 @@
  {
     protected $_referer;
 
-    protected function _construct()
+    public function preDispatch()
      {
         if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
             $this->_referer = $referer;
         }
+		parent::preDispatch();
      }
 
  	/**
