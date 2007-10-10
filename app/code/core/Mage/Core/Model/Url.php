@@ -504,8 +504,7 @@ class Mage_Core_Model_Url extends Varien_Object
                     $routePath .=$key.'/'.$value.'/';
                 }
             }
-            $lastSymb = substr($routePath, -1, 1);
-            if ($lastSymb && $lastSymb !== '/') {
+            if ($routePath != '' && substr($routePath, -1, 1) !== '/') {
                 $routePath.= '/';
             }
 

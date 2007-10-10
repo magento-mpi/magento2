@@ -22,13 +22,17 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
 {
 	public function indexAction($coreRoute = null)
     {
-    	Mage::getSingleton('cms/page')->load(Mage::getStoreConfig('web/default/cms_home_page'));
-    	$this->_forward('view', 'page');
+    	$pageId = Mage::getStoreConfig('web/default/cms_home_page');
+        if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
+            $this->_forward('noRoute');   
+        }
     }
 
     public function noRouteAction($coreRoute = null)
     {
-    	Mage::getSingleton('cms/page')->load(Mage::getStoreConfig('web/default/cms_no_route'));
-    	$this->_forward('view', 'page');
+        $pageId = Mage::getStoreConfig('web/default/cms_no_route');
+        if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
+            $this->_forward('noRoute');   
+        }
     }
 }
