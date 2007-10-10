@@ -37,7 +37,7 @@
 
         <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
         <input type="hidden" name="product" value="<?=$product->getId()?>">
-        
+
         <?if($product->isSuperConfig()):?>
         <?=$this->getChildHtml('super_config')?>
         <?endif;?>
@@ -64,24 +64,24 @@
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button> <strong><?=$this->__('OR')?></strong>
             </fieldset>
             <div class="add-to-box">
-                <a href="<?=$wishlistLink?>"><?=$this->__('Add to Wishlist')?></a>
-                        <?if($this->getCompareJsObjectName()):?><br/>
-                            <a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=$this->__('Add to Compare')?></a>
-                            <?endif;?>
+                <a href="<?=$wishlistLink?>"><?=$this->__('Add to Wishlist')?></a><br/>
+                        <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)):?>
+                    <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
+                    <?endif;?>
             </div>
             <?else:?>
             <p><small><?=$this->__('Availability: Out of stock.')?></small></p>
         <p><a href="<?=$wishlistLink?>"><?=$this->__('Add to Wishlist')?></a><br/>
-                        <?if($this->getCompareJsObjectName()):?>
-                            <a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=$this->__('Add to Compare')?></a>
+                         <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)):?>
+                            <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
                             <?endif;?></p>
             <?endif;?>
         <?else:?>
         <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
             <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button> <strong><?=$this->__('OR')?></strong>
             &nbsp;&nbsp;<a href="<?=$wishlistLink?>"><?=$this->__('Add to Wishlist')?></a>
-            <?if($this->getCompareJsObjectName()):?>
-                    <span class="pipe">|</span><a href="#" onclick="<?=$this->getCompareJsObjectName()?>.addItem(<?=$product->getId()?>);return false;"><?=$this->__('Add to Compare')?></a>
+             <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)):?>
+                    <span class="pipe">|</span><a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
             <?endif;?>
         <?endif;?>
         </form>

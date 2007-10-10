@@ -30,6 +30,8 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
 {
  	protected $_entitiesAlias = array();
  	protected $_customerFilterId;
+ 	protected $_tagIdFilter;
+
 
  	protected $_joinFlags = array();
 
@@ -178,11 +180,38 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
           $condition = 'AND ' . $this->_read->quoteInto('prelation.store_id = ?', $storeId);
         }
 
+
+
         $this->getSelect()
-            ->joinLeft(array('prelation' => $tagRelationTable), 'prelation.product_id=e.entity_id '.$condition , array('popularity' => 'COUNT(DISTINCT prelation.tag_relation_id)'))
+            ->joinLeft(array('prelation' => $tagRelationTable), 'prelation.product_id=e.entity_id '.$condition , array('COUNT(DISTINCT prelation.tag_relation_id) AS popularity'))
             ->where('prelation.tag_id = ?', $tagId);
 
+        $this->_tagIdFilter = $tagId;
+
         $this->setJoinFlag('prelation');
+        return $this;
+    }
+
+    public function addPopularityFilter($condition) {
+        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+
+        $select = $this->_read->select()
+            ->from($tagRelationTable, array('product_id', 'COUNT(DISTINCT tag_relation_id) as popularity'))
+            ->where('tag_id = ?', $this->_tagIdFilter)
+            ->group('product_id')
+            ->having($this->_getConditionSql('popularity', $condition));
+
+        $prodIds = array();
+        foreach($this->_read->fetchAll($select) as $item) {
+            $prodIds[] = $item['product_id'];
+        }
+
+        if(sizeof($prodIds)>0) {
+            $this->getSelect()->where('e.entity_id IN(?)', $prodIds);
+        } else {
+            $this->getSelect()->where('e.entity_id IN(0)');
+        }
+
         return $this;
     }
 

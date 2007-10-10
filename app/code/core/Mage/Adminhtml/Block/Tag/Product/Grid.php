@@ -72,9 +72,20 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',
+            'type'          => 'number'
         ));
 
         return parent::_prepareColumns();
+    }
+
+    protected function _addColumnFilterToCollection($column)
+    {
+        if($column->getIndex() == 'popularity') {
+            $this->getCollection()->addPopularityFilter($column->getFilter()->getCondition());
+            return $this;
+        } else {
+            return parent::_addColumnFilterToCollection($column);
+        }
     }
 
     protected function getRowUrl($row)
