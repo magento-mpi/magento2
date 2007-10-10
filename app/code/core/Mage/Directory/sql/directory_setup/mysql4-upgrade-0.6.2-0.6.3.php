@@ -25,7 +25,7 @@ $this->addConfigField('currency/options/base', 'Base currency', array('level' =>
                                                                       'frontend_type' => 'select',
                                                                       'source_model' => 'adminhtml/system_config_source_currency',
                                                                       'show_in_default' => '1',
-                                                                      'show_in_website' => '0',
+                                                                      'show_in_website' => '1',
                                                                       'show_in_store' => '0',
                                                                       'sort_order' => '1',
                                                                 )

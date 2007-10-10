@@ -182,7 +182,6 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
         foreach( $data as $currencyFrom => $rate ) {
             $tmp_array[$rate['currency_to']] = $rate['rate'];
         }
-        ksort($tmp_array);
         $data = $tmp_array;
 
         return $data;

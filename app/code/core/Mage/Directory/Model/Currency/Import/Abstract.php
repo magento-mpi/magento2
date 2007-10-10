@@ -42,7 +42,7 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
      */
     protected function _getDefaultCurrencyCodes()
     {
-        return Mage::getModel('directory/currency')->getConfigDefaultCurrencies();
+        return Mage::getModel('directory/currency')->getConfigBaseCurrencies();
     }
 
     /**

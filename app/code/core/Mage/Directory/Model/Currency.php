@@ -147,6 +147,13 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         return $defaultCurrencies;
     }
 
+
+    public function getConfigBaseCurrencies()
+    {
+        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::CONFIG_PATH_CURRENCY_BASE);
+        return $defaultCurrencies;
+    }
+
     /**
      * Retrieve currency rates to other currencies
      *
