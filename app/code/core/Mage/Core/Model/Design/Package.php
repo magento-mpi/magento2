@@ -62,7 +62,7 @@ class Mage_Core_Model_Design_Package
 	}
 
 	/**
-	 * Retrieve configuration by package apth
+	 * Retrieve configuration by package path
 	 *
 	 * @param  string $path
 	 * @return mixed
@@ -145,12 +145,17 @@ class Mage_Core_Model_Design_Package
 		}
 		return $this->_name;
 	}
-
+    
+	/**
+	 * Declare design package theme params
+	 *
+	 * @return Mage_Core_Model_Design_Package
+	 */
 	public function setTheme()
 	{
 	    switch (func_num_args()) {
 	        case 1:
-    			foreach (array('layout', 'template', 'skin', 'translate') as $type) {
+    			foreach (array('layout', 'template', 'skin', 'locale') as $type) {
     				$this->_theme[$type] = func_get_arg(0);
     			}
     			break;
@@ -214,6 +219,15 @@ class Mage_Core_Model_Design_Package
 		return $baseDir;
 	}
 
+	public function getLocaleBaseDir(array $params=array())
+	{
+		$this->updateParamDefaults($params);
+		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
+			$params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS . 
+			Mage::app()->getLocale()->getLocaleCode();
+		return $baseDir;
+	}
+
 	public function getSkinBaseUrl(array $params=array())
 	{
 		$this->updateParamDefaults($params);
@@ -249,8 +263,8 @@ class Mage_Core_Model_Design_Package
     			$fileName = $this->getSkinBaseDir($params);
     			break;
 
-    		case 'translate':
-    			$fileName = $this->getTranslateBasedir($params);
+    		case 'locale':
+    			$fileName = $this->getLocaleBasedir($params);
     			break;
 
     		default:
@@ -314,6 +328,12 @@ class Mage_Core_Model_Design_Package
     public function getTemplateFilename($file, array $params=array())
     {
     	$params['_type'] = 'template';
+    	return $this->getFilename($file, $params);
+    }
+    
+    public function getLocaleFileName($file, array $params=array())
+    {
+        $params['_type'] = 'locale';
     	return $this->getFilename($file, $params);
     }
 

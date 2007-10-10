@@ -145,6 +145,12 @@ class Mage_Core_Model_Translate
         if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
             $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
+        if (!isset($this->_config[self::CONFIG_KEY_DESIGN_PACKAGE])) {
+            $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = Mage::getDesign()->getPackageName();
+        }
+        if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
+            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = Mage::getDesign()->getTheme('locale');
+        }
         return $this;
     }
 
@@ -224,7 +230,8 @@ class Mage_Core_Model_Translate
      */
     protected function _loadThemeTranslation()
     {
-        //$design = Mage::getDesign();
+        $file = Mage::getDesign()->getLocaleFileName('translate.csv');
+        $this->_addData($this->_getFileData($file), false);
         return $this;
     }
 
