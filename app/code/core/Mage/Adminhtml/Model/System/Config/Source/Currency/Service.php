@@ -26,11 +26,10 @@ class Mage_Adminhtml_Model_System_Config_Source_Currency_Service
     public function toOptionArray($isMultiselect)
     {
         if (!$this->_options) {
-            $currencyModel = Mage::getModel('directory/currency');
-            $this->_options = array( /* FIXME TOFIX */
+            $this->_options = array(
                 array(
-                    'label' => $currencyModel::SERVICE_WEBSERVICEX,
-                    'value' => $currencyModel::SERVICE_WEBSERVICEX,
+                    'label' => Mage::getConfig()->getNode('global/currency/import/services/webservicex/name')->asArray(),
+                    'value' => Mage::getConfig()->getNode('global/currency/import/services/webservicex/code')->asArray(),
                 ),
             );
         }

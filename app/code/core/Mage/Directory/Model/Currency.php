@@ -36,12 +36,6 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     const CONFIG_PATH_CURRENCY_DEFAULT = 'currency/options/default';
     const CONFIG_PATH_CURRENCY_BASE    = 'currency/options/base';
 
-    /**
-     * Services constants
-     *
-     */
-    const SERVICE_WEBSERVICEX = 'Webservicex';
-
     protected $_filter;
 
     protected function _construct()

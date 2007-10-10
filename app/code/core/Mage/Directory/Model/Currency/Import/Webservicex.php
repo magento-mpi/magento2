@@ -27,9 +27,7 @@
  */
 class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Model_Currency_Import_Abstract
 {
-    const CONVERTOR_URL = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency={{CURRENCY_FROM}}&ToCurrency={{CURRENCY_TO}}';
-
-    /**
+     /**
      * HTTP client
      *
      * @var Varien_Http_Client
@@ -43,7 +41,7 @@ class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Mo
 
     protected function _convert($currencyFrom, $currencyTo, $retry=0)
     {
-        $url = str_replace('{{CURRENCY_FROM}}', $currencyFrom, self::CONVERTOR_URL);
+        $url = str_replace('{{CURRENCY_FROM}}', $currencyFrom, Mage::getConfig()->getNode('global/currency/import/services/webservicex/url')->asArray());
         $url = str_replace('{{CURRENCY_TO}}', $currencyTo, $url);
 
         try {

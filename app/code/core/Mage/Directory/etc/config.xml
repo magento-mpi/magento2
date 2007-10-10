@@ -30,6 +30,17 @@
    </modules>
 
     <global>
+        <currency>
+            <import>
+                <services>
+                    <webservicex>
+                        <name>Webservicex</name>
+                        <code>webservicex</code>
+                        <url><![CDATA[http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency={{CURRENCY_FROM}}&amp;ToCurrency={{CURRENCY_TO}}]]></url>
+                    </webservicex>
+                </services>
+            </import>
+        </currency>
         <blocks>
             <directory><class>Mage_Directory_Block</class></directory>
         </blocks>
