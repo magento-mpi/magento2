@@ -83,14 +83,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
             'header' => __('Price'),
             'index' => 'price',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
         
         $this->addColumn('total', array(
             'header' => __('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(

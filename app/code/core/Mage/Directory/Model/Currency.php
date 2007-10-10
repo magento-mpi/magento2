@@ -27,14 +27,12 @@
  */
 class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 {
-
-
     /**
      * CONFIG path constants
     */
-    const CONFIG_PATH_CURRENCY_ALLOW   = 'currency/options/allow';
-    const CONFIG_PATH_CURRENCY_DEFAULT = 'currency/options/default';
-    const CONFIG_PATH_CURRENCY_BASE    = 'currency/options/base';
+    const XML_PATH_CURRENCY_ALLOW   = 'currency/options/allow';
+    const XML_PATH_CURRENCY_DEFAULT = 'currency/options/default';
+    const XML_PATH_CURRENCY_BASE    = 'currency/options/base';
 
     protected $_filter;
 
@@ -117,7 +115,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function format($price)
     {
-        $price = round(floatval($price), 2);
+        //$price = round(floatval($price), 2);
         return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price);
     }
 
@@ -127,7 +125,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getConfigAllowCurrencies()
     {
-        $allowedCurrencies = $this->getResource()->getConfigCurrencies($this, self::CONFIG_PATH_CURRENCY_ALLOW);
+        $allowedCurrencies = $this->getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_ALLOW);
         return $allowedCurrencies;
     }
 
@@ -137,14 +135,14 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getConfigDefaultCurrencies()
     {
-        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::CONFIG_PATH_CURRENCY_DEFAULT);
+        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_DEFAULT);
         return $defaultCurrencies;
     }
 
 
     public function getConfigBaseCurrencies()
     {
-        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::CONFIG_PATH_CURRENCY_BASE);
+        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_BASE);
         return $defaultCurrencies;
     }
 

@@ -75,9 +75,16 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      *
      * @return string
      */
-    public function getImageUrl()
+    public function getImageUrl($product)
     {
-        return '';
+        $url = false;
+        if (!$product->getImage()) {
+            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+        }
+        elseif ($attribute = $product->getResource()->getAttribute('image')) {
+            $url = $attribute->getFrontend()->getUrl($this);
+        }
+        return $url;
     }
     
     /**
@@ -85,9 +92,16 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      *
      * @return unknown
      */
-    public function getSmallImageUrl()
+    public function getSmallImageUrl($product)
     {
-        return '';
+        $url = false;
+        if (!$product->getSmallImage()) {
+            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+        }
+        elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
+            $url = $attribute->getFrontend()->getUrl($this);
+        }
+        return $url;
     }
     
     /**
@@ -95,7 +109,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      *
      * @return unknown
      */
-    public function getThumbnailUrl()
+    public function getThumbnailUrl($product)
     {
         return '';
     }

@@ -241,7 +241,9 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
     public function getCurrency()
     {
         if (is_null($this->_currency) && $this->getStoreId()) {
-            $this->setCurrency(Mage::getModel('directory/currency')->load($this->getQuote()->getStore()->getConfig('general/currency/default')));
+            $this->setCurrency(Mage::getModel('directory/currency')->load(
+                $this->getQuote()->getStore()->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT))
+            );
         }
         return $this->_currency;
     }

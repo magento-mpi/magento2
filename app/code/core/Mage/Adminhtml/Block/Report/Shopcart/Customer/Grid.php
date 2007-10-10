@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
             'sortable'  =>false,
             'type'      =>'currency',
             'align'     =>'right',
-            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     =>'total'
         ));
         

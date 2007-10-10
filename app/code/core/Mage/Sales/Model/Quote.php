@@ -68,7 +68,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     protected function _beforeSave()
     {
-        $baseCurrency = Mage::getStoreConfig('general/currency/base');
+        $baseCurrency = Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
         $storeCurrency = $this->getStore()->getDefaultCurrencyCode();
         $quoteCurrency = $this->getStore()->getCurrentCurrencyCode();
 

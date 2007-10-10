@@ -135,7 +135,7 @@ class Mage_Install_Model_Installer extends Varien_Object
             $setupModel->setConfigData(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(Mage_Core_Model_Locale::XML_PATH_DEFAULT_CURRENCY, $locale['currency']);
+            $setupModel->setConfigData(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
         }
 
         return $this;

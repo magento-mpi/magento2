@@ -194,7 +194,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getDefaultCurrencyCode()
     {
-        $result = $this->getConfig('general/currency/default');
+        $result = $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT);
         return $result;
     }
 
@@ -236,7 +236,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $codes = $this->getData('available_currency_codes');
         if (is_null($codes)) {
-            $codes = explode(',', $this->getConfig('general/currency/allow'));
+            $codes = explode(',', $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW));
             $this->setData('available_currency_codes', $codes);
         }
         return $codes;

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Varien_Data
             if (!$attribute->getIsGlobal()) {
                 $storeId = $attribute->getEntity()->getStoreId();
             }
-            $currencyCode = (string) Mage::getStoreConfig('general/currency/base', $storeId);
+            $currencyCode = (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $storeId);
             $html.= ' (' . __('Currency') . ' - <strong>'.$currencyCode.'</strong>)';
         }
         

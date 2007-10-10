@@ -37,7 +37,6 @@ class Mage_Core_Model_Locale
      */
     const XML_PATH_DEFAULT_LOCALE   = 'general/locale/code';
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
-    const XML_PATH_DEFAULT_CURRENCY = 'general/currency/base';
     const XML_PATH_DEFAULT_COUNTRY  = 'general/country/default';
     const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
     const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
@@ -186,10 +185,10 @@ class Mage_Core_Model_Locale
         asort($options);
         $result = array();
         foreach ($options as $key=>$value) {
-        	$result[] = array(
-        	   'value' => $key,
-        	   'label' => $value
-        	);
+            $result[] = array(
+               'value' => $key,
+               'label' => $value
+            );
         }
         return $result;
     }

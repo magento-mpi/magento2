@@ -65,7 +65,7 @@ class Mage_Directory_Model_Currency_Filter implements Zend_Filter_Interface
     {
         $value = floatval($value);
         $value = $this->_rate*$value;
-        $value = round($value, 2);
+        //$value = round($value, 2);
         return $this->_currency->toCurrency($value);
     }
 }

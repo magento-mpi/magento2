@@ -45,12 +45,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
-            	if($productIds) {
-                	$this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
-            	}
+                if($productIds) {
+                    $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+                }
             }
         }
         else {
@@ -62,10 +62,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
     protected function _prepareCollection()
     {       
         $collection = Mage::getResourceModel('catalog/product_link_collection')
-        	->setLinkType('cross_sell')
-        	->setProductId(Mage::registry('product')->getId())
-        	->setStoreId(Mage::registry('product')->getStoreId())
-        	->addLinkAttributeToSelect('position')
+            ->setLinkType('cross_sell')
+            ->setProductId(Mage::registry('product')->getId())
+            ->setStoreId(Mage::registry('product')->getStoreId())
+            ->addLinkAttributeToSelect('position')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')  
@@ -164,14 +164,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         $this->addColumn('price', array(
             'header'    => __('Price'),
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         
                 
         $this->addColumn('position', array(
             'header'    => __('Position'),
-            'name'    	=> 'position',
+            'name'      => 'position',
             'align'     => 'center',
             'width'     => '60px',
             'type'      => 'number',

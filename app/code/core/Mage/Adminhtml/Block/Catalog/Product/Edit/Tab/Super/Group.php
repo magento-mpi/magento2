@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
                 $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             ->setLinkType('super')
             ->setProductId(Mage::registry('product')->getId())
             ->setStoreId(Mage::registry('product')->getStoreId())
-        	->addAttributeToSelect('name')
+            ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addAttributeToFilter('type_id', 1) // Todo: remove harcoded value
@@ -109,13 +109,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         $this->addColumn('price', array(
             'header'    => __('Price'),
             'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         
         $this->addColumn('qty', array(
             'header'    => __('Default Qty'),
-            'name'    	=> 'qty',            
+            'name'      => 'qty',            
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         
         $this->addColumn('position', array(
             'header'    => __('Position'),
-            'name'    	=> 'position',
+            'name'      => 'position',
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',

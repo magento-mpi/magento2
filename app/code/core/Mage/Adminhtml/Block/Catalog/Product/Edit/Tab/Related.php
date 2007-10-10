@@ -45,12 +45,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
             }
             else {
                 if($productIds) {
-                	$this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
-            	}
+                    $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+                }
             }
         }
         else {
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             ->setLinkType('relation')
             ->setProductId(Mage::registry('product')->getId())
             ->setStoreId(Mage::registry('product')->getStoreId())
-        	->addAttributeToSelect('name')
+            ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('attribute_set_id')
@@ -167,13 +167,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('price', array(
             'header'    => __('Price'),
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
 
         /*$this->addColumn('qty', array(
             'header'    => __('Default Qty'),
-            'name'    	=> 'qty',
+            'name'      => 'qty',
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
         $this->addColumn('position', array(
             'header'    => __('Position'),
-            'name'    	=> 'position',
+            'name'      => 'position',
             'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',

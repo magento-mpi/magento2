@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header'=> __('Price'),
                 'type'  => 'currency',
-                'currency_code' => (string) Mage::getStoreConfig('general/currency/base'),
+                'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 'index' => 'price',
         ));
 
