@@ -49,6 +49,22 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    public function productEventAggregate($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        $collection = $this->getResourceCollection()
+            ->joinRel()
+            ->addProductFilter($product->getId())
+            ->addTagGroup()
+            ->load();
+
+
+        $collection->walk('aggregate');
+
+
+        return $this;
+    }
+
     public function addSummary($storeId)
     {
         $this->setStoreId($storeId);

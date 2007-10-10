@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
- 
+
 class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
@@ -35,15 +35,15 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     }
 
     protected function _prepareCollection()
-    {     
-        
+    {
+
         $collection = Mage::getResourceModel('reports/tag_customer_collection')
                 ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
                 ->addTagFilter($this->getRequest()->getParam('id'))
                 ->addDescOrder();
-        
+
         $this->setCollection($collection);
-        
+
         return parent::_prepareCollection();
     }
 
@@ -51,33 +51,53 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     {
         $this->getCollection()->addProductName();
     }
-    
+
     protected function _prepareColumns()
     {
-        
+
         $this->addColumn('firstname', array(
             'header'    =>__('First Name'),
             'sortable'  => false,
             'index'     =>'firstname'
         ));
-        
+
         $this->addColumn('lastname', array(
             'header'    =>__('Last Name'),
             'sortable'  => false,
             'index'     =>'lastname'
         ));
-        
+
         $this->addColumn('product', array(
             'header'    =>__('Product Name'),
             'sortable'  => false,
             'index'     =>'product'
         ));
-        
+
+          // Collection for stores filters
+        if(!$collection = Mage::registry('stores_select_collection')) {
+            $collection =  Mage::app()->getStore()->getResourceCollection()
+                ->load();
+            Mage::register('stores_select_collection', $collection);
+        }
+
+        $stores = array();
+        foreach ($collection as $store) {
+            $stores[$store->getId()] = $store->getName();
+        }
+
+        $this->addColumn('added_in', array(
+            'header'    =>$this->__('Submitted In'),
+            'sortable'  => false,
+            'index'     =>'store_id',
+            'type'      => 'options',
+            'options'    => $stores
+        ));
+
         $this->setFilterVisibility(false);
-        
+
         $this->addExportType('*/*/exportTagDetailCsv', __('CSV'));
         $this->addExportType('*/*/exportTagDetailXml', __('XML'));
-        
+
         return parent::_prepareColumns();
     }
 }

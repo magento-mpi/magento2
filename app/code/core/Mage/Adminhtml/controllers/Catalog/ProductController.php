@@ -275,6 +275,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             try {
                 $product->save();
+                if ($product->getStoresChangedFlag()) {
+                     Mage::dispatchEvent('catalog_controller_product_save_visibility_changed', array('product'=>$product));
+                }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Product saved'));
             }
             catch (Exception $e){
@@ -293,7 +297,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->_redirect('*/*/', array('store'=>$storeId));
     }
-    
+
     public function duplicateAction()
     {
         $productId = (int) $this->getRequest()->getParam('id');
@@ -333,7 +337,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($id = $this->getRequest()->getParam('id')) {
             $product = Mage::getModel('catalog/product')
                 ->setId($id);
+
             try {
+                Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
                 $product->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Product deleted'));
             }

@@ -36,10 +36,11 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
         $this->_collection = Mage::getModel('tag/tag')->getEntityCollection();
 
         $this->_collection
-            #->addStoreFilter(Mage::app()->getStore()->getId())
+            ->addStoreFilter(Mage::app()->getStore()->getId())
             ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
             ->setDescOrder()
             ->setPageSize(5)
+            ->setActiveFilter()
             ->load()
             ->addProductTags();
     }

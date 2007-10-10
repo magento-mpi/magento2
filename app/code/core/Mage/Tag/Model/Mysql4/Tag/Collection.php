@@ -68,16 +68,23 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     }
 
 
+    public function limit($limit)
+    {
+        $this->getSelect()->limit($limit);
+        return $this;
+    }
+
+
     public function addPopularity($limit=null)
     {
         $this->getSelect()
-            ->joinLeft(array('relation'=>$this->getTable('tag/relation')), 'main_table.tag_id=relation.tag_id', array('tag_relation_id', 'popularity' => 'COUNT(DISTINCT relation.tag_relation_id)'))
+            ->joinLeft(array('prelation'=>$this->getTable('tag/relation')), 'main_table.tag_id=prelation.tag_id', array('popularity' => 'COUNT(DISTINCT relation.tag_relation_id)'))
             ->group('main_table.tag_id');
+            $this->joinRel();
         if (! is_null($limit)) {
             $this->getSelect()->limit($limit);
         }
-
-        $this->setJoinFlag('relation');
+        $this->setJoinFlag('prelation');
         return $this;
     }
 
@@ -94,6 +101,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function addStoresVisibility()
     {
         $this->setJoinFlag('add_stores_after');
+        return $this;
     }
 
     protected function _addStoresVisibility()
@@ -160,15 +168,28 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         return $sql;
     }
 
-    public function addStoreFilter($storeId)
+    public function addStoreFilter($storeId, $allFilter = true)
     {
         //$this->addFieldToFilter('main_table.store_id', $storeId);
 
-        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 'main_table.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $storeId);
-        if($this->getJoinFlag('relation')) {
+        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 'main_table.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $storeId, array());
+        if($this->getJoinFlag('relation') && $allFilter) {
             $this->getSelect()->where('relation.store_id = ?', $storeId);
         }
 
+        if($this->getJoinFlag('prelation') && $allFilter) {
+            $this->getSelect()->where('prelation.store_id = ?', $storeId);
+        }
+
+        return $this;
+    }
+
+    public function setActiveFilter()
+    {
+        $this->getSelect()->where('relation.active = 1');
+        if($this->getJoinFlag('prelation')) {
+            $this->getSelect()->where('prelation.active = 1');
+        }
         return $this;
     }
 
@@ -181,6 +202,9 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function addProductFilter($productId)
     {
         $this->addFieldToFilter('relation.product_id', $productId);
+        if($this->getJoinFlag('prelation')) {
+            $this->addFieldToFilter('prelation.product_id', $productId);
+        }
         return $this;
     }
 
@@ -188,8 +212,20 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     {
         $this->getSelect()
             ->where('relation.customer_id = ?', $customerId);
+        if($this->getJoinFlag('prelation')) {
+            $this->getSelect()
+                ->where('prelation.customer_id = ?', $customerId);
+        }
         return $this;
     }
+
+
+    public function addTagGroup()
+    {
+        $this->getSelect()->group('main_table.tag_id');
+        return $this;
+    }
+
 
     public function joinRel()
     {

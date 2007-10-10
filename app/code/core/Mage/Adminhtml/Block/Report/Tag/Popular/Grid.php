@@ -34,12 +34,15 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
     }
 
     protected function _prepareCollection()
-    {     
-        
+    {
+
+        $storeId = (int) $this->getRequest()->getParam('store');
         $collection = Mage::getResourceModel('reports/tag_collection')
-            ->addGroupByTag()
+            ->addSummary($storeId)
             ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus());
-        
+        if($storeId) {
+            $collection->addStoreFilter($storeId);
+        }
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -50,27 +53,45 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
             'header'    =>__('Tag Name'),
             'sortable'  =>false,
             'index'     =>'name'
-        ));    
-        
+        ));
+
         $this->addColumn('taged', array(
-            'header'    =>__('Number of Uses'),
+            'header'    =>__('Popularity'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
-            'index'     =>'taged'
+            'index'     =>'popularity'
         ));
-         
-        $this->setFilterVisibility(false); 
-        
+
+        $this->addColumn('uses', array(
+            'header'    =>__('Number Of Uses'),
+            'width'     =>'50px',
+            'align'     =>'right',
+            'sortable'  =>false,
+            'index'     =>'uses'
+        ));
+
+        $this->addColumn('historical_uses', array(
+            'header'    =>__('Number Of Historical Uses'),
+            'width'     =>'50px',
+            'align'     =>'right',
+            'sortable'  =>false,
+            'index'     =>'historical_uses'
+        ));
+
+
+
+        $this->setFilterVisibility(false);
+
         $this->addExportType('*/*/exportPopularCsv', __('CSV'));
         $this->addExportType('*/*/exportPopularXml', __('XML'));
-                      
+
         return parent::_prepareColumns();
     }
-       
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/tagDetail', array('id'=>$row->tag_id));
     }
-    
+
 }

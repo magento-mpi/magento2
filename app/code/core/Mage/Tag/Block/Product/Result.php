@@ -67,7 +67,8 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         if( !$this->_collection ) {
             $tagModel = Mage::getModel('tag/tag');
             $this->_collection = $tagModel->getEntityCollection()
-                ->addTagFilter($this->getTagId());
+                ->addTagFilter($this->getTagId())
+                ->addStoreFilter(Mage::app()->getStore()->getId());
         }
         return $this->_collection;
     }

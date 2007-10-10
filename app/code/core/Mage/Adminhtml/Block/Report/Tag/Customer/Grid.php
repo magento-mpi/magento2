@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
- 
+
 class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
@@ -35,55 +35,55 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     }
 
     protected function _prepareCollection()
-    {     
-        
+    {
+
         $collection = Mage::getResourceModel('reports/tag_customer_collection');
-        
+
         $collection->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
             ->addGroupByCustomer()
             ->addTagedCount();
-        
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        
+
         $this->addColumn('id', array(
             'header'    =>__('ID'),
             'width'     => '50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
-        
+
         $this->addColumn('firstname', array(
             'header'    =>__('First Name'),
             'index'     =>'firstname'
         ));
-        
+
         $this->addColumn('lastname', array(
             'header'    =>__('Last Name'),
             'index'     =>'lastname'
         ));
-        
+
         $this->addColumn('taged', array(
             'header'    =>__('Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
         ));
-        
+
         $this->setFilterVisibility(false);
-        
+
         $this->addExportType('*/*/exportCustomerCsv', __('CSV'));
         $this->addExportType('*/*/exportCustomerXml', __('XML'));
-        
+
         return parent::_prepareColumns();
     }
-    
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/customerDetail', array('id'=>$row->entity_id));
-    } 
+    }
 }

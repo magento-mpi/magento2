@@ -67,7 +67,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
                         $tagRelationModel = Mage::getModel('tag/tag_relation');
 
-                        $tagRelationModel->loadByTagCustomer($this->getRequest()->getParam('productId'), $tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId());
+                        $tagRelationModel->loadByTagCustomer($this->getRequest()->getParam('productId'), $tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId(), Mage::app()->getStore()->getId());
 
                         if( $tagRelationModel->getCustomerId() == $customerId ) {
                             return;

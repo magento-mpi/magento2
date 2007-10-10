@@ -19,22 +19,29 @@
  */
 
 /**
- * Adminhtml products tags (total) report blocks content block
+ * Adminhtml tag all grid item renderer for item visibility
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmytro Vasylenko <dimav@varien.com>
+ * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Report_Tag_Product_All extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Tag_Grid_All_Renderer_Visible extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+	public function render(Varien_Object $row)
+	{
+		return implode(", ", $this->_getStoresNames($row->getData($this->getColumn()->getIndex())));
+	}
 
-    public function __construct()
-    {
-        $this->_controller = 'report_tag_product_all';
-        $this->_headerText = __('Product Tags (Total)');
-        parent::__construct();
-        $this->_removeButton('add');
-    }
-
-}
+	protected function _getStoresNames($stores)
+	{
+		$collection = Mage::registry('stores_select_collection');
+		$sharedNames = array();
+		foreach($stores as $storeId) {
+		    if($storeId != 0) {
+			$sharedNames[] = $collection->getItemById($storeId)->getName();
+		    }
+		}
+		return $sharedNames;
+	}
+}// Class Mage_Adminhtml_Block_Tag_Grid_All_Renderer_Visible END

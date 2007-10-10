@@ -309,10 +309,10 @@
                                 <title>Products</title>
                                 <action>*/report_tag/product</action>
                             </product>
-                            <product_total>
+                            <!--<product_total>
                                 <title>Products (Total)</title>
                                 <action>*/report_tag/productAll</action>
-                            </product_total>
+                            </product_total>-->
                             <popular>
                                 <title>Popular</title>
                                 <action>*/report_tag/popular</action>

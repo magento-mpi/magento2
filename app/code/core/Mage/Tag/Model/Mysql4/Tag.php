@@ -54,27 +54,29 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     {
         $selectLocal = $this->getConnection('read')->select()
             ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id', 'uses'=>'SUM(main.active)'))
-            ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id', array())
+            ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->group('main.store_id')
             ->where('main.tag_id = ?', $object->getId());
 
         $selectGlobal = $this->getConnection('read')->select()
-            ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id'=>'(0)' /* Workaround*/, 'uses'=>'SUM(main.active)'))
+            ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id'=>'( 0 )' /* Workaround*/, 'uses'=>'SUM(main.active)'))
+            ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->group('main.tag_id')
             ->where('main.tag_id = ?', $object->getId());
 
 
+
         $summaries = $this->getConnection('read')->fetchAll($selectLocal);
-        $summaries[] = $this->getConnection('read')->fetchRow($selectGlobal);
+        if ($row = $this->getConnection('read')->fetchRow($selectGlobal)) {
+            $summaries[] = $row;
+        }
 
         $this->getConnection('write')->delete($this->getTable('summary'), $this->getConnection('write')->quoteInto('tag_id = ?', $object->getId()));
 
         foreach ($summaries as $summary) {
-            $summObj = new Varien_Object();
-            $summObj->setData($summary);
-            $summObj->setTagId($object->getId());
-            $summObj->setPopularity($summObj->getHistoricalUses());
-            $this->getConnection('write')->insert($this->getTable('summary'), $summObj->getData());
+            $summary['tag_id'] = $object->getId();
+            $summary['popularity'] = $summary['historical_uses'];
+            $this->getConnection('write')->insert($this->getTable('summary'), $summary);
         }
 
         return $object;

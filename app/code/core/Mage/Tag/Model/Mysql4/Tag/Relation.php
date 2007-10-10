@@ -48,6 +48,10 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
                 $select->where("product_id = ?", $model->getProductId());
             }
 
+            if( $model->hasStoreId() ) {
+                $select->where("store_id = ?", $model->getStoreId());
+            }
+
             $data = $read->fetchRow($select);
             $model->setData( ( is_array($data) ) ? $data : array() );
             return $this;

@@ -107,7 +107,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
         $model->loadByTagCustomer(null, $tagId, $customerId);
         if( $model->getCustomerId() == $customerId ) {
             try {
-                $model->delete();
+                $model->setActive(0)->save();
 
                 Mage::getSingleton('tag/session')->addSuccess(__('You tag was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
@@ -143,8 +143,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
 
                 $tagModel = Mage::getModel('tag/tag');
                 $tagModel->load($tagId);
-                $storeId = $tagModel->getStoreId();
-
+                $storeId = Mage::app()->getStore()->getId();
                 if( $tagModel->getName() != $tagName ) {
                     $tagModel->loadByName($tagName);
 
@@ -160,7 +159,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
                 }
 
                 $tagRalationModel = Mage::getModel('tag/tag_relation');
-                $tagRalationModel->loadByTagCustomer(null, $tagId, $customerId);
+                $tagRalationModel->loadByTagCustomer(null, $tagId, $customerId, $storeId);
 
                 if ($tagRalationModel->getCustomerId() == $customerId ) {
                     $productId = $tagRalationModel->getProductId();

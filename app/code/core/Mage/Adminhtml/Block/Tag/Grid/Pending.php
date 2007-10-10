@@ -40,7 +40,8 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('tag/tag_collection')
-            ->addPopularity()
+            ->addSummary(0)
+            ->addStoresVisibility()
             ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_PENDING);
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -56,12 +57,37 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('total_used', array(
-            'header'    => __('# of Uses'),
+            'header'    => __('Uses'),
+            'width'     => '140px',
+            'align'     => 'right',
+            'index'     => 'uses',
+            'type'      => 'number',
+        ));
+
+        $this->addColumn('products', array(
+            'header'    => __('Products'),
+            'width'     => '140px',
+            'align'     => 'right',
+            'index'     => 'products',
+            'type'      => 'number',
+        ));
+
+        $this->addColumn('customers', array(
+            'header'    => __('Customers'),
+            'width'     => '140px',
+            'align'     => 'right',
+            'index'     => 'customers',
+            'type'      => 'number',
+        ));
+
+        $this->addColumn('popularity', array(
+            'header'    => __('Popularity'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'popularity',
             'type'      => 'number',
         ));
+
 
         /*
         $this->addColumn('status', array(
@@ -78,6 +104,23 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             ),
         ));
         */
+
+          // Collection for stores filters
+        if(!$collection = Mage::registry('stores_select_collection')) {
+            $collection =  Mage::app()->getStore()->getResourceCollection()
+                ->load();
+            Mage::register('stores_select_collection', $collection);
+        }
+
+         $this->addColumn('visible_in', array(
+            'header'    => __('Visible In'),
+            'type'      => 'select',
+            'index'     => 'stores',
+             'sortable'  => false,
+            'filter'      => 'adminhtml/tag_grid_all_filter_visible',
+            'renderer'      => 'adminhtml/tag_grid_all_renderer_visible'
+        ));
+
 
         $this->addColumn('actions', array(
             'header'    => __('Actions'),
@@ -109,4 +152,14 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
     }
 
+    protected function _addColumnFilterToCollection($column)
+    {
+         if($column->getIndex()=='stores') {
+                $this->getCollection()->addStoreFilter($column->getFilter()->getCondition(), false);
+         } else {
+                parent::_addColumnFilterToCollection($column);
+         }
+
+         return $this;
+    }
 }

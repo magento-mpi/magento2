@@ -34,51 +34,59 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
     }
 
     protected function _prepareCollection()
-    {     
-        
+    {
+
         $collection = Mage::getResourceModel('reports/tag_product_collection');
-        
+
         $collection->addUniqueTagedCount()
+            ->addAllTagedCount()
             ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
-            ->addGroupByProduct();     
-        
+            ->addGroupByProduct();
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        
+
         $this->addColumn('entity_id', array(
             'header'    =>__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
-        
+
         $this->addColumn('name', array(
             'header'    =>__('Product Name'),
             'index'     =>'name'
-        ));    
-        
-        $this->addColumn('taged', array(
+        ));
+
+        $this->addColumn('utaged', array(
             'header'    =>__('Number of Unique Tags'),
+            'width'     =>'50px',
+            'align'     =>'right',
+            'index'     =>'utaged'
+        ));
+
+        $this->addColumn('taged', array(
+            'header'    =>__('Number of Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
         ));
-         
-        $this->setFilterVisibility(false); 
-        
+
+        $this->setFilterVisibility(false);
+
         $this->addExportType('*/*/exportProductCsv', __('CSV'));
         $this->addExportType('*/*/exportProductXml', __('XML'));
-                      
+
         return parent::_prepareColumns();
     }
-       
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/productDetail', array('id'=>$row->entity_id));
     }
-    
+
 }

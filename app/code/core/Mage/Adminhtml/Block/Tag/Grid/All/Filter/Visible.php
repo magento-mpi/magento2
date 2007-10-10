@@ -13,27 +13,30 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Reports
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Report Products Tags collection
+ * Adminhtml tag all grid filter by store
  *
  * @category   Mage
- * @package    Mage_Reports
- * @author     Dmytro Vasylenko  <dimav@varien.com>
+ * @package    Mage_Adminhtml
+ * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Reports_Model_Mysql4_Tag_Collection extends Mage_Tag_Model_Mysql4_Tag_Collection
+class Mage_Adminhtml_Block_Tag_Grid_All_Filter_Visible extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
+	protected function _getOptions()
+	{
+		$options = Mage::registry('stores_select_collection')->toOptionArray();
+		array_unshift($options, array('label'=>'','value'=>''));
+		return $options;
+	}
 
-    public function addGroupByTag()
-    {
-        return $this;
-    }
-
-
-}
-?>
+	public function getCondition()
+	{
+		return $this->getValue();
+	}
+}// Class Mage_Adminhtml_Block_Tag_Grid_All_Filter_Visible END

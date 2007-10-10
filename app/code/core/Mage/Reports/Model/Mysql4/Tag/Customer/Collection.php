@@ -32,8 +32,8 @@ class Mage_Reports_Model_Mysql4_Tag_Customer_Collection extends Mage_Tag_Model_M
     public function addTagedCount()
     {
         $this->getSelect()
-            ->from('', array('taged' => 'count(tr.tag_relation_id)'))
-            ->order('taged desc');
+            ->from('', array('taged' => 'count(tr.tag_relation_id)'));
+            //->order('taged desc');
         return $this;
     }
 
@@ -41,12 +41,13 @@ class Mage_Reports_Model_Mysql4_Tag_Customer_Collection extends Mage_Tag_Model_M
     {
         $countSelect = clone $this->getSelect();
         $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
 
         $sql = $countSelect->__toString();
 
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(t.tag_id) from ', $sql);
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT tr.customer_id) from ', $sql);
 
         return $sql;
     }

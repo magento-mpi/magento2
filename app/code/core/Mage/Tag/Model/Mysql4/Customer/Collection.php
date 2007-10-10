@@ -30,6 +30,31 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
 {
     protected $_allowDisableGrouping = true;
     protected $_countAttribute = 'tr.tag_relation_id';
+    protected $_joinFlags = array();
+
+     public function setJoinFlag($table)
+     {
+        $this->_joinFlags[$table] = true;
+        return $this;
+    }
+
+    public function getJoinFlag($table)
+    {
+        return isset($this->_joinFlags[$table]);
+    }
+
+    public function unsetJoinFlag($table=null)
+    {
+        if (is_null($table)) {
+            $this->_joinFlags = array();
+        } elseif ($this->getJoinFlag($table)) {
+            unset($this->_joinFlags[$table]);
+        }
+
+        return $this;
+    }
+
+
 
     public function __construct()
     {

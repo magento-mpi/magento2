@@ -38,6 +38,7 @@ class Mage_Adminhtml_Block_Tag_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
     {
         $collection = Mage::getResourceModel('tag/tag_collection')
 //            ->addStoreFilter(Mage::app()->getStore()->getId())
+               ->addStoresVisibility()
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -67,6 +68,9 @@ class Mage_Adminhtml_Block_Tag_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
                 Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
             ),
         ));
+
+
+
         $this->setColumnFilter('id')
             ->setColumnFilter('name')
             ->setColumnFilter('total_used')
@@ -78,7 +82,11 @@ class Mage_Adminhtml_Block_Tag_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
     protected function _addColumnFilterToCollection($column)
     {
         if ($this->getCollection() && $column->getFilter()->getValue()) {
-            $this->getCollection()->addAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
+            if($column->getIndex()=='stores') {
+                $this->getCollection()->addAttributeToFilter( $column->getIndex(), $column->getFilter()->getCondition());
+            } else {
+                $this->getCollection()->addStoreFilter($column->getFilter()->getCondition());
+            }
         }
         return $this;
     }

@@ -100,4 +100,26 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <events>
+            <catalog_controller_product_save_visibility_changed>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>tag/tag</class>
+                        <method>productEventAggregate</method>
+                    </tag>
+                </observers>
+            </catalog_controller_product_save_visibility_changed>
+            <catalog_controller_product_delete>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>tag/tag</class>
+                        <method>productEventAggregate</method>
+                    </tag>
+                </observers>
+            </catalog_controller_product_delete>
+        </events>
+    </adminhtml>
 </config>

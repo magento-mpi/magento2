@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmytro Vasylenko <dimav@varien.com> 
+ * @author      Dmytro Vasylenko <dimav@varien.com>
  */
 
 class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widget_Grid_Container
@@ -37,4 +37,24 @@ class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widge
         $this->_removeButton('add');
     }
 
+    protected function _prepareLayout()
+    {
+        $this->setChild('store_switcher',
+            $this->getLayout()->createBlock('adminhtml/store_switcher')
+                ->setUseConfirm(false)
+                ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
+        );
+
+        return parent::_prepareLayout();
+    }
+
+    public function getStoreSwitcherHtml()
+    {
+        return $this->getChildHtml('store_switcher');
+    }
+
+    public function getGridHtml()
+    {
+        return $this->getStoreSwitcherHtml() . parent::getGridHtml();
+    }
 }
