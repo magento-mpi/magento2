@@ -24,6 +24,54 @@
         <install>
             <date></date>
         </install>
+        
+        <locale>
+            <allow>
+                <codes>
+                    <en_US/>
+                    <de_DE/>
+                    <ja_JP/>
+                    <pt_BR/>
+                    <zh_CH/>
+                    <zh_TW/>
+                    <cs_CZ/>
+                    <da_DK/>
+                    <nl_NL/>
+                    <fi_FI/>
+                    <fr_FR/>
+                    <el_GR/>
+                    <iw_IL/>
+                    <hu_HU/>
+                    <id_ID/>
+                    <it_IT/>
+                    <no_NO/>
+                    <pl_PL/>
+                    <pt_PT/>
+                    <ro_RO/>
+                    <ru_RU/>
+                    <sl_SL/>
+                    <es_ES/>
+                    <sv_SE/>
+                    <th_TH/>
+                    <tr_TR/>
+                    <en_GB/>
+                    <vn_VN/>
+                </codes>
+                <currencies>
+                    <USD/>
+                    <EUR/>
+                    <RUB/>
+                    <UAH/>
+                    <CAD/>
+                    <AED/>
+                    <AUD/>
+                    <CNY/>
+                    <JPY/>
+                    <MXN/>
+                    <PLN/>
+                </currencies>
+            </allow>
+        </locale>
 
         <resources>
             <default_setup>
