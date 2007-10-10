@@ -345,4 +345,18 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $this->getResource()->updateDatasharing();
     }
+    
+    /**
+     * Retrieve store url
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getUrl($route='', $params=array())
+    {
+        $url = Mage::getModel('core/url')
+            ->setStore($this);
+        return $url->getUrl($route, $params);
+    }
 }
