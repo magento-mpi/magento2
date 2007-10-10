@@ -128,7 +128,8 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
         $read = $this->getConnection('read');
         $select = $read->select()
                 ->from($this->getTable('core/config_data'))
-                ->where($read->quoteInto(' path = ? ', $path));
+                ->where($read->quoteInto(' path = ? ', $path))
+                ->where('inherit = 0');
 
         $data = $read->fetchAll($select);
         $tmp_array = array();

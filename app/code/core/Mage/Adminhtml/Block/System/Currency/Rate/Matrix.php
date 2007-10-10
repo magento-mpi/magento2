@@ -42,6 +42,8 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_T
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $currencyModel->getCurrencyRates($defaultCurrencies, $currencies);
 
+        sort($currencies);
+
         $this->setAllowedCurrencies($currencies)
             ->setDefaultCurrencies($defaultCurrencies)
             ->setOldRates($oldCurrencies)
