@@ -27,6 +27,21 @@
  */
 class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 {
+
+
+    /**
+     * CONFIG path constants
+    */
+    const CONFIG_PATH_CURRENCY_ALLOW   = 'currency/options/allow';
+    const CONFIG_PATH_CURRENCY_DEFAULT = 'currency/options/default';
+    const CONFIG_PATH_CURRENCY_BASE    = 'currency/options/base';
+
+    /**
+     * Services constants
+     *
+     */
+    const SERVICE_WEBSERVICEX = 'Webservicex';
+
     protected $_filter;
 
     protected function _construct()
@@ -43,7 +58,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     {
         return $this->getData('currency_code');
     }
-    
+
     /**
      * Loading currency data
      *
@@ -110,5 +125,50 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     {
         $price = round(floatval($price), 2);
         return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price);
+    }
+
+    /**
+     * Retrieve allowed currencies according to config
+     *
+     */
+    public function getConfigAllowCurrencies()
+    {
+        $allowedCurrencies = $this->getResource()->getConfigCurrencies($this, self::CONFIG_PATH_CURRENCY_ALLOW);
+        return $allowedCurrencies;
+    }
+
+    /**
+     * Retrieve default currencies according to config
+     *
+     */
+    public function getConfigDefaultCurrencies()
+    {
+        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::CONFIG_PATH_CURRENCY_DEFAULT);
+        return $defaultCurrencies;
+    }
+
+    /**
+     * Retrieve currency rates to other currencies
+     *
+     * @param string $currency
+     * @param array $toCurrencies
+     * @return array
+     */
+    public function getCurrencyRates($currency, $toCurrencies=null)
+    {
+        $data = $this->getResource()->getCurrencyRates($currency, $toCurrencies);
+        return $data;
+    }
+
+    /**
+     * Save currency rates
+     *
+     * @param array $rates
+     * @return object
+     */
+    public function saveRates($rates)
+    {
+        $this->getResource()->saveRates($rates);
+        return $this;
     }
 }

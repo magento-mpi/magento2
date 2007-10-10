@@ -32,9 +32,19 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
      */
     protected function _getCurrencyCodes()
     {
-        return Mage::app()->getLocale()->getAllowCurrencies();
+        return Mage::getModel('directory/currency')->getConfigAllowCurrencies();
     }
-    
+
+    /**
+     * Retrieve default currency codes
+     *
+     * @return array
+     */
+    protected function _getDefaultCurrencyCodes()
+    {
+        return Mage::getModel('directory/currency')->getConfigDefaultCurrencies();
+    }
+
     /**
      * Retrieve rate
      *
@@ -43,7 +53,7 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
      * @return  float
      */
     abstract protected function _convert($currencyFrom, $currencyTo);
-    
+
     /**
      * Saving currency rates
      *
@@ -60,7 +70,7 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
         }
         return $this;
     }
-    
+
     /**
      * Import rates
      *
@@ -68,24 +78,38 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
      */
     public function importRates()
     {
+        $data = $this->fetchRates();
+        $this->_saveRates($data);
+        return $this;
+    }
+
+    public function fetchRates()
+    {
         $data = array();
         $currencies = $this->_getCurrencyCodes();
+        $defaultCurrencies = $this->_getDefaultCurrencyCodes();
         set_time_limit(0);
-        foreach ($currencies as $currencyFrom) {
+        foreach ($defaultCurrencies as $currencyFrom) {
             if (!isset($data[$currencyFrom])) {
                 $data[$currencyFrom] = array();
             }
-            
+
         	foreach ($currencies as $currencyTo) {
         	    if ($currencyFrom == $currencyTo) {
-        	        $data[$currencyFrom][$currencyTo] = 1;
+        	        $data[$currencyFrom][$currencyTo] = $this->_numberFormat(1);
         	    }
         		else {
-        		    $data[$currencyFrom][$currencyTo] = $this->_convert($currencyFrom, $currencyTo);
+        		    $data[$currencyFrom][$currencyTo] = $this->_numberFormat($this->_convert($currencyFrom, $currencyTo));
         		}
         	}
+        	ksort($data[$currencyFrom]);
         }
-        $this->_saveRates($data);
-        return $this;
+
+        return $data;
+    }
+
+    protected function _numberFormat($number)
+    {
+        return $number;
     }
 }

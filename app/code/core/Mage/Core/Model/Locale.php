@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Locale model
  *
@@ -31,7 +31,7 @@ class Mage_Core_Model_Locale
     const DEFAULT_LOCALE    = 'en_US';
     const DEFAULT_TIMEZONE  = 'UTC';
     const DEFAULT_CURRENCY  = 'USD';
-    
+
     /**
      * XML path constants
      */
@@ -41,7 +41,7 @@ class Mage_Core_Model_Locale
     const XML_PATH_DEFAULT_COUNTRY  = 'general/country/default';
     const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
     const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
-    
+
     /**
      * Date and time format codes
      */
@@ -49,29 +49,29 @@ class Mage_Core_Model_Locale
     const FORMAT_TYPE_LONG  = 'long';
     const FORMAT_TYPE_MEDIUM= 'medium';
     const FORMAT_TYPE_SHORT = 'short';
-    
+
     /**
      * Default locale code
      *
      * @var string
      */
     protected $_defaultLocale;
-    
+
     /**
      * Locale object
      *
      * @var Zend_Locale
      */
     protected $_locale;
-    
+
     protected static $_currencyCache = array();
-    
-    public function __construct($locale = null) 
+
+    public function __construct($locale = null)
     {
         Zend_Locale_Data::setCache(Mage::app()->getCache());
         $this->setLocale($locale);
     }
-    
+
     /**
      * Set default locale code
      *
@@ -83,7 +83,7 @@ class Mage_Core_Model_Locale
         $this->_defaultLocale = $locale;
         return $this;
     }
-    
+
     /**
      * REtrieve default locale code
      *
@@ -100,7 +100,7 @@ class Mage_Core_Model_Locale
         }
         return $this->_defaultLocale;
     }
-    
+
     /**
      * Set locale
      *
@@ -113,7 +113,7 @@ class Mage_Core_Model_Locale
         $this->_locale = new Zend_Locale($this->getDefaultLocale());
         return $this;
     }
-    
+
     /**
      * Retrieve timezone code
      *
@@ -123,7 +123,7 @@ class Mage_Core_Model_Locale
     {
         return self::DEFAULT_TIMEZONE;
     }
-    
+
     /**
      * Retrieve currency code
      *
@@ -133,7 +133,7 @@ class Mage_Core_Model_Locale
     {
         return self::DEFAULT_CURRENCY;
     }
-    
+
     /**
      * Retrieve locale object
      *
@@ -144,10 +144,10 @@ class Mage_Core_Model_Locale
         if (!$this->_locale) {
             $this->setLocale();
         }
-        
+
         return $this->_locale;
     }
-    
+
     /**
      * Retrieve locale code
      *
@@ -157,7 +157,7 @@ class Mage_Core_Model_Locale
     {
         return $this->getLocale()->toString();
     }
-    
+
     /**
      * Retrieve options array for locale dropdown
      *
@@ -169,7 +169,7 @@ class Mage_Core_Model_Locale
         $locales    = $this->getLocale()->getLocaleList();
         $languages  = $this->getLocale()->getLanguageTranslationList();
         $countries  = $this->getLocale()->getTranslationList('country');
-        
+
         $allowed    = $this->getAllowLocales();
         foreach ($locales as $code=>$active) {
             if (strstr($code, '_')) {
@@ -193,7 +193,7 @@ class Mage_Core_Model_Locale
         }
         return $result;
     }
-    
+
     /**
      * Retrieve timezone option list
      *
@@ -213,7 +213,7 @@ class Mage_Core_Model_Locale
         }
         return $options;
     }
-    
+
     /**
      * Retrieve country option list
      *
@@ -223,7 +223,7 @@ class Mage_Core_Model_Locale
     {
         $options    = array();
         $countries  = $this->getLocale()->getTranslationList('country');
-        
+
         foreach ($countries as $code=>$name) {
             $options[] = array(
                'label' => $name,
@@ -232,7 +232,7 @@ class Mage_Core_Model_Locale
         }
         return $options;
     }
-    
+
     /**
      * Retrieve currency option list
      *
@@ -257,7 +257,7 @@ class Mage_Core_Model_Locale
         }
         return $options;
     }
-    
+
     /**
      * Retrieve array of allowed locales
      *
@@ -271,7 +271,7 @@ class Mage_Core_Model_Locale
         }
         return array();
     }
-    
+
     /**
      * Retrieve array of allowed currencies
      *
@@ -280,12 +280,16 @@ class Mage_Core_Model_Locale
     public function getAllowCurrencies()
     {
         $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CURRENCIES)->asArray();
+/*        echo "<pre>DEBUG:\n";
+        print_r($data);
+        echo "</pre>";
+        die();*/
         if ($data) {
             return array_keys($data);
         }
         return $data;
     }
-    
+
     /**
      * Retrieve ISO date format
      *
@@ -296,7 +300,7 @@ class Mage_Core_Model_Locale
     {
         return $this->getLocale()->getTranslation($type, 'dateformat');
     }
-    
+
     /**
      * Retrieve ISO time format
      *
@@ -307,7 +311,7 @@ class Mage_Core_Model_Locale
     {
         return $this->getLocale()->getTranslation($type, 'timeformat');
     }
-    
+
     /**
      * Retrieve ISO datetime format
      *
@@ -318,7 +322,7 @@ class Mage_Core_Model_Locale
     {
         return $this->getDateFormat($type) . ' ' . $this->getTimeFormat($type);
     }
-    
+
     /**
      * Retrieve date format by strftime function
      *
@@ -327,8 +331,8 @@ class Mage_Core_Model_Locale
      */
     public function getDateStrFormat($type)
     {
-        $convert = array('yyyy-MM-ddTHH:mm:ssZZZZ'=>'%c',   'EEEE'=>'%A',   'EEE'=>'%a','D'=>'%j', 
-                         'MMMM'=>'%B',  'MMM'=>'%b',        'MM'=>'%m',     'M'=>'%m',  'dd'=>'%d', 
+        $convert = array('yyyy-MM-ddTHH:mm:ssZZZZ'=>'%c',   'EEEE'=>'%A',   'EEE'=>'%a','D'=>'%j',
+                         'MMMM'=>'%B',  'MMM'=>'%b',        'MM'=>'%m',     'M'=>'%m',  'dd'=>'%d',
                          'd'=>'%e',     'yyyy'=>'%Y',       'yy'=>'%y');
         $format = $this->getDateFormat($type);
         foreach ($convert as $key=>$value) {
@@ -336,7 +340,7 @@ class Mage_Core_Model_Locale
         }
         return $format;
     }
-    
+
     /**
      * Retrieve time format by strftime function
      *
@@ -346,14 +350,14 @@ class Mage_Core_Model_Locale
     public function getTimeStrFormat($type)
     {
         $convert = array('a'=>'%p', 'hh'=>'%I', 'HH'=>'%H', 'mm'=>'%M', 'ss'=>'%S', 'z'=>'%Z', 'v'=>'%Z');
-        
+
         $format = $this->getTimeFormat($type);
         foreach ($convert as $key=>$value) {
             $format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
         }
         return $format;
     }
-    
+
     /**
      * Create Zend_Date object for current locale
      *
@@ -366,14 +370,14 @@ class Mage_Core_Model_Locale
         if (is_null($locale)) {
             $locale = $this->getLocale();
         }
-        
+
         $date = new Zend_Date($date, $part, $locale);
         if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
             $date->setTimezone($timezone);
         }
         return $date;
     }
-    
+
     /**
      * Create Zend_Currency object for current locale
      *
@@ -384,7 +388,7 @@ class Mage_Core_Model_Locale
     {
         Varien_Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
-            self::$_currencyCache[$this->getLocaleCode()][$currency] = 
+            self::$_currencyCache[$this->getLocaleCode()][$currency] =
                 new Zend_Currency($currency, $this->getLocale());
         }
         Varien_Profiler::stop('locale/currency');

@@ -45,7 +45,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/currency'));
     }
-    
+
     public function joinRates($currency)
     {
         $alias = $currency.'_rate';
@@ -54,7 +54,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
             'rate');
         return $this;
     }
-    
+
     /**
      * Set language condition by name table
      *

@@ -13,22 +13,30 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Config data collection
- *
- * @category   Mage
- * @package    Mage_Core
- * @author     Moshe Gurvich <moshe@varien.com>
- */
-class Mage_Core_Model_Mysql4_Config_Data_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+
+class Mage_Adminhtml_Model_System_Config_Source_Currency_Service
 {
-    protected function _construct()
+    protected $_options;
+
+    public function toOptionArray($isMultiselect)
     {
-        $this->_init('core/config_data');
+        if (!$this->_options) {
+            $currencyModel = Mage::getModel('directory/currency');
+            $this->_options = array( /* FIXME TOFIX */
+                array(
+                    'label' => $currencyModel::SERVICE_WEBSERVICEX,
+                    'value' => $currencyModel::SERVICE_WEBSERVICEX,
+                ),
+            );
+        }
+
+        $options = $this->_options;
+        return $options;
     }
+
 }

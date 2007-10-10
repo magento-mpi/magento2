@@ -128,6 +128,7 @@
                         <store_email_addresses title="Store Email Addresses Section" />
                         <paypal title="PayPal Section" />
                         <developer title="Developer Section" />
+                        <currency title="Currency Setup Section" />
                     </config>
                     <currency title="Manage Currency" />
                     <email_template title="Transactional Emails" />

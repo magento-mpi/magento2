@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $this->setTitle(__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
-    
+
     public function initTabs()
     {
         $current = $this->getRequest()->getParam('section');
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             ->addFieldToFilter('level', 1)
             ->setOrder('sort_order', 'asc')
             ->loadData();
-        
+
         foreach ($sections as $section) {
             $code = $section->getPath();
             $sectionAllowed = $this->checkSectionPermissions($code);
@@ -61,29 +61,28 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                     $this->_addBreadcrumb($label, '', Mage::getUrl('*/*/*', array('section'=>$code)));
                 }
             }
-            
+
             if ( $sectionAllowed ) {
                 $this->addTab($code, array(
                     'label'     => $label,
                     'url'       => Mage::getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
                 ));
             }
-            
+
             if ($code == $current) {
                 $this->setActiveTab($code);
             }
         }
         return $this;
     }
-    
-    
+
     public function getStoreSelectOptions()
     {
         $section = $this->getRequest()->getParam('section');
-        
+
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
-        
+
         $websitesConfig = Mage::getConfig()->getNode('websites');
         $storesConfig = Mage::getConfig()->getNode('stores');
 
@@ -94,7 +93,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#CCC; font-weight:bold;',
         );
-        
+
         foreach ($websitesConfig->children() as $wCode=>$wConfig) {
         	if ($wConfig->descend('system/website/id')==0) {
         		continue;
@@ -119,14 +118,14 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         }
         return $options;
     }
-    
+
     public function getStoreButtonsHtml()
     {
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
-        
+
         $html = '';
-        
+
         if (!$curWebsite && !$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => __('New Website'),
@@ -149,24 +148,24 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 'onclick'   => "location.href='".Mage::getUrl('*/system_store/edit', array('store'=>$curStore))."'",
             ))->toHtml();
         }
-        
+
         return $html;
     }
-    
+
     public function checkSectionPermissions($code=null)
     {
         static $permissions;
-        
+
         if (!$code or trim($code) == "") {
             return false;
         }
-      
+
         if (!$permissions) {
             $permissions = Mage::getSingleton('admin/session');
         }
-        
+
         $showTab = false;
-        
+
         switch ($code) {
         	case "general":
         	    if ( $permissions->isAllowed('system/config/general') ) {
@@ -176,95 +175,101 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         	case "web":
         	    if ( $permissions->isAllowed('system/config/web') ) {
         	        $showTab = true;
-        	    }            	   
+        	    }
         	    break;
 
         	case "design":
         	    if ( $permissions->isAllowed('system/config/design') ) {
         	        $showTab = true;
-        	    }            	   
+        	    }
         	    break;
-        
+
         	case "customer":
         	    if ( $permissions->isAllowed('system/config/customers') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "sales":
         	    if ( $permissions->isAllowed('system/config/sales') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "newsletter":
         	    if ( $permissions->isAllowed('system/config/newsletter') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "web_track":
         	    if ( $permissions->isAllowed('system/config/tracking') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "catalog":
         	    if ( $permissions->isAllowed('system/config/catalog') ) {
         	        $showTab = true;
-        	    }            	   
+        	    }
         	    break;
-        
+
         	case "wishlist":
         	    if ( $permissions->isAllowed('system/config/wishlist') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "shipping":
         	    if ( $permissions->isAllowed('system/config/shipping') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "carriers":
         	    if ( $permissions->isAllowed('system/config/shipping_methods') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "payment":
         	    if ( $permissions->isAllowed('system/config/payment_methods') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "system":
         	    if ( $permissions->isAllowed('system/config/system') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "advanced":
         	    if ( $permissions->isAllowed('system/config/advanced') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "trans_email":
         	    if ( $permissions->isAllowed('system/config/store_email_addresses') ) {
         	        $showTab = true;
         	    }
         	    break;
-        
+
         	case "paypal":
         	    if ( $permissions->isAllowed('system/config/paypal') ) {
         	        $showTab = true;
-        	    }            	   
+        	    }
         	    break;
-        
+
         	case "dev":
         	    if ( $permissions->isAllowed('system/config/developer') ) {
+        	        $showTab = true;
+        	    }
+        	    break;
+
+        	case "currency":
+        	    if ( $permissions->isAllowed('system/config/currency') ) {
         	        $showTab = true;
         	    }
         	    break;

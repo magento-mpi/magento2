@@ -799,3 +799,26 @@ div.actions:after,
     line-height:0;
     visibility:hidden;
     }
+
+.rate-table td {
+    text-align:right;
+}
+
+.rate-table .input-text {
+    width:90%;
+    text-align:right;
+}
+
+.rate-table .old-rate {
+    font-size:10px;
+}
+
+.rate-table td.thead, .rate-table td.thead-last {
+    background:url(images/filter_row_bg.gif) repeat-x #e3eff1;
+    border-right:1px solid #939797;
+    cursor: default;
+}
+
+.rate-table td.thead-last {
+    border-right:0px;
+}

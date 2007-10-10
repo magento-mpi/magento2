@@ -33,27 +33,27 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
      * @var string
      */
     protected $_currencyRateTable;
-    
+
     /**
      * Currency rate cache array
      *
      * @var array
      */
     protected static $_rateCache;
-    
+
     protected function _construct()
     {
         $this->_init('directory/currency', 'currency_code');
     }
 
-    public function __construct() 
+    public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
         $this->_currencyRateTable   = $resource->getTableName('directory/currency_rate');
-        
+
         parent::__construct();
     }
-    
+
     /**
      * Retrieve currency rate
      *
@@ -66,52 +66,126 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
         if ($currencyFrom instanceof Mage_Directory_Model_Currency) {
             $currencyFrom = $currencyFrom->getCode();
         }
-        
+
         if ($currencyTo instanceof Mage_Directory_Model_Currency) {
             $currencyTo = $currencyTo->getCode();
         }
-        
+
         if ($currencyFrom == $currencyTo) {
             return 1;
         }
-        
+
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
             $read = $this->getConnection('read');
             $select = $read->select()
                 ->from($this->_currencyRateTable, 'rate')
                 ->where('currency_from=?', strtoupper($currencyFrom))
                 ->where('currency_to=?', strtoupper($currencyTo));
-                
+
             self::$_rateCache[$currencyFrom][$currencyTo] = $read->fetchOne($select);
         }
-        
+
         return self::$_rateCache[$currencyFrom][$currencyTo];
     }
-    
+
     /**
      * Saving currency rates
      *
-     * @param   Mage_Core_Model_Abstract $object
-     * @return  Mage_Directory_Model_Mysql4_Currency
+     * @param   array $rates
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    public function saveRates($rates)
     {
-        parent::_afterSave($object);
-        if ($rates = $object->getRates()) {
+        if( is_array($rates) ) {
             $write = $this->getConnection('write');
             $table  = $write->quoteIdentifier($this->_currencyRateTable);
             $colFrom= $write->quoteIdentifier('currency_from');
             $colTo  = $write->quoteIdentifier('currency_to');
             $colRate= $write->quoteIdentifier('rate');
-            
+
             $sql = 'REPLACE INTO ' . $table . ' (' . $colFrom . ', ' . $colTo . ', ' . $colRate . ') VALUES ';
             $values = array();
             foreach ($rates as $currencyCode => $rate) {
-                $values[] = $write->quoteInto('(?)', array($object->getId(), $currencyCode, $rate));
+                foreach( $rate as $currencyTo => $value ) {
+                    $values[] = $write->quoteInto('(?)', array($currencyCode, $currencyTo, $value));
+                }
             }
             $sql.= implode(',', $values);
             $write->query($sql);
+        } else {
+            Mage::throwException(__('Invalid rates received'));
         }
-        return $this;
     }
+
+    /**
+     * Retrieve config currency data by config path
+     *
+     * @param object $model
+     * @param string $path
+     * @return array
+     */
+    public function getConfigCurrencies($model, $path)
+    {
+        $read = $this->getConnection('read');
+        $select = $read->select()
+                ->from($this->getTable('core/config_data'))
+                ->where($read->quoteInto(' path = ? ', $path));
+
+        $data = $read->fetchAll($select);
+        $tmp_array = array();
+        foreach( $data as $configRecord ) {
+            $tmp_array = array_merge($tmp_array, explode(',', $configRecord['value']));
+        }
+
+        $data = array_unique($tmp_array);
+        return $data;
+    }
+
+    /**
+     * Retieve currency rates
+     *
+     * @param string|array $currency
+     * @param array $toCurrencies
+     * @return array
+     */
+    public function getCurrencyRates($currency, $toCurrencies=null)
+    {
+        $rates = array();
+        if( is_array($currency) ) {
+            foreach( $currency as $code ) {
+                $rates[$code] = $this->_getRatesByCode($code, $toCurrencies);
+            }
+        } else {
+            $rates = $this->_getRatesByCode($code, $toCurrencies);
+        }
+
+        return $rates;
+    }
+
+    /**
+     * Protected method used by getCurrencyRates() method
+     *
+     * @param string $code
+     * @param array $toCurrencies
+     * @return array
+     */
+    protected function _getRatesByCode($code, $toCurrencies=null)
+    {
+        $read = $this->getConnection('read');
+        $select = $read->select()
+            ->from($this->getTable('directory/currency_rate'), array('currency_to', 'rate'))
+            ->where($read->quoteInto('currency_from = ?', $code))
+            ->where($read->quoteInto('currency_to IN(?)', $toCurrencies));
+
+        $data = $read->fetchAll($select);
+
+        $tmp_array = array();
+        foreach( $data as $currencyFrom => $rate ) {
+            $tmp_array[$rate['currency_to']] = $rate['rate'];
+        }
+        ksort($tmp_array);
+        $data = $tmp_array;
+
+        return $data;
+    }
+
 }

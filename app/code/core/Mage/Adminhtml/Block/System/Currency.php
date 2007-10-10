@@ -25,20 +25,84 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
 {
     public function __construct()
     {
-        $this->_controller = 'system_currency';
-        $this->_headerText = __('Manage Currencies');
-        parent::__construct();
-        $this->_removeButton('add');
-        $this->_addButton('import',
-            array(
-                'label'     => __('Import Rates From www.webservicex.net'),
-                'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/import') .'\')',
-                'class'     => 'save',
-            )
+        $this->setTemplate('system/currency/rates.phtml');
+    }
+
+    protected function _prepareLayout()
+    {
+        $this->setChild('save_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Save Currency Rates'),
+                    'onclick'   => 'currencyForm.submit();',
+                    'class'     => 'save'
+        )));
+
+        $this->setChild('reset_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Reset'),
+                    'onclick'   => 'document.location.reload()',
+                    'class'     => 'reset'
+        )));
+
+        $this->setChild('import_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Import'),
+                    'class'     => 'add',
+                    'type'      => 'submit',
+        )));
+
+        $this->setChild('rates_matrix',
+            $this->getLayout()->createBlock('adminhtml/system_currency_rate_matrix')
         );
+
+        return parent::_prepareLayout();
+    }
+
+    protected function getHeader()
+    {
+        return __('Manage Currency Rates');
+    }
+
+    protected function getSaveButtonHtml()
+    {
+        return $this->getChildHtml('save_button');
+    }
+
+    protected function getResetButtonHtml()
+    {
+        return $this->getChildHtml('reset_button');
+    }
+
+    protected function getImportButtonHtml()
+    {
+        return $this->getChildHtml('import_button');
+    }
+
+    protected function getServicesHtml()
+    {
+        return $this->getLayout()->createBlock('core/html_select')
+            ->setOptions(Mage::getModel('adminhtml/system_config_source_currency_service')->toOptionArray(0))
+            ->setId('rate_services')
+            ->setName('rate_services')
+            ->setTitle(__('Import Service'))
+            ->toHtml();
+
+    }
+
+    protected function getRatesMatrixHtml()
+    {
+        return $this->getChildHtml('rates_matrix');
+    }
+
+    protected function getImportFormAction()
+    {
+        return Mage::getUrl('*/*/fetchRates');
     }
 }

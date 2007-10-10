@@ -312,7 +312,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if (is_string($block)) {
             $block = $this->getLayout()->getBlock($block);
             if (!$block) {
-                Mage::throwException(__('Invalid block name to set child %s: %s', $name, $block));
+                Mage::throwException(__('Invalid block name to set child %s: %s', $alias, $block));
             }
         }
 

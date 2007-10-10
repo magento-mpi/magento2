@@ -236,10 +236,10 @@ table.actions td {
     padding-top:5px;
     padding-bottom:5px;
     white-space:nowrap;
-        border-width:0 1px 1px 0;
-        border-style:solid;
-        border-color:#bdbdbd;
-    }
+    border-width:0 1px 1px 0;
+    border-style:solid;
+    border-color:#bdbdbd;
+}
 .grid tr.filter th.last { border-right:0; }
 .grid tr.filter input { width: 95%; font:normal 12px Arial; }
 .grid tr.filter select { width:100%; font:normal 12px Arial; }

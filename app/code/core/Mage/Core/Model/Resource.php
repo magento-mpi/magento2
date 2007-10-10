@@ -31,7 +31,7 @@ class Mage_Core_Model_Resource
      * @var array
      */
     protected $_connectionTypes = array();
-    
+
     /**
      * Instances of actual connections
      *
@@ -45,7 +45,7 @@ class Mage_Core_Model_Resource
      * @var array
      */
     protected $_entities = array();
- 
+
     /**
      * Creates a connection to resource whenever needed
      *
@@ -66,17 +66,17 @@ class Mage_Core_Model_Resource
         if (isset($this->_connections[$origName])) {
             return $this->_connections[$origName];
         }
-        
+
         $typeInstance = $this->getConnectionTypeInstance((string)$connConfig->type);
         $conn = $typeInstance->getConnection($connConfig);
-        
+
         $this->_connections[$name] = $conn;
         if ($origName!==$name) {
             $this->_connections[$origName] = $conn;
         }
         return $conn;
     }
-    
+
     /**
      * Get connection type instance
      *
@@ -106,7 +106,7 @@ class Mage_Core_Model_Resource
     {
         return Mage::getConfig()->getNode("global/models/$model/entities/$entity");
     }
-    
+
     /**
      * Get resource table name
      *
@@ -118,13 +118,13 @@ class Mage_Core_Model_Resource
     {
         list($model, $entity) = explode('/', $modelEntity);
         $resourceModel = (string)Mage::getConfig()->getNode('global/models/'.$model.'/resourceModel');
-        
+
         if ($entityConfig = $this->getEntity($resourceModel, $entity)) {
             return (string)$entityConfig->table;
         }
         Mage::throwException(__('Can\'t retrieve entity config for entity: %s of model: %s', $entity, $model));
     }
-    
+
     public function cleanDbRow(&$row) {
         if (!empty($row) && is_array($row)) {
             foreach ($row as $key=>&$value) {
@@ -135,8 +135,8 @@ class Mage_Core_Model_Resource
         }
         return $this;
     }
-    
-    
+
+
     public function createConnection($name, $type, $config)
     {
         if (!isset($this->_connections[$name])) {
@@ -145,8 +145,8 @@ class Mage_Core_Model_Resource
         }
         return $this->_connections[$name];
     }
-    
-    
+
+
     public function checkDbConnection()
     {
     	if (!$this->getConnection('core_read')) {

@@ -23,9 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Mage_Core_Block_Template
 {
     protected function _construct()
@@ -65,7 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends Mag
     {
         return $this->getChildHtml('save_button');
     }
-    
+
     protected function getBackButtonHtml()
     {
         return $this->getChildHtml('back_button');

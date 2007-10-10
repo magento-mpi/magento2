@@ -28,18 +28,18 @@
 class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
 {
     protected $_options = array();
-    
+
     public function getOptions()
     {
         return $this->_options;
     }
-    
+
     public function setOptions($options)
     {
         $this->_options = $options;
         return $this;
     }
-    
+
     public function addOption($value, $label, $params=array())
     {
         $this->_options[] = array('value'=>$value, 'label'=>$label);
@@ -51,34 +51,34 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         $this->setData('id', $id);
         return $this;
     }
-    
+
     public function setClass($class)
     {
         $this->setData('class', $class);
         return $this;
     }
-    
+
     public function setTitle($title)
     {
         $this->setData('title', $title);
         return $this;
     }
-    
+
     public function getId()
     {
         return $this->getData('id');
     }
-    
+
     public function getClass()
     {
         return $this->getData('class');
     }
-    
+
     public function getTitle()
     {
         return $this->getData('title');
     }
-    
+
     public function toHtml()
     {
 		if (!$this->_beforeToHtml()) {
@@ -91,7 +91,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         if (!is_array($values)) {
             $values = array($values);
         }
-        
+
         $isArrayOption = true;
         foreach ($this->getOptions() as $key => $option) {
             if ($isArrayOption && is_array($option)) {
@@ -109,7 +109,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         $html.= '</select>';
         return $html;
     }
-    
+
     public function getHtml()
     {
         return $this->toHtml();

@@ -53,12 +53,19 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $this->renderLayout();
     }
 
-    public function importAction()
+    public function fetchRatesAction()
     {
-        $importModel = Mage::getModel('directory/currency_import_webservicex');
         try {
-            $importModel->importRates();
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were imported'));
+            $service = $this->getRequest()->getParam('rate_services');
+            if( !$service ) {
+                throw new Exception(__('Invalid Import Service Specified'));
+            }
+
+            $importModel = Mage::getModel('directory/currency_import_' . strtolower($service));
+            $rates = $importModel->fetchRates();
+
+            Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched'));
+            Mage::getSingleton('adminhtml/session')->setRates($rates);
         }
         catch (Exception $e){
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -66,25 +73,20 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $this->_redirect('*/*/');
     }
 
-    /*public function newAction()
+    public function saveRatesAction()
     {
-        $this->_forward('edit');
+        $data = $this->getRequest()->getParam('rate');
+        if( is_array($data) ) {
+            try {
+                Mage::getModel('directory/currency')->saveRates($data);
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates successfully saved'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/');
     }
-
-    public function editAction()
-    {
-        $this->_initCurrency();
-        $this->loadLayout();
-        $this->_setActiveMenu('system/currency');
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_currency_edit_tabs'));
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/system_currency_edit'));
-        $this->renderLayout();
-    }
-
-    public function saveAction()
-    {
-
-    }*/
 
     protected function _isAllowed()
     {
