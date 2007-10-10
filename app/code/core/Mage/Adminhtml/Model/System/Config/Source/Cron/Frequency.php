@@ -31,22 +31,22 @@ class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
             $this->_options = array( /* FIXME TOFIX */
                 array(
                     'label' => 'Daily',
-                    'value' => $sheduleModel::CRON_FREQUENCY_DAILY,
+                    'value' => 'D',
                 ),
 
                 array(
                     'label' => 'Weekly',
-                    'value' => $sheduleModel::CRON_FREQUENCY_WEEKLY,
+                    'value' => 'W',
                 ),
 
                 array(
                     'label' => 'Monthly',
-                    'value' => $sheduleModel::CRON_FREQUENCY_MONTHLY,
+                    'value' => 'M',
                 ),
 
                 array(
                     'label' => 'Yearly',
-                    'value' => $sheduleModel::CRON_FREQUENCY_YEARLY,
+                    'value' => 'Y',
                 ),
             );
         }
