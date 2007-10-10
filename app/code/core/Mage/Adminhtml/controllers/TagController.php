@@ -98,7 +98,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                     break;
 
                 default:
-                    $url = Mage::getUrl('*/*/*', array(
+                    $url = Mage::getUrl('*/*/index', array(
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
