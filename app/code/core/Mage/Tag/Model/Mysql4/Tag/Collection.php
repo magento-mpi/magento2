@@ -92,7 +92,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     {
         $joinCondition = $this->getConnection()->quoteInto('summary.store_id = ?', $storeId);
         $this->getSelect()
-            ->joinLeft(array('summary'=>$this->getTable('tag/summary')), 'main_table.tag_id=summary.tag_id AND ' . $joinCondition);
+            ->joinLeft(array('summary'=>$this->getTable('tag/summary')), 'main_table.tag_id=summary.tag_id AND ' . $joinCondition, array('store_id','popularity', 'customers', 'products', 'uses', 'historical_uses'));
 
         $this->setJoinFlag('summary');
         return $this;

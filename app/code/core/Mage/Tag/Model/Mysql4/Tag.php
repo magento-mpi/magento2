@@ -61,7 +61,6 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         $selectGlobal = $this->getConnection('read')->select()
             ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id'=>'( 0 )' /* Workaround*/, 'uses'=>'SUM(main.active)'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
-            ->group('main.tag_id')
             ->where('main.tag_id = ?', $object->getId());
 
 
@@ -76,6 +75,10 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         foreach ($summaries as $summary) {
             $summary['tag_id'] = $object->getId();
             $summary['popularity'] = $summary['historical_uses'];
+            if (is_null($summary['uses'])) {
+                $summary['uses'] = 0;
+            }
+
             $this->getConnection('write')->insert($this->getTable('summary'), $summary);
         }
 
