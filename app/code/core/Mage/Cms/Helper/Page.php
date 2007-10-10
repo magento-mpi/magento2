@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Cms
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -21,11 +21,20 @@
 /**
  * Cms page helper
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 {
-    public function renderPage($action, $pageId=null)
+    /**
+    * Renders CMS page
+    * 
+    * Call from controller action
+    * 
+    * @param Mage_Core_Controller_Front_Action $action
+    * @param integer $pageId
+    * @return boolean
+    */
+    public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId=null)
     {
         $page = Mage::getSingleton('cms/page');
         
