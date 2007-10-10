@@ -82,6 +82,22 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         return $url;
     }
     
+    public function getFirstVisitAt()
+    {
+        if (!$this->hasData('first_visit_at')) {
+            $this->setData('first_visit_at', now());
+        }
+        return $this->getData('first_visit_at');
+    }
+    
+    public function getLastVisitAt()
+    {
+        if (!$this->hasData('last_visit_at')) {
+            $this->setData('last_visit_at', now());
+        }
+        return $this->getData('last_visit_at');
+    }            
+    
     public function isModuleIgnored($observer)
     {
         $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();

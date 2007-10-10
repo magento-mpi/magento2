@@ -19,13 +19,123 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
-<module>
-    <name>Mage_Repository</name>
-    <description>Magento Repository Module</description>
-    <author>
-        <name>Varien Inc.</name>
-        <email>magento@varien.com</email>
-    </author>
-    <version>0.1.0</version>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+    xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
 
-</module>
+    <name>Mage_Customer</name>
+    
+    <channel>packages.magentocommerce.com</channel>
+    
+    <summary>Customers module</summary>
+    
+    <description>Customers module</description>
+    
+    <lead>
+        <user>moshe</name>
+        <role>developer</role>
+        <name>Moshe Gurvich</name>
+        <email>moshe@varien.com</email>
+        <active>yes</active>
+    </lead>
+    
+    <date>2007-10-04</date>
+    
+    <version>
+        <release>0.6.1</release>
+        <api>0.6.0</api>
+    </version>
+    
+    <stability>
+        <release>beta</release>
+        <api>beta</api>
+    </stability>
+    
+    <license uri="http://opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+    
+    <notes><![CDATA[blah blah]]></notes>
+    
+    <codepool>core</codepool>
+    
+    <contents>
+        <dir name="/">
+            <dir name="etc">
+                <file name="config.xml" role="config">
+                    <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+                </file>
+            </dir>
+            <dir name="Model">
+                <file name="App.php" role="php" />
+            </dir>
+            <file name="postinstall.php" role="php">
+        </dir>
+    </contents>
+    
+    <dependencies>
+        <required>
+            <php>
+                <min>5.2.0</min>
+                <max>6.0.0</max>
+            </php>
+            <pearinstaller>
+                <min>1.4.0dev13</min>
+            </pearinstaller>
+            <package>
+                <name>Mage_Core</name>
+                <channel>packages.magentocommerce.com</channel>
+                <min>0.6.0</min>
+                <recommended>0.6.1</recommended>
+            </package>
+            <extension>
+                <name>mcrypt</name>
+            </extension>
+        </required>
+        <optional>
+        
+        </optional>
+        <group name="base" hint="Base Magento installation">
+            <package>
+            
+            </package>
+        </group>
+    </dependencies>
+    
+    <phprelease>
+        <installconditions>
+            <os>
+                <name>windows</name>
+            </os>
+        </installconditions>
+        <filelist>
+            <install as="manage.bat" name="scripts/manage.bat" />
+            <ignore name="scripts/manage.sh" />
+        </filelist>
+    </phprelease>
+    
+    <phprelease>
+        <filelist>
+            <install as="manage.sh" name="scripts/manage.sh" />
+            <ignore name="scripts/manage.bat" />
+        </filelist>
+    </phprelease>
+    
+    <changelog>
+        <release>
+            <version>
+                <release>0.6.0</release>
+                <api>0.6.0</api>
+            </version>
+            <stability>
+                <release>beta</release>
+                <api>beta</api>
+            </stability>
+            <date>2007-09-01</date>
+            <license uri="http://opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+            <notes><![CDATA[blah blah]]></notes>
+        </release>
+    </changelog>
+</package>

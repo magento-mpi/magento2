@@ -32,4 +32,92 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
         ));
     }
 
+    public function match(Zend_Controller_Request_Http $request)
+    {
+        $this->fetchDefault();
+
+        $front = $this->getFront();
+
+        $p = explode('/', trim($request->getPathInfo(), '/'));
+
+        // get module name
+        if ($request->getModuleName()) {
+            $module = $request->getModuleName();
+        } else {
+            $p = explode('/', trim($request->getPathInfo(), '/'));
+            $module = !empty($p[0]) ? $p[0] : $this->getFront()->getDefault('module');
+        }
+        if (!$module) {
+            return false;
+        }
+        $realModule = $this->getRealModuleName($module);
+        if (!$realModule) {
+            if ($moduleFrontName = array_search($module, $this->_modules)) {
+                $realModule = $module;
+                $module = $moduleFrontName;
+            } else {
+                return false;
+            }
+        }
+
+        // get controller name
+        if ($request->getControllerName()) {
+            $controller = $request->getControllerName();
+        } else {
+            $controller = !empty($p[1]) ? $p[1] : $front->getDefault('controller');
+        }
+        $controllerFileName = $this->getControllerFileName($realModule, $controller);
+        if (!$controllerFileName || !is_readable($controllerFileName)) {
+            $controller = 'index';
+            $action = 'noroute';
+            $controllerFileName = $this->getControllerFileName($realModule, $controller);
+        }
+
+        $controllerClassName = $this->getControllerClassName($realModule, $controller);
+        if (!$controllerClassName) {
+            $controller = 'index';
+            $action = 'noroute';
+            $controllerFileName = $this->getControllerFileName($realModule, $controller);
+        }
+
+        // get action name
+        if (empty($action)) {
+            if ($request->getActionName()) {
+                $action = $request->getActionName();
+            } else {
+                $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
+            }
+        }
+        
+        // include controller file if needed
+        if (!class_exists($controllerClassName, false)) {
+            include $controllerFileName;
+            
+            if (!class_exists($controllerClassName)) {
+                throw Mage::exception('Mage_Core', __('Controller file was loaded but class does not exist'));   
+            }
+        }
+        // instantiate controller class
+        $controllerInstance = new $controllerClassName($request, $front->getResponse());
+        
+        if (!$controllerInstance->hasAction($action)) {
+            return false;
+        }
+
+        // set values only after all the checks are done
+        $request->setModuleName($module);
+        $request->setControllerName($controller);
+        $request->setActionName($action);
+
+        // set parameters from pathinfo
+        for ($i=3, $l=sizeof($p); $i<$l; $i+=2) {
+            $request->setParam($p[$i], isset($p[$i+1]) ? $p[$i+1] : '');
+        }
+
+        // dispatch action
+        $request->setDispatched(true);
+        $controllerInstance->dispatch($action);
+
+        return true;#$request->isDispatched();
+    }
 }

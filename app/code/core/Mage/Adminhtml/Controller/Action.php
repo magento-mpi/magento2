@@ -55,6 +55,11 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     {
     	return true; #Mage::getSingleton('admin/session')->isAllowed('admin');
     }
+    
+    public function hasAction($action)
+    {
+        return true;
+    }
 
     public function preDispatch()
     {

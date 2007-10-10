@@ -167,7 +167,7 @@ class Mage_Core_Model_Layout_Update
         if (false===$result) {
             return false;
         }
-        if (!Mage::useCache('layout')) {
+        if (!Mage::app()->useCache('layout')) {
             Mage::app()->removeCache($this->getCacheId());
             return false;
         }
@@ -179,7 +179,7 @@ class Mage_Core_Model_Layout_Update
 
     public function saveCache()
     {
-        if (!Mage::useCache('layout')) {
+        if (!Mage::app()->useCache('layout')) {
             return false;
         }
         $str = $this->asString();
@@ -219,9 +219,6 @@ class Mage_Core_Model_Layout_Update
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        if (empty($updates)) {
-            $updates = '<layout/>';
-        }
         $updates = '<'.'?xml version="1.0"?'.'><layout>'.$updates.'</layout>';
         return simplexml_load_string($updates, $this->getElementClass());
     }

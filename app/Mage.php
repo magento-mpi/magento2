@@ -139,15 +139,6 @@ final class Mage {
         return Mage::registry('appRoot');
     }
 
-    public static function useCache($type, $flag=null)
-    {
-        $value = isset(self::$_useCache[$type]) ? self::$_useCache[$type] : false;
-        if (!is_null($flag)) {
-            self::$_useCache[$type] = $flag;
-        }
-        return $value;
-    }
-
     /**
      * Retrieve application root absolute path
      *

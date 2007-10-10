@@ -30,6 +30,8 @@
 
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
+    protected $_useCache;
+    
     protected $_classNameCache = array();
 
     protected $_blockClassNameCache = array();
@@ -43,8 +45,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->setCacheId('config_global');
         parent::__construct($sourceData);
     }
-
-
+    
     /**
      * Initialization of core configuration
      * 
@@ -58,7 +59,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::start('config/load-cache');
         
         if ($this->loadCache()) {
-            if (!Mage::useCache('config')) {
+            if (!Mage::app()->useCache('config')) {
                 $this->getCache()->remove($this->getCacheId());
                 $saveCache = false;
             } else {

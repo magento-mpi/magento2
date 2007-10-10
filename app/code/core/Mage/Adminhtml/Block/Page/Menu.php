@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         $parentArr = array();
         $i = sizeof($parent->children());
         foreach ($parent->children() as $childName=>$child) {
-
+            $i--;
 			$aclResource = 'admin/'.$path.$childName;
         	if (!$this->_checkAcl($aclResource)) {
                 continue;
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
             $menuArr['level'] = $level;
 
-            if (--$i==0) {
+            if ($i==0) {
                 $menuArr['last'] = true;
             }
 

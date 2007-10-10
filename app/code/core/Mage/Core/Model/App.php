@@ -100,6 +100,13 @@ class Mage_Core_Model_App
      * @var Zend_Cache_Core
      */
     protected $_cache;
+    
+    /**
+    * Use Cache
+    * 
+    * @var array
+    */
+    protected $_useCache;
 
     public function __construct() {}
     
@@ -387,5 +394,24 @@ class Mage_Core_Model_App
     {
         $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         return $this;
+    }
+    
+    /**
+    * Check whether to use cache for specific component
+    * 
+    * Components:
+    * - config
+    * - layout
+    * - eav
+    * - translate
+    * 
+    * @return boolean
+    */
+    public function useCache($type)
+    {
+        if (!$this->_useCache) {
+            $this->_useCache = unserialize($this->getCache()->load('use_cache'));
+        }
+        return isset($this->_useCache[$type]) ? (bool)$this->_useCache[$type] : false;
     }
 }

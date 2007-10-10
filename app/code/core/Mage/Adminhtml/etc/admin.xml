@@ -377,6 +377,10 @@
                             </roles>
                         </children>
                     </acl>
+                    <cache>
+                        <title>Cache management</title>
+                        <action>*/system_cache</action>
+                    </cache>
                     <config>
                         <title>Configuration</title>
                         <action>*/system_config</action>

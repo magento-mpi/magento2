@@ -135,6 +135,7 @@
                     <tools title="Tools" >
                         <backup title="Backups" />
                     </tools>
+                    <cache title="Cache Management"/>
                 </system>
                 <global_search title="Global Search" />
             </admin>

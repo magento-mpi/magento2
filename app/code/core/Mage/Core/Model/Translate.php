@@ -411,6 +411,6 @@ class Mage_Core_Model_Translate
     protected function _canUseCache()
     {
         //return $this->_useCache;
-        return Mage::useCache('translate');
+        return Mage::app()->useCache('translate');
     }
 }

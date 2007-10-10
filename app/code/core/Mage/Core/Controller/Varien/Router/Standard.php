@@ -87,17 +87,11 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $controllerFileName = $this->getControllerFileName($realModule, $controller);
         if (!$controllerFileName || !is_readable($controllerFileName)) {
             return false;
-        	$controller = 'index';
-            $action = 'noroute';
-            $controllerFileName = $this->getControllerFileName($realModule, $controller);
         }
 
         $controllerClassName = $this->getControllerClassName($realModule, $controller);
         if (!$controllerClassName) {
             return false;
-        	$controller = 'index';
-            $action = 'noroute';
-            $controllerFileName = $this->getControllerFileName($realModule, $controller);
         }
 
         // get action name
@@ -126,6 +120,10 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
             include $controllerFileName;
+            
+            if (!class_exists($controllerClassName)) {
+                throw Mage::exception('Mage_Core', __('Controller file was loaded but class does not exist'));   
+            }
         }
         // instantiate controller class
         $controllerInstance = new $controllerClassName($request, $front->getResponse());
@@ -170,6 +168,11 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $file = Mage::getModuleDir('controllers', $realModule);
         $file .= DS.uc_words($controller, DS).'Controller.php';
         return $file;
+    }
+    
+    public function validateControllerFileName($fileName)
+    {
+        
     }
 
     public function getControllerClassName($realModule, $controller)
