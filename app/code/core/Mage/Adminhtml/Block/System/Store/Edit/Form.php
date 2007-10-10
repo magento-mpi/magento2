@@ -76,14 +76,6 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
             ),
         ));
         
-    	$fieldset->addField('language_code', 'select', array(
-            'label' => __('Language'),
-            'title' => __('Language'),
-            'name' => 'language_code',
-            'required' => true,
-            'values' => Mage::getResourceModel('core/language_collection')->load()->toOptionArray(),
-        ));
-        
     	$fieldset->addField('website_id', 'select', array(
             'label' => __('Website'),
             'title' => __('Website'),

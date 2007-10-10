@@ -168,40 +168,42 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
     public function bindCustomerLogin($observer)
     {
         if (!$this->getCustomerId() && $customer = $observer->getEvent()->getCustomer()) {
+            $this->setDoCustomerLogin(true);
             $this->setCustomerId($customer->getId());
         }
         return $this;
     }
 
+    /**
+     * Bind customer data when customer logout
+     * 
+     * Used in event "customer_logout"
+     * 
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_Log_Model_Visitor
+     */
     public function bindCustomerLogout($observer)
     {
         if ($this->getCustomerId() && $customer = $observer->getEvent()->getCustomer()) {
-            $this->setIsCustomerLogout(true);
+            $this->setDoCustomerLogout(true);
         }
         return $this;
     }
 
     public function bindQuoteCreate($observer)
     {
-        /*$quoteId = $observer->getEvent()->getQuote()->getQuoteId();
-        if( $quoteId ) {
-            $this->setQuoteId($quoteId);
-            $this->setQuoteCreatedAt($this->getResource()->getNow());
-            $this->getResource()->logQuote($this);
-        }*/
-
+        if ($quote = $observer->getEvent()->getQuote()) {
+            $this->setQuoteId($quote->getId());
+            $this->setDoQuoteCreate(true);
+        }
         return $this;
     }
 
     public function bindQuoteDestroy($observer)
     {
-        /*$quoteId = $observer->getEvent()->getQuote()->getQuoteId();
-        if( $quoteId ) {
-            $this->setQuoteId($quoteId);
-            $this->setQuoteDeletedAt($this->getResource()->getNow());
-            $this->getResource()->logQuote($this);
-        }*/
-
+        if ($quote = $observer->getEvent()->getQuote()) {
+            $this->setDoQuoteDestroy(true);
+        }
         return $this;
     }
     

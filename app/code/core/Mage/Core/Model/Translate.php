@@ -31,6 +31,8 @@ class Mage_Core_Model_Translate
     const CONFIG_KEY_AREA   = 'area';
     const CONFIG_KEY_LOCALE = 'locale';
     const CONFIG_KEY_STORE  = 'store';
+    const CONFIG_KEY_DESIGN_PACKAGE = 'package';
+    const CONFIG_KEY_DESIGN_THEME   = 'theme';
 
     /**
      * Locale name
@@ -372,6 +374,12 @@ class Mage_Core_Model_Translate
             }
             if (isset($this->_config[self::CONFIG_KEY_STORE])) {
                 $this->_cacheId.= '_'.$this->_config[self::CONFIG_KEY_STORE];
+            }
+            if (isset($this->_config[self::CONFIG_KEY_DESIGN_PACKAGE])) {
+                $this->_cacheId.= '_'.$this->_config[self::CONFIG_KEY_DESIGN_PACKAGE];
+            }
+            if (isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
+                $this->_cacheId.= '_'.$this->_config[self::CONFIG_KEY_DESIGN_THEME];
             }
         }
         return $this->_cacheId;

@@ -32,20 +32,6 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('log/visitor', 'visitor_id');
     }
     
-    /*public function __construct()
-    {
-        $resource = Mage::getSingleton('core/resource');
-
-        $this->_urlTable = $resource->getTableName('log/url_table');
-        $this->_urlInfoTable = $resource->getTableName('log/url_info_table');
-
-        $this->_customerTable = $resource->getTableName('log/customer');
-        $this->_quoteTable = $resource->getTableName('log/quote_table');
-
-        $this->_read = $resource->getConnection('log_read');
-        $this->_write = $resource->getConnection('log_write');
-    }*/
-    
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $visitor)
     {
         return array(
@@ -89,8 +75,11 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
         }
         else {
             $this->_saveVisitorUrl($visitor);
-            if ($visitor->getIsCustomerLogin() || $visitor->getIsCustomerLogout()) {
+            if ($visitor->getDoCustomerLogin() || $visitor->getDoCustomerLogout()) {
                 $this->_saveCustomerInfo($visitor);
+            }
+            if ($visitor->getDoQuoteCreate() || $visitor->getDoQuoteDestroy()) {
+                $this->_saveQuoteInfo($visitor);
             }
         }
         return $this;
@@ -136,13 +125,64 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
     
+    /**
+     * Saving information about customer
+     *
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Mysql4_Visitor
+     */
     protected function _saveCustomerInfo($visitor)
     {
+        $write = $this->getConnection('write');
         
+        if ($visitor->getDoCustomerLogin()) {
+            $write->insert($this->getTable('log/customer'), array(
+                'visitor_id'    => $visitor->getVisitorId(),
+                'customer_id'   => $visitor->getCustomerId(),
+                'login_at'      => now()
+            ));
+            $visitor->setCustomerLogId($write->lastInsertId());
+            $visitor->setDoCustomerLogin(false);
+        }
+        
+        if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
+            $write->update($this->getTable('log/customer'), 
+                array('logout_at'=>now()),
+                $write->quoteInto('log_id=?', $logId)
+            );
+            $visitor->setDoCustomerLogout(false);
+            $visitor->setCustomerId(null);
+            $visitor->setCustomerLogId(null);
+        }
+        return $this;
     }
     
+    /**
+     * Saving information about quote
+     *
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Mysql4_Visitor
+     */
     protected function _saveQuoteInfo($visitor)
     {
+        $write = $this->getConnection('write');
+        if ($visitor->getDoQuoteCreate()) {
+            $write->insert($this->getTable('log/quote_table'), array(
+                'quote_id'  => $visitor->getQuoteId(),
+                'visitor_id'=> $visitor->getId(),
+                'created_at'=> now()
+            ));
+            $visitor->setDoQuoteCreate(false);
+        }
         
+        if ($visitor->getDoQuoteDestroy()) {
+            $write->update($this->getTable('log/quote_table'), 
+                array('deleted_at'=> now()),
+                $write->quoteInto('quote_id=?', $visitor->getQuoteId())
+            );
+            $visitor->setDoQuoteDestroy(false);
+            $visitor->setQuoteId(null);
+        }
+        return $this;
     }
 }

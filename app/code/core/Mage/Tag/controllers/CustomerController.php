@@ -27,7 +27,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Tag_CustomerController extends Mage_Core_Controller_Varien_Action
+class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 {
 
     public function indexAction()

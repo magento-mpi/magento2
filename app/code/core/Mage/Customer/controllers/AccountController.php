@@ -25,7 +25,7 @@
  * @package    Mage_Customer
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_AccountController extends Mage_Core_Controller_Varien_Action
+class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Action predispatch

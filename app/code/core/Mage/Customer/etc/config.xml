@@ -122,11 +122,11 @@
         <events>
             <controller_action_layout_load_before>
                 <observers>
-                    <accountIsLoggedIn>
+                    <customer_is_logged_in_observer>
                         <type>singleton</type>
                         <class>customer/observer</class>
                         <method>beforeLoadLayout</method>
-                    </accountIsLoggedIn>
+                    </customer_is_logged_in_observer>
                 </observers>
             </controller_action_layout_load_before>
         </events>
