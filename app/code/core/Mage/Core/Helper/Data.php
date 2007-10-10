@@ -86,8 +86,8 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         else {
             $format = Mage::app()->getLocale()->getDateFormat($format);
         }
-
-        return $date->toString($format);        
+   
+        return $date->toString($format);
     }
     
     /**

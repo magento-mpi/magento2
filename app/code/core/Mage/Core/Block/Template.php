@@ -105,6 +105,8 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function fetchView($fileName)
     {
+        Varien_Profiler::start($fileName);
+        
         extract ($this->_viewVars);
         $do = $this->getDirectOutput();
 
@@ -115,10 +117,12 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         include $this->_viewDir.DS.$fileName;
 
         if (!$do) {
-            return ob_get_clean();
+            $html = ob_get_clean();
         } else {
-            return '';
+            $html = '';
         }
+        Varien_Profiler::stop($fileName);
+        return $html;
     }
 
     /**

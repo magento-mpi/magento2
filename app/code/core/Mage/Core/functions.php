@@ -34,12 +34,13 @@ function __autoload($class)
     #}
 #$timer = microtime(true);
     $classFile = uc_words($class, DS).'.php';
+    $a = explode('_', $class);
     Varien_Profiler::start('AUTOLOAD');
-    #Varien_Profiler::start('AUTOLOAD: '.$class);
+    Varien_Profiler::start('AUTOLOAD: '.$a[0]);
     #$loaded[$class] = 1;
     include ($classFile);
     Varien_Profiler::stop('AUTOLOAD');
-    #Varien_Profiler::stop('AUTOLOAD: '.$class);
+    Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
 #error_log($_SERVER['REMOTE_ADDR'].' - AUTOLOAD: '.$class.': '.(microtime(true)-$timer)."\n", 3, 'var/log/magento.log');
 }
 
