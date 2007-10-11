@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
             ),
         ));
 
-        if (!$model->getId()) {
+        if (!$model->getId() && !Mage::getSingleton('adminhtml/session')->getTagData() ) {
             $model->setStatus(Mage_Tag_Model_Tag::STATUS_APPROVED);
         }
 

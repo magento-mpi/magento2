@@ -79,6 +79,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+            $data['name']=trim($data['name']);
             $model = Mage::getModel('tag/tag');
             $model->setData($data);
 

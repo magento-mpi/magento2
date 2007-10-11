@@ -50,6 +50,19 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         }
     }
 
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        if(!$object->getId() && $object->getStatus()==$object->getApprovedStatus()) {
+            $searchTag = new Varien_Object();
+            $this->loadByName($searchTag, $object->getName());
+            if($searchTag->getData($this->getIdFieldName()) && $searchTag->getStatus()==$object->getPendingStatus()) {
+                $object->setId($searchTag->getData($this->getIdFieldName()));
+            }
+        }
+
+        return parent::_beforeSave($object);
+    }
+
     public function aggregate($object)
     {
         $selectLocal = $this->getConnection('read')->select()
