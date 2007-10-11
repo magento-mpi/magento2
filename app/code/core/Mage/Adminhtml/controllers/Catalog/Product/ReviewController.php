@@ -198,12 +198,16 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 	   ->setReviewId($review->getId())
                 	   ->addOptionVote($optionId, $productId);
                 }
+
+                $review->aggregate();
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Review was successfully saved'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
                 } else {
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 }
+
                 return;
             } catch (Exception $e){
                 die($e->getMessage());
