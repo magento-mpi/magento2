@@ -108,7 +108,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
  			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 				$this->_itemCollection->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
 			} else {
-				$this->_itemCollection->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
+				$this->_itemCollection->setVisitorId(Mage::getSingleton('log/visitor')->getId());
 			}
 
 			$this->_itemCollection->addAttributeToSelect('name')

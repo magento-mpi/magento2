@@ -48,7 +48,7 @@
             if(Mage::getSingleton('customer/session')->isLoggedIn()) {
                 $this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
             } else {
-                $this->_items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
+                $this->_items->setVisitorId(Mage::getSingleton('log/visitor')->getId());
             }
             
             $this->_items

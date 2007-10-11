@@ -27,85 +27,85 @@
  */
  class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_Action
  {
-	public function indexAction()
-	{
-	    $items = $this->getRequest()->getParam('items');
+    public function indexAction()
+    {
+        $items = $this->getRequest()->getParam('items');
 
-	    if(!Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
-	         Mage::getSingleton('customer/session')->setBeforeWishlistUrl(base64_decode($this->getRequest()->getParam('referer')));
-	    }
+        if(!Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
+             Mage::getSingleton('customer/session')->setBeforeWishlistUrl(base64_decode($this->getRequest()->getParam('referer')));
+        }
 
-	    if ($items) {
-	        $items = explode(',', $items);
-	        $list = Mage::getSingleton('catalog/product_compare_list');
+        if ($items) {
+            $items = explode(',', $items);
+            $list = Mage::getSingleton('catalog/product_compare_list');
             $list->addProducts($items);
             $this->_redirect('*/*/*');
             return;
-	    }
+        }
 
-		$this->loadLayout();
-		$this->renderLayout();
-	}
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 
-	/**
-	 * Add item to compare list
-	 */
-	public function addAction()
-	{
-		$productId = (int)$this->getRequest()->getParam('product');
+    /**
+     * Add item to compare list
+     */
+    public function addAction()
+    {
+        $productId = (int)$this->getRequest()->getParam('product');
 
-		$product = Mage::getModel('catalog/product')
-			->load($productId);
+        $product = Mage::getModel('catalog/product')
+            ->load($productId);
 
-		if($product->getId()) {
-		    Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
-		}
-
-		$this->_redirectReferer();
-	}
-
-	/**
-	 * Remove item from compare list
-	 */
-	public function removeAction()
-	{
-		$productId = (int)$this->getRequest()->getParam('product');
-		$product = Mage::getModel('catalog/product')
-			->load($productId);
-
-		if($product->getId()) {
-			$item = Mage::getModel('catalog/product_compare_item');
-			if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-				$item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
-			} else {
-				$item->addVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
-			}
-
-			$item->loadByProduct($product);
-
-			if($item->getId()) {
-				$item->delete();
-			}
-		}
+        if($product->getId()) {
+            Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
+        }
 
         $this->_redirectReferer();
-	}
+    }
 
-	public function clearAction()
-	{
-		$items = Mage::getResourceModel('catalog/product_compare_item_collection')
-				->setStoreId(Mage::app()->getStore()->getId());
+    /**
+     * Remove item from compare list
+     */
+    public function removeAction()
+    {
+        $productId = (int)$this->getRequest()->getParam('product');
+        $product = Mage::getModel('catalog/product')
+            ->load($productId);
+
+        if($product->getId()) {
+            $item = Mage::getModel('catalog/product_compare_item');
+            if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
+            } else {
+                $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
+            }
+
+            $item->loadByProduct($product);
+
+            if($item->getId()) {
+                $item->delete();
+            }
+        }
+
+        $this->_redirectReferer();
+    }
+
+    public function clearAction()
+    {
+        $items = Mage::getResourceModel('catalog/product_compare_item_collection')
+                ->setStoreId(Mage::app()->getStore()->getId());
 
         if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-			$items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-		} else {
-			$items->setVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
-		}
+            $items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+        } else {
+            $items->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+        }
 
-		$items->load();
+        $items->load();
 
-		$items->walk('delete');
+        $items->walk('delete');
 
         $this->_redirectReferer();
-	}
+    }
  } // Class Mage_Catalog_CompareController end

@@ -31,12 +31,12 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
     {
         $item = Mage::getModel('catalog/product_compare_item');
         $this->_addVisitorToItem($item);
-		$item->loadByProduct($product);
+        $item->loadByProduct($product);
 
-		if(!$item->getId()) {
-			$item->addProductData($product);
-			$item->save();
-		}
+        if(!$item->getId()) {
+            $item->addProductData($product);
+            $item->save();
+        }
         return $this;
     }
     
@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
     {
         if (is_array($productIds)) {
             foreach ($productIds as $productId) {
-            	$this->addProduct($productId);
+                $this->addProduct($productId);
             }
         }
         return $this;
@@ -62,11 +62,11 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
     
     protected function _addVisitorToItem($item)
     {
-		if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-			$item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
-		} else {
-			$item->addVisitorId(Mage::getSingleton('core/session')->getLogVisitorId());
-		}
-		return $this;
+        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
+        } else {
+            $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
+        }
+        return $this;
     }
 }
