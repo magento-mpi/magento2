@@ -50,6 +50,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 		if (!empty($sessionName)) {
 		    session_name($sessionName);
 		}
+        
+        // potential custom logic for session id (ex. switching between hosts)
+        $this->setSessionId();
 
         Varien_Profiler::start(__METHOD__.'/start');
         session_start();

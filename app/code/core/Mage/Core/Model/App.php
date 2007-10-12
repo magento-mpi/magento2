@@ -366,9 +366,9 @@ class Mage_Core_Model_App
      * @param   array $tags
      * @return  Mage_Core_Model_App
      */
-    public function saveCache($data, $id, $tags=array())
+    public function saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
-        $this->getCache()->save($data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags));
+        $this->getCache()->save($data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags), $lifeTime);
         return $this;
     }
 

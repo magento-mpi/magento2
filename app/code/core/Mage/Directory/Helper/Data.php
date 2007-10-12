@@ -29,6 +29,16 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_regionCollection;
     protected $_regionJson;
     
+    public function getRegionCollection()
+    {
+        if (!$this->_regionCollection) {
+            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
+                ->addCountryFilter($this->getAddress()->getCountryId())
+                ->load();
+        }
+        return $this->_regionCollection;
+    }
+    
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {

@@ -27,25 +27,33 @@
  */
 class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 {
-    public function __construct()
+    protected $_url;
+    
+    protected function _construct()
     {
+        parent::_construct();
         $this->setTemplate('page/menu.phtml');
+        $this->_url = Mage::getModel('core/url');
     }
-
-    protected function _beforeToHtml()
+    
+    public function getCacheLifetime()
     {
-        $menu = $this->_buildMenuArray();
-        $this->assign('menu', $menu);
-        return parent::_beforeToHtml();
+        return 86400;
+    }
+    
+    public function getCacheKey()
+    {
+        $a = explode('/', $this->getActive());
+        return 'admin_top_nav_'.$a[0];
+    }
+    
+    public function getMenuArray()
+    {
+        return $this->_buildMenuArray();
     }
 
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
-        static $baseUrl = null;
-        if (is_null($baseUrl)) {
-            $baseUrl = Mage::getBaseUrl();
-        }
-
         if (is_null($parent)) {
             $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
         }
@@ -69,7 +77,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
             $menuArr['title'] = __((string)$child->title);
 
             if ($child->action) {
-                $menuArr['url'] = Mage::getUrl((string)$child->action);
+                $menuArr['url'] = $this->_url->getUrl((string)$child->action);
             } else {
                 $menuArr['url'] = '#';
                 $menuArr['click'] = 'return false';

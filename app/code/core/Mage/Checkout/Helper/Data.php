@@ -25,6 +25,22 @@
  */
 class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    public function getCheckout()
+    {
+        if (empty($this->_checkout)) {
+            $this->_checkout = Mage::getSingleton('checkout/session');
+        }
+        return $this->_checkout;
+    }
+
+    public function getQuote()
+    {
+        if (empty($this->_quote)) {
+            $this->_quote = $this->getCheckout()->getQuote();
+        }
+        return $this->_quote;
+    }
+    
     /**
      * Retrieve quote item product url
      *

@@ -660,9 +660,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getCacheTags()
     {
         if (!$this->hasData('cache_tags')) {
-            return array();
+            $tags = array();
+        } else {
+            $tags = $this->getData('cache_tags');
         }
-        return $this->getData('cache_tags');
+        $tags[] = 'block_html';
+        return $tags;
     }
 
     public function getCacheLifetime()
@@ -675,18 +678,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     protected function _loadCache()
     {
-        if (is_null($this->getCacheLifetime())) {
+        if (is_null($this->getCacheLifetime()) || !Mage::app()->useCache('block_html')) {
             return false;
         }
-        return $this->getLayout()->getBlockCache()->load($this->getCacheKey());
+        return Mage::app()->loadCache($this->getCacheKey());
     }
 
     protected function _saveCache($data)
     {
-        if (is_null($this->getCacheLifetime())) {
+        if (is_null($this->getCacheLifetime()) || !Mage::app()->useCache('block_html')) {
             return false;
         }
-        $this->getLayout()->getBlockCache()->save($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
+        Mage::app()->saveCache($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
         return $this;
     }
 }// Class Mage_Home_ContentBlock END

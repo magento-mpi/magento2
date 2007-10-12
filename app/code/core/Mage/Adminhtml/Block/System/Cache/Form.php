@@ -30,10 +30,11 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
     public function initForm()
     {
         $types = array(
-            'config'    => __('Configuration'), 
-            'layout'    => __('Layouts'), 
-            'eav'       => __('EAV types and attributes'), 
-            'translate' => __('Translations')
+            'config'     => __('Configuration'), 
+            'layout'     => __('Layouts'), 
+            'block_html' => __('Blocks HTML output'),
+            'eav'        => __('EAV types and attributes'), 
+            'translate'  => __('Translations'),
         );
         
         $options = array(

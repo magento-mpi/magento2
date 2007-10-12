@@ -93,6 +93,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return $this->getCustomer()->getLoadedAddressCollection()->count()>0;
     }
 
+/* */
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
@@ -160,4 +161,5 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
         return $select->getHtml();
     }
+/* */
 }

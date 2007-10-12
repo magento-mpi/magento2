@@ -49,7 +49,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                     $a[$type] = $value&1;
                 }   
             }
-            Mage::app()->getCache()->save(serialize($a), 'use_cache');
+            Mage::app()->getCache()->save(serialize($a), 'use_cache', array(), null);
         }
         $this->_redirect('*/*');
     }   

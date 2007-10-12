@@ -18,42 +18,28 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?/*{
 
-}*/?>
-<?if (empty($_level)):?>
 <!-- menu start -->
-<script type="text/javascript">
-function toggleMenu(el, over) {
-    if (over) {
-        Element.addClassName(el, 'over');
-    } else {
-        Element.removeClassName(el, 'over');
-    }
-}
-</script>
-<ul id="nav">
-<?  $_level = 0; ?>
-<?endif?>
-
-<?foreach ($menu as $_item):?>
-    <li <?if(!empty($_item['children'])):?>onmouseover="toggleMenu(this,1)" onmouseout="toggleMenu(this,0)"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?> <?=!empty($_item['children'])?' parent':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>"><a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?> onclick="<?=$_item['click'];?>"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?>">
-            <span><?=$_item['label']?>
-            <?if(empty($_level)):?><em></em><?endif?></span>
-       </a>
-<?if(!empty($_item['children'])):?><ul>
-        <?
-            $_menuData[$_level] = array('menu'=>$menu);
-            $menu = $_item['children'];
-            $_level++;
-            include __FILE__;
-            $_level--;
-            extract($_menuData[$_level]);
-        ?>
-        </ul><?endif;?></li>
-<?endforeach;?>
-
-<?if (empty($_level)):?>
-</ul>
+<?drawMenuLevel($this->getMenuArray());?>
 <!-- menu end -->
-<?endif?>
+
+<?function drawMenuLevel($_menu, $_level=0) {?>
+
+    <ul <?if(!$_level):?>id="nav"<?endif?>>
+        <?foreach ($_menu as $_item):?>
+        <li <?if(!empty($_item['children'])):?>onmouseover="Element.addClassName(this,'over')" onmouseout="Element.removeClassName(this,'over')"<?endif?> class="<?=(!$_level && !empty($_item['active']))?'active':''?> <?=!empty($_item['children'])?' parent':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>">
+            
+            <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?>onclick="<?=$_item['click'];?>"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?>">
+                
+                <span><?=$_item['label']?><?if(!$_level):?><em></em><?endif?></span>
+            </a>
+            
+            <?if(!empty($_item['children'])):?>
+                <?drawMenuLevel($_item['children'], $_level+1);?>
+            <?endif;?>
+        </li>
+        <?endforeach;?>
+    </ul>
+    
+<?}//function?>
+

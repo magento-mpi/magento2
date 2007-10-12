@@ -180,7 +180,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     {
         if (is_null($id)) {
             if (isset($_GET[self::SESSION_ID_QUERY_PARAM])) {
-                if ($tryId = Mage::decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
+                if ($tryId = Mage::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
                     $id = $tryId;
                 }
             }

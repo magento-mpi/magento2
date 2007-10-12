@@ -30,6 +30,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 {
     public function getItemCollection()
     {
+
         $collection = $this->getData('item_collection');
         if (is_null($collection)) {
             /**
@@ -37,12 +38,14 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
              */
             #$this->getQuote()->collectTotals()
             #   ->save();
+Varien_Profiler::start('TEST1: '.__METHOD__);
             $collection = Mage::getResourceModel('sales/quote_item_collection')
                ->addAttributeToSelect('*')
                ->setQuoteFilter($this->getQuote()->getId())
                ->addAttributeToSort('created_at', 'desc')
                ->setPageSize(3)
                ->load();
+Varien_Profiler::stop('TEST1: '.__METHOD__);
 
 
             $this->setData('item_collection', $collection);

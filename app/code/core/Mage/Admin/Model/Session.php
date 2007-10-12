@@ -45,12 +45,14 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function isAllowed($resource, $privilege=null)
     {
-        if ($this->getUser() && $this->getAcl()) {
+        $user = $this->getUser();
+        $acl = $this->getAcl();
+        if ($user && $acl) {
             if (!preg_match('/^admin/', $resource)) {
             	$resource = 'admin/'.$resource;
             }
         	try {
-            	return $this->getAcl()->isAllowed($this->getUser()->getAclRole(), $resource, $privilege);
+            	return $acl->isAllowed($user->getAclRole(), $resource, $privilege);
         	} catch (Exception $e) {
 				return false;
         	}

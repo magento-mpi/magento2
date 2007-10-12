@@ -30,14 +30,32 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
     
-    public function getCustomerName()
+    /**
+     * Get logged in customer
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer()->getName();
+        if (empty($this->_customer)) {
+            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+        }
+        return $this->_customer;
     }
-    
+        
     public function getCurrentCustomer()
     {
-        
+        return $this->getCustomer();
+    }
+    
+    public function getCustomerName()
+    {
+        return $this->getCustomer()->getName();
+    }
+
+    public function customerHasAddresses()
+    {
+        return $this->getCustomer()->getLoadedAddressCollection()->count()>0;
     }
     
     public function getCustomerAddress()

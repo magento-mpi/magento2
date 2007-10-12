@@ -370,9 +370,11 @@ final class Mage {
     public static function run($storeCode='', $etcDir=null)
     {
         self::log('===================== START ==========================');
-
+        
         try {
             Varien_Profiler::start('app');
+
+            self::loadRequiredExtensions();
 
             self::app($storeCode, $etcDir);
             self::app()->getFrontController()->dispatch();
@@ -468,5 +470,48 @@ final class Mage {
         echo '<pre>';
         echo ($e);
         echo '</pre>';
+    }
+    
+
+    /**
+    * Referenced from PEAR::loadExtension
+    * 
+    * @param string $ext
+    * @return boolean
+    */
+    public static function loadExtension($ext)
+    {
+        if (extension_loaded($ext)) {
+            return true;
+        }
+        
+        if (ini_get('enable_dl') !== 1 || ini_get('safe_mode') === 1) {
+            return false;
+        }
+        
+        $file = $ext;
+        if (PHP_OS === 'HP-UX') {
+            $file .= '.sl';
+        } elseif (PHP_OS === 'AIX') {
+            $file .= '.a';
+        } elseif (PHP_OS === 'OSX') {
+            $file .= '.bundle';
+        } elseif (substr(PHP_OS, 0, 3) === 'WIN') {
+            $file .= '.dll';
+        } else {
+            $file .= '.so';
+        }
+        return @dl('php_'.$file) || @dl($file);
+    }
+    
+    public static function loadRequiredExtensions()
+    {
+        $result = true;
+        foreach (array('mcrypt', 'simplexml', 'mysqli', 'pdo_mysql', 'curl', 'iconv') as $ext) {
+            if (!self::loadExtension($ext)) {
+                $result = false;
+            }
+        }
+        return $result;
     }
 }
