@@ -81,8 +81,17 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         $data = $this->getRequest()->getParam('rate');
         if( is_array($data) ) {
             try {
+                foreach ($data as $currencyCode => $rate) {
+                    foreach( $rate as $currencyTo => $value ) {
+                        $value = abs($value);
+                        if( $value == 0 ) {
+                            Mage::getSingleton('adminhtml/session')->addWarning(__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
+                        }
+                    }
+                }
+
                 Mage::getModel('directory/currency')->saveRates($data);
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('All valid rates successfully saved'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }

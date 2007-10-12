@@ -53,7 +53,10 @@ class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Mo
                 ->request('GET')
                 ->getBody();
 
-            $xml = simplexml_load_string($response);
+            $xml = simplexml_load_string($response, null, LIBXML_NOERROR);
+            if( !$xml ) {
+                Mage::throwException(__('Cannot retrieve rate from %s', $url));
+            }
             return (float) $xml;
         }
         catch (Exception $e) {

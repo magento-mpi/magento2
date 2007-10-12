@@ -22,7 +22,7 @@
 <?
 $_oldRates = $this->getOldRates();
 $_newRates = $this->getNewRates();
-$_rates = ( $this->getNewRates() ) ? $_newRates : $_oldRates;
+$_rates = ( $_newRates ) ? $_newRates : $_oldRates;
 ?>
 <form name="rateForm" id="rateForm" method="POST" action="<?=$this->getRatesFormAction();?>">
     <table class="rate-table data-table" cellpadding="0" cellspacing="0" border="0" style="border-top:0px;">
@@ -42,14 +42,14 @@ $_rates = ( $this->getNewRates() ) ? $_newRates : $_oldRates;
                     <td>
                         <input type="text" name="rate[<?=$_currencyCode?>][<?=$_rate?>]" value="<?=$_value?>" <?=( $_currencyCode == $_rate ) ? 'class="input-text input-text-disabled" readonly="true"' : 'class="input-text"'?> />
                         <?if( isset($_newRates) && $_currencyCode != $_rate && isset($_oldRates[$_currencyCode][$_rate]) ):?>
-                        <span class="old-rate"><?=$_oldRates[$_currencyCode][$_rate]?></span>
+                        <br /><span class="old-rate"><?=$_oldRates[$_currencyCode][$_rate]?></span>
                         <?endif;?>
                     </td>
                 <?else:?>
                     <td>
                         <input type="text" name="rate[<?=$_currencyCode?>][<?=$_rate?>]" value="<?=$_value?>" <?=( $_currencyCode == $_rate ) ? 'class="input-text input-text-disabled" readonly="true"' : 'class="input-text"'?> />
                         <?if( isset($_newRates)  && $_currencyCode != $_rate && isset($_oldRates[$_currencyCode][$_rate]) ):?>
-                        <span class="old-rate"><?=$_oldRates[$_currencyCode][$_rate]?></span>
+                        <br /><span class="old-rate"><?=$_oldRates[$_currencyCode][$_rate]?></span>
                         <?endif;?>
                     </td>
                 <?endif;?>
