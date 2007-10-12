@@ -13,13 +13,15 @@ class Varien_File_Csv_multy extends Varien_File_Csv {
         	if (isset($rowData[$keyIndex])) {
         	    if(isset($data[$rowData[$keyIndex]])){
         	    	if(isset($data[$rowData[$keyIndex]]['duplicate'])){
-        	    		array_push($data[$rowData[$keyIndex]]['duplicate'],array('line' => $line_number,'value' => isset($rowData[$valueIndex]) ? $rowData[$valueIndex] : null));						
+        	    		#array_push($data[$rowData[$keyIndex]]['duplicate'],array('line' => $line_number,'value' => isset($rowData[$valueIndex]) ? $rowData[$valueIndex] : null));						
+        	    		$data[$rowData[$keyIndex]]['duplicate']['line'] .=', '.$line_number; 
         	    	} else {
         	    		$tmp_value = $data[$rowData[$keyIndex]]['value'];
         	    		$tmp_line  = $data[$rowData[$keyIndex]]['line'];
 	        	    	$data[$rowData[$keyIndex]]['duplicate'] = array();
-	        	    	array_push($data[$rowData[$keyIndex]]['duplicate'],array('line' => $tmp_line,'value' => $tmp_value));
-						array_push($data[$rowData[$keyIndex]]['duplicate'],array('line' => $line_number,'value' => isset($rowData[$valueIndex]) ? $rowData[$valueIndex] : null));						
+	        	    	#array_push($data[$rowData[$keyIndex]]['duplicate'],array('line' => $tmp_line.' ,'.$line_number,'value' => $tmp_value));
+	        	    	$data[$rowData[$keyIndex]]['duplicate']['line'] = $tmp_line.' ,'.$line_number;
+	        	    	$data[$rowData[$keyIndex]]['duplicate']['value'] = $tmp_value;
         	    	}
         	    } else {
         	    	$data[$rowData[$keyIndex]] = array();

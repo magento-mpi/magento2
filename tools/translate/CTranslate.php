@@ -1,10 +1,9 @@
 <?php
 class Translate {
-	private static $opts;
-	private static $csv;
-	private static $parseData;
-	private static $error_array;
-	private static $CONFIG;
+	private static $opts; # object of MultyGetopt
+	private static $csv; # object of Varien_File_Csv_multy
+	private static $parseData; # parsering data file "__()";
+	private static $CONFIG; # data from config.inc.php
 	/**
      *Starting checking process
      *
@@ -52,7 +51,7 @@ class Translate {
 		    return;
 	    }
 	    if($generate!==null && $generate!==false){
-	    	self::callGenerate($file, $path);
+	    	self::callGenerate($file, $path, $dir_en);
 		    return;
 	    }
 
@@ -62,33 +61,91 @@ class Translate {
      *
      * @param   string $file - files array
      * @param   string $path - root path
+     * @param   string $dir_en - dir to default english files
      * @return  none
      */	
-	protected static function callGenerate($file,  $path){
-		
-		if(!($file===null || $file === false) ){
-			if(!is_array($path.$file)){
-				if(is_dir($path.$file)) {
-					CFiles::readpath($path.$file,$dirs,$files);
+	protected static function callGenerate($file,  $path, $dir_en){
+		if(!($file===null || $file === false  || $file === true) ){
+			if(!is_array($file)){
+				if(strpos($file,'Mage_') === 0){
+					$dir_name = substr($file,5);
+				} else {
+					$dir_name = $file;
+				}
+				self::$parseData = array();
+				$dir = $path.'app/code/core/Mage/'.$dir_name;
+				if(is_dir($dir)) {
+					$dirs='';
+					$files = '';
+					CFiles::readpath($dir,$dirs,$files);
+					
 					for($a=0;$a<count($files);$a++){
 						if(in_array(CFiles::getExt($files[$a]),self::$CONFIG['allow_extensions'])){
-							self::parseFile($files[$a]);
+							self::parseFile($files[$a],self::$parseData,$dir_name);
 						}
 					}
+					$dup = self::checkDuplicates(self::$parseData);
+					try{
+						$data_en = self::$csv -> getDataPairs($dir_en.$file.'.'.EXTENSION);
+					} catch (Exception $e){
+						self::error($e->getMessage());
+					}
+					$parse_data_arr = array();
+					foreach (self::$parseData as $key => $val){
+						$parse_data_arr[$val['value']]=array('line'=>$val['line'],'file'=>$val['file']);
+					}
+					$res = self::checkArray($data_en,$parse_data_arr);
+					$res['duplicate'] = $dup;
+					self::output($file,$res,$file);
+					$unique_array = array();
+					$csv_data = array();
+					foreach (self::$parseData as $val){
+						array_push($unique_array,$val['value']);
+					}
+					$unique_array = array_unique($unique_array);
+					foreach ($unique_array as $val){
+						array_push($csv_data,array($val,$val));
+					}
+					self::$csv -> saveData('output/'.$file.'.'.EXTENSION,$csv_data);
+				} else {
+					self::error("Could not found specific module for file ".$file." in app/core/Mage");					
 				}
-			}
-						
-			/*if(!is_array($file)){
-				self::generateFiles($file,$dir_en);
+				
 			} else {
-				for($i=0;$i<count($file);$i++){
-					self::generateFiles($file[$i],$dir_en);
+				for($a=0;$a<count($file);$a++){
+					self::callGenerate($file[$a],$path,$dir_en);					
 				}
-				}
-			*/
-	    } else {
+			
+			}
+			
+			
+				
+		} else {
 	    	self::error("Please specify file(s)");
 	    }
+	}
+	
+	/**
+     *return array of duplicate parsering data
+     *
+     * @param   array $data - array of data 
+     * @return  array - duplicates array
+     */
+	public static function checkDuplicates($data){
+		$dupl = array();
+		$check_arr = array();
+		foreach ($data as $val){
+			if(isset($check_arr[$val['value']])){
+				if(isset($dupl[$val['value']])){
+					$dupl[$val['value']]['line'].=', '.	$val['line'].'-'.$val['file'];
+				} else {
+					$dupl[$val['value']]['line']=$check_arr[$val['value']].', '.$val['line'].'-'.$val['file'];
+				}
+			} else {
+				$check_arr[$val['value']] = $val['line'].'-'.$val['file'];
+			}
+		}
+		return $dupl;
 	}
 	/**
      *Parsering file on "__()"
@@ -96,15 +153,31 @@ class Translate {
      * @param   string $file - file path
      * @return  none
      */
-	protected static function parseFile($file){
+	protected static function parseFile($file,&$data_arr,$dir_name){
 		try {
-			$content = file_get_contents($file);
+			$f = fopen($file,"r");
 		} catch (Exception $e) {
 			self::error($e->getMessage());
 		}
-		preg_match_all('/__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/',$content,$results,PREG_SET_ORDER);
-		print_r($results);
-		
+		$line_num = 0;
+		while (!feof($f)) {
+			$line = fgets($f, 4096);
+			$line_num++;
+			$results = array();
+			preg_match_all('/__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/',$line,$results,PREG_SET_ORDER);
+			for($a=0;$a<count($results);$a++){
+				$inc_arr = array();
+				if(isset($results[$a][2])){
+					$inc_arr['value']=$results[$a][2];
+					$inc_arr['line']=$line_num;
+					$matches=array();
+					preg_match('/.*app\/code\/core\/Mage\/'.$dir_name.'\/(.*)/',$file,$matches);
+					$inc_arr['file']=$matches[1];
+					array_push($data_arr,$inc_arr);		
+				}
+			}
+		}
+		return $data_arr;
 	}
 	/**
      *Call validation process
@@ -115,7 +188,7 @@ class Translate {
      * @return  none
      */	
 	protected static function callValidate($file, $dir, $dir_en){
-		if(!($file===null || $file === false) ){
+		if(!($file===null || $file === false || $file === true ) ){
 			if(!is_array($file)){
 				self::checkFiles($dir_en.$file.'.'.EXTENSION,$dir.$file.'.'.EXTENSION);
 			} else {
@@ -125,7 +198,6 @@ class Translate {
 			}
 	    } else {
 	    	$handle = opendir($dir);
-			$handle_en = opendir($dir_en);
 			while (false !== ($file_in_dir = readdir($handle))) {
 				if(!is_dir($file_in_dir) && in_array(CFiles::getExt($file_in_dir),self::$CONFIG['allow_extensions'])){
 			       	self::checkFiles($dir_en.$file_in_dir,$dir.$file_in_dir);
@@ -156,9 +228,7 @@ class Translate {
 		$err['missing'] = array();
 		$err['redundant'] = array();
 		$err['duplicate'] = array();
-
-		$duplicates_array = array();
-		
+		//print_r($arr_en);
 		foreach ($arr_en as $key=>$val){
 			if(!isset($arr[$key])) {
 				$err['missing'][$key] = $arr_en[$key]['line'];
@@ -167,13 +237,14 @@ class Translate {
 
 		foreach ($arr as $key=>$val){
 			if(!isset($arr_en[$key])) {
-				$err['redundant'][$key] = $arr[$key]['line'];
+				$err['redundant'][$key] = $val['line'];
 			}
 		}
 
 		foreach ($arr as $key=>$val){
-			if(isset($arr[$key]['duplicate'])){
-				$err['duplicate'][$key] = $arr[$key]['duplicate'];
+			if(isset($val['duplicate'])){
+				$err['duplicate'][$key]['line'] = $val['duplicate']['line'];
+				$err['duplicate'][$key]['value'] = $val['duplicate']['value'];
 			}
 				
 				
@@ -197,7 +268,7 @@ class Translate {
 		} catch (Exception $e) {
 	 	   self::error($e->getMessage());
 		}
-		self::displayValidated(basename($file),self::checkArray($data_en,$data));
+		self::output(basename($file),self::checkArray($data_en,$data));
 	}
 	
 	/**
@@ -207,14 +278,8 @@ class Translate {
      * @param   string $file - comparing file
      * @return  none
      */	
-	protected static function generateFiles($file,$dir_en){
-		try {
-			$data_en = self::$csv -> getDataPairs($file_en);
-			$data = self::$csv -> getDataPairs($file);
-		} catch (Exception $e) {
-	 	   self::error($e->getMessage());
-		}
-		self::displayGenerated(basename($file),self::checkArray($data_en,$data));
+	protected static function generateFiles($file,$file_en){
+		
 	}
 	
 	/**
@@ -224,36 +289,39 @@ class Translate {
      * @param   array $arr - array of lack of coincidences
      * @return  none
      */	
-	protected static function displayValidated($file_name,$arr){
+	protected static function output($file_name,$arr,$out_file_name=null){
 		$count_miss = count($arr['missing']);
 		$count_redu = count($arr['redundant']);
 		$count_dupl = count($arr['duplicate']);
+		$out ='';
+		$out.=$file_name.":\n";
 		
-		if($count_miss>0 || $count_redu>0 || $count_dupl>0){
-			echo $file_name.":\n";
-		}
 		
 		if($count_miss >0){
 			foreach ($arr['missing'] as $key=>$val)
-			echo "\t".'"'.$key.'" => missing'."\n";
+			$out.="\t".'"'.$key.'" => missing'."\n";
 		}	
 		
 		if($count_redu>0){
 			foreach ($arr['redundant'] as $key=>$val)
-			echo "\t".'"'.$key.'" => redundant ('.$val.")\n";
+			$out.="\t".'"'.$key.'" => redundant ('.$val.")\n";
 		}
 
 		if($count_dupl>0){
-			
 			foreach ($arr['duplicate'] as $key=>$val){
-				$lines = '';
-				foreach ($arr['duplicate'][$key] as $i => $v){
-					$lines .= $arr['duplicate'][$key][$i]['line'].', ';
-				}
-				$lines = rtrim($lines,', ');
-				echo "\t".'"'.$key.'" => duplicate ('.$lines.")\n";
+				$out.= "\t".'"'.$key.'" => duplicate ('.$val['line'].")\n";
 			}
 		}	
+		
+		if($count_miss>0 || $count_redu>0 || $count_dupl>0){
+			if(!$out_file_name){
+				echo $out;
+			} else {
+				file_put_contents('output/changes/'.$out_file_name.'.txt',$out);
+			}
+		}
+			
+		
 			
 	}
 	
@@ -264,38 +332,6 @@ class Translate {
      * @param   array $arr - array of lack of coincidences
      * @return  none
      */	
-	protected static function displayGenerated($file_name,$arr){
-		$count_miss = count($arr['missing']);
-		$count_redu = count($arr['redundant']);
-		$count_dupl = count($arr['duplicate']);
-		
-		if($count_miss>0 || $count_redu>0 || $count_dupl>0){
-			echo $file_name.":\n";
-		}
-		
-		if($count_miss >0){
-			foreach ($arr['missing'] as $key=>$val)
-			echo "\t".'"'.$key.'" => missing'."\n";
-		}	
-		
-		if($count_redu>0){
-			foreach ($arr['redundant'] as $key=>$val)
-			echo "\t".'"'.$key.'" => redundant ('.$val.")\n";
-		}
-
-		if($count_dupl>0){
-			
-			foreach ($arr['duplicate'] as $key=>$val){
-				$lines = '';
-				foreach ($arr['duplicate'][$key] as $i => $v){
-					$lines .= $arr['duplicate'][$key][$i]['line'].', ';
-				}
-				$lines = rtrim($lines,', ');
-				echo "\t".'"'.$key.'" => duplicate ('.$lines.")\n";
-			}
-		}	
-			
-	}
 	
 	
 
