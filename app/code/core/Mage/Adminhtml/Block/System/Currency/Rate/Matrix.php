@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_T
         $currencyModel = Mage::getModel('directory/currency');
         $currencies = $currencyModel->getConfigAllowCurrencies();
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
-        $oldCurrencies = $currencyModel->getCurrencyRates($defaultCurrencies, $currencies);
+        $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));
 
         sort($currencies);
 
@@ -55,5 +55,21 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_T
     protected function getRatesFormAction()
     {
         return Mage::getUrl('*/*/saveRates');
+    }
+
+    protected function _prepareRates($array)
+    {
+        foreach ($array as $key => $rate) {
+        	foreach ($rate as $code => $value) {
+        	    $parts = explode('.', $value);
+        	    if( sizeof($parts) == 2 ) {
+        	        $parts[1] = str_pad(rtrim($parts[1], 0), 4, '0', STR_PAD_RIGHT);
+        	        $array[$key][$code] = join('.', $parts);
+        	    } else {
+                    $array[$key][$code] = $value;
+        	    }
+        	}
+        }
+        return $array;
     }
 }

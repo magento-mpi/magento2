@@ -95,7 +95,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
      */
     public function saveRates($rates)
     {
-        if( is_array($rates) ) {
+        if( is_array($rates) && sizeof($rates) > 0 ) {
             $write = $this->getConnection('write');
             $table  = $write->quoteIdentifier($this->_currencyRateTable);
             $colFrom= $write->quoteIdentifier('currency_from');
@@ -107,7 +107,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
             foreach ($rates as $currencyCode => $rate) {
                 foreach( $rate as $currencyTo => $value ) {
                     $value = abs($value);
-                    if( ceil($value) == 0 ) {
+                    if( $value == 0 ) {
                         continue;
                     }
                     $values[] = $write->quoteInto('(?)', array($currencyCode, $currencyTo, $value));
