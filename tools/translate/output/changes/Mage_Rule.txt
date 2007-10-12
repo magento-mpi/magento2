@@ -1,8 +1,0 @@
-Mage_Rule:
-	"If %s of these conditions are %s:" => duplicate (141-Model/Condition/Combine.php, 169-Model/Condition/Combine.php)
-	"TRUE" => duplicate (45-Model/Condition/Combine.php, 144-Model/Condition/Abstract.php)
-	"FALSE" => duplicate (46-Model/Condition/Combine.php, 145-Model/Condition/Abstract.php)
-	"Name: %s" => duplicate (104-Model/Rule.php, 115-Model/Rule.php)
-	"Start at: %s" => duplicate (105-Model/Rule.php, 116-Model/Rule.php)
-	"Expire at: %s" => duplicate (106-Model/Rule.php, 117-Model/Rule.php)
-	"Description: %s" => duplicate (107-Model/Rule.php, 118-Model/Rule.php)
