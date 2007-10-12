@@ -402,12 +402,14 @@ class Mage_Core_Model_Locale
             $locale = $this->getLocale();
         }
 
-        Varien_Profiler::start(__METHOD__);
-        Varien_Profiler::start('LOADING Zend_Date');
-        $date = new Zend_Date($date, $part, $locale);
-        Varien_Profiler::stop(__METHOD__);
-        if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
-            $date->setTimezone($timezone);
+        try {
+            $date = new Zend_Date($date, $part, $locale);
+            if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
+                $date->setTimezone($timezone);
+            }
+        }
+        catch (Exception $e){
+            return null;
         }
         return $date;
     }
