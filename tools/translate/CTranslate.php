@@ -92,7 +92,7 @@ class Translate {
 					}
 					$parse_data_arr = array();
 					foreach (self::$parseData as $key => $val){
-						$parse_data_arr[$val['value']]=array('line'=>$val['line'],'file'=>$val['file']);
+						$parse_data_arr[$val['value']]=array('line'=>$val['line'].' - '.$val['file']);
 					}
 					$res = self::checkArray($data_en,$parse_data_arr);
 					$res['duplicate'] = $dup;
