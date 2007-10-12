@@ -1,0 +1,27 @@
+"Special Price:","Special Price:"
+"Regular Price:","Regular Price:"
+"Attribute saver ""%s"" not found","Attribute saver ""%s"" not found"
+"Attribute source ""%s"" not found","Attribute source ""%s"" not found"
+"Data integrity: No header row found for attribute","Data integrity: No header row found for attribute"
+"Invalid Attribute Requested","Invalid Attribute Requested"
+"Please select static block ...","Please select static block ..."
+"No layout updates","No layout updates"
+"Products only","Products only"
+"Static block only","Static block only"
+"Static block and products","Static block and products"
+Category,Category
+"Filter must be as object. Set correct filter please","Filter must be as object. Set correct filter please"
+Price,Price
+"Attribute model not defined","Attribute model not defined"
+"Filters must be as array","Filters must be as array"
+"Cannot retrieve current category object","Cannot retrieve current category object"
+"Compare Products List","Compare Products List"
+"Choose option...","Choose option..."
+"Invalid block: %s","Invalid block: %s"
+"Best Value","Best Value"
+Grid,Grid
+List,List
+All,All
+"Filter model name must be declared","Filter model name must be declared"
+Home,Home
+"Go to Home Page","Go to Home Page"
