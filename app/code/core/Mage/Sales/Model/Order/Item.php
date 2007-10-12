@@ -221,7 +221,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      */
     public function getPriceFormatted()
     {
-        return $this->getOrder()->getOrderCurrency()->format($this->getPrice());
+        return $this->getOrder()->formatPrice($this->getPrice());
     }
 
     /**
@@ -231,7 +231,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      */
     public function getRowTotalFormatted()
     {
-        return $this->getOrder()->getOrderCurrency()->format($this->getRowTotal());
+        return $this->getOrder()->formatPrice($this->getRowTotal());
     }
 
     /**
@@ -242,7 +242,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getTaxAmountFormatted()
     {
         if ($this->getTaxAmount()) {
-            return $this->getOrder()->getOrderCurrency()->format($this->getTaxAmount());
+            return $this->getOrder()->formatPrice($this->getTaxAmount());
         }
         return '-';
     }
@@ -255,7 +255,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getDiscountAmountFormatted()
     {
         if ($this->getDiscountAmount()) {
-            return $this->getOrder()->getOrderCurrency()->format($this->getDiscountAmount());
+            return $this->getOrder()->formatPrice($this->getDiscountAmount());
         }
         return '-';
     }

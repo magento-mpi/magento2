@@ -78,17 +78,17 @@
     <div class="box order-totals">
         <table cellspacing="0">
             <tfoot>
-                <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
-                <?/*<tr><td class="label"><strong><?=__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>*/?>
+                <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td></tr>
+                <?/*<tr><td class="label"><strong><?=__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->formatPrice($_order->getTotalPaid())?></strong></td></tr>
+                <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->formatPrice($_order->getTotalDue())?></strong></td></tr>*/?>
             </tfoot>
             <tbody>
-                <tr><td><?=__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?>&nbsp;</td></tr>
-                <?if ($_order->getTaxAmount()):?><tr><td><?=__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?>&nbsp;</td></tr><?endif;?>
-                <?if ($_order->getShippingAmount()):?><tr><td><?=__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?>&nbsp;</td></tr><?endif;?>
-                <?if ($_order->getDiscountAmount()):?><tr><td><?=__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?>&nbsp;</td></tr><?endif;?>
-                <?if ($_order->getGiftcertAmount()):?><tr><td><?=__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?>&nbsp;</td></tr><?endif;?>
-                <?if ($_order->getCustbalanceAmount()):?><tr><td><?=__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?>&nbsp;</td></tr><?endif;?>
+                <tr><td><?=__('Subtotal')?></td><td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td></tr>
+                <?if ($_order->getTaxAmount()):?><tr><td><?=__('Tax')?></td><td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getShippingAmount()):?><tr><td><?=__('Shipping')?></td><td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getDiscountAmount()):?><tr><td><?=__('Discount')?></td><td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getGiftcertAmount()):?><tr><td><?=__('Gift Certificate')?></td><td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getCustbalanceAmount()):?><tr><td><?=__('Customer Balance')?></td><td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td></tr><?endif;?>
             </tbody>
         </table>
     </div>

@@ -102,6 +102,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
+            'rate_field' => 'store_to_order_rate'
         ));
 
         $statuses = Mage::getResourceModel('sales/order_status_collection')->load()->toOptionHash();

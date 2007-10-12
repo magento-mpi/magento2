@@ -42,22 +42,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
      */
     public function render(Varien_Object $row)
     {
-        /*if ($data = $row->getData($this->getColumn()->getIndex())) {
-        	$currency_code = $this->_getCurrencyCode($row);
-        	if (!$currency_code) return $data;
-        	if (!isset(self::$_currencies[$currency_code])) {
-        		self::$_currencies[$currency_code] = Mage::getModel('directory/currency')->load($currency_code);
-        	}
-	       	if (self::$_currencies[$currency_code]->getCode()) {
-				return self::$_currencies[$currency_code]->format($data);
-        	}
-        	return $data;
-        }
-        return null;*/
         if ($data = $row->getData($this->getColumn()->getIndex())) {
         	$currency_code = $this->_getCurrencyCode($row);
-        	if (!$currency_code) return $data;
-        	$data = round($data, 2);
+        	
+        	if (!$currency_code) {
+        	    return $data;
+        	}
+        	
+        	//$data = round($data, 2);
+        	$data = floatval($data) * $this->_getRate($row);
         	$data =Mage::app()->getLocale()->currency($currency_code)->toCurrency($data);
         	return $data;
         }
@@ -73,6 +66,17 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
             return $code;
         }
         return false;
+    }
+    
+    protected function _getRate($row)
+    {
+        if ($rate = $this->getColumn()->getRate()) {
+            return floatval($rate);
+        }
+        if ($rate = $row->getData($this->getColumn()->getRateField())) {
+            return floatval($rate);
+        }
+        return 1;
     }
 
     public function renderProperty()

@@ -570,6 +570,20 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this->_orderCurrency;
     }
+    
+    /**
+     * Retrieve formated price value includeing order rate
+     *
+     * @param   float $price
+     * @return  string
+     */
+    public function formatPrice($price)
+    {
+        if (!($rate = floatval($this->getStoreToOrderRate()))) {
+            $rate = 1;
+        }
+        return $this->getOrderCurrency()->format($price*$rate);
+    }
 
     /**
      * Enter description here...
