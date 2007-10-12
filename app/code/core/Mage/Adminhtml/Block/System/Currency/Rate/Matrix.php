@@ -50,6 +50,10 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_T
             }
         }
 
+        foreach( $oldCurrencies as $key => $value ) {
+            ksort($oldCurrencies[$key]);
+        }
+
         sort($currencies);
 
         $this->setAllowedCurrencies($currencies)
