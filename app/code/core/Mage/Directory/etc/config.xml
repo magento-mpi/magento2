@@ -28,15 +28,13 @@
          </depends>
       </Mage_Directory>
    </modules>
-
-    <global>
+   <global>
         <currency>
             <import>
                 <services>
                     <webservicex>
                         <name>Webservicex</name>
-                        <code>webservicex</code>
-                        <url><![CDATA[http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency={{CURRENCY_FROM}}&amp;ToCurrency={{CURRENCY_TO}}]]></url>
+                        <model>directory/currency_import_webservicex</model>
                     </webservicex>
                 </services>
             </import>
@@ -107,4 +105,3 @@
         </translate>
     </frontend>
 </config>
-

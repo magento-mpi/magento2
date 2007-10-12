@@ -60,8 +60,11 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             if( !$service ) {
                 throw new Exception(__('Invalid Import Service Specified'));
             }
-
-            $importModel = Mage::getModel('directory/currency_import_' . strtolower($service));
+            try {
+                $importModel = Mage::getModel(Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
+            } catch (Exception $e) {
+                Mage::throwException(__('Unable to initialize import model'));
+            }
             $rates = $importModel->fetchRates();
 
             Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched'));
