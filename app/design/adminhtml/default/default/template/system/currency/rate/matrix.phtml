@@ -40,14 +40,14 @@ $_rates = ( $_newRates ) ? $_newRates : $_oldRates;
                 <?if( ++$_j == 1 ):?>
                     <td class="thead"><strong><?=$_currencyCode?></strong></td>
                     <td>
-                        <input type="text" name="rate[<?=$_currencyCode?>][<?=$_rate?>]" value="<?=$_value?>" <?=( $_currencyCode == $_rate ) ? 'class="input-text input-text-disabled" readonly="true"' : 'class="input-text"'?> />
+                        <input type="text" name="rate[<?=$_currencyCode?>][<?=$_rate?>]" value="<?=( $_currencyCode == $_rate ) ? '1.0000' : $_value?>" <?=( $_currencyCode == $_rate ) ? 'class="input-text input-text-disabled" readonly="true"' : 'class="input-text"'?> />
                         <?if( isset($_newRates) && $_currencyCode != $_rate && isset($_oldRates[$_currencyCode][$_rate]) ):?>
                         <br /><span class="old-rate"><?=$_oldRates[$_currencyCode][$_rate]?></span>
                         <?endif;?>
                     </td>
                 <?else:?>
                     <td>
-                        <input type="text" name="rate[<?=$_currencyCode?>][<?=$_rate?>]" value="<?=$_value?>" <?=( $_currencyCode == $_rate ) ? 'class="input-text input-text-disabled" readonly="true"' : 'class="input-text"'?> />
+                        <input type="text" name="rate[<?=$_currencyCode?>][<?=$_rate?>]" value="<?=( $_currencyCode == $_rate ) ? '1.0000' : $_value?>" <?=( $_currencyCode == $_rate ) ? 'class="input-text input-text-disabled" readonly="true"' : 'class="input-text"'?> />
                         <?if( isset($_newRates)  && $_currencyCode != $_rate && isset($_oldRates[$_currencyCode][$_rate]) ):?>
                         <br /><span class="old-rate"><?=$_oldRates[$_currencyCode][$_rate]?></span>
                         <?endif;?>

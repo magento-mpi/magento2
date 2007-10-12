@@ -66,8 +66,16 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                 Mage::throwException(__('Unable to initialize import model'));
             }
             $rates = $importModel->fetchRates();
+            $errors = $importModel->getMessages();
+            if( sizeof($errors) > 0 ) {
+                foreach ($errors as $error) {
+                	Mage::getSingleton('adminhtml/session')->addWarning($error);
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('All possible rates were fetched'));
+            } else {
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched'));
+            }
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched'));
             Mage::getSingleton('adminhtml/session')->setRates($rates);
         }
         catch (Exception $e){

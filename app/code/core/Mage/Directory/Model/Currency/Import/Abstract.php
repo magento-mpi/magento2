@@ -112,4 +112,9 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
     {
         return $number;
     }
+
+    public function getMessages()
+    {
+        return $this->_messages;
+    }
 }
