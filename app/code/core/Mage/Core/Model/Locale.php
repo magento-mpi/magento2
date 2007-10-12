@@ -40,6 +40,7 @@ class Mage_Core_Model_Locale
     const XML_PATH_DEFAULT_COUNTRY  = 'general/country/default';
     const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
     const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
+    const XML_PATH_ALLOW_CURRENCIES_INSTALLED = 'allow/currency/code';
 
     /**
      * Date and time format codes
@@ -179,18 +180,13 @@ class Mage_Core_Model_Locale
                 if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
                     continue;
                 }
-                $options[$code] = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
+                $options[] = array(
+                    'value' => $code,
+                    'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')'
+                );
             }
         }
-        asort($options);
-        $result = array();
-        foreach ($options as $key=>$value) {
-            $result[] = array(
-               'value' => $key,
-               'label' => $value
-            );
-        }
-        return $result;
+        return $this->_sortOptionArray($options);
     }
 
     /**
@@ -210,7 +206,7 @@ class Mage_Core_Model_Locale
                'value' => $code,
             );
         }
-        return $options;
+        return $this->_sortOptionArray($options);
     }
 
     /**
@@ -229,7 +225,7 @@ class Mage_Core_Model_Locale
                'value' => $code,
             );
         }
-        return $options;
+        return $this->_sortOptionArray($options);
     }
 
     /**
@@ -246,15 +242,48 @@ class Mage_Core_Model_Locale
             if (!in_array($code, $allowed)) {
                 continue;
             }
-            /*if (strstr($name, '(')) {
-                continue;
-            }*/
+            
             $options[] = array(
                'label' => $name,
                'value' => $code,
             );
         }
-        return $options;
+        return $this->_sortOptionArray($options);
+    }
+
+    /**
+     * Retrieve all currency option list
+     *
+     * @return unknown
+     */
+    public function getOptionAllCurrencies()
+    {
+        $currencies = $this->getLocale()->getTranslationList('currency');
+        $options = array();
+        foreach ($currencies as $code=>$name) {
+            $options[] = array(
+               'label' => $name,
+               'value' => $code,
+            );
+        }
+        return $this->_sortOptionArray($options);
+    }
+    
+    protected function _sortOptionArray($option)
+    {
+        $data = array();
+        foreach ($option as $item) {
+        	$data[$item['value']] = $item['label'];
+        }
+        asort($data);
+        $option = array();
+        foreach ($data as $key => $label) {
+        	$option[] = array(
+        	   'value' => $key,
+        	   'label' => $label
+        	);
+        }
+        return $option;
     }
 
     /**
@@ -278,13 +307,16 @@ class Mage_Core_Model_Locale
      */
     public function getAllowCurrencies()
     {
-        $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CURRENCIES)->asArray();
-/*        echo "<pre>DEBUG:\n";
-        print_r($data);
-        echo "</pre>";
-        die();*/
-        if ($data) {
-            return array_keys($data);
+        $data = array();
+        if (Mage::app()->isInstalled()) {
+            $data = Mage::app()->getStore()->getConfig(self::XML_PATH_ALLOW_CURRENCIES_INSTALLED);
+            return explode(',', $data);
+        }
+        else {
+            $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CURRENCIES)->asArray();
+            if ($data) {
+                return array_keys($data);
+            }
         }
         return $data;
     }

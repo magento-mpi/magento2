@@ -301,7 +301,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function formatPrice($price)
     {
-        return $this->getPriceFilter()->filter($price);
+        if ($this->getCurrentCurrency()) {
+            return $this->getCurrentCurrency()->format($price);
+        }
+        return $price;
     }
 
     /**

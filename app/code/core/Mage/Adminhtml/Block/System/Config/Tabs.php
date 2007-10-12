@@ -274,6 +274,12 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         	    }
         	    break;
 
+        	case "allow":
+        	    if ( $permissions->isAllowed('system/config/currency') ) {
+        	        $showTab = true;
+        	    }
+        	    break;
+        	    
         	default:
         		break;
         }
