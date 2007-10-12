@@ -105,6 +105,7 @@ class Translate {
 						array_push($unique_array,$val['value']);
 					}
 					$unique_array = array_unique($unique_array);
+					sort($unique_array);
 					foreach ($unique_array as $val){
 						array_push($csv_data,array($val,$val));
 					}
@@ -236,6 +237,7 @@ class Translate {
      * @return  array $array - array of lack of coincidences
      */	
 	protected static function checkArray($arr_en,$arr){
+		
 		$err = array();
 		$err['missing'] = array();
 		$err['redundant'] = array();
@@ -243,13 +245,17 @@ class Translate {
 		//print_r($arr_en);
 		foreach ($arr_en as $key=>$val){
 			if(!isset($arr[$key])) {
-				$err['missing'][$key] = $arr_en[$key]['line'];
+				$err['missing'][$key] = array();
+				$err['missing'][$key]['line']=$arr_en[$key]['line'];
+				$err['missing'][$key]['value']=$arr_en[$key]['value'];
 			}
 		}
 
 		foreach ($arr as $key=>$val){
 			if(!isset($arr_en[$key])) {
-				$err['redundant'][$key] = $val['line'];
+				$err['redundant'][$key] = array();
+				$err['redundant'][$key]['line']=$val['line'];
+				$err['redundant'][$key]['value']=$val['value'];
 			}
 		}
 
@@ -307,19 +313,43 @@ class Translate {
 		$count_dupl = count($arr['duplicate']);
 		$out ='';
 		$out.=$file_name.":\n";
+		$tmp_arr = $arr['missing'];
+		$arr['missing']=array();
+		
+		foreach ($tmp_arr as $key=>$val){
+			$arr['missing'][$key] = array();
+			$arr['missing'][$key]['value'] = $val['value'];
+			$arr['missing'][$key]['line'] = $val['line'];
+			$arr['missing'][$key]['state'] = 'missing';
+		}
+		$tmp_arr = $arr['redundant'];
+		$arr['redundant']=array();
+		
+		foreach ($tmp_arr as $key=>$val){
+			$arr['redundant'][$key] = array();
+			$arr['redundant'][$key]['value'] = $val['value'];
+			$arr['redundant'][$key]['line'] = $val['line'];
+			$arr['redundant'][$key]['state'] = 'redundant';
+		}
 		
 		
-		if($count_miss >0){
-			foreach ($arr['missing'] as $key=>$val)
-			$out.="\t".'"'.$key.'" => missing'."\n";
-		}	
+		if($count_redu>0 || $count_dupl>0){
+			$comb_arr = array_merge($arr['missing'],$arr['redundant']);
+			uksort($comb_arr, 'strcasecmp');
+			foreach ($comb_arr as $key=>$val)
+			switch ($val['state']){
+				case 'missing':
+					$out.="\t".'"'.$key.'" => missing'."\n";
+					break;
+				case 'redundant':
+					$out.="\t".'"'.$key.'" => redundant ('.$val['line'].")\n";		
+					break;
+			}
 		
-		if($count_redu>0){
-			foreach ($arr['redundant'] as $key=>$val)
-			$out.="\t".'"'.$key.'" => redundant ('.$val.")\n";
 		}
 
 		if($count_dupl>0){
+			uksort($arr['duplicate'], 'strcasecmp');
 			foreach ($arr['duplicate'] as $key=>$val){
 				$out.= "\t".'"'.$key.'" => duplicate ('.$val['line'].")\n";
 			}
@@ -329,12 +359,27 @@ class Translate {
 			if(!$out_file_name){
 				echo $out;
 			} else {
-				file_put_contents('output/changes/'.$out_file_name.'.txt',$out);
+				$csv_data = array();
+				foreach ($comb_arr as $key=>$val){
+					if(!isset($val['value']))$val['value']=$key;
+					switch ($val['state']){
+						case 'missing':
+							array_push($csv_data,array($key,$val['value'],'missing'));
+						break;
+						case 'redundant':
+							array_push($csv_data,array($key,$val['value'],'redundant ('.$val['line'].')'));	
+						break;
+					}
+					
+					
+				}
+				foreach ($arr['duplicate'] as $key=>$val){
+					if(!isset($val['value']))$val['value']=$key;
+					array_push($csv_data,array($key,$val['value'],'duplicate ('.$val['line'].')'));
+				}
+				self::$csv -> saveData('output/changes/'.$out_file_name.'.'.EXTENSION,$csv_data);
+				}
 			}
-		}
-			
-		
-			
 	}
 	
 	/**
