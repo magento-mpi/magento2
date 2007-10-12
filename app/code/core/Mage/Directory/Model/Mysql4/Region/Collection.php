@@ -85,8 +85,10 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         $options = array();
         foreach ($this as $item) {
-        	$options[]['value'] = $item->getId();
-        	$options[]['label'] = $item->getName();
+        	$options[] = array(
+        	   'value' => $item->getId(),
+        	   'label' => $item->getName()
+            );
         }
         if (count($options)>0) {
             array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>__('')));
