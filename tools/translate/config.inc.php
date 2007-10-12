@@ -1,5 +1,8 @@
 <?php
 
+define("EXTENSION",'csv');
+$CONFIG['allow_extensions'] = array('php','xml','phtml','csv');
+
 $CONFIG['translates'] = array(
 
     'Mage_Adminhtml' => array(

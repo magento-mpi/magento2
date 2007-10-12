@@ -1,14 +1,13 @@
 <?php
 
 require_once('config.inc.php');
-
 /*
 
 Usage:
 
 ##########################################################################################
 
-$> translate.php -path ~/dev/magento/ -validate ru_RU
+$> translate.php -path ~/dev/magento/ -validate ru_RU [-file Mage_Adminhtml] [-file Mage_Catalog]
 
 # Validates selected translation against the default (en_US)
 # - checks for missing, redundant or duplicate keys
@@ -69,3 +68,18 @@ $> translate.php -path ~/dev/magento/ -dups [-key "Checkout"]
 
 
 */
+define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
+define('BP', dirname(dirname(__FILE__)));
+
+ini_set('include_path', ini_get('include_path')
+    .PS.BP.'../../lib'
+);
+require_once 'config.inc.php';
+require_once 'MultyGetopt.php';
+require_once 'Varien_File_Csv_multy.php';
+require_once 'CTranslate.php';
+require_once 'CFiles.php';
+
+Translate::run($CONFIG);
+?>
