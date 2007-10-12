@@ -116,6 +116,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function format($price)
     {
         //$price = round(floatval($price), 2);
+        $price = floatval($price);
         return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price);
     }
 
