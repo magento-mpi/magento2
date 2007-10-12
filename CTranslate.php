@@ -62,9 +62,11 @@ class Translate {
      * @param   string $file - files array
      * @param   string $path - root path
      * @param   string $dir_en - dir to default english files
+     * @param   int $level - level of recursion
      * @return  none
      */	
-	protected static function callGenerate($file,  $path, $dir_en){
+	protected static function callGenerate($file,  $path, $dir_en, $level=0){
+		static $files_name_changed = array();
 		if(!($file===null || $file === false  || $file === true) ){
 			if(!is_array($file)){
 				if(strpos($file,'Mage_') === 0){
@@ -107,19 +109,29 @@ class Translate {
 						array_push($csv_data,array($val,$val));
 					}
 					self::$csv -> saveData('output/'.$file.'.'.EXTENSION,$csv_data);
+					array_push($files_name_changed,$file);
 				} else {
 					self::error("Could not found specific module for file ".$file." in app/core/Mage");					
 				}
 				
 			} else {
 				for($a=0;$a<count($file);$a++){
-					self::callGenerate($file[$a],$path,$dir_en);					
+					self::callGenerate($file[$a],$path,$dir_en,$level+1);					
 				}
 			
 			}
 			
-			
-				
+			if(isset($files_name_changed) && $level==0){
+				print "Created diffs:\n";
+				foreach ($files_name_changed as $val){
+					print "\toutput/changes/".$val.".txt\n";
+				}
+				print "Created files:\n";
+				foreach ($files_name_changed as $val){
+					print "\toutput/".$val.".".EXTENSION."\n";
+				}
+
+			}
 		} else {
 	    	self::error("Please specify file(s)");
 	    }
