@@ -80,7 +80,7 @@ Varien_Profiler::stop('TEST1: '.__METHOD__);
 
     public function getRemoveItemUrl($item)
     {
-        return $this->getUrl('checkout/cart/delete',array('id'=>$item->getId()));
+        return $this->helper('checkout/cart')->getRemoveUrl($item);
     }
 
     public function getMoveToWishlistItemUrl($item)

@@ -36,6 +36,21 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         return $this->_getUrl('checkout/cart/add', array('product'=>$product->getId()));
     }
     
+    /**
+     * Retrieve url for remove product from cart
+     *
+     * @param   Mage_Sales_Quote_Item $item
+     * @return  string
+     */
+    public function getRemoveUrl($item)
+    {
+        $params = array(
+            'id'=>$item->getId(),
+            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
+        );
+        return $this->_getUrl('checkout/cart/delete', $params);
+    }
+    
     public function getCartUrl()
     {
         return $this->_getUrl('checkout/cart');
