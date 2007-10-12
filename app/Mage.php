@@ -474,7 +474,7 @@ final class Mage {
     
 
     /**
-    * Referenced from PEAR::loadExtension
+    * Tries to dynamically load an extension if not loaded
     * 
     * @param string $ext
     * @return boolean
@@ -489,19 +489,8 @@ final class Mage {
             return false;
         }
         
-        $file = $ext;
-        if (PHP_OS === 'HP-UX') {
-            $file .= '.sl';
-        } elseif (PHP_OS === 'AIX') {
-            $file .= '.a';
-        } elseif (PHP_OS === 'OSX') {
-            $file .= '.bundle';
-        } elseif (substr(PHP_OS, 0, 3) === 'WIN') {
-            $file .= '.dll';
-        } else {
-            $file .= '.so';
-        }
-        return @dl('php_'.$file) || @dl($file);
+        $file = (PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '') . $ext . '.' . PHP_SHLIB_SUFFIX;
+        return @dl($file);
     }
     
     public static function loadRequiredExtensions()
