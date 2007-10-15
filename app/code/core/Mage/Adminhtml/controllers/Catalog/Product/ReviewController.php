@@ -77,7 +77,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
         $reviewId = $this->getRequest()->getParam('id', false);
         if ($data = $this->getRequest()->getPost()) {
-            $review = Mage::getModel('review/review')->setData($data);
+            $review = Mage::getModel('review/review')->load($reviewId)->addData($data);
             try {
                 $review->setId($reviewId)
                     ->save();
@@ -98,8 +98,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                         } else {
                             Mage::getModel('rating/rating')
+                                 ->setRatingId($ratingId)
                     	       ->setReviewId($review->getId())
-                     	       ->addOptionVote($optionId);
+                     	       ->addOptionVote($optionId, $review->getEntityPkValue());
                         }
                 }
 
