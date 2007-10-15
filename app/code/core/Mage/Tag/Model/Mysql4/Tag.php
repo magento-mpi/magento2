@@ -52,12 +52,16 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
 
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if(!$object->getId() && $object->getStatus()==$object->getApprovedStatus()) {
+        if (!$object->getId() && $object->getStatus()==$object->getApprovedStatus()) {
             $searchTag = new Varien_Object();
             $this->loadByName($searchTag, $object->getName());
             if($searchTag->getData($this->getIdFieldName()) && $searchTag->getStatus()==$object->getPendingStatus()) {
                 $object->setId($searchTag->getData($this->getIdFieldName()));
             }
+        }
+
+        if (iconv_strlen($object->getName(), 'UTF-8') > 255) {
+            $object->setName(iconv_substr($object->getName(), 0, 255));
         }
 
         return parent::_beforeSave($object);
