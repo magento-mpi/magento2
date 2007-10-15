@@ -71,9 +71,9 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                 foreach ($errors as $error) {
                 	Mage::getSingleton('adminhtml/session')->addWarning($error);
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('All possible rates were fetched'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('All possible rates were fetched, click on "Save" to apply'));
             } else {
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched, click on "Save" to apply'));
             }
 
             Mage::getSingleton('adminhtml/session')->setRates($rates);
