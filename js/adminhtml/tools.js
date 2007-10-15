@@ -66,6 +66,13 @@ function imagePreview(element){
     }
 }
 
+function toggleValueElements(checkbox, container){
+    if(container && checkbox){
+        var elems = container.getElementsBySelector('select', 'input');
+        elems.each(function(elem){elem.disabled=checkbox.checked});
+    }
+}
+
 /********** MESSAGES ***********/
 /*
 Event.observe(window, 'load', function() {
