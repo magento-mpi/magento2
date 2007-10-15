@@ -17,13 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Product review helper
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Review_Helper_Product extends Mage_Core_Helper_Url 
+class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
 {
     /**
      * Check summary calculation for review
@@ -31,14 +31,14 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
      * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_Review_Helper_Product
      */
-    protected function _checkProductSummaty($product)
+    protected function _checkProductSummary($product)
     {
         if( !$product->getRatingSummary() ) {
-	        Mage::getModel('review/review')->getEntitySummary($product);
+	        Mage::getModel('review/review')->getEntitySummary($product, Mage::app()->getStore()->getId());
 	    }
 	    return $this;
     }
-    
+
     /**
      * Retrieve product review count
      *
@@ -47,10 +47,10 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
      */
     public function getReviewCount($product)
     {
-        $this->_checkProductSummaty($product);
+        $this->_checkProductSummary($product);
         return $product->getRatingSummary()->getReviewsCount();
     }
-    
+
     /**
      * Retrieve product summary rating
      *
@@ -59,10 +59,10 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
      */
     public function getSummaryRating($product)
     {
-        $this->_checkProductSummaty($product);
+        $this->_checkProductSummary($product);
         return $product->getRatingSummary()->getRatingSummary();
     }
-    
+
     /**
      * Retrieve product review summary html block
      *
@@ -78,7 +78,7 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
         }
         return $this->getFullSummaryHtml($product, $displayBlock);
     }
-    
+
     /**
      * Retrieve url for new review creation
      *
@@ -93,7 +93,7 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
         }
         return $this->_getUrl('review/product/list', $params);
     }
-    
+
     /**
      * Retrieve url of product review list
      *
@@ -104,7 +104,7 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
     {
         return $this->getNewUrl($product);
     }
-    
+
     /**
      * Retrieve short block of product summary review
      *
@@ -115,15 +115,20 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
     public function getShortSummaryHtml($product, $displayBlock=false)
     {
         $html = '';
-        if ($this->getReviewCount($product)) {
+        if ($this->getReviewCount($product) && $this->getSummaryRating($product)) {
             $html = '<div class="ratings">
                 <div class="rating-box">
                     <div class="rating" style="width:'.$this->getSummaryRating($product).'%;"></div>
                 </div>
                 ( '.$this->getReviewCount($product).' )
             </div>';
-        }
-        else {
+        } elseif($this->getReviewCount($product)) {
+            $html = '<div class="ratings">
+                <a href="'.$this->getListUrl($product).'">
+                    <small class="count">'.$this->__('%d Review(s)', $this->getReviewCount($product)).'</small>
+                </a>
+            </div>';
+        } else {
             if ($displayBlock) {
                 $html = '<p>
                     <a href="'.$this->getNewUrl($product).'#review-form">
@@ -134,7 +139,7 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
         }
         return $html;
     }
-    
+
     /**
      * Retrieve full block of product summary review
      *
@@ -145,8 +150,8 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
     public function getFullSummaryHtml($product, $displayBlock=false)
     {
         $html = '';
-        
-        if ($this->getReviewCount($product)) {
+
+        if ($this->getReviewCount($product) && $this->getSummaryRating($product)) {
             $html.= '<div class="ratings">
                 <div class="rating-box">
                     <div class="rating" style="width:'.$this->getSummaryRating($product).'%"></div>
@@ -159,8 +164,17 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
                     <small>'.$this->__('Add Your Review').'</small>
                 </a>
             </div>';
-        }
-        else {
+        } elseif($this->getReviewCount($product)) {
+            $html.= '<div class="ratings">
+                <div class="clear"></div>
+                <a href="'.$this->getListUrl($product).'">
+                    <small class="count">'.$this->__('%d Review(s)', $this->getReviewCount($product)).'</small>
+                </a><br/>
+                <a href="'.$this->getNewUrl($product).'#review-form">
+                    <small>'.$this->__('Add Your Review').'</small>
+                </a>
+            </div>';
+        } else {
             if ($displayBlock) {
                 $html = '<p>
                     <a href="'.$this->getNewUrl($product).'#review-form">
@@ -169,7 +183,7 @@ class Mage_Review_Helper_Product extends Mage_Core_Helper_Url
                 </p>';
             }
         }
-        
+
         return $html;
     }
 }

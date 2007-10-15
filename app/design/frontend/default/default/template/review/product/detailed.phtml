@@ -32,7 +32,7 @@
             <h3 class="product-name"><?=$product->getName()?></h3>
         <?=$this->getChildHtml('rating')?>
         <?if( $reviewCount ):?>
-            <a href="#customer-reviews" class="no-wrap"><small><?=$this->__('(%s Reviews)', $reviewCount)?></small></a>
+            <a href="#customer-reviews" class="no-wrap"><small><?=$this->__('%s Review(s)', $reviewCount)?></small></a>
         <?endif;?>
 
         <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">

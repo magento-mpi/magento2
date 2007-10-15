@@ -127,6 +127,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
         try {
             Mage::getModel('review/review')->setId($reviewId)
+                ->aggregate()
                 ->delete();
 
             Mage::getSingleton('adminhtml/session')->addSuccess(__('Review successfully deleted'));

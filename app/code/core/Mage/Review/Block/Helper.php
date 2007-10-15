@@ -35,7 +35,7 @@ class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 
 	    if( !$product->getRatingSummary() ) {
 	        Mage::getModel('review/review')
-	           ->getEntitySummary($product);
+	           ->getEntitySummary($product, Mage::app()->getStore()->getId());
 	    }
 
 	    switch ($type) {

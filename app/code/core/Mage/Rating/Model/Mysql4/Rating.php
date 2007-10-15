@@ -133,6 +133,9 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                     {$this->getTable('review/review_store')}.store_id
                 FROM
                     {$this->getTable('rating_vote')}
+                INNER JOIN
+                    {$this->getTable('review/review')}
+                    ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review')}.review_id
                 LEFT JOIN
                     {$this->getTable('review/review_store')}
                     ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id
@@ -159,13 +162,29 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         $result = array();
 
+        $stores = Mage::app()->getStore()->getResourceCollection()->load();
+
         foreach ($data as $row) {
             $clone = clone $object;
             $clone->addData( $row );
-            $result[] = $clone;
+            $result[$clone->getStoreId()] = $clone;
         }
 
-        return $result;
+        $usedStoresId = array_keys($result);
+
+        foreach ($stores as $store) {
+        	   if (!in_array($store->getId(), $usedStoresId)) {
+        	       $clone = clone $object;
+                $clone->setCount(0);
+                $clone->setSum(0);
+                $clone->setStoreId($store->getId());
+                $result[$store->getId()] = $clone;
+        	   }
+        }
+
+
+
+        return array_values($result);
     }
 
     public function getReviewSummary($object, $onlyForCurrentStore = true)
@@ -201,12 +220,27 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         $result = array();
 
+        $stores = Mage::app()->getStore()->getResourceCollection()->load();
+
         foreach ($data as $row) {
             $clone = clone $object;
             $clone->addData( $row );
-            $result[] = $clone;
+            $result[$clone->getStoreId()] = $clone;
         }
 
-        return $result;
+        $usedStoresId = array_keys($result);
+
+        foreach ($stores as $store) {
+        	   if (!in_array($store->getId(), $usedStoresId)) {
+        	       $clone = clone $object;
+                $clone->setCount(0);
+                $clone->setSum(0);
+                $clone->setStoreId($store->getId());
+                $result[$store->getId()] = $clone;
+
+        	   }
+        }
+
+        return array_values($result);
     }
 }

@@ -22,14 +22,13 @@
     <div class="page-head">
         <h4><?=$this->__('Review Details')?></h4>
     </div>
-
     <div class="my-review-detail">
         <div class="product-image">
             <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="100" width="100"></a><br>
             <?if( $this->getRating() && $this->getRating()->getSize()):?>
             <small><?=$this->__('Average Customer Rating')?>:</small></p>
-            <?=$this->helper('review/product')->getSummaryHtml($this->getProductData())?>
             <?endif;?>
+            <?=$this->helper('review/product')->getSummaryHtml($this->getProductData())?>
     </div>
     <div class="details">
         <h3><?=$this->getProductData()->getName()?></h3>

@@ -229,6 +229,7 @@ class Mage_Review_Model_Mysql4_Review
         $ratingModel = Mage::getModel('rating/rating');
         $ratingSummaries = $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
+        $nonDelete = array();
         foreach($ratingSummaries as $ratingSummaryObject) {
             if( $ratingSummaryObject->getCount() ) {
                 $ratingSummary = round($ratingSummaryObject->getSum() / $ratingSummaryObject->getCount());
@@ -266,5 +267,6 @@ class Mage_Review_Model_Mysql4_Review
                 $this->_write->rollBack();
             }
         }
+
     }
 }
