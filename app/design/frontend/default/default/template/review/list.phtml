@@ -33,7 +33,7 @@
     <ol id="customer-reviews">
     <?foreach ($this->getCollection() as $_review):?>
         <li>
-        <?if( is_array($_review->getRatingVotes()->getItems()) ):?>
+        <?if( is_array($_review->getRatingVotes()->getItems()) && $this->getAverage($_review->getRatingVotes()) ):?>
 
             <div class="rating-box">
                 <div class="rating" style="width:<?=$this->getAverage($_review->getRatingVotes())?>%;"></div>
