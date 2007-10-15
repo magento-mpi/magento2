@@ -2,6 +2,10 @@
 
 define("EXTENSION",'csv');
 $CONFIG['allow_extensions'] = array('php','xml','phtml','csv');
+$CONFIG['paths'] = array(
+	 'locale' => 'app/locale/',
+	 'mage' => 'app/code/core/Mage/'
+);
 
 $CONFIG['translates'] = array(
 
