@@ -113,20 +113,22 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      */
     public function useOnlineFilter($minutes=15)
     {
-        $this->_sqlSelect->from($this->_visitorTable)
-            ->joinLeft( $this->_urlTable, "{$this->_visitorTable}.last_url_id = {$this->_urlTable}.url_id" )
-            ->joinLeft( $this->_visitorInfoTable, "{$this->_visitorInfoTable}.visitor_id = {$this->_urlTable}.visitor_id" )
-            ->joinLeft( $this->_customerTable, "{$this->_customerTable}.visitor_id = {$this->_urlTable}.visitor_id AND {$this->_customerTable}.logout_at IS NULL" )
-            ->joinLeft( $this->_urlInfoTable, "{$this->_urlInfoTable}.url_id = {$this->_urlTable}.url_id" )
-            ->joinLeft( $this->_quoteTable, "{$this->_quoteTable}.visitor_id = {$this->_urlTable}.visitor_id" )
-            ->where( "{$this->_urlTable}.visit_time >= ( ? - INTERVAL {$minutes} MINUTE)", now() );
+        $this->_sqlSelect->from(array('visitor_table'=>$this->_visitorTable))
+            //->joinLeft(array('url_table'=>$this->_urlTable), 'visitor_table.last_url_id=url_table.url_id')
+            ->joinLeft(array('info_table'=>$this->_visitorInfoTable), 'info_table.visitor_id=visitor_table.visitor_id')
+            ->joinLeft(array('customer_table'=>$this->_customerTable), 
+                'customer_table.visitor_id = visitor_table.visitor_id AND customer_table.logout_at IS NULL')
+            ->joinLeft(array('url_info_table'=>$this->_urlInfoTable), 
+                'url_info_table.url_id = visitor_table.last_url_id')
+            //->joinLeft(array('quote_table'=>$this->_quoteTable), 'quote_table.visitor_id=visitor_table.visitor_id')
+            ->where( 'visitor_table.last_visit_at >= ( ? - INTERVAL '.$minutes.' MINUTE)', now() );
         return $this;
     }
 
     public function showCustomersOnly()
     {
-        $this->_sqlSelect->where("{$this->_customerTable}.customer_id > 0")
-            ->group("{$this->_customerTable}.customer_id");
+        $this->_sqlSelect->where('customer_table.customer_id > 0')
+            ->group('customer_table.customer_id');
         return $this;
     }
 
