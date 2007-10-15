@@ -52,7 +52,7 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
 
         $this->assign('poll', $poll)
              ->assign('poll_answers', $pollAnswers)
-             ->assign('action', Mage::getUrl('poll/vote/add/poll_id/'.$pollId));
+             ->assign('action', Mage::getUrl('poll/vote/add', array('poll_id' => $pollId)));
 
         $this->_voted = Mage::getModel('poll/poll')->isVoted($pollId);
         Mage::getSingleton('core/session')->setJustVotedPoll(false);
