@@ -39,7 +39,7 @@
         <button class="form-button-alt" onclick="submitTagForm()"><span><?=$this->__('Add Tags')?></span></button>
     </form>
     <script type="text/javascript">
-        var addTagFormJs = new VarienForm('addTagForm', true);
+        var addTagFormJs = new VarienForm('addTagForm');
         function submitTagForm(){
             if(addTagFormJs.validator.validate()) {
                 addTagFormJs.form.submit();
