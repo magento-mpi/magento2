@@ -52,8 +52,8 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
     {
         $write = $this->getConnection('write');
         $write->insert($this->getTable('log/url_info_table'), array(
-            'url'    => $visitor->getUrl(),
-            'referer'=> $visitor->getHttpReferer()
+            'url'    => iconv_substr($visitor->getUrl(), 0, 250),
+            'referer'=> iconv_substr($visitor->getHttpReferer(), 0, 250)
         ));
         $visitor->setLastUrlId($write->lastInsertId());
         return $this;
@@ -96,7 +96,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
         $write = $this->getConnection('write');
         $data = array(
             'visitor_id'        => $visitor->getId(),
-            'http_referer'      => $visitor->getHttpReferer(),
+            'http_referer'      => iconv_substr($visitor->getHttpReferer(), 0, 250),
             'http_user_agent'   => $visitor->getHttpUserAgent(),
             'http_accept_charset'=>$visitor->getHttpAcceptCharset(),
             'http_accept_language'=>$visitor->getHttpAcceptLanguage(),

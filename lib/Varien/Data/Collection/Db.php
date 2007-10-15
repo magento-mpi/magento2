@@ -362,7 +362,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
              ->_renderLimit();
 
         $this->printLogQuery($printQuery, $logQuery);
-
+//echo $this->_sqlSelect;
         $data = $this->_conn->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
             foreach ($data as $row) {
