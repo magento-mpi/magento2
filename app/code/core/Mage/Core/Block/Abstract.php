@@ -114,6 +114,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var Mage_Core_Block_Abstract
      */
     protected $_parentBlock;
+    
+    protected static $_urlModel;
 
     public function __construct($attributes=array())
     {
@@ -550,7 +552,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getUrl($params='', $params2=array())
     {
         #return Mage::registry('controller')->getUrl($params, $params2);
-		return Mage::getModel('core/url')->getUrl($params, $params2);
+        if (!self::$_urlModel) {
+            self::$_urlModel = Mage::getModel('core/url');
+        }
+		return self::$_urlModel->getUrl($params, $params2);
     }
 
     public function getUrlBase64($params='', $params2=array())
