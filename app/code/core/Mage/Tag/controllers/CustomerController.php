@@ -107,8 +107,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
         $model->loadByTagCustomer(null, $tagId, $customerId);
         if( $model->getCustomerId() == $customerId ) {
             try {
-                $model->setActive(0)->save();
-
+                $model->deactivate();
+                $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
                 Mage::getSingleton('tag/session')->addSuccess(__('You tag was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 return;
@@ -173,6 +173,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                         ->setTagId($tagModel->getId())
                         ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                         ->setStoreId($storeId)
+                        ->setActive(1)
                         ->setProductId($productId)
                         ->save();
                 }

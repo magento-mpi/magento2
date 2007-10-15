@@ -59,4 +59,13 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
             return $this;
         }
     }
+
+    public function deactivate($tagId, $customerId)
+    {
+        $condition = $this->getConnection('write')->quoteInto('tag_id = ?', $tagId) . ' AND ';
+        $condition.= $this->getConnection('write')->quoteInto('customer_id = ?', $customerId);
+        $data = array('active'=>0);
+        $this->getConnection('write')->update($this->getMainTable(), $data, $condition);
+        return $this;
+    }
 }

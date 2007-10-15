@@ -44,4 +44,10 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
         $this->getResource()->loadByTagCustomer($this);
         return $this;
     }
+
+    public function deactivate()
+    {
+        $this->getResource()->deactivate($this->getTagId(),  $this->getCustomerId());
+        return $this;
+    }
 }

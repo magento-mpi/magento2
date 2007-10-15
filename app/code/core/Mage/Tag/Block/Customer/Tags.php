@@ -58,8 +58,8 @@ class Mage_Tag_Block_Customer_Tags extends Mage_Core_Block_Template
             return;
         }
 
-        $this->_maxPopularity = $tags[0]->getPopularity();
-        $this->_minPopularity = $tags[count($tags)-1]->getPopularity();
+        $this->_maxPopularity = reset($tags)->getPopularity();
+        $this->_minPopularity = end($tags)->getPopularity();
         $range = $this->_maxPopularity - $this->_minPopularity;
         $range = ( $range == 0 ) ? 1 : $range;
 

@@ -69,7 +69,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 
                         $tagRelationModel->loadByTagCustomer($this->getRequest()->getParam('productId'), $tagModel->getId(), Mage::getSingleton('customer/session')->getCustomerId(), Mage::app()->getStore()->getId());
 
-                        if( $tagRelationModel->getCustomerId() == $customerId ) {
+                        if( $tagRelationModel->getCustomerId() == $customerId && $tagRelationModel->getActive()) {
                             return;
                         }
 
@@ -78,6 +78,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             ->setProductId($this->getRequest()->getParam('productId'))
                             ->setStoreId(Mage::app()->getStore()->getId())
                             ->setCreatedAt( now() )
+                            ->setActive(1)
                             ->save();
                         $tagModel->aggregate();
                     } else {

@@ -52,6 +52,7 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
                 ->addStatusFilter($model->getApprovedStatus())
                 ->addProductFilter($this->_getProductId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
+                ->setActiveFilter()
                 ->load();
         }
         return $this->_collection;
