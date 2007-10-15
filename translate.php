@@ -12,6 +12,10 @@ $> translate.php -path ~/dev/magento/ -validate ru_RU [-file Mage_Adminhtml] [-f
 # Validates selected translation against the default (en_US)
 # - checks for missing, redundant or duplicate keys
 
+# missing - not present in default (english) csv, but present in validated file.
+# redundant - not present in validated file, but present in default (english) csv
+# duplicate - duplication in validated file
+
 # Output example:
 
 Mage_Adminhtml.csv:
@@ -27,6 +31,10 @@ Mage_Catalog.csv:
 $> translate.php -path ~/dev/magento/ -generate [-file Mage_Adminhtml] [-file Mage_Catalog]
 
 # Generates the default translation (en_US)
+
+# missing - present in locale but not present in module
+# redundant - present in module but not present in locale
+# duplicate - duplication in module
 
 # Output example:
 

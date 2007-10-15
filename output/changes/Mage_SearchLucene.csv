@@ -1,0 +1,2 @@
+"Can't create index directory : %s","Can't create index directory : %s","duplicate (130-/home/vasily/dev/magento/app/code/core/Mage/SearchLucene//controllers/IndexController.php, 130-/home/vasily/dev/magento/app/code/core/Mage/SearchLucene//controllers/IndexController.php)"
+"Search results for: %s","Search results for: %s","duplicate (34-/home/vasily/dev/magento/app/code/core/Mage/SearchLucene//Block/Results.php, 34-/home/vasily/dev/magento/app/code/core/Mage/SearchLucene//Block/Results.php)"

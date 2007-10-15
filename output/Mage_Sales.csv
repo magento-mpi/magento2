@@ -1,0 +1,65 @@
+"About Your Order","About Your Order"
+"American Express","American Express"
+"Back to My Orders","Back to My Orders"
+Backordered,Backordered
+"Billing Address","Billing Address"
+Canceled,Canceled
+"Credit Memo","Credit Memo"
+Date,Date
+Discount,Discount
+Discover,Discover
+"Errors during order creation","Errors during order creation"
+"Grand Total","Grand Total"
+Invoice,Invoice
+"Invoice #%s","Invoice #%s"
+"Items Ordered","Items Ordered"
+"Master Card","Master Card"
+Mixed,Mixed
+"My Orders","My Orders"
+"My Orders - Details","My Orders - Details"
+"No invoice for credit memo","No invoice for credit memo"
+"No order for invoice","No order for invoice"
+"Order #","Order #"
+"Order #%s","Order #%s"
+"Order #%s - %s","Order #%s - <small><em>%s</em></small>"
+"Order Date: %s","<p><strong>Order Date:</strong> %s</p>"
+"Order Details","Order Details"
+"Order Invoices","Order Invoices"
+"Order Status","Order Status"
+"Order Subtotal","Order Subtotal"
+"Order Total","Order Total"
+Partial,Partial
+Payed,Payed
+"Payment Method","Payment Method"
+Pending,Pending
+Price,Price
+"Print All Invoices","Print All Invoices"
+"Print Invoice","Print Invoice"
+"Product Name","Product Name"
+"Qty Ordered","Qty Ordered"
+"Qty Shipped","Qty Shipped"
+"Recent Orders","Recent Orders"
+Returned,Returned
+Sent,Sent
+"Ship to","Ship to"
+Shipped,Shipped
+"Shipping & Handling","Shipping & Handling"
+"Shipping Address","Shipping Address"
+"Shipping Amount","Shipping Amount"
+"Shipping Method","Shipping Method"
+Status,Status
+"Store Credit","Store Credit"
+Subtotal,Subtotal
+Tax,Tax
+"Tax Amount","Tax Amount"
+"There's not enough qty of product '%s' in invoice to return","There's not enough qty of product '%s' in invoice to return"
+"There's not enough qty of product '%s' in order to ship","There's not enough qty of product '%s' in order to ship"
+"Track Order","Track Order"
+"Unknown Status","Unknown Status"
+"Unknown Type","Unknown Type"
+"Unknown invoice type","Unknown invoice type"
+"View All","View All"
+"View Invoices","View Invoices"
+"View Order","View Order"
+Visa,Visa
+"You have placed no orders.","You have placed no orders."
