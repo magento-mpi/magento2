@@ -138,6 +138,14 @@ class Mage_Install_Model_Installer extends Varien_Object
             $setupModel->setConfigData(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
         }
 
+        /**
+         * Temporary urls fix
+         * @todo change this whith media library development
+         */
+        $basePath = isset($data['base_path']) ? $data['base_path'] : '/';
+        $setupModel->updateTable('core/config_data', 
+            'value like \'%{{base_path}}%\'', 
+            "value=REPLACE(value, '{{base_path}}', '".$basePath."')");
         return $this;
     }
     

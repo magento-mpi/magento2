@@ -237,8 +237,6 @@ class Mage_Core_Model_Resource_Setup
                     }
                     if ($result) {
                         $this->run("replace into ".$this->getTable('core/resource')." (code, version) values ('".$this->_resourceName."', '".$resourceFile['toVersion']."')");
-                        #Mage::getResourceModel('core/resource')->setDbVersion(
-                        #    $this->_resourceName, $resourceFile['toVersion']);
                     }
                 }
                 catch (Exception $e){
@@ -362,6 +360,16 @@ class Mage_Core_Model_Resource_Setup
         }
         $this->_conn->query($sql);
 
+        return $this;
+    }
+    
+    public function updateTable($table, $conditionExpr, $valueExpr)
+    {
+        if (strpos($table, '/')!==false) {
+            $table = $this->getTable($table);
+        }
+        $sql = 'update ' . $table . ' set ' . $valueExpr . ' where ' . $conditionExpr;
+        $this->_conn->query($sql);
         return $this;
     }
     
