@@ -26,14 +26,13 @@
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-class Mage_Rating_Model_Mysql4_Rating_Option 
+class Mage_Rating_Model_Mysql4_Rating_Option
 {
     protected $_reviewTable;
     protected $_ratingOptionTable;
     protected $_ratingVoteTable;
     protected $_aggregateTable;
     protected $_reviewStoreTable;
-    protected $_reviewTable;
     protected $_ratingStoreTable;
 
     protected $_read;
@@ -49,7 +48,6 @@ class Mage_Rating_Model_Mysql4_Rating_Option
         $this->_ratingVoteTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
         $this->_aggregateTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote_aggregated');
         $this->_reviewStoreTable  = Mage::getSingleton('core/resource')->getTableName('review/review_store');
-        $this->_reviewTable  = Mage::getSingleton('core/resource')->getTableName('review/review');
         $this->_ratingStoreTable  = Mage::getSingleton('core/resource')->getTableName('rating/rating_store');
 
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('rating_read');
