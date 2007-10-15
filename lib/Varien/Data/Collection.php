@@ -207,9 +207,14 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getFirstItem()
     {
-        if(isset($this->_items[0])){
-            return $this->_items[0];
+        if (count($this->_items)) {
+            reset($this->_items);
+            return current($this->_items);
         }
+        
+        /*if(isset($this->_items[0])){
+            return $this->_items[0];
+        }*/
         return new $this->_itemObjectClass();
     }
     
@@ -309,6 +314,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function clear()
     {
+        $this->_setIsLoaded(false);
         $this->_items = array();
         return $this;
     }

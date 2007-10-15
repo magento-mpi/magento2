@@ -31,7 +31,6 @@ class Mage_Catalog_Model_Entity_Product_Super_Attribute_Collection extends Mage_
 	protected $_productId = 0;
 	protected $_storeId	  = 0;
 	protected $_isJoined  = false;
-	protected $_isLoaded  = false;
 	protected $_pricingCollection = null;
 	
 	protected function _construct()
@@ -63,7 +62,7 @@ class Mage_Catalog_Model_Entity_Product_Super_Attribute_Collection extends Mage_
 	
 	public function getIsLoaded()
 	{
-		return $this->_isLoaded;
+		return $this->isLoaded();
 	}
 	
 	public function setProductFilter($product)
@@ -84,7 +83,6 @@ class Mage_Catalog_Model_Entity_Product_Super_Attribute_Collection extends Mage_
 	public function load($printQuery=false, $logQuery=false)
 	{
 		$this->_initSelect();
-		$this->_isLoaded = true;
 		parent::load($printQuery, $logQuery);
 		return $this->_loadPricing();
 	}
