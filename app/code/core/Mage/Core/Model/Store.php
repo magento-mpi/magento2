@@ -194,7 +194,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getDefaultCurrencyCode()
     {
-        $result = $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT);
+        $result = $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
         return $result;
     }
 
