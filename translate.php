@@ -1,13 +1,12 @@
 <?php
 
-require_once('config.inc.php');
-/*
+define( 'USAGE', <<<EOT
 
-Usage:
+USAGE:
 
-##########################################################################################
+################################################################################
 
-$> translate.php -path ~/dev/magento/ -validate ru_RU [-file Mage_Adminhtml] [-file Mage_Catalog]
+$> php -f translate.php -- --path ~/dev/magento/ --validate ru_RU [--file Mage_Adminhtml] [--file Mage_Catalog]
 
 # Validates selected translation against the default (en_US)
 # - checks for missing, redundant or duplicate keys
@@ -26,9 +25,9 @@ Mage_Catalog.csv:
     "Product Title" => redundant (245)
     "Attributes" => duplicate (119, 235, 307)
 
-##########################################################################################
+################################################################################
 
-$> translate.php -path ~/dev/magento/ -generate [-file Mage_Adminhtml] [-file Mage_Catalog]
+$> php -f translate.php -- --path ~/dev/magento/ --generate [--file Mage_Adminhtml] [--file Mage_Catalog]
 
 # Generates the default translation (en_US)
 
@@ -46,9 +45,9 @@ Updated files:
     Mage_Adminhtml.csv
     Mage_Catalog.csv
 
-##########################################################################################
+################################################################################
 
-$> translate.php -path ~/dev/magento/ -update ru_RU [-file Mage_Adminhtml] [-file Mage_Catalog]
+$> php -f translate.php -- --path ~/dev/magento/ --update ru_RU [--file Mage_Adminhtml] [--file Mage_Catalog]
 
 # Updates the selected translation with the changes (if any) from the default one (en_US)
 
@@ -62,9 +61,9 @@ Updated files:
     Mage_Adminhtml.csv
     Mage_Catalog.csv
 
-##########################################################################################
+################################################################################
 
-$> translate.php -path ~/dev/magento/ -dups [-key "Checkout"]
+$> php -f translate.php -- --path ~/dev/magento/ --dups [--key "Checkout"]
 
 # Checks for duplicate keys in different modules (in the default translation en_US)
 
@@ -74,8 +73,11 @@ $> translate.php -path ~/dev/magento/ -dups [-key "Checkout"]
    Mage_Adminhtml.csv (1472) from app/code/core/Mage/Adminhtml/Block/Widget/Grid/Container.php (46)
    Mage_Catalog.csv (723) from design/frontend/default/default/catalog/product/view.phtml (172)
 
+################################################################################
 
-*/
+EOT
+);
+
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
@@ -90,4 +92,4 @@ require_once 'CTranslate.php';
 require_once 'CFiles.php';
 
 Translate::run($CONFIG);
-?>
+
