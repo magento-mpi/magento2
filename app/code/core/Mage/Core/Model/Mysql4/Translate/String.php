@@ -40,9 +40,9 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
         return parent::load($object, $value, $field);
     }
     
-    protected function _getLoadSelect($field, $value)
+    protected function _getLoadSelect($field, $value, $object)
     {
-        $select = parent::_getLoadSelect($field, $value);
+        $select = parent::_getLoadSelect($field, $value, $object);
         $select->where('store_id', 0);
         return $select;
     }
@@ -86,26 +86,26 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
                 $condition = $connection->quoteInto('store_id=? AND ', $storeId) .
                     $connection->quoteInto('string=?', $object->getString());
                     
-            	if (empty($translate)) {
-            	    $connection->delete($this->getMainTable(), $condition);
-            	}
-            	else {
-            	    $data = array(
-            	       'store_id'  => $storeId,
-            	       'string'    => $object->getString(),
-            	       'translate' =>$translate, 
+                if (empty($translate)) {
+                    $connection->delete($this->getMainTable(), $condition);
+                }
+                else {
+                    $data = array(
+                       'store_id'  => $storeId,
+                       'string'    => $object->getString(),
+                       'translate' =>$translate, 
                     );
                     
-            	    if (isset($stors[$storeId])) {
-            	        $connection->update(
-            	           $this->getMainTable(), 
-            	           $data,
-            	           $connection->quoteInto('key_id=?', $stors[$storeId]));
-            	    }
-            	    else {
-            	        $connection->insert($this->getMainTable(), $data);
-            	    }
-            	}
+                    if (isset($stors[$storeId])) {
+                        $connection->update(
+                           $this->getMainTable(), 
+                           $data,
+                           $connection->quoteInto('key_id=?', $stors[$storeId]));
+                    }
+                    else {
+                        $connection->insert($this->getMainTable(), $data);
+                    }
+                }
             }
         }
         return parent::_afterSave($object);

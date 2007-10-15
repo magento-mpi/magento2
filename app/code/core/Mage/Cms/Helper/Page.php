@@ -37,6 +37,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId=null)
     {
         $page = Mage::getSingleton('cms/page');
+        $page->setStoreId(Mage::app()->getStore()->getId());
         
         if (is_null($pageId)) {
             $pageId = $action->getRequest()->getParam('page_id', false);

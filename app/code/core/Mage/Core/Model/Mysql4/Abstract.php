@@ -265,7 +265,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
             return false;
         }
 
-        $select = $this->_getLoadSelect($field, $value);
+        $select = $this->_getLoadSelect($field, $value, $object);
         $data = $read->fetchRow($select);
 
         if (!$data) {
@@ -286,7 +286,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
      * @param mixed $value
      * @return Zend_Db_Select
      */
-    protected function _getLoadSelect($field, $value)
+    protected function _getLoadSelect($field, $value, $object)
     {
         $read = $this->getConnection('read');
 

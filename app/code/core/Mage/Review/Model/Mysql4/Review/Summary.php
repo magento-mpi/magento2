@@ -33,47 +33,10 @@ class Mage_Review_Model_Mysql4_Review_Summary extends Mage_Core_Model_Mysql4_Abs
         $this->_init('review/review_aggregate', 'entity_pk_value');
     }
 
-    protected function _getLoadSelect($field, $value, $storeId=0)
+    protected function _getLoadSelect($field, $value, $object)
     {
-        $read = $this->getConnection('read');
-
-	   	$select = $read->select()
-            ->from($this->getMainTable())
-            ->where('store_id = ?', $storeId)
-            ->where($field.'=?', $value);
+        $select = parent::_getLoadSelect($field, $value, $object);
+	   	$select->where('store_id = ?', (int)$object->getStoreId());
         return $select;
-    }
-
-    /**
-     * Load an object
-     *
-     * @param Varien_Object $object
-     * @param integer $id
-     * @param string $field field to load by (defaults to model id)
-     * @return boolean
-     */
-    public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
-    {
-        if (is_null($field)) {
-            $field = $this->getIdFieldName();
-        }
-
-        $read = $this->getConnection('read');
-        if (!$read) {
-            return false;
-        }
-
-        $select = $this->_getLoadSelect($field, $value, $object->getStoreId());
-        $data = $read->fetchRow($select);
-
-        if (!$data) {
-            return false;
-        }
-
-        $object->setData($data);
-
-        $this->_afterLoad($object);
-
-        return true;
     }
 }

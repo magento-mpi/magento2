@@ -34,7 +34,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $this->_uniqueFields = array( array('field' => 'rating_code', 'title' => /* __('Rating with the same title')*/ '' ) );
     }
 
-    protected function _getLoadSelect($field, $value)
+    protected function _getLoadSelect($field, $value, $object)
     {
         $read = $this->getConnection('read');
 
