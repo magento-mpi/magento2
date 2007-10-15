@@ -113,11 +113,18 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      * @param   double $price
      * @return  string
      */
-    public function format($price)
+    public function format($price, $options=array())
     {
         //$price = round(floatval($price), 2);
         $price = floatval($price);
-        return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price);
+        return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
+    }
+    
+    public function getOutputFormat()
+    {
+        $formated = $this->format(0);
+        $number = $this->format(0, array('display'=>Zend_Currency::NO_SYMBOL));
+        return str_replace($number, '%s', $formated);
     }
 
     /**
