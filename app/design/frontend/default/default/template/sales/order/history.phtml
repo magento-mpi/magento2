@@ -42,7 +42,7 @@
                 <td><?=$_order->getRealOrderId()?></td>
                 <td><?=$this->formatDate($_order->getCreatedAt())?></td>
                 <td><?=$_order->getShippingAddress()->getFirstname()?> <?=$_order->getShippingAddress()->getLastname()?></td>
-                <td><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
+                <td><?=$_order->formatPrice($_order->getGrandTotal())?></td>
                 <td><em><?=$_order->getStatus($_order->getStatusId())->getFrontendLabel()?></em></td>
                 <td class="a-center"><a href="<?=$this->getViewUrl($_order)?>"><?=$this->__('View Order')?></a><?/*<span class="separator">|</span><a href="<?=$this->getTrackUrl($_order)?>"><?=$this->__('Track Order')?></a>*/?></td>
             </tr>

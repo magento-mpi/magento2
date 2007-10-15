@@ -62,33 +62,33 @@
         <?foreach ($_items as $_item):?>
             <tr <?=($_index++ > $_count ? ' class="last"' : '')?>>
             <td><?=$_item->getName()?> </td>
-            <td class="a-right nowrap"><?=$_order->getOrderCurrency()->format($_item->getPrice())?> </td>
+            <td class="a-right nowrap"><?=$_order->formatPrice($_item->getPrice())?> </td>
             <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>
             <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
-            <td class="last a-right nowrap"><?=$_order->getOrderCurrency()->format($_item->getRowTotal())?> </td>
+            <td class="last a-right nowrap"><?=$_order->formatPrice($_item->getRowTotal())?> </td>
         <?endforeach;?>
         </tr>
     </tbody>
     <tfoot>
         <tr>
             <td colspan="4" class="a-right"><?=$this->__('Order Subtotal')?></td>
-            <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td>
+            <td class="last a-right"><?=$_order->formatPrice($_order->getSubtotal())?></td>
         </tr>
         <?if ($_order->getTaxAmount()):?>
             <tr>
                 <td colspan="4" class="a-right"><?=$this->__('Tax Amount')?></td>
-                <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?></td>
+                <td class="last a-right"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getShippingAmount()):?>
             <tr>
                 <td colspan="4" class="a-right"><?=$this->__('Shipping Amount')?></td>
-                <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?></td>
+                <td class="last a-right"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
             </tr>
         <?endif;?>
         <tr>
             <td colspan="4" class="a-right"><?=$this->__('Grand Total')?></td>
-            <td class="last a-right"><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></td>
+            <td class="last a-right"><?=$_order->formatPrice($_order->getGrandTotal())?></td>
         </tr>
     </tfoot>
 </table>
