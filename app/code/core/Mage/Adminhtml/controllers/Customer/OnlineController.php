@@ -30,6 +30,9 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
     	}
 
         $this->loadLayout();
+
+        $this->_setActiveMenu('customer/online');
+
         $this->_addContent($this->getLayout()->createBlock('adminhtml/customer_online', 'customers'));
 
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
