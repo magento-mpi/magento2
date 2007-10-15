@@ -26,13 +26,11 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Sales_Model_Entity_Order_Status_Collection extends Varien_Data_Collection_Db
+class Mage_Sales_Model_Entity_Order_Status_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
-        $this->_sqlSelect->from(Mage::getSingleton('core/resource')->getTableName('sales/order_status'))->order('order_status_id');
+        $this->_init('sales/order_status');
     }
 
     public function toOptionArray()

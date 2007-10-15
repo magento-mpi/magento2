@@ -27,4 +27,9 @@
  */
 class Mage_Catalog_Model_Product_Type extends Varien_Object 
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setIdFieldName('type_id');
+    }
 }

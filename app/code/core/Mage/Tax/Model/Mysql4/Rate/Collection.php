@@ -46,7 +46,8 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
     {
         $resource = Mage::getSingleton('core/resource');
         parent::__construct($resource->getConnection('tax_read'));
-
+        
+        $this->_setIdFieldName('tax_rate_id');
         $this->_rateTable     = $resource->getTableName('tax/tax_rate');
         $this->_rateTypeTable = $resource->getTableName('tax/tax_rate_type');
         $this->_rateDataTable = $resource->getTableName('tax/tax_rate_data');

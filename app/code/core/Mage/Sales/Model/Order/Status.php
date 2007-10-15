@@ -28,7 +28,7 @@ class Mage_Sales_Model_Order_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve order status label
      *
      * @return string
      */

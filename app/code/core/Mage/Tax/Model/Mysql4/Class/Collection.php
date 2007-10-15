@@ -34,7 +34,8 @@ class Mage_Tax_Model_Mysql4_Class_Collection extends Varien_Data_Collection_Db
     {
         $resource = Mage::getSingleton('core/resource');
         parent::__construct($resource->getConnection('tax_read'));
-
+        
+        $this->_setIdFieldName('class_id');
         $this->_classTable = $resource->getTableName('tax/tax_class');
 
         $this->_sqlSelect->from($this->_classTable);

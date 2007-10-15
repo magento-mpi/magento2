@@ -29,6 +29,9 @@
  */
 class Varien_Data_Collection implements IteratorAggregate
 {
+    const SORT_ORDER_ASC    = 'ASC';
+    const SORT_ORDER_DESC   = 'DESC';
+    
     /**
      * Collection items
      *
@@ -48,14 +51,14 @@ class Varien_Data_Collection implements IteratorAggregate
      *
      * @var array
      */
-    protected $_orders      = array();
+    protected $_orders = array();
 
     /**
      * Filters configuration
      *
      * @var array
      */
-    protected $_filters     = array();
+    protected $_filters = array();
 
     /**
      * Filter rendered flag
@@ -69,7 +72,7 @@ class Varien_Data_Collection implements IteratorAggregate
      *
      * @var int
      */
-    protected $_curPage     = 1;
+    protected $_curPage = 1;
 
     /**
      * Pager page size
@@ -78,14 +81,21 @@ class Varien_Data_Collection implements IteratorAggregate
      *
      * @var int || false
      */
-    protected $_pageSize    = false;
+    protected $_pageSize = false;
 
     /**
      * Total items number
      *
-     * @var unknown_type
+     * @var int
      */
-    protected $_totalRecords= null;
+    protected $_totalRecords = null;
+    
+    /**
+     * Loading state flag
+     *
+     * @var bool
+     */
+    protected $_isCollectionLoaded;
 
     public function __construct()
     {
@@ -110,6 +120,28 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->_isFiltersRendered = false;
         return $this;
     }
+    
+    /**
+     * Retrieve collection loading status
+     *
+     * @return bool
+     */
+    public function isLoaded()
+    {
+        return $this->_isCollectionLoaded;
+    }
+    
+    /**
+     * Set collection loading status flag
+     *
+     * @param unknown_type $flag
+     * @return unknown
+     */
+    protected function _setIsLoaded($flag = true)
+    {
+        $this->_isCollectionLoaded = $flag;
+        return $this;
+    }
 
     /**
      * Get current collection page
@@ -130,7 +162,7 @@ class Varien_Data_Collection implements IteratorAggregate
     }
 
     /**
-     * Get last page number
+     * Retrieve collection last page number
      *
      * @return int
      */
@@ -147,14 +179,19 @@ class Varien_Data_Collection implements IteratorAggregate
             return 1;
         }
     }
-
+    
+    /**
+     * Retrieve collection page size
+     *
+     * @return int
+     */
     public function getPageSize()
     {
         return $this->_pageSize;
     }
 
     /**
-     * Get collection size
+     * Retrieve collection all items count
      *
      * @return int
      */
@@ -163,21 +200,35 @@ class Varien_Data_Collection implements IteratorAggregate
         return $this->_totalRecords;
     }
 
+    /**
+     * Retrieve collection first item
+     *
+     * @return Varien_Object
+     */
     public function getFirstItem()
     {
-        if(isset($this->_items[0]))
-        {
+        if(isset($this->_items[0])){
             return $this->_items[0];
         }
-
         return new $this->_itemObjectClass();
     }
-
+    
+    /**
+     * Retrieve collection items
+     *
+     * @return array
+     */
     public function getItems()
     {
         return $this->_items;
     }
-
+    
+    /**
+     * Retrieve field values from all items
+     *
+     * @param   string $colName
+     * @return  array
+     */
     public function getColumnValues($colName)
     {
         $col = array();
@@ -186,7 +237,14 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $col;
     }
-
+    
+    /**
+     * Search all items by field value
+     *
+     * @param   string $column
+     * @param   mixed $value
+     * @return  array
+     */
     public function getItemsByColumnValue($column, $value)
     {
         $res = array();
@@ -197,7 +255,14 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $res;
     }
-
+    
+    /**
+     * Search first item by field value
+     *
+     * @param   string $column
+     * @param   mixed $value
+     * @return  Varien_Object || null
+     */
     public function getItemByColumnValue($column, $value)
     {
         foreach ($this as $item) {
@@ -207,29 +272,60 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return null;
     }
-
+    
+    /**
+     * Adding item to item array
+     *
+     * @param   Varien_Object $item
+     * @return  Varien_Data_Collection
+     */
     public function addItem(Varien_Object $item)
     {
-        $this->_items[] = $item;
+        if (isset($this->_items[$item->getId()])) {
+            throw new Exception('Item ('.get_class($item).') with the some id "'.$item->getId().'" already exist');
+        }
+        $this->_items[$item->getId()] = $item;
+        return $this;
     }
-
+    
+    /**
+     * Remove item from collection by item key
+     *
+     * @param   mixed $key
+     * @return  Varien_Data_Collection
+     */
     public function removeItemByKey($key)
     {
         if (isset($this->_items[$key])) {
             unset($this->_items[$key]);
         }
+        return $this;
     }
-
+    
+    /**
+     * Clear collection
+     *
+     * @return Varien_Data_Collection
+     */
     public function clear()
     {
         $this->_items = array();
+        return $this;
     }
-
+    
+    /**
+     * Walk all items of collection
+     *
+     * @param   string $method
+     * @param   array $args
+     * @return  Varien_Data_Collection
+     */
     public function walk($method, $args=array())
     {
         foreach ($this->getItems() as $item) {
             call_user_func_array(array($item, $method), $args);
         }
+        return $this;
     }
 
     public function each($obj_method, $args=array())
@@ -238,7 +334,14 @@ class Varien_Data_Collection implements IteratorAggregate
             $args->_items[$k] = call_user_func($obj_method, $item);
         }
     }
-
+    
+    /**
+     * Setting data for all collection items
+     *
+     * @param   mixed $key
+     * @param   mixed $value
+     * @return  Varien_Data_Collection
+     */
     public function setDataToAll($key, $value=null)
     {
         if (is_array($key)) {
@@ -262,13 +365,6 @@ class Varien_Data_Collection implements IteratorAggregate
     public function setCurPage($page)
     {
         $this->_curPage = $page;
-        /*if ($page <= $this->getLastPageNumber()) {
-            $this->_curPage = $page;
-        }
-        else {
-            $this->_curPage = 1;
-        }*/
-
         return $this;
     }
 
@@ -293,8 +389,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function setOrder($field, $direction = 'desc')
     {
-        $direction = (strtoupper($direction)=='ASC') ? 'ASC' : 'DESC';
-        $this->_orders[$field] = new Zend_Db_Expr($field.' '.$direction);
+        $this->_orders[$field] = $direction;
         return $this;
     }
 
@@ -454,10 +549,7 @@ class Varien_Data_Collection implements IteratorAggregate
      * Convert items array to hash for select options
      *
      * return items hash
-     * array(
-     *      $value => $label,
-     *      $value => $label,
-     * )
+     * array($value => $label)
      *
      * @param   string $valueField
      * @param   string $labelField
@@ -467,19 +559,23 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         $res = array();
         foreach ($this as $item) {
-            $res[ $item->getData($valueField) ] = $item->getData($labelField);
+            $res[$item->getData($valueField)] = $item->getData($labelField);
         }
         return $res;
     }
-
+    
+    /**
+     * Retrieve item by id
+     *
+     * @param   mixed $idValue
+     * @return  Varien_Object
+     */
     public function getItemById($idValue)
     {
-        foreach ($this as $item) {
-        	if ($item->getId()==$idValue) {
-        	    return $item;
-        	}
+        if (isset($this->_items[$idValue])) {
+            return $this->_items[$idValue];
         }
-        return false;
+        return null;
     }
 
     /**
@@ -490,6 +586,11 @@ class Varien_Data_Collection implements IteratorAggregate
         return new ArrayIterator($this->_items);
     }
     
+    /**
+     * Retireve count of collection loaded items
+     *
+     * @return int
+     */
     public function count()
     {
         return count($this->_items);

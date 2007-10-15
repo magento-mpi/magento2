@@ -43,6 +43,15 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @var Zend_Db_Select
      */
     protected $_sqlSelect;
+    
+    /**
+     * Identifier fild name for collection items
+     * 
+     * Can be used by collections with items without defined
+     *
+     * @var string
+     */
+    protected $_idFieldName;
 
     public function __construct($conn=null)
     {
@@ -51,6 +60,17 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
+    }
+    
+    protected function _setIdFieldName($fieldName)
+    {
+        $this->_idFieldName = $fieldName;
+        return $this;
+    }
+    
+    public function getIdFieldName()
+    {
+        return $this->_idFieldName;
     }
 
     public function setConnection($conn)
@@ -61,6 +81,16 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         $this->_conn = $conn;
         $this->_sqlSelect = $this->_conn->select();
+    }
+
+    /**
+     * Get Zend_Db_Select instance
+     *
+     * @return Zend_Db_Select
+     */
+    public function getSelect()
+    {
+        return $this->_sqlSelect;
     }
 
     /**
@@ -131,7 +161,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     public function setOrder($field, $direction = 'desc')
     {
-        $direction = (strtoupper($direction)=='ASC') ? 'ASC' : 'DESC';
+        $direction = (strtoupper($direction)==self::SORT_ORDER_ASC) ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
         $this->_orders[$field] = new Zend_Db_Expr($field.' '.$direction);
         return $this;
     }
@@ -323,6 +353,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+        
         $this->_renderFilters()
              ->_renderOrders()
              ->_renderLimit();
@@ -333,11 +367,15 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (is_array($data)) {
             foreach ($data as $row) {
                 $item = new $this->_itemObjectClass();
+                if ($this->getIdFieldName()) {
+                    $item->setIdFieldName($this->getIdFieldName());
+                }
                 $item->addData($row);
                 $this->addItem($item);
             }
         }
-
+        
+        $this->_setIsLoaded();
         return $this;
     }
 

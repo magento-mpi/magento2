@@ -91,16 +91,6 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     }
 
     /**
-     * Get Zend_Db_Select instance
-     *
-     * @return Zend_Db_Select
-     */
-    public function getSelect()
-    {
-        return $this->_sqlSelect;
-    }
-
-    /**
      * Set model name for collection items
      *
      * @param string $model

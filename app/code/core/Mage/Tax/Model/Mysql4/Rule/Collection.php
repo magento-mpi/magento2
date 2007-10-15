@@ -42,7 +42,8 @@ class Mage_Tax_Model_Mysql4_Rule_Collection extends Varien_Data_Collection_Db
     {
         $resource = Mage::getSingleton('core/resource');
         parent::__construct($resource->getConnection('tax_read'));
-
+        
+        $this->_setIdFieldName('tax_rule_id');
         $this->_classTable = $resource->getTableName('tax/tax_class');
         $this->_rateTypeTable = $resource->getTableName('tax/tax_rate_type');
         $this->_ruleTable = $resource->getTableName('tax/tax_rule');

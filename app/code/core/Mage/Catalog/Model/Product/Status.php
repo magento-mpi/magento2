@@ -31,6 +31,12 @@ class Mage_Catalog_Model_Product_Status extends Varien_Object
     const STATUS_DISABLED           = 2;
     const STATUS_OUT_OF_STOCK       = 3;
     
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setIdFieldName('status_id');
+    }
+    
     public function addVisibleFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
     {
         $collection->addAttributeToFilter('status', array('in'=>$this->getVisibleStatusIds()));
