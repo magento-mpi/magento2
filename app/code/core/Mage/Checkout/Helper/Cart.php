@@ -25,6 +25,8 @@
  */
 class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 {
+    protected $_itemCount;
+    
     /**
      * Retrieve url for add product to cart
      *
@@ -68,6 +70,10 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 
     public function getItemCount()
     {
-        
+        if (is_null($this->_itemCount)) {
+            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+            $this->_itemCount = Mage::getResourceModel('checkout/cart')->fetchItemsSummaryQty($quoteId);
+        }
+        return $this->_itemCount;
     }
 }

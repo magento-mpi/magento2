@@ -195,6 +195,7 @@ class Mage_Core_Model_Url extends Varien_Object
         }
         $this->setData('type', $data);
         $this->unsetData('secure');
+        $this->unsetData('base_path');
         $this->unsetData('query');
         $this->unsetData('query_params');
         $this->unsetData('fragment');
@@ -750,6 +751,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function getUrl($routePath=null, $routeParams=null)
     {
+        Varien_Profiler::start(__METHOD__);
         $url = $this->getRouteUrl($routePath, $routeParams);
 
         if ($this->getQuery()) {
@@ -759,6 +761,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if ($this->getFragment()) {
             $url .= '#'.$this->getFragment();
         }
+        Varien_Profiler::stop(__METHOD__);
         return $url;
     }
 }

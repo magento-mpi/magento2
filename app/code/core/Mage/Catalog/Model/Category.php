@@ -33,11 +33,21 @@ class Mage_Catalog_Model_Category extends Varien_Object
     const DM_PRODUCT= 'PRODUCTS';
     const DM_PAGE   = 'PAGE';
     const DM_MIXED  = 'PRODUCTS_AND_PAGE';
+    
+    protected static $_url;
 
     public function __construct()
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
+    }
+    
+    public function getUrlInstance()
+    {
+        if (!self::$_url) {
+            self::$_url = Mage::getModel('core/url');
+        }
+        return self::$_url;
     }
 
     /**
@@ -219,7 +229,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
     public function getCategoryUrl()
     {
     	$urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
-        $url = Mage::getUrl('catalog/category/view', array(
+        $url = $this->getUrlInstance()->getUrl('catalog/category/view', array(
         	's'=>$urlKey,
         	'id'=>$this->getId(),
         ));

@@ -30,15 +30,14 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
 {
     public function addCartLink()
     {
-        $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-        $count = Mage::getResourceModel('checkout/cart')->fetchItemsSummaryQty($quoteId);
+        $count = $this->helper('checkout/cart')->getItemCount();
 
         if( $count > 1 ) {
-            $text = __('My Cart (%d items)', $count);
+            $text = $this->__('My Cart (%d items)', $count);
         } elseif( $count == 1 ) {
-            $text = __('My Cart (%d item)', $count);
+            $text = $this->__('My Cart (%d item)', $count);
         } else {
-            $text = __('My Cart');
+            $text = $this->__('My Cart');
         }
 
         $this->getParentBlock()->addLink(null, 'href="'.Mage::getUrl('checkout/cart').'"', $text);

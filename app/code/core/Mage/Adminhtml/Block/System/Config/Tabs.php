@@ -44,6 +44,8 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             ->addFieldToFilter('level', 1)
             ->setOrder('sort_order', 'asc')
             ->loadData();
+            
+        $url = Mage::getModel('core/url');
 
         foreach ($sections as $section) {
             $code = $section->getPath();
@@ -58,14 +60,14 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
                     $this->_addBreadcrumb($label);
                 } else {
-                    $this->_addBreadcrumb($label, '', Mage::getUrl('*/*/*', array('section'=>$code)));
+                    $this->_addBreadcrumb($label, '', $url->getUrl('*/*/*', array('section'=>$code)));
                 }
             }
 
             if ( $sectionAllowed ) {
                 $this->addTab($code, array(
                     'label'     => $label,
-                    'url'       => Mage::getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
+                    'url'       => $url->getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
                 ));
             }
 
@@ -86,21 +88,23 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $websitesConfig = Mage::getConfig()->getNode('websites');
         $storesConfig = Mage::getConfig()->getNode('stores');
 
+        $url = Mage::getModel('core/url');
+
         $options = array();
         $options['default'] = array(
             'label'    => __('Default config'),
-            'url'      => Mage::getUrl('*/*/*', array('section'=>$section)),
+            'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#CCC; font-weight:bold;',
         );
-
+        
         foreach ($websitesConfig->children() as $wCode=>$wConfig) {
         	if ($wConfig->descend('system/website/id')==0) {
         		continue;
         	}
             $options['website_'.$wCode] = array(
                 'label'    => (string)$wConfig->descend('system/website/name'),
-                'url'      => Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode)),
+                'url'      => $url->getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode)),
                 'selected' => !$curStore && $curWebsite==$wCode,
                 'style'    => 'padding-left:16px; background:#DDD; font-weight:bold;',
             );
@@ -109,7 +113,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 foreach ($websiteStores->children() as $sCode=>$sId) {
                     $options['store_'.$sCode] = array(
                         'label'    => (string)$storesConfig->descend($sCode.'/system/store/name'),
-                        'url'      => Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode, 'store'=>$sCode)),
+                        'url'      => $url->getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode, 'store'=>$sCode)),
                         'selected' => $curStore==$sCode,
                         'style'    => 'padding-left:32px;',
                     );

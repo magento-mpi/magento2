@@ -36,6 +36,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const TYPE_CONFIGURABLE_SUPER   = 3;
     const TYPE_GROUPED_SUPER        = 4;
     
+    protected static $_url;
+
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
 
@@ -66,6 +68,14 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
+    }
+        
+    public function getUrlInstance()
+    {
+        if (!self::$_url) {
+            self::$_url = Mage::getModel('core/url');
+        }
+        return self::$_url;
     }
     
     public function getAttributeSetId()
@@ -730,7 +740,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getProductUrl()
     {
     	$urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
-        $url = Mage::getUrl('catalog/product/view',
+        $url = $this->getUrlInstance()->getUrl('catalog/product/view',
             array(
             	's'=>$urlKey,
                 'id'=>$this->getId(),
