@@ -77,23 +77,25 @@ class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Ab
     	$this->getConnection( 'write' )->beginTransaction();
 
         try {
-	    	$this->getConnection('write')->delete($this->getTable('admin/role'), "user_id = {$user->getRoleUserId()}");
+	    	$this->getConnection('write')->delete($this->getTable('admin/role'), "user_id = {$user->getId()}");
             foreach ($rolesIds as $rid) {
 	    	    $rid = intval($rid);
 	    		if ($rid > 0) {
-		    		$row = $this->load($user, $rid);
+		    		//$row = $this->load($user, $rid);
 		    	} else {
 		    		$row = array('tree_level' => 0);
 		    	}
-
-		    	$this->getConnection('write')->insert($this->getTable('admin/role'), array(
+		    	$row = array('tree_level' => 0);
+                
+		    	$data = array(
 			    	'parent_id' 	=> $rid,
 			    	'tree_level' 	=> $row['tree_level'] + 1,
 			    	'sort_order' 	=> 0,
 			    	'role_type' 	=> 'U',
-			    	'user_id' 		=> $user->getRoleUserId(),
+			    	'user_id' 		=> $user->getId(),
 			    	'role_name' 	=> $user->getFirstname()
-		    	));
+		    	);
+		    	$this->getConnection('write')->insert($this->getTable('admin/role'), $data);
 	    	}
 	    	$this->getConnection('write')->commit();
         } catch (Mage_Core_Exception $e) {

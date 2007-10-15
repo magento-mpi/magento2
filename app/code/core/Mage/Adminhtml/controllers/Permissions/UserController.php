@@ -81,11 +81,13 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
             $model->setData($data);
             try {
             	$model->save();
-				if ( $uRoles = $this->getRequest()->getParam('user_roles', false) ) {
-                    parse_str($uRoles, $uRoles);
-                    $uRoles = array_keys($uRoles);
+				if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
+                    /*parse_str($uRoles, $uRoles);
+                    $uRoles = array_keys($uRoles);*/
 				    if ( 1 == sizeof($uRoles) ) {
-				        $model->setRoleIds( $uRoles )->setRoleUserId( $model->getUserId() )->saveRelations();
+				        $model->setRoleIds($uRoles)
+				            ->setRoleUserId($model->getUserId())
+				            ->saveRelations();
 				    } else if ( sizeof($uRoles) > 1 ) { 
 				        //@FIXME: stupid fix of previous multi-roles logic.
 				        //@TODO:  make proper DB upgrade in the future revisions.
