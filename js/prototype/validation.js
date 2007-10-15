@@ -181,9 +181,13 @@ Object.extend(Validation, {
                 var advice = Validation.getAdvice(name, elm);
                 if(advice == null) {
                     var errorMsg = useTitle ? ((elm && elm.title) ? elm.title : v.error) : v.error;
-                    if(Translator){
-                        errorMsg = Translator.translate(errorMsg);
+                    try {
+                        if(Translator){
+                            errorMsg = Translator.translate(errorMsg);
+                        }
                     }
+                    catch(e){}
+                    
                     advice = '<div class="validation-advice" id="advice-' + name + '-' + Validation.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
                     this.insertAdvice(elm, advice);
                     advice = Validation.getAdvice(name, elm);
