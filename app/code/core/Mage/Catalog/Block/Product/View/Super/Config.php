@@ -102,8 +102,9 @@
         if ($isPercent) {
             $price = $this->getProduct()->getFinalPrice()*$price/100;
         }
-        
-        return number_format($price, 2);
+        $price = Mage::app()->getStore()->convertPrice($price);
+        $price = Zend_Locale_Format::toNumber($price, array('number_format'=>'##0.00'));
+        return str_replace(',', '.', $price);
     }
     
     /**
