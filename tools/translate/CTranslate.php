@@ -278,6 +278,7 @@ class Translate {
 			}
 			$dup = self::checkDuplicates(self::$parseData,true);
 			if($key===null){
+				uksort($dup, 'strcasecmp');
 				foreach ($dup as $key=>$val){
 					print '"'.$key.'":'."\n";
 					$out = $dup[$key]['line'];
@@ -309,7 +310,7 @@ class Translate {
 		$check_arr = array();
 		foreach ($data as $val){
 			if(isset($val['mod_name'])){
-				$mod_name = $val['mod_name'].': ';
+				$mod_name = $val['mod_name'].' from ';
 			} else {
 				$mod_name = '';
 			}
@@ -318,10 +319,10 @@ class Translate {
 				if(isset($dupl[$val['value']])){
 					$dupl[$val['value']]['line'].=', '.$mod_name.$val['line'].'-'.$val['file'];
 				} else {
-					$dupl[$val['value']]['line']=$check_arr[$val['value']].', '.$mod_name.' '.$val['line'].'-'.$val['file'];
+					$dupl[$val['value']]['line']=$check_arr[$val['value']].', '.$mod_name.$val['line'].'-'.$val['file'];
 				}
 			} else {
-				$check_arr[$val['value']] = $mod_name.' '.$val['line'].'-'.$val['file'];
+				$check_arr[$val['value']] = $mod_name.$val['line'].'-'.$val['file'];
 			}
 		}
 		return $dupl;
