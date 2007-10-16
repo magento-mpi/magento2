@@ -33,7 +33,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/page', 'page_id');
-        $this->_uniqueFields = array( array('field' => 'identifier', 'title' => __('Page Identifier') ) );
+        $this->_uniqueFields = array( array('field' => array('identifier','store_id'), 'title' => __('Page Identifier for specified store') ) );
     }
 
     /**
@@ -70,9 +70,8 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         $select = parent::_getLoadSelect($field, $value, $object);
         
         if ($object->getStoreId()) {
-            $select->where('store_id=? OR store_id=0', $object->getStoreId());
+            $select->where('is_active=1 and store_id=? OR store_id=0', $object->getStoreId());
         }
-        
         return $select;
     }
 }

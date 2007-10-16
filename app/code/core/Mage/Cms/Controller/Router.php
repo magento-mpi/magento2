@@ -24,9 +24,10 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
     {
     	$identifier = trim($request->getPathInfo(), '/');
 
-        $page = Mage::getSingleton('cms/page')->load($identifier);
-        if (!$page->getIsActive()) {
-        	return false;
+        $page = Mage::getSingleton('cms/page');
+        $page->setStoreId(Mage::app()->getStore()->getId());
+        if (!$page->load($identifier)) {
+            return false;   
         }
         
         $request->setModuleName(isset($d[0]) ? $d[0] : 'cms')

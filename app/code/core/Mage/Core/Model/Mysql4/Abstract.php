@@ -383,10 +383,10 @@ abstract class Mage_Core_Model_Mysql4_Abstract
                 $select->reset( Zend_Db_Select::WHERE );
                 if (is_array($unique['field'])) {
                     foreach ($unique['field'] as $field) {
-                        $select->where( $field . ' like ?', $data->getData($field) );
+                        $select->where( $field . ' = ?', $data->getData($field) );
                     }
                 } else {
-                    $select->where( $unique['field'] . ' like ?', $data->getData($unique['field']) );
+                    $select->where( $unique['field'] . ' = ?', $data->getData($unique['field']) );
                 }
                 if ( $object->getId() ) {
                     $select->where( $this->getIdFieldName() . ' != ?', $object->getId() );
