@@ -13,7 +13,6 @@ class Translate {
 	public static function run($config){
 		self::$CONFIG = $config;
 		self::$csv = new Varien_File_Csv_multy();
-
 		try {
 			self::$opts = new MultyGetopt(array(
 			    'path=s'     => 'Path to root directory',
@@ -69,10 +68,8 @@ class Translate {
 		    return;
 	    }
 	    if($dups!==null && $dups!==false){
-	    	$changed_files = array();
 	    	if($key_dupl===null || $key_dupl===false || $key_dupl === true) $key_dupl=null;
-	    	#$duplicates = array();
-    		$duplicates = self::callDups($key_dupl,$path);
+    		self::callDups($key_dupl,$path);
 		    return;
 	    }
 		
@@ -305,7 +302,7 @@ class Translate {
      * @param   array $data - array of data
      * @return  array - duplicates array
      */
-	public static function checkDuplicates($data,$has_mod_name=false){
+	public static function checkDuplicates($data){
 		$dupl = array();
 		$check_arr = array();
 		foreach ($data as $val){
@@ -314,7 +311,6 @@ class Translate {
 			} else {
 				$mod_name = '';
 			}
-			
 			if(isset($check_arr[$val['value']])){
 				if(isset($dupl[$val['value']])){
 					$dupl[$val['value']]['line'].=', '.$mod_name.$val['line'].'-'.$val['file'];
@@ -332,6 +328,7 @@ class Translate {
      *
      * @param   string $file - file path
      * @param   array &$data_arr - array of data
+     * @param   string $mod_name - module name of parsered file
      * @return  array $data_arr
      */
 	protected static function parseFile($file,&$data_arr,$mod_name=null){
@@ -339,21 +336,49 @@ class Translate {
 		if(!$f){
 			self::error('file '.$file.' not found');
 		}
-		
 		$line_num = 0;
-		while (!feof($f)) {
-			$line = fgets($f, 4096);
-			$line_num++;
-			$results = array();
-			preg_match_all('/__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/',$line,$results,PREG_SET_ORDER);
-			for($a=0;$a<count($results);$a++){
-				$inc_arr = array();
-				if(isset($results[$a][2])){
-					$inc_arr['value']=$results[$a][2];
-					$inc_arr['line']=$line_num;
-					$inc_arr['file']=$file;
-					if($mod_name!==null)$inc_arr['mod_name'] = $mod_name;
-					array_push($data_arr,$inc_arr);
+		if(CFiles::getExt($file)==='xml'){
+			$xml = new Varien_Simplexml_Config();
+			$xml->loadFile($file,'SimpleXMLElement');
+			$arr = $xml->getXpath("//*[@translate]");
+			unset($xml);
+			if(is_array($arr)){
+				foreach ($arr as $val){
+					if(is_a($val,"Varien_Simplexml_Element")){	
+						if(is_a($val,"Varien_Simplexml_Element")){
+							$attr = $val->attributes();
+							$transl = $attr['translate'];
+							$transl = explode(' ', (string)$transl);
+			                foreach ($transl as $v) {
+				                $inc_arr['value']=(string)$val->$v;
+								$inc_arr['line']='';
+								$inc_arr['file']=$file;
+								if($mod_name!==null){
+									$inc_arr['mod_name'] = $mod_name;
+								} else {
+									$inc_arr['mod_name'] = ''; 
+								}
+								array_push($data_arr,$inc_arr);
+			                }
+						}
+					}
+				}
+			}
+		} else {
+			while (!feof($f)) {
+				$line = fgets($f, 4096);
+				$line_num++;
+				$results = array();
+				preg_match_all('/__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/',$line,$results,PREG_SET_ORDER);
+				for($a=0;$a<count($results);$a++){
+					$inc_arr = array();
+					if(isset($results[$a][2])){
+						$inc_arr['value']=$results[$a][2];
+						$inc_arr['line']=$line_num;
+						$inc_arr['file']=$file;
+						if($mod_name!==null)$inc_arr['mod_name'] = $mod_name;
+						array_push($data_arr,$inc_arr);
+					}
 				}
 			}
 		}
