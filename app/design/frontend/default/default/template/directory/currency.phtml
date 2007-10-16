@@ -25,7 +25,7 @@
  * @see Mage_Directory_Block_Currency
  */
 ?>
-<?if($this->getCurrencyCount()):?>
+<?if($this->getCurrencyCount()>1):?>
 <div class="box currency-switcher">
     <div class="head">
         <h4><?=$this->__('Select Your Currency')?></h4>
@@ -41,15 +41,6 @@
 <script type="text/javascript">
 function changeCurrency(sObject){
     if(sObject.value){
-        /*var url = location.href;
-        if (url.match(/[?&]CURRENCY=[A-Z]+/)) {
-            url = url.replace(/([?&]CURRENCY)=([A-Z]+)/, '$1='+sObject.value);
-        } else if (url.indexOf('?')>=0) {
-            url += '&CURRENCY='+sObject.value;
-        } else {
-            url += '?CURRENCY='+sObject.value;
-        }
-        setLocation(url);*/
         setLocation('<?=$this->helper('directory/url')->getSwitchCurrencyUrl()?>currency/'+sObject.value);
     }
 }

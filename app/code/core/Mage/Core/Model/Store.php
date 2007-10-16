@@ -43,6 +43,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_dirCache = array();
 
     protected $_urlCache = array();
+    
+    protected $_session;
 
     public function __construct()
     {
@@ -52,6 +54,20 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('core/store');
+    }
+    
+    /**
+     * Retrieve store session object
+     *
+     * @return Mage_Core_Model_Session_Abstract
+     */
+    protected function _getSession()
+    {
+        if (!$this->_session) {
+            $this->_session = Mage::getModel('core/session')
+                ->init('store_'.$this->getCode());
+        }
+        return $this->_session;
     }
 
     /**
@@ -187,6 +203,69 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $basePath;
     }
 
+    public function getDatashareStores($key)
+    {
+        // TODO store level data sharing configuration in next version
+        // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
+        if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
+            return explode(',', $stores);
+        } else {
+            $this->updateDatasharing();
+            if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
+                return explode(',', $stores);
+            }
+        }
+        return array();
+    }
+
+    public function updateDatasharing()
+    {
+        $this->getResource()->updateDatasharing();
+    }
+    
+    /**
+     * Retrieve url using store configuration specific
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getUrl($route='', $params=array())
+    {
+        $url = Mage::getModel('core/url')
+            ->setStore($this);
+        return $url->getUrl($route, $params);
+    }
+    
+    /*************************************************************************************
+     * Store currency interface
+     */
+    
+    /**
+     * Retrieve store base currency code
+     *
+     * @return string
+     */
+    public function getBaseCurrencyCode()
+    {
+        return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+    }
+    
+    /**
+     * Retrieve store base currency
+     *
+     * @return Mage_Directory_Model_Currency
+     */
+    public function getBaseCurrency()
+    {
+        $currency = $this->getData('base_currency');
+        if (is_null($currency)) {
+            $currency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
+            $this->setData('base_currency', $currency);
+        }
+        return $currency;
+    }
+    
     /**
      * Get default store currency code
      *
@@ -194,10 +273,25 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getDefaultCurrencyCode()
     {
-        $result = $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+        $result = $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT);
         return $result;
     }
 
+    /**
+     * Retrieve store default currency
+     *
+     * @return Mage_Directory_Model_Currency
+     */
+    public function getDefaultCurrency()
+    {
+        $currency = $this->getData('default_currency');
+        if (is_null($currency)) {
+            $currency = Mage::getModel('directory/currency')->load($this->getDefaultCurrencyCode());
+            $this->setData('default_currency', $currency);
+        }
+        return $currency;
+    }
+    
     /**
      * Set current store currency code
      *
@@ -208,7 +302,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
-            Mage::getSingleton('core/session')->setCurrencyCode($code);
+            $this->_getSession()->setCurrencyCode($code);
         }
         return $this;
     }
@@ -220,7 +314,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getCurrentCurrencyCode()
     {
-        $code = Mage::getSingleton('core/session')->getCurrencyCode();
+        $code = $this->_getSession()->getCurrencyCode();
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             return $code;
         }
@@ -240,21 +334,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->setData('available_currency_codes', $codes);
         }
         return $codes;
-    }
-    
-    /**
-     * Retrieve store default currency
-     *
-     * @return Mage_Directory_Model_Currency
-     */
-    public function getDefaultCurrency()
-    {
-        $currency = $this->getData('default_currency');
-        if (is_null($currency)) {
-            $currency = Mage::getModel('directory/currency')->load($this->getDefaultCurrencyCode());
-            $this->setData('default_currency', $currency);
-        }
-        return $currency;
     }
     
     /**
@@ -280,14 +359,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function convertPrice($price, $format=false)
     {
-        if ($this->getCurrentCurrency() && $this->getDefaultCurrency()) {
-            $value = $this->getDefaultCurrency()->convert($price, $this->getCurrentCurrency());
+        if ($this->getCurrentCurrency() && $this->getBaseCurrency()) {
+            $value = $this->getBaseCurrency()->convert($price, $this->getCurrentCurrency());
         } else {
             $value = $price;
         }
 
         if ($this->getCurrentCurrency() && $format) {
-            //$value = $this->getCurrentCurrency()->format($value);
             $value = $this->formatPrice($value);
         }
         return $value;
@@ -315,9 +393,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getPriceFilter()
     {
         if (!$this->_priceFilter) {
-            if ($this->getDefaultCurrency() && $this->getCurrentCurrency()) {
+            if ($this->getBaseCurrency() && $this->getCurrentCurrency()) {
                 $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
-                $this->_priceFilter->setRate($this->getDefaultCurrency()->getRate($this->getCurrentCurrency()));
+                $this->_priceFilter->setRate($this->getBaseCurrency()->getRate($this->getCurrentCurrency()));
             }
             elseif($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
@@ -327,39 +405,5 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
         }
         return $this->_priceFilter;
-    }
-
-    public function getDatashareStores($key)
-    {
-        // TODO store level data sharing configuration in next version
-        // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-        if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
-            return explode(',', $stores);
-        } else {
-            $this->updateDatasharing();
-            if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
-                return explode(',', $stores);
-            }
-        }
-        return array();
-    }
-
-    public function updateDatasharing()
-    {
-        $this->getResource()->updateDatasharing();
-    }
-    
-    /**
-     * Retrieve store url
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrl($route='', $params=array())
-    {
-        $url = Mage::getModel('core/url')
-            ->setStore($this);
-        return $url->getUrl($route, $params);
     }
 }
