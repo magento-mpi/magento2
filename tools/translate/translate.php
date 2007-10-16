@@ -90,6 +90,7 @@ require_once 'MultyGetopt.php';
 require_once 'Varien_File_Csv_multy.php';
 require_once 'CTranslate.php';
 require_once 'CFiles.php';
-
+require_once 'Varien/Simplexml/Config.php';
+require_once 'Varien/Simplexml/Element.php';
 Translate::run($CONFIG);
 
