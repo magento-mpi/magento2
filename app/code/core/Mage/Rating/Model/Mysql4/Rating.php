@@ -162,7 +162,8 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         $result = array();
 
-        $stores = Mage::app()->getStore()->getResourceCollection()->load();
+        //$stores = Mage::app()->getStore()->getResourceCollection()->load();
+        $stores = Mage::getModel('core/store')->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;
