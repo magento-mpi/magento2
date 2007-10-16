@@ -18,4 +18,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->run("alter table `magento_moshe`.`cms_page` drop key `identifier`, add unique `identifier` (`identifier`, `store_id`)");
+$this->run("alter table `cms_page` drop key `identifier`, add unique `identifier` (`identifier`, `store_id`)");
