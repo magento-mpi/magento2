@@ -18,9 +18,10 @@ class Translate {
 			self::$opts = new MultyGetopt(array(
 			    'path=s'     => 'Path to root directory',
 			    'validate-s' => 'Validates selected translation against the default (en_US)',
-			    'generate' => 'Generates the default translation (en_US)',
+			    'generate'   => 'Generates the default translation (en_US)',
 			    'update-s'   => 'Updates the selected translation with the changes (if any) from the default one (en_US)',
-			    'dups'     => 'Checks for duplicate keys in different modules (in the default translation en_US)',
+			    'dups'       => 'Checks for duplicate keys in different modules (in the default translation en_US)',
+			    'key-s'      => 'Duplication key',
 			    'file-s'     => 'Make validation of this file(s)'
 			  ));
 			 self::$opts->setOption('dashDash',false);
@@ -36,10 +37,15 @@ class Translate {
 		$update = self::$opts->getOption('update');
 		$dups = self::$opts->getOption('dups');
 		$file = self::$opts->getOption('file');
+		$key_dupl = self::$opts->getOption('key');
 		$dir_en = $path.self::$CONFIG['paths']['locale'].'en_US/';
 		
+		if($validate===null && $dups===null && $update===null && $generate===null){
+			self::error('type "php translate.php -h" for help.');
+		}
+		
 		if(!is_dir($dir_en)){
-			self::error('Locale dir '.$dir.' is not found');
+			self::error('Locale dir '.$dir_en.' is not found');
 		}
 		if($validate===true){
 			self::error("Please specify language of validation");
@@ -62,7 +68,14 @@ class Translate {
 	    	self::callUpdate($file, $dir, $dir_en);
 		    return;
 	    }
-		self::error('type "php translate.php -h" for help.');
+	    if($dups!==null && $dups!==false){
+	    	$changed_files = array();
+	    	if($key_dupl===null || $key_dupl===false || $key_dupl === true) $key_dupl=null;
+	    	#$duplicates = array();
+    		$duplicates = self::callDups($key_dupl,$path);
+		    return;
+	    }
+		
 
 	}
 	/**
@@ -236,23 +249,79 @@ class Translate {
 		}
 	}
 	/**
+     *Call duplicat checking process
+     *
+     * @param   string $key - key checking
+     * @param   string $path - path to root
+     * @return  none
+     */	
+	static function callDups($key,$path){
+			self::$parseData = array();
+			$dirs='';
+			$files = '';
+			foreach (self::$CONFIG['translates'] as $mod_name=>$path_arr){
+				foreach(self::$CONFIG['translates'][$mod_name] as $dir_name){
+					$dir = $path.$dir_name;
+					if(is_dir($dir)) {
+						$files = array();
+						$dirs = array();
+						CFiles::readpath($dir,$dirs,$files);
+						for($a=0;$a<count($files);$a++){
+							if(in_array(CFiles::getExt($files[$a]),self::$CONFIG['allow_extensions'])){
+								self::parseFile($files[$a],self::$parseData,$mod_name);
+							}
+						}
+					} else {
+						self::error("Could not found specific module ".$dir);					
+					}
+				}
+			}
+			$dup = self::checkDuplicates(self::$parseData,true);
+			if($key===null){
+				foreach ($dup as $key=>$val){
+					print '"'.$key.'":'."\n";
+					$out = $dup[$key]['line'];
+					$out = explode(',',$out);
+					for($a=0;$a<count($out);$a++){
+						print "\t".ltrim($out[$a]," ")."\n";
+					}
+					print "\n\n";
+				}
+			} else {
+				print '"'.$key.'":'."\n";
+				$out = $dup[$key]['line'];
+			
+				$out = explode(', ',$out);
+				for($a=0;$a<count($out);$a++){
+					print "\t".ltrim($out[$a]," ")."\n";
+				}
+			}
+		
+	}
+	/**
      *return array of duplicate parsering data
      *
      * @param   array $data - array of data
      * @return  array - duplicates array
      */
-	public static function checkDuplicates($data){
+	public static function checkDuplicates($data,$has_mod_name=false){
 		$dupl = array();
 		$check_arr = array();
 		foreach ($data as $val){
+			if(isset($val['mod_name'])){
+				$mod_name = $val['mod_name'].': ';
+			} else {
+				$mod_name = '';
+			}
+			
 			if(isset($check_arr[$val['value']])){
 				if(isset($dupl[$val['value']])){
-					$dupl[$val['value']]['line'].=', '.	$val['line'].'-'.$val['file'];
+					$dupl[$val['value']]['line'].=', '.$mod_name.$val['line'].'-'.$val['file'];
 				} else {
-					$dupl[$val['value']]['line']=$check_arr[$val['value']].', '.$val['line'].'-'.$val['file'];
+					$dupl[$val['value']]['line']=$check_arr[$val['value']].', '.$mod_name.' '.$val['line'].'-'.$val['file'];
 				}
 			} else {
-				$check_arr[$val['value']] = $val['line'].'-'.$val['file'];
+				$check_arr[$val['value']] = $mod_name.' '.$val['line'].'-'.$val['file'];
 			}
 		}
 		return $dupl;
@@ -262,9 +331,9 @@ class Translate {
      *
      * @param   string $file - file path
      * @param   array &$data_arr - array of data
-     * @return  none
+     * @return  array $data_arr
      */
-	protected static function parseFile($file,&$data_arr){
+	protected static function parseFile($file,&$data_arr,$mod_name=null){
 		$f = fopen($file,"r");
 		if(!$f){
 			self::error('file '.$file.' not found');
@@ -282,6 +351,7 @@ class Translate {
 					$inc_arr['value']=$results[$a][2];
 					$inc_arr['line']=$line_num;
 					$inc_arr['file']=$file;
+					if($mod_name!==null)$inc_arr['mod_name'] = $mod_name;
 					array_push($data_arr,$inc_arr);
 				}
 			}
