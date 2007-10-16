@@ -17,8 +17,8 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
-$this->addConfigField('allow', 'Allowed Settings', array(
+
+$this->addConfigField('allow', 'Locale Settings', array(
     'show_in_website'=>0,
     'show_in_store'=>0,
 ));
@@ -27,7 +27,7 @@ $this->addConfigField('allow/currency', 'Currency', array(
     'show_in_store'=>0,
 ));
 $this->addConfigField('allow/currency/code', 'Allowed Currencies', array(
-    'frontend_type'=>'multiselect', 
+    'frontend_type'=>'multiselect',
     'source_model'=>'adminhtml/system_config_source_locale_currency_all',
     'show_in_website'=>0,
     'show_in_store'=>0,

@@ -19,7 +19,7 @@
  */
 
 $this->startSetup();
-$this->addConfigField('currency', 'Currency setup');
+$this->addConfigField('currency', 'Currency Setup');
 $this->addConfigField('currency/options', 'Currency options', array('level' => '2', 'show_in_default' => '1'));
 $this->addConfigField('currency/options/base', 'Base currency', array('level' => '3',
                                                                       'frontend_type' => 'select',
@@ -31,7 +31,7 @@ $this->addConfigField('currency/options/base', 'Base currency', array('level' =>
                                                                 )
                     );
 
-$this->addConfigField('currency/options/default', 'Default currency', array('level' => '3',
+$this->addConfigField('currency/options/default', 'Display default currency', array('level' => '3',
                                                                       'frontend_type' => 'select',
                                                                       'source_model' => 'adminhtml/system_config_source_currency',
                                                                       'show_in_default' => '1',
