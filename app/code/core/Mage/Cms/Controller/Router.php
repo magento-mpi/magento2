@@ -26,7 +26,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
 
         $page = Mage::getSingleton('cms/page');
         $page->setStoreId(Mage::app()->getStore()->getId());
-        if (!$page->load($identifier)) {
+        if (!$page->load($identifier)->getId()) {
             return false;   
         }
         
