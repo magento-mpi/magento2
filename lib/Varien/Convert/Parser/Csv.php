@@ -20,13 +20,21 @@
 
 
 /**
- * Convert validator interface
+ * Convert csv parser
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-interface Varien_Convert_Validator_Interface
+class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
 {
-	public function validate();
+	public function parse()
+    {
+        
+    }
+    
+    public function unparse()
+    {
+        
+    }
 }

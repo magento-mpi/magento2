@@ -41,7 +41,6 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
 
         $pollId = intval( $this->getRequest()->getParam('poll_id') );
         $answerId = intval( $this->getRequest()->getParam('vote') );
-
         if( $pollId === 0 || $answerId === 0 || Mage::getSingleton('poll/poll')->isVoted($pollId) ) {
             return;
         }

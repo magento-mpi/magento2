@@ -20,13 +20,13 @@
 
 
 /**
- * Convert validator interface
+ * Convert container interface
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-interface Varien_Convert_Validator_Interface
+interface Varien_Convert_Component_Interface
 {
-	public function validate();
+	
 }

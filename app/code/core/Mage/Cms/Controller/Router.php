@@ -22,7 +22,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
 {
     public function match(Zend_Controller_Request_Http $request)
     {
-    	$identifier = trim($request->getPathInfo(), '/');
+        $identifier = trim($request->getPathInfo(), '/');
 
         $page = Mage::getSingleton('cms/page');
         $page->setStoreId(Mage::app()->getStore()->getId());

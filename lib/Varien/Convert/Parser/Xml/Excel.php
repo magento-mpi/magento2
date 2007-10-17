@@ -20,13 +20,13 @@
 
 
 /**
- * Convert validator interface
+ * Convert excel xml parser
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-interface Varien_Convert_Validator_Interface
+class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
 {
-	public function validate();
+	
 }

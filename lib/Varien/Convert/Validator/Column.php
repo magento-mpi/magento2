@@ -20,13 +20,13 @@
 
 
 /**
- * Convert validator interface
+ * Convert column validator
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-interface Varien_Convert_Validator_Interface
+class Varien_Convert_Validator_Column extends Varien_Convert_Validator_Abstract
 {
-	public function validate();
+	
 }

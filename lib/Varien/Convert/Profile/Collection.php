@@ -20,31 +20,22 @@
 
 
 /**
- * Convert db table adapter
+ * Convert profile collection
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Varien_Convert_Adapter_Db_Table extends Varien_Convert_Adapter_Abstract
+class Varien_Convert_Profile_Collection
 {
-    protected $_resource;
+    protected $_profiles = array();
     
-    public function getResource()
+    public function getProfiles()
     {
-        if (!$this->_resource) {
-            $this->_resource = Zend_Db::factory($this->getVar('type'), $this->getVars());
+        if (!$this->_profiles) {
+            $this->_profiles = new Varien_Convert_Component_Collection();
+            $this->_profiles->setDefaultClass('Varien_Convert_Profile');
         }
-        return $this->_resource;
-    }
-    
-    public function import()
-    {
-        
-    }
-    
-    public function export()
-    {
-        
+        return $this->_profiles;
     }
 }
