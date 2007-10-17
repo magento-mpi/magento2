@@ -23,6 +23,7 @@
 class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 {
     protected $_useAbsoluteLinks = false;
+    protected static $_urlInstance;
 
     public function setUseAbsoluteLinks($flag)
     {
@@ -94,7 +95,11 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     	$path = $params['url'];
     	unset($params['url']);
 
-    	$url = Mage::getUrl($path, $params);
+        if (!self::$_urlInstance) {
+            self::$_urlInstance = Mage::getModel('core/url');
+        }
+        
+    	$url = self::$_urlInstance->getUrl($path, $params);
 
     	return $url;
 	}
