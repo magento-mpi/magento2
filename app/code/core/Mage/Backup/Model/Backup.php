@@ -28,12 +28,12 @@
 class Mage_Backup_Model_Backup extends Varien_Object
 {
     /* backup types */
-    const BACKUP_DB     = "db";
-    const BACKUP_VIEW   = "view";
-    const BACKUP_MEDIA  = "media";
+    const BACKUP_DB     = 'db';
+    const BACKUP_VIEW   = 'view';
+    const BACKUP_MEDIA  = 'media';
     
     /* internal constants */
-    const BACKUP_EXTENSION  = "backup";
+    const BACKUP_EXTENSION  = 'backup';
     const COMPRESS_RATE     = 7;
 
     /**
@@ -53,10 +53,13 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function load($fileName, $filePath)
     {
         list ($time, $type) = explode("_", substr($fileName, 0, strrpos($fileName, ".")));
-        $this->addData(array('time' => (int)$time,
-                             'path' => $filePath,
-                             'time_formated' => date('Y-m-d H:i:s', (int)$time)))
-             ->setType($type);
+        $this->addData(array(
+            'id'   => $filePath . DS . $fileName,
+            'time' => (int)$time,
+            'path' => $filePath,
+            'time_formated' => date('Y-m-d H:i:s', (int)$time))
+        );
+        $this->setType($type);
         return $this;
     }
     

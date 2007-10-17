@@ -21,30 +21,16 @@
 /**
  * Customer group model
  *
- * @category   Mage
- * @package    Mage_Customer
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Group extends Varien_Object
+class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
 {
-    /**
-     * Alias for setCustomerGroupId
-     * @param int $value
-     */
-    public function setId($value)
+    protected function _construct()
     {
-        return $this->setCustomerGroupId($value);
+        $this->_init('customer/group');
     }
-
-    /**
-     * Alias for getCustomerGroupId
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->getCustomerGroupId();
-    }
-
+    
     /**
      * Alias for setCustomerGroupCode
      *
@@ -63,54 +49,5 @@ class Mage_Customer_Model_Group extends Varien_Object
     public function getCode()
     {
         return $this->getCustomerGroupCode();
-    }
-
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('customer/group');
-    }
-
-    /**
-     * Load group info by id
-     *
-     * @param   int $groupId
-     * @return  Mage_Customer_Model_Group
-     */
-    public function load($groupId)
-    {
-        $this->setData($this->getResource()->load($groupId));
-        return $this;
-    }
-
-    /**
-     * Save group
-     *
-     * @return  Mage_Customer_Model_Group
-     * @throws  Mage_Customer_Exception
-     */
-    public function save()
-    {
-        if( $this->_itemExists() ) {
-            throw new Exception(__('Customer group already exists.'));
-        }
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    /**
-     * Delete group
-     *
-     * @return  Mage_Customer_Model_Group
-     * @throws  Mage_Customer_Exception
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this->getId());
-        return $this;
-    }
-
-    protected function _itemExists()
-    {
-        return $this->getResource()->itemExists($this);
     }
 }
