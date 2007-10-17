@@ -12,17 +12,30 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_CatalogSearch
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?if($this->getResultCount()):?>
-<div class="page-head">
-	<h3><?=($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%s'", $this->helper('catalogSearch')->getQueryText())?></h3>
-</div>
-    <?=$this->getProductListHtml()?>
-<?else:?>
-    <div><?=($this->getNoResultText()) ? $this->getNoResultText() : __('Your search returns no results.') ?></div>
-<?endif;?>
+ 
+/**
+ * Catalog search query resource model
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_CatalogSearch_Model_Mysql4_Query extends Mage_Core_Model_Mysql4_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('catalogsearch/search_query', 'query_id');
+    }
+    
+    
+    public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
+    {
+        if (is_numeric($value)) {
+            return parent::load($object, $value);
+        }
+        return parent::load($object, $value, 'query_text');
+    }
+}

@@ -197,6 +197,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getSize()
     {
+        $this->load();
         return $this->_totalRecords;
     }
 
@@ -207,6 +208,8 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getFirstItem()
     {
+        $this->load();
+        
         if (count($this->_items)) {
             reset($this->_items);
             return current($this->_items);
@@ -225,6 +228,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getItems()
     {
+        $this->load();
         return $this->_items;
     }
     
@@ -236,6 +240,8 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getColumnValues($colName)
     {
+        $this->load();
+        
         $col = array();
         foreach ($this->getItems() as $item) {
             $col[] = $item->getData($colName);
@@ -252,6 +258,8 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getItemsByColumnValue($column, $value)
     {
+        $this->load();
+        
         $res = array();
         foreach ($this as $item) {
         	if ($item->getData($column)==$value) {
@@ -270,6 +278,8 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getItemByColumnValue($column, $value)
     {
+        $this->load();
+        
         foreach ($this as $item) {
         	if ($item->getData($column)==$value) {
         	    return $item;
@@ -328,7 +338,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function walk($method, $args=array())
     {
-        foreach ($this->getItems() as $item) {
+        foreach ($this as $item) {
             call_user_func_array(array($item, $method), $args);
         }
         return $this;
@@ -486,7 +496,7 @@ class Varien_Data_Collection implements IteratorAggregate
            <totalRecords>'.$this->_totalRecords.'</totalRecords>
            <items>';
 
-        foreach ($this->_items as $index => $item) {
+        foreach ($this as $item) {
             $xml.=$item->toXml();
         }
         $xml.= '</items>
@@ -505,7 +515,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $arrItems['totalRecords'] = $this->getSize();
 
         $arrItems['items'] = array();
-        foreach ($this->_items as $index => $item) {
+        foreach ($this as $item) {
             $arrItems['items'][] = $item->toArray($arrRequiredFields);
         }
         return $arrItems;
@@ -578,6 +588,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getItemById($idValue)
     {
+        $this->load();
         if (isset($this->_items[$idValue])) {
             return $this->_items[$idValue];
         }
@@ -589,6 +600,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function getIterator()
     {
+        $this->load();
         return new ArrayIterator($this->_items);
     }
     
@@ -599,6 +611,7 @@ class Varien_Data_Collection implements IteratorAggregate
      */
     public function count()
     {
+        $this->load();
         return count($this->_items);
     }
 }

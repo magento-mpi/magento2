@@ -423,8 +423,8 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 					                '{{table}}.store_id='.(int) $product->getStoreId());
 	    			$product->getSuperAttributeCollection()->getPricingCollection()
 	    					->addLinksFilter($product->getSuperLinks());
+                    $product->getSuperAttributeCollection()->getPricingCollection()->clear();
 	    			$product->getSuperAttributeCollection()->clear();
-	    			$product->getSuperAttributeCollection()->getPricingCollection()->clear();
 	    			$product->getSuperAttributeCollection()->load();
 
     			}

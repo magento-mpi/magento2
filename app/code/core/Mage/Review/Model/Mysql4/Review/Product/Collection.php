@@ -28,17 +28,17 @@
 
 class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
 {
- 	protected $_entitiesAlias = array();
- 	protected $_reviewStoreTable;
- 	protected $_addStoreDataFlag = false;
+    protected $_entitiesAlias = array();
+    protected $_reviewStoreTable;
+    protected $_addStoreDataFlag = false;
 
-	public function __construct()
-	{
-	       $this->setEntity(Mage::getResourceSingleton('catalog/product'));
+    public function __construct()
+    {
+           $this->setEntity(Mage::getResourceSingleton('catalog/product'));
                 $this->setObject('catalog/product');
                 $this->setRowIdFieldName('review_id');
                 $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review/review_store');
-	}
+    }
 
     public function addStoreFilter($storeId)
     {
@@ -69,26 +69,26 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         $this->_addStoreDataFlag = true;
         return $this;
     }
-	public function addCustomerFilter($customerId)
-	{
+    public function addCustomerFilter($customerId)
+    {
         $this->getSelect()
             ->where('rdt.customer_id = ?', $customerId);
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addEntityFilter($entityId)
-	{
+    public function addEntityFilter($entityId)
+    {
         $this->getSelect()
             ->where('rt.entity_pk_value = ?', $entityId);
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addStatusFilter($status)
-	{
+    public function addStatusFilter($status)
+    {
         $this->getSelect()
             ->where('rt.status_id = ?', $status);
-		return $this;
-	}
+        return $this;
+    }
 
     public function setDateOrder($dir='DESC')
     {

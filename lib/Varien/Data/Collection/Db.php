@@ -131,7 +131,6 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
 
-        // TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
         $sql = $countSelect->__toString();
         $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
         return $sql;

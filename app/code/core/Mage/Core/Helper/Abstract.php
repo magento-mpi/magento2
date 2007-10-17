@@ -33,6 +33,26 @@ abstract class Mage_Core_Helper_Abstract
     protected $_moduleName;
     
     /**
+     * Request object
+     *
+     * @var Zend_Controller_Request_Http
+     */
+    protected $_request;
+    
+    /**
+     * Retrieve request object
+     *
+     * @return Zend_Controller_Request_Http
+     */
+    protected function _getRequest()
+    {
+        if (!$this->_request) {
+            $this->_request = Mage::registry('controller')->getRequest();
+        }
+        return $this->_request;
+    }
+
+    /**
      * Loading cache data
      *
      * @param   string $id
@@ -122,5 +142,17 @@ abstract class Mage_Core_Helper_Abstract
             }
         }
         return htmlspecialchars($data);
+    }
+    
+    /**
+     * Retrieve url
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    protected function _getUrl($route, $params = array())
+    {
+        return Mage::getUrl($route, $params);
     }
 }

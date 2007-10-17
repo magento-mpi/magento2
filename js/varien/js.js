@@ -27,7 +27,9 @@ function setPLocation(url, setFocus){
     window.opener.location.href = url;
 }
 
-
+/**
+ * Set "odd", "even", "first" and "last" CSS classes for table rows and cells
+ */
 function decorateTable(table){
     table = $(table);
     if(table){
@@ -68,6 +70,9 @@ function decorateTable(table){
     }
 }
 
+/**
+ * Set "odd", "even" and "last" CSS classes for list items
+ */
 function decorateList(list){
     if($(list)){
         var items = $(list).getElementsBySelector('li')
@@ -81,6 +86,9 @@ function decorateList(list){
     }
 }
 
+/**
+ * Set "odd", "even" and "last" CSS classes for list items
+ */
 function decorateDataList(list){
 	list = $(list);
     if(list){
@@ -129,3 +137,61 @@ Varien.GlobalHandlers = {
 };
 
 Ajax.Responders.register(Varien.GlobalHandlers);
+
+/**
+ * Quick Search form client model
+ */
+Varien.searchForm = Class.create();
+Varien.searchForm.prototype = {
+    initialize : function(form, field, emptyText){
+        this.form   = $(form);
+        this.field  = $(field);
+        this.emptyText = emptyText;
+        
+        Event.observe(this.form,  'submit', this.submit.bind(this));
+        Event.observe(this.field, 'focus', this.focus.bind(this));
+        Event.observe(this.field, 'blur', this.blur.bind(this));
+        this.blur();
+    },
+    
+    submit : function(event){
+        if (this.field.value == this.emptyText || this.field.value == ''){
+            Event.stop(event);
+            return false;
+        }
+        return true;
+    },
+    
+    focus : function(event){
+        if(this.field.value==this.emptyText){
+            this.field.value='';
+        }
+        
+    },
+    
+    blur : function(event){
+        if(this.field.value==''){
+            this.field.value=this.emptyText;
+        }
+    },
+    
+    initAutocomplete : function(url, destinationElement){
+        new Ajax.Autocompleter(
+            this.field,
+            destinationElement,
+            url,
+            {
+                paramName: this.field.name,
+                minChars: 2,
+                updateElement: this._selectAutocompleteItem.bind(this)
+            }
+        );
+    },
+    
+    _selectAutocompleteItem : function(element){
+        if(element.title){
+            this.field.value = element.title;
+        }
+        this.submit();
+    }
+}

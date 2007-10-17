@@ -26,26 +26,6 @@
 class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
 {
     /**
-     * Request object
-     *
-     * @var Zend_Controller_Request_Http
-     */
-    protected $_request;
-    
-    /**
-     * Retrieve request object
-     *
-     * @return Zend_Controller_Request_Http
-     */
-    protected function _getRequest()
-    {
-        if (!$this->_request) {
-            $this->_request = Mage::registry('controller')->getRequest();
-        }
-        return $this->_request;
-    }
-    
-    /**
      * Retrieve current url
      * 
      * @return string
@@ -82,10 +62,5 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
         $string = trim($string, '-');
     	
         return $string;
-    }
-    
-    protected function _getUrl($paramStr, $params = array())
-    {
-        return Mage::getUrl($paramStr, $params);
     }
 }

@@ -178,6 +178,9 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
 
     public function load($printQuery=false, $logQuery=false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
         parent::load($printQuery, $logQuery);
         if($this->_addStoreDataFlag) {
             $this->_addStoreData();

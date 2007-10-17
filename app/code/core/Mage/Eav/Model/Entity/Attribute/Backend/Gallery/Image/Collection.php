@@ -41,6 +41,10 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery_Image_Collection extends V
     
     public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+        
         parent::load($printQuery, $logQuery);
         foreach ($this as $_item) {
             $_item->setAttribute($this->getAttributeBackend()->getAttribute());

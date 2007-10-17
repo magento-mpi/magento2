@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
@@ -268,49 +268,6 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         	$category->setProductCount((int) $this->_read->fetchOne($select));
         }
         return $this;
-    }
-    
-    public function addSearchFilter($query)
-    {
-        $entity = $this->getEntity();
-        
-        $attributesCollection = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($this->getEntity()->getConfig()->getId())
-            ->load();
-        
-        $tables = array();
-        foreach ($attributesCollection as $attribute) {
-            $attribute->setEntity($entity);
-        	if ($attribute->getIsSearchable()) {
-        	    $table = $attribute->getBackend()->getTable();
-        	    if (!isset($tables[$table])) {
-        	        $tables[$table] = array();
-        	        $tables[$table]['attributes']  = array();
-        	        $tables[$table]['condition']   = array();
-        	    }
-        	    $tables[$table]['attributes'][] = $attribute->getId();
-        	}
-        }
-        
-        $select = $this->getSelect()
-            ->distinct(true);
-        $condition = array();
-        
-        foreach ($tables as $tableName => $info) {
-            $tableAlias = $tableName . '_for_search';
-            $valueAlias = $tableName . '_value';
-            
-            $joinCondition = $tableAlias.'.entity_id=e.entity_id AND ' . 
-                $this->_read->quoteInto($tableAlias.'.store_id =? AND ', $entity->getStoreId()) .
-                $this->_read->quoteInto($tableAlias.'.attribute_id IN (?)', $info['attributes']);
-        	$select->joinLeft(array($tableAlias=>$tableName), $joinCondition, new Zend_Db_Expr('1'));
-        	$condition[] = $tableAlias . '.value LIKE \'%' . $query . '%\'';
-        }
-        
-        $condition = '(' . implode(') OR (', $condition) . ')';
-        $select->where($condition);
-        
-    	return $this;
     }
     
     public function getSetIds()

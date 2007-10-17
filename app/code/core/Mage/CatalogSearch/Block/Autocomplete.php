@@ -18,48 +18,43 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Autocomplete queries list
+ */
 class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
 {
     public function toHtml()
     {
+        $html = '';
+        
 		if (!$this->_beforeToHtml()) {
-			return '';
+			return $html;
 		}
-
-        $query = $this->getRequest()->getParam('query', '');
-        $searchCollection = Mage::getResourceModel('catalogsearch/search_collection')
-        	->setQueryFilter($query)
-            ->setPageSize(20);
-
-        $searchCollection->loadData();
-        $items = $searchCollection->getItems();
-
-        if (sizeof($items)==0) {
-        	return '';
-        }
-        if (sizeof($items)>0) {
-        	$found = false;
-        	foreach ($items as $i=>$item) {
-        		if ($item->getSearchQuery()==$query) {
-        			$found = true;
-        			unset($items[$i]);
-        			array_unshift($items, $item);
-        		}
-        	}
-        	/*
-        	if (!$found) {
-	        	$default = Mage::getModel('catalogsearch/search')->setSearchQuery($query);
-	        	array_unshift($items, $default);
-        	}
-        	*/
-        }
-        $i=0;
-        $html = '<ul><li style="display:none"></li>';
-        foreach ($items as $item) {
-            $html .= '<li title="'.$item->getSearchQuery().'" class="'.((++$i)%2?'odd':'even').'"><div style="float:right">'.$item->getNumResults().'</div>'.$item->getSearchQuery().'</li>';
-        }
-        $html .= '</ul>';
+        
+		$collection = $this->helper('catalogSearch')->getSuggestCollection();
+		if (!$collection->getSize()) {
+		    return $html;
+		}
+		
+		$query = $this->helper('catalogSearch')->getQueryText();
+		$counter=0;
+		
+		$html = '<ul><li style="display:none"></li>';
+		$itemsHtml = '';
+		$firstHtml = '';
+		foreach ($collection as $item) {
+		    if ($item->getQueryText() == $query) {
+                $firstHtml.= '<li title="'.$item->getQueryText().'" class="'.((++$counter)%2?'odd':'even').'">';
+                $firstHtml.= '<div style="float:right">'.$item->getNumResults().'</div>'.$item->getQueryText().'</li>';
+		    }
+		    else {
+		        $itemsHtml.= '<li title="'.$item->getQueryText().'" class="'.((++$counter)%2?'odd':'even').'">';
+                $itemsHtml.= '<div style="float:right">'.$item->getNumResults().'</div>'.$item->getQueryText().'</li>';
+		    }
+		}
+		
+		$html.= $firstHtml.$itemsHtml;
+		$html.= '</ul>';
         
         return $html;
     }

@@ -124,27 +124,27 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         $customersIds = array();
         
         foreach ($this->getItems() as $item) {
-        	if($item->getCustomerId()) {
-        		$customersIds[] = $item->getCustomerId();
-        	}
+            if($item->getCustomerId()) {
+                $customersIds[] = $item->getCustomerId();
+            }
         }
         
         if(count($customersIds) == 0) {
-        	return;
+            return;
         }
                 
         $customers = Mage::getResourceModel('customer/customer_collection')
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
-			->addAttributeToFilter('entity_id', array("in"=>$customersIds));
+            ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
         
         $customers->load();
-		
+        
         foreach($customers->getItems() as $customer) {
-        	$subscriber = $this->getItemByColumnValue('customer_id', $customer->getId());
-        	$subscriber->setCustomerName($customer->getName())
-        		->setCustomerFirstName($customer->getFirstName())
-        		->setCustomerLastName($customer->getLastName());        	
+            $subscriber = $this->getItemByColumnValue('customer_id', $customer->getId());
+            $subscriber->setCustomerName($customer->getName())
+                ->setCustomerFirstName($customer->getFirstName())
+                ->setCustomerLastName($customer->getLastName());            
         }
                 
     }
@@ -157,8 +157,8 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function showCustomerInfo($show=true) 
     {
-    	$this->_showCustomersInfo = (boolean) $show;
-    	return $this;
+        $this->_showCustomersInfo = (boolean) $show;
+        return $this;
     }
     
      /**
@@ -169,17 +169,17 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function showStoreInfo() 
     {
-    	$this->_sqlSelect->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id'));
-    	
-    	return $this;
+        $this->_sqlSelect->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id'));
+        
+        return $this;
     }
     
     public function addFieldToFilter($field, $condition)
     {
-    	if(!is_null($condition)) {
-    		$this->_sqlSelect->having($this->_getConditionSql($field, $condition));
-    		$this->_countFilterPart[] = $this->_getConditionSql('main_table.' . $field, $condition);
-    	}    	 
+        if(!is_null($condition)) {
+            $this->_sqlSelect->having($this->_getConditionSql($field, $condition));
+            $this->_countFilterPart[] = $this->_getConditionSql('main_table.' . $field, $condition);
+        }        
         return $this;
     }
     
@@ -193,9 +193,9 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-		
+        
         foreach ($this->_countFilterPart as $where) {
-        	$countSelect->where($where);
+            $countSelect->where($where);
         }
        
         
@@ -236,10 +236,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function load($printQuery=false, $logQuery=false) 
     {
-    	parent::load($printQuery, $logQuery);
-    	if($this->_showCustomersInfo) {
-    		$this->_addCustomersData();
-    	}
-    	return $this;
+        if ($this->isLoaded()) {
+            return $this;
+        }
+        parent::load($printQuery, $logQuery);
+        if($this->_showCustomersInfo) {
+            $this->_addCustomersData();
+        }
+        return $this;
     }
 }

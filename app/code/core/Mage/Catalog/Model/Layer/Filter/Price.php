@@ -147,6 +147,6 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     protected function _renderItemLabel($range, $value)
     {
         $store = Mage::app()->getStore();
-        return $store->formatPrice(($value-1)*$range).' - '.$store->formatPrice($value*$range);
+        return $store->convertPrice(($value-1)*$range, true).' - '.$store->convertPrice($value*$range, true);
     }
 }

@@ -43,6 +43,9 @@ class Mage_Customer_Model_Mysql4_Address_Collection extends Varien_Data_Collecti
     
     public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
         parent::load($printQuery, $logQuery);
         // try load addresses data
         if (count($this->_items) == 0) {

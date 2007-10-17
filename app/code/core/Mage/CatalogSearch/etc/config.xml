@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_CatalogSearch>
-         <version>0.1.3</version> 
+         <version>0.1.4</version> 
          <depends>
             <Mage_Catalog />
          </depends>
@@ -38,9 +38,9 @@
          <catalogsearch_mysql4>
             <class>Mage_CatalogSearch_Model_Mysql4</class>
             <entities>
-               <search>
-                 <table>catalogsearch</table>
-               </search>
+               <search_query>
+                 <table>catalogsearch_query</table>
+               </search_query>
             </entities>
          </catalogsearch_mysql4>
       </models>

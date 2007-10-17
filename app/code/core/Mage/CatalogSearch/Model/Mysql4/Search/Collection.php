@@ -19,22 +19,148 @@
  */
 
 
-class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Model_Entity_Product_Collection 
 {
-    protected function _construct()
+    protected $_attributesCollection;
+    
+    /**
+     * Add search query filter
+     *
+     * @param   string $query
+     * @return  Mage_CatalogSearch_Model_Mysql4_Search_Collection
+     */
+    public function addSearchFilter($query)
     {
-        $this->_init('catalogsearch/search');
+        $query = '%'.$query.'%';
+        $this->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
+    	return $this;
     }
-
-    public function setQueryFilter($query)
+    
+    /**
+     * Retrieve collection of all attributes
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    protected function _getAttributesCollection()
     {
-    	$this->getSelect()->reset(Zend_Db_Select::FROM)->distinct(true)
-    		->from(
-    			array('main_table'=>$this->getTable('catalogsearch/search')),
-    			array('search_query'=>"if(ifnull(synonim_for,'')<>'',synonim_for,search_query)", 'num_results')
-    		)
-    		->where('num_results>0 and search_query like ?', $query.'%')
-    		->order('popularity desc');
-		return $this;
+        if (!$this->_attributesCollection) {
+            $this->_attributesCollection = Mage::getResourceModel('eav/entity_attribute_collection')
+                ->setEntityTypeFilter($this->getEntity()->getConfig()->getId())
+                ->load();
+        
+            foreach ($this->_attributesCollection as $attribute) {
+                $attribute->setEntity($this->getEntity());
+            }
+        }
+        return $this->_attributesCollection;
+    }
+    
+    protected function _isAttributeTextAndSearchable($attribute)
+    {
+        if ($attribute->getIsSearchable() && in_array($attribute->getBackendType(), array('varchar', 'text'))) {
+            return true;
+        }
+        return false;
+    }
+    
+    protected function _hasAttributeOptionsAndSearchable($attribute)
+    {
+        if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select' && $attribute->getBackendType()=='int') {
+            return true;
+        }
+        return false;
+    }
+    
+    protected function _getSearchEntityIdsSql($query)
+    {
+        $tables = array();
+        
+        /**
+         * Collect tables and attribute ids of attributes with string values
+         */
+        foreach ($this->_getAttributesCollection() as $attribute) {
+        	if ($this->_isAttributeTextAndSearchable($attribute)) {
+        	    $table = $attribute->getBackend()->getTable();
+        	    if (!isset($tables[$table])) {
+        	        $tables[$table] = array();
+        	    }
+        	    $tables[$table][] = $attribute->getId();
+        	}
+        }
+        
+        $selects = array();
+        foreach ($tables as $table => $attributeIds) {
+        	$selects[] = $this->_read->select()
+        	   ->from($table, 'entity_id')
+        	   ->where('store_id=?', $this->getEntity()->getStoreId())
+        	   ->where('attribute_id IN (?)', $attributeIds)
+        	   ->where('value LIKE ?', $query);
+        }
+        
+        if ($sql = $this->_getSearchInOptionSql($query)) {
+            $selects[] = $sql;
+        }
+        
+        $sql = implode(' UNION ', $selects);
+        return $sql;
+    }
+    
+    /**
+     * Retrieve SQL for search entities by option
+     *
+     * @param unknown_type $query
+     * @return unknown
+     */
+    protected function _getSearchInOptionSql($query)
+    {
+        $attributeIds = array();
+        $table = '';
+        
+        /**
+         * Collect attributes with options
+         */
+        foreach ($this->_getAttributesCollection() as $attribute) {
+        	if ($this->_hasAttributeOptionsAndSearchable($attribute)) {
+        	    $table = $attribute->getBackend()->getTable();
+        	    $attributeIds[] = $attribute->getId();
+        	}
+        }
+        
+        if (empty($attributeIds)) {
+            return false;
+        }
+        
+        $optionTable = Mage::getSingleton('core/resource')->getTableName('eav/attribute_option');
+        $optionValueTable = Mage::getSingleton('core/resource')->getTableName('eav/attribute_option_value');
+        
+        /**
+         * Select option Ids
+         */
+        $select = $this->_read->select()
+            ->from(array('default'=>$optionValueTable), 'option_id')
+            ->joinLeft(array('store'=>$optionValueTable), 
+                $this->_read->quoteInto('store.option_id=default.option_id AND store.store_id=?', $this->getEntity()->getStoreId()),
+                array())
+            ->join(array('option'=>$optionTable),
+                'option.option_id=default.option_id',
+                array())
+            ->where('default.store_id=0')
+            ->where('option.attribute_id IN (?)', $attributeIds);
+            
+        $searchCondition = $this->_read->quoteInto('(store.value IS NULL AND default.value LIKE ?)', $query) .
+            $this->_read->quoteInto(' OR (store.value LIKE ?)', $query);
+        $select->where($searchCondition);
+        
+        $optionsIds = $this->_read->fetchCol($select);
+        
+        if (empty($optionsIds)) {
+            return false;
+        }
+        
+        return $this->_read->select()
+            ->from($table, 'entity_id')
+            ->where('store_id=?', $this->getEntity()->getStoreId())
+            ->where('attribute_id IN (?)', $attributeIds)
+            ->where('value IN (?)', $optionsIds);
     }
 }

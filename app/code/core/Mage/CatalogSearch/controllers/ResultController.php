@@ -23,27 +23,33 @@
  */
 class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * Display search result
+     */
     public function indexAction()
     {
-        $searchQuery = $this->getRequest()->getParam('q', false);
-
-        if ($searchQuery) {
-            $searchTerms = addslashes(strip_tags($searchQuery));
-        	$search = Mage::getSingleton('catalogsearch/search')
-        	   ->loadByQuery($searchTerms);
-
-        	if (!$search->getId()) {
-        		$search->setSearchQuery($searchTerms)->updateSearch();
-        	} elseif ($search->getRedirect()) {
-	    		$search->updateSearch();
-        		$this->getResponse()->setRedirect($search->getRedirect());
-        		return;
-
-        	}
+        $query = Mage::helper('catalogSearch')->getQuery();
+        
+        if ($text = $query->getQueryText()) {
+            if ($query->getId()) {
+                $query->setPopularity($query->getPopularity()+1);
+            }
+            else {
+                $query->setPopularity(1);
+            }
+            
+            if ($query->getRedirect()){
+                $query->save();
+                $this->getResponse()->setRedirect($query->getRedirect());
+                return;
+            }
+            
+            $this->loadLayout();
+            $this->renderLayout();
+            $query->save();
         }
-
-        $this->loadLayout();
-        $this->getLayout()->getBlock('top.search')->assign('query', htmlspecialchars($searchQuery));
-        $this->renderLayout();
+        else {
+            $this->_redirectReferer();
+        }
     }
 }
