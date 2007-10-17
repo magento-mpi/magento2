@@ -25,14 +25,27 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     protected $_data = array();
     protected $_checkout = null;
     protected $_quote = null;
-
+    
+    protected function _expireAjax()
+    {
+        if (!$this->getOnepage()->getQuote()->hasItems()) {
+            $this->getResponse()
+                ->setHeader('HTTP/1.1', '403 Session Expired')
+                ->setHeader('Login-Required', 'true')
+                ->sendResponse();
+            exit;
+        }
+    }
+    
     public function preDispatch()
     {
         parent::preDispatch();
         #if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
         if (!$this->getOnepage()->getQuote()->hasItems()) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_redirect('checkout/cart');
+            $this->getResponse()
+                ->setHeader('HTTP/1.1','403 Session Expired')
+                ->sendResponse();
+            exit;
         }
         return $this;
     }
@@ -53,7 +66,11 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         #Mage::getSingleton('customer/session')->setTest('onepage');
-
+        if (!$this->getOnepage()->getQuote()->hasItems()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+        
         Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
@@ -66,24 +83,32 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function progressAction()
     {
+        $this->_expireAjax();
         $this->loadLayout(false);
         $this->renderLayout();
     }
 
     public function shippingMethodAction()
     {
+        $this->_expireAjax();
         $this->loadLayout(false);
         $this->renderLayout();
     }
 
     public function reviewAction()
     {
+        $this->_expireAjax();
         $this->loadLayout(false);
         $this->renderLayout();
     }
 
     public function successAction()
     {
+        if (!$this->getOnepage()->getQuote()->hasItems()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+        
         $lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
         $lastOrderId = $this->getOnepage()->getCheckout()->getLastOrderId();
 
@@ -103,6 +128,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function getAddressAction()
     {
+        $this->_expireAjax();
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
             $address = $this->getOnepage()->getAddress($addressId);
@@ -113,6 +139,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function saveMethodAction()
     {
+        $this->_expireAjax();
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getPost('method');
             $result = $this->getOnepage()->saveCheckoutMethod($method);
@@ -125,6 +152,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function saveBillingAction()
     {
+        $this->_expireAjax();
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('billing', array());
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
@@ -141,6 +169,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function saveShippingAction()
     {
+        $this->_expireAjax();
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping', array());
             $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
@@ -155,6 +184,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function saveShippingMethodAction()
     {
+        $this->_expireAjax();
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping_method', '');
             $result = $this->getOnepage()->saveShippingMethod($data);
@@ -165,6 +195,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function savePaymentAction()
     {
+        $this->_expireAjax();
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('payment', array());
             $result = $this->getOnepage()->savePayment($data);
@@ -182,6 +213,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     public function saveOrderAction()
     {
+        $this->_expireAjax();
         $result = $this->getOnepage()->saveOrder();
         $this->getResponse()->setBody(Zend_Json::encode($result));
     }

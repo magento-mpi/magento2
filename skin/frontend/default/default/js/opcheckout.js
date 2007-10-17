@@ -16,11 +16,12 @@
  */
 var Checkout = Class.create();
 Checkout.prototype = {
-    initialize: function(accordion, progressUrl, reviewUrl, saveMethodUrl){
+    initialize: function(accordion, progressUrl, reviewUrl, saveMethodUrl, failureUrl){
         this.accordion = accordion;
         this.progressUrl = progressUrl;
         this.reviewUrl = reviewUrl;
         this.saveMethodUrl = saveMethodUrl;
+		this.failureUrl = failureUrl;
         this.billingForm = false;
         this.shippingForm= false;
         this.syncBillingShipping = false;
@@ -35,12 +36,16 @@ Checkout.prototype = {
         this.accordion.disallowAccessToNextSections = true;
     },
 
+	ajaxFailure: function(){
+		location.href = this.failureUrl;
+	},
+
     reloadProgressBlock: function(){
-        var updater = new Ajax.Updater($$('.col-right')[0], this.progressUrl, {method: 'get'});
+        var updater = new Ajax.Updater($$('.col-right')[0], this.progressUrl, {method: 'get', onFailure: this.ajaxFailure.bind(this)});
     },
 
     reloadReviewBlock: function(){
-        var updater = new Ajax.Updater('checkout-review-load', this.reviewUrl, {method: 'get'});
+        var updater = new Ajax.Updater('checkout-review-load', this.reviewUrl, {method: 'get', onFailure: this.ajaxFailure.bind(this)});
     },
 
     setLoadWaiting: function(step) {
@@ -71,7 +76,7 @@ Checkout.prototype = {
             this.method = 'guest';
             var request = new Ajax.Request(
                 this.saveMethodUrl,
-                {method: 'post', /*onSuccess: this.onSetMethod, */parameters: {method:'guest'}}
+                {method: 'post', onFailure: this.ajaxFailure.bind(this), parameters: {method:'guest'}}
             );
             Element.hide('register-customer-password');
             this.gotoSection('billing');
@@ -80,7 +85,7 @@ Checkout.prototype = {
             this.method = 'register';
             var request = new Ajax.Request(
                 this.saveMethodUrl,
-                {method: 'post', /*onSuccess: this.onSetMethod, */parameters: {method:'register'}}
+                {method: 'post', onFailure: this.ajaxFailure.bind(this), parameters: {method:'register'}}
             );
             Element.show('register-customer-password');
             this.gotoSection('billing');
@@ -155,7 +160,7 @@ Billing.prototype = {
         if (addressId) {
             request = new Ajax.Request(
                 this.addressUrl+addressId,
-                {method:'get', onSuccess: this.onAddressLoad}
+                {method:'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
             );
         }
         else {
@@ -227,6 +232,7 @@ Billing.prototype = {
                     method: 'post',
                     onComplete: this.onComplete,
                     onSuccess: this.onSave,
+					onFailure: checkout.ajaxFailure.bind(checkout),
                     parameters: Form.serialize(this.form)
                 }
             );
@@ -278,7 +284,7 @@ Shipping.prototype = {
         if (addressId) {
             request = new Ajax.Request(
                 this.addressUrl+addressId,
-                {method:'get', onSuccess: this.onAddressLoad}
+                {method:'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
             );
         }
         else {
@@ -374,6 +380,7 @@ Shipping.prototype = {
                     method:'post',
                     onComplete: this.onComplete,
                     onSuccess: this.onSave,
+					onFailure: checkout.ajaxFailure.bind(checkout),
                     parameters: Form.serialize(this.form)
                 }
             );
@@ -446,6 +453,7 @@ ShippingMethod.prototype = {
                     method:'post',
                     onComplete: this.onComplete,
                     onSuccess: this.onSave,
+					onFailure: checkout.ajaxFailure.bind(checkout),
                     parameters: Form.serialize(this.form)
                 }
             );
@@ -531,6 +539,7 @@ Payment.prototype = {
                     method:'post',
                     onComplete: this.onComplete,
                     onSuccess: this.onSave,
+					onFailure: checkout.ajaxFailure.bind(checkout),
                     parameters: Form.serialize(this.form)
                 }
             );
@@ -579,7 +588,8 @@ Review.prototype = {
                 method:'post',
                 parameters:{save:true},
                 onComplete: this.onComplete,
-                onSuccess: this.onSave
+                onSuccess: this.onSave,
+				onFailure: checkout.ajaxFailure.bind(checkout)
             }
         );
     },
