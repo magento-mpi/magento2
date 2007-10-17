@@ -28,5 +28,18 @@
  */
 class Varien_Convert
 {
-	
+	static public function convert($class, $method, $data, array $vars=array())
+    {
+        if (is_string($class)) {
+            $class = new $class();
+        }
+        $action = new Varien_Convert_Action();
+        $action->setParam('method', $method)->setParam('class', $class);
+        
+        $container = $action->getContainer();
+        $container->setData($data)->setVars($vars);
+        
+        $action->run();
+        return $action->getData();
+    }
 }

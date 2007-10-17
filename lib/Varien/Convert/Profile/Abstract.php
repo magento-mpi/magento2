@@ -26,51 +26,56 @@
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-abstract class Varien_Convert_Profile_Abstract extends Varien_Convert_Component_Abstract
+abstract class Varien_Convert_Profile_Abstract
 {
-    protected $_components;
+    protected $_actions;
+    protected $_containers;
     
-    public function getComponents()
+    protected $_actionDefaultClass = 'Varien_Convert_Action';
+    protected $_containerCollectionDefaultClass = 'Varien_Convert_Container_Collection';
+    
+    public function addAction(Varien_Convert_Action_Interface $action=null)
     {
-        if (!$this->_components) {
-            $this->_components = new Varien_Convert_Component_Collection();
-            $this->_components->setDefaultClass('Varien_Convert_Container_Generic');
+        if (is_null($action)) {
+            $action = new $this->_actionDefaultClass();
         }
-        return $this->_components;
-    }
-    
-    public function addAction($action, array $params=array(), array $vars=array())
-    {
-        $action = $this->getComponents()->addComponent(null, $action, $params, $vars);
+        $this->_actions[] = $action;
         $action->setProfile($this);
+        return $action;
+    }
+    
+    public function setContainers(Varien_Convert_Container_Collection $containers)
+    {
+        $this->_containers = $containers;
+        return $this;
+    }
 
-        return $this;
-    }
-    
-    public function getContainer($name)
+    public function getContainers()
     {
-        if (!isset($this->_containers[$name])) {
-            $container = new Varien_Convert_Container_Generic();
-            $this->setContainer($name, $container);
+        if (!$this->_containers) {
+            $this->_containers = new $this->_containerCollectionDefaultClass();
         }
-        return $this->_containers[$name];
+        return $this->_containers;
     }
     
-    public function getDefaultContainer()
+    public function getContainer($name=null)
     {
-        return $this->getContainer('default');
+        if (is_null($name)) {
+            $name = '_default';
+        }
+        return $this->getContainers()->getItem($name);
     }
     
-    public function addContainer($container, array $params=array(), array $vars=array())
+    public function addContainer($name, Varien_Convert_Container_Interface $container)
     {
-        $container = $this->getComponents()->addComponent(null, $container, $params, $vars);
+        $container = $this->getContainers()->addItem($name, $container);
         $container->setProfile($this);
-        return $this;
+        return $container;
     }
     
     public function run()
     {
-        foreach ($this->getComponents() as $action) {
+        foreach ($this->_actions as $action) {
             $action->run();
         }   
         return $this;

@@ -13,23 +13,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Varien
- * @package    Varien_Controller
+ * @package    Varien_Convert
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
-Zend_Loader::loadClass('Zend_Controller_Plugin_Abstract');
-
-class Varien_Controller_Plugin_NotFound extends Zend_Controller_Plugin_Abstract
+/**
+ * Convert action interface
+ *
+ * @category   Varien
+ * @package    Varien_Convert
+ * @author     Moshe Gurvich <moshe@varien.com>
+ */
+interface Varien_Convert_Action_Interface
 {
-    public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        $dispatcher = Zend_Controller_Front::getInstance()->getDispatcher();
-        if (!$dispatcher->isDispatchable($request)) {
-            $request->setControllerName(Zend_Controller_Front::getInstance()->getDefaultControllerName())
-                    ->setModuleName('default')
-                    ->setActionName('noRoute')
-                    ->setDispatched(false);
-        }
-    }
+	public function run();
 }
