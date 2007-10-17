@@ -579,7 +579,7 @@ class Mage_Core_Model_Url extends Varien_Object
         return $this->getData('action_name');
     }
 
-    public function setRouteParams(array $data)
+    public function setRouteParams(array $data, $unsetOldParams=true)
     {
         if (isset($data['_type'])) {
             $this->setType($data['_type']);
@@ -589,6 +589,10 @@ class Mage_Core_Model_Url extends Varien_Object
         if (isset($data['_secure'])) {
             $this->setSecure((bool)$data['_secure']);
             unset($data['_secure']);
+        }
+        
+        if ($unsetOldParams) {
+            $this->unsetData('route_params');
         }
 
         $this->setUseUrlCache(true);
@@ -602,7 +606,7 @@ class Mage_Core_Model_Url extends Varien_Object
                 }
             } elseif ($data['_current']) {
                 foreach ($this->getRequest()->getUserParams() as $key=>$value) {
-                    if (array_key_exists($key, $data)) {
+                    if (array_key_exists($key, $data) || $this->getRouteParam($key)) {
                         continue;
                     }
                     $data[$key] = $value;
@@ -614,9 +618,12 @@ class Mage_Core_Model_Url extends Varien_Object
             }
             unset($data['_current']);
         }
-
-        $this->unsetData('route_path');
-        return $this->setData('route_params', $data);
+        
+        foreach ($data as $k=>$v) {
+            $this->setRouteParam($k, $v);
+        }
+        
+        return $this;
     }
 
     public function getRouteParams()
@@ -646,9 +653,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setRoutePath($routePath);
         }
         if (is_array($routeParams)) {
-            foreach ($routeParams as $key=>$value) {
-                $this->setRouteParam($key, $value);
-            }
+            $this->setRouteParams($routeParams, false);
         }
 
         $url = $this->getBaseUrl().$this->getRoutePath();
