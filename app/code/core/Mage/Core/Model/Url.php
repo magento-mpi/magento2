@@ -457,7 +457,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $route = $this->getRequest()->getModuleName();
         }
         $this->setRouteName($route);
-        $routePath = $route;
+        $routePath = $route.'/';
 
         if (!empty($a)) {
             $controller = array_shift($a);
@@ -465,7 +465,7 @@ class Mage_Core_Model_Url extends Varien_Object
                 $controller = $this->getRequest()->getControllerName();
             }
             $this->setControllerName($controller);
-            $routePath .= '/'.$controller;
+            $routePath .= $controller.'/';
         }
 
         if (!empty($a)) {
@@ -474,7 +474,7 @@ class Mage_Core_Model_Url extends Varien_Object
                 $action = $this->getRequest()->getActionName();
             }
             $this->setActionName($action);
-            $routePath .= '/'.$action;
+            $routePath .= $action.'/';
         }
 
         if (!empty($a)) {
@@ -484,7 +484,7 @@ class Mage_Core_Model_Url extends Varien_Object
                 if (!empty($a)) {
                     $value = array_shift($a);
                     $this->setRouteParam($key, $value);
-                    $routePath .= '/'.$key.'/'.urlencode($value);
+                    $routePath .= $key.'/'.urlencode($value).'/';
                 }
             }
         }
@@ -542,7 +542,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if ($this->getData('route_name')==$data) {
             return $this;
         }
-        $this->unsetData('route_path')->unsetData('controller_name')->unsetData('action_name');
+        $this->unsetData('route_path')->unsetData('controller_name')->unsetData('action_name')->unsetData('secure');
         return $this->setData('route_name', $data);
     }
 
@@ -556,7 +556,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if ($this->getData('controller_name')==$data) {
             return $this;
         }
-        $this->unsetData('route_path')->unsetData('action_name');
+        $this->unsetData('route_path')->unsetData('action_name')->unsetData('secure');
         return $this->setData('controller_name', $data);
     }
 
@@ -571,7 +571,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return $this;
         }
         $this->unsetData('route_path');
-        return $this->setData('action_name', $data);
+        return $this->setData('action_name', $data)->unsetData('secure');
     }
 
     public function getActionName()
