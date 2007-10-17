@@ -48,7 +48,9 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             return false;
         }
         
-        $action->loadLayout();
+        $action->loadLayout(null, false, false);
+        $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
+        $action->generateLayoutXml()->generateLayoutBlocks();
 
         if ($root = $action->getLayout()->getBlock('root')) {
             $template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');

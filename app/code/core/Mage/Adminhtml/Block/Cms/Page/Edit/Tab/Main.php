@@ -101,7 +101,13 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'wysiwyg' => false,
             'required' => true,
         ));
-
+        
+        $fieldset->addField('layout_update_xml', 'editor', array(
+            'name' => 'layout_update_xml',
+            'label' => __('Layout Update XML'),
+            'style' => 'width:98%'
+        ));
+        
         $form->setValues($model->getData());
 
         $this->setForm($form);
