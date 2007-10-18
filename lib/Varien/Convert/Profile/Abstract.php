@@ -75,9 +75,11 @@ abstract class Varien_Convert_Profile_Abstract
     
     public function run()
     {
-        foreach ($this->_actions as $action) {
-            $action->run();
-        }   
+        if ($this->_actions) {
+            foreach ($this->_actions as $action) {
+                $action->run();
+            }   
+        }
         return $this;
     }
 }

@@ -41,14 +41,14 @@
          return $this->_resource;
      }
      
-     public function import()
+     public function load()
      {
          $data = $this->getResource()->read($this->getVar('filename'));
          $this->setData($data);
          return $this;
      }
      
-     public function export()
+     public function save()
      {
          $data = $this->getData();
          $this->getResource()->write($this->getVar('filename'), $data, 0777);

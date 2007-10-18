@@ -25,6 +25,14 @@
  */
 class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 {
+    protected function _expireAjax()
+    {
+        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
+            $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
+            exit;
+        }
+    }
+    
     /**
      * When there's an API error
      *
@@ -107,6 +115,10 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     public function saveShippingMethodAction()
     {
+        if ($this->getRequest()->getParam('ajax')) {
+            $this->_expireAjax();
+        }
+        
         if (!$this->getRequest()->isPost()) {
             return;
         }

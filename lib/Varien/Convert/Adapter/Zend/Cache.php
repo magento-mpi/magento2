@@ -38,13 +38,13 @@ class Varien_Convert_Adapter_Zend_Cache extends Varien_Convert_Adapter_Abstract
         return $this->_resource;
     }
     
-    public function import()
+    public function load()
     {
         $this->setData($this->getResource()->load($this->getVar('id')));
         return $this;
     }
     
-    public function export()
+    public function save()
     {
         $this->getResource()->save($this->getData(), $this->getVar('id'));
         return $this;

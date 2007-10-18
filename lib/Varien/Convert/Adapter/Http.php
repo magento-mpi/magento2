@@ -20,15 +20,28 @@
 
 
 /**
- * Convert adapter interface
+ * Convert STDIO adapter
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-interface Varien_Convert_Adapter_Interface
-{
-	public function load();
-    
-    public function save();
-}
+ class Varien_Convert_Adapter_Std extends Varien_Convert_Adapter_Abstract
+ {
+     public function load()
+     {
+         $data = '';
+         $stdin = fopen('php://STDIN', 'r');
+         while ($text = fread($stdin, 1024)) {
+             $data .= $text;
+         }
+         $this->setData($data);
+         return $this;
+     }
+     
+     public function save()
+     {
+         echo $this->getData();
+         return $this;
+     }
+ }

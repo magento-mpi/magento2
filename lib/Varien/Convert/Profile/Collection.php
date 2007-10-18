@@ -70,10 +70,6 @@ class Varien_Convert_Profile_Collection
             $profile = $this->addProfile($name);
             $this->importProfileXml($name, $profile);
         }
-        $profile = $this->_profiles[$name];
-        if (!$profile->getParam('name')) {
-            $this->importProfileXml($name, $profile);
-        }
         return $this->_profiles[$name];
     }
     
@@ -83,8 +79,13 @@ class Varien_Convert_Profile_Collection
             $profile = new $this->_profileDefaultClass();
         }
         $this->_profiles[$name] = $profile;
-        $profile->setCollection($this);
         return $profile;
+    }
+    
+    public function run($profile)
+    {
+        $this->getProfile($profile)->run();
+        return $this;
     }
     
     public function getClassNameByType($type)

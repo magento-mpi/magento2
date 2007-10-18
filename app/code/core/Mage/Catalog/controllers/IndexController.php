@@ -41,6 +41,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
     
     function testAction()
     {
+        /*
     	$content = Mage::getModel('catalogexcel/export')->getWorkbookXml();
     	
     	$fileName = 'catalog.xml';
@@ -50,8 +51,10 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         header("Accept-Ranges: bytes");
         header("Content-Length: ".strlen($content));
         header("Content-type: application/octet-stream");
+        echo $content;
+        */
+        Mage::getSingleton('catalog/convert')->run('export_catalog_to_http');
         
-    	echo $content;
     	exit;
     }
 

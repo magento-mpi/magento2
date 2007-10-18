@@ -28,5 +28,50 @@
  */
 class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
 {
-	
+    public function parse()
+    {
+        
+    }
+    
+    public function unparse()
+    {
+        $xml = '<'.'?xml version="1.0"?'.'><'.'?mso-application progid="Excel.Sheet"?'.'>
+<Workbook xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+  
+        $workbook = $this->getData();
+        if (is_array($workbook)) {
+            foreach ($workbook as $worksheetName=>$worksheet) {
+                if (!is_array($worksheet)) {
+                    continue;
+                }
+                $xml .= '<Worksheet ss:Name="'.$worksheetName.'"><ss:Table>';
+                foreach ($worksheet as $i=>$row) {
+                    if (!is_array($row)) {
+                        continue;
+                    }
+                    if ($i==0) {
+                        $xml .= '<ss:Row>';
+                        foreach ($row as $fieldName=>$data) {
+                            $xml .= '<ss:Cell><Data ss:Type="String">'.$fieldName.'</Data></ss:Cell>';
+                        }
+                        $xml .= '</ss:Row>';
+                    }
+                    $xml .= '<ss:Row>';
+                    foreach ($row as $data) {
+                        $xml .= '<ss:Cell><Data ss:Type="String">'.$data.'</Data></ss:Cell>';
+                    }
+                    $xml .= '</ss:Row>';
+                }
+                $xml .= '</ss:Table></Worksheet>';
+            }
+        }
+  
+        $xml .= '</Workbook>';
+        
+        $this->setData($xml);
+        
+        return $this;
+    }
 }
