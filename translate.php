@@ -85,12 +85,15 @@ define('BP', dirname(dirname(__FILE__)));
 ini_set('include_path', ini_get('include_path')
     .PS.BP.'../../lib'
 );
+
 require_once 'config.inc.php';
 require_once 'MultyGetopt.php';
-require_once 'Varien_File_Csv_multy.php';
+require_once 'Varien/File/CsvMulty.php';
+require_once 'Varien/Directory/Collection.php';
 require_once 'CTranslate.php';
-require_once 'CFiles.php';
+
 require_once 'Varien/Simplexml/Config.php';
 require_once 'Varien/Simplexml/Element.php';
+
 Translate::run($CONFIG);
 
