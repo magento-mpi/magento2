@@ -109,12 +109,21 @@ class Varien_Directory_Collection extends Varien_Data_Collection implements IFac
      * @param   string $path - path to directory
      * @return  string - latest dir in the path 
      */	
-	public function lastDir($path='')
+	public function lastDir()
 	{
+		return self::getLastDir($this->getPath());
+	}
+	/**
+     * get latest dir in the path 
+     *
+     * @param   string $path - path to directory
+     * @return  string - latest dir in the path 
+     */	
+	static public function getLastDir($path){
 		if($path=='') $path = $this->getPath();
 		$last = strrpos($path, "/");
 		return substr($path,$last+1);
-	} 
+	}
 	/**
      * add item to collection
      *
