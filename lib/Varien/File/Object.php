@@ -41,7 +41,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	public function getFileName(&$files=null)
 	{
 		if($this->_isCorrect){
-			if(!$files)
+			if($files===null)
 				return $this->_filename;
 			$files[] = $this->_filename;
 		}
@@ -67,7 +67,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	public function getFilePath(&$path=null)
 	{
 		if($this->_isCorrect){
-			if(!$path)
+			if($path===null)
 				return $this->_path;
 			$paths[] = $this->_path;
 		}
@@ -128,7 +128,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
      */	
 	public function setFilesFilter($filter)
 	{
-		$this->_filter = $filter;
+		$this->addFilter($filter);
 	}
 	/**
      * set file filter
@@ -136,7 +136,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
      * @param   array $filter - array of filter 
      * @return  none
      */	
-	public function setFilter($filter)
+	public function addFilter($filter)
 	{
 		$this->_filter = $filter;
 	}
@@ -183,6 +183,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
      */
 	public function renderFilter()
 	{
+		#print_r($this->_filter);
 		if(isset($this->_filter) && count($this->_filter)>0 && $this->filtered==false){
 			$this->filtered = true;
 			if(isset($this->_filter['extension'])){
@@ -212,10 +213,20 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 						}
 					}
 				}
-				
-				
 			}
 			
+			if(isset($this->_filter['regName'])){
+				$filter = $this->_filter['regName'];
+				
+				if($filter!=null){
+					foreach ($filter as $value) {
+						if(!preg_match($value,$this->getName())){
+							$this->_isCorrect = false;
+						}	
+					}
+					
+				}
+			}
 		}
 	}
 	/**

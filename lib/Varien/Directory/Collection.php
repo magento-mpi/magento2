@@ -327,6 +327,7 @@ class Varien_Directory_Collection extends Varien_Data_Collection implements IFac
     {
     	$exts = array();
     	$names = array();
+    	$regName = array();
   		foreach ($this->_filters as $filter){
   			switch ($filter['field']){
 				case 'extension':
@@ -347,6 +348,15 @@ class Varien_Directory_Collection extends Varien_Data_Collection implements IFac
 						$names[] = $filter['value'];
 					}
 				break;
+				case 'regName':
+					if(is_array($filter['value'])){
+						foreach ($filter['value'] as $value){
+							$regName[] = $filter['value'];
+						}
+					} else {
+						$regName[] = $filter['value'];
+					}
+				break;
 			}
   		}
   		$filter = array();
@@ -359,6 +369,12 @@ class Varien_Directory_Collection extends Varien_Data_Collection implements IFac
   			$filter['name']=$names;
   		} else {
   			$filter['name']=null;
+  		}
+  		if(count($regName)>0) {
+  			
+  			$filter['regName']=$regName;
+  		} else {
+  			$filter['regName']=null;
   		}
   		$this->setFilesFilter($filter);
 	}
@@ -373,6 +389,7 @@ class Varien_Directory_Collection extends Varien_Data_Collection implements IFac
         $filter['value']   = $value;
         $this->_filters[] = $filter;
         $this->_isFiltersRendered = false;
+        $this->walk('addFilter',array($field, $value));
         return $this;
     }
 }
