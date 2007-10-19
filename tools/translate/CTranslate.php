@@ -21,6 +21,7 @@ class Translate {
 			    'generate'   => 'Generates the default translation (en_US)',
 			    'update-s'   => 'Updates the selected translation with the changes (if any) from the default one (en_US)',
 			    'dups'       => 'Checks for duplicate keys in different modules (in the default translation en_US)',
+			    'sort-s'     => 'Sorting '.EXTENSION.' file(s) by keys',
 			    'key-s'      => 'Duplication key',
 			    'file-s'     => 'Make validation of this file(s)'
 			  ));
@@ -36,11 +37,12 @@ class Translate {
 		$generate = self::$opts->getOption('generate');
 		$update = self::$opts->getOption('update');
 		$dups = self::$opts->getOption('dups');
+		$sort = self::$opts->getOption('sort');
 		$file = self::$opts->getOption('file');
 		$key_dupl = self::$opts->getOption('key');
 		$dir_en = $path.self::$CONFIG['paths']['locale'].'en_US/';
 		
-		if($validate===null && $dups===null && $update===null && $generate===null){
+		if($validate===null && $dups===null && $update===null && $generate===null && $sort===null){
 			self::_error('type "php translate.php -h" for help.');
 		}
 		
@@ -52,6 +54,9 @@ class Translate {
 		}
 		if($update===true){
 			self::_error("Please specify language of updating");
+		}
+		if($sort===true){
+			self::_error("Please specify language of sorting");
 		}
 
 		if($validate!==null && $validate!==false){
@@ -66,6 +71,11 @@ class Translate {
 	    if($update!==null && $update!==false){
 	       	$dir = $path.self::$CONFIG['paths']['locale'].$update.'/';
 	    	self::_callUpdate($file, $dir, $dir_en);
+		    return;
+	    }
+	    if($sort!==null && $sort!==false){
+	       	$dir = $path.self::$CONFIG['paths']['locale'].$sort.'/';
+	    	self::_callSort($file, $dir);
 		    return;
 	    }
 	    if($dups!==null && $dups!==false){
@@ -250,6 +260,46 @@ class Translate {
 		}
 	}
 	/**
+     *Call sorting process
+     *
+     * @param   string $file - files array
+     * @param   string $dir - dir to comparing files
+     * @return  none
+     */	
+	static protected function _callSort($file,  $dir)
+	{
+		if(!is_dir($dir)){
+			self::_error('Specific dir '.$dir.' is not found');
+		}
+		if(!($file===null || $file === false || $file === true ) ){
+			if(!is_array($file)){
+				self::sortFile($dir.$file.'.'.EXTENSION);
+				$files_name_changed[] = $file;
+			} else {
+				for($i=0;$i<count($file);$i++){
+					$files_name_changed[] = $file[$i];
+					self::sortFile($dir.$file[$i].'.'.EXTENSION);
+				}
+			}
+	    } else {
+	    	$dirColl = new Varien_Directory_Collection($dir,true);
+	    	$dirColl->addFilter("extension",EXTENSION);
+	    	$dirColl->useFilter(true);
+	    	$files = $dirColl->filesName();
+			foreach ($files as $file_in_dir) {
+				$files_name_changed[] = $file_in_dir;
+			   	self::sortFile($dir.$file_in_dir);
+			}
+	    }
+    	if(isset($files_name_changed)){
+			print "Updated files:\n";
+			foreach ($files_name_changed as $val){
+				print "\t".basename($val).'.'.EXTENSION."\n";
+			}
+
+		}
+	}	
+	/**
      *Call duplicat checking process
      *
      * @param   string $key - key checking
@@ -304,6 +354,32 @@ class Translate {
 		
 	}
 	/**
+     *sort file
+     *
+     * @param   string $file - file to sort
+     * @return  none
+     */
+	static public function sortFile($file){
+		try {
+			$data = self::$csv -> getDataPairs($file);
+		} catch (Exception $e) {
+	 	   self::_error($e->getMessage());
+		}
+		$csv_data = array();
+		foreach ($data as $key=>$val){
+			$pre_data[$key]=$val['value'];
+		}
+		uksort($pre_data, 'strcasecmp');
+		foreach ($pre_data as $key => $val){
+			if(isset($data[$key]['value'])){
+				array_push($csv_data,array($key,$data[$key]['value']));
+			} else {
+				array_push($csv_data,array($key,$val))	;
+			}
+		}
+		self::$csv -> saveData($file,$csv_data);
+	}
+	/**
      *return array of duplicate parsering data
      *
      * @param   array $data - array of data
@@ -331,6 +407,12 @@ class Translate {
 		}
 		return $dupl;
 	}
+	/**
+     * Parsering xml file
+     * @param   string $file - xml file to parse
+     * @param   array $data_arr - array of data
+     * @return  none
+     */
 	static public function parseXml($file,&$data_arr){
 		$xml = new Varien_Simplexml_Config();
 		$xml->loadFile($file,'SimpleXMLElement');
@@ -357,6 +439,13 @@ class Translate {
 			}
 		}
 	}
+	/**
+     * Parsering file on "__()"
+     * @param   string $file - file to parse
+     * @param   array $data_arr - array of data
+     * @param   $mod_name - name of module
+     * @return  none
+     */
 	static public function parseTranslatingFiles($file,&$data_arr,$mod_name=null){
 		$line_num = 0;
 		$f = @fopen($file,"r");
@@ -381,7 +470,7 @@ class Translate {
 			}
 	}
 	/**
-     *Parsering file on "__()"
+     *Parsering files on keywords
      *
      * @param   string $file - file path
      * @param   array &$data_arr - array of data
