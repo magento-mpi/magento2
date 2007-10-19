@@ -37,6 +37,12 @@
     float:left;
 }
 
+.tier-price-input .tier-container label {
+    width:30px;
+    margin:0;
+    padding:0;
+}
+
 .tier-price-input .validation-advice {
     margin:0 0 0 0px;
     height:25px;
@@ -53,6 +59,8 @@
 .tier-price-input .price-div .validation-advice {
     margin:0;
 }
+
+.btn-remove-tier-group { float:right; right:24px; top:5px; }
 
 .super-attributes {
     list-style-type:none;

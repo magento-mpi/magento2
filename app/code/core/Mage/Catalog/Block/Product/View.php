@@ -33,7 +33,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         parent::_construct();
     }
-    
+
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
@@ -43,18 +43,18 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             else {
                 $headBlock->setTitle($this->getProduct()->getName());
             }
-            
+
             if ($keyword = $this->getProduct()->getMetaKeyword()) {
                 $headBlock->setKeywords($keyword);
             }
             if ($description = $this->getProduct()->getMetaDescription()) {
                 $headBlock->setDescription($description);
-            }            
+            }
         }
         $this->getLayout()->createBlock('catalog/breadcrumbs');
         return parent::_prepareLayout();
     }
-    
+
     protected function _beforeToHtml()
     {
         $this->_prepareData();
@@ -71,7 +71,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             ->addAttributeToSelect('sku')
             ->addAttributeToSort('position', 'asc')
             ->useProductItem();
-            
+
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($groupCollection);
         return $this;
     }
@@ -111,7 +111,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $collection = $this->getProduct()->getGallery();
         return $collection;
     }
-    
+
     public function getTierPrices($product)
     {
         $prices = $product->getFormatedTierPrice();
@@ -120,17 +120,19 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             foreach ($prices as $price) {
                 if ($product->getPrice() != $product->getFinalPrice()) {
                     if ($price['price']<$product->getFinalPrice()) {
+                        $price['savePercent'] = ceil(100 - (( 100 / $product->getFinalPrice() ) * $price['price'] ));
                         $res[] = $price;
                     }
                 }
                 else {
+                    $price['savePercent'] = ceil(100 - (( 100 / $product->getPrice() ) * $price['price'] ));
                     $res[] = $price;
                 }
             }
         }
         return $res;
     }
-    
+
     public function getGalleryUrl($image=null)
     {
         $params = array('id'=>$this->getProduct()->getId());

@@ -29,29 +29,29 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         $this->setTemplate('catalog/product/edit/price/tier.phtml');
     }
-    
+
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
-    
+
     public function setElement(Varien_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;
     }
-    
+
     public function getElement()
     {
         return $this->_element;
     }
-    
+
     public function getValues()
     {
         $values =array();
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         }
         return $values;
     }
-    
+
     protected function _prepareLayout()
     {
         $this->setChild('delete_button',
@@ -76,24 +76,65 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
                     'onclick'   => "tierPriceControl.deleteItem('#{index}')",
                     'class' => 'delete'
                 )));
-                
+
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Add Tier'),
-                    'onclick'   => 'tierPriceControl.addItem()',
+                    'onclick'   => "tierPriceControl.addItem('#{group_index}')",
                     'class' => 'add'
                 )));
+
+        $this->setChild('add_group_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Add New Price by Group'),
+                    'onclick'   => 'tierPriceControl.addGroup()',
+                    'class' => 'add'
+                )));
+
         return parent::_prepareLayout();
     }
-    
-    public function getAddButtonHtml() 
+
+    public function getAddButtonHtml()
     {
         return $this->getChildHtml('add_button');
     }
-    
-    public function getDeleteButtonHtml() 
+
+    public function getAddGroupButtonHtml()
+    {
+        return $this->getChildHtml('add_group_button');
+    }
+
+    public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
     }
+
+    public function getCustomerGroupsHtml()
+    {
+        $customerGroups = Mage::getResourceModel('customer/group_collection')
+            ->load()->toOptionArray();
+
+        $found = false;
+        foreach ($customerGroups as $group) {
+        	if ($group['value']==0) {
+        		$found = true;
+        	}
+        }
+
+        if (!$found) {
+        	array_unshift($customerGroups, array('value'=>0, 'label'=>__('NOT LOGGED IN')));
+        }
+
+        return $this->getLayout()->createBlock('core/html_select')
+                ->setName('product[tier_price][group][__group_index__][]' )
+                ->setOptions($customerGroups)
+                ->setId('customer_groups___group_index__')
+                ->setTitle(__('Please, select groups'))
+                ->setExtraParams('multiple="true" size="5" onChange="return tierPriceControl.validateGroups(this)"')
+                ->setClass('select')
+                ->toHtml();
+    }
+
 }// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier END

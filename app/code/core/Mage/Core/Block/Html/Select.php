@@ -88,8 +88,11 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'
             .$this->getClass().'" title="'.$this->getTitle().'" '.$this->getExtraParams().'>';
         $values = $this->getValue();
-        if (!is_array($values)) {
+
+        if (!is_array($values) && !empty($values) ) {
             $values = array($values);
+        } else {
+            $values = array();
         }
 
         $isArrayOption = true;

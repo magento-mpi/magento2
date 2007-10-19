@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const TYPE_BUNDLE               = 2;
     const TYPE_CONFIGURABLE_SUPER   = 3;
     const TYPE_GROUPED_SUPER        = 4;
-    
+
     protected static $_url;
 
 	protected $_cachedLinkedProductsByType = array();
@@ -63,13 +63,13 @@ class Mage_Catalog_Model_Product extends Varien_Object
 	protected $_superLinkCollection = null;
 
 	protected $_attributes;
-	
+
     public function __construct()
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
-        
+
     public function getUrlInstance()
     {
         if (!self::$_url) {
@@ -77,17 +77,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return self::$_url;
     }
-    
+
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
     }
-    
+
     public function getStoreId()
     {
         return $this->getData('store_id');
     }
-    
+
     public function getTypeId()
     {
         return $this->getData('type_id');
@@ -105,7 +105,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return false;
     }
-    
+
     public function getCategory()
     {
         $category = $this->getData('category');
@@ -159,7 +159,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->delete($this);
         return $this;
     }
-    
+
     public function copy()
     {
         $this->getResource()->copy($this);
@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->validate($this);
         return $this;
     }
-    
+
     public function setStoreId($storeId)
     {
         $this->getResource()->setStore($storeId);
@@ -193,7 +193,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getTierPrice($qty=null)
     {
         $prices = $this->getData('tier_price');
-        
+
         /**
          * Load tier price
          */
@@ -278,9 +278,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
         			}
         		}
         	}
-        } 
+        }
         /**
-         * Calculating final price of simple product 
+         * Calculating final price of simple product
          */
         else {
         	$finalPrice = $this->getPrice();
@@ -321,7 +321,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
     	return false;
     }
-    
+
     public function getLinkedProducts($linkType)
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
@@ -446,7 +446,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     	return $this->getData('super_attributes_ids');
     }
-    
+
     /**
      * Checkin attribute availability for superproduct
      *
@@ -461,7 +461,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             && $attribute->getIsUserDefined()
             && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
     }
-    
+
     public function setSuperAttributesIds(array $attributesIds)
     {
     	$resultAttributesIds = array();
@@ -567,12 +567,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
     	return $this->isConfigurable();
     }
-    
+
     public function isConfigurable()
     {
         return $this->getTypeId() == self::TYPE_CONFIGURABLE_SUPER;
     }
-    
+
     public function isSuper()
     {
         return $this->isSuperConfig() || $this->isSuperGroup();
@@ -698,7 +698,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
                 ->loadAllAttributes($this)
                 ->getAttributesByCode();
         }
-        
+
         $attributes = array();
         if ($groupId) {
             foreach ($this->_attributes as $attribute) {
@@ -720,7 +720,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         else {
             $attributes = $this->_attributes;
         }
-        
+
 
         /*foreach ($this->_attributes as $attribute) {
         	if ($attribute->getAttributeGroupId() == $groupId
@@ -748,13 +748,13 @@ class Mage_Catalog_Model_Product extends Varien_Object
             ));
         return $url;
     }
-    
+
     public function formatUrlKey($str)
     {
     	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
     	$urlKey = strtolower($urlKey);
     	$urlKey = trim($urlKey, '-');
-    	
+
     	return $urlKey;
     }
 
@@ -781,7 +781,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $url;
     }
-    
+
 
     public function getThumbnailUrl()
     {
@@ -794,27 +794,27 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $url;
     }
-    
+
     public function getVisibleInCatalogStatuses()
     {
         return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
     }
-    
+
     public function isVisibleInCatalog()
     {
         return in_array($this->getStatus(), $this->getVisibleInCatalogStatuses());
     }
-    
+
     public function isSalable()
     {
         return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
     }
-    
+
     public function isSaleable()
     {
         return $this->isSalable();
     }
-    
+
     public function isInStock()
     {
         return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
