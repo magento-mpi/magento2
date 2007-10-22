@@ -305,7 +305,8 @@ final class Mage {
 
     public static function getHelper($type)
     {
-        return Mage::registry('action')->getLayout()->getHelper($type);
+        $action = Mage::registry('action');
+        return $action ? $action->getLayout()->getHelper($type) : false;
     }
 
     /**
@@ -316,7 +317,8 @@ final class Mage {
      */
     public static function helper($type)
     {
-        return Mage::registry('action')->getLayout()->helper($type);
+        $action = Mage::registry('action');
+        return $action ? $action->getLayout()->helper($type) : false;
     }
 
     /**

@@ -410,7 +410,12 @@ class Mage_Core_Model_App
     public function useCache($type)
     {
         if (!$this->_useCache) {
-            $this->_useCache = unserialize($this->getCache()->load('use_cache'));
+            $data = $this->getCache()->load('use_cache');
+            if (is_string($data)) {
+                $this->_useCache = unserialize($data);
+            } else {
+                $this->_useCache = array();
+            }
         }
         return isset($this->_useCache[$type]) ? (bool)$this->_useCache[$type] : false;
     }
