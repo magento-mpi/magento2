@@ -28,14 +28,6 @@
 
 class Mage_Cms_Model_Observer
 {
-	public function initControllerRouters($observer)
-	{
-		$front = $observer->getEvent()->getFront();
-
-		$cms = new Mage_Cms_Controller_Router();
-        $front->addRouter('cms', $cms);
-	}
-	
     public function noRoute($observer)
     {
         $observer->getEvent()->getStatus()

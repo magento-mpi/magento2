@@ -56,6 +56,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @var object
      */
     protected $_resourceCollection;
+    
+    /**
+    * Original data that was loaded from resource
+    * 
+    * @var array
+    */
+    protected $_origData;
 
     /**
      * Standard model initialization
@@ -148,6 +155,14 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return $this->_resourceCollection;
     }
+    
+    public function getOrigData($key=null)
+    {
+        if (is_null($key)) {
+            return $this->_origData;
+        }
+        return isset($this->_origData[$key]) ? $this->_origData[$key] : null;
+    }
 
     /**
      * Load object data
@@ -159,6 +174,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         $this->getResource()->load($this, $id, $field);
         $this->_afterLoad();
+        $this->_origData = $this->_data;
         return $this;
     }
 

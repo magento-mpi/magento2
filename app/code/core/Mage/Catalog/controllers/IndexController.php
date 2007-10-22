@@ -102,6 +102,13 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         }
         */
     }
+    
+    public function refreshRewritesAction()
+    {
+        #$setup = Mage::getResourceModel('catalog/setup', 'catalog_setup');
+        #$setup->installEntities($setup->getDefaultEntities());
+        Mage::getModel('catalog/url')->refreshRewrites();
+    }
 
 }
 

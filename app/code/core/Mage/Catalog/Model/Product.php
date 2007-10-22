@@ -37,6 +37,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const TYPE_GROUPED_SUPER        = 4;
 
     protected static $_url;
+    protected static $_urlRewrite;
 
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
@@ -70,12 +71,26 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
 
+    /**
+    * @return Mage_Core_Model_Url
+    */
     public function getUrlInstance()
     {
         if (!self::$_url) {
             self::$_url = Mage::getModel('core/url');
         }
         return self::$_url;
+    }
+
+    /**
+    * @return Mage_Core_Model_Url_Rewrite
+    */
+    public function getUrlRewrite()
+    {
+        if (!self::$_urlRewrite) {
+            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+        }
+        return self::$_urlRewrite;
     }
 
     public function getAttributeSetId()
@@ -739,13 +754,32 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getProductUrl()
     {
-    	$urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
+        Varien_Profiler::start('REWRITE: '.__METHOD__);
+        $rewrite = $this->getUrlRewrite();
+        if ($this->getStoreId()) {
+            $rewrite->setStoreId($this->getStoreId());
+        }
+        $idPath = 'product/'.$this->getId();
+        if ($this->getCategoryId()) {
+            $idPath .= '/'.$this->getCategoryId();
+        }
+
+        $rewrite->loadByIdPath($idPath);
+
+        if ($rewrite->getId()) {
+            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
+        Varien_Profiler::stop('REWRITE: '.__METHOD__);
+            return $url;
+        }
+        Varien_Profiler::stop('REWRITE: '.__METHOD__);
+        Varien_Profiler::start('REGULAR: '.__METHOD__);
+
         $url = $this->getUrlInstance()->getUrl('catalog/product/view',
             array(
-            	's'=>$urlKey,
                 'id'=>$this->getId(),
                 'category'=>$this->getCategoryId()
             ));
+        Varien_Profiler::stop('REGULAR: '.__METHOD__);
         return $url;
     }
 
@@ -756,6 +790,22 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	$urlKey = trim($urlKey, '-');
 
     	return $urlKey;
+    }
+
+    public function getUrlPath($category=null)
+    {
+        $path = $this->getUrlKey();
+
+        if (is_null($category)) {
+            /** @todo get default category */
+            return $path;
+        } elseif (!$category instanceof Mage_Catalog_Model_Category) {
+            Mage::throwException('Invalid category object supplied');
+        }
+
+        $path = $category->getUrlPath().'/'.$path;
+
+        return $path;
     }
 
     public function getImageUrl()

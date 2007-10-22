@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.6.28</version>
+         <version>0.6.29</version>
          <depends>
             <Mage_Customer />
          </depends>
@@ -170,6 +170,17 @@
       <blocks>
          <catalog><class>Mage_Catalog_Block</class></catalog>
       </blocks>
+        <events>
+            <controller_front_init_routers>
+                <observers>
+                    <catalog>
+                        <type>singleton</type>
+                        <class>Mage_Catalog_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </catalog>
+                </observers>
+            </controller_front_init_routers>
+        </events>
    </global>
    <frontend>
       <routers>

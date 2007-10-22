@@ -162,4 +162,18 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_crypt;
     }
+    
+    public function getStoreId($store=null)
+    {
+        if (is_null($store)) {
+            $storeId = Mage::app()->getStore()->getId();
+        } elseif ($store instanceof Mage_Core_Model_Store) {
+            $storeId = $store->getId();
+        } elseif (is_numeric($store)) {
+            $storeId = $store;
+        } elseif (is_string($store)) {
+            $storeId = Mage::getModel('core/store')->loadConfig($store)->getId();
+        }
+        return $storeId;
+    }
 }

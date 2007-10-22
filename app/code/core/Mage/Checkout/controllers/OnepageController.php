@@ -36,19 +36,6 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             exit;
         }
     }
-    
-    public function preDispatch()
-    {
-        parent::preDispatch();
-        #if (!($this->getOnepage()->getQuote()->hasItems()) || !($this->getRequest()->getActionName()!='success')) {
-        if (!$this->getOnepage()->getQuote()->hasItems()) {
-            $this->getResponse()
-                ->setHeader('HTTP/1.1','403 Session Expired')
-                ->sendResponse();
-            exit;
-        }
-        return $this;
-    }
 
     /**
      * Enter description here...

@@ -111,7 +111,7 @@
                 <observers>
                     <cms>
                         <type>singleton</type>
-                        <class>cms/observer</class>
+                        <class>Mage_Cms_Controller_Router</class>
                         <method>initControllerRouters</method>
                     </cms>
                 </observers>

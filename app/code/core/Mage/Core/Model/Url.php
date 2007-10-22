@@ -20,7 +20,7 @@
 
 /**
  * URL
- * 
+ *
  * Properties:
  *
  * - request
@@ -80,7 +80,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     const PORT_UNSECURE = 80;
     const PORT_SECURE   = 443;
-    
+
     const DEFAULT_CONTROLLER_NAME   = 'index';
     const DEFAULT_ACTION_NAME       = 'index';
 
@@ -99,7 +99,7 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $this->setStore(null);
     }
-    
+
     /**
      * Initialize object data from retrieved url
      *
@@ -110,15 +110,15 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $data   = parse_url($url);
         $parts  = array(
-            'scheme'=>'setScheme', 
-            'host'  =>'setHost', 
-            'port'  =>'setPort', 
-            'user'  =>'setUser', 
+            'scheme'=>'setScheme',
+            'host'  =>'setHost',
+            'port'  =>'setPort',
+            'user'  =>'setUser',
             'pass'  =>'setPassword',
-            'path'  =>'setPath', 
-            'query' =>'setQuery', 
+            'path'  =>'setPath',
+            'query' =>'setQuery',
             'fragment'=>'setFragment');
-            
+
         foreach ($parts as $component=>$method) {
             if (isset($data[$component])) {
                 $this->$method($data[$component]);
@@ -126,7 +126,7 @@ class Mage_Core_Model_Url extends Varien_Object
         }
         return $this;
     }
-    
+
     /**
      * Retrieve default controller name
      *
@@ -136,7 +136,7 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         return self::DEFAULT_CONTROLLER_NAME;
     }
-    
+
     /**
      * Retrieve default action name
      *
@@ -150,7 +150,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getConfigData($key, $prefix=null)
     {
 //        if (!isset(self::$_configDataCache)) {
-//           $this->loadCache(); 
+//           $this->loadCache();
 //        }
         if (is_null($prefix)) {
             $prefix = 'web/'.($this->getSecure() ? 'secure' : 'unsecure').'/';
@@ -161,7 +161,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!isset(self::$_configDataCache[$cacheId])) {
             self::$_configDataCache[$cacheId] = $this->getStore()->getConfig($path);
         }
-        
+
         return self::$_configDataCache[$cacheId];
     }
 
@@ -449,7 +449,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if ($this->getData('route_path')==$data) {
             return $this;
         }
-        
+
         $a = explode('/', $data);
 
         $route = array_shift($a);
@@ -499,7 +499,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!$this->getRouteName()) {
             return '';
         }
-            
+
         $hasParams = (bool)$this->getRouteParams();
         $path = $this->getRouteName() . '/';
 
@@ -590,7 +590,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setSecure((bool)$data['_secure']);
             unset($data['_secure']);
         }
-        
+
         if ($unsetOldParams) {
             $this->unsetData('route_params');
         }
@@ -618,11 +618,11 @@ class Mage_Core_Model_Url extends Varien_Object
             }
             unset($data['_current']);
         }
-        
+
         foreach ($data as $k=>$v) {
             $this->setRouteParam($k, $v);
         }
-        
+
         return $this;
     }
 
@@ -652,7 +652,9 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!is_null($routePath)) {
             $this->setRoutePath($routePath);
         }
-        if (is_array($routeParams)) {
+        if (is_null($routeParams)) {
+            $this->unsetData('route_params');
+        } elseif (is_array($routeParams)) {
             $this->setRouteParams($routeParams, false);
         }
 
@@ -672,7 +674,11 @@ class Mage_Core_Model_Url extends Varien_Object
             $session = Mage::getSingleton('core/session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    self::$_encryptedSessionId = Mage::helper('core')->encrypt($session->getSessionId());
+                    $helper = Mage::helper('core');
+                    if (!$helper) {
+                        return $this;
+                    }
+                    self::$_encryptedSessionId = $helper->encrypt($session->getSessionId());
                 }
                 $this->setQueryParam(
                     Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,
