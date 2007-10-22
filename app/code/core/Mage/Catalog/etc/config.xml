@@ -170,17 +170,6 @@
       <blocks>
          <catalog><class>Mage_Catalog_Block</class></catalog>
       </blocks>
-        <events>
-            <controller_front_init_routers>
-                <observers>
-                    <catalog>
-                        <type>singleton</type>
-                        <class>Mage_Catalog_Controller_Router</class>
-                        <method>initControllerRouters</method>
-                    </catalog>
-                </observers>
-            </controller_front_init_routers>
-        </events>
    </global>
    <frontend>
       <routers>

@@ -41,4 +41,4 @@ $this->addAttribute('catalog_category', 'url_path', array(
     'unique'    => true,
 ));
 
-Mage::getModel('catalog/url')->refreshRewrites();
+//Mage::getModel('catalog/url')->refreshRewrites();

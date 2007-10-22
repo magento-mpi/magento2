@@ -112,6 +112,9 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 	{
 	    $this->beginTransaction();
 	    try {
+		    if ($result = $this->getConnection()->store_result()) {
+		    	$result->free_result();
+		    }
 			if ($this->getConnection()->multi_query($sql)) {
 				do {
 				    if ($result = $this->getConnection()->store_result()) {
