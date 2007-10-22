@@ -70,26 +70,49 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     public function aggregate($object)
     {
         $selectLocal = $this->getConnection('read')->select()
-            ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id', 'uses'=>'SUM(main.active)'))
+            ->from(array('main'=>$this->getTable('relation')), array('customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id', 'uses'=>'COUNT(main.tag_relation_id)'))
+            ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
+            ->group('main.store_id')
+            ->where('main.tag_id = ?', $object->getId())
+            ->where('main.active');
+
+        $selectGlobal = $this->getConnection('read')->select()
+            ->from(array('main'=>$this->getTable('relation')), array('customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id'=>'( 0 )' /* Workaround*/, 'uses'=>'COUNT(main.tag_relation_id)'))
+            ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
+            ->where('main.tag_id = ?', $object->getId())
+            ->where('main.active');
+
+        $selectHistorical = $this->getConnection('read')->select()
+            ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'store_id'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->group('main.store_id')
             ->where('main.tag_id = ?', $object->getId());
 
-        $selectGlobal = $this->getConnection('read')->select()
-            ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id'=>'( 0 )' /* Workaround*/, 'uses'=>'SUM(main.active)'))
+       $selectHistoricalGlobal = $this->getConnection('read')->select()
+            ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->where('main.tag_id = ?', $object->getId());
 
-
+        $historicalAll = $this->getConnection('read')->fetchAll($selectHistorical);
+        $historicalCache = array();
+        foreach ($historicalAll as $historical) {
+            $historicalCache[$historical['store_id']] = $historical['historical_uses'];
+        }
 
         $summaries = $this->getConnection('read')->fetchAll($selectLocal);
         if ($row = $this->getConnection('read')->fetchRow($selectGlobal)) {
+            $historical = $this->getConnection('read')->fetchOne($selectHistoricalGlobal);
+            if($historical) {
+                $row['historical_uses'] = $historical;
+            }
+
             $summaries[] = $row;
         }
 
         $this->getConnection('write')->delete($this->getTable('summary'), $this->getConnection('write')->quoteInto('tag_id = ?', $object->getId()));
 
         foreach ($summaries as $summary) {
+            $summary['historical_uses'] = isset($historicalCache[$summary['store_id']]) ? $historicalCache[$summary['store_id']] : 0;
             $summary['tag_id'] = $object->getId();
             $summary['popularity'] = $summary['historical_uses'];
             if (is_null($summary['uses'])) {

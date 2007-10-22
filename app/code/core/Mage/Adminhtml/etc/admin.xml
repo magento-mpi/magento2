@@ -119,7 +119,7 @@
                             </pending>
                             <all>
                                 <title>All Tags</title>
-                                <action>*/tag</action>
+                                <action>*/tag/index</action>
                             </all>
                             <!--
                             <customer>
