@@ -67,12 +67,12 @@ final class Mage {
      * @var Mage_Core_Model_App
      */
     static private $_app;
-    
+
     static private $_useCache = array();
 
     public static function getVersion()
     {
-        return '0.6.12383';
+        return '0.6.13166';
     }
 
     /**
@@ -257,7 +257,7 @@ final class Mage {
     {
         return Mage::getConfig()->getModelInstance($modelClass, $arguments);
     }
-    
+
     /**
      * Retrieve model object singleton
      *
@@ -285,7 +285,7 @@ final class Mage {
     {
         return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
     }
-    
+
     /**
      * Retrieve resource vodel object singleton
      *
@@ -301,13 +301,13 @@ final class Mage {
         }
         return Mage::registry($registryKey);
     }
-    
-    
+
+
     public static function getHelper($type)
     {
         return Mage::registry('action')->getLayout()->getHelper($type);
     }
-    
+
     /**
      * Retrieve helper object by type
      *
@@ -351,7 +351,7 @@ final class Mage {
     {
         if (is_null(self::$_app)) {
             self::$_app = new Mage_Core_Model_App();
-            
+
             Mage::setRoot();
             Mage::register('events', new Varien_Event_Collection());
             Mage::register('config', new Mage_Core_Model_Config());
@@ -370,7 +370,7 @@ final class Mage {
     public static function run($storeCode='', $etcDir=null)
     {
         self::log('===================== START ==========================');
-        
+
         try {
             Varien_Profiler::start('app');
 
@@ -424,7 +424,7 @@ final class Mage {
 		return;
 
         static $loggers = array();
-        
+
         $level  = is_null($level) ? Zend_Log::DEBUG : $level;
         $file   = empty($file) ? 'system.log' : $file;
 
@@ -471,11 +471,11 @@ final class Mage {
         echo ($e);
         echo '</pre>';
     }
-    
+
 
     /**
     * Tries to dynamically load an extension if not loaded
-    * 
+    *
     * @param string $ext
     * @return boolean
     */
@@ -484,15 +484,15 @@ final class Mage {
         if (extension_loaded($ext)) {
             return true;
         }
-        
+
         if (ini_get('enable_dl') !== 1 || ini_get('safe_mode') === 1) {
             return false;
         }
-        
+
         $file = (PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '') . $ext . '.' . PHP_SHLIB_SUFFIX;
         return @dl($file);
     }
-    
+
     public static function loadRequiredExtensions()
     {
         $result = true;
