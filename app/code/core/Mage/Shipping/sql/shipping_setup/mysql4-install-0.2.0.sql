@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `shipping_tablerate`;
 CREATE TABLE `shipping_tablerate` (
   `pk` int(10) unsigned NOT NULL auto_increment,
   `website_id` int(11) NOT NULL default '0',
-  `dest_country_id` varchar(2) NOT NULL default '0',
+  `dest_country_id` varchar(4) NOT NULL default '0',
   `dest_region_id` int(10) NOT NULL default '0',
   `dest_zip` varchar(10) NOT NULL default '',
   `condition_name` varchar(20) NOT NULL default '',
