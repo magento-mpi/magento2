@@ -21,6 +21,11 @@
 
 class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 {
+    public function cleanCache()
+    {
+        Mage::app()->cleanCache(array('eav'));
+        return $this;
+    }
 
 /******************* ENTITY TYPES *****************/
 
@@ -393,8 +398,14 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* BULK INSTALL *****************/
 
-	public function installEntities($entities)
+	public function installEntities($entities=null)
 	{
+	    $this->cleanCache();
+
+	    if (is_null($entities)) {
+	        $entities = $this->getDefaultEntities();
+	    }
+
 		foreach ($entities as $entityName=>$entity) {
 			$this->addEntityType($entityName, $entity);
 
