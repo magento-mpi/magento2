@@ -103,10 +103,11 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 
     	$minimalPrice = $object->getPrice();
 
-    	echo "<pre>DEBUG:\n";
+    	/*echo "<pre>DEBUG:\n";
     	print_r($tierPrices);
     	echo "</pre>";
-    	die();
+    	die();*/
+    	return $this;
     	foreach ($tierPrices as $tierPrice) {
     		if( !isset($tierPrice['price_qty']) || !isset($tierPrice['value']) || strlen($storeId)==0 ) {
     			continue;
