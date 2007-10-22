@@ -154,6 +154,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 
         $sql = $countSelect->__toString();
         $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(e.entity_id) from ', $sql);
+
         return $sql;
     }
 
@@ -194,9 +195,9 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 break;
             case 'type':
                 if($condition) {
-                    $this->getSelect()->where('rt.customer_id > 0');
+                    $this->getSelect()->where('rdt.customer_id > 0');
                 } else {
-                    $this->getSelect()->where('rt.customer_id = 0');
+                    $this->getSelect()->where('rdt.customer_id = 0');
                 }
                 return $this;
                 break;
