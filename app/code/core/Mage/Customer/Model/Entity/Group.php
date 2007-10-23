@@ -45,6 +45,14 @@ class Mage_Customer_Model_Entity_Group extends Mage_Core_Model_Mysql4_Abstract
     
     protected function _afterDelete(Mage_Core_Model_Abstract $group)
     {
+        $customerCollection = Mage::getResourceModel('customer/customer_collection')
+            ->addAttributeToFilter('group_id', $group->getId())
+            ->load();
+        foreach ($customerCollection as $customer) {
+            $defaultGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $customer->getStoreId());
+            $customer->setGroupId($defaultGroupId);
+        	$customer->getResource()->saveAttribute($customer, 'group_id');
+        }
         return parent::_afterDelete($group);
     }
 }
