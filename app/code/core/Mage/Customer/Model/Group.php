@@ -26,6 +26,8 @@
  */
 class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
 {
+    const XML_PATH_DEFAULT_ID = 'customer/create_account/default_group';
+    
     protected function _construct()
     {
         $this->_init('customer/group');
@@ -49,5 +51,15 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
     public function getCode()
     {
         return $this->getCustomerGroupCode();
+    }
+    
+    
+    public function usesAsDefault()
+    {
+        $data = Mage::getConfig()->getStoresByPath(self::XML_PATH_DEFAULT_ID);
+        if (in_array($this->getId(), $data)) {
+            return true;
+        }
+        return false;
     }
 }

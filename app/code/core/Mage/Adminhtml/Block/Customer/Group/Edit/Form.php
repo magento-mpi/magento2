@@ -45,10 +45,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
     protected function _renderPrepare()
     {
         $form = new Varien_Data_Form();
-        $customerGroup = Mage::getModel('customer/group');
-        if ($groupId = (int) $this->_request->getParam('id')) {
-            $customerGroup->load($groupId);
-        }
+        $customerGroup = Mage::registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
@@ -78,7 +75,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
             $form->addField('id', 'hidden',
                 array(
                     'name'  => 'id',
-                    'value' => $groupId,
+                    'value' => $customerGroup->getId(),
                 )
             );
         }

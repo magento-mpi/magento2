@@ -28,6 +28,14 @@
  */
 class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_Action
 {
+    protected function _initGroup()
+    {
+        Mage::register('current_group', Mage::getModel('customer/group'));
+        if ($groupId = $this->getRequest()->getParam('id')) {
+            Mage::registry('current_group')->load($groupId);
+        }
+        
+    }
     /**
      * Customer groups list.
      */
@@ -48,12 +56,13 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
      */
     public function newAction()
     {
+        $this->_initGroup();
         $this->loadLayout();
         $this->_setActiveMenu('customer/group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), Mage::getUrl('*/customer_group'));
 
-        if ($this->getRequest()->getParam('id')) {
+        if (Mage::registry('current_group')->getId()) {
             $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
         } else {
             $this->_addBreadcrumb(__('New Group'), __('New Customer Groups'));
@@ -61,7 +70,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 
         $this->getLayout()->getBlock('content')
             ->append($this->getLayout()->createBlock('adminhtml/customer_group_edit', 'group')
-                        ->setEditMode((bool)$this->getRequest()->getParam('id')));
+                        ->setEditMode((bool)Mage::registry('current_group')->getId()));
 
         $this->renderLayout();
     }

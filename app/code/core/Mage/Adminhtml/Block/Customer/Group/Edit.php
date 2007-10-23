@@ -38,17 +38,15 @@ class Mage_Adminhtml_Block_Customer_Group_Edit extends Mage_Adminhtml_Block_Widg
         $this->_updateButton('save', 'label', __('Save Customer Group'));
         $this->_updateButton('delete', 'label', __('Delete Customer Group'));
 
-        if( !$this->getRequest()->getParam($this->_objectId) ) {
+        if(!Mage::registry('current_group')->getId() || Mage::registry('current_group')->usesAsDefault()) {
             $this->_removeButton('delete');
         }
     }
 
     public function getHeaderText()
     {
-        if( $this->getRequest()->getParam($this->_objectId) ) {
-            $groupData = Mage::getModel('customer/group')
-                ->load($this->getRequest()->getParam($this->_objectId));
-            return __('Edit Customer Group') . " '" . $groupData->getCustomerGroupCode() . "'";
+        if(Mage::registry('current_group')->getId()) {
+            return __('Edit Customer Group "%s"', Mage::registry('current_group')->getCustomerGroupCode());
         } else {
             return __('New Customer Group');
         }
