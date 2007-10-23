@@ -21,6 +21,8 @@
 
 class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
 {
+    const ONLINE_MINUTES_INTERVAL = 15;
+    
     protected function _construct()
     {
         $this->_init('log/visitor');

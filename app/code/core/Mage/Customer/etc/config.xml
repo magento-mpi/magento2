@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.6.0</version>
+            <version>0.6.1</version>
             <depends>
                 <Mage_Eav />
             </depends>
@@ -43,6 +43,9 @@
                     <entity>
                         <table>customer_entity</table>
                     </entity>
+                    <address_entity>
+                        <table>customer_address_entity</table>
+                    </address_entity>
                     <value_prefix>
                         <table>customer_entity</table>
                     </value_prefix>
@@ -51,47 +54,6 @@
                     </customer_group>
                 </entities>
             </customer_entity>
-            <customer_mysql4>
-                <class>Mage_Customer_Model_Mysql4</class>
-                <entities>
-                    <customer>
-                        <table>customer</table>
-                    </customer>
-                    <entity>
-                        <table>customer_entity</table>
-                    </entity>
-                    <value_prefix>
-                        <table>customer_value</table>
-                    </value_prefix>
-                    <customer_group>
-                        <table>customer_group</table>
-                    </customer_group>
-                    <address>
-                        <table>customer_address</table>
-                    </address>
-                    <address_type>
-                        <table>customer_address_type</table>
-                    </address_type>
-                    <address_type_language>
-                        <table>customer_address_type_language</table>
-                    </address_type_language>
-                    <address_type_link>
-                        <table>customer_address_type_link</table>
-                    </address_type_link>
-                    <payment>
-                        <table>customer_payment</table>
-                    </payment>
-                    <payment_method>
-                        <table>customer_payment_method</table>
-                    </payment_method>
-                    <wishlist>
-                        <table>customer_wishlist</table>
-                    </wishlist>
-                    <customer_log>
-                        <table>customer_log</table>
-                    </customer_log>
-                </entities>
-            </customer_mysql4>
         </models>
         <resources>
             <customer_setup>

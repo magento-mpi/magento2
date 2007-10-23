@@ -43,16 +43,16 @@
     <script type="text/javascript" src="<?=$this->getJsUrl()?>scriptaculous/scriptaculous.js"></script>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js"></script>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>mage/translate.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/hash.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/events.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/loader.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/grid.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/tabs.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/form.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/accordion.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/tools.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/bundle.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/uploader.js"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/hash.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/events.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/loader.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/grid.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/tabs.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/form.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/accordion.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/tools.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/bundle.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/uploader.js')?>"></script>
 
     <script type="text/javascript">
         var BLANK_URL = '<?=$this->getJsUrl()?>blank.html';
@@ -93,7 +93,7 @@
 <?endif;?>
     <?=$this->getChildHtml('js_translate')?>
 <?if($this->getCanLoadRulesJs()):?>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>adminhtml/rules.js" ></script>
+    <script type="text/javascript" src="<?=$this->getSkinUrl('js/rules.js')?>"></script>
 <?endif?>
 </head>
 <body>

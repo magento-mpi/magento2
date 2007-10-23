@@ -127,9 +127,9 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         return htmlspecialchars($string, ENT_COMPAT);
     }
 
-    public function getEscapedValue()
+    public function getEscapedValue($index=null)
     {
-        $value = $this->getValue();
+        $value = $this->getValue($index);
 
         if ($filter = $this->getValueFilter()) {
             $value = $filter->filter($value);
@@ -159,7 +159,8 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function getLabelHtml()
     {
         if ($this->getLabel()) {
-            $html = '<label for="'.$this->getHtmlId().'">'.$this->getLabel().( $this->getRequired() ? ' <span class="required">*</span>' : '' ).'</label>'."\n";
+            $html = '<label for="'.$this->getHtmlId().'">'.$this->getLabel()
+                . ( $this->getRequired() ? ' <span class="required">*</span>' : '' ).'</label>'."\n";
         }
         else {
             $html = '';

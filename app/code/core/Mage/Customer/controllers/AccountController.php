@@ -37,7 +37,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
 
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('#^(create|login|logoutSuccess|forgotpassword|forgotpasswordpost)#', $action)) {
+        if (!preg_match('/^(create|login|logoutSuccess|forgotpassword|forgotpasswordpost)/i', $action)) {
             if (!Mage::getSingleton('customer/session')->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
@@ -53,20 +53,19 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('customer/session');
 
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('customer/account_dashboard'));
-        $this->getLayout()->getBlock('root')->setHeaderTitle(__('My Account'));
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('customer')->__('My Account'));
 
         $this->renderLayout();
     }
 
     /**
-     * Customer login form
+     * Customer login form page
      */
     public function loginAction()
     {
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
-
         $this->renderLayout();
     }
 
@@ -79,21 +78,17 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost('login');
-            if (!empty($login)) {
-                extract($login);
-                if (!empty($username) && !empty($password)) {
-                    if (!$session->login($username, $password)) {
-                        // _('invalid login or password')
-                        $session->addError(__('Invalid login or password'));
-                        Mage::getSingleton('customer/session')->setUsername($username);
-                    }
+            if (!empty($login['username']) && !empty($login['password'])) {
+                if (!$session->login($login['username'], $login['password'])) {
+                    $session->addError(Mage::helper('customer')->__('Invalid login or password'));
+                    $session->setUsername($login['username']);
                 }
             }
         }
         if (!$session->getBeforeAuthUrl()) {
-            $session->setBeforeAuthUrl(Mage::getUrl('customer/account'));
+            $session->setBeforeAuthUrl(Mage::helper('customer')->getAccountUrl());
         }
-        $this->getResponse()->setRedirect($session->getBeforeAuthUrl());
+        $this->_redirectUrl($session->getBeforeAuthUrl());
     }
 
     /**
@@ -107,7 +102,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
         $this->_redirect('*/*/logoutSuccess');
     }
-
+    
+    /**
+     * Logout success page
+     */
     public function logoutSuccessAction()
     {
         $this->loadLayout();
@@ -115,13 +113,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Customer register form
+     * Customer register form page
      */
     public function createAction()
     {
-        // if customer logged in
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->_redirect('*/*/index');
+            $this->_redirect('*/*');
             return;
         }
 
@@ -141,6 +138,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             $customer = Mage::getModel('customer/customer')
                 ->setData($this->getRequest()->getPost());
+            /**
+             * Initialize customer group id
+             */
+            $customer->getGroupId();
+            
             if ($this->getRequest()->getPost('create_address')) {
                 $address = Mage::getModel('customer/address')
                     ->setData($this->getRequest()->getPost())
@@ -153,7 +155,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomerAsLoggedIn($customer)
-                    ->addSuccess(__('Thank you for registering with %s', Mage::app()->getStore()->getName()) );
+                    ->addSuccess(
+                        Mage::helper('customer')->__('Thank you for registering with %s', 
+                            Mage::app()->getStore()->getName()) 
+                    );
 
                 $customer->sendNewAccountEmail();
 
@@ -175,8 +180,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Forgot password
-     *
+     * Forgot customer password page
      */
     public function forgotPasswordAction()
     {
@@ -185,6 +189,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Forgot customer password action
+     */
     public function forgotPasswordPostAction()
     {
         $email = $this->getRequest()->getPost('email');
@@ -193,15 +200,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             if ($customer->getId()) {
                 try {
                     $newPassword = $customer->generatePassword();
-
                     $customer->changePassword($newPassword, false);
-
                     $customer->sendPasswordReminderEmail();
 
                     Mage::getSingleton('customer/session')
-                        ->addSuccess(__('A new password was sent'));
+                        ->addSuccess(Mage::helper('customer')->__('A new password was sent'));
 
-                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+                    $this->getResponse()->setRedirect(Mage::getUrl('*/*'));
                     return;
                 }
                 catch (Exception $e){
@@ -211,13 +216,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
             else {
                 Mage::getSingleton('customer/session')
-                    ->addError(__('This email address was not found in our records'));
+                    ->addError(Mage::helper('customer')->__('This email address was not found in our records'));
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
     }
 
-
+    /**
+     * Forgot customer account information page
+     */
     public function editAction()
     {
         $this->loadLayout();
@@ -231,6 +238,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Forgot customer account information action
+     */
     public function editPostAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -248,7 +258,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 else {
                     Mage::getSingleton('customer/session')
                         ->setCustomerFormData($this->getRequest()->getPost())
-                        ->addError(__('Invalid current password'));
+                        ->addError(Mage::helper('customer')->__('Invalid current password'));
                     $this->_redirect('*/*/edit');
                     return;
                 }
@@ -258,7 +268,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $customer->save();
                 Mage::getSingleton('customer/session')
                     ->setCustomer($customer)
-                    ->addSuccess(__('Account information was successfully saved'));
+                    ->addSuccess(Mage::helper('customer')->__('Account information was successfully saved'));
 
                 $this->_redirect('customer/account');
                 return;

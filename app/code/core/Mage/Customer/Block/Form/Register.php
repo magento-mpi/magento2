@@ -21,9 +21,7 @@
 /**
  * Customer register form block
  *
- * @category   Mage
- * @package    Mage_Customer
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
 {
@@ -40,7 +38,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
      */
     public function getPostActionUrl()
     {
-        return Mage::getUrl('customer/account/createPost', array('_secure'=>true));
+        return $this->helper('customer')->getRegisterPostUrl();
     }
     
     /**
@@ -52,7 +50,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = Mage::getUrl('customer/account/login');
+            $url = $this->helper('customer')->getLoginUrl();
         }
         return $url;
     }
@@ -72,6 +70,11 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
         return $data;
     }
     
+    /**
+     * Retrieve customer country identifier
+     *
+     * @return int
+     */
     public function getCountryId()
     {
         if ($countryId = $this->getFormData()->getCountryId()) {
@@ -80,6 +83,11 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
         return parent::getCountryId();
     }
 
+    /**
+     * Retrieve customer region identifier
+     *
+     * @return int
+     */
     public function getRegion()
     {
         if ($region = $this->getFormData()->getRegion()) {
@@ -90,6 +98,4 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
         }
         return null;
     }
-    
-    
 }

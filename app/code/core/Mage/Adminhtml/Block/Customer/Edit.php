@@ -35,9 +35,9 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         if ($this->getCustomerId()) {
             $this->_addButton('order', array(
                 'label' => __('Create Order'),
-                'onclick' => 'window.location.href=\'' . $this->getCreateOrderUrl() . '\'',
+                'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
-            ));
+            ), -1);
         }
 
         parent::__construct();

@@ -80,11 +80,11 @@
       </routers>
       <translate>
         <modules>
-            <Mage_Search>
+            <Mage_CatalogSearch>
                 <files>
-                    <default>Mage_Search.csv</default>
+                    <default>Mage_CatalogSearch.csv</default>
                 </files>
-            </Mage_Search>
+            </Mage_CatalogSearch>
         </modules>
       </translate>
    </frontend>

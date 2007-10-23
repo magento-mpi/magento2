@@ -58,14 +58,12 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($this->_customer instanceof Mage_Customer_Model_Customer) {
             return $this->_customer;
         }
-Varien_Profiler::start('TEST1: '.__METHOD__);
+
         $customer = Mage::getModel('customer/customer');
-Varien_Profiler::stop('TEST1: '.__METHOD__);
-Varien_Profiler::start('TEST2: '.__METHOD__);
         if ($this->getId()) {
             $customer->load($this->getId());
         }
-Varien_Profiler::stop('TEST2: '.__METHOD__);
+
         $this->setCustomer($customer);
         return $this->_customer;
     }
@@ -78,7 +76,6 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
     public function getCustomerId()
     {
         return $this->getId();
-        return $this->getCustomer()->getId();
     }
 
     /**
@@ -89,8 +86,6 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
     public function isLoggedIn()
     {
         return (bool)$this->getId();
-        $customer = $this->getCustomer();
-        return ($customer instanceof Mage_Customer_Model_Customer) && $customer->getId();
     }
 
     /**
@@ -160,7 +155,7 @@ Varien_Profiler::stop('TEST2: '.__METHOD__);
         if (!$this->isLoggedIn()) {
             $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
             if (is_null($loginUrl)) {
-                $loginUrl = Mage::getUrl('customer/account/login', array('_secure'=>true));
+                $loginUrl = Mage::helper('customer')->getLoginUrl();
             }
             $action->getResponse()->setRedirect($loginUrl);
             return false;

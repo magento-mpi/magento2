@@ -21,9 +21,8 @@
 /**
  * Customer group collection
  *
- * @category   Mage
- * @package    Mage_Customer
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Customer_Model_Entity_Group_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {

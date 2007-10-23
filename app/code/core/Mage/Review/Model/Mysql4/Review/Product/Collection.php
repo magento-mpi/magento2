@@ -34,18 +34,20 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 
     public function __construct()
     {
-           $this->setEntity(Mage::getResourceSingleton('catalog/product'));
-                $this->setObject('catalog/product');
-                $this->setRowIdFieldName('review_id');
-                $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review/review_store');
+        $this->setEntity(Mage::getResourceSingleton('catalog/product'));
+        $this->setObject('catalog/product');
+        $this->setRowIdFieldName('review_id');
+        $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review/review_store');
     }
 
     public function addStoreFilter($storeId)
     {
         $pstoreTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
         $this->getSelect()
-              ->join(array('store'=>$this->_reviewStoreTable), 'rt.review_id=store.review_id AND store.store_id=' . (int)$storeId, array())
-              ->join(array('pstore'=>$pstoreTable), 'pstore.product_id=e.entity_id AND pstore.store_id=' . (int)$storeId, array());
+            ->join(array('store'=>$this->_reviewStoreTable), 
+                'rt.review_id=store.review_id AND store.store_id=' . (int)$storeId, array())
+            ->join(array('pstore'=>$pstoreTable), 
+                'pstore.product_id=e.entity_id AND pstore.store_id=' . (int)$storeId, array());
 
         return $this;
     }
@@ -53,7 +55,8 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     public function setStoreFilter($storeId)
     {
         $this->getSelect()
-            ->join(array('store'=>$this->_reviewStoreTable), 'rt.review_id=store.review_id AND store.store_id=' . (int)$storeId, array());
+            ->join(array('store'=>$this->_reviewStoreTable), 
+                'rt.review_id=store.review_id AND store.store_id=' . (int)$storeId, array());
         return $this;
     }
 
@@ -136,8 +139,10 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
             ->addAttributeToSelect('sku');
 
         $this->getSelect()
-            ->join(array('rt' => $reviewTable), "rt.entity_pk_value = e.entity_id", array('review_id', 'created_at', 'entity_pk_value', 'status_id'))
-            ->join(array('rdt' => $reviewDetailTable), "rdt.review_id = rt.review_id");
+            ->join(array('rt' => $reviewTable), 
+                'rt.entity_pk_value = e.entity_id', 
+                array('review_id', 'created_at', 'entity_pk_value', 'status_id'))
+            ->join(array('rdt' => $reviewDetailTable), 'rdt.review_id = rt.review_id');
     }
 
     /**
@@ -243,8 +248,6 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 $storesToReviews[$row['review_id']][] = $row['store_id'];
             }
         }
-
-
 
         foreach ($this as $item) {
             if(isset($storesToReviews[$item->getReviewId()])) {

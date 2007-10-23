@@ -48,6 +48,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                     'class'  => 'delete'
                 ))
         );
+        $this->setChild('add_address_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'  => __('Add New Address'),
+                    'id'     => 'add_address_button',
+                    'name'   => 'add_address_button',
+                    'class'  => 'add left',
+                    'style'  => 'margin:3px 0px;',
+                    'onclick'=> 'customerAddresses.addNewAddress()'
+                ))
+        );
+        $this->setChild('cencel_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'  => __('Cencel'),
+                    'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
+                    'name'   => 'cencel_address',
+                    'class'  => 'delete-address',
+                    'onclick'=> 'customerAddresses.cancelAdd(this)',
+                ))
+        );
         return parent::_prepareLayout();
     }
 
@@ -80,5 +101,20 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setForm($form);
 
         return $this;
+    }
+    
+    public function getCencelButtonHtml()
+    {
+        return $this->getChildHtml('cencel_button');
+    }
+    
+    public function getAddNewButtonHtml()
+    {
+        return $this->getChildHtml('add_address_button');
+    }
+    
+    public function getTemplatePrefix()
+    {
+        return '_template_';
     }
 }

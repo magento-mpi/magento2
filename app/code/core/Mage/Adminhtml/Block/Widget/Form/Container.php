@@ -41,13 +41,13 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
         $this->_addButton('back', array(
             'label'     => __('Back'),
-            'onclick'   => 'window.location.href=\'' . $this->getBackUrl() . '\'',
+            'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class'     => 'back',
             'level'     => -1
         ));
         $this->_addButton('reset', array(
             'label'     => __('Reset'),
-            'onclick'   => 'window.location.href = window.location.href',
+            'onclick'   => 'setLocation(window.location.href)',
             'level'     => -1
         ));
 
@@ -57,7 +57,8 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
             $this->_addButton('delete', array(
                 'label'     => __('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') .'\', \'' . $this->getDeleteUrl() . '\')',
+                'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') 
+                    .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
@@ -65,7 +66,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
             'label'     => __('Save'),
             'onclick'   => 'editForm.submit();',
             'class'     => 'save',
-        ));
+        ), -100);
     }
 
     protected function _prepareLayout()

@@ -336,7 +336,7 @@ table.form-edit {
 .entry-edit fieldset label {
     float:left;
     width:12.5em;
-    margin-right:10px;
+    margin-right:0.5em;
     }
 .entry-edit fieldset label.normal {
     float:none;

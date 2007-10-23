@@ -27,7 +27,6 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Template
 {
-    const ONLINE_INTERVAL = 900; // 15 min
     protected $_customer;
     protected $_customerLog;
 
@@ -77,7 +76,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     
     public function getGroupName()
     {
-        if ($groupId = $this->getCustomer()->getCustomerGroup()) {
+        if ($groupId = $this->getCustomer()->getGroupId()) {
             return Mage::getModel('customer/group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
@@ -92,11 +91,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
         }
         return $this->_customerLog;
-    }
-
-    public function getFormat()
-    {
-        return $this->_dateTimeFormat;
     }
 
     public function getCreateDate()
@@ -115,7 +109,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt() || strtotime(now())-strtotime($log->getLastVisitAt())>self::ONLINE_INTERVAL) {
+        if ($log->getLogoutAt() || 
+            strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::ONLINE_MINUTES_INTERVAL*60) {
             return __('Offline');
         }
         return __('Online');

@@ -62,19 +62,12 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'=>'customer_entity/customer_attribute_backend_password', 
                         'required'=>false,
                     ),
-                    'customer_group' => array(
+                    'group_id' => array(
                         'type'=>'int', 
                         'input'=>'select', 
                         'label'=>'Customer Group',
                         'source'=>'customer_entity/customer_attribute_source_group',
                         'sort_order'=>6,
-                    ),
-                    'store_balance' => array(
-                        'type'=>'decimal', 
-                        'input'=>'hidden', 
-                        'label'=>'Balance',
-                        'class'=>'validate-number',
-                        'sort_order'=>7,
                     ),
                     'default_billing' => array(
                         'type'=>'int', 
@@ -92,7 +85,7 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
             
             'customer_address'=>array(
-                'table'=>'customer/entity',
+                'table'=>'customer/address_entity',
                 'attributes' => array(
                     'firstname' => array(
                         'label'=>'First Name',
@@ -101,6 +94,22 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'lastname' => array(
                         'label'=>'Last Name',
                         'sort_order'=>2,
+                    ),
+                    'company' => array(
+                        'label'=>'Company',
+                        'required'=>false,
+                        'sort_order'=>3,
+                    ),
+                    'street' => array(
+                        'type'=>'text', 
+                        'backend'=>'customer_entity/address_attribute_backend_street', 
+                        'input'=>'multiline', 
+                        'label'=>'Street Address',
+                        'sort_order'=>4,
+                    ),
+                    'city' => array(
+                        'label'=>'City',
+                        'sort_order'=>5,
                     ),
                     'country_id' => array(
                         'type'=>'varchar', 
@@ -127,17 +136,6 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'label'=>'Zip/Postal Code',
                         'sort_order'=>9,
                     ),
-                    'city' => array(
-                        'label'=>'City',
-                        'sort_order'=>5,
-                    ),
-                    'street' => array(
-                        'type'=>'text', 
-                        'backend'=>'customer_entity/address_attribute_backend_street', 
-                        'input'=>'textarea', 
-                        'label'=>'Street Address',
-                        'sort_order'=>4,
-                    ),
                     'telephone' => array(
                         'label'=>'Telephone',
                         'sort_order'=>10,
@@ -146,11 +144,6 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'label'=>'Fax',
                         'required'=>false,
                         'sort_order'=>11,
-                    ),
-                    'company' => array(
-                        'label'=>'Company',
-                        'required'=>false,
-                        'sort_order'=>3,
                     ),
                 ),
             ),

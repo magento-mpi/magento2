@@ -111,8 +111,11 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      * @param int $minutes
      * @return object
      */
-    public function useOnlineFilter($minutes=15)
+    public function useOnlineFilter($minutes=null)
     {
+        if (is_null($minutes)) {
+            $minutes = Mage_Log_Model_Visitor::ONLINE_MINUTES_INTERVAL;
+        }
         $this->_sqlSelect->from(array('visitor_table'=>$this->_visitorTable))
             //->joinLeft(array('url_table'=>$this->_urlTable), 'visitor_table.last_url_id=url_table.url_id')
             ->joinLeft(array('info_table'=>$this->_visitorInfoTable), 'info_table.visitor_id=visitor_table.visitor_id')

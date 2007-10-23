@@ -352,16 +352,19 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $id = $this->getAttribute($entityTypeId, $id, 'attribute_id');
         }
         if (!is_numeric($id)) {
-            throw Mage::exception('Mage_Eav', __('Wrong attribute ID'));
+            //throw Mage::exception('Mage_Eav', __('Wrong attribute ID'));
+            return false;
         }
         return $id;
     }
 
     public function removeAttribute($entityTypeId, $code)
     {
-        $this->_conn->delete($this->getTable('eav/attribute'),
-            $this->_conn->quoteInto('attribute_id=?', $this->getAttributeId($entityTypeId, $code))
-        );
+        if ($attributeId = $this->getAttributeId($entityTypeId, $code)) {
+            $this->_conn->delete($this->getTable('eav/attribute'),
+                $this->_conn->quoteInto('attribute_id=?', $attributeId)
+            );
+        }
         return $this;
     }
 

@@ -804,7 +804,7 @@ pp;
 /*
     public function isEligibleForFree($method)
     {
-    	return $method=='GND' || $method=='GNDCOM' || $method=='GNDRES';
+        return $method=='GND' || $method=='GNDCOM' || $method=='GNDRES';
     }
 */
 

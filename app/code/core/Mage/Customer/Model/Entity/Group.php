@@ -34,4 +34,9 @@ class Mage_Customer_Model_Entity_Group extends Mage_Core_Model_Mysql4_Abstract
             'title' => __('Customer Group')
         ));
     }
+    
+    protected function _afterDelete(Mage_Core_Model_Abstract $group)
+    {
+        return parent::_afterDelete($group);
+    }
 }

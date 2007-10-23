@@ -76,8 +76,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $customer)
     {
         $this->_saveAddresses($customer);
-		$this->_saveSubscription($customer);
-
+        Mage::dispatchEvent('customer_model_after_save', array('customer'=>$customer));
         return parent::_afterSave($customer);
     }
 
@@ -97,58 +96,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
         return $this;
     }
-
-    /**
-     * Saves customers subscription
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @return boolean
-     */
-    protected function _saveSubscription(Mage_Customer_Model_Customer $customer) {
-
-    	$subscriber = Mage::getModel('newsletter/subscriber')
-    		->loadByCustomer($customer);
-
-    	if (!$customer->getIsSubscribed() && !$subscriber->getId()) {
-    		// If subscription flag not seted or customer not subscriber
-    		// and no subscribe bellow
-    		return false;
-    	}
-
-    	if($customer->hasIsSubscribed()) {
-    	    $status = ( $customer->getIsSubscribed()
-    			    ? Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED
-    			    : Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED);
-    	} else {
-    	    $status = $subscriber->getStatus();
-    	}
-
-
-    	if($status != $subscriber->getStatus()) {
-    		$subscriber->setIsStatusChanged(true);
-    	}
-
-		$subscriber->setStatus($status);
-
-		if ($subscriber->getIsStatusChanged() && $status==Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED) {
-		    $subscriber->sendUnsubscriptionEmail();
-		}
-
-    	if(!$subscriber->getId()) {
-    		$subscriber
-    			->setStoreId($customer->getStoreId())
-    			->setCustomerId($customer->getId())
-    			->setEmail($customer->getEmail());
-    	} else {
-    	       $subscriber
-    			->setEmail($customer->getEmail());
-    	}
-
-    	$subscriber->save();
-
-    	return true;
-    }
-
 
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
     {

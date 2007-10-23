@@ -22,63 +22,38 @@
 <table cellspacing="0" class="form-edit">
 <tr>
 <td class="address-list">
-<div class="box-head">
-    <h4 class="icon-head head-customer-address-list"><?=__('Customer Addresses')?></h4>
-    <div class="clear"></div>
-    <button id="add_address_button" type="button" class="scalable add left" onclick="customerAddresses.addNewAddress()" style="margin:3px 0;">
-    <table cellspacing="0">
-        <tr>
-            <td class="tl"></td>
-            <td class="tr"></td>
-        </tr>
-        <tr>
-            <td class="ml"><span><?=__('Add New Address')?></span></td>
-            <td class="mr"></td>
-        </tr>
-        <tr>
-            <td class="bl"></td>
-            <td class="br"></td>
-        </tr>
-    </table>
-    </button>
-</div>
+    <div class="box-head">
+        <h4 class="icon-head head-customer-address-list"><?=__('Customer Addresses')?></h4>
+        <div class="clear"></div>
+        <?=$this->getAddNewButtonHtml()?>
+    </div>
     <ul id="address_list">
     <?$_iterator = 0;?>
     <?if($addressCollection->getSize()):?>
         <?foreach ($addressCollection as $_address):?>
         <li id="address_item_<?=$_address->getId()?>">
-            <a href="#" class="btn-remove-address"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" /></a>
-            <a href="#" id="select_button" class="select_button btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
+            <a href="#" class="btn-remove-address">
+                <img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" />
+            </a>
+            <a href="#" id="select_button" class="select_button btn-edit-address">
+                <img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/>
+            </a>
             <address>
-            <?=$_address->toString("{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: {{telephone}}")?>
+                <?=$_address->toString("{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{region}} {{postcode}}<br/>T: {{telephone}}")?>
             </address>
             <div class="address-type">
                 <span class="address-type-line">
-                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="account[default_billing]" title="<?=__('Set as Default Billing Address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default Billing Address')?></label>
+                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_billing<?=$_address->getId()?>" name="account[default_billing]" title="<?=__('Set as Default Billing Address')?>"<?if($_address->getId()==$customer->getDefaultBilling()):?> checked="true"<?endif;?>/>
+                    &nbsp;<label for="address_item_billing<?=$_address->getId()?>"><?=__('Default Billing Address')?></label>
                 </span>
                 <span class="address-type-line">
-                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="account[default_shipping]" title="<?=__('Set as Default Shipping Address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>&nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default Shipping Address')?></label>
+                    <input type="radio" value="<?=$_address->getId()?>" id="address_item_shipping<?=$_address->getId()?>" name="account[default_shipping]" title="<?=__('Set as Default Shipping Address')?>"<?if($_address->getId()==$customer->getDefaultShipping()):?> checked="true"<?endif;?>/>
+                    &nbsp;<label for="address_item_shipping<?=$_address->getId()?>"><?=__('Default Shipping Address')?></label>
                 </span>
             </div>
         </li>
         <?endforeach;?>
-    <?/*else:?>
-        <li id="new_item">
-            <div class="delete-address" style="display:none">
-                <?=$this->getDeleteButtonHtml()?>
-            </div>
-            <address>
-                <?=__('New Customer Address')?>
-            </address>
-            <div class="address-type">
-                <span class="address-type-line">
-                                    <input type="radio" id="new_item_billing" name="account[default_billing]" value="new" title="<?=__('Set as Default Billing Address')?>" checked="true"/>&nbsp;<label for="new_item_billing"><?=__('Default Billing Address')?></label></span>
-                                <span class="address-type-line">
-                                    <input type="radio" id="new_item_shipping" name="account[default_shipping]" value="new" title="<?=__('Set as Default Shipping Address')?>"  checked="true"/>&nbsp;<label for="new_item_shipping"><?=__('Default Shipping Address')?></label>
-                                </span>
-            </div>
-        </li>
-    <?*/endif;?>
+    <?endif;?>
     </ul>
 </td>
 <td>
@@ -99,28 +74,27 @@
         <?else:?>
             <div id="no_address_message"><?=__('Customer has no addresses')?></div>
         <?endif;?>
-        <?/*else:?>
-            <div id="form_new_item" style="display:none">
-            <?$this->getFormObject()->setFieldNameSuffix('address[new]')?>
-            <?=$this->getFormObject()->getHtml()?>
-            </div>
-        <?endif;*/?>
     </div>
 
 
     <!-- Template for adding address item to list -->
-    <?$_templatePrefix = '_template_'?>
+    <?$_templatePrefix = $this->getTemplatePrefix()?>
     <div id="address_item_template" class="no-display template">
-        <a href="#" class="btn-remove-address"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" /></a>
-        <a href="#" id="select_button" class="btn-edit-address"><img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/></a>
-
+        <a href="#" class="btn-remove-address">
+            <img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove address" id="delete_button<?=++$_iterator?>" />
+        </a>
+        <a href="#" id="select_button" class="btn-edit-address">
+            <img src="<?=$this->getSkinUrl('images/icon_edit_address.gif')?>" alt="Edit address"/>
+        </a>
         <address><?=__('New Customer Address')?></address>
         <div class="address-type">
             <span class="address-type-line">
-                <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="account[default_billing]" title="<?=__('Set as Default Billing Address')?>"/>&nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing Address')?></label>
+                <input type="radio" value="<?=$_templatePrefix?>" id="address_item_billing<?=$_templatePrefix?>" name="account[default_billing]" title="<?=__('Set as Default Billing Address')?>"/>
+                &nbsp;<label for="address_item_billing<?=$_templatePrefix?>"><?=__('Default Billing Address')?></label>
             </span>
             <span class="address-type-line">
-                <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="account[default_shipping]" title="<?=__('Set as Default Shipping Address')?>"/>&nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping Address')?></label>
+                <input type="radio" value="<?=$_templatePrefix?>" id="address_item_shipping<?=$_templatePrefix?>" name="account[default_shipping]" title="<?=__('Set as Default Shipping Address')?>"/>
+                &nbsp;<label for="address_item_shipping<?=$_templatePrefix?>"><?=__('Default Shipping Address')?></label>
             </span>
         </div>
     </div>
@@ -128,28 +102,13 @@
     <!-- Address form template -->
     <div id="address_form_template" class="no-display template">
     <?
-            // Set form template elements prefix
-            $this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
-                    ->setValues(array())
-                    ->setFieldNameSuffix('address['.$_templatePrefix.']');
+        // Set form template elements prefix
+        $this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
+                ->setValues(array())
+                ->setFieldNameSuffix('address['.$_templatePrefix.']');
     ?>
     <?=$this->getFormObject()->getHtml()?>
-    <button id="cancel_add_address<?=$_templatePrefix?>" type="button" class="scalable delete-address" onclick="customerAddresses.cancelAdd(this)">
-    <table cellspacing="0">
-        <tr>
-            <td class="tl"></td>
-            <td class="tr"></td>
-        </tr>
-        <tr>
-            <td class="ml"><?=__('Cancel')?></td>
-            <td class="mr"></td>
-        </tr>
-        <tr>
-            <td class="bl"></td>
-            <td class="br"></td>
-        </tr>
-    </table>
-    </button>
+    <?=$this->getCencelButtonHtml()?>
     </div>
 
 
@@ -166,7 +125,7 @@ addressesModel.prototype = {
         this.itemContainer= $('address_list');
         this.formContainer= $('address_form_container');
         this.baseItemId   = 'new_item';
-        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{street}<br/>#{city}, #{regionName} #{postcode}<br/>T: #{telephone}');
+        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{street0} #{street1}<br/>#{city}, #{region} #{postcode}<br/>T: #{telephone}');
 
         this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
         this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);
@@ -197,7 +156,10 @@ addressesModel.prototype = {
     reloadItemList : function(initial){
         this.itemList = $$('#address_list li');
         if( initial ) {
-            this.itemCount= this.itemList.length;
+            this.itemCount = this.itemList.length;
+        }
+        if(!this.itemList.length){
+            this.formContainer.innerHTML = '<div id="no_address_message"><?=__('Customer has no addresses')?></div>'
         }
     },
 
@@ -292,7 +254,7 @@ addressesModel.prototype = {
     },
 
     setAddressAsDefault : function(){
-        for(var i in this.itemList){
+        for(var i=0; i<this.itemList.length;i++){
             if(this.itemList[i].id){
                 var inputs = $(this.itemList[i].id).getElementsBySelector('input');
                 var isActive = false;

@@ -25,7 +25,7 @@
         <input type="image" src="<?=$this->getSkinUrl('images/btn_mini_search.gif')?>" alt="<?=$this->__('Search')?>"/>
         <div id="search_autocomplete" class="search-autocomplete"></div>
         <script type="text/javascript">
-            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?=__('Search entire store here...')?>');
+            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?=$this->helper('catalogSearch')->__('Search entire store here...')?>');
             searchForm.initAutocomplete('<?=$this->helper('catalogSearch')->getSuggestUrl()?>', 'search_autocomplete');
         </script>
     </fieldset>

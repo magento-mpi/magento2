@@ -19,28 +19,22 @@
  */
 
 /**
- * Customer
+ * Customer model
  *
- * @category   Mage
- * @package    Mage_Customer
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Model_Shared_Interface
 {
+    const XML_PATH_REGISTER_EMAIL_TEMPLATE  = 'customer/create_account/email_template';
+    const XML_PATH_REGISTER_EMAIL_IDENTITY  = 'customer/create_account/email_identity';
+    const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'customer/password/forgot_email_template';
+    const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'customer/password/forgot_email_identity';
+    const XML_PATH_DEFAULT_GROUP_ID         = 'customer/create_account/default_group';
+    
     protected $_addressCollection;
+    protected $_store;
 
-//    public static $_cloneCounter = 0;
-
-    /**
-     * Customer subscription model
-     *
-     * @var Mage_Newsletter_Subscriber
-     */
-    protected $_subscriber = null;
-
-    protected $_store = null;
-
-    public function __construct($customer=false)
+    public function __construct()
     {
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
@@ -53,10 +47,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function getResource()
     {
-        Varien_Profiler::start('Customer->getResource: '.__METHOD__);
         $resource = Mage::getResourceSingleton('customer/customer');
-        Varien_Profiler::stop('Customer->getResource: '.__METHOD__);
-
         return $resource;
     }
 
@@ -226,18 +217,6 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         return $this;
     }
 
-    public function getWishlistCollection()
-    {
-        if ($this->_wishlist && !$reload) {
-            return $this->_wishlist;
-        }
-
-        $this->_wishlist = Mage::getResourceModel('customer/wishlist_collection');
-        $this->_wishlist->addCustomerFilter($this->getId());
-
-        return $this->_wishlist;
-    }
-
     /**
      * Hach customer password
      *
@@ -389,55 +368,81 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         }
         return ($address->getId() == $this->getDefaultBilling()) || ($address->getId() == $this->getDefaultShipping());
     }
-
+    
+    /**
+     * Retrieve random password
+     *
+     * @param   int $length
+     * @return  string
+     */
     public function generatePassword($length=6)
     {
         return substr(md5(uniqid(rand(), true)), 0, $length);
     }
-
+    
+    /**
+     * Send email with account information
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     public function sendNewAccountEmail()
     {
         Mage::getModel('core/email_template')
             ->sendTransactional(
-                Mage::getStoreConfig('customer/create_account/email_template'),
-                Mage::getStoreConfig('customer/create_account/email_identity'),
+                Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_TEMPLATE),
+                Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_IDENTITY),
                 $this->getEmail(),
                 $this->getName(),
                 array('customer'=>$this));
         return $this;
     }
-
+    
+    /**
+     * Send email with new customer password
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     public function sendPasswordReminderEmail()
     {
         Mage::getModel('core/email_template')
             ->sendTransactional(
-              Mage::getStoreConfig('customer/password/forgot_email_template'),
-              Mage::getStoreConfig('customer/password/forgot_email_identity'),
+              Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
+              Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
               $this->getEmail(),
               $this->getName(),
               array('customer'=>$this));
         return $this;
     }
-
-    public function getCustomerGroup()
+    
+    /**
+     * Retrieve customer group identifier
+     *
+     * @return int
+     */
+    public function getGroupId()
     {
-        if (!$this->getData('customer_group')) {
+        if (!$this->getData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-            $this->setCustomerGroup(Mage::getStoreConfig('customer/create_account/default_group', $storeId));
+            $this->setData('group_id', Mage::getStoreConfig(self::XML_PATH_DEFAULT_GROUP_ID, $storeId));
         }
-        return $this->getData('customer_group');
+        return $this->getData('group_id');
     }
-
+    
+    /**
+     * Retrieve customer tax class identifier
+     *
+     * @return int
+     */
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $this->setTaxClassId(Mage::getModel('customer/group')->load($this->getCustomerGroup())->getTaxClassId());
+            $this->setTaxClassId(Mage::getModel('customer/group')->load($this->getGroupId())->getTaxClassId());
         }
         return $this->getData('tax_class_id');
     }
 
     /**
-     * Enter description here...
+     * Retrieve store where customer was created
      *
      * @return Mage_Core_Model_Store
      */
@@ -454,7 +459,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     }
 
     /**
-     * Enter description here...
+     * Retrieve shared store ids
      *
      * @return array|false
      */
@@ -496,14 +501,4 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         }
         return $this;
     }
-
-    public function __clone()
-    {
-        $this->setId(null);
-        foreach ($this->getLoadedAddressCollection() as $address) {
-            /* @var $address Mage_Customer_Model_Address */
-            $address = clone $address;
-        }
-    }
-
 }

@@ -13,23 +13,23 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Customer
+ * @package    Mage_Newsletter
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Customer module observer
+ * Newsletter module observer
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Observer
+class Mage_Newsletter_Model_Observer
 {
-    public function beforeLoadLayout($observer)
+    public function subscribeCustomer($observer)
     {
-        $loggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
-
-    	$observer->getEvent()->getLayout()->getUpdate()
-    	   ->addHandle('customer_logged_'.($loggedIn?'in':'out'));
+        if ($customer = $observer->getEvent()->getCustomer()) {
+            Mage::getModel('newsletter/subscriber')->subscribeCustomer($customer);
+        }
+        return $this;
     }
 }

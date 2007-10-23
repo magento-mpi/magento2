@@ -39,18 +39,34 @@ class Mage_Customer_Model_Address extends Varien_Object
         parent::__construct();
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
-
+    
+    /**
+     * Retrieve address customer identifier
+     *
+     * @return int
+     */
     public function getCustomerId()
     {
         return $this->getResource()->getCustomerId($this);
     }
-
+    
+    /**
+     * Declare address customer identifier
+     *
+     * @param unknown_type $id
+     * @return unknown
+     */
     public function setCustomerId($id)
     {
         $this->getResource()->setCustomerId($this, $id);
         return $this;
     }
-
+    
+    /**
+     * Retrieve address customer
+     *
+     * @return Mage_Customer_Model_Customer | false
+     */
     public function getCustomer()
     {
         if (!$this->getCustomerId()) {
@@ -195,9 +211,14 @@ class Mage_Customer_Model_Address extends Varien_Object
      */
     public function getAttributes()
     {
-        return $this->getResource()
-            ->loadAllAttributes($this)
-            ->getAttributesByCode();
+        $attributes = $this->getData('attributes');
+        if (is_null($attributes)) {
+            $attributes = $this->getResource()
+                ->loadAllAttributes($this)
+                ->getAttributesByCode();
+            $this->setData('attributes', $attributes);
+        }
+        return $attributes;
     }
 
 

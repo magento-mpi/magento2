@@ -31,7 +31,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     }
     
     /**
-     * Get logged in customer
+     * Retrieve logged in customer
      *
      * @return Mage_Customer_Model_Customer
      */
@@ -58,23 +58,99 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getCustomer()->getLoadedAddressCollection()->count()>0;
     }
     
-    public function getCustomerAddress()
-    {
-        
-    }
+    /**************************************************************************
+     * Customer urls
+     */
     
+    /**
+     * Retrieve customer login url
+     *
+     * @return string
+     */
     public function getLoginUrl()
     {
-        return Mage::getUrl('customer/account/login');
-    }
-
-    public function getLogoutUrl()
-    {
-        return Mage::getUrl('customer/account/logout');
+        return $this->_getUrl('customer/account/login');
     }
     
+    public function getLoginPostUrl()
+    {
+        return $this->_getUrl('customer/account/loginPost');
+    }
+    
+    /**
+     * Retrieve customer logout url
+     *
+     * @return string
+     */
+    public function getLogoutUrl()
+    {
+        return $this->_getUrl('customer/account/logout');
+    }
+    
+    /**
+     * Retrieve customer dashboard url
+     *
+     * @return string
+     */
+    public function getDashboardUrl()
+    {
+        return $this->_getUrl('customer/account');
+    }
+    
+    /**
+     * Retrieve customer account page url
+     *
+     * @return string
+     */
     public function getAccountUrl()
     {
-        return Mage::getUrl('customer/account');
+        return $this->_getUrl('customer/account');
     }
+    
+    /**
+     * Retrieve customer register form url
+     *
+     * @return string
+     */
+    public function getRegisterUrl()
+    {
+        return $this->_getUrl('customer/account/create');
+    }
+    
+    /**
+     * Retrieve customer register form post url
+     *
+     * @return string
+     */
+    public function getRegisterPostUrl()
+    {
+        return $this->_getUrl('customer/account/createpost');
+    }
+
+    /**
+     * Retrieve customer account edit form url
+     *
+     * @return string
+     */
+    public function getEditUrl()
+    {
+        return $this->_getUrl('customer/account/edit');
+    }
+    
+    public function getEditPostUrl()
+    {
+        return $this->_getUrl('customer/account/editpost');
+    }
+
+    /**
+     * Retrieve url of forgot password page
+     *
+     * @return string
+     */
+    public function getForgotPasswordUrl()
+    {
+        return $this->_getUrl('customer/account/forgotpassword');
+    }
+    
+    
 }

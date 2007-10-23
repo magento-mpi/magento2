@@ -84,7 +84,31 @@
             </newsletter_read>
         </resources>
     </global>
+    <adminhtml>
+        <events>
+            <customer_model_after_save>
+                <observers>
+                    <newsletter_subscribe_observer>
+                        <type>singleton</type>
+                        <class>newsletter/observer</class>
+                        <method>subscribeCustomer</method>
+                    </newsletter_subscribe_observer>
+                </observers>
+            </customer_model_after_save>
+        </events>
+    </adminhtml>
     <frontend>
+        <events>
+            <customer_model_after_save>
+                <observers>
+                    <newsletter_subscribe_observer>
+                        <type>singleton</type>
+                        <class>newsletter/observer</class>
+                        <method>subscribeCustomer</method>
+                    </newsletter_subscribe_observer>
+                </observers>
+            </customer_model_after_save>
+        </events>
         <routers>
             <newsletter>
                 <use>standard</use>
