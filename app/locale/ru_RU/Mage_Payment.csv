@@ -1,27 +1,27 @@
-"September","Сентябрь"
-"February","Февраль"
-"October","Октябрь"
-"March","Март"
-"August","Август"
-"May","Май"
-"January","Январь"
-"Master Card","Кредитная карточка Master Card"
-"Year","Год"
-"June","Июнь"
-"Discover","Кредитная карточка Discover"
-"Month","Месяц"
-"April","Апрель"
 "American Express","Кредитная карточка American Express"
-"Visa","Кредитная карточка Visa"
-"Please select credit card type","Пожалуйста, выберите тип кредитной карточки"
-"December","Декабрь"
-"July","Июль"
-"November","Ноябрь"
-"Credit Card Type","Тип кредитной карточки"
-"What is this?","Что это?"
+April,Апрель
+August,Август
 "Card Type","Тип карточки"
 "Card Verification Number","Верификационные номер карточки"
 "Credit Card Number","Номер кредитной карточки"
-"Purchase Order Number","Номер заказа"
-"Name on Card","Имя на кредитной карточке"
+"Credit Card Type","Тип кредитной карточки"
+December,Декабрь
+Discover,"Кредитная карточка Discover"
 "Expiration Date","Дата истечения срока"
+February,Февраль
+January,Январь
+July,Июль
+June,Июнь
+March,Март
+"Master Card","Кредитная карточка Master Card"
+May,Май
+Month,Месяц
+"Name on Card","Имя на кредитной карточке"
+November,Ноябрь
+October,Октябрь
+"Please select credit card type","Пожалуйста, выберите тип кредитной карточки"
+"Purchase Order Number","Номер заказа"
+September,Сентябрь
+Visa,"Кредитная карточка Visa"
+"What is this?","Что это?"
+Year,Год

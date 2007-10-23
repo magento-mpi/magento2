@@ -1,0 +1,20 @@
+Balance,Баланс
+"Cannot delete customer","Не могу удалить покупателя"
+"Create Account",Регистрация
+"Create In",Создать
+"Created From",Создано
+"Current customer password is empty","Текущий пароль покупателя пуст"
+"Customer group already exists.","Группа покупателей уже существует."
+"Error during customer deletion","Ошибка при удалении покупателя"
+"Error during saving customer","Ошибка при сохранении покупателя"
+"Error during saving customer address","Ошибка при сохранении адреса покупателя"
+"Error during updating the password","Ошибка при обновлении пароля"
+"Error while updating the password","Ошибка при обновлении пароля"
+"Invalid customer ID","Неправильный ID код покупателя"
+"Invalid customer ID in the address data","Неправильный ID код покупателя в адресной книге"
+"Invalid region for country specified in the address","Неправильный регион для страны указанной в адресе"
+"My Balance","Мой баланс"
+"New passwords do not match","Новый пароль не совпадает"
+"Password was successfully updated","Пароль успешно обновлён"
+"You are currently not subscribed to any newsletter.","You are currently not subscribed to any newsletter."
+"You are currently subscribed to no newsletters.","Вы ещё не подписались на рассылки."

@@ -1,0 +1,5 @@
+"Controller file was loaded but class does not exist","Controller file was loaded but class does not exist","duplicate (125-/home/vasily/dev/magento/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php, 97-/home/vasily/dev/magento/app/code/core/Mage/Core/Controller/Varien/Router/Admin.php)"
+"Invalid block type: %s","Invalid block type: %s","duplicate (305-/home/vasily/dev/magento/app/code/core/Mage/Core/Model/Layout.php, 424-/home/vasily/dev/magento/app/code/core/Mage/Core/Model/Layout.php)"
+"Invalid block: %s","Invalid block: %s","duplicate (37-/home/vasily/dev/magento/app/code/core/Mage/Core/Block/Text/List.php, 46-/home/vasily/dev/magento/app/code/core/Mage/Core/Block/Flush.php)"
+"Please enter a valid number in this field.","Please enter a valid number in this field.","duplicate (40-/home/vasily/dev/magento/app/code/core/Mage/Core/Helper/Js.php, 70-/home/vasily/dev/magento/app/code/core/Mage/Core/Helper/Js.php)"
+"Resource is not set","Resource is not set","duplicate (126-/home/vasily/dev/magento/app/code/core/Mage/Core/Model/Abstract.php, 142-/home/vasily/dev/magento/app/code/core/Mage/Core/Model/Abstract.php)"

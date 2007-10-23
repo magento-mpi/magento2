@@ -1,0 +1,109 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+
+$orShipArr = Mage::getSingleton('usa/shipping_carrier_ups')->getCode('originShipment');
+
+?>
+<script type="text/javascript" language="javascript">
+
+	originShipmentObj = new Object();
+	
+	<?php 
+		foreach ($orShipArr as $key=>$val){
+			print "originShipmentObj['$key'] = new Object();\n";
+			foreach ($val as $code=>$label){
+				print "\toriginShipmentObj['$key']['$code'] = '$label';\n";		
+			}
+		}
+	?>
+	
+	function hideRowArrayElements(arr,method){
+		for(a=0;a<arr.length;a++){
+			$(arr[a]).up(1).hide();
+		}
+	}
+	
+	function showRowArrayElements(arr,method){
+		for(a=0;a<arr.length;a++){
+			$(arr[a]).up(1).show();
+		}
+	}
+	
+	var upsXml = Class.create();
+	upsXml.prototype = {
+		initialize : function()
+		{
+			this.carriersUpsTypeId = 'carriers_ups_type';
+			this.allowedMethodsId = 'carriers_ups_allowed_methods';
+		    this.onlyUpsXmlElements = new Array('carriers_ups_gateway_xml_url','carriers_ups_username','carriers_ups_password','carriers_ups_access_license_number','carriers_ups_origin_shipment');
+		    this.onlyUpsElements = new Array('carriers_ups_gateway_url');
+		    
+		    if($F(this.carriersUpsTypeId) == 'UPS'){
+		    	showRowArrayElements(this.onlyUpsElements)
+		    	hideRowArrayElements(this.onlyUpsXmlElements)
+			} else {
+		    	showRowArrayElements(this.onlyUpsXmlElements)
+				hideRowArrayElements(this.onlyUpsElements)
+		    }
+		    	
+			Event.observe($('carriers_ups_type'), 'change', this.setFormValues.bind(this));
+			
+		},
+		setFormValues: function(event)
+		{
+			if($F(this.carriersUpsTypeId) == 'UPS'){
+				Event.stopObserving($('carriers_ups_origin_shipment'), 'change', this.changeOriginShipment.bind(this))
+		    	showRowArrayElements(this.onlyUpsElements)
+		    	hideRowArrayElements(this.onlyUpsXmlElements)
+			} else {
+				Event.observe($('carriers_ups_origin_shipment'), 'change', this.changeOriginShipment.bind(this))
+		    	showRowArrayElements(this.onlyUpsXmlElements)
+				hideRowArrayElements(this.onlyUpsElements)
+		    }	
+		},
+		changeOriginShipment: function(event)
+		{
+			$originShipmentTitle = Event.element(event).value;
+			this.updateAllowedMethods(originShipmentObj[$originShipmentTitle]);
+		},
+		updateAllowedMethods: function(originShipment){
+			selectFieldAllowedMethod = $(this.allowedMethodsId);
+			while (selectFieldAllowedMethod.length> 0) {
+			    selectFieldAllowedMethod.remove(0);
+			} 
+			for(code in originShipment){
+				var option = document.createElement("OPTION");
+				option.text = originShipment[code];
+				option.value = code;
+			  try {
+    			selectFieldAllowedMethod.add(option, null); // standards compliant; doesn't work in IE
+			  }
+			  catch(ex) {
+			    selectFieldAllowedMethod.add(elOptNew); // IE only
+			  }
+			}
+			
+			
+		}
+		
+	}
+	xml = new upsXml();
+</script>

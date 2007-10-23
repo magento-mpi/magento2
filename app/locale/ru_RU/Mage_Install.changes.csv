@@ -1,0 +1,11 @@
+"(ver. %s)","(ver. %s)"
+"Help Us to Keep Magento Healthy","Help Us to Keep Magento Healthy"
+Magento,Magento
+"Magento Installation Wizard","Magento Installation Wizard"
+"Magento&trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007","Magento&trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007"
+"Report All Bugs","Report All Bugs"
+"Skip to Main Content","Skip to Main Content"
+"Start Installation","Начало установки"
+"You can specify server port, ex.: localhost:3307<br/>If you are not using default UNIX socket, you can specify it here instead of host, ex.: /var/run/mysqld/mysqld.sock","You can specify server port, ex.: localhost:3307<br/>If you are not using default UNIX socket, you can specify it here instead of host, ex.: /var/run/mysqld/mysqld.sock"
+"You're All Set","You're All Set"
+"You're All Set!","Установка завершена!"

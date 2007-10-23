@@ -47,6 +47,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
         switch ($request->getUpsRequestMethod()) {
             case 'cgi':
                 $this->_getCgiQuotes();
+                #$this->_getXmlQuotes();
                 break;
 
             case 'xml':
@@ -149,7 +150,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
             '48_container'   => $r->getContainer(),
             '49_residential' => $r->getDestType(),
         );
-
+        $params['47_rate_chart'] = $params['47_rate_chart']['label'];
         try {
             $url = Mage::getStoreConfig('carriers/ups/gateway_url');
             if (!$url) {
@@ -167,13 +168,578 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 
         $this->_parseCgiResponse($responseBody);
     }
+	
+    function tempGetXML (){
+    	return <<<pp
+<?xml version="1.0"?>
+    <RatingServiceSelectionResponse>
+      <Response>
+        <TransactionReference>
+          <CustomerContext>
+Rating and Service
+          </CustomerContext>
+          <XpciVersion>
+1.0
+          </XpciVersion>
+        </TransactionReference>
+        <ResponseStatusCode>
+1
+        </ResponseStatusCode>
+        <ResponseStatusDescription>
+Success
+        </ResponseStatusDescription>
+      </Response>
+      <RatedShipment>
+        <Service>
+          <Code>
+03
+          </Code>
+        </Service>
+        <RatedShipmentWarning>
+Your invoice may vary from the displayed reference rates
+        </RatedShipmentWarning>
+        <BillingWeight>
+          <UnitOfMeasurement>
+            <Code>
+LBS
+            </Code>
+          </UnitOfMeasurement>
+          <Weight>
+38.0
+          </Weight>
+        </BillingWeight>
+        <TransportationCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+32.11
+          </MonetaryValue>
+        </TransportationCharges>
+        <ServiceOptionsCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+0.00
+          </MonetaryValue>
+        </ServiceOptionsCharges>
+        <TotalCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+32.11
+          </MonetaryValue>
+        </TotalCharges>
+        <GuaranteedDaysToDelivery></GuaranteedDaysToDelivery>
+        <ScheduledDeliveryTime></ScheduledDeliveryTime>
+        <RatedPackage>
+          <TransportationCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+32.11
+            </MonetaryValue>
+          </TransportationCharges>
+          <ServiceOptionsCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+0.00
+            </MonetaryValue>
+          </ServiceOptionsCharges>
+          <TotalCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+32.11
+            </MonetaryValue>
+          </TotalCharges>
+          <Weight>
+38.0
+          </Weight>
+          <BillingWeight>
+            <UnitOfMeasurement>
+              <Code>
+LBS
+              </Code>
+            </UnitOfMeasurement>
+            <Weight>
+38.0
+            </Weight>
+          </BillingWeight>
+        </RatedPackage>
+      </RatedShipment>
+      <RatedShipment>
+        <Service>
+          <Code>
+12
+          </Code>
+        </Service>
+        <RatedShipmentWarning>
+Your invoice may vary from the displayed reference rates
+        </RatedShipmentWarning>
+        <BillingWeight>
+          <UnitOfMeasurement>
+            <Code>
+LBS
+            </Code>
+          </UnitOfMeasurement>
+          <Weight>
+38.0
+          </Weight>
+        </BillingWeight>
+        <TransportationCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+80.31
+          </MonetaryValue>
+        </TransportationCharges>
+        <ServiceOptionsCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+0.00
+          </MonetaryValue>
+        </ServiceOptionsCharges>
+        <TotalCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+80.31
+          </MonetaryValue>
+        </TotalCharges>
+        <GuaranteedDaysToDelivery>
+3
+        </GuaranteedDaysToDelivery>
+        <ScheduledDeliveryTime></ScheduledDeliveryTime>
+        <RatedPackage>
+          <TransportationCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+80.31
+            </MonetaryValue>
+          </TransportationCharges>
+          <ServiceOptionsCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+0.00
+            </MonetaryValue>
+          </ServiceOptionsCharges>
+          <TotalCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+80.31
+            </MonetaryValue>
+          </TotalCharges>
+          <Weight>
+38.0
+          </Weight>
+          <BillingWeight>
+            <UnitOfMeasurement>
+              <Code>
+LBS
+              </Code>
+            </UnitOfMeasurement>
+            <Weight>
+38.0
+            </Weight>
+          </BillingWeight>
+        </RatedPackage>
+      </RatedShipment>
+      <RatedShipment>
+        <Service>
+          <Code>
+59
+          </Code>
+        </Service>
+        <RatedShipmentWarning>
+Your invoice may vary from the displayed reference rates
+        </RatedShipmentWarning>
+        <BillingWeight>
+          <UnitOfMeasurement>
+            <Code>
+LBS
+            </Code>
+          </UnitOfMeasurement>
+          <Weight>
+38.0
+          </Weight>
+        </BillingWeight>
+        <TransportationCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+145.41
+          </MonetaryValue>
+        </TransportationCharges>
+        <ServiceOptionsCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+0.00
+          </MonetaryValue>
+        </ServiceOptionsCharges>
+        <TotalCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+145.41
+          </MonetaryValue>
+        </TotalCharges>
+        <GuaranteedDaysToDelivery>
+2
+        </GuaranteedDaysToDelivery>
+        <ScheduledDeliveryTime>
+12:00 Noon
+        </ScheduledDeliveryTime>
+        <RatedPackage>
+          <TransportationCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+145.41
+            </MonetaryValue>
+          </TransportationCharges>
+          <ServiceOptionsCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+0.00
+            </MonetaryValue>
+          </ServiceOptionsCharges>
+          <TotalCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+145.41
+            </MonetaryValue>
+          </TotalCharges>
+          <Weight>
+38.0
+          </Weight>
+          <BillingWeight>
+            <UnitOfMeasurement>
+              <Code>
+LBS
+              </Code>
+            </UnitOfMeasurement>
+            <Weight>
+38.0
+            </Weight>
+          </BillingWeight>
+        </RatedPackage>
+      </RatedShipment>
+      <RatedShipment>
+        <Service>
+          <Code>
+02
+          </Code>
+        </Service>
+        <RatedShipmentWarning>
+Your invoice may vary from the displayed reference rates
+        </RatedShipmentWarning>
+        <BillingWeight>
+          <UnitOfMeasurement>
+            <Code>
+LBS
+            </Code>
+          </UnitOfMeasurement>
+          <Weight>
+38.0
+          </Weight>
+        </BillingWeight>
+        <TransportationCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+128.99
+          </MonetaryValue>
+        </TransportationCharges>
+        <ServiceOptionsCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+0.00
+          </MonetaryValue>
+        </ServiceOptionsCharges>
+        <TotalCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+128.99
+          </MonetaryValue>
+        </TotalCharges>
+        <GuaranteedDaysToDelivery>
+2
+        </GuaranteedDaysToDelivery>
+        <ScheduledDeliveryTime></ScheduledDeliveryTime>
+        <RatedPackage>
+          <TransportationCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+128.99
+            </MonetaryValue>
+          </TransportationCharges>
+          <ServiceOptionsCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+0.00
+            </MonetaryValue>
+          </ServiceOptionsCharges>
+          <TotalCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+128.99
+            </MonetaryValue>
+          </TotalCharges>
+          <Weight>
+38.0
+          </Weight>
+          <BillingWeight>
+            <UnitOfMeasurement>
+              <Code>
+LBS
+              </Code>
+            </UnitOfMeasurement>
+            <Weight>
+38.0
+            </Weight>
+          </BillingWeight>
+        </RatedPackage>
+      </RatedShipment>
+      <RatedShipment>
+        <Service>
+          <Code>
+13
+          </Code>
+        </Service>
+        <RatedShipmentWarning>
+Your invoice may vary from the displayed reference rates
+        </RatedShipmentWarning>
+        <BillingWeight>
+          <UnitOfMeasurement>
+            <Code>
+LBS
+            </Code>
+          </UnitOfMeasurement>
+          <Weight>
+38.0
+          </Weight>
+        </BillingWeight>
+        <TransportationCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+155.78
+          </MonetaryValue>
+        </TransportationCharges>
+        <ServiceOptionsCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+0.00
+          </MonetaryValue>
+        </ServiceOptionsCharges>
+        <TotalCharges>
+          <CurrencyCode>
+USD
+          </CurrencyCode>
+          <MonetaryValue>
+155.78
+          </MonetaryValue>
+        </TotalCharges>
+        <GuaranteedDaysToDelivery>
+1
+        </GuaranteedDaysToDelivery>
+        <ScheduledDeliveryTime>
+4:30 P.M.
+        </ScheduledDeliveryTime>
+        <RatedPackage>
+          <TransportationCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+155.78
+            </MonetaryValue>
+          </TransportationCharges>
+          <ServiceOptionsCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+0.00
+            </MonetaryValue>
+          </ServiceOptionsCharges>
+          <TotalCharges>
+            <CurrencyCode>
+USD
+            </CurrencyCode>
+            <MonetaryValue>
+155.78
+            </MonetaryValue>
+          </TotalCharges>
+          <Weight>
+38.0
+          </Weight>
+          <BillingWeight>
+            <UnitOfMeasurement>
+              <Code>
+LBS
+              </Code>
+            </UnitOfMeasurement>
+            <Weight>
+38.0
+            </Weight>
+          </BillingWeight>
+        </RatedPackage>
+      </RatedShipment>
+	  <RatedShipment>
+        <Service>
+          <Code>01     </Code>
+        </Service>
+		
+        <RatedShipmentWarning>
+Your invoice may vary from the displayed reference rates
+        </RatedShipmentWarning>
+		
+        <BillingWeight>
+          <UnitOfMeasurement><Code>LBS</Code></UnitOfMeasurement>
+          <Weight>38.0</Weight>
+		</BillingWeight>
+		
+        <TransportationCharges>
+          <CurrencyCode>USD</CurrencyCode>
+          <MonetaryValue>166.61</MonetaryValue>
+        </TransportationCharges>
+		
+        <ServiceOptionsCharges>
+          <CurrencyCode>USD</CurrencyCode>
+          <MonetaryValue>0.00</MonetaryValue>
+        </ServiceOptionsCharges>
+        
+		<TotalCharges>
+          <CurrencyCode>USD</CurrencyCode>
+          <MonetaryValue>166.61</MonetaryValue>
+        </TotalCharges>
+		
+        <GuaranteedDaysToDelivery>1</GuaranteedDaysToDelivery>
+        <ScheduledDeliveryTime>12:00 Noon</ScheduledDeliveryTime>
+        
+		<RatedPackage>
+			<TransportationCharges><CurrencyCode>USD</CurrencyCode>
+            <MonetaryValue>166.61</MonetaryValue>
+          </TransportationCharges>
+		  
+          <ServiceOptionsCharges><CurrencyCode>USD</CurrencyCode>
+            <MonetaryValue>0.00 </MonetaryValue>
+          </ServiceOptionsCharges>
+		  
+          <TotalCharges>
+            <CurrencyCode>USD</CurrencyCode>
+            <MonetaryValue>166.61</MonetaryValue>
+          </TotalCharges>
+		  
+          <Weight>
+38.0
+          </Weight>
+          <BillingWeight>
+            <UnitOfMeasurement>
+              <Code>
+LBS
+              </Code>
+            </UnitOfMeasurement>
+            <Weight>
+38.0
+            </Weight>
+          </BillingWeight>
+        </RatedPackage>
+      </RatedShipment>
+	  
+    </RatingServiceSelectionResponse>
+pp;
+}
+    
+	public function getServiceByCode($code)
+	{
+		
+	}
 
+    protected function _parseXmlResponse($xmlResponse)
+    {
+    	$result = Mage::getModel('shipping/rate_result');
+    	#$xxx = $this->tempGetXML();
+    	$xxx = $xmlResponse;
+    	$xml = new Varien_Simplexml_Config();
+		$xml->loadString($xxx);
+		
+		
+		$arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
+		$success = (int)$arr[0][0];
+		if($success===1){
+			$arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
+			foreach ($arr as $shipElement){
+				print $shipElement->Service->Code."<br>";
+				print $shipElement->TotalCharges->MonetaryValue."<br>";
+				print "<hr>";
+			}
+			die('none');
+		} else {
+			
+			$arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/Error/ErrorDescription/text()");
+			$errorTitle = (string)$arr[0][0];		
+			
+			$error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier('ups');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
+            $error->setErrorMessage($errorTitle);
+            $result->append($error);
+			
+		}
+		#print($success);
+		die;
+		#RatedShipment
+		  $this->_result = $result;
+    }
+    
     protected function _parseCgiResponse($response)
     {
         $rRows = explode("\n", $response);
         $costArr = array();
         $priceArr = array();
-        $errorTitle = 'Unknown error';
+        $errorTitle = Mage::helper('usa')->__('Unknown error');
         $allowedMethods = explode(",", Mage::getStoreConfig('carriers/ups/allowed_methods'));
         foreach ($rRows as $rRow) {
             $r = explode('%', $rRow);
@@ -211,7 +777,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
                 $rate->setMethod($method);
-                $rate->setMethodTitle($this->getCode('method', $method));
+                $method_arr = $this->getCode('method', $method);
+                $rate->setMethodTitle(Mage::helper('usa')->__($method_arr['label']));
                 $rate->setCost($costArr[$method]);
                 $rate->setPrice($price);
                 $result->append($rate);
@@ -248,38 +815,128 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
                 'single'=>'3',
                 'all'=>'4',
             ),
-
+		
+            'originShipment'=>array(
+            	// United States Domestic Shipments
+	            'United States Domestic Shipments' => array(
+	                '01' => 'UPS Next Day Air',
+	                '02' => 'UPS Second Day Air',
+	                '03' => 'UPS Ground',
+	                '07' => 'UPS Worldwide Express',
+	                '08' => 'UPS Worldwide Expedited',
+	                '11' => 'UPS Standard',
+	                '12' => 'UPS Three-Day Select',
+	                '13' => 'UPS Next Day Air Saver',
+	                '14' => 'UPS Next Day Air Early A.M.',
+	                '54' => 'UPS Worldwide Express Plus',
+	                '59' => 'UPS Second Day Air A.M.',
+	                '65' => 'UPS Saver',
+	            ),
+	            // Shipments Originating in United States
+	            'Shipments Originating in United States' => array(
+	                '01' => 'UPS Next Day Air',
+	                '02' => 'UPS Second Day Air',
+	                '03' => 'UPS Ground',
+	                '07' => 'UPS Worldwide Express',
+	                '08' => 'UPS Worldwide Expedited',
+	                '11' => 'UPS Standard',
+	                '12' => 'UPS Three-Day Select',
+	                '14' => 'UPS Next Day Air Early A.M.',
+	                '54' => 'UPS Worldwide Express Plus',
+	                '59' => 'UPS Second Day Air A.M.',
+	                '65' => 'UPS Saver',
+	            ),
+	            // Shipments Originating in Canada
+	            'Shipments Originating in Canada' => array(
+	                '01' => 'UPS Express',
+	                '02' => 'UPS Expedited',
+	                '07' => 'UPS Worldwide Express',
+	                '08' => 'UPS Worldwide Expedited',
+	                '11' => 'UPS Standard',
+	                '12' => 'UPS Three-Day Select',
+	                '14' => 'UPS Express Early A.M.',
+	                '65' => 'UPS Saver',
+	            ),
+	            // Shipments Originating in the European Union
+	            'Shipments Originating in the European Union' => array(
+	                '07' => 'UPS Express',
+	                '08' => 'UPS Expedited',
+	                '11' => 'UPS Standard',
+	                '54' => 'UPS Worldwide Express PlusSM',
+	                '65' => 'UPS Saver',
+	            ),
+	            // Polish Domestic Shipments
+	            'Polish Domestic Shipments' => array(
+	                '07' => 'UPS Express',
+	                '08' => 'UPS Expedited',
+	                '11' => 'UPS Standard',
+	                '54' => 'UPS Worldwide Express Plus',
+	                '65' => 'UPS Saver',
+	                '82' => 'UPS Today Standard',
+	                '83' => 'UPS Today Dedicated Courrier',
+	                '84' => 'UPS Today Intercity',
+	                '85' => 'UPS Today Express',
+	                '86' => 'UPS Today Express Saver',
+	            ),
+	            // Puerto Rico Origin
+	            'Puerto Rico Origin' => array(
+	                '01' => 'UPS Next Day Air',
+	                '02' => 'UPS Second Day Air',
+	                '03' => 'UPS Ground',
+	                '07' => 'UPS Worldwide Express',
+	                '08' => 'UPS Worldwide Expedited',
+	                '14' => 'UPS Next Day Air Early A.M.',
+	                '54' => 'UPS Worldwide Express Plus',
+	                '65' => 'UPS Saver',
+	            ),
+	            // Shipments Originating in Mexico
+	            'Shipments Originating in Mexico' => array(
+	                '07' => 'UPS Express',
+	                '08' => 'UPS Expedited',
+	                '54' => 'UPS Express Plus',
+	                '65' => 'UPS Saver',
+	            ),
+	            // Shipments Originating in Other Countries
+	            'Shipments Originating in Other Countries' => array(
+	                '07' => 'UPS Express',
+	                '08' => 'UPS Worldwide Expedited',
+	                '11' => 'UPS Standard',
+	                '54' => 'UPS Worldwide Express Plus',
+	                '65' => 'UPS Saver'
+	            )
+            ),
+            
             'method'=>array(
-                '1DM'    => __('Next Day Air Early AM'),
-                '1DML'   => __('Next Day Air Early AM Letter'),
-                '1DA'    => __('Next Day Air'),
-                '1DAL'   => __('Next Day Air Letter'),
-                '1DAPI'  => __('Next Day Air Intra (Puerto Rico)'),
-                '1DP'    => __('Next Day Air Saver'),
-                '1DPL'   => __('Next Day Air Saver Letter'),
-                '2DM'    => __('2nd Day Air AM'),
-                '2DML'   => __('2nd Day Air AM Letter'),
-                '2DA'    => __('2nd Day Air'),
-                '2DAL'   => __('2nd Day Air Letter'),
-                '3DS'    => __('3 Day Select'),
-                'GND'    => __('Ground'),
-                'GNDCOM' => __('Ground Commercial'),
-                'GNDRES' => __('Ground Residential'),
-                'STD'    => __('Canada Standard'),
-                'XPR'    => __('Worldwide Express'),
-                'WXS'    => __('Worldwide Express Saver'),
-                'XPRL'   => __('Worldwide Express Letter'),
-                'XDM'    => __('Worldwide Express Plus'),
-                'XDML'   => __('Worldwide Express Plus Letter'),
-                'XPD'    => __('Worldwide Expedited'),
+                '1DM'    => 'Next Day Air Early AM',
+                '1DML'   => 'Next Day Air Early AM Letter',
+                '1DA'    => 'Next Day Air',
+                '1DAL'   => 'Next Day Air Letter',
+                '1DAPI'  => 'Next Day Air Intra (Puerto Rico)',
+                '1DP'    => 'Next Day Air Saver',
+                '1DPL'   => 'Next Day Air Saver Letter',
+                '2DM'    => '2nd Day Air AM',
+                '2DML'   => '2nd Day Air AM Letter',
+                '2DA'    => '2nd Day Air',
+                '2DAL'   => '2nd Day Air Letter',
+                '3DS'    => '3 Day Select',
+                'GND'    => 'Ground',
+                'GNDCOM' => 'Ground Commercial',
+                'GNDRES' => 'Ground Residential',
+                'STD'    => 'Canada Standard',
+                'XPR'    => 'Worldwide Express',
+                'WXS'    => 'Worldwide Express Saver',
+                'XPRL'   => 'Worldwide Express Letter',
+                'XDM'    => 'Worldwide Express Plus',
+                'XDML'   => 'Worldwide Express Plus Letter',
+                'XPD'    => 'Worldwide Expedited',
             ),
 
             'pickup'=>array(
-                'RDP'    => __('Regular Daily Pickup'),
-                'OCA'    => __('On Call Air'),
-                'OTP'    => __('One Time Pickup'),
-                'LC'     => __('Letter Center'),
-                'CC'     => __('Customer Counter'),
+                'RDP'    => array("label"=>'Regular Daily Pickup',"code"=>"01"),
+                'OCA'    => array("label"=>'On Call Air',"code"=>"07"),
+                'OTP'    => array("label"=>'One Time Pickup',"code"=>"06"),
+                'LC'     => array("label"=>'Letter Center',"code"=>"19"),
+                'CC'     => array("label"=>'Customer Counter',"code"=>"03"),
             ),
 
             'container'=>array(
@@ -292,12 +949,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
             ),
 
             'container_description'=>array(
-                'CP'     => __('Customer Packaging'),
-                'ULE'    => __('UPS Letter Envelope'),
-                'UT'     => __('UPS Tube'),
-                'UEB'    => __('UPS Express Box'),
-                'UW25'   => __('UPS Worldwide 25 kilo'),
-                'UW10'   => __('UPS Worldwide 10 kilo'),
+                'CP'     => 'Customer Packaging',
+                'ULE'    => 'UPS Letter Envelope',
+                'UT'     => 'UPS Tube',
+                'UEB'    => 'UPS Express Box',
+                'UW25'   => 'UPS Worldwide 25 kilo',
+                'UW10'   => 'UPS Worldwide 10 kilo',
             ),
 
             'dest_type'=>array(
@@ -306,9 +963,10 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
             ),
 
             'dest_type_description'=>array(
-                'RES'    => __('Residential'),
-                'COM'    => __('Commercial'),
+                'RES'    => 'Residential',
+                'COM'    => 'Commercial',
             )
+            
         );
 
         if (!isset($codes[$type])) {
@@ -328,7 +986,99 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 
     protected function _getXmlQuotes()
     {
+    	$userid = 'fragranceup';
+		$userid_pass = 'perfume1';
+		$access_key = '5C15BD33E4B275BC';
+		
+		$xmlRequest =  <<<XMLAuth
+<?xml version="1.0"?>
+<AccessRequest xml:lang="en-US">
+  <AccessLicenseNumber>$access_key</AccessLicenseNumber>
+  <UserId>$userid</UserId>
+  <Password>$userid_pass</Password>
+</AccessRequest>
+XMLAuth;
 
+		$r = $this->_rawRequest;
+		$params = array(
+            'accept_UPS_license_agreement' => 'yes',
+            '10_action'      => $r->getAction(),
+            '13_product'     => $r->getProduct(),
+            '14_origCountry' => $r->getOrigCountry(),
+            '15_origPostal'  => $r->getOrigPostal(),
+            '19_destPostal'  => $r->getDestPostal(),
+            '22_destCountry' => $r->getDestCountry(),
+            '23_weight'      => $r->getWeight(),
+            '47_rate_chart'  => $r->getPickup(),
+            '48_container'   => $r->getContainer(),
+            '49_residential' => $r->getDestType(),
+        );
+        $params['10_action']=='4'? $params['10_action']='Shop':$params['10_action']='Rate';
+         
+$xmlRequest .= <<< XMLRequest
+<?xml version="1.0"?>
+<RatingServiceSelectionRequest xml:lang="en-US">
+  <Request>
+    <TransactionReference>
+      <CustomerContext>Rating and Service</CustomerContext>
+      <XpciVersion>1.0</XpciVersion>
+    </TransactionReference>
+    <RequestAction>Rate</RequestAction>
+    <RequestOption>{$params['10_action']}</RequestOption>
+  </Request>
+  <Service>
+  	<Code></Code>
+  	<Description></Description>
+  </Service>
+  <PickupType>
+  		<Code>{$params['47_rate_chart']['code']}</Code>
+  		<Description>{$params['47_rate_chart']['label']}</Description>
+  </PickupType>
+  
+  <Shipment>
+    
+  	<Shipper>
+      <Address>
+      	<PostalCode>{$params['15_origPostal']}</PostalCode>
+      	<CountryCode>{$params['14_origCountry']}</CountryCode>
+      </Address>
+    </Shipper>
+    
+    <ShipTo>
+      <Address>
+      	<PostalCode>{$params['19_destPostal']}</PostalCode>
+      	<CountryCode>{$params['22_destCountry']}</CountryCode>
+      </Address>
+    </ShipTo>
+    
+    <ShipFrom>
+      <Address>
+      	<PostalCode>{$params['15_origPostal']}</PostalCode>
+      	<CountryCode>{$params['14_origCountry']}</CountryCode>
+      </Address>
+    </ShipFrom>
+    
+    <Package>
+      <PackagingType><Code>{$params['48_container']}</Code></PackagingType>
+      <PackageWeight>
+     	<UnitOfMeasurement><Code>LBS</Code></UnitOfMeasurement>
+        <Weight>{$params['23_weight']}</Weight>
+      </PackageWeight>
+    </Package>
+    
+  </Shipment>
+</RatingServiceSelectionRequest>
+XMLRequest;
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'https://wwwcie.ups.com/ups.app/xml/Rate');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		$xmlResponse = curl_exec ($ch);
+		$this->_parseXmlResponse($xmlResponse);
     }
 
 }
