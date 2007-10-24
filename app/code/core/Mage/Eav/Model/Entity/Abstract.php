@@ -760,6 +760,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
         }
 
+        $object->setOrigData();
+
         $this->_afterLoad($object);
 
         return $this;

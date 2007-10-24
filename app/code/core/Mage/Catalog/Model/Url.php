@@ -35,6 +35,13 @@ class Mage_Catalog_Model_Url
     protected $_stores;
 
     /**
+     * Category root ids for each store
+     *
+     * @var array
+     */
+    protected $_rootIds;
+
+    /**
      * URL Rewrites by store_id and id_path
      *
      * @var array
@@ -112,7 +119,7 @@ class Mage_Catalog_Model_Url
                 break;
             }
             // change request_path to make it unique
-            $requestPath = $m[1].'-'.($m[3]+1).$m[4];
+            $requestPath = $m[1].(isset($m[3])?'-'.($m[3]+1):'-1').(isset($m[4])?$m[4]:'');
             // continue until unique request_path found
         }
         // store request_path in cache
@@ -129,6 +136,7 @@ class Mage_Catalog_Model_Url
     public function loadCategories($storeId)
     {
         $categoryCollection = Mage::getResourceModel('catalog/category_collection')
+            ->addAttributeToSelect('children')
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path');
         $categoryCollection->getEntity()
@@ -139,17 +147,6 @@ class Mage_Catalog_Model_Url
         foreach ($categoryCollection as $category) {
             $this->_categories[$storeId][$category->getId()] = $category;
         }
-
-        foreach ($this->_categories[$storeId] as $categoryId=>$category) {
-            $parent = $this->getCategory($storeId, $category->getParentId());
-            if (!$parent) {
-                continue;
-            }
-            $children = $parent->getChildren();
-            $children[$categoryId] = $category;
-            $parent->setChildren($children);
-        }
-echo "<pre>".print_r($this->_categories,1)."</pre>";
         return $this;
     }
 
@@ -231,14 +228,16 @@ echo "<pre>".print_r($this->_categories,1)."</pre>";
      */
     public function getRootId($storeId=null)
     {
-        if (is_null($storeId)) {
-            $rootIds = array();
-            foreach ($this->getStoreConfig() as $storeId=>$storeNode) {
-                $rootIds[$storeId] = (int)$storeNode->catalog->category->root_id;
+        if (!$this->_rootIds) {
+            $this->_rootIds = array();
+            foreach ($this->getStoreConfig() as $sId=>$storeNode) {
+                $this->_rootIds[$sId] = (int)$storeNode->catalog->category->root_id;
             }
-            return $rootIds;
+        }
+        if (is_null($storeId)) {
+            return $this->_rootIds;
         } else {
-            return (int)$this->getStoreConfig($storeId)->catalog->category->root_id;
+            return isset($this->_rootIds[$storeId]) ? $this->_rootIds[$storeId] : null;
         }
     }
 
@@ -293,7 +292,7 @@ echo "<pre>".print_r($this->_categories,1)."</pre>";
         }
         if (!isset($this->_products[$storeId][$productId])) {
             $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($productId);
-            $this->_products[$storeId][$productId] = $product->setId() ? $product : false;
+            $this->_products[$storeId][$productId] = $product->getId() ? $product : false;
         }
         return $this->_products[$storeId][$productId];
     }
@@ -308,7 +307,7 @@ echo "<pre>".print_r($this->_categories,1)."</pre>";
      * @param integer|null $parentId
      * @return Mage_Catalog_Model_Url
      */
-    public function refreshRewrites($storeId=null, $parentId=null)
+    public function refreshRewrites($storeId=null, $categoryId=null, $parentPath=null)
     {
         if (is_null($storeId)) {
             foreach ($this->getRootId() as $storeId=>$rootId) {
@@ -318,33 +317,35 @@ echo "<pre>".print_r($this->_categories,1)."</pre>";
                 $this->loadRewrites($storeId);
                 $this->loadCategories($storeId);
                 $this->loadProducts($storeId);
-                $this->refreshRewrites($storeId, $parentId);
+                $this->refreshRewrites($storeId, $categoryId, $parentPath);
             }
             return $this;
         }
 
-        if (is_null($parentId)) {
+        $categoryPath = '';
+        if (is_null($categoryId)) {
             $products = $this->getProduct($storeId);
             if ($products) {
                 foreach ($products as $productId=>$product) {
                     $this->refreshProductRewrites($storeId, $product);
                 }
             }
-            $parent = $this->getCategory($storeId, $this->getRootId($storeId));
-            $parentPath = '';
+            $category = $this->getCategory($storeId, $this->getRootId($storeId));
         } else {
-            $parent = $this->getCategory($storeId, $parentId);
-            $parentPath = $parent->getUrlPath().'/';
-        }
-        if (!$parent) {
-            return;
+            $category = $this->getCategory($storeId, $categoryId);
+            if (!$category) {
+                return $this;
+            }
+            $this->refreshCategoryRewrites($storeId, $category, $parentPath);
+            if ($categoryId!=$this->getRootId($storeId)) {
+                $categoryPath = $category->getUrlPath().'/';
+            }
         }
 
-        $categories = $parent->getChildren();
-        if (is_array($categories)) {
-            foreach ($categories as $categoryId=>$category) {
-                $this->refreshCategoryRewrites($storeId, $category, $parentPath);
-                $this->refreshRewrites($storeId, $categoryId);
+        if ($category->getChildren()) {
+            foreach (explode(',', $category->getChildren()) as $childId) {
+                $category = $this->getCategory($storeId, $childId);
+                $this->refreshRewrites($storeId, $childId, $categoryPath);
             }
         }
 
@@ -366,7 +367,11 @@ echo "<pre>".print_r($this->_categories,1)."</pre>";
         }
         if (is_null($parentPath)) {
             $parent = $this->getCategory($storeId, $category->getParentId());
-            $parentPath = $parent->getUrlPath();
+            if ($parent->getId()==$this->getRootId($storeId)) {
+                $parentPath = '';
+            } else {
+                $parentPath = $parent->getUrlPath();
+            }
         }
         $idPath = 'category/'.$category->getId();
         $targetPath = 'catalog/category/view/id/'.$category->getId();
@@ -407,6 +412,18 @@ echo "<pre>".print_r($this->_categories,1)."</pre>";
      */
     public function refreshProductRewrites($storeId, $product, $category=null)
     {
+        if (is_null($storeId)) {
+            foreach ($this->getStoreConfig() as $storeId=>$storeNode) {
+                $this->loadRewrites($storeId);
+                $this->loadCategories($storeId);
+                $this->loadProducts($storeId);
+                $this->refreshProductRewrites($storeId, $product, $category);
+            }
+            return $this;
+        }
+        if (is_numeric($product)) {
+            $product = $this->getProduct($storeId, $product);
+        }
         if (''==$product->getUrlKey()) {
             return $this;
         }

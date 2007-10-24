@@ -76,7 +76,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if ($this->_connection) {
             return;
         }
-        
+
         if (!extension_loaded('pdo_mysql')) {
             throw new Zend_Db_Adapter_Exception('pdo_mysql extension is not installed');
         }
@@ -104,6 +104,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     		$tries = 0;
 	    	try {
 	        	$result = $this->getConnection()->query($sql);
+    		    if ($result = $this->getConnection()->store_result()) {
+    		    	$result->free_result();
+    		    }
 	    	} catch (PDOException $e) {
 	    		if ($e->getMessage()=='SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
 	    			$retry = true;

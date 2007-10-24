@@ -36,7 +36,11 @@ class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Text_List_Link
 
     public function getInnerText()
     {
-        return '<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="'.__('Paypal Checkout').'"/>';
+        $locale = Mage::app()->getLocale()->getLocaleCode();
+        if (strpos('en_GB', $locale)===false) {
+            $locale = 'en_US';
+        }
+        return '<img src="https://www.paypal.com/'.$locale.'/i/btn/btn_xpressCheckout.gif" alt="'.__('Paypal Checkout').'"/>';
     }
 
     public function _beforeToHtml()

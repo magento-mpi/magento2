@@ -30,7 +30,7 @@
 abstract class Mage_Core_Model_Mysql4_Abstract
 {
     const CHECKSUM_KEY_NAME = 'Checksum';
-    
+
     /**
      * Cached resources singleton
      *
@@ -490,7 +490,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         }
         return date('Y-m-d H:i:s', $date);
     }
-    
+
     /**
      * Retrieve table checksum
      *
@@ -502,11 +502,11 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         if (!$this->getConnection('read')) {
             return false;
         }
-        
+
         if (is_array($table)) {
             $table = implode(',', $table);
         }
-        
+
         $data = $this->getConnection('read')->fetchAll('checksum table '.$table);
         $checksum = 0;
         foreach ($data as $row) {

@@ -78,6 +78,9 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
     		$retry = false;
     		$tries = 0;
 	    	try {
+    		    if ($result = $this->getConnection()->store_result()) {
+    		    	$result->free_result();
+    		    }
 	        	$result = $this->getConnection()->query($sql);
 	    	}
 	    	catch (Exception $e) {
@@ -112,9 +115,6 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 	{
 	    $this->beginTransaction();
 	    try {
-		    if ($result = $this->getConnection()->store_result()) {
-		    	$result->free_result();
-		    }
 			if ($this->getConnection()->multi_query($sql)) {
 				do {
 				    if ($result = $this->getConnection()->store_result()) {
@@ -123,9 +123,11 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 				    elseif($this->getConnection()->error) {
 				        throw new Zend_Db_Adapter_Mysqli_Exception('Level3:'.$this->getConnection()->error);
 				    }
-				}
-				while ($this->getConnection()->next_result());
-				$this->commit();
+				} while ($this->getConnection()->next_result());
+    		    if ($result = $this->getConnection()->store_result()) {
+    		    	$result->free_result();
+    		    }
+		        $this->commit();
 			} else {
 				throw new Zend_Db_Adapter_Mysqli_Exception('Level2:'.$this->getConnection()->error);
 			}

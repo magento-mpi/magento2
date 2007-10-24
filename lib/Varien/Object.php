@@ -38,6 +38,13 @@ class Varien_Object
     protected $_data = array();
 
     /**
+    * Original data that was loaded
+    *
+    * @var array
+    */
+    protected $_origData;
+
+    /**
      * Name of object id field
      *
      * @var string
@@ -528,5 +535,28 @@ class Varien_Object
         }
         $res = implode($fieldSeparator, $data);
         return $res;
+    }
+
+    public function getOrigData($key=null)
+    {
+        if (is_null($key)) {
+            return $this->_origData;
+        }
+        return isset($this->_origData[$key]) ? $this->_origData[$key] : null;
+    }
+
+    public function setOrigData($key=null, $data=null)
+    {
+        if (is_null($key)) {
+            $this->_origData = $this->_data;
+        } else {
+            $this->_origData[$key] = $data;
+        }
+        return $this;
+    }
+
+    public function dataHasChangedFor($field)
+    {
+        return $this->getData($field)!==$this->getOrigData($field);
     }
 }

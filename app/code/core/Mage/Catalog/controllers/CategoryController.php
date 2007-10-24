@@ -50,10 +50,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         $update->addHandle('CATEGORY_'.$category->getId());
 
         $this->loadLayoutUpdates();
-		
-		$update->addUpdate($category->getCustomLayoutUpdate());
 
-		$this->generateLayoutXml()->generateLayoutBlocks();
+        $update->addUpdate($category->getCustomLayoutUpdate());
+
+        $this->generateLayoutXml()->generateLayoutBlocks();
 
         $this->_initLayoutMessages('catalog/session');
         $this->renderLayout();
