@@ -159,7 +159,12 @@ addressesModel.prototype = {
             this.itemCount = this.itemList.length;
         }
         if(!this.itemList.length){
-            this.formContainer.innerHTML = '<div id="no_address_message"><?=__('Customer has no addresses')?></div>'
+            if($('no_address_message')){
+                $('no_address_message').show();
+            }
+            else {
+                this.formContainer.innerHTML+= '<div id="no_address_message"><?=__('Customer has no addresses')?></div>'
+            }
         }
     },
 

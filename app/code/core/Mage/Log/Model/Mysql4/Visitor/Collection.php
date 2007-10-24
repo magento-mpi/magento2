@@ -120,7 +120,8 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
             //->joinLeft(array('url_table'=>$this->_urlTable), 'visitor_table.last_url_id=url_table.url_id')
             ->joinLeft(array('info_table'=>$this->_visitorInfoTable), 'info_table.visitor_id=visitor_table.visitor_id')
             ->joinLeft(array('customer_table'=>$this->_customerTable), 
-                'customer_table.visitor_id = visitor_table.visitor_id AND customer_table.logout_at IS NULL')
+                'customer_table.visitor_id = visitor_table.visitor_id AND customer_table.logout_at IS NULL',
+                array('log_id', 'customer_id', 'login_at', 'logout_at'))
             ->joinLeft(array('url_info_table'=>$this->_urlInfoTable), 
                 'url_info_table.url_id = visitor_table.last_url_id')
             //->joinLeft(array('quote_table'=>$this->_quoteTable), 'quote_table.visitor_id=visitor_table.visitor_id')
