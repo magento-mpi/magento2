@@ -425,6 +425,9 @@ class Mage_Core_Model_Url extends Varien_Object
         if (isset($params['_secure'])) {
             $this->setSecure(!empty($params['_secure']));
         }
+        if (isset($params['_absolute'])) {
+            $this->setRelativeUrl(!$params['_absolute']);
+        }
         $cacheId = $this->getStore()->getCode();
         $cacheId .= '/'.($this->getSecure() ? 'secure' : 'unsecure');
         $cacheId .= '/'.$this->getType();
@@ -589,6 +592,10 @@ class Mage_Core_Model_Url extends Varien_Object
         if (isset($data['_secure'])) {
             $this->setSecure((bool)$data['_secure']);
             unset($data['_secure']);
+        }
+
+        if (isset($data['_absolute'])) {
+            unset($data['_absolute']);
         }
 
         if ($unsetOldParams) {

@@ -23,10 +23,10 @@ class Mage_Payment_Block_Info_Cc extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
-        $this->setTemplate('payment/info/ccsave.phtml');
+        $this->setTemplate('payment/info/cc.phtml');
         parent::_construct();
     }
-    
+
     public function getCcTypes()
     {
         return array(
@@ -37,7 +37,7 @@ class Mage_Payment_Block_Info_Cc extends Mage_Core_Block_Template
             'DI'=>__('Discover'),
         );
     }
-    
+
     public function getCcTypeName($type)
     {
     	$types = $this->getCcTypes();
