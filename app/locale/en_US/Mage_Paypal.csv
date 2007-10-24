@@ -1,34 +1,34 @@
-Amex,Amex
-Authorization,Authorization
-"Billing Information","Billing Information"
-"Change Payment Method","Change Payment Method"
-"Change Shipping Address","Change Shipping Address"
-Discover,Discover
-"Edit Shopping Cart","Edit Shopping Cart"
+"N/A","N/A"
 "Invalid data","Invalid data"
-"Items in Your Shopping Cart","Items in Your Shopping Cart"
-MasterCard,MasterCard
-N/A,N/A
-Order,Order
-"Payment Method","Payment Method"
-"PayPal Account","PayPal Account"
 "Paypal Checkout","Paypal Checkout"
-"Place an Order","Place an Order"
-"Please select a shipping method...","Please select a shipping method..."
 "Please select a valid shipping method","Please select a valid shipping method"
-Price,Price
+"Sale","Sale"
+"Discover","Discover"
+"Amex","Amex"
+"Visa","Visa"
 "Problem during communication with PayPal","Problem during communication with PayPal"
-"Product Name","Product Name"
-Qty,Qty
-"Review Order","Review Order"
-Sale,Sale
-"Shipping Address","Shipping Address"
-"Shipping Information","Shipping Information"
-"Shipping Method","Shipping Method"
-"Sorry, no quotes are available for this order at this time.","Sorry, no quotes are available for this order at this time."
-Subtotal,Subtotal
-"There was an error connecting to the Paypal server: %s","There was an error connecting to the Paypal server: %s"
+"MasterCard","MasterCard"
 "There was an error during communication with Paypal: %s - %s","There was an error during communication with Paypal: %s - %s"
+"There was an error connecting to the Paypal server: %s","There was an error connecting to the Paypal server: %s"
+"Order","Order"
+"Authorization","Authorization"
+"Change Payment Method","Change Payment Method"
 "Update Shipping Method","Update Shipping Method"
-Visa,Visa
+"Payment Method","Payment Method"
+"Place an Order","Place an Order"
+"Shipping Method","Shipping Method"
+"Billing Information","Billing Information"
+"Sorry, no quotes are available for this order at this time.","Sorry, no quotes are available for this order at this time."
+"Price","Price"
+"Shipping Information","Shipping Information"
+"Qty","Qty"
+"Review Order","Review Order"
+"Edit Shopping Cart","Edit Shopping Cart"
+"Change Shipping Address","Change Shipping Address"
+"Product Name","Product Name"
+"PayPal Account","PayPal Account"
 "Your billing address will be ignored and you will be redirected to PayPal website","Your billing address will be ignored and you will be redirected to PayPal website"
+"Items in Your Shopping Cart","Items in Your Shopping Cart"
+"Subtotal","Subtotal"
+"Shipping Address","Shipping Address"
+"Please select a shipping method...","Please select a shipping method..."

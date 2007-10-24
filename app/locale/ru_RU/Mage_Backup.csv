@@ -1,4 +1,4 @@
-"Backup file doesn't exist","Файл с резервными данными не существует"
 "Cannot read backup file","Не могу прочитать файл с резервными данными"
 "File compressed with Zlib, but this extension is not installed on server","Файл сжат с использованием Zlib, но данная библиотека не установлена на сервере"
+"Backup file doesn't exist","Файл с резервными данными не существует"
 "Wrong order of creation for new backup","Неправильный порядок создания новой резервной копии"

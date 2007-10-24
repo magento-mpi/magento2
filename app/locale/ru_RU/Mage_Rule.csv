@@ -1,24 +1,24 @@
-ALL,Все
-ANY,ЛЮБОЙ
-by,
-contains,содержит
-"Description: %s","Описание: %s"
-"does not contain","не содержит"
 "equals or greater than","равно или больше чем"
-"equals or less than","равно или меньше чем"
-"Expire at: %s","Дата истечения: %s"
-FALSE,ОШИБОЧНО
-"greater than","больше чем"
-"If %s of these conditions are %s:","Если %s этого условия %s:"
-is,равно
 "is not","не равно"
 "is not one of","ни одно из"
-"is one of","один из"
-"less than","меньше чем"
-"Name: %s","Название: %s"
-"Perform following actions","Выполните следующие действия"
-"Please choose a condition to add...","Пожалуйста, выберите условие для добавления..."
+"is","равно"
+"If %s of these conditions are %s:","Если %s этого условия %s:"
+"TRUE","ВЕРНО"
+"Description: %s","Описание: %s"
+"contains","содержит"
+"to","к"
+"equals or less than","равно или меньше чем"
+"greater than","больше чем"
+"does not contain","не содержит"
 "Please choose an action to add...","Пожалуйста, выберите действия для добавления..."
+"Perform following actions","Выполните следующие действия"
+"by",""
+"is one of","один из"
+"ALL","Все"
+"FALSE","ОШИБОЧНО"
+"less than","меньше чем"
+"ANY","ЛЮБОЙ"
+"Expire at: %s","Дата истечения: %s"
+"Name: %s","Название: %s"
+"Please choose a condition to add...","Пожалуйста, выберите условие для добавления..."
 "Start at: %s","Начинается с: %s"
-to,к
-TRUE,ВЕРНО

@@ -1,9 +1,8 @@
-"Cannot retrieve rate from %s","Не могу получить оценку %s"
-"Continue &raquo;","Продолжить &raquo;"
-Currency,Валюта
 "Invalid country code: %s","Неверный код страны: %s"
-"Invalid rates received","Invalid rates received"
-"Select Your Currency","Выберите валюту"
-State/Province,Регион
+"State/Province","Регион"
 "Undefined rate from ""%s-%s""","Неправильная оценка ""%s-%s"""
+"Cannot retrieve rate from %s","Не могу получить оценку %s"
+"Currency","Валюта"
 "Your current currency is: %s","Ваша текущая валюта: %s"
+"Continue &raquo;","Продолжить &raquo;"
+"Select Your Currency","Выберите валюту"
