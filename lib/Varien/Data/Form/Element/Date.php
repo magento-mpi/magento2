@@ -23,12 +23,12 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract 
 {
-	public function __construct($attributes=array()) 
+    public function __construct($attributes=array()) 
     {
         parent::__construct($attributes);
         $this->setType('input');
@@ -37,13 +37,13 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
     
     public function getElementHtml()
     {      
-    	$html = null;
+        $html = null;
 
-    	if (!($datetimeFormat = $this->getFormat())){
+        if (!($datetimeFormat = $this->getFormat())){
             if($this->getTime()) {
-        		$datetimeFormat = '%m/%d/%y %I:%M %p';
+                $datetimeFormat = '%m/%d/%y %I:%M %p';
             } else {
-            	$datetimeFormat = '%m/%d/%y'; 
+                $datetimeFormat = '%m/%d/%y'; 
             }
             $this->setFormat($datetimeFormat);
             
@@ -58,12 +58,12 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
                 ';
               
         
-		if($this->getTime()) {
-			$html.='showsTime:true,' . "\n";
-			$html.='ifFormat : "' . $datetimeFormat . '",' . "\n";
-		} else {
-			$html.='ifFormat : "' . $datetimeFormat . '",' . "\n";
-		}
+        if($this->getTime()) {
+            $html.='showsTime:true,' . "\n";
+            $html.='ifFormat : "' . $datetimeFormat . '",' . "\n";
+        } else {
+            $html.='ifFormat : "' . $datetimeFormat . '",' . "\n";
+        }
         $html.='button : "'.$this->getHtmlId().'_trig",
                 align : "Bl",
                 singleClick : true
@@ -73,13 +73,13 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         return $html;
     }
     
-    public function getEscapedValue() {
-    	
-    	if($this->getFormat() && $this->getValue()) {
-    		return strftime($this->getFormat(), strtotime($this->getValue()));
-    	}
-    	
-    	return htmlspecialchars($this->getValue());
+    public function getEscapedValue($index=null) {
+        
+        if($this->getFormat() && $this->getValue()) {
+            return strftime($this->getFormat(), strtotime($this->getValue()));
+        }
+        
+        return htmlspecialchars($this->getValue());
     }
     
 }// Class Varien_Data_Form_Element_Date END
