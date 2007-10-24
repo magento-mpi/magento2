@@ -28,5 +28,16 @@
  */
 abstract class Varien_Convert_Adapter_Abstract extends Varien_Convert_Container_Abstract implements Varien_Convert_Adapter_Interface
 {
-    
+    protected $_resource;
+
+    public function getResource($resource)
+    {
+        return $this->_resource;
+    }
+
+    public function setResource($resource)
+    {
+        $this->_resource = $resource;
+        return $this;
+    }
 }

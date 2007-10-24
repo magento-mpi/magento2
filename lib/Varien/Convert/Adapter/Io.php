@@ -28,8 +28,6 @@
  */
  class Varien_Convert_Adapter_Io extends Varien_Convert_Adapter_Abstract
  {
-     protected $_resource;
-     
      public function getResource()
      {
          if (!$this->_resource) {
@@ -40,14 +38,14 @@
          }
          return $this->_resource;
      }
-     
+
      public function load()
      {
          $data = $this->getResource()->read($this->getVar('filename'));
          $this->setData($data);
          return $this;
      }
-     
+
      public function save()
      {
          $data = $this->getData();
