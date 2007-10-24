@@ -315,6 +315,9 @@ class Mage_Catalog_Model_Url
                     continue;
                 }
                 $this->loadRewrites($storeId);
+                if (empty($this->_rewrites[$storeId]) && !is_null($categoryId)) {
+                    $categoryId = null;
+                }
                 $this->loadCategories($storeId);
                 $this->loadProducts($storeId);
                 $this->refreshRewrites($storeId, $categoryId, $parentPath);
@@ -415,6 +418,10 @@ class Mage_Catalog_Model_Url
         if (is_null($storeId)) {
             foreach ($this->getStoreConfig() as $storeId=>$storeNode) {
                 $this->loadRewrites($storeId);
+                if (empty($this->_rewrites[$storeId])) {
+                    $this->refreshRewrites();
+                    return $this;
+                }
                 $this->loadCategories($storeId);
                 $this->loadProducts($storeId);
                 $this->refreshProductRewrites($storeId, $product, $category);
