@@ -20,5 +20,13 @@
 ?>
 
 <div class="box">
-    <img src="<?=$this->getSkinUrl('images/media/col_left_callout.jpg')?>" width="195" alt="<?=$this->__('Our customer service is available 24/7. Call us at (800) DEMO-NUMBER.')?>" style="display:block;" />
+	<?if (strtolower(substr($this->getLinkUrl(),0,4))==='http'):?>
+		<a href="<?=$this->getLinkUrl()?>">
+	<?elseif($this->getLinkUrl()):?>
+		<a href="<?=$this->getUrl($this->getLinkUrl())?>">
+	<?endif?>
+    <img src="<?=$this->getSkinUrl($this->getImgSrc())?>" width="195" alt="<?=$this->__($this->getImgAlt())?>" style="display:block;" />
+	<?if ($this->getLinkUrl()):?>
+	</a>
+	<?endif?>
 </div>
