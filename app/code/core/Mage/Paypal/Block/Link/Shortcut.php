@@ -36,7 +36,7 @@ class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Text_List_Link
 
     public function getInnerText()
     {
-        return '<img src="'.$this->getSkinUrl('images/btn_paypal_checkout.gif').'" alt="'.__('Paypal Checkout').'"/>';
+        return '<img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="'.__('Paypal Checkout').'"/>';
     }
 
     public function _beforeToHtml()
