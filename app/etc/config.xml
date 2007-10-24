@@ -24,7 +24,7 @@
         <install>
             <date></date>
         </install>
-        
+
         <locale>
             <allow>
                 <codes>
@@ -55,7 +55,7 @@
                     <th_TH/>
                     <tr_TR/>
                     <en_GB/>
-                    <vn_VN/>
+                    <vi_VN/>
                 </codes>
                 <currencies>
                     <ADP/>  <AED/>  <AFN/>  <ALL/>  <AMD/>  <ANG/>  <AOA/>  <ARA/>  <ARS/>
@@ -79,7 +79,7 @@
                     <RWF/>  <SAR/>  <SBD/>  <SCR/>  <SDG/>  <SEK/>  <SGD/>  <SHP/>  <SIT/>
                     <SKK/>  <SLL/>  <SOS/>  <SRD/>  <SRG/>  <STD/>  <SVC/>  <SYP/>  <SZL/>
                     <THB/>  <TJR/>  <TJS/>  <TMM/>  <TND/>  <TOP/>  <TPE/>  <TRY/>  <TTD/>
-                    <TWD/>  <TZS/>  <UAH/>  <UGX/>  <USD/>  <UYU/>  <UZS/>  <VEB/>  <VND/>  
+                    <TWD/>  <TZS/>  <UAH/>  <UGX/>  <USD/>  <UYU/>  <UZS/>  <VEB/>  <VND/>
                     <VUV/>  <WST/>  <XCD/>  <YER/>  <ZAR/>  <ZMK/>  <ZRN/>  <ZRZ/>  <ZWD/>
                 </currencies>
             </allow>
