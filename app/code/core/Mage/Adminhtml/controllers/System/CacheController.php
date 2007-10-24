@@ -38,7 +38,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
         $this->renderLayout();
     }
-    
+
     public function saveAction()
     {
         $a = $this->getRequest()->getPost('enable');
@@ -47,10 +47,16 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                 if ($value&2) {
                     Mage::app()->cleanCache(array($type));
                     $a[$type] = $value&1;
-                }   
+                }
             }
             Mage::app()->getCache()->save(serialize($a), 'use_cache', array(), null);
         }
+        $a = $this->getRequest()->getPost('refresh');
+        if (!empty($a) && is_array($a)) {
+            if (!empty($a['catalog_rewrites'])) {
+                Mage::getSingleton('catalog/url')->refreshRewrites();
+            }
+        }
         $this->_redirect('*/*');
-    }   
+    }
 }

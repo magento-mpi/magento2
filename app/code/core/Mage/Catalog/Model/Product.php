@@ -760,7 +760,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             $rewrite->setStoreId($this->getStoreId());
         }
         $idPath = 'product/'.$this->getId();
-        if ($this->getCategoryId()) {
+        if ($this->getCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
             $idPath .= '/'.$this->getCategoryId();
         }
 

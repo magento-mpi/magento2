@@ -26,30 +26,30 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget_Form
-{    
+{
     public function initForm()
     {
         $types = array(
-            'config'     => __('Configuration'), 
-            'layout'     => __('Layouts'), 
+            'config'     => __('Configuration'),
+            'layout'     => __('Layouts'),
             'block_html' => __('Blocks HTML output'),
-            'eav'        => __('EAV types and attributes'), 
+            'eav'        => __('EAV types and attributes'),
             'translate'  => __('Translations'),
         );
-        
+
         $options = array(
-            0 => __('Disabled'), 
-            1 => __('Enabled'), 
-            2 => __('Clean and Disable'), 
+            0 => __('Disabled'),
+            1 => __('Enabled'),
+            2 => __('Clean and Disable'),
             3 => __('Clean and Enable')
         );
-        
+
         $form = new Varien_Data_Form();
-        
+
         $fieldset = $form->addFieldset('cache_enable', array(
             'legend'=>__('Cache control')
         ));
-        
+
         foreach ($types as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'select', array(
                 'name'=>'enable['.$type.']',
@@ -58,9 +58,15 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
                 'options'=>$options,
             ));
         }
-        
+
+        $fieldset->addField('refresh_catalog_rewrites', 'checkbox', array(
+            'name'=>'refresh[catalog_rewrites]',
+            'label'=>__('Refresh Catalog Rewrites'),
+            'value'=>1,
+        ));
+
         $this->setForm($form);
-        
+
         return $this;
     }
 }
