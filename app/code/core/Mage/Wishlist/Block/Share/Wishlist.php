@@ -41,7 +41,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
     public function getWishlist()
     {
         if(!$this->_wishlistLoaded) {
-            Mage::registry('shared_wishlist')->getItemCollection()
+            Mage::registry('shared_wishlist')->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('image')
@@ -53,7 +53,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
             $this->_wishlistLoaded = true;
         }
 
-        return Mage::registry('shared_wishlist')->getItemCollection();
+        return Mage::registry('shared_wishlist')->getProductCollection();
     }
 
     public function getWishlistCustomer()
@@ -68,7 +68,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
     }
 
 
-    public function getEscapedDescription(Mage_Wishlist_Model_Item $item)
+    public function getEscapedDescription($item)
     {
         return htmlspecialchars($item->getDescription());
     }

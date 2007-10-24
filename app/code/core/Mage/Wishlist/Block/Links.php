@@ -32,7 +32,7 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
 
     public function addWishlistLink()
     {
-        $count = $this->getWishlist()->getItemsCount();
+        $count = $this->helper('wishlist')->getItemCount();
         #$count = $this->getWishlistItems()->getSize();
         if( $count > 1 ) {
             $text = $this->__('My Wishlist (%d items)', $count);
@@ -44,28 +44,4 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
 
         $this->getParentBlock()->addLink(null, 'href="'.Mage::getUrl('wishlist').'"', $text);
     }
-
-	public function getWishlist()
-	{
-		if(is_null($this->_wishlist)) {
-
-            $customerId = Mage::getSingleton('customer/session')->getId();
-			$this->_wishlist = Mage::getModel('wishlist/wishlist')
-				->loadByCustomer($customerId);
-/*
-Varien_Profiler::start('TEST2: '.__METHOD__);
-			$this->_wishlist->getProductCollection()
-				->addAttributeToFilter('store_id', array('in'=>$this->_wishlist->getSharedStoreIds()))
-				->load();
-Varien_Profiler::stop('TEST2: '.__METHOD__);
-*/
-		}
-
-		return $this->_wishlist;
-	}
-
-	public function getWishlistItems()
-	{
-		return $this->getWishlist()->getProductCollection();
-	}
 }

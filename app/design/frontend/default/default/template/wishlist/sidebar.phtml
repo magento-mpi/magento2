@@ -23,11 +23,11 @@
     <div class="head">
         <h4><?=$this->helper('wishlist')->__('My Wishlist - <a href="%s">%d Item(s)</a>', 
                 $this->helper('wishlist')->getListUrl(), 
-                $this->getWishlistItems()->getSize()
+                $this->helper('wishlist')->getItemCount()
             )?></h4>
         <h5><?=$this->helper('wishlist')->__('Last Added Items')?></h5>
     </div>
-    <?if($this->getWishlistItems()->getSize()>0):?>
+    <?if($this->helper('wishlist')->getItemCount()>0):?>
     <ol id="wishlist-sidebar">
      <?foreach($this->getWishlistItems() as $_item):?>
         <li>

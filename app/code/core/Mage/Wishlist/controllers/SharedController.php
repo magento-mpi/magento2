@@ -31,8 +31,12 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 	public function indexAction()
 	{
 
-		$wishlist = Mage::getModel('wishlist/wishlist')
-			->loadByCode($this->getRequest()->getParam('code'));
+		$wishlist = Mage::getModel('wishlist/wishlist')->loadByCode($this->getRequest()->getParam('code'));
+        if ($wishlist->getCustomerId() && $wishlist->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId()) {
+            $this->_redirectUrl(Mage::helper('wishlist')->getListUrl());
+            return;
+        }
+        
 		if(!$wishlist->getId()) {
 			$this->norouteAction();
 		} else {
