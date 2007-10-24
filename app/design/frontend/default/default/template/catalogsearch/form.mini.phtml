@@ -21,7 +21,7 @@
 <form id="search_mini_form" action="<?=$this->helper('catalogSearch')->getResultUrl()?>" method="get">
     <fieldset class="mini-search">
     <legend><?=$this->__('Search Site')?></legend>
-        <input id="search" type="text" class="input-text" name="<?=$this->helper('catalogSearch')->getQueryParamName()?>" value="<?=$this->helper('catalogSearch')->getEscapedQueryText()?>"/> 
+        <input id="search" type="text" class="input-text" name="<?=$this->helper('catalogSearch')->getQueryParamName()?>" value="<?=$this->helper('catalogSearch')->getEscapedQueryText()?>"/>
         <input type="image" src="<?=$this->getSkinUrl('images/btn_mini_search.gif')?>" alt="<?=$this->__('Search')?>"/>
         <div id="search_autocomplete" class="search-autocomplete"></div>
         <script type="text/javascript">

@@ -43,10 +43,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @var Zend_Db_Select
      */
     protected $_sqlSelect;
-    
+
     /**
      * Identifier fild name for collection items
-     * 
+     *
      * Can be used by collections with items without defined
      *
      * @var string
@@ -61,13 +61,13 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             $this->setConnection($conn);
         }
     }
-    
+
     protected function _setIdFieldName($fieldName)
     {
         $this->_idFieldName = $fieldName;
         return $this;
     }
-    
+
     public function getIdFieldName()
     {
         return $this->_idFieldName;
@@ -244,7 +244,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     		}
     		return $sql;
     	}
-    	
+
         $sql = '';
         if (is_array($condition)) {
             if (isset($condition['from']) || isset($condition['to'])) {
@@ -281,16 +281,16 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             }
             elseif (isset($condition['moreq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName >= ?", $condition['moreq']);
-            }            
+            }
             elseif (isset($condition['gt'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName > ?", $condition['gt']);
-            }            
+            }
             elseif (isset($condition['lt'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName < ?", $condition['lt']);
             }
             elseif (isset($condition['gteq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName >= ?", $condition['gteq']);
-            }            
+            }
             elseif (isset($condition['lteq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName <= ?", $condition['lteq']);
             }
@@ -355,7 +355,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if ($this->isLoaded()) {
             return $this;
         }
-        
+
         $this->_renderFilters()
              ->_renderOrders()
              ->_renderLimit();
@@ -373,7 +373,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $this->addItem($item);
             }
         }
-        
+
         $this->_setIsLoaded();
         return $this;
     }

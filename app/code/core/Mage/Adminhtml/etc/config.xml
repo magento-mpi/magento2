@@ -55,7 +55,13 @@
          </adminhtml>
       </routers>
    </admin>
-
+   
+   <frontend>
+        <secure_url>
+            <admin>/admin</admin>
+        </secure_url>
+   </frontend>
+   
    <adminhtml>
       <events>
          <controller_action_predispatch_admin>

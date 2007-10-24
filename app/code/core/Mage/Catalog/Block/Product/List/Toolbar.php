@@ -38,21 +38,21 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function __construct()
     {
         parent::__construct();
-        $this->_availableOrder = array('position'=>__('Best Value'), 'name'=>'Name', 'price'=>__('Price'));
-        
+        $this->_availableOrder = array('position'=>__('Best Value'), 'name'=>__('Name'), 'price'=>__('Price'));
+
         switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
         	case 'grid':
 		        $this->_availableMode = array('grid' => __('Grid'));
         		break;
-        		
+
         	case 'list':
 		        $this->_availableMode = array('list' => __('List'));
         		break;
-        		
+
         	case 'grid-list':
 		        $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
         		break;
-        		
+
         	case 'list-grid':
 		        $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
         		break;
@@ -116,8 +116,8 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         $this->_availableOrder = $orders;
         return $this;
     }
-    
-    
+
+
     public function isOrderCurrent($order)
     {
         return $order == $this->getRequest()->getParam('order');
@@ -143,7 +143,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         else {
             $mode = Mage::getSingleton('catalog/session')->getDisplayMode();
         }
-        
+
         if ($mode && isset($this->_availableMode[$mode])) {
             return $mode;
         }
@@ -159,7 +159,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         return $this->_availableMode;
     }
-    
+
     public function setModes($modes)
     {
         $this->_availableMode = $modes;
@@ -204,7 +204,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         return $this->_isExpanded;
     }
-    
+
     public function getAvailableLimit()
     {
         if ($this->getCurrentMode() == 'list') {

@@ -31,15 +31,24 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Urlkey extends Mage_E
     public function beforeSave($object)
     {
     	$attributeName = $this->getAttribute()->getName();
-    	
+
     	$urlKey = $object->getData($attributeName);
     	if ($urlKey=='') {
     		$urlKey = $object->getName();
     	}
-    	
+
 		$object->setData($attributeName, $object->formatUrlKey($urlKey));
-		
+
 		return $this;
     }
 
+    public function afterSave($object)
+    {
+        $attributeName = $this->getAttribute()->getName();
+/*
+        if ($object->getData($attributeName)!==$object->getOrigData($attributeName)) {
+            Mage::getSingleton('catalog/url')->refreshRewrites(null, $object->getId());
+        }
+*/
+    }
 }

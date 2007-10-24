@@ -197,15 +197,21 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     public function getDistroServerVars()
     {
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
-        if ("\\"==$basePath || "/"==$basePath) {
-            $basePath = '/';
-        } else {
-            $basePath .= '/';
-        }
-        $host = explode(':', $_SERVER['HTTP_HOST']);
-        $serverName = $host[0];
-        $serverPort = isset($host[1]) ? $host[1] : (isset($_SERVER['HTTPS']) ? '443' : '80');
+		if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
+			$basePath = dirname($_SERVER['SCRIPT_NAME']);
+			if ("\\"==$basePath || "/"==$basePath) {
+				$basePath = '/';
+			} else {
+				$basePath .= '/';
+			}
+			$host = explode(':', $_SERVER['HTTP_HOST']);
+			$serverName = $host[0];
+			$serverPort = isset($host[1]) ? $host[1] : (isset($_SERVER['HTTPS']) ? '443' : '80');
+		} else {
+			$serverName = 'NOTAVAILABLE.COM';
+			$serverPort = 80;
+			$basePath = '/';
+		}
 
         $arr = array(
             'root_dir'  => dirname(Mage::getRoot()),

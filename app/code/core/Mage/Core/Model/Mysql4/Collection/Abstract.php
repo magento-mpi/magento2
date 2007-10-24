@@ -61,7 +61,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
         $this->_resource = $resource;
 
         parent::__construct($this->getResource()->getConnection('read'));
-        
+
         $this->getSelect()->from(array('main_table'=>$this->getResource()->getMainTable()));
     }
 
@@ -73,7 +73,7 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
     {
 
     }
-    
+
     /**
      * Standard resource collection initalization
      *
@@ -149,6 +149,20 @@ class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Collection_
         if (!isset($this->_joinedTables[$table])) {
             $this->getSelect()->join(array($table=>$this->getTable($table)), $cond, $cols);
             $this->_joinedTables[$table] = true;
+        }
+        return $this;
+    }
+
+    /**
+     * Load data
+     *
+     * @return  Varien_Data_Collection_Db
+     */
+    public function load($printQuery = false, $logQuery = false)
+    {
+        parent::load($printQuery, $logQuery);
+        foreach ($this->_items as $item) {
+            $item->setOrigData();
         }
         return $this;
     }

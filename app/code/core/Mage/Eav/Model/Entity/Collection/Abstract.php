@@ -663,6 +663,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         $this->_loadEntities($printQuery, $logQuery);
         $this->_loadAttributes($printQuery, $logQuery);
 
+        foreach ($this->_items as $item) {
+            $item->setOrigData();
+        }
+
         $this->_afterLoad();
 
         return $this;

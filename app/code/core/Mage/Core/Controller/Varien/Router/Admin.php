@@ -60,6 +60,20 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
             }
         }
 
+        $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https';
+            #&& Mage::getStoreConfig('admin/general/secure');
+        $isSecure = (bool)$request->getServer('HTTPS');
+        if ($shouldBeSecure!=$isSecure) {
+            $url = Mage::getModel('core/url')
+                ->setSecure($shouldBeSecure)
+                ->getHostUrl();
+            $url .= $request->getRequestUri();
+            Mage::app()->getFrontController()->getResponse()
+                ->setRedirect($url)
+                ->sendResponse();
+            exit;
+        }
+
         // get controller name
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();

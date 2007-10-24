@@ -423,8 +423,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             if (isset($this->_attributesById[$attributeId])) {
                 return $this->_attributesById[$attributeId];
             }
-
-            #$attributeInstance = Mage::getModel('eav/entity_attribute')->load($attributeId);
             $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getTypeId(), $attributeId);
             $attributeCode = $attributeInstance->getAttributeCode();
 
@@ -435,8 +433,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             if (isset($this->_attributesByCode[$attributeCode])) {
                 return $this->_attributesByCode[$attributeCode];
             }
-            #$attributeInstance = Mage::getModel('eav/entity_attribute')->loadByCode($this->getConfig(), $attributeCode);
-            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getTypeId(), $attributeCode);
+            $attributeInstance = Mage::getSingleton('eav/config')
+                ->getAttribute($this->getTypeId(), $attributeCode);
 
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 
@@ -755,7 +753,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             }
 
             foreach ($values as $v) {
-                $attributeCode = $this->getAttribute($v['attribute_id'])->getAttributeCode();
+                $attribute = $this->getAttribute($v['attribute_id']);
+                $attributeCode = $attribute->getAttributeCode();
                 $object->setData($attributeCode, $v['value']);
                 $this->getAttribute($v['attribute_id'])->getBackend()->setValueId($v['value_id']);
             }
@@ -798,6 +797,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $object->setParentId(0);
         }
 
+#echo "<pre>".print_r($object->getChildren(),1)."</pre>"; die;
         $this->_write->beginTransaction();
 
         $this->_beforeSave($object);

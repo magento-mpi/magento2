@@ -88,11 +88,10 @@ class Mage_Eav_Model_Config
             }
             if (!$data) {
                 $data = $this->getResource()->fetchEntityTypeData($id);
-                if (Mage::app()->useCache('eav')) {
-                    $serialized = serialize($data);
-                    $this->getCache()->save($serialized, 'EAV_'.$data['entity_type']['entity_type_id'], array('eav'));
-                    $this->getCache()->save($serialized, 'EAV_'.$data['entity_type']['entity_type_code'], array('eav'));
+                if (!$data) {
+                    throw Mage::exception('Mage_Eav', __('Invalid entity_type specified: %', $id));
                 }
+                $this->saveEntityCache($data);
             }
             $this->_data[$data['entity_type']['entity_type_id']] = $data;
             $this->_data[$data['entity_type']['entity_type_code']] = $data['entity_type']['entity_type_id'];
@@ -109,24 +108,41 @@ class Mage_Eav_Model_Config
 
     public function getAttribute($entityType, $id)
     {
-        if (is_string($entityType) && !is_numeric($entityType)) {
-            if (isset($this->_data[$entityType])) {
-                $entityType = intval($this->_data[$entityType]);
-            } else {
-                throw Mage::exception('Mage_Eav', __('Invalid entity_type specified: %', $entityType));
-            }
-        }
-        if (is_string($id) && !is_numeric($id)) {
-            if (isset($this->_data[$entityType]['attribute'][$id])) {
-                $id = intval($this->_data[$entityType]['attribute'][$id]);
-            } else {
-                $id = 0;
-            }
-        }
+        $entityType = $this->getEntityType($entityType);
+        $entityTypeId = $entityType->getId();
         $obj = Mage::getModel('eav/entity_attribute');
-        if (isset($this->_data[$entityType]['attribute'][$id]) && ($data = $this->_data[$entityType]['attribute'][$id])) {
-            $obj->setData($data);
+        if (isset($this->_data[$entityTypeId]['attribute'][$id])) {
+            if (!is_numeric($id)) {
+                $id = intval($this->_data[$entityTypeId]['attribute'][$id]);
+            }
+            if ($id) {
+                $data = $this->_data[$entityTypeId]['attribute'][$id];
+                $obj->setData($data);
+            }
+        } else {
+            if (is_numeric($id)) {
+                $obj->load($id);
+            } else {
+                $obj->loadByCode($entityType, $id);
+            }
+            if ($obj->getAttributeId()) {
+                $this->_data[$entityTypeId]['attribute'][$obj->getAttributeId()] = $obj->getData();
+                $this->_data[$entityTypeId]['attribute'][$obj->getAttributeCode()] = $obj->getAttributeId();
+            } else {
+                $this->_data[$entityTypeId]['attribute'][$id] = false;
+            }
+            $this->saveEntityCache($this->_data[$entityTypeId]);
         }
-        return  $obj;
+        return $obj;
+    }
+
+    public function saveEntityCache($data)
+    {
+        if (Mage::app()->useCache('eav')) {
+            $serialized = serialize($data);
+            $this->getCache()->save($serialized, 'EAV_'.$data['entity_type']['entity_type_id'], array('eav'));
+            $this->getCache()->save($serialized, 'EAV_'.$data['entity_type']['entity_type_code'], array('eav'));
+        }
+        return $this;
     }
 }

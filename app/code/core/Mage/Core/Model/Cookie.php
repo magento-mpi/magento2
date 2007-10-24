@@ -45,7 +45,7 @@ class Mage_Core_Model_Cookie
     public function getCookieDomain()
     {
     	$domain = Mage::getStoreConfig('web/cookie/cookie_domain');
-    	if (empty($domain)) {
+    	if (empty($domain) && isset($_SERVER['HTTP_HOST'])) {
     		$domainArr = explode(':', $_SERVER['HTTP_HOST']);
     		$domain = $domainArr[0];
     	}

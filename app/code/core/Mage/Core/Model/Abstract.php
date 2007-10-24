@@ -56,10 +56,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @var object
      */
     protected $_resourceCollection;
-    
+
     /**
     * Original data that was loaded from resource
-    * 
+    *
     * @var array
     */
     protected $_origData;
@@ -84,7 +84,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return $fieldName;
     }
-    
+
     public function getId()
     {
         if ($this->getIdFieldName()) {
@@ -93,7 +93,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             return $this->getData('id');
         }
     }
-    
+
     public function setId($id)
     {
         if ($this->getIdFieldName()) {
@@ -155,13 +155,18 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return $this->_resourceCollection;
     }
-    
+
     public function getOrigData($key=null)
     {
         if (is_null($key)) {
             return $this->_origData;
         }
         return isset($this->_origData[$key]) ? $this->_origData[$key] : null;
+    }
+
+    public function setOrigData()
+    {
+        $this->_origData = $this->_data;
     }
 
     /**
@@ -174,7 +179,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         $this->getResource()->load($this, $id, $field);
         $this->_afterLoad();
-        $this->_origData = $this->_data;
+        $this->setOrigData();
         return $this;
     }
 
@@ -214,7 +219,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $data = $this->getData();
         return $data;
     }
-    
+
     protected function _afterLoad()
     {
         return $this;
