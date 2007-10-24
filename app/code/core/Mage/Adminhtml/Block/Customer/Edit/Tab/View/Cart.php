@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
         $this->setSortable(false);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(__("There are no items in customer's shopping cart at the moment"));
+        $this->setEmptyText(__('There are no items in customer\'s shopping cart at the moment'));
     }
 
     protected function _prepareCollection()
@@ -56,6 +56,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
+    }
+    
+    protected function _afterLoadCollection()
+    {
+        $this->getParentBlock()->setTitle(__('Shopping Cart - %d item(s)', $this->getCollection()->getSize()));
+        return $this;
     }
 
     protected function _prepareColumns()

@@ -36,6 +36,7 @@ class Mage_Admin_Model_Mysql4_Permissions_Roles_Collection extends Varien_Data_C
 
         $this->_sqlSelect->from($this->_roleTable, '*');
         $this->_sqlSelect->where("{$this->_roleTable}.role_type='G'");
+        $this->_setIdFieldName('role_id');
     }
 
     public function toOptionArray()

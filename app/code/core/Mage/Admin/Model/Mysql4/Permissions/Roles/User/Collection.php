@@ -30,7 +30,7 @@ class Mage_Admin_Model_Mysql4_Permissions_Roles_User_Collection extends Varien_D
         $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin/user');
 
         $this->_sqlSelect->from($this->_userTable, array('*'))->where("user_id > 0");
-        
+        $this->_setIdFieldName('user_id');
        
         /*$this->_sqlSelect->from($this->_roleTable, array('role_id', 'role_name', 'tree_level', 'sort_order', 'role_type'))
                             ->joinLeft(array('usr' => $this->_userTable), "(usr.user_id = `{$this->_roleTable}`.user_id)", array('*'));

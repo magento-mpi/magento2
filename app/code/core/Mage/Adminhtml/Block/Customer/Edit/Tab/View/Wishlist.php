@@ -41,15 +41,21 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('current_customer'))->getItemCollection()
-            ->addAttributeToSelect('name')
-            ->addStoreData();
+        $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('current_customer'))
+            ->getProductCollection()
+                ->addAttributeToSelect('name')
+                ->addStoreData();
 
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
     }
 
+    protected function _afterLoadCollection()
+    {
+        $this->getParentBlock()->setTitle(__('Wishlist - %d item(s)', $this->getCollection()->getSize()));
+        return $this;
+    }
 
     protected function _prepareColumns()
     {
@@ -65,7 +71,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
             'index'     => 'name'
         ));
 
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+        $stores = Mage::getResourceModel('core/store_collection')
+            ->setWithoutDefaultFilter()
+            ->load()
+                ->toOptionHash();
 
         $this->addColumn('store', array(
             'header'    => __('Added From'),

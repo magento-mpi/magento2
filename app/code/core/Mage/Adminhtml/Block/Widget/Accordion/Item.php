@@ -77,11 +77,12 @@ class Mage_Adminhtml_Block_Widget_Accordion_Item extends Mage_Adminhtml_Block_Wi
     
     public function toHtml()
     {
+        $content = $this->getContent();
         $html = '<dt id="dt-'.$this->getHtmlId().'" class="'.$this->getClass().'">';
         $html.= $this->getTitle();
         $html.= '</dt>';
         $html.= '<dd id="dd-'.$this->getHtmlId().'" class="'.$this->getClass().'">';
-        $html.= $this->getContent();
+        $html.= $content;
         $html.= '</dd>';
         return $html;
     }

@@ -41,9 +41,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         $this->setChild('sales', $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_sales'));
 
         $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
-            ->setId('customerViewAccordion')
+            ->setId('customerViewAccordion');
             //->setShowOnlyOne(0)
-            ;
 
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
         $accordion->addItem('lastOrders', array(
@@ -51,7 +50,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders'),
             'open'      => true
         ));
-
+        
         $accordion->addItem('shopingCart', array(
             'title' => __('Shopping Cart'),
             'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart'),

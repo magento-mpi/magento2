@@ -41,6 +41,7 @@ class Mage_Admin_Model_Mysql4_Permissions_Rules_Collection extends Varien_Data_C
         */
         
         $this->_sqlSelect->from($this->_ruleTable);
+        $this->_setIdFieldName('rule_id');
     }
     
     public function getByRoles($id) {

@@ -62,9 +62,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
 
     public function loadByCode($code)
     {
-        $this->getResource()->load($this,
-            $code,
-            'sharing_code');
+        $this->getResource()->load($this, $code, 'sharing_code');
         if(!$this->getShared()) {
             $this->setId(null);
         }

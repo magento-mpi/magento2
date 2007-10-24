@@ -41,11 +41,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
   
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('current_customer'))->getItemCollection()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('small_image')
-            ->addStoreData();
+        $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('current_customer'))
+            ->getProductCollection()
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price')
+                ->addAttributeToSelect('small_image')
+                ->addStoreData();
             
         $this->setCollection($collection);
         
@@ -56,12 +57,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         
-        $this->addColumn('id', array(
+        /*$this->addColumn('id', array(
             'header'    => __('ID'),
             'index'     => 'product_id',
             'type'      => 'number',
             'width'     => '130px'
-        ));
+        ));*/
         
         $this->addColumn('product_name', array(
             'header'    => __('Product name'),
