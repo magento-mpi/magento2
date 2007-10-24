@@ -41,20 +41,21 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 
         $this->setRequest($request);
         if (!$request->getUpsRequestMethod()) {
-            $request->setUpsRequestMethod('cgi');
+            if(Mage::getStoreConfig('carriers/ups/type')=='UPS')
+        		$request->setUpsRequestMethod('cgi');
+        	elseif (Mage::getStoreConfig('carriers/ups/type')=='UPS_XML')
+        		$request->setUpsRequestMethod('xml');
         }
 
         switch ($request->getUpsRequestMethod()) {
             case 'cgi':
                 $this->_getCgiQuotes();
-                #$this->_getXmlQuotes();
                 break;
 
             case 'xml':
                 $this->_getXmlQuotes();
                 break;
         }
-
         return $this->getResult();
     }
 
@@ -168,570 +169,72 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 
         $this->_parseCgiResponse($responseBody);
     }
-	
-    function tempGetXML (){
-    	return <<<pp
-<?xml version="1.0"?>
-    <RatingServiceSelectionResponse>
-      <Response>
-        <TransactionReference>
-          <CustomerContext>
-Rating and Service
-          </CustomerContext>
-          <XpciVersion>
-1.0
-          </XpciVersion>
-        </TransactionReference>
-        <ResponseStatusCode>
-1
-        </ResponseStatusCode>
-        <ResponseStatusDescription>
-Success
-        </ResponseStatusDescription>
-      </Response>
-      <RatedShipment>
-        <Service>
-          <Code>
-03
-          </Code>
-        </Service>
-        <RatedShipmentWarning>
-Your invoice may vary from the displayed reference rates
-        </RatedShipmentWarning>
-        <BillingWeight>
-          <UnitOfMeasurement>
-            <Code>
-LBS
-            </Code>
-          </UnitOfMeasurement>
-          <Weight>
-38.0
-          </Weight>
-        </BillingWeight>
-        <TransportationCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-32.11
-          </MonetaryValue>
-        </TransportationCharges>
-        <ServiceOptionsCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-0.00
-          </MonetaryValue>
-        </ServiceOptionsCharges>
-        <TotalCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-32.11
-          </MonetaryValue>
-        </TotalCharges>
-        <GuaranteedDaysToDelivery></GuaranteedDaysToDelivery>
-        <ScheduledDeliveryTime></ScheduledDeliveryTime>
-        <RatedPackage>
-          <TransportationCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-32.11
-            </MonetaryValue>
-          </TransportationCharges>
-          <ServiceOptionsCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-0.00
-            </MonetaryValue>
-          </ServiceOptionsCharges>
-          <TotalCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-32.11
-            </MonetaryValue>
-          </TotalCharges>
-          <Weight>
-38.0
-          </Weight>
-          <BillingWeight>
-            <UnitOfMeasurement>
-              <Code>
-LBS
-              </Code>
-            </UnitOfMeasurement>
-            <Weight>
-38.0
-            </Weight>
-          </BillingWeight>
-        </RatedPackage>
-      </RatedShipment>
-      <RatedShipment>
-        <Service>
-          <Code>
-12
-          </Code>
-        </Service>
-        <RatedShipmentWarning>
-Your invoice may vary from the displayed reference rates
-        </RatedShipmentWarning>
-        <BillingWeight>
-          <UnitOfMeasurement>
-            <Code>
-LBS
-            </Code>
-          </UnitOfMeasurement>
-          <Weight>
-38.0
-          </Weight>
-        </BillingWeight>
-        <TransportationCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-80.31
-          </MonetaryValue>
-        </TransportationCharges>
-        <ServiceOptionsCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-0.00
-          </MonetaryValue>
-        </ServiceOptionsCharges>
-        <TotalCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-80.31
-          </MonetaryValue>
-        </TotalCharges>
-        <GuaranteedDaysToDelivery>
-3
-        </GuaranteedDaysToDelivery>
-        <ScheduledDeliveryTime></ScheduledDeliveryTime>
-        <RatedPackage>
-          <TransportationCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-80.31
-            </MonetaryValue>
-          </TransportationCharges>
-          <ServiceOptionsCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-0.00
-            </MonetaryValue>
-          </ServiceOptionsCharges>
-          <TotalCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-80.31
-            </MonetaryValue>
-          </TotalCharges>
-          <Weight>
-38.0
-          </Weight>
-          <BillingWeight>
-            <UnitOfMeasurement>
-              <Code>
-LBS
-              </Code>
-            </UnitOfMeasurement>
-            <Weight>
-38.0
-            </Weight>
-          </BillingWeight>
-        </RatedPackage>
-      </RatedShipment>
-      <RatedShipment>
-        <Service>
-          <Code>
-59
-          </Code>
-        </Service>
-        <RatedShipmentWarning>
-Your invoice may vary from the displayed reference rates
-        </RatedShipmentWarning>
-        <BillingWeight>
-          <UnitOfMeasurement>
-            <Code>
-LBS
-            </Code>
-          </UnitOfMeasurement>
-          <Weight>
-38.0
-          </Weight>
-        </BillingWeight>
-        <TransportationCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-145.41
-          </MonetaryValue>
-        </TransportationCharges>
-        <ServiceOptionsCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-0.00
-          </MonetaryValue>
-        </ServiceOptionsCharges>
-        <TotalCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-145.41
-          </MonetaryValue>
-        </TotalCharges>
-        <GuaranteedDaysToDelivery>
-2
-        </GuaranteedDaysToDelivery>
-        <ScheduledDeliveryTime>
-12:00 Noon
-        </ScheduledDeliveryTime>
-        <RatedPackage>
-          <TransportationCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-145.41
-            </MonetaryValue>
-          </TransportationCharges>
-          <ServiceOptionsCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-0.00
-            </MonetaryValue>
-          </ServiceOptionsCharges>
-          <TotalCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-145.41
-            </MonetaryValue>
-          </TotalCharges>
-          <Weight>
-38.0
-          </Weight>
-          <BillingWeight>
-            <UnitOfMeasurement>
-              <Code>
-LBS
-              </Code>
-            </UnitOfMeasurement>
-            <Weight>
-38.0
-            </Weight>
-          </BillingWeight>
-        </RatedPackage>
-      </RatedShipment>
-      <RatedShipment>
-        <Service>
-          <Code>
-02
-          </Code>
-        </Service>
-        <RatedShipmentWarning>
-Your invoice may vary from the displayed reference rates
-        </RatedShipmentWarning>
-        <BillingWeight>
-          <UnitOfMeasurement>
-            <Code>
-LBS
-            </Code>
-          </UnitOfMeasurement>
-          <Weight>
-38.0
-          </Weight>
-        </BillingWeight>
-        <TransportationCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-128.99
-          </MonetaryValue>
-        </TransportationCharges>
-        <ServiceOptionsCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-0.00
-          </MonetaryValue>
-        </ServiceOptionsCharges>
-        <TotalCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-128.99
-          </MonetaryValue>
-        </TotalCharges>
-        <GuaranteedDaysToDelivery>
-2
-        </GuaranteedDaysToDelivery>
-        <ScheduledDeliveryTime></ScheduledDeliveryTime>
-        <RatedPackage>
-          <TransportationCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-128.99
-            </MonetaryValue>
-          </TransportationCharges>
-          <ServiceOptionsCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-0.00
-            </MonetaryValue>
-          </ServiceOptionsCharges>
-          <TotalCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-128.99
-            </MonetaryValue>
-          </TotalCharges>
-          <Weight>
-38.0
-          </Weight>
-          <BillingWeight>
-            <UnitOfMeasurement>
-              <Code>
-LBS
-              </Code>
-            </UnitOfMeasurement>
-            <Weight>
-38.0
-            </Weight>
-          </BillingWeight>
-        </RatedPackage>
-      </RatedShipment>
-      <RatedShipment>
-        <Service>
-          <Code>
-13
-          </Code>
-        </Service>
-        <RatedShipmentWarning>
-Your invoice may vary from the displayed reference rates
-        </RatedShipmentWarning>
-        <BillingWeight>
-          <UnitOfMeasurement>
-            <Code>
-LBS
-            </Code>
-          </UnitOfMeasurement>
-          <Weight>
-38.0
-          </Weight>
-        </BillingWeight>
-        <TransportationCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-155.78
-          </MonetaryValue>
-        </TransportationCharges>
-        <ServiceOptionsCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-0.00
-          </MonetaryValue>
-        </ServiceOptionsCharges>
-        <TotalCharges>
-          <CurrencyCode>
-USD
-          </CurrencyCode>
-          <MonetaryValue>
-155.78
-          </MonetaryValue>
-        </TotalCharges>
-        <GuaranteedDaysToDelivery>
-1
-        </GuaranteedDaysToDelivery>
-        <ScheduledDeliveryTime>
-4:30 P.M.
-        </ScheduledDeliveryTime>
-        <RatedPackage>
-          <TransportationCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-155.78
-            </MonetaryValue>
-          </TransportationCharges>
-          <ServiceOptionsCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-0.00
-            </MonetaryValue>
-          </ServiceOptionsCharges>
-          <TotalCharges>
-            <CurrencyCode>
-USD
-            </CurrencyCode>
-            <MonetaryValue>
-155.78
-            </MonetaryValue>
-          </TotalCharges>
-          <Weight>
-38.0
-          </Weight>
-          <BillingWeight>
-            <UnitOfMeasurement>
-              <Code>
-LBS
-              </Code>
-            </UnitOfMeasurement>
-            <Weight>
-38.0
-            </Weight>
-          </BillingWeight>
-        </RatedPackage>
-      </RatedShipment>
-	  <RatedShipment>
-        <Service>
-          <Code>01     </Code>
-        </Service>
-		
-        <RatedShipmentWarning>
-Your invoice may vary from the displayed reference rates
-        </RatedShipmentWarning>
-		
-        <BillingWeight>
-          <UnitOfMeasurement><Code>LBS</Code></UnitOfMeasurement>
-          <Weight>38.0</Weight>
-		</BillingWeight>
-		
-        <TransportationCharges>
-          <CurrencyCode>USD</CurrencyCode>
-          <MonetaryValue>166.61</MonetaryValue>
-        </TransportationCharges>
-		
-        <ServiceOptionsCharges>
-          <CurrencyCode>USD</CurrencyCode>
-          <MonetaryValue>0.00</MonetaryValue>
-        </ServiceOptionsCharges>
-        
-		<TotalCharges>
-          <CurrencyCode>USD</CurrencyCode>
-          <MonetaryValue>166.61</MonetaryValue>
-        </TotalCharges>
-		
-        <GuaranteedDaysToDelivery>1</GuaranteedDaysToDelivery>
-        <ScheduledDeliveryTime>12:00 Noon</ScheduledDeliveryTime>
-        
-		<RatedPackage>
-			<TransportationCharges><CurrencyCode>USD</CurrencyCode>
-            <MonetaryValue>166.61</MonetaryValue>
-          </TransportationCharges>
-		  
-          <ServiceOptionsCharges><CurrencyCode>USD</CurrencyCode>
-            <MonetaryValue>0.00 </MonetaryValue>
-          </ServiceOptionsCharges>
-		  
-          <TotalCharges>
-            <CurrencyCode>USD</CurrencyCode>
-            <MonetaryValue>166.61</MonetaryValue>
-          </TotalCharges>
-		  
-          <Weight>
-38.0
-          </Weight>
-          <BillingWeight>
-            <UnitOfMeasurement>
-              <Code>
-LBS
-              </Code>
-            </UnitOfMeasurement>
-            <Weight>
-38.0
-            </Weight>
-          </BillingWeight>
-        </RatedPackage>
-      </RatedShipment>
-	  
-    </RatingServiceSelectionResponse>
-pp;
-}
     
-	public function getServiceByCode($code)
-	{
-		
+	public function getShipmentByCode($code,$origin = null){
+		if($origin===null){
+			$origin = Mage::getStoreConfig('carriers/ups/origin_shipment');
+		}
+		$arr = $this->getCode('originShipment',$origin);
+		if(isset($arr[$code]))
+			return $arr[$code];
+		else 
+			return false;
 	}
-
+	
     protected function _parseXmlResponse($xmlResponse)
     {
-    	$result = Mage::getModel('shipping/rate_result');
-    	#$xxx = $this->tempGetXML();
-    	$xxx = $xmlResponse;
     	$xml = new Varien_Simplexml_Config();
-		$xml->loadString($xxx);
-		
-		
+		$xml->loadString($xmlResponse);
 		$arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
 		$success = (int)$arr[0][0];
 		if($success===1){
 			$arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
+			$allowedMethods = explode(",", Mage::getStoreConfig('carriers/ups/allowed_methods'));
+			$costArr = array();
+	        $priceArr = array();
 			foreach ($arr as $shipElement){
-				print $shipElement->Service->Code."<br>";
-				print $shipElement->TotalCharges->MonetaryValue."<br>";
-				print "<hr>";
+				$code = (string)$shipElement->Service->Code;
+				#$shipment = $this->getShipmentByCode($code);
+				if (in_array($code, $allowedMethods)) {
+                        $costArr[$code] = $shipElement->TotalCharges->MonetaryValue;
+                        $priceArr[$code] = $this->getMethodPrice($shipElement->TotalCharges->MonetaryValue,$code);
+                }
 			}
-			die('none');
 		} else {
-			
 			$arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/Error/ErrorDescription/text()");
 			$errorTitle = (string)$arr[0][0];		
-			
 			$error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
-			
 		}
-		#print($success);
-		die;
-		#RatedShipment
-		  $this->_result = $result;
+		
+		$result = Mage::getModel('shipping/rate_result');
+        $defaults = $this->getDefaults();
+        if (empty($priceArr)) {
+            $error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier('ups');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
+            if(!isset($errorTitle)){
+            	$errorTitle = __('Sorry not Found');
+			}
+            $error->setErrorMessage($errorTitle);
+            $result->append($error);
+        } else {
+            foreach ($priceArr as $method=>$price) {
+                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate->setCarrier('ups');
+                $rate->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
+                $rate->setMethod($method);
+                $method_arr = $this->getShipmentByCode($method);
+                $rate->setMethodTitle(Mage::helper('usa')->__($method_arr));
+                $rate->setCost($costArr[$method]);
+                $rate->setPrice($price);
+                $result->append($rate);
+            }
+        }
+        $this->_result = $result;
     }
     
     protected function _parseCgiResponse($response)
@@ -778,7 +281,7 @@ pp;
                 $rate->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
                 $rate->setMethod($method);
                 $method_arr = $this->getCode('method', $method);
-                $rate->setMethodTitle(Mage::helper('usa')->__($method_arr['label']));
+                $rate->setMethodTitle(Mage::helper('usa')->__($method_arr));
                 $rate->setCost($costArr[$method]);
                 $rate->setPrice($price);
                 $result->append($rate);
@@ -986,9 +489,11 @@ pp;
 
     protected function _getXmlQuotes()
     {
-    	$userid = 'fragranceup';
-		$userid_pass = 'perfume1';
-		$access_key = '5C15BD33E4B275BC';
+    	
+    	
+    	$userid = Mage::getStoreConfig('carriers/ups/username');
+		$userid_pass = Mage::getStoreConfig('carriers/ups/password');
+		$access_key = Mage::getStoreConfig('carriers/ups/access_license_number');
 		
 		$xmlRequest =  <<<XMLAuth
 <?xml version="1.0"?>
@@ -1014,7 +519,6 @@ XMLAuth;
             '49_residential' => $r->getDestType(),
         );
         $params['10_action']=='4'? $params['10_action']='Shop':$params['10_action']='Rate';
-         
 $xmlRequest .= <<< XMLRequest
 <?xml version="1.0"?>
 <RatingServiceSelectionRequest xml:lang="en-US">

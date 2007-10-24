@@ -43,8 +43,9 @@ freeModel.prototype = {
     initFreeMethod : function(element)
     {
         var freeMethodElement = element;
+        
         if (freeMethodElement && freeMethodElement.id) {
-            var cutoffElement  = $(freeMethodElement.id.replace(/free_method/, 'cutoff_cost'));
+        	var cutoffElement  = $(freeMethodElement.id.replace(/free_method/, 'cutoff_cost'));
             if (cutoffElement) {
                 if (freeMethodElement.value == '') {
                     cutoffElement.disabled = true;
