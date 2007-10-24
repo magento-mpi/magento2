@@ -19,27 +19,34 @@
  */
 
 /**
- * Adminhtml dashboard block
+ * Dashboard graph category axis
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Category extends Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Abstract
 {
-    public function __construct()
+    protected function _initLabels()
     {
-        parent::__construct();
-        $this->setTemplate('dashboard/main.phtml');
-
+	parent::_initLabels();
+         foreach($this->getParentBlock()->getAllSeries() as $series) {
+		foreach ($this->getCollection() as $item) {
+		    if(!$this->_labelExists($this->getLabelText($series->getValue($item, $this)))) {
+			$this->_labels[] = $this->getLabelText($series->getValue($item, $this));
+		    }
+		}
+	}
+	return $this;
     }
 
-    protected function _prepareLayout()
+    protected function _labelExists($label)
     {
-        $this->setChild('product',
-                 $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_product')
-        );
-        parent::_prepareLayout();
+        return in_array($label, $this->_labels);
     }
 
-} // Class Mage_Adminhtml_Block_Dashboard end
+    public function getDirection()
+    {
+        return self::DIRECTION_HORIZONTAL;
+    }
+} // Class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Category end

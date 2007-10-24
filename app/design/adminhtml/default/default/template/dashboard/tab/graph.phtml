@@ -26,9 +26,9 @@
 	<?$_maximum=$this->getVerticalAxis()->getPixelMaximum($_item)?>
 		<div class="bottom-bg" style="height:<?=$_maximum?>px;">
 			<dl class="gr1">
-			<?foreach ($this->getSeries() as $_key=>$_series):?>
+			<?foreach ($this->getAllSeries() as $_key=>$_series):?>
 			<?$_value=$this->getVerticalAxis()->getPixelPosition($_item, $_series)?>
-				<dt <?if(($_key+1)%2):?>class="odd"<?endif;?> style="height:<?=$_value?>px;margin-top:<?=($_maximum-$_value)?>px;">&nbsp;</dt>
+				<dt <?if(($_key+1)%2):?>class="odd"<?endif;?> style="height:<?=$_value?>px;margin-top:<?=($_maximum-$_value)?>px;"></dt>
 			<?endforeach;?>
 			</dl>
 		</div>

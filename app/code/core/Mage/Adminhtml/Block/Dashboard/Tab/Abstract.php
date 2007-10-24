@@ -28,29 +28,39 @@
 
 abstract class Mage_Adminhtml_Block_Dashboard_Tab_Abstract extends Mage_Adminhtml_Block_Widget
 {
-	/**
-	 * Block data collection
-	 *
-	 * @var Varien_Data_Collection_Db
-	 */
-	protected $_collection = null;
-	
-	public function __construct($attributes=array()) 
+
+	protected $_tabBar = null;
+
+	protected $_dataHelperName = null;
+
+	public function __construct($attributes=array())
 	{
 		parent::__construct($attributes);
 		$this->setTemplate($this->_getTabTemplate());
 	}
-			
+
 	public function getCollection()
 	{
-		return $this->_collection;
+	         return $this->getDataHelper()->getCollection();
 	}
-	
-	public function setCollection($collection) 
+
+
+
+	public function getDataHelper()
 	{
-		$this->_collection = $collection;
-		return $this;
+	       return $this->helper($this->getDataHelperName());
 	}
-	
+
+	public  function getDataHelperName()
+	{
+	       return $this->_dataHelperName;
+	}
+
+	public  function setDataHelperName($dataHelperName)
+	{
+	       $this->_dataHelperName = $dataHelperName;
+	       return $this;
+	}
+
 	abstract protected function _getTabTemplate();
 }// Class Mage_Adminhtml_Block_Dashboard_Abstract END

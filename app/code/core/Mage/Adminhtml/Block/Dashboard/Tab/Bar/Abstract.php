@@ -25,60 +25,76 @@
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Abstract extends Mage_Adminhtml_Block_Widget 
+ abstract class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Abstract extends Mage_Adminhtml_Block_Widget
  {
     protected $_tabs;
-    
-    /**
-     * Block data collection
-     *
-     * @var Varien_Data_Collection_Db
-     */
-    protected $_collection = null;
-    
-    public function addTab($tabId, $type, array $options) 
+
+    protected $_dataHelperName = null;
+
+    public function __construct()
     {
-        $tab = $tab->getTabByType($tabId);
+        parent::__construct();
+        $this->setTemplate('dashboard/tab/bar.phtml');
+    }
+
+    public function addTab($tabId, $type, array $options=array())
+    {
+        $tab = $this->getTabByType($type);
+        $tab->addData($options);
+        $tab->setType($type);
+        $tab->setId($tabId);
         $this->_tabs[] = $tab;
         $this->setChild($tabId, $tab);
-        return $this;
+
+        return $tab;
     }
-    
-    public function getTab($tabId) 
+
+    public function getTab($tabId)
     {
         return $this->getChild($tabId);
     }
-    
+
     public function getTabs()
     {
         return $this->_tabs;
     }
-    
-    protected function _prepareCollection()
+
+    protected function _prepareData()
     {
-        if($this->getCollection()) {
+        if($this->getDataHelperName()) {
             foreach ($this->getTabs() as $tab) {
-                if(!$tab->getCollection()) {
-                    $tab->setCollection($this->getCollection());
+                if(!$tab->getDataHelperName()) {
+                    $tab->setDataHelperName($this->getDataHelperName());
                 }
             }
-            $this->getCollection()->load();
-        }       
-        
+        }
+
         return $this;
     }
-    
+
+
+    public  function getDataHelperName()
+    {
+           return $this->_dataHelperName;
+    }
+
+    public  function setDataHelperName($dataHelperName)
+    {
+           $this->_dataHelperName = $dataHelperName;
+           return $this;
+    }
+
     protected function _initTabs()
     {
         return $this;
     }
-    
+
     protected function _prepareLayout()
     {
         $this->_initTabs();
         return parent::_prepareLayout();
     }
-    
+
     public function getTabByType($type)
     {
         $block = '';
@@ -86,30 +102,34 @@
             case "graph":
                 $block = 'adminhtml/dashboard_tab_graph';
                 break;
-                
+
             case "grid":
             default:
                 $block = 'adminhtml/dashboard_tab_grid';
                 break;
         }
-        
+
         return $this->getLayout()->createBlock($block);
     }
-    
+
+    public function getTabClassName($tab)
+    {
+        return  $tab->getType()=='graph' ? 'graph' : 'tab';
+    }
+
     public function getCollection()
     {
-        return $this->_collection;
+        return $this->getDataHelper()->getCollection();
     }
-    
-    public function setCollection($collection) 
-    {
-        $this->_collection = $collection;
-        return $this;
-    }
-    
+
     protected function _beforeToHtml()
     {
-        $this->_prepareCollection();
+        $this->_prepareData();
         return parent::_beforeToHtml();
+    }
+
+    public function getCountTabs()
+    {
+        return sizeof($this->_tabs);
     }
  } // Class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Abstract end

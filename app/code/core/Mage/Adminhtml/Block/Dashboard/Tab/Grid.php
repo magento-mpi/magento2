@@ -25,10 +25,10 @@
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Adminhtml_Block_Dashboard_Tab_Grid extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract 
+ class Mage_Adminhtml_Block_Dashboard_Tab_Grid extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract
  {
- 	/**
- 	 * @see Mage_Adminhtml_Block_Widget_Grid
+    /**
+     * @see Mage_Adminhtml_Block_Widget_Grid
      * Columns array
      *
      * array(
@@ -44,11 +44,11 @@
     protected $_columns = array();
 
     protected $_lastColumnId;
- 	
+
     protected $_totals = array();
-    
- 	/**
- 	 * @see Mage_Adminhtml_Block_Widget_Grid
+
+    /**
+     * @see Mage_Adminhtml_Block_Widget_Grid
      * Add column to grid
      *
      * @param   string $columnId
@@ -73,22 +73,64 @@
         $this->_lastColumnId = $columnId;
         return $this;
     }
-    
-    public function getRowValue($column, $row) 
+
+    public function getColumns()
     {
-    	$field  = $column->getIndex();
-    	if(is_array($row)) {
-    		return $row[$field];
-    	} else if($row instanceof Varien_Object) {
-    		return $row->getData($field);
-    	}
-    	
-    	return null;
+        return $this->_columns;
     }
-    
-    public function addTotal($columnId, $labelText) 
+
+    public function getColumn($columnId)
+    {
+        return isset($this->_columns[$columnId]) ? $this->_columns[$columnId] : null;
+    }
+
+
+    public function getRowValue($column, $row)
+    {
+   	if(is_array($row)) {
+    	       $row = new Varien_Object($row);
+    	}
+
+    	return $column->getRowField($row);
+    }
+
+    public function addTotal($columnId, $labelText)
     {
     	$this->_totals[$columnId] = $labelText;
     	return $this;
+    }
+
+    public function getTotals()
+    {
+        $result = array();
+        foreach ($this->_totals as $index=>$label) {
+            if($this->getColumn($index)) {
+                $objIndex = $this->getColumn($index)->getIndex();
+                $item = new Varien_Object(array($objIndex=>$this->getColumnSum($objIndex)));
+                $result[] = array('label'=>$label, 'value'=>$this->getColumn($index)->getRowValue($item));
+            }
+        }
+        return $result;
+    }
+
+    public function getColumnSum($index)
+    {
+        $sum = 0;
+        $values = $this->getDataHelper()->getColumn($index);
+        foreach ($values as $value) {
+            $sum+= (float) $value;
+        }
+
+        return $sum;
+    }
+
+    public function getCount()
+    {
+        return sizeof($this->getDataHelper()->getItems());
+    }
+
+    protected function  _getTabTemplate()
+    {
+    	return 'dashboard/tab/grid.phtml';
     }
  } // Class Mage_Adminhtml_Block_Dashboard_Tab_Grid end

@@ -1,0 +1,58 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<script language="JavaScript" type="text/javascript" src="<?=$this->getJsUrl('scrollbar.js')?>"></script>
+<script language="JavaScript" type="text/javascript">
+	var db_but_top = '<?=$this->getSkinUrl('images/db-scroll-but-top.png')?>';
+	var db_but_bot = '<?=$this->getSkinUrl('images/db-scroll-but-bot.png')?>';
+	var db_but_rol = '<?=$this->getSkinUrl('images/db-scroll-roller.png')?>';
+</script>
+<script type="text/javascript">
+<!--
+function showTab(tab, set, tabQty){
+	var tabOn = document.getElementById(set+tab+'Tab');
+	var conOn = document.getElementById(set+'-'+tab+'-tab');
+	tabOn.className = 'hover';
+	conOn.style.display = 'block';
+	for(t=1;t<tabQty+1;t++){
+		if(t!=tab){
+			document.getElementById(set+t+'Tab').className = '';
+			document.getElementById(set+'-'+t+'-tab').style.display = 'none';
+		}
+	}
+}
+//-->
+</script>
+<h3 class="content-header"><?=$this->__('Dashboard')?></h3>
+<ul class="graph-container">
+	<li class="section">
+		<dl class="db-top">
+			<dt><?=$this->__('Orders')?></dt>
+			<dd>
+				View report for&nbsp;&nbsp;
+				<select name="#"><option>Magento store</option></select>
+				&nbsp;&nbsp;for&nbsp;&nbsp;
+				<select name="#"><option>24 hours</option></select>
+			</dd>
+		</dl><div class="clear"></div>
+		<?=$this->getChildHtml('product')?>
+	</li>
+</ul>
+<div class="clear"></div>

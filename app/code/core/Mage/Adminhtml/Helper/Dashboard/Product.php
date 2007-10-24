@@ -19,27 +19,23 @@
  */
 
 /**
- * Adminhtml dashboard block
+ * Adminhtml dashboard helper for products
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
+class Mage_Adminhtml_Helper_Dashboard_Product extends Mage_Adminhtml_Helper_Dashboard_Abstract
 {
-    public function __construct()
+    protected function _initCollection()
     {
-        parent::__construct();
-        $this->setTemplate('dashboard/main.phtml');
+        $this->_collection = array(
+            array('name'=>'Product 1', 'avarage'=>263, 'salary'=>3666),
+            array('name'=>'Product 2', 'avarage'=>263, 'salary'=>266),
+            array('name'=>'Product 3', 'avarage'=>263, 'salary'=>366),
+            array('name'=>'Product 4', 'avarage'=>203, 'salary'=>6866),
+            array('name'=>'Product 5', 'avarage'=>263, 'salary'=>566)
 
-    }
-
-    protected function _prepareLayout()
-    {
-        $this->setChild('product',
-                 $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_product')
         );
-        parent::_prepareLayout();
     }
-
-} // Class Mage_Adminhtml_Block_Dashboard end
+} // Class Mage_Adminhtml_Helper_Dashboard_Product end

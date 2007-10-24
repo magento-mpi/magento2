@@ -1,0 +1,60 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div class="graph-table col3">
+	<div class="tab-right">
+	<div class="tab-head">
+		<?foreach ($this->getColumns() as $yKey => $_column) {?>
+		<div class="header" style="<?=($yKey % 2 ? 'background:none;' : '')?> <?=( $_column->getWidth() ? 'width:' . $_column->getWidth() . 'px' : '')?>"><?=$_column->getHeader()?></div>
+		<?}?>
+	</div><div class="clear"></div>
+	<?if($this->getCount()>10){?>
+	<script type="text/javascript"> instantiateScroller(0, "<?=$this->getHtmlId()?>", 7, 0, 490, 248, 248); </script>
+	<div class="root" id="<?=$this->getHtmlId()?>Root">
+	<div class="scrollContainer" id="<?=$this->getHtmlId()?>Container">
+	<div class="scrollContent" id="<?=$this->getHtmlId()?>Content">
+	<?}?>
+		<div class="tab-body">
+		<?foreach ($this->getCollection() as $gKey => $row) {?>
+			<div class="row<?=( $gKey % 2 ? '2': '')?>">
+			<?foreach ($this->getColumns() as $k => $_column) {?>
+				<div class="tab-item" <?=( $k=='1' ? ' style="text-align:right;"' : '')?>><?=$this->getRowValue($_column, $row)?></div>
+			<?}?>
+			</div>
+		<?}?>
+		</div>
+	<?if($this->getCount()>10){?>
+	</div>
+	</div>
+	</div>
+	<?}?>
+	<div class="clear"></div>
+	<div class="tab-footer">
+		<div class="tab-foot">
+		      <?foreach ($this->getTotals() as $_total):?>
+			<dl>
+				<dt><?=$_total['label']?>:</dt>
+				<dd><?=$_total['value']?></dd>
+			</dl>
+	               <?endforeach;?>
+		</div>
+	</div><div class="clear"></div>
+</div></div>
+<div class="tab-footer-bottom"><div class="tab-footer-right"></div><div class="tab-footer-left"></div></div>
