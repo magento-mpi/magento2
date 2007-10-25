@@ -229,10 +229,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_CatalogSearch>
-        <Mage_CatalogExcel>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_CatalogExcel>
         <Mage_CatalogRule>
             <active>true</active>
             <codePool>core</codePool>

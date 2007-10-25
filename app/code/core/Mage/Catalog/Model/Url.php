@@ -373,7 +373,7 @@ class Mage_Catalog_Model_Url
             if ($parent->getId()==$this->getRootId($storeId)) {
                 $parentPath = '';
             } else {
-                $parentPath = $parent->getUrlPath();
+                $parentPath = rtrim($parent->getUrlPath(),'/').'/';
             }
         }
         $idPath = 'category/'.$category->getId();
