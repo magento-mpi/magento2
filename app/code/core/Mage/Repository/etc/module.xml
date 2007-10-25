@@ -36,7 +36,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <description>Customers module</description>
     
     <lead>
-        <user>moshe</name>
+        <user>moshe</user>
         <role>developer</role>
         <name>Moshe Gurvich</name>
         <email>moshe@varien.com</email>
