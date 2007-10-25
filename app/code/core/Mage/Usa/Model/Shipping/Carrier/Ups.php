@@ -494,7 +494,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
     	$userid = Mage::getStoreConfig('carriers/ups/username');
 		$userid_pass = Mage::getStoreConfig('carriers/ups/password');
 		$access_key = Mage::getStoreConfig('carriers/ups/access_license_number');
-		
+		$url = Mage::getStoreConfig('carriers/ups/gateway_xml_url');
 		$xmlRequest =  <<<XMLAuth
 <?xml version="1.0"?>
 <AccessRequest xml:lang="en-US">
@@ -575,7 +575,7 @@ $xmlRequest .= <<< XMLRequest
 XMLRequest;
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'https://wwwcie.ups.com/ups.app/xml/Rate');
+		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_POST, 1);
