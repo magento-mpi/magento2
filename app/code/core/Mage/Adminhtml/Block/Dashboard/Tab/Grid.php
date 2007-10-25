@@ -47,6 +47,8 @@
 
     protected $_totals = array();
 
+    static protected $_scrollIndex = 0;
+
     /**
      * @see Mage_Adminhtml_Block_Widget_Grid
      * Add column to grid
@@ -107,9 +109,10 @@
             if($this->getColumn($index)) {
                 $objIndex = $this->getColumn($index)->getIndex();
                 $item = new Varien_Object(array($objIndex=>$this->getColumnSum($objIndex)));
-                $result[] = array('label'=>$label, 'value'=>$this->getColumn($index)->getRowValue($item));
+                $result[] = array('label'=>$label, 'value'=>$this->getColumn($index)->getRenderer()->render($item));
             }
         }
+
         return $result;
     }
 
@@ -127,6 +130,11 @@
     public function getCount()
     {
         return sizeof($this->getDataHelper()->getItems());
+    }
+
+    public function getScrollIndex()
+    {
+        return self::$_scrollIndex++;
     }
 
     protected function  _getTabTemplate()

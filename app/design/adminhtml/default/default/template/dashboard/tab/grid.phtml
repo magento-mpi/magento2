@@ -25,11 +25,12 @@
 		<div class="header" style="<?=($yKey % 2 ? 'background:none;' : '')?> <?=( $_column->getWidth() ? 'width:' . $_column->getWidth() . 'px' : '')?>"><?=$_column->getHeader()?></div>
 		<?}?>
 	</div><div class="clear"></div>
+	<?$_scrollIndex = $this->getScrollIndex()?>
 	<?if($this->getCount()>10){?>
-	<script type="text/javascript"> instantiateScroller(0, "<?=$this->getHtmlId()?>", 7, 0, 490, 248, 248); </script>
-	<div class="root" id="<?=$this->getHtmlId()?>Root">
-	<div class="scrollContainer" id="<?=$this->getHtmlId()?>Container">
-	<div class="scrollContent" id="<?=$this->getHtmlId()?>Content">
+	<script type="text/javascript"> instantiateScroller(<?=$_scrollIndex?>, "scroll<?=$_scrollIndex?>", 7, 0, 490, 248, 248); </script>
+	<div class="root" id="root<?=$_scrollIndex?>">
+	<div class="scrollContainer" id="scroll<?=$_scrollIndex?>Container">
+	<div class="scrollContent" id="scroll<?=$_scrollIndex?>Content">
 	<?}?>
 		<div class="tab-body">
 		<?foreach ($this->getCollection() as $gKey => $row) {?>

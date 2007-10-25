@@ -34,7 +34,15 @@ class Mage_Adminhtml_Helper_Dashboard_Product extends Mage_Adminhtml_Helper_Dash
             array('name'=>'Product 2', 'avarage'=>263, 'salary'=>266),
             array('name'=>'Product 3', 'avarage'=>263, 'salary'=>366),
             array('name'=>'Product 4', 'avarage'=>203, 'salary'=>6866),
-            array('name'=>'Product 5', 'avarage'=>263, 'salary'=>566)
+            array('name'=>'Product 5', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 6', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 7', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 8', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 9', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 10', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 11', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 12', 'avarage'=>263, 'salary'=>566),
+            array('name'=>'Product 13', 'avarage'=>263, 'salary'=>566)
 
         );
     }
