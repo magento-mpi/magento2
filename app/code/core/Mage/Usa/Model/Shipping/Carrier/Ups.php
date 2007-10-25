@@ -518,7 +518,6 @@ XMLAuth;
             '48_container'   => $r->getContainer(),
             '49_residential' => $r->getDestType(),
         );
-        
         $params['10_action']=='4'? $params['10_action']='Shop':$params['10_action']='Rate';
 $xmlRequest .= <<< XMLRequest
 <?xml version="1.0"?>
@@ -553,8 +552,10 @@ $xmlRequest .= <<< XMLRequest
       <Address>
       	<PostalCode>{$params['19_destPostal']}</PostalCode>
       	<CountryCode>{$params['22_destCountry']}</CountryCode>
+      	<ResidentialAddress>{$params['49_residential']}</ResidentialAddress>
       </Address>
     </ShipTo>
+  
     
     <ShipFrom>
       <Address>
