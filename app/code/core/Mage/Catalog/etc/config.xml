@@ -36,6 +36,7 @@
          </catalog>
          <catalog_entity>
             <class>Mage_Catalog_Model_Entity</class>
+            <resourceModel>catalog_mysql4</resourceModel>
             <entities>
               <product>
                 <table>catalog_product_entity</table>
@@ -145,6 +146,9 @@
               </product_attribute_tier_price>
             </entities>
          </catalog_entity>
+         <catalog_mysql4>
+            <class>Mage_Catalog_Model_Mysql4</class>
+         </catalog_mysql4>
       </models>
       <resources>
          <catalog_setup>

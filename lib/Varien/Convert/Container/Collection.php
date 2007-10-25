@@ -30,28 +30,28 @@ class Varien_Convert_Container_Collection
 {
     protected $_items = array();
     protected $_defaultClass = 'Varien_Convert_Container_Generic';
-    
+
     public function setDefaultClass($className)
     {
         $this->_defaultClass = $className;
         return $this;
     }
-    
+
     public function addItem($name, Varien_Convert_Container_Interface $item)
     {
         if (is_null($name)) {
-            if ($component->getName()) {
-                $name = $component->getName();
+            if ($item->getName()) {
+                $name = $item->getName();
             } else {
-                $name = sizeof($this->_items);   
+                $name = sizeof($this->_items);
             }
         }
-        
+
         $this->_items[$name] = $item;
-        
-        return $component;
+
+        return $item;
     }
-    
+
     public function getItem($name)
     {
         if (!isset($this->_items[$name])) {
@@ -59,7 +59,7 @@ class Varien_Convert_Container_Collection
         }
         return $this->_items[$name];
     }
-    
+
     public function hasItem($name)
     {
         return isset($this->_items[$name]);

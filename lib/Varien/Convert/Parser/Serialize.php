@@ -20,18 +20,23 @@
 
 
 /**
- * Convert action interface
+ * Convert php serialize parser
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-interface Varien_Convert_Action_Interface
+class Varien_Convert_Parser_Serialize extends Varien_Convert_Parser_Abstract
 {
-    /**
-     * Run current action
-     *
-     * @return Varien_Convert_Action_Abstract
-     */
-	public function run();
+	public function parse()
+    {
+        $this->setData(unserialize($this->getData()));
+        return $this;
+    }
+
+    public function unparse()
+    {
+        $this->setData(serialize($this->getData()));
+        return $this;
+    }
 }

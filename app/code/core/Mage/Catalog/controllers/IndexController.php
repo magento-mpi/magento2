@@ -38,12 +38,12 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
 
         $this->renderLayout();
     }
-    
+
     function testAction()
     {
         /*
     	$content = Mage::getModel('catalogexcel/export')->getWorkbookXml();
-    	
+
     	$fileName = 'catalog.xml';
         header('HTTP/1.1 200 OK');
         header('Content-Disposition: attachment; filename='.$fileName);
@@ -53,8 +53,10 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         header("Content-type: application/octet-stream");
         echo $content;
         */
-        Mage::getSingleton('catalog/convert')->run('export_catalog_to_http');
-        
+        #Mage::getSingleton('catalog/convert')->run('export_catalog_to_http');
+        Mage::getSingleton('catalog/convert')->run('export_catalog');
+        Mage::getSingleton('catalog/convert')->run('import_catalog');
+
     	exit;
     }
 
@@ -102,13 +104,5 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         }
         */
     }
-    
-    public function refreshRewritesAction()
-    {
-        #$setup = Mage::getResourceModel('catalog/setup', 'catalog_setup');
-        #$setup->installEntities($setup->getDefaultEntities());
-        Mage::getModel('catalog/url')->refreshRewrites();
-    }
-
 }
 

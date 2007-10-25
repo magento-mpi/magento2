@@ -30,11 +30,17 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
 {
 	public function parse()
     {
-        
+        $fDel = $this->getVar('field_delimited_by', ',');
+        $fEnc = $this->getVar('field_encosed_by', '"');
+        $fEsc = $this->getVar('field_escaped_by', '\\');
+
+        $text = $this->getData();
+        $data = array();
+
     }
-    
+
     public function unparse()
     {
-        
+
     }
 }

@@ -39,12 +39,12 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         }
         return $this->_vars[$key];
     }
-    
+
     public function getVars()
     {
         return $this->_vars;
     }
-    
+
     public function setVar($key, $value=null)
     {
         if (is_array($key) && is_null($value)) {
@@ -59,13 +59,13 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
     {
         return $this->_profile;
     }
-    
+
     public function setProfile(Varien_Convert_Profile_Abstract $profile)
     {
         $this->_profile = $profile;
         return $this;
     }
-        
+
     public function getData()
     {
         if (is_null($this->_data) && $this->getProfile()) {
@@ -73,41 +73,51 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         }
         return $this->_data;
     }
-        
+
     public function setData($data)
     {
         if ($this->getProfile()) {
             $this->getProfile()->getContainer()->setData($data);
         }
         $this->_data = $data;
-        return $this;   
+        return $this;
     }
 
-    public function validateDataString()
+    public function validateDataString($data)
     {
-        $data = $this->getData();
         if (!is_string($data)) {
             throw Varien_Exception("Invalid data type, expecting string.");
         }
         return true;
     }
 
-    public function validateDataArray()
+    public function validateDataArray($data)
     {
-        $data = $this->getData();
         if (!is_array($data)) {
             throw Varien_Exception("Invalid data type, expecting array.");
         }
         return true;
     }
-    
-    public function validateDataGrid()
+
+    public function validateDataGrid($data)
     {
-        $data = $this->getData();
         if (!is_array($data) || !is_array(current($data))) {
             throw Varien_Exception("Invalid data type, expecting 2D grid array.");
         }
         return true;
+    }
+
+    public function getGridFields($grid)
+    {
+        $fields = array();
+        foreach ($grid as $i=>$row) {
+            foreach ($row as $fieldName=>$data) {
+                if (!in_array($fieldName, $fields)) {
+                    $fields[] = $fieldName;
+                }
+            }
+        }
+        return $fields;
     }
 
 }

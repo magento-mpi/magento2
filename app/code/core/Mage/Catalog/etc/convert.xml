@@ -8,75 +8,75 @@
 
     <profile name="import_catalog">
         <action method="load" use="catalog_file"/>
-        
+
         <action method="parse" type="Varien_Convert_Parser_Xml_Excel"/>
-        
+
         <action method="save" type="catalog/convert_adapter_catalog"/>
     </profile>
-    
+
     <profile name="export_catalog">
         <action method="load" type="catalog/convert_adapter_catalog"/>
-        
-        <action method="unparse" type="Varien_Convert_Adapter_Xml_Excel"/>
-        
+
+        <action method="unparse" type="Varien_Convert_Parser_Xml_Excel"/>
+
         <action method="save" use="catalog_file"/>
     </profile>
-    
+
     <profile name="export_catalog_to_http">
         <action method="load" type="catalog/convert_adapter_catalog"/>
-        
-        <action method="unparse" type="Varien_Convert_Adapter_Xml_Excel"/>
-        
+
+        <action method="unparse" type="Varien_Convert_Parser_Xml_Excel"/>
+
         <action method="save" type="Varien_Convert_Adapter_Http">
             <var name="Content-Disposition">attachment; filename=catalog.xml</var>
             <var name="Content-Type">application/octet-stream</var>
         </action>
     </profile>
-    
+
     <profile name="import_simple_products">
         <action method="load" type="Varien_Convert_Adapter_Io">
             <var name="type">file</var>
             <var name="filename">products.csv</var>
         </action>
-        
+
         <action method="parse" type="Varien_Convert_Parser_Csv"/>
-        
+
         <action method="map" type="Varien_Convert_Mapper_Columns">
             <input name="some_field">another_field</input>
         </action>
-        
+
         <action method="save" type="catalog/convert_adapter_product"/>
     </profile>
-    
+
     <profile name="import_csv_to_table">
         <action method="load" type="Varien_Convert_Adapter_Io">
             <var name="type">file</var>
             <var name="filename">data.csv</var>
         </action>
-        
+
         <action method="parse" type="Varien_Convert_Parser_Csv"/>
-        
+
         <action method="map" type="Varien_Convert_Mapper_Column">
             <input name="field_in_result">field_in_source</input>
         </action>
-        
+
         <action method="validate" type="Varien_Convert_Validator_Column">
             <var name="field_in_table">!=''</var>
         </action>
-        
+
         <action method="save" type="core/convert_adapter_db_table">
             <var name="resource">module_write</var>
             <var name="table">module/table_name</var>
         </action>
     </profile>
-    
+
     <profile name="export_pending_orders_to_ftp">
         <action method="load" type="sales/convert_adapter_orders">
             <var name="status">pending</var>
         </action>
-        
+
         <action method="unparse" type="Varien_Convert_Parser_Csv"/>
-        
+
         <action method="save" type="Varien_Convert_Adapter_Io">
             <var name="type">ftp</var>
             <var name="host">some.host.com</var>

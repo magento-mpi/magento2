@@ -30,8 +30,8 @@ class Varien_Convert_Mapper_Column extends Varien_Convert_Mapper_Abstract
 {
 	public function map()
     {
-        $this->validateDataGrid();
         $data = $this->getData();
+        $this->validateDataGrid($data);
         $mappedData = array();
         foreach ($data as $i=>$row) {
             $newRow = array();
