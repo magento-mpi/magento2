@@ -197,7 +197,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 				#$shipment = $this->getShipmentByCode($code);
 				if (in_array($code, $allowedMethods)) {
                         $costArr[$code] = $shipElement->TotalCharges->MonetaryValue;
-                        $priceArr[$code] = $this->getMethodPrice($shipElement->TotalCharges->MonetaryValue,$code);
+                        $priceArr[$code] = $this->getMethodPrice(floatval($shipElement->TotalCharges->MonetaryValue),$code);
                 }
 			}
 		} else {
@@ -293,7 +293,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 
     public function getMethodPrice($cost, $method='')
     {
-        $r = $this->_rawRequest;
+    	$r = $this->_rawRequest;
         if (Mage::getStoreConfig('carriers/ups/cutoff_cost') != ''
          && $method == Mage::getStoreConfig('carriers/ups/free_method')
          && Mage::getStoreConfig('carriers/ups/cutoff_cost') <= $r->getValue()) {
@@ -518,6 +518,7 @@ XMLAuth;
             '48_container'   => $r->getContainer(),
             '49_residential' => $r->getDestType(),
         );
+        
         $params['10_action']=='4'? $params['10_action']='Shop':$params['10_action']='Rate';
 $xmlRequest .= <<< XMLRequest
 <?xml version="1.0"?>
