@@ -77,6 +77,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
                     'class' => 'delete'
                 )));
 
+        $this->setChild('delete_group_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => __('Delete Tier Group'),
+                    'onclick'   => "tierPriceControl.delGroup(#{group_index})",
+                    'class' => 'delete'
+                )));
+
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -88,7 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         $this->setChild('add_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add New Price by Group'),
+                    'label'     => __('Add New Tier Group'),
                     'onclick'   => 'tierPriceControl.addGroup()',
                     'class' => 'add'
                 )));
@@ -109,6 +117,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
+    }
+
+    public function getDeleteGroupButtonHtml()
+    {
+        return $this->getChildHtml('delete_group_button');
     }
 
     public function getCustomerGroupsHtml()

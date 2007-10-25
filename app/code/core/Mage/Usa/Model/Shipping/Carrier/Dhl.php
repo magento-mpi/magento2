@@ -30,25 +30,23 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_dhlRates = array();
     protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
+
+    const SUCCESS_CODE = 203;
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/dhl/active')) {
             return false;
         }
-
-        $this->setRequest($request);
-
-        $this->_getXmlQuotes();
-
+        $this->process($request);
         return $this->getResult();
     }
 
-    public function setRequest(Mage_Shipping_Model_Rate_Request $request)
+    public function process(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
-
         $r = new Varien_Object();
 
         if ($request->getLimitMethod()) {
@@ -77,8 +75,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         $r->setAccountNbr($accountNbr);
 
         if ($request->getDhlShippingKey()) {
-            // dorabotat' v plane zaprosa shipping key pri ego otsutstvii
-            // ili pri izmenenii ZIP code magazina! TOFIX, FIXME
             $shippingKey = $request->getDhlShippingKey();
         } else {
             $shippingKey = Mage::getStoreConfig('carriers/dhl/shipping_key');
@@ -94,28 +90,43 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
-        } else {
-
         }
 
-        $r->setWeight($request->getPackageWeight());
-
-        $r->setValue($request->getPackageValue());
+        $r->setWeight($request->getPackageWeight())
+            ->setValue($request->getPackageValue())
+            ->setDestCountryId($request->getDestCountryId())
+            ->setDestState( Mage::getModel('usa/postcode')->getStateByPostcode($request->getDestPostcode()) );
 
         $this->_rawRequest = $r;
+        $methods = explode(',', Mage::getStoreConfig('carriers/dhl/allowed_methods'));
+        foreach ($methods as $method) {
+        	$this->_rawRequest->setService($method);
+            $this->_getXmlQuotes();
+        }
 
         return $this;
     }
 
     public function getResult()
     {
-       return $this->_result;
+        $result = Mage::getModel('shipping/rate_result');
+        foreach($this->_dhlRates as $method => $data) {
+            $rate = Mage::getModel('shipping/rate_result_method');
+            $rate->setCarrier('dhl');
+            $rate->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
+            $rate->setMethod($method);
+            $rate->setMethodTitle($data['term']);
+            $rate->setCost($data['price_total']);
+            $rate->setPrice($data['price_total']);
+            $result->append($rate);
+        }
+
+       return $result;
     }
 
     protected function _getXmlQuotes()
     {
         $r = $this->_rawRequest;
-
         $xml = new SimpleXMLElement('<eCommerce/>');
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
@@ -134,29 +145,18 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 
             $shipmentDetail = $shipment->addChild('ShipmentDetail');
                 $shipmentDetail->addChild('ShipDate', date('Y-m-d'));
-                if ($r->hasService()) {
-                    $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
-                }
+                $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
                 $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
                 $shipmentDetail->addChild('Weight', $r->getWeight());
 
-            $shipment->addChild('Billing')->addChild('Party')->addChild('Code', 'S'); // Sender
+            $shipment->addChild('Billing')->addChild('Party')->addChild('Code', 'S');
 
             $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
-//              $receiverAddress->addChild('State', $r->getDestState());
-                $receiverAddress->addChild('Country', 'US');
+                $receiverAddress->addChild('State', $r->getDestState());
+                $receiverAddress->addChild('Country', $r->getDestCountryId());
                 $receiverAddress->addChild('PostalCode', $r->getDestPostal());
 
         $request = $xml->asXML();
-
-/*
-        $client = new Zend_Http_Client();
-        $client->setUri(Mage::getStoreConfig('carriers/dhl/gateway_url'));
-        $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-        $client->setParameterPost($request);
-        $response = $client->request();
-        $responseBody = $response->getBody();
-*/
 
         try {
             $url = Mage::getStoreConfig('carriers/dhl/gateway_url');
@@ -174,7 +174,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         } catch (Exception $e) {
             $responseBody = '';
         }
-
         $this->_parseXmlResponse($responseBody);
     }
 
@@ -195,51 +194,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                         && is_object($xml->Faults->Fault->Context)
                        ) {
                         $errorTitle = 'Error #'.(string)$xml->Faults->Fault->Code.': '.$xml->Faults->Fault->Description.' ('.$xml->Faults->Fault->Context.')';
+                    } elseif(
+                        is_object($xml->Shipment->Faults)
+                        && is_object($xml->Shipment->Result->Code)
+                        && is_object($xml->Shipment->Result->Desc)
+                        && intval($xml->Shipment->Result->Code) != self::SUCCESS_CODE
+                       ) {
+                        $errorTitle = 'Error #'.(string)$xml->Shipment->Result->Code.': '.$xml->Shipment->Result->Desc;
                     } else {
-                        $errorTitle = 'Unknown error';
+                        $this->_addRate($xml);
                     }
-                    /*
-                    FIXME, TOFIX
-
-                    REWORK IT: nado perepisat' etot kusok dlia polucheniya pravil'nyh
-                    ocenok stoimosti iz pravil'nyh poley:
-
-                    if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
-                        $allowedMethods = explode(",", Mage::getStoreConfig('carriers/dhl/allowed_methods'));
-                        foreach ($xml->Package->Postage as $postage) {
-                            $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-                            $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
-                        }
-                        asort($priceArr);
-                    }
-                    */
                 }
             } else {
                 $errorTitle = 'Response is in the wrong format';
             }
         }
-
-        $result = Mage::getModel('shipping/rate_result');
-        $defaults = $this->getDefaults();
-        if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
-            $error->setCarrier('dhl');
-            $error->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
-            $error->setErrorMessage($errorTitle);
-            $result->append($error);
-        } else {
-            foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
-                $rate->setCarrier('dhl');
-                $rate->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
-                $rate->setMethod($method);
-                $rate->setMethodTitle($method);
-                $rate->setCost($costArr[$method]);
-                $rate->setPrice($price);
-                $result->append($rate);
-            }
-        }
-        $this->_result = $result;
     }
 
     public function getMethodPrice($cost, $method='')
@@ -287,4 +256,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         }
     }
 
+    protected function _addRate($xml)
+    {
+        $service = (string)$xml->Shipment->EstimateDetail->Service->Code;
+        $data['term'] = (string)$xml->Shipment->EstimateDetail->ServiceLevelCommitment->Desc;
+        $data['price_total'] = (string)$xml->Shipment->EstimateDetail->RateEstimate->TotalChargeEstimate;
+        $this->_dhlRates[$service] = $data;
+    }
 }

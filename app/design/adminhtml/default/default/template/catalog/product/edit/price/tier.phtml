@@ -56,13 +56,12 @@
 <span id="<?=$this->getElement()->getHtmlId()?>_group_container"></span>
 
 <div id="<?=$this->getElement()->getHtmlId()?>_group_template">
-    <fieldset id="<?=$this->getElement()->getHtmlId()?>_group_fieldset" style="display:none">
-        <a href="#" class="btn-remove-tier-group" onclick="tierPriceControl.delGroup(__group_index__);return false;"><img src="<?=$this->getSkinUrl('images/icon_remove_address.gif')?>" alt="Remove group" id="delete_button___group_index__"></a>
-        <?=$this->getAddButtonHtml()?>
-        <div>&nbsp;</div>
-        <?=$this->getCustomerGroupsHtml()?>
+    <fieldset id="<?=$this->getElement()->getHtmlId()?>_group_fieldset" style="display:none;position:relative;">
+        <label style="width:100px;" for="customer_groups___group_index__"><strong><?=__('Customer Group')?></strong></label><?=$this->getCustomerGroupsHtml()?>
+        <div style="position:absolute;float:right;top:0;right:25px;"><?=$this->getDeleteGroupButtonHtml()?></div>
         <div>&nbsp;</div>
         <span id="<?=$this->getElement()->getHtmlId()?>_container"></span>
+        <?=$this->getAddButtonHtml()?>
     </fieldset>
 </div>
 
