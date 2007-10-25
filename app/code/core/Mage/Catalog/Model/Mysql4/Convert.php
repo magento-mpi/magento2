@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Mysql4_Convert
 		if (!$this->_skuAttribute) {
 			$this->_skuAttribute = $this->getProductEntity()->getAttribute('sku');
 		}
-		return $this->_skuAttribute->getData('$field');
+		return $this->_skuAttribute->getData($field);
 	}
 
 	public function exportAttributes()
@@ -129,7 +129,6 @@ class Mage_Catalog_Model_Mysql4_Convert
 			->join(array('sku'=>$skuTable), 'sku.entity_id=l.product_id'.$skuCond, array('sku'=>'value'))
 			->join(array('linked'=>$skuTable), 'linked.entity_id=l.product_id'.$skuCond, array('linked'=>'value'))
 			->order('sku')->order('link_type');
-
 		$links = $this->getConnection()->fetchAll($select);
 
 		return $links;
@@ -188,13 +187,13 @@ class Mage_Catalog_Model_Mysql4_Convert
 		foreach ($attrSets as $attrSet) {
 			$attrSetName[$attrSet->getId()] = $attrSet->getAttributeSetName();
 		}
-
+/*
 		$select = $this->getSelect()
             ->from(array('ao'=>$this->getTable('eav/attribute_option')), array('attribute_id', 'option_id'))
             ->join(array('aov'=>$this->getTable('eav/attribute_option_value'), 'aov.option_id=ao.option_id', array('value_id', 'value')))
             ->where('aov.store_id=0');
         $
-
+*/
 		$collection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToSelect('*')
 			->load();
@@ -217,13 +216,14 @@ class Mage_Catalog_Model_Mysql4_Convert
 		return array();
 	}
 
-	public function getProductAttributeOption($attribute, )
+	public function getProductAttributeOption($attribute, $value)
 	{
-	    $attribute = Mage::get
+	    #$attribute = Mage::get
 	}
 
 	public function importProducts(array $data)
 	{
+	    /*
 	    $entity = Mage::getResourceModel('catalog/product')
 	       ->loadAllAttributes();
 
@@ -235,5 +235,6 @@ class Mage_Catalog_Model_Mysql4_Convert
 	        }
 	        $sku = $row['sku'];
 	    }
+	    */
 	}
 }

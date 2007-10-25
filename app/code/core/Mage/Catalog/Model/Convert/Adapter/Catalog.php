@@ -31,6 +31,7 @@ class Mage_Catalog_Model_Convert_Adapter_Catalog extends Varien_Convert_Adapter_
 
     public function save()
     {
+        /*
         $res = $this->getResource();
 
         foreach (array('Attributes', 'Attribute Sets', 'Attribute Options', 'Products', 'Categories', ''))
@@ -39,6 +40,7 @@ class Mage_Catalog_Model_Convert_Adapter_Catalog extends Varien_Convert_Adapter_
 
         echo "<pre>".print_r($this->getData(),1)."</pre>";
 
+        */
         return $this;
     }
 }

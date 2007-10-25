@@ -53,9 +53,9 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action {
         header("Content-type: application/octet-stream");
         echo $content;
         */
-        #Mage::getSingleton('catalog/convert')->run('export_catalog_to_http');
-        Mage::getSingleton('catalog/convert')->run('export_catalog');
-        Mage::getSingleton('catalog/convert')->run('import_catalog');
+        Mage::getSingleton('catalog/convert')->run('export_catalog_to_http');
+        #Mage::getSingleton('catalog/convert')->run('export_catalog');
+        #Mage::getSingleton('catalog/convert')->run('import_catalog');
 
     	exit;
     }
