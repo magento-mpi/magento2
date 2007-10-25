@@ -46,13 +46,13 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
         if ($model->getId()) {
-        	$fieldset->addField('search_id', 'hidden', array(
-                'name' => 'search_id',
+        	$fieldset->addField('query_id', 'hidden', array(
+                'name' => 'query_id',
             ));
         }
 
-    	$fieldset->addField('search_query', 'text', array(
-            'name' => 'search_query',
+    	$fieldset->addField('query_text', 'text', array(
+            'name' => 'query_text',
             'label' => __('Search Query'),
             'required' => true,
         ));

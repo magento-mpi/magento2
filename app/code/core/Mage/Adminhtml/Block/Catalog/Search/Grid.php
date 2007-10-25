@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalogsearch/search')
+        $collection = Mage::getModel('catalogsearch/query')
             ->getResourceCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -48,37 +48,41 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
 
     protected function _prepareColumns()
     {
-        $this->addColumn('search_id', array(
+        /*$this->addColumn('query_id', array(
             'header'    => __('ID'),
             'width'     => '50px',
-            'index'     => 'search_id',
-        ));
+            'index'     => 'query_id',
+        ));*/
 
         $this->addColumn('search_query', array(
             'header'    => __('Search Query'),
-            'index'     => 'search_query',
+            'index'     => 'query_text',
         ));
 
         $this->addColumn('num_results', array(
             'header'    => __('Results'),
             'index'     => 'num_results',
+            'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
             'header'    => __('Number of Uses'),
             'index'     => 'popularity',
+            'type'      => 'number'
         ));
 
         $this->addColumn('synonim_for', array(
             'header'    => __('Synonym for'),
             'align'     => 'left',
             'index'     => 'synonim_for',
+            'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
             'header'    => __('Redirect'),
             'align'     => 'left',
             'index'     => 'redirect',
+            'width'     => '200px'
         ));
 
         return parent::_prepareColumns();
@@ -86,6 +90,6 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id' => $row->getSearchId()));
+        return Mage::getUrl('*/*/edit', array('id' => $row->getId()));
     }
 }

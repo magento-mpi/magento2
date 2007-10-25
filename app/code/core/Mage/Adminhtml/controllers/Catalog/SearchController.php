@@ -46,7 +46,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('catalogsearch/search');
+        $model = Mage::getModel('catalogsearch/query');
 
         if ($id) {
             $model->load($id);
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $model = Mage::getModel('catalogsearch/search');
+            $model = Mage::getModel('catalogsearch/query');
 //            if ($id = $this->getRequest()->getParam('page_id')) {
 //                $model->load($id);
 //                if ($id != $model->getId()) {
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('catalogsearch/search');
+                $model = Mage::getModel('catalogsearch/query');
                 $model->setId($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Search was successfully deleted'));

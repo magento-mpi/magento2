@@ -31,14 +31,14 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
     {
         parent::__construct();
         $this->setId('searchReportGrid');
-        $this->setDefaultSort('search_id');
+        $this->setDefaultSort('query_id');
         $this->setDefaultDir('desc');
     }
 
     protected function _prepareCollection()
     {
        
-        $collection = Mage::getResourceModel('catalogsearch/search_collection');
+        $collection = Mage::getResourceModel('catalogsearch/query_collection');
         $this->setCollection($collection);
       
         parent::_prepareCollection();
@@ -48,17 +48,17 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareColumns()
     {
-        $this->addColumn('search_id', array(
+        $this->addColumn('query_id', array(
             'header'    =>__('ID'),
             'width'     =>'50px',
             'filter'    =>false,
-            'index'     =>'search_id'
+            'index'     =>'query_id'
         ));
         
-        $this->addColumn('search_query', array(
+        $this->addColumn('query_text', array(
             'header'    =>__('Search Query'),
             'filter'    =>false,
-            'index'     =>'search_query'
+            'index'     =>'query_text'
         ));
         
         $this->addColumn('num_results', array(

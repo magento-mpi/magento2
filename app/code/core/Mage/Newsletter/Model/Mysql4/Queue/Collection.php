@@ -45,15 +45,16 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
      * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
      */
     public function addTemplateInfo() {
-    	$this->getSelect()->joinLeft(array('template'=>$this->getTable('template')),
-        						 'template.template_id=main_table.template_id',
-        						 array('template_subject','template_sender_name','template_sender_email'));
-   		$this->_joinedTables['template'] = true;
-   		return $this;
+        $this->getSelect()->joinLeft(array('template'=>$this->getTable('template')),
+            'template.template_id=main_table.template_id',
+            array('template_subject','template_sender_name','template_sender_email'));
+   	    $this->_joinedTables['template'] = true;
+   	    return $this;
     }
 
     protected  function _addSubscriberInfoToSelect()
     {
+        $this->_addSubscribersFlag = true;
     	$this->getSize(); // Executing of count query!
     	$this->getSelect()
     		->joinLeft(array('link_total'=>$this->getTable('queue_link')),
@@ -67,10 +68,11 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     								 	new Zend_Db_Expr('COUNT(DISTINCT link_sent.queue_link_id) AS subscribers_sent')
     								 ))
     		->group('main_table.queue_id');
+        return $this;
     }
 
     public function load($printQuery=false, $logQuery=false) {
-    	if($this->_addSubscribersFlag) {
+    	if($this->_addSubscribersFlag && !$this->isLoaded()) {
     		$this->_addSubscriberInfoToSelect();
     	}
 
