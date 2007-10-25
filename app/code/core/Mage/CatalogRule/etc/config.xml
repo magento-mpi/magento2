@@ -84,7 +84,7 @@
             <modules>
                 <Mage_CatalogRule>
                     <files>
-                        <default>translate.csv</default>
+                        <default>Mage_CatalogRule.csv</default>
                     </files>
                 </Mage_CatalogRule>
             </modules>

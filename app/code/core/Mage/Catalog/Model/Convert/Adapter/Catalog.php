@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Convert_Adapter_Catalog extends Varien_Convert_Adapter_
         $this->setData
 
         echo "<pre>".print_r($this->getData(),1)."</pre>";
-
+        
         */
         return $this;
     }

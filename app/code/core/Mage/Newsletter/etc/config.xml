@@ -128,4 +128,15 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Newsletter>
+                    <files>
+                        <default>Mage_Newsletter.csv</default>
+                    </files>
+                </Mage_Newsletter>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

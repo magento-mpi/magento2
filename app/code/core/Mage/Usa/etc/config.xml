@@ -89,4 +89,26 @@
          </tax>
       </sales>
    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Usa>
+                    <files>
+                        <default>Mage_Usa.csv</default>
+                    </files>
+                </Mage_Usa>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frongend>
+        <translate>
+            <modules>
+                <Mage_Usa>
+                    <files>
+                        <default>Mage_Usa.csv</default>
+                    </files>
+                </Mage_Usa>
+            </modules>
+        </translate>
+    </frongend>
 </config>

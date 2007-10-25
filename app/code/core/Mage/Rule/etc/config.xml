@@ -41,7 +41,7 @@
                 </rule>
         </blocks>
     </global>
-    <frontend>
+    <adminhtml>
         <translate>
             <modules>
                 <Mage_Rule>
@@ -51,5 +51,5 @@
                 </Mage_Rule>
             </modules>
         </translate>
-    </frontend>
+    </adminhtml>
 </config>

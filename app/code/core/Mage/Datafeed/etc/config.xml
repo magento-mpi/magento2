@@ -27,6 +27,17 @@
             </datafeed>
         </models>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Datafeed>
+                    <files>
+                        <default>Mage_Datafeed.csv</default>
+                    </files>
+                </Mage_Datafeed>
+            </modules>
+        </translate>
+    </adminhtml>
     <frontend>
         <routers>
             <datafeed>

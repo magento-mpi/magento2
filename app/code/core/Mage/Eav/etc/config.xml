@@ -74,4 +74,15 @@
             </eav_read>
         </resources>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Eav>
+                    <files>
+                        <default>Mage_Eav.csv</default>
+                    </files>
+                </Mage_Eav>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

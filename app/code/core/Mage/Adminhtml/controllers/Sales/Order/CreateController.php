@@ -79,7 +79,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         return $this;
     }
 
-    public function indexAction()
+    /*public function indexAction()
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('core/template')->setTemplate('coming.phtml'))
@@ -91,9 +91,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('core/template')->setTemplate('coming.phtml'))
             ->renderLayout();
-    }
+    }*/
 
-    public function indexAction_()
+    public function indexAction()
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_create'))
@@ -101,19 +101,19 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             ->renderLayout();
     }
 
-    public function startAction_()
+    public function startAction()
     {
         $this->getSession()->reset();
         $this->_redirect('*/*', array('customer_id' => $this->getRequest()->getParam('customer_id')));
     }
 
-    public function cancelAction_()
+    public function cancelAction()
     {
         $this->getSession()->reset();
         $this->_redirect('*/*');
     }
 
-    public function editAction_()
+    public function editAction()
     {
         $this->getSession()->reset();
         $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_redirect('*/*');
     }
 
-    public function customerAction_()
+    public function customerAction()
     {
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
             $this->getSession()->setCustomerId($customerId);
@@ -136,12 +136,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
     }
 
-    public function customerGridAction_()
+    public function customerGridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_customer_grid')->toHtml());
     }
 
-    public function storeAction_()
+    public function storeAction()
     {
         if ($storeId = $this->getRequest()->getParam('store_id')) {
 //            if ($this->getSession()->getIsOldCustomer() && (! in_array($storeId, $this->getSession()->getCustomer()->getSharedStoreIds())) {
@@ -152,12 +152,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
     }
 
-    public function sidebarAction_()
+    public function sidebarAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')->toHtml());
     }
 
-    public function cartAction_()
+    public function cartAction()
     {
         $intFilter = new Zend_Filter_Int();
 
@@ -194,7 +194,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_cart')->toHtml());
     }
 
-    public function wishlistAction_()
+    public function wishlistAction()
     {
 
         $wishlist = null;
@@ -252,17 +252,17 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_wishlist')->toHtml());
     }
 
-    public function viewedAction_()
+    public function viewedAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_viewed')->toHtml());
     }
 
-    public function comparedAction_()
+    public function comparedAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_compared')->toHtml());
     }
 
-    public function shippingAddressAction_()
+    public function shippingAddressAction()
     {
         if (! is_null($same = $this->getRequest()->getParam('same_as_billing'))) {
             $this->getSession()->setSameAsBilling($same);
@@ -281,7 +281,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_address')->toHtml());
     }
 
-    public function billingAddressAction_()
+    public function billingAddressAction()
     {
         if (! is_null($addressId = $this->getRequest()->getParam('address_id'))) {
             $this->getSession()->setBillingAddressId($addressId);
@@ -296,7 +296,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address')->toHtml());
     }
 
-    public function shippingMethodAction_()
+    public function shippingMethodAction()
     {
         if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
             $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
@@ -304,12 +304,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_method')->toHtml());
     }
 
-    public function billingMethodAction_()
+    public function billingMethodAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_billing_method')->toHtml());
     }
 
-    public function couponsAction_()
+    public function couponsAction()
     {
         if (! is_null($couponCode = $this->getRequest()->getParam('coupon_code'))) {
             $this->getQuote()->setCouponCode($couponCode);
@@ -317,12 +317,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_coupons')->toHtml());
     }
 
-    public function newsletterAction_()
+    public function newsletterAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_newsletter')->toHtml());
     }
 
-    public function itemsAction_()
+    public function itemsAction()
     {
 
         $intFilter = new Zend_Filter_Int();
@@ -428,22 +428,22 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 //        Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
     }
 
-    public function searchAction_()
+    public function searchAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_search')->toHtml());
     }
 
-    public function searchGridAction_()
+    public function searchGridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_search_grid')->toHtml());
     }
 
-    public function totalsAction_()
+    public function totalsAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_totals')->toHtml());
     }
 
-    public function saveAction_()
+    public function saveAction()
     {
         $order = Mage::getModel('sales/order');
         /* @var $order Mage_Sales_Model_Order */

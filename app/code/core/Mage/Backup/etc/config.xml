@@ -59,4 +59,15 @@
             </backup_read>
         </resources>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Backup>
+                    <files>
+                        <default>Mage_Backup.csv</default>
+                    </files>
+                </Mage_Backup>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>
