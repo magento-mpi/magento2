@@ -41,4 +41,9 @@ $this->addAttribute('catalog_category', 'url_path', array(
     'unique'    => true,
 ));
 
+$this->run("
+update eav_attribute set backend_model='catalog_entity/product_attribute_backend_urlkey' where attribute_code='url_key' and frontend_label like '%product%';
+update eav_attribute set backend_model='catalog_entity/category_attribute_backend_urlkey' where attribute_code='url_key' and frontend_label like '%category%';
+");
+
 #Mage::getModel('catalog/url')->refreshRewrites();
