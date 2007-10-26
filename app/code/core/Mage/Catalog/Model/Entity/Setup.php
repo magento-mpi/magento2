@@ -410,7 +410,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'unique'    => false,
                     ),
                     'sku'          => array(
-                        'type'      => 'varchar',
+                        'type'      => 'static',
                         'backend'   => '',
                         'frontend'  => '',
                         'label'     => 'SKU',
