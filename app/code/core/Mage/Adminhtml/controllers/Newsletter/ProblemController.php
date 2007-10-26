@@ -35,7 +35,9 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
             return;
         }
 
-        $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
+        $this->getLayout()->getMessagesBlock()->setMessages(
+            Mage::getSingleton('adminhtml/session')->getMessages(true)
+        );
         $this->loadLayout();
 
 		$this->_setActiveMenu('newsletter/problem');
@@ -44,7 +46,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 		$this->_addBreadcrumb(__('Newsletter Problem Reports'), __('Newsletter Problem Reports'));
 
 		$this->_addContent(
-			$this->getLayout()->createBlock('adminhtml/newsletter_problem','problem')
+			$this->getLayout()->createBlock('adminhtml/newsletter_problem', 'problem')
 		);
 
 		$this->renderLayout();

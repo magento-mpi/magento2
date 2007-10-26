@@ -97,7 +97,7 @@ class Mage_Newsletter_Model_Mysql4_Problem_Collection extends Mage_Core_Model_My
 	public function load($printQuery=false, $logQuery=false) 
     {
     	parent::load($printQuery, $logQuery);
-    	if($this->_subscribersInfoJoinedFlag) {
+    	if($this->_subscribersInfoJoinedFlag && !$this->isLoaded()) {
     		$this->_addCustomersData();
     	}
     	return $this;

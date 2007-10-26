@@ -30,7 +30,7 @@ class Mage_Adminhtml_Model_Search_Catalog extends Varien_Object
             return $this;
         }
         
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::helper('catalogSearch')->getQuery()->getResultCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('description')
             ->addSearchFilter($this->getQuery())
