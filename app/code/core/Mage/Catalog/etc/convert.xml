@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<collection>
-    <container name="catalog_file" type="Varien_Convert_Adapter_Io">
-        <var name="type">file</var>
+<convert version="1.0">
+
+    <container name="catalog_file" type="varien/convert_adadpter_io">
         <var name="path">/tmp</var>
         <var name="filename">test.xml</var>
     </container>
+
+
+    <profile name="import_products">
+        <action method="load" type="varien/convert_adapter_io">
+            <var name="filename">products.xml</var>
+        </action>
+
+        <action method="parse" type="varien/convert_parser_xml_excel">
+            <var name="single_sheet">Products</var>
+        </action>
+
+        <action method="parse" type="catalog/convert_parser_product"/>
+
+        <action method="save" type="eav/convert_adapter_collection"/>
+    </profile>
+
+    <profile name="export_products">
+        <action method="load" type="eav/convert_adapter_collection">
+            <var name="entity_type">catalog/product</var>
+        </action>
+
+        <action method="unparse" type="catalog/convert_parser_product"/>
+
+        <action method="unparse" type="varien/convert_parser_xml_excel">
+            <var name="single_sheet">Products</var>
+        </action>
+
+        <action method="save" type="varien/convert_adapter_io">
+            <var name="filename">products.xml</var>
+        </action>
+    </profile>
 
     <profile name="import_catalog">
         <action method="load" use="catalog_file"/>
@@ -31,21 +62,6 @@
             <var name="Content-Disposition">attachment; filename=catalog.xml</var>
             <var name="Content-Type">application/octet-stream</var>
         </action>
-    </profile>
-
-    <profile name="import_simple_products">
-        <action method="load" type="Varien_Convert_Adapter_Io">
-            <var name="type">file</var>
-            <var name="filename">products.csv</var>
-        </action>
-
-        <action method="parse" type="Varien_Convert_Parser_Csv"/>
-
-        <action method="map" type="Varien_Convert_Mapper_Columns">
-            <input name="some_field">another_field</input>
-        </action>
-
-        <action method="save" type="catalog/convert_adapter_product"/>
     </profile>
 
     <profile name="import_csv_to_table">
@@ -83,4 +99,4 @@
             <var name="path">upload</var>
         </action>
     </profile>
-</collection>
+</convert>

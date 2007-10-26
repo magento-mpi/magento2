@@ -30,10 +30,11 @@ abstract class Varien_Convert_Profile_Abstract
 {
     protected $_actions;
     protected $_containers;
-    
+    protected $_exceptions = array();
+
     protected $_actionDefaultClass = 'Varien_Convert_Action';
     protected $_containerCollectionDefaultClass = 'Varien_Convert_Container_Collection';
-    
+
     public function addAction(Varien_Convert_Action_Interface $action=null)
     {
         if (is_null($action)) {
@@ -43,7 +44,7 @@ abstract class Varien_Convert_Profile_Abstract
         $action->setProfile($this);
         return $action;
     }
-    
+
     public function setContainers(Varien_Convert_Container_Collection $containers)
     {
         $this->_containers = $containers;
@@ -57,7 +58,7 @@ abstract class Varien_Convert_Profile_Abstract
         }
         return $this->_containers;
     }
-    
+
     public function getContainer($name=null)
     {
         if (is_null($name)) {
@@ -65,20 +66,38 @@ abstract class Varien_Convert_Profile_Abstract
         }
         return $this->getContainers()->getItem($name);
     }
-    
+
     public function addContainer($name, Varien_Convert_Container_Interface $container)
     {
         $container = $this->getContainers()->addItem($name, $container);
         $container->setProfile($this);
         return $container;
     }
-    
+
+    public function getExceptions()
+    {
+        return $this->_exceptions;
+    }
+
+    public function addException(Varien_Convert_Exception $e)
+    {
+        $this->_exceptions[] = $e;
+        return $this;
+    }
+
     public function run()
     {
         if ($this->_actions) {
             foreach ($this->_actions as $action) {
-                $action->run();
-            }   
+                try {
+                    $action->run();
+                } catch (Varien_Convert_Exception $e) {
+                    $this->addException($e);
+                    if ($e->getLevel()===Varien_Convert_Exception::FATAL) {
+                        break;
+                    }
+                }
+            }
         }
         return $this;
     }

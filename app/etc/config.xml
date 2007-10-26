@@ -155,6 +155,10 @@
             </connection>
         </resource>
         <models>
+            <varien>
+                <class>Varien</class>
+            </varien>
+
             <core>
                 <class>Mage_Core_Model</class>
                 <resourceModel>core_mysql4</resourceModel>

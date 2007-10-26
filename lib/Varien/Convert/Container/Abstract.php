@@ -86,7 +86,7 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
     public function validateDataString($data)
     {
         if (!is_string($data)) {
-            throw Varien_Exception("Invalid data type, expecting string.");
+            $this->addException("Invalid data type, expecting string.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
@@ -94,7 +94,7 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
     public function validateDataArray($data)
     {
         if (!is_array($data)) {
-            throw Varien_Exception("Invalid data type, expecting array.");
+            $this->addException("Invalid data type, expecting array.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
@@ -102,7 +102,7 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
     public function validateDataGrid($data)
     {
         if (!is_array($data) || !is_array(current($data))) {
-            throw Varien_Exception("Invalid data type, expecting 2D grid array.");
+            $this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
@@ -120,4 +120,19 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         return $fields;
     }
 
+    public function addException($error, $level=null, $location=null)
+    {
+        $e = new Varien_Convert_Exception($error);
+        $e->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
+        $e->setContainer($this);
+        $e->setLocation($location);
+
+        $this->getProfile()->addException($e);
+
+        if (Varien_Convert_Exception::LEVEL_FATAL===$level) {
+            throw $e;
+        }
+
+        return $e;
+    }
 }

@@ -170,7 +170,7 @@ abstract class Varien_Convert_Action_Abstract implements Varien_Convert_Action_I
     {
         if ($method = $this->getParam('method')) {
             if (!is_callable(array($this->getContainer(), $method))) {
-                throw Varien_Exception('Unable to run action method: '.$method);
+                $this->addException('Unable to run action method: '.$method, Varien_Convert_Exception::FATAL);
             }
 
             if ($this->getParam('from')) {
@@ -183,7 +183,7 @@ abstract class Varien_Convert_Action_Abstract implements Varien_Convert_Action_I
                 $this->getContainer($this->getParam('to'))->setData($this->getContainer()->getData());
             }
         } else {
-            throw Varien_Exception('No method specified');
+            $this->addException('No method specified', Varien_Convert_Exception::FATAL);
         }
         return $this;
     }

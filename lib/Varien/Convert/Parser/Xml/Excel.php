@@ -48,7 +48,7 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
                 foreach($cells as $cell) {
                     $value = $cell->getElementsByTagName('Data')->item(0)->nodeValue;
                     $ind = $cell->getAttribute('Index');
-                    if ( $ind != null ) {
+                    if (!is_null($ind)) {
                         $index = $ind;
                     }
                     if ($firstRow) {
@@ -65,6 +65,14 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
             }
             $data[$wsName] = $wsData;
         }
+        if ($wsName = $this->getVar('single_sheet')) {
+            if (isset($data[$wsName])) {
+                $data = $data[$wsName];
+            } else {
+                reset($data);
+                $data = current($data);
+            }
+        }
         $this->setData($data);
 
         return $this;
@@ -77,14 +85,14 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
   xmlns="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
 
-        if ($this->getVar('single_sheet')) {
-            $workbook = array('Data'=>$this->getData());
+        if ($wsName = $this->getVar('single_sheet')) {
+            $data = array($wsName => $this->getData());
         } else {
-            $workbook = $this->getData();
+            $data = $this->getData();
         }
 
-        if (is_array($workbook)) {
-            foreach ($workbook as $wsName=>$wsData) {
+        if (is_array($data)) {
+            foreach ($data as $wsName=>$wsData) {
                 if (!is_array($wsData)) {
                     continue;
                 }
