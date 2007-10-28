@@ -48,11 +48,11 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
 
     function __construct()
     {
-    	parent::__construct();
-    	$this->setTemplate('page/html/top.links.phtml');
+        parent::__construct();
+        $this->setTemplate('page/html/top.links.phtml');
     }
 
-    function addLink($liParams, $aParams, $innerText, $beforeText='', $afterText='')
+    function addLink($liParams, $aParams, $innerText, $position='', $beforeText='', $afterText='')
     {
         $params = '';
         if (!empty($liParams) && is_array($liParams)) {
@@ -76,18 +76,29 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
         $toplinkInfo['beforeText'] = $beforeText;
         $toplinkInfo['afterText'] = $afterText;
         $this->_prepareArray($toplinkInfo, array('liParams', 'aParams', 'innerText', 'beforeText', 'afterText', 'first', 'last'));
-    	$this->_toplinks[] = $toplinkInfo;
+        if (is_numeric($position)) {
+            $toplinks = array();
+            foreach ($this->_toplinks as $i=>$link) {
+            if ($position==$i) {
+                    $toplinks[] = $toplinkInfo;
+                }
+                $toplinks[] = $link;
+            }
+            $this->_toplinks = $toplinks;
+        } else {
+            $this->_toplinks[] = $toplinkInfo;
+        }
     }
 
     function toHtml()
     {
-        if (is_array($this->_toplinks)) {
+        if (is_array($this->_toplinks) && $this->_toplinks) {
             reset($this->_toplinks);
             $this->_toplinks[key($this->_toplinks)]['first'] = true;
             end($this->_toplinks);
             $this->_toplinks[key($this->_toplinks)]['last'] = true;
         }
-    	$this->assign('toplinks', $this->_toplinks);
-    	return parent::toHtml();
+        $this->assign('toplinks', $this->_toplinks);
+        return parent::toHtml();
     }
 }
