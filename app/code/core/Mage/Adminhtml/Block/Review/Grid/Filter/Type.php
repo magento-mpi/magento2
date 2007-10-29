@@ -31,18 +31,18 @@ class Mage_Adminhtml_Block_Review_Grid_Filter_Type extends Mage_Adminhtml_Block_
 	protected function _getOptions()
 	{
 		return array(
-		      array('label'=>__(''), 'value'=>''),
-		      array('label'=>__('Customer'), 'value'=>1),
-		      array('label'=>__('Guest'), 'value'=>2)
+		      array('label'=>$this->__(''), 'value'=>''),
+		      array('label'=>$this->__('Customer'), 'value'=>1),
+		      array('label'=>$this->__('Guest'), 'value'=>2)
 		);
 	}
 
 	public function getCondition()
 	{
-                if($this->getValue()) {
-                    return true;
-                } else {
-                    return false;
-                }
+        if($this->getValue()==2) {
+            return 0;
+        } else {
+            return 1;
+        }
 	}
 }// Class Mage_Adminhtml_Block_Review_Grid_Filter_Type END

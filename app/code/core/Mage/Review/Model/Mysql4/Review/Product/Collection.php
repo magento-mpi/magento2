@@ -207,7 +207,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 if($condition) {
                     $this->getSelect()->where('rdt.customer_id > 0');
                 } else {
-                    $this->getSelect()->where('rdt.customer_id = 0');
+                    $this->getSelect()->where('(rdt.customer_id IS NULL) OR (rdt.customer_id = 0)');
                 }
                 return $this;
                 break;
