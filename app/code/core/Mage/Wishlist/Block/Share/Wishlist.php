@@ -70,7 +70,10 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 
     public function getEscapedDescription($item)
     {
-        return htmlspecialchars($item->getDescription());
+        if ($item->getDescription()) {
+            return htmlspecialchars($item->getDescription());
+        }
+        return '&nbsp;';
     }
 
     public function getHeader()

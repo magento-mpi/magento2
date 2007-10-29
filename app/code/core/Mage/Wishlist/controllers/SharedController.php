@@ -60,19 +60,25 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 		if(!$wishlist->getId()) {
 			$this->norouteAction();
 		} else {
-			$quote = Mage::getSingleton('checkout/session')->getQuote();
+    		$wishlist->getProductCollection()->load();
 
-    		$wishlist->getItemCollection()->load();
-
-			foreach ($wishlist->getItemCollection() as $item) {
+			foreach ($wishlist->getProductCollection() as $item) {
 	 			try {
-		            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
-		            $quote->addProduct($product)->save();
-	            	$item->delete();
+		            $product = Mage::getModel('catalog/product')->load($item->getId())->setQty(1);
+		            Mage::getSingleton('checkout/cart')->addProduct($product);
 	            }
-				catch(Exception $e) {
-					//
-				}
+    			catch(Exception $e) {
+    				Mage::getSingleton('checkout/session')->addError($e->getMessage());
+    				$url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+    				if ($url) {
+    				    $this->getResponse()->setRedirect($url);
+    				}
+    				else {
+    				    $this->_redirect('*/*/');
+    				}
+    				return;
+    			}
+    			Mage::getSingleton('checkout/cart')->save();
 			}
 			$this->_redirect('checkout/cart');
 		}

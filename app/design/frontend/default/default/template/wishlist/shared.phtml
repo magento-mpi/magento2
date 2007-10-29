@@ -38,14 +38,14 @@
             <td>
                 <div>
                     <a href="<?=$item->getProductUrl()?>">
-                        <img src="<?=$item->getThumbnailUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/>
+                        <img src="<?=$item->getSmallImageUrl()?>" alt="<?=htmlspecialchars($item->getName())?>" width="113"/>
                     </a>
                 </div>
                 <div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             </td>            
             <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
             <td class="align-center">
-                <a href="#" onclick="setLocation('<?=$this->helper('wishlist')->getAddToCartUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Cart')?></a><br/>
+                <a href="#" onclick="setLocation('<?=$this->helper('checkout/cart')->getAddUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Cart')?></a><br/>
                 <a href="#" onclick="setLocation('<?=$this->helper('wishlist')->getAddUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Wishlist')?></a>
             </td>
         </tr>
