@@ -27,6 +27,7 @@
 <div class="page-head">
     <h3><?=$this->__('Create Admin Account')?></h3>
 </div>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
 <fieldset class="group-select wide">
  <legend><?=$this->__('Personal Information')?></legend>

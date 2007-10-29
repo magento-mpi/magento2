@@ -56,6 +56,14 @@ class Varien_Crypt_Mcrypt extends Varien_Crypt_Abstract
         
         $this->setHandler(mcrypt_module_open($this->getCipher(), '', $this->getMode(), ''));
         $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($this->getHandler()), MCRYPT_RAND);
+        
+        $maxKeySize = mcrypt_enc_get_key_size($this->getHandler());
+
+        if (iconv_strlen($key)>$maxKeySize) {
+            $this->setHandler(null);
+            throw new Varien_Exception('Maximum key size must should be smaller '.$maxKeySize);
+        }
+        
         mcrypt_generic_init($this->getHandler(), $key, $iv);
         
         return $this;
@@ -70,7 +78,7 @@ class Varien_Crypt_Mcrypt extends Varien_Crypt_Abstract
     public function encrypt($data)
     {
         if (!$this->getHandler()) {
-            throw new Varien_Exception("Crypt module is not initialized.");
+            throw new Varien_Exception('Crypt module is not initialized.');
         }
         return mcrypt_generic($this->getHandler(), $data);        
     }
@@ -84,7 +92,7 @@ class Varien_Crypt_Mcrypt extends Varien_Crypt_Abstract
     public function decrypt($data)
     {
         if (!$this->getHandler()) {
-            throw new Varien_Exception("Crypt module is not initialized.");
+            throw new Varien_Exception('Crypt module is not initialized.');
         }
         return mdecrypt_generic($this->getHandler(), $data);        
     }
@@ -95,7 +103,14 @@ class Varien_Crypt_Mcrypt extends Varien_Crypt_Abstract
      */
     public function __destruct()
     {
+        if ($this->getHandler()) {
+            $this->_reset();
+        }
+    }
+    
+    protected function _reset()
+    {
         mcrypt_generic_deinit($this->getHandler());
-        mcrypt_module_close($this->getHandler());        
+        mcrypt_module_close($this->getHandler());                
     }
 }

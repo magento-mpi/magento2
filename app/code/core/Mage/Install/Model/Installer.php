@@ -164,6 +164,9 @@ class Mage_Install_Model_Installer extends Varien_Object
     
     public function installEnryptionKey($key)
     {
+        if ($key) {
+            Mage::helper('core')->getCrypt($key);
+        }
         Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
         return $this;
     }

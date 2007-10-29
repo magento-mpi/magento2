@@ -269,7 +269,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 ->installEnryptionKey($encryptionKey);
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addError($e->getMessage());
+            Mage::getSingleton('install/session')
+                ->setAdminData($adminData)
+                ->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
             return false;
         }
@@ -298,6 +300,15 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
      * Host validation response
      */
     public function checkHostAction()
+    {
+        $this->getResponse()->setHeader('Transfer-encoding', '', true);
+        $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
+    }
+
+    /**
+     * Host validation response
+     */
+    public function checkSecureHostAction()
     {
         $this->getResponse()->setHeader('Transfer-encoding', '', true);
         $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);

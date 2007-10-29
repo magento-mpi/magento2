@@ -103,14 +103,15 @@ class Mage_Install_Model_Installer_Config
         $surl= $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port'] . $data['secure_base_path'];
 
         $this->_checkUrl($url);
-        $this->_checkUrl($surl);
+        $this->_checkUrl($surl, true);
 
         return $this;
     }
 
-    protected function _checkUrl($url)
+    protected function _checkUrl($url, $secure=false)
     {
-        $client = new Varien_Http_Client($url.'install/wizard/checkHost/');
+        $prefix = $secure ? 'install/wizard/checkSecureHost/' : 'install/wizard/checkHost/';
+        $client = new Varien_Http_Client($url.$prefix);
         try {
             $response = $client->request('GET');
             /* @var $responce Zend_Http_Response */

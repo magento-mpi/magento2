@@ -135,7 +135,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::app()->isInstalled()) {
             return $data;
         }
-        $result = base64_encode($this->_getCrypt()->encrypt($data));
+        $result = base64_encode($this->getCrypt()->encrypt($data));
         return $result;
     }
     
@@ -150,14 +150,16 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::app()->isInstalled()) {
             return $data;
         }
-        $result = trim($this->_getCrypt()->decrypt(base64_decode($data)));
+        $result = trim($this->getCrypt()->decrypt(base64_decode($data)));
         return $result;
     }
     
-    protected function _getCrypt()
+    public function getCrypt($key=null)
     {
         if (!$this->_crypt) {
-            $key = (string)Mage::getConfig()->getNode('global/crypt/key');
+            if (is_null($key)) {
+                $key = (string)Mage::getConfig()->getNode('global/crypt/key');
+            }
             $this->_crypt = Varien_Crypt::factory()->init($key);
         }
         return $this->_crypt;
