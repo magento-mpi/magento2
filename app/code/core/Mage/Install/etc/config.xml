@@ -57,6 +57,9 @@
    </global>
 
    <frontend>
+      <secure_url>
+        <install>/install/wizard/checkSecureHost</install>
+      </secure_url>
       <routers>
          <install>
             <use>standard</use>
