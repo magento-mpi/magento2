@@ -52,8 +52,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
         foreach($attributes as $attribute) {
             if($product->canUseAttributeForSuperProduct($attribute)) {
                 $fieldset->addField('attribute_'.$attribute->getAttributeId(), 'checkbox', array(
-                    'label' => __($attribute->getFrontend()->getLabel()),
-                    'title' => __($attribute->getFrontend()->getLabel()),
+                    'label' => $attribute->getFrontend()->getLabel(),
+                    'title' => $attribute->getFrontend()->getLabel(),
                     'name'  => 'attribute',
                     'class' => 'attribute-checkbox',
                     'value' => $attribute->getAttributeId()
