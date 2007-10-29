@@ -38,7 +38,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
         if (!Mage::getStoreConfig('carriers/ups/active')) {
             return false;
         }
-
+		
         $this->setRequest($request);
         if (!$request->getUpsRequestMethod()) {
             if(Mage::getStoreConfig('carriers/ups/type')=='UPS')
@@ -187,6 +187,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 		$xml->loadString($xmlResponse);
 		$arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
 		$success = (int)$arr[0][0];
+		$result = Mage::getModel('shipping/rate_result');
+		
 		if($success===1){
 			$arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
 			$allowedMethods = explode(",", Mage::getStoreConfig('carriers/ups/allowed_methods'));
@@ -196,8 +198,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 				$code = (string)$shipElement->Service->Code;
 				#$shipment = $this->getShipmentByCode($code);
 				if (in_array($code, $allowedMethods)) {
-                        $costArr[$code] = $shipElement->TotalCharges->MonetaryValue;
-                        $priceArr[$code] = $this->getMethodPrice(floatval($shipElement->TotalCharges->MonetaryValue),$code);
+                    $costArr[$code] = $shipElement->TotalCharges->MonetaryValue;
+                    $priceArr[$code] = $this->getMethodPrice(floatval($shipElement->TotalCharges->MonetaryValue),$code);
                 }
 			}
 		} else {
@@ -207,10 +209,10 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
             $error->setCarrier('ups');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
             $error->setErrorMessage($errorTitle);
-            $result->append($error);
+            
 		}
 		
-		$result = Mage::getModel('shipping/rate_result');
+		
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');

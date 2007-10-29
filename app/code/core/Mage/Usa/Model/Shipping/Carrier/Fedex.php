@@ -381,13 +381,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
         } catch (Exception $e) {
             $responseBody = '';
         }
-
+		
+		
         $this->_parseXmlResponse($responseBody);
     }
 
     protected function _parseXmlResponse($response)
     {
-        $costArr = array();
+    	$costArr = array();
         $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
         if (strlen(trim($response))>0) {
@@ -396,6 +397,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
                 if (is_object($xml)) {
                     if (is_object($xml->Error) && is_object($xml->Error->Message)) {
                         $errorTitle = (string)$xml->Error->Message;
+                    } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
+                    	$errorTitle = (string)$xml->SoftError->Message;
                     } else {
                         $errorTitle = 'Unknown error';
                     }
