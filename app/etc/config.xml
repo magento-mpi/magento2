@@ -297,14 +297,14 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Poll>
-        <Mage_Review>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Review>
         <Mage_Rating>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Rating>
+        <Mage_Review>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Review>
         <Mage_SearchLucene>
             <active>true</active>
             <codePool>core</codePool>
