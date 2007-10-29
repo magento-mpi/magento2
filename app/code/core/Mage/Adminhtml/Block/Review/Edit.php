@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $this->_controller = 'review';
 
         $this->_updateButton('save', 'label', __('Save Review'));
+        $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', __('Delete Review'));
 
         if( $this->getRequest()->getParam('productId', false) ) {
@@ -65,7 +66,8 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
             var review = {
                 updateRating: function() {
                         elements = [$("select_stores"), $("rating_detail").getElementsBySelector("input[type=\'radio\']")].flatten();
-                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems', array('_current'=>true)).'", {parameters:Form.serializeElements(elements), evalScripts:true});
+                        $(\'save_button\').disabled = true;
+                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems', array('_current'=>true)).'", {parameters:Form.serializeElements(elements), evalScripts:true, onComplete:function(){ $(\'save_button\').disabled = false; } });
                     }
            }
            Event.observe(window, \'load\', function(){
