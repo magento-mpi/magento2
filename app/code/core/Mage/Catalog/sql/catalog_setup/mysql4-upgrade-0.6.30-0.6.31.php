@@ -2,7 +2,7 @@
 
 $this->startSetup()->run("
 
-alter table `magento_moshe`.`catalog_product_entity` add column `sku` varchar (64)  NOT NULL after `type_id` ,add index `sku` (`sku`);
+alter table `catalog_product_entity` add column `sku` varchar (64)  NOT NULL after `type_id` ,add index `sku` (`sku`);
 
 select @entity_type_id=entity_type_id from eav_entity_type where entity_type_code='catalog_product';
 select @sku_attribute_id=attribute_id from eav_attribute where attribute_code='sku' and entity_type_id=@entity_type_id;
