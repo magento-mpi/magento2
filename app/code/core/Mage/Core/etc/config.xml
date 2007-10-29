@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.6.21</version>
+             <version>0.6.22</version>
         </Mage_Core>
     </modules>
 
@@ -57,6 +57,13 @@
                     <url_rewrite_tag>
                         <table>core_url_rewrite_tag</table>
                     </url_rewrite_tag>
+                    <convert_profile>
+                        <table>core_convert_profile</table>
+                    </convert_profile>
+                    <convert_history>
+                        <table>core_convert_history</table>
+                    </convert_history>
+
                 </entities>
             </core_mysql4>
         </models>

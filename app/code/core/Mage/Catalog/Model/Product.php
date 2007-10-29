@@ -777,6 +777,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $url = $this->getUrlInstance()->getUrl('catalog/product/view',
             array(
                 'id'=>$this->getId(),
+                's'=>$this->getUrlKey(),
                 'category'=>$this->getCategoryId()
             ));
         Varien_Profiler::stop('REGULAR: '.__METHOD__);

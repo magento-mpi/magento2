@@ -24,7 +24,7 @@
         <head>
             <title>Magento Commerce</title>
             <media_type>text/html</media_type>
-            <charset>utf8</charset>
+            <charset>utf-8</charset>
             <description>Default Description</description>
             <keywords>Magento, Varien, E-commerce</keywords>
             <robots>*</robots>

@@ -28,7 +28,7 @@
 class Mage_Core_Model_App
 {
     const XML_PATH_INSTALL_DATE = 'global/install/date';
-    
+
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     /**
@@ -100,16 +100,16 @@ class Mage_Core_Model_App
      * @var Zend_Cache_Core
      */
     protected $_cache;
-    
+
     /**
     * Use Cache
-    * 
+    *
     * @var array
     */
     protected $_useCache;
 
     public function __construct() {}
-    
+
     /**
      * Initialize application
      *
@@ -319,7 +319,7 @@ class Mage_Core_Model_App
         foreach ($idTags as $tag) {
             $newTag = $first ? $tag : $newTag . '_' . $tag;
         	if (!in_array($newTag, $tags)) {
-        	    $tags[] = $tag;
+        	    $tags[] = $newTag;
         	}
         	$first = false;
         }
@@ -395,16 +395,16 @@ class Mage_Core_Model_App
         $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         return $this;
     }
-    
+
     /**
     * Check whether to use cache for specific component
-    * 
+    *
     * Components:
     * - config
     * - layout
     * - eav
     * - translate
-    * 
+    *
     * @return boolean
     */
     public function useCache($type)

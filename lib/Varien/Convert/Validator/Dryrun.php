@@ -20,50 +20,21 @@
 
 
 /**
- * Convert exception
+ * Convert dry run validator
+ *
+ * Insert where you want to step profile execution if dry run flag is set
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Varien_Convert_Exception extends Varien_Exception
+class Varien_Convert_Validator_Dryrun extends Varien_Convert_Validator_Abstract
 {
-    const NOTICE = 'NOTICE';
-    const WARNING = 'WARNING';
-    const ERROR = 'ERROR';
-    const FATAL = 'FATAL';
-
-    protected $_container;
-
-    protected $_level;
-
-    protected $_position;
-
-    public function setContainer($container)
-    {
-        $this->_container = $container;
-        return $this;
-    }
-
-    public function getContainer()
-    {
-        return $this->_container;
-    }
-
-    public function setLevel($level)
-    {
-        $this->_level = $level;
-        return $this;
-    }
-
-    public function getPosition()
-    {
-        return $this->_position;
-    }
-
-    public function setPosition($position)
-    {
-        $this->_position = $position;
-        return $this;
-    }
+	public function validate()
+	{
+	    if ($this->getVar('dry_run') || $this->getProfile()->getDryRun()) {
+	        $this->addException(__("Dry run set, stopping execution"), Varien_Convert_Exceptin::FATAL);
+	    }
+	    return $this;
+	}
 }

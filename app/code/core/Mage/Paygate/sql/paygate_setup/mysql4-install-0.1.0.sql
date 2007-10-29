@@ -17,15 +17,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 drop table if exists paygate_authorizenet_debug;
-create table paygate_authorizenet_debug (
-debug_id int unsigned not null auto_increment primary key,
-request_body text,
-response_body text,
-request_serialized text,
-result_serialized text,
-request_dump text,
-result_dump text
-);
+CREATE TABLE `paygate_authorizenet_debug` (
+  `debug_id` int(10) unsigned NOT NULL auto_increment,
+  `request_body` text,
+  `response_body` text,
+  `request_serialized` text,
+  `result_serialized` text,
+  `request_dump` text,
+  `result_dump` text,
+  PRIMARY KEY  (`debug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*
 replace into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values (1,'payment','Payment Methods','text','','','','',70,1,1,1,'');
 replace into `core_config_field`(`level`,`path`,`frontend_label`,`frontend_type`,`frontend_class`,`frontend_model`,`backend_model`,`source_model`,`sort_order`,`show_in_default`,`show_in_website`,`show_in_store`,`module_name`) values (2,'payment/authorizenet','Authorize.net','text','','','','',10,1,1,1,'');

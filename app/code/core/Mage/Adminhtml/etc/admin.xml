@@ -354,6 +354,10 @@
                                 <title>Backups</title>
                                 <action>*/system_backup</action>
                             </backup>
+                            <convert>
+                                <title>Import/Export</title>
+                                <action>*/system_convert_profile</action>
+                            </convert>
                         </children>
                     </tools>
                     <currency>

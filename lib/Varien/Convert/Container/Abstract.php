@@ -31,6 +31,7 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
     protected $_vars;
     protected $_profile;
     protected $_data;
+    protected $_position;
 
     public function getVar($key, $default=null)
     {
@@ -120,12 +121,12 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         return $fields;
     }
 
-    public function addException($error, $level=null, $location=null)
+    public function addException($error, $level=null)
     {
         $e = new Varien_Convert_Exception($error);
         $e->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
         $e->setContainer($this);
-        $e->setLocation($location);
+        $e->setPosition($this->getPosition());
 
         $this->getProfile()->addException($e);
 
@@ -134,5 +135,16 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         }
 
         return $e;
+    }
+
+    public function getPosition()
+    {
+        return $this->_position;
+    }
+
+    public function setPosition($position)
+    {
+        $this->_position = $position;
+        return $this;
     }
 }

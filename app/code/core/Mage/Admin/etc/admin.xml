@@ -136,6 +136,10 @@
                     <myaccount title="My Account" />
                     <tools title="Tools" >
                         <backup title="Backups" />
+                        <convert title="Import/Export">
+                            <edit title="Create/Edit/Delete profiles"/>
+                            <run title="Run profiles"/>
+                        </convert>
                     </tools>
                     <cache title="Cache Management"/>
                 </system>

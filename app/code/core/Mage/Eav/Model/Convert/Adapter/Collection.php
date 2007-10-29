@@ -21,6 +21,21 @@
 
 class Mage_Eav_Model_Convert_Adapter_Collection extends Varien_Convert_Adapter_Abstract
 {
+    public function getStoreIds()
+    {
+        if ($store = $this->getVar('store')) {
+            $storeIds = array();
+            foreach (explode(',', $store) as $s) {
+                $storeId = Mage::getConfig()->getNode('stores/'.$s.'/system/store/id');
+                if (false!==$storeId) {
+                    $storeIds[] = (int)$storeId;
+                }
+            }
+        } else {
+
+        }
+    }
+
     public function load()
     {
         if (!($entityType = $this->getVar('entity_type'))
@@ -28,6 +43,7 @@ class Mage_Eav_Model_Convert_Adapter_Collection extends Varien_Convert_Adapter_A
             $this->addException(__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
+
             $collection = Mage::getResourceModel($entityType.'_collection');
             $collection->load();
         } catch (Exception $e) {

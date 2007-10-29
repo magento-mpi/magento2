@@ -31,6 +31,7 @@ abstract class Varien_Convert_Profile_Abstract
     protected $_actions;
     protected $_containers;
     protected $_exceptions = array();
+    protected $_dryRun;
 
     protected $_actionDefaultClass = 'Varien_Convert_Action';
     protected $_containerCollectionDefaultClass = 'Varien_Convert_Container_Collection';
@@ -77,6 +78,17 @@ abstract class Varien_Convert_Profile_Abstract
     public function getExceptions()
     {
         return $this->_exceptions;
+    }
+
+    public function getDryRun()
+    {
+        return $this->_dryRun;
+    }
+
+    public function setDryRun($flag)
+    {
+        $this->_dryRun = $flag;
+        return $this;
     }
 
     public function addException(Varien_Convert_Exception $e)

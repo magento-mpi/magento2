@@ -56,74 +56,119 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
     {
         $data = $this->getData();
 
-        $collection = Mage::getResourceModel('catalog/product_collection');
-        $entity = $collection->getEntity();
-
         $result = array();
         foreach ($data as $i=>$row) {
+            $this->setPosition('Line: '.$i);
             // validate SKU
             if (empty($row['sku'])) {
-                $this->addException(__('Missing SKU, skipping the record'), Varien_Convert_Exception::ERROR, 'Line: '.$i);
+                $this->addException(__('Missing SKU, skipping the record'), Varien_Convert_Exception::ERROR);
+                continue;
+            }
+            $this->setPosition('Line: '.$i.', SKU: '.$row['sku']);
+
+            // try to get entity_id by sku if not set
+            if (empty($row['entity_id'])) {
+                $row['entity_id'] = $this->getResource()->getProductIdBySku($row['sku']);
+            }
+
+            // if attribute_set not set use default
+            if (empty($row['attribute_set'])) {
+                $row['attribute_set'] = 'Default';
+            }
+            // get attribute_set_id, if not throw error
+            if (!($row['attribute_set_id'] = $this->getAttributeSetId($row['attribute_set']))) {
+                $this->addException(__("Invalid attribute set specified, skipping the record"), Varien_Convert_Exception::ERROR);
                 continue;
             }
 
             // get store ids
-            if (empty($row['store'])) {
-                $storeIds = array(0);
-            } else {
-                $storeIds = array();
-                foreach (explode(',', $row['store']) as $store) {
-                    $storeNode = Mage::getConfig()->getNode('stores/'.$store);
-                    if (!$storeNode) {
-                        $this->addException(__("Invalid store specified, skipping the record"),
-                            Varien_Convert_Exception::ERROR, 'Line: '.$i.', sku: '.$row['sku']);
-                        continue;
-                    }
-                    $storeIds[] = (int)$storeNode->system->store->id;
-                }
-            }
-
-            // get attribute set id
-            if (empty($row['attribute_set'])) {
-                $row['attribute_set'] = 'Default';
-            }
-            if (!$this->getResource()->getAttributeSet($row['attribute_set'])) {
-                $this->addException(__("Invalid attribute set specified, skipping the record"),
-                    Varien_Convert_Exception::ERROR, 'Line: '.$i.', sku: '.$row['sku']);
-                    continue;
-            }
+            $storeIds = $this->getStoreIds($row['store']);
 
             // import data
             foreach ($storeIds as $storeId) {
                 $collection = $this->getCollection($store);
                 $entity = $collection->getEntity();
 
-                if (empty($row['entity_id'])) {
-                    $row['entity_id'] = $this->getResource()->getProductIdBySku($row['sku']);
-                }
                 $model = Mage::getModel('catalog/product');
                 foreach ($row as $field=>$value) {
-                    /*
-                    $source = $entity->getAttribute($field)->getSource();
-                    if ($source) {
-                        foreach ($source->getAllOptions() as
+                    $attribute =  $entity->getAttribute($field);
+                    try {
+                        $source = $attribute->getSource();
+                        if ($source) {
+                            $optionId = $this->getSourceOptionId($source, $value);
+                            if (is_null($optionId)) {
+                                $this->addException(__("Invalid attribute option specified for attribute %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                                continue 2;
+                            }
+                            $value = $optionId;
+                        }
+                        $model->setData($field, $value);
+                    } catch (Exception $e) {
+                        if (!$e instanceof Varien_Convert_Exception) {
+                            $this->addException(__("Error during retrieval of option value: %s", $e->getMessage()), Varien_Convert_Exception::FATAL);
+                        }
+                        switch ($e->getLevel()) {
+                            case Varien_Convert_Exception::FATAL:
+                                throw $e;
+
+                            case Varien_Convert_Exception::ERROR:
+                                continue 2;
+                        }
                     }
-                    */
-                    $model->setData($field, $value);
                 }
                 $collection->addItem($model);
             }
         }
 
-        $this->setData($collection);
+        $this->setData($this->_collections);
         return $this;
     }
 
     public function unparse()
     {
-        $data = $this->getData();
+        $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id');
+        $collections = $this->getData();
 
-        $this->setData($result);
+        if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
+            $collections = array($collections->getEntity()->getStoreId()=>$collections);
+        } elseif (!is_array($collections)) {
+            $this->addException(__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
+        }
+
+        foreach ($collections as $storeId=>$collection) {
+            if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
+                $this->addException(__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
+            }
+
+            $data = array();
+            foreach ($collection->getIterator() as $i=>$model) {
+                $this->setPosition('Line: '.$i.', SKU: '.$model->getSku());
+
+                $row = array(
+                    'store'=>$this->getStoreCode($storeId),
+                    'attribute_set'=>$this->getAttributeSetName($model->getAttributeSetId),
+                );
+
+                foreach ($model->getData() as $field=>$value) {
+                    if (in_array($field, $systemFields)) {
+                        continue;
+                    }
+                    $attribute = $model->getEntity()->getAttribute($field);
+                    if ($source = $attribute->getSource()) {
+                        $text = $source->getOptionText($value);
+                        if (false===$value) {
+                            $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                            continue;
+                        }
+                        $value = $text;
+                    }
+                    $row[$field] = $value;
+                }
+                $data[] = $row;
+            }
+        }
+
+        $this->setData($data);
         return $this;
     }
 }

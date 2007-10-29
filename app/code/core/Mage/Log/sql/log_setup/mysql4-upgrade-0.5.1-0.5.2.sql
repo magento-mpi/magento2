@@ -35,7 +35,7 @@ CREATE TABLE `log_customer` (
   `login_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `logout_at` datetime default NULL,
   PRIMARY KEY  (`log_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Customers log information';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customers log information';
 
 /*Data for the table `log_customer` */
 
@@ -49,7 +49,7 @@ CREATE TABLE `log_quote` (
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `deleted_at` datetime default NULL,
   PRIMARY KEY  (`quote_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Quote log data';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote log data';
 
 /*Data for the table `log_quote` */
 
@@ -64,7 +64,7 @@ CREATE TABLE `log_summary` (
   `customer_count` int(11) NOT NULL default '0',
   `add_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`summary_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Summary log information';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Summary log information';
 
 /*Data for the table `log_summary` */
 
@@ -78,7 +78,7 @@ CREATE TABLE `log_summary_type` (
   `period` smallint(5) unsigned NOT NULL default '0',
   `period_type` enum('MINUTE','HOUR','DAY','WEEK','MONTH') NOT NULL default 'MINUTE',
   PRIMARY KEY  (`type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
 
 /*Data for the table `log_summary_type` */
 
@@ -90,7 +90,7 @@ CREATE TABLE `log_url` (
   `url_id` bigint(20) unsigned NOT NULL default '0',
   `visitor_id` bigint(20) unsigned default NULL,
   `visit_time` datetime NOT NULL default '0000-00-00 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
 
 /*Data for the table `log_url` */
 
@@ -103,7 +103,7 @@ CREATE TABLE `log_url_info` (
   `url` varchar(255) NOT NULL default '',
   `referer` varchar(255) default NULL,
   PRIMARY KEY  (`url_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
 
 /*Data for the table `log_url_info` */
 
@@ -118,7 +118,7 @@ CREATE TABLE `log_visitor` (
   `last_visit_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `last_url_id` bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (`visitor_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='System visitors log';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='System visitors log';
 
 /*Data for the table `log_visitor` */
 
@@ -135,7 +135,7 @@ CREATE TABLE `log_visitor_info` (
   `server_addr` bigint(20) default NULL,
   `remote_addr` bigint(20) default NULL,
   PRIMARY KEY  (`visitor_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
 
 /*Data for the table `log_visitor_info` */
 

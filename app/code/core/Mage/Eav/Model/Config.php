@@ -74,6 +74,9 @@ class Mage_Eav_Model_Config
 
     public function getEntityType($id)
     {
+        if ($id instanceof Mage_Eav_Model_Entity_Type) {
+            return $id;
+        }
         if (!is_numeric($id) && !is_string($id)) {
             throw Mage::exception('Mage_Eav', __('Invalid entity_type specified: %s', $id));
         }
@@ -108,6 +111,9 @@ class Mage_Eav_Model_Config
 
     public function getAttribute($entityType, $id)
     {
+        if ($id instanceof Mage_Eav_Model_Entity_Attribute_Interface) {
+            return $id;
+        }
         $entityType = $this->getEntityType($entityType);
         $entityTypeId = $entityType->getId();
         $obj = Mage::getModel('eav/entity_attribute');

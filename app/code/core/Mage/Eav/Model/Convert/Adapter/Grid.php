@@ -41,8 +41,7 @@ class Mage_Eav_Model_Convert_Adapter_Grid extends Varien_Convert_Adapter_Abstrac
             $collection = Mage::getResourceModel($this->getEntity().'_collection');
             $collection->load();
         } catch (Exception $e) {
-            $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
-                Varien_Convert_Exception::FATAL);
+            $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()), Varien_Convert_Exception::FATAL);
         }
 
         $data = array();
@@ -56,25 +55,24 @@ class Mage_Eav_Model_Convert_Adapter_Grid extends Varien_Convert_Adapter_Abstrac
     public function save()
     {
         foreach ($this->getData() as $i=>$row) {
+            $this->setExceptionLocation('Line: '.$i);
             $entity = Mage::getResourceModel($this->getEntity());
             if (!empty($row['entity_id'])) {
                 try {
                     $entity->load($row['entity_id']);
+                    $this->setPosition('Line: '.$i.(isset($row['entity_id']) ? ', entity_id: '.$row['entity_id'] : ''));
                 } catch (Exception $e) {
-                    $this->addException(__('Problem loading a record, aborting. Error: %s', $e->getMessage()),
-                        Varien_Convert_Exception::FATAL, 'Line: '.$i.', entity_id: '.$row['entity_id']);
+                    $this->addException(__('Problem loading a record, aborting. Error: %s', $e->getMessage()), Varien_Convert_Exception::FATAL);
                 }
                 if (!$entity->getId()) {
-                    $this->addException(__('Invalid entity_id, skipping the record'),
-                        Varien_Convert_Exception::ERROR, 'Line: '.$i.', entity_id: '.$row['entity_id']);
+                    $this->addException(__('Invalid entity_id, skipping the record'), Varien_Convert_Exception::ERROR);
                     continue;
                 }
             }
             try {
                 $entity->addData($row)->save();
             } catch (Exception $e) {
-                $this->addException(__('Problem saving a record, aborting. Error: ', $e->getMessage()),
-                    Varien_Convert_Exception::FATAL, 'Line: '.$i.(isset($row['entity_id']) ? ', entity_id: '.$row['entity_id'] : ''));
+                $this->addException(__('Problem saving a record, aborting. Error: ', $e->getMessage()), Varien_Convert_Exception::FATAL);
             }
         }
         return $this;

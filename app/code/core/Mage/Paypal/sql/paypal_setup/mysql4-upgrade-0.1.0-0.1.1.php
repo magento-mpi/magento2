@@ -23,13 +23,14 @@ delete from `core_config_field` where `path` like 'payment/paypal/%';
 delete from `core_config_data` where `path` like 'payment/paypal/%';
 
 drop table if exists paypal_api_debug;
-create table paypal_api_debug (
-debug_id int unsigned not null auto_increment primary key,
-debug_at timestamp,
-request_body text,
-response_body text,
-index (debug_at)
-);
+CREATE TABLE `paypal_api_debug` (
+  `debug_id` int(10) unsigned NOT NULL auto_increment,
+  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `request_body` text,
+  `response_body` text,
+  PRIMARY KEY  (`debug_id`),
+  KEY `debug_at` (`debug_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
 $this->addConfigField('paypal', 'PayPal');
