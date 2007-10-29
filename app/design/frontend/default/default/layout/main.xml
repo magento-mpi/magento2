@@ -24,9 +24,9 @@ Supported layout update handles (action):
 - customer_address_index
 - customer_address_view
 - customer_account_login
-- customer_account_logoutSuccess
+- customer_account_logoutsuccess
 - customer_account_create
-- customer_account_forgotPassword
+- customer_account_forgotpassword
 - customer_account_edit
 - customer_review_index
 - customer_review_view
@@ -54,7 +54,7 @@ Supported layout update handles (action):
 - paypal_express_review
 - checkout_onepage_index
 - checkout_onepage_progress
-- checkout_onepage_shippingMethod
+- checkout_onepage_shippingmethod
 - checkout_onepage_review
 - checkout_onepage_success
 - checkout_multishipping_login
@@ -329,7 +329,7 @@ Layout for customer login page
 Layout for customer log out page
 -->
 
-    <customer_account_logoutSuccess>
+    <customer_account_logoutsuccess>
         <!-- Mage_Customer -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -337,7 +337,7 @@ Layout for customer log out page
         <reference name="content">
             <block type="core/template" name="customer_logout" template="customer/logout.phtml"/>
         </reference>
-    </customer_account_logoutSuccess>
+    </customer_account_logoutsuccess>
 
 <!--
 New customer registration
@@ -353,7 +353,7 @@ New customer registration
         </reference>
     </customer_account_create>
 
-    <customer_account_forgotPassword>
+    <customer_account_forgotpassword>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
             <action method="setHeaderTitle" translate="title"><title>Password forgotten</title></action>
@@ -361,7 +361,7 @@ New customer registration
         <reference name="content">
             <block type="core/template" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>
         </reference>
-    </customer_account_forgotPassword>
+    </customer_account_forgotpassword>
 
     <customer_account_edit>
         <update handle="customer_account"/>
@@ -862,34 +862,34 @@ Multi address shipping checkout selection of address per item page
         </reference>
     </checkout_multishipping_address_select>
 
-    <checkout_multishipping_address_selectBilling>
+    <checkout_multishipping_address_selectbilling>
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
         <reference name="content">
             <block type="checkout/multishipping_address_select" name="checkout_address_select" template="checkout/multishipping/address/select.phtml"/>
         </reference>
-    </checkout_multishipping_address_selectBilling>
+    </checkout_multishipping_address_selectbilling>
 
 
-    <checkout_multishipping_address_newShipping>
+    <checkout_multishipping_address_newshipping>
         <update handle="checkout_multishipping"/>
         <update handle="customer_address"/>
-    </checkout_multishipping_address_newShipping>
+    </checkout_multishipping_address_newshipping>
 
-    <checkout_multishipping_address_editShipping>
+    <checkout_multishipping_address_editshipping>
         <update handle="checkout_multishipping"/>
         <update handle="customer_address"/>
-    </checkout_multishipping_address_editShipping>
+    </checkout_multishipping_address_editshipping>
 
-    <checkout_multishipping_address_editAddress>
+    <checkout_multishipping_address_editaddress>
         <update handle="checkout_multishipping"/>
         <update handle="customer_address"/>
-    </checkout_multishipping_address_editAddress>
+    </checkout_multishipping_address_editaddress>
 
-    <checkout_multishipping_address_editBilling>
+    <checkout_multishipping_address_editbilling>
         <update handle="checkout_multishipping"/>
         <update handle="customer_address"/>
-    </checkout_multishipping_address_editBilling>
+    </checkout_multishipping_address_editbilling>
 
 <!--
 Multi address shipping checkout address page
@@ -995,10 +995,10 @@ One page checkout progress block
 One page checkout shipping methods block
 -->
 
-    <checkout_onepage_shippingMethod>
+    <checkout_onepage_shippingmethod>
         <!-- Mage_Checkout -->
         <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="checkout/onepage/shipping_method/available.phtml"/>
-    </checkout_onepage_shippingMethod>
+    </checkout_onepage_shippingmethod>
 
 
 <!--

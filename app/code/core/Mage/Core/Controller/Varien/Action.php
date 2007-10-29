@@ -223,7 +223,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $update->addHandle('THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout'));
 
         // load action handle
-        $update->addHandle($this->getFullActionName());
+        $update->addHandle(strtolower($this->getFullActionName()));
 
         return $this;
     }
