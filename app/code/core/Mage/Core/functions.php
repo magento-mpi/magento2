@@ -127,6 +127,8 @@ function checkMagicQuotes()
  * @param integer $errline
  */
 function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
+    mageSendErrorHeader();
+
     $errno = $errno & error_reporting();
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
@@ -176,5 +178,41 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
     switch ($errno) {
         case E_ERROR:
             die('fatal');
+    }
+
+    MageSendErrorFooter();
+}
+
+function mageSendErrorHeader()
+{
+    return;
+    if (!isset($_SERVER['SCRIPT_NAME'])) {
+        return;
+    }
+    $action = dirname($_SERVER['SCRIPT_NAME'])."/bugreport.php";
+    echo '<form id="error_report" method="POST" style="display:none" action="'.$action.'"><textarea name="error">';
+}
+
+function mageSendErrorFooter()
+{
+    return;
+    if (!isset($_SERVER['SCRIPT_NAME'])) {
+        return;
+    }
+    echo '</textarea></form><script type="text/javascript">document.getElementById("error_report").submit()</script>';
+    exit;
+}
+
+function mageDelTree($path) {
+    if (is_dir($path)) {
+        $entries = scandir($path);
+        foreach ($entries as $entry) {
+            if ($entry != '.' && $entry != '..') {
+                mageDelTree($path.DS.$entry);
+            }
+        }
+        rmdir($path);
+    } else {
+        unlink($path);
     }
 }

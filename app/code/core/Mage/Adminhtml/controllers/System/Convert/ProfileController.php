@@ -27,6 +27,8 @@
  */
 class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Controller_Action
 {
+    protected $_runAfterSave = false;
+
     protected function _initProfile($idFieldName = 'id')
     {
         $profileId = (int) $this->getRequest()->getParam($idFieldName);
@@ -158,12 +160,32 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
                 return;
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*'));
+        if ($this->_runAfterSave) {
+            echo "TEST";
+            $this->_redirect('*/*/run', array('id'=>$profile->getId()));
+        } else {
+            $this->_redirect('*/*');
+        }
+    }
+
+    public function saveRunAction()
+    {
+        $this->_runAfterSave = true;
+        $this->saveAction();
     }
 
     public function runAction()
     {
+        $this->_initProfile();
+        $this->loadLayout();
 
+        $this->_setActiveMenu('system/convert');
+
+        $this->_addContent(
+            $this->getLayout()->createBlock('adminhtml/system_convert_profile_run')
+        );
+
+        $this->renderLayout();
     }
 
     protected function _isAllowed()

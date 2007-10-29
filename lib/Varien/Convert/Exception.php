@@ -50,6 +50,11 @@ class Varien_Convert_Exception extends Varien_Exception
         return $this->_container;
     }
 
+    public function getLevel()
+    {
+        return $this->_level;
+    }
+
     public function setLevel($level)
     {
         $this->_level = $level;

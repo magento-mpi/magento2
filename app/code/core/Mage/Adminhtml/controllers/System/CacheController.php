@@ -41,21 +41,30 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
     public function saveAction()
     {
-        $a = $this->getRequest()->getPost('enable');
-        if (!empty($a) && is_array($a)) {
-            foreach ($a as $type=>$value) {
-                if ($value&2) {
-                    Mage::app()->cleanCache(array($type));
-                    $a[$type] = $value&1;
-                }
-            }
-            Mage::app()->getCache()->save(serialize($a), 'use_cache', array(), null);
-        }
         $a = $this->getRequest()->getPost('refresh');
         if (!empty($a) && is_array($a)) {
             if (!empty($a['catalog_rewrites'])) {
                 Mage::getSingleton('catalog/url')->refreshRewrites();
             }
+            if (!empty($a['all_cache'])) {
+                $cacheDir = Mage::getBaseDir('var').DS.'cache';
+                mageDelTree($cacheDir);
+                mkdir($cacheDir, 0777);
+            }
+        }
+
+        $a = $this->getRequest()->getPost('enable');
+        if (!empty($a) && is_array($a)) {
+            foreach ($a as $type=>$value) {
+                if ($value&2) {
+                    Mage::app()->cleanCache(array($type));
+                    if ($type==='config') {
+                        Mage::app()->getConfig()->removeCache();
+                    }
+                    $a[$type] = $value&1;
+                }
+            }
+            Mage::app()->getCache()->save(serialize($a), 'use_cache', array(), null);
         }
         $this->_redirect('*/*');
     }

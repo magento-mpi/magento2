@@ -32,12 +32,12 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit extends Mage_Adminhtml_Bl
         $this->_objectId = 'id';
         $this->_controller = 'system_convert_profile';
 
-        if ($this->getProfileId()) {
-            $this->_addButton('run', array(
-                'label' => __('Run profile'),
-                'onclick' => 'setLocation(\'' . $this->getUrl('*/*/run') . '\')',
-            ), -1);
-        }
+//        if ($this->getProfileId()) {
+//            $this->_addButton('run', array(
+//                'label' => __('Run profile'),
+//                'onclick' => 'setLocation(\'' . $this->getUrl('*/*/run', array('id'=>$this->getProfileId())) . '\')',
+//            ), -1);
+//        }
 
         parent::__construct();
 

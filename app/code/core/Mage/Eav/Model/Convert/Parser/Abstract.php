@@ -47,39 +47,41 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract extends Varien_Convert_Par
     {
         if (!$this->_storesById) {
             foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
-                $this->_storesById[(int)$storeNode->system->store->id] = $storeNode;
+                $this->_storesById[(int)$storeNode->system->store->id] = $storeNode->getName();
             }
         }
         return isset($this->_storesById[$storeId]) ? $this->_storesById[$storeId] : false;
     }
 
-    public function loadAttributeSets()
+    public function loadAttributeSets($entityTypeId)
     {
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection');
+        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter($entityTypeId)
+            ->load();
         $this->_attributeSetsById = array();
         $this->_attributeSetsByName = array();
-        foreach ($this->_attributeSetsById as $id=>$attributeSet) {
+        foreach ($attributeSetCollection as $id=>$attributeSet) {
             $name = $attributeSet->getAttributeSetName();
-            $this->_attributeSetsById[$id] = $Name;
+            $this->_attributeSetsById[$id] = $name;
             $this->_attributeSetsByName[$name] = $id;
         }
         return $this;
     }
 
-    public function getAttributeSetName($id)
+    public function getAttributeSetName($entityTypeId, $id)
     {
         if (!$this->_attributeSetsById) {
-            $this->loadAttributeSets();
+            $this->loadAttributeSets($entityTypeId);
         }
         return isset($this->_attributeSetsById[$id]) ? $this->_attributeSetsById[$id] : false;
     }
 
-    public function getAttributeSetId($name)
+    public function getAttributeSetId($entityTypeId, $name)
     {
         if (!$this->_attributeSetsByName) {
-            $this->loadAttributeSets();
+            $this->loadAttributeSets($entityTypeId);
         }
-        return isset($this->_attributeSetsByName[$id]) ? $this->_attributeSetsByName[$id] : false;
+        return isset($this->_attributeSetsByName[$name]) ? $this->_attributeSetsByName[$name] : false;
     }
 
     public function getSourceOptionId(Mage_Eav_Model_Entity_Attribute_Source_Interface $source, $value)

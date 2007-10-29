@@ -42,6 +42,12 @@
      public function load()
      {
          $data = $this->getResource()->read($this->getVar('filename'));
+         $filename = $this->getResource()->pwd().'/'.$this->getVar('filename');
+         if (false===$data) {
+             $this->addException('Could not load file: '.$filename, Varien_Convert_Exception::FATAL);
+         } else {
+             $this->addException('Loaded successfully: '.$filename.' ['.strlen($data).' byte(s)]');
+         }
          $this->setData($data);
          return $this;
      }
@@ -49,7 +55,17 @@
      public function save()
      {
          $data = $this->getData();
-         $this->getResource()->write($this->getVar('filename'), $data, 0777);
+         $result = $this->getResource()->write($this->getVar('filename'), $data, 0777);
+         $filename = $this->getResource()->pwd().'/'.$this->getVar('filename');
+         if (false===$result) {
+             $this->addException('Could not save file: '.$filename, Varien_Convert_Exception::FATAL);
+         } else {
+             $text = 'Saved successfully: '.$filename.' ['.strlen($data).' byte(s)]';
+             if ($this->getVar('link')) {
+                 $text .= ' <a href="'.$this->getVar('link').'" target="_blank">Link</a>';
+             }
+             $this->addException($text);
+         }
          return $this;
      }
  }

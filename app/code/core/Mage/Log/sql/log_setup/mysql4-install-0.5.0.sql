@@ -21,7 +21,8 @@ SQLyog Enterprise - MySQL GUI v5.13
 Host - 4.1.22 : Database - magento_dmitriy
 *********************************************************************
 Server version : 4.1.22
-*/
+*/
+
 
 SET NAMES utf8;
 
@@ -43,7 +44,7 @@ CREATE TABLE `log_customer` (
   PRIMARY KEY  (`log_id`),
   KEY `FK_LOG_CUSTOMER_VISITOR` (`visitor_id`),
   CONSTRAINT `FK_CUSTOMER_PARENT` FOREIGN KEY (`visitor_id`) REFERENCES `log_visitor` (`visitor_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customers log information';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Customers log information';
 
 /*Data for the table `log_customer` */
 
@@ -59,7 +60,7 @@ CREATE TABLE `log_quote` (
   PRIMARY KEY  (`quote_id`),
   KEY `FK_LOG_QUOTE_VISITOR` (`visitor_id`),
   CONSTRAINT `FK_QUOTE_PARENT` FOREIGN KEY (`visitor_id`) REFERENCES `log_visitor` (`visitor_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote log data';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Quote log data';
 
 /*Data for the table `log_quote` */
 
@@ -75,7 +76,7 @@ CREATE TABLE `log_summary` (
   `add_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`summary_id`),
   KEY `FK_LOG_SUMMARY_TYPE` (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Summary log information';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Summary log information';
 
 /*Data for the table `log_summary` */
 
@@ -89,7 +90,7 @@ CREATE TABLE `log_summary_type` (
   `period` smallint(5) unsigned NOT NULL default '0',
   `period_type` enum('MINUTE','HOUR','DAY','WEEK','MONTH') NOT NULL default 'MINUTE',
   PRIMARY KEY  (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
 
 /*Data for the table `log_summary_type` */
 
@@ -104,7 +105,7 @@ CREATE TABLE `log_url` (
   PRIMARY KEY  (`url_id`),
   KEY `FK_URL_VISIT_VISITOR` (`visitor_id`),
   CONSTRAINT `FK_URL_PARENT` FOREIGN KEY (`visitor_id`) REFERENCES `log_visitor` (`visitor_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
 
 /*Data for the table `log_url` */
 
@@ -118,7 +119,7 @@ CREATE TABLE `log_url_info` (
   `referer` varchar(255) default NULL,
   PRIMARY KEY  (`url_id`),
   CONSTRAINT `FK_URL_INFO_PARENT` FOREIGN KEY (`url_id`) REFERENCES `log_url` (`url_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
 
 /*Data for the table `log_url_info` */
 
@@ -133,7 +134,7 @@ CREATE TABLE `log_visitor` (
   `last_visit_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `last_url_id` bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (`visitor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='System visitors log';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='System visitors log';
 
 /*Data for the table `log_visitor` */
 
@@ -151,7 +152,7 @@ CREATE TABLE `log_visitor_info` (
   `remote_addr` bigint(20) default NULL,
   PRIMARY KEY  (`visitor_id`),
   CONSTRAINT `FK_VISITOR_PARENT` FOREIGN KEY (`visitor_id`) REFERENCES `log_visitor` (`visitor_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
 
 /*Data for the table `log_visitor_info` */
 

@@ -173,6 +173,8 @@ abstract class Varien_Convert_Action_Abstract implements Varien_Convert_Action_I
                 $this->addException('Unable to run action method: '.$method, Varien_Convert_Exception::FATAL);
             }
 
+            $this->getContainer()->addException('Starting '.get_class($this->getContainer()).' :: '.$method);
+
             if ($this->getParam('from')) {
                 $this->getContainer()->setData($this->getContainer($this->getParam('from'))->getData());
             }

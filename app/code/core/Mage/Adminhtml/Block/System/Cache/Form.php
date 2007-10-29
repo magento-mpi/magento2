@@ -50,6 +50,12 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
             'legend'=>__('Cache control')
         ));
 
+        $fieldset->addField('refresh_all_cache', 'checkbox', array(
+            'name'=>'refresh[all_cache]',
+            'label'=>__('Refresh All Cache'),
+            'value'=>1,
+        ));
+
         foreach ($types as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'select', array(
                 'name'=>'enable['.$type.']',

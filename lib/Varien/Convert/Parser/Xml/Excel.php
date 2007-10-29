@@ -45,10 +45,10 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
                 $index = 1;
                 $cells = $row->getElementsByTagName('Cell');
                 $rowData = array();
-                foreach($cells as $cell) {
+                foreach ($cells as $cell) {
                     $value = $cell->getElementsByTagName('Data')->item(0)->nodeValue;
                     $ind = $cell->getAttribute('Index');
-                    if (!is_null($ind)) {
+                    if (!is_null($ind) && $ind>0) {
                         $index = $ind;
                     }
                     if ($firstRow) {
@@ -64,6 +64,7 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
                 }
             }
             $data[$wsName] = $wsData;
+            $this->addException('Found worksheet "'.$wsName.'" with '.sizeof($wsData).' row(s)');
         }
         if ($wsName = $this->getVar('single_sheet')) {
             if (isset($data[$wsName])) {
@@ -74,7 +75,6 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
             }
         }
         $this->setData($data);
-
         return $this;
     }
 

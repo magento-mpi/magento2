@@ -29,4 +29,17 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
     {
         $this->_init('core/convert_profile');
     }
+
+    public function run()
+    {
+        $xml = '<convert version="1.0"><profile name="default">'.$this->getActionsXml().'</profile></convert>';
+        $convert = Mage::getModel('core/convert')->importXml($xml);
+        try {
+            $convert->run('default');
+        } catch (Exception $e) {
+
+        }
+        $this->setExceptions($convert->getProfile('default')->getExceptions());
+        return $this;
+    }
 }

@@ -469,9 +469,9 @@ final class Mage {
      */
     public static function printException(Exception $e)
     {
-        echo '<pre>';
-        echo ($e);
-        echo '</pre>';
+        mageSendErrorHeader();
+        echo $e;
+        mageSendErrorFooter();
     }
 
 

@@ -334,13 +334,15 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     	}
 
     	$attributes = $object->getSuperAttributesForSave();
-    	foreach($attributes as $attribute) {
-    		$attributeModel = Mage::getModel('catalog/product_super_attribute')
-    			->setData($attribute)
-    			->setStoreId($object->getStoreId())
-    			->setProductId($object->getId())
-    			->setId($attribute['id'])
-    			->save();
+    	if ($attributes) {
+        	foreach($attributes as $attribute) {
+        		$attributeModel = Mage::getModel('catalog/product_super_attribute')
+        			->setData($attribute)
+        			->setStoreId($object->getStoreId())
+        			->setProductId($object->getId())
+        			->setId($attribute['id'])
+        			->save();
+        	}
     	}
 
     	$linkExistsProductIds = array();
