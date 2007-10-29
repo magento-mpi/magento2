@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
             var review = {
                 updateRating: function() {
                         elements = [$("select_stores"), $("rating_detail").getElementsBySelector("input[type=\'radio\']")].flatten();
-                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems', array('_current'=>true)).'", {parameters:Form.serializeElements(elements)});
+                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems', array('_current'=>true)).'", {parameters:Form.serializeElements(elements), evalScripts:true});
                     }
            }
            Event.observe(window, \'load\', function(){

@@ -48,6 +48,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
 
                 foreach( $tagNamesArr as $key => $tagName ) {
+                    $tagNamesArr[$key] = trim($tagNamesArr[$key], '\'');
                     $tagNamesArr[$key] = trim($tagNamesArr[$key]);
                     if( $tagNamesArr[$key] == '' ) {
                         unset($tagNamesArr[$key]);
@@ -55,7 +56,6 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 }
 
                 foreach( $tagNamesArr as $tagName ) {
-                    $tagName = trim($tagName, '\'');
                     if( $tagName ) {
                         $tagModel = Mage::getModel('tag/tag');
                         $tagModel->loadByName($tagName);
