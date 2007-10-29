@@ -44,9 +44,9 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     {
         $pstoreTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
         $this->getSelect()
-            ->join(array('store'=>$this->_reviewStoreTable), 
+            ->join(array('store'=>$this->_reviewStoreTable),
                 'rt.review_id=store.review_id AND store.store_id=' . (int)$storeId, array())
-            ->join(array('pstore'=>$pstoreTable), 
+            ->join(array('pstore'=>$pstoreTable),
                 'pstore.product_id=e.entity_id AND pstore.store_id=' . (int)$storeId, array());
 
         return $this;
@@ -55,7 +55,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     public function setStoreFilter($storeId)
     {
         $this->getSelect()
-            ->join(array('store'=>$this->_reviewStoreTable), 
+            ->join(array('store'=>$this->_reviewStoreTable),
                 'rt.review_id=store.review_id AND store.store_id=' . (int)$storeId, array());
         return $this;
     }
@@ -139,8 +139,8 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
             ->addAttributeToSelect('sku');
 
         $this->getSelect()
-            ->join(array('rt' => $reviewTable), 
-                'rt.entity_pk_value = e.entity_id', 
+            ->join(array('rt' => $reviewTable),
+                'rt.entity_pk_value = e.entity_id',
                 array('review_id', 'created_at', 'entity_pk_value', 'status_id'))
             ->join(array('rdt' => $reviewDetailTable), 'rdt.review_id = rt.review_id');
     }
@@ -174,7 +174,12 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
             case 'rdt.detail':
                 $this->getSelect()->order($attribute . ' ' . $dir);
                 break;
-
+            case 'stores':
+                // No way to sort
+                break;
+            case 'type':
+                $this->getSelect()->order('rdt.customer_id ' . $dir);
+                break;
             default:
                 parent::setOrder($attribute, $dir);
         }
