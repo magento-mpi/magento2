@@ -30,7 +30,12 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 {
     public function prepareSummary()
     {
-        $this->addExpressionAttributeToSelect('revenue', 'SUM({{attribute}}', 'grand_total');
+        $this->addExpressionAttributeToSelect('revenue', 'SUM({{attribute}})', 'grand_total')
+            ->addExpressionAttributeToSelect('amouth', 'COUNT({{attribute}})', 'entity_id')
+            ->addExpressionAttributeToSelect('range', 'CONCAT(YEAR({{attribute}}),\'-\', MONTH({{attribute}}))', 'created_at')
+            ->groupByAttribute('range');
 
+        return $this;
     }
+
 }// Class Mage_Reports_Model_Mysql4_Order_Collection END

@@ -31,6 +31,7 @@ class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashbo
     protected function _initCollection()
     {
         $this->_collection = Mage::getResourceSingleton('reports/order_collection')
-            ->prepareSummary();
+            ->prepareSummary()
+            ->load();
     }
 } // Class Mage_Adminhtml_Helper_Dashboard_Order end

@@ -69,6 +69,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Product extends Mage_Adminhtml_Bloc
         $this->getTab('products_avarage_grid')->addTotal('average', 'Total Avarage');
         $this->getTab('products_avarage_grid')->addTotal('salary', 'Total Salary');
 
+        echo $this->helper('adminhtml/dashboard_order')->getCollection()->getSelect();
 
         return parent::_initTabs();
     }
