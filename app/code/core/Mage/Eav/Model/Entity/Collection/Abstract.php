@@ -394,6 +394,83 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     }
 
     /**
+     * Add attribute expression (SUM, COUNT, etc)
+     *
+     * Example: ('sub_total', 'SUM({{attribute}})', 'revenue')
+     *
+     * For some functions like SUM use groupByAttribute.
+     *
+     * @param string $alias
+     * @param string $expression
+     * @param string $attribute
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function addExpressionAttributeToSelect($alias, $expression, $attribute)
+    {
+        // validate alias
+        if (isset($this->_joinFields[$alias])) {
+            throw Mage::exception('Mage_Eav', __('Joined field or attribute expression with this alias is already declared'));
+        }
+
+        $attributeInstance = $this->getAttribute($attribute);
+
+        if ($attributeInstance->getBackend()->isStatic()) {
+            $attrField = 'e.' . $attribute;
+        } else {
+            $this->_addAttributeJoin($attribute);
+            $attrField = $this->_getAttributeFieldName($attribute);
+        }
+
+        $fullExpression = str_replace('{{attribute}}', $attrField, $expression);
+
+        $this->getSelect()->from(null, array($alias=>$fullExpression));
+
+        $this->_joinFields[$alias] = array(
+            'table' => false,
+            'field' => $fullExpression
+        );
+
+        return $this;
+    }
+
+
+    /**
+     * Groups results by specified attribute
+     *
+     * @param string|array $attribute
+     */
+    public function groupByAttribute($attribute)
+    {
+        if(is_array($attribute)) {
+            foreach ($attribute as $attributeItem) {
+                $this->groupByAttribute($attributeItem);
+            }
+        } else {
+            if (isset($this->_joinFields[$attribute])) {
+                $this->getSelect()->group($this->_getAttributeFieldName($attribute));
+                return $this;
+            }
+
+            if (isset($this->_joinAttributes[$attribute])) {
+                $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
+                $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getAttributeCode();
+            } else {
+                $attrInstance = $this->getEntity()->getAttribute($attribute);
+                $entityField = 'e.'.$attribute;
+            }
+
+            if ($attrInstance->getBackend()->isStatic()) {
+                $this->getSelect()->group($entityField);
+            } else {
+                $this->_addAttributeJoin($attribute);
+                $this->getSelect()->group($this->_getAttributeTableAlias($attribute).'.value');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Add attribute from joined entity to select
      *
      * Examples:
@@ -879,7 +956,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     {
         if (isset($this->_joinFields[$attributeCode])) {
             $attr = $this->_joinFields[$attributeCode];
-            return $attr['table'].'.'.$attr['field'];
+            return $attr['table'] ? $attr['table'] .'.'.$attr['field'] : $attr['field'];
         }
 
         $attribute = $this->getAttribute($attributeCode);
