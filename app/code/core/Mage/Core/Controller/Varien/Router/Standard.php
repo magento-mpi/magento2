@@ -102,19 +102,21 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 	            $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
 	        }
         }
-
-        $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https'
-            && Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
-        $isSecure = (bool)$request->getServer('HTTPS');
-        if ($shouldBeSecure!=$isSecure) {
-            $url = Mage::getModel('core/url')
-                ->setSecure($shouldBeSecure)
-                ->getHostUrl();
-            $url .= $request->getRequestUri();
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect($url)
-                ->sendResponse();
-            exit;
+        
+        if (Mage::app()->isInstalled()) {
+            $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https'
+                && Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
+            $isSecure = (bool)$request->getServer('HTTPS');
+            if ($shouldBeSecure!=$isSecure) {
+                $url = Mage::getModel('core/url')
+                    ->setSecure($shouldBeSecure)
+                    ->getHostUrl();
+                $url .= $request->getRequestUri();
+                Mage::app()->getFrontController()->getResponse()
+                    ->setRedirect($url)
+                    ->sendResponse();
+                exit;
+            }
         }
 
         // include controller file if needed
