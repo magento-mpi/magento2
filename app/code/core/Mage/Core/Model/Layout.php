@@ -176,13 +176,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
     protected function _generateBlock($node, $parent)
     {
+    	
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
             $className = Mage::getConfig()->getBlockClassName((string)$node['type']);
         }
+        
         $blockName = (string)$node['name'];
-
         $_profilerKey = 'BLOCK: '.$blockName;
         Varien_Profiler::start($_profilerKey);
         $block = $this->addBlock($className, $blockName);

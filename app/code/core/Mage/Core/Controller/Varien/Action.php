@@ -187,7 +187,6 @@ abstract class Mage_Core_Controller_Varien_Action
     public function loadLayout($handles=null, $generateBlocks=true, $generateXml=true)
     {
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
-
         // if handles were specified in arguments load them first
         if (false!==$handles && ''!==$handles) {
             $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');

@@ -25,7 +25,7 @@ $defShipArr = Mage::getSingleton('usa/shipping_carrier_ups')->getCode('method');
 
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
-$storeCode = $this->getRequest()->getParam('store');
+$storeCode = $this->getRequest()->getParam('send');
           
 $stroredAllowedMethods = Mage::getStoreConfig('carriers/ups/allowed_methods',$storeCode);
 $stroredAllowedMethods = explode(',',$stroredAllowedMethods);

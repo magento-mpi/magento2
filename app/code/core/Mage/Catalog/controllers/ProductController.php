@@ -76,4 +76,32 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->renderLayout();
     }
+    
+    public function sendAction(){
+    	
+    	$this->_initProduct();
+        $product = Mage::registry('product');
+        if (!$product->getId() || !$product->isVisibleInCatalog()) {
+            $this->_forward('noRoute');
+            return;
+        }
+
+        $update = $this->getLayout()->getUpdate();
+        $update->addHandle('default');
+        $this->addActionLayoutHandles();
+
+        $update->addHandle('PRODUCT_'.$product->getId());
+
+        $this->loadLayoutUpdates();
+
+        $update->addUpdate($product->getCustomLayoutUpdate());
+
+        $this->generateLayoutXml()->generateLayoutBlocks();
+
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('tag/session');
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
+        
+    }
 }

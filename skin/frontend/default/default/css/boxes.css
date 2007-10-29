@@ -112,6 +112,7 @@ input.form-radio { margin-right:3px;}
 .form-list li { margin-bottom:6px; }
 .form-list li .input-box .input-text, .form-list li .input-box textarea { width:250px; }
 .form-list li .input-box select { width:256px;}
+.form-list li.addElement { border-top:1px solid #DDD; padding-top:10px;}
 
 .group-select {
     margin:28px 0;

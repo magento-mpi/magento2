@@ -590,7 +590,23 @@ Product view
             <block type="tag/product_list" name="product_tag_list" before="-"></block>
         </reference>
     </catalog_product_view>
-
+<!--
+Product send to friend
+-->
+ <catalog_product_send>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="catalog/product_send" name="product.send" template="catalog/product/send.phtml">
+            </block>
+        </reference>
+    </catalog_product_send>
+    
 <!--
 Product additional images gallery popup
 -->

@@ -1,0 +1,98 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_Send
+ */
+?>
+<script type="text/javascript">
+	function add_recipient(){
+		ul = $('recipients_options');
+		var li_mail = document.createElement("LI");
+		li_mail.addClassName('addElement');
+		li_mail.innerHTML = '<label for="recipients_email"><?=$this->__('Email Address:')?></label><br/><input name="send[recipients_email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text" style="width:250px;"/>';
+		
+		var li_name = document.createElement("LI");
+		li_name.innerHTML = '<label for="recipients_name"><?=$this->__('Name:')?></label><br/><input name="send[recipients_name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />';
+		
+		ul.appendChild(li_mail);
+		ul.appendChild(li_name);
+		
+	}
+</script>
+            
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
+<div class="page-head">
+    <h3><?=$this->__('Email to a Friend')?></h3>
+</div>
+<form action="<?=$this->getUrl('catalog/product/send',array('id'=>$this->getId()))?>id/136" method="post" id="product_sendtofriend_form">
+<div class="col-1 login-box">
+    <div class="col-1 registered-users">
+        <div class="content ">
+           	<div class="left">
+	            <h4><?=$this->__('Sender:')?></h4>
+	             <ul class="form-list" id="sender_options">
+	             <li>
+	                        <label for="sender_name"><?=$this->__('Name:')?></label><br/>
+	                        <input name="send[sender[name]]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text" style="width:250px;"/>
+	                    </li>
+	                    <li>
+	                        <label for="sender_message"><?=$this->__('Message:')?></label><br/>
+	                        <textarea name="send[sender[message]]" class="input-text" id="sender_message" style="width:250px;"></textarea>
+	                    </li>
+	             </ul>
+            </div>
+            
+            <div class="right">
+            	<div>
+		            <h4><?=$this->__('Recipients:')?></h4>
+		            <ul class="form-list" id="recipients_options">
+		                    <li>
+		                        <label for="recipients_email"><?=$this->__('Email Address:')?> <span class="required">*</span></label><br/>
+		                        <input name="send[recipients_email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry" style="width:250px;"/>
+		                    </li>
+		                    <li>
+		                        <label for="recipients_name"><?=$this->__('Name:')?></label><br/>
+		                        <input name="send[recipients_name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />
+		                    </li>
+		            </ul>
+		             <button class="form-button" onclick="add_recipient();" type="button"><span><?=$this->__('Add Recipient')?></span></button>
+		       </div>
+            </div>
+            <div style="clear:both"></div>
+            
+        </div>
+        
+        <div class="form-buttons">
+            <button class="form-button right" type="submit"><span><?=$this->__('Send email')?></span></button>
+        </div>
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+                var productSendtofriendForm = new VarienForm('product_sendtofriend_form');
+                productSendtofriendForm.submit = function() {
+                    if(this.validator.validate()) {
+                        this.form.submit();
+                    }
+                }.bind(productSendtofriendForm);
+</script>
