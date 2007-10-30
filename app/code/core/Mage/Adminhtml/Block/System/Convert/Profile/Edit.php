@@ -32,17 +32,16 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit extends Mage_Adminhtml_Bl
         $this->_objectId = 'id';
         $this->_controller = 'system_convert_profile';
 
-//        if ($this->getProfileId()) {
-//            $this->_addButton('run', array(
-//                'label' => __('Run profile'),
-//                'onclick' => 'setLocation(\'' . $this->getUrl('*/*/run', array('id'=>$this->getProfileId())) . '\')',
-//            ), -1);
-//        }
-
         parent::__construct();
 
         $this->_updateButton('save', 'label', __('Save Profile'));
         $this->_updateButton('delete', 'label', __('Delete Profile'));
+        $this->_addButton('savecontinue', array(
+            'label' => __('Save and Continue Editing'),
+            'onclick' => "$('edit_form').action += 'continue/true/'; editForm.submit();",
+            'class' => 'save',
+        ), -1);
+
     }
 
     public function getProfileId()

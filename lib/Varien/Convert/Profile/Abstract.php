@@ -99,15 +99,16 @@ abstract class Varien_Convert_Profile_Abstract
 
     public function run()
     {
-        if ($this->_actions) {
-            foreach ($this->_actions as $action) {
-                try {
-                    $action->run();
-                } catch (Varien_Convert_Exception $e) {
-                    $this->addException($e);
-                    if ($e->getLevel()===Varien_Convert_Exception::FATAL) {
-                        break;
-                    }
+        if (!$this->_actions) {
+            $this->getContainer()->addException("Could not find any actions for this profile", Varien_Convert_Exception::FATAL);
+        }
+        foreach ($this->_actions as $action) {
+            try {
+                $action->run();
+            } catch (Varien_Convert_Exception $e) {
+                $this->addException($e);
+                if ($e->getLevel()===Varien_Convert_Exception::FATAL) {
+                    break;
                 }
             }
         }

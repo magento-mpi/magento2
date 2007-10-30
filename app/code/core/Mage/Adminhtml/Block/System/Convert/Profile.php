@@ -19,22 +19,27 @@
  */
 
 /**
- * Adminhtml customers list block
+ * Adminhtml convert profiles list block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 
 class Mage_Adminhtml_Block_System_Convert_Profile extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-
     public function __construct()
     {
         $this->_controller = 'system_convert_profile';
         $this->_headerText = __('Manage Import/Export Profiles');
         $this->_addButtonLabel = __('Add New Profile');
+
+        $this->_addButton('generate_products', array(
+            'label'     => $this->__("Generate File/Products Profile"),
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/system_convert_generate_products') .'\')',
+            'class'     => 'add',
+        ));
+
         parent::__construct();
     }
-
 }

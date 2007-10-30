@@ -21,6 +21,7 @@
 
 class Mage_Catalog_Model_Mysql4_Convert
 {
+    protected $_productsBySku;
     protected $_productEntity;
 	protected $_skuAttribute;
 
@@ -54,6 +55,39 @@ class Mage_Catalog_Model_Mysql4_Convert
 			$this->_skuAttribute = $this->getProductEntity()->getAttribute('sku');
 		}
 		return $this->_skuAttribute->getData($field);
+	}
+
+	public function getProductIdBySku($sku)
+	{
+	    if (!$this->_productsBySku) {
+	        $select = $this->getSelect()
+	            ->from($this->getTable('catalog/product'), array('entity_id', 'sku'));
+	        $products = $this->getConnection()->fetchAll($select);
+
+	        $this->_productsBySku = array();
+	        foreach ($products as $p) {
+	            $this->_productsBySku[$p['sku']] = $p['entity_id'];
+	        }
+	    }
+	    return isset($this->_productsBySku[$sku]) ? $this->_productsBySku[$sku] : false;
+	}
+
+	public function addProductToStore($productId, $storeId)
+	{
+	    $write = $this->getConnection();
+	    $table = $this->getTable('catalog/product_store');
+        try {
+    	    $select = $write->select()
+    	       ->from($table)
+    	       ->where('product_id=?', $productId)
+    	       ->where('store_id=?', $storeId);
+    	    if (!$write->fetchOne("select * from $table where product_id=".(int)$productId." and store_id=".(int)$storeId)) {
+               $write->query("insert into $table (product_id, store_id) values (".(int)$productId.",".(int)$storeId.")");
+    	    }
+        } catch (Exception $e) {
+            throw $e;
+        }
+	    return $this;
 	}
 
 	public function exportAttributes()

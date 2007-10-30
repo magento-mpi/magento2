@@ -19,11 +19,11 @@
  */
 
 /**
- * Adminhtml newsletter templates grid block action item renderer
+ * Convert profiles grid action renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 
 class Mage_Adminhtml_Block_System_Convert_Profile_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract

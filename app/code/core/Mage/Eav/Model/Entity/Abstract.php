@@ -1062,7 +1062,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             'attribute_id'  => $attribute->getId(),
             'value'         => $value,
         );
-        // If we need seve attribute in multiple store
+        // If we need save attribute in multiple store
         if (empty($storeIds)) {
             $this->_write->insert($attribute->getBackend()->getTable(), $row);
         }

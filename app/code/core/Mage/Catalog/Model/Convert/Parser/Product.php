@@ -21,6 +21,8 @@
 
 class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_Parser_Abstract
 {
+    protected $_resource;
+
     /**
      * Product collections per store
      *
@@ -41,11 +43,11 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
     public function getResource()
     {
         if (!$this->_resource) {
-            $this->_resource = Mage::getResourceSingleton('catalog_entity/convert')
-                ->loadStores()
-                ->loadProducts()
-                ->loadAttributeSets()
-                ->loadAttributeOptions();
+            $this->_resource = Mage::getResourceSingleton('catalog_entity/convert');
+                #->loadStores()
+                #->loadProducts()
+                #->loadAttributeSets()
+                #->loadAttributeOptions();
         }
         return $this->_resource;
     }
@@ -109,6 +111,9 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 continue;
             }
 
+            if ($this->getVar('store')) {
+                $row['_store'] = $this->getVar('store');
+            }
             // get store ids
             $storeIds = $this->getStoreIds($row['_store']);
 
@@ -118,6 +123,10 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 $entity = $collection->getEntity();
 
                 $model = Mage::getModel('catalog/product');
+                $model->setStoreId($storeId);
+                if (!empty($row['entity_id'])) {
+                    $model->load($row['entity_id']);
+                }
                 foreach ($row as $field=>$value) {
                     $attribute =  $entity->getAttribute($field);
                     if (!$attribute) {
@@ -177,7 +186,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
 
                 $row = array(
-                    '_store'=>$this->getStoreCode($storeId),
+                    '_store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
                     '_attribute_set'=>$this->getAttributeSetName($model->getEntityTypeId(), $model->getAttributeSetId()),
                     '_type'=>$this->getProductTypeName($model->getTypeId()),
                 );

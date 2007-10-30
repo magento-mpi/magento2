@@ -35,28 +35,28 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     const ERROR_INVALID_MODE = 5;
     const ERROR_INVALID_DESTINATION = 6;
     const ERROR_INVALID_SOURCE = 7;
-    
+
     /**
      * Connection config
      *
      * @var array
      */
     protected $_config;
-    
+
     /**
      * An FTP connection
      *
      * @var resource
      */
     protected $_conn;
-    
+
     /**
      * Error code
-     * 
+     *
      * @var int
      */
     protected $_error;
-    
+
     /**
      * Open a connection
      *
@@ -70,17 +70,17 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      * - passive     default false
      * - path        default empty
      * - file_mode   default FTP_BINARY
-     * 
+     *
      * @param array $args
      * @return boolean
      */
-    public function open(array $args)
+    public function open(array $args=array())
     {
         if (empty($args['host'])) {
             $this->_error = self::ERROR_EMPTY_HOST;
             return false;
         }
-        
+
         if (empty($args['port'])) {
             $args['port'] = 21;
         }
@@ -93,17 +93,17 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
         if (empty($args['password'])) {
             $args['password'] = '';
         }
-        
+
         if (empty($args['timeout'])) {
             $args['timeout'] = 90;
         }
-        
+
         if (empty($args['file_mode'])) {
             $args['file_mode'] = FTP_BINARY;
         }
-        
+
         $this->_config = $args;
-        
+
         if (empty($this->_config['ssl'])) {
             $this->_conn = @ftp_connect($this->_config['host'], $this->_config['port'], $this->_config['timeout']);
         } else {
@@ -113,13 +113,13 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             $this->_error = self::ERROR_INVALID_CONNECTION;
             return false;
         }
-        
+
         if (!@ftp_login($this->_conn, $this->_config['user'], $this->_config['password'])) {
             $this->_error = self::ERROR_INVALID_LOGIN;
             $this->close();
             return false;
         }
-        
+
         if (!empty($this->_config['path'])) {
             if (!@ftp_chdir($this->_conn, $this->_config['path'])) {
                 $this->_error = self::ERROR_INVALID_PATH;
@@ -127,7 +127,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
                 return false;
             }
         }
-        
+
         if (!empty($this->_config['passive'])) {
             if (!@ftp_pasv($this->_conn, true)) {
                 $this->_error = self::ERROR_INVALID_MODE;
@@ -135,20 +135,20 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Close a connection
-     * 
+     *
      * @return boolean
      */
     public function close()
     {
         return @ftp_close($this->_conn);
     }
-    
+
     /**
      * Create a directory
      *
@@ -162,7 +162,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     {
         return @ftp_mkdir($this->_conn, $dir);
     }
-    
+
     /**
      * Delete a directory
      *
@@ -173,7 +173,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     {
         return @ftp_rmdir($this->_conn, $dir);
     }
-    
+
     /**
      * Get current working directory
      *
@@ -183,7 +183,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     {
         return @ftp_pwd($this->_conn);
     }
-    
+
     /**
      * Change current working directory
      *
@@ -224,7 +224,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             }
         }
     }
-    
+
     /**
      * Write a file from string, file or stream
      *
@@ -241,7 +241,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
         } else {
             if (is_string($src)) {
                 ob_start();
-                $stream = STDOUT;
+                $stream = fopen('php://stdout', 'w');
                 echo $src;
             } elseif (is_resource($src)) {
                 $stream = $src;
@@ -256,7 +256,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             return $result;
         }
     }
-    
+
     /**
      * Delete a file
      *
@@ -267,7 +267,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     {
         return @ftp_delete($this->_conn, $filename);
     }
-    
+
     /**
      * Rename or move a directory or a file
      *
@@ -279,10 +279,10 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     {
         return @ftp_rename($this->_conn, $src, $dest);
     }
-    
+
     /**
      * Change mode of a directory or a file
-     * 
+     *
      * @param string $filename
      * @param int $mode
      * @return boolean
@@ -290,5 +290,10 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     public function chmod($filename, $mode)
     {
         return @ftp_chmod($this->_conn, $mode, $filename);
+    }
+
+    public function ls($grep=null)
+    {
+        return array();
     }
 }

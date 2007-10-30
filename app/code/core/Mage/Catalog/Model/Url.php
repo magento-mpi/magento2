@@ -463,7 +463,7 @@ class Mage_Catalog_Model_Url
         if ($update) {
             $rewrite->setRequestPath($productPath)->save();
         }
-        if (true===$category) {
+        if (true===$category && $product->getCategories()) {
             foreach ($product->getCategories() as $category) {
                 $this->refreshProductRewrites($storeId, $product, $category);
             }

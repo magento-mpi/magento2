@@ -292,6 +292,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'var':
             case 'session':
             case 'cache':
+            case 'export':
                 if (!file_exists($dir)) {
                     mkdir($dir, 0777, true);
                 }
@@ -338,6 +339,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'cache':
                 $dir = $this->getBaseDir('var').DS.'cache';
                 break;
+
+            case 'export':
+                $dir = $this->getBaseDir('var').DS.'export';
         }
         return $dir;
     }

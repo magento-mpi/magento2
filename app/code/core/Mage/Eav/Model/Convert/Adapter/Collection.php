@@ -45,13 +45,13 @@ class Mage_Eav_Model_Convert_Adapter_Collection extends Varien_Convert_Adapter_A
                 ->load();
             $this->addException(__('Loaded '.$collection->getSize().' records'));
         } catch (Exception $e) {
+Mage::printException($e);
             if (!$e instanceof Varien_Convert_Exception) {
                 $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
                     Varien_Convert_Exception::FATAL);
             }
             return $this;
         }
-
         $this->setData($collection);
         return $this;
     }

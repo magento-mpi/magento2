@@ -20,39 +20,16 @@
 
 
 /**
- * Convert HTTP adapter
+ * Convert csv parser
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
- class Varien_Convert_Adapter_Http extends Varien_Convert_Adapter_Abstract
- {
-     public function load()
-     {
-         if (!$_FILES) {
-?>
-<form method="POST" enctype="multipart/form-data">
-File to upload: <input type="file" name="io_file"/> <input type="submit" value="Upload"/>
-</form>
-<?
-             exit;
-         }
-         if (!empty($_FILES['io_file']['tmp_name'])) {
-            $this->setData(file_get_contents($_FILES['io_file']['tmp_name']));
-         }
-
-         return $this;
-     }
-
-     public function save()
-     {
-         if ($this->getVars()) {
-             foreach ($this->getVars() as $key=>$value) {
-                 header($key.': '.$value);
-             }
-         }
-         echo $this->getData();
-         return $this;
-     }
- }
+class Mage_Core_Model_Convert_Parser_Csv extends Varien_Convert_Parser_Csv
+{
+    public function __construct()
+    {
+        $this->setVar('tmp_dir', Mage::getBaseDir('export'));
+    }
+}

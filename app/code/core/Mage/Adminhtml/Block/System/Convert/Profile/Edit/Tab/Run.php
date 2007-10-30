@@ -19,30 +19,30 @@
  */
 
 /**
- * Adminhtml convert profile edit form block
+ * Convert profile edit tab
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-
-class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Core_Block_Template
 {
-    protected function _prepareForm()
+    public function __construct()
     {
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
+        parent::__construct();
+        $this->setTemplate('system/convert/profile/run.phtml');
+    }
 
-        $model = Mage::registry('current_convert_profile');
+    public function getRunButtonHtml()
+    {
+        return $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+            ->setClass('save')->setLabel($this->__('Run Profile Now'))
+            ->setOnClick('runProfile()')
+            ->toHtml();
+    }
 
-        if ($model->getId()) {
-            $form->addField('profile_id', 'hidden', array(
-                'name' => 'profile_id',
-            ));
-            $form->setValues($model->getData());
-        }
-
-        $form->setUseContainer(true);
-        $this->setForm($form);
-        return parent::_prepareForm();
+    public function getProfileId()
+    {
+        return Mage::registry('current_convert_profile')->getId();
     }
 }

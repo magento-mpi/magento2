@@ -128,11 +128,11 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         $e->setContainer($this);
         $e->setPosition($this->getPosition());
 
-        $this->getProfile()->addException($e);
-
         if (Varien_Convert_Exception::FATAL===$level) {
             throw $e;
         }
+
+        $this->getProfile()->addException($e);
 
         return $e;
     }

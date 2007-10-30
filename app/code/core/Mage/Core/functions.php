@@ -133,7 +133,7 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
-    echo "<pre>\n<b>";
+    echo "<pre>\n<strong>";
     switch($errno){
         case E_ERROR:               echo "Error";                  break;
         case E_WARNING:             echo "Warning";                break;
@@ -150,7 +150,7 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
         case E_RECOVERABLE_ERROR:   echo "Recoverable Error";      break;
         default:                    echo "Unknown error ($errno)"; break;
     }
-    echo ":</strong> <i>$errstr</i> in <strong>$errfile</strong> on line <b>$errline</b><br>";
+    echo ":</strong> <i>$errstr</i> in <strong>$errfile</strong> on line <strong>$errline</strong><br>";
 
     $backtrace = debug_backtrace();
     array_shift($backtrace);
@@ -158,7 +158,7 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
         echo "[$i] in <strong>"
             .(!empty($l['class']) ? $l['class'] : '')
             .(!empty($l['type']) ? $l['type'] : '')
-            ."{$l['function']}</b>(";
+            ."{$l['function']}</strong>(";
         if(!empty($l['args'])) foreach ($l['args'] as $i=>$arg) {
             if ($i>0) echo ", ";
             if (is_object($arg)) echo get_class($arg);
@@ -169,8 +169,8 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
             else print_r($arg);
         }
         echo ")";
-        if(!empty($l['file'])) echo " in <b>{$l['file']}</b>";
-        if(!empty($l['line'])) echo " on line <b>{$l['line']}</b>";
+        if(!empty($l['file'])) echo " in <strong>{$l['file']}</strong>";
+        if(!empty($l['line'])) echo " on line <strong>{$l['line']}</strong>";
         echo "<br>";
     }
 

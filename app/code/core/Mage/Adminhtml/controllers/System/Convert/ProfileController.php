@@ -104,6 +104,11 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit')
         );
 
+        /**
+         * Append edit tabs to left block
+         */
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tabs'));
+
         $this->renderLayout();
     }
 
@@ -160,32 +165,27 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
                 return;
             }
         }
-        if ($this->_runAfterSave) {
-            echo "TEST";
-            $this->_redirect('*/*/run', array('id'=>$profile->getId()));
+        if ($this->getRequest()->getParam('continue')) {
+            $this->_redirect('*/*/edit', array('id'=>$profile->getId()));
         } else {
             $this->_redirect('*/*');
         }
     }
 
-    public function saveRunAction()
-    {
-        $this->_runAfterSave = true;
-        $this->saveAction();
-    }
-
     public function runAction()
     {
         $this->_initProfile();
-        $this->loadLayout();
+        #$this->loadLayout();
 
-        $this->_setActiveMenu('system/convert');
+        #$this->_setActiveMenu('system/convert');
 
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_convert_profile_run')
-        );
+        #$this->_addContent(
+        #    $this->getLayout()->createBlock('adminhtml/system_convert_profile_run')
+        #);
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_convert_profile_run')->toHtml());
+        $this->getResponse()->sendResponse();
 
-        $this->renderLayout();
+        #$this->renderLayout();
     }
 
     protected function _isAllowed()

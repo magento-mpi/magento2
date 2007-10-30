@@ -34,7 +34,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * @var string
      */
     protected $_iwd;
-    
+
     /**
      * Use virtual current working directory for application integrity
      *
@@ -61,7 +61,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * Possible arguments:
      * - path     default current path
-     * 
+     *
      * @param array $args
      * @return boolean
      */
@@ -71,17 +71,17 @@ class Varien_Io_File extends Varien_Io_Abstract
         $this->cd(!empty($args['path']) ? $args['path'] : $this->_iwd);
         return true;
     }
-    
+
     /**
      * Close a connection
-     * 
+     *
      * @return boolean
      */
     public function close()
     {
         return true;
     }
-    
+
     /**
      * Create a directory
      *
@@ -101,7 +101,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         }
         return $result;
     }
-    
+
     /**
      * Delete a directory
      *
@@ -115,7 +115,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         @chdir($this->_iwd);
         return $result;
     }
-    
+
     /**
      * Get current working directory
      *
@@ -125,7 +125,7 @@ class Varien_Io_File extends Varien_Io_Abstract
     {
         return $this->_cwd;
     }
-    
+
     /**
      * Change current working directory
      *
@@ -149,7 +149,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * If $dest is null the output will be returned.
      * Otherwise it will be saved to the file or stream and operation result is returned.
-     * 
+     *
      * @param string $filename
      * @param string|resource $dest
      * @return boolean|string
@@ -159,7 +159,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         chdir($this->_cwd);
         $result = @file_get_contents($filename);
         chdir($this->_iwd);
-        
+
         if (is_string($dest) || is_resource($dest)) {
             return @file_put_contents($dest, $result);
         } elseif (is_null($dest)) {
@@ -168,7 +168,7 @@ class Varien_Io_File extends Varien_Io_Abstract
             return false;
         }
     }
-    
+
     /**
      * Write a file from string, file or stream
      *
@@ -186,7 +186,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         } else {
             return false;
         }
-        
+
         chdir($this->_cwd);
         if ($srcIsFile) {
             $result = @copy($src, $filename);
@@ -199,7 +199,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         chdir($this->_iwd);
         return $result;
     }
-    
+
     /**
      * Delete a file
      *
@@ -213,7 +213,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         @chdir($this->_iwd);
         return $result;
     }
-    
+
     /**
      * Rename or move a directory or a file
      *
@@ -243,10 +243,10 @@ class Varien_Io_File extends Varien_Io_Abstract
         chdir($this->_iwd);
         return $result;
     }
-    
+
     /**
      * Change mode of a directory or a file
-     * 
+     *
      * @param string $filename
      * @param int $mode
      * @return boolean
@@ -265,14 +265,14 @@ class Varien_Io_File extends Varien_Io_Abstract
 
     /**
      * Get list of cwd subdirectories and files
-     * 
+     *
      * Suggestions (from moshe):
      * - Use filemtime instead of filectime for performance
      * - Change $grep to $flags and use binary flags
      *   - LS_DIRS  = 1
      *   - LS_FILES = 2
      *   - LS_ALL   = 3
-     * 
+     *
      * @param Varien_Io_File const
      * @access public
      * @return array
@@ -344,8 +344,8 @@ class Varien_Io_File extends Varien_Io_Abstract
 
     /**
      * Convert integer permissions format into human readable
-     * 
-     * @param integer $mode 
+     *
+     * @param integer $mode
      * @access protected
      * @return string
      */
@@ -391,13 +391,13 @@ class Varien_Io_File extends Varien_Io_Abstract
         $s.=sprintf('%1s%1s%1s', $owner['read'], $owner['write'], $owner['execute']);
         $s.=sprintf('%1s%1s%1s', $group['read'], $group['write'], $group['execute']);
         $s.=sprintf('%1s%1s%1s', $world['read'], $world['write'], $world['execute']);
-        return trim($s);    
+        return trim($s);
     }
 
     /**
      * Get file owner
-     * 
-     * @param string $filename 
+     *
+     * @param string $filename
      * @access protected
      * @return string
      */
@@ -414,4 +414,8 @@ class Varien_Io_File extends Varien_Io_Abstract
         return $owner['name'] . ' / ' . $groupinfo['name'];
     }
 
+    public function dirsep()
+    {
+        return DIRECTORY_SEPARATOR;
+    }
 }

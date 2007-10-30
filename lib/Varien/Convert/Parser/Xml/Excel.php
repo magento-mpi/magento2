@@ -47,11 +47,14 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
                 $rowData = array();
                 foreach ($cells as $cell) {
                     $value = $cell->getElementsByTagName('Data')->item(0)->nodeValue;
-                    $ind = $cell->getAttribute('Index');
+                    $ind = $cell->getAttribute('ss:Index');
                     if (!is_null($ind) && $ind>0) {
                         $index = $ind;
                     }
-                    if ($firstRow) {
+                    if ($firstRow && !$this->getVar('fieldnames')) {
+                        $fieldNames[$index] = 'column'.$index;
+                    }
+                    if ($firstRow && $this->getVar('fieldnames')) {
                         $fieldNames[$index] = $value;
                     } else {
                         $rowData[$fieldNames[$index]] = $value;
@@ -99,11 +102,13 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
                 $fields = $this->getGridFields($wsData);
 
                 $xml .= '<Worksheet ss:Name="'.$wsName.'"><ss:Table>';
-                $xml .= '<ss:Row>';
-                foreach ($fields as $fieldName) {
-                    $xml .= '<ss:Cell><Data ss:Type="String">'.$fieldName.'</Data></ss:Cell>';
+                if ($this->getVar('fieldnames')) {
+                    $xml .= '<ss:Row>';
+                    foreach ($fields as $fieldName) {
+                        $xml .= '<ss:Cell><Data ss:Type="String">'.$fieldName.'</Data></ss:Cell>';
+                    }
+                    $xml .= '</ss:Row>';
                 }
-                $xml .= '</ss:Row>';
                 foreach ($wsData as $i=>$row) {
                     if (!is_array($row)) {
                         continue;

@@ -470,7 +470,9 @@ final class Mage {
     public static function printException(Exception $e)
     {
         mageSendErrorHeader();
+        echo "<pre>";
         echo $e;
+        echo "</pre>";
         mageSendErrorFooter();
     }
 

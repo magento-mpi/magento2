@@ -30,17 +30,77 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
 {
 	public function parse()
     {
-        $fDel = $this->getVar('field_delimited_by', ',');
-        $fEnc = $this->getVar('field_encosed_by', '"');
-        $fEsc = $this->getVar('field_escaped_by', '\\');
+        $fDel = $this->getVar('delimiter', ',');
+        $fEnc = $this->getVar('enclose', '"');
 
-        $text = $this->getData();
+        if ($fDel=='\\t') {
+            $fDel = "\t";
+        }
+
+        $tmpFilename = $this->getVar('tmp_dir', '/tmp').DS.md5(rand());
+
+        file_put_contents($tmpFilename, $this->getData());
+        $fp = fopen($tmpFilename, 'r');
         $data = array();
+        for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
+            if (0==$i) {
+                if ($this->getVar('fieldnames')) {
+                    $fields = $line;
+                    continue;
+                } else {
+                    foreach ($line as $j=>$f) {
+                        $fields[$j] = 'column'.($j+1);
+                    }
+                }
+            }
+            $row = array();
+            foreach ($fields as $j=>$f) {
+                $row[$f] = $line[$j];
+            }
+            $data[] = $row;
+        }
+        fclose($fp);
+        @unlink($tmpFilename);
 
+        $this->setData($data);
+        return $this;
     }
 
     public function unparse()
     {
+        $csv = '';
 
+        $fDel = $this->getVar('delimiter', ',');
+        $fEnc = $this->getVar('enclose', '"');
+        $fEsc = $this->getVar('escape', '\\');
+        $lDel = "\r\n";
+
+        if ($fDel=='\\t') {
+            $fDel = "\t";
+        }
+
+        $data = $this->getData();
+        $fields = $this->getGridFields($data);
+        $lines = array();
+
+        if ($this->getVar('fieldnames')) {
+            $line = array();
+            foreach ($fields as $f) {
+                $line[] = $fEnc.str_replace(array('"', '\\'), array($fEsc.'"', $fEsc.'\\'), $f).$fEnc;
+            }
+            $lines[] = join($fDel, $line);
+        }
+        foreach ($data as $i=>$row) {
+            $line = array();
+            foreach ($fields as $f) {
+                $v = isset($row[$f]) ? str_replace(array('"', '\\'), array($fEsc.'"', $fEsc.'\\'), $row[$f]) : '';
+                $line[] = $fEnc.$v.$fEnc;
+            }
+            $lines[] = join($fDel, $line);
+        }
+        $result = join($lDel, $lines);
+        $this->setData($result);
+
+        return $this;
     }
 }

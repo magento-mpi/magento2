@@ -19,11 +19,11 @@
  */
 
 /**
- * Adminhtml customer grid block
+ * Convert profiles grid
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
             'align'     => 'center',
             'index'     =>'updated_at',
         ));
-
+/*
         $this->addColumn('action', array(
             'header'	=> __('Action'),
             'index'		=> 'profile_id',
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
             'width'		=> '100px',
             'renderer'  => 'adminhtml/system_convert_profile_grid_renderer_action'
         ));
-
+*/
         return parent::_prepareColumns();
     }
 

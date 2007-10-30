@@ -12,24 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Varien
- * @package    Varien_Io
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Install and upgrade client abstract class
+ * Convert profile edit tab
  *
- * @category   Varien
- * @package    Varien_Io
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
-abstract class Varien_Io_Abstract implements Varien_Io_Interface
+class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_Core_Block_Template
 {
-    public function dirsep()
+    public function __construct()
     {
-        return '/';
+        parent::__construct();
     }
 }
