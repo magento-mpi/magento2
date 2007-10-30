@@ -185,9 +185,20 @@ RegionUpdater.prototype = {
     		
     		this.regionTextEl.style.display = 'none';
     		this.regionSelectEl.style.display = '';
+    		this.setMarkDisplay(this.regionSelectEl, true);
     	} else {
     		this.regionTextEl.style.display = '';
     		this.regionSelectEl.style.display = 'none';
+    		this.setMarkDisplay(this.regionSelectEl, false);
     	}
+	},
+	
+	setMarkDisplay: function(elem, display){
+	    if(elem.parentNode){
+	        var marks = elem.parentNode.getElementsByClassName('required');
+	        if(marks[0]){
+	            display ? marks[0].show() : marks[0].hide();
+	        }
+	    }
 	}
 }

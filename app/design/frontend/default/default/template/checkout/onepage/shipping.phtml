@@ -53,7 +53,7 @@
             <select id="shipping:region_id" name="shipping[region_id]" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
                 <option value=""><?=$this->__('Please select region, state or province')?></option>
             </select>
-            <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=$this->__('State/Province')?>" class="required-entry  input-text" style="display:none"/></div></li>
+            <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/></div></li>
         <li><div class="input-box">
             <label for="shipping:postcode"><?=$this->__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
             <input type="text" title="<?=$this->__('Zip/Postal Code')?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->getAddress()->getPostcode()?>" class="validate-zip-international required-entry input-text" onchange="shipping.setSameAsBilling(false);"/></div>
