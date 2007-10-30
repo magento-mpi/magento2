@@ -611,6 +611,10 @@ img.attribute-global {
 .db-top { margin:0; padding:0; width:580px; height:25px; margin:5px 0 5px 0; }
 .db-top dt { font-size:1.15em; float:left; font-weight:bold; padding-left:28px; background:transparent url(images/db-header-bg.png) no-repeat left; color:#d86303; }
 .db-top dd { float:right; font-size:11px; }
+.db-top .range input {
+    width: 5.5em !important;
+    margin-top:0;
+}
 .db-menu {
     background:transparent url(images/db-menu-bg.png) repeat-x bottom right; width:580px; height:34px;
 }
@@ -751,7 +755,6 @@ img.attribute-global {
 #sc_billing_method dd ul {
     border: none !important;
 }
-
 
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 

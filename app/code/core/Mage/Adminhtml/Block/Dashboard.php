@@ -27,6 +27,8 @@
  */
 class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
 {
+    protected $_locale;
+
     public function __construct()
     {
         parent::__construct();
@@ -37,9 +39,52 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         $this->setChild('product',
-                 $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_product')
+                $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_product')
         );
+
+        $this->setChild('button_submit',
+                $this->getLayout()->createBlock('adminhtml/widget_button')->addData(
+                    array(
+                        'label' => $this->__('Apply')
+                    )
+                )
+        );
+
+
         parent::_prepareLayout();
+    }
+
+    /**
+     * Retrieve locale
+     *
+     * @return Mage_Core_Model_Locale
+     */
+    public function getLocale()
+    {
+        if (!$this->_locale) {
+            $this->_locale = Mage::app()->getLocale();
+        }
+        return $this->_locale;
+    }
+
+    /**
+     * Retrieve locale code
+     *
+     * @return string
+     */
+    public function getLocaleCode()
+    {
+        return $this->getLocale()->getLocaleCode();
+    }
+
+    public function getConfigureAction($section)
+    {
+        return $this->getUrl('*/*/configure', array('section'=>$section));
+    }
+
+    public function getFieldFormat()
+    {
+        return $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
 } // Class Mage_Adminhtml_Block_Dashboard end

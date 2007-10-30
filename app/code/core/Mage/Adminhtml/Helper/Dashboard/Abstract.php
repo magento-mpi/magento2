@@ -34,6 +34,14 @@
          */
         protected  $_collection;
 
+        /**
+         * Parameters for helper
+         *
+         * @var array
+         */
+        protected  $_params = array();
+
+
         public function getCollection()
         {
             if(is_null($this->_collection)) {
@@ -72,4 +80,29 @@
             }
             return $result;
         }
+
+        public function setParam($name, $value)
+        {
+            $this->_params[$name] = $value;
+        }
+
+        public function setParams(array $params)
+        {
+            $this->_params = $params;
+        }
+
+        public function getParam($name)
+        {
+            if(isset($this->_params[$name])) {
+                return $this->_params[$name];
+            }
+
+            return null;
+        }
+
+        public function getParams()
+        {
+            return $this->_params;
+        }
+
  } // Class Mage_Adminhtml_Helper_Dashboard_Abstract end

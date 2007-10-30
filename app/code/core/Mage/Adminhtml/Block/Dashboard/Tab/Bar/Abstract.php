@@ -69,6 +69,8 @@
             }
         }
 
+
+
         return $this;
     }
 
@@ -120,6 +122,11 @@
     public function getCollection()
     {
         return $this->getDataHelper()->getCollection();
+    }
+
+    public function getDataHelper()
+    {
+        return $this->helper($this->getDataHelperName());
     }
 
     protected function _beforeToHtml()

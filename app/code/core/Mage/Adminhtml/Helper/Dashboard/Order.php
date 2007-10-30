@@ -31,7 +31,8 @@ class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashbo
     protected function _initCollection()
     {
         $this->_collection = Mage::getResourceSingleton('reports/order_collection')
-            ->prepareSummary()
-            ->load();
+            ->prepareSummary();
+        $this->getCollection()->addFilterToAttribute('store_id', $this->getParam('store'));
+
     }
 } // Class Mage_Adminhtml_Helper_Dashboard_Order end

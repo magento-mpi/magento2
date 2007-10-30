@@ -43,7 +43,6 @@ class Mage_Adminhtml_Helper_Dashboard_Product extends Mage_Adminhtml_Helper_Dash
             array('name'=>'Product 11', 'avarage'=>263, 'salary'=>566),
             array('name'=>'Product 12', 'avarage'=>263, 'salary'=>566),
             array('name'=>'Product 13', 'avarage'=>263, 'salary'=>566)
-
         );
     }
 } // Class Mage_Adminhtml_Helper_Dashboard_Product end

@@ -35,6 +35,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Product extends Mage_Adminhtml_Bloc
     protected function _prepareData()
     {
         $this->setDataHelperName('adminhtml/dashboard_product');
+        $this->getDataHelper()->setParams($this->helper('adminhtml/dashboard_data')->getSectionData('product'));
+
         return parent::_prepareData();
     }
 
@@ -50,6 +52,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Product extends Mage_Adminhtml_Bloc
 
         $this->addTab('products_avarage_grid',  'grid', array('title'=>$this->__('Table')));
 
+
+        // init columns for product tab
         $this->getTab('products_avarage_grid')
             ->addColumn('name', array(
                 'header'=>$this->__('Name'),
@@ -68,8 +72,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Product extends Mage_Adminhtml_Bloc
 
         $this->getTab('products_avarage_grid')->addTotal('average', 'Total Avarage');
         $this->getTab('products_avarage_grid')->addTotal('salary', 'Total Salary');
-
-        echo $this->helper('adminhtml/dashboard_order')->getCollection()->getSelect();
 
         return parent::_initTabs();
     }

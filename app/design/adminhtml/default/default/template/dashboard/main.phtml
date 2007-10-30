@@ -38,6 +38,33 @@ function showTab(tab, set, tabQty){
 		}
 	}
 }
+
+function handlePeriodSelect(selectId)
+{
+    Event.observe($(selectId), 'change', function(evt) {
+       var elmnt = Event.element(evt);
+       if (elmnt.value!='custom'){
+           $(elmnt.id + '_custom').hide();
+       } else {
+           $(elmnt.id + '_custom').show();
+       }
+    });
+
+    Calendar.setup({
+                inputField : selectId + '_custom_date_from',
+                ifFormat : '<?=$this->getFieldFormat()?>',
+                button : selectId + '_custom_date_from_trig',
+                align : 'Bl',
+                singleClick : true
+     });
+     Calendar.setup({
+                inputField : selectId + '_custom_date_to',
+                ifFormat : '<?=$this->getFieldFormat()?>',
+                button : selectId + '_custom_date_to_trig',
+                align : 'Bl',
+                singleClick : true
+     });
+}
 //-->
 </script>
 <h3 class="content-header"><?=$this->__('Dashboard')?></h3>
@@ -46,10 +73,39 @@ function showTab(tab, set, tabQty){
 		<dl class="db-top">
 			<dt><?=$this->__('Orders')?></dt>
 			<dd>
-				View report for&nbsp;&nbsp;
-				<select name="#"><option>Magento store</option></select>
-				&nbsp;&nbsp;for&nbsp;&nbsp;
-				<select name="#"><option>24 hours</option></select>
+				<form action="<?=$this->getConfigureAction('product')?>" method="POST">
+			    <?=$this->__('View report for')?>
+				<select name="store">
+    			    <option value=""><?=$this->__('All Stores')?></option>
+    			    <?foreach ($this->helper('adminhtml/dashboard_data')->getWebsites() as $_website):?>
+                    <?$_stores = $this->helper('adminhtml/dashboard_data')->getStores($_website)?>
+                    <?if($this->helper('adminhtml/dashboard_data')->countStores($_stores)):?>
+                        <optgroup label="<?=$_website->getName()?>">
+                        <?foreach ($_stores as $_store):?>
+                            <option value="<?=$_store->getId()?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('product', 'store')==$_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
+                        <?endforeach;?>
+                        </optgroup>
+                    <?endif;?>
+                <?endforeach;?>
+       			</select>
+				&nbsp; <?=$this->__('for')?> &nbsp;
+				<select name="period" id="product_period">
+				    <?foreach ($this->helper('adminhtml/dashboard_data')->getDatePeriods() as $_value=>$_label):?>
+				        <option value="<?=$_value?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('product', 'period')==$_value):?> selected<?endif;?>><?=$_label?></option>
+				    <?endforeach;?>
+				 </select>
+                <?=$this->getChildHtml('button_submit')?>
+                <div id="product_period_custom" class="range" <?if($this->helper('adminhtml/dashboard_data')->getConfig('product', 'period')!='custom'):?>style="display:none"<?endif;?>>
+                    <?=$this->__('From')?>:<input class="input-text no-changes" type="text" id="product_period_custom_date_from" name="custom_from" value="<?=$this->helper('adminhtml/dashboard_data')->getDateCustomValueEscaped('from','product')?>" /> <img align="absmiddle" title="<?=$this->__('Select Date')?>" id="product_period_custom_date_from_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>
+                    <?=$this->__('To')?>:<input  class="input-text no-changes" type="text" id="product_period_custom_date_to" name="custom_to"  value="<?=$this->helper('adminhtml/dashboard_data')->getDateCustomValueEscaped('to','product')?>" /> <img align="absmiddle" title="<?=$this->__('Select Date')?>"id="product_period_custom_date_to_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>
+                    <input type="hidden" name="locale" value="<?=$this->getLocaleCode()?>"  />
+                </div>
+                <script type="text/javascript">
+                <!--
+                handlePeriodSelect('product_period');
+                //-->
+                </script>
+				</form>
 			</dd>
 		</dl><div class="clear"></div>
 		<?=$this->getChildHtml('product')?>

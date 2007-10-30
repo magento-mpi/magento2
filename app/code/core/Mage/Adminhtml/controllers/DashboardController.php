@@ -37,6 +37,16 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $this->renderLayout();
     }
 
+    public function configureAction()
+    {
+        $section = $this->getRequest()->getParam('section');
+        $data = Mage::getSingleton('adminhtml/session')->getDashboardData();
+        $data[$section] = $this->getRequest()->getPost();
+        Mage::getSingleton('adminhtml/session')->setDashboardData($data);
+
+        $this->_redirectReferer();
+    }
+
     public function onlineAction()
     {
        $collection = Mage::getResourceSingleton('log/visitor_collection')

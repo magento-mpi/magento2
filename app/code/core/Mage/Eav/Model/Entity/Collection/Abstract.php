@@ -417,7 +417,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if ($attributeInstance->getBackend()->isStatic()) {
             $attrField = 'e.' . $attribute;
         } else {
-            $this->_addAttributeJoin($attribute);
+            $this->_addAttributeJoin($attribute, 'left');
             $attrField = $this->_getAttributeFieldName($attribute);
         }
 
