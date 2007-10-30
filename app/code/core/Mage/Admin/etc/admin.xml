@@ -130,6 +130,7 @@
                         <developer title="Developer Section" />
                         <currency title="Currency Setup Section" />
                         <allow title="Allowed Settings" />
+                        <sendfriend title="Email to a Friend" />
                     </config>
                     <currency title="Manage Currency" />
                     <email_template title="Transactional Emails" />

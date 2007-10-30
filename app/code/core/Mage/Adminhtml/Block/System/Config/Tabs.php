@@ -63,7 +63,6 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                     $this->_addBreadcrumb($label, '', $url->getUrl('*/*/*', array('section'=>$code)));
                 }
             }
-
             if ( $sectionAllowed ) {
                 $this->addTab($code, array(
                     'label'     => $label,
@@ -280,6 +279,12 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         	case "allow":
         	    if ( $permissions->isAllowed('system/config/currency') ) {
+        	        $showTab = true;
+        	    }
+        	    break;
+        	    
+        	case "sendfriend":
+        	    if ( $permissions->isAllowed('system/config/sendfriend') ) {
         	        $showTab = true;
         	    }
         	    break;
