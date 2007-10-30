@@ -64,4 +64,18 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
         return $read->fetchOne($select);
     }
 
+    public function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        $write = $this->getConnection('write');
+
+        try {
+            foreach ($object->getAnswers() as $answer) {
+                $answer->setPollId($object->getId());
+            	$answer->save();
+            }
+        } catch (Exception $e) {
+            $write->rollBack();
+            Mage::throwException($e->getMessage());
+        }
+    }
 }

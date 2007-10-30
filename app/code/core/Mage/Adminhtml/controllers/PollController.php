@@ -74,7 +74,22 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
     }
 
     public function saveAction()
+{
+        Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was successfully saved'));
+        Mage::getSingleton('adminhtml/session')->setPollData(false);
+        $this->_redirect('*/*/');
+    }
+
+    public function newAction()
     {
+        $this->_forward('edit');
+    }
+
+    public function validateAction()
+    {
+        $response = new Varien_Object();
+        $response->setError(false);
+
         if ( $this->getRequest()->getPost() ) {
             try {
                 $pollModel = Mage::getModel('poll/poll');
@@ -93,10 +108,14 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
                 $pollModel->setPollTitle($this->getRequest()->getParam('poll_title'))
                       ->setClosed($this->getRequest()->getParam('closed'))
-                      ->setId($this->getRequest()->getParam('id'))
-                      ->save();
+                      ->setId($this->getRequest()->getParam('id'));
 
                 $answers = $this->getRequest()->getParam('answer');
+
+                if( !is_array($answers) || sizeof($answers) == 0 ) {
+                    Mage::throwException(__('Please, add a few answers to this poll first'));
+                }
+
                 if( is_array($answers) ) {
                     foreach( $answers as $key => $answer ) {
                         $answerModel = Mage::getModel('poll/poll_answer');
@@ -104,11 +123,13 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                             $answerModel->setId($key);
                         }
                         $answerModel->setAnswerTitle($answer['title'])
-                            ->setVotesCount($answer['votes'])
-                            ->setPollId($pollModel->getId())
-                            ->save();
+                            ->setVotesCount($answer['votes']);
+
+                        $pollModel->addAnswer($answerModel);
                     }
                 }
+
+                $pollModel->save();
 
                 $answersDelete = $this->getRequest()->getParam('deleteAnswer');
                 if( is_array($answersDelete) ) {
@@ -118,25 +139,14 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                             ->delete();
                     }
                 }
-
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was successfully saved'));
-                Mage::getSingleton('adminhtml/session')->setPollData(false);
-
-                $this->_redirect('*/*/');
-                return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setPollData($this->getRequest()->getPost());
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
-                return;
+                $this->_initLayoutMessages('adminhtml/session');
+                $response->setError(true);
+                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
-        $this->_redirect('*/*/');
-    }
-
-    public function newAction()
-    {
-        $this->_forward('edit');
+        $this->getResponse()->setBody($response->toJson());
     }
 
     protected function _isAllowed()

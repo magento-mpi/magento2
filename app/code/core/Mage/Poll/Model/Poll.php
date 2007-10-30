@@ -28,6 +28,7 @@
 class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 {
     protected $_pollCookieDefaultName = 'poll';
+    protected $_answersCollection = array();
 
     protected function _construct()
     {
@@ -75,5 +76,16 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
             }
         }
         return $idsArray;
+    }
+
+    public function addAnswer($object)
+    {
+        $this->_answersCollection[] = $object;
+        return $this;
+    }
+
+    public function getAnswers()
+    {
+        return $this->_answersCollection;
     }
 }
