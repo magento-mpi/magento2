@@ -74,7 +74,6 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
             	$answer->save();
             }
         } catch (Exception $e) {
-            $write->rollBack();
             Mage::throwException($e->getMessage());
         }
     }

@@ -117,7 +117,14 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 }
 
                 if( is_array($answers) ) {
+                    $_titles = array();
                     foreach( $answers as $key => $answer ) {
+
+                        if( in_array($answer['title'], $_titles) ) {
+                            Mage::throwException(__('Your answers contains duplicates.'));
+                        }
+                        $_titles[] = $answer['title'];
+
                         $answerModel = Mage::getModel('poll/poll_answer');
                         if( intval($key) > 0 ) {
                             $answerModel->setId($key);
