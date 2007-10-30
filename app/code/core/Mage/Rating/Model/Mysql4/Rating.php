@@ -142,9 +142,12 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                 INNER JOIN
                     {$this->getTable('rating/rating_store')} AS rst
                     ON rst.rating_id = {$this->getTable('rating_vote')}.rating_id AND rst.store_id = {$this->getTable('review/review_store')}.store_id
+                INNER JOIN
+                    {$this->getTable('review/review_status')} AS review_status
+                    ON {$this->getTable('review/review')}.status_id = review_status.status_id
                 WHERE
                     {$read->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $object->getEntityPkValue())}
-
+                    AND review_status.status_code = 'approved'
                 GROUP BY
                     {$this->getTable('rating_vote')}.entity_pk_value, {$this->getTable('review/review_store')}.store_id";
 
@@ -175,11 +178,11 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         foreach ($stores as $store) {
         	   if (!in_array($store->getId(), $usedStoresId)) {
-        	       $clone = clone $object;
-                $clone->setCount(0);
-                $clone->setSum(0);
-                $clone->setStoreId($store->getId());
-                $result[$store->getId()] = $clone;
+        	        $clone = clone $object;
+                    $clone->setCount(0);
+                    $clone->setSum(0);
+                    $clone->setStoreId($store->getId());
+                    $result[$store->getId()] = $clone;
         	   }
         }
 
