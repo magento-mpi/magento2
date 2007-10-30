@@ -121,7 +121,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                     foreach( $answers as $key => $answer ) {
 
                         if( in_array($answer['title'], $_titles) ) {
-                            Mage::throwException(__('Your answers contains duplicates.'));
+                            Mage::throwException(__('Your answers contain duplicates.'));
                         }
                         $_titles[] = $answer['title'];
 
