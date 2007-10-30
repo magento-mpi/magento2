@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
     public function getRegionsUrl()
     {
-        return Mage::getUrl('directory/json/childRegion');
+        return Mage::getUrl('*/json/countryRegion');
     }
 
     protected function _prepareLayout()
