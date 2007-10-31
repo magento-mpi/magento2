@@ -28,14 +28,70 @@
 
 class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
-    public function prepareSummary()
+    public function prepareSummary($range, $customStart, $customEnd)
     {
         $this->addExpressionAttributeToSelect('revenue', 'SUM({{attribute}})', 'grand_total')
             ->addExpressionAttributeToSelect('amouth', 'COUNT({{attribute}})', 'entity_id')
-            ->addExpressionAttributeToSelect('range', 'CONCAT(YEAR({{attribute}}),\'-\', MONTH({{attribute}}))', 'created_at')
+            ->addExpressionAttributeToSelect('range', $this->_getRangeExpression($range), 'created_at')
+            ->addAttributeToFilter('created_at', $this->_getDateRange($range, $customStart, $customEnd))
             ->groupByAttribute('range');
 
         return $this;
     }
 
+    protected function _getRangeExpression($range)
+    {
+        switch ($range)
+        {
+        	case '24h':
+        		$expression = 'CONCAT(YEAR({{attribute}}), \'-\', MONTH({{attribute}}), \'-\', DAY({{attribute}}), \' \', HOUR({{attribute}}), \':00\')';
+        		break;
+
+        	case '7d':
+        	case '1m':
+        	   $expression = 'CONCAT(YEAR({{attribute}}), \'-\', MONTH({{attribute}}), \'-\', DAY({{attribute}}), \' 00:00\')';
+        	   break;
+
+
+        	case '1y':
+        	case 'custom':
+        	default:
+        	    $expression = 'CONCAT(YEAR({{attribute}}), \'-\', MONTH({{attribute}}), \'-01 00:00\')';
+        		break;
+        }
+
+        return $expression;
+    }
+
+    protected function _getDateRange($range, $customStart, $customEnd)
+    {
+        $dateEnd = new Zend_Date();
+        $dateStart = clone $dateEnd;
+        switch ($range)
+        {
+        	case '24h':
+        		$dateStart->subHour(24);
+        		break;
+
+            case '7d':
+        		$dateStart->subDay(7);
+        		break;
+
+            case '1m':
+                $dateStart->subMonth(1);
+        		break;
+
+            case 'custom':
+                $dateStart = $customStart;
+                $dateEnd   = $customEnd;
+                break;
+
+            case '1y':
+        	default:
+        	    $dateStart->subYear(1);
+        		break;
+        }
+
+        return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
+    }
 }// Class Mage_Reports_Model_Mysql4_Order_Collection END

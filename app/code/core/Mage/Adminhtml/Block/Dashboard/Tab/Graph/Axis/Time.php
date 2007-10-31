@@ -31,16 +31,13 @@
 
     protected function _initLabels()
     {
+        parent::_initLabels();
         $labelValues = array();
 
 
         foreach ($this->getParentBlock()->getAllSeries() as $series) {
             foreach ($this->getCollection() as $item) {
                 $time = $series->getValue($item, $this);
-                if(!is_int($time)) {
-                    $time = strtotime($time);
-                }
-
                 $labelValues[] = $time;
             }
         }
@@ -49,8 +46,8 @@
         $timeFormat = $this->getFormat();
 
         foreach ($labelValues as $value) {
-            $label = strftime($timeFormat, $value);
-
+            $date = new Zend_Date($value, 'yyyy-MM-dd HH:mm:ss', Mage::app()->getLocale()->getLocaleCode());
+            $label = $date->toString($timeFormat);
             $this->_labels[] = $this->getLabelText($label);
         }
 
@@ -65,19 +62,19 @@
 
         switch (strtolower($this->getFormatType())) {
             case "time":
+            case "24h":
                 return $this->getTimeFormat();
                 break;
 
             case "week":
+            case "7d":
+            case "1m":
                 return $this->getWeekFormat();
                 break;
 
             case "month":
+            case "1y":
                 return $this->getMonthFormat();
-                break;
-
-            case "year":
-                return $this->getYearFormat();
                 break;
 
             case "day":
@@ -90,7 +87,7 @@
     public function getTimeFormat()
     {
         if(!$this->getData('time_format')) {
-            return '%I:%M %p';
+            return 'HH:mm';
         }
 
         return $this->getData('time_format');
@@ -108,10 +105,16 @@
     public function getMonthFormat()
     {
         if(!$this->getData('month_format')) {
-            return '%e %Y';
+            return 'MMM YYYY';
         }
 
-        return $this->getData('time_format');
+        return $this->getData('month_format');
+    }
+
+
+    public function getDirection()
+    {
+        return self::DIRECTION_HORIZONTAL;
     }
 
 

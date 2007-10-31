@@ -42,6 +42,10 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
                 $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_product')
         );
 
+        $this->setChild('order',
+                $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_order')
+        );
+
         $this->setChild('button_submit',
                 $this->getLayout()->createBlock('adminhtml/widget_button')->addData(
                     array(

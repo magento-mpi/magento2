@@ -27,9 +27,11 @@
  */
 class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Product extends Mage_Adminhtml_Block_Dashboard_Tab_Bar_Abstract
 {
-    public function __constuct()
+    public function __construct()
     {
+        parent::__construct();
         $this->setId('dashboard_product');
+
     }
 
     protected function _prepareData()

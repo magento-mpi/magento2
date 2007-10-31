@@ -28,32 +28,21 @@
 
 class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
 {
-    protected $_websites = null;
     protected $_locale = null;
-    protected $_stores = array();
+    protected $_stores = null;
 
-    public function getWebsites()
+    public function getStores()
     {
-        if(is_null($this->_websites)) {
-            $this->_websites = Mage::getModel('core/website')->getResourceCollection()
-                ->load();
+        if(!$this->_stores) {
+            $this->_stores = Mage::app()->getStore()->getResourceCollection()->load();
         }
 
-        return $this->_websites;
+        return $this->_stores;
     }
 
-    public function getStores($website)
+    public function countStores()
     {
-        if(!isset($this->_stores[$website->getId()])) {
-            $this->_stores[$website->getId()] = $website->getStoreCollection()->load();
-        }
-
-        return $this->_stores[$website->getId()];
-    }
-
-    public function countStores($stores)
-    {
-        return sizeof($stores->getItems());
+        return sizeof($this->_stores->getItems());
     }
 
     public function getConfig($section, $index=null)
@@ -69,7 +58,7 @@ class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
             return $data[$section];
         }
 
-        return array();
+        return null;
     }
 
     public function getDatePeriods()
@@ -100,11 +89,13 @@ class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
 
     public function getSectionData($section)
     {
+        $stores = $this->getStores()->getItems();
+        $defaultStore = reset($stores);
         return array(
-            'store'=>$this->getConfig($section, 'store'),
-            'range'=>$this->getConfig($section, 'range') ? $this->getConfig($section, 'range') : '24h',
-            'custom_from' => (string) $this->getDateCustomValue('from', $section),
-            'custom_to'   => (string) $this->getDateCustomValue('to', $section)
+            'store'=>$this->getConfig($section, 'store') ? $this->getConfig($section, 'store') :  $defaultStore->getId(),
+            'range'=>$this->getConfig($section, 'period') ? $this->getConfig($section, 'period') : '24h',
+            'custom_from' => $this->getDateCustomValue('from', $section),
+            'custom_to'   => $this->getDateCustomValue('to', $section)
         );
     }
 
@@ -132,6 +123,17 @@ class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
             $this->_locale = Mage::app()->getLocale();
         }
         return $this->_locale;
+    }
+
+    /**
+     * Retrieve locale code
+     *
+     * @return string
+     * @return string
+     */
+    public function getLocaleCode()
+    {
+        return $this->getLocale()->getLocaleCode();
     }
 
 }// Class Mage_Adminhtml_Helper_Dashboard_Data END

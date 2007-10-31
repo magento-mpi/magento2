@@ -61,6 +61,11 @@
 
     protected function _prepareData()
     {
+        return $this;
+    }
+
+    protected function _configureTabs()
+    {
         if($this->getDataHelperName()) {
             foreach ($this->getTabs() as $tab) {
                 if(!$tab->getDataHelperName()) {
@@ -68,8 +73,6 @@
                 }
             }
         }
-
-
 
         return $this;
     }
@@ -93,7 +96,9 @@
 
     protected function _prepareLayout()
     {
-        $this->_initTabs();
+        $this->_prepareData()
+            ->_initTabs()
+            ->_configureTabs();
         return parent::_prepareLayout();
     }
 
@@ -127,12 +132,6 @@
     public function getDataHelper()
     {
         return $this->helper($this->getDataHelperName());
-    }
-
-    protected function _beforeToHtml()
-    {
-        $this->_prepareData();
-        return parent::_beforeToHtml();
     }
 
     public function getCountTabs()
