@@ -59,7 +59,9 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
 
     protected function _configureTabs()
     {
+        $store = Mage::getModel('core/store')->load($this->getDataHelper()->getParam('store'));
         $this->getTab('orders_income')->getVerticalAxis()->setTitle($this->__('Income'));
+        $this->getTab('orders_income')->getVerticalAxis()->setCurrencyCode($store->getCurrentCurrencyCode());
         $this->getTab('orders_income')->getHorizontalAxis()->setTitle($this->__('Timeline'));
         $this->getTab('orders_income')->getHorizontalAxis()->setFormatType($this->getDataHelper()->getParam('range'));
 
@@ -68,6 +70,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
         $this->getTab('orders_total')->getVerticalAxis()->setTitle($this->__('Qty'));
         $this->getTab('orders_total')->getHorizontalAxis()->setTitle($this->__('Timeline'));
         $this->getTab('orders_total')->getHorizontalAxis()->setFormatType($this->getDataHelper()->getParam('range'));
+
 
 
         // init columns for orders summary grid
@@ -79,13 +82,18 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
             ))
             ->addColumn('revenue', array(
                 'header'=>$this->__('Total Income'),
-                'index'=>'revenue'
+                'index'=>'revenue',
+                'type' => 'currency',
+                'currency_code' => $store->getCurrentCurrencyCode()
             ))
             ->addColumn('qty', array(
                 'width'=>154,
                 'header'=>$this->__('Number Of Orders'),
                 'index'=>'amouth'
             ));
+
+
+
 
 
         $this->getTab('orders_summary')->addTotal('revenue', 'Total Income');

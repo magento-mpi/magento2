@@ -89,6 +89,10 @@ abstract class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Abstract extends Ma
 			return $this->getLabelFilter()->filter($value);
 		}
 
+		if($this->getCurrencyCode()) {
+		    return Mage::app()->getLocale()->currency($this->getCurrencyCode())->toCurrency($value);
+		}
+
 		return $value;
 	}
 
