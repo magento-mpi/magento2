@@ -103,6 +103,9 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Liniar extends Mage_Adminhtm
                 $this->_maximumStepValue = ceil($this->_getMaximumValue()/pow(10,$decimalCount-1))*pow(10,$decimalCount-1);
             }
 
+            if($this->_maximumStepValue == 0) {
+                $this->_maximumStepValue = 1;
+            }
         }
 
         return $this->_maximumStepValue;
@@ -115,12 +118,12 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Liniar extends Mage_Adminhtm
 
     public function getStepSize()
     {
-        return round($this->getMaximumStepValue()/$this->getStepCount());
+        return round($this->getMaximumStepValue()/$this->getStepCount()*100) / 100;
     }
 
     public function getPixelPosition($item, $series)
     {
-        return round($this->getLength()*($series->getValue($item, $this)/$this->getMaximumStepValue()));
+        return $this->getMaximumStepValue() ? round($this->getLength()*($series->getValue($item, $this)/$this->getMaximumStepValue())) : 0;
     }
 
     public function getPixelMaximum($item)
