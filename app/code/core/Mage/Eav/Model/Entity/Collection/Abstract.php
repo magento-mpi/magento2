@@ -136,12 +136,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $this->_entity = $entity;
         } elseif (is_string($entity) || $entity instanceof Mage_Core_Model_Config_Element) {
             $this->_entity = Mage::getModel('eav/entity')->setType($entity);
+        } else {
+            Mage::throwException(__('Invalid entity supplied: %s', print_r($entity,1)));
         }
-        $this->_read = $entity->getReadConnection();
-        $this->_write = $entity->getWriteConnection();
+        $this->_read = $this->_entity->getReadConnection();
+        $this->_write = $this->_entity->getWriteConnection();
 
-        if ($entity->getTypeId()) {
-            $this->addAttributeToFilter('entity_type_id', $entity->getTypeId());
+        if ($this->_entity->getTypeId()) {
+            $this->addAttributeToFilter('entity_type_id', $this->_entity->getTypeId());
         }
         return $this;
     }
