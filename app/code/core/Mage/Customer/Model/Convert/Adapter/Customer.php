@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -13,31 +14,26 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Convert history resource model
- *
- * @category   Mage
- * @package    Mage_Core
- * @author     Moshe Gurvich <moshe@varien.com>
- */
-class Mage_Core_Model_Mysql4_Convert_History extends Mage_Core_Model_Mysql4_Abstract
+
+class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Convert_Adapter_Entity
 {
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('core/convert_history', 'history_id');
+        $this->setVar('entity_type', 'customer/customer');
     }
 
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
-    {
-        if (!$object->getPerformedAt()) {
-            $object->setPerformedAt($this->formatDate(time()));
-        }
-        parent::_beforeSave($object);
-        return $this;
-    }
+//    public function load()
+//    {
+//        return $this;
+//    }
+//
+//    public function save()
+//    {
+//        return $this;
+//    }
 }

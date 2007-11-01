@@ -84,24 +84,33 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         return $this;
     }
 
-    public function validateDataString($data)
+    public function validateDataString($data=null)
     {
+        if (is_null($data)) {
+            $data = $this->getData();
+        }
         if (!is_string($data)) {
             $this->addException("Invalid data type, expecting string.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
 
-    public function validateDataArray($data)
+    public function validateDataArray($data=null)
     {
+        if (is_null($data)) {
+            $data = $this->getData();
+        }
         if (!is_array($data)) {
             $this->addException("Invalid data type, expecting array.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
 
-    public function validateDataGrid($data)
+    public function validateDataGrid($data=null)
     {
+        if (is_null($data)) {
+            $data = $this->getData();
+        }
         if (!is_array($data) || !is_array(current($data))) {
             $this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
         }

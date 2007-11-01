@@ -32,43 +32,47 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 
     protected function _afterLoad()
     {
-        if (is_string($this->getData('gui_data'))) {
-            $guiData = unserialize($this->getData('gui_data'));
+        if (is_string($this->getGuiData())) {
+            $guiData = unserialize($this->getGuiData());
         } else {
             $guiData = '';
         }
-        $this->setData('gui_data', $guiData);
+        $this->setGuiData($guiData);
 
         parent::_afterLoad();
     }
 
     protected function _beforeSave()
     {
-        $guiData = $this->getGuiData();
-        if (is_array($guiData)) {
-            if (isset($guiData['map']) && is_array($guiData['map'])) {
-                foreach ($guiData['map'] as $side=>$fields) {
-                    array_shift($guiData['map'][$side]['db']);
-                    array_shift($guiData['map'][$side]['file']);
-                }
-            }
-            $this->_parseGuiData();
-            $this->setGuiData(serialize($guiData));
-        }
-
         parent::_beforeSave();
+
+        if (is_array($this->getGuiData())) {
+            $this->_parseGuiData();
+            $this->setGuiData(serialize($this->getGuiData()));
+        }
     }
 
     protected function _afterSave()
     {
-        if (is_string($this->getData('gui_data'))) {
-            $this->setData('gui_data', unserialize($this->getData('gui_data')));
+        if (is_string($this->getGuiData())) {
+            $this->setGuiData(unserialize($this->getGuiData()));
         }
+
+        Mage::getModel('core/convert_history')
+            ->setProfileId($this->getId())
+            ->setActionCode($this->getOrigData('profile_id') ? 'update' : 'create')
+            ->save();
+
         parent::_afterSave();
     }
 
     public function run()
     {
+        Mage::getModel('core/convert_history')
+            ->setProfileId($this->getId())
+            ->setActionCode('run')
+            ->save();
+
         $xml = '<convert version="1.0"><profile name="default">'.$this->getActionsXml().'</profile></convert>';
         $profile = Mage::getModel('core/convert')->importXml($xml)->getProfile('default');
         try {
@@ -85,7 +89,6 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
         $nl = "\r\n";
         $import = $this->getDirection()==='import';
         $p = $this->getGuiData();
-echo "<pre>".print_r($p,1)."</pre>";
 
         switch ($p['file']['method']) {
             case 'io':
@@ -100,7 +103,7 @@ echo "<pre>".print_r($p,1)."</pre>";
                         $fileXml .= '    <var name="port"><![CDATA['.$hostArr[1].']]></var>'.$nl;
                     }
                     if (!empty($p['file']['passive'])) {
-                        $fileXml .= '    <var name="passive">true</var>';
+                        $fileXml .= '    <var name="passive">true</var>'.$nl;
                     }
                     if (!empty($p['file']['user'])) {
                         $fileXml .= '    <var name="user"><![CDATA['.$p['file']['user'].']]></var>'.$nl;
@@ -133,39 +136,88 @@ echo "<pre>".print_r($p,1)."</pre>";
         $parseFileXml .= '</action>'.$nl.$nl;
 
         $mapXml = '';
-        if (sizeof($p['map']['db'])>0) {
-            $mapXml .= '<action type="varien/convert_mapper_column" method="map">'.$nl;
-            $from = $p['map'][$import?'file':'db'];
-            $to = $p['map'][$import?'db':'file'];
-            foreach ($from as $i=>$f) {
-                if ($i===0) {
+        if (isset($p['map']) && is_array($p['map'])) {
+            foreach ($p['map'] as $side=>$fields) {
+                if (!is_array($fields)) {
                     continue;
                 }
+                foreach ($fields['db'] as $i=>$k) {
+                    if ($k=='' || $k=='0') {
+                        unset($p['map'][$side]['db'][$i]);
+                        unset($p['map'][$side]['file'][$i]);
+                    }
+                }
+            }
+        }
+        $mapXml .= '<action type="varien/convert_mapper_column" method="map">'.$nl;
+        $map = $p['map'][$this->getEntityType()];
+        if (sizeof($map['db'])>0) {
+            $from = $map[$import?'file':'db'];
+            $to = $map[$import?'db':'file'];
+            foreach ($from as $i=>$f) {
                 $mapXml .= '    <var name="'.$f.'"><![CDATA['.$to[$i].']]></var>'.$nl;
             }
-            $mapXml .= '</action>'.$nl.$nl;
         }
+        if ($p['map']['only_specified']) {
+            $parseFileXml .= '    <var name="_only_specified">'.$p['map']['only_specified'].'</var>'.$nl;
+        }
+        $mapXml .= '</action>'.$nl.$nl;
 
-        $parseDataXml = '<action type="catalog/convert_parser_product" method="'.($import?'parse':'unparse').'">'.$nl;
-        if ($p['eav']['target_store']==='specific') {
-            $parseDataXml .= '    <var name="store"><![CDATA['.$p['eav']['store'].']]></var>'.$nl;
-        }
-        $parseDataXml .= '</action>'.$nl.$nl;
-
-        $eavXml = '<action type="catalog/convert_adapter_product" method="'.($import?'save':'load').'">'.$nl;
-        if ($p['eav']['target_store']==='specific') {
-            $eavXml .= '    <var name="store"><![CDATA['.$p['eav']['store'].']]></var>'.$nl;
-        }
-        $eavXml .= '</action>'.$nl.$nl;
+        $parsers = array(
+            'product'=>'catalog/convert_parser_product',
+            'customer'=>'customer/convert_parser_customer',
+        );
 
         if ($import) {
-            $xml = $fileXml.$parseFileXml.$mapXml.$parseDataXml.$eavXml;
+            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
+            if ($p['import']['store']!=='') {
+                $parseDataXml .= '    <var name="store"><![CDATA['.$p['import']['store'].']]></var>'.$nl;
+            }
+            $parseDataXml .= '</action>'.$nl.$nl;
         } else {
-            $xml = $eavXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml;
+            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="unparse">'.$nl;
+            $parseDataXml .= '</action>'.$nl.$nl;
         }
 
-        $this->setActionsXml($xml);
+        $adapters = array(
+            'product'=>'catalog/convert_adapter_product',
+            'customer'=>'customer/convert_adapter_customer',
+        );
 
+        if ($import) {
+            $entityXml = '<action type="'.$adapters[$this->getEntityType()].'" method="save">'.$nl;
+            $entityXml .= '</action>'.$nl.$nl;
+        } else {
+            $entityXml = '<action type="'.$adapters[$this->getEntityType()].'" method="load">'.$nl;
+            foreach ($p[$this->getEntityType()]['filter'] as $f=>$v) {
+                if (empty($v)) {
+                    continue;
+                }
+                if (is_scalar($v)) {
+                    $entityXml .= '    <var name="filter/'.$f.'"><![CDATA['.$v.']]></var>'.$nl;
+                } elseif (is_array($v)) {
+                    foreach ($v as $a=>$b) {
+                        if (empty($b)) {
+                            continue;
+                        }
+                        $entityXml .= '    <var name="filter/'.$f.'/'.$a.'"><![CDATA['.$b.']]></var>'.$nl;
+                    }
+                }
+            }
+            $entityXml .= '</action>'.$nl.$nl;
+        }
+
+        if ($import) {
+            $xml = $fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
+        } else {
+            $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml;
+        }
+
+        $this->setGuiData($p);
+        $this->setActionsXml($xml);
+//echo "<pre>".print_r($p,1)."</pre>";
+//echo "<xmp>".$xml."</xmp>";
+//die;
         return $this;
     }
 }

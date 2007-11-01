@@ -131,7 +131,10 @@ function setMapFileField(select)
                 </span>
                 <span class="field-row">
                     <label for="file_passive"><?=$this->__("Passive mode")?></label>
-                    <input type="checkbox" id="file_passive" name="gui_data[file][passive]" value="1" <?=$this->getChecked('gui_data/file/passive')?>/>
+                    <select id="file_passive" name="gui_data[file][passive]" onchange="showOption(this)" class="option-control">
+                        <option value="" <?=$this->getSelected('gui_data/file/passive', false)?>><?=$this->__("No")?></option>
+                        <option value="true" <?=$this->getSelected('gui_data/file/passive', true)?>><?=$this->__("Yes")?></option>
+                    </select>
                 </span>
             </div>
         </div>
@@ -165,9 +168,14 @@ function setMapFileField(select)
         </div>
         <span class="field-row">
             <label for="parse_fieldnames"><?=$this->__("Field names in first row:")?></label>
-            <input type="checkbox" id="parse_fieldnames" name="gui_data[parse][fieldnames]" value="true" <?=$this->getChecked('gui_data/parse/fieldnames')?>/>
+            <select id="parse_fieldnames" name="gui_data[parse][fieldnames]" onchange="showOption(this)" class="option-control">
+                <option value="" <?=$this->getSelected('gui_data/parse/fieldnames', false)?>><?=$this->__("No")?></option>
+                <option value="true" <?=$this->getSelected('gui_data/parse/fieldnames', true)?>><?=$this->__("Yes")?></option>
+            </select>
             <span id="profile_direction_import">
-                <?=$this->__("(If unchecked, only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)")?>
+                <span id="parse_fieldnames_">
+                    <?=$this->__("(When 'No', only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)")?>
+                </span>
             </span>
         </span>
     </fieldset>
@@ -178,8 +186,13 @@ function setMapFileField(select)
         <div id="profile_direction_export">
             <span class="field-row">
                 <label for="map_only_specified"><?=$this->__("Export only mapped fields:")?></label>
-                <input type="checkbox" id="map_only_specified" name="gui_data[map][only_specified]" value="true" <?=$this->getChecked('gui_data/map/only_specified')?>/>
-                <?=$this->__("(If not checked will export all the attributes with mapped fields heading changed)")?>
+                <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showOption(this)">
+                    <option value="" <?=$this->getSelected('gui_data/map/only_specified', false)?>><?=$this->__("No")?></option>
+                    <option value="true" <?=$this->getSelected('gui_data/map/only_specified', true)?>><?=$this->__("Yes")?></option>
+                </select>
+                <span id="map_only_specified_">
+                    <?=$this->__("(When 'No', will export all the attributes with mapped fields heading changed)")?>
+                </span>
             </span>
         </div>
         <?foreach (array('product', 'customer') as $_entityType):?>

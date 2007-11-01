@@ -186,6 +186,15 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         #$this->renderLayout();
     }
 
+    /**
+     * Customer orders grid
+     *
+     */
+    public function historyAction() {
+        $this->_initProfile();
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_history')->toHtml());
+    }
+
     protected function _isAllowed()
     {
     	//print $this->getRequest()->getActionName();

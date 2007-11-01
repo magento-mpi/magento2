@@ -29,4 +29,20 @@ class Mage_Core_Model_Convert_History extends Mage_Core_Model_Abstract
     {
         $this->_init('core/convert_history');
     }
+
+    protected function _beforeSave()
+    {
+        if (!$this->getProfileId()) {
+            $profile = Mage::registry('current_convert_profile');
+            if ($profile) {
+                $this->setProfileId($profile->getId());
+            }
+        }
+        if (!$this->getUserId()) {
+            $this->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+        }
+
+        parent::_beforeSave();
+        return $this;
+    }
 }

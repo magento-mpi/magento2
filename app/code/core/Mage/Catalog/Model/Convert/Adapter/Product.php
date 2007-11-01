@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_Adapter_Collection
+class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_Adapter_Entity
 {
     public function __construct()
     {

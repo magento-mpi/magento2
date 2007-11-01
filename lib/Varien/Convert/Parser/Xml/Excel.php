@@ -30,6 +30,8 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
 {
     public function parse()
     {
+        $this->validateDataString();
+
         $dom = new DOMDocument();
         $dom->loadXML($this->getData());
 
@@ -83,16 +85,18 @@ class Varien_Convert_Parser_Xml_Excel extends Varien_Convert_Parser_Abstract
 
     public function unparse()
     {
-        $xml = '<'.'?xml version="1.0"?'.'><'.'?mso-application progid="Excel.Sheet"?'.'>
-<Workbook xmlns:x="urn:schemas-microsoft-com:office:excel"
-  xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
-
         if ($wsName = $this->getVar('single_sheet')) {
             $data = array($wsName => $this->getData());
         } else {
             $data = $this->getData();
         }
+
+        $this->validateDataGrid();
+
+        $xml = '<'.'?xml version="1.0"?'.'><'.'?mso-application progid="Excel.Sheet"?'.'>
+<Workbook xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
 
         if (is_array($data)) {
             foreach ($data as $wsName=>$wsData) {
