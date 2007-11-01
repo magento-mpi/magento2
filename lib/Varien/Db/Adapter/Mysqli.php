@@ -96,6 +96,25 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
         return $result;
     }
 
+
+    public function convertDate($date)
+    {
+        if ($date instanceof Zend_Date) {
+            return $date->toString(self::ISO_DATE_FORMAT);
+        }
+        return strftime('%Y-%m-%d', strtotime($date));
+    }
+
+    public function convertDateTime($datetime)
+    {
+        if ($datetime instanceof Zend_Date) {
+            return $datetime->toString(self::ISO_DATETIME_FORMAT);
+        }
+        return strftime('%Y-%m-%d %H:%M:%S', strtotime($datetime));
+    }
+
+
+
     public function raw_fetchRow($sql, $field=null)
     {
         if (!$result = $this->raw_query($sql)) {
