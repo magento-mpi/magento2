@@ -21,6 +21,9 @@
 
 class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 {
+    const ISO_DATE_FORMAT       = 'yyyy-MM-dd';
+    const ISO_DATETIME_FORMAT   = 'yyyy-MM-dd HH-mm-ss';
+
     /**
      * Creates a real connection to the database with multi-query capability.
      *
