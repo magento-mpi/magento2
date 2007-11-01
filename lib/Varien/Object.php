@@ -225,17 +225,41 @@ class Varien_Object
         if (''===$key) {
             return $this->_data;
         }
-        elseif (isset($this->_data[$key])) {
+
+        // accept a/b/c as ['a']['b']['c']
+        if (strpos($key,'/')) {
+            $keyArr = explode('/', $key);
+            $data = $this->_data;
+            foreach ($keyArr as $i=>$k) {
+                if ($k==='') {
+                    return null;
+                }
+                if (is_array($data)) {
+                    if (!isset($data[$k])) {
+                        return null;
+                    }
+                    $data = $data[$k];
+                } elseif ($data instanceof Varien_Object) {
+                    $data = $data->getData($k);
+                } else {
+                    return null;
+                }
+            }
+            return $data;
+        }
+
+        // legacy functionality for $index
+        if (isset($this->_data[$key])) {
             if (is_null($index)) {
                 return $this->_data[$key];
             }
 
             $value = $this->_data[$key];
             if (is_array($value)) {
-                return (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) ? $value[$index] : false;
+                return (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) ? $value[$index] : null;
             } elseif (is_string($value)) {
                 $arr = explode("\n", $value);
-                return (isset($arr[$index]) && (!empty($arr[$index]) || strlen($arr[$index]) > 0)) ? $arr[$index] : false;
+                return (isset($arr[$index]) && (!empty($arr[$index]) || strlen($arr[$index]) > 0)) ? $arr[$index] : null;
             } elseif ($value instanceof Varien_Object) {
                 return $value->getData($index);
             }

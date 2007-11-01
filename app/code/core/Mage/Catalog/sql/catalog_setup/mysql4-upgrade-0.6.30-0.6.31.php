@@ -4,8 +4,8 @@ $this->startSetup()->run("
 
 alter table `catalog_product_entity` add column `sku` varchar (64)  NOT NULL after `type_id` ,add index `sku` (`sku`);
 
-select @entity_type_id=entity_type_id from eav_entity_type where entity_type_code='catalog_product';
-select @sku_attribute_id=attribute_id from eav_attribute where attribute_code='sku' and entity_type_id=@entity_type_id;
+select @entity_type_id:=entity_type_id from eav_entity_type where entity_type_code='catalog_product';
+select @sku_attribute_id:=attribute_id from eav_attribute where attribute_code='sku' and entity_type_id=@entity_type_id;
 
 update eav_attribute set backend_type='static' where attribute_id=@sku_attribute_id;
 

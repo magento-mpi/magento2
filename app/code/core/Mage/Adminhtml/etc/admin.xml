@@ -354,12 +354,21 @@
                                 <title>Backups</title>
                                 <action>*/system_backup</action>
                             </backup>
-                            <convert>
-                                <title>Import/Export</title>
-                                <action>*/system_convert_profile</action>
-                            </convert>
                         </children>
                     </tools>
+                    <convert>
+                        <title>Import/Export</title>
+                        <children>
+                            <gui>
+                                <title>GUI Profiles</title>
+                                <action>*/system_convert_gui</action>
+                            </gui>
+                            <profiles>
+                                <title>Advanced Profiles</title>
+                                <action>*/system_convert_profile</action>
+                            </profiles>
+                        </children>
+                    </convert>
                     <currency>
                         <title>Manage Currency</title>
                         <action>*/system_currency</action>

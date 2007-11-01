@@ -26,12 +26,12 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Adminhtml_Block_System_Convert_Profile extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_System_Convert_Gui extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {
         $this->_controller = 'system_convert_profile';
-        $this->_headerText = __('Manage Advanced Import/Export Profiles');
+        $this->_headerText = __('Manage GUI Import/Export Profiles');
         $this->_addButtonLabel = __('Add New Profile');
 
         parent::__construct();

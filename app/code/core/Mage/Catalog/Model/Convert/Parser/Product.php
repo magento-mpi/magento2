@@ -93,29 +93,29 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
             }
 
             // if attribute_set not set use default
-            if (empty($row['_attribute_set'])) {
-                $row['_attribute_set'] = 'Default';
+            if (empty($row['attribute_set'])) {
+                $row['attribute_set'] = 'Default';
             }
             // get attribute_set_id, if not throw error
-            if (!($row['attribute_set_id'] = $this->getAttributeSetId($entityTypeId, $row['_attribute_set']))) {
+            if (!($row['attribute_set_id'] = $this->getAttributeSetId($entityTypeId, $row['attribute_set']))) {
                 $this->addException(__("Invalid attribute set specified, skipping the record"), Varien_Convert_Exception::ERROR);
                 continue;
             }
 
-            if (empty($row['_type'])) {
-                $row['_type'] = 'Simple Product';
+            if (empty($row['type'])) {
+                $row['type'] = 'Simple Product';
             }
             // get product type_id, if not throw error
-            if (!($row['type_id'] = $this->getProductTypeId($row['_type']))) {
+            if (!($row['type_id'] = $this->getProductTypeId($row['type']))) {
                 $this->addException(__("Invalid product type specified, skipping the record"), Varien_Convert_Exception::ERROR);
                 continue;
             }
 
             if ($this->getVar('store')) {
-                $row['_store'] = $this->getVar('store');
+                $row['store'] = $this->getVar('store');
             }
             // get store ids
-            $storeIds = $this->getStoreIds($row['_store']);
+            $storeIds = $this->getStoreIds($row['store']);
 
             // import data
             foreach ($storeIds as $storeId) {
@@ -186,9 +186,9 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
 
                 $row = array(
-                    '_store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
-                    '_attribute_set'=>$this->getAttributeSetName($model->getEntityTypeId(), $model->getAttributeSetId()),
-                    '_type'=>$this->getProductTypeName($model->getTypeId()),
+                    'store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
+                    'attribute_set'=>$this->getAttributeSetName($model->getEntityTypeId(), $model->getAttributeSetId()),
+                    'type'=>$this->getProductTypeName($model->getTypeId()),
                 );
 
                 foreach ($model->getData() as $field=>$value) {
@@ -221,5 +221,32 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
 
         $this->setData($data);
         return $this;
+    }
+
+    public function getExternalAttributes()
+    {
+        $internal = array();
+
+        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        $productAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
+            ->setEntityTypeFilter($entityTypeId)
+            ->load()->getIterator();
+
+        $attributes = array(
+            'store'=>'store',
+            'attribute_set'=>'attribute_set',
+            'type'=>'type',
+            'entity_id'=>'entity_id',
+        );
+
+        foreach ($productAttributes as $attr) {
+            $code = $attr->getAttributeCode();
+            if (in_array($code, $internal) || $attr->getFrontendInput()=='hidden') {
+                continue;
+            }
+            $attributes[$code] = $code;
+        }
+
+        return $attributes;
     }
 }

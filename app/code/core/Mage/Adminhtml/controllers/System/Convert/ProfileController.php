@@ -19,7 +19,7 @@
  */
 
 /**
- * Convert admin controller
+ * Convert Advanced admin controller
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -27,8 +27,6 @@
  */
 class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Controller_Action
 {
-    protected $_runAfterSave = false;
-
     protected function _initProfile($idFieldName = 'id')
     {
         $profileId = (int) $this->getRequest()->getParam($idFieldName);
@@ -69,7 +67,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(__('Import/Export Profiles'), __('Import/Export Profiles'));
+        $this->_addBreadcrumb(__('Import/Export Profiles'), __('Import/Export Advanced Profiles'));
         $this->_addBreadcrumb(__('Manage Profiles'), __('Manage Profiles'));
 
         $this->renderLayout();
@@ -191,6 +189,6 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     protected function _isAllowed()
     {
     	//print $this->getRequest()->getActionName();
-	    return Mage::getSingleton('admin/session')->isAllowed('system/tools/convert');
+	    return Mage::getSingleton('admin/session')->isAllowed('system/convert');
     }
 }

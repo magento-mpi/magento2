@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {
@@ -37,11 +37,16 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tabs extends Mage_Adminht
 
     protected function _beforeToHtml()
     {
-        $new = !Mage::registry('current_convert_profile')->getId();
+        $profile = Mage::registry('current_convert_profile');
 
-        $this->addTab('edit', array(
-            'label'     => __('Profile Actions XML'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_edit')->initForm()->toHtml(),
+        $wizardBlock = $this->getLayout()->createBlock('adminhtml/system_convert_gui_edit_tab_wizard');
+        $wizardBlock->addData($profile->getData());
+
+        $new = !$profile->getId();
+
+        $this->addTab('wizard', array(
+            'label'     => __('Profile GUI Wizard'),
+            'content'   => $wizardBlock->toHtml(),
             'active'    => true,
         ));
 
@@ -49,6 +54,11 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tabs extends Mage_Adminht
             $this->addTab('run', array(
                 'label'     => __('Run Profile'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_run')->toHtml(),
+            ));
+
+            $this->addTab('view', array(
+                'label'     => __('Profile Actions XML'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_gui_edit_tab_view')->initForm()->toHtml(),
             ));
 
             $this->addTab('history', array(
