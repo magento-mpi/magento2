@@ -677,6 +677,7 @@ img.attribute-global {
 .tab-cont .totals td { background:#eee; font-weight:bold; text-align:right; border:0; }
 /* REMOVE */
 
+.graph-no-data { background:#FEFCDD; border:1px solid #EAC772; padding:10px 12px; margin:35px 20px; text-align:center; }
 
 .graph-table { margin:25px 25px 0 25px; width:520px; background:transparent url(images/db-tab-left.png) repeat-y left; padding-left:2px; }
 

@@ -18,7 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="graph-block">
+
+<?
+// here goes flag - if data exist
+$_dataFlag = TRUE;
+?>
+
+<div class="graph-block" <?if($_dataFlag == FALSE):?>style="min-height:150px;height:150px;"<?endif;?>>
 	<div class="db-menu">
 		<ul style="">
 			<?$_index=0;?>
@@ -32,7 +38,13 @@
 	<?foreach ($this->getTabs() as $_tab):?>
 	<?$_index++?>
 	<div class="<?=$this->getTabClassName($_tab)?>-cont" id="<?=$this->getHtmlId()?>-<?=$_index?>-tab" <?if($_index!=$this->getCountTabs()):?> style="display:none;"<?endif?>>
-                   <?=$_tab->toHtml()?>
+  	
+	<?if($_dataFlag):?>
+	   <?=$_tab->toHtml()?>
+	<?else:?>
+		<div class="graph-no-data">There is no data available for this period.</div>
+	<?endif;?>
+
 	</div>
 	<?endforeach;?>
 	<script type="text/javascript">
