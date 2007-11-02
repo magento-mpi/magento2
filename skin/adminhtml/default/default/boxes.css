@@ -114,8 +114,7 @@
     float:left;
     position:relative;
     margin-left:-17.08em;
-    /*width:17.08em;*/
-	width:947px;
+    width:17.08em;
     background:url(images/section_menu_bg.gif) repeat-y 100% 0;
     }
 .content-container {
