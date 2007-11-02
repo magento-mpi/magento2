@@ -22,7 +22,7 @@
 	<div class="tab-right">
 	<div class="tab-head">
 		<?foreach ($this->getColumns() as $yKey => $_column) {?>
-		<div class="header" style="<?=($yKey % 2 ? 'background:none;' : '')?> <?=( $_column->getWidth() ? 'width:' . $_column->getWidth() . 'px' : '')?>"><?=$_column->getHeader()?></div>
+		<div class="header" style="<?=($yKey % 2 ? 'background:none;' : '')?> <?=( $_column->getWidth() ? 'width:' . ($_column->getWidth()+6) . 'px' : '')?>"><?=$_column->getHeader()?></div>
 		<?}?>
 	</div><div class="clear"></div>
 	<?$_scrollIndex = $this->getScrollIndex()?>

@@ -114,7 +114,8 @@
     float:left;
     position:relative;
     margin-left:-17.08em;
-    width:17.08em;
+    /*width:17.08em;*/
+	width:947px;
     background:url(images/section_menu_bg.gif) repeat-y 100% 0;
     }
 .content-container {
@@ -608,7 +609,7 @@ img.attribute-global {
 .graph-container { /*width:1190px;*/ }
 .graph-container li.section { float:left; width:580px; list-style:none; margin:0 40px 30px 0; }
 
-.db-top { margin:0; padding:0; width:580px; height:25px; margin:5px 0 5px 0; }
+.db-top { margin:0; padding:0; width:951px; height:25px; margin:5px 0 5px 0; }
 .db-top dt { font-size:1.15em; float:left; font-weight:bold; padding-left:28px; background:transparent url(images/db-header-bg.png) no-repeat left; color:#d86303; }
 .db-top dd { float:right; font-size:11px; }
 .db-top .range input {
@@ -616,7 +617,7 @@ img.attribute-global {
     margin-top:0;
 }
 .db-menu {
-    background:transparent url(images/db-menu-bg.png) repeat-x bottom right; width:580px; height:34px;
+    background:transparent url(images/db-menu-bg.png) repeat-x bottom right; width:947px; height:34px;
 }
 .db-menu ul { background:transparent url(images/db-menu-start.png) no-repeat bottom left; height:34px; padding-left:8px; }
 .db-menu ul li, .db-menu ul li.last {
@@ -648,9 +649,9 @@ img.attribute-global {
 }
 .db-menu ul li.last a { margin-right:1px; }
 
-.graph-cont, .tab-cont { width:579px; border:0; }
+.graph-cont, .tab-cont {  border:0; }
 .bottom-bg { background:transparent url(images/db-graph-bottom-bg.png) repeat-x bottom; }
-.graph-block { border:1px solid #cbcbcb; width:580px; min-height:460px; background:#f7f7f7; }
+.graph-block { border:1px solid #cbcbcb; width:947px; min-height:460px; background:#f7f7f7; }
 .graph-cont table { font:bold 10px/14px Verdana, sans-serif; margin:15px; background:transparent; }
 .graph-cont table td.yHeading { width:60px; text-align:center; }
 .graph-cont table td.y { height:50px; text-align:right; padding-right:5px; vertical-align:bottom; }

@@ -18,9 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<table cellpadding="0" cellspacing="0" border="0" id="<?=$this->getHtmlId()?>">
+<table cellpadding="0" cellspacing="0" border="0" align="left" id="<?=$this->getHtmlId()?>" style="width:910px;">
 <tr>
-	<td align="center" valign="middle"><?=$this->getHeader()?></td>
+	<td align="center" valign="middle" width="10"><?=$this->getHeader()?></td>
 	<?foreach($this->getCollection() as $_item ):?>
 	<td class="g" rowspan="<?=$this->getVerticalAxis()->getSpan()?>">
 	<?$_maximum=$this->getVerticalAxis()->getPixelMaximum($_item)?>
@@ -34,9 +34,10 @@
 		</div>
 	</td>
 	<?endforeach;?>
+	<td width="100%" class="g" valign="bottom" rowspan="<?=$this->getVerticalAxis()->getSpan()?>"><div class="bottom-bg">&nbsp;</div></td>
 </tr>
 <tr>
-	<td class="y"><?=$this->getVerticalAxis()->getTitle()?></td>
+	<td style="color:#bfbfbf;" class="y"><?=$this->getVerticalAxis()->getTitle()?></td>
 </tr>
 <?foreach($this->getVerticalAxis()->getLabels() as $_label):?>
 <tr>
@@ -46,8 +47,8 @@
 <tr>
 	<td>&nbsp;</td>
 	<?foreach($this->getHorizontalAxis()->getLabels() as $_label):?>
-	<td class="x"><?=$_label?></td>
+	<td class="x" align="center"><?=$_label?></td>
 	<?endforeach;?>
-	<td valign="bottom">&nbsp;&nbsp;<?=$this->getHorizontalAxis()->getTitle()?></td>
+	<td valign="bottom" align="right" style="color:#bfbfbf;">&nbsp;&nbsp;<?=$this->getHorizontalAxis()->getTitle()?></td>
 </tr>
 </table>
