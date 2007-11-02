@@ -38,11 +38,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtm
 
     protected function _prepareItems()
     {
-        // customer's front-end quote
-    	if (is_null($this->_items) && ($quote = $this->getSession()->getCustomerQuote())) {
-    	    /* @var $quote Mage_Sales_Model_Quote */
-            $this->setItems($quote->getAllItems());
-    	}
+        if (!is_null($this->_itemCollection)) {
+            return $this;
+        }
+        
+        $quote = Mage::getModel('sales/quote')
+            ->setStore($this->getStore())
+            ->loadByCustomer($this->getCustomerId());
+            
+        $this->_itemCollection = $quote->getItemsCollection();
         return $this;
     }
 

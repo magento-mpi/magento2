@@ -28,7 +28,6 @@
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -38,34 +37,74 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
 
     protected function _prepareLayout()
     {
-        $this->setChild('before', $this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/form/before.phtml'));
-        $childNames = array();
-        if (! $this->getCustomerId()) {
-            $childNames[] = 'customer';
-        } elseif (! $this->getStoreid()) {
-            $childNames[] = 'store';
-        } else {
-            $childNames[] = 'shipping_address';
-            $childNames[] = 'billing_address';
-            $childNames[] = 'shipping_method';
-            $childNames[] = 'billing_method';
-            $childNames[] = 'coupons';
-            $childNames[] = 'newsletter';
-            $childNames[] = 'items';
-            // $childNames[] = 'search';
-            $childNames[] = 'totals';
-        }
+        $childNames = array(
+            'customer',
+            'store',
+            'data'
+        );
 
         foreach ($childNames as  $name) {
             $this->setChild($name, $this->getLayout()->createBlock('adminhtml/sales_order_create_' . $name));
         }
-        $this->setChild('after', $this->getLayout()->createBlock('core/template')->setTemplate('sales/order/create/form/after.phtml'));
         return parent::_prepareLayout();
     }
-
+    
+    /**
+     * Retrieve url for loading blocks
+     * @return string
+     */
+    public function getLoadBlockUrl()
+    {
+        return Mage::getUrl('*/*/loadBlock');
+    }
+    
+    /**
+     * Retrieve url for form submiting
+     * @return string
+     */
     public function getSaveUrl()
     {
         return Mage::getUrl('*/*/save');
     }
-
+    
+    public function getCustomerSelectorDisplay()
+    {
+        $customerId = $this->getCustomerId();
+        if (is_null($customerId)) {
+            return 'block';
+        }
+        return 'none';
+    }
+    
+    public function getStoreSelectorDisplay()
+    {
+        $storeId    = $this->getStoreId();
+        $customerId = $this->getCustomerId();
+        if (!is_null($customerId) && is_null($storeId)) {
+            return 'block';
+        }
+        return 'none';
+    }
+    
+    public function getDataSelectorDisplay()
+    {
+        $storeId    = $this->getStoreId();
+        $customerId = $this->getCustomerId();
+        if (!is_null($customerId) && !is_null($storeId)) {
+            return 'block';
+        }
+        return 'none';
+    }
+    
+    public function getOrderDataJson()
+    {
+        $data = array();
+        if (!is_null($this->getCustomerId())) {
+            $data['customer_id'] = $this->getCustomerId();
+        }
+        if (!is_null($this->getStoreId())) {
+            $data['store_id'] = $this->getStoreId();
+        }
+        return Zend_Json::encode($data);
+    }
 }

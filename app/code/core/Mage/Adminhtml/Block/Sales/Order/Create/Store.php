@@ -45,13 +45,4 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Store extends Mage_Adminhtml_Block
     {
         return __('Please select a store');
     }
-
-    public function toHtml()
-    {
-        if ($this->getSession()->getStoreId()) {
-            return '';
-        }
-        return parent::toHtml();
-    }
-
 }

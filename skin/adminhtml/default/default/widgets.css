@@ -528,3 +528,33 @@ select.countries option { background-repeat:no-repeat; }
 .dynamic-grid td input{
     width:94px;
 }
+
+/*********** Sidebar ******************/
+.sidebar-block{
+    margin:0 10px 15px 0;
+    padding:5px 5px 10px 5px;
+    background:#EFEFEF;
+    }
+.sidebar-block select{
+    width:170px;
+    }
+.sidebar-block ul{
+    margin-left:20px;
+    }
+
+.sidebar-block .auto-scroll{
+    height:130px;
+    overflow: auto;
+    }
+
+/********** Order *****************/
+.order-choose-address{
+    margin:0px 0px 10px 0px;
+    padding:5px;
+    background:#EFEFEF;
+    }
+.entry-edit .order-address .input-text,
+.entry-edit .order-address .textarea {
+    width:220px;
+    }
+.entry-edit .order-address .select { width:225px; }

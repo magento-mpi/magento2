@@ -26,19 +26,10 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Adminhtml_Block_Sales_Order_Create_Form_Address
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setId('sales_order_create_billing_address');
-    }
-
     protected function _prepareLayout()
     {
-        $this->setChild('select', $this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address_select'));
-        $this->setChild('form', $this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address_form'));
         return parent::_prepareLayout();
     }
 
@@ -51,13 +42,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
     {
         return 'head-billing-address';
     }
-
-    public function toHtml()
+    
+    public function getForm()
     {
-        if (! $this->getSession()->getStoreId()) {
-            return '';
-        }
-        return parent::toHtml();
+        $form = parent::getForm();
+        $form->addFieldNameSuffix('order[billing_address]');
+        $form->setHtmlIdPrefix('order:billing_addres_');
+        return $form;
     }
-
 }

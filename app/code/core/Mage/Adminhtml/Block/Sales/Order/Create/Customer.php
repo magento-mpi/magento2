@@ -46,20 +46,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer extends Mage_Adminhtml_Bl
         return __('Please select a customer');
     }
 
-    public function toHtml()
-    {
-        if ($this->getSession()->getCustomerId()) {
-            return '';
-        }
-        return parent::toHtml();
-    }
-
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => __('Create New Customer'),
-            'onclick' => "sc_customerId='new';sc_refresh(['customer','store'],{customer_id:'new'})",
-            'class' => 'add',
+            'label'     => __('Create New Customer'),
+            'onclick'   => 'order.setCustomerId(false)',
+            'class'     => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
     }

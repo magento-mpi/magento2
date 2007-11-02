@@ -18,38 +18,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<script type="text/javascript" src="<?=$this->getSkinUrl('js/sales.js')?>"></script>
 <script type="text/javascript">
-var sc_customerId = '<?=$this->getCustomerId()?>';
-var sc_storeId = '<?=$this->getStoreId()?>';
-var sc_products = $H({});
-var sc_addressId = $H({billing: '<?=$this->getSession()->getBillingAddressId()?>', shipping: '<?=$this->getSession()->getShippingAddressId()?>'});
-var sc_addressChanged = $H({billing: false, shipping: false});
-var sc_sameAsBilling = '<?=$this->getSession()->getSameAsBilling()?>';
-var payment = $H({});
-var sc_url = '<?=$this->getScUrl()?>';
+    var order = new AdminOrder(<?=$this->getOrderDataJson()?>);
+    order.setLoadBaseUrl('<?=$this->getLoadBlockUrl()?>');
 </script>
-<?=$this->getChildHtml('before')?>
-<?$_form = $this->getForm()?>
+<?//=$this->getChildHtml('before')?>
 <form id="edit_form" action="<?=$this->getSaveUrl()?>" method="POST">
-    <div id="sc_customer"><?=$this->getChildHtml('customer')?></div>
-    <div id="sc_store"><?=$this->getChildHtml('store')?></div>
-    <div id="sc_addresses">
-        <div id="sc_billing_address" class="box-left"><?=$this->getChildHtml('billing_address')?></div>
-        <div id="sc_shipping_address" class="box-right"><?=$this->getChildHtml('shipping_address')?></div>
+    <div id="order:customer-selector" style="display:<?=$this->getCustomerSelectorDisplay()?>">
+        <?=$this->getChildHtml('customer')?>
     </div>
-    <div class="clear"></div>
-    <div id="sc_methods">
-        <div id="sc_shipping_method" class="box-left"><?=$this->getChildHtml('shipping_method')?></div>
-        <div id="sc_billing_method" class="box-right"><?=$this->getChildHtml('billing_method')?></div>
+    <div id="order:store-selector" style="display:<?=$this->getStoreSelectorDisplay()?>">
+        <?=$this->getChildHtml('store')?>
     </div>
-    <div class="clear"></div>
-    <div id="sc_addons">
-        <div id="sc_coupons" class="box-left"><?=$this->getChildHtml('coupons')?></div>
-        <div id="sc_newsletter" class="box-right"><?=$this->getChildHtml('newsletter')?></div>
+    <div id="order:data" style="display:<?=$this->getDataSelectorDisplay()?>">
+        <?=$this->getChildHtml('data')?>
     </div>
-    <div class="clear"></div>
-    <div id="sc_search"><?=$this->getChildHtml('search')?></div>
-    <div id="sc_items"><?=$this->getChildHtml('items')?></div>
-    <div id="sc_totals"><?=$this->getChildHtml('totals')?></div>
 </form>
-<?=$this->getChildHtml('after')?>

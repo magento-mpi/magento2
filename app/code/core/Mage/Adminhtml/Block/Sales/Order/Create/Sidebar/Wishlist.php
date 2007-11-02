@@ -38,23 +38,17 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
 
     protected function _prepareItems()
     {
-        $this->setItems( Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::getSingleton('adminhtml/quote')->getCustomer())->getItemCollection()
-        	->addAttributeToSelect('name')
+        if (!is_null($this->_itemCollection)) {
+            return $this;
+        }
+        
+        $this->_itemCollection = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer())
+            ->getProductCollection();
+        $this->_itemCollection->addAttributeToSelect('name')
         	->addAttributeToSelect('price')
         	->addAttributeToSelect('small_image')
-//        	->addStoreData()
-        	->load()
-    	);
+        	->load();
         return $this;
-    }
-
-    public function hasItems()
-    {
-        if (Mage::getSingleton('adminhtml/quote')->getCustomer()) {
-            $this->_prepareItems();
-            return $this->_items->getSize()>0;
-        }
-        return false;
     }
 
     public function getHeaderText()

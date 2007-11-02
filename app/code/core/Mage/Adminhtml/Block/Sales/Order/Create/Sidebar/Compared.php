@@ -33,12 +33,25 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared extends Mage_Admi
     {
         parent::__construct();
         $this->setId('sales_order_create_sidebar_compared');
-        $this->setScId('compared');
     }
-
-    public function hasItems()
+    
+    protected function _prepareItems()
     {
-        return false;
+        if (!is_null($this->_itemCollection)) {
+            return $this;
+        }
+        if (($customerId = $this->getCustomerId()) && $this->getStoreId()) {
+            $this->_itemCollection = Mage::getModel('catalog/product_compare_list')->getItemCollection()
+                ->useProductItem(true)
+                ->setStoreId($this->getStoreId())
+                ->setCustomerId($customerId)
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price')
+                ->addAttributeToSelect('image')
+                ->addAttributeToSelect('status')
+                ->load();
+        }
+        return $this;
     }
 
     public function getHeaderText()

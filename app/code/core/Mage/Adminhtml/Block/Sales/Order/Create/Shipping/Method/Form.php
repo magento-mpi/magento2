@@ -26,7 +26,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
 
     protected $_rates;
@@ -39,23 +39,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
     }
 
     /**
-     * Enter description here...
+     * Retrieve quote shipping address model
      *
      * @return Mage_Sales_Model_Quote_Address
      */
     public function getAddress()
     {
-        return Mage::getSingleton('adminhtml/quote')->getQuote()->getShippingAddress();
-    }
-
-    public function getStore()
-    {
-        return Mage::getSingleton('adminhtml/quote')->getQuote()->getStore();
-    }
-
-    public function getQuote()
-    {
-        return Mage::getSingleton('adminhtml/quote')->getQuote();
+        return $this->getQuote()->getShippingAddress();
     }
 
     public function getShippingRates()

@@ -36,4 +36,30 @@ class Mage_Sales_Model_Entity_Quote extends Mage_Eav_Model_Entity_Abstract
             $resource->getConnection('sales_write')
         );
     }
+    
+    /**
+     * Loading quote by customer identifier
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @param int $customerId
+     */
+    public function loadByCustomerId($quote, $customerId)
+    {
+        $collection = Mage::getResourceModel('sales/quote_collection')
+            ->addAttributeToSelect('entity_id')
+            ->addAttributeToFilter('customer_id', $customerId)
+            ->addAttributeToFilter('is_active', 1)
+            ->addAttributeToFilter('store_id', array('in', $this->getSharedStoreIds()))
+            ->setOrder('updated_at', 'desc')
+            ->setPage(1,1)
+            ->load();
+            
+        if ($collection->getSize()) {
+            foreach ($collection as $item) {
+            	$this->load($quote, $item->getId());
+            	return $this;
+            }
+        }
+        return $this;
+    }
 }

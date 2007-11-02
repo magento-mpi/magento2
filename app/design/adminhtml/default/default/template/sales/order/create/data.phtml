@@ -1,0 +1,38 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    default_default
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div id="order:data_addresses">
+    <div id="order:data_billing_address" class="box-left"><?=$this->getChildHtml('billing_address')?></div>
+    <div id="order:data_shipping_address" class="box-right"><?=$this->getChildHtml('shipping_address')?></div>
+</div>
+<div class="clear"></div>
+<div id="sc_methods">
+    <div id="sc_shipping_method" class="box-left"><?=$this->getChildHtml('shipping_method')?></div>
+    <div id="sc_billing_method" class="box-right"><?=$this->getChildHtml('billing_method')?></div>
+</div>
+<div class="clear"></div>
+<div id="sc_addons">
+    <div id="sc_coupons" class="box-left"><?=$this->getChildHtml('coupons')?></div>
+    <div id="sc_newsletter" class="box-right"><?=$this->getChildHtml('newsletter')?></div>
+</div>
+<div class="clear"></div>
+<div id="sc_search"><?=$this->getChildHtml('search')?></div>
+<div id="sc_items"><?=$this->getChildHtml('items')?></div>
+<div id="sc_totals"><?=$this->getChildHtml('totals')?></div>

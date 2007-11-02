@@ -23,7 +23,7 @@
     <?$_storesCollection=$_website->getStoreCollection()->load()?>
     <?foreach ($_storesCollection as $_store):?>
         <span class="field-row">
-            <input type="radio" id="store_<?=$_store->getId()?>" class="new-store" onclick="sc_storeSelect(<?=$_store->getId()?>)"/>
+            <input type="radio" id="store_<?=$_store->getId()?>" class="new-store" onclick="order.setStoreId('<?=$_store->getId()?>')"/>
             <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
         </span>
     <?endforeach;?>

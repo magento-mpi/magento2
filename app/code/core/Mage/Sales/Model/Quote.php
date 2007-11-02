@@ -605,5 +605,21 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setShippingMethod($order->getShippingMethod());
         return $this;
     }
-
+    
+    /**
+     * Loading quote data by customer
+     *
+     * @return mixed
+     */
+    public function loadByCustomer($customer)
+    {
+        if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customerId = $customer->getId();
+        }
+        else {
+            $customerId = (int) $customer;
+        }
+        $this->getResource()->loadByCustomerId($this, $customerId);
+        return $this;
+    }
 }

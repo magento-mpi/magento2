@@ -65,6 +65,9 @@ if (!window.varienLoaderHandler)
 
 varienLoaderHandler.handler = {
     onCreate: function(request) {
+        if(request.options.loaderArea===false){
+            return;
+        }
         if(request && request.options.loaderArea){
             Position.clone($(request.options.loaderArea), $('loading-mask'));
             Element.show('loading-mask');

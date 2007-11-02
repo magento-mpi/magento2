@@ -1,0 +1,19 @@
+<div class="entry-edit">
+    <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
+    
+    <?if($this->getAddressCollection()->getSize()):?>
+    <div class="order-choose-address">
+        <?=__('Select from existing customer addresses:')?><br/>
+        <select id="shipping_address:address_id" style="width: 324px;">
+            <option value=""><?=__('Add New Address')?></option>
+            <?foreach ($this->getAddressCollection() as $_address):?>
+            <option value="<?$_address->getId()?>"><?$_address->toString()?></option>
+            <?endforeach;?>
+        </select>
+    </div>
+    <?endif;?>
+    
+    <fieldset class="order-address">
+        <?=$this->getForm()->toHtml()?>
+    </fieldset>
+</div>

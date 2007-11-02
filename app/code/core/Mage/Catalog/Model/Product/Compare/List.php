@@ -50,9 +50,9 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
         return $this;
     }
     
-    public function getItems()
+    public function getItemCollection()
     {
-        
+        return Mage::getResourceModel('catalog/product_compare_item_collection');
     }
     
     public function removeProduct()

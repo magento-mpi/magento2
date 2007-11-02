@@ -28,8 +28,7 @@
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-
-    protected $_items = null;
+    protected $_itemCollection = null;
 
     public function __construct()
     {
@@ -39,34 +38,26 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
 
     public function hasItems()
     {
-        if (! $this->getStoreId()) {
-            return false;
-        }
-        if (is_null($this->_items)) {
+        if (is_null($this->_itemCollection)) {
             $this->_prepareItems();
         }
-        if (! empty($this->_items) && (count($this->_items))) {
+        
+        if (!empty($this->_itemCollection) && $this->_itemCollection->getSize()) {
             return true;
         }
         return false;
     }
-
-    public function getItems()
+    
+    public function getItemCollection()
     {
-        return $this->_items;
-    }
-
-    public function setItems($items)
-    {
-        $this->_items = $items;
-        return $this;
+        return $this->_itemCollection;
     }
 
     protected function _prepareItems()
     {
         return $this;
     }
-
+    
     public function toHtml()
     {
         if ($this->hasItems()) {

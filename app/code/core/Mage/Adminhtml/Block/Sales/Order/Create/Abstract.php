@@ -23,56 +23,83 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Block_Widget
+abstract class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Block_Widget
 {
-
-    /**
-     * Enter description here...
-     *
-     * @var Mage_Adminhtml_Model_Quote
-     */
-    protected $_session = null;
-
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/abstract.phtml');
     }
-
+    
     /**
-     * Enter description here...
+     * Retrieve quote session object
      *
-     * @param Mage_Adminhtml_Model_Quote $session
-     * @return Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+     * @return Mage_Adminhtml_Model_Session_Quote
      */
-    public function setSession($session)
+    protected function _getSession()
     {
-        $this->_session = $session;
-        return $this;
+        return Mage::getSingleton('adminhtml/session_quote');
     }
-
+    
     /**
-     * Enter description here...
-     *
-     * @return Mage_Adminhtml_Model_Quote
-     */
-    public function getSession()
-    {
-        if (is_null($this->_session)) {
-             $this->setSession(Mage::getSingleton('adminhtml/quote'));
-        }
-        return $this->_session;
-    }
-
-    /**
-     *
+     * Retrieve quote model object
      *
      * @return Mage_Sales_Model_Quote
      */
     public function getQuote()
+    {
+        return $this->_getSession()->getQuote();
+    }
+    
+    /**
+     * Retrieve customer model object
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomer()
+    {
+        return $this->_getSession()->getCustomer();
+    }
+    
+    /**
+     * Retrieve customer identifier
+     *
+     * @return int
+     */
+    public function getCustomerId()
+    {
+        return $this->_getSession()->getCustomerId();
+    }
+    
+    /**
+     * Retrieve store model object
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_getSession()->getStore();
+    }
+    
+    /**
+     * Retrieve store identifier
+     *
+     * @return int
+     */
+    public function getStoreId()
+    {
+        return $this->_getSession()->getStoreId();
+    }
+    
+    public function formatPrice($value)
+    {
+        return $this->getStore()->convertPrice($value, true);
+    }
+    
+    /*public function getQuote()
     {
         return $this->getSession()->getQuote();
     }
@@ -96,25 +123,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Bl
     {
         return $this->getSession()->formatPrice($price);
     }
-
-    public function getHeaderText()
-    {
-        return __('Header Text');
-    }
-
-    public function getHeaderCssClass()
-    {
-        return 'head-edit-form';
-    }
-
-    public function getScUrl($action = '')
-    {
-        if ($action) {
-            return Mage::getUrl('*/*/' . $action);
-        }
-        return Mage::getUrl('*/*');
-    }
-
 
     public function getCountryCollection()
     {
@@ -223,5 +231,5 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adminhtml_Bl
         }
         return $address;
     }
-
+*/
 }

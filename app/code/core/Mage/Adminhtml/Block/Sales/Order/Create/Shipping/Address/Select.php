@@ -61,9 +61,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address_Select extends Ma
 
     public function toHtml()
     {
-        if (! $this->getParentBlock()->customerHasAddresses()) {
+        /*if (! $this->getParentBlock()->customerHasAddresses()) {
             return '';
-        }
+        }*/
         return parent::toHtml();
     }
 

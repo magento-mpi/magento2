@@ -17,31 +17,36 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Adminhtml sales order create select store block
+ * Order create data
  *
- * @author     Michael Bessolov <michael@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Order_Create_Store_Select extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-
-    protected $_websiteCollection = null;
-
-    public function __construct()
+    public function __construct() 
     {
         parent::__construct();
-        $this->setId('sc_store_select');
-        $this->setTemplate('sales/order/create/store/select.phtml');
+        $this->setTemplate('sales/order/create/data.phtml');
     }
-
-    public function getWebsiteCollection()
+    
+    protected function _prepareLayout()
     {
-        if (is_null($this->_websiteCollection)) {
-            $this->_websiteCollection = Mage::getModel('core/website')->getResourceCollection()->load();
-        }
-        return $this->_websiteCollection;
-    }
+        $childNames = array(
+            'shipping_address',
+            'billing_address',
+            'shipping_method',
+            'billing_method',
+            'coupons',
+            'newsletter',
+            'items',
+            'totals'
+        );
 
+        foreach ($childNames as  $name) {
+            $this->setChild($name, $this->getLayout()->createBlock('adminhtml/sales_order_create_' . $name));
+        }
+        return parent::_prepareLayout();
+    }    
 }

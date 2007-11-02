@@ -21,9 +21,7 @@
 /**
  * Adminhtml sales order create block
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
@@ -32,13 +30,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
     public function __construct()
     {
         parent::__construct();
-
         $this->setId('sales_order_create_customer_grid');
-
-        $this->setRowClickCallback('sc_customerSelect');
-
+        $this->setRowClickCallback('order.selectCustomer.bind(order)');
         $this->setUseAjax(true);
-
         $this->setDefaultSort('id');
     }
 
@@ -63,11 +57,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
+        /*$this->addColumn('id', array(
             'header'    =>__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
-        ));
+        ));*/
         $this->addColumn('firstname', array(
             'header'    =>__('First Name'),
             'index'     =>'firstname'
@@ -102,16 +96,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
             'width'     =>'100px',
             'index'     =>'billing_regione',
         ));
-//        $this->addColumn('customer_since', array(
-//            'header'    =>__('Customer Since'),
-//            'type'      => 'date',
-//            'align'     => 'center',
-//            'index'     =>'created_at',
-//        ));
         $this->addColumn('store_name', array(
             'header'    =>__('Signed Up From'),
             'align'     => 'center',
             'index'     =>'store_name',
+            'width'     =>'130px',
         ));
 
         return parent::_prepareColumns();
@@ -124,7 +113,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/customerGrid');
+        return Mage::getUrl('*/*/loadBlock', array('block'=>'customer_grid'));
     }
 
 }

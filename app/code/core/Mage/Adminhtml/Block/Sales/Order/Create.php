@@ -40,33 +40,23 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $this->setId('sales_order_create');
 
         $this->_updateButton('save', 'label', __('Submit Order'));
-        $this->_updateButton('save', 'onclick', '$(\'edit_form\').submit()');
+        $this->_updateButton('save', 'onclick', "$('edit_form').submit()");
 
         $this->_removeButton('back');
-
+        
+        $confirm = __('Are you sure you want to cancel this order?');
         $this->_updateButton('reset', 'label', __('Cancel Order'));
-        $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''. __('Are you sure you want to cancel this order?') .'\', \'' . $this->getCancelUrl() . '\')');
+        $this->_updateButton('reset', 'class', 'delete');
+        $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 
     }
 
     public function getHeaderHtml()
     {
-        $customer = Mage::getSingleton('adminhtml/quote')->getCustomer();
-        $out = '<h3>' . $this->getHeaderText() . ' <span id="sc_customer_name"';
-        if (!$customer->getId()) {
-            $out .= ' style="display: none;"';
-        }
-        $out .= '>';
-        if ($customer->getId()) {
-            $out .= __('for') . ' ' . $customer->getName();
-        }
-        $out .= '</span> <span style="display: none;" id="sc_store_name"></span></h3>';
+        $out = '<div id="order:header">';
+        $out.= $this->getLayout()->createBlock('adminhtml/sales_order_create_header')->toHtml();
+        $out.= '</div>';
         return $out;
-    }
-
-    public function getHeaderText()
-    {
-        return __('Create New Order');
     }
 
     public function getHeaderWidth()
