@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui extends Mage_Adminhtml_Block_Widge
 {
     public function __construct()
     {
-        $this->_controller = 'system_convert_profile';
+        $this->_controller = 'system_convert_gui';
         $this->_headerText = __('Manage GUI Import/Export Profiles');
         $this->_addButtonLabel = __('Add New Profile');
 

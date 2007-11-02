@@ -29,6 +29,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
 
     public function unparse()
     {
+        echo "<pre>".print_r($this->getData(),1)."</pre>";
         return $this;
     }
 

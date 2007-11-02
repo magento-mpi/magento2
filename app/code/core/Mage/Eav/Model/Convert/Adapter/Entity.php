@@ -24,6 +24,9 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
     public function getStoreId()
     {
         $store = $this->getVar('store');
+        if (is_numeric($store)) {
+            return $store;
+        }
         if (!$store || !Mage::getConfig()->getNode('stores/'.$store)) {
             $this->addException(__('Invalid store specified'), Varien_Convert_Exception::FATAL);
         }
@@ -44,12 +47,11 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
                 ->addAttributeToSelect('*')
                 ->load();
             $this->addException(__('Loaded '.$collection->getSize().' records'));
+        } catch (Varien_Convert_Exception $e) {
+            throw $e;
         } catch (Exception $e) {
-            if (!$e instanceof Varien_Convert_Exception) {
-                $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
-                    Varien_Convert_Exception::FATAL);
-            }
-            return $this;
+            $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
+                Varien_Convert_Exception::FATAL);
         }
         $this->setData($collection);
         return $this;
@@ -57,32 +59,28 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
 
     public function save()
     {
-        $collections = $this->getData();
-        if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $collections = array($collections->getEntity()->getStoreId()=>$collections);
-        } elseif (!is_array($collections)) {
-            $this->addException(__('Array of entity collections expected'), Varien_Convert_Exception::FATAL);
+        $collection = $this->getData();
+        if ($collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
+            $this->addException(__('Entity collections expected'), Varien_Convert_Exception::FATAL);
         }
 
-        foreach ($collections as $storeId=>$collection) {
-            $this->addException(__('"'.$collection->getEntity()->getStore()->getCode().'" store found'));
+        $this->addException($collection->getSize().' records found.');
 
-            if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-                $this->addException(__('Entity collection expected'), Varien_Convert_Exception::FATAL);
+        if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
+            $this->addException(__('Entity collection expected'), Varien_Convert_Exception::FATAL);
+        }
+        try {
+            $i = 0;
+            foreach ($collection->getIterator() as $model) {
+                $model->save();
+                $i++;
             }
-            try {
-                $i = 0;
-                foreach ($collection->getIterator() as $model) {
-                    $model->save();
-                    $i++;
-                }
-                $this->addException(__("Saved ".$i." record(s)"));
-            } catch (Exception $e) {
-                if (!$e instanceof Varien_Convert_Exception) {
-                    $this->addException(__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
-                        Varien_Convert_Exception::FATAL);
-                }
-            }
+            $this->addException(__("Saved ".$i." record(s)"));
+        } catch (Varien_Convert_Exception $e) {
+            throw $e;
+        } catch (Exception $e) {
+            $this->addException(__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
+                Varien_Convert_Exception::FATAL);
         }
         return $this;
     }

@@ -31,4 +31,13 @@ class Mage_Core_Model_Mysql4_Convert_Profile extends Mage_Core_Model_Mysql4_Abst
     {
         $this->_init('core/convert_profile', 'profile_id');
     }
+
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        if (!$object->getCreatedAt()) {
+            $object->setCreatedAt($this->formatDate(time()));
+        }
+        $object->setUpdatedAt($this->formatDate(time()));
+        parent::_beforeSave($object);
+    }
 }

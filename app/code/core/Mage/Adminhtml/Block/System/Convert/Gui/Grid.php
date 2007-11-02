@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('core/convert_profile_collection')
-            ->addFieldToFilter('entity_type', array('eq'=>''));
+            ->addFieldToFilter('entity_type', array('neq'=>''));
 
         $this->setCollection($collection);
 
@@ -54,6 +54,29 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('name', array(
             'header'    =>__('Profile Name'),
             'index'     =>'name',
+        ));
+        $this->addColumn('direction', array(
+            'header'    =>__('Profile Direction'),
+            'index'     =>'direction',
+            'type'      =>'options',
+            'options'   =>array('import'=>'Import', 'export'=>'Export'),
+            'width'     =>'120px',
+        ));
+        $this->addColumn('entity_type', array(
+            'header'    =>__('Entity Type'),
+            'index'     =>'entity_type',
+            'type'      =>'options',
+            'options'   =>array('product'=>'Products', 'customer'=>'Customers'),
+            'width'     =>'120px',
+        ));
+        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+        $this->addColumn('store_id', array(
+            'header'    =>__('Store'),
+            'type'      => 'options',
+            'align'     => 'center',
+            'index'     => 'store_id',
+            'options'   => $stores,
+            'width'     => '120px',
         ));
         $this->addColumn('created_at', array(
             'header'    =>__('Created At'),

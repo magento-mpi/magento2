@@ -83,6 +83,14 @@ function setMapFileField(select)
                 <option value="customer" <?=$this->getSelected('entity_type', 'customer')?>><?=$this->__("Customers")?></option>
             </select>
         </span>
+        <span class="field-row">
+            <label for="profile_store_id"><?=$this->__("Store:")?></label>
+            <select id="profile_store_id" name="store_id">
+                <?foreach ($this->getStores() as $_value=>$_label):?>
+                    <option value="<?=$_value?>" <?=$this->getSelected('store_id', $_value)?>><?=htmlspecialchars($_label)?></option>
+                <?endforeach?>
+            </select>
+        </span>
     </fieldset>
 
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("File Information")?></h4>
@@ -227,21 +235,6 @@ function setMapFileField(select)
         <?=$this->getAddMapButtonHtml()?>
     </fieldset>
 
-    <div id="profile_direction_import">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Import Settings")?></h4>
-        <fieldset>
-            <legend><?=$this->__("Import Settings")?></legend>
-            <span class="field-row">
-                <label for="import_store"><?=$this->__("Store:")?></label>
-                <select id="import_store" name="gui_data[import][store]">
-                    <?foreach ($this->getImportStoreOptions() as $_value=>$_label):?>
-                        <option value="<?=$_value?>" <?=$this->getSelected('gui_data/import/store', $_value)?>><?=htmlspecialchars($_label)?></option>
-                    <?endforeach?>
-                </select>
-            </span>
-        </fieldset>
-    </div>
-
     <div id="profile_direction_export">
         <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Export Filters")?></h4>
         <fieldset>
@@ -308,15 +301,15 @@ function setMapFileField(select)
             <div id="profile_entity_type_customer">
                 <span class="field-row">
                     <label for="customer_filter_firstname"><?=$this->__("First Name:")?></label>
-                    <input class="input-text" id="customer_filter_firstname" name="gui_data[product][filter][firstname]" value="<?=$this->getValue('gui_data/customer/filter/firstname')?>"/>
+                    <input class="input-text" id="customer_filter_firstname" name="gui_data[customer][filter][firstname]" value="<?=$this->getValue('gui_data/customer/filter/firstname')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_lastname"><?=$this->__("Last Name:")?></label>
-                    <input class="input-text" id="customer_filter_lastname" name="gui_data[product][filter][lastname]" value="<?=$this->getValue('gui_data/customer/filter/lastname')?>"/>
+                    <input class="input-text" id="customer_filter_lastname" name="gui_data[customer][filter][lastname]" value="<?=$this->getValue('gui_data/customer/filter/lastname')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_email"><?=$this->__("Email:")?></label>
-                    <input class="input-text" id="customer_filter_email" name="gui_data[product][filter][email]" value="<?=$this->getValue('gui_data/customer/filter/email')?>"/>
+                    <input class="input-text" id="customer_filter_email" name="gui_data[customer][filter][email]" value="<?=$this->getValue('gui_data/customer/filter/email')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_group"><?=$this->__("Group:")?></label>
@@ -328,11 +321,11 @@ function setMapFileField(select)
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_telephone"><?=$this->__("Email:")?></label>
-                    <input class="input-text" id="customer_filter_telephone" name="gui_data[product][filter][telephone]" value="<?=$this->getValue('gui_data/customer/filter/telephone')?>"/>
+                    <input class="input-text" id="customer_filter_telephone" name="gui_data[customer][filter][telephone]" value="<?=$this->getValue('gui_data/customer/filter/telephone')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_postcode"><?=$this->__("Zip/Postal Code:")?></label>
-                    <input class="input-text" id="customer_filter_postcode" name="gui_data[product][filter][postcode]" value="<?=$this->getValue('gui_data/customer/filter/postcode')?>"/>
+                    <input class="input-text" id="customer_filter_postcode" name="gui_data[customer][filter][postcode]" value="<?=$this->getValue('gui_data/customer/filter/postcode')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_country"><?=$this->__("Country:")?></label>
@@ -344,7 +337,7 @@ function setMapFileField(select)
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_region"><?=$this->__("State/Province:")?></label>
-                    <input class="input-text" id="customer_filter_region" name="gui_data[product][filter][region]" value="<?=$this->getValue('gui_data/customer/filter/region')?>"/>
+                    <input class="input-text" id="customer_filter_region" name="gui_data[customer][filter][region]" value="<?=$this->getValue('gui_data/customer/filter/region')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_created_at_from"><?=$this->__("Customer Since:")?></label>
@@ -369,14 +362,6 @@ function setMapFileField(select)
         singleClick : true
     });
 </script>
-                </span>
-                <span class="field-row">
-                    <label for="customer_filter_store"><?=$this->__("Store:")?></label>
-                    <select id="customer_filter_store" name="gui_data[customer][filter][store]">
-                        <?foreach ($this->getStoreFilterOptions() as $_value=>$_label):?>
-                            <option value="<?=$_value?>" <?=$this->getSelected('gui_data/customer/filter/store', $_value)?>><?=htmlspecialchars($_label)?></option>
-                        <?endforeach?>
-                    </select>
                 </span>
             </div>
         </fieldset>

@@ -27,8 +27,7 @@
  */
 class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Adminhtml_Block_Widget_Container
 {
-    protected $_importStores;
-    protected $_filterStores;
+    protected $_stores;
     protected $_attributes;
     protected $_addMapButtonHtml;
     protected $_removeMapButtonHtml;
@@ -155,8 +154,12 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getStoreFilterOptions()
     {
         if (!$this->_filterStores) {
-            $this->_filterStores = array(''=>$this->__('Any Store'));
+            #$this->_filterStores = array(''=>$this->__('Any Store'));
+            $this->_filterStores = array();
             foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
+                if ($storeNode->getName()==='default') {
+                    continue;
+                }
                 $this->_filterStores[$storeNode->getName()] = (string)$storeNode->system->store->name;
             }
         }
@@ -184,15 +187,18 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
         return $options;
     }
 
-    public function getImportStoreOptions()
+    public function getStores()
     {
-        if (!$this->_importStores) {
-            $this->_importStores = array(''=>$this->__("Use 'store' column"));
+        if (!$this->_stores) {
             foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
-                $this->_importStores[$storeNode->getName()] = (string)$storeNode->system->store->name;
+                $storeId = (int)$storeNode->system->store->id;
+                if ($storeId==0) {
+                    continue;
+                }
+                $this->_stores[$storeId] = (string)$storeNode->system->store->name;
             }
         }
-        return $this->_importStores;
+        return $this->_stores;
     }
 
     public function getShortDateFormat()

@@ -49,6 +49,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      */
     protected $_entity;
 
+    protected $_selectEntityTypes=array();
+
     /**
      * Attributes to be fetched for objects in collection
      *
@@ -392,6 +394,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             }
             $this->_selectAttributes[$attrInstance->getAttributeCode()] = $attrInstance->getId();
         }
+        return $this;
+    }
+
+    public function addEntityTypeToSelect($entityType, $prefix)
+    {
+        $this->_selectEntityTypes[$entityType] = array(
+            'prefix'=>$prefix,
+        );
         return $this;
     }
 

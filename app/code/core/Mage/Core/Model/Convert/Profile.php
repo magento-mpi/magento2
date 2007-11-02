@@ -170,9 +170,6 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 
         if ($import) {
             $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
-            if ($p['import']['store']!=='') {
-                $parseDataXml .= '    <var name="store"><![CDATA['.$p['import']['store'].']]></var>'.$nl;
-            }
             $parseDataXml .= '</action>'.$nl.$nl;
         } else {
             $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="unparse">'.$nl;
@@ -186,9 +183,11 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 
         if ($import) {
             $entityXml = '<action type="'.$adapters[$this->getEntityType()].'" method="save">'.$nl;
+            $entityXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
             $entityXml .= '</action>'.$nl.$nl;
         } else {
             $entityXml = '<action type="'.$adapters[$this->getEntityType()].'" method="load">'.$nl;
+            $entityXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
             foreach ($p[$this->getEntityType()]['filter'] as $f=>$v) {
                 if (empty($v)) {
                     continue;
