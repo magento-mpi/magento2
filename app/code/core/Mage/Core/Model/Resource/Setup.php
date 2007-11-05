@@ -18,7 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Resource setup model
+ */
 class Mage_Core_Model_Resource_Setup
 {
     const VERSION_COMPARE_EQUAL  = 0;
@@ -365,6 +367,16 @@ class Mage_Core_Model_Resource_Setup
         }
         $this->_conn->query($sql);
 
+        return $this;
+    }
+    
+    public function updateTable($table, $conditionExpr, $valueExpr)
+    {
+        if (strpos($table, '/')!==false) {
+            $table = $this->getTable($table);            
+        }
+        $sql = 'update ' . $table . ' set ' . $valueExpr . ' where ' . $conditionExpr;
+        $this->_conn->query($sql);
         return $this;
     }
 
