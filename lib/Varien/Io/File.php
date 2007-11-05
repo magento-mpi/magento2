@@ -307,7 +307,7 @@ class Varien_Io_File extends Varien_Io_Abstract
 
                 $list_item['text'] = $entry;
                 $list_item['mod_date'] = date ('Y-m-d H:i:s', filectime($fullpath));
-                $list_item['permitions'] = $this->_parsePermissions(fileperms($fullpath));
+                $list_item['permissions'] = $this->_parsePermissions(fileperms($fullpath));
                 $list_item['owner'] = $this->_getFileOwner($fullpath);
 
                 if( is_file($fullpath) ) {

@@ -37,10 +37,10 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
             $fDel = "\t";
         }
 
-        $tmpFilename = $this->getVar('tmp_dir', '/tmp').DS.md5(rand());
+        $fp = tmpfile();
+        fputs($fp, $this->getData());
+        fseek($fp, 0);
 
-        file_put_contents($tmpFilename, $this->getData());
-        $fp = fopen($tmpFilename, 'r');
         $data = array();
         for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
             if (0==$i) {
@@ -60,7 +60,6 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
             $data[] = $row;
         }
         fclose($fp);
-        @unlink($tmpFilename);
 
         $this->setData($data);
         return $this;

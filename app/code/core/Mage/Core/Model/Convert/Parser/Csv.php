@@ -28,8 +28,5 @@
  */
 class Mage_Core_Model_Convert_Parser_Csv extends Varien_Convert_Parser_Csv
 {
-    public function __construct()
-    {
-        $this->setVar('tmp_dir', Mage::getBaseDir('export'));
-    }
+
 }

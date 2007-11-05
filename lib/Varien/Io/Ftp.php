@@ -57,6 +57,8 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      */
     protected $_error;
 
+    protected $_tmpFilename;
+
     /**
      * Open a connection
      *
@@ -199,39 +201,40 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      * Read a file to result, file or stream
      *
      * @param string $filename
-     * @param string|resource $dest
+     * @param string|resource|null $dest destination file name, stream, or if null will return file contents
      * @return string
      */
     public function read($filename, $dest=null)
     {
         if (is_string($dest)) {
-            return @ftp_get($this->_conn, $dest, $filename, $this->_config['file_mode']);
+            $result = ftp_get($this->_conn, $dest, $filename, $this->_config['file_mode']);
         } else {
             if (is_resource($dest)) {
                 $stream = $dest;
             } elseif (is_null($dest)) {
-                ob_start();
-                $stream = STDOUT;
+                $stream = tmpfile();
             } else {
                 $this->_error = self::ERROR_INVALID_DESTINATION;
                 return false;
             }
-            $result = @ftp_fget($this->_conn, $stream, $filename, $this->_config['file_mode']);
+
+            $result = ftp_fget($this->_conn, $stream, $filename, $this->_config['file_mode']);
+
             if (is_null($dest)) {
-                return ob_get_clean();
-            } else {
-                return $result;
+                fseek($stream, 0);
+                $result = '';
+                for ($result = ''; $s = fread($stream, 4096); $result .= $s);
+                fclose($stream);
             }
         }
+        return $result;
     }
 
     /**
      * Write a file from string, file or stream
      *
-     * @todo writing a string might not work
-     * @todo does it work to read from stdout?.. if not, how to upload a string to ftp file without creating temporary file?
      * @param string $filename
-     * @param string|resource $src
+     * @param string|resource $src filename, string data or source stream
      * @return int|boolean
      */
     public function write($filename, $src, $mode=null)
@@ -240,9 +243,9 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             return @ftp_put($this->_conn, $filename, $src, $mode);
         } else {
             if (is_string($src)) {
-                ob_start();
-                $stream = fopen('php://stdout', 'w');
-                echo $src;
+                $stream = tmpfile();
+                fputs($stream, $src);
+                fseek($stream, 0);
             } elseif (is_resource($src)) {
                 $stream = $src;
             } else {
@@ -251,7 +254,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             }
             $result = @ftp_fput($this->_conn, $filename, $stream, $mode);
             if (is_string($src)) {
-                ob_flush();
+                fclose($stream);
             }
             return $result;
         }
@@ -294,6 +297,24 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
 
     public function ls($grep=null)
     {
-        return array();
+        $ls = @ftp_nlist($this->_conn, '.');
+
+        $list = array();
+        foreach ($ls as $file) {
+            $list[] = array(
+                'text'=>$file,
+                'id'=>$this->pwd().'/'.$file,
+            );
+        }
+
+        return $list;
+    }
+
+    protected function _tmpFilename($new=false)
+    {
+        if ($new || !$this->_tmpFilename) {
+            $this->_tmpFilename = tempnam( md5(uniqid(rand(), TRUE)), '' );
+        }
+        return $this->_tmpFilename;
     }
 }

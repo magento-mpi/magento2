@@ -290,6 +290,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         switch ($type) {
             case 'var':
+            case 'tmp':
             case 'session':
             case 'cache':
             case 'export':
@@ -331,6 +332,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'var':
                 $dir = $this->getTempVarDir();
                 break;
+
+            case 'tmp':
+                $dir = $this->getBaseDir('var').DS.'tmp';
 
             case 'session':
                 $dir = $this->getBaseDir('var').DS.'session';

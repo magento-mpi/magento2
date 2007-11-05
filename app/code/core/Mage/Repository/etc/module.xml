@@ -28,13 +28,13 @@ http://pear.php.net/dtd/package-2.0
 http://pear.php.net/dtd/package-2.0.xsd">
 
     <name>Mage_Customer</name>
-    
+
     <channel>packages.magentocommerce.com</channel>
-    
+
     <summary>Customers module</summary>
-    
+
     <description>Customers module</description>
-    
+
     <lead>
         <user>moshe</user>
         <role>developer</role>
@@ -42,25 +42,25 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <email>moshe@varien.com</email>
         <active>yes</active>
     </lead>
-    
+
     <date>2007-10-04</date>
-    
+
     <version>
         <release>0.6.1</release>
         <api>0.6.0</api>
     </version>
-    
+
     <stability>
         <release>beta</release>
         <api>beta</api>
     </stability>
-    
+
     <license uri="http://opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
-    
+
     <notes><![CDATA[blah blah]]></notes>
-    
+
     <codepool>core</codepool>
-    
+
     <contents>
         <dir name="/">
             <dir name="etc">
@@ -75,16 +75,13 @@ http://pear.php.net/dtd/package-2.0.xsd">
             </file>
         </dir>
     </contents>
-    
+
     <dependencies>
         <required>
             <php>
                 <min>5.2.0</min>
                 <max>6.0.0</max>
             </php>
-            <pearinstaller>
-                <min>1.4.0dev13</min>
-            </pearinstaller>
             <package>
                 <name>Mage_Core</name>
                 <channel>packages.magentocommerce.com</channel>
@@ -96,15 +93,15 @@ http://pear.php.net/dtd/package-2.0.xsd">
             </extension>
         </required>
         <optional>
-        
+
         </optional>
         <group name="base" hint="Base Magento installation">
             <package>
-            
+
             </package>
         </group>
     </dependencies>
-    
+
     <phprelease>
         <installconditions>
             <os>
@@ -116,14 +113,14 @@ http://pear.php.net/dtd/package-2.0.xsd">
             <ignore name="scripts/manage.sh" />
         </filelist>
     </phprelease>
-    
+
     <phprelease>
         <filelist>
             <install as="manage.sh" name="scripts/manage.sh" />
             <ignore name="scripts/manage.bat" />
         </filelist>
     </phprelease>
-    
+
     <changelog>
         <release>
             <version>

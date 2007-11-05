@@ -311,7 +311,7 @@ class Mage_Catalog_Model_Url
     {
         if (is_null($storeId)) {
             foreach ($this->getRootId() as $storeId=>$rootId) {
-                if ($storeId==0) {
+                if ($storeId==0 || $rootId==0) {
                     continue;
                 }
                 $this->loadRewrites($storeId);
