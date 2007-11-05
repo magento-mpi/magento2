@@ -35,7 +35,12 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
 
     public function load()
     {
-        if (!($entityType = $this->getVar('entity_type'))
+        $likeArray = array('name');
+        $intArray = array('sku','type','attribute_set','visibility','status');
+        $fromToArray = array('price','qty');
+        $convertAttrNames = array('type'=>'type','attribute_set'=>'attribute_set');
+    	
+    	if (!($entityType = $this->getVar('entity_type'))
             || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
             $this->addException(__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
@@ -43,8 +48,49 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
             $collection = Mage::getResourceModel($entityType.'_collection');
             $collection->getEntity()
                 ->setStore($this->getStoreId());
+            $var_filters = $this->getVars();
+            $filters = array();
+            foreach ($var_filters as $key=>$val) {
+            	if(substr($key,0,6)==='filter'){
+            		$keys = explode('/',$key);
+            		
+            		if(isset($keys[2])){
+            			if(!isset($filters[$keys[1]])){
+            				$filters[$keys[1]] = array();
+            			}
+            			$filters[$keys[1]][$keys[2]] = $val;
+            		} else {
+            			$filters[$keys[1]] = $val;
+            		}
+            	}
+            }
+            $filterQuery = array();
+           	foreach ($filters as $key=>$val){
+           		if(isset($convertAttrNames[$key])){
+            			$keyDB = $convertAttrNames[$key];
+            	} else {
+            		$keyDB = $key;
+            	}
+           		if(in_array($key,$likeArray)){
+           			$filterQuery[] = array('attribute'=>$keyDB,'like'=>$val);
+           			continue;
+           		}
+           		if(in_array($key,$intArray)){
+           			$filterQuery[] = array('attribute'=>$keyDB,'eq'=>$val);
+           			continue;	
+           		}
+           		if(in_array($key,$fromToArray)){
+           			$filterQuery[] = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to']);
+           			continue;	
+           		}
+           		
+           	}
+           	if(count($filterQuery)==0){
+           		$filterQuery = null;
+           	}
             $collection
                 ->addAttributeToSelect('*')
+                ->addAttributeToFilter($filterQuery,null,'AND')
                 ->load();
             $this->addException(__('Loaded '.$collection->getSize().' records'));
         } catch (Varien_Convert_Exception $e) {

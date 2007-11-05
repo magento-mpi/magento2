@@ -294,7 +294,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
     /**
      * Add attribute filter to collection
      *
-     * If $attribute is an array will add OR condition with following format:
+     * If $attribute is an array will add OR/AND condition with following format:
      * array(
      *     array('attribute'=>'firstname', 'like'=>'test%'),
      *     array('attribute'=>'lastname', 'like'=>'test%'),
@@ -303,17 +303,23 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @see self::_getConditionSql for $condition
      * @param string|array $attribute
      * @param null|string|array $condition
+     * @param string $operator 
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function addAttributeToFilter($attribute, $condition=null)
+    public function addAttributeToFilter($attribute, $condition=null, $operator='OR')
     {
-        if (is_array($attribute)) {
-            $sqlArr = array();
+        if($attribute===null) {
+        	$this->getSelect();
+        	return $this;
+        }
+    	if (is_array($attribute)) {
+    		$sqlArr = array();
             foreach ($attribute as $condition) {
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition);
             }
-            $conditionSql = '('.join(') OR (', $sqlArr).')';
-        } elseif (is_string($attribute)) {
+            $conditionSql = '('.join(') '.$operator.'(', $sqlArr).')';
+        } 
+        elseif (is_string($attribute)) {
             if (is_null($condition)) {
                 throw Mage::exception('Mage_Eav', __('Invalid condition'));
             }

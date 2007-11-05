@@ -32,11 +32,21 @@ class Varien_Convert_Mapper_Column extends Varien_Convert_Mapper_Abstract
     {
         $data = $this->getData();
         $this->validateDataGrid($data);
+        if($this->getVars() && is_array($this->getVars()))
+        	$attributesToSelect = $this->getVars();
+        else 
+        	$attributesToSelect = array();
+        $only_specified = (bool)$this->getVar('_only_specified')===true;
         $mappedData = array();
         foreach ($data as $i=>$row) {
             $newRow = array();
             foreach ($row as $field=>$value) {
-                $newRow[$this->getVar($field, $field)] = $value;
+            	if($only_specified){
+            		if(isset($attributesToSelect[$field]))
+            			$newRow[$this->getVar($field, $field)] = $value;
+            	} else {
+            		$newRow[$this->getVar($field, $field)] = $value;
+            	}
             }
             $mappedData[$i] = $newRow;
         }

@@ -159,7 +159,7 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
             }
         }
         if ($p['map']['only_specified']) {
-            $parseFileXml .= '    <var name="_only_specified">'.$p['map']['only_specified'].'</var>'.$nl;
+            $mapXml .= '    <var name="_only_specified">'.$p['map']['only_specified'].'</var>'.$nl;
         }
         $mapXml .= '</action>'.$nl.$nl;
 
@@ -211,12 +211,12 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
         } else {
             $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml;
         }
-
+		
         $this->setGuiData($p);
         $this->setActionsXml($xml);
-//echo "<pre>".print_r($p,1)."</pre>";
-//echo "<xmp>".$xml."</xmp>";
-//die;
+/*echo "<pre>".print_r($p,1)."</pre>";
+echo "<xmp>".$xml."</xmp>";
+die;*/
         return $this;
     }
 }

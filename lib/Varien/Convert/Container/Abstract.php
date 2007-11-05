@@ -112,7 +112,8 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
             $data = $this->getData();
         }
         if (!is_array($data) || !is_array(current($data))) {
-            $this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
+            if(count($data)==0) return true;
+        	$this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
         }
         return true;
     }
