@@ -106,7 +106,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function fetchView($fileName)
     {
         Varien_Profiler::start($fileName);
-        
+
         extract ($this->_viewVars);
         $do = $this->getDirectOutput();
 

@@ -34,9 +34,14 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->getLayout()->createBlock('catalog/breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle($this->getCurrentCategory()->getName());
+            if ($title = $this->getCurrentCategory()->getMetaTitle()) {
+                $headBlock->setTitle($title.' '.Mage::getStoreConfig('catalog/seo/title_separator').' '.Mage::getStoreConfig('system/store/name'));
+            }/*
+            elseif ($headBlock = $this->getLayout()->getBlock('head')) {
+                $headBlock->setTitle($this->getCurrentCategory()->getName());
+            }
+            */
         }
-
         if ($layout = $this->getCurrentCategory()->getPageLayout()) {
             $template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$layout.'/template');
             $this->getLayout()->getBlock('root')->setTemplate($template);

@@ -36,14 +36,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 
     protected function _prepareLayout()
     {
-        
+
     	if ($headBlock = $this->getLayout()->getBlock('head')) {
             if ($title = $this->getProduct()->getMetaTitle()) {
-                $headBlock->setTitle($title);
-            }
+                $headBlock->setTitle($title.' '.Mage::getStoreConfig('catalog/seo/title_separator').' '.Mage::getStoreConfig('system/store/name'));
+            }/*
             else {
                 $headBlock->setTitle($this->getProduct()->getName());
-            }
+            }*/
 
             if ($keyword = $this->getProduct()->getMetaKeyword()) {
                 $headBlock->setKeywords($keyword);

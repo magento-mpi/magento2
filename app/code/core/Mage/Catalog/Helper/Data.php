@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Catalog data helper
  *
@@ -25,5 +25,62 @@
  */
 class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    protected $_categoryPath;
 
+    public function getBreadcrumbPath()
+    {
+        if (!$this->_categoryPath) {
+
+            if ($this->getCategory()) {
+                $path = $this->getCategory()->getPathInStore();
+                $pathIds = array_reverse(explode(',', $path));
+
+                $categories = Mage::getResourceModel('catalog/category_collection')
+                    ->addAttributeToSelect('name')
+                    ->addAttributeToSelect('url_key')
+                    ->addFieldToFilter('entity_id', array('in'=>$pathIds))
+                    ->load()
+                    ->getItems();
+
+                $path = array();
+                // add category path breadcrumb
+                foreach ($pathIds as $categoryId) {
+                    if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
+                        $path['category'.$categoryId] = array(
+                            'label' => $categories[$categoryId]->getName(),
+                            'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getCategoryUrl() : ''
+                        );
+                    }
+                }
+            }
+
+            if ($this->getProduct()) {
+                $path['product'] = array('label'=>$this->getProduct()->getName());
+            }
+
+            $this->_categoryPath = $path;
+        }
+        return $this->_categoryPath;
+    }
+
+    protected function _isCategoryLink($categoryId)
+    {
+        if ($this->getProduct()) {
+            return true;
+        }
+        if ($categoryId != $this->getCategory()->getId()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getCategory()
+    {
+        return Mage::registry('current_category');
+    }
+
+    public function getProduct()
+    {
+        return Mage::registry('current_product');
+    }
 }

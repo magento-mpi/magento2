@@ -33,7 +33,7 @@
 
 /************ 1ST LEVEL  ***************/
 #nav li { float:left; }
-#nav li.active { color:#d96708; }
+#nav li.active a { color:#d96708; }
 #nav a { float:left; padding:5px 12px 6px 8px; color:#A7C6DD; font-weight:bold; }
 #nav li.over a, #nav a:hover { color:#d96708; }
 

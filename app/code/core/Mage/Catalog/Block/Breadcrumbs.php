@@ -34,55 +34,18 @@ class Mage_Catalog_Block_Breadcrumbs extends Mage_Core_Block_Template
             $breadcrumbsBlock->addCrumb('home',
                 array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl())
             );
-            
-            if ($this->getCategory()) {
-                $path = $this->getCategory()->getPathInStore();
-                $pathIds = array_reverse(explode(',', $path));
-    
-                $categories = Mage::getResourceModel('catalog/category_collection')
-                    ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('url_key')
-                    ->addFieldToFilter('entity_id', array('in'=>$pathIds))
-                    ->load()
-                    ->getItems();
-    
-                // add category path breadcrumb
-                foreach ($pathIds as $categoryId) {
-                    if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
-                        $breadcrumb = array(
-                            'label' => $categories[$categoryId]->getName(),
-                            'link'  => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getCategoryUrl() : ''
-                        );
-                        $breadcrumbsBlock->addCrumb('category'.$categoryId, $breadcrumb);
-                    }
-                }
+
+            $title = (string)Mage::getStoreConfig('system/store/name');
+            $path = Mage::helper('catalog')->getBreadcrumbPath($this->getCategory());
+            foreach ($path as $name=>$breadcrumb) {
+                $breadcrumbsBlock->addCrumb($name, $breadcrumb);
+                $title = $breadcrumb['label'].' '.Mage::getStoreConfig('catalog/seo/title_separator').' '.$title;
             }
-            
-            if ($this->getProduct()) {
-                $breadcrumbsBlock->addCrumb('product', array('label'=>$this->getProduct()->getName()));
+            if ($headBlock = $this->getLayout()->getBlock('head')) {
+                $headBlock->setTitle($title);
             }
         }
         return parent::_prepareLayout();
     }
-    
-    protected function _isCategoryLink($categoryId)
-    {
-        if ($this->getProduct()) {
-            return true;
-        }
-        if ($categoryId != $this->getCategory()->getId()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public function getCategory()
-    {
-        return Mage::registry('current_category');
-    }
-    
-    public function getProduct()
-    {
-        return Mage::registry('current_product');
-    }
+
 }

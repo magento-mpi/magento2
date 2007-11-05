@@ -19,18 +19,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->addConfigField('sendfriend', 'Email to a Friend',
-	array(
-    'frontend_type'=>'text',
-));
-
-$this->addConfigField('sendfriend/emTemplates', 'Email templates',
-	array(
-    'frontend_type'=>'text',
-));
-
-$this->addConfigField('sendfriend/emTemplates/template', 'Select email template',
-	array(
-    'frontend_type'=>'select',
-    'source_model'=>'catalog/sendToFriend',
-));
+$this->addConfigField('catalog/seo/title_separator', 'Page Title Separator', array(), '-');
