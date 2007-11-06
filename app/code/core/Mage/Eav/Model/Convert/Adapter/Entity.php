@@ -21,6 +21,9 @@
 
 class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstract
 {
+	protected $_filter;
+	protected $_attrToDb;
+	
     public function getStoreId()
     {
         $store = $this->getVar('store');
@@ -32,13 +35,20 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
         }
         return (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
     }
-
+	/**
+	 * @param $attrFilter - $attrArray['attrDB']   = ['like','eq','fromTo]
+	 * @param $attrToDb	- attribute name to DB field		
+     * @return Mage_Eav_Model_Convert_Adapter_Entity
+     */
+    public function setFilter($attrFilterArray,$attrToDb=null){
+    	$this->_filter = $attrFilterArray;
+    	$this->_attrToDb=$attrToDb;
+    	return $this;
+    }
+    
     public function load()
     {
-        $likeArray = array('name');
-        $intArray = array('sku','type','attribute_set','visibility','status');
-        $fromToArray = array('price','qty');
-        $convertAttrNames = array('type'=>'type','attribute_set'=>'attribute_set');
+       
     	
     	if (!($entityType = $this->getVar('entity_type'))
             || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
@@ -53,7 +63,6 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
             foreach ($var_filters as $key=>$val) {
             	if(substr($key,0,6)==='filter'){
             		$keys = explode('/',$key);
-            		
             		if(isset($keys[2])){
             			if(!isset($filters[$keys[1]])){
             				$filters[$keys[1]] = array();
@@ -66,24 +75,22 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
             }
             $filterQuery = array();
            	foreach ($filters as $key=>$val){
-           		if(isset($convertAttrNames[$key])){
-            			$keyDB = $convertAttrNames[$key];
-            	} else {
-            		$keyDB = $key;
-            	}
-           		if(in_array($key,$likeArray)){
-           			$filterQuery[] = array('attribute'=>$keyDB,'like'=>$val);
-           			continue;
+           		if(isset($this->_filter[$key])){
+           			$keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
+	           		switch ($this->_filter[$key]){
+	           			case 'eq':
+	           				$filterQuery[] = array('attribute'=>$keyDB,'eq'=>$val);
+	           				break;
+	           			case 'like':
+	           				$filterQuery[] = array('attribute'=>$keyDB,'like'=>'%'.$val.'%');
+	           				break;
+	           			case 'fromTo':
+	           				$filterQuery[] = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to']);
+	           				break;
+	           			default:
+	           				break;
+           			}
            		}
-           		if(in_array($key,$intArray)){
-           			$filterQuery[] = array('attribute'=>$keyDB,'eq'=>$val);
-           			continue;	
-           		}
-           		if(in_array($key,$fromToArray)){
-           			$filterQuery[] = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to']);
-           			continue;	
-           		}
-           		
            	}
            	if(count($filterQuery)==0){
            		$filterQuery = null;

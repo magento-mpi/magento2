@@ -27,7 +27,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         $this->setVar('entity_type', 'customer/customer');
     }
 
-    public function load()
+   /* public function load()
     {
         if (!($entityType = $this->getVar('entity_type'))
             || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
@@ -49,6 +49,6 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         }
         $this->setData($collection);
         return $this;
-    }
+    }*/
 
 }

@@ -25,7 +25,24 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
     {
         $this->setVar('entity_type', 'catalog/product');
     }
-
+	public function load()
+	{
+		$attrFilterArray = array();
+		$attrFilterArray ['name'] = 'like';
+		$attrFilterArray ['sku'] = 'like';
+		$attrFilterArray ['type'] = 'eq';
+		$attrFilterArray ['attribute_set'] = 'eq';
+		$attrFilterArray ['visibility'] = 'eq';
+		$attrFilterArray ['status'] = 'eq';
+		$attrFilterArray ['price'] = 'fromTo';
+		$attrFilterArray ['qty'] = 'fromTo';
+		
+		$attrToDb = array('type'=>'type_id','attribute_set'=>'attribute_set_id');
+		 
+		parent::setFilter($attrFilterArray,$attrToDb);
+		parent::load();
+	}
+	
     public function save()
     {
         $stores = array();
