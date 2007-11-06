@@ -50,5 +50,23 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         $this->setData($collection);
         return $this;
     }*/
-
+   
+    public function load()
+    {
+        $attrFilterArray = array();
+        $attrFilterArray ['firstname'] = 'like';
+        $attrFilterArray ['lastname'] = 'like';
+        $attrFilterArray ['email'] = 'like';
+        $attrFilterArray ['group'] = 'eq';
+        $attrFilterArray ['telephone'] = 'like';
+        $attrFilterArray ['postcode'] = 'like';
+        $attrFilterArray ['country'] = 'eq';
+        $attrFilterArray ['region'] = 'like';
+        $attrFilterArray ['created_at'] = 'dateFromTo';
+        
+        $attrToDb = array('group'=>'group_id');
+         
+        parent::setFilter($attrFilterArray,$attrToDb);
+        parent::load();
+    }
 }

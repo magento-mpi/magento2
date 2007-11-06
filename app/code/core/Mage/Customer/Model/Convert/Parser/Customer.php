@@ -24,12 +24,57 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
 {
     public function parse()
     {
-        return $this;
+		return $this;
     }
 
     public function unparse()
     {
-        echo "<pre>".print_r($this->getData(),1)."</pre>";
+        $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id');
+        $collections = $this->getData();
+        if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
+            $collections = array($collections->getEntity()->getStoreId()=>$collections);
+        } elseif (!is_array($collections)) {
+            $this->addException(__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
+        }
+        foreach ($collections as $storeId=>$collection) {
+            if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
+                $this->addException(__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
+            }
+        
+            $data = array();
+            foreach ($collection->getIterator() as $i=>$model) {
+                $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
+                $row = array(
+                    'store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
+                );
+                
+                foreach ($model->getData() as $field=>$value) {
+                    if (in_array($field, $systemFields)) {
+                        continue;
+                    }
+                    $attribute = $model->getResource()->getAttribute($field);
+                    if (!$attribute) {
+                        continue;
+                    }
+                
+                    if ($attribute->getFrontendInput()==='select' || $attribute->getFrontendInput()==='multiselect' || $attribute->getSourceModel()) {
+                        $option = $attribute->getSource()->getOptionText($value);
+                        if (false===$option) {
+                            $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                            continue;
+                        }
+                        if (is_array($option)) {
+                            $value = $option['label'];
+                        } else {
+                            $value = $option;
+                        }
+                    }
+                    $row[$field] = $value;
+                }
+                $data[] = $row;
+            }
+        }
+        $this->setData($data);
         return $this;
     }
 
