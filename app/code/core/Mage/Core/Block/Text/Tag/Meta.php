@@ -24,7 +24,7 @@ class Mage_Core_Block_Text_Tag_Meta extends Mage_Core_Block_Text
     public function toHtml()
     {
         if (!$this->getContentType()) {
-            $this->setContentType('text/html; charset=utf8');
+            $this->setContentType('text/html; charset=utf-8');
         }
         $this->addText('<meta http-equiv="Content-Type" content="'.$this->getContentType().'"/>'."\n");
         $this->addText('<title>'.$this->getTitle().'</title>'."\n");

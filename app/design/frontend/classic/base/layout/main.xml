@@ -201,7 +201,7 @@ Installation wizard step pages layout
                 <block type="core/text_tag" name="head.content_type">
                     <action method="setTagName"><tagName>meta</tagName></action>
                     <action method="setTagParam"><name>http-equiv</name><value>Content-Type</value></action>
-                    <action method="setTagParam"><name>content</name><value>text/html; charset=utf8</value></action>
+                    <action method="setTagParam"><name>content</name><value>text/html; charset=utf-8</value></action>
                 </block>
                 <block type="core/text_tag" name="head.title">
                     <action method="setTagName"><tagName>title</tagName></action>
