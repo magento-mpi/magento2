@@ -99,9 +99,10 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
            	    }
            	}
            	/* re */
-           	$collection->joinTable('customer_address_entity', 'entity_id=entity_id', array('is_active'=>'is_active'), null, 'left');
-           	$collection->joinTable('customer_address_entity_varchar', 'entity_id=entity_id', array('varchar_attribute_id'=>'attribute_id','varchar_value'=>'value'), null, 'left');
-           	$collection->joinTable('eav_attribute', 'attribute_id=varchar_attribute_id', array('attribute_code'=>'attribute_code'), null, 'left');
+           	#$collection->joinTable('customer_address_entity', 'entity_id=entity_id', array('is_active'=>'is_active'), null, 'left');
+           	#$collection->joinTable('customer_address_entity_varchar', 'entity_id=entity_id', array('varchar_attribute_id'=>'attribute_id'), array('customer_address_entity_varchar.'), 'left');
+           	#$collection->joinTable('eav_attribute', 'attribute_id=varchar_attribute_id', array('attribute_code'=>'attribute_code'), null, 'left');
+           	#$collection->
            	/* re */
            	$collection
                 ->addAttributeToSelect('*')

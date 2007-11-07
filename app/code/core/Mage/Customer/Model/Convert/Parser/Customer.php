@@ -72,15 +72,26 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                         }
                     }
                     $row[$field] = $value;
-                }
-                foreach ($model->getLoadedAddressCollection()->getItems() as $val){
-                        $val->explodeStreetAddress();
-                        $row['street1']=$val->getStreet1();
-                        $row['street2']=$val->getStreet2();
-                        $row['city']=$val->getCity();
-                        $row['region']=$val->getRegion();
-                        $row['country']=$val->getCountry();
-                        $row['postcode']=$val->getPostcode();
+                    $billingAddress = $model->getDefaultBillingAddress();
+                    if($billingAddress instanceof Mage_Customer_Model_Address){
+                        $billingAddress->explodeStreetAddress();
+                        $row['billing_street1']=$billingAddress->getStreet1();
+                        $row['billing_street2']=$billingAddress->getStreet2();
+                        $row['billing_city']=$billingAddress->getCity();
+                        $row['billing_region']=$billingAddress->getRegion();
+                        $row['billing_country']=$billingAddress->getCountry();
+                        $row['billing_postcode']=$billingAddress->getPostcode();
+                    }
+                    $shippingAddress = $model->getDefaultShippingAddress();
+                    if($shippingAddress instanceof Mage_Customer_Model_Address){
+                        $shippingAddress->explodeStreetAddress();
+                        $row['shipping_street1']=$shippingAddress->getStreet1();
+                        $row['shipping_street2']=$shippingAddress->getStreet2();
+                        $row['shipping_city']=$shippingAddress->getCity();
+                        $row['shipping_region']=$shippingAddress->getRegion();
+                        $row['shipping_country']=$shippingAddress->getCountry();
+                        $row['shipping_postcode']=$shippingAddress->getPostcode();
+                    }
                 }
                 $data[] = $row;
                 
