@@ -107,7 +107,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
            	$collection
                 ->addAttributeToSelect('*')
                 ->load();
-            print $collection->getSelect()->__toString().'<hr>';
+            #print $collection->getSelect()->__toString().'<hr>';
             $this->addException(__('Loaded '.$collection->getSize().' records'));
         } catch (Varien_Convert_Exception $e) {
             throw $e;

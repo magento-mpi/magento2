@@ -29,7 +29,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
 
     public function unparse()
     {
-        $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id');
+        $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id','group_id');
         $collections = $this->getData();
         if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
@@ -92,6 +92,13 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                         $row['shipping_country']=$shippingAddress->getCountry();
                         $row['shipping_postcode']=$shippingAddress->getPostcode();
                     }
+
+                    if($model->getGroupId()){
+                        $group = Mage::getResourceModel('customer/group_collection')
+                        ->addFilter('customer_group_id',$model->getGroupId())
+                        ->load();
+                        $row['group']=$group->getFirstItem()->getData('customer_group_code');
+                    }
                 }
                 $data[] = $row;
                 
@@ -103,7 +110,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
 
     public function getExternalAttributes()
     {
-        $internal = array('store_id', 'created_in', 'default_billing', 'default_shipping', 'country_id', 'group_id');
+        $internal = array('store_id', 'created_in', 'default_billing', 'default_shipping', 'country_id');
 
         $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer')->getId();
         $customerAttributes = Mage::getResourceModel('eav/entity_attribute_collection')

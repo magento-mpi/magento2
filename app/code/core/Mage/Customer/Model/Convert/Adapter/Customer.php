@@ -64,9 +64,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         $attrFilterArray ['customer_address/region'] = 'like';
         $attrFilterArray ['created_at'] = 'dateFromTo';
         
-        $attrToDb = array('group'=>'group_id');
-         
-        parent::setFilter($attrFilterArray,$attrToDb);
+        parent::setFilter($attrFilterArray);
         parent::load();
     }
 }
