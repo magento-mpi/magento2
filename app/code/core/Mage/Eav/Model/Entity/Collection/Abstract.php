@@ -326,7 +326,6 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $conditionSql = $this->_getAttributeConditionSql($attribute, $condition);
         }
         $this->getSelect()->where($conditionSql);
-      #  print $this->getSelect()->where($conditionSql)->__toString().'<hr>';
         return $this;
     }
 

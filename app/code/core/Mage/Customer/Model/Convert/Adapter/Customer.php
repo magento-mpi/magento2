@@ -59,9 +59,9 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         $attrFilterArray ['email'] = 'like';
         $attrFilterArray ['group'] = 'eq';
         $attrFilterArray ['telephone'] = 'like';
-        $attrFilterArray ['postcode'] = 'like';
-        $attrFilterArray ['country'] = 'eq';
-        $attrFilterArray ['region'] = 'like';
+        $attrFilterArray ['customer_address/postcode'] = 'like';
+        $attrFilterArray ['customer_address/country'] = 'eq';
+        $attrFilterArray ['customer_address/region'] = 'like';
         $attrFilterArray ['created_at'] = 'dateFromTo';
         
         $attrToDb = array('group'=>'group_id');

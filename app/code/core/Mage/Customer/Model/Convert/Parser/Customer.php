@@ -36,6 +36,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
         } elseif (!is_array($collections)) {
             $this->addException(__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
         }
+       
         foreach ($collections as $storeId=>$collection) {
             if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
                 $this->addException(__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
@@ -59,6 +60,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                 
                     if ($attribute->getFrontendInput()==='select' || $attribute->getFrontendInput()==='multiselect' || $attribute->getSourceModel()) {
                         $option = $attribute->getSource()->getOptionText($value);
+                       
                         if (false===$option) {
                             $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
                             continue;
@@ -71,7 +73,17 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                     }
                     $row[$field] = $value;
                 }
+                foreach ($model->getLoadedAddressCollection()->getItems() as $val){
+                        $val->explodeStreetAddress();
+                        $row['street1']=$val->getStreet1();
+                        $row['street2']=$val->getStreet2();
+                        $row['city']=$val->getCity();
+                        $row['region']=$val->getRegion();
+                        $row['country']=$val->getCountry();
+                        $row['postcode']=$val->getPostcode();
+                }
                 $data[] = $row;
+                
             }
         }
         $this->setData($data);
