@@ -55,7 +55,8 @@ varienForm.prototype = {
         new Ajax.Request(this.validationUrl,{
             method: 'post',
             parameters: $(this.formId).serialize(),
-            onComplete: this._processValidationResult.bind(this)
+            onComplete: this._processValidationResult.bind(this),
+            onFailure: this._processFailure.bind(this)
         });
     },
 
@@ -69,6 +70,10 @@ varienForm.prototype = {
         else{
             this._submit();
         }
+    },
+
+    _processFailure : function(transport){
+        location.href = BASE_URL;
     },
 
     _submit : function(){
@@ -147,45 +152,45 @@ Event.observe(window, 'load', varienWindowOnload);
 
 var regionUpdater = Class.create();
 regionUpdater.prototype = {
-    initialize: function (countryEl, regionTextEl, regionSelectEl, regions) 
+    initialize: function (countryEl, regionTextEl, regionSelectEl, regions)
     {
         this.countryEl = $(countryEl);
         this.regionTextEl = $(regionTextEl);
         this.regionSelectEl = $(regionSelectEl);
         this.regions = regions;
-        
+
         this.update();
-        
+
         Event.observe(this.countryEl, 'change', this.update.bind(this));
     },
-    
+
     update: function()
     {
         if (this.regions[this.countryEl.value]) {
             var i, option, region;
             var def = this.regionTextEl.value.toLowerCase();
-            
+
             this.regionTextEl.value = '';
-            
+
             this.regionSelectEl.options.length = 1;
             for (regionId in this.regions[this.countryEl.value]) {
                 region = this.regions[this.countryEl.value][regionId];
-                
+
                 option = document.createElement('OPTION');
                 option.value = regionId;
                 option.text = region.name;
-                
+
                 if (this.regionSelectEl.options.add) {
                     this.regionSelectEl.options.add(option);
                 } else {
                     this.regionSelectEl.appendChild(option);
                 }
-                
+
                 if (regionId==def || region.name.toLowerCase()==def || region.code.toLowerCase()==def) {
                     this.regionSelectEl.value = regionId;
                 }
             }
-            
+
             this.regionTextEl.style.display = 'none';
             this.regionSelectEl.style.display = '';
             this.setMarkDisplay(this.regionSelectEl, true);
@@ -195,7 +200,7 @@ regionUpdater.prototype = {
             this.setMarkDisplay(this.regionSelectEl, false);
         }
     },
-    
+
     setMarkDisplay: function(elem, display){
         if(elem.parentNode){
             var marks = Element.getElementsByClassName(elem.parentNode, 'required');

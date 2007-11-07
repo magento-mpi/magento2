@@ -50,7 +50,7 @@ interface Varien_Io_Interface
      * Delete a directory
      *
      */
-    public function rmdir($dir);
+    public function rmdir($dir, $recursive=false);
 
     /**
      * Get current working directory

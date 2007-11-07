@@ -108,7 +108,7 @@ class Varien_Io_File extends Varien_Io_Abstract
      * @param string $dir
      * @return boolean
      */
-    public function rmdir($dir)
+    public function rmdir($dir, $recursive=false)
     {
         @chdir($this->_cwd);
         $result = @rmdir($dir);
@@ -135,7 +135,7 @@ class Varien_Io_File extends Varien_Io_Abstract
     public function cd($dir)
     {
         if( is_dir($dir) ) {
-            chdir($this->_iwd);
+            @chdir($this->_iwd);
             $this->_cwd = realpath($dir);
             return true;
         } else {

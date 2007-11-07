@@ -92,7 +92,7 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 
         switch ($p['file']['method']) {
             case 'io':
-                $fileXml = '<action type="core/convert_adapter_io" method="'.($import?'load':'save').'">'.$nl;
+                $fileXml = '<action type="varien/convert_adapter_io" method="'.($import?'load':'save').'">'.$nl;
                 $fileXml .= '    <var name="type">'.$p['file']['type'].'</var>'.$nl;
                 $fileXml .= '    <var name="path">'.$p['file']['path'].'</var>'.$nl;
                 $fileXml .= '    <var name="filename"><![CDATA['.$p['file']['filename'].']]></var>'.$nl;
@@ -127,7 +127,7 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
                 break;
 
             case 'csv':
-                $parseFileXml = '<action type="core/convert_parser_csv" method="'.($import?'parse':'unparse').'">'.$nl;
+                $parseFileXml = '<action type="varien/convert_parser_csv" method="'.($import?'parse':'unparse').'">'.$nl;
                 $parseFileXml .= '    <var name="delimiter"><![CDATA['.$p['parse']['delimiter'].']]></var>'.$nl;
                 $parseFileXml .= '    <var name="enclose"><![CDATA['.$p['parse']['enclose'].']]></var>'.$nl;
                 break;
@@ -211,7 +211,7 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
         } else {
             $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml;
         }
-		
+
         $this->setGuiData($p);
         $this->setActionsXml($xml);
 /*echo "<pre>".print_r($p,1)."</pre>";

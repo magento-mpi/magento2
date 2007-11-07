@@ -30,7 +30,7 @@ varienGrid.prototype = {
         this.checkboxCheckCallback = false;
         this.initCallback = false;
         this.initRowCallback = false;
-        
+
         this.reloadParams = false;
 
         this.trOnMouseOver  = this.rowMouseOver.bindAsEventListener(this);
@@ -52,12 +52,12 @@ varienGrid.prototype = {
                 if(this.rows[row].tagName) {
                     Element.addClassName(this.rows[row], 'pointer');
                 }
-                
+
                 Event.observe(this.rows[row],'mouseover',this.trOnMouseOver);
                 Event.observe(this.rows[row],'mouseout',this.trOnMouseOut);
                 Event.observe(this.rows[row],'click',this.trOnClick);
                 Event.observe(this.rows[row],'dblclick',this.trOnDblClick);
-                
+
                 if(this.initRowCallback){
                     this.initRowCallback(this, this.rows[row]);
                 }
@@ -124,7 +124,8 @@ varienGrid.prototype = {
                 this.containerId,
                 url+'?ajax=true',
                 {
-                    onComplete:this.initGrid.bind(this), 
+                    onComplete:this.initGrid.bind(this),
+                    onFailure:this._processFailure.bind(this),
                     evalScripts:true,
                     parameters:this.reloadParams || {},
                     loaderArea: this.containerId
@@ -138,6 +139,9 @@ varienGrid.prototype = {
             }
             location.href = url;
         }
+    },
+    _processFailure : function(transport){
+        location.href = BASE_URL;
     },
     addVarToUrl : function(varName, varValue){
         var re = new RegExp('\/('+varName+'\/.*?\/)');
@@ -192,7 +196,7 @@ varienGrid.prototype = {
             this.setPage(element.value);
         }
         /*if(keyCode>47 && keyCode<58){
-            
+
         }
         else{
              Event.stop(event);

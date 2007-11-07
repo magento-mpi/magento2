@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
     {
         parent::__construct();
         $this->setId('history_grid');
-        $this->setDefaultSort('profile_id', 'desc');
+        $this->setDefaultSort('history_id', 'desc');
         $this->setUseAjax(true);
     }
 

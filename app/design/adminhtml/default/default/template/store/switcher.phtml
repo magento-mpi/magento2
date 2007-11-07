@@ -20,7 +20,7 @@
 ?>
 <p class="switcher"><label for="store_switcher"><?=__('Choose Store')?>:</label>
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
-    <option value=""><?=__('All stores')?></option>
+    <option value=""><?=$this->getDefaultStoreName()?></option>
     <?foreach ($this->getWebsiteCollection() as $_website):?>
     <?$_storesCollection = $this->getStores($_website)?>
     <?if($_storesCollection->getSize()):?>

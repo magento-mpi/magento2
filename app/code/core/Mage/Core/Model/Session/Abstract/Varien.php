@@ -38,7 +38,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 */
 
 		if ($this->hasCookieLifetime()) {
-			ini_set('session.cookie_lifetime', $this->getCookieLifetime());
+			ini_set('session.gc_maxlifetime', $this->getCookieLifetime());
 		}
 		if ($this->hasCookiePath()) {
 			ini_set('session.cookie_path', $this->getCookiePath());
@@ -50,7 +50,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 		if (!empty($sessionName)) {
 		    session_name($sessionName);
 		}
-        
+
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId();
 

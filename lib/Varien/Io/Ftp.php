@@ -171,7 +171,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
      * @param string $dir
      * @return boolean
      */
-    public function rmdir($dir)
+    public function rmdir($dir, $recursive=false)
     {
         return @ftp_rmdir($this->_conn, $dir);
     }

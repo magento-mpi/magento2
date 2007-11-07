@@ -79,6 +79,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->load($productId);
             $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
+                    ->setDefaultStoreName(__('Default Values'))
                     ->setStoreIds($product->getStoreIds())
                     ->setSwitchUrl(Mage::getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)))
             );

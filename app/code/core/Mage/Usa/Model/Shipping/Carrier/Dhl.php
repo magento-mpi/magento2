@@ -185,9 +185,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         if (strlen(trim($response))>0) {
             if (strpos(trim($response), '<?xml')===0) {
                 $xml = simplexml_load_string($response);
+                /*
                 echo "<pre>DEBUG:\n";
                 print_r($xml);
                 echo "</pre>";
+                */
                 if (is_object($xml)) {
                     if (
                            is_object($xml->Faults)

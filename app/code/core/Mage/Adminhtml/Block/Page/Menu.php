@@ -28,25 +28,25 @@
 class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 {
     protected $_url;
-    
+
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('page/menu.phtml');
         $this->_url = Mage::getModel('core/url');
     }
-    
+
     public function getCacheLifetime()
     {
         return 86400;
     }
-    
+
     public function getCacheKey()
     {
         $a = explode('/', $this->getActive());
-        return 'admin_top_nav_'.$a[0];
+        return 'admin_top_nav_'.$a[0].'__'.Mage::app()->getLocale()->getLocaleCode();
     }
-    
+
     public function getMenuArray()
     {
         return $this->_buildMenuArray();

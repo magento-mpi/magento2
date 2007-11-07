@@ -47,6 +47,10 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function loginAction()
     {
+        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+            $this->_redirect('*');
+            return;
+        }
         $loginData = $this->getRequest()->getParam('login');
         $data = array();
 
@@ -72,9 +76,9 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
         if ( !Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ) {
             $items[] = array(
-                'id'=>'error', 
-                'type'=>'Error', 
-                'name'=>__('Access Deny'), 
+                'id'=>'error',
+                'type'=>'Error',
+                'name'=>__('Access Deny'),
                 'description'=>__('You have not enought permissions to use this functionality.')
             );
             $totalCount = 1;
@@ -110,7 +114,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $this->_outTemplate('example');
     }
-    
+
     public function changeLocaleAction()
     {
         $locale = $this->getRequest()->getParam('locale');
@@ -119,7 +123,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         }
         $this->_redirectReferer(Mage::getBaseUrl());
     }
-    
+
     protected function _isAllowed()
     {
     	/*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {

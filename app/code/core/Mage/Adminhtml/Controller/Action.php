@@ -55,7 +55,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     {
     	return true; #Mage::getSingleton('admin/session')->isAllowed('admin');
     }
-    
+
     public function hasAction($action)
     {
         return true;
@@ -68,13 +68,13 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             ->setTheme('default');
 
         $this->getLayout()->setArea('adminhtml');
-        
+
         parent::preDispatch();
 
         if ($this->getRequest()->isDispatched()
             && $this->getRequest()->getActionName()!=='denied'
             && !$this->_isAllowed()) {
-            $this->_redirect('*/*/denied');
+            $this->_forward('denied');
             //$this->getRequest()->setDispatched(false);
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -84,6 +84,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
     public function deniedAction()
     {
+        if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
+            $this->_redirect('*/index/login');
+            return;
+        }
     	$this->loadLayout(array('default', 'admin_denied'));
         $this->renderLayout();
     }

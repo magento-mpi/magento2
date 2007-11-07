@@ -25,29 +25,29 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->setTemplate('page/footer.phtml');
         $this->setShowProfiler(true);
     }
-    
+
     public function getChangeLocaleUrl()
     {
         return $this->getUrl('*/index/changeLocale');
     }
-    
+
     public function getUrlForReferer()
     {
         return $this->getUrlBase64('*/*/*',array('_current'=>true));
     }
-    
+
     public function getRefererParamName()
     {
         return Mage_Core_Controller_Varien_Action::PARAM_NAME_BASE64_URL;
     }
-    
+
     public function getLanguageSelect()
     {
         $html = $this->getLayout()->createBlock('core/html_select')

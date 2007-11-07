@@ -27,7 +27,7 @@
  */
 class Mage_Admin_Model_Observer
 {
-    public function actionPreDispatchAdmin()
+    public function actionPreDispatchAdmin($event)
     {
         Mage::log('Admin observer: preDispatch admin action');
         $session  = Mage::getSingleton('admin/session');
@@ -39,7 +39,7 @@ class Mage_Admin_Model_Observer
                 $postLogin  = $request->getPost('login');
                 $username   = $postLogin['username'];
                 $password   = $postLogin['password'];
-                
+
                 if (!empty($username) && !empty($password)) {
                     $user = Mage::getModel('admin/user')->login($username, $password);
 
@@ -52,7 +52,7 @@ class Mage_Admin_Model_Observer
 	                    if (!$request->getParam('messageSent')) {
 	                            Mage::getSingleton('adminhtml/session')->addError(__('Access Denied.'));
 	                            $request->setParam('messageSent', true);
-	                    }					    
+	                    }
                     } else {
 	                    if ($user->getId()) {
 	                        $session->setUser($user);
@@ -68,6 +68,13 @@ class Mage_Admin_Model_Observer
                 }
             }
             if (!$request->getParam('forwarded')) {
+                foreach (apache_request_headers() as $k=>$v) {
+                    if (strtolower($k)==='x-requested-with' && strtolower($v)==='xmlhttprequest') {
+                        header('HTTP/1.1 403 Session Expired');
+                        header('Login-Required: true');
+                        exit;
+                    }
+                }
                 $request->setParam('forwarded', true)
                     ->setControllerName('index')
                     ->setActionName('login')

@@ -59,4 +59,9 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
         }
         return false;
     }
+
+    public function isLoggedIn()
+    {
+        return $this->getUser() && $this->getUser()->getId();
+    }
 }

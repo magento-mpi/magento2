@@ -22,6 +22,8 @@
 /**
  * Sftp client interface
  *
+ * Potential implementation
+ *
  * @category   Varien
  * @package    Varien_Io
  * @author      Moshe Gurvich <moshe@varien.com>

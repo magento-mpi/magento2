@@ -23,18 +23,18 @@ varienLoader.prototype = {
         this.caching = caching || false;
         this.url     = false;
     },
-    
+
     getCache : function(url){
         if(this.cache[url]){
             return this.cache[url]
         }
         return false;
     },
-    
+
     load : function(url, params, callback){
         this.url      = url;
         this.callback = callback;
-        
+
         if(this.caching){
             var transport = this.getCache(url);
             if(transport){
@@ -42,14 +42,19 @@ varienLoader.prototype = {
                 return;
             }
         }
-        
+
         new Ajax.Request(url,{
             method: 'post',
             parameters: params || {},
-            onComplete: this.processResult.bind(this)
+            onComplete: this.processResult.bind(this),
+            onFailure: this.processFailure.bind(this)
         });
     },
-    
+
+    _processFailure : function(transport){
+        location.href = BASE_URL;
+    },
+
     processResult : function(transport){
         if(this.caching){
             this.cache[this.url] = transport;

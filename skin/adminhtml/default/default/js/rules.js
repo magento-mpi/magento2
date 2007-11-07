@@ -127,8 +127,13 @@ VarienRulesForm.prototype = {
 
         new Ajax.Updater(new_elem, this.newChildUrl, {
             parameters: { type:new_type.replace('/','-'), id:new_id },
-            onComplete: this.onAddNewChildComplete.bind(this, new_elem)
+            onComplete: this.onAddNewChildComplete.bind(this, new_elem),
+            onFailure: this._processFailure.bind(this)
         });
+    },
+
+    _processFailure : function(transport){
+        location.href = BASE_URL;
     },
 
     onAddNewChildComplete: function (new_elem) {
