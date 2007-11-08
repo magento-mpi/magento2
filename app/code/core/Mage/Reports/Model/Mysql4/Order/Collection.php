@@ -28,10 +28,16 @@
 
 class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
-    public function prepareSummary($range, $customStart, $customEnd)
+    public function prepareSummary($range, $customStart, $customEnd, $storeId=0)
     {
-        $this->addExpressionAttributeToSelect('revenue', 'SUM({{attribute}})', 'grand_total')
-            ->addExpressionAttributeToSelect('amouth', 'COUNT({{attribute}})', 'entity_id')
+
+        if ($storeId==0) {
+            $this->addExpressionAttributeToSelect('revenue', 'SUM({{grand_total}}*{{store_to_base_rate}})', array('grand_total','store_to_base_rate'));
+        } else{
+            $this->addExpressionAttributeToSelect('revenue', 'SUM({{grand_total}})', 'grand_total');
+        }
+
+        $this->addExpressionAttributeToSelect('amouth', 'COUNT({{attribute}})', 'entity_id')
             ->addExpressionAttributeToSelect('range', $this->_getRangeExpression($range), 'created_at')
             ->addAttributeToFilter('created_at', $this->_getDateRange($range, $customStart, $customEnd))
             ->groupByAttribute('range');

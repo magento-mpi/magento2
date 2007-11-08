@@ -701,10 +701,11 @@ img.attribute-global {
 .tab-body .row2 div { background:#f0f6f5; }
 
 .tab-footer { background:#dcebf5 url(images/db-tab-footer.png) repeat-x top; height:40px; }
-.tab-footer .tab-foot dl { float:right; margin:5px 2px 0 0; }
-.tab-footer .tab-foot dl dt, .tab-footer .tab-foot dl dd { float:left; font-weight: bold; font-size:13px; }
-.tab-footer .tab-foot dl dt { padding:3px 6px; }
-.tab-footer .tab-foot dl dd { width:auto; padding:2px 6px; background:#faf2de; border:1px solid #b2b0aa; color:#137a41; }
+.tab-footer .tab-foot .dl { margin:5px 2px 0 0; }
+.tab-footer .tab-foot .dl .dt { font-weight: bold; font-size:13px; display:inline; }
+.tab-footer .tab-foot .dl .dd { font-weight: bold; font-size:13px; display:inline; }
+.tab-footer .tab-foot .dl .dt { padding:3px 6px; }
+.tab-footer .tab-foot .dl .dd { width:auto; padding:2px 6px; background:#faf2de; border:1px solid #b2b0aa; color:#137a41; }
 
 .tab-footer-bottom { margin-left:25px; background:transparent url(images/db-tab-bottom-mid-bg.png) repeat-x top; width:522px; }
 .tab-footer-left { width:3px; float:left; background:transparent url(images/db-tab-bottom-left-bg.png) no-repeat top; }

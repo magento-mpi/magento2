@@ -31,8 +31,12 @@ class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashbo
     protected function _initCollection()
     {
         $this->_collection = Mage::getResourceSingleton('reports/order_collection')
-            ->prepareSummary($this->getParam('range'), $this->getParam('custom_from'), $this->getParam('custom_to'))
-            ->addAttributeToFilter('store_id', $this->getParam('store'))
-            ->load();
+            ->prepareSummary($this->getParam('range'), $this->getParam('custom_from'), $this->getParam('custom_to'), $this->getParam('store'));
+
+        if($this->getParam('store')) {
+            $this->_collection->addAttributeToFilter('store_id', $this->getParam('store'));
+        }
+
+        $this->_collection->load();
     }
 } // Class Mage_Adminhtml_Helper_Dashboard_Order end

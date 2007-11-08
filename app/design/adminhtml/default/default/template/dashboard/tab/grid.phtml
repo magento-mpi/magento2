@@ -59,13 +59,15 @@
 	<div class="tab-footer">
 		<div class="tab-foot">
 		<?if($this->getCount()):?>
-		    <?foreach ($this->getTotals() as $_total):?>
-		      <dl>
-				<dt><?=$_total['label']?>:</dt>
-				<dd><?=$_total['value']?></dd>
-			</dl>
+
+		  <?foreach ($this->getTotals() as $_total):?>
+		  <div class="dl">
+				<div class="dt"><?=$_total['label']?>:</div>
+				<div class="dd"><?=$_total['value']?></div>
+		  </div>
 			<?endforeach;?>
-	         <?endif;?>
+
+	     <?endif;?>
 		</div>
 	</div><div class="clear"></div>
 </div></div>

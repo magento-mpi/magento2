@@ -303,7 +303,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * @see self::_getConditionSql for $condition
      * @param string|array $attribute
      * @param null|string|array $condition
-     * @param string $operator 
+     * @param string $operator
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addAttributeToFilter($attribute, $condition=null)
@@ -318,7 +318,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition);
             }
             $conditionSql = '('.join(') OR (', $sqlArr).')';
-        } 
+        }
         elseif (is_string($attribute)) {
             if (is_null($condition)) {
                 throw Mage::exception('Mage_Eav', __('Invalid condition'));
@@ -415,6 +415,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * Add attribute expression (SUM, COUNT, etc)
      *
      * Example: ('sub_total', 'SUM({{attribute}})', 'revenue')
+     * Example: ('sub_total', 'SUM({{revenue}})', 'revenue')
      *
      * For some functions like SUM use groupByAttribute.
      *
@@ -429,17 +430,25 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         if (isset($this->_joinFields[$alias])) {
             throw Mage::exception('Mage_Eav', __('Joined field or attribute expression with this alias is already declared'));
         }
-
-        $attributeInstance = $this->getAttribute($attribute);
-
-        if ($attributeInstance->getBackend()->isStatic()) {
-            $attrField = 'e.' . $attribute;
-        } else {
-            $this->_addAttributeJoin($attribute, 'left');
-            $attrField = $this->_getAttributeFieldName($attribute);
+        if(!is_array($attribute)) {
+            $attribute = array($attribute);
         }
 
-        $fullExpression = str_replace('{{attribute}}', $attrField, $expression);
+        $fullExpression = $expression;
+        // Replacing multiple attributes
+        foreach($attribute as $attributeItem) {
+            $attributeInstance = $this->getAttribute($attributeItem);
+
+            if ($attributeInstance->getBackend()->isStatic()) {
+                $attrField = 'e.' . $attributeItem;
+            } else {
+                $this->_addAttributeJoin($attributeItem, 'left');
+                $attrField = $this->_getAttributeFieldName($attributeItem);
+            }
+
+            $fullExpression = str_replace('{{attribute}}', $attrField, $fullExpression);
+            $fullExpression = str_replace('{{' . $attributeItem . '}}', $attrField, $fullExpression);
+        }
 
         $this->getSelect()->from(null, array($alias=>$fullExpression));
 

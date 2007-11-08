@@ -103,8 +103,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Liniar extends Mage_Adminhtm
                 $this->_maximumStepValue = ceil($this->_getMaximumValue()/pow(10,$decimalCount-1))*pow(10,$decimalCount-1);
             }
 
-            if($this->_maximumStepValue == 0) {
-                $this->_maximumStepValue = 1;
+            if($this->_maximumStepValue < 10) {
+                $this->_maximumStepValue = 10;
             }
         }
 

@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
     {
         $store = Mage::getModel('core/store')->load($this->getDataHelper()->getParam('store'));
         $this->getTab('orders_income')->getVerticalAxis()->setTitle($this->__('Income'));
-        $this->getTab('orders_income')->getVerticalAxis()->setCurrencyCode($store->getCurrentCurrencyCode());
+        $this->getTab('orders_income')->getVerticalAxis()->setCurrencyCode($store->getBaseCurrencyCode());
         $this->getTab('orders_income')->getHorizontalAxis()->setTitle($this->__('Timeline'));
         $this->getTab('orders_income')->getHorizontalAxis()->setFormatType($this->getDataHelper()->getParam('range'));
 
@@ -84,13 +84,15 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
                 'header'=>$this->__('Total Income'),
                 'index'=>'revenue',
                 'type' => 'currency',
-                'currency_code' => $store->getCurrentCurrencyCode()
+                'currency_code' => $store->getBaseCurrencyCode()
             ))
             ->addColumn('qty', array(
                 'width'=>154,
                 'header'=>$this->__('Number Of Orders'),
                 'index'=>'amouth'
             ));
+
+
 
         $this->getTab('orders_summary')->addTotal('qty', $this->__('Number Of Orders'));
         $this->getTab('orders_summary')->addTotal('revenue', $this->__('Total Income'));
