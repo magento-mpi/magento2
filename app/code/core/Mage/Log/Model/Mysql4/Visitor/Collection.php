@@ -119,10 +119,10 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         $this->_sqlSelect->from(array('visitor_table'=>$this->_visitorTable))
             //->joinLeft(array('url_table'=>$this->_urlTable), 'visitor_table.last_url_id=url_table.url_id')
             ->joinLeft(array('info_table'=>$this->_visitorInfoTable), 'info_table.visitor_id=visitor_table.visitor_id')
-            ->joinLeft(array('customer_table'=>$this->_customerTable), 
+            ->joinLeft(array('customer_table'=>$this->_customerTable),
                 'customer_table.visitor_id = visitor_table.visitor_id AND customer_table.logout_at IS NULL',
                 array('log_id', 'customer_id', 'login_at', 'logout_at'))
-            ->joinLeft(array('url_info_table'=>$this->_urlInfoTable), 
+            ->joinLeft(array('url_info_table'=>$this->_urlInfoTable),
                 'url_info_table.url_id = visitor_table.last_url_id')
             //->joinLeft(array('quote_table'=>$this->_quoteTable), 'quote_table.visitor_id=visitor_table.visitor_id')
             ->where( 'visitor_table.last_visit_at >= ( ? - INTERVAL '.$minutes.' MINUTE)', now() );
@@ -136,14 +136,26 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         return $this;
     }
 
-    public function getAggregatedData($period=720, $type_id=null)
+    public function getAggregatedData($period=720, $type_code=null, $customFrom=null, $customTo=null)
     {
-    	$this->_sqlSelect->from($this->_summaryTable)
-    	   ->where( "{$this->_summaryTable}.add_date >= ( ? - INTERVAL {$period} MINUTE)", now() );
-    	if( is_null($type_id) ) {
-    		$this->_sqlSelect->where("{$this->_summaryTable}.type_id IS NULL");
+    	$this->_sqlSelect->from(array('summary'=>$this->_summaryTable))
+    	   ->join(array('type'=>$this->_summaryTypeTable), 'type.type_id=summary.type_id', array());
+
+    	if (is_null($customFrom) && is_null($customTo)) {
+    	   $this->_sqlSelect->where( "summary.add_date >= ( ? - INTERVAL {$period} MINUTE)", now() );
     	} else {
-			$this->_sqlSelect->where("{$this->_summaryTable}.type_id = ? ", $type_id);
+    	    if($customFrom) {
+ 	        $this->_sqlSelect->where( "summary.add_date >= ", $this->_sqlSelect->convertDate($customFrom));
+ 	    }
+ 	    if($customTo) {
+ 	        $this->_sqlSelect->where( "summary.add_date <= ", $this->_sqlSelect->convertDate($customTo));
+ 	    }
+    	}
+
+    	if( is_null($type_code) ) {
+    		$this->_sqlSelect->where("summary.type_id IS NULL");
+    	} else {
+		$this->_sqlSelect->where("type.type_code = ? ", $type_code);
     	}
     	return $this;
     }
@@ -152,9 +164,9 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     {
         if( $fieldName == 'type' ) {
             if ($fieldValue == 'v') {
-            	parent::addFieldToFilter('customer_id', array('null' => 1));
+                return parent::addFieldToFilter('customer_id', array('null' => 1));
             } else {
-                parent::addFieldToFilter('customer_id', array('moreq' => 1));
+                return parent::addFieldToFilter('customer_id', array('moreq' => 1));
             }
         }
     }

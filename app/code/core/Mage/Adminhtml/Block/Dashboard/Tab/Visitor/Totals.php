@@ -19,20 +19,21 @@
  */
 
 /**
- * Adminhtml dashboard helper for orders
+ * Dashboard tab visitors admin
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-
-class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashboard_Abstract
+class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract
 {
-    protected function _initCollection()
-    {
-        $this->_collection = Mage::getResourceSingleton('reports/order_collection')
-            ->prepareSummary($this->getParam('range'), $this->getParam('custom_from'), $this->getParam('custom_to'))
-            ->addAttributeToFilter('store_id', $this->getParam('store'))
-            ->load();
-    }
-} // Class Mage_Adminhtml_Helper_Dashboard_Order end
+    	protected function  _getTabTemplate()
+	{
+		return 'dashboard/tab/visitor/totals.phtml';
+	}
+
+	public function getWhosOnlineUrl()
+	{
+	    return $this->getUrl('*/customer_online/index');
+	}
+} // Class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals end

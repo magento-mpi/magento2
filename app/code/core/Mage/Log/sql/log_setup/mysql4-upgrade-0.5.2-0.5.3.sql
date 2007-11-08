@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento
  *
@@ -13,26 +12,21 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Log
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml dashboard helper for orders
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
- */
+/*!40101 SET NAMES utf8 */;
 
-class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashboard_Abstract
-{
-    protected function _initCollection()
-    {
-        $this->_collection = Mage::getResourceSingleton('reports/order_collection')
-            ->prepareSummary($this->getParam('range'), $this->getParam('custom_from'), $this->getParam('custom_to'))
-            ->addAttributeToFilter('store_id', $this->getParam('store'))
-            ->load();
-    }
-} // Class Mage_Adminhtml_Helper_Dashboard_Order end
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+/*Data for the table `log_summary_type` */
+
+insert  into `log_summary_type`(`type_id`,`type_code`,`period`,`period_type`) values (1,'hour',1,'HOUR'),(2,'day',1,'DAY'),(3,'week',1,'WEEK'),(4,'month',1,'MONTH');
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

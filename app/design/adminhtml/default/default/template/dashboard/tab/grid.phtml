@@ -18,43 +18,54 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+
 <div class="graph-table col3">
 	<div class="tab-right">
 	<div class="tab-head">
-		<?foreach ($this->getColumns() as $yKey => $_column) {?>
+		<?foreach ($this->getColumns() as $yKey => $_column):?>
 		<div class="header" style="<?=($yKey % 2 ? 'background:none;' : '')?> <?=( $_column->getWidth() ? 'width:' . ($_column->getWidth()+6) . 'px' : '')?>"><?=$_column->getHeader()?></div>
-		<?}?>
+		<?endforeach;?>
 	</div><div class="clear"></div>
 	<?$_scrollIndex = $this->getScrollIndex()?>
-	<?if($this->getCount()>10){?>
+        <?if($this->getCount()):?>
+	<?if($this->getCount()>10):?>
 	<script type="text/javascript"> instantiateScroller(<?=$_scrollIndex?>, "scroll<?=$_scrollIndex?>", 7, 0, 490, 248, 248); </script>
 	<div class="root" id="root<?=$_scrollIndex?>">
 	<div class="scrollContainer" id="scroll<?=$_scrollIndex?>Container">
 	<div class="scrollContent" id="scroll<?=$_scrollIndex?>Content">
-	<?}?>
+	<?endif;?>
 		<div class="tab-body">
-		<?foreach ($this->getCollection() as $gKey => $row) {?>
+		<?foreach ($this->getCollection() as $gKey => $row):?>
 			<div class="row<?=( $gKey % 2 ? '2': '')?>">
-			<?foreach ($this->getColumns() as $k => $_column) {?>
+			<?foreach ($this->getColumns() as $k => $_column) :?>
 				<div class="tab-item" <?=( $k=='1' ? ' style="text-align:right;"' : '')?>><?=$this->getRowValue($_column, $row)?></div>
-			<?}?>
+			<?endforeach;?>
 			</div>
-		<?}?>
+		<?endforeach;?>
 		</div>
-	<?if($this->getCount()>10){?>
+	<?if($this->getCount()>10):?>
 	</div>
 	</div>
 	</div>
-	<?}?>
+	<?endif;?>
+	<?else:?>
+	<div class="tab-body">
+	<div class="row a-center">
+		<?=$this->__('No Data Found')?>
+	</div>
+	</div>
+	<?endif;?>
 	<div class="clear"></div>
 	<div class="tab-footer">
 		<div class="tab-foot">
+		<?if($this->getCount()):?>
 		      <?foreach ($this->getTotals() as $_total):?>
 			<dl>
 				<dt><?=$_total['label']?>:</dt>
 				<dd><?=$_total['value']?></dd>
 			</dl>
 	               <?endforeach;?>
+	         <?endif;?>
 		</div>
 	</div><div class="clear"></div>
 </div></div>

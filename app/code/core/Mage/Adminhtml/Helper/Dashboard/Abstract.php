@@ -62,6 +62,11 @@
             return is_array($this->getCollection()) ? $this->getCollection() : $this->getCollection()->getItems();
         }
 
+        public function getCount()
+        {
+            return sizeof($this->getItems());
+        }
+
         public function getColumn($index)
         {
             $result = array();

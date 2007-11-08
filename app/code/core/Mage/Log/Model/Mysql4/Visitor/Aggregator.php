@@ -158,7 +158,7 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
 		        	'customer_count' => $stat['customer_count'],
 		        	'add_date' => $stat['visit_time']
 		        );
-				$this->_write->insert($this->_summaryTable, $data);				
+				$this->_write->insert($this->_summaryTable, $data);
 			}
     	}
 

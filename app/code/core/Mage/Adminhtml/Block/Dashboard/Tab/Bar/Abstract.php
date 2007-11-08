@@ -105,6 +105,7 @@
     public function getTabByType($type)
     {
         $block = '';
+
         switch ($type) {
             case "graph":
                 $block = 'adminhtml/dashboard_tab_graph';
@@ -114,6 +115,11 @@
             default:
                 $block = 'adminhtml/dashboard_tab_grid';
                 break;
+        }
+
+        // if custom tab bar block
+        if(strpos($type, '/')!==false) {
+            $block = $type;
         }
 
         return $this->getLayout()->createBlock($block);

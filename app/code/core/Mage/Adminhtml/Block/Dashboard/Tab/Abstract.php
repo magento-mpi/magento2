@@ -41,10 +41,13 @@ abstract class Mage_Adminhtml_Block_Dashboard_Tab_Abstract extends Mage_Adminhtm
 
 	public function getCollection()
 	{
-	         return $this->getDataHelper()->getCollection();
+	       return $this->getDataHelper()->getCollection();
 	}
 
-
+	public function getCount()
+	{
+	       return $this->getDataHelper()->getCount();
+	}
 
 	public function getDataHelper()
 	{
