@@ -43,17 +43,19 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Visitor extends Mage_Adminhtml_Bloc
 
     protected function _initTabs()
     {
-        // number of orders graph
+        // visits graph
         $this->addTab('visitors', 'graph', array('horizontal_axis'=>'time','veritical_axis'=>'liniar','title'=>$this->__('Site Visits')))
             ->addSeries('customers', array('x_field'=>'add_date', 'y_field'=>'customer_count'))
             ->addSeries('visitors', array('x_field'=>'add_date', 'y_field'=>'visitor_count'));
 
+        // whos online
         $this->addTab('whos_online', 'adminhtml/dashboard_tab_visitor_totals', array('title'=>$this->__('Who\'s online')));
         return parent::_initTabs();
     }
 
     protected function _configureTabs()
     {
+        // configuration of axises for visits graph
         $this->getTab('visitors')->getVerticalAxis()->setTitle($this->__('Visits'));
         $this->getTab('visitors')->getHorizontalAxis()->setTitle($this->__('Timeline'));
         $this->getTab('visitors')->getHorizontalAxis()->setFormatType($this->getDataHelper()->getParam('range'));
