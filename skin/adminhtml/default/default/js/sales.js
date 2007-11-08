@@ -22,6 +22,7 @@ AdminOrder.prototype = {
         this.customerId     = data.customer_id ? data.customer_id : false;
         this.storeId        = data.store_id ? data.store_id : false;
         this.currencyId     = false;
+        this.addresses      = data.addresses ? data.addresses : new Hash();
         this.products       = new Hash();
         this.billingAddress = {};
         this.shippingAddress= {};
@@ -31,6 +32,10 @@ AdminOrder.prototype = {
     
     setLoadBaseUrl : function(url){
         this.loadBaseUrl = url;
+    },
+    
+    setAddresses : function(addresses){
+        this.addresses = addresses;
     },
     
     setCustomerId : function(id){
@@ -56,12 +61,58 @@ AdminOrder.prototype = {
         this.loadArea('data');
     },
     
-    setBillingAddressId : function(id){
-        
+    selectAddress : function(id, container){
+        if(this.addresses[id]){
+            this.fillAddressFields(container, this.addresses[id]);
+        }
+        else{
+            this.fillAddressFields(container, {});
+        }
     },
     
-    setShippingAddressId : function(id){
-        
+    fillAddressFields : function(container, data){
+        var regionIdElem = false;
+        var regionIdElemValue = false;
+        var fields = $(container).getElementsBySelector('input', 'select');
+        var re = /[^\[]*\[[^\]]*\]\[([^\]]*)\](\[(\d)\])?/;
+        for(var i=0;i<fields.length;i++){
+            var matchRes = fields[i].name.match(re);
+            var name = matchRes[1];
+            var index = matchRes[3];
+            
+            if(index){
+                if(data[name]){
+                    var values = data[name].split("\n");
+                    fields[i].value = values[index] ? values[index] : '';
+                }
+                else{
+                    fields[i].value = '';
+                }
+            }
+            else{
+                fields[i].value = data[name] ? data[name] : '';
+            }
+            
+            if(name == 'country_id'){
+                if(fields[i].changeUpdater) fields[i].changeUpdater();
+            }
+            if(name == 'region' && data['region_id'] && !data['region']){
+                fields[i].value = data['region_id'];
+                /*regionIdElem = fields[i];
+                regionIdElemValue = regionIdElem.value;*/
+            }
+        }
+        if(regionIdElem) {
+            regionIdElem.value = regionIdElemValue;
+        }
+    },
+    
+    toggleAddressSync : function(flag){
+        if($('order:shipping_address_fields')){
+            var dataFields = $('order:shipping_address_fields').getElementsBySelector('input', 'select');
+            for(var i=0;i<dataFields.length;i++) dataFields[i].disabled = flag;
+        }
+        if($('order:shipping_address_address_id')) $('order:shipping_address_address_id').disabled=flag;
     },
     
     addProduct : function(id){

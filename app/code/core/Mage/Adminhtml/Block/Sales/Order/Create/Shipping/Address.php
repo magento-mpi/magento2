@@ -43,11 +43,26 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
         return 'head-shipping-address';
     }
     
-    public function getForm()
+    protected function _prepareForm()
     {
-        $form = parent::getForm();
-        $form->addFieldNameSuffix('order[shipping_address]');
-        $form->setHtmlIdPrefix('order:shipping_address_');
-        return $form;
+        if (!$this->_form) {
+            parent::_prepareForm();
+            $this->_form->addFieldNameSuffix('order[shipping_address]');
+            $this->_form->setHtmlIdPrefix('order:shipping_address_');
+        }
+        return $this;
+    }
+    
+    public function getIsShipping()
+    {
+        return true;
+    }
+
+    public function getAddressId()
+    {
+        if ($this->getCustomer() && $this->getCustomer()->getDefaultShippingAddress()) {
+        	return $this->getCustomer()->getDefaultShippingAddress()->getId();
+        }
+        return false;
     }
 }

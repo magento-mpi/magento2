@@ -1,19 +1,38 @@
+<?if($this->getIsShipping()):
+    $_fieldsContainerId = 'order:shipping_address_fields';
+    ?>
+    <script type="text/javascript">
+    order.setAddresses(<?=$this->getAddressCollectionJson()?>);
+    </script>
+    <?
+else:
+    $_fieldsContainerId = 'order:billing_address_fields';
+endif;?>
 <div class="entry-edit">
     <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
     
-    <?if($this->getAddressCollection()->getSize()):?>
     <div class="order-choose-address">
+        <?if($this->getAddressCollection()->getSize()):?>
         <?=__('Select from existing customer addresses:')?><br/>
-        <select id="shipping_address:address_id" style="width: 324px;">
+        <select id="<?=$this->getForm()->getHtmlIdPrefix()?>address_id" style="width:324px;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
             <option value=""><?=__('Add New Address')?></option>
             <?foreach ($this->getAddressCollection() as $_address):?>
-            <option value="<?$_address->getId()?>"><?$_address->toString()?></option>
+            <option value="<?=$_address->getId()?>"<?if($_address->getId()==$this->getAddressId()):?> selected<?endif?>>
+                <?=$this->getAddressAsString($_address)?>
+            </option>
             <?endforeach;?>
         </select>
+        <br />
+        <?endif;?>
+        <?if($this->getIsShipping()):?>
+            <input type="checkbox" id="order:shipping_some_as_billing" name="shipping_some_as_billing" onchange="order.toggleAddressSync(this.checked)"/>
+            <label for="order:shipping_some_as_billing"><?=__('Some As Billing Address')?></label>
+        <?else:?>
+            &nbsp;
+        <?endif;?>
     </div>
-    <?endif;?>
     
-    <fieldset class="order-address">
+    <fieldset class="order-address" id="<?=$_fieldsContainerId?>">
         <?=$this->getForm()->toHtml()?>
     </fieldset>
 </div>

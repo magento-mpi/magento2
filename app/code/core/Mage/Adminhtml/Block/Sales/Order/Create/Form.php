@@ -101,6 +101,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         $data = array();
         if (!is_null($this->getCustomerId())) {
             $data['customer_id'] = $this->getCustomerId();
+            $data['addresses'] = array();
+            foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
+            	$data['addresses'][$address->getId()] = $address->getData();
+            }
         }
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();

@@ -25,6 +25,8 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
+    protected $_form;
+    
     public function __construct() 
     {
         parent::__construct();
@@ -36,38 +38,75 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         return $this->getCustomer()->getLoadedAddressCollection();
     }
     
+    public function getAddressCollectionJson()
+    {
+        $data = array();
+        foreach ($this->getAddressCollection() as $address) {
+        	$data[$address->getId()] = $address->getData();
+        }
+        return Zend_Json::encode($data);
+    }
+    
     public function getForm()
     {
-        $form = new Varien_Data_Form();
-        //$fieldset = $form->addFieldset('address_fieldset', array('legend'=>__('Customer Address')));
-        $addressModel = Mage::getModel('customer/address');
-
-        foreach ($addressModel->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
-                continue;
-            }
-            if ($inputType = $attribute->getFrontend()->getInputType()) {
-                $element = $form->addField($attribute->getAttributeCode(), $inputType,
-                    array(
-                        'name'  => $attribute->getAttributeCode(),
-                        'label' => $attribute->getFrontend()->getLabel(),
-                        'class' => $attribute->getFrontend()->getClass(),
-                        'required' => $attribute->getIsRequired(),
+        $this->_prepareForm();
+        return $this->_form;
+    }
+    
+    protected function _prepareForm()
+    {
+        if ($this->_form) {
+            $this->_form = new Varien_Data_Form();
+            $addressModel = Mage::getModel('customer/address');
+    
+            foreach ($addressModel->getAttributes() as $attribute) {
+                if (!$attribute->getIsVisible()) {
+                    continue;
+                }
+                if ($inputType = $attribute->getFrontend()->getInputType()) {
+                    $element = $this->_form->addField($attribute->getAttributeCode(), $inputType,
+                        array(
+                            'name'  => $attribute->getAttributeCode(),
+                            'label' => $attribute->getFrontend()->getLabel(),
+                            'class' => $attribute->getFrontend()->getClass(),
+                            'required' => $attribute->getIsRequired(),
+                        )
                     )
-                )
-                ->setEntityAttribute($attribute);
-
-                if ($inputType == 'select' || $inputType == 'multiselect') {
-                    $element->setValues($attribute->getFrontend()->getSelectOptions());
+                    ->setEntityAttribute($attribute);
+    
+                    if ($inputType == 'select' || $inputType == 'multiselect') {
+                        $element->setValues($attribute->getFrontend()->getSelectOptions());
+                    }
                 }
             }
+            
+            if ($regionElement = $this->_form->getElement('region')) {
+                $regionElement->setRenderer(
+                    $this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region')
+                );
+            }
+            $this->_form->setValues($this->getFormValues());
         }
+        return $this;
+    }
+    
+    public function getFormValues()
+    {
+        if ($this->getCustomer()) {
+        	if ($address = $this->getCustomer()->getAddressById($this->getAddressId())) {
+        		return $address->getData();
+        	}
+        }
+        return array();
+    }
+    
+    public function getAddressId()
+    {
         
-        if ($regionElement = $form->getElement('region')) {
-            $regionElement->setRenderer(
-                $this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region')
-            );
-        }
-        return $form;
+    }
+    
+    public function getAddressAsString($address)
+    {
+        return $address->toString('{{firstname}} {{lastname}}, {{street}}, {{city}}, {{region}} {{postcode}}');
     }
 }

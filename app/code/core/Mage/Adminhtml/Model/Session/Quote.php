@@ -60,14 +60,15 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     {
         if (is_null($this->_quote)) {
             $this->_quote = Mage::getModel('sales/quote');
+            
             if ($quoteId = $this->getQuoteId()) {
                 $this->_quote->load($quoteId);
             }
-            else {
+            elseif($this->getStoreId()) {
                 $this->_quote->initNewQuote()
                     ->setStoreId($this->getStoreId())
-                    ->setCustomerId($this->getCustomerId());
-                    //->save();
+                    ->setCustomerId($this->getCustomerId())
+                    ->save();
                 $this->setQuoteId($this->_quote->getId());
             }
         }

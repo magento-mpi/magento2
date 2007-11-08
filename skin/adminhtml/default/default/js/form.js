@@ -161,6 +161,7 @@ regionUpdater.prototype = {
 
         this.update();
 
+        this.countryEl.changeUpdater = this.update.bind(this);
         Event.observe(this.countryEl, 'change', this.update.bind(this));
     },
 

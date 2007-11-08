@@ -43,11 +43,21 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
         return 'head-billing-address';
     }
     
-    public function getForm()
+    protected function _prepareForm()
     {
-        $form = parent::getForm();
-        $form->addFieldNameSuffix('order[billing_address]');
-        $form->setHtmlIdPrefix('order:billing_addres_');
-        return $form;
+        if (!$this->_form) {
+        	parent::_prepareForm();
+            $this->_form->addFieldNameSuffix('order[billing_address]');
+            $this->_form->setHtmlIdPrefix('order:billing_addres_');
+        }
+        return $this;
+    }
+    
+    public function getAddressId()
+    {
+        if($this->getCustomer() && $this->getCustomer()->getDefaultBillingAddress()){
+            return $this->getCustomer()->getDefaultBillingAddress()->getId();
+        }
+        return false;
     }
 }
