@@ -50,6 +50,10 @@ class Mage_Adminhtml_Helper_Dashboard_Visitor extends Mage_Adminhtml_Helper_Dash
                 $period = 30;
                 $range = 'day';
                 break;
+            case "2m":
+                $period = 60;
+                $range = 'day';
+                break;
             case "1y":
                 $period = 12;
                 $range = 'month';

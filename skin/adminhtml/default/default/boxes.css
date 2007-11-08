@@ -606,7 +606,7 @@ img.attribute-global {
 /*############# Dashboard #############*/
 
 .graph-container { /*width:1190px;*/ }
-.graph-container li.section { float:left; width:580px; list-style:none; margin:0 40px 30px 0; }
+.graph-container li.section { float:left; width:580px; list-style:none; margin:0 40px 30px 0; clear: both;}
 
 .db-top { margin:0; padding:0; width:951px; height:25px; margin:5px 0 5px 0; }
 .db-top dt { font-size:1.15em; float:left; font-weight:bold; padding-left:28px; background:transparent url(images/db-header-bg.png) no-repeat left; color:#d86303; }
