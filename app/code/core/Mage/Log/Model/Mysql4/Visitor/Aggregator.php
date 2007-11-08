@@ -21,9 +21,7 @@
 /**
  * Log visitor aggregator resource
  *
- * @category   Mage
- * @package    Mage_Log
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Log_Model_Mysql4_Visitor_Aggregator
@@ -79,14 +77,16 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
 
     public function __construct()
     {
-        $this->_visitorTable = Mage::getSingleton('core/resource')->getTableName('log/visitor');
-        $this->_urlTable = Mage::getSingleton('core/resource')->getTableName('log/url_table');
-        $this->_customerTable = Mage::getSingleton('core/resource')->getTableName('log/customer');
-        $this->_summaryTable = Mage::getSingleton('core/resource')->getTableName('log/summary_table');
-        $this->_summaryTypeTable = Mage::getSingleton('core/resource')->getTableName('log/summary_type_table');
+        $resource = Mage::getSingleton('core/resource');
+        
+        $this->_visitorTable    = $resource->getTableName('log/visitor');
+        $this->_urlTable        = $resource->getTableName('log/url_table');
+        $this->_customerTable   = $resource->getTableName('log/customer');
+        $this->_summaryTable    = $resource->getTableName('log/summary_table');
+        $this->_summaryTypeTable= $resource->getTableName('log/summary_type_table');
 
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('log_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('log_write');
+        $this->_read    = $resource->getConnection('log_read');
+        $this->_write   = $resource->getConnection('log_write');
     }
 
     public function update()
@@ -105,16 +105,27 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
 
     protected function _update($type)
     {
-        $count = $this->_read->fetchOne("SELECT COUNT(summary_id) FROM {$this->_summaryTable} WHERE type_id = ? HAVING (".now()." - INTERVAL {$type['period']} {$type['period_type']}) <= MAX(add_date)", array($type['type_id']));
+        $countSelect = $this->_read->select()
+            ->from($this->_summaryTable, new Zend_Db_Expr('COUNT(summary_id)'))
+            ->where('type_id=?', $type['type_id'])
+            ->having("('".now()."' - INTERVAL {$type['period']} {$type['period_type']}) <= MAX(add_date)");
+        
+        $count = $this->_read->fetchOne($countSelect);
+        
         if( intval($count) == 0 ) {
-			$customers = $this->_read->fetchCol("SELECT visitor_id FROM {$this->_customerTable} WHERE (".now()." - INTERVAL {$type['period']} {$type['period_type']}) <= login_at AND logout_at IS NULL");
+            $customerSelect = $this->_read->select()
+                ->from($this->_customerTable, 'visitor_id')
+                ->where("? - INTERVAL {$type['period']} {$type['period_type']} <= login_at", now())
+                ->where('logout_at IS NULL');
+
+			$customers = $this->_read->fetchCol($customerSelect);
 
             $customerCount = count($customers);
 
             $customers = ( $customerCount > 0 ) ? $customers : 0;
 
             $customersCondition = $this->_read->quoteInto('visitor_id NOT IN(?)', $customers);
-            $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE (".now()." - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
+            $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE ('".now()."' - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
 
             if( $customerCount == 0 && $visitorCount == 0 ) {
                 return;

@@ -21,9 +21,7 @@
 /**
  * Log visitor aggregator
  *
- * @category   Mage
- * @package    Mage_Log
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Log_Model_Visitor_Aggregator extends Varien_Object
