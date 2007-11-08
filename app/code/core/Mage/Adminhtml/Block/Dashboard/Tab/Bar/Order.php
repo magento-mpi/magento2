@@ -92,12 +92,10 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
                 'index'=>'amouth'
             ));
 
-
-
-
-
-        $this->getTab('orders_summary')->addTotal('revenue', 'Total Income');
-        $this->getTab('orders_summary')->addTotal('qty', 'Number Of Orders');
+        $this->getTab('orders_summary')->addTotal('qty', $this->__('Number Of Orders'));
+        $this->getTab('orders_summary')->addTotal('revenue', $this->__('Total Income'));
+        $this->getTab('orders_summary')->addTotal('qty', $this->__('Average Of Orders'), true, true);
+        $this->getTab('orders_summary')->addTotal('revenue', $this->__('Average Of Income'), true);
 
         return parent::_configureTabs();
     }

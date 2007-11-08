@@ -128,9 +128,9 @@
      * @param string $labelText
      * @return Mage_Adminhtml_Block_Dashboard_Tab_Grid
      */
-    public function addTotal($columnId, $labelText)
+    public function addTotal($columnId, $labelText, $isAmouth=false, $round=false)
     {
-    	$this->_totals[$columnId] = $labelText;
+    	$this->_totals[] = array('id'=>$columnId, 'label'=>$labelText, 'is_amouth'=>$isAmouth, 'round'=>$round);
     	return $this;
     }
 
@@ -142,11 +142,20 @@
     public function getTotals()
     {
         $result = array();
-        foreach ($this->_totals as $index=>$label) {
-            if($this->getColumn($index)) {
-                $objIndex = $this->getColumn($index)->getIndex();
-                $item = new Varien_Object(array($objIndex=>$this->getColumnSum($objIndex)));
-                $result[] = array('label'=>$label, 'value'=>$this->getColumn($index)->getRenderer()->render($item));
+        foreach ($this->_totals as $total) {
+            if($this->getColumn($total['id'])) {
+                $index = $this->getColumn($total['id'])->getIndex();
+                $value = $this->getColumnSum($index);
+                if($total['is_amouth']) {
+                    $value = $value / $this->getCount();
+                }
+
+                if($total['round']) {
+                    $value = round($value, 0);
+                }
+
+                $item = new Varien_Object(array($index=>$value));
+                $result[] = array('label'=>$total['label'], 'value'=>$this->getColumn($total['id'])->getRenderer()->render($item));
             }
         }
 

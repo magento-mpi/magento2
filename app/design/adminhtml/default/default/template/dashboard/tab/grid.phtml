@@ -27,7 +27,7 @@
 		<?endforeach;?>
 	</div><div class="clear"></div>
 	<?$_scrollIndex = $this->getScrollIndex()?>
-        <?if($this->getCount()):?>
+    <?if($this->getCount()):?>
 	<?if($this->getCount()>10):?>
 	<script type="text/javascript"> instantiateScroller(<?=$_scrollIndex?>, "scroll<?=$_scrollIndex?>", 7, 0, 490, 248, 248); </script>
 	<div class="root" id="root<?=$_scrollIndex?>">
@@ -59,12 +59,12 @@
 	<div class="tab-footer">
 		<div class="tab-foot">
 		<?if($this->getCount()):?>
-		      <?foreach ($this->getTotals() as $_total):?>
-			<dl>
+		    <?foreach ($this->getTotals() as $_total):?>
+		      <dl>
 				<dt><?=$_total['label']?>:</dt>
 				<dd><?=$_total['value']?></dd>
 			</dl>
-	               <?endforeach;?>
+			<?endforeach;?>
 	         <?endif;?>
 		</div>
 	</div><div class="clear"></div>

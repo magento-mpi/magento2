@@ -27,13 +27,13 @@
  */
 class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract
 {
-    	protected function  _getTabTemplate()
+    protected function  _getTabTemplate()
 	{
 		return 'dashboard/tab/visitor/totals.phtml';
 	}
 
 	public function getWhosOnlineUrl()
 	{
-	    return $this->getUrl('*/customer_online/index');
+	    return $this->getUrl('*/customer_online');
 	}
 } // Class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals end
