@@ -37,7 +37,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
 		$attrFilterArray ['price'] = 'fromTo';
 		$attrFilterArray ['qty'] = 'fromTo';
 		
-		$attrToDb = array('type'=>'type_id','attribute_set'=>'attribute_set_id');
+		$attrToDb = array(
+		  'type'=>'type_id',
+		  'attribute_set'=>'attribute_set_id'
+		);
 		 
 		parent::setFilter($attrFilterArray,$attrToDb);
 		parent::load();

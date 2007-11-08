@@ -21,7 +21,9 @@
 
 class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstract
 {
-	protected $_filter;
+	protected $_filter = array();
+	protected $_joinFilter = array();
+	protected $_joinAttr = array();
 	protected $_attrToDb;
 	
     public function getStoreId()
@@ -40,10 +42,92 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
      * @param $attrToDb	- attribute name to DB field		
      * @return Mage_Eav_Model_Convert_Adapter_Entity
     */
-    public function setFilter($attrFilterArray,$attrToDb=null){
-    	$this->_filter = $attrFilterArray;
-    	$this->_attrToDb=$attrToDb;
+    
+    protected function _parseVars(){
+        $var_filters = $this->getVars();
+        $filters = array();
+        foreach ($var_filters as $key=>$val) {
+        	if(substr($key,0,6)==='filter'){
+        		$keys = explode('/',$key,2);
+        		$filters[$keys[1]] = $val;
+        	}
+        }
+        return $filters;
+    }
+    
+    public function setFilter($attrFilterArray,$attrToDb=null,$bind=null,$joinType=null){
+        if(is_null($bind))$def_bind='entity_id';
+        if(is_null($joinType))$joinType='LEFT';
+        
+        $this->_attrToDb=$attrToDb;
+        $filters = $this->_parseVars();
+    	foreach ($attrFilterArray as $key=>$type) {
+    	    if(is_array($type)){
+    	        if(isset($type['bind'])){
+    	           $bind = $type['bind'];
+    	        } else {
+    	           $bind = $def_bind;
+    	        }
+    	        $type = $type['type'];
+    	    }
+    	    $keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
+            $exp = explode('/',$key);
+    	    if(isset($exp[1])){
+    	        if(isset($filters[$exp[1]])){
+    	           $val = $filters[$exp[1]];
+    	           $this->setJoinAttr(array(
+        	           'attribute' => $keyDB,
+                       'bind' => $bind,
+                       'joinType' => $joinType
+                    ));
+    	        } else {
+    	            $val = null;
+    	        }
+    	        $keyDB = str_replace('/','_',$keyDB);
+    	    } else {
+    	        $val = isset($filters[$key]) ? $filters[$key] : null;
+    	    }
+    	    if(is_null($val)){
+    	        continue;
+    	    }
+    	    $attr = array();
+    	    switch ($type){
+                case 'eq':
+                    $attr = array('attribute'=>$keyDB,'eq'=>$val);
+                    break;
+                case 'like':
+                    $attr = array('attribute'=>$keyDB,'like'=>'%'.$val.'%');
+                    break;
+                case 'fromTo':
+                    $attr = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to']);
+                    break;
+                case 'dateFromTo':
+                    $attr = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to'],'date'=>true);
+                    break;
+                default:
+                break;
+            }
+    	    $this->_filter[] = $attr;
+    	}
     	return $this;
+    }
+    
+    public function getFilter()
+    {
+        return $this->_filter;    
+    }
+    
+    public function setJoinAttr($joinAttr)
+    {
+    	if(is_array($joinAttr)){
+    		$joinArrAttr = array();
+    		$joinArrAttr['attribute'] = isset($joinAttr['attribute']) ? $joinAttr['attribute'] : null;
+    		$joinArrAttr['alias'] = isset($joinAttr['attribute']) ? str_replace('/','_',$joinAttr['attribute']):null;
+    		$joinArrAttr['bind'] = isset($joinAttr['bind']) ? $joinAttr['bind'] : null;
+    		$joinArrAttr['joinType'] = isset($joinAttr['joinType']) ? $joinAttr['joinType'] : null;
+    		$joinArrAttr['storeId'] = isset($joinAttr['storeId']) ? $joinAttr['storeId'] : null;
+    		$this->_joinAttr[] = $joinArrAttr;
+    	}
     }
     
     public function load()
@@ -56,58 +140,30 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
             $collection = Mage::getResourceModel($entityType.'_collection');
             $collection->getEntity()
                 ->setStore($this->getStoreId());
-            $var_filters = $this->getVars();
-            $filters = array();
-            foreach ($var_filters as $key=>$val) {
-            	if(substr($key,0,6)==='filter'){
-            		$keys = explode('/',$key);
-            		if(isset($keys[2])){
-            			if(!isset($filters[$keys[1]])){
-            				$filters[$keys[1]] = array();
-            			}
-            			$filters[$keys[1]][$keys[2]] = $val;
-            		} else {
-            			$filters[$keys[1]] = $val;
-            		}
-            	}
-            }
-            $filterQuery = array();
-            foreach ($filters as $key=>$val){
-                if(isset($this->_filter[$key])){
-                    $keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
-                    switch ($this->_filter[$key]){
-                        case 'eq':
-                            $filterQuery[] = array('attribute'=>$keyDB,'eq'=>$val);
-                            break;
-                        case 'like':
-                            $filterQuery[] = array('attribute'=>$keyDB,'like'=>'%'.$val.'%');
-                            break;
-                        case 'fromTo':
-                            $filterQuery[] = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to']);
-                            break;
-                        case 'dateFromTo':
-                            $filterQuery[] = array('attribute'=>$keyDB,'from'=>$val['from'],'to'=>$val['to'],'date'=>true);
-                            break;
-                        default:
-                        break;
-                    }
-                }
-            }
-           	if(isset($filterQuery) && count($filterQuery)>0){
-                foreach ($filterQuery as $val) {
-                    $collection->addFieldToFilter(array($val));
-           	    }
+           			
+           	if(isset($this->_joinAttr)&& is_array($this->_joinAttr)){
+           		foreach ($this->_joinAttr as $val){
+           			$collection->joinAttribute(
+           				$val['alias'],
+           				$val['attribute'],
+           				$val['bind'],
+           				null,
+           				strtolower($val['joinType']),
+           				$val['storeId']
+           			);
+          		}
            	}
-           	/* re */
-           	#$collection->joinTable('customer_address_entity', 'entity_id=entity_id', array('is_active'=>'is_active'), null, 'left');
-           	#$collection->joinTable('customer_address_entity_varchar', 'entity_id=entity_id', array('varchar_attribute_id'=>'attribute_id'), array('customer_address_entity_varchar.'), 'left');
-           	#$collection->joinTable('eav_attribute', 'attribute_id=varchar_attribute_id', array('attribute_code'=>'attribute_code'), null, 'left');
-           	#$collection->
-           	/* re */
+           	$filterQuery = $this->_filter;
+           	if(isset($filterQuery) && is_array($filterQuery)){
+                foreach ($filterQuery as $val) {
+                    $collection->addFieldToFilter(array($val));	
+                }
+           	    
+           	}
            	$collection
                 ->addAttributeToSelect('*')
                 ->load();
-            #print $collection->getSelect()->__toString().'<hr>';
+            print $collection->getSelect()->__toString().'<hr>';
             $this->addException(__('Loaded '.$collection->getSize().' records'));
         } catch (Varien_Convert_Exception $e) {
             throw $e;

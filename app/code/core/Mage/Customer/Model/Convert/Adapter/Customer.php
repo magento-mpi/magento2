@@ -53,18 +53,27 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
    
     public function load()
     {
+        $addressType = $this->getVar('filter/adressType');
+        if($addressType=='both'){
+           $addressType = array('default_billing','default_shipping');
+        }
         $attrFilterArray = array();
         $attrFilterArray ['firstname'] = 'like';
         $attrFilterArray ['lastname'] = 'like';
         $attrFilterArray ['email'] = 'like';
         $attrFilterArray ['group'] = 'eq';
-        $attrFilterArray ['telephone'] = 'like';
-        $attrFilterArray ['customer_address/postcode'] = 'like';
-        $attrFilterArray ['customer_address/country'] = 'eq';
-        $attrFilterArray ['customer_address/region'] = 'like';
+        $attrFilterArray ['customer_address/telephone'] = array('type'=>'like','bind'=>$addressType);
+        $attrFilterArray ['customer_address/postcode'] = array('type'=>'like','bind'=>$addressType);
+        $attrFilterArray ['customer_address/country'] = array('type'=>'eq','bind'=>$addressType);
+        $attrFilterArray ['customer_address/region'] = array('type'=>'like','bind'=>$addressType);
         $attrFilterArray ['created_at'] = 'dateFromTo';
         
-        parent::setFilter($attrFilterArray);
+        $attrToDb = array(
+            'group'=>'group_id',
+            'customer_address/country'=>'customer_address/country_id',
+         );
+        
+        parent::setFilter($attrFilterArray,$attrToDb);
         parent::load();
     }
 }
