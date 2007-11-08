@@ -29,10 +29,10 @@
 		ul = $('recipients_options');
 		var li_mail = document.createElement("LI");
 		li_mail.addClassName('addElement');
-		li_mail.innerHTML = '<label for="recipients_email"><?=$this->__('Email Address:')?></label><br/><input name="send[recipients_email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text" style="width:250px;"/>';
+		li_mail.innerHTML = '<label for="recipients_email"><?=$this->__('Email Address:')?></label><br/><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text" style="width:250px;"/>';
 		
 		var li_name = document.createElement("LI");
-		li_name.innerHTML = '<label for="recipients_name"><?=$this->__('Name:')?></label><br/><input name="send[recipients_name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />';
+		li_name.innerHTML = '<label for="recipients_name"><?=$this->__('Name:')?></label><br/><input name="recipients[name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />';
 		
 		ul.appendChild(li_mail);
 		ul.appendChild(li_name);
@@ -53,11 +53,11 @@
 	             <ul class="form-list" id="sender_options">
 	             <li>
 	                        <label for="sender_name"><?=$this->__('Name:')?></label><br/>
-	                        <input name="send[sender[name]]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text" style="width:250px;"/>
+	                        <input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text" style="width:250px;"/>
 	                    </li>
 	                    <li>
 	                        <label for="sender_message"><?=$this->__('Message:')?></label><br/>
-	                        <textarea name="send[sender[message]]" class="input-text" id="sender_message" style="width:250px;"></textarea>
+	                        <textarea name="sender[message]" class="input-text" id="sender_message" style="width:250px;"></textarea>
 	                    </li>
 	             </ul>
             </div>
@@ -68,11 +68,11 @@
 		            <ul class="form-list" id="recipients_options">
 		                    <li>
 		                        <label for="recipients_email"><?=$this->__('Email Address:')?> <span class="required">*</span></label><br/>
-		                        <input name="send[recipients_email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry" style="width:250px;"/>
+		                        <input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry" style="width:250px;"/>
 		                    </li>
 		                    <li>
 		                        <label for="recipients_name"><?=$this->__('Name:')?></label><br/>
-		                        <input name="send[recipients_name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />
+		                        <input name="recipients[name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />
 		                    </li>
 		            </ul>
 		             <button class="form-button" onclick="add_recipient();" type="button"><span><?=$this->__('Add Recipient')?></span></button>
