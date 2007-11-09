@@ -19,6 +19,8 @@
  */
 ?>
 
+
+<?if($this->getCount()):?>
 <div class="graph-table col3">
 	<div class="tab-right">
 	<div class="tab-head">
@@ -27,7 +29,6 @@
 		<?endforeach;?>
 	</div><div class="clear"></div>
 	<?$_scrollIndex = $this->getScrollIndex()?>
-    <?if($this->getCount()):?>
 	<?if($this->getCount()>10):?>
 	<script type="text/javascript"> instantiateScroller(<?=$_scrollIndex?>, "scroll<?=$_scrollIndex?>", 7, 0, 490, 248, 248); </script>
 	<div class="root" id="root<?=$_scrollIndex?>">
@@ -48,27 +49,21 @@
 	</div>
 	</div>
 	<?endif;?>
-	<?else:?>
-	<div class="tab-body">
-	<div class="row a-center">
-		<?=$this->__('No Data Found')?>
-	</div>
-	</div>
-	<?endif;?>
 	<div class="clear"></div>
 	<div class="tab-footer">
-		<div class="tab-foot">
-		<?if($this->getCount()):?>
-
-		  <?foreach ($this->getTotals() as $_total):?>
-		  <div class="dl">
-				<div class="dt"><?=$_total['label']?>:</div>
-				<div class="dd"><?=$_total['value']?></div>
-		  </div>
-			<?endforeach;?>
-
-	     <?endif;?>
-		</div>
+	<?if($this->getCount()):?>
+	  <table cellpadding="0" cellspacing="0" border="0" class="totals" align="right">
+         <?foreach ($this->getTotals() as $_total):?>
+	  	<tr>
+         		<td class="label"><?=$_total['label']?>:</td>
+			<td class="value"><div><?=$_total['value']?></div></td>
+         	</tr>
+	  <?endforeach;?>
+         </table><div class="clear"></div>
+     <?endif;?>
 	</div><div class="clear"></div>
 </div></div>
 <div class="tab-footer-bottom"><div class="tab-footer-right"></div><div class="tab-footer-left"></div></div>
+<?else:?>
+<div align="center" style="margin-top:180px;"><?=$this->__('No Data Found')?></div>
+<?endif;?>

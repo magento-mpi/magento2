@@ -19,11 +19,10 @@
  */
 ?>
 
-
+<?if($this->getCount()):?>
 <table cellpadding="0" cellspacing="0" border="0" align="left" id="<?=$this->getHtmlId()?>" style="width:910px;">
 <tr>
 	<td align="center" valign="middle" width="10"><?=$this->getHeader()?></td>
-<?if($this->getCount()):?>
     <?foreach($this->getCollection() as $_item ):?>
 	<td class="g" rowspan="<?=$this->getVerticalAxis()->getSpan()?>">
 	<?$_maximum=$this->getVerticalAxis()->getPixelMaximum($_item)?>
@@ -38,12 +37,6 @@
 	</td>
 	<?endforeach;?>
 	<td width="100%" class="g" valign="bottom" rowspan="<?=$this->getVerticalAxis()->getSpan()?>"><div class="bottom-bg">&nbsp;</div></td>
-<?else:?>
-<td class="g v-middle a-center" width="100%" rowspan="<?=$this->getVerticalAxis()->getSpan()?>" style="vertical-align:middle;">
-<?=$this->__('No Data Found')?>
-</td>
-<td width="100%" class="g" valign="bottom" rowspan="<?=$this->getVerticalAxis()->getSpan()?>">&nbsp;</td>
-<?endif;?>
 </tr>
 <?if($this->getCount()):?>
 <tr>
@@ -78,3 +71,6 @@
 	<td valign="bottom" align="right" style="color:#bfbfbf;">&nbsp;&nbsp;<?=$this->getHorizontalAxis()->getTitle()?></td>
 </tr>
 </table>
+<?else:?>
+<div align="center" style="margin-top:180px;"><?=$this->__('No Data Found')?></div>
+<?endif;?>
