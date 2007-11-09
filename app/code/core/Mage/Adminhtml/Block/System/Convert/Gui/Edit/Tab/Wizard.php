@@ -180,10 +180,8 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getCountryFilterOptions()
     {
         $options = Mage::getResourceModel('directory/country_collection')
-            ->load()
-            ->toOptionHash();
-
-        array_splice($options, 0, 0, array(''=>$this->__('Any Country')));
+            ->load()->toOptionArray(false);
+        array_unshift($options, array('value'=>'', 'label'=>__('All countries')));
         return $options;
     }
 

@@ -42,6 +42,7 @@ function showOption(select)
             el.style.display = select.selectedIndex==i ? '' : 'none';
         });
     }
+   
 }
 
 function addFieldMapping()
@@ -59,6 +60,29 @@ function setMapFileField(select)
 {
     select.parentNode.getElementsByTagName('input')[0].value = select.value;
 }
+
+function changeEntity()
+{
+    select = $('profile_entity_type');
+    if(select.options[select.selectedIndex].value=='customer'){
+        for(i=0;i<$('profile_direction').options.length;i++){
+            if($('profile_direction').options[i].value=='import'){
+                $('profile_direction').remove(i);
+                break;
+            }
+            
+        }
+    } else {
+        var option = document.createElement("OPTION");
+    	option.text = 'import';
+    	option.value = 'import';
+    	try {
+    		$('profile_direction').add(option, null); // standards compliant; doesn't work in IE
+    	} catch(ex) {
+    		$('profile_direction').add(option); // IE only
+    	}
+    }
+}
 </script>
 
 <div id="profile-generator" class="entry-edit profile-generator">
@@ -70,17 +94,17 @@ function setMapFileField(select)
             <input class="input-text" id="profile_name" name="name" value="<?=$this->getValue('name')?>"/>
         </span>
         <span class="field-row">
+            <label for="profile_entity_type"><?=$this->__("Entity type:")?></label>
+            <select id="profile_entity_type" name="entity_type" onchange="showOption(this);changeEntity();" class="option-control">
+                <option value="product" <?=$this->getSelected('entity_type', 'product')?>><?=$this->__("Products")?></option>
+                <option value="customer" <?=$this->getSelected('entity_type', 'customer')?>><?=$this->__("Customers")?></option>
+            </select>
+        </span>
+        <span class="field-row">
             <label for="profile_direction"><?=$this->__("Direction:")?></label>
             <select id="profile_direction" name="direction" onchange="showOption(this)" class="option-control">
                 <option value="import" <?=$this->getSelected('direction', 'import')?>><?=$this->__("Import")?></option>
                 <option value="export" <?=$this->getSelected('direction', 'export')?>><?=$this->__("Export")?></option>
-            </select>
-        </span>
-        <span class="field-row">
-            <label for="profile_entity_type"><?=$this->__("Entity type:")?></label>
-            <select id="profile_entity_type" name="entity_type" onchange="showOption(this)" class="option-control">
-                <option value="product" <?=$this->getSelected('entity_type', 'product')?>><?=$this->__("Products")?></option>
-                <option value="customer" <?=$this->getSelected('entity_type', 'customer')?>><?=$this->__("Customers")?></option>
             </select>
         </span>
         <span class="field-row">
@@ -314,7 +338,6 @@ function setMapFileField(select)
                 <span class="field-row">
                     <label for="customer_filter_adressType"><?=$this->__("Address Type:")?></label>
                     <select id="customer_filter_adressType" name="gui_data[customer][filter][adressType]" >
-                            <option value="both" <?=$this->getSelected('gui_data/customer/filter/adressType', 'both')?>><?=__('Both')?></option>        
                             <option value="default_billing" <?=$this->getSelected('gui_data/customer/filter/adressType', 'default_billing')?>><?=__('Billing Address')?></option>
                             <option value="default_shipping" <?=$this->getSelected('gui_data/customer/filter/adressType', 'default_shipping')?>><?=__('Shipping Address')?></option>
                     </select>
@@ -330,8 +353,8 @@ function setMapFileField(select)
                 <span class="field-row">
                     <label for="customer_filter_country"><?=$this->__("Country:")?></label>
                     <select id="customer_filter_country" name="gui_data[customer][filter][country]">
-                        <?foreach ($this->getCountryFilterOptions() as $_value=>$_label):?>
-                            <option value="<?=$_value?>" <?=$this->getSelected('gui_data/customer/filter/country', $_value)?>><?=htmlspecialchars($_label)?></option>
+                        <?foreach ($this->getCountryFilterOptions() as $_value):?>
+                            <option value="<?=$_value['value']?>" <?=$this->getSelected('gui_data/customer/filter/country', $_value['value'])?>><?=htmlspecialchars($_value['label'])?></option>
                         <?endforeach?>
                     </select>
                 </span>
@@ -371,4 +394,5 @@ function setMapFileField(select)
 
 <script type="text/javascript">
     $$('.option-control').each(showOption);
+    changeEntity();
 </script>
