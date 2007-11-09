@@ -53,7 +53,8 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
         $this->setChild('button_submit',
                 $this->getLayout()->createBlock('adminhtml/widget_button')->addData(
                     array(
-                        'label' => $this->__('Apply')
+                        'label' => $this->__('Apply'),
+                        'onclick'=>'submitForm(this)'
                     )
                 )
         );

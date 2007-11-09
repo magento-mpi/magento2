@@ -39,6 +39,17 @@ function showTab(tab, set, tabQty){
 	}
 }
 
+function submitForm(element)
+{
+    var parents = $(element).ancestors();
+    parents.each(function(node){
+             if(node.tagName.toUpperCase() == 'FORM') {
+                 node.submit();
+                 throw $break;
+             }
+        });
+}
+
 function handlePeriodSelect(selectId)
 {
     Event.observe($(selectId), 'change', function(evt) {
