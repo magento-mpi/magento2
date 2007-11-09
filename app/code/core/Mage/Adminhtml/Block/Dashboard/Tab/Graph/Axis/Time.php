@@ -91,7 +91,7 @@
     public function getTimeFormat()
     {
         if(!$this->getData('time_format')) {
-            return 'HH:mm';
+            return 'HH:mm a';
         }
 
         return $this->getData('time_format');
