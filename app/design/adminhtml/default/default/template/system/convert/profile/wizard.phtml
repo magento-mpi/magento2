@@ -136,7 +136,7 @@ function changeEntity()
             <label for="file_method"><?=$this->__("Method:")?></label>
             <select id="file_method" name="gui_data[file][method]" onchange="showOption(this)" class="option-control">
                 <option value="http" <?=$this->getSelected('gui_data/file/method', 'http')?>><?=$this->__("Upload Interactively")?></option>
-                <option value="io" <?=$this->getSelected('gui_data/file/method', 'io')?>><?=$this->__("Local/Remote File")?></option>
+                <option value="io" <?=$this->getSelected('gui_data/file/method', 'io')?>><?=$this->__("Local Server/Remote FTP")?></option>
             </select>
         </span>
         <div id="file_method_http">
@@ -148,8 +148,8 @@ function changeEntity()
             <span class="field-row">
                 <label for="file_type"><?=$this->__("Type:")?></label>
                 <select id="file_type" name="gui_data[file][type]" onchange="showOption(this)" class="option-control">
-                    <option value="file" <?=$this->getSelected('gui_data/file/type', 'file')?>><?=$this->__("Local File")?></option>
-                    <option value="ftp" <?=$this->getSelected('gui_data/file/type', 'ftp')?>><?=$this->__("FTP Server")?></option>
+                    <option value="file" <?=$this->getSelected('gui_data/file/type', 'file')?>><?=$this->__("Local Server")?></option>
+                    <option value="ftp" <?=$this->getSelected('gui_data/file/type', 'ftp')?>><?=$this->__("Remote FTP")?></option>
                 </select>
             </span>
             <span class="field-row">
@@ -159,6 +159,9 @@ function changeEntity()
             <span class="field-row">
                 <label for="file_path"><?=$this->__("Path:")?></label>
                 <input class="input-text" id="file_path" name="gui_data[file][path]" value="<?=$this->getValue('gui_data/file/path')?>"/>
+                <span id="file_type_file">
+                    <?=$this->__('(Absolute path or Relative to Magento install root, ex. var/export)')?>
+                </span>
             </span>
             <div id="file_type_ftp">
                 <span class="field-row">
@@ -171,7 +174,7 @@ function changeEntity()
                 </span>
                 <span class="field-row">
                     <label for="file_password"><?=$this->__("Password")?></label>
-                    <input type="password" class="input-text" id="io_password" name="gui_data[file][password]" value="<?=$this->getValue('gui_data/file/password')?>"/>
+                    <input class="input-text" id="io_password" name="gui_data[file][password]" value="<?=$this->getValue('gui_data/file/password')?>"/>
                 </span>
                 <span class="field-row">
                     <label for="file_passive"><?=$this->__("Passive mode")?></label>
@@ -222,23 +225,20 @@ function changeEntity()
                 </span>
             </span>
         </span>
+        <div id="profile_direction_export">
+            <span class="field-row">
+                <label for="map_only_specified"><?=$this->__("Export:")?></label>
+                <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showOption(this)">
+                    <option value="" <?=$this->getSelected('gui_data/map/only_specified', false)?>><?=$this->__("All fields")?></option>
+                    <option value="true" <?=$this->getSelected('gui_data/map/only_specified', true)?>><?=$this->__("Only mapped fields")?></option>
+                </select>
+            </span>
+        </div>
     </fieldset>
 
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Field Mapping")?></h4>
     <fieldset>
         <legend><?=$this->__("Field Mapping")?></legend>
-        <div id="profile_direction_export">
-            <span class="field-row">
-                <label for="map_only_specified"><?=$this->__("Export only mapped fields:")?></label>
-                <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showOption(this)">
-                    <option value="" <?=$this->getSelected('gui_data/map/only_specified', false)?>><?=$this->__("No")?></option>
-                    <option value="true" <?=$this->getSelected('gui_data/map/only_specified', true)?>><?=$this->__("Yes")?></option>
-                </select>
-                <span id="map_only_specified_">
-                    <?=$this->__("(When 'No', will export all the attributes with mapped fields heading changed)")?>
-                </span>
-            </span>
-        </div>
         <?foreach (array('product', 'customer') as $_entityType):?>
             <div id="profile_entity_type_<?=$_entityType?>">
                 <div id="map_template_<?=$_entityType?>" style="display:none">
@@ -278,10 +278,12 @@ function changeEntity()
                 <span class="field-row">
                     <label for="product_filter_name"><?=$this->__("Name:")?></label>
                     <input class="input-text" id="product_filter_name" name="gui_data[product][filter][name]" value="<?=$this->getValue('gui_data/product/filter/name')?>"/>
+                    <?=$this->__('(Starting with)')?>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_sku"><?=$this->__("SKU:")?></label>
                     <input class="input-text" id="product_filter_sku" name="gui_data[product][filter][sku]" value="<?=$this->getValue('gui_data/product/filter/sku')?>"/>
+                    <?=$this->__('(Starting with)')?>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_type"><?=$this->__("Type:")?></label>
@@ -330,14 +332,17 @@ function changeEntity()
                 <span class="field-row">
                     <label for="customer_filter_firstname"><?=$this->__("First Name:")?></label>
                     <input class="input-text" id="customer_filter_firstname" name="gui_data[customer][filter][firstname]" value="<?=$this->getValue('gui_data/customer/filter/firstname')?>"/>
+                    <?=$this->__('(Starting with)')?>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_lastname"><?=$this->__("Last Name:")?></label>
                     <input class="input-text" id="customer_filter_lastname" name="gui_data[customer][filter][lastname]" value="<?=$this->getValue('gui_data/customer/filter/lastname')?>"/>
+                    <?=$this->__('(Starting with)')?>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_email"><?=$this->__("Email:")?></label>
                     <input class="input-text" id="customer_filter_email" name="gui_data[customer][filter][email]" value="<?=$this->getValue('gui_data/customer/filter/email')?>"/>
+                    <?=$this->__('(Starting with)')?>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_group"><?=$this->__("Group:")?></label>
@@ -357,6 +362,7 @@ function changeEntity()
                 <span class="field-row">
                     <label for="customer_filter_telephone"><?=$this->__("Phone:")?></label>
                     <input class="input-text" id="customer_filter_telephone" name="gui_data[customer][filter][telephone]" value="<?=$this->getValue('gui_data/customer/filter/telephone')?>"/>
+                    <?=$this->__('(Starting with)')?>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_postcode"><?=$this->__("Zip/Postal Code:")?></label>
@@ -373,6 +379,7 @@ function changeEntity()
                 <span class="field-row">
                     <label for="customer_filter_region"><?=$this->__("State/Province:")?></label>
                     <input class="input-text" id="customer_filter_region" name="gui_data[customer][filter][region]" value="<?=$this->getValue('gui_data/customer/filter/region')?>"/>
+                    <?=$this->__('(For US 2-letter state names)')?>
                 </span>
                 <span class="field-row">
                     <label for="customer_filter_created_at_from"><?=$this->__("Customer Since:")?></label>
