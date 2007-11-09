@@ -42,7 +42,7 @@ function showOption(select)
             el.style.display = select.selectedIndex==i ? '' : 'none';
         });
     }
-   
+
 }
 
 function addFieldMapping()
@@ -63,18 +63,19 @@ function setMapFileField(select)
 
 function changeEntity()
 {
-    select = $('profile_entity_type');
+    var select = $('profile_entity_type');
+    var dir = $('profile_direction');
     if(select.options[select.selectedIndex].value=='customer'){
-        for(i=0;i<$('profile_direction').options.length;i++){
-            if($('profile_direction').options[i].value=='import'){
-                $('profile_direction').remove(i);
+        for(i=0;i<dir.options.length;i++){
+            if(dir.options[i].value=='import'){
+                dir.remove(i);
                 break;
             }
         }
     } else {
-        
-        for(i=0;i<$('profile_direction').options.length;i++){
-            if($('profile_direction').options[i].value=='import'){
+
+        for(i=0;i<dir.options.length;i++){
+            if(dir.options[i].value=='import'){
                 present = true;
                 break;
             } else {
@@ -86,12 +87,13 @@ function changeEntity()
         	option.text = 'Import';
         	option.value = 'import';
         	try {
-        		$('profile_direction').add(option, null); // standards compliant; doesn't work in IE
+        		dir.add(option, null); // standards compliant; doesn't work in IE
         	} catch(ex) {
-        		$('profile_direction').add(option); // IE only
+        		dir.add(option); // IE only
         	}
         }
     }
+    showOption(dir);
 }
 </script>
 
@@ -351,7 +353,7 @@ function changeEntity()
                             <option value="default_billing" <?=$this->getSelected('gui_data/customer/filter/adressType', 'default_billing')?>><?=__('Billing Address')?></option>
                             <option value="default_shipping" <?=$this->getSelected('gui_data/customer/filter/adressType', 'default_shipping')?>><?=__('Shipping Address')?></option>
                     </select>
-                </span>                
+                </span>
                 <span class="field-row">
                     <label for="customer_filter_telephone"><?=$this->__("Phone:")?></label>
                     <input class="input-text" id="customer_filter_telephone" name="gui_data[customer][filter][telephone]" value="<?=$this->getValue('gui_data/customer/filter/telephone')?>"/>
