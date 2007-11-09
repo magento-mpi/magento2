@@ -713,12 +713,12 @@ img.attribute-global {
 
 /*********************** SCROLLERS ***********************/
 
-.scroll-cont { position: absolute; top:-25px; left: 503px; width:16px; height:265px; background:transparent url(images/db-scroll-bg.gif) no-repeat top; }
+.scroll-cont { position: absolute; top:-25px; left: 503px; width:16px; height:265px; background:transparent url(images/db-scroll-bg.gif) no-repeat top; border:1px solid blue; }
 
-.root{ position:relative; height: 260px; margin:0; width:1px;  }
+.root{ position:relative; height: 260px; margin:0; width:1px; }
 .thumb { position: absolute; height: 40px; width: 16px; margin-top:-28px; }
-.up { margin-top:254px; height:16px; }
-.dn { margin-top:0px; padding:0; height:15px; }
+.up { margin-top:254px; height:16px; border:1px solid Red; }
+.dn { margin-top:0px; padding:0; height:15px; border:1px solid Green; }
 .up a, .up a img, .dn a, .dn a img, .thumb a , .thumb a img{
     border: 0;
 }
