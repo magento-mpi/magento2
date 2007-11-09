@@ -72,6 +72,10 @@
                 return $this->getWeekFormat();
                 break;
 
+             case "2m":
+                return $this->get2MonthFormat();
+                break;
+
             case "month":
             case "1y":
                 return $this->getMonthFormat();
@@ -96,10 +100,19 @@
     public function getWeekFormat()
     {
         if(!$this->getData('week_format')) {
-            return $this->getDateFormat();
+            return 'dd';
         }
 
         return $this->getData('week_format');
+    }
+
+    public function get2MonthFormat()
+    {
+        if(!$this->getData('month2_format')) {
+            return 'dd MM';
+        }
+
+        return $this->getData('month2_format');
     }
 
     public function getMonthFormat()
