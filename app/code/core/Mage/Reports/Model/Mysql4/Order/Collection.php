@@ -48,22 +48,24 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     protected function _getRangeExpression($range)
     {
+        $timeZoneOffset = Mage::app()->getLocale()->date()->getGmtOffset();
+
         switch ($range)
         {
         	case '24h':
-        		$expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d %H:00\')';
+        		$expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-%d %H:00\')';
         		break;
 
         	case '7d':
         	case '1m':
-        	   $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d 00:00\')';
+        	   $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-%d\')';
         	   break;
 
 
         	case '1y':
         	case 'custom':
         	default:
-        	    $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-01 00:00\')';
+        	    $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-01\')';
         		break;
         }
 
@@ -72,12 +74,18 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     protected function _getDateRange($range, $customStart, $customEnd)
     {
-        $dateEnd = new Zend_Date();
+        $dateEnd = Mage::app()->getLocale()->date();
+
+        // go to the end of a day
+        $dateEnd->setHour(23);
+        $dateEnd->setMinute(59);
+        $dateEnd->setSecond(59);
+
         $dateStart = clone $dateEnd;
         switch ($range)
         {
         	case '24h':
-        		$dateStart->subHour(24);
+        		$dateStart->setHour(0);
         		break;
 
             case '7d':
@@ -85,7 +93,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         		break;
 
             case '1m':
-                $dateStart->subMonth(1);
+                $dateStart->setDay(1);
         		break;
 
             case 'custom':
@@ -98,6 +106,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         	    $dateStart->subYear(1);
         		break;
         }
+
+        $dateStart->setHour(0);
+        $dateStart->setMinute(0);
+        $dateStart->setSecond(0);
+
 
         return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
     }

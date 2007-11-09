@@ -69,11 +69,19 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
         if ($data = $row->getData($this->getColumn()->getIndex())) {
 			$format = $this->_getFormat();
 			try {
-                $data = Mage::getSingleton('core/locale')->date($data, 'yyyy-MM-dd HH:mm:ss' /* Zend_Date::ISO_8601  DOESNT PARSE TIME*/)->toString($format);
+                $data = Mage::app()->getLocale()->date($data, 'yyyy-MM-dd HH:mm:ss' /* Zend_Date::ISO_8601  DOESNT PARSE TIME*/);
+                if($this->getColumn()->getTimezone()) {
+                    $data->setTimezone($this->getColumn()->getTimezone());
+                }
+                $data = $data->toString($format);
             }
             catch (Exception $e)
             {
-                $data = Mage::getSingleton('core/locale')->date($data, null, $locale)->toString($format);
+                $data = Mage::getSingleton('core/locale')->date($data);
+                if($this->getColumn()->getTimezone()) {
+                    $data->setTimezone($this->getColumn()->getTimezone());
+                }
+                $data = $data->toString($format);
             }
             return $data;
 

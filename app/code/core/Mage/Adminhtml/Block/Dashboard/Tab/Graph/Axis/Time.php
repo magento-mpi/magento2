@@ -46,8 +46,10 @@
         $timeFormat = $this->getFormat();
 
         foreach ($labelValues as $value) {
-            $date = Mage::getSingleton('core/locale')->date($value, 'yyyy-MM-dd HH:mm:ss');
+            $date = Mage::app()->getLocale()->date($value, 'yyyy-MM-dd HH:mm:ss');
+            $date->setTimezone('GMT');
             $label = $date->toString($timeFormat);
+
             $this->_labels[] = $this->getLabelText($label);
         }
 

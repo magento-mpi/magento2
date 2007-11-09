@@ -81,6 +81,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
                 'index'=>'range',
                 'type' => 'datetime',
                 'format'=>  $this->getTab('orders_income')->getHorizontalAxis()->getFormat(true),
+                'timezone'=>'GMT',
                 'locale'=>  Mage::app()->getLocale()->getLocaleCode()
             ))
             ->addColumn('revenue', array(
