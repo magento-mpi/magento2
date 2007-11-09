@@ -91,6 +91,7 @@ dl.accordion dt a {
 /*############# Dashboard #############*/
 .db-menu ul li a { display:inline-block; margin:3px 5px 0 0; padding:0 10px 2px 10px; font:bold 11px/29px Verdana, sans-serif; }
 .graph-block { height:460px; }
+.db-menu { width:970px; }
 
 /* Forms */
 span.field-row {
