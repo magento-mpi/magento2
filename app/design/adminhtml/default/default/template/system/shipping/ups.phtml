@@ -25,12 +25,26 @@ $defShipArr = Mage::getSingleton('usa/shipping_carrier_ups')->getCode('method');
 
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
-$storeCode = $this->getRequest()->getParam('send');
-          
-$stroredAllowedMethods = Mage::getStoreConfig('carriers/ups/allowed_methods',$storeCode);
-$stroredAllowedMethods = explode(',',$stroredAllowedMethods);
-$stroredOriginShipment = Mage::getStoreConfig('carriers/ups/origin_shipment',$storeCode);
-$stroredFreeShipment = Mage::getStoreConfig('carriers/ups/free_method',$storeCode);
+$storeCode = $this->getRequest()->getParam('store');
+
+
+if(!$storeCode && $websiteCode){
+    $web = Mage::getModel('Mage_Core_Model_Website')->load($websiteCode);
+    $stroredAllowedMethods = $web->getConfig('carriers/ups/allowed_methods');
+    $stroredAllowedMethods = explode(',',$stroredAllowedMethods);
+    $stroredOriginShipment = $web->getConfig('carriers/ups/origin_shipment');
+    $stroredFreeShipment = $web->getConfig('carriers/ups/free_method');
+} elseif ($storeCode) {
+    $stroredAllowedMethods = Mage::getStoreConfig('carriers/ups/allowed_methods',$storeCode);
+    $stroredAllowedMethods = explode(',',$stroredAllowedMethods);
+    $stroredOriginShipment = Mage::getStoreConfig('carriers/ups/origin_shipment',$storeCode);
+    $stroredFreeShipment = Mage::getStoreConfig('carriers/ups/free_method',$storeCode);
+} else {
+    $stroredAllowedMethods = Mage::getStoreConfig('carriers/ups/allowed_methods');
+    $stroredAllowedMethods = explode(',',$stroredAllowedMethods);
+    $stroredOriginShipment = Mage::getStoreConfig('carriers/ups/origin_shipment');
+    $stroredFreeShipment = Mage::getStoreConfig('carriers/ups/free_method');
+}
 ?>
 <script type="text/javascript" language="javascript">
 	originShipmentObj = new Object();
