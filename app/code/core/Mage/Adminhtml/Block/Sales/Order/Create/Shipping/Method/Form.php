@@ -50,6 +50,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
 
     public function getShippingRates()
     {
+        $this->getAddress()->setCollectShippingRates(true);
+        $this->getAddress()->collectShippingRates();
         if (empty($this->_rates)) {
             $groups = $this->getAddress()->getGroupedAllShippingRates();
             if (!empty($groups)) {

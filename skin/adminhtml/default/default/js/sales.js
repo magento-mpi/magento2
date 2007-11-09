@@ -98,12 +98,7 @@ AdminOrder.prototype = {
             }
             if(name == 'region' && data['region_id'] && !data['region']){
                 fields[i].value = data['region_id'];
-                /*regionIdElem = fields[i];
-                regionIdElemValue = regionIdElem.value;*/
             }
-        }
-        if(regionIdElem) {
-            regionIdElem.value = regionIdElemValue;
         }
     },
     

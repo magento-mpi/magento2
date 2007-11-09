@@ -19,8 +19,7 @@
  */
 
 
-class Mage_Sales_Model_Quote_Address_Total_Subtotal
-    extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Collect address subtotal

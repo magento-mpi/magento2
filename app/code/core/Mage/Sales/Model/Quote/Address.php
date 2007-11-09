@@ -313,7 +313,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
 
 /*********************** SHIPPING RATES ***************************/
-
+    
+    /**
+     * Retrieve collection of quote shipping rates
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
     public function getShippingRatesCollection()
     {
         if (is_null($this->_rates)) {
@@ -330,7 +335,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $this->_rates;
     }
-
+    
+    /**
+     * Retrieve all address shipping rates
+     *
+     * @return array
+     */
     public function getAllShippingRates()
     {
         $rates = array();
@@ -341,7 +351,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $rates;
     }
-
+    
+    /**
+     * Retrieve all grouped shipping rates
+     *
+     * @return array
+     */
     public function getGroupedAllShippingRates()
     {
         $rates = array();

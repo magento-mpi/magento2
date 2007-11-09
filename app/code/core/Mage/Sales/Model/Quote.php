@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
     protected $_customer;
@@ -31,8 +30,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_init('sales/quote');
     }
 
-/*********************** QUOTE ***************************/
-
     /**
      * Init new quote
      *
@@ -42,6 +39,35 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         #$this->setBillingAddress(Mage::getModel('sales/quote_address'));
         #$this->setShippingAddress(Mage::getModel('sales/quote_address'));
+        return $this;
+    }
+    
+    /**
+     * Initialize quote data by customer 
+     *
+     * @param   Mage_Customer_Model_Customer $customer
+     * @return  Mage_Sales_Model_Quote
+     */
+    public function initByCustomer(Mage_Customer_Model_Customer $customer)
+    {
+        if ($customer->getId()) {
+            $this->setCustomer($customer);
+            
+            $defaultBillingAddress = $customer->getDefaultBillingAddress();
+            if ($defaultBillingAddress->getId()) {
+                $billingAddress = Mage::getModel('sales/quote_address')
+                    ->importCustomerAddress($defaultBillingAddress);
+                $this->setBillingAddress($billingAddress);
+            }
+            
+            $defaultShippingAddress= $customer->getDefaultShippingAddress();
+            if ($defaultShippingAddress->getId()) {
+                $shippingAddress = Mage::getModel('sales/quote_address')
+                    ->importCustomerAddress($defaultShippingAddress);
+                $shippingAddress->collectShippingRates();
+                $this->setShippingAddress($shippingAddress);
+            }
+        }
         return $this;
     }
 

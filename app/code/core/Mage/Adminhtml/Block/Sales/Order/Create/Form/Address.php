@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
     
     protected function _prepareForm()
     {
-        if ($this->_form) {
+        if (!$this->_form) {
             $this->_form = new Varien_Data_Form();
             $addressModel = Mage::getModel('customer/address');
     

@@ -21,6 +21,11 @@
 
 class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 {
+    const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE = 'sales/new_order/email_template';
+    const XML_PATH_NEW_ORDER_EMAIL_IDENTITY = 'sales/new_order/email_identity';
+    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE = 'sales/order_update/email_template';
+    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY = 'sales/order_update/email_identity';
+    
     protected $_addresses;
 
     protected $_items;
@@ -39,7 +44,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 /*********************** ORDER ***************************/
 
     /**
-     * Enter description here...
+     * Initialize new order
      *
      * @return Mage_Sales_Model_Order
      */
@@ -50,14 +55,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Validate order 
      *
      * @return Mage_Sales_Model_Order
      */
     public function validate()
     {
         $this->setErrors(array());
-
         $this->processPayments();
 
         if ($this->getErrors()) {
@@ -68,7 +72,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Sending email with order data
      *
      * @return Mage_Sales_Model_Order
      */
@@ -76,8 +80,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         Mage::getModel('core/email_template')
             ->sendTransactional(
-              Mage::getStoreConfig('sales/new_order/email_template'),
-              Mage::getStoreConfig('sales/new_order/email_identity'),
+              Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
+              Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
               $this->getBillingAddress()->getEmail(),
               $this->getBillingAddress()->getName(),
               array(
@@ -89,7 +93,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Sending email with order update information
      *
      * @return Mage_Sales_Model_Order
      */
@@ -97,8 +101,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         Mage::getModel('core/email_template')
             ->sendTransactional(
-              Mage::getStoreConfig('sales/order_update/email_template'),
-              Mage::getStoreConfig('sales/order_update/email_identity'),
+              Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE),
+              Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY),
               $this->getBillingAddress()->getEmail(),
               $this->getBillingAddress()->getName(),
               array('order'=>$this, 'billing'=>$this->getBillingAddress()));
