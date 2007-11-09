@@ -30,7 +30,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     const STATUS_SUBSCRIBED     = 1;
     const STATUS_NOT_ACTIVE     = 2;
     const STATUS_UNSUBSCRIBED   = 3;
-    
+
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'newsletter/subscription/confirm_email_template';
     const XML_PATH_CONFIRM_EMAIL_IDENTITY       = 'newsletter/subscription/confirm_email_identity';
     const XML_PATH_SUCCESS_EMAIL_TEMPLATE       = 'newsletter/subscription/success_email_template';
@@ -38,7 +38,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     const XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE   = 'newsletter/subscription/un_email_template';
     const XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY   = 'newsletter/subscription/un_email_identity';
     const XML_PATH_CONFIRMATION_FLAG            = 'newsletter/subscription/confirm';
-    
+
     protected $_isStatusChanged = false;
 
     /**
@@ -261,7 +261,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function subscribe($email)
     {
     	$this->loadByEmail($email);
-
+    	$customer = Mage::getModel('customer/customer')->loadByEmail($email);
     	$isNewSubscriber = false;
 
     	if (!$this->getSubscriberId() || $this->getSubscriberStatus()==self::STATUS_UNSUBSCRIBED) {
@@ -280,6 +280,9 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
             $this->setCustomerId($customerSession->getCustomerId());
+        } else if ($customer->getId()) {
+            $this->setStoreId($customer->getStoreId());
+            $this->setCustomerId($customer->getCustomerId());
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
             $this->setCustomerId(0);
@@ -312,7 +315,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     		return $e;
     	}
     }
-    
+
     /**
      * Saving customer cubscription status
      *
@@ -322,30 +325,30 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function subscribeCustomer($customer)
     {
         $this->loadByCustomer($customer);
-        
+
         if (!$customer->getIsSubscribed() && !$this->getId()) {
             // If subscription flag not seted or customer not subscriber
             // and no subscribe bellow
             return $this;
         }
-        
+
         if($customer->hasIsSubscribed()) {
             $status = $customer->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED;
         } else {
             $status = $this->getStatus();
         }
-        
-        
+
+
         if($status != $this->getStatus()) {
             $this->setIsStatusChanged(true);
         }
-        
+
         $this->setStatus($status);
-        
+
         if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
             $this->sendUnsubscriptionEmail();
         }
-        
+
         if(!$this->getId()) {
             $this->setStoreId($customer->getStoreId())
                 ->setCustomerId($customer->getId())
@@ -353,7 +356,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         } else {
             $this->setEmail($customer->getEmail());
         }
-        
+
         $this->save();
         return $this;
     }
