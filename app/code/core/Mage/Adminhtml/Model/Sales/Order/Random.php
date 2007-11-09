@@ -144,12 +144,20 @@ class Mage_Adminhtml_Model_Sales_Order_Random
         return $this;
     }
     
+    protected function _getRandomDate()
+    {
+        $timestamp = mktime(rand(0,23), rand(0,59), 0, rand(1,11), rand(1,28), rand(2006, 2007));
+        return date('Y-m-d H:i:s', $timestamp);
+    }
+    
     public function save()
     {
         $this->_order->setStoreId($this->_getStore()->getId());
         $this->_order->createFromQuoteAddress($this->_quote->getShippingAddress());
         $this->_order->validate();
         $this->_order->setInitialStatus();
+        $this->_order->save();
+        $this->_order->setCreatedAt($this->_getRandomDate());
         $this->_order->save();
 
         $this->_quote->setIsActive(false);
