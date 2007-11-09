@@ -54,7 +54,7 @@
         return $this;
     }
 
-    public function getFormat()
+    public function getFormat($forGrid=false)
     {
         if($this->getData('format')) {
             return $this->getData('format');
@@ -69,11 +69,11 @@
             case "week":
             case "7d":
             case "1m":
-                return $this->getWeekFormat();
+                return $this->getWeekFormat($forGrid);
                 break;
 
              case "2m":
-                return $this->get2MonthFormat();
+                return $this->get2MonthFormat($forGrid);
                 break;
 
             case "month":
@@ -97,19 +97,19 @@
         return $this->getData('time_format');
     }
 
-    public function getWeekFormat()
+    public function getWeekFormat($forGrid=false)
     {
         if(!$this->getData('week_format')) {
-            return 'dd';
+            return $forGrid ? $this->getDateFormat() : 'dd';
         }
 
         return $this->getData('week_format');
     }
 
-    public function get2MonthFormat()
+    public function get2MonthFormat($forGrid=false)
     {
         if(!$this->getData('month2_format')) {
-            return 'dd MM';
+            return $forGrid ? $this->getDateFormat() : 'dd MM';
         }
 
         return $this->getData('month2_format');
