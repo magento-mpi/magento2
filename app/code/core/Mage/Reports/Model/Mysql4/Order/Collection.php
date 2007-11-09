@@ -40,7 +40,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         $this->addExpressionAttributeToSelect('amouth', 'COUNT({{attribute}})', 'entity_id')
             ->addExpressionAttributeToSelect('range', $this->_getRangeExpression($range), 'created_at')
             ->addAttributeToFilter('created_at', $this->_getDateRange($range, $customStart, $customEnd))
-            ->groupByAttribute('range');
+            ->groupByAttribute('range')
+            ->getSelect()->order('range', 'asc');
 
         return $this;
     }
@@ -50,19 +51,19 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         switch ($range)
         {
         	case '24h':
-        		$expression = 'CONCAT(YEAR({{attribute}}), \'-\', MONTH({{attribute}}), \'-\', DAY({{attribute}}), \' \', HOUR({{attribute}}), \':00\')';
+        		$expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d %H:00\')';
         		break;
 
         	case '7d':
         	case '1m':
-        	   $expression = 'CONCAT(YEAR({{attribute}}), \'-\', MONTH({{attribute}}), \'-\', DAY({{attribute}}), \' 00:00\')';
+        	   $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d 00:00\')';
         	   break;
 
 
         	case '1y':
         	case 'custom':
         	default:
-        	    $expression = 'CONCAT(YEAR({{attribute}}), \'-\', MONTH({{attribute}}), \'-01 00:00\')';
+        	    $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-01 00:00\')';
         		break;
         }
 

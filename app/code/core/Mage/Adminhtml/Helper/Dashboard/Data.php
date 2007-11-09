@@ -89,10 +89,10 @@ class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
 
     public function getSectionData($section)
     {
-        $stores = $this->getStores()->getItems();
-        $defaultStore = reset($stores);
+
+
         return array(
-            'store'=>$this->getConfig($section, 'store') ? $this->getConfig($section, 'store') :  $defaultStore->getId(),
+            'store'=>$this->getConfig($section, 'store') ? $this->getConfig($section, 'store') :  0,
             'range'=>$this->getConfig($section, 'period') ? $this->getConfig($section, 'period') : '24h',
             'custom_from' => $this->getDateCustomValue('from', $section),
             'custom_to'   => $this->getDateCustomValue('to', $section)
