@@ -333,7 +333,7 @@ function createDragger(count, handler, root, thumb, minX, maxX, minY, maxY){
                   'onmouseout="theScroll['+count+'].endScroll()" onmouseup="theScroll['+count+'].endScroll()" onclick="return false;">'+
                   '<img src="'+db_but_bot+'" width="16" height="15"></a></div>'+
                   '</div><div class="thumb" id="'+thumb+'">'+
-                  '<img style="border:1px solid Black;" src="'+db_but_rol+'" width="16" height="40"></div>';    
+                  '<img src="'+db_but_rol+'" width="16" height="40"></div>';    
     
     document.getElementById(root).innerHTML = buttons + document.getElementById(root).innerHTML;
 
