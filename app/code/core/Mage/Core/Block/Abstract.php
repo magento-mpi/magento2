@@ -551,6 +551,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUrl($params='', $params2=array())
     {
+    	return Mage::getUrl($params, $params2);
         #return Mage::registry('controller')->getUrl($params, $params2);
         if (!self::$_urlModel) {
             self::$_urlModel = Mage::getModel('core/url');

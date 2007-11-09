@@ -32,7 +32,7 @@
         <?if($this->getLastPageNum()>1):?>
             <?=$this->__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum())?>
         <?else:?>
-            <strong<?=$this->__('%s Item(s)', $this->getTotalNum())?></strong>
+            <strong><?=$this->__('%s Item(s)', $this->getTotalNum())?></strong>
         <?endif;?>
         </td>
         <?if($this->getLastPageNum()>1):?>
@@ -59,6 +59,7 @@
             </ol>
         </td>
         <?endif;?>
+        <?if($this->getShowPerPage()):?>
         <td class="a-right">
             <?=$this->__('Show')?> <select onchange="setLocation(this.value)">
             <?foreach ($this->getAvailableLimit() as  $_key=>$_limit):?>
@@ -68,6 +69,7 @@
             <?endforeach;?>
             </select> <?=$this->__('per page')?>
         </td>
+        <?endif?>
     </tr>
 </table>
 <?endif?>

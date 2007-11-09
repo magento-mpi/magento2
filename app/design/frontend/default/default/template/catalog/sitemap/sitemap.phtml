@@ -1,0 +1,44 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?$_items = $this->getMapItemCollection();?>
+<div class="page-head">
+    <h3><?=$this->getMyPageTitle()?></h3>
+</div>
+<div style="text-align:right;padding:5px 0px">
+	<a href="<?=$this->getMyOtherPageUrl()?>"><?=$this->getMyOtherPageTitle()?></a>	
+</div>
+<?=$this->getPagerHtml();?>
+<?if($_items->getSize()):?>
+<table cellspacing="0" style="margin:10px 0px">
+    <tbody>
+        <?$_odd = '';?>
+        <?foreach ($_items as $_item):?>
+            <tr>
+                <td style="padding:2px 0px 2px 10px"><a href="<?=$this->getMyUrl($_item)?>"><?=$_item->name?></a></td>               
+            </tr>
+        <?endforeach;?>
+    </tbody>
+</table>
+<!--script type="text/javascript">decorateTable('my-category-sitemap')</script-->
+<?=$this->getPagerHtml();?>
+<?else:?>
+    <p><?=$this->__('You have placed no '.$this->getMyPageTitle().'.');?></p>
+<?endif?>

@@ -35,6 +35,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     protected $_limitVarName    = 'limit';
     protected $_availableLimit  = array(10=>10,20=>20,50=>50);
     protected $_dispersion      = 3;
+    protected $_showPerPage		= true;
 
     public function __construct()
     {
@@ -88,6 +89,19 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     public function getPageVarName()
     {
         return $this->_pageVarName;
+    }
+    
+    public function setShowPerPage($varName)
+    {
+    	$this->_showPerPage=$varName;
+    }
+    
+    public function getShowPerPage()
+    {
+        if(sizeof($this->getAvailableLimit())<=1) {
+            return false; 
+        }
+    	return $this->_showPerPage;
     }
 
     public function setLimitVarName($varName)

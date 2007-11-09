@@ -21,6 +21,9 @@
 
     <div class="informational">
         <?=$this->getChildHtml()?>
+        <?if(Mage::getStoreConfig('catalog/seo/site_map')):?>
+        	<div></div> <a href="<?=$this->helper('catalog/map')->getCategoryUrl();?>"><?=$this->__('Site Map')?></a></div>
+        <?endif;?>
     </div>
 
 <p class="legality">
