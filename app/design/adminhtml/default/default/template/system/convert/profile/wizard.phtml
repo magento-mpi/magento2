@@ -70,17 +70,27 @@ function changeEntity()
                 $('profile_direction').remove(i);
                 break;
             }
-            
         }
     } else {
-        var option = document.createElement("OPTION");
-    	option.text = 'import';
-    	option.value = 'import';
-    	try {
-    		$('profile_direction').add(option, null); // standards compliant; doesn't work in IE
-    	} catch(ex) {
-    		$('profile_direction').add(option); // IE only
-    	}
+        
+        for(i=0;i<$('profile_direction').options.length;i++){
+            if($('profile_direction').options[i].value=='import'){
+                present = true;
+                break;
+            } else {
+                present = false;
+            }
+        }
+        if(!present){
+            var option = document.createElement("OPTION");
+        	option.text = 'Import';
+        	option.value = 'import';
+        	try {
+        		$('profile_direction').add(option, null); // standards compliant; doesn't work in IE
+        	} catch(ex) {
+        		$('profile_direction').add(option); // IE only
+        	}
+        }
     }
 }
 </script>
