@@ -214,17 +214,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         return ob_get_clean(); */
     }
 
-    /**
-     * Retirve escaped data
-     *
-     * @param   mixed $data
-     * @return  mixed
-     */
-    public function htmlEscape($data)
-    {
-        return $this->helper('core')->htmlEscape($data);
-    }
-
     public function getBaseUrl()
     {
         return $this->_baseUrl;

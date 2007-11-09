@@ -54,9 +54,9 @@ class Mage_Core_Model_Translate
      * @var array
      */
     protected $_config;
-    
+
     protected $_useCache = true;
-    
+
     /**
      * Cache identifier
      *
@@ -122,7 +122,7 @@ class Mage_Core_Model_Translate
         if (!Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')) {
             return array();
         }
-        
+
         $config = Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')->children();
         if (!$config) {
             return array();
@@ -303,7 +303,7 @@ class Mage_Core_Model_Translate
         }
         return $this->_locale;
     }
-    
+
     /**
      * Retrieve DB resource model
      *
@@ -422,7 +422,7 @@ class Mage_Core_Model_Translate
         Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array('translate'));
         return $this;
     }
-    
+
     protected function _canUseCache()
     {
         //return $this->_useCache;

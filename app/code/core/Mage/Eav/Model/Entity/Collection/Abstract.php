@@ -359,11 +359,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             $attrInstance = $this->getEntity()->getAttribute($attribute);
             $entityField = 'e.'.$attribute;
         }
-        if ($attrInstance->getBackend()->isStatic()) {
-            $this->getSelect()->order($entityField.' '.$dir);
-        } else {
-            $this->_addAttributeJoin($attribute);
-            $this->getSelect()->order($this->_getAttributeTableAlias($attribute).'.value '.$dir);
+        if ($attrInstance) {
+            if ($attrInstance->getBackend()->isStatic()) {
+                $this->getSelect()->order($entityField.' '.$dir);
+            } else {
+                $this->_addAttributeJoin($attribute);
+                $this->getSelect()->order($this->_getAttributeTableAlias($attribute).'.value '.$dir);
+            }
         }
         return $this;
     }

@@ -25,7 +25,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
 	protected $_joinFilter = array();
 	protected $_joinAttr = array();
 	protected $_attrToDb;
-	
+
     public function getStoreId()
     {
         $store = $this->getVar('store');
@@ -39,7 +39,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
     }
     /**
      * @param $attrFilter - $attrArray['attrDB']   = ['like','eq','fromTo','dateFromTo]
-     * @param $attrToDb	- attribute name to DB field		
+     * @param $attrToDb	- attribute name to DB field
      * @return Mage_Eav_Model_Convert_Adapter_Entity
     */
     
@@ -111,7 +111,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
     	}
     	return $this;
     }
-    
+
     public function getFilter()
     {
         return $this->_filter;    

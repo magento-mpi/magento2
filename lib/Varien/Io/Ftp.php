@@ -240,7 +240,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     public function write($filename, $src, $mode=null)
     {
         if (is_string($src) && is_readable($src)) {
-            return @ftp_put($this->_conn, $filename, $src, $mode);
+            return @ftp_put($this->_conn, $filename, $src, $this->_config['file_mode']);
         } else {
             if (is_string($src)) {
                 $stream = tmpfile();
@@ -252,7 +252,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
                 $this->_error = self::ERROR_INVALID_SOURCE;
                 return false;
             }
-            $result = @ftp_fput($this->_conn, $filename, $stream, $mode);
+            $result = ftp_fput($this->_conn, $filename, $stream, $this->_config['file_mode']);
             if (is_string($src)) {
                 fclose($stream);
             }

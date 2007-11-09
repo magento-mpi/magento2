@@ -1,8 +1,13 @@
 <script type="text/javascript">
-function runProfile()
+function runProfile(popup)
 {
-    $('run_iframe').style.display = 'block';
-    $('run_iframe').src = '<?=$this->getUrl('*/*/run', array('id'=>$this->getProfileId()))?>';
+    var url = '<?=$this->getUrl('*/*/run', array('id'=>$this->getProfileId()))?>';
+    if (!popup) {
+        $('run_iframe').style.display = 'block';
+        $('run_iframe').src = url;
+    } else {
+        window.open(url);
+    }
 }
 </script>
 <?=$this->getRunButtonHtml()?><br/>

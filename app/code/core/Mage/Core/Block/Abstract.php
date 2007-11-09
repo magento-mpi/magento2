@@ -114,7 +114,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var Mage_Core_Block_Abstract
      */
     protected $_parentBlock;
-    
+
     protected static $_urlModel;
 
     public function __construct($attributes=array())
@@ -698,4 +698,16 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         Mage::app()->saveCache($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
         return $this;
     }
+
+    /**
+     * Retirve escaped data
+     *
+     * @param   mixed $data
+     * @return  mixed
+     */
+    public function htmlEscape($data)
+    {
+        return $this->helper('core')->htmlEscape($data);
+    }
+
 }// Class Mage_Home_ContentBlock END

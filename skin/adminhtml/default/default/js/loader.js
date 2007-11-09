@@ -47,7 +47,7 @@ varienLoader.prototype = {
             method: 'post',
             parameters: params || {},
             onComplete: this.processResult.bind(this),
-            onFailure: this.processFailure.bind(this)
+            onFailure: this._processFailure.bind(this)
         });
     },
 

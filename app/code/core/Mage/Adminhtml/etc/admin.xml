@@ -364,7 +364,7 @@
                         <title>Import/Export</title>
                         <children>
                             <gui>
-                                <title>GUI Profiles</title>
+                                <title>Profiles</title>
                                 <action>*/system_convert_gui</action>
                             </gui>
                             <profiles>

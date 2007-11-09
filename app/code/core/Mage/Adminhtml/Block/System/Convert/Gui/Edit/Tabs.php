@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tabs extends Mage_Adminhtml_B
         $new = !$profile->getId();
 
         $this->addTab('wizard', array(
-            'label'     => __('Profile GUI Wizard'),
+            'label'     => __('Profile Wizard'),
             'content'   => $wizardBlock->toHtml(),
             'active'    => true,
         ));

@@ -29,23 +29,35 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
 {
     public function toHtml()
     {
+        $profile = Mage::registry('current_convert_profile');
+
         echo '<html><head>
-<style type="text/css">
-ul { list-style-type:none; padding:0; margin:0; }
-li { margin-left:0; border:solid #CCC 1px; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
-img { margin-right:5px; }
-</style>
+    <style type="text/css">
+    ul { list-style-type:none; padding:0; margin:0; }
+    li { margin-left:0; border:solid #CCC 1px; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
+    img { margin-right:5px; }
+    </style>
+    <title>'.($profile->getId() ? $this->htmlEscape($profile->getName()) : $this->__('No profile')).'</title>
 </head><body>';
         echo '<ul>';
         echo '<li>';
-        echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';
-        echo $this->__("Starting profile execution, please wait...");
+        if ($profile->getId()) {
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';
+            echo $this->__("Starting profile execution, please wait...");
+        } else {
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';
+            echo $this->__("No profile loaded...");
+        }
         echo '</li>';
-        echo '</ul><ul>';
+        echo '</ul>';
+
+        if (!$profile->getId()) {
+            return;
+        }
+
+        echo '<ul>';
 
         ob_implicit_flush();
-
-        $profile = Mage::registry('current_convert_profile');
 
         $profile->run();
         foreach ($profile->getExceptions() as $e) {
