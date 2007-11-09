@@ -30,6 +30,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_errors = array();
     protected $_dhlRates = array();
     protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
 
@@ -110,6 +111,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
     public function getResult()
     {
         $result = Mage::getModel('shipping/rate_result');
+        
+        foreach ($this->_errors as $errorText) {
+        	$error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier('dhl');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
+            $error->setErrorMessage($errorText);
+            $result->append($error);
+        }
+        
         foreach($this->_dhlRates as $method => $data) {
             $rate = Mage::getModel('shipping/rate_result_method');
             $rate->setCarrier('dhl');
@@ -198,20 +208,26 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                         && is_object($xml->Faults->Fault->Description)
                         && is_object($xml->Faults->Fault->Context)
                        ) {
-                        $errorTitle = 'Error #'.(string)$xml->Faults->Fault->Code.': '.$xml->Faults->Fault->Description.' ('.$xml->Faults->Fault->Context.')';
+                        $code = (string)$xml->Faults->Fault->Code;
+                        $description = $xml->Faults->Fault->Description;
+                        $context = $xml->Faults->Fault->Context;
+                        $this->_errors[$code] = __('Error #%s : %s (%s)', $code, $description, $context);
                     } elseif(
                         is_object($xml->Shipment->Faults)
                         && is_object($xml->Shipment->Result->Code)
                         && is_object($xml->Shipment->Result->Desc)
                         && intval($xml->Shipment->Result->Code) != self::SUCCESS_CODE
                        ) {
-                        $errorTitle = 'Error #'.(string)$xml->Shipment->Result->Code.': '.$xml->Shipment->Result->Desc;
+                           $code = (string)$xml->Shipment->Result->Code;
+                           $description = $xml->Shipment->Result->Desc;
+                           $this->_errors[$code] = __('Error #%s: %s', $code, $description);
                     } else {
                         $this->_addRate($xml);
+                        return $this;
                     }
                 }
             } else {
-                $errorTitle = 'Response is in the wrong format';
+                $this->_errors[] = __('Response is in the wrong format');
             }
         }
     }
