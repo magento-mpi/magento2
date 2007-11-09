@@ -46,7 +46,7 @@
         $timeFormat = $this->getFormat();
 
         foreach ($labelValues as $value) {
-            $date = new Zend_Date($value, 'yyyy-MM-dd HH:mm:ss', Mage::app()->getLocale()->getLocaleCode());
+            $date = Mage::getSingleton('core/locale')->date($value, 'yyyy-MM-dd HH:mm:ss');
             $label = $date->toString($timeFormat);
             $this->_labels[] = $this->getLabelText($label);
         }

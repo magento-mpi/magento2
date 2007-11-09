@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
 	 * Date format string
 	 */
 	protected static $_format = null;
-    
+
 	/**
 	 * Retrieve datetime format
 	 *
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
                     );
                 }
                 catch (Exception $e) {
-                
+
                 }
 			}
 			$format = self::$_format;
@@ -68,12 +68,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Datetime extends Mage_Adm
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
 			$format = $this->_getFormat();
-            try {
-                $data = Mage::getSingleton('core/locale')->date($data, Zend_Date::ISO_8601)->toString($format);
+			try {
+                $data = Mage::getSingleton('core/locale')->date($data, 'yyyy-MM-dd HH:mm:ss' /* Zend_Date::ISO_8601  DOESNT PARSE TIME*/)->toString($format);
             }
             catch (Exception $e)
             {
-                $data = Mage::getSingleton('core/locale')->date($data)->toString($format);
+                $data = Mage::getSingleton('core/locale')->date($data, null, $locale)->toString($format);
             }
             return $data;
 

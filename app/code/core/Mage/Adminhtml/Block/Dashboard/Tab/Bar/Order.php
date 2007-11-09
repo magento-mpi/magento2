@@ -79,8 +79,9 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
             ->addColumn('range', array(
                 'header'=>$this->__('Date'),
                 'index'=>'range',
-                'type' => 'date',
-                'format'=>  $this->getTab('orders_income')->getHorizontalAxis()->getFormat()
+                'type' => 'datetime',
+                'format'=>  $this->getTab('orders_income')->getHorizontalAxis()->getFormat(),
+                'locale'=>  Mage::app()->getLocale()->getLocaleCode()
             ))
             ->addColumn('revenue', array(
                 'header'=>$this->__('Total Income'),
@@ -93,6 +94,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
                 'header'=>$this->__('Number Of Orders'),
                 'index'=>'amouth'
             ));
+
 
 
         // Totals for summary
