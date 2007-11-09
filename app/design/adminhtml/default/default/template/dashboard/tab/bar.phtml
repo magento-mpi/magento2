@@ -49,7 +49,12 @@ $_dataFlag = TRUE;
 	<?endforeach;?>
 	<script type="text/javascript">
 	<!--
-	showTab('1', '<?=$this->getHtmlId()?>',  <?=$this->getCountTabs()?>);
+	showTab('<?=$this->getCountTabs()?>', '<?=$this->getHtmlId()?>',  <?=$this->getCountTabs()?>);
+	//-->
+	</script>
+	<script type="text/javascript">
+	<!--
+	setTimeout("showTab('1', '<?=$this->getHtmlId()?>',  <?=$this->getCountTabs()?>)", 1);
 	//-->
 	</script>
 </div>
