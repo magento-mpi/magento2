@@ -124,11 +124,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $this->_redirectReferer(Mage::getBaseUrl());
     }
 
-    public function aggregateAction()
-    {
-        Mage::getModel('log/visitor_aggregator')->update();
-    }
-
     protected function _isAllowed()
     {
     	/*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {
