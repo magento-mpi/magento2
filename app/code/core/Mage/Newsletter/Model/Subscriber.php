@@ -393,7 +393,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendConfirmationRequestEmail()
     {
-        return $this;
+        if(!Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE) || !Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY))  {
+            return $this;
+        }
+
     	Mage::getModel('core/email_template')
     		->sendTransactional(
     		    Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
@@ -401,12 +404,16 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     		    $this->getEmail(),
     		    $this->getName(),
     		    array('subscriber'=>$this));
+
     	return $this;
     }
 
     public function sendConfirmationSuccessEmail()
     {
-        return $this;
+        if(!Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE) || !Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY))  {
+            return $this;
+        }
+
     	Mage::getModel('core/email_template')
     		->sendTransactional(
     		    Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
@@ -419,8 +426,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendUnsubscriptionEmail()
     {
-        return $this;
-    	Mage::getModel('core/email_template')
+        if(!Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE) || !Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY))  {
+            return $this;
+        }
+        Mage::getModel('core/email_template')
     		->sendTransactional(
     		    Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),
     		    Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY),
