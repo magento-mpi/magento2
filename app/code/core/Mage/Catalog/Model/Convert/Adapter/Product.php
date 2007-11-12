@@ -36,16 +36,16 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
 		$attrFilterArray ['status'] = 'eq';
 		$attrFilterArray ['price'] = 'fromTo';
 		$attrFilterArray ['qty'] = 'fromTo';
-		
+
 		$attrToDb = array(
 		  'type'=>'type_id',
 		  'attribute_set'=>'attribute_set_id'
 		);
-		 
+
 		parent::setFilter($attrFilterArray,$attrToDb);
 		parent::load();
 	}
-	
+
     public function save()
     {
         $stores = array();
@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
         if ($collections instanceof Mage_Catalog_Model_Entity_Product_Collection) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
-            $this->addException(__('Array of product collections expected'), Varien_Convert_Exception::FATAL);
+            $this->addException(__('No product collections found'), Varien_Convert_Exception::FATAL);
         }
 
         foreach ($collections as $storeId=>$collection) {
@@ -69,12 +69,22 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
             try {
                 $i = 0;
                 foreach ($collection->getIterator() as $model) {
+                    $new = false;
+                    // if product is new, create default values first
                     if (!$model->getId()) {
+                        $new = true;
                         $model->save();
-                        Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
+                        echo "TEST1;";
+                        #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
                     }
-                    Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
-                    $model->save();
+                    if (!$new || 0!==$storeId) {
+                        echo "TEST2;";
+                        if (0!==$storeId) {
+                            echo "TEST3;";
+                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
+                        }
+                        $model->save();
+                    }
                     $i++;
                 }
                 $this->addException(__("Saved ".$i." record(s)"));

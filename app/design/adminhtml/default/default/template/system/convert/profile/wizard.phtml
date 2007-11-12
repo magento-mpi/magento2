@@ -37,6 +37,7 @@
 <script type="text/javascript">
 function showOption(select)
 {
+    select = $(select);
     for (var i = 0, l = select.options.length; i<l; i++) {
         $$('#'+select.id+'_'+select.options[i].value).each(function (el) {
             el.style.display = select.selectedIndex==i ? '' : 'none';
@@ -61,21 +62,24 @@ function setMapFileField(select)
     select.parentNode.getElementsByTagName('input')[0].value = select.value;
 }
 
-function changeEntity()
+function toggleSelectOption(type, source, target, sourceValue, targetValue, targetText)
 {
-    var select = $('profile_entity_type');
-    var dir = $('profile_direction');
-    if(select.options[select.selectedIndex].value=='customer'){
-        for(i=0;i<dir.options.length;i++){
-            if(dir.options[i].value=='import'){
-                dir.remove(i);
+    source = $(source);
+    target = $(target);
+
+    var i, ex, option, present;
+    var selectValue = source.options[source.selectedIndex].value;
+
+    if('remove'==type && selectValue==sourceValue || 'add'==type && selectValue!=sourceValue) {
+        for(i=0;i<target.options.length;i++){
+            if(target.options[i].value==targetValue){
+                target.remove(i);
                 break;
             }
         }
     } else {
-
-        for(i=0;i<dir.options.length;i++){
-            if(dir.options[i].value=='import'){
+        for(i=0;i<target.options.length;i++){
+            if(target.options[i].value==targetValue){
                 present = true;
                 break;
             } else {
@@ -83,17 +87,31 @@ function changeEntity()
             }
         }
         if(!present){
-            var option = document.createElement("OPTION");
-        	option.text = 'Import';
-        	option.value = 'import';
+            option = document.createElement("OPTION");
+        	option.text = targetText;
+        	option.value = targetValue;
         	try {
-        		dir.add(option, null); // standards compliant; doesn't work in IE
+        		target.add(option, null); // standards compliant; doesn't work in IE
         	} catch(ex) {
-        		dir.add(option); // IE only
+        		target.add(option); // IE only
         	}
         }
     }
-    showOption(dir);
+    showOption(target);
+}
+
+function changeEntityType()
+{
+    toggleSelectOption('remove', 'profile_entity_type', 'profile_direction', 'customer', 'import', '<?=$this->__('Import')?>');
+    //showOption('profile_direction');
+    changeDirection();
+}
+
+
+function changeDirection()
+{
+    toggleSelectOption('remove', 'profile_direction', 'profile_data_transfer', 'export', 'interactive', '<?=$this->__('Interactive')?>');
+    //showOption('profile_data_transfer');
 }
 </script>
 
@@ -107,14 +125,14 @@ function changeEntity()
         </span>
         <span class="field-row">
             <label for="profile_entity_type"><?=$this->__("Entity type:")?></label>
-            <select id="profile_entity_type" name="entity_type" onchange="showOption(this);changeEntity();" class="option-control">
+            <select id="profile_entity_type" name="entity_type" onchange="showOption(this);changeEntityType();" class="option-control">
                 <option value="product" <?=$this->getSelected('entity_type', 'product')?>><?=$this->__("Products")?></option>
                 <option value="customer" <?=$this->getSelected('entity_type', 'customer')?>><?=$this->__("Customers")?></option>
             </select>
         </span>
         <span class="field-row">
             <label for="profile_direction"><?=$this->__("Direction:")?></label>
-            <select id="profile_direction" name="direction" onchange="showOption(this)" class="option-control">
+            <select id="profile_direction" name="direction" onchange="showOption(this);changeDirection();" class="option-control">
                 <option value="import" <?=$this->getSelected('direction', 'import')?>><?=$this->__("Import")?></option>
                 <option value="export" <?=$this->getSelected('direction', 'export')?>><?=$this->__("Export")?></option>
             </select>
@@ -126,6 +144,9 @@ function changeEntity()
                     <option value="<?=$_value?>" <?=$this->getSelected('store_id', $_value)?>><?=htmlspecialchars($_label)?></option>
                 <?endforeach?>
             </select>
+            <span id="profile_direction_import">
+                <?=$this->__("(During import will be used as default if not specified for the row)")?>
+            </span>
         </span>
     </fieldset>
 
@@ -133,18 +154,22 @@ function changeEntity()
     <fieldset>
         <legend><?=$this->__("File Information")?></legend>
         <span class="field-row">
-            <label for="file_method"><?=$this->__("Method:")?></label>
-            <select id="file_method" name="gui_data[file][method]" onchange="showOption(this)" class="option-control">
-                <option value="http" <?=$this->getSelected('gui_data/file/method', 'http')?>><?=$this->__("Upload Interactively")?></option>
-                <option value="io" <?=$this->getSelected('gui_data/file/method', 'io')?>><?=$this->__("Local Server/Remote FTP")?></option>
+            <label for="profile_data_transfer"><?=$this->__("Data transfer:")?></label>
+            <select id="profile_data_transfer" name="data_transfer" onchange="showOption(this)" class="option-control">
+                <option value="interactive" <?=$this->getSelected('data_transfer', 'interactive')?>><?=$this->__("Interactive")?></option>
+                <option value="file" <?=$this->getSelected('data_transfer', 'file')?>><?=$this->__("Local/Remote Server")?></option>
             </select>
         </span>
-        <div id="file_method_http">
-            <div id="profile_direction_export">
-                <?=$this->__("Interactive Downloading is not supported yet. For file download link please choose Local/Remote file.")?>
-            </div>
+        <!--
+        <div id="profile_data_transfer_interactive">
+            <span class="field-row">
+                <label for="interactive_filename"><?=$this->__("Archive file name:")?></label>
+                <input class="input-text" id="interactive_filename" name="gui_data[interactive][filename]" value="<?=$this->getValue('gui_data/interactive/filename')?>"/>
+                <?=$this->__('(If left empty will be auto-generated)')?>
+            </span>
         </div>
-        <div id="file_method_io">
+        -->
+        <div id="profile_data_transfer_file">
             <span class="field-row">
                 <label for="file_type"><?=$this->__("Type:")?></label>
                 <select id="file_type" name="gui_data[file][type]" onchange="showOption(this)" class="option-control">
@@ -413,5 +438,5 @@ function changeEntity()
 
 <script type="text/javascript">
     $$('.option-control').each(showOption);
-    changeEntity();
+    changeEntityType();
 </script>

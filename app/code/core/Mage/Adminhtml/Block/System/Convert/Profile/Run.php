@@ -27,9 +27,14 @@
  */
 class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Abstract
 {
+    public function getProfile()
+    {
+        return Mage::registry('current_convert_profile');
+    }
+
     public function toHtml()
     {
-        $profile = Mage::registry('current_convert_profile');
+        $profile = $this->getProfile();
 
         echo '<html><head>
     <style type="text/css">
@@ -86,11 +91,11 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
                 echo " <small>(".$e->getPosition().")</small>";
             }
             echo "</li>";
-            if ($e->getLevel()===Varien_Convert_Exception::FATAL) {
-                echo "<blockquote>";
-                Mage::printException($e);
-                echo "</blockquote>";
-            }
+//            if ($e->getLevel()===Varien_Convert_Exception::FATAL) {
+//                echo "<blockquote>";
+//                Mage::printException($e);
+//                echo "</blockquote>";
+//            }
         }
         echo '<li>';
         echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';

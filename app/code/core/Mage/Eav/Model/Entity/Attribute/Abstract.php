@@ -67,7 +67,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         $this->_init('eav/entity_attribute');
     }
-    
+
     public function loadByCode($entityType, $code)
     {
         if (is_numeric($entityType)) {
@@ -164,17 +164,17 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     {
         return $this->getData('backend_table');
     }
-    
+
     public function getIsVisibleOnFront()
     {
         return $this->getData('is_visible_on_front');
     }
-    
+
     public function getDefaultValue()
     {
         return $this->getData('default_value');
     }
-    
+
     /**
      * Get attribute alias as "entity_type/attribute_code"
      *
@@ -278,6 +278,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                 ->setAttribute($this);
         }
         return $this->_source;
+    }
+
+    public function usesSource()
+    {
+        return $this->getFrontendInput()==='select' || $this->getFrontendInput()==='multiselect';
     }
 
     protected function _getDefaultBackendModel()

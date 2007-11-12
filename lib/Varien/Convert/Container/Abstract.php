@@ -112,7 +112,9 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
             $data = $this->getData();
         }
         if (!is_array($data) || !is_array(current($data))) {
-            if(count($data)==0) return true;
+            if (count($data)==0) {
+                return true;
+            }
         	$this->addException("Invalid data type, expecting 2D grid array.", Varien_Convert_Exception::FATAL);
         }
         return true;
@@ -137,10 +139,6 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         $e->setLevel(!is_null($level) ? $level : Varien_Convert_Exception::NOTICE);
         $e->setContainer($this);
         $e->setPosition($this->getPosition());
-
-        if (Varien_Convert_Exception::FATAL===$level) {
-            throw $e;
-        }
 
         $this->getProfile()->addException($e);
 

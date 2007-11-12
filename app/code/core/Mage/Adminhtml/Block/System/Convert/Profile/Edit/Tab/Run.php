@@ -35,7 +35,16 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Core
 
     public function getRunButtonHtml()
     {
-        $html = $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+        $html = '';
+/*
+        if (Mage::registry('current_convert_profile')->getDirection()=='import') {
+            $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+                ->setLabel($this->__('Upload import file'))
+                ->setOnClick('showUpload()')
+                ->toHtml();
+        }
+*/
+        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
             ->setClass('save')->setLabel($this->__('Run Profile Inside This Window'))
             ->setOnClick('runProfile()')
             ->toHtml();

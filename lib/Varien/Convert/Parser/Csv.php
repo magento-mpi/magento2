@@ -60,7 +60,6 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
             $data[] = $row;
         }
         fclose($fp);
-
         $this->setData($data);
         return $this;
     }

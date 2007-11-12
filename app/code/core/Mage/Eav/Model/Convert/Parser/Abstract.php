@@ -32,12 +32,15 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract extends Varien_Convert_Par
         } else {
             $storeIds = array();
             foreach (explode(',', $stores) as $store) {
-                $storeNode = Mage::getConfig()->getNode('stores/'.$store);
-                if (!$storeNode) {
-                    $this->addException(__("Invalid store specified, skipping the record"), Varien_Convert_Exception::ERROR);
-                    continue;
+                if (is_numeric($store)) {
+                    $storeIds[] = $store;
+                } else {
+                    $storeNode = Mage::getConfig()->getNode('stores/'.$store);
+                    if (!$storeNode) {
+                        return false;
+                    }
+                    $storeIds[] = (int)$storeNode->system->store->id;
                 }
-                $storeIds[] = (int)$storeNode->system->store->id;
             }
         }
         return $storeIds;

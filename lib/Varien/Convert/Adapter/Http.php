@@ -41,7 +41,6 @@ File to upload: <input type="file" name="io_file"/> <input type="submit" value="
          if (!empty($_FILES['io_file']['tmp_name'])) {
             $this->setData(file_get_contents($_FILES['io_file']['tmp_name']));
          }
-
          return $this;
      }
 

@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
             $this->_filterStores = array();
             foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
                 if ($storeNode->getName()==='default') {
-                    continue;
+                    //continue;
                 }
                 $this->_filterStores[$storeNode->getName()] = (string)$storeNode->system->store->name;
             }
@@ -191,7 +191,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
             foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
                 $storeId = (int)$storeNode->system->store->id;
                 if ($storeId==0) {
-                    continue;
+                    //continue;
                 }
                 $this->_stores[$storeId] = (string)$storeNode->system->store->name;
             }

@@ -43,8 +43,17 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         $this->_categoryProductTable= $resource->getTableName('catalog/category_product');
     }
 
+    public function getIdBySku($sku)
+    {
+         return $this->_read->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
+    }
+
     protected function _beforeSave(Varien_Object $object)
     {
+        if (!$object->getId() && $object->getSku()) {
+           $object->setId($this->getIdBySku($object->getSku()));
+        }
+
         return parent::_beforeSave($object);
     }
 
@@ -182,7 +191,12 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
         $insert = array();
 
         if (!is_array($postedCategories)) {
-            $postedCategories = array();
+            if ($object->getId()) {
+                //no changes made
+                return $this;
+            } else {
+                $postedCategories = array();
+            }
         }
         $categories = array();
 

@@ -90,35 +90,41 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
         $import = $this->getDirection()==='import';
         $p = $this->getGuiData();
 
-        switch ($p['file']['method']) {
-            case 'io':
-                $fileXml = '<action type="varien/convert_adapter_io" method="'.($import?'load':'save').'">'.$nl;
-                $fileXml .= '    <var name="type">'.$p['file']['type'].'</var>'.$nl;
-                $fileXml .= '    <var name="path">'.$p['file']['path'].'</var>'.$nl;
-                $fileXml .= '    <var name="filename"><![CDATA['.$p['file']['filename'].']]></var>'.$nl;
-                if ($p['file']['type']==='ftp') {
-                    $hostArr = explode(':', $p['file']['host']);
-                    $fileXml .= '    <var name="host"><![CDATA['.$hostArr[0].']]></var>'.$nl;
-                    if (isset($hostArr[1])) {
-                        $fileXml .= '    <var name="port"><![CDATA['.$hostArr[1].']]></var>'.$nl;
-                    }
-                    if (!empty($p['file']['passive'])) {
-                        $fileXml .= '    <var name="passive">true</var>'.$nl;
-                    }
-                    if (!empty($p['file']['user'])) {
-                        $fileXml .= '    <var name="user"><![CDATA['.$p['file']['user'].']]></var>'.$nl;
-                    }
-                    if (!empty($p['file']['password'])) {
-                        $fileXml .= '    <var name="password"><![CDATA['.$p['file']['password'].']]></var>'.$nl;
-                    }
-                }
-                break;
+        if ($this->getDataTransfer()==='interactive') {
+//            $p['file']['type'] = 'file';
+//            $p['file']['filename'] = $p['interactive']['filename'];
+//            $p['file']['path'] = 'var/export';
 
-            case 'http':
-                $fileXml = '<action type="varien/convert_adapter_http" method="'.($import?'load':'save').'">'.$nl;
-                break;
+            $interactiveXml = '<action type="varien/convert_adapter_http" method="'.($import?'load':'save').'">'.$nl;
+            #$interactiveXml .= '    <var name="filename"><![CDATA['.$p['interactive']['filename'].']]></var>'.$nl;
+            $interactiveXml .= '</action>';
+
+            $fileXml = '';
+        } else {
+            $interactiveXml = '';
+
+            $fileXml = '<action type="varien/convert_adapter_io" method="'.($import?'load':'save').'">'.$nl;
+            $fileXml .= '    <var name="type">'.$p['file']['type'].'</var>'.$nl;
+            $fileXml .= '    <var name="path">'.$p['file']['path'].'</var>'.$nl;
+            $fileXml .= '    <var name="filename"><![CDATA['.$p['file']['filename'].']]></var>'.$nl;
+            if ($p['file']['type']==='ftp') {
+                $hostArr = explode(':', $p['file']['host']);
+                $fileXml .= '    <var name="host"><![CDATA['.$hostArr[0].']]></var>'.$nl;
+                if (isset($hostArr[1])) {
+                    $fileXml .= '    <var name="port"><![CDATA['.$hostArr[1].']]></var>'.$nl;
+                }
+                if (!empty($p['file']['passive'])) {
+                    $fileXml .= '    <var name="passive">true</var>'.$nl;
+                }
+                if (!empty($p['file']['user'])) {
+                    $fileXml .= '    <var name="user"><![CDATA['.$p['file']['user'].']]></var>'.$nl;
+                }
+                if (!empty($p['file']['password'])) {
+                    $fileXml .= '    <var name="password"><![CDATA['.$p['file']['password'].']]></var>'.$nl;
+                }
+            }
+            $fileXml .= '</action>'.$nl.$nl;
         }
-        $fileXml .= '</action>'.$nl.$nl;
 
         switch ($p['parse']['type']) {
             case 'excel_xml':
@@ -170,9 +176,11 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 
         if ($import) {
             $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
+            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
             $parseDataXml .= '</action>'.$nl.$nl;
         } else {
             $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="unparse">'.$nl;
+            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
             $parseDataXml .= '</action>'.$nl.$nl;
         }
 
@@ -207,9 +215,9 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
         }
 
         if ($import) {
-            $xml = $fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
+            $xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
         } else {
-            $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml;
+            $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml.$interactiveXml;
         }
 
         $this->setGuiData($p);

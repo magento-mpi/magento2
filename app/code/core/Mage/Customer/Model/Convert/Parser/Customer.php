@@ -36,12 +36,12 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
         } elseif (!is_array($collections)) {
             $this->addException(__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
         }
-       
+
         foreach ($collections as $storeId=>$collection) {
             if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
                 $this->addException(__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
             }
-        
+
             $data = array();
             foreach ($collection->getIterator() as $i=>$model) {
                 $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
@@ -56,8 +56,8 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                     if (!$attribute) {
                         continue;
                     }
-                    
-                    if ($attribute->getFrontendInput()==='select' || $attribute->getFrontendInput()==='multiselect' || $attribute->getSourceModel()) {
+
+                    if ($attribute->usesSource()) {
                         $option = $attribute->getSource()->getOptionText($value);
                         if (false===$option) {
                             $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
@@ -102,7 +102,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                     $row['created_in'] = 'Admin';
                 }
                 $data[] = $row;
-                
+
             }
         }
         $this->setData($data);

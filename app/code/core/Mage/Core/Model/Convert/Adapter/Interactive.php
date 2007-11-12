@@ -20,17 +20,42 @@
 
 
 /**
- * Convert IO adapter
+ * Convert HTTP adapter
  *
  * @category   Varien
  * @package    Varien_Convert
  * @author     Moshe Gurvich <moshe@varien.com>
  */
- class Mage_Core_Model_Convert_Adapter_Io extends Varien_Convert_Adapter_Io
+ class Mage_Core_Model_Convert_Adapter_Interactive extends Varien_Convert_Adapter_Abstract
  {
-     public function getResource()
+
+     public function load()
      {
-         parent::getResource()->cd(Mage::getBaseDir('export'));
-         return $this->_resource;
+         if (!$_FILES) {
+?>
+<form method="POST" enctype="multipart/form-data">
+File to upload: <input type="file" name="io_file"/> <input type="submit" value="Upload"/>
+</form>
+<?
+             exit;
+         }
+         if (!empty($_FILES['io_file']['tmp_name'])) {
+             //move_uploaded_file($_FILES['io_file']['tmp_name'])
+             $this->setData(file_get_contents($_FILES['io_file']['tmp_name']));
+         }
+
+         return $this;
      }
+
+     public function save()
+     {
+         if ($this->getVars()) {
+             foreach ($this->getVars() as $key=>$value) {
+                 header($key.': '.$value);
+             }
+         }
+         echo $this->getData();
+         return $this;
+     }
+
  }
