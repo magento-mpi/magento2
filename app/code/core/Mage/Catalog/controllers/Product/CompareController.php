@@ -55,10 +55,13 @@
         $productId = (int)$this->getRequest()->getParam('product');
 
         $product = Mage::getModel('catalog/product')
+            ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
 
         if($product->getId()) {
             Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
+            Mage::getSingleton('catalog/session')
+                        ->addSuccess(__('Product %s successfully added to compare list', $product->getName()));
         }
 
         $this->_redirectReferer();

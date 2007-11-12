@@ -77,23 +77,23 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Order extends Mage_Adminhtml_Block_
         // init columns for orders summary grid
         $this->getTab('orders_summary')
             ->addColumn('range', array(
-                'header'=>$this->__('Date'),
-                'index'=>'range',
-                'type' => 'datetime',
-                'format'=>  $this->getTab('orders_income')->getHorizontalAxis()->getFormat(true),
-                'timezone'=>'GMT',
-                'locale'=>  Mage::app()->getLocale()->getLocaleCode()
+                'header'    =>  $this->__('Date'),
+                'index'     =>  'range',
+                'type'      =>  'datetime',
+                'format'    =>  $this->getTab('orders_income')->getHorizontalAxis()->getFormat(true),
+                'timezone'  =>  'GMT',
+                'locale'    =>  Mage::app()->getLocale()->getLocaleCode()
             ))
             ->addColumn('revenue', array(
-                'header'=>$this->__('Total Income'),
-                'index'=>'revenue',
-                'type' => 'currency',
+                'header'    =>  $this->__('Total Income'),
+                'index'     =>  'revenue',
+                'type'      =>  'currency',
                 'currency_code' => $store->getBaseCurrencyCode()
             ))
             ->addColumn('qty', array(
-                'width'=>154,
-                'header'=>$this->__('Number Of Orders'),
-                'index'=>'amouth'
+                'width'     =>  154,
+                'header'    =>  $this->__('Number Of Orders'),
+                'index'     =>  'amouth'
             ));
 
 

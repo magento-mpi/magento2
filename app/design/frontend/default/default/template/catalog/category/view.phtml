@@ -25,6 +25,7 @@
  * @see Mage_Catalog_Block_Category_View
  */
 ?>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
 <?if($this->isContentMode()):?>
     <h2 class="category-head"><?=$this->getCurrentCategory()->getName()?></h2>
     <?=$this->getCmsBlockHtml()?>
