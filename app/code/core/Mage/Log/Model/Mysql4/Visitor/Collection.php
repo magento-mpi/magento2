@@ -142,7 +142,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     	   ->join(array('type'=>$this->_summaryTypeTable), 'type.type_id=summary.type_id', array());
 
     	if (is_null($customFrom) && is_null($customTo)) {
-    	   $this->_sqlSelect->where( "summary.add_date >= ( ? - INTERVAL {$period} MINUTE)", now() );
+    	   $this->_sqlSelect->where( "summary.add_date >= ( ? - INTERVAL {$period} {$this->_getRangeByType($type_code)} )", now() );
     	} else {
     	    if($customFrom) {
  	        $this->_sqlSelect->where( "summary.add_date >= ", $this->_sqlSelect->convertDate($customFrom));
@@ -155,9 +155,29 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     	if( is_null($type_code) ) {
     		$this->_sqlSelect->where("summary.type_id IS NULL");
     	} else {
-		$this->_sqlSelect->where("type.type_code = ? ", $type_code);
+		    $this->_sqlSelect->where("type.type_code = ? ", $type_code);
     	}
     	return $this;
+    }
+
+    protected function _getRangeByType($type_code)
+    {
+        switch ($type_code)
+        {
+            case 'day':
+                $range = 'DAY';
+                break;
+            case 'hour':
+                $range = 'HOUR';
+                break;
+            case 'minute':
+            default:
+                $range = 'MINUTE';
+                break;
+
+        }
+
+        return $range;
     }
 
     public function addFieldToFilter($fieldName, $fieldValue)

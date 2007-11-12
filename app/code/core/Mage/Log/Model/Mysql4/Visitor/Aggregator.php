@@ -78,7 +78,7 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        
+
         $this->_visitorTable    = $resource->getTableName('log/visitor');
         $this->_urlTable        = $resource->getTableName('log/url_table');
         $this->_customerTable   = $resource->getTableName('log/customer');
@@ -106,39 +106,45 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
     protected function _update($type)
     {
         $countSelect = $this->_read->select()
-            ->from($this->_summaryTable, new Zend_Db_Expr('COUNT(summary_id)'))
+            ->from($this->_summaryTable, 'summary_id')
             ->where('type_id=?', $type['type_id'])
             ->having("('".now()."' - INTERVAL {$type['period']} {$type['period_type']}) <= MAX(add_date)");
-        
-        $count = $this->_read->fetchOne($countSelect);
-        
-        if( intval($count) == 0 ) {
-            $customerSelect = $this->_read->select()
+
+        $summaryIds = $this->_read->fetchCol($countSelect);
+
+        $customerSelect = $this->_read->select()
                 ->from($this->_customerTable, 'visitor_id')
                 ->where("? - INTERVAL {$type['period']} {$type['period_type']} <= login_at", now())
-                ->where('logout_at IS NULL');
+                ->where("logout_at IS NULL OR logout_at <= ? - INTERVAL {$type['period']} {$type['period_type']}", now());
 
-			$customers = $this->_read->fetchCol($customerSelect);
+		$customers = $this->_read->fetchCol($customerSelect);
 
-            $customerCount = count($customers);
+        $customerCount = count($customers);
 
-            $customers = ( $customerCount > 0 ) ? $customers : 0;
+        $customers = ( $customerCount > 0 ) ? $customers : 0;
 
-            $customersCondition = $this->_read->quoteInto('visitor_id NOT IN(?)', $customers);
-            $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE ('".now()."' - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
+        $customersCondition = $this->_read->quoteInto('visitor_id NOT IN(?)', $customers);
+        $visitorCount = $this->_read->fetchOne("SELECT COUNT(visitor_id) FROM {$this->_visitorTable} WHERE ('".now()."' - INTERVAL {$type['period']} {$type['period_type']}) <= first_visit_at OR (NOW() - INTERVAL {$type['period']} {$type['period_type']}) <= last_visit_at AND {$customersCondition}");
 
-            if( $customerCount == 0 && $visitorCount == 0 ) {
-                return;
-            }
-
-            $data = array(
-                    'type_id' => $type['type_id'],
-                    'visitor_count' => $visitorCount,
-                    'customer_count' => $customerCount,
-                    'add_date' => now()
-                    );
-            $this->_write->insert($this->_summaryTable, $data);
+        if( $customerCount == 0 && $visitorCount == 0 ) {
+            return;
         }
+
+        $data = array(
+                'type_id' => $type['type_id'],
+                'visitor_count' => $visitorCount,
+                'customer_count' => $customerCount,
+                'add_date' => now()
+                );
+
+
+        if(count($summaryIds)==0) {
+            $this->_write->insert($this->_summaryTable, $data);
+        } else {
+            $conditionSql = $this->_write->quoteInto('summary_id in (?)', $summaryIds);
+            $this->_write->update($this->_summaryTable, $data, $conditionSql);
+        }
+
     }
 
     public function updateOneshot($minutes=60, $interval=300)
