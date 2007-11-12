@@ -138,6 +138,11 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
 
     public function getAggregatedData($period=720, $type_code=null, $customFrom=null, $customTo=null)
     {
+        /**
+         * @todo : need remove agregation logic
+         */
+        $this->_itemObjectClass = 'Varien_Object';
+        $this->_setIdFieldName('summary_id');
     	$this->_sqlSelect->from(array('summary'=>$this->_summaryTable))
     	   ->join(array('type'=>$this->_summaryTypeTable), 'type.type_id=summary.type_id', array());
 
