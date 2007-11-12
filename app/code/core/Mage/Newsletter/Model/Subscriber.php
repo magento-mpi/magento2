@@ -282,7 +282,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
             $this->setCustomerId($customerSession->getCustomerId());
         } else if ($customer->getId()) {
             $this->setStoreId($customer->getStoreId());
-            $this->setCustomerId($customer->getCustomerId());
+            $this->setCustomerId($customer->getId());
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
             $this->setCustomerId(0);
