@@ -81,7 +81,7 @@
 		                             .replace(/<?=$this->getElement()->getHtmlId()?>_container/g, "<?=$this->getElement()->getHtmlId()?>_container__#{group_index}")
 		                             .replace(/<?=$this->getElement()->getHtmlId()?>_group_fieldset/g, "<?=$this->getElement()->getHtmlId()?>_group_fieldset__#{group_index}")
 		                             .replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '')
-		                             .replace(/="'([^']*)'"/g, '="$1"').replace(/display: none/g, '')
+		                             .replace(/="'([^']*)'"/g, '="$1"').replace(/display: none/gi, '')
         ),
 
 		itemsCount : 0,
@@ -145,12 +145,12 @@
 
             var list = $$('select.select');
             var errors = 0;
-            for( select in list ) {
+            for( var select = 0; select < list.length; select ++ ) {
                 if( list[select].id && list[select].id.match('^customer_groups_([0-9]*?)$') && list[select] != obj ) {
                     options = list[select].options;
-                    for( option in options ) {
+                    for( var option = 0; option < options.length; option++ ) {
                         if( options[option].selected == true ) {
-                            for( o in obj.options ) {
+                            for( var o = 0; o < obj.options.length; o++ ) {
                                 if( obj.options[o].selected == true && obj.options[o].value == options[option].value ) {
                                     errors++;
                                     obj.options[o].selected = false;
@@ -184,7 +184,7 @@
 		    if( obj ) {
                 var options = obj.options;
                 var cnt = 0;
-                for( option in options ) {
+                for( var option = 0; option < options.length; option++ ) {
                     if( options[option].selected == true ) {
                         cnt++;
                     }

@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Delete Tier Group'),
-                    'onclick'   => "tierPriceControl.delGroup(#{group_index})",
+                    'onclick'   => "tierPriceControl.delGroup(__group_index__)",
                     'class' => 'delete'
                 )));
 
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => __('Add Tier'),
-                    'onclick'   => "tierPriceControl.addItem('#{group_index}')",
+                    'onclick'   => "tierPriceControl.addItem('__group_index__')",
                     'class' => 'add'
                 )));
 
