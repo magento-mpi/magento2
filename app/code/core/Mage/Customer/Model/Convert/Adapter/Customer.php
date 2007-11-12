@@ -27,30 +27,6 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         $this->setVar('entity_type', 'customer/customer');
     }
 
-   /* public function load()
-    {
-        if (!($entityType = $this->getVar('entity_type'))
-            || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
-            $this->addException(__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
-        }
-        try {
-            $customers = Mage::getResourceModel('customer/customer_collection');
-            $customers->getEntity()
-                ->setStore($this->getStoreId())
-                ->addAttributeToSelect('*');
-            $customers
-                ->load();
-            $this->addException(__('Loaded '.$collection->getSize().' records'));
-        } catch (Varien_Convert_Exception $e) {
-            throw $e;
-        } catch (Exception $e) {
-            $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
-                Varien_Convert_Exception::FATAL);
-        }
-        $this->setData($collection);
-        return $this;
-    }*/
-   
     public function load()
     {
         $addressType = $this->getVar('filter/adressType');

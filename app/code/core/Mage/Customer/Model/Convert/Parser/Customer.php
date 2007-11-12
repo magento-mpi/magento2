@@ -48,7 +48,6 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                 $row = array(
                     'store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
                 );
-                
                 foreach ($model->getData() as $field=>$value) {
                     if (in_array($field, $systemFields)) {
                         continue;
@@ -57,10 +56,9 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                     if (!$attribute) {
                         continue;
                     }
-                
+                    
                     if ($attribute->getFrontendInput()==='select' || $attribute->getFrontendInput()==='multiselect' || $attribute->getSourceModel()) {
                         $option = $attribute->getSource()->getOptionText($value);
-                       
                         if (false===$option) {
                             $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
                             continue;
@@ -99,6 +97,9 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                         ->load();
                         $row['group']=$group->getFirstItem()->getData('customer_group_code');
                     }
+                }
+                if(!isset($row['created_in'])){
+                    $row['created_in'] = 'Admin';
                 }
                 $data[] = $row;
                 

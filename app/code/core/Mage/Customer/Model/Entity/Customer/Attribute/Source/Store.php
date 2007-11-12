@@ -41,4 +41,37 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Source_Store extends Mage_Ea
         }
         return $this->_options;
     }
+    
+    public function getOptionText($value)
+    {
+        if(!$value)$value ='0';
+        $isMultiple = false;
+        if (strpos($value, ',')) {
+            $isMultiple = true;
+            $value = explode(',', $value);
+        }
+        
+        if (!$this->_options) {
+            $collection = Mage::getResourceModel('core/store_collection');
+            if ('store_id' == $this->getAttribute()->getAttributeCode()) {
+                $collection->setWithoutDefaultFilter();
+            }
+            $this->_options = $collection->load()->toOptionArray();
+            if ('created_in' == $this->getAttribute()->getAttributeCode()) {
+                array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
+            }
+        }
+        
+        if ($isMultiple) {
+            $values = array();
+            foreach ($value as $val) {
+                $values[] = $this->_options[$val];
+            }
+            return $values;
+        }
+        else {
+            return $this->_options[$value];
+        }
+        return false;
+    }
 }
