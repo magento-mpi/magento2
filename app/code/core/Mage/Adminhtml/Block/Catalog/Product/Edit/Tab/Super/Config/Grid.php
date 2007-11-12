@@ -28,14 +28,14 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setDefaultFilter(array('in_products'=>1));
         $this->setUseAjax(true);
         $this->setId('super_product_links');
     }
-    
+
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in product flag
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         }
         return $this;
     }
-    
+
     protected function _prepareCollection()
     {
         $product =  Mage::registry('product');
@@ -70,41 +70,42 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->addAttributeToSelect('price')
             ->addFieldToFilter('attribute_set_id',$product->getAttributeSetId())
             ->addFieldToFilter('type_id',1);
-        
-        $oldStoreId = $collection->getEntity()->getStoreId();  
+
+        $oldStoreId = $collection->getEntity()->getStoreId();
         $collection->getEntity()->setStore(0);
-        
+
         foreach ($product->getSuperAttributesIds() as $attributeId) {
             $collection->addAttributeToSelect($attributeId);
+            $collection->addAttributeToFilter($attributeId, array('nin'=>array(null)));
         }
-        
-        
-        
+
+
+
         $this->setCollection($collection);
-        
+
         parent::_prepareCollection();
-        
-        $collection->getEntity()->setStore($oldStoreId);  
+
+        $collection->getEntity()->setStore($oldStoreId);
         return $this;
     }
-    
+
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-                        
+
         if (!is_array($products)) {
             $products =  array_keys(Mage::registry('product')->getSuperLinks());
         }
-        
+
         return $products;
     }
-    
+
     protected function _prepareColumns()
     {
         $product = Mage::registry('product');
         $attributes = $product->getSuperAttributes(true);
-        
-        
+
+
         $this->addColumn('in_products', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
@@ -115,7 +116,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_checkbox',
             'attributes' => $attributes
         ));
-        
+
         $this->addColumn('id', array(
             'header'    => __('ID'),
             'sortable'  => true,
@@ -126,7 +127,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'header'    => __('Name'),
             'index'     => 'name'
         ));
-        
+
         $types = Mage::getResourceModel('catalog/product_type_collection')
             ->load()
             ->toOptionHash();
@@ -153,7 +154,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
                 'type'  => 'options',
                 'options' => $sets,
         ));
-        
+
         $this->addColumn('sku', array(
             'header'    => __('SKU'),
             'width'     => '80px',
@@ -165,8 +166,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
-                        
-        
+
+
         foreach ($attributes as $attribute) {
             $this->addColumn($attribute->getAttributeCode(), array(
                 'header'    => __($attribute->getFrontend()->getLabel()),
@@ -175,22 +176,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
                 'options'   => $attribute->getSourceModel() ? $this->getOptions($attribute) : ''
             ));
         }
-         
-        
+
+
         return parent::_prepareColumns();
     }
-    
+
     public function getOptions($attribute) {
         $result = array();
         foreach ($attribute->getSource()->getAllOptions() as $option) {
             if($option['value']!='') {
                 $result[$option['value']] = $option['label'];
-            }           
+            }
         }
-        
+
         return $result;
     }
-    
+
     public function getGridUrl()
     {
         return Mage::getUrl('*/*/superConfig', array('_current'=>true));
