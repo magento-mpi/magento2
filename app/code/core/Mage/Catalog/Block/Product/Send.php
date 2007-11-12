@@ -30,9 +30,6 @@ class Mage_Catalog_Block_Product_Send extends Mage_Catalog_Block_Product_Abstrac
 {
 	public function __construct(){
 		parent::__construct();
-		#print '<pre>';
-		#print_r($this->getRequest()->getPost('send'));
-		#print '</pre>';
 	}
 	
 	/**
@@ -40,10 +37,16 @@ class Mage_Catalog_Block_Product_Send extends Mage_Catalog_Block_Product_Abstrac
      *
      * @return string
      */
+	
     public function getUserName()
     {
     	$firstName =(string)Mage::getSingleton('customer/session')->getCustomer()->getfirstname();
     	$lastName = (string)Mage::getSingleton('customer/session')->getCustomer()->getlastname();
         return $firstName.' '.$lastName;
+    }
+    
+    public function getEmail()
+    {
+    	return (string)Mage::getSingleton('customer/session')->getCustomer()->getEmail();
     }
 }

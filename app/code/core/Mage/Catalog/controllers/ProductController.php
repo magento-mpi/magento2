@@ -78,8 +78,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     }
     
     public function sendAction(){
-    	
-    	$this->_initProduct();
+        $this->_initProduct();
         $product = Mage::registry('product');
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $this->_forward('noRoute');
@@ -103,5 +102,60 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
         
+        
+        
+    }
+    
+    public function sendmailAction()
+    {
+        $recipients_email = array();
+        if($this->getRequest()->getPost() && $this->getRequest()->getParam('id')) {
+            $sender = $this->getRequest()->getParam('sender');
+            $recipients = $this->getRequest()->getParam('recipients');
+            $recipients_email = $recipients['email'];
+            $recipients_email = array_unique($recipients_email);
+            $recipients_name = $recipients['name'];
+            $product = Mage::getModel('catalog/product')
+              ->load((int)$this->getRequest()->getParam('id'));
+            
+            $errors = array();
+            foreach ($recipients_email as $key=>$emailTo) {
+                if($emailTo){
+                    $emailModel = Mage::getModel('core/email_template');
+                    $emailTo = trim($emailTo);
+                    $recipient = $recipients_name[$key];
+                                      
+                	$emailModel->load(Mage::getStoreConfig('sendfriend/emTemplates/template'));
+                	if (!$emailModel->getId()) {
+                		throw Mage::exception('Mage_Core', __('Invalid transactional email code'));
+                	}
+                	$emailModel->setSenderName($sender['name']);
+                	$emailModel->setSenderEmail($sender['email']);
+                	
+                	$vars = array(
+                	   'senderName' => $sender['name'],
+                	   'senderEmail' => $sender['email'],
+                	   'receiverName' => $recipient,
+                	   'receiverEmail' => $emailTo,
+                	   'product' => $product,
+                	   'message' => $sender['message']
+                	   );
+                	
+                	if(!$emailModel->send($emailTo, $recipient, $vars)){
+                	    $errors[] = $emailTo;
+                	}
+                	
+                }	
+            }
+            if(count($errors)>0){
+                foreach ($errors as $val) {
+                    Mage::getSingleton('catalog/session')->addError(__('Email to').' '.$val.' '.__('does not sent.'));	
+                }
+                $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
+            } else {
+                Mage::getSingleton('catalog/session')->addSuccess(__('Link to a friend was sent.'));
+                $this->_redirectSuccess($product->getProductUrl());
+            }
+        }
     }
 }

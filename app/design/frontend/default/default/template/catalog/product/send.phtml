@@ -44,21 +44,26 @@
 <div class="page-head">
     <h3><?=$this->__('Email to a Friend')?></h3>
 </div>
-<form action="<?=$this->getUrl('catalog/product/send',array('id'=>$this->getId()))?>id/136" method="post" id="product_sendtofriend_form">
+<form action="<?=$this->getUrl('catalog/product/sendmail',array('id'=>$this->getId()))?>id/136" method="post" id="product_sendtofriend_form">
 <div class="col-1 login-box">
     <div class="col-1 registered-users">
         <div class="content ">
            	<div class="left">
 	            <h4><?=$this->__('Sender:')?></h4>
 	             <ul class="form-list" id="sender_options">
-	             <li>
-	                        <label for="sender_name"><?=$this->__('Name:')?></label><br/>
-	                        <input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text" style="width:250px;"/>
+	                   <li>
+	                        <label for="sender_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
+	                        <input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text required-entry" style="width:250px;"/>
+	                    </li>
+	                    <li>
+	                        <label for="sender_email"><?=$this->__('Email:')?> <span class="required">*</span></label><br/>
+	                        <div style="width:250px"><input name="sender[email]" value="<?=$this->getEmail()?>" title="<?=$this->__('Email')?>" id="sender_name" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
 	                    </li>
 	                    <li>
 	                        <label for="sender_message"><?=$this->__('Message:')?></label><br/>
 	                        <textarea name="sender[message]" class="input-text" id="sender_message" style="width:250px;"></textarea>
 	                    </li>
+	                    
 	             </ul>
             </div>
             
@@ -68,7 +73,7 @@
 		            <ul class="form-list" id="recipients_options">
 		                    <li>
 		                        <label for="recipients_email"><?=$this->__('Email Address:')?> <span class="required">*</span></label><br/>
-		                        <input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry" style="width:250px;"/>
+		                        <div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
 		                    </li>
 		                    <li>
 		                        <label for="recipients_name"><?=$this->__('Name:')?></label><br/>
