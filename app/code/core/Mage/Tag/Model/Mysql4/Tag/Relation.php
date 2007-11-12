@@ -45,11 +45,11 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
                 ->where('customer_id = ?', $model->getCustomerId());
 
             if( $model->getProductId() ) {
-                $select->where("product_id = ?", $model->getProductId());
+                $select->where("{$this->getMainTable()}.product_id = ?", $model->getProductId());
             }
 
             if( $model->hasStoreId() ) {
-                $select->where("store_id = ?", $model->getStoreId());
+                $select->where("{$this->getMainTable()}.store_id = ?", $model->getStoreId());
             }
 
             $data = $read->fetchRow($select);

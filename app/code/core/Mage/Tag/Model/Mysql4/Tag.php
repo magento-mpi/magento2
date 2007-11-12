@@ -102,6 +102,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         $summaries = $this->getConnection('read')->fetchAll($selectLocal);
         if ($row = $this->getConnection('read')->fetchRow($selectGlobal)) {
             $historical = $this->getConnection('read')->fetchOne($selectHistoricalGlobal);
+
             if($historical) {
                 $row['historical_uses'] = $historical;
             }
@@ -112,7 +113,9 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         $this->getConnection('write')->delete($this->getTable('summary'), $this->getConnection('write')->quoteInto('tag_id = ?', $object->getId()));
 
         foreach ($summaries as $summary) {
-            $summary['historical_uses'] = isset($historicalCache[$summary['store_id']]) ? $historicalCache[$summary['store_id']] : 0;
+            if(!isset($summary['historical_uses'])) {
+                $summary['historical_uses'] = isset($historicalCache[$summary['store_id']]) ? $historicalCache[$summary['store_id']] : 0;
+            }
             $summary['tag_id'] = $object->getId();
             $summary['popularity'] = $summary['historical_uses'];
             if (is_null($summary['uses'])) {

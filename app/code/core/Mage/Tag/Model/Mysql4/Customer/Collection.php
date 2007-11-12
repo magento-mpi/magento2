@@ -108,6 +108,13 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         return $this;
     }
 
+    public function addGroupByCustomerProduct()
+    {
+        // Nothing need to group
+        $this->_allowDisableGrouping = false;
+        return $this;
+    }
+
     public function addCustomerFilter($customerId)
     {
         $this->getSelect()

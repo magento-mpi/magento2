@@ -42,8 +42,8 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
         $collection = Mage::getModel('tag/tag')
             ->getCustomerCollection()
             ->addTagFilter($tagId)
-            ->setCountAttribute('DISTINCT tr.customer_id')
-            ->addGroupByCustomer();
+            ->setCountAttribute('tr.tag_relation_id')
+            ->addGroupByCustomerProduct();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -74,11 +74,29 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
             'index'     => 'lastname',
         ));
 
+        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+
+        $this->addColumn('store_id', array(
+            'header' => __('Tagged in'),
+            'index' => 'store_id',
+            'type' => 'options',
+            'options' => $stores,
+        ));
+
         $this->addColumn('product', array(
             'header'    => __('Product Name'),
             'filter'    => false,
             'sortable'  => false,
             'index'     => 'product',
+        ));
+
+        $this->addColumn('product_sku', array(
+            'header'    => __('Product SKU'),
+            'filter'    => false,
+            'sortable'  => false,
+            'width'     => '50px',
+            'align'     => 'right',
+            'index'     => 'product_sku',
         ));
 
         $this->addColumn('product_sku', array(
