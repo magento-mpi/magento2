@@ -61,6 +61,11 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
         return nl2br($this->htmlEscape($item->getDescription()));
     }
 
+    public function hasDescription(Varien_Object $item)
+    {
+        return trim($item->getDescription())!='';
+    }
+
     public function getFormatedDate($date)
     {
         return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
