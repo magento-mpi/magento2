@@ -21,7 +21,7 @@
  * Site Map category block
  *
  * @category   Mage
- * @package    Mage_Catalog_Block_Sitemap_Abstract
+ * @package    Mage_Catalog
  * @module     Catalog
  * @author     Lindy Kyaw <lindy@varien.com>
  */

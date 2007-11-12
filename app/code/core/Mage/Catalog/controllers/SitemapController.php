@@ -19,32 +19,29 @@
  */
 
 
-
-
 class Mage_Catalog_SitemapController extends Mage_Core_Controller_Front_Action {
 	
-    public function categoryAction()
-    {
-    	if($this->_checkSiteMap()){
-    		$this->loadLayout();      	  	
-    		$this->renderLayout();
+    public function preDispatch(){
+        parent::preDispatch();
+        if(!Mage::getStoreConfig('catalog/seo/site_map')){
+    		  $this->_redirect('noroute');
+    		  $this->setFlag('',self::FLAG_NO_DISPATCH,true);
     	}
+    	return $this;    
+        
+    }
+    public function categoryAction()
+    {    	
+    	$this->loadLayout();   
+        $this->getLayout()->getBlock('catalog_sitemap_container')->setActiveTab('category');       	  	
+    	$this->renderLayout();    	
     }
     
      public function productAction()
     {
-    	if($this->_checkSiteMap()){
-	    	$this->loadLayout();  	    	  	
-	    	$this->renderLayout();
-    	}
-    }
-    
-    public function _checkSiteMap()
-    {
-    	if(!Mage::getStoreConfig('catalog/seo/site_map')){
-    		  $this->_redirect('noroute');
-    	}
-    	return $this;    	
-    }
+    	$this->loadLayout();  	    	  	
+	    $this->renderLayout();    	
+    }    
+   
 }
 

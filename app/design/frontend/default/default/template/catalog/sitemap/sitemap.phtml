@@ -19,26 +19,16 @@
  */
 ?>
 <?$_items = $this->getMapItemCollection();?>
-<div class="page-head">
-    <h3><?=$this->getMyPageTitle()?></h3>
-</div>
-<div style="text-align:right;padding:5px 0px">
-	<a href="<?=$this->getMyOtherPageUrl()?>"><?=$this->getMyOtherPageTitle()?></a>	
-</div>
 <?=$this->getPagerHtml();?>
-<?if($_items->getSize()):?>
-<table cellspacing="0" style="margin:10px 0px">
-    <tbody>
-        <?$_odd = '';?>
+<div class="content">
+<?//if($_items->getSize()):?>
+<ul class="bare-list">    
         <?foreach ($_items as $_item):?>
-            <tr>
-                <td style="padding:2px 0px 2px 10px"><a href="<?=$this->getMyUrl($_item)?>"><?=$_item->name?></a></td>               
-            </tr>
+            <li><a href="<?=$this->getMyUrl($_item)?>"><?=$_item->name?></a></li>
         <?endforeach;?>
-    </tbody>
-</table>
-<!--script type="text/javascript">decorateTable('my-category-sitemap')</script-->
+</ul>
+</div>
 <?=$this->getPagerHtml();?>
-<?else:?>
-    <p><?=$this->__('You have placed no '.$this->getMyPageTitle().'.');?></p>
-<?endif?>
+<?//else:?>
+    <p><?//=$this->__('You have placed no '.$this->getMyPageTitle().'.');?></p>
+<?//endif?>
