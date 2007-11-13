@@ -32,14 +32,17 @@ class Mage_Catalog_SitemapController extends Mage_Core_Controller_Front_Action {
     }
     public function categoryAction()
     {    	
-    	$this->loadLayout();   
-        $this->getLayout()->getBlock('catalog_sitemap_container')->setActiveTab('category');       	  	
+echo "******";        
+    	$this->loadLayout();       	
+echo "*******".get_class($this->getLayout()->getBlock('seo.sitemap.container'));    	
+        $this->getLayout()->getBlock('seo.sitemap.container')->setActiveTab('category');       	  	
     	$this->renderLayout();    	
     }
     
      public function productAction()
     {
-    	$this->loadLayout();  	    	  	
+    	$this->loadLayout();  	    	 
+    	$this->getLayout()->getBlock('seo.sitemap.container')->setActiveTab('product');       	   	
 	    $this->renderLayout();    	
     }    
    
