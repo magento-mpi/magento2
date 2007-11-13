@@ -29,9 +29,7 @@
 
          <resources>
             <admin title="Magento Admin" >
-            <!--
                 <dashboard title="Dashboard" />
-            -->
                 <catalog title="Catalog" >
                     <attributes title="Attributes" >
                         <attributes title="Manage Attributes" />

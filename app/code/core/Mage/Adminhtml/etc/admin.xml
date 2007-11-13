@@ -22,12 +22,10 @@
 <config>
     <admin>
         <menu>
-        <!--
             <dashboard>
                 <title>Dashboard</title>
                 <action>*/dashboard</action>
              </dashboard>
-        -->
              <sales>
                 <title>Sales</title>
                 <!-- action>adminhtml/sales</action -->
