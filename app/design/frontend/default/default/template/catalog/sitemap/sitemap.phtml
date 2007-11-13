@@ -21,7 +21,7 @@
 <?$_items = $this->getMapItemCollection();?>
 <?=$this->getPagerHtml();?>
 <div class="content">
-<?//if($_items->getSize()):?>
+<?if($_items->getSize()):?>
 <ul class="bare-list">    
         <?foreach ($_items as $_item):?>
             <li><a href="<?=$this->getMyUrl($_item)?>"><?=$_item->name?></a></li>
@@ -29,6 +29,6 @@
 </ul>
 </div>
 <?=$this->getPagerHtml();?>
-<?//else:?>
-    <p><?//=$this->__('You have placed no '.$this->getMyPageTitle().'.');?></p>
-<?//endif?>
+<?else:?>
+    <p><?=$this->__('There is no '.$this->getTitle().'.');?></p>
+<?endif?>
