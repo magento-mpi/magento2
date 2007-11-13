@@ -29,13 +29,11 @@
 		<?endforeach;?>
 	</div><div class="clear"></div>
 	<?$_scrollIndex = $this->getScrollIndex()?>
-	<?if($this->getCount()>10):?>
-	<script type="text/javascript"> instantiateScroller(<?=$_scrollIndex?>, "scroll<?=$_scrollIndex?>", 7, 0, 490, 248, 248); </script>
-	<div class="root" id="root<?=$_scrollIndex?>">
-	<div class="scrollContainer" id="scroll<?=$_scrollIndex?>Container">
-	<div class="scrollContent" id="scroll<?=$_scrollIndex?>Content">
-	<?endif;?>
+		
 		<div class="tab-body">
+		<?if($this->getCount()>10):?>
+		<div class="scroll">
+		<?endif;?>
 		<?foreach ($this->getCollection() as $gKey => $row):?>
 			<div class="row<?=( $gKey % 2 ? '2': '')?>">
 			<?foreach ($this->getColumns() as $k => $_column) :?>
@@ -43,12 +41,10 @@
 			<?endforeach;?>
 			</div>
 		<?endforeach;?>
+		<?if($this->getCount()>10):?>
 		</div>
-	<?if($this->getCount()>10):?>
-	</div>
-	</div>
-	</div>
-	<?endif;?>
+		<?endif;?>
+		</div>
 	<div class="clear"></div>
 	<div class="tab-footer">
 	<?if($this->getCount()):?>

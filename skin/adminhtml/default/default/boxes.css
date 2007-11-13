@@ -664,8 +664,8 @@ img.attribute-global {
 .graph-cont table td.g div.gr { width:15px; margin:0 auto; background:#fa8c20 url(images/db-graph-line-bg.gif) repeat-x bottom; }
 
 .graph-cont table td.g dl.gr1 { width:25px;  margin:0 auto; }
-.graph-cont table td.g dl.gr1 dt { width:12px; background:#fa8c20 url(images/db-graph-line-bg.gif) repeat-x bottom; float: left; }
-.graph-cont table td.g dl.gr1 dt.odd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.gif) repeat-x bottom; float: left; }
+.graph-cont table td.g dl.gr1 dt { width:12px; background:#fa8c20 url(images/db-graph-line-bg.gif) repeat-x bottom; float: left; line-height:0; font-size:0; }
+.graph-cont table td.g dl.gr1 dt.odd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.gif) repeat-x bottom; float: left; line-height:0; font-size:0; }
 
 .empty_tr { height:0; font-size:0; }
 
@@ -687,11 +687,13 @@ img.attribute-global {
 
 .col2 .tab-head .header, .col2 .tab-body .tab-item, .col2 .tab-footer .tab-foot { width:240px; float:left; text-align:left; padding:3px 6px; }
 .col2 .tab-body .tab-item { width:238px; margin:0 1px 1px 0; padding:3px 10px 3px 10px; }
+.col2 .tab-body .scroll .tab-item { width:30%; margin:0 1px 1px 0; padding:3px 10px 3px 10px; }
 .col2 .tab-head .header { width:247px; background:transparent url(images/db-tab-header-sep.gif) no-repeat right; margin:0; color:White; font-weight:bold; text-align:left; border:0; padding:3px 2px 4px 10px; }
 .col2 .tab-footer .tab-foot { text-align:right; width:500px; }
 
 .col3 .tab-head .header, .col3 .tab-body .tab-item, .col3 .tab-footer .tab-foot { width:160px; float:left; text-align:left; padding:3px 6px; }
 .col3 .tab-body .tab-item { width:152px; margin:0 1px 1px 0; padding:3px 10px 3px 10px; }
+.col3 .tab-body .scroll .tab-item { width:29%; margin:0 1px 1px 0; padding:3px 10px 3px 10px; }
 .col3 .tab-head .header { width:161px; background:transparent url(images/db-tab-header-sep.gif) no-repeat right; margin:0; color:White; font-weight:bold; text-align:left; border:0; padding:3px 2px 4px 10px; }
 .col3 .tab-footer .tab-foot { text-align:right; width:500px; }
 
@@ -699,11 +701,12 @@ img.attribute-global {
 .tab-body .row, .tab-body .row2 { clear:both; background:#c9c9c9 url(images/db-tab-right.gif) repeat-y right; height:25px; width:520px; }
 .tab-body .row div { background:White; }
 .tab-body .row2 div { background:#f0f6f5; }
+.tab-body .scroll { height:250px; overflow:auto;overflow-x: hidden; overflow-y: scroll; }
 
 .tab-footer { background:#dcebf5 url(images/db-tab-footer.gif) repeat-x top; height:auto; }
 .tab-footer .totals { border:0; margin:5px; padding:0; }
 .tab-footer .totals, .tab-footer .totals tr, .tab-footer .totals td { background:transparent; }
-.tab-footer .totals .label { text-align:right; }
+.tab-footer .totals .label { text-align:right; line-height:24px; }
 .tab-footer .totals .value div { width:auto; padding:2px 6px; background:#faf2de; border:1px solid #b2b0aa; color:#137a41; text-align:left; }
 
 .tab-footer-bottom { margin-left:25px; background:transparent url(images/db-tab-bottom-mid-bg.gif) repeat-x top; width:522px; }
