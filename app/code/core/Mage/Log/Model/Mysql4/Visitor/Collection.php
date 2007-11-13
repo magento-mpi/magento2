@@ -141,19 +141,20 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         /**
          * @todo : need remove agregation logic
          */
+        $timeZoneOffset = Mage::app()->getLocale()->date()->getGmtOffset();
         $this->_itemObjectClass = 'Varien_Object';
         $this->_setIdFieldName('summary_id');
-    	$this->_sqlSelect->from(array('summary'=>$this->_summaryTable))
+    	$this->_sqlSelect->from(array('summary'=>$this->_summaryTable), array('summary_id','type_id','customer_count','visitor_count','add_date'=>"DATE_SUB(summary.add_date, INTERVAL $timeZoneOffset SECOND)"))
     	   ->join(array('type'=>$this->_summaryTypeTable), 'type.type_id=summary.type_id', array());
 
     	if (is_null($customFrom) && is_null($customTo)) {
-    	   $this->_sqlSelect->where( "summary.add_date >= ( ? - INTERVAL {$period} {$this->_getRangeByType($type_code)} )", now() );
+    	   $this->_sqlSelect->where( "DATE_SUB(summary.add_date, INTERVAL $timeZoneOffset SECOND) >= ( DATE_SUB(?, INTERVAL $timeZoneOffset SECOND) - INTERVAL {$period} {$this->_getRangeByType($type_code)} )", now() );
     	} else {
     	    if($customFrom) {
-     	        $this->_sqlSelect->where( "summary.add_date >= ", $this->_read->convertDate($customFrom));
+     	        $this->_sqlSelect->where( "DATE_SUB(summary.add_date, INTERVAL $timeZoneOffset SECOND) >= ", $this->_read->convertDate($customFrom));
      	    }
      	    if($customTo) {
-     	        $this->_sqlSelect->where( "summary.add_date <= ", $this->_read->convertDate($customTo));
+     	        $this->_sqlSelect->where( "DATE_SUB(summary.add_date, INTERVAL $timeZoneOffset SECOND) <= ", $this->_read->convertDate($customTo));
      	    }
     	}
 
@@ -163,7 +164,8 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
 		    $this->_sqlSelect->where("type.type_code = ? ", $type_code);
     	}
 
-    	$this->_sqlSelect->order('summary.add_date ASC');
+    	$this->_sqlSelect->order('add_date ASC');
+
     	return $this;
     }
 
