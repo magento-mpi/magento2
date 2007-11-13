@@ -28,7 +28,7 @@ class Mage_Catalog_Block_Sitemap_Category extends Mage_Catalog_Block_Sitemap_Abs
 {		 
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct();		
 		$collection = Mage::getResourceModel('catalog/category_collection') //Mage_Catalog_Model_Entity_Category_Collection
 				 	->addAttributeToSelect('name')
 				 	->addAttributeToSort('name')
@@ -37,35 +37,10 @@ class Mage_Catalog_Block_Sitemap_Category extends Mage_Catalog_Block_Sitemap_Abs
 		$collection->getEntity()->setStore(Mage::app()->getStore());
 
         $this->setMapItemCollection($collection);
-	}  
-	
-/*    
-	public function _prepareLayout()
-	{
-		parent::_prepareLayout();
-		//this will change the page title of the header
-		$this->getLayout()->getBlock('head')->setTitle(__('Site Map Category'));
-		return $this;
-	}
-*/	
-	
-	public function getMyPageTitle()
-	{
-		return $this->__('Categories');
-	}	
-	
+	}  	
+
 	public function getMyUrl($obj)
 	{
 		return $obj->getCategoryUrl();
-	}
-		
-	public function getMyOtherPageTitle()
-	{
-		return $this->__('Products Sitemap');
-	}
-	
-	public function getMyOtherPageUrl()
-	{
-		return  Mage::helper('catalog/map')->getProductUrl();
-	}
+	}	
 }

@@ -27,6 +27,10 @@
  */
 abstract class Mage_Catalog_Block_Sitemap_Abstract extends Mage_Core_Block_Template
 {   
+    public function __construct()
+    {
+        $this->setTemplate('catalog/sitemap/sitemap.phtml');
+    }
     protected function _prepareLayout()
     {
         parent::_prepareLayout();

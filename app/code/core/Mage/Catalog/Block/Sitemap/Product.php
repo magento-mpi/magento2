@@ -39,26 +39,10 @@ class Mage_Catalog_Block_Sitemap_Product extends Mage_Catalog_Block_Sitemap_Abst
 		$collection->getEntity()->setStore(Mage::app()->getStore());
 
         $this->setMapItemCollection($collection);
-	}  	
-	
-	public function getMyPageTitle()
-	{
-		return $this->__('Products');
 	}
 	
 	public function getMyUrl($obj)
 	{
 		return $obj->getProductUrl();
 	}	
-	
-	public function getMyOtherPageTitle()
-	{
-		return $this->__('Categories Sitemap');
-	}
-	
-	public function getMyOtherPageUrl()
-	{
-		return  Mage::helper('catalog/map')->getCategoryUrl();
-	}
-	
 }

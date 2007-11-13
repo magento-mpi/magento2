@@ -35,15 +35,15 @@ class Mage_Catalog_Block_Sitemap_Container extends Mage_Core_Block_Template
         $this->_availableTabs=array(
             'product' =>  array(
                 'title' =>  __('Products'),
-                'block' =>' catalog/sitemap_product',    
+                'block' =>  'catalog/sitemap_product',    
                 'othertitle' => __('Categories Sitemap'),
-                'otherurl' => Mage::helper('catalog/map')->getProductUrl(),            
+                'otherurl' => Mage::helper('catalog/map')->getCategoryUrl(),            
             ),
             'category'    =>  array(
                 'title' =>  __('Categories'),
                 'block' =>  'catalog/sitemap_category',  
                 'othertitle' => __('Products Sitemap'),
-                'otherurl' => Mage::helper('catalog/map')->getCategoryUrl(),   
+                'otherurl' => Mage::helper('catalog/map')->getProductUrl(),   
             )
         );
     }
@@ -71,8 +71,8 @@ class Mage_Catalog_Block_Sitemap_Container extends Mage_Core_Block_Template
     public function getSitemapActiveTabHtml()
     {
         $tabName = $this->getActiveTab();
-        if (isset($this->_availabeTabs[$tabName])) {
-            $tabBlock = $this->getLayout()->createBlock($this->_availabeTabs[$tabName]);
+        if (isset($this->_availableTabs[$tabName])) {    
+            $tabBlock = $this->getLayout()->createBlock($this->_availableTabs[$tabName]['block'])->setTitle($this->getActiveTabTitle());
             $this->setChild('sitemap_active_tab', $tabBlock);
         }
         return $this->getChildHtml('sitemap_active_tab');
@@ -80,20 +80,21 @@ class Mage_Catalog_Block_Sitemap_Container extends Mage_Core_Block_Template
     
     public function getActiveTabTitle()
     {
+   
          $tabName = $this->getActiveTab();
-         return $this->_availabeTabs[$tabName]['title'];         
+         return $this->_availableTabs[$tabName]['title'];         
     }
     
     public function getActiveTabOtherUrl()
     {
          $tabName = $this->getActiveTab();
-         return $this->_availabeTabs[$tabName]['otherurl'];         
+         return $this->_availableTabs[$tabName]['otherurl'];         
     }
     
     public function getActiveTabOtherTitle()
     {
          $tabName = $this->getActiveTab();
-         return $this->_availabeTabs[$tabName]['othertitle'];         
+         return $this->_availableTabs[$tabName]['othertitle'];         
     }
     
 }
