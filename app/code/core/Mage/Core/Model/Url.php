@@ -656,12 +656,12 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function getRouteUrl($routePath=null, $routeParams=null)
     {
+        $this->unsetData('route_params');
+
         if (!is_null($routePath)) {
             $this->setRoutePath($routePath);
         }
-        if (is_null($routeParams)) {
-            $this->unsetData('route_params');
-        } elseif (is_array($routeParams)) {
+        if (is_array($routeParams)) {
             $this->setRouteParams($routeParams, false);
         }
 
@@ -773,6 +773,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getUrl($routePath=null, $routeParams=null)
     {
         Varien_Profiler::start(__METHOD__);
+
         $url = $this->getRouteUrl($routePath, $routeParams);
 
         if ($this->getQuery()) {
