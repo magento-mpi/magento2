@@ -80,6 +80,7 @@
 
             case "month":
             case "1y":
+            case "custom":
                 return $this->getMonthFormat();
                 break;
 
@@ -111,7 +112,7 @@
     public function get2MonthFormat($forGrid=false)
     {
         if(!$this->getData('month2_format')) {
-            return $forGrid ? $this->getDateFormat() : 'dd MM';
+            return $forGrid ? $this->getDateFormat() : 'dd/MM';
         }
 
         return $this->getData('month2_format');

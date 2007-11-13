@@ -97,8 +97,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         		break;
 
             case 'custom':
-                $dateStart = $customStart;
-                $dateEnd   = $customEnd;
+                $dateStart = $customStart ? $customStart : $dateEnd;
+                $dateEnd   = $customEnd ? $customEnd : $dateEnd;
                 break;
 
             case '1y':

@@ -150,11 +150,11 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     	   $this->_sqlSelect->where( "summary.add_date >= ( ? - INTERVAL {$period} {$this->_getRangeByType($type_code)} )", now() );
     	} else {
     	    if($customFrom) {
- 	        $this->_sqlSelect->where( "summary.add_date >= ", $this->_sqlSelect->convertDate($customFrom));
- 	    }
- 	    if($customTo) {
- 	        $this->_sqlSelect->where( "summary.add_date <= ", $this->_sqlSelect->convertDate($customTo));
- 	    }
+     	        $this->_sqlSelect->where( "summary.add_date >= ", $this->_read->convertDate($customFrom));
+     	    }
+     	    if($customTo) {
+     	        $this->_sqlSelect->where( "summary.add_date <= ", $this->_read->convertDate($customTo));
+     	    }
     	}
 
     	if( is_null($type_code) ) {
@@ -162,6 +162,8 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
     	} else {
 		    $this->_sqlSelect->where("type.type_code = ? ", $type_code);
     	}
+
+    	$this->_sqlSelect->order('summary.add_date ASC');
     	return $this;
     }
 
