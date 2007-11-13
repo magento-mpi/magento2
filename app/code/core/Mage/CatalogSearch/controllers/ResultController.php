@@ -52,4 +52,10 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
             $this->_redirectReferer();
         }
     }
+    
+    public function searchtermAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();            
+    }
 }

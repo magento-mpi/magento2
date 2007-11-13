@@ -24,7 +24,7 @@
  * @author     Lindy Kyaw <lindy@varien.com>
  */
 
-class Mage_Catalog_Block_Sitemap_Container extends Mage_Core_Block_Template 
+class Mage_Catalog_Block_Seo_Sitemap_Container extends Mage_Core_Block_Template 
 {
     protected $_activeTab;
     protected $_availableTabs;
@@ -35,13 +35,13 @@ class Mage_Catalog_Block_Sitemap_Container extends Mage_Core_Block_Template
         $this->_availableTabs=array(
             'product' =>  array(
                 'title' =>  __('Products'),
-                'block' =>  'catalog/sitemap_product',    
+                'block' =>  'catalog/seo_sitemap_product',    
                 'othertitle' => __('Categories Sitemap'),
                 'otherurl' => Mage::helper('catalog/map')->getCategoryUrl(),            
             ),
             'category'    =>  array(
                 'title' =>  __('Categories'),
-                'block' =>  'catalog/sitemap_category',  
+                'block' =>  'catalog/seo_sitemap_category',  
                 'othertitle' => __('Products Sitemap'),
                 'otherurl' => Mage::helper('catalog/map')->getProductUrl(),   
             )

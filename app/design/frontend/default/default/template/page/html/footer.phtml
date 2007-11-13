@@ -21,9 +21,22 @@
 
     <div class="informational">
         <?=$this->getChildHtml()?>
+        <?if((Mage::getStoreConfig('catalog/seo/site_map')) || (Mage::getStoreConfig('catalog/seo/site_map'))):?>
+        <div>
+        <ul>
         <?if(Mage::getStoreConfig('catalog/seo/site_map')):?>
-        	<div></div> <a href="<?=$this->helper('catalog/map')->getCategoryUrl();?>"><?=$this->__('Site Map')?></a></div>
+        	<li class="<?if(!Mage::getStoreConfig('catalog/seo/search_terms')):?><?="last"?><?endif;?>">
+        	   <a href="<?=$this->helper('catalog/map')->getCategoryUrl();?>"><?=$this->__('Site Map')?></a>
+        	 </li>
         <?endif;?>
+         <?if(Mage::getStoreConfig('catalog/seo/search_terms')):?>
+        	<li class="last">
+        	   <a href="<?=$this->helper('catalogsearch/data')->getSearchTermUrl();?>"><?=$this->__('Search Terms')?></a>
+        	 </li>
+        <?endif;?>
+        </ul>
+        </div>
+       <?endif;?>
     </div>
 
 <p class="legality">

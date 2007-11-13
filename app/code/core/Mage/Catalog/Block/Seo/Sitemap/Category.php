@@ -21,30 +21,26 @@
  * Site Map category block
  *
  * @category   Mage
- * @package    Mage_Catalog
- * @module     Catalog
+ * @package    Mage_Catalog 
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-abstract class Mage_Catalog_Block_Sitemap_Abstract extends Mage_Core_Block_Template
-{   
-    public function __construct()
-    {
-        $this->setTemplate('catalog/sitemap/sitemap.phtml');
-    }
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'catalog.sitemap.pager');
-        $pager->setAvailableLimit(array(50=>50));
-		$pager->setCollection($this->getMapItemCollection());
-        $pager->setShowPerPage(false);
-        $this->setChild('pager', $pager);
-        $this->getMapItemCollection()->load(); 
-        return $this;
-    }
+class Mage_Catalog_Block_Seo_Sitemap_Category extends Mage_Catalog_Block_Seo_Sitemap_Abstract
+{		 
+	public function __construct()
+	{
+		parent::__construct();		
+		$collection = Mage::getResourceModel('catalog/category_collection') //Mage_Catalog_Model_Entity_Category_Collection
+				 	->addAttributeToSelect('name')
+				 	->addAttributeToSort('name')
+				 	->addAttributeToFilter('parent_id', array('neq'=>1));
+	 	
+		$collection->getEntity()->setStore(Mage::app()->getStore());
 
-    public function getPagerHtml()
-    {
-        return $this->getChildHtml('pager');
-    }   
+        $this->setMapItemCollection($collection);
+	}  	
+
+	public function getMyUrl($obj)
+	{
+		return $obj->getCategoryUrl();
+	}	
 }

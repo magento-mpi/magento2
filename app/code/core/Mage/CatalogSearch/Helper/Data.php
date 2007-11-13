@@ -117,4 +117,9 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('catalogsearch/ajax/suggest');
     }
+    
+    public function getSearchTermUrl()
+    {
+        return $this->_getUrl('catalogsearch/result/searchterm');
+    }
 }
