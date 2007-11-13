@@ -23,7 +23,6 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
     exit;
 }
 
-header('Content-type: text/html; charset=utf-8');
 require_once 'app/Mage.php';
 
 Mage::run('base');
