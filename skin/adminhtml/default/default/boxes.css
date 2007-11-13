@@ -664,8 +664,8 @@ img.attribute-global {
 .graph-cont table td.g div.gr { width:15px; margin:0 auto; background:#fa8c20 url(images/db-graph-line-bg.gif) repeat-x bottom; }
 
 .graph-cont table td.g dl.gr1 { width:25px;  margin:0 auto; }
-.graph-cont table td.g dl.gr1 dt { width:12px; background:#fa8c20 url(images/db-graph-line-bg.gif) repeat-x bottom; float: left; line-height:0; font-size:0; }
-.graph-cont table td.g dl.gr1 dt.odd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.gif) repeat-x bottom; float: left; line-height:0; font-size:0; }
+.graph-cont table td.g dl.gr1 dt { width:12px; background:#fa8c20 url(images/db-graph-line-bg.gif) repeat-x bottom; float: left; line-height:0em; font-size:0em; }
+.graph-cont table td.g dl.gr1 dt.odd { width:12px; background:#7c9591 url(images/db-graph-line2-bg.gif) repeat-x bottom; float: left; line-height:0em; font-size:0em; }
 
 .empty_tr { height:0; font-size:0; }
 
