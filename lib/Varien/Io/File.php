@@ -187,8 +187,14 @@ class Varien_Io_File extends Varien_Io_Abstract
             return false;
         }
         chdir($this->_cwd);
-        if (!is_writeable($filename)) {
-            return false;
+        if (file_exists($filename)) {
+            if (!is_writeable($filename)) {
+                return false;
+            }
+        } else {
+            if (!is_writable('.')) {
+                return false;
+            }
         }
         if ($srcIsFile) {
             $result = @copy($src, $filename);
