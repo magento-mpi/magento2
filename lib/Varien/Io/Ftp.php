@@ -80,7 +80,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
     {
         if (empty($args['host'])) {
             $this->_error = self::ERROR_EMPTY_HOST;
-            return false;
+            throw new Varien_Io_Exception('Empty host specified');
         }
 
         if (empty($args['port'])) {
@@ -113,20 +113,20 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
         }
         if (!$this->_conn) {
             $this->_error = self::ERROR_INVALID_CONNECTION;
-            return false;
+            throw new Varien_Io_Exception('Could not establish FTP connection, invalid host or port');
         }
 
         if (!@ftp_login($this->_conn, $this->_config['user'], $this->_config['password'])) {
             $this->_error = self::ERROR_INVALID_LOGIN;
             $this->close();
-            return false;
+            throw new Varien_Io_Exception('Invalid user name or password');
         }
 
         if (!empty($this->_config['path'])) {
             if (!@ftp_chdir($this->_conn, $this->_config['path'])) {
                 $this->_error = self::ERROR_INVALID_PATH;
                 $this->close();
-                return false;
+                throw new Varien_Io_Exception('Invalid path');
             }
         }
 
@@ -134,7 +134,7 @@ class Varien_Io_Ftp extends Varien_Io_Abstract
             if (!@ftp_pasv($this->_conn, true)) {
                 $this->_error = self::ERROR_INVALID_MODE;
                 $this->close();
-                return false;
+                throw new Varien_Io_Exception('Invalid file transfer mode');
             }
         }
 
