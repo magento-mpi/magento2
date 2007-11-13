@@ -103,6 +103,7 @@ function toggleSelectOption(type, source, target, sourceValue, targetValue, targ
 function changeEntityType()
 {
     toggleSelectOption('remove', 'profile_entity_type', 'profile_direction', 'customer', 'import', '<?=$this->__('Import')?>');
+    toggleSelectOption('remove', 'profile_entity_type', 'profile_store_id', 'customer', '0', '<?=$this->__('Default Values')?>');
     //showOption('profile_direction');
     changeDirection();
 }
@@ -144,8 +145,8 @@ function changeDirection()
                     <option value="<?=$_value?>" <?=$this->getSelected('store_id', $_value)?>><?=htmlspecialchars($_label)?></option>
                 <?endforeach?>
             </select>
-            <span class="profile_direction_import">
-                <?=$this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)")?>
+            <span class="profile_direction_import profile_entity_type_product">
+                    <?=$this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)")?>
             </span>
         </span>
     </fieldset>
