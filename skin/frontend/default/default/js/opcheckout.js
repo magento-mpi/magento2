@@ -91,7 +91,7 @@ Checkout.prototype = {
             this.gotoSection('billing');
         }
         else{
-            alert('Choose checkout type');
+            alert(Translator.translate('Please choose to register or to checkout as a guest'));
             return false;
         }
     },
@@ -220,7 +220,7 @@ Billing.prototype = {
         if (validator.validate()) {
             checkout.setLoadWaiting('billing');
             if (checkout.method=='register' && $('billing:customer_password').value != $('billing:confirm_password').value) {
-                alert('Error: Passwords do not match');
+                alert(Translator.translate('Error: Passwords do not match'));
                 return;
             }
             if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
@@ -431,7 +431,7 @@ ShippingMethod.prototype = {
     validate: function() {
     	var methods = document.getElementsByName('shipping_method');
     	if (methods.length==0) {
-    		alert('Your order can not be completed at this time as there is no shipping methods available for it. Please make neccessary changes in your shipping address.');
+    		alert(Translator.translate('Your order can not be completed at this time as there is no shipping methods available for it. Please make neccessary changes in your shipping address.'));
     		return false;
     	}
     	for (var i=0; i<methods.length; i++) {
@@ -439,7 +439,7 @@ ShippingMethod.prototype = {
     			return true;
     		}
     	}
-    	alert('Please specify shipping method.');
+    	alert(Translator.translate('Please specify shipping method.'));
     	return false;
     },
 
@@ -516,7 +516,7 @@ Payment.prototype = {
     validate: function() {
     	var methods = document.getElementsByName('payment[method]');
     	if (methods.length==0) {
-    		alert('Your order can not be completed at this time as there is no payment methods available for it.');
+    		alert(Translator.translate('Your order can not be completed at this time as there is no payment methods available for it.'));
     		return false;
     	}
     	for (var i=0; i<methods.length; i++) {
@@ -524,7 +524,7 @@ Payment.prototype = {
     			return true;
     		}
     	}
-    	alert('Please specify payment method.');
+    	alert(Translator.translate('Please specify payment method.'));
     	return false;
     },
 
