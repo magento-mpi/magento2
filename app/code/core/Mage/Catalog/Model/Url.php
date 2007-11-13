@@ -263,7 +263,7 @@ class Mage_Catalog_Model_Url
     public function saveRewrite(Mage_Core_Model_Url_Rewrite $rewrite)
     {
         if (!$rewrite->getId()) {
-            $old = Mage::getModel('core/url_rewrite')->setStoreId($storeId)
+            $old = Mage::getModel('core/url_rewrite')->setStoreId($rewrite->getStoreId())
                 ->loadByIdPath($rewrite->getIdPath());
             if (!$old) {
                 $old->loadByRequestPath($rewrite->getRequestPath());
