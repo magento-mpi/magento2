@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.5.8</version>
+            <version>0.5.9</version>
         </Mage_Cms>
     </modules>
     <frontend>

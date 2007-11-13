@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Cms page helper
  *
@@ -27,9 +27,9 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 {
     /**
     * Renders CMS page
-    * 
+    *
     * Call from controller action
-    * 
+    *
     * @param Mage_Core_Controller_Front_Action $action
     * @param integer $pageId
     * @return boolean
@@ -43,14 +43,23 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                 return false;
             }
         }
-        
+
         if (!$page->getId()) {
             return false;
         }
-        
+
         $action->loadLayout(null, false, false);
         $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
         $action->generateLayoutXml()->generateLayoutBlocks();
+
+        // show breadcrumbs
+        if (Mage::getStoreConfig('web/default/show_cms_breadcrumbs')
+            && ($breadcrumbs = $action->getLayout()->getBlock('breadcrumbs'))
+            && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_home_page'))
+            && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_no_route'))) {
+                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+                $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
+        }
 
         if ($root = $action->getLayout()->getBlock('root')) {
             $template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');
@@ -63,7 +72,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         }
 
         $action->renderLayout();
-        
+
         return true;
-    }   
+    }
 }
