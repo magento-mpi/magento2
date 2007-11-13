@@ -102,6 +102,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
                 array(
                     'url' => Mage::getUrl('*/*/run').'id/$profile_id',
                     'caption' => __('Run in popup'),
+                    'target' => '_blank',
                 ),
             )
         ));
