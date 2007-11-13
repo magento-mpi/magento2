@@ -40,11 +40,11 @@
 </tr>
 <?if($this->getCount()):?>
 <tr>
-	<td style="color:#bfbfbf;" class="y"  style="whitespace: nowrap"><?=$this->getVerticalAxis()->getTitle()?></td>
+	<td style="color:#bfbfbf;" class="y"  style="white-space:nowrap;"><?=$this->getVerticalAxis()->getTitle()?></td>
 </tr>
 <?foreach($this->getVerticalAxis()->getLabels() as $_label):?>
 <tr>
-	<td class="y" style="whitespace: nowrap"><?=$_label?></td>
+	<td class="y" style="white-space:nowrap;"><?=$_label?></td>
 </tr>
 <?endforeach;?>
 <?else:?>
