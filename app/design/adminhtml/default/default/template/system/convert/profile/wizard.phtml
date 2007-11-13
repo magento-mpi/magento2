@@ -39,7 +39,7 @@ function showOption(select)
 {
     select = $(select);
     for (var i = 0, l = select.options.length; i<l; i++) {
-        $$('#'+select.id+'_'+select.options[i].value).each(function (el) {
+        $$('.'+select.id+'_'+select.options[i].value).each(function (el) {
             el.style.display = select.selectedIndex==i ? '' : 'none';
         });
     }
@@ -144,7 +144,7 @@ function changeDirection()
                     <option value="<?=$_value?>" <?=$this->getSelected('store_id', $_value)?>><?=htmlspecialchars($_label)?></option>
                 <?endforeach?>
             </select>
-            <span id="profile_direction_import">
+            <span class="profile_direction_import">
                 <?=$this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)")?>
             </span>
         </span>
@@ -161,7 +161,7 @@ function changeDirection()
             </select>
         </span>
         <!--
-        <div id="profile_data_transfer_interactive">
+        <div class="profile_data_transfer_interactive">
             <span class="field-row">
                 <label for="interactive_filename"><?=$this->__("Archive file name:")?></label>
                 <input class="input-text" id="interactive_filename" name="gui_data[interactive][filename]" value="<?=$this->getValue('gui_data/interactive/filename')?>"/>
@@ -169,7 +169,7 @@ function changeDirection()
             </span>
         </div>
         -->
-        <div id="profile_data_transfer_file">
+        <div class="profile_data_transfer_file">
             <span class="field-row">
                 <label for="file_type"><?=$this->__("Type:")?></label>
                 <select id="file_type" name="gui_data[file][type]" onchange="showOption(this)" class="option-control">
@@ -184,11 +184,11 @@ function changeDirection()
             <span class="field-row">
                 <label for="file_path"><?=$this->__("Path:")?></label>
                 <input class="input-text" id="file_path" name="gui_data[file][path]" value="<?=$this->getValue('gui_data/file/path')?>"/>
-                <span id="file_type_file">
+                <span class="file_type_file">
                     <?=$this->__('(Absolute path or Relative to Magento install root, ex. var/export)')?>
                 </span>
             </span>
-            <div id="file_type_ftp">
+            <div class="file_type_ftp">
                 <span class="field-row">
                     <label for="file_host"><?=$this->__("FTP Host[:Port]")?></label>
                     <input class="input-text" id="file_host" name="gui_data[file][host]" value="<?=$this->getValue('gui_data/file/host')?>"/>
@@ -222,13 +222,13 @@ function changeDirection()
                 <option value="csv" <?=$this->getSelected('gui_data/parse/type', 'csv')?>><?=$this->__("CSV / Tab separated")?></option>
             </select>
         </span>
-        <div id="parse_type_excel_xml">
+        <div class="parse_type_excel_xml">
             <span class="field-row">
                 <label for="parse_single_sheet"><?=$this->__("Spreadsheet Name:")?></label>
                 <input class="input-text" id="parse_single_sheet" name="gui_data[parse][single_sheet]" value="<?=$this->getValue('gui_data/parse/single_sheet')?>"/> <?=$this->__("(Leave empty for first spreadsheet)")?>
             </span>
         </div>
-        <div id="parse_type_csv">
+        <div class="parse_type_csv">
             <span class="field-row">
                 <label for="parse_delimiter"><?=$this->__("Value Delimiter:")?></label>
                 <input class="input-text" style="width:3em" id="parse_delimiter" name="gui_data[parse][delimiter]" value="<?=$this->getValue('gui_data/parse/delimiter', ',')?>"/> <?=$this->__("(\\t for tab)")?>
@@ -244,13 +244,13 @@ function changeDirection()
                 <option value="" <?=$this->getSelected('gui_data/parse/fieldnames', false)?>><?=$this->__("No")?></option>
                 <option value="true" <?=$this->getSelected('gui_data/parse/fieldnames', true)?>><?=$this->__("Yes")?></option>
             </select>
-            <span id="profile_direction_import">
-                <span id="parse_fieldnames_">
+            <span class="profile_direction_import">
+                <span class="parse_fieldnames_">
                     <?=$this->__("(When 'No', only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)")?>
                 </span>
             </span>
         </span>
-        <div id="profile_direction_export">
+        <div class="profile_direction_export">
             <span class="field-row">
                 <label for="map_only_specified"><?=$this->__("Export:")?></label>
                 <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showOption(this)">
@@ -265,7 +265,7 @@ function changeDirection()
     <fieldset>
         <legend><?=$this->__("Field Mapping")?></legend>
         <?foreach (array('product', 'customer') as $_entityType):?>
-            <div id="profile_entity_type_<?=$_entityType?>">
+            <div class="profile_entity_type_<?=$_entityType?>">
                 <div id="map_template_<?=$_entityType?>" style="display:none">
                     <span class="field-row">
                         <?=$this->__("In Database:")?> <select name="gui_data[map][<?=$_entityType?>][db][]" onchange="setMapFileField(this)">
@@ -296,10 +296,10 @@ function changeDirection()
         <?=$this->getAddMapButtonHtml()?>
     </fieldset>
 
-    <div id="profile_direction_export">
+    <div class="profile_direction_export">
         <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Export Filters")?></h4>
         <fieldset>
-            <div id="profile_entity_type_product">
+            <div class="profile_entity_type_product">
                 <span class="field-row">
                     <label for="product_filter_name"><?=$this->__("Name:")?></label>
                     <input class="input-text" id="product_filter_name" name="gui_data[product][filter][name]" value="<?=$this->getValue('gui_data/product/filter/name')?>"/>
@@ -353,7 +353,7 @@ function changeDirection()
                     </select>
                 </span>
             </div>
-            <div id="profile_entity_type_customer">
+            <div class="profile_entity_type_customer">
                 <span class="field-row">
                     <label for="customer_filter_firstname"><?=$this->__("First Name:")?></label>
                     <input class="input-text" id="customer_filter_firstname" name="gui_data[customer][filter][firstname]" value="<?=$this->getValue('gui_data/customer/filter/firstname')?>"/>
