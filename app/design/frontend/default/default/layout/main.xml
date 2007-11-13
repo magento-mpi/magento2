@@ -1068,14 +1068,14 @@ One page checkout order review block
 <!--
 Catalog search terms block
 -->     
-    <catalogsearch_result_searchterm>
+    <catalog_seo_searchterm_popular>
         <reference name="root">
     		<action method="setTemplate"><template>page/1column.phtml</template></action>
     	</reference>
         <reference name="content">
-            <block type="catalogsearch/searchterm" name="search.searchterm" template="catalogsearch/searchterm.phtml"/>
+            <block type="catalog/seo_searchterm_popular" name="seo.searchterm.popular" template="catalogsearch/searchterm.phtml"/>
         </reference>
-    </catalogsearch_result_searchterm>   
+    </catalog_seo_searchterm_popular>   
     
 <!--
 Site Map block

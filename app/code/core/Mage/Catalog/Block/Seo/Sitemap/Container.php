@@ -34,24 +34,25 @@ class Mage_Catalog_Block_Seo_Sitemap_Container extends Mage_Core_Block_Template
         parent::__construct();
         $this->_availableTabs=array(
             'product' =>  array(
-                'title' =>  __('Products'),
+                'title' =>  $this->__('Products'),
                 'block' =>  'catalog/seo_sitemap_product',    
-                'othertitle' => __('Categories Sitemap'),
-                'otherurl' => Mage::helper('catalog/map')->getCategoryUrl(),            
+                'linktitle' => $this->__('Products Sitemap'),
+                'linkurl' =>  Mage::helper('catalog/map')->getProductUrl(),                   
             ),
             'category'    =>  array(
-                'title' =>  __('Categories'),
+                'title' =>  $this->__('Categories'),
                 'block' =>  'catalog/seo_sitemap_category',  
-                'othertitle' => __('Products Sitemap'),
-                'otherurl' => Mage::helper('catalog/map')->getProductUrl(),   
-            )
+                'linktitle' => $this->__('Categories Sitemap'),
+                'linkurl' => Mage::helper('catalog/map')->getCategoryUrl(),   
+            ),
         );
     }
     
     public function setAvailableTab(array $tabs)
     {
         $this->_availableTabs = $tabs;
-    }
+    }  
+    
     
     public function getAvailableTab()
     {
@@ -80,21 +81,9 @@ class Mage_Catalog_Block_Seo_Sitemap_Container extends Mage_Core_Block_Template
     
     public function getActiveTabTitle()
     {
-   
          $tabName = $this->getActiveTab();
          return $this->_availableTabs[$tabName]['title'];         
     }
     
-    public function getActiveTabOtherUrl()
-    {
-         $tabName = $this->getActiveTab();
-         return $this->_availableTabs[$tabName]['otherurl'];         
-    }
-    
-    public function getActiveTabOtherTitle()
-    {
-         $tabName = $this->getActiveTab();
-         return $this->_availableTabs[$tabName]['othertitle'];         
-    }
     
 }

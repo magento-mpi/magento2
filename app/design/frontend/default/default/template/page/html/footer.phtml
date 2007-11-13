@@ -31,7 +31,7 @@
         <?endif;?>
          <?if(Mage::getStoreConfig('catalog/seo/search_terms')):?>
         	<li class="last">
-        	   <a href="<?=$this->helper('catalogsearch/data')->getSearchTermUrl();?>"><?=$this->__('Search Terms')?></a>
+        	   <a href="<?=$this->helper('catalog/map')->getSearchTermUrl();?>"><?=$this->__('Search Terms')?></a>
         	 </li>
         <?endif;?>
         </ul>

@@ -10,4 +10,9 @@ class Mage_Catalog_Helper_Map extends Mage_Core_Helper_Abstract
 	{
 		return $this->_getUrl('catalog/seo_sitemap/product');
 	}
+	
+	public function getSearchTermUrl()
+    {
+        return $this->_getUrl('catalog/seo_searchterm/popular');
+    }
 }
