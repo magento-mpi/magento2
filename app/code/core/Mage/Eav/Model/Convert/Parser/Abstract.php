@@ -53,7 +53,11 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract extends Varien_Convert_Par
                 $this->_storesById[(int)$storeNode->system->store->id] = $storeNode->getName();
             }
         }
-        return isset($this->_storesById[$storeId]) ? $this->_storesById[$storeId] : false;
+        if (is_numeric($storeId)) {
+            return isset($this->_storesById[$storeId]) ? $this->_storesById[$storeId] : false;
+        } else {
+            return array_search($storeId, $this->_storesById)!==false ? $storeId : false;
+        }
     }
 
     public function loadAttributeSets($entityTypeId)

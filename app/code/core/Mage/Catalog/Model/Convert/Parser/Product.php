@@ -187,7 +187,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
 
                 $row = array(
-                    'store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
+                    'store'=>$this->getStoreCode($this->getVar('store') ? $this->getVar('store') : $storeId),
                     'attribute_set'=>$this->getAttributeSetName($model->getEntityTypeId(), $model->getAttributeSetId()),
                     'type'=>$this->getProductTypeName($model->getTypeId()),
                 );

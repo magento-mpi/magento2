@@ -46,7 +46,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
             foreach ($collection->getIterator() as $i=>$model) {
                 $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
                 $row = array(
-                    'store'=>$this->getVar('store') ? $this->getVar('store') : $this->getStoreCode($storeId),
+                    'store'=>$this->getStoreCode($this->getVar('store') ? $this->getVar('store') : $storeId),
                 );
                 foreach ($model->getData() as $field=>$value) {
                     if (in_array($field, $systemFields)) {
