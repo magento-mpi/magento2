@@ -70,6 +70,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'width'     =>'120px',
         ));
         $stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load()->toOptionHash();
+        $stores[0] = $this->__('Default Values');
         $this->addColumn('store_id', array(
             'header'    =>__('Store'),
             'type'      => 'options',

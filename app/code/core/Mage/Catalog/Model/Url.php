@@ -259,6 +259,15 @@ class Mage_Catalog_Model_Url
         }
         return $this->_rewrites[$storeId][$idPath];
     }
+
+    public function saveRewrite(Mage_Core_Model_Url_Rewrite $rewrite)
+    {
+        $rewrite->save();
+        $this->_rewrites[$rewrite->getStoreId()][$rewrite->getIdPath()] = $rewrite;
+        $this->_paths[$rewrite->getStoreId()][$rewrite->getRequestPath()] = $rewrite->getIdPath();
+        return $this;
+    }
+
     /**
      * Get category object
      *
@@ -393,7 +402,7 @@ class Mage_Catalog_Model_Url
         }
         if ($update) {
             $category->setUrlPath($categoryPath)->save();
-            $rewrite->setRequestPath($categoryPath)->save();
+            $this->saveRewrite($rewrite->setRequestPath($categoryPath));
         }
 
         $products = $category->getProducts();
@@ -461,7 +470,7 @@ class Mage_Catalog_Model_Url
             $update = true;
         }
         if ($update) {
-            $rewrite->setRequestPath($productPath)->save();
+            $this->saveRewrite($rewrite->setRequestPath($productPath));
         }
         if (true===$category && $product->getCategories()) {
             foreach ($product->getCategories() as $category) {

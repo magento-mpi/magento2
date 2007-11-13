@@ -33,7 +33,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $this->_redirect('*/sales_order');
+        $this->_redirect('*/dashboard');
         return;
 
         $this->loadLayout();
