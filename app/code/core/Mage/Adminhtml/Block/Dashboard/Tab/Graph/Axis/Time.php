@@ -80,6 +80,7 @@
 
             case "month":
             case "1y":
+            case "2y":
             case "custom":
                 return $this->getMonthFormat();
                 break;

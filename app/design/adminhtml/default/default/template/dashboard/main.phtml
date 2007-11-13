@@ -96,8 +96,10 @@ function handlePeriodSelect(selectId)
 				&nbsp; <?=$this->__('for')?> &nbsp;
 				<select name="period" id="order_period">
 				    <?foreach ($this->helper('adminhtml/dashboard_data')->getDatePeriods() as $_value=>$_label):?>
+				        <?if(in_array($_value, array('custom'))) continue;?>
 				        <option value="<?=$_value?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('order', 'period')==$_value):?> selected<?endif;?>><?=$_label?></option>
 				    <?endforeach;?>
+				    <option value="2y" <?if($this->helper('adminhtml/dashboard_data')->getConfig('order', 'period')=='2y'):?> selected<?endif;?>><?=$this->__('Last 2 years')?></option>
 				 </select>
 				 <span id="order_period_custom" class="range" <?if($this->helper('adminhtml/dashboard_data')->getConfig('order', 'period')!='custom'):?>style="display:none"<?endif;?>>
                     <?=$this->__('From')?>:<input class="input-text no-changes" type="text" id="order_period_custom_date_from" name="custom_from" value="<?=$this->helper('adminhtml/dashboard_data')->getDateCustomValueEscaped('from','order')?>" /> <img align="absmiddle" title="<?=$this->__('Select Date')?>" id="order_period_custom_date_from_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>

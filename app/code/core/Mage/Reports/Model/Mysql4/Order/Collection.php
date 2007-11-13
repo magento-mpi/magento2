@@ -102,6 +102,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 break;
 
             case '1y':
+                $dateStart->subYear(1);
+                break;
+            case '2y':
+                $dateStart->subYear(2);
+                break;
         	default:
         	    $dateStart->subYear(1);
         		break;
