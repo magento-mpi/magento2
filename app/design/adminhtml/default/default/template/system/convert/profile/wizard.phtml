@@ -287,9 +287,10 @@ function changeDirection()
                                 <option value="<?=$_value?>" <?=$this->getSelected('gui_data/map/'.$_entityType.'/db/'.$_i, $_value)?>><?=$_label?></option>
                             <?endforeach?>
                             </select>
-                        &lt;--&gt;
-                        <?=$this->__("In File:")?> <input class="input-text" name="gui_data[map][<?=$_entityType?>][file][]" value="<?=$this->getValue('gui_data/map/'.$_entityType.'/file/'.$_i)?>"/>
-                        <?=$this->getRemoveMapButtonHtml()?>
+                            &lt;--&gt;
+                            <?=$this->__("In File:")?> <input class="input-text" name="gui_data[map][<?=$_entityType?>][file][]" value="<?=$this->getValue('gui_data/map/'.$_entityType.'/file/'.$_i)?>"/>
+                            <?=$this->getRemoveMapButtonHtml()?>
+                        </span>
                     <?endforeach?>
                 </div>
             </div>
