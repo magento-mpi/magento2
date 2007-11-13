@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'options'   =>array('product'=>'Products', 'customer'=>'Customers'),
             'width'     =>'120px',
         ));
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+        $stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load()->toOptionHash();
         $this->addColumn('store_id', array(
             'header'    =>__('Store'),
             'type'      => 'options',
