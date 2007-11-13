@@ -262,13 +262,21 @@ class Mage_Catalog_Model_Url
 
     public function saveRewrite(Mage_Core_Model_Url_Rewrite $rewrite)
     {
-        $old = $this->getRewrite($rewrite->getStoreId(), $rewrite->getIdPath());
-        if ($old) {
-            $rewrite->setId($old->getId());
+        if (!$rewrite->getId()) {
+            $old = Mage::getModel('core/url_rewrite')->setStoreId($storeId)
+                ->loadByIdPath($rewrite->getIdPath());
+            if (!$old) {
+                $old->loadByRequestPath($rewrite->getRequestPath());
+            }
+            if ($old) {
+                $rewrite->setId($old->getId());
+            }
         }
         $rewrite->save();
+
         $this->_rewrites[$rewrite->getStoreId()][$rewrite->getIdPath()] = $rewrite;
         $this->_paths[$rewrite->getStoreId()][$rewrite->getRequestPath()] = $rewrite->getIdPath();
+
         return $this;
     }
 
@@ -381,6 +389,7 @@ class Mage_Catalog_Model_Url
         if (''==$category->getUrlKey()) {
             return $this;
         }
+        $category->setUrlKey($category->formatUrlKey($category->getUrlKey()));
         if (is_null($parentPath)) {
             $parent = $this->getCategory($storeId, $category->getParentId());
             if ($parent->getId()==$this->getRootId($storeId)) {
@@ -447,6 +456,8 @@ class Mage_Catalog_Model_Url
         if (''==$product->getUrlKey()) {
             return $this;
         }
+
+        $product->setUrlKey($product->formatUrlKey($product->getUrlKey()));
 
         $idPath = 'product/'.$product->getId();
         $targetPath = 'catalog/product/view/id/'.$product->getId();
