@@ -24,7 +24,7 @@
  * @author     Lindy Kyaw <lindy@varien.com>
  */
 
-class Mage_Catalog_Block_Seo_Sitemap_Container extends Mage_Core_Block_Template 
+class Mage_Catalog_Block_Seo_Container extends Mage_Core_Block_Template 
 {
     protected $_activeTab;
     protected $_availableTabs;
@@ -69,7 +69,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Container extends Mage_Core_Block_Template
         return $this->_activeTab;
     }
     
-    public function getSitemapActiveTabHtml()
+    public function getSeoActiveTabHtml()
     {
         $tabName = $this->getActiveTab();
         if (isset($this->_availableTabs[$tabName])) {    

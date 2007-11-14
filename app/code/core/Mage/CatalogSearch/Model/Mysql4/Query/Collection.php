@@ -41,4 +41,16 @@ class Mage_CatalogSearch_Model_Mysql4_Query_Collection extends Mage_Core_Model_M
     		->order('popularity desc');
 		return $this;
     }
+    
+    public function setPopularQueryFilter()
+    {
+    	$this->getSelect()->reset(Zend_Db_Select::FROM)->distinct(true)
+    		->from(
+    			array('main_table'=>$this->getTable('catalogsearch/search_query')),
+    			array('name'=>"if(ifnull(synonim_for,'')<>'', synonim_for, query_text)", 'num_results')
+    		)
+    		->where('num_results>0')
+    		->order(array('popularity desc','name'));
+		return $this;
+    }
 }

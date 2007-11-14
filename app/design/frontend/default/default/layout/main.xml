@@ -1066,18 +1066,6 @@ One page checkout order review block
         </reference>
     </catalogsearch_result_index>
 <!--
-Catalog search terms block
--->     
-    <catalog_seo_searchterm_popular>
-        <reference name="root">
-    		<action method="setTemplate"><template>page/1column.phtml</template></action>
-    	</reference>
-        <reference name="content">
-            <block type="catalog/seo_searchterm_popular" name="seo.searchterm.popular" template="catalogsearch/searchterm.phtml"/>
-        </reference>
-    </catalog_seo_searchterm_popular>   
-    
-<!--
 Site Map block
 -->     
     <catalog_seo_sitemap_category>
@@ -1085,7 +1073,7 @@ Site Map block
     		<action method="setTemplate"><template>page/1column.phtml</template></action>
     	</reference>
     	<reference name="content">
-      		<block type="catalog/seo_sitemap_container" name="seo.sitemap.container" template="catalog/seo/sitemap/container.phtml"/>       		
+      		<block type="catalog/seo_container" name="seo.container" template="catalog/seo/container.phtml"/>       		
     	</reference>    	
     </catalog_seo_sitemap_category>
     <catalog_seo_sitemap_product>
@@ -1093,10 +1081,21 @@ Site Map block
     		<action method="setTemplate"><template>page/1column.phtml</template></action>
     	</reference>
     	<reference name="content">
-      		<block type="catalog/seo_sitemap_container" name="seo.sitemap.container" template="catalog/seo/sitemap/container.phtml"/>
+      		<block type="catalog/seo_container" name="seo.container" template="catalog/seo/container.phtml"/>
     	</reference>
     </catalog_seo_sitemap_product>
-
+<!--
+Catalog search terms block
+-->     
+    <catalog_seo_searchterm_popular>
+        <reference name="root">
+    		<action method="setTemplate"><template>page/1column.phtml</template></action>
+    	</reference>
+        <reference name="content">
+            <block type="catalog/seo_searchterm" name="seo.searchterm" template="catalog/seo/searchterm.phtml"/>
+        </reference>
+    </catalog_seo_searchterm_popular>   
+    
     <CATEGORY_123>
         
     </CATEGORY_123>

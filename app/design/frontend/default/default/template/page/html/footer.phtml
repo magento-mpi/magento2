@@ -19,25 +19,19 @@
  */
 ?>
 
-    <div class="informational">
-        <?=$this->getChildHtml()?>
-        <?if((Mage::getStoreConfig('catalog/seo/site_map')) || (Mage::getStoreConfig('catalog/seo/site_map'))):?>
-        <div>
-        <ul>
-        <?if(Mage::getStoreConfig('catalog/seo/site_map')):?>
-        	<li class="<?if(!Mage::getStoreConfig('catalog/seo/search_terms')):?><?="last"?><?endif;?>">
-        	   <a href="<?=$this->helper('catalog/map')->getCategoryUrl();?>"><?=$this->__('Site Map')?></a>
-        	 </li>
-        <?endif;?>
-         <?if(Mage::getStoreConfig('catalog/seo/search_terms')):?>
-        	<li class="last">
-        	   <a href="<?=$this->helper('catalog/map')->getSearchTermUrl();?>"><?=$this->__('Search Terms')?></a>
-        	 </li>
-        <?endif;?>
+<div class="informational">
+    <?=$this->getChildHtml()?>  
+    <?if($this->hasSeoLinks()>0):?>
+       <div>
+        <ul id="footer:seo-links">
+        <?foreach($this->getSeoLink() as $item):?>                                      
+            <li><a href="<?=$item['url'];?>"><?=$item['title'];?></a></li>
+        <?endforeach;?>
         </ul>
-        </div>
-       <?endif;?>
-    </div>
+        <script type="text/javascript">decorateList('footer:seo-links')</script>
+       </div>
+    <?endif;?>       
+</div>
 
 <p class="legality">
 <?=$this->__('Help Us to Keep Magento Healthy')?> - <a href="http://www.magentocommerce.com/bug-tracking" target="varien_external"><strong><?=$this->__('Report All Bugs')?></strong></a> <?=$this->__('(ver. %s)', Mage::getVersion())?><br />

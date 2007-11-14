@@ -24,7 +24,7 @@
  * @package    Mage_Catalog 
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Catalog_Block_Seo_Sitemap_Category extends Mage_Catalog_Block_Seo_Sitemap_Abstract
+class Mage_Catalog_Block_Seo_Sitemap_Category extends Mage_Catalog_Block_Seo_Abstract
 {		 
 	public function __construct()
 	{
@@ -39,7 +39,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Category extends Mage_Catalog_Block_Seo_Sit
         $this->setMapItemCollection($collection);
 	}  	
 
-	public function getMyUrl($obj)
+	public function getSitemapUrl($obj)
 	{
 		return $obj->getCategoryUrl();
 	}	

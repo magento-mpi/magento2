@@ -27,6 +27,14 @@
  */
 class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
 {
+    protected $_seolinks;
+
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        $this->initSeoLink();
+    }
+       
     public function setCopyright($copyright)
     {
         $this->_copyright = $copyright;
@@ -40,5 +48,39 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
         }
             
         return $this->_copyright;
+    }
+    
+    public function getSeoLink()
+    {       
+        return $this->_seolinks;   
+    }
+    
+    public function setSeoLink(array $varName)
+    {
+        $this->_seolinks=$varName;
+    } 
+    
+    public function addSeoLink(array $varName)
+    {
+        $this->_seolinks[]=$varName;
+    } 
+    
+    public function hasSeoLinks()
+    {
+        return count($this->_seolinks);
+    }  
+    
+    public function initSeoLink()
+    {
+        if(Mage::getStoreConfig('catalog/seo/site_map')){
+            $seolink['title']=$this->__('Site Map');
+            $seolink['url']=$this->helper('catalog/map')->getCategoryUrl();
+            $this->_seolinks[]=$seolink;            
+        }
+        if(Mage::getStoreConfig('catalog/seo/search_terms')){
+            $seolink['title']=$this->__('Search Terms');
+            $seolink['url']=$this->helper('catalog/map')->getSearchTermUrl();
+            $this->_seolinks[]=$seolink;            
+        }     
     }
 }
