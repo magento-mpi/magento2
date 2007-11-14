@@ -564,7 +564,7 @@ select.countries option { background-repeat:no-repeat; }
 }
 
 .grid tr input.qty{width:60px !important;}
-
+.grid .data .item-qty{width: 30px !important}
 .payments dd {
     outline-color: none !important;
     margin-left: 20px;

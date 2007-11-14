@@ -24,8 +24,8 @@ AdminOrder.prototype = {
         this.currencyId     = false;
         this.addresses      = data.addresses ? data.addresses : new Hash();
         this.shippingAsBilling = data.shippingAsBilling ? data.shippingAsBilling : false;
-        this.products       = $H({});//new Hash();
-        this.items          = $H({});
+        this.products       = $H({});
+        this.gridProducts   = $H({});
         this.billingAddress = {};
         this.shippingAddress= {};
         this.paymentMethod  = {};
@@ -226,7 +226,9 @@ AdminOrder.prototype = {
         this.loadArea(['sidebar_'+to, 'items', 'shipping_method', 'totals'], this.getAreaId('items'), {moveItem:id, moveTo:to});
     },
     
-    productGridShow : function(){
+    productGridShow : function(buttonElement){
+        this.productGridShowButton = buttonElement;
+        Element.hide(buttonElement);
         this.showArea('search');
     },
     
@@ -237,8 +239,8 @@ AdminOrder.prototype = {
             checkbox.inputElements = inputs;
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].checkboxElement = checkbox;
-                if (this.products[checkbox.value] && this.products[checkbox.value][inputs[i].name]) {
-                    inputs[i].value = this.products[checkbox.value][inputs[i].name];
+                if (this.gridProducts[checkbox.value] && this.gridProducts[checkbox.value][inputs[i].name]) {
+                    inputs[i].value = this.gridProducts[checkbox.value][inputs[i].name];
                 }
                 inputs[i].disabled = !checkbox.checked;
                 Event.observe(inputs[i],'keyup', this.productGridRowInputChange.bind(this));
@@ -250,7 +252,7 @@ AdminOrder.prototype = {
     productGridRowInputChange : function(event){
         var element = Event.element(event);
         if (element && element.checkboxElement && element.checkboxElement.checked){
-            this.products[element.checkboxElement.value][element.name] = element.value;
+            this.gridProducts[element.checkboxElement.value][element.name] = element.value;
         }
     },
     
@@ -269,7 +271,7 @@ AdminOrder.prototype = {
     productGridCheckboxCheck : function(grid, element, checked){
         if (checked) {
             if(element.inputElements) {
-                this.products[element.value]={};
+                this.gridProducts[element.value]={};
                 for(var i = 0; i < element.inputElements.length; i++) {
                     element.inputElements[i].disabled = false;
                     if (element.inputElements[i].name == 'qty') {
@@ -277,7 +279,7 @@ AdminOrder.prototype = {
                             element.inputElements[i].value = 1;
                         }
                     }
-                    this.products[element.value][element.inputElements[i].name] = element.inputElements[i].value;
+                    this.gridProducts[element.value][element.inputElements[i].name] = element.inputElements[i].value;
                 }
             }
         } else {
@@ -286,13 +288,18 @@ AdminOrder.prototype = {
                     element.inputElements[i].disabled = true;
                 }
             }
-            this.products.remove(element.value);
+            this.gridProducts.remove(element.value);
         }
-        grid.reloadParams = {'products[]':this.products.keys()};
+        grid.reloadParams = {'products[]':this.gridProducts.keys()};
     },
     
     productGridAddSelected : function(){
+        if(this.productGridShowButton) Element.show(this.productGridShowButton);
+        var data = $H({});
+        data['addProducts'] = this.gridProducts.toJSON();
+        this.gridProducts = $H({});
         this.hideArea('search');
+        this.loadArea(['search', 'items', 'shipping_method', 'totals'], true, data);
     },
     
     selectCustomer : function(grid, event){
@@ -343,11 +350,11 @@ AdminOrder.prototype = {
     },
     
     itemsUpdate : function(){
-        var qtys = $('order:items_grid').getElementsByClassName('item-qty').collect(function(el){
-            var h = {};
-            h[el.id.split(':')[1]] = el.value;
-            return h;
-        });
+        var elems = $('order:items_grid').getElementsByClassName('item-qty');
+        var qtys = $H({});
+        for(var i=0; i<elems.length; i++){
+            qtys[elems[i].id.split(':')[1]] = elems[i].value;
+        }
         this.loadArea(['items','shipping_method','totals'], 'order:items', {updateItems: qtys.toJSON()});
     },
     

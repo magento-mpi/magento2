@@ -38,6 +38,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create
      * @var Mage_Wishlist_Model_Wishlist
      */
     protected $_wishlist;
+    protected $_cart;
     
     protected $_needCollect;
     
@@ -127,6 +128,27 @@ class Mage_Adminhtml_Model_Sales_Order_Create
     }
     
     /**
+     * Retrieve customer cart quote object model
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getCustomerCart()
+    {
+        if (!is_null($this->_cart)) {
+            return $this->_cart;
+        }
+        
+        $this->_cart = Mage::getModel('sales/quote');
+        
+        if ($this->getSession()->getCustomer()->getId()) {
+            $this->_cart->setStore($this->getSession()->getStore())
+                ->loadByCustomer($this->getSession()->getCustomer()->getId());
+        }
+        
+        return $this->_cart;
+    }
+    
+    /**
      * Move quote item to another items store
      *
      * @param   mixed $item
@@ -138,7 +160,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
                 case 'cart':
-                    
+                    if ($cart = $this->getCustomerCart()) {
+                        $cart->addProduct($item->getProduct());
+                        $cart->collectTotals()
+                            ->save();
+                    }
                     break;
                 case 'wishlist':
                     if ($wishlist = $this->getCustomerWishlist()) {
@@ -170,15 +196,50 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return $this;
     }
     
-    public function addProduct($product)
+    public function addProduct($product, $qty=1)
     {
-        $this->getQuote()->addProduct($product);
+        $qty = (int) $qty;
+        if (!($product instanceof Mage_Catalog_Model_Product)) {
+            $product = Mage::getModel('catalog/product')
+                ->setStore($this->getSession()->getStore())
+                ->load($product);
+        }
+        
+        if ($item = $this->getQuote()->getItemByProduct($product)) {
+            $item->setQty($item->getQty()+$qty);
+        }
+        else {
+            $this->getQuote()->addProduct($product);
+            $item = $this->getQuote()->getItemByProduct($product);
+            $item->setQty($qty);
+        }
+        
         $this->setRecollect(true);
         return $this;
     }
     
-    public function updateQuoteItems()
+    public function addProducts(array $products)
     {
+        foreach ($products as $productId => $data) {
+            $qty = isset($data['qty']) ? (int)$data['qty'] : 1;
+        	$this->addProduct($productId, $qty);
+        }
+        return $this;
+    }
+    
+    public function updateQuoteItems($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $itemId => $itemQty) {
+                $itemQty = (int) $itemQty;
+                $itemQty = $itemQty>0 ? $itemQty : 1;
+                
+            	if ($item = $this->getQuote()->getItemById($itemId)) {
+            	    $item->setQty($itemQty);
+            	}
+            }
+            $this->setRecollect(true);
+        }
         return $this;
     }
     

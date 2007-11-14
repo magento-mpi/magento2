@@ -22,7 +22,7 @@
 class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
 {
     /**
-     * Enter description here...
+     * Quote model object
      *
      * @var Mage_Sales_Model_Quote
      */
@@ -34,10 +34,10 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Declare quote model object
      *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return Mage_Sales_Model_Quote_Item
+     * @param   Mage_Sales_Model_Quote $quote
+     * @return  Mage_Sales_Model_Quote_Item
      */
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
@@ -46,7 +46,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve quote model object
      *
      * @return Mage_Sales_Model_Quote
      */
@@ -56,10 +56,10 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Import item data from product model object
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Sales_Model_Quote_Item
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Sales_Model_Quote_Item
      */
     public function importCatalogProduct(Mage_Catalog_Model_Product $product)
     {

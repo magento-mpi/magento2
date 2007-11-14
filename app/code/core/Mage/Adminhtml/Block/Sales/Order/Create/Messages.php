@@ -13,16 +13,21 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    default_default
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- ?>
-<div class="sidebar-block">
-<h4><?=$this->__('Order Currency')?></h4>
-<select name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
-    <?foreach ($this->getAvailableCurrencies() as $_code):?>
-    <option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected<?endif;?>><?=$this->getCurrencyName($_code)?></option>
-    <?endforeach;?>
-</select>
-</div>
+ 
+/**
+ * Order create errors block
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Adminhtml_Block_Sales_Order_Create_Messages extends Mage_Core_Block_Messages
+{
+    public function _prepareLayout()
+    {
+        $this->addMessages(Mage::getSingleton('adminhtml/session_quote')->getMessages(true));
+        parent::_prepareLayout();
+    }
+}

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
@@ -33,7 +33,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     {
         parent::__construct();
         $this->setId('sales_order_create_items');
-//        $this->setTemplate('sales/order/create/items.phtml');
     }
 
     protected function _prepareLayout()
@@ -56,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     {
         $addButtonData = array(
             'label' => __('Add Product'),
-            'onclick' => "order.productGridShow()",
+            'onclick' => "order.productGridShow(this)",
             'class' => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();

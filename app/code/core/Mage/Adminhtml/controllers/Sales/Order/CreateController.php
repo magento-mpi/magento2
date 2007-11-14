@@ -57,18 +57,29 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Initialize layout and data
+     * Initialize order creation session data
      *
      * @return Mage_Adminhtml_Sales_Order_CreateController
      */
     protected function _initSession()
     {
+        /**
+         * Identify customer
+         */
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
             $this->_getSession()->setCustomerId((int) $customerId);
         }
+        
+        /**
+         * Identify store
+         */
         if ($storeId = $this->getRequest()->getParam('store_id')) {
             $this->_getSession()->setStoreId((int) $storeId);
         }
+        
+        /**
+         * Identify currency
+         */
         if ($currencyId = $this->getRequest()->getParam('currency_id')) {
             $this->_getSession()->setCurrencyId((string) $currencyId);
         }
@@ -89,23 +100,52 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getOrderCreateModel()->importPostData($data);
         }
         
+        /**
+         * Change shipping address flag
+         */
         if ($this->getRequest()->getPost('setShipping')) {
             $this->_getOrderCreateModel()->setRecollect(true);
         }
         
+        /**
+         * Flag for using billing address for shipping
+         */
         $syncFlag = $this->getRequest()->getPost('shippingAsBilling');
         if (!is_null($syncFlag)) {
             $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
         }
         
+        /**
+         * Adding product to quote from shoping cart, wishlist etc.
+         */
         if ($productId = (int) $this->getRequest()->getPost('addProduct')) {
             $this->_getOrderCreateModel()->addProduct($productId);
         }
         
+        /**
+         * Adding products to quote from special grid
+         */
+        if ($data = $this->getRequest()->getPost('addProducts')) {
+            $this->_getOrderCreateModel()->addProducts(Zend_Json::decode($data));
+        }
+        
+        /**
+         * Update quote items
+         */
+        if ($items = $this->getRequest()->getPost('updateItems')) {
+            $this->_getOrderCreateModel()->updateQuoteItems(Zend_Json::decode($items));
+        }
+        
+        /**
+         * Remove quote item
+         */
         if ($itemId = (int) $this->getRequest()->getPost('removeItem')) {
             $this->_getOrderCreateModel($itemId)->removeQuoteItem($itemId);
         }
         
+        /**
+         * Moove quote item
+         */
         if ( ($itemId = (int) $this->getRequest()->getPost('moveItem')) 
             && ($moveTo = (string) $this->getRequest()->getPost('moveTo')) ) {
             $this->_getOrderCreateModel()->moveQuoteItem($itemId, $moveTo);
@@ -199,6 +239,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     {
         try {
             $order = $this->_getOrderCreateModel()->createOrder();
+            $this->_getSession()->clear();
             $url = $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
         catch (Exception $e){

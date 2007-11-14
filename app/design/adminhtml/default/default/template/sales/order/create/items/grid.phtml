@@ -23,6 +23,13 @@
     <div id="order:items_grid">
         <div class="grid">
             <table cellspacing="0" class="data" id="invoice_items_grid_table">
+                <col width="70"/>
+                <col width="80"/>
+                <col/>
+                <col width="90"/>
+                <col width="50"/>
+                <col width="100"/>
+                <col width="220"/>
                 <thead>
                     <tr class="headings">
                         <th class="no-link"><nobr><?=__('Product ID')?></nobr></th>
@@ -41,7 +48,7 @@
                             <td><?=$_item->getSku()?></td>
                             <td><?=$_item->getName()?></td>
                             <td><nobr><?=$this->formatPrice($_item->getPrice())?></nobr></td>
-                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text item-qty" style="width: 30px !important;" value="<?=$_item->getQty()*1?>"/></td>
+                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text item-qty" value="<?=$_item->getQty()*1?>"/></td>
                             <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>
                             <td><nobr>
                                 <a href="#" onclick="order.removeQuoteItem(<?=$_item->getId()?>);return false;">
