@@ -50,7 +50,8 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
 
     public function setAttributeSetsFilter(array $setIds)
     {
-        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
+        $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', 'attribute_id');
+        $this->getSelect()->distinct(true);
         $this->getSelect()->where('entity_attribute.attribute_set_id IN(?)', $setIds);
         $this->setOrder('sort_order', 'asc');
         return $this;
