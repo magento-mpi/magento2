@@ -39,6 +39,9 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         if( $name ) {
             $read = $this->getConnection('read');
             $select = $read->select();
+            if (iconv_strlen($name, 'UTF-8') > 255) {
+                $name = iconv_substr($name, 0, 255, 'UTF-8');
+            }
 
             $select->from($this->getMainTable())
                 ->where('name = ?', $name);
@@ -61,7 +64,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if (iconv_strlen($object->getName(), 'UTF-8') > 255) {
-            $object->setName(iconv_substr($object->getName(), 0, 255));
+            $object->setName(iconv_substr($object->getName(), 0, 255, 'UTF-8'));
         }
 
         return parent::_beforeSave($object);
