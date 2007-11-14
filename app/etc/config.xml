@@ -237,6 +237,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_CatalogRule>
+        <Mage_GiftMessage>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_GiftMessage>
         <Mage_Giftcert>
             <active>true</active>
             <codePool>core</codePool>
