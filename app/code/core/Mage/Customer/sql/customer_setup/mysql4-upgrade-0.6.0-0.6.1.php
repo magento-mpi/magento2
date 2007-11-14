@@ -143,13 +143,13 @@ insert into customer_address_entity_datetime select * from customer_entity_datet
 insert into customer_address_entity_text select * from customer_entity_text where entity_type_id=2;
 insert into customer_address_entity_decimal select * from customer_entity_decimal where entity_type_id=2;
 insert into customer_address_entity_varchar select * from customer_entity_varchar where entity_type_id=2;
-delete from customer_address_entity where entity_type_id=2;    
+delete from customer_entity where entity_type_id=2;
     ")
     ->endSetup();
 
 $this->addAttribute('customer', 'group_id', array(
-                        'type'=>'int', 
-                        'input'=>'select', 
+                        'type'=>'int',
+                        'input'=>'select',
                         'label'=>'Customer Group',
                         'source'=>'customer_entity/customer_attribute_source_group',
                         'sort_order'=>6,
