@@ -136,6 +136,14 @@ CREATE TABLE `customer_address_entity_varchar` (
   CONSTRAINT `FK_CUSTOMER_ADDRESS_VARCHAR_ENTITY_TYPE` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_ADDRESS_VARCHAR_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into customer_address_entity select * from customer_entity where entity_type_id=2;
+insert into customer_address_entity_int select * from customer_entity_int where entity_type_id=2;
+insert into customer_address_entity_datetime select * from customer_entity_datetime where entity_type_id=2;
+insert into customer_address_entity_text select * from customer_entity_text where entity_type_id=2;
+insert into customer_address_entity_decimal select * from customer_entity_decimal where entity_type_id=2;
+insert into customer_address_entity_varchar select * from customer_entity_varchar where entity_type_id=2;
+delete from customer_address_entity where entity_type_id=2;    
     ")
     ->endSetup();
 
