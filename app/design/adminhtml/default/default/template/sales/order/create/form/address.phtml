@@ -2,11 +2,17 @@
     $_fieldsContainerId = 'order:shipping_address_fields';
     ?>
     <script type="text/javascript">
+    order.shippingAddressContainer = '<?=$_fieldsContainerId?>';
     order.setAddresses(<?=$this->getAddressCollectionJson()?>);
     </script>
     <?
 else:
     $_fieldsContainerId = 'order:billing_address_fields';
+    ?>
+    <script type="text/javascript">
+    order.billingAddressContainer = '<?=$_fieldsContainerId?>';
+    </script>
+    <?
 endif;?>
 <div class="entry-edit">
     <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
@@ -14,7 +20,7 @@ endif;?>
     <div class="order-choose-address">
         <?if($this->getAddressCollection()->getSize()):?>
         <?=__('Select from existing customer addresses:')?><br/>
-        <select id="<?=$this->getForm()->getHtmlIdPrefix()?>address_id" style="width:324px;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
+        <select id="<?=$this->getForm()->getHtmlIdPrefix()?>customer_address_id" style="width:324px;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
             <option value=""><?=__('Add New Address')?></option>
             <?foreach ($this->getAddressCollection() as $_address):?>
             <option value="<?=$_address->getId()?>"<?if($_address->getId()==$this->getAddressId()):?> selected<?endif?>>
@@ -25,7 +31,7 @@ endif;?>
         <br />
         <?endif;?>
         <?if($this->getIsShipping()):?>
-            <input type="checkbox" id="order:shipping_some_as_billing" name="shipping_some_as_billing" onchange="order.toggleAddressSync(this.checked)"/>
+            <input type="checkbox" id="order:shipping_some_as_billing" name="shipping_some_as_billing" onchange="order.setShippingAsBilling(this.checked)"/>
             <label for="order:shipping_some_as_billing"><?=__('Some As Billing Address')?></label>
         <?else:?>
             &nbsp;
@@ -35,4 +41,5 @@ endif;?>
     <fieldset class="order-address" id="<?=$_fieldsContainerId?>">
         <?=$this->getForm()->toHtml()?>
     </fieldset>
+    <script type="text/javascript">order.bindAddressFields('<?=$_fieldsContainerId?>')</script>
 </div>

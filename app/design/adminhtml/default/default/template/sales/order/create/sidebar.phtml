@@ -23,7 +23,7 @@
 <?endif?>
     <?foreach ($this->getChild() as $_child):?>
     <?if($_child->hasItems()):?>
-        <div id="order:sidebar-<?=$_child->getBlockAlias()?>" class="sidebar-block">
+        <div id="order:sidebar_<?=$_child->getBlockAlias()?>" class="sidebar-block">
             <?=$this->getChildHtml($_child->getBlockAlias())?>
         </div>
     <?endif;?>

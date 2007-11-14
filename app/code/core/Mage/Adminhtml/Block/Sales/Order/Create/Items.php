@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     {
         $addButtonData = array(
             'label' => __('Add Product'),
-            'onclick' => "$('sc_search').hide();sc_refresh(['search']);this.hide();$('sc_search').show();",
+            'onclick' => "order.productGridShow()",
             'class' => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();

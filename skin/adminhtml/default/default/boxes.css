@@ -742,24 +742,6 @@ img.attribute-global {
     top: 0px;
 }
 
-/*********************** Sales create order ***********************/
-#sc_addresses .entry-edit fieldset .input-text {
-    width: 220px;
-}
-#sc_addresses .entry-edit fieldset label {
-    width: 8em;
-}
-#sc_billing_method .entry-edit fieldset label {
-    float: none;
-}
-#sc_billing_method dd {
-    outline-color: none !important;
-    margin-left: 20px;
-}
-#sc_billing_method dd ul {
-    border: none !important;
-}
-
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 
 /* Directional and spacial */

@@ -40,7 +40,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         $childNames = array(
             'customer',
             'store',
-            'data'
+            'data',
+            'messages',
         );
 
         foreach ($childNames as  $name) {
@@ -103,7 +104,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
             foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
-            	$data['addresses'][$address->getId()] = $address->getData();
+                $data['addresses'][$address->getId()] = $address->getData();
             }
         }
         if (!is_null($this->getStoreId())) {

@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search extends Mage_Adminhtml_Bloc
     {
         $addButtonData = array(
             'label' => __('Add Selected Product to Order'),
-            'onclick' => 'sc_searchAdd()',
+            'onclick' => 'order.productGridAddSelected()',
             'class' => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();

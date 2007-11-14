@@ -22,9 +22,13 @@
 <script type="text/javascript">
     var order = new AdminOrder(<?=$this->getOrderDataJson()?>);
     order.setLoadBaseUrl('<?=$this->getLoadBlockUrl()?>');
+    var payment = {};
+    payment.switchMethod = order.switchPaymentMethod.bind(order);
 </script>
-<?//=$this->getChildHtml('before')?>
 <form id="edit_form" action="<?=$this->getSaveUrl()?>" method="POST">
+    <div id="order:messages">
+        <?=$this->getChildHtml('messages')?>
+    </div>
     <div id="order:customer-selector" style="display:<?=$this->getCustomerSelectorDisplay()?>">
         <?=$this->getChildHtml('customer')?>
     </div>

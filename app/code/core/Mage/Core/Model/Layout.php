@@ -320,7 +320,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $block->setType($type)
-            ->setName($name)
+            ->setNameInLayout($name)
             ->addData($attributes)
             ->setLayout($this);
 
@@ -345,7 +345,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $blockObj = $block;
         }
 
-        $blockObj->setName($blockName);
+        $blockObj->setNameInLayout($blockName);
         $blockObj->setLayout($this);
         $this->_blocks[$blockName] = $blockObj;
 

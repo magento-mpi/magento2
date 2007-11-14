@@ -23,12 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-
     protected $_rates;
 
     public function __construct()
@@ -47,11 +46,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
     {
         return $this->getQuote()->getShippingAddress();
     }
-
+    
+    /**
+     * Retrieve array of shipping rates groups
+     *
+     * @return array
+     */
     public function getShippingRates()
     {
-        $this->getAddress()->setCollectShippingRates(true);
-        $this->getAddress()->collectShippingRates();
         if (empty($this->_rates)) {
             $groups = $this->getAddress()->getGroupedAllShippingRates();
             if (!empty($groups)) {
@@ -66,7 +68,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
         }
         return $this->_rates;
     }
-
+    
+    /**
+     * Rertrieve carrier name from store configuration
+     *
+     * @param   string $carrierCode
+     * @return  string
+     */
     public function getCarrierName($carrierCode)
     {
         if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
@@ -74,10 +82,45 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
         }
         return $carrierCode;
     }
-
-    public function getAddressShippingMethod()
+    
+    /**
+     * Retrieve current selected shipping method
+     *
+     * @return string
+     */
+    public function getShippingMethod()
     {
         return $this->getAddress()->getShippingMethod();
     }
-
+    
+    /**
+     * Check activity of method by code
+     *
+     * @param   string $code
+     * @return  bool
+     */
+    public function isMethodActive($code)
+    {
+        return $code===$this->getShippingMethod();
+    }
+    
+    /**
+     * Retrieve rate of active shipping method
+     *
+     * @return Mage_Sales_Model_Quote_Address_Rate || false
+     */
+    public function getActiveMethodRate()
+    {
+        $rates = $this->getShippingRates();
+        if (is_array($rates)) {
+            foreach ($rates as $group) {
+            	foreach ($group as $code => $rate) {
+            		if ($rate->getCode() == $this->getShippingMethod()) {
+            		    return $rate;
+            		}
+            	}
+            }
+        }
+        return false;
+    }
 }

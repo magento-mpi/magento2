@@ -19,4 +19,5 @@
  */
 ?>
 <label for="coupons:code"><?=__('Apply Coupon Code')?></label>
-<input type="text" class="input-text" id="coupons:code" value="<?=$this->getCouponCode()?>" style="width: 100px;" /><?=$this->getButtonHtml(__('Apply'),'sc_couponApply($(\'coupons:code\').value)')?>
+<input type="text" class="input-text" id="coupons:code" value="<?=$this->getCouponCode()?>" style="width: 100px;" />
+<?=$this->getButtonHtml(__('Apply'), 'order.applyCoupon($(\'coupons:code\').value)')?>

@@ -67,6 +67,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
             elseif($this->getStoreId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->initByCustomer($this->getCustomer())
+                    ->setIsActive(false)
                     ->save();
                 $this->setQuoteId($this->_quote->getId());
             }
@@ -89,28 +90,6 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
         }
         return $this->_customer;
     }
-    
-    /**
-     * Declaring customer identifier by new quote
-     *
-     * @param   int $customerId
-     * @return  Mage_Adminhtml_Model_Session_Quote
-     */
-    /*public function setCustomerId($customerId)
-    {
-        $savedCustomerId = $this->getData('customer_id');
-        
-        if ($customerId != $savedCustomerId) {
-            $this->setData('customer_id', $customerId);
-            $this->_customer = null;
-            
-            if ($this->getCustomer()->getId()) {
-                $this->getQuote()->initByCustomer($this->getCustomer())
-                    ->save();
-            }
-        }
-        return $this;
-    }*/
     
     /**
      * Retrieve store model object

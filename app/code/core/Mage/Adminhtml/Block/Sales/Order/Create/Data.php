@@ -39,7 +39,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
             'shipping_method',
             'billing_method',
             'coupons',
-            'newsletter',
+            //'newsletter',
+            'search',
             'items',
             'totals'
         );

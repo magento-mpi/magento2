@@ -74,7 +74,8 @@ varienLoaderHandler.handler = {
             return;
         }
         if(request && request.options.loaderArea){
-            Position.clone($(request.options.loaderArea), $('loading-mask'));
+            Position.clone($(request.options.loaderArea), $('loading-mask'), {offsetLeft:-2});
+            toggleSelectsUnderBlock($('loading-mask'), false);
             Element.show('loading-mask');
         }
         else{
@@ -85,9 +86,33 @@ varienLoaderHandler.handler = {
     onComplete: function() {
         if(Ajax.activeRequestCount == 0) {
             Element.hide('loading-process');
+            toggleSelectsUnderBlock($('loading-mask'), true);
             Element.hide('loading-mask');
         }
     }
 };
+
+function toggleSelectsUnderBlock(block, flag){
+    if(Prototype.Browser.IE){
+        var selects = document.getElementsByTagName("select");
+        for(var i=0; i<selects.length; i++){
+            /**
+             * @todo: need check intersection
+             */
+            if(flag){
+                if(selects[i].needShowOnSuccess){
+                    selects[i].needShowOnSuccess = false;
+                    Element.show(selects[i])
+                }
+            }
+            else{
+                if(Element.visible(selects[i])){
+                    Element.hide(selects[i]);
+                    selects[i].needShowOnSuccess = true;
+                }
+            }
+        }
+    }
+}
 
 Ajax.Responders.register(varienLoaderHandler.handler);

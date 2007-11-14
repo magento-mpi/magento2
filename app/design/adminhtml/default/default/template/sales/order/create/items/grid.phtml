@@ -20,7 +20,7 @@
 ?>
 <?$_items = $this->getItems()?>
 <?if (! empty($_items)):?>
-    <div id="sc_items_grid">
+    <div id="order:items_grid">
         <div class="grid">
             <table cellspacing="0" class="data" id="invoice_items_grid_table">
                 <thead>
@@ -40,22 +40,26 @@
                             <td class="a-center"><?=$_item->getProductId()?></td>
                             <td><?=$_item->getSku()?></td>
                             <td><?=$_item->getName()?></td>
-                            <td><nobr><?=$this->getSession()->formatPrice($_item->getPrice())?></nobr></td>
-                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text sc_items_grid" style="width: 30px !important;" value="<?=$_item->getQty()*1?>"/></td>
-                            <td><nobr><?=$this->getSession()->formatPrice($_item->getRowTotal())?></nobr></td>
+                            <td><nobr><?=$this->formatPrice($_item->getPrice())?></nobr></td>
+                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text item-qty" style="width: 30px !important;" value="<?=$_item->getQty()*1?>"/></td>
+                            <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>
                             <td><nobr>
-                                <a href="javascript: void(0);" onclick="sc_itemRemove(<?=$_item->getId()?>)"><?=__('Remove Item')?></a><?if ($this->getIsOldCustomer()):?> | <?=__('Move Item to:')?>
-                                <select onchange="sc_itemMove(<?=$_item->getId()?>,this.options[this.selectedIndex].value)">
+                                <a href="#" onclick="order.removeQuoteItem(<?=$_item->getId()?>);return false;">
+                                    <?=__('Remove Item')?>
+                                </a>
+                                |
+                                <?=__('Move Item to:')?>
+                                <select onchange="order.moveQuoteItem(<?=$_item->getId()?>,this.options[this.selectedIndex].value)">
                                     <option value=""></option>
                                     <option value="cart"><?=__('Shopping Cart')?></option>
                                     <option value="wishlist"><?=__('Wishlist')?></option>
-                                </select><?endif;?>
+                                </select>
                             </nobr></td>
                         </tr>
                     <?endforeach;?>
                 </tbody>
             </table>
         </div>
-        <div class="a-center"><?=$this->getButtonHtml(__('Update Qty'),'sc_itemsUpdate()');?></div>
+        <div class="a-center"><?=$this->getButtonHtml(__('Update Qty'),'order.itemsUpdate()');?></div>
     </div>
 <?endif;?>

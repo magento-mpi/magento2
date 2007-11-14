@@ -324,15 +324,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             if (empty($suffix)) {
                 $suffix = 'child'.sizeof($this->_children);
             }
-            $blockName = $this->getName().'.'.$suffix;
+            $blockName = $this->getNameInLayout().'.'.$suffix;
 
             if ($this->getLayout()) {
                 $this->getLayout()
-                    ->unsetBlock($block->getName())
+                    ->unsetBlock($block->getNameInLayout())
                     ->setBlock($blockName, $block);
             }
 
-            $block->setName($blockName);
+            $block->setNameInLayout($blockName);
             $block->setIsAnonymous(false);
 
             if (empty($alias)) {
@@ -482,10 +482,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         if ($block->getIsAnonymous()) {
             $this->setChild('', $block);
-            $name = $block->getName();
+            $name = $block->getNameInLayout();
         }
         else {
-            $name = $block->getName();
+            $name = $block->getNameInLayout();
             $this->setChild($name, $block);
         }
 
@@ -658,7 +658,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function getCacheKey()
     {
         if (!$this->hasData('cache_key')) {
-            $this->setCacheKey($this->getName());
+            $this->setCacheKey($this->getNameInLayout());
         }
         return $this->getData('cache_key');
     }

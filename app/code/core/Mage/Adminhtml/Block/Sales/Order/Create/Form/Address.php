@@ -92,17 +92,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
     
     public function getFormValues()
     {
-        if ($this->getCustomer()) {
-        	if ($address = $this->getCustomer()->getAddressById($this->getAddressId())) {
-        		return $address->getData();
-        	}
-        }
         return array();
     }
     
     public function getAddressId()
     {
-        
+        return false;
     }
     
     public function getAddressAsString($address)

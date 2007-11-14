@@ -23,14 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-
-    protected $_rates;
-
     protected $_innerHtml = '';
 
     public function __construct()
@@ -45,20 +42,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_A
         return $this->getParentBlock()->getSession()->getBillingAddress();
     }
 
-    public function getStoreId()
-    {
-        return $this->getParentBlock()->getStoreId();
-    }
-
-    public function getQuote()
-    {
-        return $this->getParentBlock()->getQuote();
-    }
-
     public function fetchEnabledMethods()
     {
-        $methods = Mage::getStoreConfig('payment', $this->getStoreId());
-
+        $methods = $this->helper('payment')->getStoreMethods($this->getStoreId());
+        
         foreach ($methods as $methodConfig) {
             $methodName = $methodConfig->getName();
             $className = $methodConfig->getClassName();
@@ -80,7 +67,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_A
         if (empty($payment)) {
             $payment = Mage::getModel('sales/quote_payment');
         } else {
-            $payment->setCcNumber(null)->setCcCid(null);
+            $payment->setCcNumber(null)
+                ->setCcCid(null);
         }
         return $payment;
     }

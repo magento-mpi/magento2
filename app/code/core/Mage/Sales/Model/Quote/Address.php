@@ -18,12 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Quote address  model
+ */
 class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 {
 	const RATES_FETCH = 1;
 	const RATES_RECALCULATE = 2;
-
+    
+	/**
+	 * Quote object
+	 *
+	 * @var Mage_Sales_Model_Quote
+	 */
     protected $_quote;
 
     protected $_rates;
@@ -52,9 +59,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         return $this->_quote;
     }
-
-/*********************** ADDRESS ***************************/
-
+    
+    /**
+     * Import quote address data from customer address object
+     *
+     * @param   Mage_Customer_Model_Address $address
+     * @return  Mage_Sales_Model_Quote_Address
+     */
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
         $this
@@ -75,7 +86,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         ;
         return $this;
     }
-
+    
+    /**
+     * Export data to customer address object
+     *
+     * @return Mage_Customer_Model_Address
+     */
     public function exportCustomerAddress()
     {
     	$address = Mage::getModel('customer/address')
@@ -94,7 +110,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
 
         return $address;
     }
-
+    
+    /**
+     * Convert object to array
+     *
+     * @param   array $arrAttributes
+     * @return  array
+     */
     public function toArray(array $arrAttributes = array())
     {
         $arr = parent::toArray();
@@ -105,108 +127,14 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $arr;
     }
-
-    public function getName()
-    {
-    	return $this->getFirstname().' '.$this->getLastname();
-    }
-
-    public function getRegion()
-    {
-    	if ($this->getData('region_id') && !$this->getData('region')) {
-    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getCode());
-    	}
-    	return $this->getData('region');
-    }
-
-    public function getCountry()
-    {
-    	if ($this->getData('country_id') && !$this->getData('country')) {
-    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
-    	}
-    	return $this->getData('country');
-    }
-
-    public function getFormated($html=false)
-    {
-    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
-    }
-
-/*********************** STREET LINES ***************************/
-
-    /**
-     * get address street
-     *
-     * @param   int $line address line index
-     * @return  string
-     */
-    public function getStreet($line=0)
-    {
-        $street = parent::getData('street');
-        if (-1===$line) {
-            return $street;
-        } else {
-            $arr = is_array($street) ? $street : explode("\n", $street);
-            if (0===$line) {
-                return $arr;
-            } elseif (isset($arr[$line-1])) {
-                return $arr[$line-1];
-            } else {
-                return '';
-            }
-        }
-    }
-
-    /**
-     * set address street informa
-     *
-     * @param unknown_type $street
-     * @return unknown
-     */
-    public function setStreet($street)
-    {
-        if (is_array($street)) {
-            $street = trim(implode("\n", $street));
-        }
-        $this->setData('street', $street);
-        return $this;
-    }
-
-    /**
-     * To be used when processing _POST
-     */
-    public function implodeStreetAddress()
-    {
-        $this->setStreet($this->getData('street'));
-    }
-
-    /**
-     * set address data
-     *
-     * @param   string $key
-     * @param   mixed $value
-     * @return  Mage_Sales_Model_Quote_Address
-     */
-    public function setData($key, $value='')
-    {
-        switch ($key) {
-            case 'region':
-                if (is_numeric($value)) {
-                    $region = Mage::getModel('directory/region')->load((int)$value);
-                    if ($region->getId()) {
-                        $this->setRegionId($value);
-                        $this->setRegion($region->getCode());
-                        return $this;
-                    }
-                }
-                break;
-        }
-        return parent::setData($key, $value);
-    }
-
-
+    
 /*********************** ITEMS ***************************/
-
+    
+    /**
+     * Retrieve address items collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
@@ -370,7 +298,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return $rates;
     }
-
+    
+    /**
+     * Retrieve shipping rate by identifier
+     *
+     * @param   int $rateId
+     * @return  Mage_Sales_Model_Quote_Address_Rate | false
+     */
     public function getShippingRateById($rateId)
     {
         foreach ($this->getShippingRatesCollection() as $rate) {
@@ -380,7 +314,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         }
         return false;
     }
-
+    
+    /**
+     * Retrieve shipping rate by code
+     *
+     * @param   string $code
+     * @return  Mage_Sales_Model_Quote_Address_Rate
+     */
     public function getShippingRateByCode($code)
     {
         foreach ($this->getShippingRatesCollection() as $rate) {
@@ -403,11 +343,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     {
         $rate->setAddress($this)
             ->setParentId($this->getId());
-            //var_dump($rate->getParentId());
         $this->getShippingRatesCollection()->addItem($rate);
         return $this;
     }
-
+    
+    /**
+     * Collecting shipping rates by address
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function collectShippingRates()
     {
     	if (!$this->getCollectShippingRates()) {
@@ -429,12 +373,20 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
         $request->setPackageQty($this->getItemQty());
-        $request->setStoreId(Mage::app()->getStore()->getId());
-        $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        
+        /**
+         * Store and website identifiers need specify from quote
+         */
+        /*$request->setStoreId(Mage::app()->getStore()->getId());
+        $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());*/
+        
+        $request->setStoreId($this->getQuote()->getStore()->getId());
+        $request->setWebsiteId($this->getQuote()->getStore()->getWebsiteId());
         $request->setFreeShipping($this->getFreeShipping());
-
+        
         $result = Mage::getModel('shipping/shipping')
-            ->collectRates($request)->getResult();
+            ->collectRates($request)
+                ->getResult();
 
 		$found = false;
 		if ($result) {
@@ -564,4 +516,100 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    
+    public function getName()
+    {
+    	return $this->getFirstname().' '.$this->getLastname();
+    }
+
+    public function getRegion()
+    {
+    	if ($this->getData('region_id') && !$this->getData('region')) {
+    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getCode());
+    	}
+    	return $this->getData('region');
+    }
+
+    public function getCountry()
+    {
+    	if ($this->getData('country_id') && !$this->getData('country')) {
+    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
+    	}
+    	return $this->getData('country');
+    }
+
+    public function getFormated($html=false)
+    {
+    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+    }
+
+    /**
+     * get address street
+     *
+     * @param   int $line address line index
+     * @return  string
+     */
+    public function getStreet($line=0)
+    {
+        $street = parent::getData('street');
+        if (-1===$line) {
+            return $street;
+        } else {
+            $arr = is_array($street) ? $street : explode("\n", $street);
+            if (0===$line) {
+                return $arr;
+            } elseif (isset($arr[$line-1])) {
+                return $arr[$line-1];
+            } else {
+                return '';
+            }
+        }
+    }
+
+    /**
+     * set address street informa
+     *
+     * @param unknown_type $street
+     * @return unknown
+     */
+    public function setStreet($street)
+    {
+        if (is_array($street)) {
+            $street = trim(implode("\n", $street));
+        }
+        $this->setData('street', $street);
+        return $this;
+    }
+
+    /**
+     * To be used when processing _POST
+     */
+    public function implodeStreetAddress()
+    {
+        $this->setStreet($this->getData('street'));
+    }
+
+    /**
+     * set address data
+     *
+     * @param   string $key
+     * @param   mixed $value
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function setData($key, $value='')
+    {
+        switch ($key) {
+            case 'region':
+                if (is_numeric($value)) {
+                    $region = Mage::getModel('directory/region')->load((int)$value);
+                    if ($region->getId()) {
+                        $this->setRegionId($value);
+                        $this->setRegion($region->getCode());
+                        return $this;
+                    }
+                }
+                break;
+        }
+        return parent::setData($key, $value);
+    }
 }

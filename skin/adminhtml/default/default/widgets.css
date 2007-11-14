@@ -42,7 +42,7 @@
     filter:alpha(opacity=60);
     -moz-opacity: 0.6;
     opacity: 0.6;
-    z-index:100;
+    z-index:500;
     }
 #loading-mask .loader{position:absolute;top:40%;left:50%;}
 /* Widget Buttons - Scalable!! */
@@ -558,3 +558,18 @@ select.countries option { background-repeat:no-repeat; }
     width:220px;
     }
 .entry-edit .order-address .select { width:225px; }
+
+.payments .entry-edit fieldset label {
+    float: none;
+}
+
+.grid tr input.qty{width:60px !important;}
+
+.payments dd {
+    outline-color: none !important;
+    margin-left: 20px;
+}
+
+.payments dd ul {
+    border: none !important;
+}

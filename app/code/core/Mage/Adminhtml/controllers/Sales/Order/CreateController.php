@@ -45,13 +45,23 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     {
         return $this->_getSession()->getQuote();
     }
+    
+    /**
+     * Retrieve order create model
+     * 
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _getOrderCreateModel()
+    {
+        return Mage::getSingleton('adminhtml/sales_order_create');
+    }
 
     /**
      * Initialize layout and data
      *
      * @return Mage_Adminhtml_Sales_Order_CreateController
      */
-    protected function _initAction()
+    protected function _initSession()
     {
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
             $this->_getSession()->setCustomerId((int) $customerId);
@@ -66,6 +76,46 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     }
     
     /**
+     * Processing request data
+     *
+     * @return Mage_Adminhtml_Sales_Order_CreateController
+     */
+    protected function _processData()
+    {
+        /**
+         * Saving order data
+         */
+        if ($data = $this->getRequest()->getPost('order')) {
+            $this->_getOrderCreateModel()->importPostData($data);
+        }
+        
+        if ($this->getRequest()->getPost('setShipping')) {
+            $this->_getOrderCreateModel()->setRecollect(true);
+        }
+        
+        $syncFlag = $this->getRequest()->getPost('shippingAsBilling');
+        if (!is_null($syncFlag)) {
+            $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
+        }
+        
+        if ($productId = (int) $this->getRequest()->getPost('addProduct')) {
+            $this->_getOrderCreateModel()->addProduct($productId);
+        }
+        
+        if ($itemId = (int) $this->getRequest()->getPost('removeItem')) {
+            $this->_getOrderCreateModel($itemId)->removeQuoteItem($itemId);
+        }
+        
+        if ( ($itemId = (int) $this->getRequest()->getPost('moveItem')) 
+            && ($moveTo = (string) $this->getRequest()->getPost('moveTo')) ) {
+            $this->_getOrderCreateModel()->moveQuoteItem($itemId, $moveTo);
+        }
+        
+        $this->_getOrderCreateModel()->saveQuote();
+        return $this;
+    }
+    
+    /**
      * Index page
      */
     public function indexAction()
@@ -75,8 +125,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         
         $sidebar = $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')
             ->setShowContainer(true);
-        
-        $this->_initAction()
+        $this->_initSession()
             ->_setActiveMenu('sales/order')
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_create'))
             ->_addLeft($sidebar)
@@ -91,17 +140,37 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     public function loadBlockAction()
     {
-        $this->_initAction();
+        $this->_initSession()
+            ->_processData();
+            
+        $asJson= $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
+        $res = array();
+        
         if ($block) {
-            $blockName = 'adminhtml/sales_order_create_'.$block;
-            try {
-                $block = $this->getLayout()->createBlock($blockName);
-                $this->getResponse()->setBody($block->toHtml());
+            $blocks = explode(',', $block);
+            
+            if ($asJson && !in_array('messages', $blocks)) {
+                $blocks[] = 'messages';
             }
-            catch (Exception $e){
-                $this->getResponse()->setBody(__('Can not create block "%s"', $blockName));
+            
+            foreach ($blocks as $block) {
+                $blockName = 'adminhtml/sales_order_create_'.$block;
+                try {
+                    $blockObject = $this->getLayout()->createBlock($blockName);
+                    $res[$block] = $blockObject->toHtml();
+                }
+                catch (Exception $e){
+                    $res[$block] = __('Can not create block "%s"', $blockName);
+                }
             }
+        }
+        
+        if ($asJson) {
+            $this->getResponse()->setBody(Zend_Json::encode($res));
+        }
+        else {
+            $this->getResponse()->setBody(implode('', $res));
         }
     }
     
@@ -122,62 +191,57 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_getSession()->clear();
         $this->_redirect('*/*');
     }
-
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public function editAction()
+    /**
+     * Saving quote and create order
+     */
+    public function saveAction()
     {
-        $this->getSession()->reset();
-        $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
-        /* @var $order Mage_Sales_Model_Order */
-        $this->getSession()->setStoreId($order->getStoreId());
-        $this->getSession()->setCustomerId($order->getCustomerId());
-        $this->getQuote()->createFromOrder($order);
-        $this->getQuote()->collectTotals()->save();
-        $order->cancel()->save();
-        $this->_redirect('*/*');
-    }
-
-    public function customerGridAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_customer_grid')->toHtml());
-    }
-
-    /*public function storeAction()
-    {
-        if ($storeId = $this->getRequest()->getParam('store_id')) {
-            $this->getSession()->setStoreId($storeId);
-            $this->getResponse()->setBody('<script type="text/javascript">$("sc_store_name").innerHTML="' . __('in') . ' ' . $this->getSession()->getQuote()->getStore()->getName() . '"; $("sc_store_name").show();</script>');
-        } else {
-            $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_store')->toHtml());
+        try {
+            $order = $this->_getOrderCreateModel()->createOrder();
+            $url = $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
-    }*/
+        catch (Exception $e){
+            //echo $e;
+            $url = $this->_redirect('*/*/');
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    public function editAction()
+//    {
+//        $this->getSession()->reset();
+//        $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
+//        /* @var $order Mage_Sales_Model_Order */
+//        $this->getSession()->setStoreId($order->getStoreId());
+//        $this->getSession()->setCustomerId($order->getCustomerId());
+//        $this->getQuote()->createFromOrder($order);
+//        $this->getQuote()->collectTotals()->save();
+//        $order->cancel()->save();
+//        $this->_redirect('*/*');
+//    }
 
-    /*public function sidebarAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')->toHtml());
-    }*/
 
     /*public function cartAction()
     {
@@ -214,134 +278,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     	$this->getQuote()->save();
 
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_cart')->toHtml());
-    }*/
-
-    public function wishlistAction()
-    {
-
-        $wishlist = null;
-
-        try {
-            $wishlist = Mage::getModel('wishlist/wishlist');
-            /* @var $wishlist Mage_Wishlist_Model_Wishlist */
-            $wishlist->setStore($this->getSession()->getQuote()->getStore());
-            $wishlist->loadByCustomer($this->getSession()->getCustomer(), true);
-            $wishlist->setStore($this->getSession()->getQuote()->getStore());
-        } catch (Exception $e) {
-            // TODO - if customer is not created yet
-        }
-
-        //remove items from admin quote
-        $ids = Zend_Json::decode($this->getRequest()->getParam('move'));
-        if (is_array($ids)) {
-            foreach ($ids as $id) {
-                if ($itemId = $intFilter->filter($id)) {
-                    // add items to customer's wishlist
-                    // TODO - if customer is not created yet
-                    if ($wishlist && ($item = $this->getQuote()->getItemById($itemId))) {
-                        $wishlist->addNewItem($item->getProductId());
-                    }
-
-
-                    if ($customerQuote && ($item = $this->getQuote()->getItemById($itemId))) {
-                        $newItem = clone $item;
-                        $customerQuote->addItem($item);
-                    }
-                    $this->getQuote()->removeItem($itemId);
-                }
-            }
-        }
-
-
-
-        $intFilter = new Zend_Filter_Int();
-
-        //remove items
-        $ids = $intFilter->filter($this->getRequest()->getParam('move'));
-        if (!empty($ids)) {
-            if (is_array($ids)) {
-                foreach ($ids as $id) {
-                    $this->getQuote()->removeItem($id);
-                }
-            } else {
-                $this->getQuote()->removeItem($ids);
-            }
-        }
-
-    	$this->getQuote()->getShippingAddress()->collectTotals();
-    	$this->getQuote()->save();
-
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_wishlist')->toHtml());
-    }
-
-    /*public function viewedAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_viewed')->toHtml());
-    }*/
-
-    /*public function comparedAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_compared')->toHtml());
-    }*/
-
-    public function shippingAddressAction()
-    {
-        if (! is_null($same = $this->getRequest()->getParam('same_as_billing'))) {
-            $this->getSession()->setSameAsBilling($same);
-        } elseif (! is_null($addressId = $this->getRequest()->getParam('address_id'))) {
-            $this->getSession()->setShippingAddressId($addressId);
-        } elseif ($address = $this->getRequest()->getParam('address')) {
-            $this->getSession()->setShippingAddressId(null);
-            $addressData = Zend_Json::decode($address);
-            if (is_array($addressData)) {
-                $this->getQuote()->getShippingAddress()->addData($addressData);
-                $this->getQuote()->getShippingAddress()->collectTotals();
-                $this->getQuote()->save();
-            }
-        }
-
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_address')->toHtml());
-    }
-
-    public function billingAddressAction()
-    {
-        if (! is_null($addressId = $this->getRequest()->getParam('address_id'))) {
-            $this->getSession()->setBillingAddressId($addressId);
-        } elseif ($address = $this->getRequest()->getParam('address')) {
-            $this->getSession()->setBillingAddressId(null);
-            $addressData = Zend_Json::decode($address);
-            if (is_array($addressData)) {
-                $this->getQuote()->getBillingAddress()->addData($addressData);
-                $this->getQuote()->save();
-            }
-        }
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_billing_address')->toHtml());
-    }
-
-    public function shippingMethodAction()
-    {
-        if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
-            $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
-        }
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_shipping_method')->toHtml());
-    }
-
-    /*public function billingMethodAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_billing_method')->toHtml());
-    }*/
-
-    /*public function couponsAction()
-    {
-        if (! is_null($couponCode = $this->getRequest()->getParam('coupon_code'))) {
-            $this->getQuote()->setCouponCode($couponCode);
-        }
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_coupons')->toHtml());
-    }*/
-
-    /*public function newsletterAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_newsletter')->toHtml());
     }*/
 
     public function itemsAction()
@@ -449,38 +385,4 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 //        Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
     }
-
-    /*public function searchAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_search')->toHtml());
-    }
-
-    public function searchGridAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_search_grid')->toHtml());
-    }
-
-    public function totalsAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_totals')->toHtml());
-    }*/
-
-    public function saveAction()
-    {
-        $order = Mage::getModel('sales/order');
-        /* @var $order Mage_Sales_Model_Order */
-        $order->createFromQuoteAddress($this->getQuote()->getShippingAddress());
-        $order->setStoreId($this->getQuote()->getStore()->getId());
-        $order->setOrderCurrencyCode($this->getQuote()->getStore()->getCurrentCurrencyCode());
-        $order->setInitialStatus();
-        $order->validate();
-        if ($order->getErrors()) {
-            //TODO: handle errors (exception?)
-        }
-        $order->save();
-        $this->getQuote()->setIsActive(false);
-        $this->getQuote()->save();
-        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
-    }
-
 }

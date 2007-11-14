@@ -19,8 +19,7 @@
  */
 
 
-class Mage_Sales_Model_Quote_Address_Total_Grand
-    extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Mage_Sales_Model_Quote_Address_Total_Grand extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {

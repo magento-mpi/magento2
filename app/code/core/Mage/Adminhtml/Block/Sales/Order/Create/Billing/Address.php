@@ -53,11 +53,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
         return $this;
     }
     
+    public function getFormValues()
+    {
+        return $this->getCreateOrderModel()->getBillingAddress()->getData();
+    }
+
+    
     public function getAddressId()
     {
-        if($this->getCustomer() && $this->getCustomer()->getDefaultBillingAddress()){
-            return $this->getCustomer()->getDefaultBillingAddress()->getId();
-        }
-        return false;
+        return $this->getCreateOrderModel()->getBillingAddress()->getCustomerAddressId();
     }
 }

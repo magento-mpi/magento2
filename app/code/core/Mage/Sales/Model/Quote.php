@@ -64,7 +64,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             if ($defaultShippingAddress->getId()) {
                 $shippingAddress = Mage::getModel('sales/quote_address')
                     ->importCustomerAddress($defaultShippingAddress);
-                $shippingAddress->collectShippingRates();
                 $this->setShippingAddress($shippingAddress);
             }
         }
@@ -333,6 +332,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     $item->setQuote($this);
                 }
             }
+            else {
+                $this->_items->setQuoteFilter(false);
+            }
         }
         return $this->_items;
     }
@@ -407,8 +409,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function addCatalogProduct(Mage_Catalog_Model_Product $product)
     {
-        if (!$product->getQty()) {
-            $product->setQty(1);
+        if (!$product->getQuoteQty()) {
+            $product->setQuoteQty(1);
         }
 
         $item = $this->getItemByProduct($product);
@@ -460,7 +462,27 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $qty;
     }
-
+    
+    /**
+     * Adding product to quote
+     *
+     * @param   mixed $product
+     * @return  Mage_Sales_Model_Quote
+     */
+    public function addProduct($product)
+    {
+        if (is_int($product)) {
+            $product = Mage::getModel('catalog/product')
+                ->setStore($this->getStore())
+                ->load($product);
+        }
+        
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $this->addCatalogProduct($product);
+        }
+        
+        return $this;
+    }
 /*********************** PAYMENTS ***************************/
 
     public function getPaymentsCollection()
