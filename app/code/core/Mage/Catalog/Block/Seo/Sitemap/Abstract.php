@@ -29,12 +29,12 @@ abstract class Mage_Catalog_Block_Seo_Sitemap_Abstract extends Mage_Core_Block_T
 {   
     public function __construct()
     {
-        $this->setTemplate('catalog/seo/sitemap/sitemap.phtml');
+        $this->setTemplate('catalog/seo/sitemap/content.phtml');
     }
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'catalog.sitemap.pager');
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'catalog.seo.pager');
         $pager->setAvailableLimit(array(50=>50));
 		$pager->setCollection($this->getMapItemCollection());
         $pager->setShowPerPage(false);

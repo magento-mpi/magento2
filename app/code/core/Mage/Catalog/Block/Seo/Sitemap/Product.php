@@ -24,7 +24,7 @@
  * @package    Mage_Catalog 
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Abstract
+class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Sitemap_Abstract
 {		 
 	public function __construct()
 	{

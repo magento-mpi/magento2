@@ -24,7 +24,7 @@
 <?if($_items->getSize()):?>
 <ul class="bare-list">    
         <?foreach ($_items as $_item):?>
-            <li><a href="<?=$this->getMyUrl($_item)?>"><?=$_item->name?></a></li>
+            <li><a href="<?=$this->getSitemapUrl($_item)?>"><?=$_item->name?></a></li>
         <?endforeach;?>
 </ul>
 </div>
