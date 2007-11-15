@@ -21,8 +21,10 @@
 /**
  * Adminhtml sales orders creation process controller
  *
- * @author     Michael Bessolov <michael@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Controller_Action
 {
@@ -139,8 +141,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Remove quote item
          */
-        if ($itemId = (int) $this->getRequest()->getPost('removeItem')) {
-            $this->_getOrderCreateModel($itemId)->removeQuoteItem($itemId);
+        if ( ($itemId = (int) $this->getRequest()->getPost('removeItem'))
+             && ($from = (string) $this->getRequest()->getPost('from'))) {
+            $this->_getOrderCreateModel($itemId)->removeItem($itemId, $from);
         }
         
         /**
@@ -248,28 +251,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 //    public function editAction()
 //    {
 //        $this->getSession()->reset();
@@ -282,148 +263,4 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 //        $order->cancel()->save();
 //        $this->_redirect('*/*');
 //    }
-
-
-    /*public function cartAction()
-    {
-        $intFilter = new Zend_Filter_Int();
-
-        // customer's front-end quote
-    	$customerQuote = $this->getSession()->getCustomerQuote();
-
-
-        //remove items from admin quote
-        $ids = Zend_Json::decode($this->getRequest()->getParam('move'));
-        if (is_array($ids)) {
-            foreach ($ids as $id) {
-                if ($itemId = $intFilter->filter($id)) {
-                    // add items to frontend quote
-                    // TODO - if customer is not created yet
-                    if ($customerQuote && ($item = $this->getQuote()->getItemById($itemId))) {
-                        $newItem = clone $item;
-                        $customerQuote->addItem($item);
-                    }
-                    $this->getQuote()->removeItem($itemId);
-                }
-            }
-        }
-
-        // update frontend quote
-        if ($customerQuote) {
-            $customerQuote->getShippingAddress()->collectTotals(); // ?
-            $customerQuote->save();
-        }
-
-        // update admin quote
-    	$this->getQuote()->getShippingAddress()->collectTotals();
-    	$this->getQuote()->save();
-
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_cart')->toHtml());
-    }*/
-
-    public function itemsAction()
-    {
-
-        $intFilter = new Zend_Filter_Int();
-
-        // add products
-        $ids = Zend_Json::decode($this->getRequest()->getParam('products'));
-        if (is_array($ids)) {
-            foreach ($ids as $id => $ar) {
-                $this->_addItem($id, $ar['qty']);
-            }
-        } elseif (! empty($ids)) {
-            $this->_addItem($ids);
-        }
-
-        // update items
-        $ids = Zend_Json::decode($this->getRequest()->getParam('update'));
-        if (is_array($ids)) {
-            foreach ($ids as $id) {
-                foreach ($id as $key => $qty) {
-                    if ($qty>0) {
-                        if ($item = $this->getQuote()->getItemById($key)) {
-                            $item->setQty($qty);
-                        }
-                    } else {
-                        $this->getQuote()->removeItem($key);
-                    }
-                }
-            }
-        }
-
-        //remove items
-        $ids = $intFilter->filter($this->getRequest()->getParam('remove'));
-        if (!empty($ids)) {
-            if (is_array($ids)) {
-                foreach ($ids as $id) {
-                    $this->getQuote()->removeItem($id);
-                }
-            } else {
-                $this->getQuote()->removeItem($ids);
-            }
-        }
-
-    	$this->getQuote()->getShippingAddress()->collectTotals();
-    	$this->getQuote()->save();
-
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/sales_order_create_items')->toHtml());
-    }
-
-    protected function _addItem($productId, $qty=1)
-    {
-
-        $product = Mage::getModel('catalog/product')->load($productId);
-
-        if ($product->getId()) {
-//        	if($product->isSuperConfig()) {
-//        		$productId = $product->getSuperLinkIdByOptions($this->getRequest()->getParam('super_attribute'));
-//        		if($productId) {
-//        			$superProduct = Mage::getModel('catalog/product')
-//        				->load($productId)
-//        				->setParentProduct($product);
-//        			if($superProduct->getId()) {
-//        				$item = $this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-//        				$item->setDescription(
-//		            		$this->getLayout()->createBlock('checkout/cart_item_super')->setSuperProduct($superProduct)->toHtml()
-//		            	);
-//		            	$item->setName($product->getName());
-//		            	$this->getQuote()->getShippingAddress()->collectTotals();
-//		            	$this->getQuote()->save();
-//
-//        			}
-//        		} else {
-//        			$this->_backToProduct($product->getId());
-//        			return;
-//        		}
-//
-//        	} else if($product->isSuperGroup()) {
-//        		$superGroupProducts = $this->getRequest()->getParam('super_group', array());
-//        		if(!is_array($superGroupProducts)) {
-//        			$superGroupProducts = array();
-//        		}
-//
-//        		if(sizeof($superGroupProducts)==0) {
-//        			$this->_backToProduct($product->getId());
-//        			return;
-//        		}
-//        		foreach($product->getSuperGroupProductsLoaded() as $superProductLink) {
-//
-//        			if(isset($superGroupProducts[$superProductLink->getLinkedProductId()]) && $qty =  $intFilter->filter($superGroupProducts[$superProductLink->getLinkedProductId()])) {
-//      				   $superProduct = Mage::getModel('catalog/product')
-//	        				->load($superProductLink->getLinkedProductId())
-//	        				->setParentProduct($product);
-//	        			if($superProduct->getId()) {
-//	        				$this->getQuote()->addCatalogProduct($superProduct->setQty($qty));
-//			            	$this->getQuote()->getShippingAddress()->collectTotals();
-//			            	$this->getQuote()->save();
-//	        			}
-//        			}
-//        		}
-//        	} else {
-        	   	$this->getQuote()->addCatalogProduct($product->setQty($qty));
-//        	}
-        }
-//        Mage::getSingleton('checkout/session')->setQuoteId($this->getQuote()->getId());
-    }
 }

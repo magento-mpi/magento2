@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $this->_removeButton('back');
         
         $confirm = __('Are you sure you want to cancel this order?');
-        $this->_updateButton('reset', 'label', __('Cancel Order'));
+        $this->_updateButton('reset', 'label', __('Cancel'));
         $this->_updateButton('reset', 'class', 'delete');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 

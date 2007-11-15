@@ -12,18 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   adminhtml
+ * @package    default_default
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<script type="text/javascript">
-// Init scripts
-
-payment.switchMethod = sc_paymentSwitch;
-
-if (sc_customerId && sc_storeId) {
-    sc_storeSelect(sc_storeId);
-}
-</script>
+ ?>
+<div class="entry-edit">
+    <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
+    <fieldset class="order-address">
+        <textarea style="width: 100%; height: 10em;" name="comments"></textarea>
+        <input type="checkbox" id="notify_customer" name="notify_customer" value="1"/> 
+        <label for="notify_customer" class="normal"><?=__('Send Comment to the Customer')?></label>
+    </fieldset>
+</div>

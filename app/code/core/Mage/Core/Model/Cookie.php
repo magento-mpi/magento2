@@ -27,7 +27,7 @@
  */
 class Mage_Core_Model_Cookie
 {
-    const COOKIE_NAME = 'magenta';
+    const COOKIE_NAME = 'magento';
 
     protected $_id = null;
 

@@ -77,8 +77,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         }
         if ($this->_needCollect) {
             $this->getQuote()->collectTotals();
-            $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            $this->getQuote()->getShippingAddress()->collectShippingRates();            
+            /*$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+            $this->getQuote()->getShippingAddress()->collectShippingRates();            */
         }
         $this->getQuote()->save();
         return $this;
@@ -179,6 +179,32 @@ class Mage_Adminhtml_Model_Sales_Order_Create
             }
             $this->getQuote()->removeItem($item->getId());
             $this->setRecollect(true);
+        }
+        return $this;
+    }
+    
+    public function removeItem($item, $from)
+    {
+        switch ($from) {
+            case 'quote':
+                $this->removeQuoteItem($item);
+                break;
+            case 'cart':
+                if ($cart = $this->getCustomerCart()) {
+                    $cart->removeItem($item);
+                    $cart->collectTotals()
+                        ->save();
+                }
+                break;
+            case 'wishlist':
+                if ($wishlist = $this->getCustomerWishlist()) {
+                    $item = Mage::getModel('wishlist/item')->load($item);
+                    $item->delete();
+                }
+                break;
+            case 'compared':
+                
+                break;
         }
         return $this;
     }

@@ -533,7 +533,8 @@ select.countries option { background-repeat:no-repeat; }
 .sidebar-block{
     margin:0 10px 15px 0;
     padding:5px 5px 10px 5px;
-    background:#EFEFEF;
+    border:1px solid #ccc;
+    background:#f8f8f8;
     }
 .sidebar-block select{
     width:170px;
@@ -546,12 +547,21 @@ select.countries option { background-repeat:no-repeat; }
     height:130px;
     overflow: auto;
     }
+.sidebar-block .caption {
+    
+    }
+.sidebar-block .caption .text{
 
+    }
+.sidebar-block .caption .icons{
+    text-align:right;
+    }
 /********** Order *****************/
 .order-choose-address{
     margin:0px 0px 10px 0px;
     padding:5px;
-    background:#EFEFEF;
+    border:1px solid #ccc;
+    background:#f8f8f8;
     }
 .entry-edit .order-address .input-text,
 .entry-edit .order-address .textarea {

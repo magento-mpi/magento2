@@ -287,6 +287,10 @@
 .head-edit-form { background-image:url(images/fam_page_white.gif); }
 .head-customer-view { background-image:url(images/fam_status_online.gif); padding-left:18px; }
 .head-customer, .head-customer-groups { background-image:url(images/fam_group.gif); }
+.head-user { background-image:url(images/fam_user.gif); }
+.head-user-edit { background-image:url(images/fam_user_edit.gif); }
+.head-user-comment { background-image:url(images/fam_user_comment.gif); }
+.head-account { background-image:url(images/fam_account.gif); }
 .head-online-visitors { background-image:url(images/fam_monitor.gif); }
 .head-products { background-image:url(images/fam_package.gif); }
 .head-catalog-product { background-image:url(images/fam_package.gif); }

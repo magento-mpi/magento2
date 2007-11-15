@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtm
     {
         parent::__construct();
         $this->setId('sales_order_create_sidebar_cart');
-        $this->setScId('cart');
+        $this->setDataId('cart');
     }
 
     protected function _prepareItems()

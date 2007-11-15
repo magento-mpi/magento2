@@ -215,11 +215,11 @@ AdminOrder.prototype = {
     },
     
     addProduct : function(id){
-        this.loadArea(['items', 'shipping_method', 'totals'], this.getAreaId('items'), {addProduct:id});
+        this.loadArea(['items', 'shipping_method', 'totals'], true, {addProduct:id});
     },
     
     removeQuoteItem : function(id){
-        this.loadArea(['items', 'shipping_method', 'totals'], this.getAreaId('items'), {removeItem:id});
+        this.loadArea(['items', 'shipping_method', 'totals'], this.getAreaId('items'), {removeItem:id, from:'quote'});
     },
     
     moveQuoteItem : function(id, to){
@@ -349,6 +349,11 @@ AdminOrder.prototype = {
         }
     },
     
+    removeSidebarItem : function(id, from){
+        //alert(id);
+        this.loadArea(['sidebar_'+from], 'sidebar_data_'+from, {removeItem:id, from:from});
+    },
+    
     itemsUpdate : function(){
         var elems = $('order:items_grid').getElementsByClassName('item-qty');
         var qtys = $H({});
@@ -361,7 +366,7 @@ AdminOrder.prototype = {
     loadArea : function(area, indicator, params){
         var url = this.loadBaseUrl;
         if(area) url+= 'block/' + area
-        if(indicator) indicator = 'html-body';
+        if(indicator === true) indicator = 'html-body';
         params = this.prepareParams(params);
         params.json = true;
         this.loadingAreas = area;

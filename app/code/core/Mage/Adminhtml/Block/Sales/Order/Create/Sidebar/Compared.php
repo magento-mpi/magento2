@@ -33,6 +33,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared extends Mage_Admi
     {
         parent::__construct();
         $this->setId('sales_order_create_sidebar_compared');
+        $this->setDataId('compared');
     }
     
     protected function _prepareItems()
@@ -56,7 +57,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared extends Mage_Admi
 
     public function getHeaderText()
     {
-        return __('Recently Compared');
+        return __('Compared Products');
     }
 
+    public function canRemoveItems()
+    {
+        return true;
+    }
+
+    public function getItemId($item)
+    {
+        return $item->getCatalogCompareItemId();
+    }
 }

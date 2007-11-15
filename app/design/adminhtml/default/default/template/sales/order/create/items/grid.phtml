@@ -19,7 +19,9 @@
  */
 ?>
 <?$_items = $this->getItems()?>
-<?if (! empty($_items)):?>
+<?if (empty($_items)):?>
+    <div class="a-center"><?=$this->__('No ordered items')?></div>
+<?else:?>
     <div id="order:items_grid">
         <div class="grid">
             <table cellspacing="0" class="data" id="invoice_items_grid_table">
@@ -48,7 +50,7 @@
                             <td><?=$_item->getSku()?></td>
                             <td><?=$_item->getName()?></td>
                             <td><nobr><?=$this->formatPrice($_item->getPrice())?></nobr></td>
-                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text item-qty" value="<?=$_item->getQty()*1?>"/></td>
+                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" /></td>
                             <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>
                             <td><nobr>
                                 <a href="#" onclick="order.removeQuoteItem(<?=$_item->getId()?>);return false;">
@@ -65,8 +67,24 @@
                         </tr>
                     <?endforeach;?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="a-left">
+                            <?=$this->__('Added: %d product(s)', count($_items))?>
+                            <!--a href="#" onclick="order.itemsUpdate()"><?=__('Update')?></a-->
+                            <?//=$this->getButtonHtml(__('Update Qty'),'order.itemsUpdate()');?>
+                        </td>
+                        <td colspan="2" class="a-right">
+                            <?=__('Subtotal:')?>
+                        </td>
+                        <td colspan="2">
+                            <strong><?=$this->formatPrice($this->getSubtotal())?></strong>
+                            <?//=$this->__('Subtotal: <strong>%s</strong>', $this->formatPrice($this->getSubtotal()))?>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
-        <div class="a-center"><?=$this->getButtonHtml(__('Update Qty'),'order.itemsUpdate()');?></div>
+        <div class="a-right"><?=$this->getButtonHtml(__('Update Qty'),'order.itemsUpdate()');?></div>
     </div>
 <?endif;?>

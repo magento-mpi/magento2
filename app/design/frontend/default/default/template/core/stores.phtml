@@ -28,10 +28,14 @@
 <?if($this->getStoreCount()>1):?>
 <fieldset class="store-switcher">
     <label for="select-store"><?=$this->__('Select Store')?>: </label>
-    <select id="select-store" onchange="setLocation(this.value)">
-    <?foreach ($this->getStores() as $_store):?>
+    <select id="select-store" onchange="setStoreCode(this.value)">
+    <?/*foreach ($this->getStores() as $_store):?>
         <option value="<?=$_store->getUrl('')?>"<?if($_store->getId()==$this->getCurrentStoreId()):?> selected="selected"<?endif;?>><?=$_store->getName()?></option>
-    <?endforeach;?>
+    <?endforeach;*/?>
+    <?foreach ($this->getStores() as $_store):?>
+        <?$_selected = ($_store->getId()==$this->getCurrentStoreId()) ? 'selected="selected"' : ''?>
+        <option value="<?=$_store->getCode()?>" <?=$_selected?>><?=$_store->getName()?></option>
+    <?endforeach;?>    
     </select>
 </fieldset>
 <?endif;?>

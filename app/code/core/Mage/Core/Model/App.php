@@ -30,6 +30,8 @@ class Mage_Core_Model_App
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
+    
+    const DEFAULT_STORE_CODE    = 'base';
 
     /**
      * Application loaded areas array
@@ -126,11 +128,35 @@ class Mage_Core_Model_App
 
         $this->_config  = Mage::getConfig()->init($etcDir);
 
+        $this->_initStore($store);
+		Varien_Profiler::stop('app/construct');
+		return $this;
+    }
+    
+    /**
+     * Initialize application store
+     *
+     * @param   string $code
+     * @return  Mage_Core_Model_App
+     */
+    protected function _initStore($code)
+    {
         $this->_store   = Mage::getSingleton('core/store');
         $this->_website = Mage::getSingleton('core/website');
-
+        
+        if ($store = $this->getFrontController()->getRequest()->get('store')) {
+            $code = $store;
+        }
+        
+        /**
+         * Check store code
+         */
+        if (!Mage::getConfig()->getNode('stores/'.$code)) {
+            $code = self::DEFAULT_STORE_CODE;
+        }
+        
         if ($this->isInstalled()) {
-            $this->_store->loadConfig($store);
+            $this->_store->loadConfig($code);
             if ($this->_store->getWebsiteId()) {
                 $this->_website->loadConfig($this->_store->getWebsiteId());
             }
@@ -138,9 +164,7 @@ class Mage_Core_Model_App
         else {
             $this->_store->setCode($store);
         }
-
-		Varien_Profiler::stop('app/construct');
-		return $this;
+        return $this;
     }
 
     /**

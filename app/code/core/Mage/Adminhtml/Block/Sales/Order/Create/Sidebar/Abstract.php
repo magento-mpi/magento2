@@ -23,7 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
@@ -35,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         parent::__construct();
         $this->setTemplate('sales/order/create/sidebar/items.phtml');
     }
-
+    
     public function hasItems()
     {
         if (is_null($this->_itemCollection)) {
@@ -57,6 +58,21 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     {
         return $this;
     }
+
+    public function canRemoveItems()
+    {
+        return true;
+    }
+    
+    public function getProductId($item)
+    {
+        return $item->getProductId();
+    }
+    
+    public function getItemId($item)
+    {
+        return $item->getId();
+    }
     
     public function toHtml()
     {
@@ -65,5 +81,4 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         }
         return '';
     }
-
 }

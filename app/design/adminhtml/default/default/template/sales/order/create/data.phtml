@@ -18,6 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div id="order:search" style="display:none"><?=$this->getChildHtml('search')?></div>
+<div id="order:items"><?=$this->getChildHtml('items')?></div>
+<div>
+    <div id="order:form_account" class="box-left"><?=$this->getChildHtml('form_account')?></div>
+    <div class="box-right" id="order:coupons">
+        <?=$this->getChildHtml('coupons')?>
+    </div>
+</div>
+<div class="clear"></div>
 <div id="order:data_addresses">
     <div id="order:data_billing_address" class="box-left"><?=$this->getChildHtml('billing_address')?></div>
     <div id="order:data_shipping_address" class="box-right"><?=$this->getChildHtml('shipping_address')?></div>
@@ -28,11 +37,8 @@
     <div id="order:billing_method" class="box-right payments"><?=$this->getChildHtml('billing_method')?></div>
 </div>
 <div class="clear"></div>
-<div id="order:addons">
-    <div id="order:coupons" class="box-left"><?=$this->getChildHtml('coupons')?></div>
-    <div id="order:newsletter" class="box-right"><?=$this->getChildHtml('newsletter')?></div>
+<div>
+    <div id="order:comment" class="box-left"><?=$this->getChildHtml('comment')?></div>
+    <div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
 </div>
 <div class="clear"></div>
-<div id="order:search" style="display:none"><?=$this->getChildHtml('search')?></div>
-<div id="order:items"><?=$this->getChildHtml('items')?></div>
-<div id="order:totals"><?=$this->getChildHtml('totals')?></div>

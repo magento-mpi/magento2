@@ -13,15 +13,33 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage
+ * @package    Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-if (version_compare(phpversion(), '5.2.0', '<')===true) {
-	echo "<h1>Invalid PHP version</h1><p>Magento supports only PHP 5.2.0 or newer.</p>";
-	exit;
+/**
+ * Create order comment form
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Adminhtml_Block_Sales_Order_Create_Comment extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+{
+    protected $_form;
+    
+    public function __construct() 
+    {
+        parent::__construct();
+        $this->setTemplate('sales/order/create/comment.phtml');
+    }
+    
+    public function getHeaderCssClass()
+    {
+        return 'head-user-comment';
+    }
+    
+    public function getHeaderText()
+    {
+        return $this->__('Order Comment');
+    }
 }
-
-require '../app/Mage.php';
-Mage::run('german');

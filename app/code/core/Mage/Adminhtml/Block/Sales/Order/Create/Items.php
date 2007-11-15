@@ -43,14 +43,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
 
     public function getHeaderText()
     {
-        return __('Items Ordered');
+        return $this->__('Items Ordered');
     }
-
+    
     public function getItems()
     {
         return $this->getQuote()->getAllItems();
     }
-
+    
     public function getButtonsHtml()
     {
         $addButtonData = array(

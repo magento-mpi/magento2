@@ -51,4 +51,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         return $this->getParentBlock()->getSession();
     }
 
+    public function getSubtotal()
+    {
+        $totals = $this->getQuote()->getTotals();
+        if (isset($totals['subtotal'])) {
+            return $totals['subtotal']->getValue();
+        }
+        return false;
+    }
 }

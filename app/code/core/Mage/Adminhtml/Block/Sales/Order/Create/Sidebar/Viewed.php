@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed extends Mage_Adminh
     {
         parent::__construct();
         $this->setId('sales_order_create_sidebar_viewed');
-        $this->setScId('viewed');
+        $this->setDataId('viewed');
     }
 
     public function hasItems()

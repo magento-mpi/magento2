@@ -27,6 +27,13 @@ function setPLocation(url, setFocus){
     window.opener.location.href = url;
 }
 
+function setStoreCode(code){
+    if(window.Mage && Mage.Cookies){
+        Mage.Cookies.set('store', code);
+    }
+    setLocation(window.location.href);
+}
+
 /**
  * Set "odd", "even", "first" and "last" CSS classes for table rows and cells
  */

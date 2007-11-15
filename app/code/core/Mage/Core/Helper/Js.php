@@ -117,7 +117,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function includeScript($file)
     {
-        return '<script type="text/javascript" src="'.$this->getJsUrl($file).'"></script>';
+        return '<script type="text/javascript" src="'.$this->getJsUrl($file).'"></script>'."\n";
     }
     
     /**
