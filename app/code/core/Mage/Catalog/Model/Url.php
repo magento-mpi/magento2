@@ -387,12 +387,17 @@ class Mage_Catalog_Model_Url
     public function refreshCategoryRewrites($storeId, $category, $parentPath=null)
     {
         if (''==$category->getUrlKey()) {
-            return $this;
+            if ($category->getName()) {
+                $category->setUrlKey($category->formatUrlKey($category->getName()));
+            } else {
+                return $this;
+            }
+        } else {
+            $category->setUrlKey($category->formatUrlKey($category->getUrlKey()));
         }
-        $category->setUrlKey($category->formatUrlKey($category->getUrlKey()));
         if (is_null($parentPath)) {
             $parent = $this->getCategory($storeId, $category->getParentId());
-            if ($parent->getId()==$this->getRootId($storeId)) {
+            if (!$parent || $parent->getId()==$this->getRootId($storeId)) {
                 $parentPath = '';
             } else {
                 $parentPath = rtrim($parent->getUrlPath(),'/').'/';
@@ -454,10 +459,14 @@ class Mage_Catalog_Model_Url
             $product = $this->getProduct($storeId, $product);
         }
         if (''==$product->getUrlKey()) {
-            return $this;
+            if ($product->getName()) {
+                $product->setUrlKey($product->formatUrlKey($product->getName()));
+            } else {
+                return $this;
+            }
+        } else {
+            $product->setUrlKey($product->formatUrlKey($product->getUrlKey()));
         }
-
-        $product->setUrlKey($product->formatUrlKey($product->getUrlKey()));
 
         $idPath = 'product/'.$product->getId();
         $targetPath = 'catalog/product/view/id/'.$product->getId();
