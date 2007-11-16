@@ -473,32 +473,43 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve class name by class group
      *
-     * @param   string $groupRootNode
-     * @param   string $class
+     * @param   string $groupType currently supported model, block, helper
+     * @param   string $classId slash separated class identifier, ex. group/class
+     * @param   string $groupRootNode optional config path for group config
      * @return  string
      */
-    public function getGrouppedClassName($groupRootNode, $class)
+    public function getGroupedClassName($groupType, $classId, $groupRootNode=null)
     {
-        if (isset($this->_classNameCache[$groupRootNode][$class])) {
-            return $this->_classNameCache[$groupRootNode][$class];
+        if (empty($groupRootNode)) {
+            $groupRootNode = 'global/'.$groupType.'s';
         }
 
-        $config = $this->getNode($groupRootNode);
-        if (empty($config)) {
-            return false;
+        $classArr = explode('/', $classId);
+        $group = $classArr[0];
+        $class = !empty($classArr[1]) ? $classArr[1] : null;
+
+        if (isset($this->_classNameCache[$groupRootNode][$group][$class])) {
+            return $this->_classNameCache[$groupRootNode][$group][$class];
         }
+
+        $config = $this->getNode($groupRootNode.'/'.$group);
 
         if (isset($config->rewrite->$class)) {
             $className = (string)$config->rewrite->$class;
         } else {
-            $className = $config->getClassName();
-
-            if (''!==$class) {
-                $className .= '_'.uc_words($class);
+            if (!empty($config)) {
+                $className = $config->getClassName();
             }
+            if (empty($className)) {
+                $className = 'mage_'.$group.'_'.$groupType;
+            }
+            if (!empty($class)) {
+                $className .= '_'.$class;
+            }
+            $className = uc_words($className);
         }
 
-        $this->_classNameCache[$groupRootNode][$class] = $className;
+        $this->_classNameCache[$groupRootNode][$group][$class] = $className;
 
         return $className;
     }
@@ -511,19 +522,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getBlockClassName($blockType)
     {
-        $typeArr = explode('/', $blockType);
-        if (!empty($typeArr[1])) {
-            return $this->getGrouppedClassName('global/blocks/'.$typeArr[0], $typeArr[1]);
-        } else {
+        if (strpos($blockType, '/')===false) {
             return $blockType;
-
-            if (isset($this->_blockClassNameCache[$blockType])) {
-                return $this->_blockClassNameCache[$blockType];
-            }
-            $className = $this->getNode('global/block/types/'.$typeArr[0])->getClassName();
-            $this->_blockClassNameCache[$blockType] = $className;
-            return $className;
         }
+        return $this->getGroupedClassName('block', $blockType);
     }
 
     /**
@@ -532,13 +534,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   string $name
      * @return  string
      */
-    public function getHelperClassName($name)
+    public function getHelperClassName($helperName)
     {
-        if (!strstr($name, '/')) {
-            $name.= '/data';
+        if (strpos($helperName, '/')===false) {
+            $helperName .= '/data';
         }
-        $name = str_replace('/', '_Helper_', $name);
-        return 'Mage_' . uc_words($name);
+        return $this->getGroupedClassName('helper', $helperName);
     }
 
     /**
@@ -549,11 +550,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getModelClassName($modelClass)
     {
-        $classArr = explode('/', $modelClass);
-        if (!isset($classArr[1])) {
+        if (strpos($modelClass, '/')===false) {
             return $modelClass;
         }
-        return $this->getGrouppedClassName('global/models/'.$classArr[0], $classArr[1]);
+        return $this->getGroupedClassName('model', $modelClass);
     }
 
     /**
