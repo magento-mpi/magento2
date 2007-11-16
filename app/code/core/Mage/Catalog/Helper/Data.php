@@ -31,9 +31,10 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!$this->_categoryPath) {
 
+            $path = array();
             if ($this->getCategory()) {
-                $path = $this->getCategory()->getPathInStore();
-                $pathIds = array_reverse(explode(',', $path));
+                $pathInStore = $this->getCategory()->getPathInStore();
+                $pathIds = array_reverse(explode(',', $pathInStore));
 
                 $categories = Mage::getResourceModel('catalog/category_collection')
                     ->addAttributeToSelect('name')
@@ -42,7 +43,6 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
                     ->load()
                     ->getItems();
 
-                $path = array();
                 // add category path breadcrumb
                 foreach ($pathIds as $categoryId) {
                     if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
