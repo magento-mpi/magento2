@@ -7,7 +7,7 @@ DirectoryIndex index.php
 
 RewriteEngine on
 
-#RewriteBase /
+#RewriteBase /dev/magento/
 
 RewriteCond %{REQUEST_URI} !^/media/
 RewriteCond %{REQUEST_URI} !^/skin/
