@@ -428,11 +428,7 @@ class Translate {
 		                $inc_arr['value']=(string)$val->$v;
 						$inc_arr['line']='';
 						$inc_arr['file']=$file;
-						if($mod_name!==null){
-							$inc_arr['mod_name'] = $mod_name;
-						} else {
-							$inc_arr['mod_name'] = ''; 
-						}
+						$inc_arr['mod_name'] = ''; 
 						array_push($data_arr,$inc_arr);
 	                }
 				}
