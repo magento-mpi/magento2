@@ -162,7 +162,7 @@ class Mage_Core_Model_App
             }
         }
         else {
-            $this->_store->setCode($store);
+            $this->_store->setCode($code);
         }
         return $this;
     }
