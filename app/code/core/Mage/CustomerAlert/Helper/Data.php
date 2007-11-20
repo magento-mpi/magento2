@@ -13,39 +13,36 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Customer alert type model
+ * Customer alert helper
  *
- * @category   Mage
- * @package    Mage_Cms
- * @author     Vasily Selivanov <vasily@varien.com>
+ * @author      Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
+class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    
-    public function setCustomerId($id)
+    public function getSaveAlertsUrl()
     {
-        $this->setData('customerId',$id);
-        return $this;
+         return $this->_getUrl('customeralert/Alert/saveAlerts');
     }
     
-    public function setProductId($id)
+    public function isLoggedIn()
     {
-        $this->setData('productId',$id);
-        return $this;
+        return Mage::getSingleton('customer/session')->isLoggedIn();
     }
     
-    public function save()
+    public function getAlerts()
     {
-    	Mage::getResourceModel('customeralert/type')
-                ->save($this);
-         return $this;
+    	$nodes = Mage::getConfig()->getNode('global/customeralert/types')->asArray();
+        $alerts = array();
+    	foreach ($nodes as $key=>$val ){
+    	    $alerts[$key] = $val['label'];
+    	}
+    	return $alerts;
     }
-
 }

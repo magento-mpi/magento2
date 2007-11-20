@@ -13,39 +13,29 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Customer alert type model
+ * Customer alert controller
  *
  * @category   Mage
- * @package    Mage_Cms
- * @author     Vasily Selivanov <vasily@varien.com>
+ * @package    Mage_Customer
+ * @author     Vasily Selivanov <vasily@varien.com>
  */
-
-class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
+class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Action
 {
-    
-    public function setCustomerId($id)
-    {
-        $this->setData('customerId',$id);
-        return $this;
-    }
-    
-    public function setProductId($id)
-    {
-        $this->setData('productId',$id);
-        return $this;
-    }
-    
-    public function save()
-    {
-    	Mage::getResourceModel('customeralert/type')
-                ->save($this);
-         return $this;
-    }
-
+   
+   public function saveAlertsAction()
+     {
+         $params = $this->getRequest()->getParams();
+         foreach ($params as $key => $val){
+             $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'))
+                     ->setCustomerId(1)
+                     ->setProductId(2)
+                     ->save();
+        }
+     }
 }

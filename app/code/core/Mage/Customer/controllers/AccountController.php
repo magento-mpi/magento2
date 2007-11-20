@@ -282,17 +282,4 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_redirect('*/*/edit');
     }
     
-     /**
-     * Save Alerts to customer profile
-     */
-     public function saveAlertsAction()
-     {
-         $alert = array();
-         $alert['special_price'] = $this->getRequest()->getParam('special_price');
-         $alert['price_is_lowered'] = $this->getRequest()->getParam('price_is_lowered');
-         $alert['product_back_stock'] = $this->getRequest()->getParam('product_back_stock');
-         return true;
-         print 'false';
-         
-     }
 }// Class Mage_Customer_AccountController END

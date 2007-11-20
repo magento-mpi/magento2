@@ -69,9 +69,18 @@
         </blocks>
         <customeralert>
             <types>
-                <simple>
-                    <model>customeralert/simple</model>
-                </simple>
+                <special_price translate="label">
+                    <model>customeralert/type_specialPrice</model>
+                    <label>Get an alert sent to them when a product receives a special price.</label>
+                </special_price>
+                <price_is_lowered translate="label">
+                    <model>customeralert/type_priceLowered</model>
+                    <label>Get an alerts sent to them when a product’s price is lowered.</label>
+                </price_is_lowered>
+                <product_back_stock translate="label">
+                    <model>customeralert/type_backStock</model>
+                    <label>The customer can sign up to get an alert when an out of stock product comes back into stock.</label>
+                </product_back_stock>
             </types>
         </customeralert>
     </global>

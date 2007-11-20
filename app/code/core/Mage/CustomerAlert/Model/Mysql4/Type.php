@@ -23,29 +23,13 @@
  *
  * @category   Mage
  * @package    Mage_Cms
- * @author     Vasily Selivanov <vasily@varien.com>
+ * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
+class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstract
 {
-    
-    public function setCustomerId($id)
+    protected function _construct()
     {
-        $this->setData('customerId',$id);
-        return $this;
+        $this->_init('customer/product/alert', 'id');
     }
-    
-    public function setProductId($id)
-    {
-        $this->setData('productId',$id);
-        return $this;
-    }
-    
-    public function save()
-    {
-    	Mage::getResourceModel('customeralert/type')
-                ->save($this);
-         return $this;
-    }
-
 }

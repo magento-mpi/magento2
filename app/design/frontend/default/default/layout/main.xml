@@ -577,6 +577,7 @@ Product view
                 <block type="catalog/product_view_super_group" name="product.info.group" as="super_group" template="catalog/product/view/super/group.phtml"/>
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml"/>
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
+                <block type="customeralert/alerts" name="customeralert.alerts" as="customeralert_alerts" template="customeralert/alert.phtml" />
             </block>
         </reference>
         <reference name="right">

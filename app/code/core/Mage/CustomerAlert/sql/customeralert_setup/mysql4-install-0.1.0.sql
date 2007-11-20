@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento
  *
@@ -13,39 +12,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Customer alert type model
- *
- * @category   Mage
- * @package    Mage_Cms
- * @author     Vasily Selivanov <vasily@varien.com>
- */
+/*Table structure for table `customer_entity` */
 
-class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
-{
-    
-    public function setCustomerId($id)
-    {
-        $this->setData('customerId',$id);
-        return $this;
-    }
-    
-    public function setProductId($id)
-    {
-        $this->setData('productId',$id);
-        return $this;
-    }
-    
-    public function save()
-    {
-    	Mage::getResourceModel('customeralert/type')
-                ->save($this);
-         return $this;
-    }
+DROP TABLE IF EXISTS `customer_product_alert`;
 
-}
+CREATE TABLE `customer_product_alert` (
+    `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `customer_id` INT( 11 ) UNSIGNED NOT NULL ,
+    `product_id` INT( 11 ) UNSIGNED NOT NULL ,
+    `type` VARCHAR( 255 ) NOT NULL
+) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
+
+

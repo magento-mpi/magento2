@@ -19,33 +19,14 @@
  */
 
 /**
- * Customer alert type model
+ * Customer alert price is lowered model
  *
  * @category   Mage
  * @package    Mage_Cms
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
+class Mage_CustomerAlert_Model_Type_PriceLowered extends Mage_CustomerAlert_Model_Type_Abstract
 {
     
-    public function setCustomerId($id)
-    {
-        $this->setData('customerId',$id);
-        return $this;
-    }
-    
-    public function setProductId($id)
-    {
-        $this->setData('productId',$id);
-        return $this;
-    }
-    
-    public function save()
-    {
-    	Mage::getResourceModel('customeralert/type')
-                ->save($this);
-         return $this;
-    }
-
 }
