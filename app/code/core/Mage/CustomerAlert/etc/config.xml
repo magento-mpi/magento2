@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Mage_CustomerAlert>
+            <version>0.1.0</version>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Customer />
+            </depends>
+        </Mage_CustomerAlert>
+    </modules>
+    <global>
+        <models>
+            <customeralert>
+                <class>Mage_CustomerAlert_Model</class>
+                <resourceModel>customeralert_mysql4</resourceModel>
+            </customeralert>
+            <customeralert_mysql4>
+                <class>Mage_CustomerAlert_Model_Mysql4</class>
+                <entities>
+                    <alert>
+                        <table>customer_product_alert</table>
+                    </alert>
+                </entities>
+            </customeralert_mysql4>
+        </models>
+        <resources>
+            <customeralert_setup>
+                <setup>
+                    <module>Mage_CustomerAlert</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </customeralert_setup>
+            <customeralert_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </customeralert_write>
+            <customeralert_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </customeralert_read>
+        </resources>
+        <blocks>
+            <customeralert><class>Mage_CustomerAlert_Block</class></customeralert>
+        </blocks>
+        <customeralert>
+            <types>
+                <simple>
+                    <model>customeralert/simple</model>
+                </simple>
+            </types>
+        </customeralert>
+    </global>
+    <adminhtml>
+        <events>
+            <catalog_product_save_before>
+                <observers>
+                    <customeralert_observer>
+                        <type>singleton</type>
+                        <class>customeralert/observer</class>
+                        <method>catalogProductSaveBefore</method>
+                    </customeralert_observer>
+                </observers>
+            </catalog_product_save_before>
+        </events>
+    </adminhtml>
+    <frontend>
+        <secure_url>
+            <sales>/customeralert/</sales>
+        </secure_url>
+        <routers>
+            <sales>
+                <use>standard</use>
+                <args>
+                    <module>Mage_CustomerAlert</module>
+                    <frontName>customeralert</frontName>
+                </args>
+            </sales>
+        </routers>
+        <translate>
+            <modules>
+                <Mage_CustomerAlert>
+                    <files>
+                        <default>Mage_CustomerAlert.csv</default>
+                    </files>
+                </Mage_CustomerAlert>
+            </modules>
+        </translate>
+    </frontend>
+</config>

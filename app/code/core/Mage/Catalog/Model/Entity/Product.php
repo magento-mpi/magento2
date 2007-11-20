@@ -50,6 +50,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
 
     protected function _beforeSave(Varien_Object $object)
     {
+        Mage::dispatchEvent('catalog_product_save_before', array('product'=>$object));
         if (!$object->getId() && $object->getSku()) {
            $object->setId($this->getIdBySku($object->getSku()));
         }

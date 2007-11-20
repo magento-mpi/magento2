@@ -61,7 +61,8 @@
        </div>
        <div class="product-shop">
        <h3 class="product-name"><?=$_product->getName()?></h3>
-           <?=$this->helper('review/product')->getSummaryHtml($_product, null, 1)?>
+	       <a href="<?=$this->helper('catalog/product')->getEmailToFriendUrl($_product)?>"><?=$this->__('Email to a Friend')?></a><br />     
+	       <?=$this->helper('review/product')->getSummaryHtml($_product, null, 1)?>
             <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
             <input type="hidden" name="product" value="<?=$_product->getId()?>"/>
             <input type="hidden" name="related_product" id="related-products-field" value=""/>

@@ -114,6 +114,11 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return '';
     }
     
+    public function getEmailToFriendUrl($product)
+    {
+        return $this->_getUrl('catalog/product/send', array('id'=>$product->getId()));
+    }
+    
     /**
      * Retrieve product price html block
      *
