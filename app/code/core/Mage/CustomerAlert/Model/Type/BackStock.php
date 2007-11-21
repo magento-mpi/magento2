@@ -28,5 +28,9 @@
 
 class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_Type_Abstract
 {
-    
+    public function __construct()
+    {
+    	$this->type = 'product_back_stock';
+    	parent::__construct();
+    }
 }

@@ -29,23 +29,28 @@
 class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
 {
     
+    public function __construct()
+    {
+        $this->_init('customeralert/type');
+        
+    }
+    
     public function setCustomerId($id)
     {
-        $this->setData('customerId',$id);
+        $this->setData('customer_id',$id);
         return $this;
     }
     
     public function setProductId($id)
     {
-        $this->setData('productId',$id);
+        $this->setData('product_id',$id);
         return $this;
     }
     
-    public function save()
+    public function setChecked($check)
     {
-    	Mage::getResourceModel('customeralert/type')
-                ->save($this);
-         return $this;
+        $this->setData('checked',($check==='true') ? true : false);
+        return $this;
     }
-
+    
 }

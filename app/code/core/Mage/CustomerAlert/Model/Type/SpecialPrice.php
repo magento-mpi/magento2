@@ -28,4 +28,9 @@
 
 class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Model_Type_Abstract
 {
+    public function __construct()
+    {
+    	$this->type = 'special_price';
+    	parent::__construct();
+    }
 }

@@ -30,12 +30,20 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
    
    public function saveAlertsAction()
      {
-         $params = $this->getRequest()->getParams();
-         foreach ($params as $key => $val){
-             $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'))
-                     ->setCustomerId(1)
-                     ->setProductId(2)
-                     ->save();
-        }
+         $customer_id = Mage::getModel('customer/session')->getId();
+         if($customer_id){
+             $params = $this->getRequest()->getParams();
+             if(isset($params['_product_id'])){
+                 $product_id = $params['_product_id'];
+                 unset($params['_product_id']);
+                 foreach ($params as $key => $val){
+                     Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'))
+                         ->setCustomerId($customer_id)
+                         ->setProductId($product_id)
+                         ->setChecked($val)
+                         ->save();
+                }
+            }
+         }
      }
 }

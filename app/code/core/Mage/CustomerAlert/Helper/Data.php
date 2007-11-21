@@ -36,13 +36,37 @@ class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
     
-    public function getAlerts()
+    public function getAlerts($product_id)
     {
+    	$customer_id = Mage::getModel('customer/session')->getId();
+        
+    	$res = Mage::getResourceModel('customeralert/type');
+    	
+    	$read = $res->getConnection('read');
+            
     	$nodes = Mage::getConfig()->getNode('global/customeralert/types')->asArray();
         $alerts = array();
     	foreach ($nodes as $key=>$val ){
-    	    $alerts[$key] = $val['label'];
+    	    $alerts[$key] = array('label'=>$val['label']);
+    	    $select = $read
+                    ->select()
+                    ->from($res->getMainTable())
+                    ->where('customer_id = ?', $customer_id)
+                    ->where('product_id = ?', $product_id)
+    	            ->where('type = ?', $key);
+    	    
+    	    if($read->fetchOne($select->where('type = ?', $key))>0){
+    	       $alerts[$key]['checked'] = true;    
+    	    } else {
+    	       $alerts[$key]['checked'] = false;
+    	    }
     	}
     	return $alerts;
     }
+    
+    public function getProductId()
+    {
+        return $this->_getRequest()->getParam('id');
+    }
+    
 }
