@@ -53,7 +53,8 @@ abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Ab
         return $this;
     }
     
-    abstract public function check(Mage_Catalog_Model_Product $product);
+    abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
+    abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
     
     
 }

@@ -47,15 +47,17 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
         $customer_id = (int)$object->getData('customer_id');
         $product_id = (int)$object->getData('product_id');
         $type = (string)$object->getData('type');
+        $store_id = (int)$object->getData('store_id');
         
-        $bind = array('customer_id'=>$customer_id,'product_id'=>$product_id, 'type'=>$type);
+        $bind = array('customer_id'=>$customer_id,'product_id'=>$product_id, 'type'=>$type, 'store_id'=>$store_id);
         $read = $this->getConnection('read');
         $select = $read
-                ->select()
-                ->from($this->getMainTable())
-                ->where('customer_id = ?', $customer_id)
-                ->where('product_id = ?', $product_id)
-                ->where('type = ?', $type);
+            ->select()
+            ->from($this->getMainTable())
+            ->where('customer_id = ?', $customer_id)
+            ->where('product_id = ?', $product_id)
+            ->where('type = ?', $type)
+            ->where('store_id = ?', $store_id);
         $row = $read->fetchOne($select);
         
         if($row>0){
@@ -70,8 +72,5 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
                 parent::save($object);
             }
         }
-   	
    }
-
-      
 }

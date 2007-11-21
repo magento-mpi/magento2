@@ -88,11 +88,16 @@
         <events>
             <catalog_product_save_before>
                 <observers>
-                    <customeralert_observer>
+                    <customeralert_observer_before>
                         <type>singleton</type>
                         <class>customeralert/observer</class>
                         <method>catalogProductSaveBefore</method>
-                    </customeralert_observer>
+                    </customeralert_observer_before>
+                    <customeralert_observer_after>
+                        <type>singleton</type>
+                        <class>customeralert/observer</class>
+                        <method>catalogProductSaveAfter</method>
+                    </customeralert_observer_after>
                 </observers>
             </catalog_product_save_before>
         </events>

@@ -22,7 +22,7 @@
  * Customer alert back stock model
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
@@ -34,13 +34,17 @@ class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_T
     	parent::__construct();
     }
     
-    public function check(Mage_Catalog_Model_Product $product)
+    public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
-        $db_product = Mage::getModel('catalog/product')
-                        ->load($product->getId());
-        if($product->isInStock() && !$db_product->isInStock()){
-            die('YES');
+        if($newProduct->isInStock() && !$oldProduct->isInStock()){
+            #die('YES');
         }
         
     }
+    
+    public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
+    {
+        
+    }
+    
 }

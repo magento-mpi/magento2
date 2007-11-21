@@ -25,23 +25,51 @@
  */
 class Mage_CustomerAlert_Model_Observer
 {
+    protected $_oldProduct;
+    
+    
     public function catalogProductSaveBefore($observer)
     {
-        $product = $observer->getEvent()->getProduct();
+        $newProduct = $observer->getEvent()->getProduct();
         
-        $product_id = $product->getId();
+        $product_id = $newProduct->getId();
+        
+        $oldProduct = Mage::getModel('catalog/product')
+                        ->load($product_id);
+        $this->_oldProduct = $oldProduct;
         
         $res = Mage::getResourceModel('customeralert/type');
         $read = $res->getConnection('read');
         $select = $read
                 ->select()
                 ->from($res->getMainTable())
-                ->where('product_id = ?', $product_id);
+                ->where('product_id = ?', $product_id)
+                ->where('store_id = ?', Mage::app()->getStore()->getId());
         $rows = $read->fetchAll($select);
         foreach ($rows as $row) {
             $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
                 ->load($row['id']);
-            $mod->check($product);
+            $mod->checkBefore($oldProduct,$newProduct);
+        }
+    }
+    
+    public function catalogProductSaveAfter($observer)
+    {
+        $newProduct = $observer->getEvent()->getProduct();
+        $product_id = $newProduct->getId();
+        
+        $res = Mage::getResourceModel('customeralert/type');
+        $read = $res->getConnection('read');
+        $select = $read
+                ->select()
+                ->from($res->getMainTable())
+                ->where('product_id = ?', $product_id)
+                ->where('store_id = ?', Mage::app()->getStore()->getId());
+        $rows = $read->fetchAll($select);
+        foreach ($rows as $row) {
+            $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
+                ->load($row['id']);
+            $mod->checkAfter($this->_oldProduct,$newProduct);
         }
     }
 }

@@ -22,7 +22,7 @@
  * Customer alert special price model
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
@@ -34,7 +34,12 @@ class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Mode
     	parent::__construct();
     }
     
-    public function check(Mage_Catalog_Model_Product $product)
+    public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
+    {
+        
+    }
+    
+    public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
         
     }

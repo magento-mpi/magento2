@@ -35,11 +35,13 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
              $params = $this->getRequest()->getParams();
              if(isset($params['_product_id'])){
                  $product_id = $params['_product_id'];
+                 $storeId = Mage::app()->getStore()->getId();
                  unset($params['_product_id']);
                  foreach ($params as $key => $val){
                      Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'))
                          ->setCustomerId($customer_id)
                          ->setProductId($product_id)
+                         ->setStoreId($storeId)
                          ->setChecked($val)
                          ->save();
                 }
