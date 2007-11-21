@@ -22,8 +22,8 @@
  * Customer alert type model
  *
  * @category   Mage
- * @package    Mage_Cms
- * @author      Michael Bessolov <michael@varien.com>
+ * @package    Mage_CustomerAlert
+ * @author     Vasily Selivanov <vasily@varien.com>
  */
 
 class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstract

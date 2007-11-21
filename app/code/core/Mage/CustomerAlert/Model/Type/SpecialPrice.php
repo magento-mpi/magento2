@@ -33,4 +33,9 @@ class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Mode
     	$this->type = 'special_price';
     	parent::__construct();
     }
+    
+    public function check(Mage_Catalog_Model_Product $product)
+    {
+        
+    }
 }

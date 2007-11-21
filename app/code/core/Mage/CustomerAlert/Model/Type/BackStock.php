@@ -33,4 +33,14 @@ class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_T
     	$this->type = 'product_back_stock';
     	parent::__construct();
     }
+    
+    public function check(Mage_Catalog_Model_Product $product)
+    {
+        $db_product = Mage::getModel('catalog/product')
+                        ->load($product->getId());
+        if($product->isInStock() && !$db_product->isInStock()){
+            die('YES');
+        }
+        
+    }
 }

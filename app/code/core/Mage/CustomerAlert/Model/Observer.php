@@ -28,7 +28,20 @@ class Mage_CustomerAlert_Model_Observer
     public function catalogProductSaveBefore($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        /* @var $product Mage_Catalog_Model_Product */
         
+        $product_id = $product->getId();
+        
+        $res = Mage::getResourceModel('customeralert/type');
+        $read = $res->getConnection('read');
+        $select = $read
+                ->select()
+                ->from($res->getMainTable())
+                ->where('product_id = ?', $product_id);
+        $rows = $read->fetchAll($select);
+        foreach ($rows as $row) {
+            $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
+                ->load($row['id']);
+            $mod->check($product);
+        }
     }
 }

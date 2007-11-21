@@ -34,4 +34,9 @@ class Mage_CustomerAlert_Model_Type_PriceLowered extends Mage_CustomerAlert_Mode
     	parent::__construct();
     }
     
+    public function check(Mage_Catalog_Model_Product $product)
+    {
+        
+    }
+    
 }

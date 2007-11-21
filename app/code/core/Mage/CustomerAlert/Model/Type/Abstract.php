@@ -22,11 +22,11 @@
  * Customer alert type model
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
 {
     
     public function __construct()
@@ -52,5 +52,8 @@ class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
         $this->setData('checked',($check==='true') ? true : false);
         return $this;
     }
+    
+    abstract public function check(Mage_Catalog_Model_Product $product);
+    
     
 }
