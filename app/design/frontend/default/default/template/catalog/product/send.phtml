@@ -25,18 +25,23 @@
  */
 ?>
 <script type="text/javascript">
+    i=0;
+    
+    function remove_recipient(i){
+        $('recipients_name'+i).up(2).remove();
+        return false;
+    }
+    
 	function add_recipient(){
 		ul = $('recipients_options');
-		var li_mail = document.createElement("LI");
+		var li_mail = Element.extend(document.createElement("LI"));
 		li_mail.addClassName('addElement');
-		li_mail.innerHTML = '<label for="recipients_email"><?=$this->__('Email Address:')?></label><br/><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text" style="width:250px;"/>';
+		li_mail.innerHTML = '<div align="right"><a href="delete_email" onclick="remove_recipient('+i+');return false"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Email')?>"/></a></div>'
+		li_mail.innerHTML += '<div class="left"><label for="recipients_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/><div style="width:250px"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" style="width:250px;"/></div><br /><br /></div>';
+		li_mail.innerHTML += '<div class="right"><label for="recipients_email"><?=$this->__('Email Address:')?><span class="required">*</span></label><br/><div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div></div>';
+	    i++;	
 		
-		var li_name = document.createElement("LI");
-		li_name.innerHTML = '<label for="recipients_name"><?=$this->__('Name:')?></label><br/><input name="recipients[name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />';
-		
-		ul.appendChild(li_mail);
-		ul.appendChild(li_name);
-		
+	    ul.appendChild(li_mail);
 	}
 </script>
             
@@ -48,36 +53,41 @@
 <div class="col-1 login-box">
     <div class="col-1 registered-users">
         <div class="content ">
-           	<div class="left">
+           	<div>
 	            <h4><?=$this->__('Sender:')?></h4>
 	             <ul class="form-list" id="sender_options">
 	                   <li>
-	                        <label for="sender_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
-	                        <input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text required-entry" style="width:250px;"/>
-	                    </li>
-	                    <li>
-	                        <label for="sender_email"><?=$this->__('Email:')?> <span class="required">*</span></label><br/>
-	                        <div style="width:250px"><input name="sender[email]" value="<?=$this->getEmail()?>" title="<?=$this->__('Email')?>" id="sender_name" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
+	                        <div class="left">
+    	                        <label for="sender_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
+    	                        <div style="width:250px"><input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text required-entry" style="width:250px;"/></div>
+	                        </div>
+	                        <div class="right">
+                               <label for="sender_email"><?=$this->__('Email:')?> <span class="required">*</span></label><br/>
+                               <div style="width:250px"><input name="sender[email]" value="<?=$this->getEmail()?>" title="<?=$this->__('Email Address')?>" id="sender_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>                        
+	                        </div>
 	                    </li>
 	                    <li>
 	                        <label for="sender_message"><?=$this->__('Message:')?></label><br/>
-	                        <textarea name="sender[message]" class="input-text" id="sender_message" style="width:250px;"></textarea>
+	                        <textarea name="sender[message]" class="input-text" id="sender_message" style="width:100%;height:100px"></textarea>
 	                    </li>
 	                    
 	             </ul>
             </div>
             
-            <div class="right">
+            <div>
             	<div>
-		            <h4><?=$this->__('Recipients:')?></h4>
+		           <br /> 
+            	   <h4><?=$this->__('Recipients:')?></h4>
 		            <ul class="form-list" id="recipients_options">
 		                    <li>
-		                        <label for="recipients_email"><?=$this->__('Email Address:')?> <span class="required">*</span></label><br/>
-		                        <div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
-		                    </li>
-		                    <li>
-		                        <label for="recipients_name"><?=$this->__('Name:')?></label><br/>
-		                        <input name="recipients[name][]" type="text" class="input-text" id="recipients_name" style="width:250px;"/><br /><br />
+		                        <div class="left">
+    		                        <label for="recipients_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
+    		                        <div style="width:250px"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name" style="width:250px;"/></div><br /><br />
+		                        </div>
+		                        <div class="right">
+    		                        <label for="recipients_email"><?=$this->__('Email Address:')?> <span class="required">*</span></label><br/>
+    		                        <div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
+		                        </div>
 		                    </li>
 		            </ul>
 		             <button class="form-button" onclick="add_recipient();" type="button"><span><?=$this->__('Add Recipient')?></span></button>
