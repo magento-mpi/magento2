@@ -23,7 +23,7 @@
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Model_Sales_Order_Create
+class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 {
     /**
      * Quote session object
@@ -39,6 +39,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create
      */
     protected $_wishlist;
     protected $_cart;
+    protected $_compareList;
     
     protected $_needCollect;
     
@@ -64,21 +65,31 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return false;
     }
     
+    /**
+     * Set collect totals flag for quote
+     *
+     * @param   bool $flag
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     */
     public function setRecollect($flag)
     {
         $this->_needCollect = $flag;
         return $this;
     }
     
+    /**
+     * Quote saving
+     *
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
     public function saveQuote()
     {
         if (!$this->getQuote()->getId()) {
             return $this;
         }
+        
         if ($this->_needCollect) {
             $this->getQuote()->collectTotals();
-            /*$this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            $this->getQuote()->getShippingAddress()->collectShippingRates();            */
         }
         $this->getQuote()->save();
         return $this;
@@ -117,7 +128,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         
         if ($this->getSession()->getCustomer()->getId()) {
             $this->_wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer(
-                $this->getSession()->getCustomer()
+                $this->getSession()->getCustomer(), true
             );
             $this->_wishlist->setStore($this->getSession()->getStore());
         }
@@ -143,9 +154,33 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         if ($this->getSession()->getCustomer()->getId()) {
             $this->_cart->setStore($this->getSession()->getStore())
                 ->loadByCustomer($this->getSession()->getCustomer()->getId());
+            if (!$this->_cart->getId()) {
+                $this->_cart->initByCustomer($this->getSession()->getCustomer());
+                $this->_cart->save();
+            }
         }
         
         return $this->_cart;
+    }
+    
+    /**
+     * Retrieve customer compare list model object
+     *
+     * @return Mage_Catalog_Model_Product_Compare_List
+     */
+    public function getCustomerCompareList()
+    {
+        if (!is_null($this->_compareList)) {
+            return $this->_compareList;
+        }
+        
+        if ($this->getSession()->getCustomer()->getId()) {
+            $this->_compareList = Mage::getModel('catalog/product_compare_list');
+        }
+        else {
+            $this->_compareList = false;
+        }
+        return $this->_compareList;
     }
     
     /**
@@ -183,27 +218,36 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return $this;
     }
     
-    public function removeItem($item, $from)
+    /**
+     * Remove item from some of customer items storage (shopping cart, wishlist etc.)
+     *
+     * @param   int $itemId
+     * @param   string $from
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    public function removeItem($itemId, $from)
     {
         switch ($from) {
             case 'quote':
-                $this->removeQuoteItem($item);
+                $this->removeQuoteItem($itemId);
                 break;
             case 'cart':
                 if ($cart = $this->getCustomerCart()) {
-                    $cart->removeItem($item);
+                    $cart->removeItem($itemId);
                     $cart->collectTotals()
                         ->save();
                 }
                 break;
             case 'wishlist':
                 if ($wishlist = $this->getCustomerWishlist()) {
-                    $item = Mage::getModel('wishlist/item')->load($item);
+                    $item = Mage::getModel('wishlist/item')->load($itemId);
                     $item->delete();
                 }
                 break;
             case 'compared':
-                
+                $item = Mage::getModel('catalog/product_compare_item')
+                    ->load($itemId)
+                    ->delete();
                 break;
         }
         return $this;
@@ -222,6 +266,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return $this;
     }
     
+    /**
+     * Add product to current order quote
+     *
+     * @param   mixed $product
+     * @param   mixed $qty
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     */
     public function addProduct($product, $qty=1)
     {
         $qty = (int) $qty;
@@ -244,6 +295,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return $this;
     }
     
+    /**
+     * Add multiple products to current order quote
+     *
+     * @param   array $products
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     */
     public function addProducts(array $products)
     {
         foreach ($products as $productId => $data) {
@@ -253,22 +310,38 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return $this;
     }
     
+    /**
+     * Update quantity of order quote items
+     *
+     * @param   array $data
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     */
     public function updateQuoteItems($data)
     {
         if (is_array($data)) {
-            foreach ($data as $itemId => $itemQty) {
-                $itemQty = (int) $itemQty;
-                $itemQty = $itemQty>0 ? $itemQty : 1;
-                
-            	if ($item = $this->getQuote()->getItemById($itemId)) {
-            	    $item->setQty($itemQty);
-            	}
+            foreach ($data as $itemId => $info) {
+                if (empty($info['action'])) {
+                    $itemQty = (int) $info['qty'];
+                    $itemQty = $itemQty>0 ? $itemQty : 1;
+                    
+                    if ($item = $this->getQuote()->getItemById($itemId)) {
+            	       $item->setQty($itemQty);
+                    }                
+                }
+                else {
+                    $this->moveQuoteItem($itemId, $info['action']);
+                }
             }
             $this->setRecollect(true);
         }
         return $this;
     }
     
+    /**
+     * Retrieve oreder quote shipping address
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getShippingAddress()
     {
         return $this->getQuote()->getShippingAddress();
@@ -303,6 +376,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         return $this;
     }
     
+    /**
+     * Retrieve quote billing address
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getBillingAddress()
     {
         return $this->getQuote()->getBillingAddress();
@@ -329,6 +407,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create
     public function setShippingMethod($method)
     {
         $this->getShippingAddress()->setShippingMethod($method);
+        $this->setRecollect(true);
+        return $this;
+    }
+    
+    public function resetShippingMethod()
+    {
+        $this->getShippingAddress()->setShippingMethod(false);
+        $this->getShippingAddress()->removeAllShippingRates();
+        return $this;
+    }
+    
+    public function collectShippingRates()
+    {
+        $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+        $this->getQuote()->getShippingAddress()->collectShippingRates();
         return $this;
     }
     
@@ -337,23 +430,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create
         $this->getQuote()->getPayment()->setMethod($method);
         return $this;
     }
-
-    public function createOrder()
-    {
-        $order = Mage::getModel('sales/order');
-
-        $order->createFromQuoteAddress($this->getQuote()->getShippingAddress());
-        $order->setStoreId($this->getQuote()->getStore()->getId());
-        $order->setOrderCurrencyCode($this->getQuote()->getStore()->getCurrentCurrencyCode());
-        $order->setInitialStatus();
-        $order->validate();
-        if ($order->getErrors()) {
-            
-        }
-        $order->save();
-        return $order;
-    }
     
+    public function applyCoupon($code)
+    {
+        $code = trim((string)$code);
+        $this->getQuote()->setCouponCode($code);
+        $this->setRecollect(true);
+        return $this;
+    }
+
     /**
      * Parse data retrieved from request
      *
@@ -362,6 +447,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create
      */
     public function importPostData($data)
     {
+        $this->addData($data);
+        
         if (isset($data['billing_address'])) {
             $data['billing_address']['customer_address_id'] = isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
             $this->setBillingAddress($data['billing_address']);
@@ -380,9 +467,134 @@ class Mage_Adminhtml_Model_Sales_Order_Create
             $this->setPaymentMethod($data['payment_method']);
         }
         
-        if (isset($data['items'])) {
+        if (isset($data['coupon']['code'])) {
+            $this->applyCoupon($data['coupon']['code']);
+        }
+        
+        return $this;
+    }
+
+    public function createOrder()
+    {
+        $this->_validate();
+        
+        /**
+         * Saving customer data
+         */
+        if (!$this->getSession()->getCustomer()->getId()) {
+            $this->_customerCreate();
+        }
+        else {
+            $this->_customerSave();
+        }
+        
+        $order = Mage::getModel('sales/order');
+        /* @var $order Mage_Sales_Model_Order */
+
+        $order->createFromQuoteAddress($this->getQuote()->getShippingAddress());
+        $order->setStoreId($this->getQuote()->getStore()->getId());
+        $order->setOrderCurrencyCode($this->getQuote()->getStore()->getCurrentCurrencyCode());
+        $order->addStatusNewOrder($this->getData('comment/text'), $this->getData('comment/notify_customer'));
+        $order->validate();
+        
+        if ($order->getErrors()) {
             
         }
+        
+        $order->save();
+        $order->sendNewOrderEmail();
+        return $order;
+    }
+    
+    /**
+     * Validate quote data before order creation
+     *
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _validate()
+    {
+        $hasError = false;
+        
+        if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
+            $this->getSession()->addError(__('Shipping method must be specified'));
+            $hasError = true;
+        }
+        
+        if (!$this->getQuote()->getPayment()->getMethod()) {
+            $this->getSession()->addError(__('Payment method must be specified'));
+            $hasError = true;
+        }
+        
+        if ($hasError) {
+            Mage::throwException(__('Validation error'));
+        }
+        return $this;
+    }
+    
+    /**
+     * Creating new customer account for new order
+     *
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _customerCreate()
+    {
+        $customer = Mage::getModel('customer/customer');
+        /* @var $customer Mage_Customer_Model_Customer*/
+        
+        $billingAddress = $this->getBillingAddress()->exportCustomerAddress();
+        
+        $customer->addData($billingAddress->getData())
+            ->addData($this->getData('account'))
+            ->setPassword($customer->generatePassword())
+            ->setStoreId($this->getSession()->getStore()->getId())
+            ->addAddress($billingAddress);
+            
+        if (!$this->getShippingAddress()->getSameAsBilling()) {
+            $shippingAddress = $this->getShippingAddress()->exportCustomerAddress();
+            $customer->addAddress($shippingAddress);
+        }
+        else {
+            $shippingAddress = $billingAddress;
+        }
+        $customer->save();
+
+        
+        $customer->setEmail($this->_getNewCustomerEmail($customer))
+            ->setDefaultBilling($billingAddress->getId())
+            ->setDefaultShipping($shippingAddress->getId())
+            ->save();
+        
+        $this->getQuote()->setCustomerId($customer->getId());
+        $this->getBillingAddress()->setCustomerId($customer->getId());
+        $this->getShippingAddress()->setCustomerId($customer->getId());
+        
+        $customer->sendNewAccountEmail();
+        return $this;
+    }
+    
+    /**
+     * Retrieve new customer email
+     *
+     * @param   Mage_Customer_Model_Customer $customer
+     * @return  string
+     */
+    protected function _getNewCustomerEmail($customer)
+    {
+        $email = $this->getData('account/email');
+        if (empty($email)) {
+            $host = $this->getSession()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_UNSECURE_HOST);
+            $email = $customer->getIncrementId().'@'. $host;
+        }
+        return $email;
+    }
+    
+    /**
+     * Saving customer account data
+     *
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _customerSave()
+    {
         return $this;
     }
 }

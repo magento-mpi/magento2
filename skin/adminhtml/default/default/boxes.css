@@ -290,6 +290,8 @@
 .head-user { background-image:url(images/fam_user.gif); }
 .head-user-edit { background-image:url(images/fam_user_edit.gif); }
 .head-user-comment { background-image:url(images/fam_user_comment.gif); }
+.head-comment { background-image:url(images/fam_comment.gif); }
+.head-cart { background-image:url(images/fam_cart.gif); }
 .head-account { background-image:url(images/fam_account.gif); }
 .head-online-visitors { background-image:url(images/fam_monitor.gif); }
 .head-products { background-image:url(images/fam_package.gif); }
@@ -305,16 +307,14 @@
 .head-tax { background-image:url(images/fam_money_add.gif); }
 .head-cms-page, .head-cms-block { background-image:url(images/application_view_tile.gif); }
 .head-backups-control { background-image:url(images/fam_server_database.gif); }
+.head-money, .head-promo-quote { background-image:url(images/fam_money.gif); }
 
-/* temporarily, need to be converted to gifs */
-.head-shipping-address { background-image:url(images/fam/house.png); }
-.head-billing-address { background-image:url(images/fam/house.png); }
-.head-shipping-method { background-image:url(images/fam/lorry.png); }
-.head-payment-method { background-image:url(images/fam/money.png); }
+.head-shipping-address, .head-billing-address { background-image:url(images/fam_house.gif); }
+.head-shipping-method { background-image:url(images/fam_lorry.gif); }
+.head-payment-method { background-image:url(images/fam_creditcards.gif); }
+
 .head-order-date { background-image:url(images/fam/calendar.png); }
-.head-order-items { background-image:url(images/fam/table_multiple.png); }
 .head-customer-sales-statistics { background-image:url(images/fam/money.png); }
-.head-promo-quote { background-image:url(images/fam/money.png); }
 
 /************* DATA MANIPULATION ************/
 

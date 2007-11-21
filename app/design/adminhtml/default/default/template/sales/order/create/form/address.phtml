@@ -18,21 +18,22 @@ endif;?>
     <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
     
     <div class="order-choose-address">
-        <?if($this->getAddressCollection()->getSize()):?>
-        <?=__('Select from existing customer addresses:')?><br/>
-        <select id="<?=$this->getForm()->getHtmlIdPrefix()?>customer_address_id" style="width:324px;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
-            <option value=""><?=__('Add New Address')?></option>
+        <?//if($this->getAddressCollection()->getSize()):?>
+        <?=$this->__('Select from existing customer addresses:')?><br/>
+        <?$_id = $this->getForm()->getHtmlIdPrefix() . 'customer_address_id'?>
+        <select id="<?=$_id?>" style="width:324px;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
+            <option value=""><?=$this->__('Add New Address')?></option>
             <?foreach ($this->getAddressCollection() as $_address):?>
             <option value="<?=$_address->getId()?>"<?if($_address->getId()==$this->getAddressId()):?> selected<?endif?>>
                 <?=$this->getAddressAsString($_address)?>
             </option>
             <?endforeach;?>
         </select>
-        <br />
-        <?endif;?>
+        <br/>
+        <?//endif;?>
         <?if($this->getIsShipping()):?>
-            <input type="checkbox" id="order:shipping_some_as_billing" name="shipping_some_as_billing" onchange="order.setShippingAsBilling(this.checked)"/>
-            <label for="order:shipping_some_as_billing"><?=__('Some As Billing Address')?></label>
+            <input type="checkbox" id="order:shipping_some_as_billing" name="shipping_some_as_billing" onchange="order.setShippingAsBilling(this.checked)" <?if($this->getIsAsBilling()):?>checked<?endif;?>/>
+            <label for="order:shipping_some_as_billing"><?=$this->__('Some As Billing Address')?></label>
         <?else:?>
             &nbsp;
         <?endif;?>
@@ -41,5 +42,10 @@ endif;?>
     <fieldset class="order-address" id="<?=$_fieldsContainerId?>">
         <?=$this->getForm()->toHtml()?>
     </fieldset>
-    <script type="text/javascript">order.bindAddressFields('<?=$_fieldsContainerId?>')</script>
+    <script type="text/javascript">
+        order.bindAddressFields('<?=$_fieldsContainerId?>')
+        <?if($this->getIsShipping() && $this->getIsAsBilling()):?>
+        order.disableShippingAddress(true);
+        <?endif;?>
+    </script>
 </div>

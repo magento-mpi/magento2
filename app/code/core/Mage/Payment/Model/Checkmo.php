@@ -42,7 +42,7 @@ class Mage_Payment_Model_Checkmo extends Mage_Payment_Model_Abstract
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         $payment->setStatus('APPROVED');
-        $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/checkmo/order_status'));
+        $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/checkmo/order_status'), 'Payment');
         return $this;
     }
 }

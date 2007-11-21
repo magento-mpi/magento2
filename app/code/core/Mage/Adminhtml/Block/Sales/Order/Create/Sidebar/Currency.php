@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Currency extends Mage_Admi
         return $this->getStore()->getCurrentCurrencyCode();
     }
     
-    public function hasItems()
+    public function canDisplay()
     {
         return count($this->getAvailableCurrencies());
     }

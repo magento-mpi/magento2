@@ -17,28 +17,22 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Adminhtml sales order create coupons form block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
- */
-
-class Mage_Adminhtml_Block_Sales_Order_Create_Coupons_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+ 
+class Mage_Adminhtml_Model_System_Config_Source_Payment_Cctype
 {
 
-    public function __construct()
+    public function toOptionArray()
     {
-        parent::__construct();
-        $this->setId('sales_order_create_coupons_form');
-        $this->setTemplate('sales/order/create/coupons/form.phtml');
-    }
-
-    public function getCouponCode()
-    {
-        return $this->getParentBlock()->getQuote()->getCouponCode();
+        $options =  array();
+        
+        foreach (Mage::getConfig()->getNode('global/payment/cc/types')->asArray() as $code => $type) {
+        	$options[] = array(
+        	   'value' => $type['code'],
+        	   'label' => $type['name'] 
+        	);
+        }
+        
+        return $options;
     }
 
 }

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Search extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search extends Mage_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        return __('Please select products to add');
+        return $this->__('Please select products to add');
     }
 
     protected function _prepareLayout()
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search extends Mage_Adminhtml_Bloc
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => __('Add Selected Product to Order'),
+            'label' => $this->__('Add Selected Product to Order'),
             'onclick' => 'order.productGridAddSelected()',
             'class' => 'add',
         );

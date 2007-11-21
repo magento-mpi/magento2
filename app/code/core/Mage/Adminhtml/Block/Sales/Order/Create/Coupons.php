@@ -53,10 +53,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Coupons extends Mage_Adminhtml_Blo
 
     public function toHtml()
     {
-        if (intval($this->getCustomerId())) {
-            return parent::toHtml();
-        }
-        return '';
+        return parent::toHtml();
     }
-
 }

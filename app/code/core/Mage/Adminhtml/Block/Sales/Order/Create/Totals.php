@@ -40,4 +40,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
     {
         return $this->getQuote()->getTotals();
     }
+
+    public function getHeaderText()
+    {
+        return $this->__('Order Totals');
+    }
+    
+    public function getHeaderCssClass()
+    {
+        return 'head-money';
+    }
 }

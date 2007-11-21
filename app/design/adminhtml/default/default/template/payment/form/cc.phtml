@@ -23,7 +23,7 @@
     &nbsp;<label for="payment_method_<?=$this->getMethod()?>"><?=$this->getTitle()?></label>
 </dt>
 <dd>
-    <ul id="payment_form_<?=$this->getMethod()?>" class="box" style="display:none">
+    <ul id="payment_form_<?=$this->getMethod()?>" class="box" <?if(!$this->isCurrent()):?>style="display:none"<?endif;?>>
         <li><div class="input-box"><label for="cc_type"><?=__('Credit Card Type')?> <span class="required">*</span></label><br/>
             <select>
                 <?foreach ($this->getCcTypes() as $k=>$v):?>

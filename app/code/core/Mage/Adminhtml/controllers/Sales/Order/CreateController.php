@@ -105,14 +105,21 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Change shipping address flag
          */
-        if ($this->getRequest()->getPost('setShipping')) {
-            $this->_getOrderCreateModel()->setRecollect(true);
+        if ($this->getRequest()->getPost('reset_shipping')) {
+            $this->_getOrderCreateModel()->resetShippingMethod(true);
+        }
+        
+        /**
+         * Collecting shipping rates
+         */
+        if ($this->getRequest()->getPost('collect_shipping_rates')) {
+            $this->_getOrderCreateModel()->collectShippingRates();
         }
         
         /**
          * Flag for using billing address for shipping
          */
-        $syncFlag = $this->getRequest()->getPost('shippingAsBilling');
+        $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
         if (!is_null($syncFlag)) {
             $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
         }
@@ -120,28 +127,29 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Adding product to quote from shoping cart, wishlist etc.
          */
-        if ($productId = (int) $this->getRequest()->getPost('addProduct')) {
+        if ($productId = (int) $this->getRequest()->getPost('add_product')) {
             $this->_getOrderCreateModel()->addProduct($productId);
         }
         
         /**
          * Adding products to quote from special grid
          */
-        if ($data = $this->getRequest()->getPost('addProducts')) {
+        if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getOrderCreateModel()->addProducts(Zend_Json::decode($data));
         }
         
         /**
          * Update quote items
          */
-        if ($items = $this->getRequest()->getPost('updateItems')) {
-            $this->_getOrderCreateModel()->updateQuoteItems(Zend_Json::decode($items));
+        if ($this->getRequest()->getPost('update_items')) {
+            $items = $this->getRequest()->getPost('item', array());
+            $this->_getOrderCreateModel()->updateQuoteItems($items);
         }
         
         /**
          * Remove quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('removeItem'))
+        if ( ($itemId = (int) $this->getRequest()->getPost('remove_item'))
              && ($from = (string) $this->getRequest()->getPost('from'))) {
             $this->_getOrderCreateModel($itemId)->removeItem($itemId, $from);
         }
@@ -149,8 +157,8 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Moove quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('moveItem')) 
-            && ($moveTo = (string) $this->getRequest()->getPost('moveTo')) ) {
+        if ( ($itemId = (int) $this->getRequest()->getPost('move_item')) 
+            && ($moveTo = (string) $this->getRequest()->getPost('to')) ) {
             $this->_getOrderCreateModel()->moveQuoteItem($itemId, $moveTo);
         }
         
@@ -241,12 +249,14 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function saveAction()
     {
         try {
-            $order = $this->_getOrderCreateModel()->createOrder();
+            $order = $this->_getOrderCreateModel()
+                ->importPostData($this->getRequest()->getPost('order'))
+                ->createOrder();
             $this->_getSession()->clear();
             $url = $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
         catch (Exception $e){
-            //echo $e;
+            $this->_getSession()->addError($e->getMessage());
             $url = $this->_redirect('*/*/');
         }
     }

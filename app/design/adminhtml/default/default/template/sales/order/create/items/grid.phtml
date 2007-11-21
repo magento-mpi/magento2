@@ -31,16 +31,16 @@
                 <col width="90"/>
                 <col width="50"/>
                 <col width="100"/>
-                <col width="220"/>
+                <col width="150"/>
                 <thead>
                     <tr class="headings">
-                        <th class="no-link"><nobr><?=__('Product ID')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('SKU')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Product Name')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Price')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Qty')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Subtotal')?></nobr></th>
-                        <th class="no-link">&nbsp;</th>
+                        <th class="no-link"><nobr><?=$this->__('Product ID')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('SKU')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('Product Name')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('Price')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('Qty')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('Subtotal')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('Action')?></nobr></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,18 +50,14 @@
                             <td><?=$_item->getSku()?></td>
                             <td><?=$_item->getName()?></td>
                             <td><nobr><?=$this->formatPrice($_item->getPrice())?></nobr></td>
-                            <td><input id="qty:<?=$_item->getId()?>" name="qty[<?=$_item->getId()?>]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" /></td>
+                            <td><input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12"/></td>
                             <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>
                             <td><nobr>
-                                <a href="#" onclick="order.removeQuoteItem(<?=$_item->getId()?>);return false;">
-                                    <?=__('Remove Item')?>
-                                </a>
-                                |
-                                <?=__('Move Item to:')?>
-                                <select onchange="order.moveQuoteItem(<?=$_item->getId()?>,this.options[this.selectedIndex].value)">
+                                <select name="item[<?=$_item->getId()?>][action]" style="width:135px">
                                     <option value=""></option>
-                                    <option value="cart"><?=__('Shopping Cart')?></option>
-                                    <option value="wishlist"><?=__('Wishlist')?></option>
+                                    <option value="remove"><?=$this->__('Remove')?></option>
+                                    <option value="cart"><?=$this->__('Move to Shopping Cart')?></option>
+                                    <option value="wishlist"><?=$this->__('Move to Wishlist')?></option>
                                 </select>
                             </nobr></td>
                         </tr>
@@ -70,21 +66,19 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="a-left">
-                            <?=$this->__('Added: %d product(s)', count($_items))?>
-                            <!--a href="#" onclick="order.itemsUpdate()"><?=__('Update')?></a-->
-                            <?//=$this->getButtonHtml(__('Update Qty'),'order.itemsUpdate()');?>
+                            <?=$this->__('Total %d product(s)', count($_items))?>
                         </td>
                         <td colspan="2" class="a-right">
-                            <?=__('Subtotal:')?>
+                            <?=$this->__('Subtotal:')?>
                         </td>
                         <td colspan="2">
                             <strong><?=$this->formatPrice($this->getSubtotal())?></strong>
-                            <?//=$this->__('Subtotal: <strong>%s</strong>', $this->formatPrice($this->getSubtotal()))?>
                         </td>
                     </tr>
                 </tfoot>
             </table>
         </div>
-        <div class="a-right"><?=$this->getButtonHtml(__('Update Qty'),'order.itemsUpdate()');?></div>
+        <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items'),'order.itemsUpdate()');?></div>
+        <script type="text/javascript">order.itemsOnchangeBind()</script>
     </div>
 <?endif;?>

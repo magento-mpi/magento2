@@ -18,8 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="box order-totals">
-    <table cellspacing="0">
+<div class="entry-edit">
+    <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
+    <fieldset>
+    <div>
+    <table cellspacing="5" cellpadding="5">
         <?$_store = $this->getStore()?>
         <tbody>
             <?$_totals = $this->getTotals();?>
@@ -29,9 +32,12 @@
                 <?$_i++;?>
                 <tr<?=($_i >= $_count ? ' class="last"' : '' )?>>
                     <td class="a-right" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
-                    <td class="last a-right" style="<?=$_total->getStyle()?>"><nobr><?=$this->formatPrice($_total->getValue())?></nobr></td>
+                    <td class="last a-left" style="<?=$_total->getStyle()?>"><nobr><?=$this->formatPrice($_total->getValue())?></nobr></td>
                 </tr>
             <?endforeach;?>
         </tbody>
     </table>
+    </div>
+    <div><?=$this->getButtonHtml($this->__('Submit Order'),'order.submit()');?></div>
+    </fieldset>
 </div>

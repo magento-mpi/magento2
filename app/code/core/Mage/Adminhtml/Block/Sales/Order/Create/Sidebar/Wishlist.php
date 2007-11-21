@@ -36,26 +36,32 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
         $this->setDataId('wishlist');
     }
 
-    protected function _prepareItems()
-    {
-        if (!is_null($this->_itemCollection)) {
-            return $this;
-        }
-        
-        $this->_itemCollection = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer())
-            ->getProductCollection();
-        $this->_itemCollection->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('small_image')
-            ->load();
-        return $this;
-    }
-
     public function getHeaderText()
     {
         return __('Wishlist');
     }
 
+    /**
+     * Retrieve item collection
+     *
+     * @return mixed
+     */
+    public function getItemCollection()
+    {
+        $collection = $this->getData('item_collection');
+        if (is_null($collection)) {
+            if ($collection = $this->getCreateOrderModel()->getCustomerWishlist()) {
+                $collection = $collection->getProductCollection()
+                    ->addAttributeToSelect('name')
+                    ->addAttributeToSelect('price')
+                    ->addAttributeToSelect('small_image')
+                    ->load();
+            }
+            $this->setData('item_collection', $collection);
+        }
+        return $collection;
+    }
+    
     public function getItemId($item)
     {
         return $item->getWishlistItemId();

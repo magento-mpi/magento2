@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Comment extends Mage_Adminhtml_Blo
     
     public function getHeaderCssClass()
     {
-        return 'head-user-comment';
+        return 'head-comment';
     }
     
     public function getHeaderText()

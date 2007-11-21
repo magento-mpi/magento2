@@ -23,8 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnryi <mitch@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Ivan Chepurnryi <mitch@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml_Block_Widget_Grid
@@ -93,22 +93,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => __('ID'),
+            'header'    => $this->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => __('Name'),
+            'header'    => $this->__('Product Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => __('SKU'),
+            'header'    => $this->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => __('Price'),
+            'header'    => $this->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
-            'header'    => __('Qty To Add'),
+            'header'    => $this->__('Qty To Add'),
             'name'    	=> 'qty',
             'inline_css'=> 'qty',
             'align'     => 'center',

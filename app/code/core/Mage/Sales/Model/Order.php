@@ -21,19 +21,18 @@
 
 class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE = 'sales/new_order/email_template';
-    const XML_PATH_NEW_ORDER_EMAIL_IDENTITY = 'sales/new_order/email_identity';
-    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE = 'sales/order_update/email_template';
-    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY = 'sales/order_update/email_identity';
+    const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE     = 'sales/new_order/email_template';
+    const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales/new_order/email_identity';
+    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
+    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
+    
+    const ORDER_STATUS_NEW      = 1;
+    const ORDER_STATUS_CANCELED = 4;
     
     protected $_addresses;
-
     protected $_items;
-
     protected $_payments;
-
     protected $_statusHistory;
-
     protected $_orderCurrency = null;
 
     protected function _construct()
@@ -41,11 +40,50 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_init('sales/order');
     }
 
-/*********************** ORDER ***************************/
+    /**
+     * Sending email with order data
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function sendNewOrderEmail()
+    {
+        Mage::getModel('core/email_template')
+            ->sendTransactional(
+                  Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
+                  Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
+                  $this->getBillingAddress()->getEmail(),
+                  $this->getBillingAddress()->getName(),
+                  array(
+                      'order'=>$this,
+                      'billing'=>$this->getBillingAddress(),
+                      'items_html'=>Mage::getHelper('sales/order_email_items')->setOrder($this)->toHtml(),
+                  )
+              );
+        return $this;
+    }
+
+    /**
+     * Sending email with order update information
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function sendOrderUpdateEmail()
+    {
+        Mage::getModel('core/email_template')
+            ->sendTransactional(
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE),
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY),
+                $this->getBillingAddress()->getEmail(),
+                $this->getBillingAddress()->getName(),
+                array('order'=>$this, 'billing'=>$this->getBillingAddress())
+            );
+        return $this;
+    }
 
     /**
      * Initialize new order
-     *
+     * 
+     * @todo need remove (remoute address need set from another point)
      * @return Mage_Sales_Model_Order
      */
     public function initNewOrder()
@@ -70,45 +108,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $this;
     }
-
-    /**
-     * Sending email with order data
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function sendNewOrderEmail()
-    {
-        Mage::getModel('core/email_template')
-            ->sendTransactional(
-              Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
-              Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
-              $this->getBillingAddress()->getEmail(),
-              $this->getBillingAddress()->getName(),
-              array(
-                  'order'=>$this,
-                  'billing'=>$this->getBillingAddress(),
-                  'items_html'=>Mage::getHelper('sales/order_email_items')->setOrder($this)->toHtml(),
-              ));
-        return $this;
-    }
-
-    /**
-     * Sending email with order update information
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function sendOrderUpdateEmail()
-    {
-        Mage::getModel('core/email_template')
-            ->sendTransactional(
-              Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE),
-              Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY),
-              $this->getBillingAddress()->getEmail(),
-              $this->getBillingAddress()->getName(),
-              array('order'=>$this, 'billing'=>$this->getBillingAddress()));
-        return $this;
-    }
-
 
 
     protected function _beforeSave()
@@ -544,12 +543,24 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-
+    
     public function setInitialStatus()
     {
         $statusId = 1;
         $this->addStatus($statusId);
         return $this;
+    }
+    
+    /**
+     * Adding new order status
+     *
+     * @param   string $comment
+     * @param   bool $notifyCustomer
+     * @return  Mage_Sales_Model_Order
+     */
+    public function addStatusNewOrder($comment='', $notifyCustomer=false)
+    {
+        return $this->addStatus(self::ORDER_STATUS_NEW, $comment, $notifyCustomer);
     }
 
     /**

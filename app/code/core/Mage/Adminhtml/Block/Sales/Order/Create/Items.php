@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => __('Add Product'),
+            'label' => $this->__('Add Product'),
             'onclick' => "order.productGridShow(this)",
             'class' => 'add',
         );
@@ -63,12 +63,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
 
     public function getHeaderCssClass()
     {
-        return 'head-order-items';
+        return 'head-cart';
     }
 
     public function toHtml()
     {
-        if ($this->getCustomerId() && $this->getStoreId()) {
+        if ($this->getStoreId()) {
             return parent::toHtml();
         }
         return '';

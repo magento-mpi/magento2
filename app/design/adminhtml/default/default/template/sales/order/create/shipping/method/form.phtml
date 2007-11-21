@@ -18,19 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="pointer" id="order:shipping-method-summary" onclick="Element.hide(this);Element.show('order:shipping-method-choose');">
-    <?if($_rate = $this->getActiveMethodRate()):?>
-        <strong><?=$this->getCarrierName($_rate->getCarrier())?></strong><br/>
-        <?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong><br/>
-        <i><?=$this->__('Click to change shipping method')?></i>
-    <?else:?>
-        <?=$this->__('Get shipping methods and rates')?>
-    <?endif;?>
-</div>
-<div id="order:shipping-method-choose" style="display:none">
-    <?if (!($_shippingRateGroups = $this->getShippingRates())):?>
-        <strong><?=__('Sorry, no quotes are available for this order at this time.')?></strong>
-    <?else:?>
+<?if($_shippingRateGroups = $this->getShippingRates()):?>
+    <div id="order:shipping-method-choose" style="display:none">
     <dl class="shipment-methods">
     <?foreach ($_shippingRateGroups as $code => $_rates):?>
         <dt><strong><?=$this->getCarrierName($code)?></strong></dt>
@@ -55,5 +44,21 @@
         </dd>
     <?endforeach;?>
     </dl>
+    </div>
+    <?if ($_rate = $this->getActiveMethodRate()):?>
+        <div class="pointer" onclick="this.hide();$('order:shipping-method-choose').show()">
+            <strong><?=$this->getCarrierName($_rate->getCarrier())?></strong><br/>
+            <?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong><br/>
+            <i><?=$this->__('Click to change shipping method')?></i>
+        </div>
+    <?else:?>
+        <script type="text/javascript">$('order:shipping-method-choose').show();</script>
     <?endif;?>
-</div>
+
+<?elseif($this->getIsRateRequest()):?>
+    <strong><?=$this->__('Sorry, no quotes are available for this order at this time.')?></strong>
+<?else:?>
+    <div class="pointer" id="order:shipping-method-summary" onclick="order.loadShippingRates()">
+        <?=$this->__('Get shipping methods and rates')?>
+    </div>
+<?endif;?>

@@ -36,33 +36,34 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared extends Mage_Admi
         $this->setDataId('compared');
     }
     
-    protected function _prepareItems()
-    {
-        if (!is_null($this->_itemCollection)) {
-            return $this;
-        }
-        if (($customerId = $this->getCustomerId()) && $this->getStoreId()) {
-            $this->_itemCollection = Mage::getModel('catalog/product_compare_list')->getItemCollection()
-                ->useProductItem(true)
-                ->setStoreId($this->getStoreId())
-                ->setCustomerId($customerId)
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('image')
-                ->addAttributeToSelect('status')
-                ->load();
-        }
-        return $this;
-    }
-
     public function getHeaderText()
     {
         return __('Compared Products');
     }
-
-    public function canRemoveItems()
+    
+    /**
+     * Retrieve item collection
+     *
+     * @return mixed
+     */
+    public function getItemCollection()
     {
-        return true;
+        $collection = $this->getData('item_collection');
+        if (is_null($collection)) {
+            if ($collection = $this->getCreateOrderModel()->getCustomerCompareList()) {
+                $collection = $collection->getItemCollection()
+                    ->useProductItem(true)
+                    ->setStoreId($this->getStoreId())
+                    ->setCustomerId($this->getCustomerId())
+                    ->addAttributeToSelect('name')
+                    ->addAttributeToSelect('price')
+                    ->addAttributeToSelect('image')
+                    ->addAttributeToSelect('status')
+                    ->load();
+            }
+            $this->setData('item_collection', $collection);
+        }
+        return $collection;
     }
 
     public function getItemId($item)

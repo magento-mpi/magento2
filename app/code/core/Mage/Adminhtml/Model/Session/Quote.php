@@ -21,7 +21,9 @@
 /**
  * Adminhtml quote session
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstract
 {

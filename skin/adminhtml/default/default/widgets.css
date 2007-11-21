@@ -531,7 +531,7 @@ select.countries option { background-repeat:no-repeat; }
 
 /*********** Sidebar ******************/
 .sidebar-block{
-    margin:0 10px 15px 0;
+    margin:0 10px 5px 0;
     padding:5px 5px 10px 5px;
     border:1px solid #ccc;
     background:#f8f8f8;
@@ -544,7 +544,7 @@ select.countries option { background-repeat:no-repeat; }
     }
 
 .sidebar-block .auto-scroll{
-    height:130px;
+    height:165px;
     overflow: auto;
     }
 .sidebar-block .caption {

@@ -13,32 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Adminhtml sales order create coupons form block
+ * Sales module base helper
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Order_Create_Coupons_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+class Mage_Sales_Helper_Data extends Mage_Core_Helper_Data
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setId('sales_order_create_coupons_form');
-        $this->setTemplate('sales/order/create/coupons/form.phtml');
-    }
-
-    public function getCouponCode()
-    {
-        return $this->getParentBlock()->getQuote()->getCouponCode();
-    }
-
+    
 }

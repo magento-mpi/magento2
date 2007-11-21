@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
     {
         $storeId    = $this->getStoreId();
         $customerId = $this->getCustomerId();
-        if (!is_null($customerId) && is_null($storeId)) {
+        if (!is_null($customerId) && !$storeId) {
             return 'block';
         }
         return 'none';
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
     {
         $storeId    = $this->getStoreId();
         $customerId = $this->getCustomerId();
-        if (!is_null($customerId) && !is_null($storeId)) {
+        if (!is_null($customerId) && $storeId) {
             return 'block';
         }
         return 'none';
@@ -109,6 +109,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         }
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();
+            $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();
         }
         return Zend_Json::encode($data);
     }

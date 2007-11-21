@@ -23,8 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnryi <mitch@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Ivan Chepurnryi <mitch@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
@@ -39,11 +39,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     public function getItems()
     {
         return $this->getParentBlock()->getItems();
-    }
-
-    public function getIsOldCustomer()
-    {
-        return $this->getParentBlock()->getIsOldCustomer();
     }
 
     public function getSession()

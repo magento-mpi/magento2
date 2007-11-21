@@ -21,7 +21,9 @@
 /**
  * Order create data
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {

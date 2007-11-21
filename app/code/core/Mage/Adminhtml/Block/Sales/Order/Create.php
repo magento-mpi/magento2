@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $this->setId('sales_order_create');
 
         $this->_updateButton('save', 'label', __('Submit Order'));
-        $this->_updateButton('save', 'onclick', "$('edit_form').submit()");
+        $this->_updateButton('save', 'onclick', "order.submit()");
 
         $this->_removeButton('back');
         

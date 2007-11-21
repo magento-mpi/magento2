@@ -23,62 +23,98 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Michael Bessolov <michael@varien.com>
  * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-    protected $_itemCollection = null;
-
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/sidebar/items.phtml');
     }
     
-    public function hasItems()
+    /**
+     * Retrieve display block availability
+     *
+     * @return bool
+     */
+    public function canDisplay()
     {
-        if (is_null($this->_itemCollection)) {
-            $this->_prepareItems();
-        }
-        
-        if (!empty($this->_itemCollection) && $this->_itemCollection->getSize()) {
-            return true;
-        }
-        return false;
+        return $this->getCustomerId();
     }
     
-    public function getItemCollection()
-    {
-        return $this->_itemCollection;
-    }
-
-    protected function _prepareItems()
-    {
-        return $this;
-    }
-
+    /**
+     * Retrieve availability removing items in block
+     *
+     * @return bool
+     */
     public function canRemoveItems()
     {
         return true;
     }
     
+    /**
+     * Retrieve product identifier of block item
+     *
+     * @param   mixed $item
+     * @return  int
+     */
     public function getProductId($item)
     {
         return $item->getProductId();
     }
     
+    /**
+     * Retrieve item identifier of block item
+     *
+     * @param   mixed $item
+     * @return  int
+     */
     public function getItemId($item)
     {
         return $item->getId();
     }
     
-    public function toHtml()
+    /**
+     * Retreive item count
+     *
+     * @return int
+     */
+    public function getItemCount()
     {
-        if ($this->hasItems()) {
-            return parent::toHtml();
+        $count = $this->getData('item_count');
+        if (is_null($count)) {
+            $count = count($this->getItems());
+            $this->setData('item_count', $count);
         }
-        return '';
+        return $count;
+    }
+    
+    /**
+     * Retrieve all items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        if ($collection = $this->getItemCollection()) {
+            if (is_array($collection)) {
+                return $collection;
+            }
+            return $collection->getItems();
+        }
+        return array();
+    }
+    
+    /**
+     * Retrieve item collection
+     *
+     * @return mixed
+     */
+    public function getItemCollection()
+    {
+        return false;
     }
 }

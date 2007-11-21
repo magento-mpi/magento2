@@ -24,14 +24,10 @@ AdminOrder.prototype = {
         this.currencyId     = false;
         this.addresses      = data.addresses ? data.addresses : new Hash();
         this.shippingAsBilling = data.shippingAsBilling ? data.shippingAsBilling : false;
-        this.products       = $H({});
         this.gridProducts   = $H({});
-        this.billingAddress = {};
-        this.shippingAddress= {};
-        this.paymentMethod  = {};
-        this.shippingMethod = {};
         this.billingAddressContainer = '';
         this.shippingAddressContainer= '';
+        this.isShippingMethodReseted = data.shipping_method_reseted ? data.shipping_method_reseted : false;
     },
     
     setLoadBaseUrl : function(url){
@@ -60,7 +56,6 @@ AdminOrder.prototype = {
     setCurrencyId : function(id){
         this.currencyId = id;
         this.loadArea(['sidebar', 'data'], true);
-        //this.loadArea('data');
     },
     
     selectAddress : function(id, container){
@@ -73,8 +68,8 @@ AdminOrder.prototype = {
         
         var data = this.serializeData(container);
         data['order[customer_address_id]'] = id;
-        if(this.isShippingField(container)){
-            this.reloadShippingMethod(data);
+        if(this.isShippingField(container) && !this.isShippingMethodReseted){
+            this.resetShippingMethod(data);
         }
         else{
             this.saveData(data);
@@ -86,6 +81,10 @@ AdminOrder.prototype = {
             return fieldId.include('billing');
         }
         return fieldId.include('shipping');
+    },
+    
+    isBillingField : function(fieldId){
+        return fieldId.include('billing');
     },
     
     bindAddressFields : function(container) {
@@ -102,15 +101,27 @@ AdminOrder.prototype = {
         var type = matchRes[1];
         var name = matchRes[2];
         
+        var data;
+        if(this.isBillingField(field.id)){
+            data = this.serializeData(this.billingAddressContainer)
+        }
+        else{
+            data = this.serializeData(this.shippingAddressContainer)
+        }
+        
         if(name == 'postcode' || name == 'country_id'){
-            if(type == 'billing' && this.shippingAsBilling) {
-                this.reloadShippingMethod(this.serializeData(this.billingAddressContainer));
-            }
-            if(type == 'shipping' && !this.shippingAsBilling){
-                this.reloadShippingMethod(this.serializeData(this.shippingAddressContainer));
+            if( (type == 'billing' && this.shippingAsBilling) 
+                || (type == 'shipping' && !this.shippingAsBilling) ) {
+                data['reset_shipping'] = true;
             }
         }
         
+        if(data['reset_shipping'] && !this.isShippingMethodReseted){
+            this.resetShippingMethod(data);
+        }
+        else {
+            this.saveData(data);
+        }
     },
     
     fillAddressFields : function(container, data){
@@ -143,7 +154,7 @@ AdminOrder.prototype = {
         }
     },
     
-    syncAddressForms : function(flag){
+    disableShippingAddress : function(flag){
         this.shippingAsBilling = flag;
         if($('order:shipping_address_customer_address_id')) {
             $('order:shipping_address_customer_address_id').disabled=flag;
@@ -155,30 +166,33 @@ AdminOrder.prototype = {
     },
     
     setShippingAsBilling : function(flag){
-        this.syncAddressForms(flag);
+        this.disableShippingAddress(flag);
         if(flag){
             var data = this.serializeData(this.billingAddressContainer);
         }
         else{
             var data = this.serializeData(this.shippingAddressContainer);
         }
-        data['shippingAsBilling'] = flag ? 1 : 0;
-        this.reloadShippingMethod(data);
+        data['shipping_as_billing'] = flag ? 1 : 0;
+        data['reset_shipping'] = 1;
+        this.loadArea(['shipping_method', 'shipping_address', 'totals'], true, data);
     },
     
-    syncAddressFields : function(field){
-        
+    resetShippingMethod : function(data){
+        data['reset_shipping'] = 1;
+        this.isShippingMethodReseted = true;
+        this.loadArea(['shipping_method', 'totals'], true, data);
     },
     
-    reloadShippingMethod : function(data){
-        data['setShipping'] = true;
-        this.loadArea(['shipping_method', 'totals'], this.getAreaId('shipping_method'), data);
+    loadShippingRates : function(){
+        this.isShippingMethodReseted = false;
+        this.loadArea(['shipping_method'], true, {collect_shipping_rates: 1});
     },
-
+    
     setShippingMethod : function(method){
         var data = $H({});
         data['order[shipping_method]'] = method;
-        this.reloadShippingMethod(data);
+        this.loadArea(['shipping_method', 'totals'], true, data);
     },
     
     switchPaymentMethod : function(method){
@@ -207,23 +221,21 @@ AdminOrder.prototype = {
     },
     
     applyCoupon : function(code){
-        
-    },
-    
-    removeCoupon : function(){
-        
+        this.loadArea(['coupons', 'shipping_method', 'totals'], true, {'order[coupon][code]':code, reset_shipping: true});
     },
     
     addProduct : function(id){
-        this.loadArea(['items', 'shipping_method', 'totals'], true, {addProduct:id});
+        this.loadArea(['items', 'shipping_method', 'totals'], true, {add_product:id, reset_shipping: true});
     },
     
     removeQuoteItem : function(id){
-        this.loadArea(['items', 'shipping_method', 'totals'], this.getAreaId('items'), {removeItem:id, from:'quote'});
+        this.loadArea(['items', 'shipping_method', 'totals'], true, 
+            {remove_item:id, from:'quote',reset_shipping: true});
     },
     
     moveQuoteItem : function(id, to){
-        this.loadArea(['sidebar_'+to, 'items', 'shipping_method', 'totals'], this.getAreaId('items'), {moveItem:id, moveTo:to});
+        this.loadArea(['sidebar_'+to, 'items', 'shipping_method', 'totals'], this.getAreaId('items'), 
+            {move_item:id, to:to, reset_shipping: true});
     },
     
     productGridShow : function(buttonElement){
@@ -296,7 +308,8 @@ AdminOrder.prototype = {
     productGridAddSelected : function(){
         if(this.productGridShowButton) Element.show(this.productGridShowButton);
         var data = $H({});
-        data['addProducts'] = this.gridProducts.toJSON();
+        data['add_products'] = this.gridProducts.toJSON();
+        data['reset_shipping'] = 1;
         this.gridProducts = $H({});
         this.hideArea('search');
         this.loadArea(['search', 'items', 'shipping_method', 'totals'], true, data);
@@ -350,17 +363,33 @@ AdminOrder.prototype = {
     },
     
     removeSidebarItem : function(id, from){
-        //alert(id);
-        this.loadArea(['sidebar_'+from], 'sidebar_data_'+from, {removeItem:id, from:from});
+        this.loadArea(['sidebar_'+from], 'sidebar_data_'+from, {remove_item:id, from:from});
     },
     
     itemsUpdate : function(){
-        var elems = $('order:items_grid').getElementsByClassName('item-qty');
-        var qtys = $H({});
-        for(var i=0; i<elems.length; i++){
-            qtys[elems[i].id.split(':')[1]] = elems[i].value;
+        var info = $('order:items_grid').getElementsBySelector('input', 'select');
+        var data = $H({});
+        for(var i=0; i<info.length; i++){
+            data[info[i].name] = info[i].value;
         }
-        this.loadArea(['items','shipping_method','totals'], 'order:items', {updateItems: qtys.toJSON()});
+        data.reset_shipping = true;
+        data.update_items = true;
+        this.orderItemChanged = false;
+        this.loadArea(['sidebar', 'items', 'shipping_method','totals'], true, data);
+    },
+    
+    itemsOnchangeBind : function(){
+        var elems = $('order:items_grid').getElementsBySelector('input', 'select');
+        for(var i=0; i<elems.length; i++){
+            if(!elems[i].bindOnchange){
+                elems[i].bindOnchange = true;
+                elems[i].observe('change', this.itemChange.bind(this))
+            }
+        }
+    },
+    
+    itemChange : function(){
+        this.orderItemChanged = true;
     },
     
     loadArea : function(area, indicator, params){
@@ -415,7 +444,6 @@ AdminOrder.prototype = {
         if(!params.customer_id) params.customer_id = this.customerId;
         if(!params.store_id) params.store_id = this.storeId;
         if(!params.currency_id) params.currency_id = this.currencyId;
-        if(!params.products) params.products = this.products.toQueryString();
         return params;
     },
     
@@ -426,5 +454,10 @@ AdminOrder.prototype = {
             data[fields[i].name] = fields[i].value;
         }
         return data;
+    },
+    
+    submit : function(){
+        //alert(this.orderItemChanged);
+        $('edit_form').submit();
     }
 }

@@ -23,9 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
 
@@ -36,23 +36,23 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtm
         $this->setDataId('cart');
     }
 
-    protected function _prepareItems()
-    {
-        if (!is_null($this->_itemCollection)) {
-            return $this;
-        }
-        
-        $quote = Mage::getModel('sales/quote')
-            ->setStore($this->getStore())
-            ->loadByCustomer($this->getCustomerId());
-            
-        $this->_itemCollection = $quote->getItemsCollection();
-        return $this;
-    }
-
     public function getHeaderText()
     {
         return __('Shopping Cart');
     }
-
+    
+    /**
+     * Retrieve item collection
+     *
+     * @return mixed
+     */
+    public function getItemCollection()
+    {
+        $collection = $this->getData('item_collection');
+        if (is_null($collection)) {
+            $collection = $this->getCreateOrderModel()->getCustomerCart()->getAllItems();
+            $this->setData('item_collection', $collection);
+        }
+        return $collection;
+    }
 }

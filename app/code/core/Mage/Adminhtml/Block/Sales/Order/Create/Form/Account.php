@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
     protected function _prepareForm()
     {
         if (!$this->_form) {
-            $notDisplay = array('created_in', 'store_id', 'firstname', 'lastname');
+            $notDisplay = array('created_in', 'store_id', 'firstname', 'lastname', 'password_hash');
             $this->_form = new Varien_Data_Form();
             $customerModel = Mage::getModel('customer/customer');
     
@@ -77,6 +77,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
                 }
             }
             
+            $this->_form->addFieldNameSuffix('order[account]');
             $this->_form->setValues($this->getCustomer()->getData());
         }
         return $this;

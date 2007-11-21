@@ -28,7 +28,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PAYMENT_METHODS = 'payment';
     
     /**
-     * Retrieve available for store payment methods
+     * Retrieve available payment methods for store
      * 
      * array structure:
      *  $index => Varien_Simplexml_Element
@@ -64,4 +64,16 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         ksort($res);        
         return $res;
     }
+    
+    public function getMethodForm(Mage_Payment_Model_Abstract $method)
+    {
+        
+    }
+    
+    public function getMethodInfo(Mage_Payment_Model_Abstract $method)
+    {
+        
+    }
+    
+    
 }

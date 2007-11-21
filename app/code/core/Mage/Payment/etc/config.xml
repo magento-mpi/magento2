@@ -20,26 +20,63 @@
  */
 -->
 <config>
-   <modules>
-      <Mage_Payment>
-         <version>0.1.0</version>
-      </Mage_Payment>
-   </modules>
+    <modules>
+        <Mage_Payment>
+            <version>0.1.1</version>
+        </Mage_Payment>
+    </modules>
 
-   <global>
-      <models>
-         <payment>
-            <class>Mage_Payment_Model</class>
-         </payment>
-      </models>
+    <global>
+        <models>
+            <payment>
+                <class>Mage_Payment_Model</class>
+            </payment>
+        </models>
+        
+        <resources>
+            <payment_setup>
+                <setup>
+                    <module>Mage_Payment</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </payment_setup>
+        </resources>
 
-      <blocks>
+        <blocks>
             <payment>
                 <class>Mage_Payment_Block</class>
             </payment>
-      </blocks>
-   </global>
-   <frontend>
+        </blocks>
+        
+        <payment>
+            
+            <cc>
+                <types>
+                    <AE>
+                        <code>AE</code>
+                        <name>American Express</name>
+                    </AE>
+                    <VI>
+                        <code>VI</code>
+                        <name>Visa</name>
+                    </VI>
+                    <MC>
+                        <code>MC</code>
+                        <name>Master Card</name>
+                    </MC>
+                    <DI>
+                        <code>DI</code>
+                        <name>Discover</name>
+                    </DI>
+                </types>
+            </cc>
+        </payment>
+
+    </global>
+
+    <frontend>
         <translate>
             <modules>
                 <Mage_Payment>
@@ -49,5 +86,6 @@
                 </Mage_Payment>
             </modules>
         </translate>
-   </frontend>
+    </frontend>
+
 </config>

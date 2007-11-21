@@ -21,7 +21,7 @@
 <div class="sidebar-block" id="sidebar_data_<?=$this->getDataId()?>">
     <table class="caption" width="100%">
     <tr>
-        <td class="text"><strong><?=$this->getHeaderText()?></strong> (<?=$this->getItemCollection()->getSize()?>)</td>
+        <td class="text"><strong><?=$this->getHeaderText()?></strong> (<?=$this->getItemCount()?>)</td>
         <td class="icons">
         <a href="#" title="<?=__('Refresh')?>" onclick="order.loadArea('sidebar_<?=$this->getDataId()?>', 'sidebar_data_<?=$this->getDataId()?>');return false;">
             <img src="<?=$this->getSkinUrl('images/fam_refresh.gif')?>" alt="<?=__('Refresh')?>" width="16" height="16"/>
@@ -31,7 +31,7 @@
     </table>
     <div class="auto-scroll">
     <ul>
-        <?foreach ($this->getItemCollection() as $_item):?>
+        <?foreach ($this->getItems() as $_item):?>
         <li>
             <span><?=$_item->getName()?></span><br/>
             <span><?=$this->formatPrice($_item->getPrice())?></span><br/>

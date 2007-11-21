@@ -13,32 +13,23 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Payment
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+ 
+$this->updateTable('core/config_field', 
+    "path like 'payment/%' AND source_model='adminhtml/system_config_source_payment_active'",
+    "source_model='adminhtml/system_config_source_yesno'");
 
-/**
- * Adminhtml sales order create coupons form block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
- */
+$this->addConfigField('payment/ccsave/cctypes', 'Credit Card Types', array(
+    'frontend_type' => 'multiselect',
+    'source_model'  => 'adminhtml/system_config_source_payment_cctype',
+    'sort_order'    => 4
+));
 
-class Mage_Adminhtml_Block_Sales_Order_Create_Coupons_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
-{
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setId('sales_order_create_coupons_form');
-        $this->setTemplate('sales/order/create/coupons/form.phtml');
-    }
-
-    public function getCouponCode()
-    {
-        return $this->getParentBlock()->getQuote()->getCouponCode();
-    }
-
-}
+$this->addConfigField('payment/ccsave/useccv', 'Credit Card Verification', array(
+    'frontend_type' => 'select',
+    'source_model'  => 'adminhtml/system_config_source_yesno',
+    'sort_order'    => 5
+));

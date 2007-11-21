@@ -13,20 +13,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Payment
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-class Mage_Adminhtml_Model_System_Config_Source_Payment_Active
+ 
+/**
+ * Payment configuration model
+ *
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Payment_Model_Config extends Varien_Simplexml_Config 
 {
-    public function toOptionArray()
+    public function __construct() 
     {
-        return array(
-            array('value'=>0, 'label'=>__('No')),
-            array('value'=>1, 'label'=>__('For all types of checkout')),
-            array('value'=>2, 'label'=>__('Exclude multi-address checkout')),
-        );
+        
     }
 }

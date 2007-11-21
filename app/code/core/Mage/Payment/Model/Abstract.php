@@ -18,17 +18,75 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Payment method abstract model
+ */
 abstract class Mage_Payment_Model_Abstract extends Varien_Object
 {
-
+    const XML_PATH_CC_TYPES = 'global/payment/cc/types';
+    
+    
     protected $_payment = null;
-
-    public function __construct()
+    
+    /**
+     * Using internal pages for input payment data
+     *
+     * @return bool
+     */
+    public function canUseInternal()
     {
-
+        return true;
     }
-
+    
+    /**
+     * Using for multiple shipping address
+     *
+     * @return bool
+     */
+    public function canUseForMultishipping()
+    {
+        return true;
+    }
+    
+    /**
+     * Checking availability of data for method
+     *
+     * @param   mixed $data
+     * @return  bool
+     */
+    public function isValidData($data)
+    {
+        return true;
+    }
+    
+    /**
+     * Retrieve payment method name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getData('name');
+    }
+    
+    /**
+     * Retrieve payment method code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->getData('code');
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    /*** OLD API - REMOOVING ***/
     public function createFormBlock($name)
     {
         return false;
