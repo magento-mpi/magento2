@@ -20,19 +20,17 @@
  
 class Mage_Adminhtml_Model_System_Config_Source_Payment_Cctype
 {
-
     public function toOptionArray()
     {
         $options =  array();
         
-        foreach (Mage::getConfig()->getNode('global/payment/cc/types')->asArray() as $code => $type) {
+        foreach (Mage::getSingleton('payment/config')->getCcTypes() as $code => $name) {
         	$options[] = array(
-        	   'value' => $type['code'],
-        	   'label' => $type['name'] 
+        	   'value' => $code,
+        	   'label' => $name 
         	);
         }
         
         return $options;
     }
-
 }

@@ -56,8 +56,10 @@
                                 <select name="item[<?=$_item->getId()?>][action]" style="width:135px">
                                     <option value=""></option>
                                     <option value="remove"><?=$this->__('Remove')?></option>
+                                    <?if($this->getCustomerId()):?>
                                     <option value="cart"><?=$this->__('Move to Shopping Cart')?></option>
                                     <option value="wishlist"><?=$this->__('Move to Wishlist')?></option>
+                                    <?endif;?>
                                 </select>
                             </nobr></td>
                         </tr>

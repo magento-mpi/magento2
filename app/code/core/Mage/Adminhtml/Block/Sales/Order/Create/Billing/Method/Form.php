@@ -36,46 +36,47 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_A
         $this->setId('sales_order_create_billing_method_form');
         $this->setTemplate('sales/order/create/billing/method/form.phtml');
     }
-
-    public function getAddress()
+    
+    /**
+     * Retrieve array of available payment methods
+     *
+     * @return array
+     */
+    public function getMethods()
     {
-        return $this->getParentBlock()->getSession()->getBillingAddress();
-    }
-
-    public function fetchEnabledMethods()
-    {
-        $methods = $this->helper('payment')->getStoreMethods($this->getStoreId());
-        
-        foreach ($methods as $methodConfig) {
-            $methodName = $methodConfig->getName();
-            $className = $methodConfig->getClassName();
-            $method = Mage::getModel($className);
-            if ($method) {
-                $method->setPayment($this->getQuote()->getPayment());
-            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$methodName);
-            	if (!empty($methodBlock)) {
-            	    $this->_innerHtml .= $methodBlock->toHtml();
-    	        }
+        $methods = $this->getData('methods');
+        if (is_null($methods)) {
+            $methods = $this->helper('payment')->getStoreMethods($this->getStoreId());
+            foreach ($methods as $key => $method) {
+            	if (!$method->canUseInternal()) {
+            	    unset($methods[$key]);
+            	}
+            	$method->setPayment($this->getQuote()->getPayment());
             }
+            $this->setData('methods', $methods);
         }
-        return $this;
+        return $methods;
     }
-
-    public function getPayment()
+    
+    /**
+     * Check existing of payment methods
+     *
+     * @return bool
+     */
+    public function hasMethods()
     {
-        $payment = $this->getQuote()->getPayment();
-        if (empty($payment)) {
-            $payment = Mage::getModel('sales/quote_payment');
-        } else {
-            $payment->setCcNumber(null)
-                ->setCcCid(null);
+        $methods = $this->getMethods();
+        if (is_array($methods) && count($methods)) {
+            return true;
         }
-        return $payment;
+        return false;
     }
-
-    public function getInnerHtml()
+    
+    public function getCurrentMethod()
     {
-        $this->fetchEnabledMethods();
-        return $this->_innerHtml;
+        if ($this->getQuote()->getPayment()) {
+            return $this->getQuote()->getPayment()->getMethod();
+        }
+        return false;
     }
 }

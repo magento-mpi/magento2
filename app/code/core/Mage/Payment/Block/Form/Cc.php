@@ -23,10 +23,75 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
 {
     protected function _construct()
     {
-        $this->setTemplate('payment/form/cc.phtml');
         parent::_construct();
+        $this->setTemplate('payment/form/cc.phtml');
     }
-
+    
+    /**
+     * Retrieve payment configuration object
+     *
+     * @return Mage_Payment_Model_Config
+     */
+    protected function _getConfig()
+    {
+        return Mage::getSingleton('payment/config');
+    }
+    
+    /**
+     * Retrieve availables credit card types
+     *
+     * @return array
+     */
+    public function getCcAvailableTypes()
+    {
+        $types = $this->_getConfig()->getCcTypes();
+        if ($this->getPaymentMethod()) {
+            $availableTypes = $this->getPaymentMethod()->getConfigData('cctypes');
+            if ($availableTypes) {
+                $availableTypes = explode(',', $availableTypes);
+                foreach ($types as $code=>$name) {
+                	if (!in_array($code, $availableTypes)) {
+                	    unset($types[$code]);
+                	}
+                }
+            }
+        }
+        return $types;
+    }
+    
+    /**
+     * Retrieve credit card expire months
+     *
+     * @return array
+     */
+    public function getCcMonths()
+    {
+        return $this->_getConfig()->getMonths();
+    }
+    
+    /**
+     * Retrieve credit card expire years
+     *
+     * @return array
+     */
+    public function getCcYears()
+    {
+        return $this->_getConfig()->getYears();
+    }
+    
+    public function hasVerification()
+    {
+        if ($this->getPaymentMethod()) {
+            return (bool) $this->getPaymentMethod()->getConfigData('useccv');
+        }
+        return true;
+    }
+    
+    
+    
+    /**
+     * @todo change front cc templates
+     */
     public function getCcTypes()
     {
         return array(

@@ -196,28 +196,50 @@ AdminOrder.prototype = {
     },
     
     switchPaymentMethod : function(method){
-        if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
-            var form = $('payment_form_'+this.currentMethod);
-            form.style.display = 'none';
-            var elements = form.getElementsByTagName('input');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = true;
-            var elements = form.getElementsByTagName('select');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = true;
-    
-        }
-        if ($('payment_form_'+method)){
-            var form = $('payment_form_'+method);
-            form.style.display = '';
-            var elements = form.getElementsByTagName('input');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = false;
-            var elements = form.getElementsByTagName('select');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = false;
-            this.currentMethod = method;
-        }
-        
+        this.setPaymentMethod(method);        
         var data = $H({});
         data['order[payment_method]'] = method;
         this.saveData(data);
+    },
+    
+    setPaymentMethod : function(method){
+        if (this.paymentMethod && $('payment_form_'+this.paymentMethod)) {
+            var form = $('payment_form_'+this.paymentMethod);
+            form.hide();
+            var elements = form.getElementsBySelector('input', 'select');
+            for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+        }
+        
+        /*if(!this.paymentMethod){
+            $('order:billing_method').getElementsBySelector('input', 'select').each(function(elem){elem.disabled = true})
+        }*/
+        
+        if ($('payment_form_'+method)){
+            this.paymentMethod = method;
+            var form = $('payment_form_'+method);
+            form.show();
+            var elements = form.getElementsBySelector('input', 'select');
+            for (var i=0; i<elements.length; i++) {
+                elements[i].disabled = false;
+                if(!elements[i].bindChange){
+                    elements[i].bindChange = true;
+                    elements[i].paymentContainer = 'payment_form_'+method;
+                    elements[i].observe('change', this.changePaymentData.bind(this))
+                }
+            }
+        }
+    },
+    
+    changePaymentData : function(event){
+        var elem = Event.element(event);
+        if(elem && elem.paymentContainer){
+            var data = $H({});
+            var fields = $(elem.paymentContainer).getElementsBySelector('input', 'select');
+            for(var i=0;i<fields.length;i++){
+                data[fields[i].name] = fields[i].value;
+            }
+            this.saveData(data);
+        }
     },
     
     applyCoupon : function(code){
@@ -457,7 +479,17 @@ AdminOrder.prototype = {
     },
     
     submit : function(){
-        //alert(this.orderItemChanged);
-        $('edit_form').submit();
+        //editForm.submit();
+        if(this.orderItemChanged){
+            if(confirm('You have item changes')){
+                $('edit_form').submit();
+            }
+            else{
+                this.itemsUpdate();
+            }
+        }
+        else{
+            $('edit_form').submit();
+        }
     }
 }

@@ -110,6 +110,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();
+            $data['payment_method'] = $this->getQuote()->getPayment()->getMethod();
         }
         return Zend_Json::encode($data);
     }

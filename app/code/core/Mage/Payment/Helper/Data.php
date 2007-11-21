@@ -28,6 +28,18 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PAYMENT_METHODS = 'payment';
     
     /**
+     * Retrieve payment method model object
+     *
+     * @param   Varien_Simplexml_Element $config
+     * @return  Mage_Payment_Model_Abstract
+     */
+    protected function _getMethodInstance($config, $code)
+    {
+        return Mage::getModel($config->getClassName())
+            ->setCode($code);
+    }
+    
+    /**
      * Retrieve available payment methods for store
      * 
      * array structure:
@@ -49,31 +61,47 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         }
         
         $res = array();
-        foreach ($methods as $methodConfig) {
+        foreach ($methods as $code => $methodConfig) {
             if (!$methodConfig->is('active', 1)) {
                 continue;
             }
             
+            $methodInstance = $this->_getMethodInstance($methodConfig, $code);
             if (!isset($res[(int)$methodConfig->sort_order])) {
-                $res[(int)$methodConfig->sort_order] = $methodConfig;
+                $res[(int)$methodConfig->sort_order] = $methodInstance;
             }
             else {
-                $res[] = $methodConfig;
+                $res[] = $methodInstance;
             }
         }
-        ksort($res);        
+        ksort($res);
         return $res;
     }
     
+    /**
+     * Retreive payment method form html
+     *
+     * @param   Mage_Payment_Model_Abstract $method
+     * @return  string
+     */
     public function getMethodForm(Mage_Payment_Model_Abstract $method)
     {
-        
+        /**
+         * @todo declare method block and template information in layout xml
+         */
+        return $method->createFormBlock('payment.methods.'.$method->getCode())
+            ->setPaymentMethod($method)
+            ->toHtml();
     }
     
+    /**
+     * Retrieve payment method information html
+     *
+     * @param   Mage_Payment_Model_Abstract $method
+     * @return  string
+     */
     public function getMethodInfo(Mage_Payment_Model_Abstract $method)
     {
-        
+        return get_class($method);
     }
-    
-    
 }

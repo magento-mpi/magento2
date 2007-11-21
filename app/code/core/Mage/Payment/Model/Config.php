@@ -20,13 +20,57 @@
  
 /**
  * Payment configuration model
+ * 
+ * Used for retrieving configuration data by payment models
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Payment
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Payment_Model_Config extends Varien_Simplexml_Config 
+class Mage_Payment_Model_Config
 {
-    public function __construct() 
+    /**
+     * Retrieve array of credit card types
+     *
+     * @return array
+     */
+    public function getCcTypes()
     {
+        $types = array();
+        foreach (Mage::getConfig()->getNode('global/payment/cc/types')->asArray() as $data) {
+        	$types[$data['code']] = $data['name'];
+        }
+        return $types;
+    }
+    
+    /**
+     * Retrieve list of months translation
+     *
+     * @return array
+     */
+    public function getMonths()
+    {
+        $data = Mage::app()->getLocale()->getLocale()->getTranslationList('month');
+        foreach ($data as $key => $value) {
+        	$data[$key] = $key . ' - ' . $value;
+        }
+        return $data;
+    }
+    
+    /**
+     * Retrieve array of available years
+     *
+     * @return array
+     */
+    public function getYears()
+    {
+        $years = array();
+        $first = date("Y");
         
+        for ($index=0; $index<10; $index++) {
+            $year = $first + $index;
+            $years[$year] = $year;
+        }
+        return $years;
     }
 }

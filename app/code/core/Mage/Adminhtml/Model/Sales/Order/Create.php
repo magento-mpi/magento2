@@ -431,6 +431,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         return $this;
     }
     
+    public function setPaymentData($data)
+    {
+        $this->getQuote()->getPayment()->importPostData($data);
+        return $this;
+    }
+    
     public function applyCoupon($code)
     {
         $code = trim((string)$code);

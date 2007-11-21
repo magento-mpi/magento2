@@ -40,6 +40,13 @@ abstract class Mage_Core_Helper_Abstract
     protected $_request;
     
     /**
+     * Layout model object
+     *
+     * @var Mage_Core_Model_Layout
+     */
+    protected $_layout;
+    
+    /**
      * Retrieve request object
      *
      * @return Zend_Controller_Request_Http
@@ -154,5 +161,21 @@ abstract class Mage_Core_Helper_Abstract
     protected function _getUrl($route, $params = array())
     {
         return Mage::getUrl($route, $params);
+    }
+    
+    public function setLayout($layout)
+    {
+        $this->_layout = $layout;
+        return $this;
+    }
+    
+    /**
+     * Retrieve layout model object
+     *
+     * @return Mage_Core_Model_Layout
+     */
+    public function getLayout()
+    {
+        return $this->_layout;
     }
 }

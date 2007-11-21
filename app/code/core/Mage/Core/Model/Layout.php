@@ -447,6 +447,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (!isset($this->_helpers[$name])) {
             $class = Mage::getConfig()->getHelperClassName($name);
             $this->_helpers[$name] = new $class();
+            $this->_helpers[$name]->setLayout($this);
         }
         return $this->_helpers[$name];
     }

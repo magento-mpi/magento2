@@ -26,6 +26,26 @@
  */
 class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 {
+    /**
+     * Using internal pages for input payment data
+     *
+     * @return bool
+     */
+    public function canUseInternal()
+    {
+        return false;
+    }
+    
+    /**
+     * Using for multiple shipping address
+     *
+     * @return bool
+     */
+    public function canUseForMultishipping()
+    {
+        return false;
+    }
+
     public function catchError()
     {
         if ($this->getApi()->hasError()) {

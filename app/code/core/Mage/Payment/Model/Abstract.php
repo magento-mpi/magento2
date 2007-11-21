@@ -48,6 +48,17 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return true;
     }
     
+    public function getStore()
+    {
+        return $this->getData('store');
+    }
+    
+    public function setStore($store)
+    {
+        $this->setData('store', $store);
+        return $this;
+    }
+    
     /**
      * Checking availability of data for method
      *
@@ -60,16 +71,6 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
     }
     
     /**
-     * Retrieve payment method name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getData('name');
-    }
-    
-    /**
      * Retrieve payment method code
      *
      * @return string
@@ -79,14 +80,24 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return $this->getData('code');
     }
     
+    public function getConfigData($field)
+    {
+        $path = 'payment/'.$this->getCode().'/'.$field;
+        $store = $this->getStore();
+        if ($store instanceof Mage_Core_Model_Store) {
+            return $store->getConfig($path);
+        }
+        return Mage::getStoreConfig($path);
+    }
     
     
     
     
     
     
-    
-    /*** OLD API - REMOOVING ***/
+    /**
+     * @todo need replace this interface
+     */
     public function createFormBlock($name)
     {
         return false;

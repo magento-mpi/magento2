@@ -30,6 +30,7 @@
     </tr>
     </table>
     <div class="auto-scroll">
+    <?if($this->getItemCount()):?>
     <ul>
         <?foreach ($this->getItems() as $_item):?>
         <li>
@@ -43,5 +44,8 @@
         </li>
         <?endforeach;?>
     </ul>
+    <?else:?>
+        <center><?=$this->__('No items')?></center>
+    <?endif?>
     </div>
 </div>
