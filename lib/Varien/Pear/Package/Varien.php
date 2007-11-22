@@ -19,6 +19,9 @@ class Varien_Pear_Package_Varien extends Varien_Pear_Package_Mage
         parent::definePackage();
 
         $pfm = $this->getPfm();
+
+        #$pfm->addRole('php', 'magelib');
+
         $pfm->setPackage('Varien');
         $pfm->setSummary('Varien Library');
         $pfm->setDescription('Varien Library');
