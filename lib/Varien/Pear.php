@@ -88,7 +88,7 @@ class Varien_Pear
                     continue;
                 }
                 $config->set($key, str_replace('{base_dir}', $this->getBaseDir(), $config->get($key)));
-                echo $key.' : '.$config->get($key).'<br>';
+                #echo $key.' : '.$config->get($key).'<br>';
             }
 
             $config->setRegistry($this->getRegistry());
