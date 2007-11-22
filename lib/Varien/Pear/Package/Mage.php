@@ -1,14 +1,14 @@
 <?php
 
+require_once"Varien/Pear/Package.php";
+
 class Varien_Pear_Package_Mage extends Varien_Pear_Package
 {
     public function defineData()
     {
         parent::defineData();
 
-        $this
-            ->set('options/filelistgenerator', 'svn')
-        ;
+        $this->set('options/filelistgenerator', 'svn');
 
         return $this;
     }
@@ -17,11 +17,10 @@ class Varien_Pear_Package_Mage extends Varien_Pear_Package
     {
         parent::definePackage();
 
-        $this->getPfm()
-            ->setPackageType('php')
-            ->setChannel('var-dev.varien.com')
-            ->setLicense('Open Software License (OSL 3.0)', 'http://opensource.org/licenses/osl-3.0.php')
-        ;
+        $pfm = $this->getPfm();
+        $pfm->setPackageType('php');
+        $pfm->setChannel('var-dev.varien.com');
+        $pfm->setLicense('Open Software License (OSL 3.0)', 'http://opensource.org/licenses/osl-3.0.php');
 
         return $this;
     }
@@ -30,11 +29,10 @@ class Varien_Pear_Package_Mage extends Varien_Pear_Package
     {
         parent::defineRelease();
 
-        $this->getPfm()
-            ->clearDeps()
-            ->setPhpDep('5.2.0')
-            ->setPearinstallerDep('1.4.3')
-        ;
+        $pfm = $this->getPfm();
+        $pfm->clearDeps();
+        $pfm->setPhpDep('5.2.0');
+        $pfm->setPearinstallerDep('1.4.3');
 
         return $this;
     }

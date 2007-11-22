@@ -1,17 +1,18 @@
 <?php
 
+include "Varien/Pear/Package/Mage.php";
+
 class Varien_Pear_Package_Varien_Pear extends Varien_Pear_Package_Mage
 {
     public function definePackage()
     {
         parent::definePackage();
 
-        $this->getPfm()
-            ->setPackage('Varien_Pear')
-            ->setSummary('Varien PEAR Wrapper Library')
-            ->setDescription('Varien PEAR Wrapper Library')
-            ->addMaintainer('lead', 'moshe', 'Moshe Gurvich', 'moshe@varien.com', 'yes')
-        ;
+        $pfm = $this->getPfm();
+        $pfm->setPackage('Varien_Pear');
+        $pfm->setSummary('Varien PEAR Wrapper Library');
+        $pfm->setDescription('Varien PEAR Wrapper Library');
+        $pfm->addMaintainer('lead', 'moshe', 'Moshe Gurvich', 'moshe@varien.com', 'yes');
 
         return $this;
     }
@@ -20,13 +21,12 @@ class Varien_Pear_Package_Varien_Pear extends Varien_Pear_Package_Mage
     {
         parent::defineRelease();
 
-        $this->getPfm()
-            ->setAPIVersion('0.7.0')
-            ->setReleaseVersion('0.7.0')
-            ->setAPIStability('beta')
-            ->setReleaseStability('beta')
-            ->setNotes('initial PEAR release')
-        ;
+        $pfm = $this->getPfm();
+        $pfm->setAPIVersion('0.7.0');
+        $pfm->setReleaseVersion('0.7.0');
+        $pfm->setAPIStability('beta');
+        $pfm->setReleaseStability('beta');
+        $pfm->setNotes('initial PEAR release');
 
         return $this;
     }

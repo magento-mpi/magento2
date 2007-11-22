@@ -1,6 +1,6 @@
 <?php
 
-require_once "Varien_Pear.php";
+require_once "Varien/Pear.php";
 
 require_once "PEAR/PackageFileManager2.php";
 // add missing but required constant...
@@ -17,12 +17,6 @@ class Varien_Pear_Package
     );
 
     protected $_pfm;
-
-    static public function run()
-    {
-        $pkg = new self;
-        $pkg->generatePackage();
-    }
 
     public function getPear()
     {
@@ -43,8 +37,10 @@ class Varien_Pear_Package
 
         // accept a/b/c as ['a']['b']['c']
         $keyArr = explode('/', $key);
+
         $ref = &$this->_data;
-        for ($i=0, $l=sizeof($keyArr); $k=$keyArr[$i], $i<$l; $i++) {
+        for ($i=0, $l=sizeof($keyArr); $i<$l; $i++) {
+            $k = $keyArr[$i];
             if (!isset($ref[$k])) {
                 $ref[$k] = array();
             }
@@ -89,6 +85,8 @@ class Varien_Pear_Package
     public function getPfm()
     {
         if (!$this->_pfm) {
+            $this->defineData();
+
             $this->_pfm = PEAR_PackageFileManager2::importOptions('package2.xml', $this->get('options'));
         }
         return $this->_pfm;
@@ -97,8 +95,6 @@ class Varien_Pear_Package
     public function generatePackage($make=false)
     {
         PEAR::setErrorHandling(PEAR_ERROR_DIE);
-
-        $this->defineData();
 
         $this->definePackage();
 
