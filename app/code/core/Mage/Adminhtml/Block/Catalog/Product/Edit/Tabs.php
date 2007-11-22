@@ -92,6 +92,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'label'     => __('Cross-sells'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
             ));
+            
+            $this->addTab('alerts', array(
+                'label'     => __('Product Alerts'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts', 'admin.alerts.products')->toHtml(),
+            ));
 
             if( $this->getRequest()->getParam('id', false) ) {
                 $this->addTab('reviews', array(

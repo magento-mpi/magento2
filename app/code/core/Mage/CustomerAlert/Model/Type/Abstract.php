@@ -53,6 +53,25 @@ abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Ab
         return $this;
     }
     
+    public function loadCustomersId()
+    {
+        $res = Mage::getResourceModel('customeralert/type');
+        $read = $res->getConnection('read');
+        $select = $read
+            ->select()
+            ->from($res->getMainTable())
+            ->where('product_id = ?', $this->getData('product_id'))
+            ->where('type = ?', $this->getData('type'))
+            ->where('store_id = ?', $this->getData('store_id'));
+        
+        $rows = $read->fetchAll($select);
+        $customersId = array();
+        foreach ($rows as $val){
+            $customersId[] = $val['customer_id'];
+        }
+        return $customersId;
+    }
+    
     abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
     abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
     

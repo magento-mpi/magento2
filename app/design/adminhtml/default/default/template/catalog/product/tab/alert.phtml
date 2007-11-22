@@ -18,10 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="content-header">
-<table cellspacing="0" class="grid-header">
-    <tr>
-        <td style="width:50%;"><h3 class="icon-head head-products"><?=__('Email product to a friend')?></h3></td>
-    </tr>
-</table>
+<?
+/**
+ * Template for block Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts
+ */
+?>
+<div>
+	<h4 class="icon-head head-edit-form"><?=__('Product Alerts')?></h4>
 </div>
+<div class="clear"></div>
+<br/>
+<?=$this->getAccordionHtml()?>

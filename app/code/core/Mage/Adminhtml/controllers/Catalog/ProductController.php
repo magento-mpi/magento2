@@ -370,6 +370,18 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->toHtml()
         );
     }
+    
+    public function alertsGridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$this->getRequest()->getParam('id'),array('id'=>$this->getRequest()->getParam('id')))
+                ->setId($this->getRequest()->getParam('id'))    
+                ->setProductId($this->getRequest()->getParam('productId'))
+                ->setStore($this->getRequest()->getParam('store'))
+                ->loadCustomers()
+                ->toHtml()
+        );
+    }
 
     public function tagCustomerGridAction()
     {
