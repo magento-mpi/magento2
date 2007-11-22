@@ -6,15 +6,15 @@ set_include_path(get_include_path().PATH_SEPARATOR.'./lib');
 require_once "Varien/Pear/Package.php";
 
 $pear = Varien_Pear::getInstance();
-#$pear->run('channel-discover', array(), array('var-dev.varien.com'));
-#print_r($pear->getFrontend());
+$result = $pear->run('channel-discover', array(), array('var-dev.varien.com'));
+echo "<pre>"; print_r($result); echo "</pre>";
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
 $options = array(
     'baseinstalldir'=>'Varien',
     'packagedirectory'=>$pear->getBaseDir().'/lib/Varien',
-    'outputdirectory'=>$pear->getPearDir().'/output',
+    'outputdirectory'=>$pear->getPearDir().'/output/',
     'simpleoutput'=>true,
     'filelistgenerator'=>'svn',
 );
@@ -46,14 +46,16 @@ $pfm->setNotes('initial PEAR release');
 $pfm->generateContents();
 $pfm1 = $pfm->exportCompatiblePackageFile1($options);
 
-if (false) {
+if (true) {
     $pfm1->writePackageFile();
     $pfm->writePackageFile();
 
+/*
     $outputDir = $this->get('options/outputdirectory');
     MagePearWrapper::getInstance()->run('package', array(),
         array($outputDir.'package.xml', $outputDir.'package2.xml')
     );
+*/
 } else {
     $pfm1->debugPackageFile();
     $pfm->debugPackageFile();
