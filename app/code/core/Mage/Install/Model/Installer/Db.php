@@ -49,12 +49,17 @@ class Mage_Install_Model_Installer_Db
         );
         
         try {
-            $connection = Mage::getSingleton('core/resource')->createConnection('install', 'mysqli', $config);
+            $connection = Mage::getSingleton('core/resource')->createConnection('install', $this->_getConnenctionType(), $config);
             $result = $connection->query('SELECT 1');
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')->addError($e->getMessage());
             Mage::throwException(__('Database connection error'));
         }
+    }
+    
+    protected function _getConnenctionType()
+    {
+        return (string) Mage::getConfig()->getNode('global/resources/default_setup/connection/type');
     }
 }
