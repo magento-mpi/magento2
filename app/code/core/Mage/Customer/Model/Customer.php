@@ -29,6 +29,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     const XML_PATH_REGISTER_EMAIL_IDENTITY  = 'customer/create_account/email_identity';
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'customer/password/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'customer/password/forgot_email_identity';
+    const XML_PATH_DEFAULT_EMAIL_DOMAIN     = 'customer/create_account/email_domain';
     
     protected $_addressCollection;
     protected $_store;

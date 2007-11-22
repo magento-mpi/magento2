@@ -21,8 +21,9 @@
 <div class="entry-edit">
     <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
     <fieldset>
-        <textarea style="width: 100%; height: 6em;" name="order[comment][text]"></textarea>
-        <input type="checkbox" id="notify_customer" name="order[comment][notify_customer]" value="1" checked="true"/> 
+        <textarea style="width: 100%; height: 6em;" name="order[comment][customer_note]"><?=$this->getCommentNote()?></textarea>
+        <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?if($this->getNoteNotify()):?>checked="true"<?endif;?>/> 
         <label for="notify_customer" class="normal"><?=__('Send Comment to the Customer')?></label>
     </fieldset>
+    <script type="text/javascript">order.commentFieldsBind('order:comment')</script>
 </div>

@@ -276,6 +276,16 @@ class Mage_Core_Model_App
         }
         return $this->_translator;
     }
+    
+    /**
+     * Retrieve application base currency code
+     *
+     * @return string
+     */
+    public function getBaseCurrencyCode()
+    {
+        return Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, Mage_Core_Model_Store::DEFAULT_CODE);
+    }
 
     /**
      * Retrieve configuration object

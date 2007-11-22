@@ -52,12 +52,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
     protected function _prepareForm()
     {
         if (!$this->_form) {
-            $notDisplay = array('created_in', 'store_id', 'firstname', 'lastname', 'password_hash');
+            $display = array('email', 'group_id');
             $this->_form = new Varien_Data_Form();
             $customerModel = Mage::getModel('customer/customer');
     
             foreach ($customerModel->getAttributes() as $attribute) {
-                if (!$attribute->getIsVisible() || in_array($attribute->getAttributeCode(), $notDisplay)) {
+                if (!in_array($attribute->getAttributeCode(), $display)) {
                     continue;
                 }
                 if ($inputType = $attribute->getFrontend()->getInputType()) {
@@ -65,8 +65,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
                         array(
                             'name'  => $attribute->getAttributeCode(),
                             'label' => $attribute->getFrontend()->getLabel(),
-                            'class' => $attribute->getFrontend()->getClass(),
-                            //'required' => $attribute->getIsRequired(),
                         )
                     )
                     ->setEntityAttribute($attribute);
@@ -78,8 +76,21 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
             }
             
             $this->_form->addFieldNameSuffix('order[account]');
-            $this->_form->setValues($this->getCustomer()->getData());
+            
+            $this->_form->setValues($this->getCustomerData());
         }
         return $this;
+    }
+    
+    public function getCustomerData()
+    {
+        $data = $this->getCustomer()->getData();
+        foreach ($this->getQuote()->getData() as $key=>$value) {
+        	if (strstr($key, 'customer_')) {
+        	    $data[str_replace('customer_', '', $key)] = $value;
+        	}
+        }
+        $data['group_id'] = $this->getCreateOrderModel()->getCustomerGroupId();
+        return $data;
     }
 }

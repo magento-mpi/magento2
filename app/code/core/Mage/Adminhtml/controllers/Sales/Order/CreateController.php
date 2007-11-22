@@ -166,7 +166,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getOrderCreateModel()->setPaymentData($paymentData);
         }
         
-        $this->_getOrderCreateModel()->saveQuote();
+        $this->_getOrderCreateModel()
+            ->initRuleData()
+            ->saveQuote();
         return $this;
     }
     

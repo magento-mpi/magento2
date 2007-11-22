@@ -236,7 +236,7 @@ AdminOrder.prototype = {
             var data = $H({});
             var fields = $(elem.paymentContainer).getElementsBySelector('input', 'select');
             for(var i=0;i<fields.length;i++){
-                data[fields[i].name] = fields[i].value;
+                data[fields[i].name] = fields[i].getValue();
             }
             this.saveData(data);
         }
@@ -392,7 +392,7 @@ AdminOrder.prototype = {
         var info = $('order:items_grid').getElementsBySelector('input', 'select');
         var data = $H({});
         for(var i=0; i<info.length; i++){
-            data[info[i].name] = info[i].value;
+            data[info[i].name] = info[i].getValue();
         }
         data.reset_shipping = true;
         data.update_items = true;
@@ -412,6 +412,40 @@ AdminOrder.prototype = {
     
     itemChange : function(){
         this.orderItemChanged = true;
+    },
+    
+    accountFieldsBind : function(container){
+        if($(container)){
+            var fields = $(container).getElementsBySelector('input', 'select');
+            for(var i=0; i<fields.length; i++){
+                if(fields[i].id == 'group_id'){
+                    fields[i].observe('change', this.accountGroupChange.bind(this))
+                }
+                else{
+                    fields[i].observe('change', this.accountFieldChange.bind(this))
+                }
+            }
+        }
+    },
+    
+    accountGroupChange : function(){
+        this.loadArea(['sidebar', 'data'], true, this.serializeData('order:form_account'));
+    },
+    
+    accountFieldChange : function(){
+        this.saveData(this.serializeData('order:form_account'));
+    },
+    
+    commentFieldsBind : function(container){
+        if($(container)){
+            var fields = $(container).getElementsBySelector('input', 'textarea');
+            for(var i=0; i<fields.length; i++)
+                fields[i].observe('change', this.commentFieldChange.bind(this))
+        }
+    },
+    
+    commentFieldChange : function(){
+        this.saveData(this.serializeData('order:comment'));
     },
     
     loadArea : function(area, indicator, params){
@@ -473,7 +507,7 @@ AdminOrder.prototype = {
         var fields = $(container).getElementsBySelector('input', 'select', 'textarea');
         var data = $H({});
         for(var i=0; i<fields.length; i++) {
-            data[fields[i].name] = fields[i].value;
+            data[fields[i].name] = fields[i].getValue();
         }
         return data;
     },

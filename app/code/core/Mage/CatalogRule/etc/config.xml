@@ -75,7 +75,7 @@
                     <catalogrule>
                         <type>singleton</type>
                         <class>catalogrule/observer</class>
-                        <method>getFinalPrice</method>
+                        <method>processFrontFinalPrice</method>
                     </catalogrule>
                 </observers>
             </catalog_product_get_final_price>
@@ -90,6 +90,21 @@
             </modules>
         </translate>
     </frontend>
+
+    <adminhtml>
+        <events>
+            <catalog_product_get_final_price>
+                <observers>
+                    <catalogrule>
+                        <type>singleton</type>
+                        <class>catalogrule/observer</class>
+                        <method>processAdminFinalPrice</method>
+                    </catalogrule>
+                </observers>
+            </catalog_product_get_final_price>
+        </events>
+    </adminhtml>
+    
     <crontab>
         <events>
             <crontab>

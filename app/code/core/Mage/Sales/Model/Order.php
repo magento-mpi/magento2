@@ -183,7 +183,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setStoreToOrderRate($quote->getStoreToQuoteRate())
             ->setIsVirtual($quote->getIsVirtual())
             ->setIsMultiPayment($quote->getIsMultiPayment())
-            ->setCustomerNotes($quote->getCustomerNotes())
+            ->setCustomerNote($quote->getCustomerNote())
+            ->setCustomerNoteNotify($quote->getCustomerNoteNotify())
         ;
         return $this;
     }
@@ -655,5 +656,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return Mage::getHelper('core/text')->formatDate($this->getCreatedAt(), $format);
     }
-
+    
+    public function getEmailCustomerNote()
+    {
+        if ($this->getCustomerNoteNotify()) {
+            return $this->getCustomerNote();
+        }
+        return '';
+    }
 }

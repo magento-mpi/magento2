@@ -65,6 +65,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         return false;
     }
     
+    public function initRuleData()
+    {
+        Mage::register('rule_data', new Varien_Object(array(
+            'store_id'  => $this->_session->getStore()->getId(),
+            'customer_group_id' => $this->getCustomerGroupId(),
+        )));
+        return $this;
+    }
+    
     /**
      * Set collect totals flag for quote
      *
@@ -181,6 +190,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->_compareList = false;
         }
         return $this->_compareList;
+    }
+    
+    public function getCustomerGroupId()
+    {
+        $groupId = $this->getQuote()->getCustomerGroupId();
+        if (!$groupId) {
+            $groupId = $this->getSession()->getCustomer()->getGroupId();
+        }
+        return $groupId;
     }
     
     /**
@@ -444,6 +462,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->setRecollect(true);
         return $this;
     }
+    
+    public function setAccountData($accountData)
+    {
+        $data = array();
+        foreach ($accountData as $key => $value) {
+        	$data['customer_'.$key] = $value;
+        }
+        
+        if (isset($data['customer_group_id'])) {
+            $this->setRecollect(true);
+        }
+        
+        $this->getQuote()->addData($data);
+        return $this;
+    }
 
     /**
      * Parse data retrieved from request
@@ -454,6 +487,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function importPostData($data)
     {
         $this->addData($data);
+        
+        if (isset($data['account'])) {
+            $this->setAccountData($data['account']);
+        }
+        
+        if (isset($data['comment'])) {
+            $this->getQuote()->addData($data['comment']);
+        }
         
         if (isset($data['billing_address'])) {
             $data['billing_address']['customer_address_id'] = isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
@@ -500,7 +541,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $order->createFromQuoteAddress($this->getQuote()->getShippingAddress());
         $order->setStoreId($this->getQuote()->getStore()->getId());
         $order->setOrderCurrencyCode($this->getQuote()->getStore()->getCurrentCurrencyCode());
-        $order->addStatusNewOrder($this->getData('comment/text'), $this->getData('comment/notify_customer'));
+        $order->addStatusNewOrder(
+            $this->getData('comment/customer_note'), 
+            $this->getData('comment/customer_note_notify')
+        );
         $order->validate();
         
         if ($order->getErrors()) {
@@ -588,7 +632,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
-            $host = $this->getSession()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_UNSECURE_HOST);
+            $host = $this->getSession()->getStore()->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
             $email = $customer->getIncrementId().'@'. $host;
         }
         return $email;
@@ -601,6 +645,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     protected function _customerSave()
     {
+        $this->getSession()->getCustomer()
+            ->addData($this->getData('account'))
+            ->save();
         return $this;
     }
 }

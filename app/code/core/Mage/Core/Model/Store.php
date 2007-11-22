@@ -33,6 +33,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_SECURE_HOST      = 'web/secure/host';
     const XML_PATH_SECURE_PORT      = 'web/secure/port';
     const XML_PATH_SECURE_PATH      = 'web/secure/base_path';
+    
+    const DEFAULT_CODE = 'default';
 
     protected $_priceFilter;
 

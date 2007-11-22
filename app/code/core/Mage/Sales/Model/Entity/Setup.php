@@ -31,7 +31,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_parent'),
                     'is_active' => array('type'=>'static', 'visible'=>false),
-                    'customer_id' => array('type'=>'int', 'visible'=>false),
                     'remote_ip' => array('visible'=>false),
                     'checkout_method' => array(),
                     'password_hash' => array(),
@@ -52,6 +51,12 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'is_virtual' => array('type'=>'int', 'visible'=>false),
                     'is_multi_shipping' => array('type'=>'int', 'visible'=>false),
                     'is_multi_payment' => array('type'=>'int', 'visible'=>false),
+                    'customer_id' => array('type'=>'int', 'visible'=>false),
+                    'customer_tax_class_id' => array('type'=>'int', 'visible'=>false),
+                    'customer_group_id' => array('type'=>'int', 'visible'=>false),
+                    'customer_email' => array('type'=>'varchar', 'visible'=>false),
+                    'customer_note' => array('type'=>'text', 'visible'=>false),
+                    'customer_note_notify' => array('type'=>'int', 'visible'=>false),
                 ),
             ),
             'quote_address' => array(
@@ -176,7 +181,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'backend_prefix'=>'sales_entity/order_attribute_backend',
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_parent'),
-                    'customer_id' => array('type'=>'int'),
                     'remote_ip' => array(),
                     'order_status_id' => array('type'=>'int'),
                     'quote_id' => array('type'=>'int'),
@@ -204,9 +208,13 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'grand_total' => array('type'=>'decimal'),
                     'total_paid' => array('type'=>'decimal'),
                     'total_due' => array('type'=>'decimal'),
-                    'customer_notes' => array('type'=>'text'),
                     'total_qty_ordered' => array('type'=>'decimal'),
                     'applied_rule_ids' => array(),
+                    'customer_id' => array('type'=>'int', 'visible'=>false),
+                    'customer_group_id' => array('type'=>'int', 'visible'=>false),
+                    'customer_email' => array('type'=>'varchar', 'visible'=>false),
+                    'customer_note' => array('type'=>'text', 'visible'=>false),
+                    'customer_note_notify' => array('type'=>'int', 'visible'=>false),
                 ),
             ),
             'order_address' => array(

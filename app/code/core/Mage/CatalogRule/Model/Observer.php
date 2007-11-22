@@ -23,7 +23,10 @@ class Mage_CatalogRule_Model_Observer
 {
     protected $_rulePrices = array();
     
-    public function getFinalPrice($observer)
+    /**
+     * Processing final price on frontend
+     */
+    public function processFrontFinalPrice($observer)
     {
         if ($observer->hasDate()) {
             $date = $observer->getDate();
@@ -56,6 +59,33 @@ class Mage_CatalogRule_Model_Observer
         if ($this->_rulePrices[$key]!==false) {
             $finalPrice = min($product->getData('final_price'), $this->_rulePrices[$key]);
             $product->setFinalPrice($finalPrice);
+        }
+        return $this;
+    }
+    
+    /**
+     * Processing final price in admin
+     */
+    public function processAdminFinalPrice($observer)
+    {
+        if ($ruleData = Mage::registry('rule_data')) {
+            $product = $observer->getEvent()->getProduct();
+            
+            $date = mktime(0,0,0);
+            $sId = $ruleData->getStoreId();
+            $gId = $ruleData->getCustomerGroupId();
+            $pId = $product->getId();
+            
+            $key = "$date|$sId|$gId|$pId";
+            if (!isset($this->_rulePrices[$key])) {
+                $rulePrice = Mage::getResourceModel('catalogrule/rule')
+                    ->getRulePrice($date, $sId, $gId, $pId);
+                $this->_rulePrices[$key] = $rulePrice;
+            }
+            if ($this->_rulePrices[$key]!==false) {
+                $finalPrice = min($product->getData('final_price'), $this->_rulePrices[$key]);
+                $product->setFinalPrice($finalPrice);
+            }
         }
         return $this;
     }
