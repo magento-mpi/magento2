@@ -441,6 +441,25 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
         }
         return $this->getData('tax_class_id');
     }
+    
+    /**
+     * Check store availability for customer
+     *
+     * @param   mixed $store
+     * @return  bool
+     */
+    public function isInStore($store)
+    {
+        if ($store instanceof Mage_Core_Model_Store) {
+            $storeId = $store->getId();
+        }
+        else {
+            $storeId = $store;
+        }
+        $availableStores = $this->getStore()->getWebsite()->getStoresIds();
+        
+        return in_array($storeId, $availableStores);
+    }
 
     /**
      * Retrieve store where customer was created

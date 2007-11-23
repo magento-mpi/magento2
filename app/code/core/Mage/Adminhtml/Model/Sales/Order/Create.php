@@ -552,7 +552,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         
         $order->save();
-        $order->sendNewOrderEmail();
+        
+        if ($this->getSendConfirmation()) {
+            $order->sendNewOrderEmail();
+        }
+        
         return $order;
     }
     
@@ -645,9 +649,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     protected function _customerSave()
     {
-        $this->getSession()->getCustomer()
-            ->addData($this->getData('account'))
-            ->save();
+        $customer = $this->getSession()->getCustomer();
+        $customer->addData($this->getData('account'));
+        
+        /*$store = $this->getSession()->getStore();
+        
+        if ($customer->isInStore($store)) {
+            $customer->save();
+        }
+        else {
+            
+        }
+        echo '<pre>';
+        print_r($customer->getSharedStoreIds());
+        echo '</pre>';die();*/
+        $customer->save();
         return $this;
     }
 }

@@ -23,6 +23,9 @@
     <div class="a-center"><?=$this->__('No ordered items')?></div>
 <?else:?>
     <div id="order:items_grid">
+    <?if(count($_items)>10):?>
+        <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></div>
+    <?endif;?>
         <div class="grid">
             <table cellspacing="0" class="data" id="invoice_items_grid_table">
                 <col width="70"/>
@@ -80,7 +83,7 @@
                 </tfoot>
             </table>
         </div>
-        <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items'),'order.itemsUpdate()');?></div>
+        <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></div>
         <script type="text/javascript">order.itemsOnchangeBind()</script>
     </div>
 <?endif;?>
