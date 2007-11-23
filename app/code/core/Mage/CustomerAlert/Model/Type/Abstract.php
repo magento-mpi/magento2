@@ -23,48 +23,24 @@
  *
  * @category   Mage
  * @package    Mage_CustomerAlert
- * @author     Vasily Selivanov <vasily@varien.com>
+ * @author     Vasily Selivanov <vasily@varien.com>
  */
 
 abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
 {
+    protected $_oldValue;
+    protected $_newValue;
+    protected $_date;
     
     public function __construct()
     {
         $this->_init('customeralert/type');
-        
-    }
-    
-    public function setCustomerId($id)
-    {
-        $this->setData('customer_id',$id);
-        return $this;
-    }
-    
-    public function setProductId($id)
-    {
-        $this->setData('product_id',$id);
-        return $this;
-    }
-    
-    public function setChecked($check)
-    {
-        $this->setData('checked',($check==='true') ? true : false);
-        return $this;
     }
     
     public function loadCustomersId()
     {
-        $res = Mage::getResourceModel('customeralert/type');
-        $read = $res->getConnection('read');
-        $select = $read
-            ->select()
-            ->from($res->getMainTable())
-            ->where('product_id = ?', $this->getData('product_id'))
-            ->where('type = ?', $this->getData('type'))
-            ->where('store_id = ?', $this->getData('store_id'));
-        
-        $rows = $read->fetchAll($select);
+        $rows = $this->getResource()
+            ->loadIds($this->getProductId(), $this->getStoreId(), $this->type ,'fetchAll');
         $customersId = array();
         foreach ($rows as $val){
             $customersId[] = $val['customer_id'];
@@ -72,8 +48,57 @@ abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Ab
         return $customersId;
     }
     
+    public function addToQueue()
+    {
+        $res=Mage::getResourceModel('customeralert/queue');
+        $mod=Mage::getModel('customeralert/queue');
+        $res->addSubscribersToQueue($mod,array($this->getCustomerId()));    
+    }
+
+    
+    public function check()
+    {
+        $row = Mage::getModel('customerAlert/alert_check')
+            ->set($this->getProductId(), $this->getStoreId, $this->type)
+            ->loadIds('fetchAll');
+        if(count($row)>0){
+            $this->setData('checked',true);
+            $row = $row[0];
+            $this->_oldValue = $row['old_value'];
+            $this->_newValue = $row['new_value'];
+            $this->_date = $row['date'];
+        } else {
+            $this->setData('checked',false);
+        }
+        
+        return $this;
+    }
+    
+    public function setChecked($check, $newValue = null, $oldValue = null)
+    {
+         
+        $mod = Mage::getModel('customerAlert/alert_check')
+                 ->set($this->getProductId(), $this->getStoreId, $this->type);
+        if($check) {
+            $this->_newValue = $newValue;
+            $this->_oldValue = $oldValue;
+            $this->_date = now();
+            $mod->setChecked($this->_newValue, $this->_oldValue, $this->_date);
+            $this->setData('checked',true);
+        } else {
+            $this->setData('checked',false);
+            $mod->removeChecked();
+        }
+    }
+    
+    public function getDate()
+    {
+        return $this->_date;
+    }
+    abstract public function getCheckedText();
     abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
     abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
+    
     
     
 }

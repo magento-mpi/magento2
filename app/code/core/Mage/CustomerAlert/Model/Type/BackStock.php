@@ -37,7 +37,7 @@ class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_T
     public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
         if($newProduct->isInStock() && !$oldProduct->isInStock()){
-            #die('YES');
+            $this->setChecked(true, $newProduct->isInStock(), $oldProduct->isInStock() );
         }
         
     }
@@ -45,6 +45,13 @@ class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_T
     public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
         
+    }
+    
+    public function getCheckedText()
+    {
+        return $this->getChecked()?
+             __('Product return to stock at'. ' '. $this->_date):
+             ''; 
     }
     
 }

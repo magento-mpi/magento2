@@ -23,9 +23,15 @@
  * Template for block Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts
  */
 ?>
+<?=$this->getMessageHtml()?>
 <div>
 	<h4 class="icon-head head-edit-form"><?=__('Product Alerts')?></h4>
 </div>
 <div class="clear"></div>
-<br/>
-<?=$this->getAccordionHtml()?>
+<br />
+    <?=$this->getAccordionHtml()?>
+<br />
+<div class="right">
+    <?=$this->getAddToQueryButtonHtml()?>
+</div>
+

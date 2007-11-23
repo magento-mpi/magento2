@@ -49,34 +49,73 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
     protected function _prepareLayout()
     {
         $params = $this->getRequest()->getParams();
-        $product_id = $params['id'];
-        $storeId = $params['store'];
-        $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
-            ->setId('AlertsBlockId');
-        foreach ($this->getAlerts() as $key=>$val) {
-           $customerIds = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'))
-                         ->setProductId($product_id)
-                         ->setStoreId($storeId)
-                         ->loadCustomersId();
-           $accordion->addItem($key, array(
-	            'title'     => $val['label'],
-	            'content'   => $this->getLayout()
-                                  ->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$key,array('id'=>$key))
-                                  ->setId($key)
-                                  ->setData('customerIds',$customerIds)
-                                  ->setData('productId',$product_id)
-                                  ->setData('store',$storeId),
-                                  
-	            'open'      => false,
-            ));
+        $product_id = isset($params['id'])?$params['id']:0;
+        $storeId = isset($params['store'])?$params['store']:0;
+
+        if($storeId){
+            $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
+                ->setId('AlertsBlockId');
+            $messages = array();
+            foreach ($this->getAlerts() as $key=>$val) {
+                $typeModel = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'));
+                $customerIds = $typeModel 
+                             ->setProductId($product_id)
+                             ->setStoreId($storeId)
+                             ->check()
+                             ->loadCustomersId();
+                                 
+                                   
+               $accordion->addItem($key, array(
+    	            'title'     => $val['label'],
+    	            'content'   => $this->getLayout()
+                                      ->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$key,array('id'=>$key))
+                                      ->setId($key)
+                                      ->setData('customerIds',$customerIds)
+                                      ->setData('productId',$product_id)
+                                      ->setData('store',$storeId),
+    	            'open'      => false,
+                ));
+                if($typeModel->getCheckedText())
+                    $messages[] = array('method'=>'notice','label'=>$typeModel->getCheckedText());
+            }
+            
+            $button = $this->getLayout()->createBlock('adminhtml/widget_button');
+            $this->setChild('accordion', $accordion);
+            $this->setChild('addToQuery_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => __('Add Customers To Query'),
+                        //'onclick'   => "tierPriceControl.deleteItem('#{index}')",
+                        'class' => 'add'
+                    )));
+        } else {
+            $messages[] = array('method'=>'error','label'=>__('No one store was selected.'));
         }
-        $this->setChild('accordion', $accordion);
+        
+        $message = $this->getLayout()->createBlock('core/messages');
+        foreach ($messages as $mess) {
+            $message->getMessageCollection()->add(Mage::getSingleton('core/message')->$mess['method']($mess['label']));
+        }
+        $this->setChild('message', $message);
+            
+            
         
         return parent::_prepareLayout();
+    }
+    
+    public function getAddToQueryButtonHtml()
+    {
+        return $this->getChildHtml('addToQuery_button');
     }
     
     public function getAccordionHtml()
     {
         return $this->getChildHtml('accordion');
     }
+    
+    public function getMessageHtml()
+    {
+        return $this->getChildHtml('message');
+    }
+    
 }

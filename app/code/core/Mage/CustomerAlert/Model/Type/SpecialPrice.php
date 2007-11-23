@@ -41,6 +41,19 @@ class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Mode
     
     public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
-        
+        if(!$oldProduct->getSpecialPrice()&&$newProduct->getSpecialPrice()){
+            $this->setChecked(true, $newProduct->getSpecialPrice(), $oldProduct->getSpecialPrice());
+        }
+    }
+    /**
+     * Return checked text for accodion
+     *
+     * @return string
+     */
+    public function getCheckedText()
+    {
+        return $this->getChecked()?
+             __('Special price was set to').' '.$this->_newValue:
+             ''; 
     }
 }

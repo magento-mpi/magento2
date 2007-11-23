@@ -31,21 +31,16 @@ class Mage_CustomerAlert_Model_Observer
     public function catalogProductSaveBefore($observer)
     {
         $newProduct = $observer->getEvent()->getProduct();
-        
         $product_id = $newProduct->getId();
         
         $oldProduct = Mage::getModel('catalog/product')
                         ->load($product_id);
+        
         $this->_oldProduct = $oldProduct;
         
         $res = Mage::getResourceModel('customeralert/type');
-        $read = $res->getConnection('read');
-        $select = $read
-                ->select()
-                ->from($res->getMainTable())
-                ->where('product_id = ?', $product_id)
-                ->where('store_id = ?', Mage::app()->getStore()->getId());
-        $rows = $read->fetchAll($select);
+        $rows = $res->loadIds($product_id,$newProduct->getType());
+        
         foreach ($rows as $row) {
             $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
                 ->load($row['id']);
@@ -57,15 +52,10 @@ class Mage_CustomerAlert_Model_Observer
     {
         $newProduct = $observer->getEvent()->getProduct();
         $product_id = $newProduct->getId();
-        
+        $oldProduct = Mage::getModel('catalog/product')
+                        ->load($product_id);
         $res = Mage::getResourceModel('customeralert/type');
-        $read = $res->getConnection('read');
-        $select = $read
-                ->select()
-                ->from($res->getMainTable())
-                ->where('product_id = ?', $product_id)
-                ->where('store_id = ?', Mage::app()->getStore()->getId());
-        $rows = $read->fetchAll($select);
+        $rows = $res->loadIds($product_id,$newProduct->getType());
         foreach ($rows as $row) {
             $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
                 ->load($row['id']);
