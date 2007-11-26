@@ -1,16 +1,16 @@
+All,Все
 "Catalog Advanced Search","Расширенный поиск"
-"All","Все"
-"Name","Название"
-"List","Список"
-"Price","Цена"
-"Search results for: '%s'","Результаты поиска по запросу: '%s'"
 "Go to Home Page","Вернуться на главную страницу"
-"Results","Результаты"
-"Home","Главная страница"
-"Search","Поиск"
-"Search results for '%s'","Результаты поиска по запросу '%s'"
-"Search Settings","Настройки поиска"
-"Your search returns no results.","Ничего не найдено."
-"Search entire store here...","Полный поиск по магазину здесь..."
+Home,"Главная страница"
+List,Список
+Name,Название
+Price,Цена
 "Required Fields","Обязательные поля"
+Results,Результаты
+Search,Поиск
+"Search entire store here...","Полный поиск по магазину здесь..."
+"Search results for '%s'","Результаты поиска по запросу '%s'"
+"Search results for: '%s'","Результаты поиска по запросу: '%s'"
+"Search Settings","Настройки поиска"
 "Search Site","Поиск по сайту"
+"Your search returns no results.","Ничего не найдено."

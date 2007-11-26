@@ -1,24 +1,24 @@
+ALL,TOATE
+ANY,ORICE
+by,cu
+contains,contine
+"Description: %s","Descrierea: %s"
+"does not contain","nu contine"
 "equals or greater than","egale sau mai mare decit"
+"equals or less than","egale sau mai putin decit"
+"Expire at: %s","Expira la: %s"
+FALSE,FALSA
+"greater than","mai mare decit"
+"If %s of these conditions are %s:","Daca %s din aceste conditii este %s:"
+is,este
 "is not","nu este"
 "is not one of","nu este una din"
-"is","este"
-"If %s of these conditions are %s:","Daca %s din aceste conditii este %s:"
-"TRUE","ADEVARAT"
-"Description: %s","Descrierea: %s"
-"contains","contine"
-"to","la"
-"equals or less than","egale sau mai putin decit"
-"greater than","mai mare decit"
-"does not contain","nu contine"
-"Please choose an action to add...","Va rugam alege-ti o actiune adaugata..."
-"Perform following actions","Executa-ti urmatoarele actiuni"
-"by","cu"
 "is one of","este una din"
-"ALL","TOATE"
-"FALSE","FALSA"
 "less than","mai putin decit"
-"ANY","ORICE"
-"Expire at: %s","Expira la: %s"
 "Name: %s","Numele: %s"
+"Perform following actions","Executa-ti urmatoarele actiuni"
 "Please choose a condition to add...","a rugam alege-ti o actiune adaugata..."
+"Please choose an action to add...","Va rugam alege-ti o actiune adaugata..."
 "Start at: %s","Incepe la: %s"
+to,la
+TRUE,ADEVARAT

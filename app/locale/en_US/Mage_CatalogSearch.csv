@@ -1,16 +1,16 @@
+All,All
 "Catalog Advanced Search","Catalog Advanced Search"
-"All","All"
-"Name","Name"
-"List","List"
-"Price","Price"
-"Search results for: '%s'","Search results for: '%s'"
 "Go to Home Page","Go to Home Page"
-"Results","Results"
-"Home","Home"
-"Search","Search"
-"Search results for '%s'","Search results for '%s'"
-"Search Settings","Search Settings"
-"Your search returns no results.","Your search returns no results."
-"Search entire store here...","Search entire store here..."
+Home,Home
+List,List
+Name,Name
+Price,Price
 "Required Fields","Required Fields"
+Results,Results
+Search,Search
+"Search entire store here...","Search entire store here..."
+"Search results for '%s'","Search results for '%s'"
+"Search results for: '%s'","Search results for: '%s'"
+"Search Settings","Search Settings"
 "Search Site","Search Site"
+"Your search returns no results.","Your search returns no results."
