@@ -20,4 +20,17 @@
  */
 
 -->
-<layout version="0.1.0" />
+<layout version="0.1.0">
+
+<!--
+Shopping cart
+-->
+
+    <checkout_cart_index>
+        <!-- Mage_Googlecheckout -->
+        <reference name="checkout.cart.methods">
+            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
+        </reference>
+    </checkout_cart_index>
+
+</layout>

@@ -48,12 +48,6 @@ Default layout, loads most of the pages
     </default>
 
 <!--
-Installation wizard step pages layout
--->
-
-    <install_wizard>
-
-<!--
 Load this update on every page when customer is logged in
 -->
 

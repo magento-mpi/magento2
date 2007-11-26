@@ -20,4 +20,21 @@
  */
 
 -->
-<layout version="0.1.0" />
+<layout version="0.1.0">
+
+<!--
+Product view
+-->
+
+    <catalog_product_view>
+        <!-- Mage_Catalog -->
+
+        <reference name="content">
+            <reference name="product.info">
+                <block type="customeralert/alerts" name="customeralert.alerts" as="customeralert_alerts" template="customeralert/alert.phtml" />
+            </reference>
+        </reference>
+        
+    </catalog_product_view>
+
+</layout>

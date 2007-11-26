@@ -20,4 +20,26 @@
  */
 
 -->
-<layout version="0.1.0" />
+<layout version="0.1.0">
+
+<!--
+Category default layout
+-->
+
+    <catalog_category_default>
+        <reference name="left">
+            <block type="directory/currency" name="currency" before="-" template="directory/currency.phtml"/>
+        </reference>
+    </catalog_category_default>
+
+<!--
+Category layered navigation layout
+-->
+
+    <catalog_category_layered>
+        <reference name="left">
+            <block type="directory/currency" name="currency" before="-" template="directory/currency.phtml"/>
+        </reference>
+    </catalog_category_layered>
+
+</layout>
