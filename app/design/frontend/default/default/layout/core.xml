@@ -18,33 +18,8 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- -->
+
+-->
 <layout version="0.1.0">
-    <default>
-        <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
-            <block type="core/store" name="store" as="store"/>
-            <block type="page/html_head" name="head" as="head">
-                <action method="addJs"><script>prototype/prototype.js</script></action>
-                <action method="addJs"><script>prototype/validation.js</script></action>
-                <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
-            </block>
-            <block type="page/html_header" name="header" as="header">
-                <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
-                <block type="page/html_toplinks" name="top.right.links" as="topRightLinks"/>
-                <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
-                <block type="core/text_list" name="top.menu" as="topMenu"/>
-            </block>
-            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
-            <block type="core/text_list" name="left" as="left"/>
-            <block type="core/messages" name="global_messages" as="global_messages"/>
-            <block type="core/messages" name="messages" as="messages"/>
-            <block type="core/text_list" name="content" as="content"/>
-            <block type="core/text_list" name="right" as="right" />
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
-                <block type="core/store_switcher" name="store_switcher" template="core/stores.phtml"/>
-            </block>
-            <block type="core/text_list" name="before_body_end" as="before_body_end"/>
-        </block>
-        <block type="core/profiler" output="toHtml"/>
-    </default>
+
 </layout>
