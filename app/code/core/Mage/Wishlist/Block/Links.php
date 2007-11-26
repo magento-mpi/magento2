@@ -42,6 +42,6 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
             $text = $this->__('My Wishlist');
         }
 
-        $this->getParentBlock()->addLink(null, 'href="'.Mage::getUrl('wishlist').'"', $text);
+        $this->getParentBlock()->addLink(null, 'class="top-link-wishlist" href="'.Mage::getUrl('wishlist').'"', $text);
     }
 }
