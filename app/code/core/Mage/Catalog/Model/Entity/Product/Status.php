@@ -33,5 +33,4 @@ class Mage_Catalog_Model_Entity_Product_Status extends Mage_Core_Model_Mysql4_Ab
     {
         $this->_init('catalog/product_status', 'status_id');
     }
-
 }

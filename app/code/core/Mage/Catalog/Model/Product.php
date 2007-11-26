@@ -27,6 +27,7 @@
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Catalog_Model_Product extends Varien_Object
+//class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract - need to do
 {
     /**
      * Product Types
@@ -35,19 +36,16 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const TYPE_BUNDLE               = 2;
     const TYPE_CONFIGURABLE_SUPER   = 3;
     const TYPE_GROUPED_SUPER        = 4;
+    
+    const STATUS_ENABLED            = 1;
+    const STATUS_DISABLED           = 2;
+
 
     protected static $_url;
     protected static $_urlRewrite;
 
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
-
-	/**
-	 * Bundle products option collection
-	 *
-	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
-	 */
-	protected $_bundleOptionCollection = null;
 
 	/**
 	 * Super product attribute collection
@@ -590,30 +588,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function isSuper()
     {
         return $this->isSuperConfig() || $this->isSuperGroup();
-    }
-
-    public function isAviableBundle()
-    {
-    	foreach ($this->getBundleOptionCollection() as $bundleOption) {
-    		if(sizeof($bundleOption->getLinkCollection()->getItems())==0) {
-    			return false;
-    		}
-    	}
-
-    	return true;
-    }
-
-    public function getBundleOptionCollection()
-    {
-    	if(!$this->isBundle()) {
-    		return false;
-    	}
-
-    	if(is_null($this->_bundleOptionCollection)) {
-    		$this->_bundleOptionCollection = $this->getResource()->getBundleOptionCollection($this);
-    	}
-
-    	return $this->_bundleOptionCollection;
     }
 
     public function getSuperAttributeCollection()

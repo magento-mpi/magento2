@@ -47,6 +47,13 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
     {
          return $this->_read->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
     }
+    
+    protected function _afterLoad(Varien_Object $object)
+    {
+        Mage::dispatchEvent('catalog_product_load_after', array('product'=>$object));
+        parent::_afterLoad($object);
+        return $this;
+    }
 
     protected function _beforeSave(Varien_Object $object)
     {

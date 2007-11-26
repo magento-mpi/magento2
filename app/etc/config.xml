@@ -345,5 +345,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_CustomerAlert>
+        <Mage_CatalogInventory>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_CatalogInventory>
     </modules>
 </config>

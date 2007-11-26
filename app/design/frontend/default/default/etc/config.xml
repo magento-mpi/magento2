@@ -20,7 +20,7 @@
  */
 -->
 <config>
-	<page>
+    <page>
         <head>
             <title>Magento Commerce</title>
             <media_type>text/html</media_type>
@@ -37,15 +37,15 @@
         <footer>
             <copyright><![CDATA[&copy; 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
         </footer>
-	</page>
+    </page>
 
-	<themes>
-	   <default>
+    <themes>
+       <default>
 
-	   </default>
+       </default>
 
-	   <xmas>
-	       <fallback_theme>default</fallback_theme>
-	   </xmas>
-	</themes>
+       <xmas>
+           <fallback_theme>default</fallback_theme>
+       </xmas>
+    </themes>
 </config>
