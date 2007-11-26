@@ -36,6 +36,7 @@
  * - host: 'localhost'
  * - port: 80, 443
  * - base_path: '/dev/magento'
+ * - base_script: 'index.php/'
  *
  * - route_path: '/module/controller/action/param1/value1/param2/value2'
  * - route_name: 'module'
@@ -49,11 +50,11 @@
  *
  * URL structure:
  *
- * https://user:password@host:443/base_path/route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
- *       \__________A___________/\______________________________B______________________________/
- * \__________________C___________________/\_________________D___________________/ \_____E_____/
- * \_____________F______________/          \____________________________G______________________/
- * \_____________________________________________H_____________________________________________/
+ * https://user:password@host:443/base_path/[base_script]route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
+ *       \__________A___________/\____________________________________B_____________________________________/
+ * \__________________C___________________/              \__________________D_________________/ \_____E_____/
+ * \_____________F______________/                        \___________________________G______________________/
+ * \___________________________________________________H____________________________________________________/
  *
  * - A: authority
  * - B: path
@@ -167,7 +168,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function isCurrentlySecure()
     {
-        return !empty($_SERVER['HTTPS']);
+        return !empty($_SERVER['HTTPS']) || ($_SERVER['SERVER_PORT']==Mage::getStoreConfig('web/secure/port'));
     }
 
     public function setRequest(Zend_Controller_Request_Http $request)
@@ -351,6 +352,30 @@ class Mage_Core_Model_Url extends Varien_Object
         return $this;
     }
 
+    public function getBaseScript()
+    {
+        if ($this->hasData('base_script')) {
+            return $this->getData('base_script');
+        }
+
+        if ($this->getType()!==self::TYPE_ROUTE) {
+            return '';
+        }
+
+        if (!Mage::getStoreConfig('web/url/use_script_name')) {
+            return '';
+        }
+
+        $script = Mage::getStoreConfig('web/url/script');
+        if (false===$script) {
+            #$prefix = basename($_SERVER['SCRIPT_NAME']).'?_route=';
+            $script = basename($_SERVER['SCRIPT_NAME']).'/';
+            #$prefix = '';
+        }
+
+        return $script;
+    }
+
     public function getBasePath()
     {
         if (!$this->hasData('base_path')) {
@@ -361,6 +386,7 @@ class Mage_Core_Model_Url extends Varien_Object
                 $path = $this->getConfigData($this->getType(), 'web/url/');
                 $path = str_replace('{{base_path}}', $basePath, $path);
             }
+            $path .= $this->getBaseScript();
             $this->setData('base_path', $path);
         }
         return $this->getData('base_path');

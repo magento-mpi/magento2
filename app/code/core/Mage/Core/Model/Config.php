@@ -197,6 +197,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     public function getDistroServerVars()
     {
+		$secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
+
 		if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
 			$basePath = dirname($_SERVER['SCRIPT_NAME']);
 			if ("\\"==$basePath || "/"==$basePath) {
@@ -206,7 +208,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			}
 			$host = explode(':', $_SERVER['HTTP_HOST']);
 			$serverName = $host[0];
-			$serverPort = isset($host[1]) ? $host[1] : (isset($_SERVER['HTTPS']) ? '443' : '80');
+			$serverPort = isset($host[1]) ? $host[1] : ($secure ? '443' : '80');
 		} else {
 			$serverName = 'NOTAVAILABLE.COM';
 			$serverPort = 80;
@@ -217,7 +219,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             'root_dir'  => dirname(Mage::getRoot()),
             'app_dir'   => dirname(Mage::getRoot()).DS.'app',
             'var_dir'   => $this->getTempVarDir(),
-            'protocol'  => isset($_SERVER['HTTPS']) ? 'https' : 'http',
+            'protocol'  => $secure ? 'https' : 'http',
             'host'      => $serverName,
             'port'      => $serverPort,
             'base_path' => $basePath,

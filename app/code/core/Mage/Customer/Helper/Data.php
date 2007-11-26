@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Customer data helper
  *
@@ -29,7 +29,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
-    
+
     /**
      * Retrieve logged in customer
      *
@@ -42,12 +42,12 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_customer;
     }
-        
+
     public function getCurrentCustomer()
     {
         return $this->getCustomer();
     }
-    
+
     public function getCustomerName()
     {
         return $this->getCustomer()->getName();
@@ -57,11 +57,11 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->getCustomer()->getLoadedAddressCollection()->count()>0;
     }
-    
+
     /**************************************************************************
      * Customer urls
      */
-    
+
     /**
      * Retrieve customer login url
      *
@@ -71,12 +71,12 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account/login');
     }
-    
+
     public function getLoginPostUrl()
     {
         return $this->_getUrl('customer/account/loginPost');
     }
-    
+
     /**
      * Retrieve customer logout url
      *
@@ -86,7 +86,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account/logout');
     }
-    
+
     /**
      * Retrieve customer dashboard url
      *
@@ -96,7 +96,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account');
     }
-    
+
     /**
      * Retrieve customer account page url
      *
@@ -106,7 +106,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account');
     }
-    
+
     /**
      * Retrieve customer register form url
      *
@@ -116,7 +116,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account/create');
     }
-    
+
     /**
      * Retrieve customer register form post url
      *
@@ -136,7 +136,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account/edit');
     }
-    
+
     public function getEditPostUrl()
     {
         return $this->_getUrl('customer/account/editpost');
@@ -151,6 +151,6 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('customer/account/forgotpassword');
     }
-    
-    
+
+
 }

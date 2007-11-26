@@ -33,13 +33,13 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
     {
         $this->_init('core/url_rewrite');
     }
-    
+
     public function loadByRequestPath($path)
     {
         $this->setId(null)->load($path, 'request_path');
         return $this;
     }
-        
+
     public function loadByIdPath($path)
     {
         $this->setId(null)->load($path, 'id_path');
@@ -49,7 +49,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
     public function loadByTags($tags)
     {
         $this->setId(null);
-        
+
         $loadTags = is_array($tags) ? $tags : explode(',', $tags);
 
         $search = $this->getResourceCollection();
@@ -62,31 +62,31 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         if (!is_null($this->getStoreId())) {
             $search->addStoreFilter($this->getStoreId());
         }
-        
+
         $search->setPageSize(1)->load();
-        
+
         if ($search->getSize()>0) {
             foreach ($search as $rewrite) {
                 $this->setData($rewrite->getData());
             }
         }
-        
+
         return $this;
     }
 
     public function hasOption($key)
     {
         $optArr = explode(',', $this->getOptions());
-        
+
         return array_search($key, $optArr) !== false;
     }
-    
+
     public function addTag($tags)
     {
         $curTags = $this->getTags();
-        
+
         $addTags = is_array($tags) ? $tags : explode(',', $tags);
-        
+
         foreach ($addTags as $k=>$t) {
             if (!is_numeric($k)) {
                 $t = $k.'='.$t;
@@ -95,18 +95,18 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
                 $curTags[] = $t;
             }
         }
-                
+
         $this->setTags($curTags);
-        
+
         return $this;
     }
-    
+
     public function removeTag($tags)
     {
         $curTags = $this->getTags();
-        
+
         $removeTags = is_array($tags) ? $tags : explode(',', $tags);
-        
+
         foreach ($removeTags as $t) {
             if (!is_numeric($k)) {
                 $t = $k.'='.$t;
@@ -115,12 +115,12 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
                 unset($curTags[$key]);
             }
         }
-        
+
         $this->setTags(',', $curTags);
-        
+
         return $this;
     }
-    
+
     public function rewrite(Zend_Controller_Request_Http $request=null, Zend_Controller_Response_Http $response=null)
     {
         if (is_null($request)) {
@@ -145,12 +145,12 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         if ($this->hasOption('R')) {
             header("Location: ".$targetUrl);
             exit;
-        } 
-        
+        }
+
         $request->setRequestUri($targetUrl);
         $request->setPathInfo($this->getTargetPath());
-        
+
         return true;
     }
-    
+
 }

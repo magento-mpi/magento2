@@ -98,7 +98,7 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 	
 	public function getScriptUrl()
 	{
-		if (empty($_SERVER['HTTPS'])) {
+		if (empty($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT']!=Mage::getStoreConfig('web/secure/port')) {
 			return 'http://www.google-analytics.com/urchin.js';
 		} else {
 			return 'https://ssl.google-analytics.com/urchin.js';

@@ -301,7 +301,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
      * )
      *
      * @see self::_getConditionSql for $condition
-     * @param string|array $attribute
+     * @param Mage_Eav_Model_Entity_Attribute_Interface|integer|string|array $attribute
      * @param null|string|array $condition
      * @param string $operator
      * @return Mage_Eav_Model_Entity_Collection_Abstract
@@ -312,6 +312,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
         	$this->getSelect();
         	return $this;
         }
+
+        if (is_numeric($attribute)) {
+            $attribute = $this->getEntity()->getAttribute($attribute)->getAttributeCode();
+        }
+        elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Interface) {
+            $attribute = $attribute->getAttributeCode();
+        }
+
     	if (is_array($attribute)) {
     		$sqlArr = array();
             foreach ($attribute as $condition) {
@@ -325,7 +333,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
             }
             $conditionSql = $this->_getAttributeConditionSql($attribute, $condition);
         }
-        $this->getSelect()->where($conditionSql);
+
+        if (!empty($conditionSql)) {
+            $this->getSelect()->where($conditionSql);
+        } else {
+            Mage::throwException('Invalid attribute identifier for filter ('.get_class($attribute).')');
+        }
+
         return $this;
     }
 

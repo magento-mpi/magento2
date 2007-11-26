@@ -45,8 +45,10 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         if (is_null($this->_productCollection)) {
             $collection = Mage::getSingleton('catalog/layer');
             if ($this->getShowRootCategory()) {
-                $categoryId = Mage::getStoreConfig('catalog/category/root_id');
-                $category = Mage::getModel('catalog/category')->load($categoryId);
+                $this->setCategoryId(Mage::getStoreConfig('catalog/category/root_id'));
+            }
+            if ($this->getCategoryId()) {
+                $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
                 $collection->setCurrentCategory($category);
             }
             $this->_productCollection = $collection->getProductCollection();

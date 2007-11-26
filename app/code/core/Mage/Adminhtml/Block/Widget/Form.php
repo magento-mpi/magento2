@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 $element = $fieldset->addField($attribute->getAttributeCode(), $inputType,
                     array(
                         'name'  => $attribute->getAttributeCode(),
-                        'label' => $attribute->getFrontend()->getLabel(),
+                        'label' => $this->__($attribute->getFrontend()->getLabel()),
                         'class' => $attribute->getFrontend()->getClass(),
                         'required' => $attribute->getIsRequired(),
                     )
@@ -102,14 +102,14 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
                 }
-                
+
                 if ($inputType == 'date') {
                     $element->setImage($this->getSkinUrl('images/grid-cal.gif'));
                 }
             }
         }
     }
-    
+
     protected function _addElementTypes(Varien_Data_Form_Abstract $baseElement)
     {
         $types = $this->_getAdditionalElementTypes();
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
         	$baseElement->addType($code, $className);
         }
     }
-    
+
     protected function _getAdditionalElementTypes()
     {
         return array();
