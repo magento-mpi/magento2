@@ -201,7 +201,7 @@ abstract class Mage_Core_Controller_Varien_Action
             return $this;
         }
         $this->generateLayoutXml();
-
+#echo "<pre>"; print_r($this->getLayout()->getNode()); echo "</pre>";
         if (!$generateBlocks) {
             return $this;
         }

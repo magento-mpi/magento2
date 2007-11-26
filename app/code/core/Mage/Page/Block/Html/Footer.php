@@ -79,7 +79,7 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
         }
         if(Mage::getStoreConfig('catalog/seo/search_terms')){
             $seolink['title']=$this->__('Search Terms');
-            $seolink['url']=$this->helper('catalog/map')->getSearchTermUrl();
+            $seolink['url']=$this->helper('catalogSearch/data')->getSearchTermUrl();
             $this->_seolinks[]=$seolink;            
         }     
     }

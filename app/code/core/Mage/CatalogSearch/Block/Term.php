@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Catalog_Block_Seo_Searchterm extends Mage_Core_Block_Template 
+class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template 
 {
 
     public function __construct()
@@ -29,7 +29,7 @@ class Mage_Catalog_Block_Seo_Searchterm extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'catalog.seo.pager');
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'catalogsearch.pager');
         $pager->setAvailableLimit(array(50=>50));
 		$pager->setCollection($this->getTermCollection());
         $pager->setShowPerPage(false);
