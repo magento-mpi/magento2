@@ -89,9 +89,17 @@ class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
             $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/paypal_direct/order_status'));
         } else {
             $e = $api->getError();
+            if (isset($e['short_message'])) {
+                $message = $e['short_message'];
+            } else {
+                $message = __("Unknown PayPal API error: %s", $e['code']);
+            }
+            if (isset($e['long_message'])) {
+                $message .= ': '.$e['long_message'];
+            }
             $payment
                 ->setStatus('ERROR')
-                ->setStatusDescription($e['short_message'].': '.$e['long_message']);
+                ->setStatusDescription($message);
         }
         return $this;
     }
