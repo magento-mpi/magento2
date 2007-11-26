@@ -30,7 +30,7 @@ class Mage_Core_Model_App
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
-    
+
     const DEFAULT_STORE_CODE    = 'base';
 
     /**
@@ -132,7 +132,7 @@ class Mage_Core_Model_App
 		Varien_Profiler::stop('app/construct');
 		return $this;
     }
-    
+
     /**
      * Initialize application store
      *
@@ -143,18 +143,19 @@ class Mage_Core_Model_App
     {
         $this->_store   = Mage::getSingleton('core/store');
         $this->_website = Mage::getSingleton('core/website');
-        
-        if ($store = $this->getFrontController()->getRequest()->get('store')) {
-            $code = $store;
+
+        #if ($store = $this->getFrontController()->getRequest()->get('store')) {
+        if (!empty($_REQUEST['store'])) {
+            $code = $_REQUEST['store'];
         }
-        
+
         /**
          * Check store code
          */
         if (!Mage::getConfig()->getNode('stores/'.$code)) {
             $code = self::DEFAULT_STORE_CODE;
         }
-        
+
         if ($this->isInstalled()) {
             $this->_store->loadConfig($code);
             if ($this->_store->getWebsiteId()) {
@@ -276,7 +277,7 @@ class Mage_Core_Model_App
         }
         return $this->_translator;
     }
-    
+
     /**
      * Retrieve application base currency code
      *
