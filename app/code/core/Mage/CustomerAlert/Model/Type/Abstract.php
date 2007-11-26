@@ -76,7 +76,6 @@ abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Ab
     
     public function setChecked($check, $newValue = null, $oldValue = null)
     {
-         
         $mod = Mage::getModel('customerAlert/alert_check')
                  ->set($this->getProductId(), $this->getStoreId, $this->type);
         if($check) {
@@ -89,6 +88,7 @@ abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Ab
             $this->setData('checked',false);
             $mod->removeChecked();
         }
+        return $this;
     }
     
     public function getDate()
