@@ -46,6 +46,16 @@ class Mage_Core_Model_Resource_Setup
         $this->_moduleConfig = $config->getModuleConfig($modName);
         $this->_conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
     }
+    
+    /**
+     * get Connection
+     *
+     * @return Varien_Db_Adapter_Mysqli
+     */
+    public function getConnection()
+    {
+        return $this->_conn;
+    }
 
     public function setTable($tableName, $realTableName)
     {

@@ -124,8 +124,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                     $emailModel = Mage::getModel('core/email_template');
                     $emailTo = trim($emailTo);
                     $recipient = $recipients_name[$key];
-                                      
-                	$emailModel->load(Mage::getStoreConfig('sendfriend/emTemplates/template'));
+                    $templ = Mage::getStoreConfig('sendfriend/email/template');
+                    if(!$templ){
+                        
+                        return false;                
+                    }
+                	$emailModel->load(Mage::getStoreConfig('sendfriend/email/template'));
                 	if (!$emailModel->getId()) {
                 		throw Mage::exception('Mage_Core', __('Invalid transactional email code'));
                 	}
@@ -138,7 +142,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                 	   'receiverName' => $recipient,
                 	   'receiverEmail' => $emailTo,
                 	   'product' => $product,
-                	   'message' => $sender['message']
+                	   'message' => strip_tags($sender['message'])
                 	   );
                 	
                 	if(!$emailModel->send($emailTo, $recipient, $vars)){
