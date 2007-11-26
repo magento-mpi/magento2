@@ -133,19 +133,18 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                 	if (!$emailModel->getId()) {
                 		throw Mage::exception('Mage_Core', __('Invalid transactional email code'));
                 	}
-                	$emailModel->setSenderName($sender['name']);
-                	$emailModel->setSenderEmail($sender['email']);
+                	$emailModel->setSenderName(strip_tags($sender['name']));
+                	$emailModel->setSenderEmail(strip_tags($sender['email']));
                 	
                 	$vars = array(
-                	   'senderName' => $sender['name'],
-                	   'senderEmail' => $sender['email'],
-                	   'receiverName' => $recipient,
-                	   'receiverEmail' => $emailTo,
+                	   'senderName' => strip_tags($sender['name']),
+                	   'senderEmail' => strip_tags($sender['email']),
+                	   'receiverName' => strip_tags($recipient),
+                	   'receiverEmail' => strip_tags($emailTo),
                 	   'product' => $product,
                 	   'message' => strip_tags($sender['message'])
                 	   );
-                	
-                	if(!$emailModel->send($emailTo, $recipient, $vars)){
+                	if(!$emailModel->send(strip_tags($emailTo), strip_tags($recipient), $vars)){
                 	    $errors[] = $emailTo;
                 	}
                 	
