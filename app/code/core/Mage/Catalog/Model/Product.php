@@ -843,4 +843,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
     }
+
+    public function getAttributeText($attributeCode)
+    {
+        return $this->getResource()
+            ->getAttribute($attributeCode)
+                ->getSource()
+                    ->getOptionText($this->getData($attributeCode));
+    }
 }
