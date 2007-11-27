@@ -27,12 +27,31 @@
  */
 class Mage_GiftMessage_Helper_Url extends Mage_Core_Helper_Url
 {
-    public function getEditUrl(Varien_Object $item, $type)
+    public function getEditUrl(Varien_Object $item, $type, $params=array())
     {
          if($item->getGiftMessageId()) {
-             return $this->_getUrl('giftmessage/index/edit', array('message'=>$item->getGiftMessageId(), 'item'=>$item->getId(), 'type'=>$type));
+             $params = array_merge($params, array('message'=>$item->getGiftMessageId(), 'item'=>$item->getId(), 'type'=>$type));
+             return $this->_getUrl('giftmessage/index/edit', $params);
          } else {
-             return $this->_getUrl('giftmessage/index/new', array('item'=>$item->getId(), 'type'=>$type));
+             $params = array_merge($params, array('item'=>$item->getId(), 'type'=>$type));
+             return $this->_getUrl('giftmessage/index/new', $params);
+         }
+    }
+
+    public function getButtonUrl($itemId, $type, $params=array())
+    {
+         $params = array_merge($params, array('item'=>$itemId, 'type'=>$type));
+         return $this->_getUrl('giftmessage/index/button', $params);
+    }
+
+    public function getSaveUrl($itemId, $type, $giftMessageId=null, $params=array())
+    {
+         if(!is_null($giftMessageId)) {
+             $params = array_merge($params, array('message'=>$giftMessageId, 'item'=>$itemId, 'type'=>$type));
+             return $this->_getUrl('giftmessage/index/save', $params);
+         } else {
+             $params = array_merge($params, array('item'=>$itemId, 'type'=>$type));
+             return $this->_getUrl('giftmessage/index/save', $params);
          }
     }
 } // Class Mage_GiftMessage_Helper_Url End

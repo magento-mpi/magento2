@@ -29,6 +29,6 @@ class Mage_GiftMessage_Model_Mysql4_Message_Collection extends Mage_Core_Model_M
 {
     protected function _construct()
     {
-        $this->_init('gift_message/message');
+        $this->_init('giftmessage/message');
     }
 } // Class Mage_GiftMessage_Model_Mysql4_Message_Collection End

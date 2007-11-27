@@ -38,12 +38,13 @@ class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract
         'order_address' => 'sales/order_address',
         'quote'         => 'sales/quote',
         'quote_item'    => 'sales/quote_item',
-        'quote_address' => 'sales/quote_address'
+        'quote_address' => 'sales/quote_address',
+        'quote_address_item' => 'sales/quote_address_item'
     );
 
     protected function _construct()
     {
-        $this->_init('gift_message/message');
+        $this->_init('giftmessage/message');
     }
 
     /**
@@ -71,4 +72,5 @@ class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract
     {
         return self::$_allowedEntityTypes;
     }
+
 } // Class Mage_GiftMessage_Model_Message End

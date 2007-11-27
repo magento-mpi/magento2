@@ -29,10 +29,11 @@ class Mage_GiftMessage_Block_Message_Helper extends Mage_Core_Block_Template
 {
     protected $_entity = null;
     protected $_type   = null;
+    static protected $_scriptIncluded = false;
 
     public function __construct()
     {
-        parent::construct();
+        parent::__construct();
         $this->setTemplate('giftmessage/helper.phtml');
     }
 
@@ -58,4 +59,29 @@ class Mage_GiftMessage_Block_Message_Helper extends Mage_Core_Block_Template
         return $this->_type;
     }
 
+    public function hasGiftMessage()
+    {
+        return $this->getEntity()->getGiftMessageId() > 0;
+    }
+
+    public function setScriptIncluded($value)
+    {
+        self::$_scriptIncluded = $value;
+        return $this;
+    }
+
+    public function getScriptIncluded()
+    {
+        return self::$_scriptIncluded;
+    }
+
+    public function getJsObjectName()
+    {
+        return $this->getId() . 'JsObject';
+    }
+
+    public function getEditUrl()
+    {
+        return $this->helper('giftmessage/url')->getEditUrl($this->getEntity(), $this->getType());
+    }
 } // Class Mage_GiftMessage_Block_Message_Helper End

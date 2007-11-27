@@ -376,7 +376,7 @@ New customer registration
         <reference name="content">
             <block type="customer/form_edit" name="customer_edit" template="customer/form/edit.phtml"/>
         </reference>
-        
+
         <reference name="left">
           <action method="unsetChild"><name>left.permanent.callout</name></action>
         </reference>
@@ -612,7 +612,7 @@ Product send to friend
             </block>
         </reference>
     </catalog_product_send>
-    
+
 <!--
 Product additional images gallery popup
 -->
@@ -655,6 +655,34 @@ Advanced search results
             <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result"></block>
         </reference>
     </catalogsearch_advanced_result>
+
+<!--
+Gift message add/edit form
+-->
+    <giftmessage_index_edit>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml"/>
+        </reference>
+    </giftmessage_index_edit>
+
+<!--
+Gift message save result
+-->
+    <giftmessage_index_save>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml" >
+                <action method="setSaveMode"><mode>1</mode></action>
+            </block>
+        </reference>
+    </giftmessage_index_save>
 
 <!--
 Shopping cart
@@ -1070,14 +1098,14 @@ One page checkout order review block
     </catalogsearch_result_index>
 <!--
 Site Map block
--->     
+-->
     <catalog_seo_sitemap_category>
     	<reference name="root">
     		<action method="setTemplate"><template>page/1column.phtml</template></action>
     	</reference>
     	<reference name="content">
-      		<block type="catalog/seo_sitemap_container" name="seo.container" template="catalog/seo/sitemap/container.phtml"/>       		
-    	</reference>    	
+      		<block type="catalog/seo_sitemap_container" name="seo.container" template="catalog/seo/sitemap/container.phtml"/>
+    	</reference>
     </catalog_seo_sitemap_category>
     <catalog_seo_sitemap_product>
     	<reference name="root">
@@ -1089,7 +1117,7 @@ Site Map block
     </catalog_seo_sitemap_product>
 <!--
 Catalog search terms block
--->     
+-->
     <catalogsearch_term_popular>
         <reference name="root">
     		<action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -1097,10 +1125,10 @@ Catalog search terms block
         <reference name="content">
             <block type="catalogsearch/term" name="seo.searchterm" template="catalogsearch/term.phtml"/>
         </reference>
-    </catalogsearch_term_popular>   
-    
+    </catalogsearch_term_popular>
+
     <CATEGORY_123>
-        
+
     </CATEGORY_123>
 
     <STORE_base>

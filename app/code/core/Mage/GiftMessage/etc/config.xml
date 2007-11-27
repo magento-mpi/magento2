@@ -22,26 +22,29 @@
 <config>
     <modules>
         <Mage_GiftMessage>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </Mage_GiftMessage>
     </modules>
     <global>
         <blocks>
-            <gift_message><class>Mage_GiftMessage_Block</class></gift_message>
+            <giftmessage><class>Mage_GiftMessage_Block</class></giftmessage>
         </blocks>
+         <helpers>
+            <giftmessage><class>Mage_GiftMessage_Helper</class></giftmessage>
+        </helpers>
         <models>
-            <gift_message>
+            <giftmessage>
                 <class>Mage_GiftMessage_Model</class>
-                <resourceModel>gift_message_mysql4</resourceModel>
-            </gift_message>
-            <gift_message_mysq4>
+                <resourceModel>giftmessage_mysql4</resourceModel>
+            </giftmessage>
+            <giftmessage_mysql4>
                 <class>Mage_GiftMessage_Model_Mysql4</class>
                 <entities>
                     <message>
                         <table>gift_message</table>
                     </message>
                 </entities>
-            </gift_message_mysq4>
+            </giftmessage_mysql4>
         </models>
         <resources>
             <giftmessage_setup>

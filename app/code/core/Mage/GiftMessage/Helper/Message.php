@@ -27,12 +27,53 @@
  */
 class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 {
+    const XPATH_CONFIG_GIFT_MESSAGE_ALLOW = 'sales/gift_messages/allow';
+    protected $_nextId = 0;
     public function getButton($type, Varien_Object $entity)
     {
-        return Mage::getSingleton('core/layout')->createBlock('gift_message/message_helper')
+        if (!$this->isMessagesAviable($type, $entity)) {
+            return '';
+        }
+
+        return Mage::getSingleton('core/layout')->createBlock('giftmessage/message_helper')
+            ->setId('giftmessage_button_' . $this->_nextId++)
+            ->setCanDisplayContainer(true)
             ->setEntity($entity)
             ->setType($type)->toHtml();
     }
 
+    public function isMessagesAviable($type, Varien_Object $entity)
+    {
+        if (Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW)) {
+            if ($type=='item') {
+                return $entity->getProduct()->getGiftMessageAviable();
+            } elseif ($type=='adress_item') {
+                return Mage::getModel('catalog/product')->load($entity->getProductId())->getGiftMessageAviable();
+            } else {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    public function getAviableForQuoteItems($quote)
+    {
+        foreach($quote->getAllItems() as $item) {
+            if($item->getProduct()->getGiftMessageAviable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getGiftMessage($messageId=null)
+    {
+        $message = Mage::getModel('giftmessage/message');
+        if(!is_null($messageId)) {
+            $message->load($messageId);
+        }
+
+        return $message;
+    }
 } // Class Mage_GiftMessage_Helper_Message End
