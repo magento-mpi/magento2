@@ -25,7 +25,6 @@ CREATE TABLE `customer_product_alert` (
     `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `customer_id` INT( 11 ) UNSIGNED NOT NULL ,
     `product_id` INT( 11 ) UNSIGNED NOT NULL ,
-    `store_id` INT( 11 ) UNSIGNED NOT NULL ,
     `type` VARCHAR( 255 ) NOT NULL
 ) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
 
