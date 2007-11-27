@@ -18,16 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<? if($this->helper('CustomerAlert')->isLoggedIn()): ?>
+<? if($this->helper('customer')->isLoggedIn()): ?>
         <script type="text/javascript" language="javascript">
         function alertError(){
             $('alerts-error').show(); 
             $('alerts-please-wait').hide();
             $('alerts-error').update('<?=__('Alerts does not save. Please try again')?>');
         }
-        function saveAlerts()
-        {
-            url = '<?=$this->helper('CustomerAlert')->getSaveAlertsUrl()?>';
+        function saveAlerts(){
+            url = '<?=$this->helper('customerAlert')->getSaveAlertsUrl()?>';
             $('alerts-please-wait').show();
             $('alerts-error').hide();
             elem = $$('.alert_input');
@@ -35,7 +34,7 @@
             for(a=0;a<elem.length;a++){
                 param[elem[a].id] = elem[a].checked;
             }
-            param['_product_id'] = <?=$this->helper('CustomerAlert')->getProductId();?>;
+            param['_product_id'] = <?=$this->helper('customerAlert')->getProductId();?>;
             new Ajax.Request( url, {
                 parameters : param,
                 onSuccess : function(req) 
@@ -62,7 +61,7 @@
                 <h4><?=$this->__('Product Alerts')?></h4>
             </div>
             <ul>
-            <? foreach ($this->helper('CustomerAlert')->getAlerts($this->helper('CustomerAlert')->getProductId()) as $key => $val): ?>
+            <? foreach ($this->helper('customerAlert')->getAlerts() as $key => $val): ?>
                 <li>
                     <input name="alerts[<?=$key?>]" value="1" id="<?=$key?>" type="checkbox" class="alert_input" <?=$val['checked']?'checked="checked"':''?> />&nbsp;
                     <label for="<?=$key?>"><?=$val['label']?></label>

@@ -416,7 +416,6 @@ abstract class Mage_Core_Model_Mysql4_Abstract
         $write->beginTransaction();
         try {
             $this->_beforeDelete($object);
-
             $write->delete($table, $write->quoteInto($this->getIdFieldName().'=?', $object->getId()));
 
             $this->_afterDelete($object);

@@ -28,40 +28,24 @@ class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Abstract
 {
     public function getSaveAlertsUrl()
     {
-         return $this->_getUrl('customeralert/Alert/saveAlerts');
+        return $this->_getUrl('customeralert/alert/savealerts');
     }
     
-    public function isLoggedIn()
+    public function getAlerts()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
-    }
-    
-    public function getAlerts($product_id)
-    {
-    	$customer_id = Mage::getModel('customer/session')->getId();
-        
-    	$res = Mage::getResourceModel('customeralert/type');
-    	
-    	$read = $res->getConnection('read');
-            
-    	$nodes = Mage::getConfig()->getNode('global/customeralert/types')->asArray();
-        $alerts = array();
-    	foreach ($nodes as $key=>$val ){
-    	    $alerts[$key] = array('label'=>$val['label']);
-    	    $select = $read
-                    ->select()
-                    ->from($res->getMainTable())
-                    ->where('customer_id = ?', $customer_id)
-                    ->where('product_id = ?', $product_id)
-    	            ->where('type = ?', $key);
-    	    
-    	    if($read->fetchOne($select->where('type = ?', $key))>0){
-    	       $alerts[$key]['checked'] = true;    
-    	    } else {
-    	       $alerts[$key]['checked'] = false;
-    	    }
-    	}
-    	return $alerts;
+    	$data['product_id'] = $this->getProductId();
+        $data['customer_id'] = Mage::getModel('customer/session')->getId();
+    	$data['store_id'] = Mage::app()->getStore()->getId();
+        $nodes = Mage::getModel('customeralert/config')->getAlerts();
+        foreach ($nodes as $key=>$val ){
+            $alerts[$key] = array('label'=>$val['label']);
+            $alerts[$key]['checked'] = Mage::getModel('customeralert/config')
+                ->getAlertByType($key)
+                ->addData($data)
+                ->loadByParam()
+                ->isChecked();
+        }
+        return $alerts;
     }
     
     public function getProductId()

@@ -30,7 +30,7 @@ class Mage_CustomerAlert_Model_Type_PriceLowered extends Mage_CustomerAlert_Mode
 {
     public function __construct()
     {
-    	$this->type = 'price_is_lowered';
+    	$this->setType('price_is_lowered');
     	#$this->setCheckedText = __('Price lowered from %f to %f');
     	parent::__construct();
     }
@@ -42,17 +42,19 @@ class Mage_CustomerAlert_Model_Type_PriceLowered extends Mage_CustomerAlert_Mode
     
     public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
-        if($oldProduct->getPrice()>$newProduct->getPrice()){
-            $this->setChecked(true, $newProduct->getPrice(), $oldProduct->getPrice());
-        }
+       # if($oldProduct->getPrice()>$newProduct->getPrice()){
+            $this->addAlert(true, $newProduct->getPrice(), $oldProduct->getPrice());
+       # }
     }
     
-    public function getCheckedText()
+    public function getAlertHappenedText()
     {
-        return $this->getChecked()?
-             __('Price was changed from').' '.$this->_oldValue.' '.__('to').' '.$this->_newValue. ' ' .'at'.' '. $this->_date:
-             ''; 
+        return __('Price was changed from %s to %s at %s',$this->_oldValue,$this->_newValue,$this->_date);
     }
     
+    public function getAlertNotHappenedText()
+    {
+        return '';
+    }
     
 }

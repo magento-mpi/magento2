@@ -27,39 +27,44 @@ class Mage_CustomerAlert_Model_Observer
 {
     protected $_oldProduct;
     
+    protected function _getIdsForCheck($data){
+        return $rows = Mage::getModel('customeralert/type')
+                ->addData($data)
+                ->loadByParam();
+    }
+    
+    protected function _getData($newProduct)
+    {
+        $data = array(
+            'product_id' => $newProduct->getId(),
+            'store_id'   => $newProduct->getStoreId(), 
+        ); 
+        return $data;
+    }
     
     public function catalogProductSaveBefore($observer)
     {
         $newProduct = $observer->getEvent()->getProduct();
-        $product_id = $newProduct->getId();
-        
-        $oldProduct = Mage::getModel('catalog/product')
-                        ->load($product_id);
-        
-        $this->_oldProduct = $oldProduct;
-        
-        $res = Mage::getResourceModel('customeralert/type');
-        $rows = $res->loadIds($product_id,$newProduct->getType());
-        
+        $data = $this->_getData($newProduct);
+        $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
+        $rows = $this->_getIdsForCheck($data);
         foreach ($rows as $row) {
-            $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
-                ->load($row['id']);
-            $mod->checkBefore($oldProduct,$newProduct);
+            Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+                ->addData($data)
+                ->checkBefore($this->_oldProduct,$newProduct);
         }
     }
     
     public function catalogProductSaveAfter($observer)
     {
+        $data = array();
         $newProduct = $observer->getEvent()->getProduct();
-        $product_id = $newProduct->getId();
-        $oldProduct = Mage::getModel('catalog/product')
-                        ->load($product_id);
-        $res = Mage::getResourceModel('customeralert/type');
-        $rows = $res->loadIds($product_id,$newProduct->getType());
+        $data = $this->_getData($newProduct);
+        $rows = $this->_getIdsForCheck($data);
         foreach ($rows as $row) {
-            $mod = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$row['type'].'/model'))
-                ->load($row['id']);
-            $mod->checkAfter($this->_oldProduct,$newProduct);
+            Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+                ->addData($data)
+                ->checkAfter($this->_oldProduct,$newProduct);
         }
     }
 }

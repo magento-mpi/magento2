@@ -35,14 +35,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
     
     public function getAlerts()
     {
-    	$res = Mage::getResourceModel('customeralert/type');
-    	$read = $res->getConnection('read');
-    	$nodes = Mage::getConfig()->getNode('global/customeralert/types')->asArray();
-        $alerts = array();
-    	foreach ($nodes as $key=>$val ){
-    	    $alerts[$key] = array('label'=>$val['label']);
-    	}
-    	return $alerts;	
+        return Mage::getModel('customeralert/config')
+    	   ->getAlerts();
     }   
     
 
@@ -51,19 +45,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
         $params = $this->getRequest()->getParams();
         $product_id = isset($params['id'])?$params['id']:0;
         $storeId = isset($params['store'])?$params['store']:0;
-
         if($storeId){
             $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
                 ->setId('AlertsBlockId');
             $messages = array();
             foreach ($this->getAlerts() as $key=>$val) {
-                $typeModel = Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'));
-                $customerIds = $typeModel 
+                $alertModel = Mage::getModel('customeralert/config')->getAlertByType($key);
+                $customerIds = $alertModel 
                              ->setProductId($product_id)
                              ->setStoreId($storeId)
-                             ->check()
                              ->loadCustomersId();
-                                 
                                    
                $accordion->addItem($key, array(
     	            'title'     => $val['label'],
@@ -75,10 +66,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
                                       ->setData('store',$storeId),
     	            'open'      => false,
                 ));
-                if($typeModel->getCheckedText())
-                    $messages[] = array('method'=>'notice','label'=>$typeModel->getCheckedText());
+                if($alertModel->getAlertText()){
+                    $messages[] = array('method'=>'notice','label'=>$alertModel->getAlertText());
+                }
             }
-            
             $button = $this->getLayout()->createBlock('adminhtml/widget_button');
             $this->setChild('accordion', $accordion);
             $this->setChild('addToQuery_button',
@@ -97,9 +88,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
             $message->getMessageCollection()->add(Mage::getSingleton('core/message')->$mess['method']($mess['label']));
         }
         $this->setChild('message', $message);
-            
-            
-        
         return parent::_prepareLayout();
     }
     

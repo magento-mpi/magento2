@@ -19,86 +19,32 @@
  */
 
 /**
- * Customer alert type model
+ * Customer alert type abstract model
  *
  * @category   Mage
  * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_CustomerAlert_Model_Type
 {
-    protected $_oldValue;
-    protected $_newValue;
-    protected $_date;
     
-    public function __construct()
-    {
-        $this->_init('customeralert/type');
-    }
-    
-    public function loadCustomersId()
-    {
-        $rows = $this->getResource()
-            ->loadIds($this->getProductId(), $this->getStoreId(), $this->type ,'fetchAll');
-        $customersId = array();
-        foreach ($rows as $val){
-            $customersId[] = $val['customer_id'];
-        }
-        return $customersId;
-    }
-    
-    public function addToQueue()
-    {
-        $res=Mage::getResourceModel('customeralert/queue');
-        $mod=Mage::getModel('customeralert/queue');
-        $res->addSubscribersToQueue($mod,array($this->getCustomerId()));    
-    }
-
-    
-    public function check()
-    {
-        $row = Mage::getModel('customerAlert/alert_check')
-            ->set($this->getProductId(), $this->getStoreId, $this->type)
-            ->loadIds('fetchAll');
-        if(count($row)>0){
-            $this->setData('checked',true);
-            $row = $row[0];
-            $this->_oldValue = $row['old_value'];
-            $this->_newValue = $row['new_value'];
-            $this->_date = $row['date'];
+    public function getAlertText()
+    {   
+        if($this->getAlertHappened()){
+            $changedValues = $this->getAlertChangedValues();
+            $this->_oldValue = $changedValues['old_value'];
+            $this->_newValue = $changedValues['new_value'];
+            $this->_date = $changedValues['date'];
+            return $this->getAlertHappenedText(); 
         } else {
-            $this->setData('checked',false);
+            return $this->getAlertNotHappenedText();            
         }
         
-        return $this;
     }
     
-    public function setChecked($check, $newValue = null, $oldValue = null)
-    {
-        $mod = Mage::getModel('customerAlert/alert_check')
-                 ->set($this->getProductId(), $this->getStoreId, $this->type);
-        if($check) {
-            $this->_newValue = $newValue;
-            $this->_oldValue = $oldValue;
-            $this->_date = now();
-            $mod->setChecked($this->_newValue, $this->_oldValue, $this->_date);
-            $this->setData('checked',true);
-        } else {
-            $this->setData('checked',false);
-            $mod->removeChecked();
-        }
-        return $this;
-    }
-    
-    public function getDate()
-    {
-        return $this->_date;
-    }
-    abstract public function getCheckedText();
+    abstract public function getAlertHappenedText();
+    abstract public function getAlertNotHappenedText();
     abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
     abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
-    
-    
-    
 }

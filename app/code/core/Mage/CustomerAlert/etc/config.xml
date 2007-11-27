@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CustomerAlert>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -96,13 +96,17 @@
                         <class>customeralert/observer</class>
                         <method>catalogProductSaveBefore</method>
                     </customeralert_observer_before>
+                </observers>
+            </catalog_product_save_before>
+            <catalog_product_save_after>
+                <observers>
                     <customeralert_observer_after>
                         <type>singleton</type>
                         <class>customeralert/observer</class>
                         <method>catalogProductSaveAfter</method>
                     </customeralert_observer_after>
                 </observers>
-            </catalog_product_save_before>
+            </catalog_product_save_after>
         </events>
     </adminhtml>
     <frontend>

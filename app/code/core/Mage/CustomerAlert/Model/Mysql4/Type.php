@@ -28,63 +28,42 @@
 
 class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstract
 {
-   public function __construct()
-   {
-   	   $this->_init('customeralert/alert','id');
-       parent::__construct();
-   }
-   
-   
-   public function updateById(Mage_Core_Model_Abstract $object, $bind, $id)
-   {
+    public function __construct()
+    {
+        $this->_init('customeralert/alert','id');
+        parent::__construct();
+    }
+    
+    public function loadByParam(Mage_Core_Model_Abstract $model, $fetch = 'fetchAll')
+    {
+        $data = $model->getData();
+        $read = $this->getConnection('read');
+        $select = $read
+            ->select()
+            ->from($this->getMainTable());
+        foreach ($data as $key=>$val) {
+            $select->where($key.' = ?',$val);
+        }
+        return $read->$fetch($select);
+    }
+    
+    public function updateById(Mage_Core_Model_Abstract $object, $bind, $id)
+    {
        if(!isset($bind[$this->getIdFieldName()])) $bind[$this->getIdFieldName()] = $id;
        $this->getConnection('write')
                 ->update($this->getMainTable(),$bind,$this->getIdFieldName().'='.$id);
-   }
-   
-   public function loadIds($product_id = null, $store_id = null, $type = null, $fetch = null)
-   {
+    }
+    
+    public function loadIds($product_id = null, $store_id = null, $type = null, $fetch = null)
+    {
        $read = $this->getConnection('read');
        $select = $read
             ->select()
             ->from($this->getMainTable());
             
-       if($product_id)$select->where('product_id = ?', $product_id);
-       if($type)$select->where('type = ?', $type);
-       if($store_id)$select->where('store_id = ?', $store_id);       
+              
        if(!$fetch)$fetch = 'fetchAll';           
        return $read->$fetch($select);
-   }
+    }
    
-   public function save(Mage_Core_Model_Abstract $object)
-   {
-        $customer_id = (int)$object->getData('customer_id');
-        $product_id = (int)$object->getData('product_id');
-        $type = (string)$object->getData('type');
-        $store_id = (int)$object->getData('store_id');
-        
-        $bind = array('customer_id'=>$customer_id,'product_id'=>$product_id, 'type'=>$type, 'store_id'=>$store_id);
-        $read = $this->getConnection('read');
-        $select = $read
-            ->select()
-            ->from($this->getMainTable())
-            ->where('customer_id = ?', $customer_id)
-            ->where('product_id = ?', $product_id)
-            ->where('type = ?', $type)
-            ->where('store_id = ?', $store_id);
-        $row = $read->fetchOne($select);
-        
-        if($row>0){
-            if($object->getData('checked')){
-                $this->updateById($object, $bind, $row);
-            } else {
-                $object->setId($row);
-                $object->delete();
-            }
-        } else {
-            if($object->getData('checked')){
-                parent::save($object);
-            }
-        }
-   }
 }

@@ -19,38 +19,30 @@
  */
 
 /**
- * Customer alert check model
+ * Customer alert cofig
  *
  * @category   Mage
  * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4_Abstract
+class Mage_CustomerAlert_Model_Config
 {
     
-    public function __construct()
+    public function getAlerts()
     {
-       $this->_init('customeralert/check','id');
-       parent::__construct();
+        return Mage::getConfig()->getNode('global/customeralert/types')->asArray();
     }
     
-    public function loadByParam(Mage_Core_Model_Abstract $model, $fetch='fetchAll')
+    public function getModelNameByType($type)
     {
-       $data['product_id'] = $model->getData('product_id');
-       $data['store_id'] = $model->getData('store_id');
-       $data['type'] = $model->getData('type');
-       
-       $read = $this->getConnection('read');
-       $select = $read
-            ->select()
-            ->from($this->getMainTable());
-        foreach ($data as $key=>$val){            
-            $select->where($key. '= ?', $val);
-        }
-        return $read->$fetch($select);
+        return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/model');
+    }
+    
+    public function getAlertByType($type)
+    {
+        return Mage::getModel($this->getModelNameByType($type));
+    }
+    
 
-    }
-    
 }
-?>

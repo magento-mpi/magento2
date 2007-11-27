@@ -27,25 +27,26 @@
  */
 class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Action
 {
-   
-   public function saveAlertsAction()
-     {
-         $customer_id = Mage::getModel('customer/session')->getId();
-         if($customer_id){
-             $params = $this->getRequest()->getParams();
-             if(isset($params['_product_id'])){
-                 $product_id = $params['_product_id'];
-                 $storeId = Mage::app()->getStore()->getId();
-                 unset($params['_product_id']);
-                 foreach ($params as $key => $val){
-                     Mage::getModel(Mage::getConfig()->getNode('global/customeralert/types/'.$key.'/model'))
-                         ->setCustomerId($customer_id)
-                         ->setProductId($product_id)
-                         ->setStoreId($storeId)
-                         ->setChecked($val)
-                         ->save();
+    public function saveAlertsAction()
+    {
+        $data = array();
+        $data['customer_id'] = Mage::getModel('customer/session')->getId();
+        if($data['customer_id']){
+            $params = $this->getRequest()->getParams();
+            if(isset($params['_product_id'])){
+                $data['product_id'] = $params['_product_id'];
+                $data['store_id'] = Mage::app()->getStore()->getId();
+                unset($params['_product_id']);
+                $alerts = Mage::getModel('customeralert/config')->getAlerts();
+                foreach ($alerts as $key => $val){
+                    if(isset($params[$key])){
+                        Mage::getModel('customeralert/config')->getAlertByType($key)   
+                            ->addData($data)
+                            ->checkByUser($params[$key])
+                            ->save();
+                    }
                 }
             }
-         }
-     }
+        }
+    }
 }

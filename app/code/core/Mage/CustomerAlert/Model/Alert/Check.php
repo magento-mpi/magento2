@@ -35,26 +35,52 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         
     }
     
-    public function loadIds($fetch)
+    public function addAlert()
     {
-        return $this->getResource()->loadIds($this->getProductId(), $this->getStoreId(), $this->getType(), $fetch);
+        $data = $this->getData();
+        $this->unsetData();
+        $this->addData(array(
+            'product_id' => $data['product_id'],
+            'store_id' => $data['store_id'],
+            'type' => $data['type'],
+        ));
+        $id = $this->loadByParam('fetchOne');
+        $this->unsetData();
+        if($id){
+            $this->setId($id);
+        }
+        $this->addData($data);
+        $this->save();
     }
     
-    public function set($product_id, $store_id, $type)
+    public function removeAlert()
     {
-        $this->setProductId($product_id);
-        $this->setStoreId($store_id);
-        $this->setType($type);
-        return $this;
+        $data = $this->getData();
+        $this->unsetData();
+        $this->addData(array(
+            'product_id' => $data['product_id'],
+            'store_id' => $data['store_id'],
+            'type' => $data['type'],
+        ));
+        $id = $this->loadByParam('fetchOne');
+        $this->unsetData();
+        if($id){
+            $this->setId($id);
+        }
+        $this->addData($data);
+        $this->delete();
+        $this->_alertHappen = false;
     }
     
-    public function setChecked($newValue, $oldValue, $date)
+    
+    public function loadByParam($fetch='fetchAll')
     {
-        $this->setData('new_value',$newValue);
-        $this->setData('old_value',$oldValue);
-        $this->setData('date',$date);
-        $this->getResource()->save($this);
-        return $this;    
+        return $this->getResource()->loadByParam($this, $fetch);
+    }
+    
+    public function isAlertHappened()
+    {
+        return $this->loadByParam('fetchOne');
     }
     
 }
