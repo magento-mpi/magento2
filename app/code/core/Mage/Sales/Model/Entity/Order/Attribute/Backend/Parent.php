@@ -26,10 +26,22 @@ class Mage_Sales_Model_Entity_Order_Attribute_Backend_Parent
     {
         parent::afterSave($object);
 
-        $object->getAddressesCollection()->save();
+        /*$object->getAddressesCollection()->save();
         $object->getItemsCollection()->save();
         $object->getPaymentsCollection()->save();
-        $object->getStatusHistoryCollection()->save();
+        $object->getStatusHistoryCollection()->save();*/
+        foreach ($object->getAddressesCollection() as $item) {
+        	$item->save();
+        }
+        foreach ($object->getItemsCollection() as $item) {
+        	$item->save();
+        }
+        foreach ($object->getPaymentsCollection() as $item) {
+        	$item->save();
+        }
+        foreach ($object->getStatusHistoryCollection() as $item) {
+        	$item->save();
+        }
 
         return $this;
     }

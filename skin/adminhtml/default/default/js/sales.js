@@ -469,8 +469,8 @@ AdminOrder.prototype = {
                 if(this.loadingAreas.indexOf('messages'==-1)) this.loadingAreas.push('messages');
                 for(var i=0; i<this.loadingAreas.length; i++){
                     var id = this.loadingAreas[i];
-                    if(response[id] && $(this.getAreaId(id))){
-                        $(this.getAreaId(id)).update(response[id]);
+                    if($(this.getAreaId(id))){
+                        $(this.getAreaId(id)).update(response[id] ? response[id] : '');
                     }
                 }
             }.bind(this)

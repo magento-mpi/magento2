@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 {
     /**
      * Quote model object
@@ -42,6 +42,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
+        if ($this->getHasError()) {
+            $quote->setHasError(true);
+        }
         return $this;
     }
 
@@ -55,63 +58,56 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
         return $this->_quote;
     }
 
+    protected function _prepareQty($qty)
+    {
+        $qty = floatval($qty);
+        $qty = ($qty > 0) ? $qty : 1;
+        return $qty;
+    }
+    
     /**
-     * Import item data from product model object
+     * Adding quantity to quote item
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   float $qty
      * @return  Mage_Sales_Model_Quote_Item
      */
-    public function importCatalogProduct(Mage_Catalog_Model_Product $product)
+    public function addQty($qty)
     {
-        $this->setProductId($product->getId())
-            ->setSku($product->getSku())
-            ->setImage($product->getImage())
-            ->setName($product->getName())
-            ->setWeight($product->getWeight())
-            ->setTaxClassId($product->getTaxClassId())
-            ->setQty($product->getQuoteQty())
-            ->setCost($product->getCost());
-
-        if($product->getSuperProduct()) {
-        	$this->setSuperProductId($product->getSuperProduct()->getId());
-        }
-
+        $oldQty = $this->getQty();
+        $qty = $this->_prepareQty($qty);
+        $this->setQty($oldQty+$qty);
+        return $this;
+    }
+    
+    /**
+     * Declare quote item quantity
+     *
+     * @param   float $qty
+     * @return  Mage_Sales_Model_Quote_Item
+     */
+    public function setQty($qty)
+    {
+        $qty = $this->_prepareQty($qty);
+        $this->setData('qty', $qty);
+        
+        Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
+        
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Retrieve product model object associated with item
      *
-     * @return Mage_Sales_Model_Quote_Item
+     * @return Mage_Catalog_Model_Product
      */
-    public function calcRowTotal()
+    public function getProduct()
     {
-        $this->setRowTotal($this->getPrice()*$this->getQty());
-        return $this;
+    	if (!$this->hasData('product') && $this->getProductId()) {
+    		$this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
+    	}
+    	return $this->getData('product');
     }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Quote_Item
-     */
-    public function calcRowWeight()
-    {
-        $this->setRowWeight($this->getWeight()*$this->getQty());
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Quote_Item
-     */
-    public function calcTaxAmount()
-    {
-        $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
-        return $this;
-    }
-
+    
     /**
      * Enter description here...
      *
@@ -132,13 +128,5 @@ class Mage_Sales_Model_Quote_Item extends Mage_Core_Model_Abstract
             ->setCost($item->getCost()) // TODO
         ;
         return $this;
-    }
-
-    public function getProduct()
-    {
-    	if (!$this->hasData('product') && $this->getProductId()) {
-    		$this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
-    	}
-    	return $this->getData('product');
     }
 }

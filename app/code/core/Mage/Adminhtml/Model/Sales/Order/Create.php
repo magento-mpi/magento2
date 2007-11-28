@@ -567,7 +567,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     protected function _validate()
     {
-        $hasError = false;
+        $items = $this->getQuote()->getAllItems();
+        
+        $hasError = $this->getQuote()->getHasError();
         
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getSession()->addError(__('Shipping method must be specified'));

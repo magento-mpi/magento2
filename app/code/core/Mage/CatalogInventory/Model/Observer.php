@@ -23,13 +23,13 @@
  *
  * @category   Mage
  * @package    Mage_CatalogInventory
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_CatalogInventory_Model_Observer
 {
     /**
-     * Adding stock information to product
-     *
+     * Add stock information to product
+     * 
      * @param   Varien_Event_Observer $observer
      * @return  Mage_CatalogInventory_Model_Observer
      */
@@ -37,6 +37,13 @@ class Mage_CatalogInventory_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         Mage::getModel('cataloginventory/stock_item')->assignProduct($product);
+        return $this;
+    }
+    
+    public function addInventoryDataToCollection($observer)
+    {
+        $productCollection = $observer->getEvent()->getCollection();
+        Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
         return $this;
     }
     
@@ -49,6 +56,7 @@ class Mage_CatalogInventory_Model_Observer
     public function saveInventoryData($observer)
     {
         $product = $observer->getEvent()->getProduct();
+        
         if (is_null($product->getStockData())) {
             return $this;
         }
@@ -75,5 +83,48 @@ class Mage_CatalogInventory_Model_Observer
         }
         return $this;
         
+    }
+    
+    /**
+     * Check product inventory data when quote item quantity declaring
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function checkQuoteItemQty($observer)
+    {
+        $qty = $observer->getEvent()->getQty();
+        $item= $observer->getEvent()->getItem();
+        if (!$item || !$item->getProductId()) {
+            return $this;
+        }
+        
+        /**
+         * Try retrieve stock item object from product
+         */
+        if ($item->getProduct() && $item->getProduct()->getStockItem()) {
+            $stockItem = $item->getProduct()->getStockItem();
+        }
+        elseif ($item->getStockItem()){
+            $stockItem = $item->getStockItem();
+        }
+        else{
+            $stockItem = Mage::getModel('cataloginventory/stock_item');
+        }
+        
+        $stockItem->checkQuoteItemQty($item);
+        return $this;
+    }
+    
+    public function createOrderItem($observer)
+    {
+        $item = $observer->getEvent()->getItem();
+        /**
+         * Before creating order item need subtract ordered qty from product stock
+         */
+        if (!$item->getId()) {
+            Mage::getSingleton('cataloginventory/stock')->registerItemSale($item);
+        }
+        return $this;
     }
 }

@@ -29,13 +29,64 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
     const BACKORDERS_BELOW  = 1;
     const BACKORDERS_YES    = 2;
     
+    /**
+     * Retrieve stock identifier
+     *
+     * @return int
+     */
     public function getId()
     {
         return 1;
     }
     
-    public function hasProduct(Mage_Catalog_Model_Product $product)
+    /**
+     * Add stock item objects to products
+     *
+     * @param   collection $products
+     * @return  Mage_CatalogInventory_Model_Stock
+     */
+    public function addItemsToProducts($productCollection)
     {
-        
+        $items = $this->getItemCollection()
+            ->addProductsFilter($productCollection)
+            ->load();
+        foreach ($items as $item) {
+        	if ($product = $productCollection->getItemById($item->getProductId())) {
+        	    $item->assignProduct($product);
+        	}
+        }
+        return $this;
+    }
+    
+    /**
+     * Retrieve items collection object with stock filter
+     *
+     * @return unknown
+     */
+    public function getItemCollection()
+    {
+        return Mage::getResourceModel('cataloginventory/stock_item_collection')
+            ->addStockFilter($this->getId());
+    }
+    
+    /**
+     * Subtract ordered qty for product
+     *
+     * @param   Varien_Object $item
+     * @return  Mage_CatalogInventory_Model_Stock
+     */
+    public function registerItemSale(Varien_Object $item)
+    {
+        if ($productId = $item->getProductId()) {
+            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            if ($stockItem->checkQty($item->getQtyOrdered())) {
+                $stockItem->subtractQty($item->getQtyOrdered())
+                    ->save();
+            }
+        }
+        else {
+            Mage::throwException(__('Can not specify product identifier for order item'));
+        }
+        return $this;
     }
 }

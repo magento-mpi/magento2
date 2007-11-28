@@ -45,7 +45,7 @@ CREATE TABLE `cataloginventory_stock` (
   `stock_id` smallint(4) unsigned NOT NULL auto_increment,
   `stock_name` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`stock_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Catalog inventory Stocks list';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog inventory Stocks list';
 
 insert  into `cataloginventory_stock`(`stock_id`,`stock_name`) values (1, 'Default');
 
@@ -67,11 +67,11 @@ CREATE TABLE `cataloginventory_stock_item` (
   KEY `FK_CATALOGINVENTORY_STOCK_ITEM_STOCK` (`stock_id`),
   CONSTRAINT `FK_CATALOGINVENTORY_STOCK_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOGINVENTORY_STOCK_ITEM_STOCK` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Invetory Stock Item Data';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invetory Stock Item Data';
 
 ALTER TABLE `cataloginventory_stock_item` ADD UNIQUE INDEX IDX_STOCK_PRODUCT(`product_id`, `stock_id`);
 
-insert into cataloginventory_stock_item select null, entity_id,	1, 100,	0, 1, 0, 0, 1, 1 from catalog_product_entity;
+insert into cataloginventory_stock_item select null, entity_id, 1, 100, 0, 1, 0, 0, 1, 1 from catalog_product_entity;
 
 ");
 $installer->endSetup();

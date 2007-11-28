@@ -27,12 +27,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         return $this;
     }
 
-    protected function _backToProduct($productId)
-    {
-        $this->_redirect('catalog/product/view', array('id'=>$productId));
-        return $this;
-    }
-
     public function getQuote()
     {
         if (empty($this->_quote)) {
@@ -63,16 +57,15 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $cart->save();
         Varien_Profiler::stop('SAVECART: '.__METHOD__);
 
-        if (!$this->_getCart()->isValidItemsQty()) {
-            Mage::getSingleton('checkout/session')
-                ->addError(__('The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s).'));
-        }
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
 
         $this->renderLayout();
     }
-
+    
+    /**
+     * Adding product to shopping cart action
+     */
     public function addAction()
     {
         $productId       = (int) $this->getRequest()->getParam('product');
@@ -95,8 +88,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             }
         }
 
-        $cart = $this->_getCart();
         try {
+            $cart = $this->_getCart();
             $product = Mage::getModel('catalog/product')
                 ->load($productId)
                 ->setConfiguredAttributes($this->getRequest()->getParam('super_attribute'))
@@ -107,7 +100,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->save();
             $this->_backToCart();
         }
-        catch (Exception $e) {
+        catch (Mage_Core_Exception $e){
             if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
                 Mage::getSingleton('checkout/session')->addNotice($e->getMessage());
             }
@@ -122,25 +115,36 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 $this->_backToCart();
             }
         }
+        catch (Exception $e) {
+            Mage::getSingleton('checkout/session')->addException($e, __('Can not add item to shopping cart'));
+            $this->_backToCart();
+        }
     }
-
+    
+    /**
+     * Update shoping cart data action
+     */
     public function updatePostAction()
     {
-        $cartData = $this->getRequest()->getParam('cart');
-        $cart = $this->_getCart();
         try {
+            $cartData = $this->getRequest()->getParam('cart');
+            $cart = $this->_getCart();
             $cart->updateItems($cartData)
                 ->save();
         }
-        catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addError(__('Cannot update shopping cart'));
+        catch (Mage_Core_Exception $e){
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
         }
-        $this->_backToCart();
-
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        catch (Exception $e){
+            Mage::getSingleton('checkout/session')->addException($e, __('Cannot update shopping cart'));
+        }
+        
         $this->_backToCart();
     }
-
+    
+    /**
+     * Move shopping cart item to wishlist action
+     */
     public function moveToWishlistAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -153,7 +157,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
         $this->_backToCart();
     }
-
+    
+    /**
+     * Delete shoping cart item action
+     */
     public function deleteAction()
     {
     	$id = $this->getRequest()->getParam('id');

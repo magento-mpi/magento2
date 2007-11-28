@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Checkout
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Abstract
 {

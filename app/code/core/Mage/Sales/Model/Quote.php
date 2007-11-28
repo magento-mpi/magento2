@@ -70,18 +70,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * Entity resource
-     *
-     * dummy function for correct zend studio autocompletion
-     *
-     * @return Mage_Eav_Model_Entity_Abstract
-     */
-    public function getResource()
-    {
-        return parent::getResource();
-    }
-
     public function toArray(array $arrAttributes = array())
     {
         $arr = parent::toArray($arrAttributes);
@@ -316,7 +304,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
 /*********************** ITEMS ***************************/
-
+    
+    /**
+     * Retrieve quote items collection
+     *
+     * @param   bool $loaded
+     * @return  Mage_Eav_Model_Entity_Collection_Abstract
+     */
     public function getItemsCollection($loaded = true)
     {
         if (is_null($this->_items)) {
@@ -340,7 +334,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve quote items array
      *
      * @return array
      */
@@ -354,12 +348,22 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $items;
     }
-
+    
+    /**
+     * Checking items availability
+     *
+     * @return bool
+     */
     public function hasItems()
     {
         return sizeof($this->getAllItems())>0;
     }
-
+    
+    /**
+     * Checking availability of items with decimal qty
+     *
+     * @return bool
+     */
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
@@ -371,10 +375,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve item model object by item identifier
      *
-     * @param int $itemId
-     * @return Mage_Sales_Model_Quote_Item
+     * @param   int $itemId
+     * @return  Mage_Sales_Model_Quote_Item
      */
     public function getItemById($itemId)
     {
@@ -385,7 +389,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return false;
     }
-
+    
+    /**
+     * Remove quote item by item identifier
+     *
+     * @param   int $itemId
+     * @return  Mage_Sales_Model_Quote
+     */
     public function removeItem($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -396,7 +406,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-
+    
+    /**
+     * Adding new item to quote
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  Mage_Sales_Model_Quote
+     */
     public function addItem(Mage_Sales_Model_Quote_Item $item)
     {
         $item->setQuote($this)
@@ -407,17 +423,43 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function addCatalogProduct(Mage_Catalog_Model_Product $product)
+    /**
+     * Adding product to quote
+     *
+     * @param   mixed $product
+     * @return  Mage_Sales_Model_Quote
+     */
+    public function addProduct($product)
     {
-        if (!$product->getQuoteQty()) {
-            $product->setQuoteQty(1);
+        if (is_int($product)) {
+            $product = Mage::getModel('catalog/product')
+                ->setStore($this->getStore())
+                ->load($product);
         }
-
+        
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $this->addCatalogProduct($product);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Adding catalog product object data to quote
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  unknown
+     */
+    public function addCatalogProduct(Mage_Catalog_Model_Product $product, $qty=1)
+    {
         $item = $this->getItemByProduct($product);
         if (!$item) {
             $item = Mage::getModel('sales/quote_item');
         }
-        $item->importCatalogProduct($product);
+        /* @var $item Mage_Sales_Model_Quote_Item */
+        
+        $item->importCatalogProduct($product)
+            ->addQty($qty);
 
         $this->addItem($item);
 
@@ -463,26 +505,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $qty;
     }
     
-    /**
-     * Adding product to quote
-     *
-     * @param   mixed $product
-     * @return  Mage_Sales_Model_Quote
-     */
-    public function addProduct($product)
-    {
-        if (is_int($product)) {
-            $product = Mage::getModel('catalog/product')
-                ->setStore($this->getStore())
-                ->load($product);
-        }
-        
-        if ($product instanceof Mage_Catalog_Model_Product) {
-            $this->addCatalogProduct($product);
-        }
-        
-        return $this;
-    }
 /*********************** PAYMENTS ***************************/
 
     public function getPaymentsCollection()

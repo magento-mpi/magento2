@@ -271,4 +271,10 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        Mage::dispatchEvent('sales_order_item_save_before', array('item'=>$this));
+        return $this;
+    }
 }

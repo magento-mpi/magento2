@@ -36,12 +36,12 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item extends Mage_Core_Model_Mysq
      * Loading stock item data by product
      *
      * @param   Mage_CatalogInventory_Model_Stock_Item $item
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   int $productId
      * @return  Mage_Core_Model_Mysql4_Abstract
      */
-    public function loadByProduct(Mage_CatalogInventory_Model_Stock_Item $item, Mage_Catalog_Model_Product $product)
+    public function loadByProductId(Mage_CatalogInventory_Model_Stock_Item $item, $productId)
     {
-        $select = $this->_getLoadSelect('product_id', $product->getId(), $item)
+        $select = $this->_getLoadSelect('product_id', $productId, $item)
             ->where('stock_id=?', $item->getStockId());
             
         $item->setData($this->getConnection('read')->fetchRow($select));

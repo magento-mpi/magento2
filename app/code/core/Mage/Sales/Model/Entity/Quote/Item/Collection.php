@@ -40,4 +40,58 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         $this->addAttributeToFilter('parent_id', $quoteId);
         return $this;
     }
+    
+    protected function _afterLoad()
+    {
+        $productCollection = $this->_getProductCollection();
+        foreach ($this as $item) {
+            $product = $productCollection->getItemById($item->getProductId());
+            
+            if (!$product) {
+                continue;
+            }
+            
+            if ($item->getSuperProductId()) {
+                $superProduct = $productCollection->getItemById($item->getSuperProductId());
+            }
+            else {
+                $superProduct = null;
+            }
+            
+            $itemProduct = clone $product;
+            if ($superProduct) {
+                $itemProduct->setSuperProduct($superProduct);
+                $item->setSuperProduct($superProduct);
+            }
+        	
+            $item->importCatalogProduct($itemProduct);
+            $item->checkData();
+        }
+        return $this;
+    }
+    
+    protected function _getProductCollection()
+    {
+    	$productIds = array();
+        foreach ($this as $item) {
+			$productIds[$item->getProductId()] = $item->getProductId();
+			if ($item->getSuperProductId()) {
+			    $productIds[$item->getSuperProductId()] = $item->getSuperProductId();
+			}
+			if ($item->getParentProductId()) {
+			    $productIds[$item->getSuperProductId()] = $item->getParentProductId();
+			}
+        }
+        
+        if (empty($productIds)) {
+            $productIds[] = false;
+        }
+        
+        $collection = Mage::getResourceModel('catalog/product_collection');
+        $collection->getEntity()->setStore($this->getEntity()->getStore());
+        $collection->addAttributeToFilter('entity_id', array('in'=>$productIds))
+       	    ->addAttributeToSelect('*')
+       	    ->load();
+       	return $collection;
+    }
 }

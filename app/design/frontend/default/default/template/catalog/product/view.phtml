@@ -87,7 +87,11 @@
             <?endif;?>
 
             <?if(!$_product->isSuperGroup()):?>
+                <?if($_product->isSaleable()):?>
                 <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <?else:?>
+                <p><small><?=$this->__('Availability: Out of stock.')?></small></p>
+                <?endif;?>
                 <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
                 <?if($_product->isSaleable()):?>
                 <fieldset class="add-to-cart-box">

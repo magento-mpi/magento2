@@ -23,6 +23,10 @@
     <modules>
         <Mage_CatalogInventory>
             <version>0.1.0</version>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Sales />
+            </depends>
         </Mage_CatalogInventory>
     </modules>
     <global>
@@ -63,6 +67,47 @@
                 </connection>
             </cataloginventory_read>
         </resources>
+        
+        <events>
+            <catalog_product_load_after>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>addInventoryData</method>
+                    </inventory>
+                </observers>
+            </catalog_product_load_after>
+            <catalog_product_collection_load_after>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>addInventoryDataToCollection</method>
+                    </inventory>
+                </observers>
+            </catalog_product_collection_load_after>
+            <sales_quote_item_qty_set_after>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>checkQuoteItemQty</method>
+                    </inventory>
+                </observers>
+            </sales_quote_item_qty_set_after>
+            <sales_order_item_save_before>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>createOrderItem</method>
+                    </inventory>
+                </observers>
+            </sales_order_item_save_before>
+            
+        </events>
+        
     </global>
     
     <frontend>
@@ -79,15 +124,6 @@
 
     <adminhtml>
         <events>
-            <catalog_product_load_after>
-                <observers>
-                    <inventory>
-                        <type>singleton</type>
-                        <class>cataloginventory/observer</class>
-                        <method>addInventoryData</method>
-                    </inventory>
-                </observers>
-            </catalog_product_load_after>
             <catalog_product_save_after>
                 <observers>
                     <inventory>

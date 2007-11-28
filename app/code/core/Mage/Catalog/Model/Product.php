@@ -831,6 +831,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function isSalable()
     {
+        $salable = $this->getData('is_salable');
+        if (!is_null($salable)) {
+            return $salable;
+        }
         return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
     }
 

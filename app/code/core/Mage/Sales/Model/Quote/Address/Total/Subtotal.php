@@ -33,16 +33,14 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
 
         $items = $address->getAllItems();
         if (count($items)) {
-            $products = $this->_getItemsProductCollection($items, $address->getStoreId());
             foreach ($items as $item) {
-            	if (!$this->_initItem($address, $item, $products) || $item->getQty()<=0) {
+            	if (!$this->_initItem($address, $item) || $item->getQty()<=0) {
             	    $this->_removeItem($address, $item);
             	}
             }
         }
 
         $address->setGrandTotal($address->getSubtotal());
-
         return $this;
     }
 
@@ -50,44 +48,24 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
      * Address item initialization
      *
      * @param  $item
-     * @param  $products
      * @return bool
      */
-    protected function _initItem($address, $item, $products)
+    protected function _initItem($address, $item)
     {
-        $product = $products->getItemById($item->getProductId());
-        if ($item->getSuperProductId()) {
-            $superProduct = $products->getItemById($item->getSuperProductId());
-        }
-        else {
-            $superProduct = null;
-        }
-
-        if (!$product || !$product->isVisibleInCatalog() || ($superProduct && !$superProduct->isVisibleInCatalog())) {
+    	if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
+    	    $quoteItem = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId());
+    	} 
+    	else {
+    	    $quoteItem = $item;
+    	}
+    	$product = $quoteItem->getProduct();
+    	$superProduct = $quoteItem->getSuperProduct();
+        
+    	if (!$product || !$product->isVisibleInCatalog() || ($superProduct && !$superProduct->isVisibleInCatalog())) {
             return false;
         }
 
-        $itemProduct = clone $product;
-
-    	if ($superProduct) {
-    	    $itemProduct->setSuperProduct($superProduct);
-    	    $item->setSuperProduct($superProduct);
-    	}
-
-    	if ($item instanceof Mage_Sales_Model_Quote_Item) {
-    	    $qty = $item->getQty();
-    	} elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
-    	    $qty = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId())->getQty();
-    	} else {
-    	    $qty = 1;
-    	}
-    	$item->setPrice($itemProduct->getFinalPrice($qty));
-    	$item->setName($itemProduct->getName());
-    	$item->setTaxClassId($itemProduct->getTaxClassId());
-    	$item->setWeight($itemProduct->getWeight());
-    	$item->setStatus($itemProduct->getStatus());
-    	$item->setProduct($itemProduct);
-
+    	$item->setPrice($product->getFinalPrice($quoteItem->getQty()));
     	$item->calcRowTotal();
         $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
         return true;
@@ -116,27 +94,6 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
 	    }
 
 	    return $this;
-    }
-
-    protected function _getItemsProductCollection($items, $storeId)
-    {
-    	$productIds = array();
-        foreach ($items as $item) {
-			$productIds[$item->getProductId()] = $item->getProductId();
-			if ($item->getSuperProductId()) {
-			    $productIds[$item->getSuperProductId()] = $item->getSuperProductId();
-			}
-			if ($item->getParentProductId()) {
-			    $productIds[$item->getSuperProductId()] = $item->getParentProductId();
-			}
-        }
-
-        $collection = Mage::getResourceModel('catalog/product_collection');
-        $collection->getEntity()->setStore($storeId);
-        $collection->addAttributeToFilter('entity_id', array('in'=>$productIds))
-       	    ->addAttributeToSelect('*')
-       	    ->load();
-       	return $collection;
     }
 
     public function fetch(Mage_Sales_Model_Quote_Address $address)

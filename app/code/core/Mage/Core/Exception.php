@@ -27,7 +27,7 @@
  * @category   Mage
  * @package    Mage_Core
  */
-class Mage_Core_Exception extends Zend_Exception 
+class Mage_Core_Exception extends Exception 
 {
     protected $_messages = array();
 

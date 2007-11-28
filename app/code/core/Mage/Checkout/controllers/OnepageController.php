@@ -28,7 +28,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
     protected function _expireAjax()
     {
-        if (!$this->getOnepage()->getQuote()->hasItems()) {
+        if (!$this->getOnepage()->getQuote()->hasItems() || $this->getOnepage()->getQuote()->getHasError()) {
             $this->getResponse()
                 ->setHeader('HTTP/1.1', '403 Session Expired')
                 ->setHeader('Login-Required', 'true')
@@ -63,8 +63,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        #Mage::getSingleton('customer/session')->setTest('onepage');
-        if (!$this->getOnepage()->getQuote()->hasItems()) {
+        if (!$this->getOnepage()->getQuote()->hasItems() || $this->getOnepage()->getQuote()->getHasError()) {
             $this->_redirect('checkout/cart');
             return;
         }

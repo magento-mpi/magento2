@@ -101,6 +101,19 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         }
         return $this->getData('messages');
     }
+    
+    /**
+     * Not Mage exeption handling
+     *
+     * @param   Exception $exception
+     * @param   string $alternativeText
+     * @return  Mage_Core_Model_Session_Abstract
+     */
+    public function addException(Exception $exception, $alternativeText)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->error($alternativeText));
+        return $this;
+    }
 
     /**
      * Adding new message to message collection

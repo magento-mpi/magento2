@@ -60,6 +60,13 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         return $this;
     }
     
+    protected function _afterLoad()
+    {
+        Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
+        return $this;
+    }
+
+    
     public function joinMinimalPrice()
     {
         $this->addAttributeToSelect('price')

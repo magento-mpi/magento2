@@ -31,7 +31,12 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $this->setTemplate($this->getEmptyTemplate());
         }
     }
-
+    
+    public function hasError()
+    {
+        return $this->getQuote()->getHasError();
+    }
+    
     public function getItems()
     {
         $itemsFilter = new Varien_Filter_Object_Grid();

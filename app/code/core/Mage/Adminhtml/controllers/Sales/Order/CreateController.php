@@ -197,8 +197,17 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     public function loadBlockAction()
     {
-        $this->_initSession()
-            ->_processData();
+        try {
+            $this->_initSession()
+                ->_processData();
+        }
+        catch (Mage_Core_Exception $e){
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e){
+            $this->_getSession()->addException($e, __('Processing data problem'));
+        }
+        
             
         $asJson= $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
@@ -261,8 +270,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getSession()->clear();
             $url = $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
-        catch (Exception $e){
+        catch (Mage_Core_Exception $e){
             $this->_getSession()->addError($e->getMessage());
+            $url = $this->_redirect('*/*/');
+        }
+        catch (Exception $e){
+            $this->_getSession()->addException($e, __('Order saving error'));
             $url = $this->_redirect('*/*/');
         }
     }

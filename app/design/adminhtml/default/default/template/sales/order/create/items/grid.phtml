@@ -48,10 +48,15 @@
                 </thead>
                 <tbody>
                     <?foreach ($_items as $_item):?>
-                        <tr>
+                        <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
                             <td class="a-center"><?=$_item->getProductId()?></td>
                             <td><?=$_item->getSku()?></td>
-                            <td><?=$_item->getName()?></td>
+                            <td>
+                                <?=$_item->getName()?>
+                                <?if($_item->getMessage()):?>
+                                    <div><?=$_item->getMessage()?></div>
+                                <?endif;?>
+                            </td>
                             <td><nobr><?=$this->formatPrice($_item->getPrice())?></nobr></td>
                             <td><input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12"/></td>
                             <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>

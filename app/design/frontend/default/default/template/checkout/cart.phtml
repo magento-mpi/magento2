@@ -27,7 +27,9 @@
 ?>
 <div class="page-head-alt button-level">
     <h3><?=$this->__('Shopping Cart')?></h3>
+    <?if(!$this->hasError()):?>
     <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=$this->__('Proceed to Checkout')?>"/></a>
+    <?endif;?>
 	<!--<a class="img-btn btn-checkout" href="<?=$this->getCheckoutUrl()?>"><span><?=__('Proceed to Checkout')?></span></a>-->
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
@@ -64,13 +66,16 @@
     </tfoot>
     <tbody>
     <?foreach($this->getItems() as $_item):?>
-        <tr <?if(!$this->getItemIsInStock($_item)):?> class="out-of-stock"<?endif;?>>
+        <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
             <td>
                 <a href="<?=$this->getItemUrl($_item)?>"><img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/></a>
             </td>
             <td class="attributes-col">
                 <a href="<?=$this->getItemUrl($_item)?>"><strong><?=$this->getItemName($_item)?></strong></a>
                 <?=$this->getItemDescription($_item)?>
+                <?if($_item->getMessage()):?>
+                    <div><?=$_item->getMessage()?></div>
+                <?endif;?>
             </td>
             <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
             <?if($this->isWishlistActive()):?>
@@ -123,8 +128,10 @@
         </tfoot>
     </table>
     <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
+    <?if(!$this->hasError()):?>
     <ul class="checkout-types">
         <?=$this->getChildHtml('methods')?>
     </ul>
+    <?endif;?>
 </div>
 <div class="clear"></div>
