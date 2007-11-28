@@ -50,9 +50,9 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
             if ($availableTypes) {
                 $availableTypes = explode(',', $availableTypes);
                 foreach ($types as $code=>$name) {
-                	if (!in_array($code, $availableTypes)) {
-                	    unset($types[$code]);
-                	}
+                    if (!in_array($code, $availableTypes)) {
+                        unset($types[$code]);
+                    }
                 }
             }
         }
@@ -82,7 +82,11 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     public function hasVerification()
     {
         if ($this->getPaymentMethod()) {
-            return (bool) $this->getPaymentMethod()->getConfigData('useccv');
+            $configData = $this->getPaymentMethod()->getConfigData('useccv');
+            if(is_null($configData)){
+                return true;
+            }
+            return (bool) $configData;
         }
         return true;
     }
