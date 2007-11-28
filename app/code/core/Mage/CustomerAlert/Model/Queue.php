@@ -30,7 +30,13 @@ class Mage_CustomerAlert_Model_Queue extends Mage_Newsletter_Model_Queue
 {
 
     public function __construct(){
-        parent::__construct();
+        $this->_init('customeralert/queue');
+    }
+    
+    public function addSubscribersToQueue(array $subscriberIds)
+    {
+        $this->getResource()->addSubscribersToQueue($this, $subscriberIds);
+        return $this;
     }
 }
 

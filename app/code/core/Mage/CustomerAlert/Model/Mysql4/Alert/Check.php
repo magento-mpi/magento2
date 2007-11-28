@@ -34,12 +34,9 @@ class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4
         parent::__construct();
     }
     
-    public function loadByParam(Mage_Core_Model_Abstract $model, $fetch='fetchAll')
+    public function loadByParam(Mage_Core_Model_Abstract $checkModel, $fetch='fetchAll')
     {
-        $data['product_id'] = $model->getData('product_id');
-        $data['store_id'] = $model->getData('store_id');
-        $data['type'] = $model->getData('type');
-        
+        $data = $checkModel->getData();
         $read = $this->getConnection('read');
         $select = $read
             ->select()

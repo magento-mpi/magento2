@@ -26,7 +26,7 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
+class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
 {
     protected $_userCheck;
     
@@ -38,15 +38,46 @@ abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     {
         $this->_init('customeralert/type', 'id');
     }
-
+    
+    public function getParamValues()
+    {
+        $value = array();
+        if($this->getData('product_id')){
+            $value['product_id'] = $this->getData('product_id');
+        }
+        
+        if($this->getData('store_id')){
+            $value['store_id'] = $this->getData('store_id');
+        }
+        
+        if($this->getData('type')){
+            $value['type'] = $this->getData('type');
+        }
+        return $value;
+    }
+    
+    public function setParamValues($data)
+    {
+        $this->setData(array(
+            'product_id' => $data['product_id'],
+            'store_id' => $data['store_id'],
+        ));
+        return $this;
+    }
+    public function loadAllByParam()
+    {
+        return $this->getResource()->loadByParam($this);
+    }
+    
     public function loadByParam()
     {
-        $data = $this->getResource()->loadByParam($this);
+        $data = $this->loadAllByParam();
         if(isset($data[0])){
             $this->addData($data[0]);
         }
         return $this; 
     }
+    
     
     public function isChecked()
     {
@@ -56,7 +87,7 @@ abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     public function getAlertHappened()
     {
         return $this->_alertHappen = Mage::getModel('customeralert/alert_check')
-            ->addData($this->getData())
+            ->addData($this->getParamValues())
             ->isAlertHappened();
     }
     
@@ -72,14 +103,6 @@ abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
         }
     }
     
-    /*public function addToQueue()
-    {
-        $res=Mage::getResourceModel('customeralert/queue');
-        $mod=Mage::getModel('customeralert/queue');
-        $res->addSubscribersToQueue($mod,array($this->getCustomerId()));    
-    }*/
-    
-    
     public function checkByUser($value)
     {
         $this->_userCheck = ($value=='true') ? true : false;
@@ -89,7 +112,7 @@ abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     public function addAlert($check, $newValue = null, $oldValue = null)
     {
         $alertCheck = Mage::getModel('customeralert/alert_check')
-                ->addData($this->getData())
+                ->addData($this->getParamValues())
                 ->addData(array('new_value'=>$newValue,'old_value'=>$oldValue,'date'=>now()));     
         if($check) {
             $alertCheck->addAlert();
@@ -102,37 +125,22 @@ abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     public function getAlertChangedValues()
     {
         $values = Mage::getModel('customeralert/alert_check')
-            ->addData(array(
-                'product_id'=>$this->getData('product_id'),
-                'store_id'=>$this->getData('store_id'),
-                'type'=>$this->getData('type'),
-            ))
+            ->addData($this->getParamValues())
             ->loadByParam();
         return $values[0];
     }
     
     public function addCustomersToAlertQueue()
     {
-        
-    }
-    
-    public function getAlertText()
-    {   
-        if($this->getAlertHappened()){
-            $changedValues = $this->getAlertChangedValues();
-            $this->_oldValue = $changedValues['old_value'];
-            $this->_newValue = $changedValues['new_value'];
-            $this->_date = $changedValues['date'];
-            return $this->getAlertHappenedText(); 
-        } else {
-            return $this->getAlertNotHappenedText();            
+        if($this->getAlertHappened())
+        {
+            $rows = $this->loadAllByParam();
+            $customersId = array();
+            foreach ($rows as $row){
+                $customersId[] = $row['customer_id'];
+            }
+            Mage::getModel('customeralert/queue')
+                ->addSubscribersToQueue($customersId);
         }
-        
     }
-    
-    abstract public function getAlertHappenedText();
-    abstract public function getAlertNotHappenedText();
-    abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
-    abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
-    
 }

@@ -21,9 +21,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Customers extends Mag
     
     public function loadCustomers()
     {
-        
         $customer = Mage::getResourceModel('customeralert/customer_collection');
-        $customer -> joinField('alerts','customer_product_alert','product_id','customer_id=entity_id',$this->_alertModel->getData())
+        $customer -> joinField('alerts','customer_product_alert','product_id','customer_id=entity_id',$this->_alertModel->getParamValues())
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email');
@@ -65,7 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Customers extends Mag
     
     public function getGridUrl()
     {
-        return Mage::getUrl('*/catalog_product/alertsGrid', $this->_alertModel->getData());
+        return Mage::getUrl('*/catalog_product/alertsGrid', $this->_alertModel->getParamValues());
     }
 }
 

@@ -24,26 +24,32 @@
  */
 ?>
 <script type="text/javascript" language="javascript">
-    var queue = Class.create();
-    var url = '<? $this->getAddToQueueUrl(); ?>';
-    queue.prototype = {
+    var Queue = Class.create();
+    var url = '<?=$this->getAddToQueueUrl();?>';
+    Queue.prototype = {
         initialize:
             function() {
             },
-        add: function() {
+        add: function(productId, storeId) {
             new Ajax.Request ( url, {
+                    param :
+                        { 
+                        'store_id':storeId,
+                        'peoduct_id':productId
+                        },
                     onSuccess : function(req) 
-                            {
-                                alert('success');
-                            },
+                        {
+                            alert(req.responseText);
+                        },
                     onFailure : function()
-                            {
-                               alert('failrue');
-                            }
+                        {
+                           alert('failrue');
+                        }
                            
                     })
             }
         }
+queue = new Queue();
 </script>
 <?=$this->getMessageHtml()?>
 <div>

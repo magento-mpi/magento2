@@ -39,22 +39,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
             ->getAlerts();
     }   
     
-
     protected function _prepareLayout()
     {
         $params = $this->getRequest()->getParams();
-        $productId = isset($params['id'])?$params['id']:0;
-        $storeId = isset($params['store'])?$params['store']:0;
-        if($storeId){
+        $data['product_id'] = isset($params['id']) ? $params['id'] : 0;
+        $data['store_id'] = isset($params['store']) ? $params['store'] : 0;
+        
+        if($data['store_id']){
             $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
                 ->setId('alertsBlockId');
             $messages = array();
             foreach ($this->getAlerts() as $key=>$val) {
                 $alertModel = Mage::getModel('customeralert/config')->getAlertByType($key);
-                $alertModel->addData(array(
-                    'product_id' => $productId,
-                    'store_id'   => $storeId
-                ));
+                $alertModel->setParamValues($data);
                 $accordion->addItem($key, array(
                     'title'     => $val['label'],
                     'content'   => $this->getLayout()
@@ -63,8 +60,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
                                     ->loadCustomers(),
                     'open'      => false,
                 ));
-               
-                
                 if($alertModel->getAlertText()){
                     $messages[] = array('method'=>'notice','label'=>$alertModel->getAlertText());
                 }
@@ -107,7 +102,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
     
     public function getAddToQueueUrl()
     {
-        return Mage::getUrl('*/catalog_product/addCustomersToAlertQueue');
+        $params = $this->getRequest()->getParams();
+        $data['product_id'] = isset($params['id']) ? $params['id'] : 0;
+        $data['store_id'] = isset($params['store']) ? $params['store'] : 0;
+        
+        return Mage::getUrl('*/catalog_product/addCustomersToAlertQueue',$data);
     }
     
 }

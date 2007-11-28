@@ -44,6 +44,12 @@
                     <check>
                         <table>customer_product_alert_check</table>
                     </check>
+                    <queue>
+                        <table>customer_product_alert_queue</table>
+                    </queue>
+                    <queue_link>
+                        <table>customer_product_alert_queue_link</table>
+                    </queue_link>
                 </entities>
             </customeralert_mysql4>
         </models>

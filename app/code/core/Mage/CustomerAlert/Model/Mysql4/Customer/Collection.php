@@ -33,7 +33,7 @@ class Mage_CustomerAlert_Model_Mysql4_Customer_Collection extends Mage_Customer_
     public function setAlert(Mage_CustomerAlert_Model_Type $alert)
     {
         $this->_alert = $alert;
-        $this->joinField('alerts','customer_product_alert','product_id','customer_id=entity_id',$this->_alert->getData())
+        $this->joinField('alerts','customer_product_alert','product_id','customer_id=entity_id',$this->_alert->getParamValues())
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email');

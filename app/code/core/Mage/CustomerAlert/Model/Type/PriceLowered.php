@@ -26,7 +26,7 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_PriceLowered extends Mage_CustomerAlert_Model_Type
+class Mage_CustomerAlert_Model_Type_PriceLowered extends Mage_CustomerAlert_Model_Type_Abstract
 {
     public function __construct()
     {

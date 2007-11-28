@@ -41,20 +41,9 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
         $select = $read
             ->select()
             ->from($this->getMainTable());
-        foreach ($data as $key=>$val) {
+        foreach ($model->getParamValues() as $key=>$val) {
             $select->where($key.' = ?',$val);
         }
         return $read->$fetch($select);
     }
-    
-    public function loadIds($product_id = null, $store_id = null, $type = null, $fetch = null)
-    {
-        $read = $this->getConnection('read');
-        $select = $read
-            ->select()
-            ->from($this->getMainTable());
-        if(!$fetch)$fetch = 'fetchAll';           
-        return $read->$fetch($select);
-    }
-   
 }

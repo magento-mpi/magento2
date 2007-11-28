@@ -30,7 +30,7 @@ class Mage_CustomerAlert_Model_Mysql4_Queue extends Mage_Newsletter_Model_Mysql4
     
     public function __construct()
     {
-        $this->_init('customeralert/alert', 'queue_id');
+        $this->_init('customeralert/queue', 'queue_id');
     }
     
     public function addSubscribersToQueue(Mage_Newsletter_Model_Queue $queue, array $subscriberIds) 
@@ -44,10 +44,9 @@ class Mage_CustomerAlert_Model_Mysql4_Queue extends Mage_Newsletter_Model_Mysql4
             Mage::throwException(__('Invalid queue selected'));
         }
         $select = $this->getConnection('read')->select();
-        $select->from($this->getTable('alert/queue_link'),'subscriber_id')
+        $select->from($this->getTable('queue_link'),'subscriber_id')
             ->where('queue_id = ?', $queue->getId())
             ->where('subscriber_id in (?)', $subscriberIds);
-        
         $usedIds = $this->getConnection('read')->fetchCol($select);
         $this->getConnection('write')->beginTransaction();
         try {
