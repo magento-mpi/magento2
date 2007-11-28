@@ -19,16 +19,26 @@
  */
 ?>
 <? if($this->helper('customer')->isLoggedIn()): ?>
-        <script type="text/javascript" language="javascript">
-        function alertError(){
+    <script type="text/javascript" language="javascript">
+        url = '<?=$this->helper("customerAlert")->getSaveAlertsUrl()?>';
+        function alertError(message){
             $('alerts-error').show(); 
             $('alerts-please-wait').hide();
-            $('alerts-error').update('<?=__('Alerts does not save. Please try again')?>');
+            $('alerts-success').hide();
+            $('alerts-error').update(message);
         }
+        
+        function alertSuccess(message){
+            $('alerts-error').hide(); 
+            $('alerts-please-wait').hide();
+            $('alerts-success').show();
+            $('alerts-success').update(message);
+        }
+        
         function saveAlerts(){
-            url = '<?=$this->helper('customerAlert')->getSaveAlertsUrl()?>';
             $('alerts-please-wait').show();
             $('alerts-error').hide();
+            $('alerts-success').hide();
             elem = $$('.alert_input');
             param = new Object();
             for(a=0;a<elem.length;a++){
@@ -39,28 +49,34 @@
                 parameters : param,
                 onSuccess : function(req) 
                         {
-                            $('alerts-please-wait').hide();
-                            if(req.responseText=='false'){
-                                alertError();
+                            request = req.responseText.evalJSON();
+                            if(request.error){
+                                alertError(request.message);
                             } else {
-                                $('temp').update(req.responseText);
+                                alertSuccess(request.message);
                             }
                         },
                 onFailure : function()
                         {
-                           alertError();
+                           alertError("<?=$this->__('Alerts does not save. Please try again')?>");
                         }
                        
             });
         }
         
-        </script>
-        
+    </script>
         <div class="collateral-box attribute-specs">
             <div class="head">
                 <h4><?=$this->__('Product Alerts')?></h4>
             </div>
             <ul>
+                <li>
+                    <span id="alerts-please-wait" style="display:none;" class="opc-please-wait">
+                        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Saving, please wait...')?> &nbsp; 
+                    </span>
+                    <span id="alerts-error" style="display:none;" class="error"></span>
+                    <span id="alerts-success" style="display:none;" class="success"></span>
+                </li>
             <? foreach ($this->helper('customerAlert')->getAlerts() as $key => $val): ?>
                 <li>
                     <input name="alerts[<?=$key?>]" value="1" id="<?=$key?>" type="checkbox" class="alert_input" <?=$val['checked']?'checked="checked"':''?> />&nbsp;
@@ -71,11 +87,6 @@
                     <button class="form-button-alt" onclick="saveAlerts()">
                         <span>Save alerts</span>
                     </button>       
-                    <span id="alerts-please-wait" style="display:none;" class="opc-please-wait">
-                        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Saving, please wait...')?> &nbsp; 
-                    </span>
-                    <span id="alerts-error" style="display:none;" class="error"></span>
-                    <div id="temp"></div>
                 </li>
             </ul>
         </div>

@@ -373,14 +373,27 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function alertsGridAction()
     {
+        $alertType = $this->getRequest()->getParam('type');
+        $alertModel = Mage::getModel('customeralert/config')->getAlertByType($alertType);
+        $alertModel->addData(array(
+            'product_id' => $this->getRequest()->getParam('product_id'),
+            'store_id' => $this->getRequest()->getParam('store_id'),
+        ));
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$this->getRequest()->getParam('id'),array('id'=>$this->getRequest()->getParam('id')))
-                ->setId($this->getRequest()->getParam('id'))    
-                ->setProductId($this->getRequest()->getParam('productId'))
-                ->setStore($this->getRequest()->getParam('store'))
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$alertType,array('id'=>$alertType))
+                ->setModel($alertModel)   
                 ->loadCustomers()
                 ->toHtml()
         );
+    }
+    
+    public function addCustomersToAlertQueueAction()
+    {
+        $alert = Mage::getModel('customeralert/config')->getAlerts();
+        foreach ($alert as $key=>$val) {
+            Mage::getModel('customeralert/config')->getAlertByType($key)
+                ->addCustomersToAlertQueue();
+        }
     }
 
     public function tagCustomerGridAction()

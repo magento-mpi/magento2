@@ -131,7 +131,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                     }
                 	$emailModel->load(Mage::getStoreConfig('sendfriend/email/template'));
                 	if (!$emailModel->getId()) {
-                		throw Mage::exception('Mage_Core', __('Invalid transactional email code'));
+                		 Mage::getSingleton('catalog/session')->addError(__('Invalid transactional email code'));
                 	}
                 	$emailModel->setSenderName(strip_tags($sender['name']));
                 	$emailModel->setSenderEmail(strip_tags($sender['email']));
@@ -152,7 +152,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             }
             if(count($errors)>0){
                 foreach ($errors as $val) {
-                    Mage::getSingleton('catalog/session')->addError(__('Email to').' '.$val.' '.__('does not sent.'));	
+                    Mage::getSingleton('catalog/session')->addError(__('Email to %s does not sent.'),$val);	
                 }
                 $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
             } else {

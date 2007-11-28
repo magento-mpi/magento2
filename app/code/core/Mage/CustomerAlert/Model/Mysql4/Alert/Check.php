@@ -28,29 +28,26 @@
 
 class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4_Abstract
 {
-    
     public function __construct()
     {
-       $this->_init('customeralert/check','id');
-       parent::__construct();
+        $this->_init('customeralert/check','id');
+        parent::__construct();
     }
     
     public function loadByParam(Mage_Core_Model_Abstract $model, $fetch='fetchAll')
     {
-       $data['product_id'] = $model->getData('product_id');
-       $data['store_id'] = $model->getData('store_id');
-       $data['type'] = $model->getData('type');
-       
-       $read = $this->getConnection('read');
-       $select = $read
+        $data['product_id'] = $model->getData('product_id');
+        $data['store_id'] = $model->getData('store_id');
+        $data['type'] = $model->getData('type');
+        
+        $read = $this->getConnection('read');
+        $select = $read
             ->select()
             ->from($this->getMainTable());
         foreach ($data as $key=>$val){            
             $select->where($key. '= ?', $val);
         }
         return $read->$fetch($select);
-
     }
-    
 }
 ?>

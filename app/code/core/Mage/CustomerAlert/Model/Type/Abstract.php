@@ -29,22 +29,5 @@
 abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_CustomerAlert_Model_Type
 {
     
-    public function getAlertText()
-    {   
-        if($this->getAlertHappened()){
-            $changedValues = $this->getAlertChangedValues();
-            $this->_oldValue = $changedValues['old_value'];
-            $this->_newValue = $changedValues['new_value'];
-            $this->_date = $changedValues['date'];
-            return $this->getAlertHappenedText(); 
-        } else {
-            return $this->getAlertNotHappenedText();            
-        }
-        
-    }
     
-    abstract public function getAlertHappenedText();
-    abstract public function getAlertNotHappenedText();
-    abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
-    abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
 }

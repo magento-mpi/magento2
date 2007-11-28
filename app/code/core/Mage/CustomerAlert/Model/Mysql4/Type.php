@@ -47,23 +47,14 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
         return $read->$fetch($select);
     }
     
-    public function updateById(Mage_Core_Model_Abstract $object, $bind, $id)
-    {
-       if(!isset($bind[$this->getIdFieldName()])) $bind[$this->getIdFieldName()] = $id;
-       $this->getConnection('write')
-                ->update($this->getMainTable(),$bind,$this->getIdFieldName().'='.$id);
-    }
-    
     public function loadIds($product_id = null, $store_id = null, $type = null, $fetch = null)
     {
-       $read = $this->getConnection('read');
-       $select = $read
+        $read = $this->getConnection('read');
+        $select = $read
             ->select()
             ->from($this->getMainTable());
-            
-              
-       if(!$fetch)$fetch = 'fetchAll';           
-       return $read->$fetch($select);
+        if(!$fetch)$fetch = 'fetchAll';           
+        return $read->$fetch($select);
     }
    
 }

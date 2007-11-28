@@ -26,7 +26,7 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
+abstract  class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
 {
     protected $_userCheck;
     
@@ -72,17 +72,6 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
         }
     }
     
-    public function loadCustomersId()
-    {
-        $rows = $this->getResource()
-            ->loadIds($this->getProductId(), $this->getStoreId(), $this->type ,'fetchAll');
-        $customersId = array();
-        foreach ($rows as $val){
-            $customersId[] = $val['customer_id'];
-        }
-        return $customersId;
-    }
-    
     /*public function addToQueue()
     {
         $res=Mage::getResourceModel('customeralert/queue');
@@ -122,6 +111,28 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
         return $values[0];
     }
     
+    public function addCustomersToAlertQueue()
+    {
+        
+    }
     
+    public function getAlertText()
+    {   
+        if($this->getAlertHappened()){
+            $changedValues = $this->getAlertChangedValues();
+            $this->_oldValue = $changedValues['old_value'];
+            $this->_newValue = $changedValues['new_value'];
+            $this->_date = $changedValues['date'];
+            return $this->getAlertHappenedText(); 
+        } else {
+            return $this->getAlertNotHappenedText();            
+        }
+        
+    }
+    
+    abstract public function getAlertHappenedText();
+    abstract public function getAlertNotHappenedText();
+    abstract public function checkBefore(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
+    abstract public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct);
     
 }

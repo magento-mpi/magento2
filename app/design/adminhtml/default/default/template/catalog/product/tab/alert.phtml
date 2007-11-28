@@ -23,6 +23,28 @@
  * Template for block Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts
  */
 ?>
+<script type="text/javascript" language="javascript">
+    var queue = Class.create();
+    var url = '<? $this->getAddToQueueUrl(); ?>';
+    queue.prototype = {
+        initialize:
+            function() {
+            },
+        add: function() {
+            new Ajax.Request ( url, {
+                    onSuccess : function(req) 
+                            {
+                                alert('success');
+                            },
+                    onFailure : function()
+                            {
+                               alert('failrue');
+                            }
+                           
+                    })
+            }
+        }
+</script>
 <?=$this->getMessageHtml()?>
 <div>
 	<h4 class="icon-head head-edit-form"><?=__('Product Alerts')?></h4>

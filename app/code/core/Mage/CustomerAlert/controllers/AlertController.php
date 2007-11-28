@@ -40,12 +40,26 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
                 $alerts = Mage::getModel('customeralert/config')->getAlerts();
                 foreach ($alerts as $key => $val){
                     if(isset($params[$key])){
-                        Mage::getModel('customeralert/config')->getAlertByType($key)   
-                            ->addData($data)
-                            ->checkByUser($params[$key])
-                            ->save();
+                        try {
+                            Mage::getModel('customeralert/config')->getAlertByType($key)   
+                                ->addData($data)
+                                ->checkByUser($params[$key])
+                                ->save();
+                        } catch (Exception $e) {
+                            $data = array(
+                                'error'   => true,
+                                'message' => $e->getMessage(),
+                            );
+                            print Zend_Json_Encoder::encode($data);
+                            return false;
+                        }
                     }
                 }
+                $data = array(
+                    'error'   => true,
+                    'message' => __('Alerts successfully saved'),
+                );
+                print Zend_Json_Encoder::encode($data);
             }
         }
     }

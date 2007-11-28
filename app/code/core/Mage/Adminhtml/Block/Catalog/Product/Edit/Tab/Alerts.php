@@ -36,53 +36,52 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
     public function getAlerts()
     {
         return Mage::getModel('customeralert/config')
-    	   ->getAlerts();
+            ->getAlerts();
     }   
     
 
     protected function _prepareLayout()
     {
         $params = $this->getRequest()->getParams();
-        $product_id = isset($params['id'])?$params['id']:0;
+        $productId = isset($params['id'])?$params['id']:0;
         $storeId = isset($params['store'])?$params['store']:0;
         if($storeId){
             $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
-                ->setId('AlertsBlockId');
+                ->setId('alertsBlockId');
             $messages = array();
             foreach ($this->getAlerts() as $key=>$val) {
                 $alertModel = Mage::getModel('customeralert/config')->getAlertByType($key);
-                $customerIds = $alertModel 
-                             ->setProductId($product_id)
-                             ->setStoreId($storeId)
-                             ->loadCustomersId();
-                                   
-               $accordion->addItem($key, array(
-    	            'title'     => $val['label'],
-    	            'content'   => $this->getLayout()
-                                      ->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$key,array('id'=>$key))
-                                      ->setId($key)
-                                      ->setData('customerIds',$customerIds)
-                                      ->setData('productId',$product_id)
-                                      ->setData('store',$storeId),
-    	            'open'      => false,
+                $alertModel->addData(array(
+                    'product_id' => $productId,
+                    'store_id'   => $storeId
                 ));
+                $accordion->addItem($key, array(
+                    'title'     => $val['label'],
+                    'content'   => $this->getLayout()
+                                    ->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$key,array('id'=>$key))
+                                    ->setModel($alertModel)
+                                    ->loadCustomers(),
+                    'open'      => false,
+                ));
+               
+                
                 if($alertModel->getAlertText()){
                     $messages[] = array('method'=>'notice','label'=>$alertModel->getAlertText());
                 }
             }
+            
             $button = $this->getLayout()->createBlock('adminhtml/widget_button');
             $this->setChild('accordion', $accordion);
             $this->setChild('addToQuery_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => __('Add Customers To Query'),
-                        //'onclick'   => "tierPriceControl.deleteItem('#{index}')",
-                        'class' => 'add'
+                        'label'     => __('Add Customers To Queue'),
+                        'onclick'   => "queue.add()",
+                        'class'     => 'add'
                     )));
         } else {
             $messages[] = array('method'=>'error','label'=>__('No one store was selected.'));
         }
-        
         $message = $this->getLayout()->createBlock('core/messages');
         foreach ($messages as $mess) {
             $message->getMessageCollection()->add(Mage::getSingleton('core/message')->$mess['method']($mess['label']));
@@ -104,6 +103,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
     public function getMessageHtml()
     {
         return $this->getChildHtml('message');
+    }
+    
+    public function getAddToQueueUrl()
+    {
+        return Mage::getUrl('*/catalog_product/addCustomersToAlertQueue');
     }
     
 }

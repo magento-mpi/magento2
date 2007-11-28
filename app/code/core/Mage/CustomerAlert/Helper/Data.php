@@ -33,9 +33,12 @@ class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getAlerts()
     {
-    	$data['product_id'] = $this->getProductId();
-        $data['customer_id'] = Mage::getModel('customer/session')->getId();
-    	$data['store_id'] = Mage::app()->getStore()->getId();
+    	$data = array(
+    	   'product_id'  => $this->getProductId(),
+    	   'customer_id' => Mage::getModel('customer/session')->getId(),
+    	   'store_id'    => Mage::app()->getStore()->getId(),
+    	
+    	);
         $nodes = Mage::getModel('customeralert/config')->getAlerts();
         foreach ($nodes as $key=>$val ){
             $alerts[$key] = array('label'=>$val['label']);

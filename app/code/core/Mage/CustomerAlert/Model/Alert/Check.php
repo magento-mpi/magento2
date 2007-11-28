@@ -32,29 +32,23 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
     {
         $this->_init('customeralert/alert_check');
         parent::__construct();
-        
     }
     
     public function addAlert()
     {
-        $data = $this->getData();
-        $this->unsetData();
-        $this->addData(array(
-            'product_id' => $data['product_id'],
-            'store_id' => $data['store_id'],
-            'type' => $data['type'],
-        ));
-        $id = $this->loadByParam('fetchOne');
-        $this->unsetData();
-        if($id){
-            $this->setId($id);
-        }
-        $this->addData($data);
+        $this->prepareAlert();
         $this->save();
     }
     
     public function removeAlert()
     {
+        $this->prepareAlert();
+        $this->delete();
+        $this->_alertHappen = false;
+    }
+    
+    protected function prepareAlert()
+    {
         $data = $this->getData();
         $this->unsetData();
         $this->addData(array(
@@ -67,11 +61,8 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         if($id){
             $this->setId($id);
         }
-        $this->addData($data);
-        $this->delete();
-        $this->_alertHappen = false;
+        $this->addData($data);        
     }
-    
     
     public function loadByParam($fetch='fetchAll')
     {

@@ -26,7 +26,7 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Model_Type_Abstract
+class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Model_Type
 {
     public function __construct()
     {
