@@ -114,13 +114,13 @@
             <sales>/customeralert/</sales>
         </secure_url>
         <routers>
-            <sales>
+            <customeralert>
                 <use>standard</use>
                 <args>
                     <module>Mage_CustomerAlert</module>
                     <frontName>customeralert</frontName>
                 </args>
-            </sales>
+            </customeralert>
         </routers>
         <translate>
             <modules>
