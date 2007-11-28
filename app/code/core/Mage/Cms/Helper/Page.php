@@ -66,6 +66,10 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             $root->setTemplate($template);
         }
 
+        if ($head = $action->getLayout()->getBlock('head')) {
+            $head->setTitle($page->getTitle());
+        }
+
         if ($content = $action->getLayout()->getBlock('content')) {
             $block = $action->getLayout()->createBlock('cms/page')->setPage($page);
             $content->append($block);
