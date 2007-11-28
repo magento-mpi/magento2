@@ -7,14 +7,14 @@ require_once "Varien/Pear/Package.php";
 
 $pear = Varien_Pear::getInstance();
 $result = $pear->run('channel-discover', array(), array('var-dev.varien.com'));
-echo "<pre>"; print_r($result); echo "</pre>";
-
+//echo "<pre>"; print_r($result); echo "</pre>";
+//
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
 $options = array(
     'baseinstalldir'=>'Varien',
     'packagedirectory'=>$pear->getBaseDir().'/lib/Varien',
-    'outputdirectory'=>$pear->getPearDir().'/output/',
+    'outputdirectory'=>$pear->getBaseDir().'/lib/Varien/',
     'simpleoutput'=>true,
     'filelistgenerator'=>'svn',
 );
@@ -61,42 +61,5 @@ if (true) {
     $pfm->debugPackageFile();
 }
 
-/*
-require_once "Varien/Pear/Package/Varien.php";
-$pkg = new Varien_Pear_Package_Varien();
-$pkg->generatePackage();
-*/
-/*
-class Lib_Varien extends Varien_Pear_Package {
-    public function __construct()
-    {
-        $this->setImportOptions(array(
-            'baseinstalldir'=>'Moshe',
-            'packagedirectory'=>'/home/moshe/dev/magento/lib/Varien',
-            'outputdirectory'=>dirname(__FILE__).'/',
-            'filelistgenerator'=>'svn',
-            'ignore'=>array('package.php', 'package2.xml', 'package.xml', '*.tgz'),
-            'simpleoutput'=>true,
-        ));
-    }
-
-    public function definePackage($pfm)
-    {
-        $pfm->setPackage('Lib_Varien');
-        $pfm->setSummary('Varien PHP Library');
-        $pfm->setDescription('Varien library');
-        $pfm->addMaintainer('lead', 'moshe', 'Moshe Gurvich', 'moshe@varien.com', 'yes');
-    }
-
-    public function defineRelease($pfm)
-    {
-        $pfm->setAPIVersion('0.1.0');
-        $pfm->setReleaseVersion('0.1.0');
-        $pfm->setAPIStability('beta');
-        $pfm->setReleaseStability('beta');
-        $pfm->setNotes('initial release');
-        #$pfm->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
-    }
-}
-Lib_Varien::run();
-*/
+$result=$pear->run('package', array(), array($pear->getBaseDir().'/lib/Varien/package.xml'));
+echo "<pre>"; print_r($result); echo "</pre>";
