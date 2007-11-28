@@ -61,6 +61,15 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
         );
     }
 
+    public function getRemoveUrl()
+    {
+        return $this->helper('giftmessage/url')->getRemoveUrl(
+                            $this->getRequest()->getParam('item'),
+                            $this->getRequest()->getParam('type'),
+                            array('uniqueId'=>$this->getRequest()->getParam('uniqueId'))
+        );
+    }
+
     protected function _initMessage()
     {
         $this->_giftMessage = $this->helper('giftmessage/message')->getGiftMessage(
@@ -81,6 +90,11 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
     public function getEscaped($value)
     {
         return $this->htmlEscape($value);
+    }
+
+    public function getEscapedForJs($value)
+    {
+        return addcslashes($value, "\\'\n\r\t");
     }
 
     public function getUniqueId()

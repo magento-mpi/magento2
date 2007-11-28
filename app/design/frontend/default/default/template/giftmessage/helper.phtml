@@ -35,6 +35,33 @@
         <?endif;?>
     </span></button>
     <?break;?>
+<?case 'main':?>
+    <a href="#" class="listen-for-click">
+        <?if($this->hasGiftMessage()):?>
+        <?=$this->__('Edit Gift Message')?>
+        <?else:?>
+        <?=$this->__('Add Gift Message')?>
+        <?endif;?>
+    </a>
+    <?break;?>
+<?case 'address':?>
+    <a href="#" class="listen-for-click">
+        <?if($this->hasGiftMessage()):?>
+        <?=$this->__('Edit Gift Message')?>
+        <?else:?>
+        <?=$this->__('Add Gift Message')?>
+        <?endif;?>
+    </a>
+    <?break;?>
+<?case 'address_item':?>
+    <button class="form-button-alt listen-for-click" type="button"><span>
+        <?if($this->hasGiftMessage()):?>
+        <?=$this->__('Edit')?>
+        <?else:?>
+        <?=$this->__('Add')?>
+        <?endif;?>
+    </span></button>
+    <?break;?>
 <?endswitch?>
 <?if($this->getCanDisplayContainer()):?>
 </div>

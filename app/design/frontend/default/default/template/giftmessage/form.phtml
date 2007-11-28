@@ -47,18 +47,24 @@
     <div class="form-buttons">
         <p class="required"><?=$this->__('* Required Fields')?></p>
         <button class="form-button" type="submit" name="send"><span><?=$this->__('Save')?></span></button>
-        <button class="form-button" onclick="giftMessageWindowObject.cancel();"><span><?=$this->__('Cancel')?></span></button>
+        <button class="form-button listen-cancel" type="button"><span><?=$this->__('Cancel')?></span></button>
+        <?if($this->getMessage()->getGiftMessageId()):?>
+        <button class="form-button listen-remove" type="button"><span><?=$this->__('Remove')?></span></button>
+        <?endif;?>
     </div>
 </form>
-<?else:?>
+<?elseif($this->getSaveMode()=='save'):?>
 <h3><?=$this->__('Your gift message successfully saved')?></h3>
+<?else:?>
+<h3><?=$this->__('Your gift message successfully removed')?></h3>
 <?endif;?>
 <script type="text/javascript">
 <!--
 <?if(!$this->getSaveMode()):?>
-    var giftMessageWindowObject = new GiftMessageWindow('<?=$this->getUniqueId()?>','message-form');
+    var giftMessageWindowObject = new GiftMessageWindow('<?=$this->getUniqueId()?>','message-form', '<?=$this->getRemoveUrl()?>');
+    giftMessageWindowObject.confirmMessage = '<?=$this->getEscapedForJs($this->__('Are you sure?'))?>';
 <?else:?>
-    var giftMessageWindowObject = new GiftMessageWindow('<?=$this->getUniqueId()?>', null);
+    var giftMessageWindowObject = new GiftMessageWindow('<?=$this->getUniqueId()?>', null, '<?=$this->getRemoveUrl()?>');
     Event.observe(window, 'load', function(evt) {
         giftMessageWindowObject.updateParent('<?=$this->getEditUrl()?>', '<?=$this->getButtonUrl()?>');
     });

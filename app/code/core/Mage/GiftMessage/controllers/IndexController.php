@@ -72,6 +72,30 @@ class Mage_GiftMessage_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    public function removeAction()
+    {
+        $giftMessage = Mage::getModel('giftmessage/message');
+        try {
+            $entity = $giftMessage->getEntityModelByType($this->_getMappedType($this->getRequest()->getParam('type')));
+
+            $entity->load($this->getRequest()->getParam('item'));
+            if($entity->getGiftMessageId()) {
+                $giftMessage->load($entity->getGiftMessageId());
+                $giftMessage->delete();
+                $entity->setGiftMessageId(0);
+                $entity->save();
+            }
+
+            $this->getRequest()->setParam('message', null);
+            $this->getRequest()->setParam('entity', $entity);
+        } catch (Exception $e) {
+
+        }
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
     protected function _getMappedType($type)
     {
         $map = array(
@@ -88,14 +112,14 @@ class Mage_GiftMessage_IndexController extends Mage_Core_Controller_Front_Action
         return null;
     }
 
-    protected function buttonAction()
+    public function buttonAction()
     {
         $giftMessage = Mage::getModel('giftmessage/message');
-        $entity = $giftMessage->getEntityModelByType($this->_getMappedType($this->getParam('type')));
+        $entity = $giftMessage->getEntityModelByType($this->_getMappedType($this->getRequest()->getParam('type')));
         $entity->load($this->getRequest()->getParam('item'));
         $this->getResponse()->setBody($this->getLayout()->createBlock('giftmessage/message_helper')
                                         ->setEntity($entity)
-                                        ->setType($type)->toHtml().'123123');
+                                        ->setType($this->getRequest()->getParam('type'))->toHtml());
     }
 
 } // Class Mage_GiftMessage_IndexController End

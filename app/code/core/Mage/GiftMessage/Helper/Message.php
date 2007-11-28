@@ -28,7 +28,10 @@
 class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 {
     const XPATH_CONFIG_GIFT_MESSAGE_ALLOW = 'sales/gift_messages/allow';
+
     protected $_nextId = 0;
+    protected $_innerCache = array();
+
     public function getButton($type, Varien_Object $entity)
     {
         if (!$this->isMessagesAviable($type, $entity)) {
@@ -47,8 +50,11 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         if (Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW)) {
             if ($type=='item') {
                 return $entity->getProduct()->getGiftMessageAviable();
-            } elseif ($type=='adress_item') {
-                return Mage::getModel('catalog/product')->load($entity->getProductId())->getGiftMessageAviable();
+            } elseif ($type=='address_item') {
+                if(!$this->isCached('address_item_' . $entity->getProductId())) {
+                    $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->load($entity->getProductId())->getGiftMessageAviable());
+                }
+                return $this->getCached('address_item_' . $entity->getProductId());
             } else {
                 return true;
             }
@@ -57,10 +63,40 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         return false;
     }
 
+    public function getCached($key)
+    {
+        if($this->isCached($key)) {
+            return $this->_innerCache[$key];
+        }
+
+        return null;
+    }
+
+    public function isCached($key)
+    {
+        return isset($this->_innerCache[$key]);
+    }
+
+    public function setCached($key, $value)
+    {
+        $this->_innerCache[$key] = $value;
+        return $this;
+    }
+
     public function getAviableForQuoteItems($quote)
     {
         foreach($quote->getAllItems() as $item) {
             if($item->getProduct()->getGiftMessageAviable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getAviableForAddressItems($items)
+    {
+        foreach($items as $item) {
+            if($this->isMessagesAviable('address_item', $item)) {
                 return true;
             }
         }

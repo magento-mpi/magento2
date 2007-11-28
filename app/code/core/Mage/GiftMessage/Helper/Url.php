@@ -44,6 +44,12 @@ class Mage_GiftMessage_Helper_Url extends Mage_Core_Helper_Url
          return $this->_getUrl('giftmessage/index/button', $params);
     }
 
+    public function getRemoveUrl($itemId, $type, $params=array())
+    {
+         $params = array_merge($params, array('item'=>$itemId, 'type'=>$type));
+         return $this->_getUrl('giftmessage/index/remove', $params);
+    }
+
     public function getSaveUrl($itemId, $type, $giftMessageId=null, $params=array())
     {
          if(!is_null($giftMessageId)) {

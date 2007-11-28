@@ -28,6 +28,7 @@ GiftMessage.prototype = {
         var popUpUrl = this.url + '?uniqueId=' + this.uniqueId;
         this.popUp = window.open(popUpUrl, 'giftMessage', 'width=350,height=400,resizable=yes,scrollbars=yes');
         this.popUp.focus();
+        Event.stop(evt);
     },
     initListeners: function () {
         var items = $(this.buttonId).getElementsByClassName('listen-for-click');
@@ -68,19 +69,41 @@ var GiftMessageStack = {
 
 var GiftMessageWindow = Class.create();
 GiftMessageWindow.prototype = {
-    initialize: function(uniqueId, formId) {
+    initialize: function(uniqueId, formId, removeUrl) {
         this.uniqueId = uniqueId;
+        this.removeUrl = removeUrl;
         if(window.opener) {
             this.parentObject = window.opener.GiftMessageStack.getObjectById(this.uniqueId);
             this.parentObject.initWindow(this);
         }
         if(formId) {
             this.form = new VarienForm(formId, true);
+            this.formElement = $(formId);
+            this.initListeners();
         }
     },
-    cancel: function()  {
+    initListeners: function() {
+        removeButtons = this.formElement.getElementsByClassName('listen-remove');
+        removeButtons.each(function(item){
+            Event.observe(item, 'click', this.remove.bindAsEventListener(this));
+        }.bind(this));
+
+        cancelButtons = this.formElement.getElementsByClassName('listen-cancel');
+        cancelButtons.each(function(item){
+            Event.observe(item, 'click', this.cancel.bindAsEventListener(this));
+        }.bind(this));
+    },
+    cancel: function(evt)  {
+        Event.stop(evt);
         window.opener.focus();
         window.close();
+    },
+    remove: function(evt)  {
+        Event.stop(evt);
+        if(this.confirmMessage && !window.confirm(this.confirmMessage)) {
+            return;
+        }
+        window.location.href = this.removeUrl;
     },
     updateParent: function (url, buttonUrl) {
         if(this.parentObject) {

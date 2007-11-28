@@ -660,7 +660,6 @@ Advanced search results
 Gift message add/edit form
 -->
     <giftmessage_index_edit>
-        <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/one-column.phtml</template></action>
         </reference>
@@ -673,16 +672,29 @@ Gift message add/edit form
 Gift message save result
 -->
     <giftmessage_index_save>
-        <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/one-column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml" >
-                <action method="setSaveMode"><mode>1</mode></action>
+                <action method="setSaveMode"><mode>save</mode></action>
             </block>
         </reference>
     </giftmessage_index_save>
+
+<!--
+Gift message remove result
+-->
+    <giftmessage_index_remove>
+        <reference name="root">
+            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml" >
+                <action method="setSaveMode"><mode>remove</mode></action>
+            </block>
+        </reference>
+    </giftmessage_index_remove>
 
 <!--
 Shopping cart

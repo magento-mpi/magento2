@@ -22,6 +22,9 @@
     <thead>
         <tr>
             <th><?=$this->__('Product Name')?></th>
+            <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote())):?>
+            <th class="a-center"><?=$this->__('Gift Message')?></th>
+            <?endif?>
             <th class="a-right"><?=$this->__('Price')?></th>
             <th class="a-center"><?=$this->__('Qty')?></th>
             <th class="a-right"><?=$this->__('Subtotal')?></th>
@@ -30,7 +33,7 @@
     <tfoot>
 <?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
         <tr>
-            <td style="<?=$total->getStyle()?>" class="a-right" colspan="3"><?=$total->getTitle()?></td>
+            <td style="<?=$total->getStyle()?>" class="a-right" colspan="<?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote())):?>4<?else:?>3<?endif;?>"><?=$total->getTitle()?></td>
             <td style="<?=$total->getStyle()?>" class="a-right"><?=$total->getValue()?></td>
         </tr>
 <?endforeach?>
@@ -39,6 +42,9 @@
 <?$l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++?>
         <tr>
             <td><?=$item->getName()?></td>
+            <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote())):?>
+            <td class="a-center"><?=$this->helper('giftmessage/message')->getButton('item', $item)?></td>
+            <?endif?>
             <td class="a-right"><?=$item->getPrice()?></td>
             <td class="a-center"><?=$item->getQty()?></td>
             <td class="a-right"><?=$item->getRowTotal()?></td>

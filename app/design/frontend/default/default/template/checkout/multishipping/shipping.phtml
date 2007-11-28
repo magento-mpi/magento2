@@ -21,7 +21,7 @@
 <?
 /**
  * Multishipping checkout shipping template
- * 
+ *
  * @see Mage_Checkout_Block_Multishipping_Shipping
  */
 ?>
@@ -39,7 +39,7 @@
     <div class="content col2-alt-set">
         <div class="col-1">
             <div class="head">
-                <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a></h5>
+                <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a><br/><?=$this->helper('giftmessage/message')->getButton('address',$_address)?></h5>
             </div>
             <address>
                 <?=$_address->getFormated(true)?>
@@ -85,6 +85,9 @@
                 <thead>
                     <tr>
                         <th><?=$this->__('Product Name')?></th>
+                        <?if($this->helper('giftmessage/message')->getAviableForAddressItems($this->getAddressItems($_address))):?>
+                        <th class="a-center"><?=$this->__('Gift Message')?></th>
+                        <?endif?>
                         <th class="a-center"><?=$this->__('Qty')?></th>
                     </tr>
                 </thead>
@@ -95,6 +98,9 @@
                             <?=$this->helper('checkout')->getQuoteItemProductName($_item)?>
                             <?=$this->helper('checkout')->getQuoteItemProductDescription($_item)?>
                         </td>
+                        <?if($this->helper('giftmessage/message')->getAviableForAddressItems($this->getAddressItems($_address))):?>
+                        <th class="a-center"><?=$this->helper('giftmessage/message')->getButton('address_item',$_item)?></th>
+                        <?endif?>
                         <td class="a-center"><?=$_item->getQty()?></td>
                     </tr>
                 <?endforeach;?>
