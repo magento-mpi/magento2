@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Sales />
@@ -51,6 +51,7 @@
             <cataloginventory_setup>
                 <setup>
                     <module>Mage_CatalogInventory</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

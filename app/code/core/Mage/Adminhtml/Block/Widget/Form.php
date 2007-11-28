@@ -94,9 +94,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 ->setEntityAttribute($attribute);
 
                 if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
-                    $element->setAfterElementHtml(
-                        '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.__('Global Attribute').'" title="'.__('This attribute shares the same value in all the stores').'" class="attribute-global"/>'
-                    );
+                    $element->setAfterElementHtml($this->getGlobalIcon());
                 }
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
@@ -114,7 +112,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         $types = $this->_getAdditionalElementTypes();
         foreach ($types as $code => $className) {
-        	$baseElement->addType($code, $className);
+            $baseElement->addType($code, $className);
         }
     }
 

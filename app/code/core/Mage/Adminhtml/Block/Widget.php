@@ -53,5 +53,9 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
     public function getButtonHtml($label, $onclick, $class='') {
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array('label' => $label, 'onclick' => $onclick, 'class' => $class))->toHtml();
     }
-
+    
+    public function getGlobalIcon()
+    {
+        return '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.$this->__('Global Attribute').'" title="'.$this->__('This attribute shares the same value in all the stores').'" class="attribute-global"/>';
+    }
 }

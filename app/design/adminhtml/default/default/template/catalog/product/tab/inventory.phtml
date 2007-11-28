@@ -27,12 +27,13 @@
         <span class="field-row">
             <label for="inventory_qty"><?=$this->__('Qty')?><span class="required">*</span></label>
             <input type="text" class="input-text required-entry validate-digits" id="inventory_qty" name="product[stock_data][qty]" value="<?=$this->getFieldValue('qty')?>"/>
+            <?=$this->getGlobalIcon()?>
         </span>
         
         <span class="field-row">
             <label for="inventory_min_qty"><?=$this->__('Minimal Qty')?></label>
             <input type="text" class="input-text validate-digits" id="inventory_min_qty" name="product[stock_data][min_qty]" value="<?=$this->getFieldValue('min_qty')?>"/>
-            
+            <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_min_qty') ? 'checked' : ''?>
             <input type="checkbox" id="inventory_use_config_min_qty" name="product[stock_data][use_config_min_qty]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>
             <label for="inventory_use_config_min_qty" class="normal"><?=$this->__('Use Config Settings')?></label>
@@ -45,6 +46,7 @@
                 <option value="0"><?=$this->__('No')?></option>
                 <option value="1"<?if($this->getFieldValue('is_qty_decimal')==1):?> selected<?endif;?>><?=$this->__('Yes')?></option>
             </select>
+            <?=$this->getGlobalIcon()?>
         </span>
         
         <span class="field-row">
@@ -55,7 +57,7 @@
                 <option value="<?=$option['value']?>" <?=$_selected?>><?=$option['label']?></option>
             <?endforeach;?>
             </select>
-            
+            <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_backorders') ? 'checked' : ''?>
             <input type="checkbox" id="inventory_use_config_backorders" name="product[stock_data][use_config_backorders]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>
             <label for="inventory_use_config_backorders" class="normal"><?=$this->__('Use Config Settings')?></label>
@@ -68,6 +70,7 @@
                 <option value="1"><?=$this->__('Yes')?></option>
                 <option value="0"<?if($this->getFieldValue('is_in_stock')==0):?> selected<?endif;?>><?=$this->__('No')?></option>
             </select>
+            <?=$this->getGlobalIcon()?>
         </span>
         
     </fieldset>

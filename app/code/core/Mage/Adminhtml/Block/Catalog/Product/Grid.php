@@ -46,8 +46,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id')
-            ->addAttributeToSelect('qty')
+            //->addAttributeToSelect('qty')
             ->addAttributeToSelect('price')
+            ->joinField('qty',
+                'cataloginventory/stock_item',
+                'qty',
+                'product_id=entity_id',
+                '{{table}}.stock_id=1',
+                'left')
             ->joinField('store_id',
                 'catalog/product_store',
                 'store_id',
