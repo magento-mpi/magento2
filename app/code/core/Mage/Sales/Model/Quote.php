@@ -64,8 +64,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
                 $shippingAddress = Mage::getModel('sales/quote_address')
                     ->importCustomerAddress($defaultShippingAddress);
-                $this->setShippingAddress($shippingAddress);
             }
+            else {
+                $shippingAddress = Mage::getModel('sales/quote_address');
+            }
+            $this->setShippingAddress($shippingAddress);
         }
         return $this;
     }

@@ -323,7 +323,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         foreach ($products as $productId => $data) {
             $qty = isset($data['qty']) ? (int)$data['qty'] : 1;
-        	$this->addProduct($productId, $qty);
+            try {
+                $this->addProduct($productId, $qty);
+            }
+        	catch (Mage_Core_Exception $e){
+        	    $this->getSession()->addError($e->getMessage());
+        	}
+        	catch (Exception $e){
+        	    return $e;
+        	}
         }
         return $this;
     }
@@ -571,6 +579,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $items = $this->getQuote()->getAllItems();
         
         $hasError = $this->getQuote()->getHasError();
+        
+        if (count($items) == 0) {
+            $hasError = true;
+            $this->getSession()->addError(__('You need specify order items'));
+        }
         
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getSession()->addError(__('Shipping method must be specified'));
