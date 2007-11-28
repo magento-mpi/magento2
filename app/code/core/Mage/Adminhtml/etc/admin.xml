@@ -394,6 +394,23 @@
                             </roles>
                         </children>
                     </acl>
+                    <extensions>
+                        <title>Extensions</title>
+                        <children>
+                            <installed>
+                                <title>Installed</title>
+                                <action>*/extensions_installed</action>
+                            </installed>
+                            <remote>
+                                <title>Available Remote</title>
+                                <action>*/extensions_remote</action>
+                            </remote>
+                            <local>
+                                <title>Custom Local</title>
+                                <action>*/extensions_local</action>
+                            </local>
+                        </children>
+                    </extensions>
                     <cache>
                         <title>Cache management</title>
                         <action>*/system_cache</action>

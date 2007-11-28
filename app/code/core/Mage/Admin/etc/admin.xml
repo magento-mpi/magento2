@@ -151,6 +151,11 @@
                         </profiles>
                     </convert>
                     <cache title="Cache Management"/>
+                    <extensions title="Extensions">
+                        <installed title="Installed"/>
+                        <remote title="Available Remote"/>
+                        <local title="Custom Local"/>
+                    </extensions>
                 </system>
                 <global_search title="Global Search" />
             </admin>

@@ -1,0 +1,165 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<style type="text/css">
+#depends_packages_fieldset .input-text { width:70px; }
+#depends_subpackages_fieldset .input-text { width:70px; }
+#depends_extensions_fieldset .input-text { width:70px; }
+</style>
+<div class="entry-edit">
+    <?=$this->getFormHtml()?>
+
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Packages")?></h4>
+    <fieldset id="depends_packages_fieldset">
+        <legend><?=$this->__("Packages")?></legend>
+        <div id="depends_packages_template" style="display:none">
+            <span class="field-row">
+<!--
+                <?=$this->__("Package:")?> <select name="depends[package][name][]">
+                    <?foreach ($this->getPackages() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+-->
+                <?=$this->__("Package:")?> <input class="input-text" name="depends[package][name][]"/>
+                <?=$this->__("Min:")?> <input class="input-text" name="depends[package][min][]"/>
+                <?=$this->__("Max:")?> <input class="input-text" name="depends[package][max][]"/>
+                <?=$this->__("Recommended:")?> <input class="input-text" name="depends[package][recommended][]"/>
+                <?=$this->__("Exclude:")?> <input class="input-text" name="depends[package][excludes][]"/>
+                <?=$this->__("Level:")?> <select name="depends[package][level][]">
+                    <?foreach ($this->getDependLevels() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+                <?=$this->getRemoveRowButtonHtml()?>
+            </span>
+        </div>
+        <div id="depends_packages_container">
+            <?foreach ($this->getPackageDepends() as $_i=>$_dbField):?>
+                <span class="field-row">
+<!--
+                    <?=$this->__("Package:")?> <select name="depends[package][name][]">
+                    <?foreach ($this->getPackages() as $_value=>$_label):?>
+                        <option value="<?=$_value?>" <?=$this->getSelected('depends/package/name/'.$_i, $_value)?>><?=$_label?></option>
+                    <?endforeach?>
+                    </select>
+-->
+                    <?=$this->__("Package:")?> <input class="input-text" name="depends[package][name][]" value="<?=$this->getValue('depends/package/name/'.$_i)?>"/>
+                    <?=$this->__("Min:")?> <input class="input-text" name="depends[package][min][]" value="<?=$this->getValue('depends/package/min/'.$_i)?>"/>
+                    <?=$this->__("Max:")?> <input class="input-text" name="depends[package][max][]" value="<?=$this->getValue('depends/package/max/'.$_i)?>"/>
+                    <?=$this->__("Recommended:")?> <input class="input-text" name="depends[package][recommended][]" value="<?=$this->getValue('depends/package/recommended/'.$_i)?>"/>
+                    <?=$this->__("Exclude:")?> <input class="input-text" name="depends[package][excludes][]" <?=$this->getChecked('depends/package/excludes/'.$_i)?>/>
+                    <?=$this->__("Level:")?> <select name="depends[package][level][]">
+                        <?foreach ($this->getDependLevels() as $_value=>$_label):?>
+                            <option value="<?=$_value?>" <?=$this->getSelected('depends/package/level/'.$_i, $_value)?>><?=$_label?></option>
+                        <?endforeach?>
+                    </select>
+                    <?=$this->getRemoveRowButtonHtml()?>
+                </span>
+            <?endforeach?>
+        </div>
+        <?=$this->getAddRowButtonHtml('depends_packages_container', 'depends_packages_template', 'Add Package dependency')?>
+    </fieldset>
+
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Subpackages")?></h4>
+    <fieldset id="depends_subpackages_fieldset">
+        <legend><?=$this->__("Subpackages")?></legend>
+        <div id="depends_subpackages_template" style="display:none">
+            <span class="field-row">
+                <?=$this->__("Subpackage:")?> <input class="input-text" name="depends[subpackage][name][]"/>
+                <?=$this->__("Min:")?> <input class="input-text" name="depends[subpackage][min][]"/>
+                <?=$this->__("Max:")?> <input class="input-text" name="depends[subpackage][max][]"/>
+                <?=$this->__("Recommended:")?> <input class="input-text" name="depends[subpackage][recommended][]"/>
+                <?=$this->__("Exclude:")?> <input class="input-text" name="depends[subpackage][excludes][]"/>
+                <?=$this->__("Level:")?> <select name="depends[subpackage][level][]">
+                    <?foreach ($this->getDependLevels() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+                <?=$this->getRemoveRowButtonHtml()?>
+            </span>
+        </div>
+        <div id="depends_subpackages_container">
+            <?foreach ($this->getSubpackageDepends() as $_i=>$_dbField):?>
+                <span class="field-row">
+                    <?=$this->__("Subpackage:")?> <input class="input-text" name="depends[subpackage][name][]" value="<?=$this->getValue('depends/subpackage/name/'.$_i)?>"/>
+                    <?=$this->__("Min:")?> <input class="input-text" name="depends[subpackage][min][]" value="<?=$this->getValue('depends/subpackage/min/'.$_i)?>"/>
+                    <?=$this->__("Max:")?> <input class="input-text" name="depends[subpackage][max][]" value="<?=$this->getValue('depends/subpackage/max/'.$_i)?>"/>
+                    <?=$this->__("Recommended:")?> <input class="input-text" name="depends[subpackage][recommended][]" value="<?=$this->getValue('depends/subpackage/recommended/'.$_i)?>"/>
+                    <?=$this->__("Exclude:")?> <input class="input-text" name="depends[subpackage][excludes][]" <?=$this->getChecked('depends/subpackage/excludes/'.$_i)?>/>
+                <?=$this->__("Level:")?> <select name="depends[subpackage][level][]">
+                    <?foreach ($this->getDependLevels() as $_value=>$_label):?>
+                        <option value="<?=$_value?>" <?=$this->getSelected('depends/subpackage/level/'.$_i, $_value)?>><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+                    <?=$this->getRemoveRowButtonHtml()?>
+                </span>
+            <?endforeach?>
+        </div>
+        <?=$this->getAddRowButtonHtml('depends_subpackages_container', 'depends_subpackages_template', 'Add Subpackage dependency')?>
+    </fieldset>
+
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Extensions")?></h4>
+    <fieldset id="depends_extensions_fieldset">
+        <legend><?=$this->__("Extensions")?></legend>
+        <div id="depends_extensions_template" style="display:none">
+            <span class="field-row">
+                <?=$this->__("Extension:")?> <select name="depends[extension][name][]">
+                    <?foreach ($this->getExtensions() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+                <?=$this->__("Min:")?> <input class="input-text" name="depends[extension][min][]"/>
+                <?=$this->__("Max:")?> <input class="input-text" name="depends[extension][max][]"/>
+                <?=$this->__("Recommended:")?> <input class="input-text" name="depends[extension][recommended][]"/>
+                <?=$this->__("Exclude:")?> <input class="input-text" name="depends[extension][excludes][]"/>
+                <?=$this->__("Level:")?> <select name="depends[extension][level][]">
+                    <?foreach ($this->getDependLevels() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+                <?=$this->getRemoveRowButtonHtml()?>
+            </span>
+        </div>
+        <div id="depends_extensions_container">
+            <?foreach ($this->getExtensionDepends() as $_i=>$_dbField):?>
+                <span class="field-row">
+                    <?=$this->__("Package:")?> <select name="depends[extension][name][]">
+                    <?foreach ($this->getExtensions() as $_value=>$_label):?>
+                        <option value="<?=$_value?>" <?=$this->getSelected('depends/extension/name/'.$_i, $_value)?>><?=$_label?></option>
+                    <?endforeach?>
+                    </select>
+                    <?=$this->__("Min:")?> <input class="input-text" name="depends[extension][min][]" value="<?=$this->getValue('depends/extension/min/'.$_i)?>"/>
+                    <?=$this->__("Max:")?> <input class="input-text" name="depends[extension][max][]" value="<?=$this->getValue('depends/extension/max/'.$_i)?>"/>
+                    <?=$this->__("Recommended:")?> <input class="input-text" name="depends[extension][recommended][]" value="<?=$this->getValue('depends/extension/recommended/'.$_i)?>"/>
+                    <?=$this->__("Exclude:")?> <input class="input-text" name="depends[extension][excludes][]" <?=$this->getChecked('depends/extension/excludes/'.$_i)?>/>
+                    <?=$this->__("Level:")?> <select name="depends[extension][level][]">
+                        <?foreach ($this->getDependLevels() as $_value=>$_label):?>
+                            <option value="<?=$_value?>" <?=$this->getSelected('depends/extension/level/'.$_i, $_value)?>><?=$_label?></option>
+                        <?endforeach?>
+                    </select>
+                    <?=$this->getRemoveRowButtonHtml()?>
+                </span>
+            <?endforeach?>
+        </div>
+        <?=$this->getAddRowButtonHtml('depends_extensions_container', 'depends_extensions_template', 'Add PHP Extension dependency')?>
+    </fieldset>
+
+</div>
