@@ -429,7 +429,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param   mixed $product
      * @return  Mage_Sales_Model_Quote
      */
-    public function addProduct($product)
+    public function addProduct($product, $qty=1)
     {
         if (is_int($product)) {
             $product = Mage::getModel('catalog/product')
@@ -438,7 +438,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         
         if ($product instanceof Mage_Catalog_Model_Product) {
-            $this->addCatalogProduct($product);
+            $this->addCatalogProduct($product, $qty);
         }
         
         return $this;

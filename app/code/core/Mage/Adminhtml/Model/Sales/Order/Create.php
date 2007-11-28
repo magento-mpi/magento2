@@ -208,13 +208,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * @param   string $mogeTo
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function moveQuoteItem($item, $moveTo)
+    public function moveQuoteItem($item, $moveTo, $qty)
     {
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
                 case 'cart':
                     if ($cart = $this->getCustomerCart()) {
-                        $cart->addProduct($item->getProduct());
+                        $cart->addProduct($item->getProduct(), $qty);
                         $cart->collectTotals()
                             ->save();
                     }
@@ -338,16 +338,17 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (is_array($data)) {
             foreach ($data as $itemId => $info) {
+                $itemQty = (int) $info['qty'];
+                $itemQty = $itemQty>0 ? $itemQty : 1;
+
                 if (empty($info['action'])) {
-                    $itemQty = (int) $info['qty'];
-                    $itemQty = $itemQty>0 ? $itemQty : 1;
                     
                     if ($item = $this->getQuote()->getItemById($itemId)) {
             	       $item->setQty($itemQty);
                     }                
                 }
                 else {
-                    $this->moveQuoteItem($itemId, $info['action']);
+                    $this->moveQuoteItem($itemId, $info['action'], $itemQty);
                 }
             }
             $this->setRecollect(true);
