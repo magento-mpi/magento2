@@ -29,7 +29,7 @@
             <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Submitting order information...')?> &nbsp;
         </span>
 
-        <span id="review-buttons-container a-center">
+        <span id="review-buttons-container" class="a-center">
             <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" onclick="review.save();" value="<?=$this->__('Place Order')?>"/>
             <br /><?=$this->helper('giftmessage/message')->getButton('main', $this->getQuote())?>
         </span>

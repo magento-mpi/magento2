@@ -108,7 +108,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getRegion()
     {
     	if ($this->getData('region_id') && !$this->getData('region')) {
-    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getCode());
+    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getName());
     	}
     	return $this->getData('region');
     }
@@ -133,4 +133,12 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     {
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
+    
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        $this->getRegion();
+        return $this;
+    }
+
 }

@@ -29,15 +29,9 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
 {
     protected $_customer;
 
-    /**
-     * Constructor receives $address as array of fields for new address or integer to load existing id
-     *
-     * @param array|integer $address
-     */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getEntityIdField());
+        $this->_init('customer/address');
     }
     
     /**
@@ -77,29 +71,6 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
                 ->load($this->getCustomerId());
         }
         return $this->_customer;
-    }
-
-    /**
-     * Get customer address resource model
-     *
-     * @return mixed
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('customer/address');
-    }
-
-    /**
-     * save customer address
-     *
-     * @return  Mage_Customer_Model_Address
-     */
-    public function save()
-    {
-        $this->getResource()
-            ->loadAllAttributes()
-            ->save($this);
-        return $this;
     }
 
     /**

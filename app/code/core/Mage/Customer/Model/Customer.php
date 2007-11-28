@@ -97,8 +97,8 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function save()
     {
+        $this->getGroupId();
         $this->getResource()
-            ->loadAllAttributes()
             ->save($this);
         return $this;
     }

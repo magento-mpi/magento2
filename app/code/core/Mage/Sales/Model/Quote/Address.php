@@ -21,7 +21,7 @@
 /**
  * Quote address  model
  */
-class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstract 
 {
 	const RATES_FETCH = 1;
 	const RATES_RECALCULATE = 2;
@@ -520,96 +520,5 @@ class Mage_Sales_Model_Quote_Address extends Mage_Core_Model_Abstract
     public function getName()
     {
     	return $this->getFirstname().' '.$this->getLastname();
-    }
-
-    public function getRegion()
-    {
-    	if ($this->getData('region_id') && !$this->getData('region')) {
-    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getCode());
-    	}
-    	return $this->getData('region');
-    }
-
-    public function getCountry()
-    {
-    	if ($this->getData('country_id') && !$this->getData('country')) {
-    		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
-    	}
-    	return $this->getData('country');
-    }
-
-    public function getFormated($html=false)
-    {
-    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
-    }
-
-    /**
-     * get address street
-     *
-     * @param   int $line address line index
-     * @return  string
-     */
-    public function getStreet($line=0)
-    {
-        $street = parent::getData('street');
-        if (-1===$line) {
-            return $street;
-        } else {
-            $arr = is_array($street) ? $street : explode("\n", $street);
-            if (0===$line) {
-                return $arr;
-            } elseif (isset($arr[$line-1])) {
-                return $arr[$line-1];
-            } else {
-                return '';
-            }
-        }
-    }
-
-    /**
-     * set address street informa
-     *
-     * @param unknown_type $street
-     * @return unknown
-     */
-    public function setStreet($street)
-    {
-        if (is_array($street)) {
-            $street = trim(implode("\n", $street));
-        }
-        $this->setData('street', $street);
-        return $this;
-    }
-
-    /**
-     * To be used when processing _POST
-     */
-    public function implodeStreetAddress()
-    {
-        $this->setStreet($this->getData('street'));
-    }
-
-    /**
-     * set address data
-     *
-     * @param   string $key
-     * @param   mixed $value
-     * @return  Mage_Sales_Model_Quote_Address
-     */
-    public function setData($key, $value='')
-    {
-        switch ($key) {
-            case 'region':
-                if (is_numeric($value)) {
-                    $region = Mage::getModel('directory/region')->load((int)$value);
-                    if ($region->getId()) {
-                        $this->setRegionId($value);
-                        $this->setRegion($region->getCode());
-                        return $this;
-                    }
-                }
-                break;
-        }
-        return parent::setData($key, $value);
     }
 }

@@ -21,11 +21,6 @@
 
 class Mage_Checkout_Model_Type_Onepage
 {
-    public function __construct()
-    {
-        //$this->getQuote()->getShippingAddress()->setCollectShippingRates(false);
-        $this->getQuote()->collectTotals();
-    }
     /**
      * Enter description here...
      *
