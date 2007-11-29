@@ -31,8 +31,10 @@
 </form>
 <?elseif($this->getSaveMode()=='save'):?>
 <h3><?=$this->__('Your gift message successfully saved')?></h3>
+<br /><?=$this->getCloseButtonHtml()?>
 <?else:?>
 <h3><?=$this->__('Your gift message successfully removed')?></h3>
+<br /><?=$this->getCloseButtonHtml()?>
 <?endif;?>
 <script type="text/javascript">
 <!--

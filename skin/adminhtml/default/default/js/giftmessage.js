@@ -98,6 +98,10 @@ GiftMessageWindow.prototype = {
         window.opener.focus();
         window.close();
     },
+    close: function()  {
+        window.opener.focus();
+        window.close();
+    },
     remove: function(evt)  {
         Event.stop(evt);
         if(this.confirmMessage && !window.confirm(this.confirmMessage)) {

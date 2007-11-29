@@ -68,6 +68,14 @@ class Mage_Adminhtml_Block_Giftmessage_Edit extends Mage_Adminhtml_Block_Widget
                     ))
         );
 
+        $this->setChild('cancel_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->addData(array(
+                        'label' => $this->__('Close'),
+                        'type'  => 'button',
+                        'onclick'  => 'giftMessageWindowObject.close()'
+                    ))
+        );
 
         return parent::_prepareLayout();
     }
@@ -80,6 +88,11 @@ class Mage_Adminhtml_Block_Giftmessage_Edit extends Mage_Adminhtml_Block_Widget
     public function getCancelButtonHtml()
     {
         return $this->getChildHtml('cancel_button');
+    }
+
+    public function getCloseButtonHtml()
+    {
+        return $this->getChildHtml('close_button');
     }
 
     public function getRemoveButtonHtml()
