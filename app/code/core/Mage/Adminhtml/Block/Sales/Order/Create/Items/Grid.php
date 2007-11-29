@@ -45,7 +45,18 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getParentBlock()->getSession();
     }
-
+    
+    public function getItemEditablePrice($item)
+    {
+        return $item->getCalculationPrice();
+        //return $this->formatPrice($item->getCalculationPrice(), false);
+    }
+    
+    public function getItemOrigPrice($item)
+    {
+        return $this->convertPrice($item->getProduct()->getPrice());
+    }
+    
     public function getSubtotal()
     {
         $totals = $this->getQuote()->getTotals();

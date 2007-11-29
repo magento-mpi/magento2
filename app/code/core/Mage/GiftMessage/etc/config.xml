@@ -93,7 +93,7 @@
                     <tag>
                         <type>model</type>
                         <class>giftmessage/message</class>
-                        <method>salesEventCreateOrder</method>
+                        <method>checkoutEventCreateOrder</method>
                     </tag>
                 </observers>
             </adminhtml_sales_order_create_create_order>

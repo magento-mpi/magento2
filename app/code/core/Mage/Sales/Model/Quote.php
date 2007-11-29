@@ -581,6 +581,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->setGrandTotal(0);
         foreach ($this->getAllShippingAddresses() as $address) {
+            $address->setGrandTotal(0);
             $address->collectTotals();
             $this->setGrandTotal((float) $this->getGrandTotal()+$address->getGrandTotal());
         }

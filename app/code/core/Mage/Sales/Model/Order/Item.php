@@ -76,7 +76,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             ->setName($item->getName())
             ->setDescription($item->getDescription())
             ->setQtyOrdered($item->getQty())
-            ->setPrice($item->getPrice())
+            ->setPrice($item->getCalculationPrice())
             ->setRowTotal($item->getRowTotal())
             // TODO - all others
         ;
@@ -94,7 +94,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             ->setName($item->getName())
             ->setDescription($item->getDescription())
             ->setQtyOrdered($item->getQty())
-            ->setPrice($item->getPrice())
+            ->setPrice($item->getCalculationPrice())
             ->setRowTotal($item->getRowTotal())
             // TODO - all others
         ;

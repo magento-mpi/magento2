@@ -28,6 +28,19 @@
 abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abstract
 {
     /**
+     * Retrieve store model object
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        if ($this->getQuote()) {
+            return $this->getQuote()->getStore();
+        }
+        return $this->getResource()->getStore();
+    }
+    
+    /**
      * Import item data from product model object
      *
      * @param   Mage_Catalog_Model_Product $product
@@ -79,7 +92,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function calcRowTotal()
     {
-        $this->setRowTotal($this->getPrice()*$this->getQty());
+        $total = $this->getStore()->roundPrice($this->getCalculationPrice()*$this->getQty());
+        $this->setRowTotal($total);
         return $this;
     }
 
@@ -103,5 +117,22 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
         return $this;
+    }
+    
+    /**
+     * Retrieve item price used for calculation
+     *
+     * @return unknown
+     */
+    public function getCalculationPrice()
+    {
+        $price = $this->getData('calculation_price');
+        if (is_null($price)) {
+            $price = $this->getPrice();
+            $price = $this->getCustomPrice() ? $this->getCustomPrice() : $price;
+            $price = $this->getStore()->convertPrice($price);
+            $this->setData('calculation_price', $price);
+        }
+        return $price;
     }
 }

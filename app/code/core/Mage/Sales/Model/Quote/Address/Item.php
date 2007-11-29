@@ -58,22 +58,22 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
 
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteItem)
     {
-        $item = clone $quoteItem;
-        $item->setQuoteItemId($item->getId());
-        $qty = $item->getQty();
-        
-        $item->unsEntityId()
-            ->unsAttributeSetId()
-            ->unsEntityTypeId()
-            ->unsQty()
-            ->unsParentId();
+        $this->setQuoteItemId($quoteItem->getId())
+            ->setProductId($quoteItem->getProductId())
+            ->setProduct($quoteItem->getProduct())
+            ->setSuperProductId($quoteItem->getSuperProductId())
+            ->setSuperProduct($quoteItem->getSuperProduct())
+            ->setSku($quoteItem->getSku())
+            ->setImage($quoteItem->getImage())
+            ->setName($quoteItem->getName())
+            ->setDescription($quoteItem->getDescription())
+            ->setWeight($quoteItem->getWeight()) 
+            ->setPrice($quoteItem->getPrice())
+            ->setCost($quoteItem->getCost());
             
-        $this->addData($item->getData());
-
         if (!$this->hasQty()) {
-            $this->setQty($qty);
+            $this->setQty($quoteItem->getQty());
         }
-        
         $this->setQuoteItemImported(true);
         return $this;
     }

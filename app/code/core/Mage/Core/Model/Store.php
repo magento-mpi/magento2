@@ -355,6 +355,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $currency;
     }
+    
+    public function getCurrentCurrencyRate()
+    {
+        return $this->getBaseCurrency()->getRate($this->getCurrentCurrency());
+    }
 
     /**
      * Convert price from default currency to current currency
@@ -369,11 +374,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         } else {
             $value = $price;
         }
-
+        $value = $this->roundPrice($value);
+        
         if ($this->getCurrentCurrency() && $format) {
             $value = $this->formatPrice($value);
         }
         return $value;
+    }
+    
+    public function roundPrice($price)
+    {
+        return round($price, 2);
     }
 
     /**

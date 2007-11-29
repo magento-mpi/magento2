@@ -214,7 +214,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             switch ($moveTo) {
                 case 'cart':
                     if ($cart = $this->getCustomerCart()) {
-                        $cart->addProduct($item->getProduct(), $qty);
+                        $cartItem = $cart->addCatalogProduct($item->getProduct());
+                        $cartItem->setQty($qty);
                         $cart->collectTotals()
                             ->save();
                     }
@@ -346,14 +347,17 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (is_array($data)) {
             foreach ($data as $itemId => $info) {
-                $itemQty = (int) $info['qty'];
-                $itemQty = $itemQty>0 ? $itemQty : 1;
+                $itemQty    = (int) $info['qty'];
+                $itemQty    = $itemQty>0 ? $itemQty : 1;
+                
+                $itemPrice  =  $this->_parseCustomPrice($info['custom_price']);;
 
                 if (empty($info['action'])) {
 
                     if ($item = $this->getQuote()->getItemById($itemId)) {
             	       $item->setQty($itemQty);
-                    }
+            	       $item->setCustomPrice($itemPrice);
+                    }                
                 }
                 else {
                     $this->moveQuoteItem($itemId, $info['action'], $itemQty);
@@ -364,6 +368,16 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         return $this;
     }
 
+    protected function _parseCustomPrice($price)
+    {
+        if ($rate = $this->getQuote()->getStore()->getCurrentCurrencyRate()) {
+            $price = floatval($price);
+            $price = $price>0 ? $price : 0;
+            return floatval($price)/$rate;
+        }
+        return false;
+    }
+    
     /**
      * Retrieve oreder quote shipping address
      *
@@ -560,7 +574,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         }
 
-        Mage::dispatchEvent('adminhtml_sales_order_create_create_order', array('qoute'=>$this->getQuote(), 'order'=>$order));
+        Mage::dispatchEvent('adminhtml_sales_order_create_create_order', array('quote'=>$this->getQuote(), 'order'=>$order));
         $order->save();
 
         if ($this->getSendConfirmation()) {

@@ -84,6 +84,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
          */
         if ($currencyId = $this->getRequest()->getParam('currency_id')) {
             $this->_getSession()->setCurrencyId((string) $currencyId);
+            $this->_getOrderCreateModel()->setRecollect(true);
         }
         return $this;
     }
@@ -275,7 +276,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $url = $this->_redirect('*/*/');
         }
         catch (Exception $e){
-            $this->_getSession()->addException($e, __('Order saving error'));
+            $this->_getSession()->addException($e, __('Order saving error: %s', $e->getMessage()));
             $url = $this->_redirect('*/*/');
         }
     }

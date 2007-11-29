@@ -34,8 +34,12 @@
     <ul>
         <?foreach ($this->getItems() as $_item):?>
         <li>
-            <span><?=$_item->getName()?></span><br/>
-            <span><?=$this->formatPrice($_item->getPrice())?></span><br/>
+            <span><?=$_item->getName()?></span>
+            <?if ($this->canDisplayItemQty()):?>
+            <strong>(<?=$_item->getQty()*1?>)</strong>
+            <?endif;?>
+            <br/>
+            <span><?=$this->convertPrice($_item->getPrice())?></span><br/>
             <?if($this->canRemoveItems()):?>
             <a href="#" onclick="order.removeSidebarItem ('<?=$this->getItemId($_item)?>', '<?=$this->getDataId()?>');return false;">
                 <?=__('Remove')?></a> | 

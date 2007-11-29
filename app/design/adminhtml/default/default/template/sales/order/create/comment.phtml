@@ -23,10 +23,7 @@
     <fieldset>
         <textarea style="width: 100%; height: 6em;" name="order[comment][customer_note]"><?=$this->getCommentNote()?></textarea>
         <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?if($this->getNoteNotify()):?>checked="true"<?endif;?>/> 
-        <label for="notify_customer" class="normal"><?=__('Send Comment to the Customer')?></label>
-        <br/>
-        <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="true"/> 
-        <label for="send_confirmation" class="normal"><?=__('Send Order Confirmation')?></label>
+        <label for="notify_customer" class="normal"><?=__('Apply Comment to the Confirmation Email')?></label>
     </fieldset>
     <script type="text/javascript">order.commentFieldsBind('order:comment')</script>
 </div>

@@ -45,6 +45,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         return $this->getCustomerId();
     }
     
+    public function canDisplayItemQty()
+    {
+        return false;
+    }
+    
     /**
      * Retrieve availability removing items in block
      *

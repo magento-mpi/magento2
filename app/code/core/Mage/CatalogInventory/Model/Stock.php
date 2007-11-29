@@ -51,9 +51,11 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
             ->addProductsFilter($productCollection)
             ->load();
         foreach ($items as $item) {
-        	if ($product = $productCollection->getItemById($item->getProductId())) {
-        	    $item->assignProduct($product);
-        	}
+            if ($product = $productCollection->getItemById($item->getProductId())) {
+                if($product instanceof Mage_Catalog_Model_Product) {
+                    $item->assignProduct($product);
+                }
+            }
         }
         return $this;
     }

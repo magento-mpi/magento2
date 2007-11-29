@@ -36,7 +36,9 @@ class Mage_CatalogInventory_Model_Observer
     public function addInventoryData($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        Mage::getModel('cataloginventory/stock_item')->assignProduct($product);
+        if($product instanceof Mage_Catalog_Model_Product) {
+            Mage::getModel('cataloginventory/stock_item')->assignProduct($product);
+        }
         return $this;
     }
     

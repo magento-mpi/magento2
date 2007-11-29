@@ -38,6 +38,10 @@
         </tbody>
     </table>
     </div>
+    <div>
+        <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="true"/> 
+        <label for="send_confirmation" class="normal"><?=__('Send Order Confirmation Email')?></label>
+    </div>
     <div><?=$this->getButtonHtml($this->__('Submit Order'),'order.submit()');?></div>
     </fieldset>
 </div>
