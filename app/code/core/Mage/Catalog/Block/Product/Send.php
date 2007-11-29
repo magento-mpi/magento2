@@ -49,4 +49,9 @@ class Mage_Catalog_Block_Product_Send extends Mage_Catalog_Block_Product_Abstrac
     {
     	return (string)Mage::getSingleton('customer/session')->getCustomer()->getEmail();
     }
+    
+    public function getProductId()
+    {
+        return $this->getRequest()->getParam('id');
+    }
 }

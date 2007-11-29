@@ -106,7 +106,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     public function sendmailAction()
     {
         $recipients_email = array();
-        if($this->getRequest()->getParam('id')) {
+        if($this->getRequest()->getPost() && $this->getRequest()->getParam('id')) {
             $sender = $this->getRequest()->getParam('sender');
             $recipients = $this->getRequest()->getParam('recipients');
             $recipients_email = $recipients['email'];
