@@ -598,7 +598,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if (!($rate = floatval($this->getStoreToOrderRate()))) {
             $rate = 1;
         }
-        return $this->getOrderCurrency()->format($price*$rate);
+        //$price = $price*$rate;
+        return $this->getOrderCurrency()->format($price);
     }
 
     /**

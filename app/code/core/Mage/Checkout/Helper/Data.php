@@ -25,6 +25,11 @@
  */
 class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Retrieve checkout session model
+     *
+     * @return Mage_Checkout_Model_Session
+     */
     public function getCheckout()
     {
         if (empty($this->_checkout)) {
@@ -32,7 +37,12 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_checkout;
     }
-
+    
+    /**
+     * Retrieve checkout quote model object
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function getQuote()
     {
         if (empty($this->_quote)) {
@@ -161,5 +171,15 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
  		}
  		$html.='</ul>';
  		return $html;
+    }
+    
+    public function formatPrice($price)
+    {
+        return $this->getQuote()->getStore()->formatPrice($price);
+    }
+    
+    public function convertPrice($price, $format=true)
+    {
+        return $this->getQuote()->getStore()->convertPrice($price, $format);
     }
 }

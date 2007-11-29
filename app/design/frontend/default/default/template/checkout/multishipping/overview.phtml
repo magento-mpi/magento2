@@ -96,9 +96,9 @@
                         <?if($this->helper('giftmessage/message')->getAviableForAddressItems($this->getShippingAddressItems($_address))):?>
                         <th class="a-center"><?=$this->helper('giftmessage/message')->getButton('address_item',$_item)?></th>
                         <?endif?>
-                        <td class="a-right"><?=$_item->getPrice()?></td>
-                        <td class="a-center"><?=$_item->getQty()?></td>
-                        <td class="a-right"><?=$_item->getRowTotal()?></td>
+                        <td class="a-right"><?=$this->helper('checkout')->formatPrice($_item->getCalculationPrice())?></td>
+                        <td class="a-center"><?=$_item->getQty()*1?></td>
+                        <td class="a-right"><?=$this->helper('checkout')->formatPrice($_item->getRowTotal())?></td>
                     </tr>
                 <?endforeach;?>
                 </tbody>
@@ -106,7 +106,7 @@
                 <?foreach ($this->getShippingAddressTotals($_address) as $_total):?>
                     <tr>
                         <td colspan="<?if($this->helper('giftmessage/message')->getAviableForAddressItems($this->getShippingAddressItems($_address))):?>4<?else:?>3<?endif;?>" class="a-right"><?=$_total->getTitle()?></td>
-                        <td class="a-right"><?=$_total->getValue()?></td>
+                        <td class="a-right"><?=$this->helper('checkout')->formatPrice($_total->getValue())?></td>
                     </tr>
                 <?endforeach;?>
                 </tfoot>
@@ -123,7 +123,7 @@
 <table class="place-order-box" cellspacing="0">
     <tr>
         <td class="left-radius">&nbsp;</td>
-        <td class="main-radius"><big class="grand-total"><span class="label"><?=$this->__('Grand Total:')?></span> <span class="price"><?=$this->getTotal()?></span></big>
+        <td class="main-radius"><big class="grand-total"><span class="label"><?=$this->__('Grand Total:')?></span> <span class="price"><?=$this->helper('checkout')->formatPrice($this->getTotal())?></span></big>
             <input type="image" src="<?=$this->getSkinUrl('images/btn_place_order.gif')?>" value="<?=$this->__('Place Order')?>"/></td>
     </tr>
 </table>

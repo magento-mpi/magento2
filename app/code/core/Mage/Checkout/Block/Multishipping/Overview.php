@@ -97,12 +97,13 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
 
     public function getShippingAddressItems($address)
     {
-        $priceFilter = Mage::app()->getStore()->getPriceFilter();
+        /*$priceFilter = Mage::app()->getStore()->getPriceFilter();
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
         $itemsFilter->addFilter($priceFilter, 'price');
         $itemsFilter->addFilter($priceFilter, 'row_total');
-        return $itemsFilter->filter($address->getAllItems());
+        return $itemsFilter->filter($address->getAllItems());*/
+        return $address->getAllItems();
     }
 
     public function getShippingAddressTotals($address)
@@ -113,15 +114,17 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
                 $total->setTitle(__('Total for this address'));
             }
         }
-        $totalsFilter = new Varien_Filter_Object_Grid();
+        /*$totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'value');
-        return $totalsFilter->filter($totals);
+        return $totalsFilter->filter($totals);*/
+        return $totals;
     }
 
     public function getTotal()
     {
-        $filter = Mage::app()->getStore()->getPriceFilter();
-        return $filter->filter($this->getCheckout()->getQuote()->getGrandTotal());
+        /*$filter = Mage::app()->getStore()->getPriceFilter();
+        return $filter->filter($this->getCheckout()->getQuote()->getGrandTotal());*/
+        return $this->getCheckout()->getQuote()->getGrandTotal();
     }
 
     public function getAddressesEditUrl()

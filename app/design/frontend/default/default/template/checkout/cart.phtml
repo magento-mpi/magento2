@@ -66,6 +66,11 @@
     </tfoot>
     <tbody>
     <?foreach($this->getItems() as $_item):?>
+        <?if($_item->getMessage()):?>
+        <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
+            <td colspan="100"><?=$_item->getMessage()?>123</td>
+        </tr>
+        <?endif;?>
         <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
             <td>
                 <a href="<?=$this->getItemUrl($_item)?>"><img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/></a>
@@ -73,9 +78,6 @@
             <td class="attributes-col">
                 <a href="<?=$this->getItemUrl($_item)?>"><strong><?=$this->getItemName($_item)?></strong></a>
                 <?=$this->getItemDescription($_item)?>
-                <?if($_item->getMessage()):?>
-                    <div><?=$_item->getMessage()?></div>
-                <?endif;?>
             </td>
             <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
             <?if($this->isWishlistActive()):?>
@@ -84,9 +86,9 @@
             <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote())):?>
             <td class="a-center"><?=$this->helper('giftmessage/message')->getButton('item',$_item)?></td>
             <?endif;?>
-            <td class="a-right"><?=$_item->getPrice()?></td>
+            <td class="a-right"><?=$this->helper('checkout')->formatPrice($_item->getCalculationPrice())?></td>
             <td class="a-center"><input name="cart[<?=$_item->getId()?>][qty]" value="<?=$this->getItemQty($_item)?>" size="2" class="input-text qty"/></td>
-            <td class="a-right"><?=$_item->getRowTotal()?></td>
+            <td class="a-right"><?=$this->helper('checkout')->formatPrice($_item->getRowTotal())?></td>
         </tr>
     <?endforeach?>
     </tbody>
@@ -111,7 +113,7 @@
             <?if(!$total->getArea()):?>
             <tr>
                 <td style="<?=$total->getStyle()?>"><?=$total->getTitle()?></td>
-                <td style="<?=$total->getStyle()?>"><?=$total->getValue()?></td>
+                <td style="<?=$total->getStyle()?>"><?=$this->helper('checkout')->formatPrice($total->getValue())?></td>
             </tr>
             <?endif?>
         <?endforeach?>
@@ -121,7 +123,7 @@
             <?if($total->getArea()=='footer'):?>
             <tr>
                 <td><strong><?=$total->getTitle()?></strong></td>
-                <td class="nowrap"><strong><?=$total->getValue()?></strong></td>
+                <td class="nowrap"><strong><?=$this->helper('checkout')->formatPrice($total->getValue())?></strong></td>
             </tr>
             <?endif?>
         <?endforeach?>

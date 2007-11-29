@@ -142,8 +142,8 @@ class Mage_Checkout_Model_Type_Onepage
             $billing->unsEntityId()->unsAddressType();
             $shipping = $this->getQuote()->getShippingAddress();
             $shipping->addData($billing->getData())
-            	->setSameAsBilling(1)
-            	->setCollectShippingRates(true);
+                ->setSameAsBilling(1)
+                ->setCollectShippingRates(true);
             $this->getCheckout()->setStepData('shipping', 'complete', true);
         } else {
             $shipping = $this->getQuote()->getShippingAddress();
@@ -202,7 +202,8 @@ class Mage_Checkout_Model_Type_Onepage
             );
             return $res;
         }
-        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
+        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod);
+        $this->getQuote()->collectTotals()->save();
 
         $this->getCheckout()
             ->setStepData('shipping_method', 'complete', true)
@@ -266,11 +267,11 @@ class Mage_Checkout_Model_Type_Onepage
                 $shipping = $this->getQuote()->getShippingAddress();
                 if (!$billing->getCustomerAddressId()) {
                     $customerBilling = $billing->exportCustomerAddress();
-                	$customer->addAddress($customerBilling);
+                    $customer->addAddress($customerBilling);
                 }
                 if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
                     $customerShipping = $shipping->exportCustomerAddress();
-                	$customer->addAddress($customerShipping);
+                    $customer->addAddress($customerShipping);
                 }
                 $customer->save();
 
@@ -333,7 +334,7 @@ class Mage_Checkout_Model_Type_Onepage
 
     protected function _createCustomer()
     {
-    	$quote = $this->getQuote();
+        $quote = $this->getQuote();
 
         $customer = Mage::getModel('customer/customer');
 

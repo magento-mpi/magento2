@@ -39,11 +39,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     
     public function getItems()
     {
-        $itemsFilter = new Varien_Filter_Object_Grid();
-        $itemsFilter->addFilter($this->_priceFilter, 'price');
-        $itemsFilter->addFilter($this->_priceFilter, 'row_total');
-        $items = $this->getQuote()->getAllItems();
-        return $itemsFilter->filter($items);
+        return $this->getQuote()->getAllItems();
     }
 
     public function getItemsSummaryQty()
@@ -53,9 +49,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 
     public function getTotals()
     {
-        $totalsFilter = new Varien_Filter_Object_Grid();
-        $totalsFilter->addFilter($this->_priceFilter, 'value');
-        return $totalsFilter->filter($this->getTotalsCache());
+        return $this->getTotalsCache();
     }
 
     public function getTotalsCache()

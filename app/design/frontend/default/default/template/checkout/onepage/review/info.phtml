@@ -34,7 +34,7 @@
 <?$l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++?>
         <tr>
             <td style="<?=$total->getStyle()?>" class="a-right" colspan="<?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote())):?>4<?else:?>3<?endif;?>"><?=$total->getTitle()?></td>
-            <td style="<?=$total->getStyle()?>" class="a-right"><?=$total->getValue()?></td>
+            <td style="<?=$total->getStyle()?>" class="a-right"><?=$this->helper('checkout')->formatPrice($total->getValue())?></td>
         </tr>
 <?endforeach?>
     </tfoot>
@@ -45,9 +45,9 @@
             <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote())):?>
             <td class="a-center"><?=$this->helper('giftmessage/message')->getButton('item', $item)?></td>
             <?endif?>
-            <td class="a-right"><?=$item->getPrice()?></td>
-            <td class="a-center"><?=$item->getQty()?></td>
-            <td class="a-right"><?=$item->getRowTotal()?></td>
+            <td class="a-right"><?=$this->helper('checkout')->formatPrice($item->getCalculationPrice())?></td>
+            <td class="a-center"><?=$item->getQty()*1?></td>
+            <td class="a-right"><?=$this->helper('checkout')->formatPrice($item->getRowTotal())?></td>
         </tr>
 <?endforeach?>
     </tbody>
