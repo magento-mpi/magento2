@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Giftmessage_Edit extends Mage_Adminhtml_Block_Widget
                     ))
         );
 
-        $this->setChild('cancel_button',
+        $this->setChild('close_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                         'label' => $this->__('Close'),
