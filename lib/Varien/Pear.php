@@ -72,9 +72,10 @@ class Varien_Pear
 
             $config = PEAR_Config::singleton();
 
-            $config->set('preferred_state', 'beta');
+            $config->set('preferred_state', 'alpha');
             $config->set('auto_discover', 1);
 
+            $config->set('bin_dir', $pear_dir.DS.'php');
             $config->set('php_dir', $pear_dir.DS.'php');
             $config->set('download_dir', $pear_dir.DS.'download');
             $config->set('temp_dir', $pear_dir.DS.'temp');
@@ -91,9 +92,9 @@ class Varien_Pear
                 #echo $key.' : '.$config->get($key).'<br>';
             }
 
-            $config->setRegistry($this->getRegistry());
+            #$config->setRegistry($this->getRegistry());
 
-            PEAR_DependencyDB::singleton($config, $pear_dir.DS.'reg'.DS.'.depdb');
+            #PEAR_DependencyDB::singleton($config, $pear_dir.DS.'reg'.DS.'.depdb');
 
             PEAR_Frontend::setFrontendObject($this->getFrontend());
 

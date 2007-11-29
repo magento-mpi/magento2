@@ -29,13 +29,13 @@ define('PEAR_IGNORE_BACKTRACE', 1);
 /**
  * @nodep Gtk
  */
-if ('./lib/pear/php' != '@'.'include_path'.'@') {
-    ini_set('include_path', './lib/pear/php');
-    $raw = false;
-} else {
+#if ('/home/moshe/dev/magento_pear/lib/pear/php' != '@'.'include_path'.'@') {
+#    ini_set('include_path', '/home/moshe/dev/magento_pear/lib/pear/php');
+#    $raw = false;
+#} else {
     // this is a raw, uninstalled pear, either a cvs checkout, or php distro
     $raw = true;
-}
+#}
 @ini_set('allow_url_fopen', true);
 if (!ini_get('safe_mode')) {
     @set_time_limit(0);
@@ -133,7 +133,7 @@ if (PEAR::isError($config)) {
     $config->getMessage();
     $ui->outputData("ERROR: $_file is not a valid config file or is corrupted.");
     // We stop, we have no idea where we are :)
-    exit(1);    
+    exit(1);
 }
 
 // this is used in the error handler to retrieve a relative path

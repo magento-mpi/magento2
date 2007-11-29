@@ -18,7 +18,39 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<style type="text/css">
+#depends_contents_fieldset .input-text { width:200px; }
+</style>
 <div class="entry-edit">
     <?=$this->getFormHtml()?>
 
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Contents")?></h4>
+    <fieldset id="depends_contenmts_fieldset">
+        <legend><?=$this->__("Contents")?></legend>
+        <div id="depends_contents_template" style="display:none">
+            <span class="field-row">
+                <?=$this->__("Role:")?> <select name="contents[role][]">
+                    <?foreach ($this->getRoles() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                </select>
+                <?=$this->__("Path:")?> <input class="input-text" name="contents[path][]"/>
+                <?=$this->getRemoveRowButtonHtml()?>
+            </span>
+        </div>
+        <div id="depends_contents_container">
+            <?foreach ($this->getContents() as $_i=>$_dbField):?>
+                <span class="field-row">
+                    <?=$this->__("Role:")?> <select name="contents[role][]">
+                    <?foreach ($this->getRoles() as $_value=>$_label):?>
+                        <option value="<?=$_value?>" <?=$this->getSelected('contents/role/'.$_i, $_value)?>><?=$_label?></option>
+                    <?endforeach?>
+                    </select>
+                    <?=$this->__("Location:")?> <input class="input-text" name="contents[path][]" value="<?=$this->getValue('contents/path/'.$_i)?>"/>
+                    <?=$this->getRemoveRowButtonHtml()?>
+                </span>
+            <?endforeach?>
+        </div>
+        <?=$this->getAddRowButtonHtml('depends_contents_container', 'depends_contents_template', 'Add Contents Path')?>
+    </fieldset>
 </div>
