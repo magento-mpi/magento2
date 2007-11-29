@@ -19,13 +19,16 @@
  */
 
 /**
- * Adminhtml Gift Message Helper Block
+ * Adminhtml sales order item renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_GiftMessage_Helper extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Giftmessage extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-
-} // Class Mage_Adminhtml_Block_GiftMessage_Helper End
+    public function render(Varien_Object $row)
+    {
+        return $this->helper('giftmessage/message')->getAdminButton('order_item', $row, $this->getColumn()->getStore());
+    }
+} // Class Mage_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Giftmessage End

@@ -95,6 +95,11 @@
     background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
     padding:0 0 85px 0;
     }
+.middle-popup {
+    border-bottom:3px solid #fff;
+    background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
+    padding:0 0 0px 0;
+    }
 .container { /* created to browser-compatible liquid-layout */
     border-left:17.48em solid #fff;
     padding:1.8em 2.2em 1.8em 2em;
@@ -109,6 +114,14 @@
     padding:1.8em 2.3em 6em 2.3em;
         background:url(images/simple_container_bg.gif) repeat-x;
     }
+.simple-container-popup {
+    min-height:50px !important;
+    padding:1.8em 2.3em 6em 2.3em;
+    background:url(images/simple_container_bg.gif) repeat-x;
+}
+BODY.html-body-popup{
+    min-width:300px !important;
+}
 .simple-container-left { padding:2em 0 0 0; }
 .section-menu {
     float:left;

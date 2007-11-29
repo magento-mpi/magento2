@@ -42,3 +42,19 @@
     <div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
 </div>
 <div class="clear"></div>
+<?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
+<div>
+    <div id="order:gift_message" class="box-left">
+    <div class="entry-edit">
+    <div>
+        <h4 class="icon-head fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
+        <div class="clear"></div>
+        </div>
+        <fieldset>
+            <?=$this->helper('giftmessage/message')->getAdminButton('main', $this->getQuote(), $this->getStoreId());?>
+        </fieldset>
+    </div>
+    </div>
+</div>
+<div class="clear"></div>
+<?endif;?>

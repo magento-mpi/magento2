@@ -26,7 +26,7 @@ GiftMessage.prototype = {
     },
     editGiftMessage: function (evt) {
         var popUpUrl = this.url + '?uniqueId=' + this.uniqueId;
-        this.popUp = window.open(popUpUrl, 'giftMessage', 'width=350,height=400,resizable=yes,scrollbars=yes');
+        this.popUp = window.open(popUpUrl, 'giftMessage', 'width=425,height=480,resizable=yes,scrollbars=yes');
         this.popUp.focus();
         Event.stop(evt);
     },
@@ -77,7 +77,7 @@ GiftMessageWindow.prototype = {
             this.parentObject.initWindow(this);
         }
         if(formId) {
-            this.form = new VarienForm(formId, true);
+            this.form = new varienForm(formId, true);
             this.formElement = $(formId);
             this.initListeners();
         }

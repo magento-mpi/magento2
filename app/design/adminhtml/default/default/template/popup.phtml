@@ -96,10 +96,10 @@
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/rules.js')?>"></script>
 <?endif?>
 </head>
-<body id="html-body">
+<body id="html-body" class="html-body-popup">
 <![if !IE]><table cellspacing="0" width="100%"><tr><td><![endif]>
 <div>
-        <div class="middle">
+        <div class="middle-popup">
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
                 <div class="simple-container-left" id="page:main-container">
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <?else:?>
-                <div class="simple-container" id="page:main-container">
+                <div class="simple-container-popup" id="page:main-container">
                     <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
                     <?=$this->getChildHtml('content')?>
                 </div>

@@ -47,10 +47,10 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     {
         return $this->_getSession()->getQuote();
     }
-    
+
     /**
      * Retrieve order create model
-     * 
+     *
      * @return Mage_Adminhtml_Model_Sales_Order_Create
      */
     protected function _getOrderCreateModel()
@@ -71,14 +71,14 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
             $this->_getSession()->setCustomerId((int) $customerId);
         }
-        
+
         /**
          * Identify store
          */
         if ($storeId = $this->getRequest()->getParam('store_id')) {
             $this->_getSession()->setStoreId((int) $storeId);
         }
-        
+
         /**
          * Identify currency
          */
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
         return $this;
     }
-    
+
     /**
      * Processing request data
      *
@@ -101,21 +101,21 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         if ($data = $this->getRequest()->getPost('order')) {
             $this->_getOrderCreateModel()->importPostData($data);
         }
-        
+
         /**
          * Change shipping address flag
          */
         if ($this->getRequest()->getPost('reset_shipping')) {
             $this->_getOrderCreateModel()->resetShippingMethod(true);
         }
-        
+
         /**
          * Collecting shipping rates
          */
         if ($this->getRequest()->getPost('collect_shipping_rates')) {
             $this->_getOrderCreateModel()->collectShippingRates();
         }
-        
+
         /**
          * Flag for using billing address for shipping
          */
@@ -123,21 +123,21 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         if (!is_null($syncFlag)) {
             $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
         }
-        
+
         /**
          * Adding product to quote from shoping cart, wishlist etc.
          */
         if ($productId = (int) $this->getRequest()->getPost('add_product')) {
             $this->_getOrderCreateModel()->addProduct($productId);
         }
-        
+
         /**
          * Adding products to quote from special grid
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getOrderCreateModel()->addProducts(Zend_Json::decode($data));
         }
-        
+
         /**
          * Update quote items
          */
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $items = $this->getRequest()->getPost('item', array());
             $this->_getOrderCreateModel()->updateQuoteItems($items);
         }
-        
+
         /**
          * Remove quote item
          */
@@ -153,25 +153,25 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
              && ($from = (string) $this->getRequest()->getPost('from'))) {
             $this->_getOrderCreateModel($itemId)->removeItem($itemId, $from);
         }
-        
+
         /**
          * Moove quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('move_item')) 
+        if ( ($itemId = (int) $this->getRequest()->getPost('move_item'))
             && ($moveTo = (string) $this->getRequest()->getPost('to')) ) {
             $this->_getOrderCreateModel()->moveQuoteItem($itemId, $moveTo);
         }
-        
+
         if ($paymentData = $this->getRequest()->getPost('payment')) {
             $this->_getOrderCreateModel()->setPaymentData($paymentData);
         }
-        
+
         $this->_getOrderCreateModel()
             ->initRuleData()
             ->saveQuote();
         return $this;
     }
-    
+
     /**
      * Index page
      */
@@ -179,7 +179,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     {
         $this->loadLayout();
         $this->getLayout()->getBlock('left')->setIsCollapsed(true);
-        
+
         $sidebar = $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')
             ->setShowContainer(true);
         $this->_initSession()
@@ -191,7 +191,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             ))
             ->renderLayout();
     }
-    
+
     /**
      * Loading page block
      */
@@ -207,19 +207,19 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         catch (Exception $e){
             $this->_getSession()->addException($e, __('Processing data problem'));
         }
-        
-            
+
+
         $asJson= $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
         $res = array();
-        
+
         if ($block) {
             $blocks = explode(',', $block);
-            
+
             if ($asJson && !in_array('messages', $blocks)) {
                 $blocks[] = 'messages';
             }
-            
+
             foreach ($blocks as $block) {
                 $blockName = 'adminhtml/sales_order_create_'.$block;
                 try {
@@ -231,7 +231,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 }
             }
         }
-        
+
         if ($asJson) {
             $this->getResponse()->setBody(Zend_Json::encode($res));
         }
@@ -239,7 +239,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->getResponse()->setBody(implode('', $res));
         }
     }
-    
+
     /**
      * Start order create action
      */
@@ -248,7 +248,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_getSession()->clear();
         $this->_redirect('*/*', array('customer_id' => $this->getRequest()->getParam('customer_id')));
     }
-    
+
     /**
      * Cancel order create
      */
@@ -257,7 +257,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->_getSession()->clear();
         $this->_redirect('*/*');
     }
-    
+
     /**
      * Saving quote and create order
      */
@@ -279,7 +279,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $url = $this->_redirect('*/*/');
         }
     }
-    
+
 //    public function editAction()
 //    {
 //        $this->getSession()->reset();

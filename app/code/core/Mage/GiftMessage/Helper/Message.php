@@ -45,9 +45,35 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             ->setType($type)->toHtml();
     }
 
-    public function isMessagesAviable($type, Varien_Object $entity)
+    public function getAdminButton($type, Varien_Object $entity, $store=null)
     {
-        if (Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW)) {
+        if (!$this->isMessagesAviable($type, $entity, $store)) {
+            return '';
+        }
+
+        return Mage::getSingleton('core/layout')->createBlock('adminhtml/giftmessage_helper')
+            ->setId('giftmessage_button_' . $this->_nextId++)
+            ->setCanDisplayContainer(true)
+            ->setEntity($entity)
+            ->setType($type)->toHtml();
+    }
+
+    public function isMessagesAviable($type, Varien_Object $entity, $store=null)
+    {
+        if(is_null($store)) {
+             $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
+        } else {
+            if(is_object($store)) {
+                $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
+            } else {
+                if(!$this->isCached('aviable_store_' . $store)) {
+                    $this->setCached('aviable_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
+                }
+                $result = $this->getCached('aviable_store_' . $store);
+            }
+        }
+
+        if ($result) {
             if ($type=='item') {
                 return $entity->getProduct()->getGiftMessageAviable();
             } elseif ($type=='address_item') {
@@ -63,6 +89,19 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         return false;
     }
 
+    public function getIsMessagesAviable($type, Varien_Object $entity, $store=null)
+    {
+        return $this->isMessagesAviable($type, $entity, $store);
+    }
+
+    public function getEscapedGiftMessage(Varien_Object $entity)
+    {
+        if($entity->getGiftMessageId()) {
+            $message = $this->getGiftMessage($entity->getGiftMessageId());
+            return $this->htmlEscape($message->getMessage());
+        }
+        return null;
+    }
 
     public function getCached($key)
     {
@@ -84,10 +123,10 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         return $this;
     }
 
-    public function getAviableForQuoteItems($quote)
+    public function getAviableForQuoteItems($quote, $store=null)
     {
         foreach($quote->getAllItems() as $item) {
-            if($this->isMessagesAviable('item', $item)) {
+            if($this->isMessagesAviable('item', $item, $store)) {
                 return true;
             }
         }
@@ -95,10 +134,10 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         return false;
     }
 
-    public function getAviableForAddressItems($items)
+    public function getAviableForAddressItems($items, $store=null)
     {
         foreach($items as $item) {
-            if($this->isMessagesAviable('address_item', $item)) {
+            if($this->isMessagesAviable('address_item', $item, $store)) {
                 return true;
             }
         }

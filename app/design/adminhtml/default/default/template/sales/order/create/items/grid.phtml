@@ -40,6 +40,9 @@
                         <th class="no-link"><nobr><?=$this->__('Product ID')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('SKU')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Product Name')?></nobr></th>
+                        <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
+                        <th class="no-link"><nobr><?=$this->__('Gift Message')?></nobr></th>
+                        <?endif;?>
                         <th class="no-link"><nobr><?=$this->__('Price')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Qty')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Subtotal')?></nobr></th>
@@ -57,6 +60,10 @@
                                     <div><?=$_item->getMessage()?></div>
                                 <?endif;?>
                             </td>
+
+                            <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
+                            <td><nobr><?=$this->helper('giftmessage/message')->getAdminButton('item', $_item, $this->getStoreId())?></nobr></td>
+                            <?endif;?>
                             <td><nobr><?=$this->formatPrice($_item->getPrice())?></nobr></td>
                             <td><input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12"/></td>
                             <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>
@@ -75,7 +82,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3" class="a-left">
+                        <td colspan="<?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>4<?else:?>3<?endif;?>" class="a-left">
                             <?=$this->__('Total %d product(s)', count($_items))?>
                         </td>
                         <td colspan="2" class="a-right">

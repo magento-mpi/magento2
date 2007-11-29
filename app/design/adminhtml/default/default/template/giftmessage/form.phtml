@@ -20,38 +20,14 @@
 ?>
 <script type="text/javascript" src="<?=$this->getSkinUrl('js/giftmessage.js')?>"></script>
 <?if(!$this->getSaveMode()):?>
-<div class="page-head button-level">
-    <h3><?=$this->__('Gift Message')?></h3>
-</div>
 <form action="<?=$this->getSaveUrl()?>" id="message-form" method="post" class="a-left">
-    <ul class="form-list">
-        <li>
-            <div class="input-box">
-                <label for="sender"><?=$this->__('From')?> <span class="required">*</span></label><br/>
-                <input type="text" name="sender" value="<?=$this->getEscaped($this->getMessage()->getSender())?>" title="<?=$this->__('From')?>"  class="required-entry input-text"/>
-            </div>
-        </li>
-        <li>
-            <div class="input-box">
-                <label for="recipient"><?=$this->__('To')?> <span class="required">*</span></label><br/>
-                <input type="text" name="recipient" value="<?=$this->getEscaped($this->getMessage()->getRecipient())?>" title="<?=$this->__('To')?>"  class="required-entry input-text" />
-            </div>
-        </li>
-        <li>
-            <div class="input-box">
-                <label for="email_address"><?=$this->__('Message')?> <span class="required">*</span></label><br />
-                <textarea name="messagetext" title="<?=$this->__('Message')?>" class="required-entry input-text" cols="60" rows="5"><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
-            </div>
-        </li>
-    </ul>
-    <div class="form-buttons">
-        <p class="required"><?=$this->__('* Required Fields')?></p>
-        <button class="form-button" type="submit" name="send"><span><?=$this->__('Save')?></span></button>
-        <button class="form-button listen-cancel" type="button"><span><?=$this->__('Cancel')?></span></button>
-        <?if($this->getMessage()->getGiftMessageId()):?>
-        <button class="form-button listen-remove" type="button"><span><?=$this->__('Remove')?></span></button>
-        <?endif;?>
-    </div>
+
+    <?=$this->getFormHtml();?>
+    <?=$this->getSaveButtonHtml()?>
+    <?=$this->getCancelButtonHtml()?>
+    <?if($this->getMessage()->getGiftMessageId()):?>
+    <?=$this->getRemoveButtonHtml()?>
+    <?endif;?>
 </form>
 <?elseif($this->getSaveMode()=='save'):?>
 <h3><?=$this->__('Your gift message successfully saved')?></h3>

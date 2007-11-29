@@ -27,40 +27,38 @@
 <?endif;?>
 <?switch ($this->getType()):?>
 <?case 'item':?>
-    <button class="form-button-alt listen-for-click" type="button"><span>
+    <a class="listen-for-click" href="#">
         <?if($this->hasGiftMessage()):?>
         <?=$this->__('Edit')?>
         <?else:?>
         <?=$this->__('Add')?>
         <?endif;?>
-    </span></button>
+    </a>
+    <?break;?>
+<?case 'order_item':?>
+    <a class="listen-for-click" href="#">
+        <?if($this->hasGiftMessage()):?>
+        <?=$this->__('Edit')?>
+        <?else:?>
+        <?=$this->__('Add')?>
+        <?endif;?>
+    </a>
     <?break;?>
 <?case 'main':?>
-    <a href="#" class="listen-for-click">
         <?if($this->hasGiftMessage()):?>
-        <?=$this->__('Edit Gift Message')?>
+        <?=$this->helper('giftmessage/message')->getEscapedGiftMessage($this->getEntity());?><br />
+        <?=$this->getWidgetButtonHtml($this->__('Edit'), 'edit')?>
         <?else:?>
-        <?=$this->__('Add Gift Message')?>
+        <?=$this->getWidgetButtonHtml($this->__('Add'), 'add')?>
         <?endif;?>
-    </a>
     <?break;?>
-<?case 'address':?>
-    <a href="#" class="listen-for-click">
+<?case 'order':?>
         <?if($this->hasGiftMessage()):?>
-        <?=$this->__('Edit Gift Message')?>
+        <?=$this->helper('giftmessage/message')->getEscapedGiftMessage($this->getEntity());?><br />
+        <?=$this->getWidgetButtonHtml($this->__('Edit'), 'edit')?>
         <?else:?>
-        <?=$this->__('Add Gift Message')?>
+        <?=$this->getWidgetButtonHtml($this->__('Add'), 'add')?>
         <?endif;?>
-    </a>
-    <?break;?>
-<?case 'address_item':?>
-    <button class="form-button-alt listen-for-click" type="button"><span>
-        <?if($this->hasGiftMessage()):?>
-        <?=$this->__('Edit')?>
-        <?else:?>
-        <?=$this->__('Add')?>
-        <?endif;?>
-    </span></button>
     <?break;?>
 <?endswitch?>
 <?if($this->getCanDisplayContainer()):?>

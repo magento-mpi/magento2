@@ -41,12 +41,6 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
         $this->renderLayout();
     }
 
-    public function testAction()
-    {
-        $this->loadLayout('popup');
-        $this->renderLayout();
-    }
-
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('sales');
