@@ -65,6 +65,21 @@ Default layout, loads most of the pages
     </default>
 
 <!--
+Layout for pop up windows
+-->
+    <popup>
+        <block type="adminhtml/page" name="root" output="toHtml" template="popup.phtml">
+            <block type="page/js_translate" name="js_translate" as="js_translate" template="page/js/translate.phtml"/>
+            <block type="core/text_list" name="left" as="left"/>
+            <block type="core/text_list" name="content" as="content"/>
+            <block type="core/messages" name="messages" as="messages"/>
+            <block type="core/text_list" name="js" as="js"/>
+            <block type="adminhtml/page_footer" name="footer" as="footer"/>
+            <block type="core/profiler" name="profiler" as="profiler"/>
+        </block>
+    </popup>
+
+<!--
 No page found
 -->
 

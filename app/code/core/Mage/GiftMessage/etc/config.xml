@@ -68,7 +68,85 @@
             </giftmessage_read>
         </resources>
     </global>
+    <adminhtml>
+       <events>
+             <sales_order_item_import_qoute_address_item>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>salesEventImportAddressItem</method>
+                    </tag>
+                </observers>
+            </sales_order_item_import_qoute_address_item>
+            <sales_order_item_import_qoute_item>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>salesEventImportItem</method>
+                    </tag>
+                </observers>
+            </sales_order_item_import_qoute_item>
+            <adminhtml_sales_order_create_create_order>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>salesEventCreateOrder</method>
+                    </tag>
+                </observers>
+            </adminhtml_sales_order_create_create_order>
+       </events>
+    </adminhtml>
     <frontend>
+       <events>
+             <checkout_type_multishipping_set_shipping_items>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>checkoutEventSetShippingItems</method>
+                    </tag>
+                </observers>
+            </checkout_type_multishipping_set_shipping_items>
+            <checkout_type_multishipping_create_orders_single>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>checkoutEventMultishippingCreateOrder</method>
+                    </tag>
+                </observers>
+            </checkout_type_multishipping_create_orders_single>
+            <checkout_type_onepage_save_order>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>checkoutEventCreateOrder</method>
+                    </tag>
+                </observers>
+            </checkout_type_onepage_save_order>
+            <sales_order_item_import_qoute_address_item>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>salesEventImportAddressItem</method>
+                    </tag>
+                </observers>
+            </sales_order_item_import_qoute_address_item>
+            <sales_order_item_import_qoute_item>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>giftmessage/message</class>
+                        <method>salesEventImportItem</method>
+                    </tag>
+                </observers>
+            </sales_order_item_import_qoute_item>
+       </events>
        <routers>
             <giftmessage>
                 <use>standard</use>

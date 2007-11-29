@@ -32,7 +32,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         parent::__construct();
         $this->_init();
     }
-    
+
     /**
      * Initialize multishipping checkout
      *
@@ -46,7 +46,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->getQuote()->setIsMultiShipping(true);
         if ($this->getCheckoutSession()->getCheckoutState() === Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $this->getCheckoutSession()->setCheckoutState(true);
-            
+
             $addresses  = $this->getQuote()->getAllShippingAddresses();
             foreach ($addresses as $address) {
             	$this->getQuote()->removeAddress($address->getId());
@@ -64,7 +64,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
                 $quoteShippingAddress->setCollectShippingRates(true);
             }
-            
+
             if ($this->getCustomerDefaultBillingAddress()) {
                 $this->getQuote()->getBillingAddress()
                     ->importCustomerAddress($this->getCustomerDefaultBillingAddress());
@@ -135,6 +135,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
             }
             $this->save();
+            Mage::dispatchEvent('checkout_type_multishipping_set_shipping_items', array('quote'=>$this->getQuote()));
         }
         return $this;
     }
@@ -239,6 +240,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 Mage::throwException(implode(',', $errors));
             }
             $orders[] = $order;
+            Mage::dispatchEvent('checkout_type_multishipping_create_orders_single', array('order'=>$order, 'address'=>$address));
         }
 
         foreach ($orders as $order) {
@@ -246,7 +248,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         	$order->sendNewOrderEmail();
             $orderIds[] = $order->getIncrementId();
         }
-        
+
         Mage::getSingleton('core/session')->setOrderIds($orderIds);
         $this->getQuote()
             ->setIsActive(false)
@@ -254,14 +256,14 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
         return $this;
     }
-    
+
     public function save()
     {
         $this->getQuote()->collectTotals()
             ->save();
         return $this;
     }
-    
+
     public function reset()
     {
         $this->getCheckoutSession()->setCheckoutState(Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN);

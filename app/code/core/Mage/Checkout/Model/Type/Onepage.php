@@ -302,6 +302,8 @@ class Mage_Checkout_Model_Type_Onepage
 
             $order->setInitialStatus();
 
+            Mage::dispatchEvent('checkout_model_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
+
             $order->save();
 
             $this->getQuote()->setIsActive(false);

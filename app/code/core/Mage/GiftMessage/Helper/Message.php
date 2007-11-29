@@ -63,6 +63,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         return false;
     }
 
+
     public function getCached($key)
     {
         if($this->isCached($key)) {
@@ -86,10 +87,11 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     public function getAviableForQuoteItems($quote)
     {
         foreach($quote->getAllItems() as $item) {
-            if($item->getProduct()->getGiftMessageAviable()) {
+            if($this->isMessagesAviable('item', $item)) {
                 return true;
             }
         }
+
         return false;
     }
 

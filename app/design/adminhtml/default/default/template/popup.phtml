@@ -98,13 +98,7 @@
 </head>
 <body id="html-body">
 <![if !IE]><table cellspacing="0" width="100%"><tr><td><![endif]>
-<div class="wrapper">
-        <div class="header">
-
-        <?=$this->getChildHtml('header')?>
-        <div class="clear"></div>
-        <?=$this->getChildHtml('menu')?>
-        </div>
+<div>
         <div class="middle">
             <?=$this->getChildHtml('breadcrumbs')?>
                 <?if($this->getChildHtml('left')):?>
@@ -130,9 +124,6 @@
                     <?=$this->getChildHtml('content')?>
                 </div>
                 <?endif;?>
-        </div>
-        <div class="footer">
-            <?=$this->getChildHtml('footer')?>
         </div>
 
 

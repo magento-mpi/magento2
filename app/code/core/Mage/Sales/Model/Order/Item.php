@@ -80,6 +80,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             ->setRowTotal($item->getRowTotal())
             // TODO - all others
         ;
+        Mage::dispatchEvent('sales_order_item_import_qoute_item', array('qoute_item'=>$item, 'order_item'=>$this));
         return $this;
     }
 
@@ -97,6 +98,8 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             ->setRowTotal($item->getRowTotal())
             // TODO - all others
         ;
+
+        Mage::dispatchEvent('sales_order_item_import_qoute_address_item', array('address_item'=>$item, 'order_item'=>$this));
         return $this;
     }
 
