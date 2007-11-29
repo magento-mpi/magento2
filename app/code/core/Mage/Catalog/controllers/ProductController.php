@@ -101,15 +101,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('tag/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
-        
-        
-        
     }
     
     public function sendmailAction()
     {
         $recipients_email = array();
-        if($this->getRequest()->getPost() && $this->getRequest()->getParam('id')) {
+        if($this->getRequest()->getParam('id')) {
             $sender = $this->getRequest()->getParam('sender');
             $recipients = $this->getRequest()->getParam('recipients');
             $recipients_email = $recipients['email'];
