@@ -32,8 +32,8 @@ endif;?>
         <br/>
         <?//endif;?>
         <?if($this->getIsShipping()):?>
-            <input type="checkbox" id="order:shipping_some_as_billing" name="shipping_some_as_billing" onchange="order.setShippingAsBilling(this.checked)" <?if($this->getIsAsBilling()):?>checked<?endif;?>/>
-            <label for="order:shipping_some_as_billing"><?=$this->__('Some As Billing Address')?></label>
+            <input type="checkbox" id="order:shipping_same_as_billing" name="shipping_same_as_billing" onchange="order.setShippingAsBilling(this.checked)" <?if($this->getIsAsBilling()):?>checked<?endif;?>/>
+            <label for="order:shipping_same_as_billing"><?=$this->__('Same As Billing Address')?></label>
         <?else:?>
             &nbsp;
         <?endif;?>
