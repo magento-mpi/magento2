@@ -39,8 +39,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     {
         $pfm->setPackageType('php');
         $pfm->setChannel($this->getData('channel'));
-
-        $pfm->setLicense($this->getData('license'), $this->getData('license_uri'));
+        
+	$pfm->setLicense($this->getData('license'), $this->getData('license_uri'));
 
         $pfm->setPackage($this->getData('name'));
         $pfm->setSummary($this->getData('summary'));
