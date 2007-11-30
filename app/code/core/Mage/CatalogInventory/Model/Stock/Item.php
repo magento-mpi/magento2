@@ -78,9 +78,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         
         $this->setQty($this->getQty()-$qty);
-        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $this->getQty() == $this->getMinQty()) {
-            $this->setIsInStock(false);
-        }
         return $this;
     }
     
@@ -241,4 +238,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         
         return $this;
     }
+    
+    protected function _beforeSave()
+    {
+        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $this->getQty() <= $this->getMinQty()) {
+            $this->setIsInStock(false);
+        }
+        return $this;
+    }    
 }
