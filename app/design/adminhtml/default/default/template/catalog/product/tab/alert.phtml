@@ -34,12 +34,12 @@
             new Ajax.Request ( url, {
                     param :
                         { 
-                        'store_id':storeId,
-                        'peoduct_id':productId
+                            'store_id':storeId,
+                            'peoduct_id':productId
                         },
                     onSuccess : function(req) 
                         {
-                            alert(req.responseText);
+                            //alert(req.responseText);
                         },
                     onFailure : function()
                         {
