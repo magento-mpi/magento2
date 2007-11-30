@@ -199,12 +199,17 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             $this->generatePackageXml();
         }
 
+        if (!$this->getPackageXml()) {
+            echo "FATAL ERROR.";
+        }
+
         $pear = Varien_Pear::getInstance();
         $dir = $pear->getConfig()->get('temp_dir');
         file_put_contents($dir.'/package.xml', $this->getPackageXml());
 
         $pkgver = $this->getName().'-'.$this->getReleaseVersion();
         $this->unsPackageXml();
+        $this->unsRoles();
         file_put_contents($dir.DS.$pkgver.'.ser', serialize($this->getData()));
 
         $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
