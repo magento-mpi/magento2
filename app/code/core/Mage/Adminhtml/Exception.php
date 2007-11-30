@@ -20,12 +20,10 @@
 
 
 /**
- * Magento Core Exception
- * 
- * This class will be extended by other modules
+ * Magento adminhtml module exception
  * 
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Adminhtml
  */
 class Mage_Adminhtml_Exception extends Mage_Core_Exception 
 {
