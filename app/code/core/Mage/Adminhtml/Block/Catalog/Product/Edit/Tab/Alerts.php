@@ -64,8 +64,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
                     $messages[] = array('method'=>'notice','label'=>$alertModel->getAlertText());
                 }
             }
-            
-            $button = $this->getLayout()->createBlock('adminhtml/widget_button');
             $this->setChild('accordion', $accordion);
             $this->setChild('addToQuery_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
