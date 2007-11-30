@@ -146,11 +146,11 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function getElementHtml()
     {
         $html = '<input id="'.$this->getHtmlId().'" name="'.$this->getName()
-             .'" value="'.$this->getEscapedValue().'"'.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
+             .'" value="'.$this->getEscapedValue().'" '.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
         $html.= $this->getAfterElementHtml();
         return $html;
     }
-    
+
     public function getAfterElementHtml()
     {
         return $this->getData('after_element_html');
