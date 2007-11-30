@@ -10,7 +10,7 @@
  <config_vars>
   <mage_media_dir>
    <type>directory</type>
-   <default>{base_dir}/media</default>
+   <default>./media</default>
    <doc>Magento media directory</doc>
    <prompt>Magento media directory</prompt>
    <group>File Locations</group>

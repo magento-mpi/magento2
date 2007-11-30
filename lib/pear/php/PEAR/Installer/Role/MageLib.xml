@@ -10,7 +10,7 @@
  <config_vars>
   <mage_lib_dir>
    <type>directory</type>
-   <default>{base_dir}/lib</default>
+   <default>./lib</default>
    <doc>Magento libraries directory</doc>
    <prompt>Magento libraries directory</prompt>
    <group>File Locations</group>

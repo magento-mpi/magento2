@@ -10,7 +10,7 @@
  <config_vars>
   <mage_core_dir>
    <type>directory</type>
-   <default>{base_dir}/app/code/core</default>
+   <default>./app/code/core</default>
    <doc>Magento root directory</doc>
    <prompt>Magento root directory</prompt>
    <group>File Locations</group>

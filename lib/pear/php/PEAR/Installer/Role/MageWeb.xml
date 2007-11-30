@@ -10,7 +10,7 @@
  <config_vars>
   <mage_web_dir>
    <type>directory</type>
-   <default>{base_dir}</default>
+   <default>.</default>
    <doc>Magento web accessible root directory</doc>
    <prompt>Magento web accessible root directory</prompt>
    <group>File Locations</group>

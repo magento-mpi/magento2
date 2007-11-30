@@ -10,7 +10,7 @@
  <config_vars>
   <mage_skin_dir>
    <type>directory</type>
-   <default>{base_dir}/skin</default>
+   <default>./skin</default>
    <doc>Magento CSS/Images/Javascript skin directory</doc>
    <prompt>Magento skin directory</prompt>
    <group>File Locations</group>

@@ -10,7 +10,7 @@
  <config_vars>
   <mage_community_dir>
    <type>directory</type>
-   <default>{base_dir}/app/code/community</default>
+   <default>./app/code/community</default>
    <doc>Magento Community Code pool repository directory</doc>
    <prompt>Magento Community Code pool repository directory</prompt>
    <group>File Locations</group>

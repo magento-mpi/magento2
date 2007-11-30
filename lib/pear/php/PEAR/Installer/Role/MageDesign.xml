@@ -10,7 +10,7 @@
  <config_vars>
   <mage_design_dir>
    <type>directory</type>
-   <default>{base_dir}/app/design</default>
+   <default>./app/design</default>
    <doc>Magento design packages directory</doc>
    <prompt>Magento design packages directory</prompt>
    <group>File Locations</group>

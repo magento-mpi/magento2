@@ -10,7 +10,7 @@
  <config_vars>
   <mage_local_dir>
    <type>directory</type>
-   <default>{base_dir}/app/code/local</default>
+   <default>./app/code/local</default>
    <doc>Magento Local Code pool repository directory</doc>
    <prompt>Magento Local Code pool repository directory</prompt>
    <group>File Locations</group>

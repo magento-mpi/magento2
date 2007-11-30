@@ -10,7 +10,7 @@
  <config_vars>
   <mage_test_dir>
    <type>directory</type>
-   <default>{base_dir}/tests</default>
+   <default>./tests</default>
    <doc>Magento tests directory</doc>
    <prompt>Magento tests directory</prompt>
    <group>File Locations</group>
