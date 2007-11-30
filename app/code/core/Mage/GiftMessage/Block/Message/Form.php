@@ -101,4 +101,6 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
     {
         return $this->getRequest()->getParam('uniqueId');
     }
+
+
 } // Class Mage_GiftMessage_Block_Message_Form End
