@@ -28,6 +28,8 @@ Creates a Magento specific PEAR package from its description file.
 
     var $pkginfofile;
 
+    var $roles;
+
     var $xml;
 
     var $options;
@@ -126,20 +128,27 @@ Creates a Magento specific PEAR package from its description file.
 
     function getRoles()
     {
-        static $roles = array(
-            'magelocal' => array('name'=>'Local module file', 'dir_config'=>'mage_local_dir'),
-            'magecommunity' => array('name'=>'Community module file', 'dir_config'=>'mage_community_dir'),
-            'magecore' => array('name'=>'Core team module file', 'dir_config'=>'mage_core_dir'),
-            'magedesign' => array('name'=>'User Interface (layouts, templates)', 'dir_config'=>'mage_design_dir'),
-            'magelib' => array('name'=>'PHP Library file', 'dir_config'=>'mage_lib_dir'),
-            'magelocale' => array('name'=>'Locale language file', 'dir_config'=>'mage_locale_dir'),
-            'magemedia' => array('name'=>'Media library', 'dir_config'=>'mage_media_dir'),
-            'mageskin' => array('name'=>'Theme Skin (Images, CSS, JS)', 'dir_config'=>'mage_skin_dir'),
-            'mageweb' => array('name'=>'Other web accessible file', 'dir_config'=>'mage_web_dir'),
-            'magetest' => array('name'=>'PHPUnit test', 'dir_config'=>'mage_test_dir'),
-            'mage' => array('name'=>'Magento other', 'dir_config'=>'mage_dir'),
-        );
+        if (!$this->roles) {
+            $this->roles = array(
+                'magelocal' => array('name'=>'Magento Local module file', 'dir_config'=>'mage_local_dir'),
+                'magecommunity' => array('name'=>'Magento Community module file', 'dir_config'=>'mage_community_dir'),
+                'magecore' => array('name'=>'Magento Core team module file', 'dir_config'=>'mage_core_dir'),
+                'magedesign' => array('name'=>'Magento User Interface (layouts, templates)', 'dir_config'=>'mage_design_dir'),
+                'magelib' => array('name'=>'Magento PHP Library file', 'dir_config'=>'mage_lib_dir'),
+                'magelocale' => array('name'=>'Magento Locale language file', 'dir_config'=>'mage_locale_dir'),
+                'magemedia' => array('name'=>'Magento Media library', 'dir_config'=>'mage_media_dir'),
+                'mageskin' => array('name'=>'Magento Theme Skin (Images, CSS, JS)', 'dir_config'=>'mage_skin_dir'),
+                'mageweb' => array('name'=>'Magento Other web accessible file', 'dir_config'=>'mage_web_dir'),
+                'magetest' => array('name'=>'Magento PHPUnit test', 'dir_config'=>'mage_test_dir'),
+                'mage' => array('name'=>'Magento other', 'dir_config'=>'mage_dir'),
+                'php' => array('dir_config'=>'php_dir'),
+                'data' => array('dir_config'=>'data_dir'),
+                'doc' => array('dir_config'=>'doc_dir'),
+                'test' => array('dir_config'=>'test_dir'),
+                'temp' => array('dir_config'=>'temp_dir'),
+            );
+        }
 
-        return $roles;
+        return $this->roles;
     }
 }

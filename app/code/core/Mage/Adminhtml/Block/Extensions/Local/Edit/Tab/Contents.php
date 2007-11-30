@@ -38,7 +38,9 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Contents
     {
         $arr = array();
         foreach (Mage::getModel('adminhtml/extension')->getRoles() as $k=>$role) {
-            $arr[$k] = $role['name'];
+            if (isset($role['name'])) {
+                $arr[$k] = $role['name'];
+            }
         }
         return $arr;
     }

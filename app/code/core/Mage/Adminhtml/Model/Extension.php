@@ -190,7 +190,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     public function getRoleDir($role)
     {
         $roles = $this->getRoles();
-        return PEAR_Config::singleton()->get($roles[$role]['dir_config']);
+        return Varien_Pear::getInstance()->getConfig()->get($roles[$role]['dir_config']);
     }
 
     public function savePackage()
@@ -206,7 +206,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $pkgver = $this->getName().'-'.$this->getReleaseVersion;
         file_put_contents($dir.DS.$pkgver.'.ser', serialize($this->getData()));
 
-        $result = $pear->run('mage-package', array('targetdir'=>$dir), array());
+        $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
         print_r($result);
     }
 }
