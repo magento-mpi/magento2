@@ -144,4 +144,11 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return $this->getUrl('*/*/gallery', $params);
     }
     
+    public function getAlertHtml($type) 
+    {
+        return $this->getLayout()->createBlock('customeralert/alerts')
+            ->setAlertType($type)
+            ->toHtml();
+    }
+    
 }

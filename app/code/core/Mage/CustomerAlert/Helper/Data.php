@@ -24,11 +24,17 @@
  * @author      Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Url
 {
-    public function getSaveAlertsUrl()
+    public function getSaveAlertsUrl($type)
     {
-        return $this->_getUrl('customeralert/alert/savealerts');
+        return $this->_getUrl('customeralert/alert/savealerts',
+            array(
+                'product_id' => $this->getProductId(),
+                'type' => $type,
+                Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL  => $this->getCurrentBase64Url() 
+                )
+            );
     }
     
     public function getAlerts()

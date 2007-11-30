@@ -34,23 +34,49 @@ class Mage_CustomerAlert_Model_Config
         return Mage::getConfig()->getNode('global/customeralert/types')->asArray();
     }
     
+    public function isExistAlert($type)
+    {
+        $alert = $this->getAlerts();
+        return isset($alert[$type]); 
+    }
+    
     public function getModelNameByType($type)
     {
-        return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/model');
+        if($this->isExistAlert($type)){
+            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/model');
+        }
+        return false;
     }
     
     public function getDefaultTemplateForAlert($type)
     {
-        if($type){
-            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/default_template');
+        if($this->isExistAlert($type)){
+            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/default_email_template');
         }
         return false;
     }
     
     public function getAlertByType($type)
     {
-        return Mage::getModel($this->getModelNameByType($type));
+        if($this->isExistAlert($type)){
+            return Mage::getModel($this->getModelNameByType($type));
+        }
+        return false;
     }
     
-
+    public function getTemplateName($type)
+    {
+        if($this->isExistAlert($type)){
+            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/template');
+        }
+        return false;
+    }
+    
+    public function getTitleByType($type)
+    {
+        if($this->isExistAlert($type)){
+            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/title');
+        }
+        return false;         
+    }
 }

@@ -90,9 +90,11 @@
                 <?if($_product->isSaleable()):?>
                 <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
                 <?else:?>
-                <p><small><?=$this->__('Availability: Out of stock.')?></small></p>
+                <p><small><?=$this->__('Availability: Out of stock.')?></small><br />
+                <?=$this->getAlertHtml('product_back_stock');?></p>
                 <?endif;?>
                 <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
+                <?=$this->getAlertHtml('price_is_changed');?>
                 <?if($_product->isSaleable()):?>
                 <fieldset class="add-to-cart-box">
                     <legend><?=$this->__('Add Items to Cart')?></legend>
@@ -161,6 +163,6 @@
         <?endif;?>
         <?=$this->getChildHtml('upsell_products')?>
         <?=$this->getChildHtml('product_additional_data')?>
-        <?=$this->getChildHtml('customeralert_alerts')?>
+        
     </div>
 </div>

@@ -27,7 +27,7 @@ class Mage_CustomerAlert_Model_Observer
 {
     protected $_oldProduct;
     
-    protected function _getIdsForCheck($data){
+    protected function _getAlertsForCheck($data){
         return $rows = Mage::getModel('customeralert/type')
                 ->addData($data)
                 ->loadAllByParam();
@@ -49,10 +49,11 @@ class Mage_CustomerAlert_Model_Observer
         $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
         $rows = $this->_getIdsForCheck($data);
         foreach ($rows as $row) {
-            
-            Mage::getModel('customeralert/config')->getAlertByType($row['type'])
-                ->addData($data)
-                ->checkBefore($this->_oldProduct,$newProduct);
+            $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+                ->addData($data);
+            if(method_exists($alertModel,'checkBefore'))
+                $alertModel
+                    ->checkBefore($this->_oldProduct,$newProduct);
         }
     }
     
@@ -61,11 +62,30 @@ class Mage_CustomerAlert_Model_Observer
         $data = array();
         $newProduct = $observer->getEvent()->getProduct();
         $data = $this->_getData($newProduct);
+        $rows = $this->_getAlertsForCheck($data);
+        foreach ($rows as $row) {
+            $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+                ->addData($data);
+            if(method_exists($alertModel,'checkAfter'))
+                $alertModel
+                    ->checkAfter($this->_oldProduct,$newProduct);
+        }
+    }
+    
+    public function catalogInventorySaveBefore($observer)
+    {
+        $newInventory = $observer->getEvent()->getData('newInventory');
+        $oldInventory = $observer->getEvent()->getData('oldInventory');
+        $product = $newInventory->getProduct();
+        $data = $this->_getData($product);
+        $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
         $rows = $this->_getIdsForCheck($data);
         foreach ($rows as $row) {
-            Mage::getModel('customeralert/config')->getAlertByType($row['type'])
-                ->addData($data)
-                ->checkAfter($this->_oldProduct,$newProduct);
+           $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+                ->addData($data);
+           if(method_exists($alertModel,'checkInventoryBefore'))
+                $alertModel
+                    ->checkInventoryBefore($oldInventory,$newInventory);
         }
     }
 }

@@ -19,31 +19,32 @@
  */
 
 /**
- * Customer alert back stock model
+ * Customer alert price is lowered model
  *
  * @category   Mage
  * @package    Mage_CustomerAlert
- * @author     Vasily Selivanov <vasily@varien.com>
+ * @author  � Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_Type_Abstract
+class Mage_CustomerAlert_Model_Type_PriceChanged extends Mage_CustomerAlert_Model_Type_Abstract
 {
     public function __construct()
     {
-    	$this->setType('product_back_stock');
+    	$this->setType('price_is_changed');
+    	#$this->setCheckedText = __('Price lowered from %f to %f');
     	parent::__construct();
     }
     
-    public function checkInventoryBefore(Mage_CatalogInventory_Model_Stock_Item $oldInventory, Mage_CatalogInventory_Model_Stock_Item $newInventory)
+    public function checkAfter(Mage_Catalog_Model_Product $oldProduct, Mage_Catalog_Model_Product $newProduct)
     {
-        if($newInventory->getIsInStock() && !$oldInventory->getIsInStock()){
-            $this->addAlert(true, $newInventory->getIsInStock(), $oldInventory->getIsInStock() );
+        if($oldProduct->getPrice()!=$newProduct->getPrice()){
+            $this->addAlert(true, $newProduct->getPrice(), $oldProduct->getPrice());
         }
     }
     
     public function getAlertHappenedText()
     {
-        return __('Product return to stock at %s',$this->_date);
+        return __('Price was changed from %s to %s at %s',$this->_oldValue,$this->_newValue,$this->_date);
     }
     
     public function getAlertNotHappenedText()

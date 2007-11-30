@@ -26,6 +26,46 @@
 <script type="text/javascript" language="javascript">
     var Queue = Class.create();
     var url = '<?=$this->getAddToQueueUrl();?>';
+    
+    function removeNotices()
+    {
+        lis = $$('#product_info_tabs_alerts_content .messages .notice-msg li');
+        lis.each(function (el){
+            Element.remove(el);
+         });
+         alert($$('#product_info_tabs_alerts_content .messages .notice-msg'));
+         $$('#product_info_tabs_alerts_content .messages .notice-msg').remove();
+    }
+    
+    function setMessages(messages) {
+        messageObject = $$('#product_info_tabs_alerts_content .messages');
+        //removeNotices();
+        //$$('#product_info_tabs_alerts_content .messages').update('aaaaaa');
+        for(i=0;i<=messages;i++){
+            if(messages[i].error){
+                if(!errorUl)
+                {
+                    errorUl =  $$('#product_info_tabs_alerts_content .messages .error-msg ul')
+                    if(!errorUl){
+                        messageObject.insert('<li class="error-msg"><ul></ul></li>');
+                        errorUl =  $$('#product_info_tabs_alerts_content .messages .error-msg ul')
+                    }
+                }
+                errorUl.insert('<li>'+messages[i].message+'</li>');
+            } else {
+                if(!successUl)
+                {
+                    successUl =  $$('#product_info_tabs_alerts_content .messages .success-msg ul')
+                    if(!successUl){
+                        messageObject.insert('<li class="success-msg"><ul></ul></li>');
+                        successUl =  $$('#product_info_tabs_alerts_content .messages .success-msg ul')
+                    }
+                }
+                successUl.insert('<li>'+messages[i].message+'</li>');
+            }
+        }
+    }
+    
     Queue.prototype = {
         initialize:
             function() {
@@ -39,16 +79,20 @@
                         },
                     onSuccess : function(req) 
                         {
-                            //alert(req.responseText);
+                            setMessages(req.responseText.evalJSON());
                         },
                     onFailure : function()
                         {
-                           alert('failrue');
+                           messages = new Object();
+                           messages[0] = new Array();
+                           messages[0]['error'] = true;
+                           messages[0]['message'] = '<?=__('Error while saving customers to queue alert')?>';
+                           setMessages(messages);
                         }
                            
                     })
-            }
         }
+    }
 queue = new Queue();
 </script>
 <?=$this->getMessageHtml()?>

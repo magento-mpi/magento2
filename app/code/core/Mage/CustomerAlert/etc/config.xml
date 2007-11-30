@@ -78,26 +78,34 @@
         </blocks>
         <customeralert>
             <types>
-                <special_price translate="label">
-                    <model>customeralert/type_specialPrice</model>
-                    <label>Get an alert sent to them when a product receives a special price.</label>
-                    <default_template>Product alert for special price</default_template>
-                </special_price>
-                <price_is_lowered translate="label">
-                    <model>customeralert/type_priceLowered</model>
-                    <label>Get an alerts sent to them when a product’s price is lowered.</label>
-                    <default_template>Product alert for lower price</default_template>
-                </price_is_lowered>
-                <product_back_stock translate="label">
+                <price_is_changed translate="label title">
+                    <model>customeralert/type_priceChanged</model>
+                    <label>Sign up to alert when a product changed price.</label>
+                    <default_email_template>Product alert for changed price</default_email_template>
+                    <template>priceIsChanged</template>
+                    <title>price changed</title>
+                </price_is_changed>
+                <product_back_stock translate="label title">
                     <model>customeralert/type_backStock</model>
-                    <label>The customer can sign up to get an alert when an out of stock product comes back into stock.</label>
-                    <default_template>Product alert for back to stock</default_template>
+                    <label>Sign up to alert when a product comes back into stock.</label>
+                    <default_email_template>Product alert for back to stock</default_email_template>
+                    <template>backInStock</template>
+                    <title>back in stock</title>
                 </product_back_stock>
             </types>
         </customeralert>
     </global>
     <adminhtml>
         <events>
+            <cataloginventory_save_before>
+                <observers>
+                    <customeralert_observer_before>
+                        <type>singleton</type>
+                        <class>customeralert/observer</class>
+                        <method>catalogInventorySaveBefore</method>
+                    </customeralert_observer_before>
+                </observers>
+            </cataloginventory_save_before>
             <catalog_product_save_before>
                 <observers>
                     <customeralert_observer_before>

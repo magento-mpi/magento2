@@ -387,11 +387,26 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function addCustomersToAlertQueueAction()
     {
         $alert = Mage::getModel('customeralert/config')->getAlerts();
+        $messages = array();
         foreach ($alert as $key=>$val) {
-            Mage::getModel('customeralert/config')->getAlertByType($key)
-                ->setParamValues($this->getRequest()->getParams())
-                ->addCustomersToAlertQueue();
+            try {
+                Mage::getModel('customeralert/config')->getAlertByType($key)
+                    ->setParamValues($this->getRequest()->getParams())
+                    ->addCustomersToAlertQueue();
+                $messages[] = array(
+                    'error' => false,
+                    'message' => __('Customers for alert %s was successfuly added to queue', Mage::getModel('customeralert/config')->getTitleByType($key))
+                );
+            } catch (Exception $e) {
+                $messages[] = array(
+                    'error' => true,
+                    'message' => __('Error while adding customers for %s alert. Message: %s',Mage::getModel('customeralert/config')->getTitleByType($key),$e->getMessage())
+                );
+                continue;
+            }
         }
+        print Zend_Json_Encoder::encode($messages);
+        return $this;
     }
 
     public function tagCustomerGridAction()

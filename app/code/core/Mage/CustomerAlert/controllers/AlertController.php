@@ -31,36 +31,35 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
     {
         $data = array();
         $data['customer_id'] = Mage::getModel('customer/session')->getId();
+        $params = $this->getRequest()->getParams();
+        if(!isset($params[Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL])) {
+            Mage::getModel('catalog/session')->addError(__('Not enough parameters'));
+            $this->_redirect('/');
+            return false;
+        } else {
+            $backUrl = base64_decode($params[Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL]);
+        }
         if($data['customer_id']){
-            $params = $this->getRequest()->getParams();
-            if(isset($params['_product_id'])){
-                $data['product_id'] = $params['_product_id'];
+            $alertType = $params['type']; 
+            if(isset($params['product_id']) && $alertType){
+                $data['product_id'] = $params['product_id'];
                 $data['store_id'] = Mage::app()->getStore()->getId();
-                unset($params['_product_id']);
-                $alerts = Mage::getModel('customeralert/config')->getAlerts();
-                foreach ($alerts as $key => $val){
-                    if(isset($params[$key])){
-                        try {
-                            Mage::getModel('customeralert/config')->getAlertByType($key)   
-                                ->addData($data)
-                                ->checkByUser($params[$key])
-                                ->save();
-                        } catch (Exception $e) {
-                            $data = array(
-                                'error'   => true,
-                                'message' => $e->getMessage(),
-                            );
-                            print Zend_Json_Encoder::encode($data);
-                            return false;
-                        }
-                    }
+                try{
+                    Mage::getModel('customeralert/config')->getAlertByType($alertType)   
+                                    ->addData($data)
+                                    ->save();
+                    Mage::getModel('catalog/session')->addSuccess(__('Alert was saved successfuly.'));
+                } catch (Exception $e) {
+                    Mage::getModel('catalog/session')->addError(__('Alert was not saved. %s',$e->getMessage()));
                 }
-                $data = array(
-                    'error'   => true,
-                    'message' => __('Alerts successfully saved'),
-                );
-                print Zend_Json_Encoder::encode($data);
+                $this->_redirectUrl($backUrl);
+            } else {
+                Mage::getModel('catalog/session')->addError(__('Not enough parameters'));
+                $this->_redirectUrl($backUrl);
             }
+        } else {
+            Mage::getModel('catalog/session')->addError(__('Your are not logged in'));
+            $this->_redirectUrl($backUrl);
         }
     }
 }

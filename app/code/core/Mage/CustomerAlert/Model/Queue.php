@@ -39,7 +39,7 @@ class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract
         $this->_init('customeralert/queue');
     }
     
-    public function addSubscribersToQueue(array $subscriberIds, $check)
+    public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customer, $check)
     {
         $type = $check->getType();
         $emailModel = Mage::getModel('core/email_template')
@@ -51,7 +51,7 @@ class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract
             $this->addData(array('check_id'=>$check->getId()));
         }
         $this->save();
-        $this->getResource()->addSubscribersToQueue($this, $subscriberIds);
+        $this->getResource()->addCustomersToAlertQueue($this, $customer);
         return $this;
     }
     

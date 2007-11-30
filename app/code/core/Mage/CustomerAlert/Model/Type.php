@@ -28,7 +28,6 @@
 
 class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
 {
-    protected $_userCheck;
     protected $_oldValue;
     protected $_newValue;
     protected $_date;
@@ -56,7 +55,6 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     
     public function setParamValues($data)
     {
-        
         $this->addData(array(
             'product_id' => $data['product_id'],
             'store_id' => $data['store_id'],
@@ -98,19 +96,7 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     public function save()
     {
         $this->loadByParam();
-        if($this->_userCheck) {
-            parent::save();
-        } else {
-            if($this->isChecked()){
-                $this->delete();    
-            }
-        }
-    }
-    
-    public function checkByUser($value)
-    {
-        $this->_userCheck = ($value=='true') ? true : false;
-        return $this;
+        parent::save();
     }
     
     public function addAlert($check, $newValue = null, $oldValue = null)
@@ -137,15 +123,11 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     public function addCustomersToAlertQueue()
     {
         if($this->getAlertHappened()){
-            $rows = $this->loadAllByParam();
-            $customersId = array();
-            foreach ($rows as $row){
-                $customersId[] = $row['customer_id'];
-            }
-            if(count($customersId)>0){
+            $customer = Mage::getResourceModel('customeralert/customer_collection')
+                -> setAlert ($this)
+                -> load();
                 Mage::getModel('customeralert/queue')
-                    ->addSubscribersToQueue($customersId, $this->getCheck()->addAlert());
-            }
+                    ->addCustomersToAlertQueue($customer, $this->getCheck()->addAlert());
         }
         return $this;
     }

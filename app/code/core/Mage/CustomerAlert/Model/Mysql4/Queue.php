@@ -33,29 +33,26 @@ class Mage_CustomerAlert_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstr
         $this->_init('customeralert/queue', 'queue_id');
     }
     
-    public function addSubscribersToQueue(Mage_CustomerAlert_Model_Queue $queue, array $subscriberIds) 
+    public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Queue $queue, Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customers) 
     {
-        if (count($subscriberIds)==0) {
+        if (!$customers || count($customers->getItems())==0) {
             Mage::throwException(__('No subscribers selected'));
         }
         $queue->save();
-        
-        $select = $this->getConnection('write')->select();
         if (!$queue->getId()) {
             Mage::throwException(__('Invalid queue selected'));
         }
-        
         $this->getConnection('write')->beginTransaction();
+        $data = array();
+        $data['queue_id'] = $queue->getId();
+        
         try {
-            foreach($subscriberIds as $subscriberId) {
-                $data = array();
-                $data['queue_id'] = $queue->getId();
-                $data['subscriber_id'] = $subscriberId;
+            foreach($customers->getItems() as $customer) {
+                $data['subscriber_id'] = $customer->getId();
                 $this->getConnection('write')->insert($this->getTable('queue_link'), $data);
             }
             $this->getConnection('write')->commit();
-        } 
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->getConnection('write')->rollBack();
         }
         
