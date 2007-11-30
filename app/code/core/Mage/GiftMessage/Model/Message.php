@@ -73,44 +73,4 @@ class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract
         return self::$_allowedEntityTypes;
     }
 
-    /* OBSERVERS */
-    public function checkoutEventSetShippingItems($observer)
-    {
-        foreach($observer->getEvent()->getQuote()->getAllShippingAddresses() as $address) {
-            foreach ($address->getItemsCollection() as $item) {
-                if($item->getGiftMessageId()) {
-                    $message = Mage::getModel('giftmessage/message')->load($item->getGiftMessageId());
-                    $message->setId(null);
-                    $message->save();
-                    $item->setGiftMessageId($message->getId());
-                    $item->save();
-                }
-            }
-        }
-        return $this;
-    }
-
-    public function checkoutEventMultishippingCreateOrder($observer)
-    {
-        $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getAddress()->getGiftMessageId());
-        return $this;
-    }
-
-    public function checkoutEventCreateOrder($observer)
-    {
-        $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getQuote()->getGiftMessageId());
-        return $this;
-    }
-
-    public function salesEventImportAddressItem($observer)
-    {
-        $observer->getEvent()->getOrderItem()->setGiftMessageId($observer->getEvent()->getAddressItem()->getGiftMessageId());
-        return $this;
-    }
-
-    public function salesEventImportItem($observer)
-    {
-        $observer->getEvent()->getOrderItem()->setGiftMessageId($observer->getEvent()->getQouteItem()->getGiftMessageId());
-        return $this;
-    }
 } // Class Mage_GiftMessage_Model_Message End
