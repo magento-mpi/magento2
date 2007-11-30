@@ -1,4 +1,5 @@
 <?php
+require_once 'Varien/Pear.php';
 
 class Mage_Adminhtml_Model_Extension extends Varien_Object
 {
