@@ -29,33 +29,42 @@
         <legend><?=$this->__("Maintainers")?></legend>
         <div id="maintainers_template" style="display:none">
             <span class="field-row">
-                <?=$this->__("Level:")?> <select name="maintainers[level][]">
-                    <?foreach ($this->getMaintainerLevels() as $_value=>$_label):?>
+                <?=$this->__("Level:")?> <select name="maintainers[role][]">
+                    <?foreach ($this->getMaintainerRoles() as $_value=>$_label):?>
                         <option value="<?=$_value?>"><?=$_label?></option>
                     <?endforeach?>
                 </select>
                 <?=$this->__("Name:")?> <input class="input-text" name="maintainers[name][]"/>
-                <?=$this->__("User:")?> <input class="input-text" name="maintainers[user][]"/>
+                <?=$this->__("User:")?> <input class="input-text" name="maintainers[handle][]"/>
                 <?=$this->__("Email:")?> <input class="input-text" name="maintainers[email][]"/>
-                <?=$this->__("Active:")?> <input type="checkbox" name="maintainers[active][]"/>
+                <?=$this->__("Status:")?> <select name="maintainers[active][]"/>
+                    <option value="1"><?=$this->__("Active")?></option>
+                    <option value="0"><?=$this->__("Inactive")?></option>
+                </select>
                 <?=$this->getRemoveRowButtonHtml()?>
             </span>
         </div>
         <div id="maintainers_container">
-            <?foreach ($this->getMaintainers() as $_i=>$_dbField):?>
+            <?if ($this->getData('maintainers/role')):?>
+            <?foreach ($this->getData('maintainers/role') as $_i=>$_dbField):?>
+                <?if (0===$_i) continue;?>
                 <span class="field-row">
-                    <?=$this->__("Level:")?> <select name="maintainers[level][]">
-                    <?foreach ($this->getMaintainerLevels() as $_value=>$_label):?>
-                        <option value="<?=$_value?>" <?=$this->getSelected('maintainers/level/'.$_i, $_value)?>><?=$_label?></option>
+                    <?=$this->__("Role:")?> <select name="maintainers[role][]">
+                    <?foreach ($this->getMaintainerRoles() as $_value=>$_label):?>
+                        <option value="<?=$_value?>" <?=$this->getSelected('maintainers/role/'.$_i, $_value)?>><?=$_label?></option>
                     <?endforeach?>
                     </select>
                     <?=$this->__("Name:")?> <input class="input-text" name="maintainers[name][]" value="<?=$this->getValue('maintainers/name/'.$_i)?>"/>
-                    <?=$this->__("User:")?> <input class="input-text" name="maintainers[user][]" value="<?=$this->getValue('maintainers/user/'.$_i)?>"/>
+                    <?=$this->__("User:")?> <input class="input-text" name="maintainers[handle][]" value="<?=$this->getValue('maintainers/handle/'.$_i)?>"/>
                     <?=$this->__("Email:")?> <input class="input-text" name="maintainers[email][]" value="<?=$this->getValue('maintainers/email/'.$_i)?>"/>
-                    <?=$this->__("Active:")?> <input type="checkbox" name="maintainers[active][]" <?=$this->getChecked('maintainers/active/'.$_i)?>/>
+                    <?=$this->__("Status:")?> <select name="maintainers[active][]"/>
+                        <option value="1" <?=$this->getSelected('maintainers/active/'.$_i, 1)?>><?=$this->__("Active")?></option>
+                        <option value="0" <?=$this->getSelected('maintainers/active/'.$_i, 0)?>><?=$this->__("Inactive")?></option>
+                    </select>
                     <?=$this->getRemoveRowButtonHtml()?>
                 </span>
             <?endforeach?>
+            <?endif?>
         </div>
         <?=$this->getAddRowButtonHtml('maintainers_container', 'maintainers_template', 'Add Maintainer')?>
     </fieldset>

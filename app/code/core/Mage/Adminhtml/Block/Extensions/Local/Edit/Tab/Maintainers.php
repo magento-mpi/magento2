@@ -34,12 +34,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Maintainers
         $this->setTemplate('extensions/local/maintainers.phtml');
     }
 
-    public function getMaintainers()
-    {
-        return array();
-    }
-
-    public function getMaintainerLevels()
+    public function getMaintainerRoles()
     {
         return array(
             'lead'=>'Lead',

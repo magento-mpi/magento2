@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Release
             'required' => true,
         ));
 
-        #$form->setValues($model->getData());
+        $form->setValues($this->getData());
 
         $this->setForm($form);
 

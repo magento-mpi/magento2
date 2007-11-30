@@ -30,15 +30,27 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
 {
     public function indexAction()
     {
+        $this->_forward('edit');
+    }
+
+    public function editAction()
+    {
         $this->loadLayout();
 
         $this->_setActiveMenu('system/extensions/local');
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local_edit'));
-        #$this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local_edit_form'));
 
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_local_edit_tabs'));
 
         $this->renderLayout();
+    }
+
+    public function saveAction()
+    {
+        $ext = Mage::getModel('adminhtml/extension');
+        $ext->setData($this->getRequest()->getPost());
+        $ext->savePackage();
+        echo "<xmp>".$ext->getPackageXml()."</xmp>";
     }
 }

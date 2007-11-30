@@ -44,6 +44,9 @@ $pfm->setReleaseStability('beta');
 $pfm->setNotes('initial PEAR release');
 
 $pfm->generateContents();
+
+echo "<pre>".print_r($pfm,1)."</pre>"; die;
+
 $pfm1 = $pfm->exportCompatiblePackageFile1($options);
 
 if (true) {

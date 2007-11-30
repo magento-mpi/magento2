@@ -45,12 +45,14 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Depends
             'name' => 'depends_php_min',
             'label' => __('Minimum'),
             'required' => true,
+            'value' => '5.2.0',
         ));
 
     	$fieldset->addField('depends_php_max', 'text', array(
             'name' => 'depends_php_max',
             'label' => __('Maximum'),
             'required' => true,
+            'value' => '6.0.0',
         ));
 
     	$fieldset->addField('depends_php_recommended', 'text', array(
@@ -63,7 +65,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Depends
             'label' => __('Exclude (comma separated)'),
         ));
 
-        #$form->setValues($model->getData());
+        $form->setValues($this->getData());
 
         $this->setForm($form);
 
@@ -73,16 +75,6 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Depends
     public function getPackages()
     {
         return array('Mage_Core'=>'Mage_Core');
-    }
-
-    public function getPackageDepends()
-    {
-        return array();
-    }
-
-    public function getSubpackageDepends()
-    {
-        return array();
     }
 
     public function getExtensions()
@@ -95,22 +87,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Depends
         return $arr;
     }
 
-    public function getExtensionDepends()
-    {
-        return array();
-    }
-
-    public function getMaintainerLevels()
-    {
-        return array(
-            'lead'=>__('Lead'),
-            'developer'=>__('Developer'),
-            'contributor'=>__('Contributor'),
-            'helper'=>__('Helper'),
-        );
-    }
-
-    public function getDependLevels()
+    public function getDependTypes()
     {
         return array(
             'required'=>__('Required'),

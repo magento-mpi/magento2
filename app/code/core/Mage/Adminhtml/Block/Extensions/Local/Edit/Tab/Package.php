@@ -47,6 +47,13 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Package
             'required' => true,
         ));
 
+    	$fieldset->addField('channel', 'text', array(
+            'name' => 'channel',
+            'label' => __('Channel'),
+            'required' => true,
+            'value' => 'var-dev.varien.com',
+        ));
+
         $fieldset->addField('summary', 'textarea', array(
             'name' => 'summary',
             'label' => 'Summary',
@@ -65,14 +72,16 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Package
             'name' => 'license',
             'label' => __('License'),
             'required' => true,
+            'value' => 'Open Software License (OSL 3.0)',
         ));
 
     	$fieldset->addField('license_uri', 'text', array(
             'name' => 'license_uri',
             'label' => __('License URI'),
+            'value' => 'http://opensource.org/licenses/osl-3.0.php',
         ));
 
-        #$form->setValues($model->getData());
+        $form->setValues($this->getData());
 
         $this->setForm($form);
 

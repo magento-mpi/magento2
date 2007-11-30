@@ -34,24 +34,17 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Contents
         $this->setTemplate('extensions/local/contents.phtml');
     }
 
-    public function getContents()
+    public function getMageRoles()
     {
-        return array();
+        $arr = array();
+        foreach (Mage::getModel('adminhtml/extension')->getRoles() as $k=>$role) {
+            $arr[$k] = $role['name'];
+        }
+        return $arr;
     }
 
-    public function getRoles()
+    public function getPearRoles()
     {
-        return array(
-            'magecore' => 'Core module',
-            'magecommunity' => 'Community module',
-            'magelocal' => 'Local module',
-            'magedesign' => 'User Interface',
-            'magelib' => 'PHP Library',
-            'mageskin' => 'Theme Skin',
-            'magemedia' => 'Media library',
-            'magetest' => 'PHPUnit test',
-            'mageweb' => 'Web accessible file',
-            'mage' => 'Magento other',
-        );
+        return array('php'=>'PHP Files', 'data'=>'Data files', 'doc'=>'Documentation', 'script'=>'Scripts', 'test'=>'Tests');
     }
 }

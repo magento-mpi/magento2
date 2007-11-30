@@ -19,38 +19,65 @@
  */
 ?>
 <style type="text/css">
-#depends_contents_fieldset .input-text { width:200px; }
+#contents_fieldset .input-text { width:200px; }
 </style>
 <div class="entry-edit">
     <?=$this->getFormHtml()?>
 
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Contents")?></h4>
-    <fieldset id="depends_contenmts_fieldset">
+    <fieldset id="contents_fieldset">
         <legend><?=$this->__("Contents")?></legend>
-        <div id="depends_contents_template" style="display:none">
+        <div id="contents_template" style="display:none">
             <span class="field-row">
                 <?=$this->__("Role:")?> <select name="contents[role][]">
-                    <?foreach ($this->getRoles() as $_value=>$_label):?>
+                    <optgroup label="Magento">
+                    <?foreach ($this->getMageRoles() as $_value=>$_label):?>
                         <option value="<?=$_value?>"><?=$_label?></option>
                     <?endforeach?>
+                    </optgroup>
+                    <optgroup label="PEAR">
+                    <?foreach ($this->getPearRoles() as $_value=>$_label):?>
+                        <option value="<?=$_value?>"><?=$_label?></option>
+                    <?endforeach?>
+                    </optgroup>
                 </select>
                 <?=$this->__("Path:")?> <input class="input-text" name="contents[path][]"/>
+                <?=$this->__("Type:")?> <select name="contents[type][]">
+                    <option value="file"><?=$this->__("File")?></option>
+                    <option value="dir"><?=$this->__("Recursive Dir")?></option>
+                </select>
+                <?=$this->__("Ignore:")?> <input class="input-text" style="width:100px" name="contents[ignore][]"/>
                 <?=$this->getRemoveRowButtonHtml()?>
             </span>
         </div>
-        <div id="depends_contents_container">
-            <?foreach ($this->getContents() as $_i=>$_dbField):?>
+        <div id="contents_container">
+            <?if ($this->getData('contents/role')):?>
+            <?foreach ($this->getData('contents/role') as $_i=>$_dbField):?>
+                <?if (0===$_i) continue;?>
                 <span class="field-row">
                     <?=$this->__("Role:")?> <select name="contents[role][]">
-                    <?foreach ($this->getRoles() as $_value=>$_label):?>
-                        <option value="<?=$_value?>" <?=$this->getSelected('contents/role/'.$_i, $_value)?>><?=$_label?></option>
-                    <?endforeach?>
+                        <optgroup label="Magento">
+                        <?foreach ($this->getMageRoles() as $_value=>$_label):?>
+                            <option value="<?=$_value?>" <?=$this->getSelected('contents/role/'.$_i, $_value)?>><?=$_label?></option>
+                        <?endforeach?>
+                        </optgroup>
+                        <optgroup label="PEAR">
+                        <?foreach ($this->getPearRoles() as $_value=>$_label):?>
+                            <option value="<?=$_value?>" <?=$this->getSelected('contents/role/'.$_i, $_value)?>><?=$_label?></option>
+                        <?endforeach?>
+                        </optgroup>
                     </select>
-                    <?=$this->__("Location:")?> <input class="input-text" name="contents[path][]" value="<?=$this->getValue('contents/path/'.$_i)?>"/>
+                    <?=$this->__("Path:")?> <input class="input-text" name="contents[path][]" value="<?=$this->getValue('contents/path/'.$_i)?>"/>
+                    <?=$this->__("Type:")?> <select name="contents[type][]">
+                        <option value="file" <?=$this->getSelected('contents/type/'.$_i, 'file')?>><?=$this->__("File")?></option>
+                        <option value="dir" <?=$this->getSelected('contents/type/'.$_i, 'dir')?>><?=$this->__("Recursive Dir")?></option>
+                    </select>
+                    <?=$this->__("Ignore:")?> <input class="input-text" style="width:100px"  name="contents[ignore][]" value="<?=$this->getValue('contents/ignore/'.$_i)?>"/>
                     <?=$this->getRemoveRowButtonHtml()?>
                 </span>
             <?endforeach?>
+            <?endif?>
         </div>
-        <?=$this->getAddRowButtonHtml('depends_contents_container', 'depends_contents_template', 'Add Contents Path')?>
+        <?=$this->getAddRowButtonHtml('contents_container', 'contents_template', 'Add Contents Path')?>
     </fieldset>
 </div>

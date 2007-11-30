@@ -33,6 +33,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends Mage_Admin
     public function __construct()
     {
         parent::__construct();
+        $this->setData(Mage::getSingleton('adminhtml/session')->getLocalExtensionPackageFormData());
     }
 
     public function initForm()

@@ -3,6 +3,11 @@
 require_once "Varien/Pear.php";
 
 require_once "PEAR/PackageFileManager2.php";
+require_once "PEAR/PackageFile/v2.php";
+require_once "PEAR/PackageFile/v2/rw.php";
+require_once "PEAR/PackageFile/v2/Validator.php";
+require_once "PEAR/PackageFile/Generator/v2.php";
+
 // add missing but required constant...
 define ('PEAR_PACKAGEFILEMANAGER_NOSVNENTRIES', 1001);
 $GLOBALS['_PEAR_PACKAGEFILEMANAGER2_ERRORS']['en']['PEAR_PACKAGEFILEMANAGER_NOSVNENTRIES'] =
@@ -11,7 +16,12 @@ $GLOBALS['_PEAR_PACKAGEFILEMANAGER2_ERRORS']['en']['PEAR_PACKAGEFILEMANAGER_NOSV
 class Varien_Pear_Package
 {
     protected $_data = array(
-        'options' => array(),
+        'options' => array(
+            'baseinstalldir'=>'',
+            'filelistgenerator'=>'file',
+            'packagedirectory'=>'.',
+            'outputdirectory'=>'.',
+        ),
         'package' => array(),
         'release' => array(),
     );
@@ -82,12 +92,28 @@ class Varien_Pear_Package
         return $this;
     }
 
-    public function getPfm()
+    /**
+     * Get PackageFileManager2 instance
+     *
+     * @param string|PEAR_PackageFile_v1 $package
+     * @return PEAR_PackageFileManager2|PEAR_Error
+     */
+    public function getPfm($package=null)
     {
         if (!$this->_pfm) {
-            $this->defineData();
+            if (is_null($package)) {
+                $this->_pfm = new PEAR_PackageFileManager2;
+                $this->_pfm->setOptions($this->get('options'));
+            } else {
+                $this->defineData();
 
-            $this->_pfm = PEAR_PackageFileManager2::importOptions('package2.xml', $this->get('options'));
+                $this->_pfm = PEAR_PackageFileManager2::importOptions($package, $this->get('options'));
+                if ($this->_pfm instanceof PEAR_Error) {
+                    $e = PEAR_Exception('Could not instantiate PEAR_PackageFileManager2');
+                    $e->errorObject = $this->_pfm;
+                    throw $e;
+                }
+            }
         }
         return $this->_pfm;
     }
