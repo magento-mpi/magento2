@@ -10,8 +10,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         Mage::getSingleton('adminhtml/session')
             ->setLocalExtensionPackageFormData($this->getData());
 
-        $this->setPackage(new Varien_Pear_Package);
-        $pfm = $this->getPackage()->getPfm();
+        $pkg = new Varien_Pear_Package;
+        $pfm = $pkg->getPfm();
         $pfm->setOptions(array(
             'packagedirectory'=>'.',
             'baseinstalldir'=>'.',
@@ -203,10 +203,11 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $dir = $pear->getConfig()->get('temp_dir');
         file_put_contents($dir.'/package.xml', $this->getPackageXml());
 
-        $pkgver = $this->getName().'-'.$this->getReleaseVersion;
+        $pkgver = $this->getName().'-'.$this->getReleaseVersion();
+        $this->unsPackageXml();
         file_put_contents($dir.DS.$pkgver.'.ser', serialize($this->getData()));
 
         $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
-        print_r($result);
+        print_r($pear->getFrontend());
     }
 }
