@@ -58,15 +58,10 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             $this->_redirect('admin/extensions_local/');
-            //            var_dump($e);
-            //            die('!');
         }
         catch(Exception $e){
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-
             $this->_redirect('admin/extensions_local/');
-            //            var_dump($e);
-              //          die('!!');
         }
     }
 }
