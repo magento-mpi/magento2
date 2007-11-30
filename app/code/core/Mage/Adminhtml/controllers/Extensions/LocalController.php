@@ -46,12 +46,27 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         $this->renderLayout();
     }
 
-    public function saveAction()
+     public function saveAction()
     {
-        $ext = Mage::getModel('adminhtml/extension');
-        $ext->setData($this->getRequest()->getPost());
-        $ext->generatePackageXml();
-        echo "<xmp>".$ext->getPackageXml()."</xmp>";
-        $ext->savePackage();
+        try {
+            $ext = Mage::getModel('adminhtml/extension');
+            $ext->setData($this->getRequest()->getPost());
+            if (!$ext->savePackage()){
+
+            }
+            echo "<xmp>".$ext->getPackageXml()."</xmp>";
+        }catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_redirect('admin/extensions_local/');
+            //            var_dump($e);
+            //            die('!');
+        }
+        catch(Exception $e){
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+
+            $this->_redirect('admin/extensions_local/');
+            //            var_dump($e);
+              //          die('!!');
+        }
     }
 }
