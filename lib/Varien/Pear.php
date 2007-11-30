@@ -88,7 +88,7 @@ class Varien_Pear
                 if (!(substr($key, 0, 5)==='mage_' && substr($key, -4)==='_dir')) {
                     continue;
                 }
-                $config->set($key, str_replace('{base_dir}', $this->getBaseDir(), $config->get($key)));
+                $config->set($key, preg_replace('#^\.#', $this->getBaseDir(), $config->get($key)));
                 #echo $key.' : '.$config->get($key).'<br>';
             }
 

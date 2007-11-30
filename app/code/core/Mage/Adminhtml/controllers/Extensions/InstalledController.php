@@ -26,32 +26,16 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Extensions_InstalledController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->_forward('edit');
-    }
-
-    public function editAction()
-    {
         $this->loadLayout();
 
-        $this->_setActiveMenu('system/extensions/local');
+        $this->_setActiveMenu('system/extensions/installed');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local_edit'));
-
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_local_edit_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_installed')->initForm());
 
         $this->renderLayout();
-    }
-
-    public function saveAction()
-    {
-        $ext = Mage::getModel('adminhtml/extension');
-        $ext->setData($this->getRequest()->getPost());
-        $ext->generatePackageXml();
-        echo "<xmp>".$ext->getPackageXml()."</xmp>";
-        $ext->savePackage();
     }
 }

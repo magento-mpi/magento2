@@ -42,7 +42,6 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Release
         $fieldset = $form->addFieldset('release_fieldset', array('legend'=>__('Release')));
 
         $stabilityOptions = array(
-            'snapshot'=>'Snapshot',
             'devel'=>'Development',
             'alpha'=>'Alpha',
             'beta'=>'Beta',
