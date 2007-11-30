@@ -1144,6 +1144,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
                     $sql.= $this->_read->quoteInto("$fieldName <= ?", $to);
                 }
             }
+            elseif (isset($condition['eq'])) {
+                $sql = $this->_read->quoteInto("$fieldName == ?", $condition['eq']);
+            }
             elseif (isset($condition['neq'])) {
                 $sql = $this->_read->quoteInto("$fieldName != ?", $condition['neq']);
             }
