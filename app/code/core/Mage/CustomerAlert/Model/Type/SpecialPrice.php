@@ -30,7 +30,7 @@ class Mage_CustomerAlert_Model_Type_SpecialPrice extends Mage_CustomerAlert_Mode
 {
     public function __construct()
     {
-    	$this->setType('special_price');
+        $this->setType('special_price');
     	parent::__construct();
     }
     

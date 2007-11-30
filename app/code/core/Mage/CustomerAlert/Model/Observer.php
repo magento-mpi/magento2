@@ -30,7 +30,7 @@ class Mage_CustomerAlert_Model_Observer
     protected function _getIdsForCheck($data){
         return $rows = Mage::getModel('customeralert/type')
                 ->addData($data)
-                ->loadByParam();
+                ->loadAllByParam();
     }
     
     protected function _getData($newProduct)
@@ -49,6 +49,7 @@ class Mage_CustomerAlert_Model_Observer
         $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
         $rows = $this->_getIdsForCheck($data);
         foreach ($rows as $row) {
+            
             Mage::getModel('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data)
                 ->checkBefore($this->_oldProduct,$newProduct);

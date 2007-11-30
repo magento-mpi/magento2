@@ -13,44 +13,35 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_Newsletter
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Customer alert cofig
+ * Newsletter queue collection.
  *
  * @category   Mage
  * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_CustomerAlert_Model_Config
+class Mage_CustomerAlert_Model_Mysql4_Queue_Collection extends Mage_Newsletter_Model_Mysql4_Queue_Collection
 {
-    
-    public function getAlerts()
+     /**
+     * Initializes collection
+     */
+    protected function _construct()
     {
-        return Mage::getConfig()->getNode('global/customeralert/types')->asArray();
+        $this->_init('customeralert/queue');
     }
     
-    public function getModelNameByType($type)
-    {
-        return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/model');
+    public function addTemplateInfo() {
+        $this->getSelect()->joinLeft(array('template'=>$this->getTable('core/email_template')),
+            'template.template_id=main_table.template_id',
+            array('template_subject','template_sender_name','template_sender_email'));
+        $this->_joinedTables['template'] = true;
+        return $this;
     }
     
-    public function getDefaultTemplateForAlert($type)
-    {
-        if($type){
-            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/default_template');
-        }
-        return false;
-    }
-    
-    public function getAlertByType($type)
-    {
-        return Mage::getModel($this->getModelNameByType($type));
-    }
-    
-
 }

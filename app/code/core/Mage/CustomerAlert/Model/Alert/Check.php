@@ -36,8 +36,9 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
     
     public function addAlert()
     {
-        $this->prepareAlert();
+        $this->_prepareAlert();
         $this->save();
+        return $this;
     }
     
     public function removeAlert()
@@ -47,7 +48,7 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         $this->_alertHappen = false;
     }
     
-    protected function prepareAlert()
+    protected function _prepareAlert()
     {
         $data = $this->getData();
         $this->unsetData();

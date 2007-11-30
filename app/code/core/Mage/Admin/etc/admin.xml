@@ -65,6 +65,11 @@
                     <queue title="Newsletter Queue" />
                     <template title="Newsletter Templates" />
                 </newsletter>
+                <alert title="Product Alerts" >
+                    <!-- <problem title="Newsletter Problem Reports" /> -->
+                    <queue title="Alerts Queue" />
+                    <template title="Alerts Templates" />
+                </alert>
                 <promo title="Promotions" >
                     <catalog title="Catalog Price Rules" />
                     <quote title="Shopping Cart Price Rules" />

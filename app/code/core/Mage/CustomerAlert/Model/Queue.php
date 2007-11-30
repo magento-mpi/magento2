@@ -26,18 +26,42 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */ 
 
-class Mage_CustomerAlert_Model_Queue extends Mage_Newsletter_Model_Queue 
-{
-
-    public function __construct(){
+class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract 
+{ 
+    const STATUS_NEVER = 0;
+    const STATUS_SENDING = 1;
+    const STATUS_CANCEL = 2;
+    const STATUS_SENT = 3;
+    const STATUS_PAUSE = 4;
+    
+    public function __construct()
+    {
         $this->_init('customeralert/queue');
     }
     
-    public function addSubscribersToQueue(array $subscriberIds)
+    public function addSubscribersToQueue(array $subscriberIds, $check)
     {
+        $type = $check->getType();
+        $emailModel = Mage::getModel('core/email_template')
+            ->loadByCode(Mage::getModel('customeralert/config')->getDefaultTemplateForAlert($type));
+        if($emailModel->getId()){
+            $this->addData(array('template_id'=>$emailModel->getId()));
+        }
+        if($check->getId()){
+            $this->addData(array('check_id'=>$check->getId()));
+        }
+        $this->save();
         $this->getResource()->addSubscribersToQueue($this, $subscriberIds);
         return $this;
     }
+    
+    public function addTemplateData( $data )
+    {
+        if ($data->getTemplateId()) {
+            $this->setTemplate(Mage::getModel('core/email_template')
+                                    ->load($data->getTemplateId()));
+        }
+        return $this;
+    }
 }
-
 ?>
