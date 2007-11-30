@@ -59,6 +59,8 @@ CREATE TABLE `customer_product_alert_subscribers` (
   KEY `FK_SUBSCRIBER_CUSTOMER` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer product alert subscribers';
 
+DROP TABLE IF EXISTS `customer_product_alert_queue_link`;
+
 CREATE TABLE `customer_product_alert_queue_link` (
   `queue_link_id` int(9) unsigned NOT NULL auto_increment,
   `queue_id` int(7) unsigned NOT NULL default '0',
