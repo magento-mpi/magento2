@@ -458,6 +458,9 @@ class Mage_Catalog_Model_Url
         if (is_numeric($product)) {
             $product = $this->getProduct($storeId, $product);
         }
+        if (!$product) {
+            return $this;
+        }
         if (''==$product->getUrlKey()) {
             if ($product->getName()) {
                 $product->setUrlKey($product->formatUrlKey($product->getName()));
