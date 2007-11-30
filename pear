@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # initial setup
-if test "x$1" == "xmage-setup"; then
+if test "x$1" = "xmage-setup"; then
     echo 'Running initial setup...'
 
     if test "x$2" != "x"; then
@@ -40,7 +40,7 @@ fi
 # check that mage pear was initialized
 if test "x$1" != "xconfig-set"; then
   if test "x$1" != "xconfig-get"; then
-    if test "x`$0 config-get mage_dir`" == "x"; then
+    if test "x`$0 config-get mage_dir`" = "x"; then
         echo 'Please initialize Magento PEAR installer by running:'
         echo "$0 mage-setup"
         exit;
@@ -52,7 +52,7 @@ fi
 if test "x$MAGE_PEAR_PHP_BIN" != "x"; then
   PHP="$MAGE_PEAR_PHP_BIN"
 else
-  PHP=/usr/local/php5/bin/php
+  PHP=/usr/local/bin/php
 fi
 
 # look for the right pear include dir
