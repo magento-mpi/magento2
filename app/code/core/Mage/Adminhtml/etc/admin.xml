@@ -249,6 +249,29 @@
                     </problem>
                 </children>
              </newsletter>
+             <alert>
+                <title>Product Alerts</title>
+                <depends><module>Mage_CustomerAlert</module></depends>
+                <children>
+                   <!--   <template>
+                        <title>Alerts Templates</title>
+                        <action>*/newsletter_template/</action>
+                        <resource>admin/newsletter/template</resource>
+                    </template>
+                    -->
+                    <queue>
+                        <title>Alerts Queue</title>
+                        <action>*/alert_queue/</action>
+                        <resource>admin/alert/queue</resource>
+                    </queue>
+                    <!--  <problem>
+                        <title>Newsletter Problem Reports</title>
+                        <action>*/newsletter_problem/</action>
+                        <resource>admin/newsletter/problem</resource>
+                    </problem>
+                    -->
+                </children>
+             </alert>
              <report>
                 <title>Reports</title>
                 <children>
