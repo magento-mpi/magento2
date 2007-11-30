@@ -19,9 +19,9 @@
  */
 ?>
 <?$_items = $this->getMapItemCollection();?>
+<?if($_items->getSize()):?>
 <?=$this->getPagerHtml();?>
 <div class="content">
-<?if($_items->getSize()):?>
 <ul class="bare-list">    
         <?foreach ($_items as $_item):?>
             <li><a href="<?=$this->getSitemapUrl($_item)?>"><?=$_item->name?></a></li>
@@ -30,5 +30,5 @@
 </div>
 <?=$this->getPagerHtml();?>
 <?else:?>
-    <p><?=$this->__('There is no '.$this->getTitle().'.');?></p>
+    <div><?=$this->__('There is no '.$this->getTitle().'.');?></div>
 <?endif?>
