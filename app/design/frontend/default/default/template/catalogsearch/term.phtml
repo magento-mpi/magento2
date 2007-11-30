@@ -22,9 +22,9 @@
     <h3><?=$this->__('Popular Search Terms')?></h3>
 </div>
 <?$_items = $this->getTermCollection();?>
+<?if($_items->getSize()):?>
 <?=$this->getPagerHtml();?>
 <div class="content">
-<?if($_items->getSize()):?>
 <ul class="bare-list">    
         <?foreach ($_items as $_item):?>
             <li><a href="<?=$this->getSearchUrl($_item)?>"><?=$_item->name?></a></li>
@@ -33,5 +33,5 @@
 </div>
 <?=$this->getPagerHtml();?>
 <?else:?>
-    <p><?=$this->__('There is no popular search term.');?></p>
+    <div><?=$this->__('There is no popular search term.');?></div>
 <?endif?>
