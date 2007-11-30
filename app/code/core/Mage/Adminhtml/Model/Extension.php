@@ -25,13 +25,9 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $this->_setContents($pfm);
 
         if (!$pfm->validate(PEAR_VALIDATE_NORMAL)) {
-            //echo "<pre>".print_r($this->getData(),1)."</pre>";
-            //echo "TEST:";
-            //echo "<pre>".print_r($pfm->getValidationWarnings(), 1)."</pre>";
-            $message = $pfm->getValidationWarnings();
-            //$message = $message[0]['message'];
-             throw Mage::exception('Mage_Adminhtml_Model', __($message[0]['message']));
-            
+            echo "<pre>".print_r($this->getData(),1)."</pre>";
+            echo "TEST:";
+            echo "<pre>".print_r($pfm->getValidationWarnings(),1)."</pre>";
             return $this;
         }
 
@@ -43,8 +39,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     {
         $pfm->setPackageType('php');
         $pfm->setChannel($this->getData('channel'));
-        
-	$pfm->setLicense($this->getData('license'), $this->getData('license_uri'));
+
+	    $pfm->setLicense($this->getData('license'), $this->getData('license_uri'));
 
         $pfm->setPackage($this->getData('name'));
         $pfm->setSummary($this->getData('summary'));
@@ -218,6 +214,5 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
         $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
         print_r($pear->getFrontend());
-
     }
 }
