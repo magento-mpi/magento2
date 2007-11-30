@@ -18,11 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->run("
-update `core_config_field` set `source_model`='adminhtml/system_config_source_payment_active' where `path` like 'payment/%/active';
-update `core_config_data` set `value`=2 where `path`='payment/paypal_express/active';
-");
-
 $this->addConfigField('payment/paypal_express/payment_action', 'Payment Action', array(
     'frontend_type'=>'select',
     'source_model'=>'paypal/source_paymentAction',
