@@ -59,12 +59,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                     'onclick'=> 'customerAddresses.addNewAddress()'
                 ))
         );
-        $this->setChild('cencel_button',
+        $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'  => __('Cencel'),
+                    'label'  => __('Cancel'),
                     'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
-                    'name'   => 'cencel_address',
+                    'name'   => 'cancel_address',
                     'class'  => 'delete-address',
                     'onclick'=> 'customerAddresses.cancelAdd(this)',
                 ))
@@ -103,9 +103,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         return $this;
     }
     
-    public function getCencelButtonHtml()
+    public function getCancelButtonHtml()
     {
-        return $this->getChildHtml('cencel_button');
+        return $this->getChildHtml('cancel_button');
     }
     
     public function getAddNewButtonHtml()

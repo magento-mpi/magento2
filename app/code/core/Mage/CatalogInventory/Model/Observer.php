@@ -80,6 +80,12 @@ class Mage_CatalogInventory_Model_Observer
         if (is_null($product->getData('stock_data/use_config_min_qty'))) {
             $item->setData('use_config_min_qty', false);
         }
+        if (is_null($product->getData('stock_data/use_config_min_sale_qty'))) {
+            $item->setData('use_config_min_sale_qty', false);
+        }
+        if (is_null($product->getData('stock_data/use_config_max_sale_qty'))) {
+            $item->setData('use_config_max_sale_qty', false);
+        }
         if (is_null($product->getData('stock_data/use_config_backorders'))) {
             $item->setData('use_config_backorders', false);
         }
