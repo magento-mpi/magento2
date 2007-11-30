@@ -250,6 +250,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $this->getQty() <= $this->getMinQty()) {
             $this->setIsInStock(false);
         }
+        Mage::dispatchEvent('cataloginventory_save_before', array('product'=>$this->getProduct()));
         return $this;
-    }    
+    }
+
+    protected function _afterSave()
+    {
+        Mage::dispatchEvent('cataloginventory_save_after', array('product'=>$this->getProduct()));
+        return $this;
+    }
 }
