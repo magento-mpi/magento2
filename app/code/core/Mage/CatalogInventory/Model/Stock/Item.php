@@ -211,21 +211,27 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function checkQuoteItemQty(Mage_Sales_Model_Quote_Item $item)
     {
         $qty = $item->getQty();
-        
-        /**
-         * Check quontity type
-         */
-        if ($this->getIsQtyDecimal()) {
+        if (!is_numeric($qty)) {
             $qty = floatval($qty);
-        }
-        else {
-            $qty = intval($qty);
         }
         
         if ($this->checkQty($qty)) {
             if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES) {
-                $item->setMessage(__('Backorders.'));
+                if ($this->getProduct()) {
+                    $item->setMessage(
+                        __('There are only %d "%s" in stock. This item will be backordered.', 
+                            $this->getQty(), 
+                            $this->getProduct()->getName())
+                    );
+                }
             }
+        }
+        
+        /**
+         * Check quontity type
+         */
+        if (!$this->getIsQtyDecimal()) {
+            $qty = intval($qty);
         }
         
         /**

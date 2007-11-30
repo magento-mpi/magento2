@@ -87,8 +87,8 @@
         <span class="field-row">
             <label for="inventory_stock_availability"><?=$this->__('Stock Availability')?></label>
             <select id="inventory_stock_availability" name="product[stock_data][is_in_stock]" class="select">
-                <option value="1"><?=$this->__('Yes')?></option>
-                <option value="0"<?if($this->getFieldValue('is_in_stock')==0):?> selected<?endif;?>><?=$this->__('No')?></option>
+                <option value="1"><?=$this->__('In Stock')?></option>
+                <option value="0"<?if($this->getFieldValue('is_in_stock')==0):?> selected<?endif;?>><?=$this->__('Out of Stock')?></option>
             </select>
             <?=$this->getGlobalIcon()?>
         </span>
