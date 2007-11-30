@@ -28,7 +28,10 @@
 class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 {
     const XML_PATH_MIN_QTY      = 'cataloginventory/options/min_qty';
+    const XML_PATH_MIN_SALE_QTY = 'cataloginventory/options/min_sale_qty';
+    const XML_PATH_MAX_SALE_QTY = 'cataloginventory/options/max_sale_qty';
     const XML_PATH_BACKORDERS   = 'cataloginventory/options/backorders';
+    const XML_PATH_CAN_SUBTRACT = 'cataloginventory/options/can_subtract';
     
     protected function _construct()
     {
@@ -69,6 +72,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function subtractQty($qty)
     {
+        $config = (bool) Mage::app()->getStore()->getConfig(self::XML_PATH_CAN_SUBTRACT);
+        if (!$config) {
+            return $this;
+        }
+        
         $this->setQty($this->getQty()-$qty);
         if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $this->getQty() == $this->getMinQty()) {
             $this->setIsInStock(false);
@@ -107,6 +115,22 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         return $this->getData('min_qty');
     }
     
+    public function getMinSaleQty()
+    {
+        if ($this->getUseConfigMinSaleQty()) {
+            return (float) Mage::app()->getStore()->getConfig(self::XML_PATH_MIN_SALE_QTY);
+        }
+        return $this->getData('min_sale_qty');
+    }
+
+    public function getMaxSaleQty()
+    {
+        if ($this->getUseConfigMaxSaleQty()) {
+            return (float) Mage::app()->getStore()->getConfig(self::XML_PATH_MAX_SALE_QTY);
+        }
+        return $this->getData('max_sale_qty');
+    }
+
     /**
      * Retrieve backorders status
      *
@@ -124,6 +148,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * Check quantity
      *
      * @param   decimal $qty
+     * @exception Mage_Core_Exception
      * @return  bool
      */
     public function checkQty($qty)
@@ -134,6 +159,28 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             }
             else {
                 Mage::throwException(__('This product is out of stock.'));
+            }
+        }
+        
+        if ($this->getMinSaleQty() && $qty<$this->getMinSaleQty()) {
+            if ($this->getProduct()) {
+                Mage::throwException(
+                    __('Product "%s" quantity can not be lower then %d.', $this->getProduct()->getName(), $this->getMinSaleQty())
+                );
+            }
+            else {
+                Mage::throwException(__('Product quantity can not be lower then %d.', $this->getMinSaleQty()));
+            }
+        }
+        
+        if ($this->getMaxSaleQty() && $qty>$this->getMaxSaleQty()) {
+            if ($this->getProduct()) {
+                Mage::throwException(
+                    __('Product "%s" quantity can not be more then %d.', $this->getProduct()->getName(), $this->getMaxSaleQty())
+                );
+            }
+            else {
+                Mage::throwException(__('Product quantity can not be more then %d.', $this->getMaxSaleQty()));
             }
         }
         

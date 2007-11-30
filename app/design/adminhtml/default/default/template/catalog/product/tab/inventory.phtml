@@ -26,13 +26,13 @@
         <legend><?=$this->__('Inventory')?></legend>
         <span class="field-row">
             <label for="inventory_qty"><?=$this->__('Qty')?><span class="required">*</span></label>
-            <input type="text" class="input-text required-entry validate-digits" id="inventory_qty" name="product[stock_data][qty]" value="<?=$this->getFieldValue('qty')?>"/>
+            <input type="text" class="input-text required-entry validate-digits" id="inventory_qty" name="product[stock_data][qty]" value="<?=$this->getFieldValue('qty')*1?>"/>
             <?=$this->getGlobalIcon()?>
         </span>
         
         <span class="field-row">
             <label for="inventory_min_qty"><?=$this->__('Minimal Qty')?></label>
-            <input type="text" class="input-text validate-digits" id="inventory_min_qty" name="product[stock_data][min_qty]" value="<?=$this->getFieldValue('min_qty')?>"/>
+            <input type="text" class="input-text validate-digits" id="inventory_min_qty" name="product[stock_data][min_qty]" value="<?=$this->getFieldValue('min_qty')*1?>"/>
             <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_min_qty') ? 'checked' : ''?>
             <input type="checkbox" id="inventory_use_config_min_qty" name="product[stock_data][use_config_min_qty]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>
@@ -40,6 +40,26 @@
             <script type="text/javascript">toggleValueElements($('inventory_use_config_min_qty'), $('inventory_use_config_min_qty').parentNode);</script>
         </span>
         
+        <span class="field-row">
+            <label for="inventory_min_sale_qty"><?=$this->__('Minimum Shopping Cart Qty Allowed')?></label>
+            <input type="text" class="input-text validate-digits" id="inventory_min_sale_qty" name="product[stock_data][min_qty]" value="<?=$this->getFieldValue('min_sale_qty')*1?>"/>
+            <?=$this->getGlobalIcon()?>
+            <?$_checked = $this->getFieldValue('use_config_min_sale_qty') ? 'checked' : ''?>
+            <input type="checkbox" id="inventory_use_config_min_sale_qty" name="product[stock_data][use_config_min_sale_qty]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>
+            <label for="inventory_use_config_min_sale_qty" class="normal"><?=$this->__('Use Config Settings')?></label>
+            <script type="text/javascript">toggleValueElements($('inventory_use_config_min_sale_qty'), $('inventory_use_config_min_sale_qty').parentNode);</script>
+        </span>
+
+        <span class="field-row">
+            <label for="inventory_max_sale_qty"><?=$this->__('Maximum Shopping Cart Qty Allowed')?></label>
+            <input type="text" class="input-text validate-digits" id="inventory_max_sale_qty" name="product[stock_data][max_sale_qty]" value="<?=$this->getFieldValue('max_sale_qty')*1?>"/>
+            <?=$this->getGlobalIcon()?>
+            <?$_checked = $this->getFieldValue('use_config_max_sale_qty') ? 'checked' : ''?>
+            <input type="checkbox" id="inventory_use_config_max_sale_qty" name="product[stock_data][use_config_max_sale_qty]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>
+            <label for="inventory_use_config_max_sale_qty" class="normal"><?=$this->__('Use Config Settings')?></label>
+            <script type="text/javascript">toggleValueElements($('inventory_use_config_max_sale_qty'), $('inventory_use_config_max_sale_qty').parentNode);</script>
+        </span>
+
         <span class="field-row">
             <label for="inventory_is_qty_decimal"><?=$this->__('Qty Uses Decimals')?></label>
             <select id="inventory_is_qty_decimal" name="product[stock_data][is_qty_decimal]" class="select">

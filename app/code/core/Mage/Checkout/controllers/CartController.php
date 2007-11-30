@@ -107,13 +107,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             else {
                 Mage::getSingleton('checkout/session')->addError($e->getMessage());
             }
-            $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+            $this->_redirectReferer(Mage::helper('checkout/cart')->getCartUrl());
+            /*$url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
             if ($url) {
                 $this->getResponse()->setRedirect($url);
             }
             else {
                 $this->_backToCart();
-            }
+            }*/
         }
         catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addException($e, __('Can not add item to shopping cart'));
