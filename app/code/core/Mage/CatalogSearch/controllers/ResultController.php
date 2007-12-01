@@ -30,6 +30,8 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
     {
         $query = Mage::helper('catalogSearch')->getQuery();
         
+        $query->setStoreId(Mage::app()->getStore()->getId());
+        
         if ($text = $query->getQueryText()) {
             if ($query->getId()) {
                 $query->setPopularity($query->getPopularity()+1);

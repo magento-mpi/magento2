@@ -27,9 +27,9 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('catalogsearch/query');
+        $this->_init('catalogsearch/query');        
     }
-    
+ 
     /**
      * Retrieve collection of search results
      *

@@ -49,7 +49,7 @@ class Mage_CatalogSearch_Model_Mysql4_Query_Collection extends Mage_Core_Model_M
     			array('main_table'=>$this->getTable('catalogsearch/search_query')),
     			array('name'=>"if(ifnull(synonim_for,'')<>'', synonim_for, query_text)", 'num_results')
     		)
-    		->where('num_results>0')
+    		->where('num_results>0 and store_id=?',Mage::app()->getStore()->getId())
     		->order(array('popularity desc','name'));
 		return $this;
     }
