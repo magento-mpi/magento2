@@ -66,6 +66,7 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
         
         );
         
+        
         return Mage::getModel('customeralert/config')->getAlertByType($this->_alertType)
             ->addData($data)
             ->loadByParam()
