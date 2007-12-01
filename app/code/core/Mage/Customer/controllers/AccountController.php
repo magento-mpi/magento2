@@ -157,7 +157,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     ->setCustomerAsLoggedIn($customer)
                     ->addSuccess(
                         Mage::helper('customer')->__('Thank you for registering with %s', 
-                            Mage::app()->getStore()->getName()) 
+                            Mage::app()->getStore()->load(Mage::app()->getStore()->getStoreId())->getName()) 
                     );
 
                 $customer->sendNewAccountEmail();
