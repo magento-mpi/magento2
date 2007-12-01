@@ -34,10 +34,10 @@ class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_T
     	parent::__construct();
     }
     
-    public function checkInventoryBefore(Mage_CatalogInventory_Model_Stock_Item $oldInventory, Mage_CatalogInventory_Model_Stock_Item $newInventory)
+    public function checkStock(Mage_CatalogInventory_Model_Stock_Item $item)
     {
-        if($newInventory->getIsInStock() && !$oldInventory->getIsInStock()){
-            $this->addAlert(true, $newInventory->getIsInStock(), $oldInventory->getIsInStock() );
+        if($item->getIsInStock() && !$item->getOrigData('is_in_stock')){
+            $this->addAlert(true, $item->getIsInStock(), $item->getOrigData('is_in_stock'));
         }
     }
     

@@ -61,6 +61,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $product = $product->getId();
         }
         $this->getResource()->loadByProductId($this, $product);
+        $this->setOrigData();
         return $this;
     }
     
@@ -79,6 +80,21 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         
         $this->setQty($this->getQty()-$qty);
         return $this;
+    }
+    
+    public function getStoreId()
+    {
+        $storeId = $this->getData('store_id');
+        if (is_null($storeId)) {
+            if ($this->getProduct()) {
+                $storeId = $this->getProduct()->getStoreId();
+            }
+            else {
+                $storeId = Mage::app()->getStore()->getId();
+            }
+            $this->setData('store_id', $storeId);
+        }
+        return $storeId;
     }
     
     /**
@@ -247,11 +263,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     
     protected function _beforeSave()
     {
-        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $this->getQty() <= $this->getMinQty()) {
+        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO 
+            && $this->getQty() <= $this->getMinQty()) {
             $this->setIsInStock(false);
         }
-        $oldInventory = Mage::getModel('cataloginventory/stock_item')->load($this->getId());
-        Mage::dispatchEvent('cataloginventory_save_before', array('newInventory'=>$this,'oldInventory'=>$oldInventory));
+        Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item'=>$this));
         return $this;
     }
 }

@@ -94,10 +94,8 @@
                 </product_back_stock>
             </types>
         </customeralert>
-    </global>
-    <adminhtml>
         <events>
-            <cataloginventory_save_before>
+            <cataloginventory_stock_item_save_before>
                 <observers>
                     <customeralert_observer_before>
                         <type>singleton</type>
@@ -105,7 +103,11 @@
                         <method>catalogInventorySaveBefore</method>
                     </customeralert_observer_before>
                 </observers>
-            </cataloginventory_save_before>
+            </cataloginventory_stock_item_save_before>
+        </events>
+    </global>
+    <adminhtml>
+        <events>
             <catalog_product_save_before>
                 <observers>
                     <customeralert_observer_before>

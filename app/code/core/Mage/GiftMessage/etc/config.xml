@@ -74,7 +74,7 @@
                 <observers>
                     <tag>
                         <type>model</type>
-                        <class>giftmessage/message</class>
+                        <class>giftmessage/observer</class>
                         <method>salesEventImportAddressItem</method>
                     </tag>
                 </observers>
@@ -83,7 +83,7 @@
                 <observers>
                     <tag>
                         <type>model</type>
-                        <class>giftmessage/message</class>
+                        <class>giftmessage/observer</class>
                         <method>salesEventImportItem</method>
                     </tag>
                 </observers>
@@ -92,7 +92,7 @@
                 <observers>
                     <tag>
                         <type>model</type>
-                        <class>giftmessage/message</class>
+                        <class>giftmessage/observer</class>
                         <method>checkoutEventCreateOrder</method>
                     </tag>
                 </observers>

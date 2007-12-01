@@ -81,6 +81,9 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
     {
         if ($productId = $item->getProductId()) {
             $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            if ($item->getStoreId()) {
+                $stockItem->setStoreId($item->getStoreId());
+            }
             if ($stockItem->checkQty($item->getQtyOrdered())) {
                 $stockItem->subtractQty($item->getQtyOrdered())
                     ->save();

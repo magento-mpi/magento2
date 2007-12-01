@@ -49,7 +49,7 @@ class Mage_CustomerAlert_Model_Observer
         $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
         $rows = $this->_getAlertsForCheck($data);
         foreach ($rows as $row) {
-            $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+            $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data);
             if(method_exists($alertModel,'checkBefore'))
                 $alertModel
@@ -64,7 +64,7 @@ class Mage_CustomerAlert_Model_Observer
         $data = $this->_getData($newProduct);
         $rows = $this->_getAlertsForCheck($data);
         foreach ($rows as $row) {
-            $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+            $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data);
             if(method_exists($alertModel,'checkAfter'))
                 $alertModel
@@ -74,18 +74,18 @@ class Mage_CustomerAlert_Model_Observer
     
     public function catalogInventorySaveBefore($observer)
     {
-        $newInventory = $observer->getEvent()->getData('newInventory');
-        $oldInventory = $observer->getEvent()->getData('oldInventory');
-        $product = $newInventory->getProduct();
-        $data = $this->_getData($product);
-        $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
+        $stockItem = $observer->getEvent()->getItem();
+        $data = array(
+            'product_id' => $stockItem->getProductId(),
+            'store_id'   => $stockItem->getStoreId(),
+        );
         $rows = $this->_getAlertsForCheck($data);
         foreach ($rows as $row) {
-           $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
+           $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data);
-           if(method_exists($alertModel,'checkInventoryBefore'))
-                $alertModel
-                    ->checkInventoryBefore($oldInventory,$newInventory);
+           if(method_exists($alertModel,'checkStock')){
+               $alertModel->checkStock($stockItem);
+           }
         }
     }
 }
