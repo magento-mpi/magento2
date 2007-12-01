@@ -754,6 +754,9 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
             foreach ($values as $v) {
                 $attribute = $this->getAttribute($v['attribute_id']);
+                if (!$attribute) {
+                    continue;
+                }
                 $attributeCode = $attribute->getAttributeCode();
                 $object->setData($attributeCode, $v['value']);
                 $this->getAttribute($v['attribute_id'])->getBackend()->setValueId($v['value_id']);
