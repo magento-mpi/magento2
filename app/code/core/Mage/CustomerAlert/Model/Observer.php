@@ -28,7 +28,7 @@ class Mage_CustomerAlert_Model_Observer
     protected $_oldProduct;
     
     protected function _getAlertsForCheck($data){
-        return $rows = Mage::getModel('customeralert/type')
+        return Mage::getModel('customeralert/type')
                 ->addData($data)
                 ->loadAllByParam();
     }
@@ -47,7 +47,7 @@ class Mage_CustomerAlert_Model_Observer
         $newProduct = $observer->getEvent()->getProduct();
         $data = $this->_getData($newProduct);
         $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
-        $rows = $this->_getIdsForCheck($data);
+        $rows = $this->_getAlertsForCheck($data);
         foreach ($rows as $row) {
             $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data);
@@ -79,7 +79,7 @@ class Mage_CustomerAlert_Model_Observer
         $product = $newInventory->getProduct();
         $data = $this->_getData($product);
         $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
-        $rows = $this->_getIdsForCheck($data);
+        $rows = $this->_getAlertsForCheck($data);
         foreach ($rows as $row) {
            $alertModel = Mage::getModel('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data);
