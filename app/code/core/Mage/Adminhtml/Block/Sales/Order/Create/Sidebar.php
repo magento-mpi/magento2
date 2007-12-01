@@ -39,11 +39,28 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar extends Mage_Adminhtml_Blo
     protected function _prepareLayout()
     {
         $this->setChild('currency', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_currency'));
+        if ($this->getCustomerId()) {
+            $button = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label' => __('Make Changes to Order'), 
+                'onclick' => 'order.sidebarApplyChanges()',
+            ));
+            $this->setChild('top_button', $button);
+        }
         $this->setChild('cart', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_cart'));
         $this->setChild('wishlist', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_wishlist'));
         $this->setChild('viewed', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_viewed'));
         $this->setChild('compared', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_compared'));
+        if ($this->getCustomerId()) {
+            $this->setChild('bottom_button', $button);
+        }
         return parent::_prepareLayout();
     }
-
+    
+    public function canDisplay($child)
+    {
+        if (method_exists($child, 'canDisplay')) {
+            return $child->canDisplay();
+        }
+        return true;
+    }
 }

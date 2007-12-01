@@ -543,10 +543,10 @@ select.countries option { background-repeat:no-repeat; }
     margin-left:20px;
     }
 
-.sidebar-block .auto-scroll{
+/*.sidebar-block .auto-scroll{
     height:165px;
     overflow: auto;
-    }
+    }*/
 .sidebar-block .caption {
     
     }
@@ -557,6 +557,14 @@ select.countries option { background-repeat:no-repeat; }
     text-align:right;
     }
 /********** Order *****************/
+.order-sidebar-column{
+    width:270px;
+    padding-right:10px;
+    border-right:1px solid #C1C1C1;
+    }
+.order-main-column{
+    padding-left:20px;
+    }
 .order-choose-address{
     margin:0px 0px 10px 0px;
     padding:5px;

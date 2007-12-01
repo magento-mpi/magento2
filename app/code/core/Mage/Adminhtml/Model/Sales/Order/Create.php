@@ -236,6 +236,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return $this;
     }
+    
+    public function applySidebarData($data)
+    {
+        if (isset($data['add'])) {
+            foreach ($data['add'] as $productId=>$flag) {
+            	$this->addProduct($productId);
+            }
+        }
+        if (isset($data['remove'])) {
+            foreach ($data['remove'] as $itemId => $from) {
+            	$this->removeItem($itemId, $from);
+            }
+        }
+        return $this;
+    }
 
     /**
      * Remove item from some of customer items storage (shopping cart, wishlist etc.)
@@ -591,6 +606,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     protected function _validate()
     {
+        if (!$this->getSession()->getStore()->getId()) {
+            Mage::throwException(__('Please select a store'));
+        }
         $items = $this->getQuote()->getAllItems();
 
         $hasError = $this->getQuote()->getHasError();

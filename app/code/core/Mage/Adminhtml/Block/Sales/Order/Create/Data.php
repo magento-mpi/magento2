@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
     protected function _prepareLayout()
     {
         $childNames = array(
+            'sidebar',
             'form_account',
             'shipping_address',
             'billing_address',

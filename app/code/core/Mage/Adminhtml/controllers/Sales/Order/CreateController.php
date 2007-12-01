@@ -124,6 +124,13 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         if (!is_null($syncFlag)) {
             $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
         }
+        
+        /**
+         * Applu mass changes from sidebar
+         */
+        if ($data = $this->getRequest()->getPost('sidebar')) {
+            $this->_getOrderCreateModel()->applySidebarData($data);
+        }
 
         /**
          * Adding product to quote from shoping cart, wishlist etc.
@@ -181,12 +188,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->loadLayout();
         $this->getLayout()->getBlock('left')->setIsCollapsed(true);
 
-        $sidebar = $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')
-            ->setShowContainer(true);
+        /*$sidebar = $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')
+            ->setShowContainer(true);*/
         $this->_initSession()
             ->_setActiveMenu('sales/order')
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_create'))
-            ->_addLeft($sidebar)
+            //->_addLeft($sidebar)
             ->_addJs($this->getLayout()->createBlock('core/template')->setTemplate(
                 'sales/order/create/js.phtml'
             ))

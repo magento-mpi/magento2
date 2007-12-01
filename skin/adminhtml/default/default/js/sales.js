@@ -368,6 +368,20 @@ AdminOrder.prototype = {
         this.showArea('data');
     },
     
+    sidebarApplyChanges : function(){
+        if($(this.getAreaId('sidebar'))){
+            var data  = $H({});
+            var elems = $(this.getAreaId('sidebar')).getElementsBySelector('input');
+            for(var i=0; i<elems.length; i++){
+                if(elems[i].getValue()){
+                    data[elems[i].name] = elems[i].getValue();
+                }
+            }
+            data.reset_shipping = true;
+            this.loadArea(['sidebar', 'items', 'shipping_method','totals'], true, data);
+        }
+    },
+    
     sidebarHide : function(){
         if(this.storeId === false && $('page:left') && $('page:container')){
             $('page:left').hide();

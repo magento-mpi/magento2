@@ -18,43 +18,52 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="order:search" style="display:none" class="order-search-items"><?=$this->getChildHtml('search')?></div>
-<div id="order:items"><?=$this->getChildHtml('items')?></div>
-<div>
-    <div id="order:form_account" class="box-left"><?=$this->getChildHtml('form_account')?></div>
-    <div class="box-right" id="order:coupons">
-        <?=$this->getChildHtml('coupons')?>
-    </div>
-</div>
-<div class="clear"></div>
-<div id="order:addresses">
-    <div id="order:billing_address" class="box-left"><?=$this->getChildHtml('billing_address')?></div>
-    <div id="order:shipping_address" class="box-right"><?=$this->getChildHtml('shipping_address')?></div>
-</div>
-<div class="clear"></div>
-<div id="order:methods">
-    <div id="order:shipping_method" class="box-left"><?=$this->getChildHtml('shipping_method')?></div>
-    <div id="order:billing_method" class="box-right payments"><?=$this->getChildHtml('billing_method')?></div>
-</div>
-<div class="clear"></div>
-<div>
-    <div id="order:comment" class="box-left"><?=$this->getChildHtml('comment')?></div>
-    <div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
-</div>
-<div class="clear"></div>
-<?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
-<div>
-    <div id="order:gift_message" class="box-left">
-    <div class="entry-edit">
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr>
+    <td class="order-sidebar-column">
+        <div id="order:sidebar"><?=$this->getChildHtml('sidebar')?></div>
+    </td>
+    <td class="order-main-column">
+        <div id="order:search" style="display:none" class="order-search-items"><?=$this->getChildHtml('search')?></div>
+        <div id="order:items"><?=$this->getChildHtml('items')?></div>
         <div>
-        <h4 class="icon-head fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
-        <div class="clear"></div>
+            <div id="order:form_account" class="box-left"><?=$this->getChildHtml('form_account')?></div>
+            <div class="box-right" id="order:coupons">
+                <?=$this->getChildHtml('coupons')?>
+            </div>
         </div>
-        <fieldset>
-            <?=$this->helper('giftmessage/message')->getAdminButton('main', $this->getQuote(), $this->getStoreId());?>
-        </fieldset>
-    </div>
-    </div>
-</div>
-<div class="clear"></div>
-<?endif;?>
+        <div class="clear"></div>
+        <div id="order:addresses">
+            <div id="order:billing_address" class="box-left"><?=$this->getChildHtml('billing_address')?></div>
+            <div id="order:shipping_address" class="box-right"><?=$this->getChildHtml('shipping_address')?></div>
+        </div>
+        <div class="clear"></div>
+        <div id="order:methods">
+            <div id="order:shipping_method" class="box-left"><?=$this->getChildHtml('shipping_method')?></div>
+            <div id="order:billing_method" class="box-right payments"><?=$this->getChildHtml('billing_method')?></div>
+        </div>
+        <div class="clear"></div>
+        <div>
+            <div id="order:comment" class="box-left"><?=$this->getChildHtml('comment')?></div>
+            <div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
+        </div>
+        <div class="clear"></div>
+        <?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
+        <div>
+            <div id="order:gift_message" class="box-left">
+            <div class="entry-edit">
+                <div>
+                <h4 class="icon-head fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
+                <div class="clear"></div>
+                </div>
+                <fieldset>
+                    <?=$this->helper('giftmessage/message')->getAdminButton('main', $this->getQuote(), $this->getStoreId());?>
+                </fieldset>
+            </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <?endif;?>    
+    </td>
+</tr>
+</table>

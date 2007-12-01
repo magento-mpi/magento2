@@ -31,23 +31,32 @@
     </table>
     <div class="auto-scroll">
     <?if($this->getItemCount()):?>
-    <ul>
-        <?foreach ($this->getItems() as $_item):?>
-        <li>
-            <span><?=$_item->getName()?></span>
+    <table width="100%">
+        <tr>
+            <th><?=$this->__('Item')?></th>
             <?if ($this->canDisplayItemQty()):?>
-            <strong>(<?=$_item->getQty()*1?>)</strong>
+            <th width="20"><?=$this->__('Qty')?></th>
             <?endif;?>
-            <br/>
-            <span><?=$this->convertPrice($_item->getPrice())?></span><br/>
+            <th width="60"><?=$this->__('Price')?></th>
             <?if($this->canRemoveItems()):?>
-            <a href="#" onclick="order.removeSidebarItem ('<?=$this->getItemId($_item)?>', '<?=$this->getDataId()?>');return false;">
-                <?=__('Remove')?></a> | 
+            <th width="16"><img src="<?=$this->getSkinUrl('images/fam_bin.gif')?>" alt="<?=__('Remove')?>" width="16" height="16"/></th>
             <?endif;?>
-            <a href="#" onclick="order.addProduct('<?=$this->getProductId($_item)?>');return false;"><?=__('Add to Order')?></a>
-        </li>
+            <th width="16"><img src="<?=$this->getSkinUrl('images/fam_package_go.gif')?>" alt="<?=__('Add To Order')?>" width="16" height="16"/></th>
+        </tr>
+        <?foreach ($this->getItems() as $_item):?>
+        <tr>
+            <td><?=$_item->getName()?></td>
+            <?if ($this->canDisplayItemQty()):?>
+            <td><?=$_item->getQty()*1?></td>
+            <?endif;?>
+            <td><?=$this->convertPrice($_item->getPrice())?></td>
+            <?if($this->canRemoveItems()):?>
+            <td><input type="checkbox" name="sidebar[remove][<?=$this->getItemId($_item)?>]" value="<?=$this->getDataId()?>" title="<?=__('Remove')?>"/></td>
+            <?endif;?>
+            <td><input type="checkbox" name="sidebar[add][<?=$this->getProductId($_item)?>]" value="1" title="<?=__('Add To Order')?>"/></td>
+        </tr>
         <?endforeach;?>
-    </ul>
+    </table>
     <?else:?>
         <center><?=$this->__('No items')?></center>
     <?endif?>
