@@ -30,9 +30,12 @@
     <?=$this->getChildHtml('head')?>
     <link rel="icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon"/>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/js.js" ></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/form.js" ></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/menu.js" ></script>
+    <?=$this->helper('core/js')->includeScript('varien/js.js')?>
+    <?=$this->helper('core/js')->includeScript('varien/form.js')?>
+    <?=$this->helper('core/js')->includeScript('varien/menu.js')?>
+    <?=$this->helper('core/js')->includeScript('mage/translate.js')?>
+    <?=$this->helper('core/js')->includeScript('mage/cookies.js')?>
+    <?=$this->helper('core/js')->getTranslatorScript()?>
     <script type="text/javascript">
         var BLANK_URL = '<?=$this->getJsUrl()?>blank.html';
     </script>
