@@ -80,14 +80,14 @@
             <types>
                 <price_is_changed translate="label title">
                     <model>customeralert/type_priceChanged</model>
-                    <label>Sign up to alert when a product changed price.</label>
+                    <label>Sign up to alert when product price changes.</label>
                     <default_email_template>Product alert for changed price</default_email_template>
                     <template>priceIsChanged</template>
                     <title>price changed</title>
                 </price_is_changed>
                 <product_back_stock translate="label title">
                     <model>customeralert/type_backStock</model>
-                    <label>Sign up to alert when a product comes back into stock.</label>
+                    <label>Sign up to alert when product comes back in stock.</label>
                     <default_email_template>Product alert for back to stock</default_email_template>
                     <template>backInStock</template>
                     <title>back in stock</title>

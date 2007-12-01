@@ -48,9 +48,9 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
                     Mage::getModel('customeralert/config')->getAlertByType($alertType)   
                                     ->addData($data)
                                     ->save();
-                    Mage::getModel('catalog/session')->addSuccess(__('Alert was saved successfuly.'));
+                    Mage::getModel('catalog/session')->addSuccess(__('Alert subscription was saved successfuly.'));
                 } catch (Exception $e) {
-                    Mage::getModel('catalog/session')->addError(__('Alert was not saved. %s',$e->getMessage()));
+                    Mage::getModel('catalog/session')->addError(__('Alert subscription was not saved. %s',$e->getMessage()));
                 }
                 $this->_redirectUrl($backUrl);
             } else {

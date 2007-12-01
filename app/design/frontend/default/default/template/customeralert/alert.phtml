@@ -58,7 +58,7 @@
                         },
                 onFailure : function()
                         {
-                           alertError("<?=$this->__('Alerts does not save. Please try again')?>");
+                           alertError("<?=$this->__('Alert subscription(s) were not saved. Please try again')?>");
                         }
                        
             });
@@ -85,7 +85,7 @@
             <? endforeach;?>
                 <li>
                     <button class="form-button-alt" onclick="saveAlerts()">
-                        <span>Save alerts</span>
+                        <span><?=$this->__('Save alerts')?></span>
                     </button>       
                 </li>
             </ul>
