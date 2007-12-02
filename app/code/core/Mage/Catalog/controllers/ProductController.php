@@ -27,7 +27,7 @@
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
-	protected function _initProduct()
+    protected function _initProduct()
     {
         $categoryId = (int) $this->getRequest()->getParam('category', false);
         $productId  = (int) $this->getRequest()->getParam('id');

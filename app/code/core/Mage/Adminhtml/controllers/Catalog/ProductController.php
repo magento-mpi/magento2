@@ -393,19 +393,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 Mage::getModel('customeralert/config')->getAlertByType($key)
                     ->setParamValues($this->getRequest()->getParams())
                     ->addCustomersToAlertQueue();
-                $messages[] = array(
-                    'error' => false,
-                    'message' => __('Customers for alert %s was successfuly added to queue', Mage::getModel('customeralert/config')->getTitleByType($key))
-                );
+                Mage::getModel('adminhtml/session')->addSuccess(__('Customers for alert %s was successfuly added to queue', Mage::getModel('customeralert/config')->getTitleByType($key)));
             } catch (Exception $e) {
-                $messages[] = array(
-                    'error' => true,
-                    'message' => __('Error while adding customers for %s alert. Message: %s',Mage::getModel('customeralert/config')->getTitleByType($key),$e->getMessage())
-                );
+                Mage::getModel('adminhtml/session')->addError( __('Error while adding customers for %s alert. Message: %s',Mage::getModel('customeralert/config')->getTitleByType($key),$e->getMessage()));
                 continue;
             }
         }
-        print Zend_Json_Encoder::encode($messages);
+        print $this->getLayout()->getMessagesBlock()->getGroupedHtml();
+        #print Zend_Json_Encoder::encode($messages);
         return $this;
     }
 

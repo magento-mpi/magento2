@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CustomerAlert>
-            <version>0.1.4</version>
+            <version>0.1.5</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -88,7 +88,7 @@
                 <product_back_stock translate="label title">
                     <model>customeralert/type_backStock</model>
                     <label>Sign up to alert when product comes back in stock.</label>
-                    <default_email_template>Product alert for back to stock</default_email_template>
+                    <default_email_template>Product alert for back in stock</default_email_template>
                     <template>backInStock</template>
                     <title>back in stock</title>
                 </product_back_stock>

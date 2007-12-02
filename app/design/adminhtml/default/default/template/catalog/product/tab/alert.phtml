@@ -42,10 +42,12 @@
         //removeNotices();
         //$$('#product_info_tabs_alerts_content .messages').update('aaaaaa');
         for(i=0;i<=messages;i++){
+        alert(messages[i].message);
             if(messages[i].error){
                 if(!errorUl)
                 {
-                    errorUl =  $$('#product_info_tabs_alerts_content .messages .error-msg ul')
+                    errorElement =  $('messages_product_view')
+                    errorElement.update()
                     if(!errorUl){
                         messageObject.insert('<li class="error-msg"><ul></ul></li>');
                         errorUl =  $$('#product_info_tabs_alerts_content .messages .error-msg ul')
@@ -71,7 +73,7 @@
             function() {
             },
         add: function(productId, storeId) {
-            new Ajax.Request ( url, {
+            new Ajax.Request ( url, {   
                     param :
                         { 
                             'store_id':storeId,
@@ -79,6 +81,7 @@
                         },
                     onSuccess : function(req) 
                         {
+                            //alert(req.responseText);
                             setMessages(req.responseText.evalJSON());
                         },
                     onFailure : function()

@@ -19,8 +19,6 @@
  */
 ?>
 
-<? if($this->helper('customer')->isLoggedIn()): ?>
-    <? if(!$this->isCustomerSubscribed()):?>
-        <small><a href="<?=$this->helper("customeralert")->getSaveAlertsUrl($this->getAlertType())?>"><?=$this->getAlertLabel()?></a></small>
-    <? endif; ?>
+<? if(!$this->isCustomerSubscribed()):?>
+    <small><a href="<?=$this->helper("customeralert")->getSaveAlertsUrl($this->getAlertType())?>"><?=$this->getAlertLabel()?></a></small>
 <? endif; ?>

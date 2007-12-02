@@ -93,8 +93,9 @@
                 <p><small><?=$this->__('Availability: Out of stock.')?></small><br />
                 <?=$this->getAlertHtml('product_back_stock');?></p>
                 <?endif;?>
-                <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
                 <?=$this->getAlertHtml('price_is_changed');?>
+                <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
+                
                 <?if($_product->isSaleable()):?>
                 <fieldset class="add-to-cart-box">
                     <legend><?=$this->__('Add Items to Cart')?></legend>
