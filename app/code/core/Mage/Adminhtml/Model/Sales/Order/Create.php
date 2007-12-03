@@ -240,8 +240,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function applySidebarData($data)
     {
         if (isset($data['add'])) {
-            foreach ($data['add'] as $productId=>$flag) {
-            	$this->addProduct($productId);
+            foreach ($data['add'] as $productId=>$qty) {
+            	$this->addProduct($productId, $qty);
             }
         }
         if (isset($data['remove'])) {
