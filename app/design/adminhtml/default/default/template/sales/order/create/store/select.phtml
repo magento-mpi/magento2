@@ -19,12 +19,14 @@
  */
 ?>
 <?foreach ($this->getWebsiteCollection() as $_website):?>
-    <h3><?=$_website->getName()?></h3>
     <?$_storesCollection=$_website->getStoreCollection()->load()?>
+    <?if($_storesCollection->getSize()):?>
+    <h3><?=$_website->getName()?></h3>
     <?foreach ($_storesCollection as $_store):?>
         <span class="field-row">
             <input type="radio" id="store_<?=$_store->getId()?>" class="new-store" onclick="order.setStoreId('<?=$_store->getId()?>')"/>
             <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
         </span>
     <?endforeach;?>
+    <?endif;?>
 <?endforeach;?>

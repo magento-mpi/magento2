@@ -589,7 +589,7 @@ select.countries option { background-repeat:no-repeat; }
 .payments .entry-edit fieldset label {
     float: none;
 }
-.order-search-items .entry-edit .grid{height:430px;overflow: auto;}
+.order-search-items .entry-edit .grid{height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table{width:99.9%}
 .grid tr input.qty{width:60px !important;}
 .grid .data .item-qty{width: 30px !important}

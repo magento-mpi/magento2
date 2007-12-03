@@ -19,7 +19,6 @@
  */
 ?>
 <?$_items = $this->getItems()?>
-<fieldset>
 <?if (empty($_items)):?>
     <div class="a-center"><?=$this->__('No ordered items')?></div>
 <?else:?>
@@ -56,8 +55,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?foreach ($_items as $_item):?>
-                        <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
+                    <?$i=0?>
+                    <?foreach ($_items as $_item):$i++?>
+                        <tr class="<?=($i%2)?'even':'odd'?> <?if($_item->getHasError()):?>error<?endif;?>">
                             <!--td class="a-center"><?=$_item->getProductId()?></td-->
                             <td><?=$_item->getSku()?></td>
                             <td>
@@ -108,5 +108,4 @@
         <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></div>
         <script type="text/javascript">order.itemsOnchangeBind()</script>
     </div>
-    </fieldset>
 <?endif;?>

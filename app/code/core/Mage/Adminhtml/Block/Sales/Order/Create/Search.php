@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search extends Mage_Adminhtml_Bloc
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => $this->__('Add Selected Product to Order'),
+            'label' => $this->__('Add Selected Product(s) to Order'),
             'onclick' => 'order.productGridAddSelected()',
             'class' => 'add',
         );

@@ -63,16 +63,14 @@
     </tfoot>
     <tbody>
     <?foreach($this->getItems() as $_item):?>
-        <?if($_item->getMessage()):?>
-        <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
-            <td colspan="100"><?=$_item->getMessage()?></td>
-        </tr>
-        <?endif;?>
         <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
             <td>
                 <a href="<?=$this->getItemUrl($_item)?>"><img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/></a>
             </td>
             <td class="attributes-col">
+                <?if($_item->getMessage()):?>
+                    <?=$_item->getMessage()?><br />
+                <?endif;?>
                 <a href="<?=$this->getItemUrl($_item)?>"><strong><?=$this->getItemName($_item)?></strong></a>
                 <?=$this->getItemDescription($_item)?>
             </td>

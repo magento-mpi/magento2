@@ -46,9 +46,28 @@
         </div>
         <div class="clear"></div>
         <div id="order:methods">
-            <div id="order:shipping_method" class="box-left"><?=$this->getChildHtml('shipping_method')?></div>
-            <div id="order:billing_method" class="box-right payments"><?=$this->getChildHtml('billing_method')?></div>
+            <div id="order:billing_method" class="box-left payments"><?=$this->getChildHtml('billing_method')?></div>
+            <div id="order:shipping_method" class="box-right"><?=$this->getChildHtml('shipping_method')?></div>
         </div>
+
+        <?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
+        <div class="clear"></div>
+        <div>
+            <div id="order:gift_message">
+            <div class="entry-edit">
+                <div>
+                <h4 class="fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
+                <div class="clear"></div>
+                </div>
+                <fieldset>
+                    <?=$this->helper('giftmessage/message')->getAdminButton('main', $this->getQuote(), $this->getStoreId());?>
+                </fieldset>
+            </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <?endif;?>    
+        
         <div class="clear"></div>
 		<h4>Order Total</h4>
 		<div class="entry-edit">
@@ -60,23 +79,7 @@
 				<div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
 			</fieldset>
 		</div>
-        <div class="clear"></div>
-        <?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
-        <div>
-            <div id="order:gift_message" class="box-left">
-            <div class="entry-edit">
-                <div>
-                <h4 class="icon-head fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
-                <div class="clear"></div>
-                </div>
-                <fieldset>
-                    <?=$this->helper('giftmessage/message')->getAdminButton('main', $this->getQuote(), $this->getStoreId());?>
-                </fieldset>
-            </div>
-            </div>
-        </div>
-        <div class="clear"></div>
-        <?endif;?>    
+		
     </td>
 </tr>
 </table>

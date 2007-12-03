@@ -24,8 +24,8 @@ class Mage_CatalogInventory_Model_Source_Backorders
     {
         return array(
             array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_NO, 'label'=>__('No Backorders')),
-            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_BELOW, 'label'=>__('Below 0 qty orders')),
-            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_YES , 'label'=>__('Backorders')),
+            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_BELOW, 'label'=>__('Allow Qty Below 0')),
+            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_YES , 'label'=>__('Allow Qty Below 0 and Notify Customer')),
         );
     }
 }

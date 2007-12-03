@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div>
 <label for="coupons:code" class="normal"><?=__('Apply Coupon Code')?></label><br/>
 <input type="text" class="input-text" id="coupons:code" value="" name="order[coupon][code]" style="width: 220px;"/>
 <?=$this->getButtonHtml(__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))')?>
@@ -26,4 +27,6 @@
     <strong><?=$this->getCouponCode()?></strong> 
     [<a href="#" onclick="order.applyCoupon('');return false;" title="<?=$this->__('Remove Coupon Code')?>"><?=$this->__('Remove')?></a>]
 </div>
-<?endif;?><p></p>
+<?endif;?>
+</div>
+<p></p>

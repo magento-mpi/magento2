@@ -32,9 +32,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Coupons extends Mage_Adminhtml_Blo
     public function __construct()
     {
         parent::__construct();
-        $this->setId('sales_order_create_coupons');
+        $this->setId('sales_order_create_coupons_form');
+        $this->setTemplate('sales/order/create/coupons/form.phtml');
     }
 
+    public function getCouponCode()
+    {
+        return $this->getQuote()->getCouponCode();
+    }
+    
     public function getHeaderText()
     {
         return __('Coupons');

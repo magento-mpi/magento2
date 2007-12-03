@@ -31,7 +31,7 @@
         </span>
         
         <span class="field-row">
-            <label for="inventory_min_qty"><?=$this->__('Minimal Qty')?></label>
+            <label for="inventory_min_qty"><?=$this->__('Minimum Qty for Item\'s Status to be In Stock')?></label>
             <input type="text" class="input-text validate-digits" id="inventory_min_qty" name="product[stock_data][min_qty]" value="<?=$this->getFieldValue('min_qty')*1?>"/>
             <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_min_qty') ? 'checked' : ''?>
@@ -41,7 +41,7 @@
         </span>
         
         <span class="field-row">
-            <label for="inventory_min_sale_qty"><?=$this->__('Minimum Shopping Cart Qty Allowed')?></label>
+            <label for="inventory_min_sale_qty"><?=$this->__('Minimum Qty Allowed in Shopping Cart')?></label>
             <input type="text" class="input-text validate-digits" id="inventory_min_sale_qty" name="product[stock_data][min_sale_qty]" value="<?=$this->getFieldValue('min_sale_qty')*1?>"/>
             <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_min_sale_qty') ? 'checked' : ''?>
@@ -51,7 +51,7 @@
         </span>
 
         <span class="field-row">
-            <label for="inventory_max_sale_qty"><?=$this->__('Maximum Shopping Cart Qty Allowed')?></label>
+            <label for="inventory_max_sale_qty"><?=$this->__('Maximum Qty Allowed in Shopping Cart')?></label>
             <input type="text" class="input-text validate-digits" id="inventory_max_sale_qty" name="product[stock_data][max_sale_qty]" value="<?=$this->getFieldValue('max_sale_qty')*1?>"/>
             <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_max_sale_qty') ? 'checked' : ''?>
