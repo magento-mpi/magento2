@@ -21,17 +21,22 @@
 abstract class Mage_Core_Controller_Varien_Router_Abstract
 {
     protected $_front;
-    
+
     public function setFront($front)
     {
         $this->_front = $front;
         return $this;
     }
-    
+
     public function getFront()
     {
         return $this->_front;
     }
-    
+
+    public function isCurrentlySecure()
+    {
+        return Mage::getSingleton('core/url')->isCurrentlySecure();
+    }
+
     abstract public function match(Zend_Controller_Request_Http $request);
 }

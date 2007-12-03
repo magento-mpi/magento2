@@ -102,12 +102,12 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 	            $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
 	        }
         }
-        
+
         if (Mage::app()->isInstalled()) {
-            $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https'
-                && Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
-            $isSecure = (bool)$request->getServer('HTTPS');
-            if ($shouldBeSecure!=$isSecure) {
+            $shouldBeSecure = Mage::getStoreConfig('web/unsecure/protocol')==='https'
+                || Mage::getStoreConfig('web/secure/protocol')==='https'
+                    && Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
+            if ($shouldBeSecure!=$this->isCurrentlySecure()) {
                 $url = Mage::getModel('core/url')
                     ->setSecure($shouldBeSecure)
                     ->getHostUrl();
@@ -122,14 +122,14 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
             include $controllerFileName;
-            
+
             if (!class_exists($controllerClassName)) {
-                throw Mage::exception('Mage_Core', __('Controller file was loaded but class does not exist'));   
+                throw Mage::exception('Mage_Core', __('Controller file was loaded but class does not exist'));
             }
         }
         // instantiate controller class
         $controllerInstance = new $controllerClassName($request, $front->getResponse());
-        
+
         if (!$controllerInstance->hasAction($action)) {
             return false;
         }
@@ -171,10 +171,10 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $file .= DS.uc_words($controller, DS).'Controller.php';
         return $file;
     }
-    
+
     public function validateControllerFileName($fileName)
     {
-        
+
     }
 
     public function getControllerClassName($realModule, $controller)

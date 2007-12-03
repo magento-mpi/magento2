@@ -19,15 +19,15 @@
  */
 
 
-class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Varien_Router_Standard 
+class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Varien_Router_Standard
 {
     public function fetchDefault()
     {
     	// set defaults
         $d = explode('/', Mage::getStoreConfig('web/default/admin'));
         $this->getFront()->setDefault(array(
-            'module'     => !empty($d[0]) ? $d[0] : '', 
-            'controller' => !empty($d[1]) ? $d[1] : 'index', 
+            'module'     => !empty($d[0]) ? $d[0] : '',
+            'controller' => !empty($d[1]) ? $d[1] : 'index',
             'action'     => !empty($d[2]) ? $d[2] : 'index'
         ));
     }
@@ -62,8 +62,7 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
 
         $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https';
             #&& Mage::getStoreConfig('admin/general/secure');
-        $isSecure = (bool)$request->getServer('HTTPS');
-        if ($shouldBeSecure!=$isSecure) {
+        if ($shouldBeSecure!=$this->isCurrentlySecure()) {
             $url = Mage::getModel('core/url')
                 ->setSecure($shouldBeSecure)
                 ->getHostUrl();
@@ -102,18 +101,18 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
                 $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
             }
         }
-        
+
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
             include $controllerFileName;
-            
+
             if (!class_exists($controllerClassName)) {
-                throw Mage::exception('Mage_Core', __('Controller file was loaded but class does not exist'));   
+                throw Mage::exception('Mage_Core', __('Controller file was loaded but class does not exist'));
             }
         }
         // instantiate controller class
         $controllerInstance = new $controllerClassName($request, $front->getResponse());
-        
+
         if (!$controllerInstance->hasAction($action)) {
             return false;
         }

@@ -168,7 +168,17 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function isCurrentlySecure()
     {
-        return !empty($_SERVER['HTTPS']) || ($_SERVER['SERVER_PORT']==Mage::getStoreConfig('web/secure/port'));
+        if (!empty($_SERVER['HTTPS'])) {
+            return true;
+        }
+
+        return Mage::getStoreConfig('web/secure/protocol')=='https'
+            && Mage::getStoreConfig('web/secure/port')==$_SERVER['SERVER_PORT'];
+    }
+
+    public function shouldBeSecure()
+    {
+        return false;
     }
 
     public function setRequest(Zend_Controller_Request_Http $request)
@@ -513,7 +523,8 @@ class Mage_Core_Model_Url extends Varien_Object
                 if (!empty($a)) {
                     $value = array_shift($a);
                     $this->setRouteParam($key, $value);
-                    $routePath .= $key.'/'.urlencode($value).'/';
+                    #$routePath .= $key.'/'.urlencode($value).'/';
+                    $routePath .= $key.'/'.$value.'/';
                 }
             }
         }
@@ -555,7 +566,8 @@ class Mage_Core_Model_Url extends Varien_Object
                     if (is_null($value) || false===$value || ''===$value || !is_scalar($value)) {
                         continue;
                     }
-                    $routePath .=$key.'/'.$value.'/';
+                    #$routePath .= $key.'/'.urlencode($value).'/';
+                    $routePath .= $key.'/'.$value.'/';
                 }
             }
             if ($routePath != '' && substr($routePath, -1, 1) !== '/') {
