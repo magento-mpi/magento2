@@ -38,10 +38,22 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     }
     
     /**
+     * Retrieve checkout state model
+     *
+     * @return Mage_Checkot_Model_Type_Multishipping_State
+     */
+    protected function _getState()
+    {
+        return Mage::getSingleton('checkout/type_multishipping_state');
+    }
+    
+    
+    /**
      * Create New Shipping address Form
      */
     public function newShippingAction()
     {
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES);
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
@@ -76,6 +88,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function editShippingAction()
     {
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING);
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($addressForm = $this->getLayout()->getBlock('customer_address_edit')) {
@@ -105,6 +118,7 @@ class Mage_Checkout_Multishipping_AddressController extends Mage_Core_Controller
     
     public function selectBillingAction()
     {
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');

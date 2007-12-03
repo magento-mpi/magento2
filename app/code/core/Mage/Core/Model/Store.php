@@ -220,7 +220,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 return explode(',', $stores);
             }
         }
-        return array();
+        return $this->getWebsite()->getStoresIds();
     }
 
     public function updateDatasharing()
