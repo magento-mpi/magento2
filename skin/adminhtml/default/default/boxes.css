@@ -59,10 +59,10 @@
 
 
 .separator { padding:0 .6em; }
-.box-left, .box-right { width:49.25%; }
+.box-left, .box-right { width:48.5%; }
 .box-left { float:left; }
 .box-right { float:right; }
-
+.box-left .content, .box-right content { padding:6px; }
 
 /* Basic form elements */
 .input-text, textarea, select { border:1px solid #acacac; font:12px arial, helvetica, sans-serif; }
@@ -262,7 +262,7 @@ BODY.html-body-popup{
 
 /* Content Header */
 .content-header {
-    margin-bottom:1em;
+    margin-bottom:1.8em;
     border-bottom:4px solid #dfdfdf;
     padding-bottom:.25em;
     }
@@ -294,7 +294,7 @@ BODY.html-body-popup{
     min-height:18px;
     background-repeat:no-repeat;
     background-position:0 50%;
-        padding-left:22px;
+    padding-left:22px;
     }
 .head-customer-address-list { background-image:url(images/fam_house.gif); }
 .head-edit-form { background-image:url(images/fam_page_white.gif); }
@@ -329,6 +329,9 @@ BODY.html-body-popup{
 .head-order-date { background-image:url(images/fam/calendar.png); }
 .head-customer-sales-statistics { background-image:url(images/fam/money.png); }
 
+.order-coupons .icon-head { display:none !important; }
+
+
 /************* DATA MANIPULATION ************/
 
 select optgroup {font-style:normal}
@@ -342,6 +345,7 @@ table.form-edit {
     margin-bottom:1.5em;
     padding:1.2em 1.5em;
     }
+.entry-edit .content { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li {
     list-style:none;
     margin:.7em 0;
@@ -352,7 +356,7 @@ table.form-edit {
     }
 .entry-edit fieldset label {
     float:left;
-    width:12.5em;
+    width:11.5em;
     margin-right:0.5em;
     }
 .entry-edit fieldset label.normal {
@@ -770,16 +774,20 @@ img.attribute-global {
 .a-left { text-align:left; }
 .a-center { text-align:center; }
 .a-right { text-align:right; }
-
+.nm { margin:0 !important; }
+.np { padding:0 !important; }
+.no-float { float:none !important; }
 
 /* Color */
 .emph { color:#e66f20; } /* This just gives an element a little BAM! */
-
 
 /* Other cute things */
 .no-display{ display:none; }
 .pointer { cursor:pointer; }
 
+/* Style */
+.normal { font-weight:normal !important; }
+.bold { font-weight:bold !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
 .login-box .form-buttons:after,

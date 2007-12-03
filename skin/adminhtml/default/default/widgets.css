@@ -531,11 +531,18 @@ select.countries option { background-repeat:no-repeat; }
 
 /*********** Sidebar ******************/
 .sidebar-block{
-    margin:0 10px 5px 0;
-    padding:5px 5px 10px 5px;
-    border:1px solid #ccc;
-    background:#f8f8f8;
+    margin:10px 10px 15px 0;
+   /* padding:5px 5px 10px 5px; */
+    border:1px solid #f1e5d2;
+    background:#fdf8f5;
     }
+.sidebar-block .content {
+	margin:0 !important;
+	padding:4px 6px;
+ }
+.sidebar-block .head { background:#f8e7d9; padding:2px 6px 1px; font-size:.9em; text-align:right; }
+.sidebar-block .head h5 { float:left; margin:0; text-transform:uppercase; text-align:left; }
+.sidebar-block .content table td, .sidebar-block .content table th { padding:0 3px 0 0; }
 .sidebar-block select{
     width:170px;
     }
@@ -556,6 +563,7 @@ select.countries option { background-repeat:no-repeat; }
 .sidebar-block .caption .icons{
     text-align:right;
     }
+.auto-scroll { overflow:auto; height:11em; }
 /********** Order *****************/
 .order-sidebar-column{
     width:270px;
@@ -567,9 +575,8 @@ select.countries option { background-repeat:no-repeat; }
     }
 .order-choose-address{
     margin:0px 0px 10px 0px;
-    padding:5px;
-    border:1px solid #ccc;
-    background:#f8f8f8;
+    padding:8px 15px;
+    background:#eee;
     }
 .entry-edit .order-address .input-text,
 .entry-edit .order-address .textarea {
@@ -580,7 +587,7 @@ select.countries option { background-repeat:no-repeat; }
 .payments .entry-edit fieldset label {
     float: none;
 }
-.order-search-items .entry-edit .grid{height:630px;overflow: auto;}
+.order-search-items .entry-edit .grid{height:430px;overflow: auto;}
 .order-search-items .entry-edit .grid table{width:99.9%}
 .grid tr input.qty{width:60px !important;}
 .grid .data .item-qty{width: 30px !important}
@@ -592,3 +599,7 @@ select.countries option { background-repeat:no-repeat; }
 .payments dd ul {
     border: none !important;
 }
+
+.create-order-totals { background-image:url(images/bg_create_order_totals.gif) !important; background-repeat:repeat-y !important; background-position:50% 0 !important; }
+.grand_total { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
+.divider { height:1px; overflow:hidden; background:#ddd; margin:10px 0; }

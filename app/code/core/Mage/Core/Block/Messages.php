@@ -25,7 +25,7 @@
  * @package    Mage_Core
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Core_Block_Messages extends Mage_Core_Block_Abstract
+class Mage_Core_Block_Messages extends Mage_Core_Block_Template
 {
     /**
      * Messages collection

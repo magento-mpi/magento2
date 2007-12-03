@@ -18,12 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<div class="entry-edit">
-    <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
-    <fieldset>
-        <textarea style="width: 100%; height: 6em;" name="order[comment][customer_note]"><?=$this->getCommentNote()?></textarea>
+    <!--<h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>-->
+	Add Order Comment<br/>
+        <textarea style="width:90%; height: 6em;" name="order[comment][customer_note]"><?=$this->getCommentNote()?></textarea><br/>
         <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?if($this->getNoteNotify()):?>checked="true"<?endif;?>/> 
         <label for="notify_customer" class="normal"><?=__('Apply Comment to the Confirmation Email')?></label>
-    </fieldset>
     <script type="text/javascript">order.commentFieldsBind('order:comment')</script>
-</div>

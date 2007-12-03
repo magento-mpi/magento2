@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<fieldset>
 <?if($_shippingRateGroups = $this->getShippingRates()):?>
     <div id="order:shipping-method-choose" style="display:none">
     <dl class="shipment-methods">
@@ -54,7 +55,6 @@
     <?else:?>
         <script type="text/javascript">$('order:shipping-method-choose').show();</script>
     <?endif;?>
-
 <?elseif($this->getIsRateRequest()):?>
     <strong><?=$this->__('Sorry, no quotes are available for this order at this time.')?></strong>
 <?else:?>
@@ -62,3 +62,4 @@
         <?=$this->__('Get shipping methods and rates')?>
     </div>
 <?endif;?>
+</fieldset>

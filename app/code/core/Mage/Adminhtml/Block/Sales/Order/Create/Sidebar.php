@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar extends Mage_Adminhtml_Blo
         $this->setChild('currency', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_currency'));
         if ($this->getCustomerId()) {
             $button = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label' => __('Make Changes to Order'), 
+                'label' => __('Update Changes'), 
                 'onclick' => 'order.sidebarApplyChanges()',
             ));
             $this->setChild('top_button', $button);

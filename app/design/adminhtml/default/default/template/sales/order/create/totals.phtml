@@ -18,11 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="entry-edit">
-    <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
-    <fieldset>
-    <div>
-    <table cellspacing="5" cellpadding="5">
+    <!--<h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>-->
+    <table cellspacing="5" cellpadding="8" width="100%">
         <?$_store = $this->getStore()?>
         <tbody>
             <?$_totals = $this->getTotals();?>
@@ -30,18 +27,16 @@
             <?$_i = 0;?>
             <?foreach ($_totals as $_total):?>
                 <?$_i++;?>
-                <tr<?=($_i >= $_count ? ' class="last"' : '' )?>>
-                    <td class="a-right" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
-                    <td class="last a-left" style="<?=$_total->getStyle()?>"><nobr><?=$this->formatPrice($_total->getValue())?></nobr></td>
+                <tr class="<?=$_total->getCode()?> <?=($_i >= $_count ? ' last' : '' )?>">
+                    <td class="a-left" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
+                    <td class="last a-right" style="<?=$_total->getStyle()?>"><nobr><?=$this->formatPrice($_total->getValue())?></nobr></td>
                 </tr>
             <?endforeach;?>
         </tbody>
     </table>
-    </div>
-    <div>
+	<div class="divider"></div>
+    <p class="a-right">
         <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="true"/> 
         <label for="send_confirmation" class="normal"><?=__('Send Order Confirmation Email')?></label>
-    </div>
-    <div><?=$this->getButtonHtml($this->__('Submit Order'),'order.submit()');?></div>
-    </fieldset>
-</div>
+    </p>
+    <p class="a-right"><?=$this->getButtonHtml($this->__('Submit Order'),'order.submit()');?></p>

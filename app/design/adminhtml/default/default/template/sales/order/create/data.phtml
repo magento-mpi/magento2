@@ -18,21 +18,24 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+		<p class="switcher"><label for="currency_switcher"><?=$this->__('Order Currency:')?></label>
+		<select id="currency_switcher" name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
+			<?foreach ($this->getAvailableCurrencies() as $_code):?>
+			<option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected<?endif;?>><?=$this->getCurrencyName($_code)?></option>
+			<?endforeach;?>
+		</select></p>
+
+<br/>
+
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td class="order-sidebar-column">
         <div id="order:sidebar"><?=$this->getChildHtml('sidebar')?></div>
     </td>
     <td class="order-main-column">
-        <div id="order:search" style="display:none" class="order-search-items"><?=$this->getChildHtml('search')?></div>
+       <div id="order:search" style="display:none" class="order-search-items"><?=$this->getChildHtml('search')?></div>
         <div id="order:items"><?=$this->getChildHtml('items')?></div>
-        <div>
-            <div id="order:form_account" class="box-left"><?=$this->getChildHtml('form_account')?></div>
-            <div class="box-right" id="order:coupons">
-                <?=$this->getChildHtml('coupons')?>
-            </div>
-        </div>
-        <div class="clear"></div>
+        <div id="order:form_account"><?=$this->getChildHtml('form_account')?></div>
         <div id="order:addresses">
             <div id="order:billing_address" class="box-left"><?=$this->getChildHtml('billing_address')?></div>
             <div id="order:shipping_address" class="box-right"><?=$this->getChildHtml('shipping_address')?></div>
@@ -43,10 +46,18 @@
             <div id="order:billing_method" class="box-right payments"><?=$this->getChildHtml('billing_method')?></div>
         </div>
         <div class="clear"></div>
-        <div>
-            <div id="order:comment" class="box-left"><?=$this->getChildHtml('comment')?></div>
-            <div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
-        </div>
+		<h4>Order Total</h4>
+		<div class="entry-edit">
+			<fieldset class="create-order-totals">
+				<div class="box-left">
+					<div id="order:coupons" class="order-coupons">
+					<?=$this->getChildHtml('coupons')?>
+					</div>
+					<div id="order:comment"><?=$this->getChildHtml('comment')?></div>
+				</div>
+				<div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
+			</fieldset>
+		</div>
         <div class="clear"></div>
         <?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
         <div>

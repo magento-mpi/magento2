@@ -19,6 +19,7 @@
  */
 ?>
 <?$_items = $this->getItems()?>
+<fieldset>
 <?if (empty($_items)):?>
     <div class="a-center"><?=$this->__('No ordered items')?></div>
 <?else:?>
@@ -107,4 +108,5 @@
         <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></div>
         <script type="text/javascript">order.itemsOnchangeBind()</script>
     </div>
+	</fieldset>
 <?endif;?>

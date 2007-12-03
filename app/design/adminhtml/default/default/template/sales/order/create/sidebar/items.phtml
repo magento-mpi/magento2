@@ -19,46 +19,44 @@
  */
 ?>
 <div class="sidebar-block" id="sidebar_data_<?=$this->getDataId()?>">
-    <table class="caption" width="100%">
-    <tr>
-        <td class="text"><strong><?=$this->getHeaderText()?></strong> (<?=$this->getItemCount()?>)</td>
-        <td class="icons">
-        <a href="#" title="<?=__('Refresh')?>" onclick="order.loadArea('sidebar_<?=$this->getDataId()?>', 'sidebar_data_<?=$this->getDataId()?>');return false;">
+	<div class="head">
+		<h5><?=$this->getHeaderText()?> <span class="normal">(<?=$this->getItemCount()?>)</span></h5>
+		<a href="#" title="<?=__('Refresh')?>" onclick="order.loadArea('sidebar_<?=$this->getDataId()?>', 'sidebar_data_<?=$this->getDataId()?>');return false;">
             <img src="<?=$this->getSkinUrl('images/fam_refresh.gif')?>" alt="<?=__('Refresh')?>" width="16" height="16"/>
         </a>
-        </td>
-    </tr>
-    </table>
-    <div class="auto-scroll">
-    <?if($this->getItemCount()):?>
-    <table width="100%">
-        <tr>
-            <th><?=$this->__('Item')?></th>
-            <?if ($this->canDisplayItemQty()):?>
-            <th width="20"><?=$this->__('Qty')?></th>
-            <?endif;?>
-            <th width="60"><?=$this->__('Price')?></th>
-            <?if($this->canRemoveItems()):?>
-            <th width="16"><img src="<?=$this->getSkinUrl('images/fam_bin.gif')?>" alt="<?=__('Remove')?>" width="16" height="16"/></th>
-            <?endif;?>
-            <th width="16"><img src="<?=$this->getSkinUrl('images/fam_package_go.gif')?>" alt="<?=__('Add To Order')?>" width="16" height="16"/></th>
-        </tr>
-        <?foreach ($this->getItems() as $_item):?>
-        <tr>
-            <td><?=$_item->getName()?></td>
-            <?if ($this->canDisplayItemQty()):?>
-            <td><?=$_item->getQty()*1?></td>
-            <?endif;?>
-            <td><?=$this->convertPrice($_item->getPrice())?></td>
-            <?if($this->canRemoveItems()):?>
-            <td><input type="checkbox" name="sidebar[remove][<?=$this->getItemId($_item)?>]" value="<?=$this->getDataId()?>" title="<?=__('Remove')?>"/></td>
-            <?endif;?>
-            <td><input type="checkbox" name="sidebar[add][<?=$this->getProductId($_item)?>]" value="1" title="<?=__('Add To Order')?>"/></td>
-        </tr>
-        <?endforeach;?>
-    </table>
-    <?else:?>
-        <center><?=$this->__('No items')?></center>
-    <?endif?>
-    </div>
+	</div>
+	<div class="content">
+		<div class="auto-scroll">
+		<?if($this->getItemCount()):?>
+		<table width="100%">
+			<tr>
+				<th><?=$this->__('Item')?></th>
+				<?if ($this->canDisplayItemQty()):?>
+				<th width="20" class="a-center"><?=$this->__('Qty')?></th>
+				<?endif;?>
+				<th width="60"><?=$this->__('Price')?></th>
+				<?if($this->canRemoveItems()):?>
+				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_bin.gif')?>" alt="<?=__('Remove')?>" width="16" height="16"/></th>
+				<?endif;?>
+				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_package_go.gif')?>" alt="<?=__('Add To Order')?>" width="16" height="16"/></th>
+			</tr>
+			<?foreach ($this->getItems() as $_item):?>
+			<tr>
+				<td><?=$_item->getName()?></td>
+				<?if ($this->canDisplayItemQty()):?>
+				<td class="a-center"><?=$_item->getQty()*1?></td>
+				<?endif;?>
+				<td><?=$this->convertPrice($_item->getPrice())?></td>
+				<?if($this->canRemoveItems()):?>
+				<td class="a-center"><input type="checkbox" name="sidebar[remove][<?=$this->getItemId($_item)?>]" value="<?=$this->getDataId()?>" title="<?=__('Remove')?>"/></td>
+				<?endif;?>
+				<td class="a-center"><input type="checkbox" name="sidebar[add][<?=$this->getProductId($_item)?>]" value="1" title="<?=__('Add To Order')?>"/></td>
+			</tr>
+			<?endforeach;?>
+		</table>
+		<?else:?>
+			<center><?=$this->__('No items')?></center>
+		<?endif?>
+		</div>
+	</div>
 </div>
