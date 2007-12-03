@@ -35,7 +35,8 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit extends Mage_Adminhtml_Block_Wi
         parent::__construct();
 
         $this->_removeButton('save');
-        #$this->_removeButton('back');
+        $this->_removeButton('delete');
+        $this->_removeButton('reset');
     }
 
     public function getHeaderText()

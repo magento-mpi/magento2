@@ -37,6 +37,12 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Changelog
     public function getReleases()
     {
         $changelog = $this->getPkg()->getChangelog();
-        return isset($changelog['release']) ? $changelog['release'] : array();
+        if (!isset($changelog['release'])) {
+            return array();
+        }
+        if (!isset($changelog['release'][0])) {
+            return array($changelog['release']);
+        }
+        return $changelog['release'];
     }
 }

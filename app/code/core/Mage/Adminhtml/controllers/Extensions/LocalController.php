@@ -19,6 +19,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once 'Varien/Pear/Package.php';
+
 /**
  * Extension controller
  *
@@ -53,5 +55,23 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_local_edit_tabs'));
 
         $this->renderLayout();
+    }
+
+    public function upgradeAction()
+    {
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $pear = Varien_Pear::getInstance();
+        $pear->run('upgrade', array(), array($pkg));
+        echo '<pre>'; print_r($pear->getOutput()); echo '</pre>';
+        echo '<pre>'; print_r($pear->getLog()); echo '</pre>';
+    }
+
+    public function uninstallAction()
+    {
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $pear = Varien_Pear::getInstance();
+        $pear->run('uninstall', array(), array($pkg));
+        echo '<pre>'; print_r($pear->getOutput()); echo '</pre>';
+        echo '<pre>'; print_r($pear->getLog()); echo '</pre>';
     }
 }

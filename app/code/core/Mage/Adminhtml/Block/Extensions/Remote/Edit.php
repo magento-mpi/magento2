@@ -19,35 +19,29 @@
  */
 
 /**
- * Convert profile edit tab
+ * Convert profile edit block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Actions
-    extends Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract
+class Mage_Adminhtml_Block_Extensions_Remote_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
+        $this->_objectId = 'id';
+        $this->_controller = 'extensions_remote';
+
         parent::__construct();
-        $this->setTemplate('extensions/local/actions.phtml');
+
+        $this->_removeButton('save');
+        $this->_removeButton('delete');
+        $this->_removeButton('reset');
     }
 
-    public function getActionButtonHtml()
+    public function getHeaderText()
     {
-        $html = '';
-
-        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
-            ->setClass('save')->setLabel($this->__('Upgrade'))
-            ->setOnClick('upgrade()')
-            ->toHtml();
-
-        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
-            ->setClass('delete')->setLabel($this->__('Uninstall'))
-            ->setOnClick('uninstall()')
-            ->toHtml();
-
-        return $html;
+        $ext = Mage::registry('remote_extension');
+        return $ext->getName();
     }
 }

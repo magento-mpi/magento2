@@ -33,4 +33,16 @@ class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Actions
         parent::__construct();
         $this->setTemplate('extensions/remote/actions.phtml');
     }
+
+    public function getActionButtonHtml()
+    {
+        $html = '';
+
+        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+            ->setClass('save')->setLabel($this->__('Install'))
+            ->setOnClick('install()')
+            ->toHtml();
+
+        return $html;
+    }
 }

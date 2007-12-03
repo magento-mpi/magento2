@@ -19,6 +19,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once 'Varien/Pear/Package.php';
+
 /**
  * Extension controller
  *
@@ -53,5 +55,14 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_remote_edit_tabs'));
 
         $this->renderLayout();
+    }
+
+    public function installAction()
+    {
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $pear = Varien_Pear::getInstance();
+        $pear->run('install', array(), array($pkg));
+        echo '<pre>'; print_r($pear->getOutput()); echo '</pre>';
+        echo '<pre>'; print_r($pear->getLog()); echo '</pre>';
     }
 }
