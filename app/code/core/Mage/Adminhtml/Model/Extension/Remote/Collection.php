@@ -42,11 +42,13 @@ class Mage_Adminhtml_Model_Extension_Remote_Collection extends Mage_Adminhtml_Mo
             }
             foreach ($channel['data'] as $category=>$pkglist) {
                 foreach ($pkglist as $pkg) {
+                    $pkgNameArr = explode('/', $pkg[0]);
+                    $pkgName = isset($pkgNameArr[1]) ? $pkgNameArr[1] : $pkgNameArr[0];
                     $packages[] = array(
-                        'id'=>$channel['channel'].'|'.$pkg[0],
+                        'id'=>$channel['channel'].'|'.$pkgName,
                         'category'=>$category,
                         'channel'=>$channel['channel'],
-                        'name'=>$pkg[0],
+                        'name'=>$pkgName,
                         'remote_version'=>isset($pkg[1]) ? $pkg[1] : '',
                         'local_version'=>isset($pkg[2]) ? $pkg[2] : '',
                         'summary'=>isset($pkg[3]) ? $pkg[3] : '',

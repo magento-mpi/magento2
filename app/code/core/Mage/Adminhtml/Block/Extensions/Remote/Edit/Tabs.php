@@ -25,14 +25,14 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Local_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('extensions_local_tabs');
+        $this->setId('extensions_remote_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(__('Installed Extension Info'));
+        $this->setTitle(__('Remote Extension Info'));
     }
 
     protected function _beforeToHtml()
@@ -41,16 +41,6 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tabs extends Mage_Adminhtml_Blo
             'label'     => __('Package Info'),
             'content'   => $this->_getTabHtml('package'),
             'active'    => true,
-        ));
-
-        $this->addTab('contents', array(
-            'label'     => __('Contents'),
-            'content'   => $this->_getTabHtml('contents'),
-        ));
-
-        $this->addTab('depends', array(
-            'label'     => __('Dependencies'),
-            'content'   => $this->_getTabHtml('depends'),
         ));
 
         $this->addTab('changelog', array(
@@ -87,7 +77,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tabs extends Mage_Adminhtml_Blo
     protected function _getTabHtml($tab)
     {
         return $this->getLayout()
-            ->createBlock('adminhtml/extensions_local_edit_tab_'.$tab)
+            ->createBlock('adminhtml/extensions_remote_edit_tab_'.$tab)
             ->initForm()
             ->toHtml();
     }

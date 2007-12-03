@@ -71,9 +71,11 @@ class Varien_Pear
             $pear_dir = $this->getPearDir();
 
             $config = PEAR_Config::singleton();
+            $config->readConfigFile($pear_dir.DS.'pear.ini');
 
             $config->set('preferred_state', 'alpha');
             $config->set('auto_discover', 1);
+            $config->set('default_channel', 'var-dev.varien.com');
 
             $config->set('bin_dir', $pear_dir);
             $config->set('php_dir', $pear_dir.DS.'php');
@@ -92,9 +94,9 @@ class Varien_Pear
                 #echo $key.' : '.$config->get($key).'<br>';
             }
 
-            #$config->setRegistry($this->getRegistry());
+            $config->setRegistry($this->getRegistry());
 
-            #PEAR_DependencyDB::singleton($config, $pear_dir.DS.'reg'.DS.'.depdb');
+            PEAR_DependencyDB::singleton($config, $pear_dir.DS.'php'.DS.'.depdb');
 
             PEAR_Frontend::setFrontendObject($this->getFrontend());
 
@@ -108,7 +110,7 @@ class Varien_Pear
     public function getRegistry()
     {
         if (!$this->_registry) {
-            $this->_registry = new PEAR_Registry($this->getPearDir().DS.'reg');
+            $this->_registry = new PEAR_Registry($this->getPearDir().DS.'php');
         }
         return $this->_registry;
     }
@@ -142,6 +144,7 @@ class Varien_Pear
         } else {
             $cmd = $this->_cmdCache[$command];
         }
+        #$cmd = PEAR_Command::factory($command, $this->getConfig());
         $result = $cmd->run($command, $options, $params);
         return $result;
     }

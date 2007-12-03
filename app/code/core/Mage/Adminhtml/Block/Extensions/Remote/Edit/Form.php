@@ -19,23 +19,22 @@
  */
 
 /**
- * Convert profile edit tab
+ * Adminhtml convert profile edit form block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Maintainers
-    extends Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('extensions/custom/maintainers.phtml');
-    }
 
-    public function getMaintainerRoles()
+class Mage_Adminhtml_Block_Extensions_Remote_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+{
+    protected function _prepareForm()
     {
-        return Mage::getModel('adminhtml/extension')->getMaintainerRoles();
+        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
+
+        $form->setUseContainer(true);
+        $this->setForm($form);
+
+        return parent::_prepareForm();
     }
 }

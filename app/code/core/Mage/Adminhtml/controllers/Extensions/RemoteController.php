@@ -38,4 +38,20 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
 
         $this->renderLayout();
     }
+
+    public function editAction()
+    {
+        $this->loadLayout();
+
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $ext = Mage::getModel('adminhtml/extension')->loadRemote($pkg);
+#echo "<pre>".print_r($ext->getData(),1)."</pre>";
+        Mage::register('remote_extension', $ext);
+        $this->_setActiveMenu('system/extensions/remote');
+
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_remote_edit'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_remote_edit_tabs'));
+
+        $this->renderLayout();
+    }
 }

@@ -34,9 +34,8 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Package
         $this->setTemplate('extensions/local/package.phtml');
     }
 
-    public function initForm()
+    public function getMaintainerRoles()
     {
-        $this->setData(Mage::registry('local_extension'));
-        return $this;
+        return Mage::getModel('adminhtml/extension')->getMaintainerRoles();
     }
 }

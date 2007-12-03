@@ -200,6 +200,16 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         return Varien_Pear::getInstance()->getConfig()->get($roles[$role]['dir_config']);
     }
 
+    public function getMaintainerRoles()
+    {
+        return array(
+            'lead'=>'Lead',
+            'developer'=>'Developer',
+            'contributor'=>'Contributor',
+            'helper'=>'Helper'
+        );
+    }
+
     public function savePackage()
     {
         if (!$this->getPackageXml()) {
@@ -257,20 +267,40 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         return $arr;
     }
 
-    public function load($package, $options=array(), $remote=false)
+    public function loadLocal($package, $options=array())
     {
         $pear = $this->getPear();
 
         $pear->getFrontend()->clear();
 
-        $result = $pear->run($remote ? 'remote-info' : 'info', $options, array($package));
+        $result = $pear->run('info', $options, array($package));
         if ($result instanceof PEAR_Error) {
             Mage::throwException($result->message);
             break;
         }
 
         $output = $pear->getOutput();
-        $this->setData($output[0]['output']['raw']);
+        $pkg = new PEAR_PackageFile_v2;
+        $pkg->fromArray($output[0]['output']['raw']);
+
+        return $pkg;
+    }
+
+    public function loadRemote($package, $options=array())
+    {
+        $pear = $this->getPear();
+
+        $pear->getFrontend()->clear();
+
+        $result = $pear->run('remote-info', $options, array($package));
+        if ($result instanceof PEAR_Error) {
+            Mage::throwException($result->message);
+            break;
+        }
+
+        $output = $pear->getOutput();
+        $this->setData($output[0]['output']);
+
         return $this;
     }
 }

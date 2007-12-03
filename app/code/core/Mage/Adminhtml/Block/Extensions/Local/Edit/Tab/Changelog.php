@@ -25,17 +25,18 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Maintainers
-    extends Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract
+class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Changelog
+    extends Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/custom/maintainers.phtml');
+        $this->setTemplate('extensions/local/changelog.phtml');
     }
 
-    public function getMaintainerRoles()
+    public function getReleases()
     {
-        return Mage::getModel('adminhtml/extension')->getMaintainerRoles();
+        $changelog = $this->getPkg()->getChangelog();
+        return isset($changelog['release']) ? $changelog['release'] : array();
     }
 }

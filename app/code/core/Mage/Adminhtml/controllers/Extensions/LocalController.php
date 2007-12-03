@@ -44,9 +44,9 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         $this->loadLayout();
 
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $ext = Mage::getModel('adminhtml/extension')->load($pkg);
+        $ext = Mage::getModel('adminhtml/extension')->loadLocal($pkg);
         Mage::register('local_extension', $ext);
-echo "<pre>".print_r($ext->getData(),1)."</pre>";
+#echo "<pre>".print_r($ext->getData(),1)."</pre>";
         $this->_setActiveMenu('system/extensions/local');
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local_edit'));

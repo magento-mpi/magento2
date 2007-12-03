@@ -2,6 +2,10 @@
 
 require_once "Varien/Pear.php";
 
+require_once "PEAR/PackageFileManager.php";
+require_once "PEAR/PackageFile/v1.php";
+require_once "PEAR/PackageFile/Generator/v1.php";
+
 require_once "PEAR/PackageFileManager2.php";
 require_once "PEAR/PackageFile/v2.php";
 require_once "PEAR/PackageFile/v2/rw.php";

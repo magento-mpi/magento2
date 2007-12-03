@@ -18,24 +18,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once "Varien/Pear/Package.php";
+
 /**
- * Convert profile edit tab
+ * Abstract for extension info tab
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Maintainers
-    extends Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract
+class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
+    public function initForm()
     {
-        parent::__construct();
-        $this->setTemplate('extensions/custom/maintainers.phtml');
-    }
-
-    public function getMaintainerRoles()
-    {
-        return Mage::getModel('adminhtml/extension')->getMaintainerRoles();
+        $this->setPkg(Mage::registry('remote_extension'));
+        return $this;
     }
 }

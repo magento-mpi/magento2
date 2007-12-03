@@ -25,13 +25,23 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Maintainers
-    extends Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract
+class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Package
+    extends Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/custom/maintainers.phtml');
+        $this->setTemplate('extensions/remote/package.phtml');
+    }
+
+    public function getRelease()
+    {
+        if (!$this->hasData('release')) {
+            $release = new Varien_Object;
+            $release->setData($this->getPkg()->getData('releases/'.$this->getPkg()->getStable()));
+            $this->setData('release', $release);
+        }
+        return $this->getData('release');
     }
 
     public function getMaintainerRoles()
