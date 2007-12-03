@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Contents
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/local/contents.phtml');
+        $this->setTemplate('extensions/custom/contents.phtml');
     }
 
     public function getMageRoles()

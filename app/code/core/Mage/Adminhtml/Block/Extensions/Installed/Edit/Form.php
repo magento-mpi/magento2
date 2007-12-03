@@ -19,28 +19,22 @@
  */
 
 /**
- * Manage installed extensions
+ * Adminhtml convert profile edit form block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Adminhtml_Block_Extensions_Installed extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Extensions_Installed_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
+    protected function _prepareForm()
     {
-        $this->_controller = 'extensions_installed';
-        $this->_headerText = __('Manage Installed Extensions');
+        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        parent::__construct();
+        $form->setUseContainer(true);
+        $this->setForm($form);
 
-        $this->_removeButton('add');
-
-        $this->_addButton('remote', array(
-            'label'=>$this->__("Browse Available Extensions"),
-            'onclick'=>"setLocation('".$this->getUrl('*/extensions_remote')."')",
-            'class'=>'add',
-        ));
+        return parent::_prepareForm();
     }
 }

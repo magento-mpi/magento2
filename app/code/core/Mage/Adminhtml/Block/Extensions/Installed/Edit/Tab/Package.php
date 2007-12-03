@@ -19,28 +19,24 @@
  */
 
 /**
- * Manage installed extensions
+ * Convert profile edit tab
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-
-class Mage_Adminhtml_Block_Extensions_Installed extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Extensions_Installed_Edit_Tab_Package
+    extends Mage_Adminhtml_Block_Extensions_Installed_Edit_Tab_Abstract
 {
     public function __construct()
     {
-        $this->_controller = 'extensions_installed';
-        $this->_headerText = __('Manage Installed Extensions');
-
         parent::__construct();
+        $this->setTemplate('extensions/installed/package.phtml');
+    }
 
-        $this->_removeButton('add');
-
-        $this->_addButton('remote', array(
-            'label'=>$this->__("Browse Available Extensions"),
-            'onclick'=>"setLocation('".$this->getUrl('*/extensions_remote')."')",
-            'class'=>'add',
-        ));
+    public function initForm()
+    {
+        $this->setData(Mage::registry('installed_extension'));
+        return $this;
     }
 }

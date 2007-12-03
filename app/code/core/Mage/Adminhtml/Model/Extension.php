@@ -1,9 +1,12 @@
 <?php
-require_once 'Varien/Pear.php';
+require_once 'Varien/Pear/Package.php';
 
 class Mage_Adminhtml_Model_Extension extends Varien_Object
 {
-    protected $_pear;
+    public function getPear()
+    {
+        return Varien_Pear::getInstance();
+    }
 
     public function generatePackageXml()
     {
@@ -31,7 +34,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             $message = $pfm->getValidationWarnings();
             //$message = $message[0]['message'];
              throw Mage::exception('Mage_Adminhtml', __($message[0]['message']));
-            
+
             return $this;
         }
 
@@ -43,7 +46,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     {
         $pfm->setPackageType('php');
         $pfm->setChannel($this->getData('channel'));
-        
+
 	$pfm->setLicense($this->getData('license'), $this->getData('license_uri'));
 
         $pfm->setPackage($this->getData('name'));
@@ -219,5 +222,55 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
         print_r($pear->getFrontend());
 
+    }
+
+
+    public function getStabilityOptions()
+    {
+        return array(
+            'devel'=>'Development',
+            'alpha'=>'Alpha',
+            'beta'=>'Beta',
+            'stable'=>'Stable',
+        );
+    }
+
+    public function getKnownChannels()
+    {
+        /*
+        $pear = Varien_Pear::getInstance();
+        $pear->run('list-channels');
+        $output = $pear->getOutput();
+        $pear->getFrontend()->clear();
+
+        $data = $output[0]['output']['data'];
+        $arr = array();
+        foreach ($data as $channel) {
+            $arr[$channel[0]] = $channel[1].' ('.$channel[0].')';
+        }
+        */
+        $arr = array(
+            'pear.php.net' => 'PEAR',
+            'var-dev.varien.com' => 'Varien Dev',
+            'pear.magentocommerce.com' => 'Magento Production',
+        );
+        return $arr;
+    }
+
+    public function load($package, $options=array(), $remote=false)
+    {
+        $pear = $this->getPear();
+
+        $pear->getFrontend()->clear();
+
+        $result = $pear->run($remote ? 'remote-info' : 'info', $options, array($package));
+        if ($result instanceof PEAR_Error) {
+            Mage::throwException($result->message);
+            break;
+        }
+
+        $output = $pear->getOutput();
+        $this->setData($output[0]['output']['raw']);
+        return $this;
     }
 }

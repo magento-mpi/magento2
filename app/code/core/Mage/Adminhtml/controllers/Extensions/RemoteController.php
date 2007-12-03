@@ -34,7 +34,7 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
 
         $this->_setActiveMenu('system/extensions/remote');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_remote')->initForm());
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_remote'));
 
         $this->renderLayout();
     }

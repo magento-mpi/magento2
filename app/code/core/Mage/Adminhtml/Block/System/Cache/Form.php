@@ -35,6 +35,7 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
             'block_html' => __('Blocks HTML output'),
             'eav'        => __('EAV types and attributes'),
             'translate'  => __('Translations'),
+            'pear'       => __('PEAR Channels and Packages'),
         );
 
         $options = array(

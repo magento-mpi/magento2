@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Depends
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/local/depends.phtml');
+        $this->setTemplate('extensions/custom/depends.phtml');
     }
 
     public function initForm()

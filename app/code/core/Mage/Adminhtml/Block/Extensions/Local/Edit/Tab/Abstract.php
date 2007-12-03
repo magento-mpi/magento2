@@ -19,13 +19,13 @@
  */
 
 /**
- * Convert profile edit tab
+ * Abstract for extension info tabs
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
+abstract class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
 {
     protected $_addRowButtonHtml;
     protected $_removeRowButtonHtml;

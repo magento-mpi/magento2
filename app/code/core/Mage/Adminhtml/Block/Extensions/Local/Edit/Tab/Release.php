@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Release
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/local/release.phtml');
+        $this->setTemplate('extensions/custom/release.phtml');
     }
 
     public function initForm()
@@ -41,12 +41,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Release
 
         $fieldset = $form->addFieldset('release_fieldset', array('legend'=>__('Release')));
 
-        $stabilityOptions = array(
-            'devel'=>'Development',
-            'alpha'=>'Alpha',
-            'beta'=>'Beta',
-            'stable'=>'Stable',
-        );
+        $stabilityOptions = Mage::getModel('adminhtml/extension')->getStabilityOptions();
 
         $fieldset->addField('release_version', 'text', array(
             'name' => 'release_version',

@@ -34,7 +34,23 @@ class Mage_Adminhtml_Extensions_InstalledController extends Mage_Adminhtml_Contr
 
         $this->_setActiveMenu('system/extensions/installed');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_installed')->initForm());
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_installed'));
+
+        $this->renderLayout();
+    }
+
+    public function editAction()
+    {
+        $this->loadLayout();
+
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $ext = Mage::getModel('adminhtml/extension')->load($pkg);
+        Mage::register('installed_extension', $ext);
+echo "<pre>".print_r($ext->getData(),1)."</pre>";
+        $this->_setActiveMenu('system/extensions/installed');
+
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_installed_edit'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_installed_edit_tabs'));
 
         $this->renderLayout();
     }

@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Package
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/local/package.phtml');
+        $this->setTemplate('extensions/custom/package.phtml');
     }
 
     public function initForm()
