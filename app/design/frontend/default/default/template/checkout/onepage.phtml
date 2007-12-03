@@ -28,7 +28,7 @@
         <div class="head">
             <h3><span class="step-count"><?=$i?></span> &nbsp;<?=$_stepInfo['label']?></h3><a href="#"><?=$this->__('Edit')?></a>
         </div>
-        <div id="checkout-step-<?=$_stepId?>" class="box a-item" style="display:none;">
+        <div id="checkout-step-<?=$_stepId?>" class="box<?if($_stepId=='shipping_method'):?>-no-padding<?endif;?> a-item" style="display:none;">
             <?=$this->getChildHtml($_stepId)?>
         </div>
     </li>

@@ -57,13 +57,66 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
 
     public function salesEventImportAddressItem($observer)
     {
-        $observer->getEvent()->getOrderItem()->setGiftMessageId($observer->getEvent()->getAddressItem()->getGiftMessageId());
+        $observer->getEvent()->getOrderItem()
+            ->setGiftMessageId($observer->getEvent()->getAddressItem()->getGiftMessageId())
+            ->setGiftMessageAviable($this->_getAviable($observer->getEvent()->getAddressItem()->getProductId()));
         return $this;
+    }
+
+    protected function _getAviable($product)
+    {
+        if(is_object($product)) {
+            return $product->getGiftMessageAviable();
+        }
+        return Mage::getModel('catalog/product')->load($product)->getGiftMessageAviable();
     }
 
     public function salesEventImportItem($observer)
     {
-        $observer->getEvent()->getOrderItem()->setGiftMessageId($observer->getEvent()->getQouteItem()->getGiftMessageId());
+        $observer->getEvent()->getOrderItem()
+            ->setGiftMessageAviable($this->_getAviable($observer->getEvent()->getQuoteItem()->getProduct()))
+            ->setGiftMessageId($observer->getEvent()->getQuoteItem()->getGiftMessageId());
+        return $this;
+    }
+
+    public function checkoutEventCreateGiftMessage($observer)
+    {
+        $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
+        if(is_array($giftMessages)) {
+            foreach ($giftMessages as $entityId=>$message) {
+
+                $giftMessage = Mage::getModel('giftmessage/message');
+                $entity = $giftMessage->getEntityModelByType($message['type'])->load($entityId);
+
+
+                if($entity->getGiftMessageId()) {
+                    $giftMessage->load($entity->getGiftMessageId());
+                }
+
+                if(trim($message['message'])=='') {
+                    if($giftMessage->getId()) {
+                        try{
+                            $giftMessage->delete();
+                            $entity->setGiftMessageId(0)
+                                ->save();
+                        }
+                        catch (Exception $e) { }
+                    }
+                    continue;
+                }
+
+                try {
+                    $giftMessage->setSender($message['from'])
+                        ->setRecipient($message['to'])
+                        ->setMessage($message['message'])
+                        ->save();
+
+                    $entity->setGiftMessageId($giftMessage->getId())
+                        ->save();
+                }
+                catch (Exception $e) { }
+            }
+        }
         return $this;
     }
 } // Class Mage_GiftMessage_Model_Observer End

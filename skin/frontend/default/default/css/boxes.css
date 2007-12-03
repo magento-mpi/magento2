@@ -97,7 +97,7 @@ input.form-radio { margin-right:3px;}
     font-weight:bold;
     padding-right:8px;
     }
-.btn-checkout, .btn-checkout:hover { 
+.btn-checkout, .btn-checkout:hover {
     color:#fef5e5;
     text-decoration:none;
     }
@@ -1072,7 +1072,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     color:#e96200;
     }
 
-
 /* Multiple Addresses checkout */
 .multi-address-checkout-box .box {
     position:relative;
@@ -1118,6 +1117,84 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .place-order-box .grand-total .price { color:#e26703; font-weight:bold; }
 .place-order-box input { margin-left:15px; }
 
+/********************** Gift Messages */
+.giftmessages .gift-header {
+    font-size: 12px;
+    font-weight: bold;
+    color: #e87403;
+}
+
+.giftmessages .input-checkbox {
+    padding-bottom: 15px;
+}
+
+.giftmessages .input-checkbox input {
+    margin-right: 5px;
+}
+
+.giftmessages .input-checkbox label {
+    font-weight:normal;
+    color: #8e8d8b;
+}
+
+.one-page-checkout .box-no-padding {
+    border:1px solid #bbb6a5;
+    border-top:0;
+    padding:15px 0px;
+    background:#faf7ee;
+}
+
+.one-page-checkout .box-no-padding .inner-box {
+   padding:0px 20px;
+}
+
+
+.giftmessages .gift-box {
+    background-color:#f6f1eb;
+    border-top: 1px solid #e9e4de;
+    border-bottom: 1px solid #e9e4de;
+    padding: 22px 16px 22px 22px;
+}
+
+.giftmessages .gift-box .scroll-box
+{
+    overflow: auto;
+    max-height: 500px;
+}
+
+.giftmessages .product-image
+{
+    border: 1px solid #d2d1cd;
+}
+
+.no-border {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+.no-padding {
+    padding: 0 0 0 0;
+}
+
+.giftmessages .giftmessage-product-info {
+    display: block;
+    padding-left: 15px;
+}
+
+.giftmessages .numeration
+{
+    font-weight: bold;
+    color: #8a8987;
+}
+
+.giftmessages .gift-box label { color: #918d8e; }
+
+.giftmessages .group-select li .input-box { float:left; width:260px; }
+.giftmessages .group-select li .input-text, .group-select li select, .group-select li textarea { width:495px; }
+.giftmessages .group-select li .input-box .input-text, .group-select li .input-box textarea { width:235px; }
+.giftmessages .group-select li .input-box select { width:256px;}
 
 /********************** Customer */
 

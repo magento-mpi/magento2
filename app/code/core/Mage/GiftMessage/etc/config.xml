@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_GiftMessage>
-            <version>0.1.2</version>
+            <version>0.1.3</version>
         </Mage_GiftMessage>
     </modules>
     <global>
@@ -72,29 +72,29 @@
        <events>
              <sales_order_item_import_qoute_address_item>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>salesEventImportAddressItem</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </sales_order_item_import_qoute_address_item>
             <sales_order_item_import_qoute_item>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>salesEventImportItem</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </sales_order_item_import_qoute_item>
             <adminhtml_sales_order_create_create_order>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>checkoutEventCreateOrder</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </adminhtml_sales_order_create_create_order>
        </events>
@@ -103,49 +103,67 @@
        <events>
              <checkout_type_multishipping_set_shipping_items>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>checkoutEventSetShippingItems</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </checkout_type_multishipping_set_shipping_items>
             <checkout_type_multishipping_create_orders_single>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>checkoutEventMultishippingCreateOrder</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </checkout_type_multishipping_create_orders_single>
             <checkout_type_onepage_save_order>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>checkoutEventCreateOrder</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </checkout_type_onepage_save_order>
             <sales_order_item_import_qoute_address_item>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>salesEventImportAddressItem</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </sales_order_item_import_qoute_address_item>
             <sales_order_item_import_qoute_item>
                 <observers>
-                    <tag>
+                    <giftmessage>
                         <type>model</type>
                         <class>giftmessage/observer</class>
                         <method>salesEventImportItem</method>
-                    </tag>
+                    </giftmessage>
                 </observers>
             </sales_order_item_import_qoute_item>
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <giftmessage>
+                        <type>model</type>
+                        <class>giftmessage/observer</class>
+                        <method>checkoutEventCreateGiftMessage</method>
+                    </giftmessage>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+            <checkout_controller_multishipping_shipping_post>
+                <observers>
+                    <giftmessage>
+                        <type>model</type>
+                        <class>giftmessage/observer</class>
+                        <method>checkoutEventCreateGiftMessage</method>
+                    </giftmessage>
+                </observers>
+            </checkout_controller_multishipping_shipping_post>
        </events>
        <routers>
             <giftmessage>

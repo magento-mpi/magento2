@@ -424,6 +424,7 @@ ShippingMethod.prototype = {
     initialize: function(form, saveUrl){
         this.form = form;
         this.saveUrl = saveUrl;
+        this.validator = new Validation(this.form);
         this.onSave = this.nextStep.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
@@ -434,6 +435,11 @@ ShippingMethod.prototype = {
     		alert(Translator.translate('Your order can not be completed at this time as there is no shipping methods available for it. Please make neccessary changes in your shipping address.'));
     		return false;
     	}
+
+    	if(!this.validator.validate()) {
+    	    return false;
+    	}
+
     	for (var i=0; i<methods.length; i++) {
     		if (methods[i].checked) {
     			return true;

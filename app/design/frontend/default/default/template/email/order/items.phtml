@@ -32,7 +32,14 @@
     <tbody>
 <?$i=0; foreach ($_order->getAllItems() as $_item): $i++?>
         <tr <?=$i%2?'bgcolor="#eeeded"':''?>>
-            <td align="left" valign="top" style="padding:3px 9px"><?=$_item->getName()?></td>
+            <td align="left" valign="top" style="padding:3px 9px"><?=$_item->getName()?>
+            <?if($_item->getGiftMessageId() && $_giftMessage = $this->helper('giftmessage/message')->getGiftMessage($_item->getGiftMessageId())):?>
+            <br/><strong><?=$this->__('Gift Message')?></strong>
+            <br/><?=$this->__('From:');?> <?=$this->htmlEscape($_giftMessage->getSender())?>
+            <br/><?=$this->__('To:');?> <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+            <br/><?=$this->__('Message:');?><br/> <?=$this->htmlEscape($_giftMessage->getMessage())?>
+            <?endif;?>
+            </td>
             <td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
             <td align="right" valign="top" style="padding:3px 9px"><?=$_order->formatPrice($_item->getRowTotal())?></td>
         </tr>
@@ -40,6 +47,16 @@
     </tbody>
 
     <tfoot>
+    <?if($_order->getGiftMessageId() && $_giftMessage = $this->helper('giftmessage/message')->getGiftMessage($_order->getGiftMessageId())):?>
+        <tr>
+            <td colspan="3" align="left" style="padding:3px 9px">
+            <strong><?=$this->__('Gift Message')?></strong>
+            <br/><?=$this->__('From:');?> <?=$this->htmlEscape($_giftMessage->getSender())?>
+            <br/><?=$this->__('To:');?> <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+            <br/><?=$this->__('Message:');?><br/> <?=$this->htmlEscape($_giftMessage->getMessage())?>
+            </td>
+        </tr>
+     <?endif;?>
         <tr>
             <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Subtotal')?></td>
             <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getSubtotal())?></td>

@@ -35,7 +35,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     public function getButton($type, Varien_Object $entity)
     {
         if (!$this->isMessagesAviable($type, $entity)) {
-            return '';
+            return '&nbsp;';
         }
 
         return Mage::getSingleton('core/layout')->createBlock('giftmessage/message_helper')
@@ -45,10 +45,24 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             ->setType($type)->toHtml();
     }
 
+
+    public function getInline($type, Varien_Object $entity)
+    {
+        if (!$this->isMessagesAviable($type, $entity)) {
+            return '';
+        }
+
+        return Mage::getSingleton('core/layout')->createBlock('giftmessage/message_inline')
+            ->setId('giftmessage_form_' . $this->_nextId++)
+            ->setCanDisplayContainer(true)
+            ->setEntity($entity)
+            ->setType($type)->toHtml();
+    }
+
     public function getAdminButton($type, Varien_Object $entity, $store=null)
     {
         if (!$this->isMessagesAviable($type, $entity, $store)) {
-            return '';
+            return '&nbsp;';
         }
 
         return Mage::getSingleton('core/layout')->createBlock('adminhtml/giftmessage_helper')
@@ -76,7 +90,10 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         if ($result) {
             if ($type=='item') {
                 return $entity->getProduct()->getGiftMessageAviable();
-            } elseif ($type=='address_item') {
+            } elseif ($type=='order_item') {
+                return $entity->getGiftMessageAviable();
+            }
+            elseif ($type=='address_item') {
                 if(!$this->isCached('address_item_' . $entity->getProductId())) {
                     $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->load($entity->getProductId())->getGiftMessageAviable());
                 }

@@ -34,7 +34,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         return Mage::getSingleton('checkout/type_multishipping');
     }
-    
+
     /**
      * Retrieve checkout state model
      *
@@ -44,7 +44,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         return Mage::getSingleton('checkout/type_multishipping_state');
     }
-    
+
     /**
      * Retrieve checkout url heler
      *
@@ -54,7 +54,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         return Mage::helper('checkout/url');
     }
-    
+
     /**
      * Action predispatch
      *
@@ -63,7 +63,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        
+
         $action = $this->getRequest()->getActionName();
         if (!preg_match('#^(login|register)#', $action)) {
             if (!Mage::getSingleton('customer/session')->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
@@ -71,8 +71,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             }
         }
 
-        if (!$this->_getCheckout()->getQuote()->hasItems() 
-            || $this->_getCheckout()->getQuote()->getHasError()) 
+        if (!$this->_getCheckout()->getQuote()->hasItems()
+            || $this->_getCheckout()->getQuote()->getHasError())
         {
             $this->_redirectUrl($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
@@ -218,6 +218,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         try {
             $this->_getCheckout()->setShippingMethods($shippingMethods);
             $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
+            Mage::dispatchEvent('checkout_controller_multishipping_shipping_post', array('request'=>$this->getRequest()));
             $this->_redirect('*/*/billing');
         }
         catch (Exception $e){

@@ -18,19 +18,25 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="checkout-shipping-method-load" class="default-box" style="padding:10px;">
-    <?=$this->getChildHtml('available')?>
-</div>
-    
-<div class="form-buttons">
-    <span id="shipping-method-buttons-container">
-        <a href="#" onclick="checkout.back()" class="back left"><?=$this->__('Back')?></a>
-        <button class="form-button right" onclick="shippingMethod.save()"><span><?=$this->__('Continue')?></span></button>
-        <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp; 
-        </span>
-    </span>
+<form id="co-shipping-method-form">
+<div class="inner-box">
+    <div id="checkout-shipping-method-load" class="default-box" style="padding:10px;">
+        <?=$this->getChildHtml('available')?>
+    </div>
 </div>
 <script type="text/javascript">
     var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?=$this->getUrl('checkout/onepage/saveShippingMethod')?>");
 </script>
+<?=$this->helper('giftmessage/message')->getInline('onepage_checkout', $this->getQuote())?>
+</form>
+<div class="inner-box">
+    <div class="form-buttons no-border">
+        <span id="shipping-method-buttons-container">
+            <a href="#" onclick="checkout.back()" class="back left"><?=$this->__('Back')?></a>
+            <button class="form-button right" onclick="shippingMethod.save()"><span><?=$this->__('Continue')?></span></button>
+            <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
+                <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp;
+            </span>
+        </span>
+    </div>
+</div>

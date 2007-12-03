@@ -29,7 +29,7 @@
     <h3><?=$this->__('Select Shipping Method')?></h3>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
-<form action="<?=$this->getPostActionUrl()?>" method="post">
+<form action="<?=$this->getPostActionUrl()?>" method="post" id="shipping_method_form">
 <div class="multi-address-checkout-box">
 <?foreach ($this->getAddresses() as $_index => $_address):?>
   <div class="box">
@@ -39,7 +39,7 @@
     <div class="content col2-alt-set">
         <div class="col-1">
             <div class="head">
-                <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a><br/><?=$this->helper('giftmessage/message')->getButton('address',$_address)?></h5>
+                <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a></h5>
             </div>
             <address>
                 <?=$_address->getFormated(true)?>
@@ -99,7 +99,7 @@
                             <?=$this->helper('checkout')->getQuoteItemProductDescription($_item)?>
                         </td>
                         <?if($this->helper('giftmessage/message')->getAviableForAddressItems($this->getAddressItems($_address))):?>
-                        <th class="a-center"><?=$this->helper('giftmessage/message')->getButton('address_item',$_item)?></th>
+                        <td class="a-center"><?=$this->helper('giftmessage/message')->getButton('address_item',$_item)?></td>
                         <?endif?>
                         <td class="a-center"><?=$_item->getQty()?></td>
                     </tr>
@@ -108,6 +108,8 @@
             </table>
             <script type="text/javascript">decorateTable('shipping-table-<?=$_address->getId()?>')</script>
         </div>
+        <div class="clear"></div>
+        <?=$this->helper('giftmessage/message')->getInline('multishipping_adress', $_address);?>
     </div>
     </div>
 <?endforeach;?>
