@@ -277,8 +277,8 @@ Validation.addAllThese([
     ['validate-alpha', 'Please use letters only (a-z) in this field.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z]+$/.test(v)
             }],
-    ['validate-code', 'Please use in this field only "a-z,0-9,_".', function (v) {
-                return Validation.get('IsEmpty').test(v) ||  /^[a-z0-9_]+$/.test(v)
+    ['validate-code', 'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', function (v) {
+                return Validation.get('IsEmpty').test(v) ||  /^[a-z]+[a-z0-9_]+$/.test(v)
             }],
     ['validate-alphanum', 'Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/\W/.test(v)

@@ -46,26 +46,27 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
         if ($model->getStoreId()) {
-        	$fieldset->addField('store_id', 'hidden', array(
+            $fieldset->addField('store_id', 'hidden', array(
                 'name' => 'store_id',
             ));
         }
 
-    	$fieldset->addField('name', 'text', array(
+        $fieldset->addField('name', 'text', array(
             'name' => 'name',
             'label' => __('Store Name'),
             'title' => __('Store Name'),
             'required' => true,
         ));
 
-    	$fieldset->addField('code', 'text', array(
+        $fieldset->addField('code', 'text', array(
             'name' => 'code',
             'label' => __('Store Code'),
             'title' => __('Store Code'),
             'required' => true,
+            'class' => 'validate-code',
         ));
 
-    	$fieldset->addField('is_active', 'select', array(
+        $fieldset->addField('is_active', 'select', array(
             'label' => __('Status'),
             'title' => __('Status'),
             'name' => 'is_active',
@@ -76,7 +77,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
             ),
         ));
         
-    	$fieldset->addField('website_id', 'select', array(
+        $fieldset->addField('website_id', 'select', array(
             'label' => __('Website'),
             'title' => __('Website'),
             'name' => 'website_id',
@@ -84,7 +85,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
             'values' => Mage::getResourceModel('core/website_collection')->load()->toOptionArray(),
         ));
 
-    	$fieldset->addField('sort_order', 'text', array(
+        $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
             'label' => __('Sort order'),
             'title' => __('Sort order'),

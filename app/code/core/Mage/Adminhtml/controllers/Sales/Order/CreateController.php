@@ -300,26 +300,4 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 //        $order->cancel()->save();
 //        $this->_redirect('*/*');
 //    }
-    public function testAction()
-    {
-        //echo Mage_Sales_Model_Order::
-        Mage::getModel('core/email_template')
-            ->sendTransactional(
-                Mage::getStoreConfig(Mage_Customer_Model_Customer::XML_PATH_REGISTER_EMAIL_TEMPLATE),
-                Mage::getStoreConfig(Mage_Customer_Model_Customer::XML_PATH_REGISTER_EMAIL_IDENTITY),
-                'dmitriy.soroka@gmail.com',
-                'Dmitriy Soroka',
-                array()
-                );
-
-        
-        
-        $mailer = Mage::getModel('core/email_template')->sendTransactional(
-            Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
-            'dmitriy.soroka@gmail.com',
-            'Dmitriy Soroka',
-            array()
-        );
-    }
 }

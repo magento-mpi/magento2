@@ -41,7 +41,8 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
             'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.' => 
                 $this->__('Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.'),
             'Please use letters only (a-z) in this field.' => $this->__('Please use letters only (a-z) in this field.'),
-            'Please use in this field only "a-z,0-9,_".' => $this->__('Please use in this field only "a-z,0-9,_".'),
+            'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' => 
+                $this->__('Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'),
             'Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.' => 
                 $this->__('Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.'),
             'Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.' => 

@@ -606,6 +606,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     protected function _validate()
     {
+        $customerId = $this->getSession()->getCustomerId();
+        if (is_null($customerId)) {
+            Mage::throwException(__('Please select a custmer'));
+        }
+        
         if (!$this->getSession()->getStore()->getId()) {
             Mage::throwException(__('Please select a store'));
         }

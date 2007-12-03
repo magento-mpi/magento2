@@ -46,26 +46,27 @@ class Mage_Adminhtml_Block_System_Website_Edit_Form extends Mage_Adminhtml_Block
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
         if ($model->getWebsiteId()) {
-        	$fieldset->addField('website_id', 'hidden', array(
+            $fieldset->addField('website_id', 'hidden', array(
                 'name' => 'website_id',
             ));
         }
 
-    	$fieldset->addField('name', 'text', array(
+        $fieldset->addField('name', 'text', array(
             'name' => 'name',
             'label' => __('Website Name'),
             'title' => __('Website Name'),
             'required' => true,
         ));
 
-    	$fieldset->addField('code', 'text', array(
+        $fieldset->addField('code', 'text', array(
             'name' => 'code',
             'label' => __('Website Code'),
             'title' => __('Website Code'),
             'required' => true,
+            'class' => 'validate-code',
         ));
 
-    	$fieldset->addField('is_active', 'select', array(
+        $fieldset->addField('is_active', 'select', array(
             'label' => __('Status'),
             'title' => __('Status'),
             'name' => 'is_active',
@@ -76,7 +77,7 @@ class Mage_Adminhtml_Block_System_Website_Edit_Form extends Mage_Adminhtml_Block
             ),
         ));
 
-    	$fieldset->addField('sort_order', 'text', array(
+        $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
             'label' => __('Sort order'),
             'title' => __('Sort order'),

@@ -50,7 +50,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 
         $resultBlock = $this->getLayout()->createBlock('catalog/product_list', 'product_list')
             ->setAvailableOrders(array('name'=>__('Name'), 'price'=>__('Price')))
-            ->setModes(array('list' => __('List')))
+            ->setModes(array('list' => __('List'), 'grid'=>__('Grid')))
             ->setCollection($this->_getProductCollection());
 
         $this->setChild('search_result_list', $resultBlock);
