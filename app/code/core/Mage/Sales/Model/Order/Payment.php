@@ -71,6 +71,26 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
 
     public function getHtmlFormated()
     {
-    	return Mage::getHelper('payment/info_cc')->setPayment($this)->toHtml();
+        $html = '';
+        /**
+         * @todo remove this !!!!!! only temporary
+         */
+        $methodConfig = new Varien_Object(
+            Mage::getStoreConfig('payment/' . $this->getMethod(), $this->getOrder()->getStoreId())
+        );
+        if ($methodConfig) {
+            $className = $methodConfig->getModel();
+            $method = Mage::getModel($className);
+            if ($method) {
+                $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getMethod() . '/title').'</p>';
+                $method->setPayment($this);
+                $methodBlock = $method->createInfoBlock('payment.method.'.$this->getMethod());
+                if (!empty($methodBlock)) {
+                    $html .= $methodBlock->toHtml();
+                }
+            }
+        }
+        return $html;
+        //return Mage::getHelper('payment/info_cc')->setPayment($this)->toHtml();
     }
 }

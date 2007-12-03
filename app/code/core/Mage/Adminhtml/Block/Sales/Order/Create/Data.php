@@ -55,4 +55,37 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
         }
         return parent::_prepareLayout();
     }    
+
+    /**
+     * Retrieve avilable currency codes
+     *
+     * @return unknown
+     */
+    public function getAvailableCurrencies()
+    {
+        $codes = $this->getStore()->getAvailableCurrencyCodes();
+        return $codes;
+    }
+    
+    /**
+     * Retrieve curency name by code
+     *
+     * @param   string $code
+     * @return  string
+     */
+    public function getCurrencyName($code)
+    {
+        return Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
+    }
+    
+    /**
+     * Retrieve current order currency code
+     *
+     * @return string
+     */
+    public function getCurrentCurrencyCode()
+    {
+        return $this->getStore()->getCurrentCurrencyCode();
+    }
+
 }

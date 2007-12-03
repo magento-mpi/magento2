@@ -49,7 +49,8 @@ AdminOrder.prototype = {
         this.storeId = id;
         this.storeSelectorHide();
         this.sidebarShow();
-        this.loadArea(['header', 'sidebar','data'], true);
+        //this.loadArea(['header', 'sidebar','data'], true);
+        this.loadArea(['header', 'data'], true);
         this.dataShow();
     },
     
