@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
+abstract class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
 {
     protected $_addRowButtonHtml;
     protected $_removeRowButtonHtml;
@@ -33,7 +33,7 @@ abstract class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends M
     public function __construct()
     {
         parent::__construct();
-        $this->setData(Mage::getSingleton('adminhtml/session')->getLocalExtensionPackageFormData());
+        $this->setData(Mage::getSingleton('adminhtml/session')->getCustomExtensionPackageFormData());
     }
 
     public function initForm()

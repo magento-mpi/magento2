@@ -26,7 +26,7 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Adminhtml_Block_Extensions_Local_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Extensions_Custom_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     protected function _prepareForm()
     {

@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Installed_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	protected function _construct()
 	{
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Extensions_Installed_Grid extends Mage_Adminhtml_Bloc
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('adminhtml/extension_installed_collection');
+        $collection = Mage::getModel('adminhtml/extension_local_collection');
 
         $this->setCollection($collection);
 

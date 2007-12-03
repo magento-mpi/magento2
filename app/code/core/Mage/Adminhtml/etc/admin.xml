@@ -420,18 +420,18 @@
                     <extensions>
                         <title>Extensions</title>
                         <children>
-                            <installed>
+                            <local>
                                 <title>Locally Installed</title>
                                 <action>*/extensions_local</action>
-                            </installed>
+                            </local>
                             <remote>
                                 <title>Available Remote</title>
                                 <action>*/extensions_remote</action>
                             </remote>
-                            <local>
+                            <custom>
                                 <title>Custom Local</title>
                                 <action>*/extensions_custom</action>
-                            </local>
+                            </custom>
                         </children>
                     </extensions>
                     <cache>

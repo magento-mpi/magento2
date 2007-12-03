@@ -25,12 +25,12 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Installed_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Adminhtml_Block_Extensions_Local_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
         $this->_objectId = 'id';
-        $this->_controller = 'extensions_installed';
+        $this->_controller = 'extensions_local';
 
         parent::__construct();
 
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Extensions_Installed_Edit extends Mage_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        $ext = Mage::registry('installed_extension');
+        $ext = Mage::registry('local_extension');
         return $ext->getName();
     }
 }

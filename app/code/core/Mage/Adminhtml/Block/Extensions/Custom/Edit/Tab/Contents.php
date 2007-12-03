@@ -25,8 +25,8 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Contents
-    extends Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract
+class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Contents
+    extends Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract
 {
     public function __construct()
     {

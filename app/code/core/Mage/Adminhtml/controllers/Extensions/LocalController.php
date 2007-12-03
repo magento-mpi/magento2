@@ -26,15 +26,15 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Extensions_InstalledController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
         $this->loadLayout();
 
-        $this->_setActiveMenu('system/extensions/installed');
+        $this->_setActiveMenu('system/extensions/local');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_installed'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local'));
 
         $this->renderLayout();
     }
@@ -45,12 +45,12 @@ class Mage_Adminhtml_Extensions_InstalledController extends Mage_Adminhtml_Contr
 
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
         $ext = Mage::getModel('adminhtml/extension')->load($pkg);
-        Mage::register('installed_extension', $ext);
+        Mage::register('local_extension', $ext);
 echo "<pre>".print_r($ext->getData(),1)."</pre>";
-        $this->_setActiveMenu('system/extensions/installed');
+        $this->_setActiveMenu('system/extensions/local');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_installed_edit'));
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_installed_edit_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local_edit'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_local_edit_tabs'));
 
         $this->renderLayout();
     }

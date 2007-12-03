@@ -25,12 +25,12 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Installed_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_Extensions_Local_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('extensions_installed_tabs');
+        $this->setId('extensions_local_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(__('Installed Extension Info'));
     }
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Extensions_Installed_Edit_Tabs extends Mage_Adminhtml
     protected function _getTabHtml($tab)
     {
         return $this->getLayout()
-            ->createBlock('adminhtml/extensions_installed_edit_tab_'.$tab)
+            ->createBlock('adminhtml/extensions_local_edit_tab_'.$tab)
             ->initForm()
             ->toHtml();
     }

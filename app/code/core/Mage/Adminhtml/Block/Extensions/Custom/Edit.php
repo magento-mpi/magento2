@@ -25,12 +25,12 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Local_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Adminhtml_Block_Extensions_Custom_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
         $this->_objectId = 'id';
-        $this->_controller = 'extensions_local';
+        $this->_controller = 'extensions_custom';
 
         parent::__construct();
 

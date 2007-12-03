@@ -25,18 +25,18 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Installed_Edit_Tab_Package
-    extends Mage_Adminhtml_Block_Extensions_Installed_Edit_Tab_Abstract
+class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Package
+    extends Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('extensions/installed/package.phtml');
+        $this->setTemplate('extensions/local/package.phtml');
     }
 
     public function initForm()
     {
-        $this->setData(Mage::registry('installed_extension'));
+        $this->setData(Mage::registry('local_extension'));
         return $this;
     }
 }

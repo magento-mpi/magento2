@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Adminhtml_Model_Extension_Installed_Collection extends Mage_Adminhtml_Model_Extension_Collection_Abstract
+class Mage_Adminhtml_Model_Extension_Local_Collection extends Mage_Adminhtml_Model_Extension_Collection_Abstract
 {
     protected function _fetchPackages()
     {

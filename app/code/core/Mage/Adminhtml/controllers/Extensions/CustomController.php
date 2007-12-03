@@ -26,7 +26,7 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
@@ -37,11 +37,11 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
     {
         $this->loadLayout();
 
-        $this->_setActiveMenu('system/extensions/local');
+        $this->_setActiveMenu('system/extensions/custom');
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_local_edit'));
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_custom_edit'));
 
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_local_edit_tabs'));
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/extensions_custom_edit_tabs'));
 
         $this->renderLayout();
     }
@@ -57,11 +57,11 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
             echo "<xmp>".$ext->getPackageXml()."</xmp>";
         }catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('admin/extensions_local/');
+            $this->_redirect('admin/extensions_custom/');
         }
         catch(Exception $e){
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('admin/extensions_local/');
+            $this->_redirect('admin/extensions_custom/');
         }
     }
 }

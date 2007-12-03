@@ -27,7 +27,7 @@ require_once "Varien/Pear/Package.php";
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Extensions_Installed_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
 {
     public function initForm()
     {

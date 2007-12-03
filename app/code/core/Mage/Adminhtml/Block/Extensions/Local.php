@@ -26,11 +26,11 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Adminhtml_Block_Extensions_Installed extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Extensions_Local extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {
-        $this->_controller = 'extensions_installed';
+        $this->_controller = 'extensions_local';
         $this->_headerText = __('Manage Installed Extensions');
 
         parent::__construct();
