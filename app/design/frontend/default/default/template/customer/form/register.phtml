@@ -38,17 +38,17 @@
             <li>
                 <div class="input-box">
                     <label for="firstname"><?=$this->__('First Name')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="firstname" id="firstname" value="<?=$this->getFormData()->getFirstname()?>" title="<?=$this->__('First Name')?>" class="required-entry input-text"/>
+                    <input type="text" name="firstname" id="firstname" value="<?=$this->htmlEscape($this->getFormData()->getFirstname())?>" title="<?=$this->__('First Name')?>" class="required-entry input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="lastname"><?=$this->__('Last Name')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="lastname" id="lastname" value="<?=$this->getFormData()->getLastname()?>" title="<?=$this->__('Last Name')?>" class="required-entry input-text"/>
+                    <input type="text" name="lastname" id="lastname" value="<?=$this->htmlEscape($this->getFormData()->getLastname())?>" title="<?=$this->__('Last Name')?>" class="required-entry input-text"/>
                 </div>
             </li>
             <li>
                 <div class="input-box">
                     <label for="email_address"><?=$this->__('Email Address')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="email" id="email_address" value="<?=$this->getFormData()->getEmail()?>" title="<?=$this->__('Email Address')?>" class="validate-email required-entry input-text"/>
+                    <input type="text" name="email" id="email_address" value="<?=$this->htmlEscape($this->getFormData()->getEmail())?>" title="<?=$this->__('Email Address')?>" class="validate-email required-entry input-text"/>
                 </div>
             </li>
             <li>
@@ -65,37 +65,37 @@
             <li>
                 <div class="input-box">
                     <label for="company"><?=$this->__('Company')?></label><br/>
-                    <input type="text" name="company" id="company" value="<?=$this->getFormData()->getCompany()?>" title="<?=$this->__('Company')?>" class="input-text"/>
+                    <input type="text" name="company" id="company" value="<?=$this->htmlEscape($this->getFormData()->getCompany())?>" title="<?=$this->__('Company')?>" class="input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="lastname"><?=$this->__('Telephone')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="telephone" id="telephone" value="<?=$this->getFormData()->getTelephone()?>" title="<?=$this->__('Telephone')?>" class="required-entry input-text"/>
+                    <input type="text" name="telephone" id="telephone" value="<?=$this->htmlEscape($this->getFormData()->getTelephone())?>" title="<?=$this->__('Telephone')?>" class="required-entry input-text"/>
                 </div>
             </li>
             <li>
                 <label for="street_1"><?=$this->__('Street Address')?> <span class="required">*</span></label><br/>
-                <input type="text" name="street[]" value="<?=$this->getFormData()->getStreet(0)?>" title="<?=$this->__('Street Address')?>" id="street_1" class="required-entry input-text"/>
+                <input type="text" name="street[]" value="<?=$this->htmlEscape($this->getFormData()->getStreet(0))?>" title="<?=$this->__('Street Address')?>" id="street_1" class="required-entry input-text"/>
             </li>
             <li>
-                <input type="text" name="street[]" value="<?=$this->getFormData()->getStreet(1)?>" title="<?=$this->__('Street Address 2')?>" id="street_2" class="input-text"/>
+                <input type="text" name="street[]" value="<?=$this->htmlEscape($this->getFormData()->getStreet(1))?>" title="<?=$this->__('Street Address 2')?>" id="street_2" class="input-text"/>
             </li>
             <li>
                 <div class="input-box">
                     <label for="city"><?=$this->__('City')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="city" value="<?=$this->getFormData()->getCity()?>"  title="<?=$this->__('City')?>" class="required-entry input-text" id="city"/>
+                    <input type="text" name="city" value="<?=$this->htmlEscape($this->getFormData()->getCity())?>"  title="<?=$this->__('City')?>" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
                     <label for="state"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
                     <select id="region_id" name="region_id" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getFormData()->getRegionId()?>">
                         <option value=""><?=$this->__('Please select region, state or province')?></option>
                     </select>
-                    <input type="text" id="region" name="region" value="<?=$this->getRegion()?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/>
+                    <input type="text" id="region" name="region" value="<?=$this->htmlEscape($this->getRegion())?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
             <li>
                 <div class="input-box">
                     <label for="zip"><?=$this->__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
-                    <input type="text" name="postcode" value="<?=$this->getFormData()->getPostcode()?>" title="<?=$this->__('Zip/Postal Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
+                    <input type="text" name="postcode" value="<?=$this->htmlEscape($this->getFormData()->getPostcode())?>" title="<?=$this->__('Zip/Postal Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
                 </div>
                 <div class="input-box">
                     <label for="country"><?=$this->__('Country')?> <span class="required">*</span></label><br/>

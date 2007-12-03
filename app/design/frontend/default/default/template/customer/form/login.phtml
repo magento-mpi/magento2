@@ -47,7 +47,7 @@
             <ul class="form-list">
                     <li>
                         <label for="email"><?=$this->__('Email Address')?> <span class="required">*</span></label><br/>
-                        <input name="login[username]" value="<?=$this->getUsername()?>" title="<?=$this->__('Email Address')?>" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
+                        <input name="login[username]" value="<?=$this->htmlEscape($this->getUsername())?>" title="<?=$this->__('Email Address')?>" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
                     </li>
                     <li>
                         <label for="pass"><?=$this->__('Password')?> <span class="required">*</span></label><br/>
