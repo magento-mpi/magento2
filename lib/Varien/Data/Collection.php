@@ -31,7 +31,7 @@ class Varien_Data_Collection implements IteratorAggregate
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';
-    
+
     /**
      * Collection items
      *
@@ -89,7 +89,7 @@ class Varien_Data_Collection implements IteratorAggregate
      * @var int
      */
     protected $_totalRecords = null;
-    
+
     /**
      * Loading state flag
      *
@@ -120,7 +120,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->_isFiltersRendered = false;
         return $this;
     }
-    
+
     /**
      * Retrieve collection loading status
      *
@@ -130,7 +130,7 @@ class Varien_Data_Collection implements IteratorAggregate
     {
         return $this->_isCollectionLoaded;
     }
-    
+
     /**
      * Set collection loading status flag
      *
@@ -179,7 +179,7 @@ class Varien_Data_Collection implements IteratorAggregate
             return 1;
         }
     }
-    
+
     /**
      * Retrieve collection page size
      *
@@ -209,18 +209,18 @@ class Varien_Data_Collection implements IteratorAggregate
     public function getFirstItem()
     {
         $this->load();
-        
+
         if (count($this->_items)) {
             reset($this->_items);
             return current($this->_items);
         }
-        
+
         /*if(isset($this->_items[0])){
             return $this->_items[0];
         }*/
         return new $this->_itemObjectClass();
     }
-    
+
     /**
      * Retrieve collection items
      *
@@ -231,7 +231,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->load();
         return $this->_items;
     }
-    
+
     /**
      * Retrieve field values from all items
      *
@@ -241,14 +241,14 @@ class Varien_Data_Collection implements IteratorAggregate
     public function getColumnValues($colName)
     {
         $this->load();
-        
+
         $col = array();
         foreach ($this->getItems() as $item) {
             $col[] = $item->getData($colName);
         }
         return $col;
     }
-    
+
     /**
      * Search all items by field value
      *
@@ -259,7 +259,7 @@ class Varien_Data_Collection implements IteratorAggregate
     public function getItemsByColumnValue($column, $value)
     {
         $this->load();
-        
+
         $res = array();
         foreach ($this as $item) {
         	if ($item->getData($column)==$value) {
@@ -268,7 +268,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $res;
     }
-    
+
     /**
      * Search first item by field value
      *
@@ -279,7 +279,7 @@ class Varien_Data_Collection implements IteratorAggregate
     public function getItemByColumnValue($column, $value)
     {
         $this->load();
-        
+
         foreach ($this as $item) {
         	if ($item->getData($column)==$value) {
         	    return $item;
@@ -287,7 +287,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return null;
     }
-    
+
     /**
      * Adding item to item array
      *
@@ -297,12 +297,12 @@ class Varien_Data_Collection implements IteratorAggregate
     public function addItem(Varien_Object $item)
     {
         if (isset($this->_items[$item->getId()])) {
-            throw new Exception('Item ('.get_class($item).') with the some id "'.$item->getId().'" already exist');
+            throw new Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
         }
         $this->_items[$item->getId()] = $item;
         return $this;
     }
-    
+
     /**
      * Remove item from collection by item key
      *
@@ -316,7 +316,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $this;
     }
-    
+
     /**
      * Clear collection
      *
@@ -328,7 +328,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->_items = array();
         return $this;
     }
-    
+
     /**
      * Walk all items of collection
      *
@@ -350,7 +350,7 @@ class Varien_Data_Collection implements IteratorAggregate
             $args->_items[$k] = call_user_func($obj_method, $item);
         }
     }
-    
+
     /**
      * Setting data for all collection items
      *
@@ -579,7 +579,7 @@ class Varien_Data_Collection implements IteratorAggregate
         }
         return $res;
     }
-    
+
     /**
      * Retrieve item by id
      *
@@ -603,7 +603,7 @@ class Varien_Data_Collection implements IteratorAggregate
         $this->load();
         return new ArrayIterator($this->_items);
     }
-    
+
     /**
      * Retireve count of collection loaded items
      *

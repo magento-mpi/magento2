@@ -119,7 +119,8 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         // Remove 100 and 101 responses headers
         if (Zend_Http_Response::extractCode($response) == 100 ||
             Zend_Http_Response::extractCode($response) == 101) {
-            $response = preg_split('/^\r?$/m', $response, 2);
+            #$response = preg_split('/^\r?$/m', $response, 2);
+            $response = preg_split('#(\r\n|\r|\n)(\r\n|\r|\n)#m', $response, 2);
             $response = trim($response[1]);
         }
 
