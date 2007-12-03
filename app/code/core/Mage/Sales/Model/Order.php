@@ -51,7 +51,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->sendTransactional(
                   Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
                   Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
-                  $this->getBillingAddress()->getEmail(),
+                  $this->getCustomerEmail(),
                   $this->getBillingAddress()->getName(),
                   array(
                       'order'=>$this,
@@ -73,7 +73,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE),
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY),
-                $this->getBillingAddress()->getEmail(),
+                $this->getCustomerEmail(),
                 $this->getBillingAddress()->getName(),
                 array('order'=>$this, 'billing'=>$this->getBillingAddress())
             );
@@ -171,8 +171,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function importQuoteAttributes(Mage_Sales_Model_Quote $quote)
     {
-        $this
-            ->setCustomerId($quote->getCustomerId())
+        $this->setCustomerId($quote->getCustomerId())
+            ->setCustomerEmail($quote->getCustomerEmail())
             ->setQuoteId($quote->getId())
             ->setCouponCode($quote->getCouponCode())
             ->setGiftcertCode($quote->getGiftcertCode())

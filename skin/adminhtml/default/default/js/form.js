@@ -193,11 +193,15 @@ regionUpdater.prototype = {
             }
 
             this.regionTextEl.style.display = 'none';
+            this.regionTextEl.disabled = true;
             this.regionSelectEl.style.display = '';
+            this.regionSelectEl.disabled = false;
             this.setMarkDisplay(this.regionSelectEl, true);
         } else {
             this.regionTextEl.style.display = '';
+            this.regionTextEl.disabled = false;
             this.regionSelectEl.style.display = 'none';
+            this.regionSelectEl.disabled = true;
             this.setMarkDisplay(this.regionSelectEl, false);
         }
     },

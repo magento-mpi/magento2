@@ -523,7 +523,8 @@ AdminOrder.prototype = {
         var fields = $(container).getElementsBySelector('input', 'select', 'textarea');
         var data = $H({});
         for(var i=0; i<fields.length; i++) {
-            data[fields[i].name] = fields[i].getValue();
+            if(fields[i].visible())
+                data[fields[i].name] = fields[i].getValue();
         }
         return data;
     },

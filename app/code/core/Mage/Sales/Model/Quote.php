@@ -106,6 +106,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
+        $this->setCustomerEmail($customer->getEmail());
         $this->setCustomerTaxClassId($customer->getTaxClassId());
         return $this;
     }

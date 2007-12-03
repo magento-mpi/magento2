@@ -667,7 +667,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             ->setDefaultShipping($shippingAddress->getId())
             ->save();
 
-        $this->getQuote()->setCustomerId($customer->getId());
+        $this->getQuote()->setCustomer($customer);
         $this->getBillingAddress()->setCustomerId($customer->getId());
         $this->getShippingAddress()->setCustomerId($customer->getId());
 

@@ -247,6 +247,7 @@ class Mage_Checkout_Model_Type_Onepage
 
             switch ($this->getQuote()->getCheckoutMethod()) {
             case 'guest':
+                $this->getQuote()->setCustomerEmail($billing->getEmail());
                 $email  = $billing->getEmail();
                 $name   = $billing->getFirstname().' '.$billing->getLastname();
                 break;
@@ -363,7 +364,7 @@ class Mage_Checkout_Model_Type_Onepage
         $customer->setDefaultShipping($shipping->getId());
         $customer->save();
 
-        $quote->setCustomerId($customer->getId());
+        $quote->setCustomer($customer);
         $billingEntity->setCustomerId($customer->getId())->setCustomerAddressId($billing->getId());
         $shippingEntity->setCustomerId($customer->getId())->setCustomerAddressId($shipping->getId());
 
