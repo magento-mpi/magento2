@@ -56,7 +56,8 @@ AdminOrder.prototype = {
     
     setCurrencyId : function(id){
         this.currencyId = id;
-        this.loadArea(['sidebar', 'data'], true);
+        //this.loadArea(['sidebar', 'data'], true);
+        this.loadArea(['data'], true);
     },
     
     selectAddress : function(id, container){
@@ -444,7 +445,7 @@ AdminOrder.prototype = {
     },
     
     accountGroupChange : function(){
-        this.loadArea(['sidebar', 'data'], true, this.serializeData('order:form_account'));
+        this.loadArea(['data'], true, this.serializeData('order:form_account'));
     },
     
     accountFieldChange : function(){

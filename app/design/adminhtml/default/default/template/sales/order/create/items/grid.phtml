@@ -32,9 +32,9 @@
                 <!--col width="70"/-->
                 <col width="80"/>
                 <col/>
-                <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
+                <?/*if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
                 <col width="90"/>
-                <?endif;?>
+                <?endif;*/?>
                 <col width="90"/>
                 <col width="90"/>
                 <col width="50"/>
@@ -45,9 +45,9 @@
                         <!--th class="no-link"><nobr><?=$this->__('Product ID')?></nobr></th-->
                         <th class="no-link"><nobr><?=$this->__('SKU')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Product Name')?></nobr></th>
-                        <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
+                        <?/*if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
                         <th class="no-link"><nobr><?=$this->__('Gift Message')?></nobr></th>
-                        <?endif;?>
+                        <?endif;*/?>
                         <th class="no-link"><nobr><?=$this->__('Orig. Price')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Price')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Qty')?></nobr></th>
@@ -66,9 +66,9 @@
                                     <div><?=$_item->getMessage()?></div>
                                 <?endif;?>
                             </td>
-                            <?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
+                            <?/*if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
                             <td><nobr><?=$this->helper('giftmessage/message')->getAdminButton('item', $_item, $this->getStoreId())?></nobr></td>
-                            <?endif;?>
+                            <?endif;*/?>
                             <td><nobr><?=$this->getItemOrigPrice($_item)?></nobr></td>
                             <td>
                                 <input name="item[<?=$_item->getId()?>][custom_price]" class="input-text item-price" value="<?=$this->getItemEditablePrice($_item)?>"/>
@@ -92,7 +92,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="<?if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>4<?else:?>3<?endif;?>" class="a-left">
+                        <td colspan="3<?/*if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>4<?else:?>3<?endif;*/?>" class="a-left">
                             <?=$this->__('Total %d product(s)', count($_items))?>
                         </td>
                         <td colspan="2" class="a-right">
@@ -108,5 +108,5 @@
         <div class="a-right"><?=$this->getButtonHtml($this->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></div>
         <script type="text/javascript">order.itemsOnchangeBind()</script>
     </div>
-	</fieldset>
+    </fieldset>
 <?endif;?>

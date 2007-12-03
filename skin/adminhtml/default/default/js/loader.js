@@ -77,6 +77,9 @@ varienLoaderHandler.handler = {
             Position.clone($(request.options.loaderArea), $('loading-mask'), {offsetLeft:-2});
             toggleSelectsUnderBlock($('loading-mask'), false);
             Element.show('loading-mask');
+            if(request.options.loaderArea=='html-body'){
+                Element.show('loading-process');
+            }
         }
         else{
             Element.show('loading-process');

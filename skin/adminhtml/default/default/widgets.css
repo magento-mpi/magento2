@@ -29,11 +29,13 @@
         font-size:1.1em;
         font-weight:bold;
         text-align:center;
+        z-index:501;
     }
 
 #loading-mask {
     position:absolute;
-    background:#fff4e9;
+    /*background:#fff4e9;*/
+    background:#FEFEFE;
     border:1px solid #f1af73;
     color:#d85909;
     font-size:1.1em;
@@ -537,8 +539,8 @@ select.countries option { background-repeat:no-repeat; }
     background:#fdf8f5;
     }
 .sidebar-block .content {
-	margin:0 !important;
-	padding:4px 6px;
+    margin:0 !important;
+    padding:4px 6px;
  }
 .sidebar-block .head { background:#f8e7d9; padding:2px 6px 1px; font-size:.9em; text-align:right; }
 .sidebar-block .head h5 { float:left; margin:0; text-transform:uppercase; text-align:left; }

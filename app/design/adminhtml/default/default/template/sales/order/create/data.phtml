@@ -31,10 +31,12 @@
 
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
+    <?if($this->getCustomerId()):?>
     <td class="order-sidebar-column">
         <div id="order:sidebar"><?=$this->getChildHtml('sidebar')?></div>
     </td>
-    <td class="order-main-column">
+    <?endif;?>
+    <td <?if($this->getCustomerId()):?>class="order-main-column"<?endif;?>>
        <div id="order:search" style="display:none" class="order-search-items"><?=$this->getChildHtml('search')?></div>
         <div id="order:items"><?=$this->getChildHtml('items')?></div>
         <div id="order:form_account"><?=$this->getChildHtml('form_account')?></div>

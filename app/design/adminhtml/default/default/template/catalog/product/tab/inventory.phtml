@@ -42,7 +42,7 @@
         
         <span class="field-row">
             <label for="inventory_min_sale_qty"><?=$this->__('Minimum Shopping Cart Qty Allowed')?></label>
-            <input type="text" class="input-text validate-digits" id="inventory_min_sale_qty" name="product[stock_data][min_qty]" value="<?=$this->getFieldValue('min_sale_qty')*1?>"/>
+            <input type="text" class="input-text validate-digits" id="inventory_min_sale_qty" name="product[stock_data][min_sale_qty]" value="<?=$this->getFieldValue('min_sale_qty')*1?>"/>
             <?=$this->getGlobalIcon()?>
             <?$_checked = $this->getFieldValue('use_config_min_sale_qty') ? 'checked' : ''?>
             <input type="checkbox" id="inventory_use_config_min_sale_qty" name="product[stock_data][use_config_min_sale_qty]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>

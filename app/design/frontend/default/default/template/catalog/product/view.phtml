@@ -100,7 +100,7 @@
                 <fieldset class="add-to-cart-box">
                     <legend><?=$this->__('Add Items to Cart')?></legend>
                     <span class="qty-box"><label for="qty"><?=$this->__('Qty')?>:</label>
-                    <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12"/></span>
+                    <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?=$this->getMinimalQty($_product)?>"/></span>
                     <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button>
                     <strong><?=$this->__('OR')?></strong>
                 </fieldset>
