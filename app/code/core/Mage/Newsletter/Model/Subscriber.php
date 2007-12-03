@@ -272,33 +272,34 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     		}
 			$this->setSubscriberConfirmCode($this->randomSequence());
     		$this->setSubscriberEmail($email);
-            $isNewSubscriber = true;
     	}
 
     	$customerSession = Mage::getSingleton('customer/session');
 
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
+            $this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
             $this->setCustomerId($customerSession->getCustomerId());
         } else if ($customer->getId()) {
             $this->setStoreId($customer->getStoreId());
+            $this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
             $this->setCustomerId($customer->getId());
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
             $this->setCustomerId(0);
+            $isNewSubscriber = true;
         }
 
         $this->setIsStatusChanged(true);
 
         try {
         	$this->save();
-        	if ($isNewSubscriber) {
-	        	if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG)) {
-	        		$this->sendConfirmationRequestEmail();
-	        	} else {
-	        		$this->sendConfirmationSuccessEmail();
-	        	}
-        	}
+	        if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) && $isNewSubscriber) {
+	       		$this->sendConfirmationRequestEmail();
+	        } else {
+	        	$this->sendConfirmationSuccessEmail();
+	        }
+
         	return $this->getSubscriberStatus();
         } catch (Exception $e) {
         	throw new Exception($e->getMessage());
@@ -308,7 +309,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     public function unsubscribe($email)
     {
     	try {
-    		$this->setSubscriptionStatus(self::STATUS_UNSUBSCRIBED)->save();
+    		$this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();
     		$this->sendUnsubscriptionEmail();
     		return true;
     	} catch (Exception $e) {
@@ -345,9 +346,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
         $this->setStatus($status);
 
-        if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
-            $this->sendUnsubscriptionEmail();
-        }
+
 
         if(!$this->getId()) {
             $this->setStoreId($customer->getStoreId())
@@ -358,6 +357,11 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         }
 
         $this->save();
+        if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
+            $this->sendUnsubscriptionEmail();
+        } elseif ($this->getIsStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
+            $this->sendConfirmationSuccessEmail();
+        }
         return $this;
     }
 
