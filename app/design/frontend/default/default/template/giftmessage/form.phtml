@@ -23,8 +23,8 @@
 <div class="page-head button-level">
     <h3><?=$this->__('Gift Message')?></h3>
 </div>
-<form action="<?=$this->getSaveUrl()?>" id="message-form" method="post" class="a-left">
-    <ul class="form-list">
+<form action="<?=$this->getSaveUrl()?>" id="message-form" method="post" >
+    <ul class="form-list a-left">
         <li>
             <div class="input-box">
                 <label for="sender"><?=$this->__('From')?> <span class="required">*</span></label><br/>
@@ -46,7 +46,7 @@
     </ul>
     <div class="form-buttons">
         <p class="required"><?=$this->__('* Required Fields')?></p>
-        <button class="form-button" type="submit" name="send"><span><?=$this->__('Save')?></span></button>
+        <button class="form-button" type="submit" name="send"><span><?=$this->__('Save')?></span></button> &nbsp;
         <button class="form-button listen-cancel" type="button"><span><?=$this->__('Cancel')?></span></button>
         <?if($this->getMessage()->getGiftMessageId()):?>
         <button class="form-button listen-remove" type="button"><span><?=$this->__('Remove')?></span></button>
