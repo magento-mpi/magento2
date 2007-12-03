@@ -175,6 +175,80 @@
          <catalog><class>Mage_Catalog_Block</class></catalog>
       </blocks>
    </global>
+   <adminhtml>
+    <menu>
+      <catalog>
+                <title>Catalog</title>
+                <!--action>adminhtml/catalog</action-->
+                <depends><module>Mage_Catalog</module></depends>
+                <children>
+                    <products>
+                        <title>Manage Products</title>
+                        <action>*/catalog_product/</action>
+                    </products>
+                    <categories>
+                        <title>Manage Categories</title>
+                        <action>*/catalog_category/</action>
+                    </categories>
+                    <attributes>
+                        <title>Attributes</title>
+                        <children>
+                            <attributes>
+                                <title>Manage Attributes</title>
+                                <action>*/catalog_product_attribute/</action>
+                            </attributes>
+                            <sets>
+                                <title>Manage Attribute Sets</title>
+                                <action>*/catalog_product_set/</action>
+                            </sets>
+                        </children>
+                    </attributes>
+                    
+                    <tag>
+                        <title>Tags</title>
+                        <children>
+                            <pending>
+                                <title>Pending Tags</title>
+                                <action>*/tag/pending</action>
+                            </pending>
+                            <all>
+                                <title>All Tags</title>
+                                <action>*/tag/index</action>
+                            </all>
+                            <!--
+                            <customer>
+                                <title>Customers' Tags</title>
+                                <action>*/tag/customer</action>
+                            </customer>
+                            <product>
+                                <title>Products' Tags</title>
+                                <action>*/tag/product</action>
+                            </product>
+                            -->
+                        </children>
+                    </tag>
+                    <search>
+                        <title>Search</title>
+                        <action>*/catalog_search/</action>
+                    </search>
+                    <!--<datafeed>
+                        <title>Datafeeds</title>
+                        <action>*/catalog_datafeed/</action>
+                    </datafeed>-->
+                </children>
+             </catalog>
+             <promo>
+                <children>
+                 <catalog>
+                        <title>Catalog Price Rules</title>
+                        <action>*/promo_catalog/</action>
+                        <resource>promo/catalog</resource>
+                        <depends><module>Mage_Catalog</module></depends>
+                    </catalog>
+                </children>
+             </promo>
+        </menu>
+   </adminhtml>
    <frontend>
       <routers>
          <catalog>

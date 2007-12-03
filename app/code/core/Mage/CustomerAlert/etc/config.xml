@@ -151,4 +151,9 @@
             </modules>
         </translate>
     </frontend>
+    <layouts>
+        <page>
+            <file>page.xml</file>
+        </page>
+    </layouts>
 </config>

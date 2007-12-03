@@ -55,7 +55,9 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
+            $parent = Mage::getConfig()->getNode('adminhtml/menu');
+//        $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
+
         }
 
         $parentArr = array();

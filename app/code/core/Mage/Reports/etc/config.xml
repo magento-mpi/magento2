@@ -53,4 +53,70 @@
             </reports_read>
         </resources>
    </global>
+   <adminhtml>
+    <menu>
+    <report>
+                <title>Reports</title>
+                <children>
+                <!--
+                    <sales>
+                        <title>Sales Report</title>
+                        <action>*/report/sales</action>
+                    </sales>
+                -->
+                    <shopcart>
+                        <title>Shopping Cart Report</title>
+                        <children>
+                            <product>
+                                <title>Products</title>
+                                <action>*/report_shopcart/product</action>
+                            </product>
+                            <!--
+                            <customer>
+                                <title>Customers</title>
+                                <action>*/report_shopcart/customer</action>
+                            </customer>
+                            -->
+                        </children>
+                    </shopcart>
+                    <!--
+                    <products>
+                        <title>Products Report</title>
+                        <action>*/report/products</action>
+                    </products>
+
+                    <coupons>
+                        <title>Coupons Reports</title>
+                        <action>*/report/coupons</action>
+                    </coupons>
+
+                    <wishlist>
+                        <title>Wishlist Report</title>
+                        <action>*/report/wishlist</action>
+                    </wishlist>
+                    -->
+                   
+
+                    <search>
+                        <title>Search Report</title>
+                        <action>*/report/search</action>
+                    </search>
+                    <!--
+                    <customers>
+                        <title>Best Customers</title>
+                        <action>*/report/customers</action>
+                    </customers>
+                    <orders>
+                        <title>Recent Orders</title>
+                        <action>*/report/orders</action>
+                    </orders>
+                    <totals>
+                        <title>Order Totals</title>
+                        <action>*/report/totals</action>
+                    </totals>
+                    -->
+                </children>
+             </report>
+    </menu>
+   </adminhtml>
 </config>

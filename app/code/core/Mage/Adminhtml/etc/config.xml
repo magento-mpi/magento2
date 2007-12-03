@@ -108,5 +108,136 @@
             </Mage_Adminhtml>
         </modules>
       </translate>
+      <menu>
+            <dashboard>
+                <title>Dashboard</title>
+                <action>*/dashboard</action>
+             </dashboard>
+             
+             <promo>
+                <title>Promotions</title>
+                <!-- action>adminhtml/promo</action -->
+                <children>
+                    
+                    <quote>
+                        <title>Shopping Cart Price Rules</title>
+                        <action>*/promo_quote/</action>
+                        <resource>promo/quote</resource>
+                        <depends><module>Mage_Sales</module></depends>
+                    </quote>
+                </children>
+             </promo>
+             <cms>
+                <title>CMS</title>
+                <children>
+                    <page>
+                        <title>Manage Pages</title>
+                        <action>*/cms_page</action>
+                    </page>
+                    <block>
+                        <title>Static Blocks</title>
+                        <action>*/cms_block</action>
+                    </block>
+                    <poll>
+                        <title>Poll Manager</title>
+                        <action>*/poll</action>
+                    </poll>
+
+                </children>
+             </cms>
+             
+             <alert>
+                <title>Product Alerts</title>
+                <depends><module>Mage_CustomerAlert</module></depends>
+                <children>
+
+                    <queue>
+                        <title>Alerts Queue</title>
+                        <action>*/alert_queue/</action>
+                        <resource>admin/alert/queue</resource>
+                    </queue>
+
+                </children>
+             </alert>
+             
+             <system>
+                <title>System</title>
+                <!-- action>adminhtml/system</action -->
+                <children>
+                    <myaccount>
+                        <title>My Account</title>
+                        <action>*/system_account</action>
+                    </myaccount>
+                    <tools>
+                        <title>Tools</title>
+                        <children>
+                            <backup>
+                                <title>Backups</title>
+                                <action>*/system_backup</action>
+                            </backup>
+                        </children>
+                    </tools>
+                    <convert>
+                        <title>Import/Export</title>
+                        <children>
+                            <gui>
+                                <title>Profiles</title>
+                                <action>*/system_convert_gui</action>
+                            </gui>
+                            <profiles>
+                                <title>Advanced Profiles</title>
+                                <action>*/system_convert_profile</action>
+                            </profiles>
+                        </children>
+                    </convert>
+                    <currency>
+                        <title>Manage Currency</title>
+                        <action>*/system_currency</action>
+                    </currency>
+                    <email_template>
+                        <title>Transactional Emails</title>
+                        <action>*/system_email_template</action>
+                    </email_template>
+                    <acl>
+                        <title>Permissions</title>
+                        <children>
+                            <users>
+                                <title>Users</title>
+                                <action>*/permissions_user</action>
+                            </users>
+                            <roles>
+                                <title>Roles</title>
+                                <action>*/permissions_role</action>
+                            </roles>
+                        </children>
+                    </acl>
+                    <extensions>
+                        <title>Extensions</title>
+                        <children>
+                            <local>
+                                <title>Locally Installed</title>
+                                <action>*/extensions_local</action>
+                            </local>
+                            <remote>
+                                <title>Available Remote</title>
+                                <action>*/extensions_remote</action>
+                            </remote>
+                            <custom>
+                                <title>Custom Local</title>
+                                <action>*/extensions_custom</action>
+                            </custom>
+                        </children>
+                    </extensions>
+                    <cache>
+                        <title>Cache management</title>
+                        <action>*/system_cache</action>
+                    </cache>
+                    <config>
+                        <title>Configuration</title>
+                        <action>*/system_config</action>
+                    </config>
+                </children>
+             </system>
+        </menu>
    </adminhtml>
 </config>

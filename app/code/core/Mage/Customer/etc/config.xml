@@ -77,6 +77,32 @@
             </customer_read>
         </resources>
     </global>
+    <adminhtml>
+        <menu>
+        <customer>
+                <title>Customers</title>
+                <!-- action>adminhtml/customer/</action -->
+                <depends><module>Mage_Customer</module></depends>
+                <children>
+                    <manage>
+                        <title>Manage Customers</title>
+                        <action>*/customer/</action>
+                        <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
+                    </manage>
+                    <group>
+                        <title>Customer Groups</title>
+                        <action>*/customer_group/</action>
+                        <resource>admin/customer/group</resource>
+                    </group>
+                    <online>
+                        <title>Online Customers</title>
+                        <action>*/customer_online/</action>
+                        <resource>admin/customer/online</resource>
+                    </online>
+                </children>
+             </customer>
+        </menu>
+    </adminhtml>
     <frontend>
         <secure_url>
             <customer>/customer/</customer>

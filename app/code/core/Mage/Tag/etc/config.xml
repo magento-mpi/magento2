@@ -121,5 +121,32 @@
                 </observers>
             </catalog_controller_product_delete>
         </events>
+        <menu>
+            <report>
+                <children>
+                                <tags>
+                        <title>Tags Report</title>
+                        <children>
+                            <customer>
+                                <title>Customers</title>
+                                <action>*/report_tag/customer</action>
+                            </customer>
+                            <product>
+                                <title>Products</title>
+                                <action>*/report_tag/product</action>
+                            </product>
+                            <!--<product_total>
+                                <title>Products (Total)</title>
+                                <action>*/report_tag/productAll</action>
+                            </product_total>-->
+                            <popular>
+                                <title>Popular</title>
+                                <action>*/report_tag/popular</action>
+                            </popular>
+                        </children>
+                    </tags>
+                    </children>
+            </report>
+        </menu>
     </adminhtml>
 </config>

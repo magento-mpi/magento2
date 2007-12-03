@@ -84,6 +84,55 @@
                 </review>
         </blocks>
     </global>
+    <adminhtml>
+        <menu>
+        <catalog>
+                
+                <children>
+                    <reviews_ratings>
+                        <title>Reviews  Ratings</title>
+                        <children>
+                            <reviews>
+                                <title>Customer Reviews</title>
+                                <children>
+                                    <pending>
+                                        <title>Pending Reviews</title>
+                                        <action>*/catalog_product_review/pending/</action>
+                                    </pending>
+                                    <all>
+                                        <title>All Reviews</title>
+                                        <action>*/catalog_product_review/</action>
+                                    </all>
+                                </children>
+                            </reviews>
+                            <ratings>
+                                <title>Manage Ratings</title>
+                                <action>*/rating/</action>
+                            </ratings>
+                        </children>
+                    </reviews_ratings>
+                    
+                </children>
+             </catalog>
+        <report>
+            <children>
+            <review>
+                        <title>Reviews Report</title>
+                        <children>
+                            <customer>
+                                <title>Customers Reviews</title>
+                                <action>*/report_review/customer</action>
+                            </customer>
+                            <product>
+                                <title>Products Reviews</title>
+                                <action>*/report_review/product</action>
+                            </product>
+                        </children>
+                    </review>
+            </children>
+        </report>
+        </menu>
+    </adminhtml>
     <frontend>
         <routers>
             <review>

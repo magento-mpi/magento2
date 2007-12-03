@@ -110,6 +110,7 @@
             </quote>
         </sales>
     </global>
+    
     <frontend>
         <secure_url>
             <sales>/sales/</sales>
@@ -133,4 +134,49 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <menu>
+        <sales>
+                <title>Sales</title>
+                <!-- action>adminhtml/sales</action -->
+                <depends><module>Mage_Sales</module></depends>
+                <children>
+                    <order>
+                        <title>Orders</title>
+                        <action>*/sales_order</action>
+                    </order>
+                    <!--<invoice>
+                        <title>Invoices</title>
+                        <action>*/sales_invoice</action>
+                    </invoice>-->
+                    <tax>
+                        <title>Tax</title>
+                        <children>
+                            <rules>
+                                <title>Manage Tax Rules</title>
+                                <action>*/tax_rule</action>
+                            </rules>
+                            <rates>
+                                <title>Manage Tax Rates</title>
+                                <action>*/tax_rate</action>
+                            </rates>
+                            <import_export>
+                                <title>Import / Export Tax Rates</title>
+                                <action>*/tax_rate/importExport</action>
+                            </import_export>
+                            <classes_customer>
+                                <title>Customer Tax Classes</title>
+                                <action>*/tax_class_customer</action>
+                            </classes_customer>
+                            <classes_product>
+                                <title>Product Tax Classes</title>
+                                <action>*/tax_class_product</action>
+                            </classes_product>
+                        </children>
+                    </tax>
+                </children>
+             </sales>
+        </menu>
+    </adminhtml>
+    
 </config>
