@@ -157,9 +157,9 @@
                     </convert>
                     <cache title="Cache Management"/>
                     <extensions title="Extensions">
-                        <installed title="Installed"/>
+                        <local title="Locally Installed"/>
                         <remote title="Available Remote"/>
-                        <local title="Custom Local"/>
+                        <custom title="Custom Local"/>
                     </extensions>
                 </system>
                 <global_search title="Global Search" />

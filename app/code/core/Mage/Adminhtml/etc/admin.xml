@@ -421,8 +421,8 @@
                         <title>Extensions</title>
                         <children>
                             <installed>
-                                <title>Installed</title>
-                                <action>*/extensions_installed</action>
+                                <title>Locally Installed</title>
+                                <action>*/extensions_local</action>
                             </installed>
                             <remote>
                                 <title>Available Remote</title>
@@ -430,7 +430,7 @@
                             </remote>
                             <local>
                                 <title>Custom Local</title>
-                                <action>*/extensions_local</action>
+                                <action>*/extensions_custom</action>
                             </local>
                         </children>
                     </extensions>
