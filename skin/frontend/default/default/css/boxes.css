@@ -1165,7 +1165,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .giftmessages .gift-box .scroll-box
 {
     overflow: auto;
-    max-height: 500px;
+    height: 500px;
 }
 
 .giftmessages .product-image
