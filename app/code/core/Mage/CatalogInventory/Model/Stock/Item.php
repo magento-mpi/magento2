@@ -170,7 +170,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             switch ($this->getBackorders()) {
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_BELOW:
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES:
-                    return false;
                     break;
                 default:
                     if ($this->getProduct()) {
@@ -232,12 +231,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         
         
-        if (!$this->checkQty($qty)) {
-            if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES) {
+        if ($this->checkQty($qty)) {
+            if (($this->getQty() - $qty < 0) &&
+                ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES)) {
                 if ($this->getProduct()) {
                     $item->setMessage(
                         __('This product is not available in the requested quantity. %d of the items will be backordered.', 
-                            $qty - $this->getQty(), 
+                            ($this->getQty()>0) ? $qty - $this->getQty() : $qty, 
                             $this->getProduct()->getName())
                     );
                 }

@@ -29,11 +29,6 @@
             <h4><?=__('Shipping Address')?></h4>
             <div class="box customer-personal-brief">
                 <?$_shipping = $_order->getShippingAddress()?>
-                <?
-                echo '<pre>';
-                print_r($_shipping->getData());
-                echo '</pre>';
-                ?>
                 <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
                 <?=$_shipping->getCompany()?><br/>
                 <?=$_shipping->getStreet()?><br/>

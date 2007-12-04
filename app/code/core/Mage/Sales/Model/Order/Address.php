@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Sales_Model_Order_Address extends Mage_Customer_Model_Address_Abstract
+class Mage_Sales_Model_Order_Address extends Mage_Core_Model_Abstract
 {
     protected $_order;
     
@@ -49,5 +49,15 @@ class Mage_Sales_Model_Order_Address extends Mage_Customer_Model_Address_Abstrac
             
         $this->addData($address->getData());
         return $this;
+    }
+    
+    public function getName()
+    {
+    	return $this->getFirstname().' '.$this->getLastname();
+    }
+    
+    public function getFormated($html=false)
+    {
+    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 }
