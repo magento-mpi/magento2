@@ -40,7 +40,7 @@
             </div>
             <div class="product-details">
                 <a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=$this->__('Are you sure you would like to remove this item from the shopping cart?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a>
-                <a href="<?=$_item->getProduct()->getProductUrl()?>"><?=$_item->getName()?></a>
+                <a href="<?=$this->helper('checkout')->getQuoteItemProductUrl($_item)?>"><?=$_item->getName()?></a>
                 <br/><strong><?=$this->__('Qty')?>: <?=1*$_item->getQty()?></strong>
             </div>
         </li>
