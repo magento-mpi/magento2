@@ -55,7 +55,13 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
     }
     
     public function getSearchUrl($obj)
-	{		
-	    return $this->getUrl('catalogsearch/result', array('q'=>$obj->name));	   
+	{
+	    $url = Mage::getModel('core/url');
+	    /*
+	    * url encoding will be done in Url.php http_build_query
+	    * so no need to explicitly called urlencode for the text
+	    */
+	    $url->setQueryParam('q', $obj->name);
+	    return $url->getUrl('catalogsearch/result');	  
 	}	
 }
