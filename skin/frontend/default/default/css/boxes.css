@@ -1130,6 +1130,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     padding-bottom: 15px;
 }
 
+.giftmessages textarea {
+    height: 100px;
+}
+
 .giftmessages .input-checkbox input {
     margin-right: 5px;
 }
