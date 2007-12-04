@@ -89,10 +89,10 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
         }
 
         if($entity) {
-            if(!$entity->getMessage()) {
-                $entity->setMessage($this->helper('giftmessage/message')->getGiftMessage($entity->getGiftMessageId()));
+            if(!$entity->getGiftMessage()) {
+                $entity->setGiftMessage($this->helper('giftmessage/message')->getGiftMessage($entity->getGiftMessageId()));
             }
-            return $entity->getMessage();
+            return $entity->getGiftMessage();
         }
 
         return $this->_giftMessage;
