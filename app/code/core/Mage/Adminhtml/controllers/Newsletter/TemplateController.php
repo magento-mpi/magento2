@@ -46,6 +46,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/newsletter_template_grid')->toHtml());
     }
+    
 
 
     public function newAction()
@@ -64,6 +65,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
     }
+    
 
     public function editAction()
     {
@@ -155,6 +157,6 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/template');
+	    return Mage::getSingleton('admin/session')->isAllowed('customer_communication/newsletter/template');
     }
 }

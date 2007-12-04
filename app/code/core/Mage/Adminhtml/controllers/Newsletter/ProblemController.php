@@ -93,7 +93,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/problem');
+	    return Mage::getSingleton('admin/session')->isAllowed('customer_communication/newsletter/problem');
     }
 
 }// Class Mage_Adminhtml_Newsletter_ProblemController END

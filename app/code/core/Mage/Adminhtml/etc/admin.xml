@@ -221,7 +221,7 @@
                     </config>-->
                 </children>
              </cms>
-             <customerCommunication>
+             <customer_communication>
                 <title>Customer Communication</title>
                 <children>
                     <newsletter>
@@ -276,9 +276,7 @@
 		                </children>
 		             </alert>
                 </children>
-             </customerCommunication>
-             
-             
+             </customer_communication>
              <report>
                 <title>Reports</title>
                 <children>

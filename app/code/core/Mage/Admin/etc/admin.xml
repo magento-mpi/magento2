@@ -60,7 +60,7 @@
                     <manage title="Manage Customers" />
                     <online title="Online Customers" />
                 </customer>
-                <customerCommunication title="Customer Communication">
+                <customer_communication title="Customer Communication">
 	                <newsletter title="Newsletter" >
 	                    <problem title="Newsletter Problem Reports" />
 	                    <queue title="Newsletter Queue" />
@@ -69,10 +69,9 @@
 	                <alert title="Product Alerts" >
 	                    <!-- <problem title="Newsletter Problem Reports" /> -->
 	                    <queue title="Alerts Queue" />
-	                    <template title="Alerts Templates" />
+	                    <!-- <template title="Alerts Templates" /> -->
 	                </alert>
-                </customerCommunication>
-                
+                </customer_communication>
                 <promo title="Promotions" >
                     <catalog title="Catalog Price Rules" />
                     <quote title="Shopping Cart Price Rules" />

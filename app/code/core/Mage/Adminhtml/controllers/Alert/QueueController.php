@@ -216,6 +216,6 @@ class Mage_Adminhtml_Alert_QueueController extends Mage_Adminhtml_Controller_Act
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('alert/queue');
+        return Mage::getSingleton('admin/session')->isAllowed('customer_communication/alert/queue');
     }
 }
