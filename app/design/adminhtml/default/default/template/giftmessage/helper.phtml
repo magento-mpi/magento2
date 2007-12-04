@@ -57,7 +57,7 @@
             </span>
             <span class="field-row">
                 <label><?=$this->__('Message')?></label>
-                <pre  class="left"><?=$this->htmlEscape($_giftMessage->getMessage())?></pre>
+                 <div class="left"><?=$this->prepareAsIs($_giftMessage->getMessage())?></div>
             </span>
             <?endif;?>
         <?=$this->getWidgetButtonHtml($this->__('Edit'), 'edit')?>
@@ -79,7 +79,7 @@
             </span>
             <span class="field-row">
                 <label><?=$this->__('Message')?></label>
-                <pre class="left"><?=$this->htmlEscape($_giftMessage->getMessage())?></pre>
+                <div class="left"><?=$this->prepareAsIs($_giftMessage->getMessage())?></div>
             </span>
 
             <?endif;?>

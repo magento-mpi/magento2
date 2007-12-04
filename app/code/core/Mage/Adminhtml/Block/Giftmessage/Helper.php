@@ -90,6 +90,11 @@ class Mage_Adminhtml_Block_Giftmessage_Helper extends Mage_Adminhtml_Block_Widge
         return $this->helper('giftmessage/url')->getAdminEditUrl($this->getEntity(), $this->getType());
     }
 
+    public function prepareAsIs($text)
+    {
+        return nl2br($this->htmlEscape($text));
+    }
+
     public function getWidgetButtonHtml($label, $additionalCss='')
     {
         return $this->getLayout()->createBlock('adminhtml/widget_button')
