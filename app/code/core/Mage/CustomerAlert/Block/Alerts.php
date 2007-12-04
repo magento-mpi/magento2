@@ -61,12 +61,10 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
     {
         $data = array(
            'product_id'  => $this->helper('customerAlert')->getProductId(),
-           'customer_id' => Mage::getModel('customer/session')->getId(),
+           'customer_id' => Mage::getModel('customer/session')->getId()?Mage::getModel('customer/session')->getId():-1,
            'store_id'    => Mage::app()->getStore()->getId(),
-        
         );
-        
-        
+
         return Mage::getSingleton('customeralert/config')->getAlertByType($this->_alertType)
             ->addData($data)
             ->loadByParam()

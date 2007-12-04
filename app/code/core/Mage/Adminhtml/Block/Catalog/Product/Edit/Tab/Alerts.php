@@ -61,7 +61,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
                     'open'      => false,
                 ));
                 if($alertModel->getAlertText()){
-                    $messages[] = array('method'=>'notice','label'=>$alertModel->getAlertText());
+                    if(is_array($alertModel->getAlertText())){
+                        foreach ($alertModel->getAlertText() as $val){
+                            $messages[] = array('method'=>'notice','label'=>$val);
+                        }
+                    } else {
+                        $messages[] = array('method'=>'notice','label'=>$alertModel->getAlertText());
+                    }
                 }
             }
             $this->setChild('accordion', $accordion);

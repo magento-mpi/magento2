@@ -49,22 +49,37 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         return $this;
     }
     
-    public function addToQueue()
+    public function addToQueue($isCustomerGroupIds)
     {
-        $this->_prepareAlert();
-        $this->addData(array('status'=>1));
-        $this->save();
-        return $this;
+        if($isCustomerGroupIds){
+            $checkIds = array();
+            $rows = $this->loadByParam();
+            foreach ($rows as $val) {
+                $this->load($val['id']);
+                $this->addData(array('status'=>1));
+                $this->save();
+                $checkIds[] = $val['id'];                
+            }
+            return $checkIds;
+        } else {
+            $this->_prepareAlert();
+            $this->addData(array('status'=>1));
+            $this->save();
+            return array($this->getId());
+        }
     }
     
     protected function _prepareAlert()
     {
         $data = $this->getData();
+        if(!isset($data['customer_group_id']))
+            $data['customer_group_id'] = '-1';
         $this->unsetData();
         $this->addData(array(
             'product_id' => $data['product_id'],
             'store_id' => $data['store_id'],
             'type' => $data['type'],
+            'customer_group_id' => $data['customer_group_id'],
         ));
         $id = $this->loadByParam('fetchOne');
         $this->unsetData();
@@ -85,6 +100,12 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         return $this->addData(array('status'=>0))
             ->loadByParam('fetchOne');
     }
+    
+     public function removeAllbyAlert($alertModel)
+     {
+         $this->addData($alertModel->getParamValues());
+         $this->getResource()->removeByParam($this);
+     }
     
     
 }

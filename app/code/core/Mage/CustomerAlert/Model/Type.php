@@ -28,16 +28,12 @@
 
 class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
 {
-    protected $_oldValue;
-    protected $_newValue;
-    protected $_date;
-    
     public function __construct()
     {
         $this->_init('customeralert/type', 'id');
     }
     
-    public function getParamValues()
+    public function getParamValues($withCustomerId = false)
     {
         $value = array();
         if($this->getData('product_id')){
@@ -50,7 +46,7 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
         if($this->getData('type')){
             $value['type'] = $this->getData('type');
         }
-        if($this->getData('customer_id')){
+        if($this->getData('customer_id')==-1 || ($withCustomerId && $this->getData('customer_id'))){
             $value['customer_id'] = $this->getData('customer_id');
         }
         return $value;
@@ -102,13 +98,14 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
         parent::save();
     }
     
-    public function addAlert($check, $newValue = null, $oldValue = null)
+    public function addAlert($check, $newValue = null, $oldValue = null, $customerGroupId = null, $date = null)
     {
         if($this->getStoreId()>0) {
+            if(!$date)$date = now();
             $alertCheck = Mage::getModel('customeralert/alert_check')
                     ->addData($this->getParamValues());
             if($newValue || $oldValue) {    
-                $alertCheck->addData(array('new_value'=>$newValue,'old_value'=>$oldValue,'date'=>now()));
+                $alertCheck->addData(array('new_value'=>$newValue,'old_value'=>$oldValue,'date'=>$date,'customer_group_id'=>$customerGroupId));
             }     
             if($check) {
                 $alertCheck->addAlert();
@@ -121,27 +118,46 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     
     public function getAlertChangedValues()
     {
-        $values = Mage::getModel('customeralert/alert_check')
+        return Mage::getModel('customeralert/alert_check')
             ->addData($this->getParamValues())
             ->loadByParam();
-        return $values[0];
     }
     
     public function addCustomersToAlertQueue()
     {
-        if($this->getAlertHappened()){
+        if($this->getAlertHappened() || $this->isCustomerGroupIds()){
             $customer = Mage::getResourceModel('customeralert/customer_collection')
                 -> setAlert ($this)
                 -> load();
             if($customer) {
                 Mage::getModel('customeralert/queue')
-                    ->addCustomersToAlertQueue($customer, $this->getCheck()->addToQueue());
+                    ->addCustomersToAlertQueue($customer, $this->getCheck()->addToQueue($this->isCustomerGroupIds()));
                 return true;
             } else {
                 return false;
             }
-                
+                    
         }
         return false;
     }
+    
+    public function isCustomerGroupIds()
+    {
+        $rows = Mage::getModel('customeralert/alert_check')
+            ->addData($this->getParamValues())
+            ->loadByParam();
+        $customersGroupIds = array();
+        foreach($rows as $val) {
+            if($val['customer_group_id']!=-1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getCustomerAlerts()
+    {
+        return $this->getResource()->getCustomerAlerts($this);      
+    }
+    
 }

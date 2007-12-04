@@ -193,6 +193,16 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->_redirect('*/*');
     }
 
+    public function addToAlersAction()
+    {
+        $alerts = Mage::getResourceModel('customeralert/type')->getAlertsForCronChecking();
+        foreach ($alerts as $val) {
+            Mage::getSingleton('customeralert/config')->getAlertByType('price_is_changed')
+                ->setParamValues($val)
+                ->updateForPriceRule();    
+        }
+    }
+    
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');

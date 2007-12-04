@@ -30,7 +30,7 @@ class Mage_CustomerAlert_Model_Observer
     protected function _getAlertsForCheck($data){
         return Mage::getModel('customeralert/type')
                 ->addData($data)
-                ->loadAllByParam();
+                ->getCustomerAlerts();
     }
     
     protected function _getData($newProduct)
@@ -48,12 +48,14 @@ class Mage_CustomerAlert_Model_Observer
         $data = $this->_getData($newProduct);
         $this->_oldProduct = Mage::getModel('catalog/product')->load($data['product_id']);
         $rows = $this->_getAlertsForCheck($data);
-        foreach ($rows as $row) {
-            $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($row['type'])
-                ->addData($data);
-            if(method_exists($alertModel,'checkBefore'))
-                $alertModel
-                    ->checkBefore($this->_oldProduct,$newProduct);
+        if(count($rows)>0){
+            foreach ($rows as $row) {
+                $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($row['type'])
+                    ->addData($data);
+                if(method_exists($alertModel,'checkBefore'))
+                    $alertModel
+                        ->checkBefore($this->_oldProduct,$newProduct);
+            }
         }
     }
     
@@ -63,6 +65,7 @@ class Mage_CustomerAlert_Model_Observer
         $newProduct = $observer->getEvent()->getProduct();
         $data = $this->_getData($newProduct);
         $rows = $this->_getAlertsForCheck($data);
+        
         foreach ($rows as $row) {
             $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($row['type'])
                 ->addData($data);
@@ -74,7 +77,6 @@ class Mage_CustomerAlert_Model_Observer
     
     public function catalogInventorySaveBefore($observer)
     {
-        
         $stockItem = $observer->getEvent()->getItem();
         $data = array(
             'product_id' => $stockItem->getProductId(),
@@ -89,4 +91,5 @@ class Mage_CustomerAlert_Model_Observer
            }
         }
     }
+
 }

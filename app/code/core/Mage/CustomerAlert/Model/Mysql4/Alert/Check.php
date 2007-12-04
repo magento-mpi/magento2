@@ -46,5 +46,15 @@ class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4
         }
         return $read->$fetch($select);
     }
+    
+    public function removeByParam(Mage_Core_Model_Abstract $checkModel)
+    {
+        $rows = $this->loadByParam($checkModel);
+        
+        foreach ($rows as $val){
+            $checkModel->load($val['id']);
+            $this->delete($checkModel);
+        }
+    }
 }
 ?>

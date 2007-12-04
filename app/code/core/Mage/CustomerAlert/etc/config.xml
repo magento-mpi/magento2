@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CustomerAlert>
-            <version>0.1.6</version>
+            <version>0.1.7</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -80,7 +80,7 @@
             <types>
                 <price_is_changed translate="label title">
                     <model>customeralert/type_priceChanged</model>
-                    <label>Sign up to alert when product price changed.</label>
+                    <label>Sign up for an alert when the product price changes.</label>
                     <default_email_template>Product alert for changed price</default_email_template>
                     <template>priceIsChanged</template>
                     <title>price changed</title>
@@ -112,7 +112,6 @@
                 <title>Product Alerts</title>
                 <depends><module>Mage_CustomerAlert</module></depends>
                 <children>
-
                     <queue>
                         <title>Alerts Queue</title>
                         <action>*/alert_queue/</action>
@@ -141,6 +140,15 @@
                     </customeralert_observer_after>
                 </observers>
             </catalog_product_save_after>
+            <catalog_rule_save_before>
+                <observers>
+                    <customeralert_observer_before>
+                        <type>singleton</type>
+                        <class>customeralert/observer</class>
+                        <method>catalogRuleSaveBefore</method>
+                    </customeralert_observer_before>
+                </observers>
+            </catalog_rule_save_before>
         </events>
     </adminhtml>
     <frontend>
@@ -166,9 +174,4 @@
             </modules>
         </translate>
     </frontend>
-    <layouts>
-        <page>
-            <file>page.xml</file>
-        </page>
-    </layouts>
 </config>

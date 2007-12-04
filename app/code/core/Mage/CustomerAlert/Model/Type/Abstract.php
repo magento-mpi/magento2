@@ -30,10 +30,6 @@ abstract class Mage_CustomerAlert_Model_Type_Abstract extends Mage_CustomerAlert
     public function getAlertText()
     {   
         if($this->getAlertHappened()){
-            $changedValues = $this->getAlertChangedValues();
-            $this->_oldValue = $changedValues['old_value'];
-            $this->_newValue = $changedValues['new_value'];
-            $this->_date = $changedValues['date'];
             return $this->getAlertHappenedText(); 
         } else {
             return $this->getAlertNotHappenedText();            

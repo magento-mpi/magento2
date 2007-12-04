@@ -42,20 +42,6 @@ class Mage_CustomerAlert_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstr
         if (!$queue->getId()) {
             Mage::throwException(__('Invalid queue selected'));
         }
-        $this->getConnection('write')->beginTransaction();
-        $data = array();
-        $data['queue_id'] = $queue->getId();
-        $data['queue_created_at'] = now();
-        try {
-            foreach($customers->getItems() as $customer) {
-                $this->getConnection('write')->insert($this->getTable('queue_link'), $data);
-            }
-            $this->getConnection('write')->commit();
-        } catch (Exception $e) {
-            $this->getConnection('write')->rollBack();
-        }
-        
     }
-    
 }
 ?>

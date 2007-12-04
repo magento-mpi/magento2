@@ -386,12 +386,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function addCustomersToAlertQueueAction()
     {
-        $alert = Mage::getSingleton('customeralert/config')->getAlerts();
+        $alerts = Mage::getSingleton('customeralert/config')->getAlerts();;
         $block = $this->getLayout()
             ->createBlock('core/messages', 'messages'); 
         $collection = $block
             ->getMessageCollection();
-        foreach ($alert as $key=>$val) {
+        foreach ($alerts as $key=>$val) {
             try {
                 if(Mage::getSingleton('customeralert/config')->getAlertByType($key)
                     ->setParamValues($this->getRequest()->getParams())

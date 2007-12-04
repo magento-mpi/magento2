@@ -39,19 +39,27 @@ class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract
         $this->_init('customeralert/queue');
     }
     
-    public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customer, Mage_CustomerAlert_Model_Alert_Check $check)
+    public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customer, array $check)
     {
-        $type = $check->getType();
-        $emailModel = Mage::getModel('core/email_template')
-            ->loadByCode(Mage::getSingleton('customeralert/config')->getDefaultTemplateForAlert($type));
-        if($emailModel->getId()){
-            $this->addData(array('template_id'=>$emailModel->getId()));
+        if(is_array($check)){
+            foreach ($check as $id) {
+            	$check = Mage::getModel('customeralert/alert_check')
+            	   ->load($id);
+            	$type = $check->getType();
+                $emailModel = Mage::getModel('core/email_template')
+                    ->loadByCode(Mage::getSingleton('customeralert/config')->getDefaultTemplateForAlert($type));
+                if($emailModel->getId()){
+                    $this->addData(array('template_id'=>$emailModel->getId()));
+                }
+                if($check->getId()){
+                    $this->addData(array('check_id'=>$check->getId()));
+                }
+                $this->save();
+                Mage::getResourceModel('customeralert/queue')
+                    ->addCustomersToAlertQueue($this, $customer);
+            }
         }
-        if($check->getId()){
-            $this->addData(array('check_id'=>$check->getId()));
-        }
-        $this->save();
-        return $this->getResource()->addCustomersToAlertQueue($this, $customer);
+        return true; 
     }
     
     public function addTemplateData( $data )

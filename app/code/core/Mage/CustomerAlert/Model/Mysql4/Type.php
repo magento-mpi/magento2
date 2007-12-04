@@ -41,9 +41,34 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
         $select = $read
             ->select()
             ->from($this->getMainTable());
-        foreach ($model->getParamValues() as $key=>$val) {
+        
+        foreach ($model->getParamValues(true) as $key=>$val) {
             $select->where($key.' = ?',$val);
         }
         return $read->$fetch($select);
+    }
+    
+    public function getCustomerAlerts(Mage_Core_Model_Abstract $model)
+    {
+        $data = $model->getData();
+        $read = $this->getConnection('read');
+        $select = $read
+            ->select()
+            ->from($this->getMainTable(),'type')
+            ->distinct();
+        foreach ($model->getParamValues() as $key=>$val) {
+            $select->where($key.' = ?',$val);
+        }
+        return $read->fetchAll($select);
+    }
+    
+    public function getAlertsForCronChecking()
+    {
+        $read = $this->getConnection('read');
+        $select = $read
+            ->select()
+            ->from($this->getMainTable(),array('type','store_id','product_id'))
+            ->distinct();
+        return $read->fetchAll($select);
     }
 }
