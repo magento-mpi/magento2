@@ -125,7 +125,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         if ($registerForm = $this->getLayout()->getBlock('customer_form_register')) {
             $registerForm->setShowAddressFields(true)
                 ->setBackUrl($this->_getHelper()->getMSLoginUrl())
-                ->setSuccessUrl($this->_getHelper()->getMSAddressesUrl())
+                ->setSuccessUrl($this->_getHelper()->getMSShippingAddressSavedUrl())
                 ->setErrorUrl($this->_getHelper()->getCurrentUrl());
         }
 

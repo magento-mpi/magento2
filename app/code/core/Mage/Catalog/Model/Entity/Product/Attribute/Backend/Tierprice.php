@@ -73,7 +73,68 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 
     }
 
-    public function afterSave($object)
+    public function afterSave($object) 
+    {
+        $storeId = $object->getStoreId();
+                
+        $attributeId   = $this->getAttribute()->getId();
+        $entityId      = $object->getId();
+        $entityTypeId  = $this->getAttribute()->getEntity()->getTypeId();
+        $entityIdField = $this->getEntityIdField();
+        
+        $connection = $this->getConnection('write');
+        
+        $condition = array(
+            $connection->quoteInto($entityIdField . ' = ?', $entityId),
+            $connection->quoteInto('attribute_id = ?', $attributeId)
+        );
+        
+        if (!$this->getAttribute()->getIsGlobal()) {
+            $condition[] = $connection->quoteInto('store_id = ?', $storeId);
+        }
+
+        $connection->delete($this->getMainTable(), $condition);
+        
+        $tierPrices = $object->getData($this->getAttribute()->getName());
+        
+        if (!is_array($tierPrices)) {
+            return;
+        }
+        
+        $minimalPrice = $object->getPrice();
+        
+        foreach ($tierPrices as $tierPrice) {
+            if (!isset($tierPrice['price_qty']) || !isset($tierPrice['price']) || strlen($storeId)==0 || !empty($tierPrice['delete'])) {
+                continue;
+            }
+            
+            $data = array();
+            $data[$entityIdField]   = $entityId;
+            $data['attribute_id']   = $attributeId;
+            $data['qty']            = $tierPrice['price_qty'];
+            $data['value']          = $tierPrice['price'];
+            $data['entity_type_id'] = $entityTypeId;
+            
+            if ($tierPrice['price']<$minimalPrice) {
+                $minimalPrice = $tierPrice['price'];
+            }
+            
+            if ($this->getAttribute()->getIsGlobal()) {
+                foreach ($object->getStoreIds() as $storeId) {
+                    $data['store_id'] = $storeId;
+                    $connection->insert($this->getMainTable(), $data);
+                }
+            }
+            else {
+                $data['store_id'] = $storeId;
+                $connection->insert($this->getMainTable(), $data);
+            }
+        }
+        $object->setMinimalPrice($minimalPrice);
+        $this->getAttribute()->getEntity()->saveAttribute($object, 'minimal_price');
+    }
+    
+    /*public function afterSave($object)
     {
     	$storeId = $object->getStoreId();
 
@@ -103,10 +164,6 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 
     	$minimalPrice = $object->getPrice();
 
-    	/*echo "<pre>DEBUG:\n";
-    	print_r($tierPrices);
-    	echo "</pre>";
-    	die();*/
     	return $this;
     	foreach ($tierPrices as $tierPrice) {
     		if( !isset($tierPrice['price_qty']) || !isset($tierPrice['value']) || strlen($storeId)==0 ) {
@@ -138,7 +195,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
     	}
     	$object->setMinimalPrice($minimalPrice);
     	$this->getAttribute()->getEntity()->saveAttribute($object, 'minimal_price');
-    }
+    }*/
 
     public function afterDelete($object)
     {

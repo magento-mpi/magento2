@@ -69,6 +69,11 @@ class Mage_Checkout_Helper_Url extends Mage_Core_Helper_Url
         return $this->_getUrl('checkout/multishipping/addresses');
     }
     
+    public function getMSShippingAddressSavedUrl()
+    {
+        return $this->_getUrl('checkout/multishipping_address/shippingSaved');
+    }
+
     public function getMSRegisterUrl()
     {
         return $this->_getUrl('checkout/multishipping/register');

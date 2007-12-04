@@ -18,6 +18,65 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<?=$this->getAddButtonHtml()?>
+<div>&nbsp;</div>
+<span id="<?=$this->getElement()->getHtmlId()?>_container"></span>
+<span id="<?=$this->getElement()->getHtmlId()?>_delete_button" style="display:none"></span>
+<div id="<?=$this->getElement()->getHtmlId()?>_add_template" style="display:none">
+<div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row___index__">
+    <div class="tier-container">
+        <div class="qty-div">
+            <strong><?=('Qty')?></strong>&nbsp;
+            <span>
+              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'"><strong><?=__(' and above.')?></strong>
+            </span>
+        </div>
+        <div class="price-div">
+            <strong><?=('Price')?></strong>&nbsp;
+            <span>
+              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
+            </span>
+            <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__delete'" type="hidden" name="'<?=$this->getElement()->getName()?>[__index__][delete]'" value="">
+            <?=$this->getDeleteButtonHtml()?>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+<!--
+    var tierPriceControl = {
+        template : new Template($('<?=$this->getElement()->getHtmlId()?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"')),
+        itemsCount : 0,
+        deleteButton: false,
+        addItem  : function () {
+            var data = {};
+            data.qty = '';
+            data.price = '';
+            data.index = this.itemsCount++;
+            if(arguments.length == 2) {
+                data.price = arguments[1];
+                data.qty   = arguments[0];
+            }
+
+            new Insertion.Bottom(
+                $('<?=$this->getElement()->getHtmlId()?>_container'),
+                this.template.evaluate(data)
+            );
+        },
+        deleteItem : function(item) {
+            $('<?=$this->getElement()->getHtmlId()?>_row_' + item).hide();
+            $('<?=$this->getElement()->getHtmlId()?>_row_' + item).addClassName('no-display template');
+            if($('<?=$this->getElement()->getHtmlId()?>_row_'+item+'delete')){
+                $('<?=$this->getElement()->getHtmlId()?>_row_'+item+'delete').value=1;
+            }
+        }
+    }
+    <?foreach ($this->getValues() as $_item):?>
+    tierPriceControl.addItem('<?=$_item['price_qty']?>','<?=$_item['price']?>');
+    <?endforeach;?>
+//-->
+</script>
+<?/*
 <?=$this->getAddGroupButtonHtml()?>
 <div>&nbsp;</div>
 
@@ -218,3 +277,4 @@
 	}
 -->
 </script>
+*/?>
