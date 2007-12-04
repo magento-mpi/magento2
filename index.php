@@ -25,4 +25,5 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
 
 require_once 'app/Mage.php';
 
+umask(0);
 Mage::run('base');

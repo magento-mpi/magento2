@@ -33,6 +33,9 @@ function __autoload($class)
     #    return;
     #}
 #$timer = microtime(true);
+    if (strpos($class, '/')!==false) {
+        return;
+    }
     $classFile = uc_words($class, DS).'.php';
     $a = explode('_', $class);
     Varien_Profiler::start('AUTOLOAD');
