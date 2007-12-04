@@ -57,18 +57,17 @@
                 <tbody>
                     <?$i=0?>
                     <?foreach ($_items as $_item):$i++?>
-                        <tr class="<?=($i%2)?'even':'odd'?> <?if($_item->getHasError()):?>error<?endif;?>">
+                        <tr class="<?=($i%2)?'even':'odd'?>">
                             <!--td class="a-center"><?=$_item->getProductId()?></td-->
                             <td><?=$_item->getSku()?></td>
                             <td>
                                 <?=$_item->getName()?>
                                 <?if($_item->getMessage()):?>
-                                    <div><?=$_item->getMessage()?></div>
+                                <div class="<?if($_item->getHasError()):?>error<?else:?>notice<?endif;?>">
+                                    <?=$_item->getMessage()?>
+                                </div>
                                 <?endif;?>
                             </td>
-                            <?/*if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
-                            <td><nobr><?=$this->helper('giftmessage/message')->getAdminButton('item', $_item, $this->getStoreId())?></nobr></td>
-                            <?endif;*/?>
                             <td><nobr><?=$this->getItemOrigPrice($_item)?></nobr></td>
                             <td>
                                 <input name="item[<?=$_item->getId()?>][custom_price]" class="input-text item-price" value="<?=$this->getItemEditablePrice($_item)?>"/>

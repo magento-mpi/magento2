@@ -320,8 +320,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $item->setQty($item->getQty()+$qty);
         }
         else {
-            $this->getQuote()->addProduct($product);
-            $item = $this->getQuote()->getItemByProduct($product);
+            $item = $this->getQuote()->addCatalogProduct($product);
             $item->setQty($qty);
         }
 
@@ -616,7 +615,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         $items = $this->getQuote()->getAllItems();
 
-        $hasError = $this->getQuote()->getHasError();
+        $hasError = false;//$this->getQuote()->getHasError();
 
         if (count($items) == 0) {
             $hasError = true;

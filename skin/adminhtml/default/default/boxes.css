@@ -20,6 +20,7 @@
 
 /************* Messages ***********/
 .error, a.error span{ color:#D40707 !important; font-style:bold !important; }
+.notice {color:#ea7601}
 .messages li {
     list-style:none !important;
     min-height:23px !important;
