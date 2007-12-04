@@ -1181,8 +1181,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 }
 
 .giftmessages .giftmessage-product-info {
-    display: block;
-    padding-left: 15px;
+    padding-left: 10px;
 }
 
 .giftmessages .numeration

@@ -64,6 +64,11 @@ class Mage_Adminhtml_Block_Giftmessage_Helper extends Mage_Adminhtml_Block_Widge
         return $this->getEntity()->getGiftMessageId() > 0;
     }
 
+    public function getMessage()
+    {
+        return $this->helper('giftmessage/message')->getGiftMessage($this->getEntity()->getGiftMessageId());
+    }
+
     public function setScriptIncluded($value)
     {
         self::$_scriptIncluded = $value;

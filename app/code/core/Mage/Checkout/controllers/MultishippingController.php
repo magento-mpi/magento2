@@ -216,9 +216,9 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         $shippingMethods = $this->getRequest()->getPost('shipping_method');
         try {
+            Mage::dispatchEvent('checkout_controller_multishipping_shipping_post', array('request'=>$this->getRequest()));
             $this->_getCheckout()->setShippingMethods($shippingMethods);
             $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_BILLING);
-            Mage::dispatchEvent('checkout_controller_multishipping_shipping_post', array('request'=>$this->getRequest()));
             $this->_redirect('*/*/billing');
         }
         catch (Exception $e){

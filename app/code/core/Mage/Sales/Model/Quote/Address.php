@@ -21,11 +21,11 @@
 /**
  * Quote address  model
  */
-class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstract 
+class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstract
 {
 	const RATES_FETCH = 1;
 	const RATES_RECALCULATE = 2;
-    
+
 	/**
 	 * Quote object
 	 *
@@ -59,7 +59,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     {
         return $this->_quote;
     }
-    
+
     /**
      * Import quote address data from customer address object
      *
@@ -86,7 +86,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         ;
         return $this;
     }
-    
+
     /**
      * Export data to customer address object
      *
@@ -110,7 +110,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
         return $address;
     }
-    
+
     /**
      * Convert object to array
      *
@@ -127,9 +127,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         return $arr;
     }
-    
+
 /*********************** ITEMS ***************************/
-    
+
     /**
      * Retrieve address items collection
      *
@@ -164,6 +164,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 if ($aItem->isDeleted()) {
                     continue;
                 }
+
                 if (!$aItem->getQuoteItemImported()) {
                     if ($qItem = $this->getQuote()->getItemById($aItem->getQuoteItemId())) {
                         $aItem->importQuoteItem($qItem);
@@ -241,7 +242,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
 
 /*********************** SHIPPING RATES ***************************/
-    
+
     /**
      * Retrieve collection of quote shipping rates
      *
@@ -263,7 +264,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         return $this->_rates;
     }
-    
+
     /**
      * Retrieve all address shipping rates
      *
@@ -279,7 +280,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         return $rates;
     }
-    
+
     /**
      * Retrieve all grouped shipping rates
      *
@@ -298,7 +299,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         return $rates;
     }
-    
+
     /**
      * Retrieve shipping rate by identifier
      *
@@ -314,7 +315,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         return false;
     }
-    
+
     /**
      * Retrieve shipping rate by code
      *
@@ -346,7 +347,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $this->getShippingRatesCollection()->addItem($rate);
         return $this;
     }
-    
+
     /**
      * Collecting shipping rates by address
      *
@@ -373,17 +374,17 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());
         $request->setPackageQty($this->getItemQty());
-        
+
         /**
          * Store and website identifiers need specify from quote
          */
         /*$request->setStoreId(Mage::app()->getStore()->getId());
         $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());*/
-        
+
         $request->setStoreId($this->getQuote()->getStore()->getId());
         $request->setWebsiteId($this->getQuote()->getStore()->getWebsiteId());
         $request->setFreeShipping($this->getFreeShipping());
-        
+
         $result = Mage::getModel('shipping/shipping')
             ->collectRates($request)
                 ->getResult();
@@ -516,7 +517,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $this;
     }
 
-    
+
     public function getName()
     {
     	return $this->getFirstname().' '.$this->getLastname();

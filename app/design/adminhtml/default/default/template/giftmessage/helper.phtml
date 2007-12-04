@@ -46,7 +46,20 @@
     <?break;?>
 <?case 'main':?>
         <?if($this->hasGiftMessage()):?>
-        <?=$this->helper('giftmessage/message')->getEscapedGiftMessage($this->getEntity());?><br />
+            <?if($_giftMessage=$this->getMessage()):?>
+            <span class="field-row">
+                <label><?=$this->__('From')?></label>
+                <?=$this->htmlEscape($_giftMessage->getSender())?>
+            </span>
+            <span class="field-row">
+                <label><?=$this->__('To')?></label>
+                <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+            </span>
+            <span class="field-row">
+                <label><?=$this->__('Message')?></label>
+                <pre  class="left"><?=$this->htmlEscape($_giftMessage->getMessage())?></pre>
+            </span>
+            <?endif;?>
         <?=$this->getWidgetButtonHtml($this->__('Edit'), 'edit')?>
         <?else:?>
         <?=$this->getWidgetButtonHtml($this->__('Add'), 'add')?>
@@ -54,7 +67,22 @@
     <?break;?>
 <?case 'order':?>
         <?if($this->hasGiftMessage()):?>
-        <?=$this->helper('giftmessage/message')->getEscapedGiftMessage($this->getEntity());?><br />
+            <?if($_giftMessage=$this->getMessage()):?>
+
+            <span class="field-row">
+                <label><?=$this->__('From')?></label>
+                <?=$this->htmlEscape($_giftMessage->getSender())?>
+            </span>
+            <span class="field-row">
+                <label><?=$this->__('To')?></label>
+                <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+            </span>
+            <span class="field-row">
+                <label><?=$this->__('Message')?></label>
+                <pre class="left"><?=$this->htmlEscape($_giftMessage->getMessage())?></pre>
+            </span>
+
+            <?endif;?>
         <?=$this->getWidgetButtonHtml($this->__('Edit'), 'edit')?>
         <?else:?>
         <?=$this->getWidgetButtonHtml($this->__('Add'), 'add')?>

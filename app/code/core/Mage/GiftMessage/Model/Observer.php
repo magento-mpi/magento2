@@ -29,7 +29,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
 {
     public function checkoutEventSetShippingItems($observer)
     {
-        foreach($observer->getEvent()->getQuote()->getAllShippingAddresses() as $address) {
+        /*foreach($observer->getEvent()->getQuote()->getAllShippingAddresses() as $address) {
             foreach ($address->getItemsCollection() as $item) {
                 if($item->getGiftMessageId()) {
                     $message = Mage::getModel('giftmessage/message')->load($item->getGiftMessageId());
@@ -39,7 +39,9 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
                     $item->save();
                 }
             }
-        }
+        } Not needed */
+
+
         return $this;
     }
 
@@ -88,7 +90,6 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
                 $giftMessage = Mage::getModel('giftmessage/message');
                 $entity = $giftMessage->getEntityModelByType($message['type'])->load($entityId);
 
-
                 if($entity->getGiftMessageId()) {
                     $giftMessage->load($entity->getGiftMessageId());
                 }
@@ -113,6 +114,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
 
                     $entity->setGiftMessageId($giftMessage->getId())
                         ->save();
+
                 }
                 catch (Exception $e) { }
             }

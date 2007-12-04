@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Order create data
  *
@@ -27,12 +27,12 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/data.phtml');
     }
-    
+
     protected function _prepareLayout()
     {
         $childNames = array(
@@ -47,14 +47,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
             'search',
             'items',
             'comment',
-            'totals'
+            'totals',
+            'giftmessage'
         );
 
         foreach ($childNames as  $name) {
             $this->setChild($name, $this->getLayout()->createBlock('adminhtml/sales_order_create_' . $name));
         }
         return parent::_prepareLayout();
-    }    
+    }
 
     /**
      * Retrieve avilable currency codes
@@ -66,7 +67,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
         $codes = $this->getStore()->getAvailableCurrencyCodes();
         return $codes;
     }
-    
+
     /**
      * Retrieve curency name by code
      *
@@ -77,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
     {
         return Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
     }
-    
+
     /**
      * Retrieve current order currency code
      *

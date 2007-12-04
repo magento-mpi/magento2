@@ -137,13 +137,18 @@
     </div>
     <div class="clear"></div>
     <?if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $this->getOrder(), $this->getOrder()->getStoreId())):?>
-    <div class="box-left">
-    <div class="entry-view">
-        <h4><?=__('Gift Message')?></h4>
-        <div class="box customer-personal-brief">
-        <?=$this->helper('giftmessage/message')->getAdminButton('order', $this->getOrder(), $this->getOrder()->getStoreId());?>
+    <div>
+        <div id="order:gift_message">
+        <div class="entry-edit">
+            <div>
+            <h4 class="fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
+            <div class="clear"></div>
+            </div>
+            <fieldset>
+                <?=$this->helper('giftmessage/message')->getAdminButton('order', $this->getOrder(), $this->getOrder()->getStoreId());?>
+            </fieldset>
         </div>
-    </div>
+        </div>
     </div>
     <div class="clear"></div>
     <?endif;?>
