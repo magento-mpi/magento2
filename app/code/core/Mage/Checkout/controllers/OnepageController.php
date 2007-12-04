@@ -48,6 +48,17 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         return $output;
     }
 
+    protected function _getAdditionalHtml()
+    {
+        $layout = $this->getLayout();
+        $update = $layout->getUpdate();
+        $update->load('checkout_onepage_additional');
+        $layout->generateXml();
+        $layout->generateBlocks();
+        $output = $layout->getOutput();
+        return $output;
+    }
+
     /**
      * Enter description here...
      *
@@ -118,6 +129,11 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         Mage::dispatchEvent('checkout_onepage_controller_success_action');
         $this->renderLayout();
+    }
+
+    public function getAdditionalAction()
+    {
+        $this->getResponse()->setBody($this->_getAdditionalHtml());
     }
 
     /**

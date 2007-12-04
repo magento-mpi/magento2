@@ -46,7 +46,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
 
-    public function getInline($type, Varien_Object $entity)
+    public function getInline($type, Varien_Object $entity, $dontDisplayContainer=false)
     {
         if (!$this->isMessagesAviable($type, $entity)) {
             return '';
@@ -54,7 +54,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 
         return Mage::getSingleton('core/layout')->createBlock('giftmessage/message_inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
-            ->setCanDisplayContainer(true)
+            ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)
             ->setType($type)->toHtml();
     }

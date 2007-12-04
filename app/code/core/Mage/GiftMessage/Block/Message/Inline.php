@@ -113,6 +113,11 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
         return $this->getData('items');
     }
 
+    public function getAdditionalUrl()
+    {
+        return $this->getUrl('*/*/getAdditional');
+    }
+
     public function isItemsAviable()
     {
         return count($this->getItems()) > 0;

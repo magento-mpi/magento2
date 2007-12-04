@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<?if(!$this->getDontDisplayContainer()):?>
 <script type="text/javascript">
 <!--
 if(!window.toogleVisibilityOnObjects) {
@@ -64,9 +65,25 @@ if(!window.toogleRequired) {
 
         }
     }
+
+
+    shipping.onSave = function(evt){
+        new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
+              this.nextStep(evt);
+              alert('yes');
+        }.bind(this), evalScripts:true});
+    }.bindAsEventListener(shipping);
+
+    billing.onSave = function(evt){
+        new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
+              this.nextStep(evt);
+        }.bind(this), evalScripts:true});
+    }.bindAsEventListener(billing);
 }
+
 //-->
 </script>
+<?endif?>
 <div class="giftmessages">
 <?switch ($this->getType()):?>
 <?case 'onepage_checkout':?>
@@ -113,7 +130,6 @@ if(!window.toogleRequired) {
              <p><?=$this->__('You can leave a box blank if you don\'t wish to add a gift message for the item.')?></p>
              <?foreach($this->getItems() as $_index=>$_item):?>
              <?$_product=$_item->getProduct()?>
-             <div class="clear"></div>
                <div class="left">
                     <img width="75" class="product-image" src="<?=$this->helper('checkout')->getQuoteItemProductImageUrl($_item);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
                     <span class="numeration"><?=$this->__('Item %d of %d', $_index+1, $this->countItems())?></span>
