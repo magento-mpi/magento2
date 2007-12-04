@@ -59,11 +59,11 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 //        $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
 
         }
-
         $parentArr = array();
         $i = sizeof($parent->children());
         $sortOrder = 0;
         foreach ($parent->children() as $childName=>$child) {
+ 
             $i--;
 			$aclResource = 'admin/'.$path.$childName;
         	if (!$this->_checkAcl($aclResource)) {
@@ -78,8 +78,16 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
             $menuArr['label'] = __((string)$child->title);
             $menuArr['title'] = __((string)$child->title);
+            
 
-            $menuArr['sort_order'] = $child->sort_order ? (int)$child->sort_order : $sortOrder;
+            $attributes=$child->attributes();
+            if (!isset($menuArr['sort_order'])) {
+                if (isset($attributes['sort'])) {
+                    $menuArr['sort_order'] = (string)$attributes['sort'];
+                } else {
+                    $menuArr['sort_order'] = $child->sort_order ? (int)$child->sort_order : $sortOrder;
+                }
+            }
 
             if ($child->action) {
                 $menuArr['url'] = $this->_url->getUrl((string)$child->action);

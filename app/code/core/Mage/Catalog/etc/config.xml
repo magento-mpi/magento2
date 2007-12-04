@@ -177,7 +177,7 @@
    </global>
    <adminhtml>
     <menu>
-      <catalog>
+      <catalog sort="3">
                 <title>Catalog</title>
                 <!--action>adminhtml/catalog</action-->
                 <depends><module>Mage_Catalog</module></depends>
@@ -237,7 +237,7 @@
                     </datafeed>-->
                 </children>
              </catalog>
-             <promo>
+             <promo sort="5">
                 <children>
                  <catalog>
                         <title>Catalog Price Rules</title>

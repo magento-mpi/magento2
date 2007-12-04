@@ -87,10 +87,9 @@
     <adminhtml>
         <menu>
         <catalog>
-                
                 <children>
                     <reviews_ratings>
-                        <title>Reviews  Ratings</title>
+                        <title>Reviews &amp;amp; Ratings</title>
                         <children>
                             <reviews>
                                 <title>Customer Reviews</title>
@@ -114,7 +113,7 @@
                     
                 </children>
              </catalog>
-        <report>
+        <report sort="8">
             <children>
             <review>
                         <title>Reviews Report</title>

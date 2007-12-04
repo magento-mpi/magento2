@@ -79,7 +79,7 @@
     </global>
     <adminhtml>
         <menu>
-        <customer>
+            <customer sort="4">
                 <title>Customers</title>
                 <!-- action>adminhtml/customer/</action -->
                 <depends><module>Mage_Customer</module></depends>

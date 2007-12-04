@@ -109,12 +109,12 @@
         </modules>
       </translate>
       <menu>
-            <dashboard>
+            <dashboard sort="1">
                 <title>Dashboard</title>
                 <action>*/dashboard</action>
              </dashboard>
 
-             <system>
+             <system sort="9">
                 <title>System</title>
                 <sort_order>99</sort_order>
                 <!-- action>adminhtml/system</action -->
@@ -187,6 +187,56 @@
                     </config>
                 </children>
              </system>
+             <cms sort="6">
+                <title>CMS</title>
+                <children>
+                    <page>
+                        <title>Manage Pages</title>
+                        <action>*/cms_page</action>
+                    </page>
+                    <block>
+                        <title>Static Blocks</title>
+                        <action>*/cms_block</action>
+                    </block>
+                    <poll>
+                        <title>Poll Manager</title>
+                        <action>*/poll</action>
+                    </poll>
+                    <!--<config>
+                        <title>Configuration</title>
+                        <action>*/cms_config/</action>
+                        <resource>cms/config</resource>
+                    </config>-->
+                </children>
+             </cms>
+             <customerCommunication sort="7">
+                <title>Customer Communication</title>
+                <children>
+                     <alert>
+		                <title>Product Alerts</title>
+		                <depends><module>Mage_CustomerAlert</module></depends>
+		                <children>
+		                   <!--  <template>
+		                        <title>Alerts Templates</title>
+		                        <action>*/alert_template/</action>
+		                        <resource>admin/alert/template</resource>
+		                    </template>
+		                    -->
+		                    <queue>
+		                        <title>Alerts Queue</title>
+		                        <action>*/alert_queue/</action>
+		                        <resource>admin/alert/queue</resource>
+		                    </queue>
+		                    <!--  <problem>
+		                        <title>Newsletter Problem Reports</title>
+		                        <action>*/newsletter_problem/</action>
+		                        <resource>admin/newsletter/problem</resource>
+		                    </problem>
+		                    -->
+		                </children>
+		             </alert>
+                </children>
+             </customerCommunication>
         </menu>
    </adminhtml>
 </config>

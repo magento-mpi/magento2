@@ -55,7 +55,7 @@
    </global>
    <adminhtml>
     <menu>
-    <report>
+    <report sort="8">
                 <title>Reports</title>
                 <children>
                 <!--
