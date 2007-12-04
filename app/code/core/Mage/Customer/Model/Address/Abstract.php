@@ -25,6 +25,11 @@
  */
 class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
 {
+    public function getName()
+    {
+    	return $this->getFirstname().' '.$this->getLastname();
+    }
+    
     /**
      * get address street
      *
@@ -104,21 +109,44 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         $this->setStreet($this->getData('street'));
         return $this;
     }
-
+    
+    /**
+     * Retrieve region name
+     *
+     * @return string
+     */
     public function getRegion()
     {
-    	if ($this->getData('region_id') && !$this->getData('region')) {
-    		$this->setData('region', Mage::getModel('directory/region')->load($this->getData('region_id'))->getName());
+        $regionId = $this->getData('region_id');
+        $region   = $this->getData('region');
+        
+        if (is_string($region)) {
+    	    $this->setData('region', $region);
     	}
+        elseif (!$regionId && is_numeric($region)) {
+            $model = Mage::getModel('directory/region')->load($region);
+            if ($model->getCountryId() == $this->getCountryId()) {
+                $this->setData('region', $model->getName());
+                $this->setData('region_id', $region);
+            }
+        }
+    	elseif ($regionId && !$region) {
+    	    $model = Mage::getModel('directory/region')->load($regionId);
+    	    if ($model->getCountryId() == $this->getCountryId()) {
+    	        $this->setData('region', $model->getName());
+    	    }
+    	}
+
     	return $this->getData('region');
     }
 
     public function getCountry()
     {
-    	if ($this->getData('country_id') && !$this->getData('country')) {
+    	/*if ($this->getData('country_id') && !$this->getData('country')) {
     		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
     	}
-    	return $this->getData('country');
+    	return $this->getData('country');*/
+    	return $this->getCountryId();
     }
 
     public function getHtmlFormat()

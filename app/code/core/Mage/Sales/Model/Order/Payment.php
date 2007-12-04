@@ -84,7 +84,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
             if ($method) {
                 $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getMethod() . '/title').'</p>';
                 $method->setPayment($this);
-                $methodBlock = $method->createInfoBlock('payment.method.'.$this->getMethod());
+                $methodBlock = $method->createInfoBlock('payment.method.'.$this->getMethod().'.order.inline');
                 if (!empty($methodBlock)) {
                     $html .= $methodBlock->toHtml();
                 }

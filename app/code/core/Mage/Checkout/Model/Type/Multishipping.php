@@ -147,7 +147,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     	$addressId = isset($data['address']) ? (int) $data['address'] : false;
     	$quoteItem = $this->getQuote()->getItemById($quoteItemId);
 
-    	if ($addressId) {
+    	if ($addressId && $quoteItem) {
     	    $quoteItem->setMultisippingQty((int)$quoteItem->getMultisippingQty()+$qty);
     	    $quoteItem->setQty($quoteItem->getMultisippingQty());
 

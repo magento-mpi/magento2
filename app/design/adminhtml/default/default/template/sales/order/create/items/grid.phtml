@@ -64,7 +64,7 @@
                                 <?=$_item->getName()?>
                                 <?if($_item->getMessage()):?>
                                 <div class="<?if($_item->getHasError()):?>error<?else:?>notice<?endif;?>">
-                                    <?=$_item->getMessage()?>
+                                    <div style="font-size:95%"><?=$_item->getMessage()?></div>
                                 </div>
                                 <?endif;?>
                             </td>

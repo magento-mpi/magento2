@@ -71,13 +71,13 @@
                 </a>
             </td>
             <td class="attributes-col">
-                <?if($_item->getMessage()):?>
-                <div class="shopping-cart-item-message <?if($_item->getHasError()):?>error<?else:?>notice<?endif;?>">
-                    <?=$_item->getMessage()?>
-                </div>
-                <?endif;?>
                 <a href="<?=$this->getItemUrl($_item)?>"><strong><?=$this->getItemName($_item)?></strong></a>
                 <?=$this->getItemDescription($_item)?>
+                <?if($_item->getMessage()):?>
+                <div style="font-size:95%;margin-top:6px;" class="shopping-cart-item-message <?if($_item->getHasError()):?>error<?else:?>notice<?endif;?>">
+                    * <?=$_item->getMessage()?>
+                </div>
+                <?endif;?>
             </td>
             <td class="a-center">
                 <a href="<?=$this->getItemDeleteUrl($_item)?>">

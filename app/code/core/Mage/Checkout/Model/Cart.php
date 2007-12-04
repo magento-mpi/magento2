@@ -177,7 +177,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             $this->getCheckoutSession()->setUseNotice(true);
             Mage::throwException(__('Please specify the product option(s)'));
         }
-
+        
+        $added = false;
         foreach($product->getSuperGroupProductsLoaded() as $productLink) {
             if(isset($groupedProducts[$productLink->getLinkedProductId()])) {
                 $qty =  $groupedProducts[$productLink->getLinkedProductId()];
@@ -187,8 +188,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                         ->setSuperProduct($product);
 
                     $this->getQuote()->addCatalogProduct($subProduct, $qty);
+                    $added = true;
                 }
             }
+        }
+        if (!$added) {
+            Mage::throwException(__('Please specify the product(s) quantity'));
         }
         return $this;
     }
