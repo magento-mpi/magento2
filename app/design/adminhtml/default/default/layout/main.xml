@@ -114,6 +114,15 @@ Base preview layout (?)
     </preview>
 
 <!--
+Base customer alerts preview layout (?)
+-->
+
+    <alert_preview>
+        <block type="core/template" name="root" output="toHtml" template="alert/template/preview.phtml">
+            <block type="adminhtml/alert_template_preview" name="content" as="content"></block>
+        </block>
+    </alert_preview>
+<!--
 Base preview layout
 -->
 
