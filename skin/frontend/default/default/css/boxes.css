@@ -166,6 +166,7 @@ p.required {
 /********************** Messages  */
 .success { color:#3d6611; }
 .error { color:#df280a; }
+.notice {color:#e26703;}
 .success, .error { font-weight:bold; }
 .error-msg, .success-msg, .notice-msg, .note-msg {
     min-height:23px !important;
@@ -939,6 +940,7 @@ h1#logo {
 .shopping-cart  { margin-bottom:0; }
 .shopping-cart th, .shopping-cart td { padding-left:13px; padding-right:13px; }
 .shopping-cart tr.error { background:#FDE6E0 !important; }
+.shopping-cart-item-message {margin-bottom:5px}
 td.attributes-col { line-height:1.4em; }
 td.attributes-col ul { margin:5px 0; font-size:.95em;}
 td.attributes-col dt {

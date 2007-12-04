@@ -28,9 +28,10 @@
 <div class="page-head-alt button-level">
     <h3><?=$this->__('Shopping Cart')?></h3>
     <?if(!$this->hasError()):?>
-    <a href="<?=$this->getCheckoutUrl()?>"><img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=$this->__('Proceed to Checkout')?>"/></a>
+    <a href="<?=$this->getCheckoutUrl()?>">
+        <img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=$this->__('Proceed to Checkout')?>"/>
+    </a>
     <?endif;?>
-    <!--<a class="img-btn btn-checkout" href="<?=$this->getCheckoutUrl()?>"><span><?=__('Proceed to Checkout')?></span></a>-->
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getUrl('checkout/cart/updatePost')?>" method="post">
@@ -63,24 +64,40 @@
     </tfoot>
     <tbody>
     <?foreach($this->getItems() as $_item):?>
-        <tr <?if($_item->getHasError()):?>class="error"<?endif;?>>
+        <tr>
             <td>
-                <a href="<?=$this->getItemUrl($_item)?>"><img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/></a>
+                <a href="<?=$this->getItemUrl($_item)?>">
+                    <img src="<?=$this->getItemImageUrl($_item)?>" alt="<?=$this->htmlEscape($this->getItemName($_item))?>" width="75"/>
+                </a>
             </td>
             <td class="attributes-col">
                 <?if($_item->getMessage()):?>
-                    <?=$_item->getMessage()?><br />
+                <div class="shopping-cart-item-message <?if($_item->getHasError()):?>error<?else:?>notice<?endif;?>">
+                    <?=$_item->getMessage()?>
+                </div>
                 <?endif;?>
                 <a href="<?=$this->getItemUrl($_item)?>"><strong><?=$this->getItemName($_item)?></strong></a>
                 <?=$this->getItemDescription($_item)?>
             </td>
-            <td class="a-center"><a href="<?=$this->getItemDeleteUrl($_item)?>"><img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/></td>
+            <td class="a-center">
+                <a href="<?=$this->getItemDeleteUrl($_item)?>">
+                    <img src="<?=$this->getSkinUrl('images/btn_trash.gif')?>" width="16" height="16" alt="Remove item"/>
+                </a>
+            </td>
             <?if($this->isWishlistActive()):?>
-            <td class="a-center"><input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][wishlist]"/></td>
+            <td class="a-center">
+                <input type="checkbox" value="1" name="cart[<?=$_item->getId()?>][wishlist]"/>
+            </td>
             <?endif?>
-            <td class="a-right"><?=$this->helper('checkout')->formatPrice($_item->getCalculationPrice())?></td>
-            <td class="a-center"><input name="cart[<?=$_item->getId()?>][qty]" value="<?=$this->getItemQty($_item)?>" size="2" class="input-text qty" maxlength="12"/></td>
-            <td class="a-right"><?=$this->helper('checkout')->formatPrice($_item->getRowTotal())?></td>
+            <td class="a-right">
+                <?=$this->helper('checkout')->formatPrice($_item->getCalculationPrice())?>
+            </td>
+            <td class="a-center">
+                <input name="cart[<?=$_item->getId()?>][qty]" value="<?=$this->getItemQty($_item)?>" size="2" class="input-text qty" maxlength="12"/>
+            </td>
+            <td class="a-right">
+                <?=$this->helper('checkout')->formatPrice($_item->getRowTotal())?>
+            </td>
         </tr>
     <?endforeach?>
     </tbody>

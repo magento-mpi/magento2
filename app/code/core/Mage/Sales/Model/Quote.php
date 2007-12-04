@@ -452,7 +452,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * Adding catalog product object data to quote
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @return  unknown
+     * @return  Mage_Sales_Model_Quote_Item
      */
     public function addCatalogProduct(Mage_Catalog_Model_Product $product, $qty=1)
     {
@@ -696,5 +696,35 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         $this->getResource()->loadByCustomerId($this, $customerId);
         return $this;
+    }
+    
+    public function addMessage($message, $index='error')
+    {
+        $messages = $this->getData('messages');
+        if (is_null($messages)) {
+            $messages = array();
+        }
+        
+        if (isset($messages[$index])) {
+            return $this;
+        }
+        
+        if (is_string($message)) {
+            $message = Mage::getSingleton('core/message')->error($message);
+        }
+        
+        $messages[$index] = $message;
+        $this->setData('messages', $messages);
+        return $this;
+    }
+    
+    public function getMessages()
+    {
+        $messages = $this->getData('messages');
+        if (is_null($messages)) {
+            $messages = array();
+            $this->setData('messages', $messages);
+        }
+        return $messages;
     }
 }

@@ -103,6 +103,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         		->setCollectShippingRates(false)
         		->removeAllShippingRates();
         }
+        
+        foreach ($this->getQuote()->getMessages() as $message) {
+            if ($message) {
+                $this->getCheckoutSession()->addMessage($message);
+            }
+        }
 
         return $this;
     }
@@ -149,7 +155,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _addSimpleProduct(Mage_Catalog_Model_Product $product, $qty)
     {
-        $this->getQuote()->addCatalogProduct($product, $qty);
+        $item = $this->getQuote()->addCatalogProduct($product, $qty);
+        if ($item->getHasError()) {
+            Mage::throwException($item->getMessage());
+        }
         return $this;
     }
 
@@ -198,7 +207,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 ->load($subProductId)
                 ->setSuperProduct($product);
 
-            $this->getQuote()->addCatalogProduct($subProduct, $qty);
+            $item = $this->getQuote()->addCatalogProduct($subProduct, $qty);
+            if ($item->getHasError()) {
+                Mage::throwException($item->getMessage());
+            }
         }
         else {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());

@@ -504,14 +504,11 @@ abstract class Mage_Core_Controller_Varien_Action
     {
         $defaultUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
         $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
-        if (empty($refererUrl)) {
-            $refererUrl = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL);
+        if ($url = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL)) {
+            $refererUrl = $url;
         }
-        if (empty($refererUrl)) {
-            $refererUrl = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
-            if (!empty($refererUrl)) {
-                $refererUrl = base64_decode($refererUrl);
-            }
+        if ($url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
+            $refererUrl = base64_decode($url);
         }
         if (empty($refererUrl)) {
             $refererUrl = $defaultUrl;

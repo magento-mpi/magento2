@@ -45,6 +45,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         if ($this->getHasError()) {
             $quote->setHasError(true);
         }
+        $quote->addMessage($this->getQuoteMessage(), $this->getQuoteMessageIndex());
         return $this;
     }
 
@@ -87,11 +88,14 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     public function setQty($qty)
     {
-        $qty = $this->_prepareQty($qty);
+        $qty    = $this->_prepareQty($qty);
+        $oldQty = $this->getQty();
         $this->setData('qty', $qty);
         
         Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
-        
+        if ($this->getUseOldQty()) {
+            $this->setData('qty', $oldQty);
+        }
         return $this;
     }
 
