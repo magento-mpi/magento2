@@ -51,8 +51,10 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
      public function saveAction()
     {
         try {
+            $p = $this->getRequest()->getPost();
+            Mage::getSingleton('adminhtml/session')->setCustomExtensionPackageFormData($p);
             $ext = Mage::getModel('adminhtml/extension');
-            $ext->setData($this->getRequest()->getPost());
+            $ext->setData($p);
             if (!$ext->savePackage()){
 
             }

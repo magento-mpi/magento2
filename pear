@@ -7,7 +7,7 @@ if test "x$1" = "xmage-setup"; then
     if test "x$2" != "x"; then
         MAGE_DOOR_DIR="$2"
     else
-        MAGE_ROOT_DIR="."
+        MAGE_ROOT_DIR="`pwd`"
     fi
 
     MAGE_PEAR_ROOT_DIR=$MAGE_ROOT_DIR/lib/pear
@@ -52,23 +52,25 @@ fi
 if test "x$MAGE_PEAR_PHP_BIN" != "x"; then
   PHP="$MAGE_PEAR_PHP_BIN"
 else
-  PHP=/usr/local/bin/php
+  PHP=php
 fi
+
+MAGE_PEAR_ROOT_DIR="./lib/pear"
 
 # look for the right pear include dir
 if test "x$MAGE_PEAR_INSTALL_DIR" != "x"; then
   INCDIR=$MAGE_PEAR_INSTALL_DIR
   INCARG="-d include_path=$MAGE_PEAR_INSTALL_DIR"
 else
-  INCDIR="./lib/pear/php"
-  INCARG="-d include_path=./lib/pear/php"
+  INCDIR="$MAGE_PEAR_ROOT_DIR/php"
+  INCARG="-d include_path=$MAGE_PEAR_ROOT_DIR/php"
 fi
 
 # look for pear.ini file
 if test "x$MAGE_PEAR_INI" != "x"; then
   PEAR_INI=$MAGE_PEAR_INI
 else
-  PEAR_INI="./lib/pear/pear.ini"
+  PEAR_INI="$MAGE_PEAR_ROOT_DIR/pear.ini"
 fi
 
 exec $PHP -C -q $INCARG -d output_buffering=1 -d variables_order=EGPCS -d open_basedir="" -d safe_mode=0 -d register_argc_argv="On" -d auto_prepend_file="" -d auto_append_file="" $INCDIR/pearmage.php -c $PEAR_INI "$@"

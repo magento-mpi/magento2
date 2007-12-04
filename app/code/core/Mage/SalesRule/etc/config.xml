@@ -83,6 +83,21 @@
         </events>
     </global>
     <adminhtml>
+        <menu>
+             <promo>
+                <title>Promotions</title>
+                <!-- action>adminhtml/promo</action -->
+                <children>
+
+                    <quote>
+                        <title>Shopping Cart Price Rules</title>
+                        <action>*/promo_quote/</action>
+                        <resource>promo/quote</resource>
+                        <depends><module>Mage_Sales</module></depends>
+                    </quote>
+                </children>
+             </promo>
+        </menu>
         <translate>
             <modules>
                 <Mage_SalesRule>

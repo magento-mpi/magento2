@@ -55,13 +55,13 @@
          </adminhtml>
       </routers>
    </admin>
-   
+
    <frontend>
         <secure_url>
             <admin>/admin</admin>
         </secure_url>
    </frontend>
-   
+
    <adminhtml>
       <events>
          <controller_action_predispatch_admin>
@@ -113,55 +113,10 @@
                 <title>Dashboard</title>
                 <action>*/dashboard</action>
              </dashboard>
-             
-             <promo>
-                <title>Promotions</title>
-                <!-- action>adminhtml/promo</action -->
-                <children>
-                    
-                    <quote>
-                        <title>Shopping Cart Price Rules</title>
-                        <action>*/promo_quote/</action>
-                        <resource>promo/quote</resource>
-                        <depends><module>Mage_Sales</module></depends>
-                    </quote>
-                </children>
-             </promo>
-             <cms>
-                <title>CMS</title>
-                <children>
-                    <page>
-                        <title>Manage Pages</title>
-                        <action>*/cms_page</action>
-                    </page>
-                    <block>
-                        <title>Static Blocks</title>
-                        <action>*/cms_block</action>
-                    </block>
-                    <poll>
-                        <title>Poll Manager</title>
-                        <action>*/poll</action>
-                    </poll>
 
-                </children>
-             </cms>
-             
-             <alert>
-                <title>Product Alerts</title>
-                <depends><module>Mage_CustomerAlert</module></depends>
-                <children>
-
-                    <queue>
-                        <title>Alerts Queue</title>
-                        <action>*/alert_queue/</action>
-                        <resource>admin/alert/queue</resource>
-                    </queue>
-
-                </children>
-             </alert>
-             
              <system>
                 <title>System</title>
+                <sort_order>99</sort_order>
                 <!-- action>adminhtml/system</action -->
                 <children>
                     <myaccount>
@@ -170,12 +125,6 @@
                     </myaccount>
                     <tools>
                         <title>Tools</title>
-                        <children>
-                            <backup>
-                                <title>Backups</title>
-                                <action>*/system_backup</action>
-                            </backup>
-                        </children>
                     </tools>
                     <convert>
                         <title>Import/Export</title>

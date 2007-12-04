@@ -56,6 +56,28 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <menu>
+             <cms>
+                <title>CMS</title>
+                <children>
+                    <page>
+                        <title>Manage Pages</title>
+                        <action>*/cms_page</action>
+                    </page>
+                    <block>
+                        <title>Static Blocks</title>
+                        <action>*/cms_block</action>
+                    </block>
+                    <poll>
+                        <title>Poll Manager</title>
+                        <action>*/poll</action>
+                    </poll>
+
+                </children>
+             </cms>
+        </menu>
+    </adminhtml>
     <global>
         <models>
             <cms>

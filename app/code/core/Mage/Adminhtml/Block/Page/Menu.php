@@ -62,6 +62,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
         $parentArr = array();
         $i = sizeof($parent->children());
+        $sortOrder = 0;
         foreach ($parent->children() as $childName=>$child) {
             $i--;
 			$aclResource = 'admin/'.$path.$childName;
@@ -77,6 +78,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
             $menuArr['label'] = __((string)$child->title);
             $menuArr['title'] = __((string)$child->title);
+
+            $menuArr['sort_order'] = $child->sort_order ? (int)$child->sort_order : $sortOrder;
 
             if ($child->action) {
                 $menuArr['url'] = $this->_url->getUrl((string)$child->action);
@@ -98,9 +101,18 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
                 $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/', $level+1);
             }
             $parentArr[$childName] = $menuArr;
+
+            $sortOrder++;
         }
 
+        uasort($parentArr, array($this, '_sortMenu'));
+
         return $parentArr;
+    }
+
+    protected function _sortMenu($a, $b)
+    {
+        return $a['sort_order']<$b['sort_order'] ? -1 : ($a['sort_order']>$b['sort_order'] ? 1 : 0);
     }
 
     protected function _checkDepends(Varien_Simplexml_Element $depends)

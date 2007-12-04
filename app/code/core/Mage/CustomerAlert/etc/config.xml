@@ -107,6 +107,21 @@
         </events>
     </global>
     <adminhtml>
+        <menu>
+             <alert>
+                <title>Product Alerts</title>
+                <depends><module>Mage_CustomerAlert</module></depends>
+                <children>
+
+                    <queue>
+                        <title>Alerts Queue</title>
+                        <action>*/alert_queue/</action>
+                        <resource>admin/alert/queue</resource>
+                    </queue>
+
+                </children>
+             </alert>
+        </menu>
         <events>
             <catalog_product_save_before>
                 <observers>
