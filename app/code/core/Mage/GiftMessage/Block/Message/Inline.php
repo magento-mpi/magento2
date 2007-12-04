@@ -141,6 +141,6 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
 
     public function getEscaped($value, $defaultValue='')
     {
-        return $this->htmlEscape(!empty($value) ? $value : $defaultValue);
+        return $this->htmlEscape(trim($value)!='' ? $value : $defaultValue);
     }
 } // Class Mage_GiftMessage_Block_Message_Inline End
