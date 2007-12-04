@@ -28,10 +28,18 @@
 
 class Mage_CustomerAlert_Model_Config
 {
+    protected $_alerts;
+    
+    public function __construct()
+    {
+        if(!$this->_alerts) {
+            $this->_alerts = Mage::getConfig()->getNode('global/customeralert/types')->asArray();
+        }
+    }
     
     public function getAlerts()
     {
-        return Mage::getConfig()->getNode('global/customeralert/types')->asArray();
+        return $this->_alerts;
     }
     
     public function isExistAlert($type)
@@ -43,7 +51,8 @@ class Mage_CustomerAlert_Model_Config
     public function getModelNameByType($type)
     {
         if($this->isExistAlert($type)){
-            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/model');
+            return $this->_alerts[$type]['model'];
+            #return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/model');
         }
         return false;
     }
@@ -51,7 +60,8 @@ class Mage_CustomerAlert_Model_Config
     public function getDefaultTemplateForAlert($type)
     {
         if($this->isExistAlert($type)){
-            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/default_email_template');
+            return $this->_alerts[$type]['default_email_template'];
+            #return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/default_email_template');
         }
         return false;
     }
@@ -67,7 +77,8 @@ class Mage_CustomerAlert_Model_Config
     public function getTemplateName($type)
     {
         if($this->isExistAlert($type)){
-            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/template');
+            return $this->_alerts[$type]['template'];
+            #return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/template');
         }
         return false;
     }
@@ -75,7 +86,8 @@ class Mage_CustomerAlert_Model_Config
     public function getTitleByType($type)
     {
         if($this->isExistAlert($type)){
-            return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/title');
+            return $this->_alerts[$type]['title'];
+            #return Mage::getConfig()->getNode('global/customeralert/types/'.$type.'/title');
         }
         return false;         
     }

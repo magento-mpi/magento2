@@ -374,7 +374,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function alertsGridAction()
     {
         $alertType = $this->getRequest()->getParam('type');
-        $alertModel = Mage::getModel('customeralert/config')->getAlertByType($alertType);
+        $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($alertType);
         $alertModel->setParamValues($this->getRequest()->getParams());
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$alertType,array('id'=>$alertType))
@@ -386,23 +386,28 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     
     public function addCustomersToAlertQueueAction()
     {
-        $alert = Mage::getModel('customeralert/config')->getAlerts();
-        $messages = array();
+        $alert = Mage::getSingleton('customeralert/config')->getAlerts();
+        $block = $this->getLayout()
+            ->createBlock('core/messages', 'messages'); 
+        $collection = $block
+            ->getMessageCollection();
         foreach ($alert as $key=>$val) {
             try {
-                Mage::getModel('customeralert/config')->getAlertByType($key)
+                if(Mage::getSingleton('customeralert/config')->getAlertByType($key)
                     ->setParamValues($this->getRequest()->getParams())
-                    ->addCustomersToAlertQueue();
-                Mage::getModel('adminhtml/session')->addSuccess(__('Customers for alert %s was successfuly added to queue', Mage::getModel('customeralert/config')->getTitleByType($key)));
+                    ->addCustomersToAlertQueue())
+                {
+                    $collection->addMessage(Mage::getModel('core/message')->success(__('Customers for alert %s was successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
+                } 
             } catch (Exception $e) {
-                Mage::getModel('adminhtml/session')->addError( __('Error while adding customers for %s alert. Message: %s',Mage::getModel('customeralert/config')->getTitleByType($key),$e->getMessage()));
+                $collection->addMessage(Mage::getModel('core/message')->error( __('Error while adding customers for %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
                 continue;
             }
         }
-        print $this->getLayout()->getMessagesBlock()->getGroupedHtml();
-        #print Zend_Json_Encoder::encode($messages);
+        print $block->getGroupedHtml();
         return $this;
     }
+    
 
     public function tagCustomerGridAction()
     {

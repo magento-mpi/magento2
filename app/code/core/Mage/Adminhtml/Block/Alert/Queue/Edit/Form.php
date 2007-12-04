@@ -110,6 +110,14 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
             'required' => true,
             'value' => $queue->getTemplate()->getTemplateSenderEmail()
         ));
+
+        $fieldset->addField('product', 'label', array(
+            'name'=>'product',
+            'label' => __('Product'),
+            'title' => __('Product'),
+            'value' => $queue->getProduct()->getName()
+        ));
+        
         if(in_array($queue->getQueueStatus(), array(Mage_CustomerAlert_Model_Queue::STATUS_NEVER, Mage_CustomerAlert_Model_Queue::STATUS_PAUSE))) {
             $fieldset->addField('text','editor', array(
                 'name'    =>    'text',
@@ -135,9 +143,6 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
             $form->getElement('subject')->setDisabled('true');
             $form->getElement('sender_name')->setDisabled('true');
             $form->getElement('sender_email')->setDisabled('true');
-            $form->getElement('stores')->setDisabled('true');
-            $form->getElement('stores')->setSelectAll();
-            $form->getElement('stores')->setDeselectAll();
         }
 
     /*

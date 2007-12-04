@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
     
     public function getAlerts()
     {
-        return Mage::getModel('customeralert/config')
+        return Mage::getSingleton('customeralert/config')
             ->getAlerts();
     }   
     
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
                 ->setId('alertsBlockId');
             $messages = array();
             foreach ($this->getAlerts() as $key=>$val) {
-                $alertModel = Mage::getModel('customeralert/config')->getAlertByType($key);
+                $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($key);
                 $alertModel->setParamValues($data);
                 $accordion->addItem($key, array(
                     'title'     => $val['label'],
@@ -72,8 +72,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
                         'onclick'   => "queue.add()",
                         'class'     => 'add'
                     )));
-        } else {
-            $messages[] = array('method'=>'error','label'=>__('No one store was selected.'));
         }
         $message = $this->getLayout()->createBlock('core/messages');
         foreach ($messages as $mess) {

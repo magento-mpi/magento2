@@ -101,13 +101,17 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     
     public function addAlert($check, $newValue = null, $oldValue = null)
     {
-        $alertCheck = Mage::getModel('customeralert/alert_check')
-                ->addData($this->getParamValues())
-                ->addData(array('new_value'=>$newValue,'old_value'=>$oldValue,'date'=>now()));     
-       if($check) {
-            $alertCheck->addAlert();
-        } else {
-            $alertCheck->removeAlert();
+        if($this->getStoreId()>0) {
+            $alertCheck = Mage::getModel('customeralert/alert_check')
+                    ->addData($this->getParamValues());
+            if($newValue || $oldValue) {    
+                $alertCheck->addData(array('new_value'=>$newValue,'old_value'=>$oldValue,'date'=>now()));
+            }     
+            if($check) {
+                $alertCheck->addAlert();
+            } else {
+                $alertCheck->removeAlert();
+            }
         }
         return $this;
     }
@@ -126,9 +130,15 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
             $customer = Mage::getResourceModel('customeralert/customer_collection')
                 -> setAlert ($this)
                 -> load();
+            if($customer) {
                 Mage::getModel('customeralert/queue')
-                    ->addCustomersToAlertQueue($customer, $this->getCheck()->addAlert());
+                    ->addCustomersToAlertQueue($customer, $this->getCheck()->addToQueue());
+                return true;
+            } else {
+                return false;
+            }
+                
         }
-        return $this;
+        return false;
     }
 }

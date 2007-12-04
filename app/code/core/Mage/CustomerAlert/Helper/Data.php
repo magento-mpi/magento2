@@ -45,10 +45,10 @@ class Mage_CustomerAlert_Helper_Data extends Mage_Core_Helper_Url
     	   'store_id'    => Mage::app()->getStore()->getId(),
     	
     	);
-        $nodes = Mage::getModel('customeralert/config')->getAlerts();
+        $nodes = Mage::getSingleton('customeralert/config')->getAlerts();
         foreach ($nodes as $key=>$val ){
             $alerts[$key] = array('label'=>$val['label']);
-            $alerts[$key]['checked'] = Mage::getModel('customeralert/config')
+            $alerts[$key]['checked'] = Mage::getSingleton('customeralert/config')
                 ->getAlertByType($key)
                 ->addData($data)
                 ->loadByParam()

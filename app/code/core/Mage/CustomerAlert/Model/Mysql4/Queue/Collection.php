@@ -37,11 +37,12 @@ class Mage_CustomerAlert_Model_Mysql4_Queue_Collection extends Mage_Newsletter_M
     }
     
     public function addTemplateInfo() {
-        $this->getSelect()->joinLeft(array('template'=>$this->getTable('core/email_template')),
-            'template.template_id=main_table.template_id',
-            array('template_subject','template_sender_name','template_sender_email'));
+        $this->getSelect()
+            ->joinLeft(array('template'=>$this->getTable('core/email_template')),
+                'template.template_id=main_table.template_id',
+                array('template_subject','template_sender_name','template_sender_email'));
+            
         $this->_joinedTables['template'] = true;
         return $this;
     }
-    
 }

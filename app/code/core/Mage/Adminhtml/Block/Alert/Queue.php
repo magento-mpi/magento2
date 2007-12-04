@@ -23,7 +23,7 @@
  * 
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Vasily Selivanov <vasily@varien.com>
  */ 
 
 class Mage_Adminhtml_Block_Alert_Queue extends Mage_Core_Block_Template 

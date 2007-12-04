@@ -55,7 +55,7 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
                 $data['product_id'] = $params['product_id'];
                 $data['store_id'] = Mage::app()->getStore()->getId();
                 try{
-                    Mage::getModel('customeralert/config')->getAlertByType($alertType)   
+                    Mage::getSingleton('customeralert/config')->getAlertByType($alertType)   
                                     ->addData($data)
                                     ->save();
                     Mage::getModel('catalog/session')->addSuccess(__('Alert subscription was saved successfuly.'));

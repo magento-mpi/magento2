@@ -141,7 +141,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
 
     public function getHeaderText()
     {
-        return ( $this->getIsPreview() ? __('View Newsletter') : __('Edit Newsletter'));
+        return ( $this->getIsPreview() ? __('View Customer Alert') : __('Edit Customer Alert'));
     }
 
 

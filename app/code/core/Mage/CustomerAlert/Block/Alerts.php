@@ -31,7 +31,7 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
     
     public function toHtml()
     {
-        $template = Mage::getModel('customeralert/config')->getTemplateName($this->_alertType);
+        $template = Mage::getSingleton('customeralert/config')->getTemplateName($this->_alertType);
         if($template) {
             $this->setTemplate('customeralert/'.$template.'.phtml');
         }
@@ -51,7 +51,7 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
     
     public function getAlertLabel()
     {
-        $alert = Mage::getModel('customeralert/config')->getAlerts();
+        $alert = Mage::getSingleton('customeralert/config')->getAlerts();
         if(isset($alert[$this->_alertType])){
             return $alert[$this->_alertType]['label'];             
         }
@@ -67,7 +67,7 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
         );
         
         
-        return Mage::getModel('customeralert/config')->getAlertByType($this->_alertType)
+        return Mage::getSingleton('customeralert/config')->getAlertByType($this->_alertType)
             ->addData($data)
             ->loadByParam()
             ->isChecked();

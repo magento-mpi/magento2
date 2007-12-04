@@ -26,7 +26,7 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Alert_Template extends Mage_Core_Block_Template
 {
     public function __construct()
     {
@@ -47,6 +47,6 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
     
     public function getHeaderText()
     {
-        return __('Newsletter Templates');
+        return __('Alert Templates');
     }
 }

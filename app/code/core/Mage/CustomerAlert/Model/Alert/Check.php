@@ -36,6 +36,7 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
     
     public function addAlert()
     {
+        $this->addData(array('status'=>'0'));
         $this->_prepareAlert();
         $this->save();
         return $this;
@@ -43,9 +44,17 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
     
     public function removeAlert()
     {
-        $this->prepareAlert();
+        $this->_prepareAlert();
         $this->delete();
-        $this->_alertHappen = false;
+        return $this;
+    }
+    
+    public function addToQueue()
+    {
+        $this->_prepareAlert();
+        $this->addData(array('status'=>1));
+        $this->save();
+        return $this;
     }
     
     protected function _prepareAlert()
@@ -62,7 +71,7 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         if($id){
             $this->setId($id);
         }
-        $this->addData($data);        
+        $this->addData($data);
     }
     
     public function loadByParam($fetch='fetchAll')
@@ -70,9 +79,12 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
         return $this->getResource()->loadByParam($this, $fetch);
     }
     
+    
     public function isAlertHappened()
     {
-        return $this->loadByParam('fetchOne');
+        return $this->addData(array('status'=>0))
+            ->loadByParam('fetchOne');
     }
+    
     
 }

@@ -55,6 +55,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Customers extends Mag
             'header' => __('Email'),
             'index'  => 'email',
         ));
+        
+        $this->addColumn('last_alert_sent', array(
+            'header' => __('Last Alert Sent'),
+            'index'  => 'last_alert_sent',
+            'type'   => 'datetime'
+            
+        ));
 
         return parent::_prepareColumns();
     }

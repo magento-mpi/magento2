@@ -50,10 +50,11 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
+        $this->addColumn('queue_id', array(
             'header'    =>  __('ID'),
-            'index'     =>  'queue_id',
-            'width'     =>  10
+            'index'     =>  'main_table.queue_id',
+            'width'     =>  10,
+            'getter'    =>  'getQueueId'
         ));
 
         $this->addColumn('start_at', array(

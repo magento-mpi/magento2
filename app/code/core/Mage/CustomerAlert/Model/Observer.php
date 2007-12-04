@@ -74,6 +74,7 @@ class Mage_CustomerAlert_Model_Observer
     
     public function catalogInventorySaveBefore($observer)
     {
+        
         $stockItem = $observer->getEvent()->getItem();
         $data = array(
             'product_id' => $stockItem->getProductId(),

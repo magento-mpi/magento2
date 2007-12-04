@@ -34,8 +34,11 @@ class Mage_CustomerAlert_Model_Mysql4_Customer_Collection extends Mage_Customer_
     {
         $this->_alert = $alert;
         $this->joinField('alerts','customer_product_alert','product_id','customer_id=entity_id',$this->_alert->getParamValues())
+            /*->joinField('check','customer_product_alert_check','id','product_id=alerts',$this->_alert->getParamValues(),'left')
+            ->joinField('last_alert_sent','customer_product_alert_queue','check_id','check_id=check',null,'left')*/
             ->addAttributeToSelect('*');
         return $this;
+        
     }
     
 

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CustomerAlert>
-            <version>0.1.5</version>
+            <version>0.1.6</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -80,7 +80,7 @@
             <types>
                 <price_is_changed translate="label title">
                     <model>customeralert/type_priceChanged</model>
-                    <label>Sign up to alert when product price changes.</label>
+                    <label>Sign up to alert when product price changed.</label>
                     <default_email_template>Product alert for changed price</default_email_template>
                     <template>priceIsChanged</template>
                     <title>price changed</title>
