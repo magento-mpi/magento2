@@ -50,6 +50,9 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
         if($this->getData('type')){
             $value['type'] = $this->getData('type');
         }
+        if($this->getData('customer_id')){
+            $value['customer_id'] = $this->getData('customer_id');
+        }
         return $value;
     }
     
