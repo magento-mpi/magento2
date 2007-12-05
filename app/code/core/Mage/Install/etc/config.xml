@@ -72,6 +72,11 @@
    </frontend>
    
    <install>
+      <layout>
+        <updates>
+            <main><file>main.xml</file></main>
+        </updates>
+      </layout>
       <events>
          <controller_action_predispatch>
             <observers>
