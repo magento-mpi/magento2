@@ -119,5 +119,35 @@
                 </children>
              </report>
         </menu>
+        <acl>
+        <resources>
+            <admin title="Magento Admin" >
+                <report title="Reports" >
+                    <coupons title="Coupons Reports" />
+                    <customers title="Best Customers" />
+                    <orders title="Recent Orders" />
+                    <products title="Products Report" />
+                    <review title="Reviews Report" >
+                        <customer title="Customers Reviews" />
+                        <product title="Products Reviews" />
+                    </review>
+                    <sales title="Sales Report" />
+                    <search title="Search Report" />
+                    <shopcart title="Shopping Cart Report" >
+                        <customer title="Customers" />
+                        <product title="Products" />
+                    </shopcart>
+                    <tags title="Tags Report" >
+                        <customer title="Customers" />
+                        <popular title="Popular" />
+                        <product title="Products" />
+                        <product_total title="Products (Total)" />
+                    </tags>
+                    <totals title="Order Totals" />
+                    <wishlist title="Wishlist Report" />
+                </report>
+            </admin>
+        </resources>    
+        </acl>
     </adminhtml>
 </config>

@@ -102,6 +102,17 @@
                 </children>
              </customer>
         </menu>
+        <acl>
+            <resources>
+                <admin title="Magento Admin" >
+                    <customer title="Customers" >
+                        <group title="Customer Groups" />
+                        <manage title="Manage Customers" />
+                        <online title="Online Customers" />
+                    </customer>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
     <frontend>
         <secure_url>

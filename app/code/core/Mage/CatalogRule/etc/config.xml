@@ -117,6 +117,16 @@
                 </children>
              </promo>
          </menu>
+         <acl>
+			<resources>
+            	<admin title="Magento Admin" >
+                    <promo title="Promotions" >
+                        <catalog title="Catalog Price Rules" />
+                        <quote title="Shopping Cart Price Rules" />
+                    </promo>
+            	</admin>
+			</resources>
+         </acl>
     </adminhtml>
     
     <crontab>

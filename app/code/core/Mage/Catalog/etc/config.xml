@@ -207,7 +207,34 @@
                 </children>
              </catalog>
         </menu>
+         <acl>
+    <resources>
+            <admin title="Magento Admin" >
+        <catalog title="Catalog" >
+                    <attributes title="Attributes" >
+                        <attributes title="Manage Attributes" />
+                        <sets title="Manage Attribute Sets" />
+                    </attributes>
+                    <categories title="Manage Categories" />
+                    <products title="Manage Products" />
+                    <reviews_ratings title="Reviews and Ratings" >
+                        <ratings title="Manage Ratings" />
+                        <reviews title="Customer Reviews" >
+                            <all title="All Reviews" />
+                            <pending title="Pending Reviews" />
+                        </reviews>
+                    </reviews_ratings>
+                    <search title="Search" />
+                    <tag title="Tags" >
+                        <all title="All Tags" />
+                        <pending title="Pending Tags" />
+                    </tag>
+                </catalog>
+                </admin>
+                </resources>
+       </acl>
    </adminhtml>
+
    <frontend>
       <routers>
          <catalog>

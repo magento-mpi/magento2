@@ -85,6 +85,17 @@
                 </children>
              </cms>
         </menu>
+        <acl>
+        <resources>
+            <admin title="Magento Admin" >
+            <cms title="CMS" >
+                    <block title="Static Blocks"/>
+                    <page title="Manage Pages" />
+                    <poll title="Poll Manager" />
+                </cms>
+            </admin>
+        </resources>  
+        </acl>
     </adminhtml>
     <global>
         <models>

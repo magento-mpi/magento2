@@ -97,12 +97,9 @@
             </customer_model_after_save>
         </events>
         <menu>
-             <customer_communication>
-                <title>Customer Communication</title>
-                <sort_order>70</sort_order>
-                <children>
                     <newsletter>
 		                <title>Newsletter</title>
+		                <sort_order>60</sort_order>
 		                <children>
 		                    <template>
 		                        <title>Newsletter Templates</title>
@@ -122,9 +119,18 @@
 		                    </problem>
 		                    </children>
                      </newsletter>
-                </children>
-             </customer_communication>
         </menu>
+        <acl>
+            <resources>
+                <admin title="Magento Admin" >
+                    <newsletter title="Newsletter" >
+	                   <problem title="Newsletter Problem Reports" />
+	                   <queue title="Newsletter Queue" />
+	                   <template title="Newsletter Templates" />
+	               </newsletter>
+	           </admin>
+	       </resources>     
+	    </acl>
         <translate>
             <modules>
                 <Mage_Newsletter>

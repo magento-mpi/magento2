@@ -188,12 +188,84 @@
                 </children>
              </system>
         </menu>
-          <layout>
-              <updates>
-                  <adminhtml>
-                      <file>main.xml</file>
-                  </adminhtml>
-              </updates>
-          </layout>
+        <acl>
+                 <resources>
+            <admin title="Magento Admin" >
+                <dashboard title="Dashboard" />
+                
+                
+                <system title="System" >
+                    <acl title="Permissions" >
+                        <roles title="Roles" />
+                        <users title="Users" />
+                    </acl>
+                    <config title="Configuration" >
+                        <website title="Website Section" />
+                        <store title="Store Section" />
+                        <general title="General Section" />
+                        <web title="Web Section" />
+                        <design title="Design Section" />
+                        <customer title="Customers Section" />
+                        <sales title="Sales Section" />
+                        <newsletter title="Newsletter Section" />
+                        <web_track title="Web Tracking Section" />
+                        <catalog title="Catalog Section" />
+                        <wishlist title="Wishlist Section" />
+                        <shipping title="Shipping Section" />
+                        <carriers title="Shipping Methods Section" />
+                        <payment title="Payment Methods Section" />
+                        <system title="System Section" />
+                        <advanced title="Advanced Section" />
+                        <trans_email title="Store Email Addresses Section" />
+                        <paypal title="PayPal Section" />
+                        <dev title="Developer Section" />
+                        <currency title="Currency Setup Section" />
+                        <allow title="Allowed Settings" />
+                        <sendfriend title="Email to a Friend" />
+                        <cataloginventory title="Inventory" />
+                    </config>
+                    <currency title="Manage Currency" />
+                    <email_template title="Transactional Emails" />
+                    <myaccount title="My Account" />
+                    <tools title="Tools" >
+                        <backup title="Backups" />
+                    </tools>
+                    <convert title="Import/Export">
+                        <gui title="GUI Profiles">
+                            <edit title="Create/Edit/Delete profiles"/>
+                            <run title="Run profiles"/>
+                        </gui>
+                        <profiles title="Advanced Profiles">
+                            <edit title="Create/Edit/Delete profiles"/>
+                            <run title="Run profiles"/>
+                        </profiles>
+                    </convert>
+                    <cache title="Cache Management"/>
+                    <extensions title="Extensions">
+                        <local title="Locally Installed"/>
+                        <remote title="Available Remote"/>
+                        <custom title="Custom Local"/>
+                    </extensions>
+                </system>
+                <global_search title="Global Search" />
+            </admin>
+         </resources>
+
+         <privilegeSets>
+            <default>
+               <view descr="View entity"/>
+               <edit descr="Edit entity"/>
+               <delete descr=""/>
+               <create descr=""/>
+            </default>
+         </privilegeSets>
+        </acl>
+        <layout>
+            <updates>
+                <adminhtml>
+                    <file>main.xml</file>
+                </adminhtml>
+            </updates>
+        </layout>
    </adminhtml>
 </config>

@@ -160,6 +160,23 @@
                 </children>
              </sales>
         </menu>
+        <acl>
+        <resources>
+            <admin title="Magento Admin" >
+        <sales title="Sales" >
+                    <invoice title="Invoices" />
+                    <order title="Orders" />
+                    <tax title="Tax" >
+                        <classes_customer title="Customer Tax Classes" />
+                        <classes_product title="Product Tax Classes" />
+                        <import_export title="Import / Export Tax Rates" />
+                        <rates title="Manage Tax Rates" />
+                        <rules title="Manage Tax Rules" />
+                    </tax>
+                </sales>
+                </admin>
+        </resources>  
+        </acl>
     </adminhtml>
 
 </config>
