@@ -79,10 +79,10 @@
     </global>
     <adminhtml>
         <menu>
-            <customer sort="4">
+            <customer>
                 <title>Customers</title>
+                <sort_order>40</sort_order>
                 <!-- action>adminhtml/customer/</action -->
-                <depends><module>Mage_Customer</module></depends>
                 <children>
                     <manage>
                         <title>Manage Customers</title>
@@ -136,5 +136,12 @@
                 </Mage_Customer>
             </modules>
         </translate>
+      <layout>
+          <updates>
+              <customer>
+                  <file>customer.xml</file>
+              </customer>
+          </updates>
+      </layout>
     </frontend>
 </config>

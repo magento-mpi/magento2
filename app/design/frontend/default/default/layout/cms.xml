@@ -25,15 +25,11 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <reference name="root">
 
-            <reference name="footer">
-                <reference name="footer_links">
-                    <action method="setBlockId"><block_id>footer_links</block_id></action>
-                </reference>
-            </reference>
+        <reference name="footer_links">
+            <action method="setBlockId"><block_id>footer_links</block_id></action>
+        </reference>
 
-        </block>
     </default>
 
 </layout>

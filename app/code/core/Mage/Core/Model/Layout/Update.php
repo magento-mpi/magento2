@@ -239,35 +239,67 @@ class Mage_Core_Model_Layout_Update
         return $this;
     }
 
+    public function fetchFileLayoutUpdates()
+    {
+        $elementClass = $this->getElementClass();
+
+        $design = Mage::getSingleton('core/design_package');
+        $area = $design->getArea();
+
+        $cacheKey = 'layout_'.$area.'_'.$design->getPackageName().'_'.$design->getTheme('layout');
+        $cacheTags = array('layout');
+
+        if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
+            $this->_packageLayout = simplexml_load_string($layoutStr, $elementClass);
+        }
+
+        if (empty($layoutStr)) {
+            $updatesRoot = Mage::app()->getConfig()->getNode($area.'/layout/updates');
+            $layoutStr = '';
+            #$layoutXml = new $elementClass('<layouts/>');
+            foreach ($updatesRoot->children() as $updateNode) {
+                if ($updateNode->file) {
+                    $filename = $design->getLayoutFilename((string)$updateNode->file);
+                    if (!is_readable($filename)) {
+                        continue;
+                    }
+                    $fileStr = file_get_contents($filename);
+                    $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
+                    $fileXml = simplexml_load_string($fileStr, $elementClass);
+                    $layoutStr .= $fileXml->innerXml();
+
+                    #$layoutXml->appendChild($fileXml);
+                }
+            }
+            $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>', $elementClass);
+
+            $this->_packageLayout = $layoutXml;
+
+            if (Mage::app()->useCache('layout')) {
+                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags);
+            }
+        }
+
+        return $this;
+    }
+
     public function fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout/package_update: '.$handle;
         Varien_Profiler::start($_profilerKey);
 
         if (empty($this->_packageLayout)) {
-            $mainFilename = Mage::getSingleton('core/design_package')->getLayoutFilename('main.xml');
-            if (!is_readable($mainFilename)) {
-                throw Mage::exception('Mage_Core', __('Package layout file (main.xml) could not be read.'));
-            }
-            $layoutStr = file_get_contents($mainFilename);
-            $layoutStr = str_replace($this->_subst['from'], $this->_subst['to'], $layoutStr);
-            $layoutXml = simplexml_load_string($layoutStr, $this->getElementClass());
-            if (!$layoutXml) {
-                throw Mage::exception('Mage_Core', __('Could not load default layout file'));
-            }
-            $this->_packageLayout = $layoutXml;
+            $this->fetchFileLayoutUpdates();
         }
+        foreach ($this->_packageLayout->$handle as $updateXml) {
+#echo '<textarea style="width:600px; height:400px;">'.$handle.':'.print_r($updateXml,1).'</textarea>';
+            $this->fetchRecursiveUpdates($updateXml);
 
-        if (!($updateXml = $this->_packageLayout->$handle)) {
-            Varien_Profiler::stop($_profilerKey);
-            return false;
+            $this->addUpdate($updateXml->innerXml());
         }
-
-        $this->fetchRecursiveUpdates($updateXml);
-
-        $this->addUpdate($updateXml->innerXml());
 
         Varien_Profiler::stop($_profilerKey);
+
         return true;
     }
 

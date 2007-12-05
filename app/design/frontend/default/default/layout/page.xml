@@ -37,7 +37,7 @@ Default layout, loads most of the pages
             <block type="page/html_header" name="header" as="header">
                 <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
                 <block type="page/html_toplinks" name="top.right.links" as="topRightLinks"/>
-                
+
                 <block type="core/text_list" name="top.menu" as="topMenu"/>
             </block>
 
@@ -50,15 +50,17 @@ Default layout, loads most of the pages
 
             <block type="core/text_list" name="content" as="content"/>
 
-            
+            <block type="core/text_list" name="right" as="right"/>
 
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
                 <block type="core/store_switcher" name="store_switcher" template="core/stores.phtml"/>
-                
+
             </block>
 
             <block type="core/text_list" name="before_body_end" as="before_body_end"/>
         </block>
+
+        <block type="core/profiler" output="toHtml"/>
     </default>
 
     <print>

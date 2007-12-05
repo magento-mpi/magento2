@@ -97,12 +97,12 @@
             </customer_model_after_save>
         </events>
         <menu>
-             <customerCommunication>
+             <customer_communication>
+                <title>Customer Communication</title>
+                <sort_order>70</sort_order>
                 <children>
                     <newsletter>
 		                <title>Newsletter</title>
-		                
-		                <depends><module>Mage_Newsletter</module></depends>
 		                <children>
 		                    <template>
 		                        <title>Newsletter Templates</title>
@@ -123,8 +123,17 @@
 		                    </children>
                      </newsletter>
                 </children>
-             </customerCommunication>
+             </customer_communication>
         </menu>
+        <translate>
+            <modules>
+                <Mage_Newsletter>
+                    <files>
+                        <default>Mage_Newsletter.csv</default>
+                    </files>
+                </Mage_Newsletter>
+            </modules>
+        </translate>
     </adminhtml>
     <frontend>
         <events>
@@ -156,16 +165,12 @@
                 </Mage_Newsletter>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <newsletter>
+                      <file>newsletter.xml</file>
+                  </newsletter>
+              </updates>
+          </layout>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Mage_Newsletter>
-                    <files>
-                        <default>Mage_Newsletter.csv</default>
-                    </files>
-                </Mage_Newsletter>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

@@ -85,5 +85,12 @@
                 </Mage_GoogleCheckout>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <googlecheckout>
+                      <file>googlecheckout.xml</file>
+                  </googlecheckout>
+              </updates>
+          </layout>
      </frontend>
 </config>

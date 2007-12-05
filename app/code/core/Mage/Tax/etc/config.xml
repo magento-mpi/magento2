@@ -21,13 +21,13 @@
 -->
 <config>
     <modules>
-    <Mage_Tax>
-        <version>0.6.1</version>
-        <depends>
-            <Mage_Catalog />
-            <Mage_Customer />
-        </depends>
-    </Mage_Tax>
+        <Mage_Tax>
+            <version>0.6.1</version>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Customer />
+            </depends>
+        </Mage_Tax>
     </modules>
     <global>
         <models>
@@ -80,4 +80,37 @@
             </tax_read>
         </resources>
     </global>
+    <adminhtml>
+        <menu>
+            <sales>
+                <children>
+                    <tax>
+                        <title>Tax</title>
+                        <children>
+                            <rules>
+                                <title>Manage Tax Rules</title>
+                                <action>*/tax_rule</action>
+                            </rules>
+                            <rates>
+                                <title>Manage Tax Rates</title>
+                                <action>*/tax_rate</action>
+                            </rates>
+                            <import_export>
+                                <title>Import / Export Tax Rates</title>
+                                <action>*/tax_rate/importExport</action>
+                            </import_export>
+                            <classes_customer>
+                                <title>Customer Tax Classes</title>
+                                <action>*/tax_class_customer</action>
+                            </classes_customer>
+                            <classes_product>
+                                <title>Product Tax Classes</title>
+                                <action>*/tax_class_product</action>
+                            </classes_product>
+                        </children>
+                    </tax>
+                </children>
+            </sales>
+        </menu>
+    </adminhtml>
 </config>

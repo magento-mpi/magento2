@@ -28,6 +28,12 @@ Default layout, loads most of the pages
 
     <default>
 
+        <reference name="top.right.links">
+            <block type="wishlist/links" name="wishlist_link">
+                <action method="addWishlistLink"></action>
+            </block>
+        </reference>
+
         <!-- Mage_Wishlist -->
         <reference name="right">
             <block type="wishlist/customer_sidebar" name="wishlist_sidebar" as="wishlist"  before="-" template="wishlist/sidebar.phtml"/>

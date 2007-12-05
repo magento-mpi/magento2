@@ -103,6 +103,20 @@
                 </observers>
             </catalog_product_get_final_price>
         </events>
+        <menu>
+             <promo>
+                <title>Promotions</title>
+                <sort_order>50</sort_order>
+                <children>
+                    <catalog>
+                        <title>Catalog Price Rules</title>
+                        <action>*/promo_catalog/</action>
+                        <resource>promo/catalog</resource>
+                        <depends><module>Mage_Catalog</module></depends>
+                    </catalog>
+                </children>
+             </promo>
+         </menu>
     </adminhtml>
     
     <crontab>

@@ -50,5 +50,12 @@
                 </Mage_Page>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <page>
+                      <file>page.xml</file>
+                  </page>
+              </updates>
+          </layout>
    </frontend>
 </config>

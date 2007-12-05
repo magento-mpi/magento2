@@ -252,8 +252,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         if (!empty($this->_name) && $this->getLayout()) {
             $this->getLayout()
-                ->unsetBlock($this->_name)
-                ->setBlock($name, $this);
+            ->unsetBlock($this->_name)
+            ->setBlock($name, $this);
         }
         $this->_name = $name;
         return $this;
@@ -328,15 +328,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
             if ($this->getLayout()) {
                 $this->getLayout()
-                    ->unsetBlock($block->getNameInLayout())
-                    ->setBlock($blockName, $block);
+                ->unsetBlock($block->getNameInLayout())
+                ->setBlock($blockName, $block);
             }
 
             $block->setNameInLayout($blockName);
             $block->setIsAnonymous(false);
 
             if (empty($alias)) {
-               $alias = $blockName;
+                $alias = $blockName;
             }
         }
 
@@ -500,7 +500,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $key = array_search($siblingName, $this->_sortedChildren);
             if (false!==$key) {
                 if ($after) {
-                  $key++;
+                    $key++;
                 }
                 array_splice($this->_sortedChildren, $key, 0, $name);
             }
@@ -551,12 +551,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUrl($params='', $params2=array())
     {
-    	return Mage::getUrl($params, $params2);
+        return Mage::getUrl($params, $params2);
         #return Mage::registry('controller')->getUrl($params, $params2);
         if (!self::$_urlModel) {
             self::$_urlModel = Mage::getModel('core/url');
         }
-		return self::$_urlModel->getUrl($params, $params2);
+        return self::$_urlModel->getUrl($params, $params2);
     }
 
     public function getUrlBase64($params='', $params2=array())

@@ -55,11 +55,19 @@
                 </Mage_Cms>
             </modules>
         </translate>
+      <layout>
+          <updates>
+              <cms>
+                  <file>cms.xml</file>
+              </cms>
+          </updates>
+      </layout>
     </frontend>
     <adminhtml>
         <menu>
              <cms>
                 <title>CMS</title>
+                <sort_order>60</sort_order>
                 <children>
                     <page>
                         <title>Manage Pages</title>

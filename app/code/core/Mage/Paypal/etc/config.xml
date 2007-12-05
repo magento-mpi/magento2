@@ -88,5 +88,12 @@
                 </Mage_Paypal>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <paypal>
+                      <file>paypal.xml</file>
+                  </paypal>
+              </updates>
+          </layout>
      </frontend>
 </config>

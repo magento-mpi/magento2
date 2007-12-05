@@ -176,9 +176,10 @@
       </blocks>
    </global>
    <adminhtml>
-    <menu>
-      <catalog sort="3">
+       <menu>
+            <catalog>
                 <title>Catalog</title>
+                <sort_order>30</sort_order>
                 <!--action>adminhtml/catalog</action-->
                 <depends><module>Mage_Catalog</module></depends>
                 <children>
@@ -203,50 +204,8 @@
                             </sets>
                         </children>
                     </attributes>
-                    
-                    <tag>
-                        <title>Tags</title>
-                        <children>
-                            <pending>
-                                <title>Pending Tags</title>
-                                <action>*/tag/pending</action>
-                            </pending>
-                            <all>
-                                <title>All Tags</title>
-                                <action>*/tag/index</action>
-                            </all>
-                            <!--
-                            <customer>
-                                <title>Customers' Tags</title>
-                                <action>*/tag/customer</action>
-                            </customer>
-                            <product>
-                                <title>Products' Tags</title>
-                                <action>*/tag/product</action>
-                            </product>
-                            -->
-                        </children>
-                    </tag>
-                    <search>
-                        <title>Search</title>
-                        <action>*/catalog_search/</action>
-                    </search>
-                    <!--<datafeed>
-                        <title>Datafeeds</title>
-                        <action>*/catalog_datafeed/</action>
-                    </datafeed>-->
                 </children>
              </catalog>
-             <promo sort="5">
-                <children>
-                 <catalog>
-                        <title>Catalog Price Rules</title>
-                        <action>*/promo_catalog/</action>
-                        <resource>promo/catalog</resource>
-                        <depends><module>Mage_Catalog</module></depends>
-                    </catalog>
-                </children>
-             </promo>
         </menu>
    </adminhtml>
    <frontend>
@@ -282,5 +241,12 @@
             </Mage_Catalog>
         </modules>
       </translate>
+      <layout>
+          <updates>
+              <catalog>
+                  <file>catalog.xml</file>
+              </catalog>
+          </updates>
+      </layout>
    </frontend>
 </config>

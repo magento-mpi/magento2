@@ -36,7 +36,7 @@
       <blocks>
         <google_analytics><class>Mage_GoogleAnalytics_Block</class></google_analytics>
       </blocks>
-      
+
         <resources>
             <googleanalytics_setup>
                 <setup>
@@ -48,7 +48,7 @@
             </googleanalytics_setup>
         </resources>
    </global>
-   
+
    <frontend>
         <events>
             <checkout_onepage_controller_success_action>
@@ -61,5 +61,12 @@
                 </observers>
             </checkout_onepage_controller_success_action>
         </events>
+          <layout>
+              <updates>
+                  <googleanalytics>
+                      <file>googleanalytics.xml</file>
+                  </googleanalytics>
+              </updates>
+          </layout>
     </frontend>
 </config>

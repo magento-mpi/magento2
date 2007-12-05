@@ -99,6 +99,13 @@
                 </Mage_Tag>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <tag>
+                      <file>tag.xml</file>
+                  </tag>
+              </updates>
+          </layout>
     </frontend>
     <adminhtml>
         <events>
@@ -122,9 +129,36 @@
             </catalog_controller_product_delete>
         </events>
         <menu>
+            <catalog>
+                <children>
+                    <tag>
+                        <title>Tags</title>
+                        <children>
+                            <pending>
+                                <title>Pending Tags</title>
+                                <action>*/tag/pending</action>
+                            </pending>
+                            <all>
+                                <title>All Tags</title>
+                                <action>*/tag/index</action>
+                            </all>
+                            <!--
+                            <customer>
+                                <title>Customers' Tags</title>
+                                <action>*/tag/customer</action>
+                            </customer>
+                            <product>
+                                <title>Products' Tags</title>
+                                <action>*/tag/product</action>
+                            </product>
+                            -->
+                        </children>
+                    </tag>
+                 </children>
+            </catalog>
             <report>
                 <children>
-                                <tags>
+                     <tags>
                         <title>Tags Report</title>
                         <children>
                             <customer>

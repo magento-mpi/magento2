@@ -52,11 +52,12 @@
                 <connection><use>core_read</use></connection>
             </reports_read>
         </resources>
-   </global>
-   <adminhtml>
-    <menu>
-    <report sort="8">
+    </global>
+    <adminhtml>
+       <menu>
+            <report>
                 <title>Reports</title>
+                <sort_order>80</sort_order>
                 <children>
                 <!--
                     <sales>
@@ -117,6 +118,6 @@
                     -->
                 </children>
              </report>
-    </menu>
-   </adminhtml>
+        </menu>
+    </adminhtml>
 </config>

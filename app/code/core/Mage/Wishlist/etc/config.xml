@@ -90,5 +90,12 @@
                 </Mage_Wishlist>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <wishlist>
+                      <file>wishlist.xml</file>
+                  </wishlist>
+              </updates>
+          </layout>
     </frontend>
 </config>

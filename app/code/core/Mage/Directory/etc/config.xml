@@ -103,5 +103,12 @@
                 </Mage_Directory>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <directory>
+                      <file>directory.xml</file>
+                  </directory>
+              </updates>
+          </layout>
     </frontend>
 </config>

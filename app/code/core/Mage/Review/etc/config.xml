@@ -86,7 +86,7 @@
     </global>
     <adminhtml>
         <menu>
-        <catalog>
+            <catalog>
                 <children>
                     <reviews_ratings>
                         <title>Reviews &amp;amp; Ratings</title>
@@ -110,12 +110,12 @@
                             </ratings>
                         </children>
                     </reviews_ratings>
-                    
+
                 </children>
              </catalog>
-        <report sort="8">
+        <report>
             <children>
-            <review>
+                <review>
                         <title>Reviews Report</title>
                         <children>
                             <customer>
@@ -151,5 +151,12 @@
                 </Mage_Review>
             </modules>
         </translate>
+          <layout>
+              <updates>
+                  <review>
+                      <file>review.xml</file>
+                  </review>
+              </updates>
+          </layout>
     </frontend>
 </config>
