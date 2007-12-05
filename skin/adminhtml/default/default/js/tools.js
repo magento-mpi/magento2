@@ -68,7 +68,8 @@ function imagePreview(element){
 
 function toggleValueElements(checkbox, container){
     if(container && checkbox){
-        var elems = container.getElementsBySelector('select', 'input');
+        //var elems = container.getElementsBySelector('select', 'input');
+        var elems = Element.getElementsBySelector(container, ['select', 'input']);
         elems.each(function(elem){if(elem!=checkbox)elem.disabled=checkbox.checked});
     }
 }
