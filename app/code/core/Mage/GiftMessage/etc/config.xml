@@ -164,6 +164,15 @@
                     </giftmessage>
                 </observers>
             </checkout_controller_multishipping_shipping_post>
+            <catalog_product_collection_load_after>
+                <observers>
+                    <giftmessage>
+                        <type>model</type>
+                        <class>giftmessage/observer</class>
+                        <method>catalogEventProductCollectionAfterLoad</method>
+                    </giftmessage>
+                </observers>
+            </catalog_product_collection_load_after>
        </events>
        <routers>
             <giftmessage>

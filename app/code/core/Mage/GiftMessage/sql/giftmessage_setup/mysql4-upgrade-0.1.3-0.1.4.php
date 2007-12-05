@@ -21,12 +21,12 @@ $this->startSetup();
 $this->removeAttribute('catalog_product', 'gift_message_aviable');
 $this->addAttribute('catalog_product', 'gift_message_aviable', array(
     'type'      => 'int',
-    'backend'   => 'giftmessages/entity_attribute_backend_boolean_config',
+    'backend'   => 'giftmessage/entity_attribute_backend_boolean_config',
     'frontend'  => '',
     'label'     => 'Allow Gift Message',
     'input'     => 'select',
     'class'     => '',
-    'source'    => 'giftmessages/entity_attribute_source_boolean_config',
+    'source'    => 'giftmessage/entity_attribute_source_boolean_config',
     'global'    => true,
     'visible'   => true,
     'required'  => false,

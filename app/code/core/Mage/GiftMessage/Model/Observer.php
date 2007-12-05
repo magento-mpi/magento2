@@ -121,4 +121,15 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         }
         return $this;
     }
+
+    public function catalogEventProductCollectionAfterLoad($observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+        foreach ($collection as $item) {
+            if($item->getGiftMessageAviable()===null) {
+                $item->setGiftMessageAviable(2);
+            }
+        }
+        return $this;
+    }
 } // Class Mage_GiftMessage_Model_Observer End

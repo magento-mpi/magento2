@@ -89,9 +89,9 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 
         if ($result) {
             if ($type=='item') {
-                return $entity->getProduct()->getGiftMessageAviable();
+                return $this->_getDependenceFromStoreConfig($entity->getProduct()->getGiftMessageAviable(), $store);
             } elseif ($type=='order_item') {
-                return $entity->getGiftMessageAviable();
+                return $this->_getDependenceFromStoreConfig($entity->getGiftMessageAviable(), $store);
             }
             elseif ($type=='address_item') {
                 if(!$this->isCached('address_item_' . $entity->getProductId())) {
@@ -104,6 +104,28 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         }
 
         return false;
+    }
+
+    protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
+    {
+         if(is_null($store)) {
+             $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
+        } else {
+            if(is_object($store)) {
+                $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
+            } else {
+                if(!$this->isCached('aviable_store_' . $store)) {
+                    $this->setCached('aviable_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
+                }
+                $result = $this->getCached('aviable_store_' . $store);
+            }
+        }
+
+        if($productGiftMessageAllow==2) {
+            return $result;
+        } else {
+            return $productGiftMessageAllow == 1;
+        }
     }
 
     public function getIsMessagesAviable($type, Varien_Object $entity, $store=null)
