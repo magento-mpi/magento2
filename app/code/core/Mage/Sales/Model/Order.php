@@ -67,7 +67,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      *
      * @return Mage_Sales_Model_Order
      */
-    public function sendOrderUpdateEmail()
+    public function sendOrderUpdateEmail($comment='')
     {
         Mage::getModel('core/email_template')
             ->sendTransactional(
@@ -75,7 +75,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY),
                 $this->getCustomerEmail(),
                 $this->getBillingAddress()->getName(),
-                array('order'=>$this, 'billing'=>$this->getBillingAddress())
+                array(
+                    'order'=>$this, 
+                    'billing'=>$this->getBillingAddress(),
+                    'comment'=>$comment
+                )
             );
         return $this;
     }

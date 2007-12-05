@@ -158,11 +158,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         if ($newStatus = $this->getRequest()->getParam('new_status')) {
 
             $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
-
-            $order->addStatus($newStatus, $this->getRequest()->getParam('comments', ''), $notifyCustomer);
+            $comment = $this->getRequest()->getParam('comments', '');
+            
+            $order->addStatus($newStatus, $comment, $notifyCustomer);
 
             if ($notifyCustomer) {
-                $order->sendOrderUpdateEmail();
+                $order->sendOrderUpdateEmail($comment);
             }
 
             try {
