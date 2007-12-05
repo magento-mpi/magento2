@@ -29,6 +29,7 @@ class Mage_Adminhtml_Block_Giftmessage_Edit_Form extends Mage_Adminhtml_Block_Wi
 {
     protected function _prepareForm()
     {
+
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('giftmessage', array('legend'=>$this->__('Gift Message')));
 
@@ -57,6 +58,14 @@ class Mage_Adminhtml_Block_Giftmessage_Edit_Form extends Mage_Adminhtml_Block_Wi
                 'class'     => 'required-entry'
             )
         );
+
+        if(!$this->getParentBlock()->getMessage()->getSender()) {
+            $this->getParentBlock()->getMessage()->setSender($this->getParentBlock()->getDefaultSender());
+        }
+
+        if(!$this->getParentBlock()->getMessage()->getRecipient()) {
+            $this->getParentBlock()->getMessage()->setRecipient($this->getParentBlock()->getDefaultRecipient());
+        }
 
         $form->setValues($this->getParentBlock()->getMessage()->getData());
 

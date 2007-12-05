@@ -157,6 +157,36 @@ class Mage_Adminhtml_Block_Giftmessage_Edit extends Mage_Adminhtml_Block_Widget
         return $this->_giftMessage;
     }
 
+    public function getDefaultSender()
+    {
+        return $this->getMainEntity()->getBillingAddress()->getName();
+    }
+
+    public function getDefaultRecipient()
+    {
+        return $this->getMainEntity()->getShippingAddress()->getName();
+    }
+
+    public function getMainEntity()
+    {
+        if(!$this->getData('main_entity')) {
+            if($this->getRequest()->getParam('type')=='order_item') {
+                $mainEntity = Mage::getModel('sales/order_item')->load($this->getRequest()->getParam('item'))->getOrder();
+            } elseif($this->getRequest()->getParam('type')=='order') {
+                $mainEntity = Mage::getModel('sales/order')->load($this->getRequest()->getParam('item'));
+            } elseif($this->getRequest()->getParam('type')=='main') {
+                $mainEntity = Mage::getModel('sales/quote')->load($this->getRequest()->getParam('item'));
+            } elseif($this->getRequest()->getParam('type')=='item') {
+                $mainEntity = Mage::getModel('sales/quote_item')->load($this->getRequest()->getParam('item'))->getQuote();
+            }
+
+            $this->setData('main_entity', $mainEntity);
+        }
+
+        return $this->getData('main_entity');
+    }
+
+
     public function getEscaped($value)
     {
         return $this->htmlEscape($value);
