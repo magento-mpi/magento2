@@ -218,4 +218,26 @@ class Mage_Adminhtml_Alert_QueueController extends Mage_Adminhtml_Controller_Act
     {
         return Mage::getSingleton('admin/session')->isAllowed('customer_communication/alert/queue');
     }
+    
+    public function addAllAlertsAction()
+    {
+        $check = Mage::getModel('customeralert/alert_check')
+            ->loadByParam();
+        foreach ($check as $val) {
+            $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($val['type'])
+                ->load($val['id']);
+            $alertModel->addCustomersToAlertQueue();
+        }
+        /*foreach ($alerts as $key=>$val) {
+            try {
+                Mage::getSingleton('customeralert/config')->getAlertByType($key)
+                    ->setParamValues($this->getRequest()->getParams())
+                    ->addCustomersToAlertQueue();
+            } catch (Exception $e) {
+                continue;
+            }
+        }*/
+        
+        
+    }
 }
