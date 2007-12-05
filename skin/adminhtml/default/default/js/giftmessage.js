@@ -33,7 +33,7 @@ GiftMessage.prototype = {
     initListeners: function () {
         var items = $(this.buttonId).getElementsByClassName('listen-for-click');
         items.each(function(item) {
-           Event.observe(item, 'click', this.editGiftMessage.bindAsEventListener(this));
+           item.observe('click', this.editGiftMessage.bindAsEventListener(this));
            item.controller = this;
         }.bind(this));
     },
