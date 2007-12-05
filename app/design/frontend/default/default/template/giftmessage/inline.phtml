@@ -20,9 +20,8 @@
 ?>
 <?if(!$this->getDontDisplayContainer()):?>
 <script type="text/javascript">
-<!--
 if(!window.toogleVisibilityOnObjects) {
-    function toogleVisibilityOnObjects(source, objects) {
+    var toogleVisibilityOnObjects = function(source, objects) {
         if($(source) && $(source).checked) {
             objects.each(function(item){
                 $(item).show();
@@ -49,7 +48,7 @@ if(!window.toogleVisibilityOnObjects) {
     }
 }
 if(!window.toogleRequired) {
-    function toogleRequired(source, objects)
+    var toogleRequired = function (source, objects)
     {
         if(!$(source).value.blank()) {
             objects.each(function(item) {
@@ -65,22 +64,18 @@ if(!window.toogleRequired) {
 
         }
     }
-
-
-    shipping.onSave = function(evt){
-        new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
-              this.nextStep(evt);
-        }.bind(this), evalScripts:true});
-    }.bindAsEventListener(shipping);
-
-    billing.onSave = function(evt){
-        new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
-              this.nextStep(evt);
-        }.bind(this), evalScripts:true});
-    }.bindAsEventListener(billing);
 }
+shipping.onSave = function(evt){
+    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
+          this.nextStep(evt);
+    }.bind(this), evalScripts:true});
+}.bindAsEventListener(shipping);
 
-//-->
+billing.onSave = function(evt){
+    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
+          this.nextStep(evt);
+    }.bind(this), evalScripts:true});
+}.bindAsEventListener(billing);
 </script>
 <?endif?>
 <div class="giftmessages">
@@ -118,9 +113,7 @@ if(!window.toogleRequired) {
                         <textarea id="gift-message-whole-message" onchange="toogleRequired('gift-message-whole-message', ['gift-message-whole-from','gift-message-whole-to'])" class="input-text validation-passed giftmessage-area" name="giftmessage[<?=$this->getEntity()->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
                     </li>
                     <script type="text/javascript">
-                    <!--
                         toogleRequired('gift-message-whole-message', ['gift-message-whole-from','gift-message-whole-to']);
-                    //-->
                     </script>
                 </ul>
              </fieldset>
@@ -154,9 +147,7 @@ if(!window.toogleRequired) {
                                 <textarea id="gift-message-<?=$_item->getId()?>-message" onchange="toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to'])" class="input-text validation-passed  giftmessage-area" name="giftmessage[<?=$_item->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage($_item)->getMessage())?></textarea>
                             </li>
                             <script type="text/javascript">
-                            <!--
                                 toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to']);
-                            //-->
                             </script>
                         </ul>
                     </fieldset>
@@ -207,10 +198,8 @@ if(!window.toogleRequired) {
                 <textarea id="gift-message-<?=$this->getEntity()->getId()?>-message" onchange="toogleRequired('gift-message-<?=$this->getEntity()->getId()?>-message', ['gift-message-<?=$this->getEntity()->getId()?>-from','gift-message-<?=$this->getEntity()->getId()?>-to'])" class="input-text validation-passed giftmessage-area" name="giftmessage[<?=$this->getEntity()->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
             </li>
             <script type="text/javascript">
-            <!--
                 var shippingMethod = new VarienForm('shipping_method_form');
                 toogleRequired('gift-message-<?=$this->getEntity()->getId()?>-message', ['gift-message-<?=$this->getEntity()->getId()?>-from','gift-message-<?=$this->getEntity()->getId()?>-to']);
-            //-->
             </script>
             </ul>
          </fieldset>
@@ -244,9 +233,7 @@ if(!window.toogleRequired) {
                             <textarea id="gift-message-<?=$_item->getId()?>-message" onchange="toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to'])" class="input-text validation-passed  giftmessage-area" name="giftmessage[<?=$_item->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage($_item)->getMessage())?></textarea>
                         </li>
                         <script type="text/javascript">
-                        <!--
                             toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to']);
-                        //-->
                         </script>
                     </ul>
                 </fieldset>
