@@ -341,10 +341,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_GoogleAnalytics>
-        <Mage_CustomerAlert>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_CustomerAlert>
         <Mage_CatalogInventory>
             <active>true</active>
             <codePool>core</codePool>

@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
             ));
             $storeCode = $this->getRequest()->getParam('store');
-            if($storeCode){
+            /*if($storeCode){
                 $isDisabled = Mage::getStoreConfig('advanced/modules_disable_output/Mage_CustomerAlert',$storeCode);
             }
             if( $this->getRequest()->getParam('store', false) > 0 && !$isDisabled) {
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                     'label'     => $this->__('Product Alerts'),
                     'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts', 'admin.alerts.products')->toHtml(),
                 ));
-            }
+            } */
 
             if( $this->getRequest()->getParam('id', false) ) {
                 $this->addTab('reviews', array(
