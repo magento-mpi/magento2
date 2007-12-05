@@ -221,62 +221,53 @@
                     </config>-->
                 </children>
              </cms>
-             <customer_communication>
+             <newsletter>
+	             <title>Newsletter</title>
+	             <!-- action>adminhtml/newsletter/</action -->
+	             <!--<acl><resource>admin/newsletter</resource><privilege>list</privilege></acl>-->
+	             <depends><module>Mage_Newsletter</module></depends>
+	             <children>
+	                 <template>
+	                     <title>Newsletter Templates</title>
+	                     <action>*/newsletter_template/</action>
+	                     <resource>admin/newsletter/template</resource>
+	                 </template>
+	                 <!-- <subscriber>
+	                     <title>Subscribers</title>
+	                     <action>*/newsletter_subscriber/</action>
+	                     <resource>admin/newsletter/subscriber</resource>
+	                 </subscriber> -->
+	                 <queue>
+	                     <title>Newsletter Queue</title>
+	                     <action>*/newsletter_queue/</action>
+	                     <resource>admin/newsletter/queue</resource>
+	                 </queue>
+	                 <problem>
+	                     <title>Newsletter Problem Reports</title>
+	                     <action>*/newsletter_problem/</action>
+	                     <resource>admin/newsletter/problem</resource>
+	                 </problem>
+	             </children>
+             </newsletter>
+             <!--<customer_communication>
                 <title>Customer Communication</title>
                 <children>
-                    <newsletter>
-		                <title>Newsletter</title>
-		                <!-- action>adminhtml/newsletter/</action -->
-		                <!--<acl><resource>admin/newsletter</resource><privilege>list</privilege></acl>-->
-		                <depends><module>Mage_Newsletter</module></depends>
-		                <children>
-		                    <template>
-		                        <title>Newsletter Templates</title>
-		                        <action>*/newsletter_template/</action>
-		                        <resource>admin/newsletter/template</resource>
-		                    </template>
-		                    <!-- <subscriber>
-		                        <title>Subscribers</title>
-		                        <action>*/newsletter_subscriber/</action>
-		                        <resource>admin/newsletter/subscriber</resource>
-		                    </subscriber> -->
-		                    <queue>
-		                        <title>Newsletter Queue</title>
-		                        <action>*/newsletter_queue/</action>
-		                        <resource>admin/newsletter/queue</resource>
-		                    </queue>
-		                    <problem>
-		                        <title>Newsletter Problem Reports</title>
-		                        <action>*/newsletter_problem/</action>
-		                        <resource>admin/newsletter/problem</resource>
-		                    </problem>
-		                </children>
-                     </newsletter>
+                    
                      <alert>
 		                <title>Product Alerts</title>
 		                <depends><module>Mage_CustomerAlert</module></depends>
 		                <children>
-		                   <!--  <template>
-		                        <title>Alerts Templates</title>
-		                        <action>*/alert_template/</action>
-		                        <resource>admin/alert/template</resource>
-		                    </template>
-		                    -->
+		                   
 		                    <queue>
 		                        <title>Alerts Queue</title>
 		                        <action>*/alert_queue/</action>
 		                        <resource>admin/alert/queue</resource>
 		                    </queue>
-		                    <!--  <problem>
-		                        <title>Newsletter Problem Reports</title>
-		                        <action>*/newsletter_problem/</action>
-		                        <resource>admin/newsletter/problem</resource>
-		                    </problem>
-		                    -->
+		                   
 		                </children>
 		             </alert>
                 </children>
-             </customer_communication>
+             </customer_communication> -->
              <report>
                 <title>Reports</title>
                 <children>

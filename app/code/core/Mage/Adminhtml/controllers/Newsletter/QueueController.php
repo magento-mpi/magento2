@@ -216,6 +216,6 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('customer_communication/newsletter/queue');
+	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/queue');
     }
 }

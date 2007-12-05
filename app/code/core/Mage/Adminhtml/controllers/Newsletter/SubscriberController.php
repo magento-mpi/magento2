@@ -71,6 +71,6 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('customer_communication/newsletter/subscriber');
+	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/subscriber');
     }
 }// Class Mage_Adminhtml_Newsletter_SubscriberController END
