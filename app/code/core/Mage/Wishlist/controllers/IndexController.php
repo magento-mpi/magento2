@@ -54,6 +54,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 		$this->loadLayout();
 		$this->_initLayoutMessages('customer/session');
+		$this->_initLayoutMessages('checkout/session');
 		$this->renderLayout();
 	}
 
