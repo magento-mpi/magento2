@@ -31,6 +31,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
 {
     protected $_request = null;
     protected $_result = null;
+    protected $_xmlAccessRequest = null;
     protected $_defaultCgiGatewayUrl = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -99,6 +100,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
         } else {
             $origCountry = Mage::getStoreConfig('shipping/origin/country_id');
         }
+                
         $r->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
@@ -123,6 +125,13 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
         $r->setWeight($request->getPackageWeight());
 
         $r->setValue($request->getPackageValue());
+        
+        if ($request->getUpsUnitMeasure()) {
+            $unit = $request->getUpsUnitMeasure();
+        } else {
+            $unit = Mage::getStoreConfig('carriers/ups/unit_of_measure');
+        }
+        $r->setUnitMeasure($unit);
 
         $this->_rawRequest = $r;
 
@@ -470,7 +479,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
             'dest_type_description'=>array(
                 'RES'    => 'Residential',
                 'COM'    => 'Commercial',
-            )
+            ),
+            
+            'unit_of_measure'=>array(
+                'LBS'   =>  'Pounds',
+                'KGS'   =>  'Kilograms',
+            ),
             
         );
 
@@ -490,22 +504,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
     }
 
     protected function _getXmlQuotes()
-    {
-    	
-    	
-    	$userid = Mage::getStoreConfig('carriers/ups/username');
-		$userid_pass = Mage::getStoreConfig('carriers/ups/password');
-		$access_key = Mage::getStoreConfig('carriers/ups/access_license_number');
+    {    	
 		$url = Mage::getStoreConfig('carriers/ups/gateway_xml_url');
-		$xmlRequest =  <<<XMLAuth
-<?xml version="1.0"?>
-<AccessRequest xml:lang="en-US">
-  <AccessLicenseNumber>$access_key</AccessLicenseNumber>
-  <UserId>$userid</UserId>
-  <Password>$userid_pass</Password>
-</AccessRequest>
-XMLAuth;
-
+		
+        $this->setXMLAccessRequest();
+        $xmlRequest=$this->_xmlAccessRequest;
+        
 		$r = $this->_rawRequest;
 		$params = array(
             'accept_UPS_license_agreement' => 'yes',
@@ -569,7 +573,7 @@ $xmlRequest .= <<< XMLRequest
     <Package>
       <PackagingType><Code>{$params['48_container']}</Code></PackagingType>
       <PackageWeight>
-     	<UnitOfMeasurement><Code>LBS</Code></UnitOfMeasurement>
+     	<UnitOfMeasurement><Code>{$r->getUnitMeasure()}</Code></UnitOfMeasurement>
         <Weight>{$params['23_weight']}</Weight>
       </PackageWeight>
     </Package>
@@ -587,6 +591,147 @@ XMLRequest;
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		$xmlResponse = curl_exec ($ch);
 		$this->_parseXmlResponse($xmlResponse);
+    }
+    
+    public function getTracking($trackings)
+    {
+        if (!is_array($trackings)) {
+            $trackings=array($trackings);            
+        }
+        if(Mage::getStoreConfig('carriers/ups/type')=='UPS')
+        	$this->_getCgiTracking($trackings);
+        elseif (Mage::getStoreConfig('carriers/ups/type')=='UPS_XML'){
+            $this->setXMLAccessRequest();
+            foreach($trackings as $tracking){
+    		  $this->_getXmlTracking($tracking);
+            }
+        }
+        
+    }
+    
+    protected function setXMLAccessRequest(){
+        $userid = Mage::getStoreConfig('carriers/ups/username');
+		$userid_pass = Mage::getStoreConfig('carriers/ups/password');
+		$access_key = Mage::getStoreConfig('carriers/ups/access_license_number');		  
+		
+		$this->_xmlAccessRequest =  <<<XMLAuth
+<?xml version="1.0"?>
+<AccessRequest xml:lang="en-US">
+  <AccessLicenseNumber>$access_key</AccessLicenseNumber>
+  <UserId>$userid</UserId>
+  <Password>$userid_pass</Password>
+</AccessRequest>
+XMLAuth;
+    }
+    
+    protected function _getCgiTracking($trackings)
+    {
+        //ups no longer support tracking for data streaming version
+        //so we can only reply the popup window to ups. 
+        $result = Mage::getModel('shipping/tracking_result');
+        $defaults = $this->getDefaults();   
+        foreach($trackings as $tracking){       
+            $status = Mage::getModel('shipping/tracking_result_status'); 
+            $status->setCarrier('ups');
+            $status->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
+            $status->setTracking($tracking);
+            $status->setPopup(1);             
+            $status->setUrl("http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&error_carried=true&tracknums_displayed=5&TypeOfInquiryNumber=T&loc=en_US&InquiryNumber1=$tracking&AgreeToTermsAndConditions=yes");             
+            $result->append($status);
+        }
+    }
+        
+    protected function _getXmlTracking($tracking)
+    {
+       $url = Mage::getStoreConfig('carriers/ups/tracking_xml_url');
+        
+       $xmlRequest=$this->_xmlAccessRequest;	
+            
+$xmlRequest .=  <<<XMLAuth
+<?xml version="1.0" ?>
+<TrackRequest xml:lang="en-US">
+    <Request>
+        <RequestAction>Track</RequestAction>
+        <RequestOption>1</RequestOption>
+    </Request>
+    <ShipmentIdentificationNumber>$tracking</ShipmentIdentificationNumber>
+    <IncludeFreight>01</IncludeFreight>
+</TrackRequest>
+XMLAuth;
+    
+       try {
+        $ch = curl_init();
+       	curl_setopt($ch, CURLOPT_URL, $url);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    	curl_setopt($ch, CURLOPT_HEADER, 0);
+    	curl_setopt($ch, CURLOPT_POST, 1);
+    	curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+    	curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    	$xmlResponse = curl_exec ($ch);
+    	curl_close ($ch); 
+       }catch (Exception $e) {
+         $xmlResponse = '';
+       }     	
+#echo "<xmp>".$xmlResponse."</xmp>";   
+
+       $this->_parseXmlTrackingResponse($tracking,$xmlResponse);        
+        
+    }
+    
+    protected function _parseXmlTrackingResponse($trackingvalue,$xmlResponse){
+        $xml = new Varien_Simplexml_Config();
+		$xml->loadString($xmlResponse);
+		$arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
+		$success = (int)$arr[0][0];
+		$errorTitle = 'Unable to retrieve tracking';
+		$resultArr=array();
+        if($success===1){            
+            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/Status/StatusType/Description/text()");           
+            $resultArr['status']=(string)$arr[0];
+            $arr=$xml->getXpath("//TrackResponse/Shipment/Service/Description/text()");  
+            $resultArr['service']=(string)$arr[0];
+            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/Date/text()");
+            $date=(string)$arr[0]; //YYYYMMDD  
+            $resultArr['deliverydate']=substr($date,0,4).'-'.substr($date,4,2).'-'.substr($date,-2,2);         
+            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/Time/text()"); 
+            $time=(string)$arr[0];//HHMM            
+            $resultArr['deliverytime']=substr($time,0,2).':'.substr($time,2,2).':'.'00';
+            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/ActivityLocation/Description/text()"); 
+            $resultArr['deliverylocation']=(string)$arr[0];    
+            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/ActivityLocation/SignedForByName/text()"); 
+            $resultArr['signedby']=(string)$arr[0];   
+        }else{
+            $arr = $xml->getXpath("//TrackResponse/Response/Error/ErrorDescription/text()");
+            $errorTitle = (string)$arr[0][0];        
+        }
+        
+         $result = Mage::getModel('shipping/tracking_result');
+         $defaults = $this->getDefaults();
+
+         if($resultArr){
+             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking->setCarrier('ups');
+             $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
+             $tracking->setTracking($trackingvalue); 
+             $tracking->addData($resultArr);
+             /*
+             $tracking->setStatus($resultArr['status']);             
+             $tracking->setService($resultArr['service']);
+             $tracking->setDeliveryDate($resultArr['deliverydate']);
+             $tracking->setDeliveryTime($resultArr['deliverytime']);
+             $tracking->setDeliveryLocation($resultArr['deliverylocation']);
+             $tracking->setSignedBy($resultArr['signedby']);
+             */
+             $result->append($tracking);             
+         }else{
+            $error = Mage::getModel('shipping/tracking_result_error');
+            $error->setCarrier('ups');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));   
+            $error->setTracking($trackingvalue);         
+            $error->setErrorMessage($errorTitle);
+            $result->append($error);
+         }
+#print_r($result);             
     }
 
 }

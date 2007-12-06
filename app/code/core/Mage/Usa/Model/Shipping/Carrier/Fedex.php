@@ -28,7 +28,7 @@
 class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
-    protected $_result = null;
+    protected $_result = null;   
     protected $_gatewayUrl = 'https://gateway.fedex.com/GatewayDC';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -515,6 +515,128 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
         } else {
             return $codes[$type][$code];
         }
+    }
+    
+    public function getTracking($trackings)
+    {
+        $this->setTrackingReqeust();
+        
+        if (!is_array($trackings)) {
+            $trackings=array($trackings);            
+        }
+        
+        foreach($trackings as $tracking){
+         $this->_getXMLTracking($tracking);
+        }
+    }
+    
+    protected function setTrackingReqeust()
+    {
+        $r = new Varien_Object();
+        
+        $account = Mage::getStoreConfig('carriers/fedex/account');
+        $r->setAccount($account);
+        
+        $this->_rawTrackingRequest = $r;
+        
+    }
+    protected function _getXMLTracking($tracking)
+    {
+        $r = $this->_rawTrackingRequest;
+        
+        $xml = new SimpleXMLElement('<FDXTrack2Request/>');
+        $xml->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+        $xml->addAttribute('xsi:noNamespaceSchemaLocation', 'FDXTrack2Request.xsd');
+        
+        $requestHeader = $xml->addChild('RequestHeader');
+        $requestHeader->addChild('AccountNumber', $r->getAccount());
+        /*
+        * for tracking result, actual meter number is not needed
+        */
+        $requestHeader->addChild('MeterNumber', '0');
+                   
+        $packageIdentifier = $xml->addChild('PackageIdentifier');
+        $packageIdentifier->addChild('Value', $tracking);     
+            
+        $request = $xml->asXML();
+  
+        try {
+            $url = Mage::getStoreConfig('carriers/fedex/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultGatewayUrl;
+            }
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+            $responseBody = curl_exec($ch);
+            curl_close ($ch);
+        } catch (Exception $e) {
+            $responseBody = '';
+        } 
+             
+#echo "<xmp>".$responseBody."</xmp>";         
+		$this->_parseXmlTrackingResponse($tracking,$responseBody);        
+    }
+    
+    protected function _parseXmlTrackingResponse($trackingvalue,$response)
+    {
+         $errorTitle = 'Unable to retrieve tracking';
+         $resultArr=array();
+         if (strlen(trim($response))>0) {
+              if (strpos(trim($response), '<?xml')===0) {
+                  $xml = simplexml_load_string($response);
+                  if (is_object($xml)) {
+                    if (is_object($xml->Error) && is_object($xml->Error->Message)) {
+                        $errorTitle = (string)$xml->Error->Message;
+                    } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
+                    	$errorTitle = (string)$xml->SoftError->Message;
+                    } else {
+                        $errorTitle = 'Unknown error';
+                    }
+                  }else{
+                      $errorTitle = 'Error in loading response';
+                  }
+                                    
+                  $resultArr['status']=(string)$xml->Package->StatusDescription;
+                  $resultArr['service']=(string)$xml->Package->Service;
+                  $resultArr['deliverydate']=(string)$xml->Package->DeliveredDate;
+                  $resultArr['deliverytime']=(string)$xml->Package->DeliveredTime;
+                  $resultArr['deliverylocation']=(string)$xml->TrackProfile->DeliveredLocationDescription;
+                  $resultArr['signedby']=(string)$xml->Package->SignedForBy;     
+              }else {
+                $errorTitle = 'Response is in the wrong format';
+              }
+         }
+         
+         $result = Mage::getModel('shipping/tracking_result');
+         $defaults = $this->getDefaults();
+
+         if($resultArr){
+             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking->setCarrier('fedex');
+             $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));             
+             $tracking->setTracking($trackingvalue); 
+             $tracking->addData($resultArr);
+             /*$tracking->setStatus($resultArr['status']);             
+             $tracking->setService($resultArr['service']);
+             $tracking->setDeliveryDate($resultArr['deliverydate']);
+             $tracking->setDeliveryTime($resultArr['deliverytime']);
+             $tracking->setDeliveryLocation($resultArr['deliverylocation']);
+             if(isset($resultArr['signedby']))$tracking->setSignedBy($resultArr['signedby']);
+             */
+             $result->append($tracking);             
+         }else{
+            $error = Mage::getModel('shipping/tracking_result_error');
+            $error->setCarrier('fedex');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));   
+            $error->setTracking($trackingvalue);         
+            $error->setErrorMessage($errorTitle);
+            $result->append($error);
+         }
+#print_r($result);                 
     }
 
 }

@@ -30,7 +30,7 @@
 class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
     protected $_request = null;
-    protected $_result = null;
+    protected $_result = null;    
     protected $_defaultGatewayUrl = 'http://production.shippingapis.com/ShippingAPI.dll';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -392,5 +392,106 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
             return $codes[$type][$code];
         }
     }
+    
+    public function getTracking($trackings)
+    {
+        $this->setTrackingReqeust();
+        
+        if (!is_array($trackings)) {
+            $trackings=array($trackings);            
+        }
+        foreach($trackings as $tracking){
+            $this->_getXmlTracking($tracking);
+        }
+        
+    }
+    
+    protected function setTrackingReqeust()
+    {
+        $r = new Varien_Object();
+        
+        $userId = Mage::getStoreConfig('carriers/usps/userid');
+        $r->setUserId($userId);
+        
+        $this->_rawTrackRequest = $r;
+        
+    }
+    
+    protected function _getXmlTracking($tracking)
+    {
+         $r = $this->_rawTrackRequest;
+         
+         $xml = new SimpleXMLElement('<TrackRequest/>');        
+         $xml->addAttribute('USERID', $r->getUserId());
+         
+         
+         $trackid = $xml->addChild('TrackID');
+         $trackid->addAttribute('ID',$tracking);
+         
+         $api = 'TrackV2';
+         $request = $xml->asXML();
+ #echo "<xmp>".$request."</xmp>";          
+         try {
+            $url = Mage::getStoreConfig('carriers/usps/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultGatewayUrl;
+            }
+            $client = new Zend_Http_Client();
+            $client->setUri($url);
+            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+            $client->setParameterGet('API', $api);
+            $client->setParameterGet('XML', $request);
+            $response = $client->request();
+            $responseBody = $response->getBody();
+        } catch (Exception $e) {
+            $responseBody = '';
+        }
+#echo "<xmp>".$responseBody."</xmp>";      
+        $this->_parseXmlTrackingResponse($tracking,$responseBody);         
+    }
+    
+    protected function _parseXmlTrackingResponse($trackingvalue,$response)
+    {
+        $errorTitle = 'Unable to retrieve tracking';
+        $resultArr=array();
+         if (strlen(trim($response))>0) {
+            if (strpos(trim($response), '<?xml')===0) {
+                $xml = simplexml_load_string($response);          
+                    if (is_object($xml)) {
+                        if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
+                            $errorTitle = (string)$xml->Description;
+                        } elseif (is_object($xml->TrackInfo) && is_object($xml->TrackInfo->Error) && is_object($xml->TrackInfo->Error->Description) && (string)$xml->TrackInfo->Error->Description!='') {
+                            $errorTitle = (string)$xml->TrackInfo->Error->Description;
+                        } else {
+                            $errorTitle = 'Unknown error';
+                        }
+                        if(is_object($xml->TrackInfo) && is_object($xml->TrackInfo->TrackSummary)){
+                           $resultArr['tracksummary']=(string)$xml->TrackInfo->TrackSummary;                          
+                            
+                        }
+                    }
+            }
+         }
+        $result = Mage::getModel('shipping/tracking_result');
+        $defaults = $this->getDefaults();
+        if($resultArr){
+             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking->setCarrier('usps');
+             $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/usps/title'));
+             $tracking->setTracking($trackingvalue); 
+             $tracking->setTrackSummary($resultArr['tracksummary']);                          
+             $result->append($tracking);             
+         }else{
+            $error = Mage::getModel('shipping/tracking_result_error');
+            $error->setCarrier('usps');
+            $error->setCarrierTitle(Mage::getStoreConfig('carriers/usps/title'));   
+            $error->setTracking($trackingvalue);         
+            $error->setErrorMessage($errorTitle);
+            $result->append($error);
+         }
+#print_r($result);         
+    }
+    
+    
 
 }

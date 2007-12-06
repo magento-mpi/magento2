@@ -370,6 +370,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request = Mage::getModel('shipping/rate_request');
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
+				/*
+				* need to call getStreet with -1 
+				* to get data in string instead of array
+				*/
+				$request->setDestStreet($this->getStreet(-1));
+				$request->setDestCity($this->getCity());
         $request->setDestPostcode($this->getPostcode());
         $request->setPackageValue($this->getSubtotal());
         $request->setPackageWeight($this->getWeight());

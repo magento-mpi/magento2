@@ -46,8 +46,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
     }
 
     public function process(Mage_Shipping_Model_Rate_Request $request)
-    {
+    {   
         $this->_request = $request;
+       
         $r = new Varien_Object();
 
         if ($request->getLimitMethod()) {
@@ -81,6 +82,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             $shippingKey = Mage::getStoreConfig('carriers/dhl/shipping_key');
         }
         $r->setShippingKey($shippingKey);
+        
+        if ($request->getDhlShippingIntlKey()) {
+            $shippingKey = $request->getDhlShippingIntlKey();
+        } else {
+            $shippingKey = Mage::getStoreConfig('carriers/dhl/shipping_intlkey');
+        }
+        $r->setShippingIntlKey($shippingKey);
 
         if ($request->getDhlShipmentType()) {
             $shipmentType = $request->getDhlShipmentType();
@@ -88,21 +96,66 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             $shipmentType = Mage::getStoreConfig('carriers/dhl/shipment_type');
         }
         $r->setShipmentType($shipmentType);
+        
+        if($request->getDhlDutiable()){
+            $shipmentDutible = $request->getDhlDutiable();
+        }else{
+            $shipmentDutible = Mage::getStoreConfig('carriers/dhl/dutiable');
+        }
+        $r->setDutiable($shipmentDutible);
 
+        if($request->getDhlDutyPaymentType()){
+            $dutypaytype = $request->getDhlDutyPaymentType();
+        }else{
+          $dutypaytype = Mage::getStoreConfig('carriers/dhl/dutypaymenttype');
+        }
+        $r->setDutyPaymentType($dutypaytype);
+        
+        if($request->getDhlContentDesc()){
+           $contentdesc = $request->getDhlContentDesc();
+        }else{
+          $contentdesc = Mage::getStoreConfig('carriers/dhl/contentdesc');
+        }
+        $r->setContentDesc($contentdesc);
+        
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
         }
+        
+        if ($request->getOrigCountry()) {
+            $origCountry = $request->getOrigCountry();
+        } else {
+            $origCountry = Mage::getStoreConfig('shipping/origin/country_id');
+        }
+        $r->setOrigCountry($origCountry);
 
-        $r->setWeight($request->getPackageWeight())
+        /*
+        * DHL only accepts weight as a whole number. Maximum length is 3 digits.
+        */
+        $shipping_weight = $request->getPackageWeight();
+        $shipping_weight = ($shipping_weight < .5 ? .5 : $shipping_weight);
+        $shipping_weight = round($shipping_weight,0);
+        
+        
+        $r->setWeight($shipping_weight)
             ->setValue($request->getPackageValue())
+            ->setDestStreet($request->getDestStreet())
+            ->setDestCity($request->getDestCity())
             ->setDestCountryId($request->getDestCountryId())
             ->setDestState( Mage::getModel('usa/postcode')->getStateByPostcode($request->getDestPostcode()) );
-
+        
         $this->_rawRequest = $r;
         $methods = explode(',', Mage::getStoreConfig('carriers/dhl/allowed_methods'));
+        
+        $internationcode=$this->getCode('international_searvice');
+
         foreach ($methods as $method) {
-        	$this->_rawRequest->setService($method);
-            $this->_getXmlQuotes();
+            if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) || 
+            ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
+            {               
+        	   $this->_rawRequest->setService($method);
+               $this->_getXmlQuotes();
+            }
         }
 
         return $this;
@@ -137,6 +190,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
     protected function _getXmlQuotes()
     {
         $r = $this->_rawRequest;
+        
         $xml = new SimpleXMLElement('<eCommerce/>');
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
@@ -145,12 +199,26 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             $requestor->addChild('ID', $r->getId());
             $requestor->addChild('Password', $r->getPassword());
 
-        $shipment = $xml->addChild('Shipment');
-            $shipment->addAttribute('action', 'RateEstimate');
-            $shipment->addAttribute('version', '1.0');
+        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
+            $shipment = $xml->addChild('Shipment');
+            $shipKey=$r->getShippingKey();
+        }else{
+             $shipment = $xml->addChild('IntlShipment');
+             $shipKey=$r->getShippingIntlKey();
+             
+             /*
+             * For internation shippingment customsvalue must be posted
+             */
+             $shippingDuty = $shipment->addChild('Dutiable');
+                $shippingDuty->addChild('DutiableFlag',($r->getDutiable()?'Y':'N'));
+                $shippingDuty->addChild('CustomsValue',$r->getValue());                             
+        }
+      
+                $shipment->addAttribute('action', 'RateEstimate');
+                $shipment->addAttribute('version', '1.0');
 
             $shippingCredentials = $shipment->addChild('ShippingCredentials');
-                $shippingCredentials->addChild('ShippingKey', $r->getShippingKey());
+                $shippingCredentials->addChild('ShippingKey',$shipKey);
                 $shippingCredentials->addChild('AccountNbr', $r->getAccountNbr());
 
             $shipmentDetail = $shipment->addChild('ShipmentDetail');
@@ -158,13 +226,29 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                 $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
                 $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
                 $shipmentDetail->addChild('Weight', $r->getWeight());
+                $shipmentDetail->addChild('ContentDesc', $r->getContentDesc());
 
-            $shipment->addChild('Billing')->addChild('Party')->addChild('Code', 'S');
+             $billing = $shipment->addChild('Billing');
+                $billing->addChild('Party')->addChild('Code', 'S');
+                $billing->addChild('DutyPaymentType',$r->getDutyPaymentType());  
 
             $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
+                $receiverAddress->addChild('Street', ($r->getDestStreet()?$r->getDestStreet():'NA'));
+                $receiverAddress->addChild('City', $r->getDestCity());
                 $receiverAddress->addChild('State', $r->getDestState());
-                $receiverAddress->addChild('Country', $r->getDestCountryId());
+                /*
+                * DHL xml service is using UK for united kingdom instead of GB which is a standard ISO country code
+                */
+                $receiverAddress->addChild('Country', ($r->getDestCountryId()=='GB'?'UK':$r->getDestCountryId()));
                 $receiverAddress->addChild('PostalCode', $r->getDestPostal());
+            /*    
+            $special_service=$this->getCode('special_service');
+            if(array_key_exists($r->getService(),$special_service)){
+                 $specialService = $shipment->addChild('SpecialServices')->addChild('SpecialService');
+                 $specialService->addChild('Code',$special_service[$r->getService()]);                
+            }
+            */          
+
 
         $request = $xml->asXML();
 
@@ -184,25 +268,30 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         } catch (Exception $e) {
             $responseBody = '';
         }
+   
         $this->_parseXmlResponse($responseBody);
     }
 
     protected function _parseXmlResponse($response)
     {
+        $r = $this->_rawRequest;
         $costArr = array();
         $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
         if (strlen(trim($response))>0) {
             if (strpos(trim($response), '<?xml')===0) {
                 $xml = simplexml_load_string($response);
+                
                 /*
                 echo "<pre>DEBUG:\n";
                 print_r($xml);
                 echo "</pre>";
                 */
+                
                 if (is_object($xml)) {
+                    $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
                     if (
-                           is_object($xml->Faults)
+                        is_object($xml->Faults)
                         && is_object($xml->Faults->Fault)
                         && is_object($xml->Faults->Fault->Code)
                         && is_object($xml->Faults->Fault->Description)
@@ -212,17 +301,26 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                         $description = $xml->Faults->Fault->Description;
                         $context = $xml->Faults->Fault->Context;
                         $this->_errors[$code] = __('Error #%s : %s (%s)', $code, $description, $context);
-                    } elseif(
-                        is_object($xml->Shipment->Faults)
-                        && is_object($xml->Shipment->Result->Code)
-                        && is_object($xml->Shipment->Result->Desc)
-                        && intval($xml->Shipment->Result->Code) != self::SUCCESS_CODE
+                    } elseif(                        
+                        is_object($shipXml->Faults)
+                        && is_object($shipXml->Faults->Fault)
+                        && is_object($shipXml->Faults->Fault->Desc)
+                        && intval($shipXml->Faults->Fault->Code) != self::SUCCESS_CODE
                        ) {
-                           $code = (string)$xml->Shipment->Result->Code;
-                           $description = $xml->Shipment->Result->Desc;
+                           $code = (string)$shipXml->Faults->Fault->Code;
+                           $description = $shipXml->Faults->Fault->Desc;
                            $this->_errors[$code] = __('Error #%s: %s', $code, $description);
-                    } else {
-                        $this->_addRate($xml);
+                    } elseif(                        
+                        is_object($shipXml->Faults)
+                        && is_object($shipXml->Result->Code)
+                        && is_object($shipXml->Result->Desc)
+                        && intval($shipXml->Result->Code) != self::SUCCESS_CODE
+                       ) {
+                           $code = (string)$shipXml->Result->Code;
+                           $description = $shipXml->Result->Desc;
+                           $this->_errors[$code] = __('Error #%s: %s', $code, $description);
+                    }else {
+                        $this->_addRate($xml);                        
                         return $this;
                     }
                 }
@@ -250,6 +348,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         static $codes;
         $codes = array(
             'service'=>array(
+                'IE' => __('International Express'),
+                //'E SAT' => __('Express Saturday'),
+                //'E 10:30AM' => __('Express 10:30 AM'),			
                 'E' => __('Express'),
                 'N' => __('Next Afternoon'),
                 'S' => __('Second Day Service'),
@@ -259,8 +360,22 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                 'L' => __('Letter'),
                 'P' => __('Package'),
             ),
-
+            'international_searvice'=>'IE',
+            /*
+            'special_service'=>array(
+                'E SAT'=>'SAT',
+                'E 10:30AM'=>'1030',
+            ),
+            */
+           'dutypayment_type'=>array(
+                'S' => __('Sender'),
+                'R' => __('Receiver'),
+                '3' => __('Third Party'),
+           ),
+           
         );
+        
+       
 
         if (!isset($codes[$type])) {
 //            throw Mage::exception('Mage_Shipping', __('Invalid DHL XML code type: %s', $type));
@@ -279,9 +394,210 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 
     protected function _addRate($xml)
     {
-        $service = (string)$xml->Shipment->EstimateDetail->Service->Code;
-        $data['term'] = (string)$xml->Shipment->EstimateDetail->ServiceLevelCommitment->Desc;
-        $data['price_total'] = (string)$xml->Shipment->EstimateDetail->RateEstimate->TotalChargeEstimate;
-        $this->_dhlRates[$service] = $data;
+        $r = $this->_rawRequest;
+        $services=$this->getCode('service');
+        $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
+        $desc=(string)$shipXml->EstimateDetail->ServiceLevelCommitment->Desc;
+        $totalEstimate=(string)$shipXml->EstimateDetail->RateEstimate->TotalChargeEstimate;
+        /*
+        * DHL can return with empty result and success code
+        * we need to make sure there is shipping estimate and code
+        */        
+        if($desc && $totalEstimate){
+            $service = (string)$shipXml->EstimateDetail->Service->Code;
+            $data['term'] = (isset($services[$service])?$services[$service]:$desc);
+            $data['price_total'] = $totalEstimate;
+            $this->_dhlRates[$service] = $data;
+        }
+    }
+    
+    public function getTracking($trackings)
+    {
+        $this->setTrackingReqeust();
+                 
+        if (!is_array($trackings)) {
+            $trackings=array($trackings);            
+        }        
+       $this->_getXMLTracking($trackings);        
+    }
+    
+    protected function setTrackingReqeust()
+    {
+        $r = new Varien_Object();
+        
+        $id = Mage::getStoreConfig('carriers/dhl/id');
+        $r->setId($id);
+        
+        $password = Mage::getStoreConfig('carriers/dhl/password');
+        $r->setPassword($password);      
+        
+        $this->_rawTrackRequest = $r;        
+    }
+    
+    protected function _getXMLTracking($trackings)
+    {
+        $r = $this->_rawTrackRequest;
+         
+        $xml = new SimpleXMLElement('<eCommerce/>');
+        $xml->addAttribute('action', 'Request');
+        $xml->addAttribute('version', '1.1');
+        
+        $requestor = $xml->addChild('Requestor');
+            $requestor->addChild('ID', $r->getId());
+            $requestor->addChild('Password', $r->getPassword());
+
+        $track=$xml->addChild('Track');
+            $track->addAttribute('action', 'Get');
+            $track->addAttribute('version', '1.0');
+            
+            //shippment has not been delivered or no scans
+            //$track->addChild('Shipment')->addChild('TrackingNbr','1231230011');
+            //home shipment
+            //$track->addChild('Shipment')->addChild('TrackingNbr','2342340011');
+            //international shipment
+            //$track->addChild('Shipment')->addChild('TrackingNbr','5675670011');
+            //tracking not in airborme tracking tsystem
+            //$track->addChild('Shipment')->addChild('TrackingNbr','7897890011');
+            //tracking need to contanct customer service for more information
+            //$track->addChild('Shipment')->addChild('TrackingNbr','8198190011');
+            
+            foreach($trackings as $tracking){
+               $track->addChild('Shipment')->addChild('TrackingNbr',$tracking);                
+            }
+       
+         $request = $xml->asXML();
+         
+         /*
+         * tracking api cannot process from 3pm to 5pm PST time on Sunday 
+         * DHL Airborne conduts a maintainance during that period.
+         */       
+         try {
+            $url = Mage::getStoreConfig('carriers/dhl/gateway_url');
+            if (!$url) {
+                $url = $this->_defaultGatewayUrl;
+            }
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+            $responseBody = curl_exec($ch);
+            curl_close ($ch);
+        } catch (Exception $e) {
+            $responseBody = '';
+        }
+#echo "<xmp>".$responseBody."</xmp>";          
+        $this->_parseXmlTrackingResponse($trackings,$responseBody);             
+    }
+    
+    protected function _parseXmlTrackingResponse($trackings,$response)
+    {
+         $errorTitle = 'Unable to retrieve tracking';
+         $resultArr=array();
+         $errorArr=array();
+         $trackingserror=array();
+         $tracknum='';
+          if (strlen(trim($response))>0) {
+            if (strpos(trim($response), '<?xml')===0) {
+                 $xml = simplexml_load_string($response);
+                 if (is_object($xml)) {
+                     $trackxml=$xml->Track;
+                      if (
+                        is_object($xml->Faults)
+                        && is_object($xml->Faults->Fault)
+                        && is_object($xml->Faults->Fault->Code)
+                        && is_object($xml->Faults->Fault->Description)
+                        && is_object($xml->Faults->Fault->Context)
+                       ) {     
+                        $code = (string)$xml->Faults->Fault->Code;
+                        $description = $xml->Faults->Fault->Description;
+                        $context = $xml->Faults->Fault->Context;                   
+                        $errorTitle = __('Error #%s : %s (%s)', $code, $description, $context);
+                    }elseif(is_object($trackxml) && is_object($trackxml->Shipment)){                        
+                        foreach($trackxml->Shipment as $txml){                        
+                         $rArr=array();
+                           
+                            if(is_object($txml)){
+                                $tracknum=(string)$txml->TrackingNbr;                              
+                                if($txml->Fault){
+                                     $code = (string)$txml->Fault->Code;
+                                     $description = $txml->Fault->Description;
+                                     $errorArr[$tracknum]=__('Error #%s: %s', $code, $description);
+                                }elseif($txml->Result){
+                                    $code = (int)$txml->Result->Code;                                  
+                                    if($code===0){                                       
+                                         /*
+                                        * Code 0== airbill  found
+                                        */
+                                        $rArr['service']=(string)$txml->Service->Desc;
+                                        if($txml->Delivery){
+                                            $rArr['deliverydate']=(string)$txml->Delivery->Date;
+                                            $rArr['deliverytime']=(string)$txml->Delivery->Time.':00';
+                                            $rArr['status']=__('Delivered');
+                                        }else{
+                                             $rArr['status']=(string)$txml->ShipmentType->Desc.__(' was not delivered nor scanned');
+                                        }
+                                        $resultArr[$tracknum]=$rArr;                                                                     
+                                    }else{
+                                        $description =(string)$txml->Result->Desc;
+                                        if($description)
+                                            $errorArr[$tracknum]=__('Error #%s: %s', $code, $description);  
+                                        else        
+                                            $errorArr[$tracknum]=__('Unable to retrieve tracking');                                   
+                                    }
+                                }else{
+                                    $errorArr[$tracknum]=__('Unable to retrieve tracking');
+                                }
+                                
+                            }                          
+                        }
+                        
+                    }
+                 }                
+            } else {
+                $errorTitle = __('Response is in the wrong format');
+            }
+          }
+          
+          $result = Mage::getModel('shipping/tracking_result');
+          if($errorArr || $resultArr){                
+            foreach ($errorArr as $t=>$r) {
+            	$error = Mage::getModel('shipping/tracking_result_error');
+                $error->setCarrier('dhl');
+                $error->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
+                $error->setTracking($t);
+                $error->setErrorMessage($r);
+                $result->append($error);
+            }
+            
+            foreach($resultArr as $t => $data) {
+                $tracking = Mage::getModel('shipping/tracking_result_status');
+                $tracking->setCarrier('dhl');
+                $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
+                $tracking->setTracking($t);
+                $tracking->addData($data);
+                /*
+                $tracking->setStatus($data['status']);             
+                $tracking->setService($data['service']);
+                if(isset($data['deliverydate'])) $tracking->setDeliveryDate($data['deliverydate']);
+                if(isset($data['deliverytime'])) $tracking->setDeliveryTime($data['deliverytime']);  
+                */                     
+                $result->append($tracking);  
+            }
+          }else{
+              foreach($trackings as $t){
+                $error = Mage::getModel('shipping/tracking_result_error');
+                $error->setCarrier('dhl');
+                $error->setCarrierTitle(Mage::getStoreConfig('carriers/dhl/title'));
+                $error->setTracking($t);
+                $error->setErrorMessage($errorTitle);
+                $result->append($error);
+                  
+              }
+          }
+
+//echo "<pre>";print_r($result);
+        
     }
 }
