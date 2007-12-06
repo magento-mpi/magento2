@@ -124,6 +124,22 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $this->_redirectReferer(Mage::getBaseUrl());
     }
 
+    public function deniedJsonAction()
+    {
+        $this->getResponse()->setBody($this->_getDeniedJson());
+    }
+
+    protected function _getDeniedJson()
+    {
+        return Zend_Json::encode(
+            array(
+                'ajaxExpired'  => 1,
+                'ajaxRedirect' => Mage::getUrl('*/index/login')
+            )
+        );
+    }
+
+
     protected function _isAllowed()
     {
     	/*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {

@@ -14,6 +14,66 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+var SessionError = Class.create();
+SessionError.prototype = {
+    initialize: function(errorText) {
+        this.errorText = errorText;
+    },
+    toString: function()
+    {
+        return 'Session Error:' + this.errorText;
+    }
+};
+
+Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
+   initialize: function(url, options) {
+    this.transport = Ajax.getTransport();
+    this.setOptions(options);
+    this.request(url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1');
+  },
+  respondToReadyState: function(readyState) {
+    var state = Ajax.Request.Events[readyState];
+    var transport = this.transport, json = this.evalJSON();
+
+    if (state == 'Complete') {
+      try {
+        this._complete = true;
+        (this.options['on' + this.transport.status]
+         || this.options['on' + (this.success() ? 'Success' : 'Failure')]
+         || Prototype.emptyFunction)(transport, json);
+      } catch (e) {
+        this.dispatchException(e);
+      }
+
+      var contentType = this.getHeader('Content-type');
+      if (contentType && contentType.strip().
+        match(/^(text|application)\/(x-)?(java|ecma)script(;.*)?$/i))
+          this.evalResponse();
+    }
+
+    try {
+      if(state=='Complete' && transport.responseText.isJSON()) {
+           var _checkData  = transport.responseText.evalJSON();
+           if(typeof _checkData == 'object' && _checkData.ajaxExpired && _checkData.ajaxRedirect) {
+               window.location.href = _checkData.ajaxRedirect;
+               throw new SessionError('session expired');
+           }
+      }
+
+      (this.options['on' + state] || Prototype.emptyFunction)(transport, json);
+      Ajax.Responders.dispatch('on' + state, this, transport, json);
+    } catch (e) {
+      this.dispatchException(e);
+    }
+
+    if (state == 'Complete') {
+      // avoid memory leak in MSIE: clean up
+      this.transport.onreadystatechange = Prototype.emptyFunction;
+    }
+  }
+});
+
 var varienLoader = new Class.create();
 
 varienLoader.prototype = {
@@ -86,7 +146,7 @@ varienLoaderHandler.handler = {
         }
     },
 
-    onComplete: function() {
+    onComplete: function(transport) {
         if(Ajax.activeRequestCount == 0) {
             Element.hide('loading-process');
             toggleSelectsUnderBlock($('loading-mask'), true);
@@ -94,6 +154,8 @@ varienLoaderHandler.handler = {
         }
     }
 };
+
+
 
 function toggleSelectsUnderBlock(block, flag){
     if(Prototype.Browser.IE){
