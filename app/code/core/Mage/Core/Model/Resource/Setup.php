@@ -338,6 +338,7 @@ class Mage_Core_Model_Resource_Setup
                 $sql .= $this->_conn->quoteInto(" and $parentField=?", $parentId);
             }
             $this->_setupCache[$table][$parentId][$id] = $this->_conn->fetchRow($sql, $id);
+            $this->_conn->fetchAll($sql, $id);
         }
         if (is_null($field)) {
             return $this->_setupCache[$table][$parentId][$id];
@@ -407,6 +408,7 @@ class Mage_Core_Model_Resource_Setup
 				}
 
 				$result = $this->_conn->raw_fetchRow($sql);
+				$this->_conn->fetchAll($sql);
 #print_r($result); die;
 				$data['sort_order'] = $result['cnt']+1;
 /*

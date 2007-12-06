@@ -17,7 +17,12 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$this->run("
-UPDATE eav_attribute SET source_model = '' WHERE attribute_id = 97 LIMIT 1
-");
+$attributeId = $this->getAttributeId('catalog_product', 'description');
+
+if ($attributeId) {
+    //$this->startSetup();
+    $this->run("UPDATE eav_attribute SET source_model = '' WHERE attribute_id = '".$attributeId."';");
+    //$this->endSetup();
+}
+
 
