@@ -81,10 +81,9 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
     		$retry = false;
     		$tries = 0;
 	    	try {
-    		    if ($result = $this->getConnection()->store_result()) {
-    		    	$result->free_result();
-    		    }
+    		    $this->clear_result();
 	        	$result = $this->getConnection()->query($sql);
+	        	$this->clear_result();
 	    	}
 	    	catch (Exception $e) {
 	    		if ($e->getMessage()=='SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction') {
@@ -137,21 +136,12 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 	{
 	    $this->beginTransaction();
 	    try {
+		    $this->clear_result();
 			if ($this->getConnection()->multi_query($sql)) {
-				do {
-				    if ($result = $this->getConnection()->store_result()) {
-				    	$result->free_result();
-				    }
-				    elseif($this->getConnection()->error) {
-				        throw new Zend_Db_Adapter_Mysqli_Exception('Level3:'.$this->getConnection()->error);
-				    }
-				} while ($this->getConnection()->next_result());
-    		    if ($result = $this->getConnection()->store_result()) {
-    		    	$result->free_result();
-    		    }
+                $this->clear_result();
 		        $this->commit();
 			} else {
-				throw new Zend_Db_Adapter_Mysqli_Exception('Level2:'.$this->getConnection()->error);
+				throw new Zend_Db_Adapter_Mysqli_Exception('multi_query: '.$this->getConnection()->error);
 			}
 	    } catch (Exception $e) {
 			$this->rollback();
@@ -159,6 +149,19 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
 	    }
 
 		return true;
+	}
+
+	public function clear_result()
+	{
+		while ($this->getConnection()->next_result()) {
+		    if ($result = $this->getConnection()->store_result()) {
+		    	$result->free_result();
+		    }
+		    elseif($this->getConnection()->error) {
+		        throw new Zend_Db_Adapter_Mysqli_Exception('clear_result: '.$this->getConnection()->error);
+		    }
+		}
+
 	}
 
 	public function dropForeignKey($table, $fk)
