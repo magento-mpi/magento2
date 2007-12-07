@@ -26,7 +26,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         parent::_construct();
         $this->setTemplate('payment/form/cc.phtml');
     }
-    
+
     /**
      * Retrieve payment configuration object
      *
@@ -36,7 +36,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     {
         return Mage::getSingleton('payment/config');
     }
-    
+
     /**
      * Retrieve availables credit card types
      *
@@ -58,7 +58,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         }
         return $types;
     }
-    
+
     /**
      * Retrieve credit card expire months
      *
@@ -68,7 +68,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     {
         return $this->_getConfig()->getMonths();
     }
-    
+
     /**
      * Retrieve credit card expire years
      *
@@ -78,7 +78,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     {
         return $this->_getConfig()->getYears();
     }
-    
+
     public function hasVerification()
     {
         if ($this->getPaymentMethod()) {
@@ -90,9 +90,9 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         }
         return true;
     }
-    
-    
-    
+
+
+
     /**
      * @todo change front cc templates
      */
@@ -133,4 +133,5 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         }
         return $yearsArr;
     }
+
 }

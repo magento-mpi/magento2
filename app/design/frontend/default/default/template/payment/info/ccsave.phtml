@@ -20,5 +20,5 @@
 ?>
 <strong><?=$this->__('Name on Card')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcOwner()?></span><br/>
 <strong><?=$this->__('Card Type')?>:</strong> <span class="nowrap"><?=$this->getCcTypeName($this->getPayment()->getCcType())?></span><br/>
-<strong><?=$this->__('Credit Card Number')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcNumber()?></span><br/>
+<strong><?=$this->__('Credit Card Number')?>:</strong> <span class="nowrap"><?=($this->getPrivacyDependentCcNumber() ? $this->getPrivacyDependentCcNumber($this->getPayment()) : $this->getPayment()->getCcNumber())?></span><br/>
 <strong><?=$this->__('Expiration Date')?>:</strong> <span class="nowrap"><?=$this->getPayment()->getCcExpMonth()?>/<?=$this->getPayment()->getCcExpYear()?></span>

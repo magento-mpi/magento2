@@ -43,4 +43,20 @@ class Mage_Payment_Block_Info_Cc extends Mage_Core_Block_Template
     	$types = $this->getCcTypes();
     	return isset($types[$type]) ? $types[$type] : $type;
     }
+
+    public function getPrivacyDependentCcNumber($payment=false)
+    {
+        if(!$payment) {
+            return true;
+        }
+
+        if(!$this->getPrivacy() || $this->getPrivacy()=='public')  {
+            return $payment->getCcNumber();
+        } else {
+            $ccNumber = (string) $payment->getCcNumber();
+            return substr($ccNumber, 0, 4) . str_repeat('x', 8) .  substr($ccNumber, 12);
+        }
+    }
+
+
 }

@@ -69,7 +69,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
         return $this->getData('cc_cid');
     }
 
-    public function getHtmlFormated()
+    public function getHtmlFormated($privacy='public')
     {
         $html = '';
         /**
@@ -86,7 +86,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
                 $method->setPayment($this);
                 $methodBlock = $method->createInfoBlock('payment.method.'.$this->getMethod().'.'.$this->getId());
                 if (!empty($methodBlock)) {
-                    $html .= $methodBlock->toHtml();
+                    $html .= $methodBlock->setPrivacy($privacy)->toHtml();
                 }
             }
         }
