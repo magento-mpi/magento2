@@ -28,7 +28,7 @@
 
 class Mage_Review_Model_Mysql4_Review_Summary extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->_init('review/review_aggregate', 'entity_pk_value');
     }

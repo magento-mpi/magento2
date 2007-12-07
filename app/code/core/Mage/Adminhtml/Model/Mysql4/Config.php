@@ -21,14 +21,14 @@
 
 class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract 
 {
-	protected function _construct()
-	{
-		$this->_init('core/config_data', 'config_id');
-	}
-	
+    protected function _construct()
+    {
+        $this->_init('core/config_data', 'config_id');
+    }
+    
     public function loadSectionData($section, $website, $store)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $table = $this->getMainTable();
 
         $config = array();
@@ -105,12 +105,12 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $scopeId = 0;
         }
 
-        $select = $this->getConnection('read')->select()
+        $select = $this->_getWriteAdapter()->select()
             ->from($this->getMainTable(), array('path', 'value', 'config_id', 'inherit'))
             ->where('scope=?', $scope)->where('scope_id=?', $scopeId)
             ->where('path like ?', $section.'/%');
 
-        $old = $this->getConnection('read')->fetchAssoc($select);
+        $old = $this->_getWriteAdapter()->fetchAssoc($select);
 
         $dataModel = Mage::getModel('core/config_data');
         $rows = array();
@@ -159,7 +159,7 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                     if (!is_null($fieldData['value'])) {
                         $data['value'] = $fieldData['value'];
                     } else {
-                    	$data['value'] = isset($fieldData['default_value']) ? $fieldData['default_value'] : '';
+                        $data['value'] = isset($fieldData['default_value']) ? $fieldData['default_value'] : '';
                     }
 
                     $dataModel->setData($data)->save();

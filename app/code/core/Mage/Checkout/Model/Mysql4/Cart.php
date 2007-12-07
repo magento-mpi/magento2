@@ -33,7 +33,7 @@ class Mage_Checkout_Model_Mysql4_Cart extends Mage_Core_Model_Mysql4_Abstract
         $attribute = Mage::getSingleton('eav/config')->getAttribute($qtyEntityTypeId, 'qty');
         $qtyAttributeId = $attribute->getAttributeId();
         $qtyAttributeTable = $this->getMainTable().'_'.$attribute->getBackendType();
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from(array('qty'=>$qtyAttributeTable), 'sum(qty.value)')
             ->join(array('e'=>$this->getMainTable()), 'e.entity_id=qty.entity_id', array())

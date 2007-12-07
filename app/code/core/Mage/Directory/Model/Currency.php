@@ -72,7 +72,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getRate($toCurrency)
     {
-        return $this->getResource()->getRate($this->getCode(), $toCurrency);
+        return $this->_getResource()->getRate($this->getCode(), $toCurrency);
     }
 
     /**
@@ -133,7 +133,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getConfigAllowCurrencies()
     {
-        $allowedCurrencies = $this->getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_ALLOW);
+        $allowedCurrencies = $this->_getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_ALLOW);
         $appBaseCurrencyCode = Mage::app()->getBaseCurrencyCode();
         if (!in_array($appBaseCurrencyCode, $allowedCurrencies)) {
             $allowedCurrencies[] = $appBaseCurrencyCode;
@@ -148,14 +148,14 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getConfigDefaultCurrencies()
     {
-        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_DEFAULT);
+        $defaultCurrencies = $this->_getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_DEFAULT);
         return $defaultCurrencies;
     }
 
 
     public function getConfigBaseCurrencies()
     {
-        $defaultCurrencies = $this->getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_BASE);
+        $defaultCurrencies = $this->_getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_BASE);
         return $defaultCurrencies;
     }
 
@@ -168,7 +168,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getCurrencyRates($currency, $toCurrencies=null)
     {
-        $data = $this->getResource()->getCurrencyRates($currency, $toCurrencies);
+        $data = $this->_getResource()->getCurrencyRates($currency, $toCurrencies);
         return $data;
     }
 
@@ -180,7 +180,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function saveRates($rates)
     {
-        $this->getResource()->saveRates($rates);
+        $this->_getResource()->saveRates($rates);
         return $this;
     }
 }

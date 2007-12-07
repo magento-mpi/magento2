@@ -41,7 +41,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $ruleId = $rule->getId();
 
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalogrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
 
         if (empty($action) || !$rule->getIsActive()) {
@@ -94,7 +94,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function removeCatalogPricesForDateRange($fromDate, $toDate)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $cond = $write->quoteInto('rule_date between ?', $this->formatDate($fromDate));
         $cond = $write->quoteInto($cond.' and ?', $this->formatDate($toDate));
         $write->delete($this->getTable('catalogrule/rule_product_price'), $cond);
@@ -103,7 +103,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function getRuleProductsForDateRange($fromDate, $toDate)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         if (is_null($toDate)) {
             $toDate = $fromDate;
         }
@@ -151,14 +151,14 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $key = $this->formatDate($time).'|'.$r['store_id'].'|'.$r['customer_group_id'].'|'.$r['product_id'];
 
                 if (!isset($prices[$key])) {
-                	$product = $products->getItemById($r['product_id']);
-                	if ($product) {
-                    	$prices[$key] = $product->getPrice();
-                	} else {
-                		$prices[$key] = false;
-                	}
+                    $product = $products->getItemById($r['product_id']);
+                    if ($product) {
+                        $prices[$key] = $product->getPrice();
+                    } else {
+                        $prices[$key] = false;
+                    }
                 } elseif ($prices[$key]===false) {
-                	continue;
+                    continue;
                 }
 
                 if (!empty($stop[$key])) {
@@ -190,7 +190,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             }
         }
 
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $header = 'replace into '.$this->getTable('catalogrule/rule_product_price').' (rule_date, store_id, customer_group_id, product_id, rule_price) values ';
 
         try {
@@ -224,7 +224,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function getRulePrice($date, $sId, $gId, $pId)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getTable('catalogrule/rule_product_price'), 'rule_price')
             ->where('rule_date=?', $this->formatDate($date))
@@ -236,7 +236,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     
     public function getRulesForProduct($date, $sId, $pId)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getTable('catalogrule/rule_product_price'), '*')
             ->where('rule_date=?', $this->formatDate($date))

@@ -44,7 +44,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item extends Mage_Core_Model_Mysq
         $select = $this->_getLoadSelect('product_id', $productId, $item)
             ->where('stock_id=?', $item->getStockId());
             
-        $item->setData($this->getConnection('read')->fetchRow($select));
+        $item->setData($this->_getReadAdapter()->fetchRow($select));
         $this->_afterLoad($item);
         return $this;
     }

@@ -37,7 +37,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 
     public function resetVotesCount()
     {
-        $this->getResource()->resetVotesCount($this);
+        $this->_getResource()->resetVotesCount($this);
         return $this;
     }
 
@@ -61,7 +61,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 
     public function getRandomId()
     {
-        return $this->getResource()->getRandomId($this);
+        return $this->_getResource()->getRandomId($this);
     }
 
     public function getVotedPollsIds()

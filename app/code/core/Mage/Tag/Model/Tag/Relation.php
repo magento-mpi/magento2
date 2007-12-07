@@ -41,13 +41,13 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
         if(!is_null($storeId)) {
             $this->setStoreId($storeId);
         }
-        $this->getResource()->loadByTagCustomer($this);
+        $this->_getResource()->loadByTagCustomer($this);
         return $this;
     }
 
     public function deactivate()
     {
-        $this->getResource()->deactivate($this->getTagId(),  $this->getCustomerId());
+        $this->_getResource()->deactivate($this->getTagId(),  $this->getCustomerId());
         return $this;
     }
 }

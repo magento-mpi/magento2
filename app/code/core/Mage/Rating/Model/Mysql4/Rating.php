@@ -36,7 +36,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
     protected function _getLoadSelect($field, $value, $object)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
 
         $select = $read->select()
             ->from(array('main'=>$this->getMainTable()), array('rating_id', 'entity_id', 'position'))
@@ -49,11 +49,11 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
     protected function _afterLoad(Mage_Core_Model_Abstract $object) {
         parent::_afterLoad($object);
-        $select = $this->getConnection('read')->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('rating_title'))
             ->where('rating_id=?', $object->getId());
 
-        $data = $this->getConnection('read')->fetchAll($select);
+        $data = $this->_getReadAdapter()->fetchAll($select);
         $storeCodes = array();
         foreach ($data as $row) {
             $storeCodes[$row['store_id']] = $row['value'];
@@ -62,11 +62,11 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
             $object->setRatingCodes($storeCodes);
         }
 
-        $storesSelect = $this->getConnection('read')->select()
+        $storesSelect = $this->_getReadAdapter()->select()
             ->from($this->getTable('rating_store'))
             ->where('rating_id=?', $object->getId());
 
-        $stores = $this->getConnection('read')->fetchAll($storesSelect);
+        $stores = $this->_getReadAdapter()->fetchAll($storesSelect);
 
         $putStores = array();
         foreach ($stores as $store) {
@@ -83,9 +83,9 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         if($object->hasRatingCodes()) {
             try {
-                $this->getConnection('write')->beginTransaction();
-                $condition = $this->getConnection('write')->quoteInto('rating_id = ?', $object->getId());
-                $this->getConnection('write')->delete($this->getTable('rating_title'), $condition);
+                $this->_getWriteAdapter()->beginTransaction();
+                $condition = $this->_getWriteAdapter()->quoteInto('rating_id = ?', $object->getId());
+                $this->_getWriteAdapter()->delete($this->getTable('rating_title'), $condition);
                 if ($ratingCodes = $object->getRatingCodes()) {
                     foreach ($ratingCodes as $storeId=>$value) {
                         if(trim($value)=='') {
@@ -95,29 +95,29 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
                         $data->setRatingId($object->getId())
                             ->setStoreId($storeId)
                             ->setValue($value);
-                        $this->getConnection('write')->insert($this->getTable('rating_title'), $data->getData());
+                        $this->_getWriteAdapter()->insert($this->getTable('rating_title'), $data->getData());
                     }
                 }
-                $this->getConnection('write')->commit();
+                $this->_getWriteAdapter()->commit();
             }
             catch (Exception $e) {
-                $this->getConnection('write')->rollBack();
+                $this->_getWriteAdapter()->rollBack();
             }
         }
 
         if($object->hasStores()) {
             try {
-                $condition = $this->getConnection('write')->quoteInto('rating_id = ?', $object->getId());
-                $this->getConnection('write')->delete($this->getTable('rating_store'), $condition);
+                $condition = $this->_getWriteAdapter()->quoteInto('rating_id = ?', $object->getId());
+                $this->_getWriteAdapter()->delete($this->getTable('rating_store'), $condition);
                 foreach ($object->getStores() as $storeId) {
                     $storeInsert = new Varien_Object();
                     $storeInsert->setStoreId($storeId);
                     $storeInsert->setRatingId($object->getId());
-                    $this->getConnection('write')->insert($this->getTable('rating_store'), $storeInsert->getData());
+                    $this->_getWriteAdapter()->insert($this->getTable('rating_store'), $storeInsert->getData());
                 }
             }
             catch (Exception  $e) {
-                $this->getConnection('write')->rollBack();
+                $this->_getWriteAdapter()->rollBack();
             }
         }
 
@@ -126,7 +126,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
     public function getEntitySummary($object, $onlyForCurrentStore = true)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $sql = "SELECT
                     SUM({$this->getTable('rating_vote')}.percent) as sum,
                     COUNT(*) as count,
@@ -177,13 +177,13 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $usedStoresId = array_keys($result);
 
         foreach ($stores as $store) {
-        	   if (!in_array($store->getId(), $usedStoresId)) {
-        	        $clone = clone $object;
+               if (!in_array($store->getId(), $usedStoresId)) {
+                    $clone = clone $object;
                     $clone->setCount(0);
                     $clone->setSum(0);
                     $clone->setStoreId($store->getId());
                     $result[$store->getId()] = $clone;
-        	   }
+               }
         }
 
 
@@ -193,7 +193,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
     public function getReviewSummary($object, $onlyForCurrentStore = true)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $sql = "SELECT
                     SUM({$this->getTable('rating_vote')}.percent) as sum,
                     COUNT(*) as count,
@@ -235,14 +235,14 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $usedStoresId = array_keys($result);
 
         foreach ($stores as $store) {
-        	   if (!in_array($store->getId(), $usedStoresId)) {
-        	       $clone = clone $object;
+               if (!in_array($store->getId(), $usedStoresId)) {
+                   $clone = clone $object;
                 $clone->setCount(0);
                 $clone->setSum(0);
                 $clone->setStoreId($store->getId());
                 $result[$store->getId()] = $clone;
 
-        	   }
+               }
         }
 
         return array_values($result);

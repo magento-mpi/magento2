@@ -50,12 +50,11 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _saveUrlInfo($visitor)
     {
-        $write = $this->getConnection('write');
-        $write->insert($this->getTable('log/url_info_table'), array(
+        $this->_getWriteAdapter()->insert($this->getTable('log/url_info_table'), array(
             'url'    => iconv_substr($visitor->getUrl(), 0, 250),
             'referer'=> iconv_substr($visitor->getHttpReferer(), 0, 250)
         ));
-        $visitor->setLastUrlId($write->lastInsertId());
+        $visitor->setLastUrlId($this->_getWriteAdapter()->lastInsertId());
         return $this;
     }
     
@@ -93,7 +92,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _saveVisitorInfo($visitor)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $data = array(
             'visitor_id'        => $visitor->getId(),
             'http_referer'      => iconv_substr($visitor->getHttpReferer(), 0, 250),
@@ -116,7 +115,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _saveVisitorUrl($visitor)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $write->insert($this->getTable('log/url_table'), array(
             'url_id'    => $visitor->getLastUrlId(),
             'visitor_id'=> $visitor->getId(),
@@ -133,7 +132,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _saveCustomerInfo($visitor)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         
         if ($visitor->getDoCustomerLogin()) {
             $write->insert($this->getTable('log/customer'), array(
@@ -165,7 +164,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _saveQuoteInfo($visitor)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         if ($visitor->getDoQuoteCreate()) {
             $write->insert($this->getTable('log/quote_table'), array(
                 'quote_id'  => $visitor->getQuoteId(),

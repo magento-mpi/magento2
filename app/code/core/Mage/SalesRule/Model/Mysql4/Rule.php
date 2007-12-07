@@ -31,9 +31,9 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     {
         $object->setFromDate($this->formatDate($object->getFromDate()));
         $object->setToDate($this->formatDate($object->getToDate()));
-    	if (!$object->getDiscountQty()) {
-    		$object->setDiscountQty(new Zend_Db_Expr('NULL'));
-    	}
+        if (!$object->getDiscountQty()) {
+            $object->setDiscountQty(new Zend_Db_Expr('NULL'));
+        }
         parent::_beforeSave($object);
     }
 
@@ -45,8 +45,8 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $ruleId = $rule->getId();
 
-        $read = $this->getConnection('read');
-        $write = $this->getConnection('write');
+        $read = $this->_getReadAdapter();
+        $write = $this->_getWriteAdapter();
 
         $write->delete($this->getTable('salesrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
 
@@ -55,10 +55,10 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if ($rule->getUsesPerCoupon()>0) {
-        	$usedPerCoupon = $read->fetchOne('select count(*) from salesrule_customer where rule_id=?', $ruleId);
-        	if ($usedPerCoupon>=$rule->getUsesPerCoupon()) {
-        		return $this;
-        	}
+            $usedPerCoupon = $read->fetchOne('select count(*) from salesrule_customer where rule_id=?', $ruleId);
+            if ($usedPerCoupon>=$rule->getUsesPerCoupon()) {
+                return $this;
+            }
         }
 
         $productIds = explode(',', $rule->getProductIds());
@@ -105,10 +105,10 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function getCustomerUses($rule, $customerId)
     {
-    	$read = $this->getConnection('read');
-    	$select = $read->select()->from($this->getTable('rule_customer'), array('cnt'=>'count(*)'))
-    		->where('rule_id=?', $rule->getRuleId())
-    		->where('customer_id=?', $customerId);
-    	return $read->fetchOne($select);
+        $read = $this->_getReadAdapter();
+        $select = $read->select()->from($this->getTable('rule_customer'), array('cnt'=>'count(*)'))
+            ->where('rule_id=?', $rule->getRuleId())
+            ->where('customer_id=?', $customerId);
+        return $read->fetchOne($select);
     }
 }

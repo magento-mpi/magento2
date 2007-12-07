@@ -36,7 +36,7 @@ class Mage_Eav_Model_Mysql4_Entity_Store extends Mage_Core_Model_Mysql4_Abstract
      */
     public function loadByEntityStore(Mage_Core_Model_Abstract $object, $entityTypeId, $storeId)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
 
         $select = $read->select()->from($this->getMainTable())
             ->where('entity_type_id=?', $entityTypeId)

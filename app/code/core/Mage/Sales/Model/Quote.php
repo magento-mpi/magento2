@@ -84,17 +84,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     protected function _beforeSave()
     {
-        $baseCurrency  = Mage::app()->getBaseCurrencyCode();
-        $storeCurrency = $this->getStore()->getBaseCurrencyCode();
-        $quoteCurrency = $this->getStore()->getCurrentCurrencyCode();
+        $baseCurrencyCode  = Mage::app()->getBaseCurrencyCode();
+        $storeCurrency = $this->getStore()->getBaseCurrency();
+        $quoteCurrency = $this->getStore()->getCurrentCurrency();
 
         $currency = Mage::getModel('directory/currency');
 
-        $this->setBaseCurrencyCode($baseCurrency);
-        $this->setStoreCurrencyCode($storeCurrency);
-        $this->setQuoteCurrencyCode($quoteCurrency);
-        $this->setStoreToBaseRate($currency->getResource()->getRate($storeCurrency, $baseCurrency));
-        $this->setStoreToQuoteRate($currency->getResource()->getRate($storeCurrency, $quoteCurrency));
+        $this->setBaseCurrencyCode($baseCurrencyCode);
+        $this->setStoreCurrencyCode($storeCurrency->getCode());
+        $this->setQuoteCurrencyCode($quoteCurrency->getCode());
+        $this->setStoreToBaseRate($storeCurrency->getRate($baseCurrencyCode));
+        $this->setStoreToQuoteRate($storeCurrency->getRate($quoteCurrency));
 
         Mage::dispatchEvent('sales_quote_save_before', array('quote'=>$this));
         parent::_beforeSave();
@@ -694,7 +694,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         else {
             $customerId = (int) $customer;
         }
-        $this->getResource()->loadByCustomerId($this, $customerId);
+        $this->_getResource()->loadByCustomerId($this, $customerId);
         return $this;
     }
     

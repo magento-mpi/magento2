@@ -124,7 +124,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     
     protected function _afterSave()
     {
-        $this->getResource()->updateRuleProductData($this);
+        $this->_getResource()->updateRuleProductData($this);
         parent::_afterSave();
     }
     

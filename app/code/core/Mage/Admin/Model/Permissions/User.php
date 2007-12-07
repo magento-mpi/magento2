@@ -28,73 +28,73 @@ class Mage_Admin_Model_Permissions_User extends Mage_Core_Model_Abstract
 
     public function save() {
 
-		$data = array(
-			'firstname' => $this->getFirstname(),
-			'lastname' 	=> $this->getLastname(),
-			'email' 	=> $this->getEmail(),
-		);
+        $data = array(
+            'firstname' => $this->getFirstname(),
+            'lastname'  => $this->getLastname(),
+            'email'     => $this->getEmail(),
+        );
 
-		if ( $this->getId() > 0 ) {
-		    $data['user_id'] 	= $this->getId();
-		}
-		if( $this->getUsername() ) {
-		    $data['username'] 	= $this->getUsername();
-		}
-		if ($this->getPassword()) {
-		    $data['password'] 	= $this->_getEncodedPassword($this->getPassword());
-		}
+        if ( $this->getId() > 0 ) {
+            $data['user_id']    = $this->getId();
+        }
+        if( $this->getUsername() ) {
+            $data['username']   = $this->getUsername();
+        }
+        if ($this->getPassword()) {
+            $data['password']   = $this->_getEncodedPassword($this->getPassword());
+        }
 
-		if ($this->getNewPassword()) {
-		    $data['password'] 	= $this->_getEncodedPassword($this->getNewPassword());
-		}
+        if ($this->getNewPassword()) {
+            $data['password']   = $this->_getEncodedPassword($this->getNewPassword());
+        }
 
-		if ( !is_null($this->getIsActive()) ) {
-		    $data['is_active'] 	= intval($this->getIsActive());
-		}
-		
-		$this->setData($data);
-		$this->getResource()->save($this);
-		return $this;
+        if ( !is_null($this->getIsActive()) ) {
+            $data['is_active']  = intval($this->getIsActive());
+        }
+        
+        $this->setData($data);
+        $this->_getResource()->save($this);
+        return $this;
     }
 
     public function delete()
     {
-    	$this->getResource()->delete($this);
-    	return $this;
+        $this->_getResource()->delete($this);
+        return $this;
     }
 
-	public function saveRelations()
-	{
-		$this->getResource()->_saveRelations($this);
-		return $this;
-	}
-
-	public function getRoles()
-	{
-		return $this->getResource()->_getRoles($this);
-	}
-
-	public function deleteFromRole()
-	{
-		$this->getResource()->deleteFromRole($this);
-		return $this;
-	}
-
-	public function roleUserExists()
-	{
-		$result = $this->getResource()->roleUserExists($this);
-		return ( is_array($result) && count($result) > 0 ) ? true : false;
-	}
-
-	public function add()
-	{
-		$this->getResource()->add($this);
-		return $this;
-	}
-	
-	public function userExists()
+    public function saveRelations()
     {
-        $result = $this->getResource()->userExists($this);
+        $this->_getResource()->_saveRelations($this);
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return $this->_getResource()->_getRoles($this);
+    }
+
+    public function deleteFromRole()
+    {
+        $this->_getResource()->deleteFromRole($this);
+        return $this;
+    }
+
+    public function roleUserExists()
+    {
+        $result = $this->_getResource()->roleUserExists($this);
+        return ( is_array($result) && count($result) > 0 ) ? true : false;
+    }
+
+    public function add()
+    {
+        $this->_getResource()->add($this);
+        return $this;
+    }
+    
+    public function userExists()
+    {
+        $result = $this->_getResource()->userExists($this);
         return ( is_array($result) && count($result) > 0 ) ? true : false;
     }
 
@@ -102,10 +102,10 @@ class Mage_Admin_Model_Permissions_User extends Mage_Core_Model_Abstract
         return Mage::getResourceModel('admin/permissions_user_collection');
     }
     
-	# Protected methods
-	protected function _getEncodedPassword($pwd)
-	{
-		return md5($pwd);
-	}
+    # Protected methods
+    protected function _getEncodedPassword($pwd)
+    {
+        return md5($pwd);
+    }
 
 }

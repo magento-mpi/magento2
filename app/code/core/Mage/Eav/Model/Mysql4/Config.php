@@ -29,13 +29,13 @@ class Mage_Eav_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
     public function fetchCacheData()
     {
         $data = array();
-        $entityTypes = $this->getConnection('read')->fetchAll('select * from '.$this->getMainTable());
+        $entityTypes = $this->_getReadAdapter()->fetchAll('select * from '.$this->getMainTable());
         foreach ($entityTypes as $row) {
             $data['entity_type'][$row['entity_type_id']] = $row;
             $data['entity_type'][$row['entity_type_code']] = $row['entity_type_id'];
         }
 
-        $attributes = $this->getConnection('read')->fetchAll('select * from '.$this->getTable('eav/attribute'));
+        $attributes = $this->_getReadAdapter()->fetchAll('select * from '.$this->getTable('eav/attribute'));
         foreach ($attributes as $row) {
             $data['attribute'][$row['attribute_id']] = $row;
             $data['attribute'][$row['entity_type_id'].'/'.$row['attribute_code']] = $row['attribute_id'];
@@ -46,7 +46,7 @@ class Mage_Eav_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
     public function fetchEntityTypeData($entityType)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         if (!$read) {
             return false;
         }

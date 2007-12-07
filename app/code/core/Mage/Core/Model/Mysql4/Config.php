@@ -44,11 +44,10 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
         }
-        if (empty($tables) || !$this->getConnection('read')) {
+        if (empty($tables) || !$this->_getReadAdapter()) {
             return false;
         }
-        $checksumArr = $this->getConnection('read')
-        	->fetchAll('checksum table '.join(',', $tables));
+        $checksumArr = $this->_getReadAdapter()->fetchAll('checksum table '.join(',', $tables));
         $checksum = 0;
         foreach ($checksumArr as $r) {
             $checksum += $r['Checksum'];
@@ -65,7 +64,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
      */
     public function loadToXml(Mage_Core_Model_Config $xmlConfig, $cond=null)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         if (!$read) {
             return $this;
         }
@@ -134,7 +133,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 foreach ($sConfig as $path=>$data) {
                     // get config prefix: 'global' or 'websites/{code}' or 'stores/{code}'
                     $prefix = $scope.($scope!=='default' ? '/'.$d[$scope][$sId]['code'] : '');
-					#echo "<pre>".print_r($prefix.'/'.$path,1)."</pre>";
+                    #echo "<pre>".print_r($prefix.'/'.$path,1)."</pre>";
                     $xmlConfig->setNode($prefix.'/'.$path, $data['value']);
                 }
             }

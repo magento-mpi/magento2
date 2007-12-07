@@ -533,14 +533,16 @@ AdminOrder.prototype = {
         //editForm.submit();
         if(this.orderItemChanged){
             if(confirm('You have item changes')){
-                $('edit_form').submit();
+                //$('edit_form').submit();
+                editForm.submit();
             }
             else{
                 this.itemsUpdate();
             }
         }
         else{
-            $('edit_form').submit();
+            //$('edit_form').submit();
+            editForm.submit();
         }
     }
 }

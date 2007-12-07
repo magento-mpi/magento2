@@ -23,23 +23,23 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Mage_Catalog_Model_Entity_Product_Super_Link extends Mage_Core_Model_Mysql4_Abstract
 {
-	protected function _construct()
-	{
-		$this->_init('catalog/product_super_link','link_id');
-	}
-	
-	public function loadByProduct($link, $productId, $parentId)
-	{
-		$read = $this->getConnection('read');
+    protected function _construct()
+    {
+        $this->_init('catalog/product_super_link','link_id');
+    }
+    
+    public function loadByProduct($link, $productId, $parentId)
+    {
+        $read = $this->_getReadAdapter();
 
         $select = $read->select()->from($this->getMainTable())
             ->where('product_id=?', $productId)
-            ->where('parent_id=?',	$parentId);
+            ->where('parent_id=?',  $parentId);
         $data = $read->fetchRow($select);
 
         if (!$data) {
@@ -50,5 +50,5 @@ class Mage_Catalog_Model_Entity_Product_Super_Link extends Mage_Core_Model_Mysql
 
         $this->_afterLoad($link);
         return true;
-	}
+    }
 }// Class Mage_Catalog_Model_Entity_Product_Super_Link END

@@ -38,7 +38,7 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
         $package = isset($params['package']) ? $params['package'] : Mage::getSingleton('core/design_package')->getPackageName();
         $theme = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
 
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $updateStr = '';
         
         if ($read) {

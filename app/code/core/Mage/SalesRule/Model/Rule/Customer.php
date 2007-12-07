@@ -29,7 +29,7 @@ class Mage_SalesRule_Model_Rule_Customer extends Mage_Core_Model_Abstract
     
     public function loadByCustomerRule($customerId, $ruleId)
     {
-    	$this->getResource()->loadByCustomerRule($this, $customerId, $ruleId);
-    	return $this;
+        $this->_getResource()->loadByCustomerRule($this, $customerId, $ruleId);
+        return $this;
     }
 }

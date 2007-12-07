@@ -26,7 +26,7 @@
 
 class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
 {
-    function __construct()
+    protected function _construct()
     {
         $this->_init('poll/poll', 'poll_id');
         $this->_uniqueFields = array( array('field' => 'poll_title', 'title' => __('Poll with the same question') ) );
@@ -34,14 +34,14 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
 
     public function resetVotesCount($object)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select();
         $select->from($this->getTable('poll_answer'), new Zend_Db_Expr("SUM(votes_count)"))
             ->where("poll_id = ?", $object->getPollId());
 
         $count = $read->fetchOne($select);
 
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $condition = $write->quoteInto("{$this->getIdFieldName()} = ?", $object->getPollId());
         $write->update($this->getMainTable(), array('votes_count' => $count), $condition);
         return $object;
@@ -49,7 +49,7 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
 
     public function getRandomId($object)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select();
 
         if( $object->getExcludeFilter() ) {
@@ -66,12 +66,12 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
 
     public function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
 
         try {
             foreach ($object->getAnswers() as $answer) {
                 $answer->setPollId($object->getId());
-            	$answer->save();
+                $answer->save();
             }
         } catch (Exception $e) {
             Mage::throwException($e->getMessage());

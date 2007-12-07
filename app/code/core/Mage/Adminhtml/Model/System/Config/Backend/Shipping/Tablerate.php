@@ -33,15 +33,15 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
      */
     protected $_resourceModel;
 
-	/**
-	 * DB connections list
-	 *
-	 * @var array
-	 */
-	protected $_connections = array();
+    /**
+     * DB connections list
+     *
+     * @var array
+     */
+    protected $_connections = array();
 
-	public function __construct()
-	{
+    public function __construct()
+    {
 
     }
 
@@ -62,15 +62,15 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
     /**
      * Return DB connection
      *
-     * @param	string		$type
-     * @return	Zend_Db_Adapter_Abstract
+     * @param   string      $type
+     * @return  Zend_Db_Adapter_Abstract
      */
     public function getConnection($type)
     {
-    	if (!isset($this->_connections[$type])) {
-    		$this->_connections[$type] = Mage::getSingleton('core/resource')->getConnection('shipping_' . $type);
-    	}
-    	return $this->_connections[$type];
+        if (!isset($this->_connections[$type])) {
+            $this->_connections[$type] = Mage::getSingleton('core/resource')->getConnection('shipping_' . $type);
+        }
+        return $this->_connections[$type];
     }
 
     public function afterSave($object)
@@ -84,7 +84,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
 
             $table = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
 
-    	    $websiteId = $object->getScopeId();
+            $websiteId = $object->getScopeId();
             $websiteModel = Mage::getModel('core/website')->load($websiteId);
             $conditionName = $object->getValue();
             if ($conditionName{0} == '_') {
@@ -174,17 +174,17 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                     }
                 }
                 if (empty($exceptions)) {
-                    $connection = $this->getConnection('write');
+                    $connection = $this->_getWriteAdapter();
 
-    	            $condition = array(
+                    $condition = array(
                         $connection->quoteInto('website_id = ?', $websiteId),
-    		            $connection->quoteInto('condition_name = ?', $conditionName),
-    	            );
-    	            $connection->delete($table, $condition);
+                        $connection->quoteInto('condition_name = ?', $conditionName),
+                    );
+                    $connection->delete($table, $condition);
 
                     foreach($data as $k=>$dataLine) {
                         try {
-    	                    $connection->insert($table, $dataLine);
+                            $connection->insert($table, $dataLine);
                         } catch (Exception $e) {
                             $exceptions[] = __('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
                         }

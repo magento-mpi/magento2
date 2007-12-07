@@ -42,7 +42,7 @@ class Mage_Core_Model_Mysql4_Translate extends Mage_Core_Model_Mysql4_Abstract
             $storeId = Mage::app()->getStore()->getId();
         }
 
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         if (!$read) {
             return array();
         }

@@ -39,13 +39,13 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
 
     public function loadByName($name)
     {
-        $this->getResource()->loadByName($this, $name);
+        $this->_getResource()->loadByName($this, $name);
         return $this;
     }
 
     public function aggregate()
     {
-        $this->getResource()->aggregate($this);
+        $this->_getResource()->aggregate($this);
         return $this;
     }
 
@@ -68,7 +68,7 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
     public function addSummary($storeId)
     {
         $this->setStoreId($storeId);
-        $this->getResource()->addSummary($this);
+        $this->_getResource()->addSummary($this);
         return $this;
     }
 

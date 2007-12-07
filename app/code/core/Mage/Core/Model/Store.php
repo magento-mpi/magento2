@@ -82,7 +82,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function load($id, $field=null)
     {
         if (!is_numeric($id) && is_null($field)) {
-            $this->getResource()->load($this, $id, 'code');
+            $this->_getResource()->load($this, $id, 'code');
             return $this;
         }
         return parent::load($id, $field);
@@ -196,9 +196,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function getDefaultBasePath()
     {
-		if (!isset($_SERVER['SCRIPT_NAME'])) {
-			return '/';
-		}
+        if (!isset($_SERVER['SCRIPT_NAME'])) {
+            return '/';
+        }
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         if (empty($basePath) || "\\"==$basePath || "/"==$basePath) {
             $basePath = '/';
@@ -225,7 +225,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function updateDatasharing()
     {
-        $this->getResource()->updateDatasharing();
+        $this->_getResource()->updateDatasharing();
     }
     
     /**

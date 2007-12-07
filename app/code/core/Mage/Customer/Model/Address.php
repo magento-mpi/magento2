@@ -41,7 +41,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
      */
     public function getCustomerId()
     {
-        return $this->getResource()->getCustomerId($this);
+        return $this->_getResource()->getCustomerId($this);
     }
     
     /**
@@ -52,7 +52,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
      */
     public function setCustomerId($id)
     {
-        $this->getResource()->setCustomerId($this, $id);
+        $this->_getResource()->setCustomerId($this, $id);
         return $this;
     }
     
@@ -80,7 +80,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
      */
     public function delete()
     {
-        $this->getResource()->delete($this);
+        $this->_getResource()->delete($this);
         $this->setData(array());
         return $this;
     }
@@ -94,7 +94,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
     {
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $attributes = $this->getResource()
+            $attributes = $this->_getResource()
                 ->loadAllAttributes($this)
                 ->getAttributesByCode();
             $this->setData('attributes', $attributes);

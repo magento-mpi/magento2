@@ -35,7 +35,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function load($id, $field=null)
     {
         if (!is_numeric($id) && is_null($field)) {
-            $this->getResource()->load($this, $id, 'code');
+            $this->_getResource()->load($this, $id, 'code');
             return $this;
         }
         return parent::load($id, $field);
@@ -81,7 +81,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 
             $config = Mage::getConfig()->getNode('websites/'.$this->getCode().'/'.$path);
             if (!$config) {
-            	return false;
+                return false;
                 #throw Mage::exception('Mage_Core', __('Invalid websites configuration path: %s', $path));
             }
             if (!$config->children()) {
@@ -121,8 +121,8 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-		return $this->_storesCollection = Mage::getResourceModel('core/store_collection')
-			->addWebsiteFilter($this->getId());
+        return $this->_storesCollection = Mage::getResourceModel('core/store_collection')
+            ->addWebsiteFilter($this->getId());
     }
     
     /**
@@ -133,16 +133,16 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function getStoresIds($notEmpty=false)
     {
-    	$ids = array();
+        $ids = array();
 
-    	foreach ($this->getStoreCollection()->getItems() as $item) {
-    		$ids[] = $item->getId();
-    	}
+        foreach ($this->getStoreCollection()->getItems() as $item) {
+            $ids[] = $item->getId();
+        }
 
-    	if(count($ids)== 0 && $notEmpty) {
-    		$ids[] = 0;
-    	}
+        if(count($ids)== 0 && $notEmpty) {
+            $ids[] = 0;
+        }
 
-    	return $ids;
+        return $ids;
     }
 }

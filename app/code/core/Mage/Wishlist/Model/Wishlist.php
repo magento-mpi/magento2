@@ -48,9 +48,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
             $customer = $customer->getId();
         }
 
-        $this->getResource()->load($this,
+        $this->_getResource()->load($this,
             $customer,
-            $this->getResource()->getCustomerIdFieldName());
+            $this->_getResource()->getCustomerIdFieldName());
         if(!$this->getId() && $create) {
             $this->setCustomerId($customer);
             $this->setSharingCode($this->_getSharingRandomCode());
@@ -62,7 +62,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
 
     public function loadByCode($code)
     {
-        $this->getResource()->load($this, $code, 'sharing_code');
+        $this->_getResource()->load($this, $code, 'sharing_code');
         if(!$this->getShared()) {
             $this->setId(null);
         }
@@ -116,18 +116,18 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
 
     public function setCustomerId($customerId)
     {
-        return $this->setData($this->getResource()->getCustomerIdFieldName(), $customerId);
+        return $this->setData($this->_getResource()->getCustomerIdFieldName(), $customerId);
     }
 
     public function getCustomerId()
     {
-        return $this->getData($this->getResource()->getCustomerIdFieldName());
+        return $this->getData($this->_getResource()->getCustomerIdFieldName());
     }
 
     public function getDataForSave()
     {
         $data = array();
-        $data[$this->getResource()->getCustomerIdFieldName()] = $this->getCustomerId();
+        $data[$this->_getResource()->getCustomerIdFieldName()] = $this->getCustomerId();
         $data['shared']      = (int) $this->getShared();
         $data['sharing_code']= $this->getSharingCode();
         return $data;
@@ -172,7 +172,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements M
 
     public function getItemsCount()
     {
-        return $this->getResource()->fetchItemsCount($this);
+        return $this->_getResource()->fetchItemsCount($this);
     }
 
 }// Class Mage_Wishlist_Model_Wishlist END

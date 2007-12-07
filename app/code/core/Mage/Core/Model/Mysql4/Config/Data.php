@@ -49,7 +49,7 @@ class Mage_Core_Model_Mysql4_Config_Data extends Mage_Core_Model_Mysql4_Abstract
     
     protected function _getPathBackend($path)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->_configFieldTable, 'backend_model')
             ->where($read->quoteInto('path=?', $path));

@@ -37,7 +37,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     public function loadByName($model, $name)
     {
         if( $name ) {
-            $read = $this->getConnection('read');
+            $read = $this->_getReadAdapter();
             $select = $read->select();
             if (iconv_strlen($name, 'UTF-8') > 255) {
                 $name = iconv_substr($name, 0, 255, 'UTF-8');
@@ -72,39 +72,39 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
 
     public function aggregate($object)
     {
-        $selectLocal = $this->getConnection('read')->select()
+        $selectLocal = $this->_getReadAdapter()->select()
             ->from(array('main'=>$this->getTable('relation')), array('customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id', 'uses'=>'COUNT(main.tag_relation_id)'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->group('main.store_id')
             ->where('main.tag_id = ?', $object->getId())
             ->where('main.active');
 
-        $selectGlobal = $this->getConnection('read')->select()
+        $selectGlobal = $this->_getReadAdapter()->select()
             ->from(array('main'=>$this->getTable('relation')), array('customers'=>'COUNT(DISTINCT main.customer_id)','products'=>'COUNT(DISTINCT main.product_id)','store_id'=>'( 0 )' /* Workaround*/, 'uses'=>'COUNT(main.tag_relation_id)'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->where('main.tag_id = ?', $object->getId())
             ->where('main.active');
 
-        $selectHistorical = $this->getConnection('read')->select()
+        $selectHistorical = $this->_getReadAdapter()->select()
             ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)', 'store_id'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->group('main.store_id')
             ->where('main.tag_id = ?', $object->getId());
 
-       $selectHistoricalGlobal = $this->getConnection('read')->select()
+       $selectHistoricalGlobal = $this->_getReadAdapter()->select()
             ->from(array('main'=>$this->getTable('relation')), array('historical_uses'=>'COUNT(main.tag_relation_id)'))
             ->join(array('store'=>$this->getTable('catalog/product_store')), 'store.product_id = main.product_id AND store.store_id=main.store_id', array())
             ->where('main.tag_id = ?', $object->getId());
 
-        $historicalAll = $this->getConnection('read')->fetchAll($selectHistorical);
+        $historicalAll = $this->_getReadAdapter()->fetchAll($selectHistorical);
         $historicalCache = array();
         foreach ($historicalAll as $historical) {
             $historicalCache[$historical['store_id']] = $historical['historical_uses'];
         }
 
-        $summaries = $this->getConnection('read')->fetchAll($selectLocal);
-        if ($row = $this->getConnection('read')->fetchRow($selectGlobal)) {
-            $historical = $this->getConnection('read')->fetchOne($selectHistoricalGlobal);
+        $summaries = $this->_getReadAdapter()->fetchAll($selectLocal);
+        if ($row = $this->_getReadAdapter()->fetchRow($selectGlobal)) {
+            $historical = $this->_getReadAdapter()->fetchOne($selectHistoricalGlobal);
 
             if($historical) {
                 $row['historical_uses'] = $historical;
@@ -113,7 +113,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
             $summaries[] = $row;
         }
 
-        $this->getConnection('write')->delete($this->getTable('summary'), $this->getConnection('write')->quoteInto('tag_id = ?', $object->getId()));
+        $this->_getReadAdapter()->delete($this->getTable('summary'), $this->_getReadAdapter()->quoteInto('tag_id = ?', $object->getId()));
 
         foreach ($summaries as $summary) {
             if(!isset($summary['historical_uses'])) {
@@ -125,7 +125,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 $summary['uses'] = 0;
             }
 
-            $this->getConnection('write')->insert($this->getTable('summary'), $summary);
+            $this->_getReadAdapter()->insert($this->getTable('summary'), $summary);
         }
 
         return $object;
@@ -133,12 +133,12 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
 
     public function addSummary($object)
     {
-        $select = $this->getConnection('read')->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('summary'))
             ->where('tag_id = ?', $object->getId())
             ->where('store_id = ?', $object->getStoreId());
 
-        $row = $this->getConnection('read')->fetchAll($select);
+        $row = $this->_getReadAdapter()->fetchAll($select);
 
         $object->addData($row);
         return $object;

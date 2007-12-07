@@ -75,7 +75,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     public function addTemplateData( $data )
     {
         if ($data->getTemplateId()) {
-        	$this->setTemplate(Mage::getModel('newsletter/template')
+            $this->setTemplate(Mage::getModel('newsletter/template')
                                     ->load($data->getTemplateId()));
         }
 
@@ -85,31 +85,31 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     /**
      * Send messages to subscribers for this queue
      *
-     * @param 	int	 	$count
-     * @param 	array	$additionalVariables
+     * @param   int     $count
+     * @param   array   $additionalVariables
      */
     public function sendPerSubscriber($count=20, array $additionalVariables=array())
     {
-    	if($this->getQueueStatus()!=self::STATUS_SENDING && ($this->getQueueStatus()!=self::STATUS_NEVER && $this->getQueueStartAt()) ) {
-    		return $this;
-    	}
-
-    	if($this->getSubscribersCollection()->getSize()==0) {
+        if($this->getQueueStatus()!=self::STATUS_SENDING && ($this->getQueueStatus()!=self::STATUS_NEVER && $this->getQueueStartAt()) ) {
             return $this;
         }
 
-    	$collection = $this->getSubscribersCollection()
+        if($this->getSubscribersCollection()->getSize()==0) {
+            return $this;
+        }
+
+        $collection = $this->getSubscribersCollection()
             ->useOnlyUnsent()
             ->setPageSize($count)
             ->setCurPage(1)
             ->load();
 
-    	if(!$this->getTemplate()) {
-    		$this->addTemplateData($this);
-    		if(!$this->getTemplate()->isPreprocessed()) {
-    			$this->getTemplate()->preproccess();
-    		}
-    	}
+        if(!$this->getTemplate()) {
+            $this->addTemplateData($this);
+            if(!$this->getTemplate()->isPreprocessed()) {
+                $this->getTemplate()->preproccess();
+            }
+        }
 
 
 
@@ -118,68 +118,68 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
 
         foreach($collection->getItems() as $item) {
 
-        	$this->getTemplate()->send($item, array('subscriber'=>$item), null, $this);
+            $this->getTemplate()->send($item, array('subscriber'=>$item), null, $this);
 
         }
 
         if(count($collection->getItems()) < $count-1 || count($collection->getItems()) == 0) {
-        	$this->setQueueFinishAt(now());
-        	$this->setQueueStatus(self::STATUS_SENT);
-        	$this->save();
+            $this->setQueueFinishAt(now());
+            $this->setQueueStatus(self::STATUS_SENT);
+            $this->save();
         }
         return $this;
     }
 
     public function getDataForSave() {
-    	$data = array();
-    	$data['template_id'] = $this->getTemplateId();
-    	$data['queue_status'] = $this->getQueueStatus();
-    	$data['queue_start_at'] = $this->getQueueStartAt();
-    	$data['queue_finish_at'] = $this->getQueueFinishAt();
-    	return $data;
+        $data = array();
+        $data['template_id'] = $this->getTemplateId();
+        $data['queue_status'] = $this->getQueueStatus();
+        $data['queue_start_at'] = $this->getQueueStartAt();
+        $data['queue_finish_at'] = $this->getQueueFinishAt();
+        return $data;
     }
 
     public function addSubscribersToQueue(array $subscriberIds)
     {
-    	$this->getResource()->addSubscribersToQueue($this, $subscriberIds);
-    	return $this;
+        $this->_getResource()->addSubscribersToQueue($this, $subscriberIds);
+        return $this;
     }
 
     public function setSaveTemplateFlag($value)
     {
-    	$this->_saveTemplateFlag = (boolean)$value;
-    	return $this;
+        $this->_saveTemplateFlag = (boolean)$value;
+        return $this;
     }
 
     public function getSaveTemplateFlag()
     {
-    	return $this->_saveTemplateFlag;
+        return $this->_saveTemplateFlag;
     }
 
     public function setSaveStoresFlag($value)
     {
-    	$this->_saveStoresFlag = (boolean)$value;
-    	return $this;
+        $this->_saveStoresFlag = (boolean)$value;
+        return $this;
     }
 
     public function getSaveStoresFlag()
     {
-    	return $this->_saveStoresFlag;
+        return $this->_saveStoresFlag;
     }
 
     public function setStores(array $storesIds)
     {
-    	$this->setSaveStoresFlag(true);
-    	$this->_stores = $storesIds;
-    	return $this;
+        $this->setSaveStoresFlag(true);
+        $this->_stores = $storesIds;
+        return $this;
     }
 
     public function getStores()
     {
-    	if(!$this->_stores) {
-    		$this->_stores = $this->getResource()->getStores($this);
-    	}
+        if(!$this->_stores) {
+            $this->_stores = $this->_getResource()->getStores($this);
+        }
 
-    	return $this->_stores;
+        return $this->_stores;
     }
 }

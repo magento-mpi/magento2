@@ -29,7 +29,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
     public function loadByCode($object, $entityTypeId, $code)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getMainTable())
             ->where('entity_type_id=?', $entityTypeId)
             ->where('attribute_code=?', $code);
@@ -47,7 +47,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
     private function _getMaxSortOrder($object)
     {
         if( intval($object->getAttributeGroupId()) > 0 ) {
-            $read = $this->getConnection('read');
+            $read = $this->_getReadAdapter();
             $select = $read->select()
                 ->from($this->getTable('entity_attribute'), new Zend_Db_Expr("MAX(`sort_order`)"))
                 ->where("{$this->getTable('entity_attribute')}.attribute_set_id = ?", $object->getAttributeSetId())
@@ -61,7 +61,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
     public function deleteEntity($object)
     {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $condition = $write->quoteInto($this->getTable('entity_attribute').'.entity_attribute_id = ?', $object->getEntityAttributeId());
         /**
          * Delete attribute values
@@ -135,7 +135,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $groupId= (int) $object->getAttributeGroupId();
         
         if ($setId && $groupId && $object->getEntityTypeId()) {
-            $write = $this->getConnection('write');
+            $write = $this->_getWriteAdapter();
             $table = $this->getTable('entity_attribute');
             
     
@@ -159,7 +159,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
     {
         $option = $object->getOption();
         if (is_array($option)) {
-            $write = $this->getConnection('write');
+            $write = $this->_getWriteAdapter();
             $optionTable        = $this->getTable('attribute_option');
             $optionValueTable   = $this->getTable('attribute_option_value');
             $stores = Mage::getModel('core/store')
@@ -179,38 +179,38 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                         continue;
                     }
                     
-                	if (!$intOptionId) {
-                	    $data = array(
-                	       'attribute_id'  => $object->getId(),
-                	       'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
-                	    );
-                	    $write->insert($optionTable, $data);
-                	    $intOptionId = $write->lastInsertId();
-                	}
-                	else {
-                	    $data = array(
-                	       'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
-                	    );
-                	    $write->update($optionTable, $data, $write->quoteInto('option_id=?', $intOptionId));
-                	}
+                    if (!$intOptionId) {
+                        $data = array(
+                           'attribute_id'  => $object->getId(),
+                           'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
+                        );
+                        $write->insert($optionTable, $data);
+                        $intOptionId = $write->lastInsertId();
+                    }
+                    else {
+                        $data = array(
+                           'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
+                        );
+                        $write->update($optionTable, $data, $write->quoteInto('option_id=?', $intOptionId));
+                    }
                     
-                	// Default value
-                	if (!isset($values[0])) {
-                	    Mage::throwException(__('Default option value is not defined'));
-                	}
-                	
-                	$defaultValue = $values[0];
-                	$write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));
-                	foreach ($stores as $store) {
-                	    if (!empty($values[$store->getId()])) {
-                    		$data = array(
+                    // Default value
+                    if (!isset($values[0])) {
+                        Mage::throwException(__('Default option value is not defined'));
+                    }
+                    
+                    $defaultValue = $values[0];
+                    $write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));
+                    foreach ($stores as $store) {
+                        if (!empty($values[$store->getId()])) {
+                            $data = array(
                                 'option_id' => $intOptionId,
                                 'store_id'  => $store->getId(),
                                 'value'     => $values[$store->getId()],
-                    		);
-                    		$write->insert($optionValueTable, $data);
-                	    }
-                	}
+                            );
+                            $write->insert($optionValueTable, $data);
+                        }
+                    }
                 }
             }
         }

@@ -91,7 +91,7 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
     
     public function loadByParam($fetch='fetchAll')
     {
-        return $this->getResource()->loadByParam($this, $fetch);
+        return $this->_getResource()->loadByParam($this, $fetch);
     }
     
     
@@ -104,7 +104,7 @@ class Mage_CustomerAlert_Model_Alert_Check extends Mage_Core_Model_Abstract
      public function removeAllbyAlert($alertModel)
      {
          $this->addData($alertModel->getParamValues());
-         $this->getResource()->removeByParam($this);
+         $this->_getResource()->removeByParam($this);
      }
     
     

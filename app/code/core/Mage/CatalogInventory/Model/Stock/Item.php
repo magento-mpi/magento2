@@ -60,7 +60,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($product instanceof Mage_Catalog_Model_Product) {
             $product = $product->getId();
         }
-        $this->getResource()->loadByProductId($this, $product);
+        $this->_getResource()->loadByProductId($this, $product);
         $this->setOrigData();
         return $this;
     }
@@ -106,7 +106,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function assignProduct(Mage_Catalog_Model_Product $product)
     {
         if (!$this->getId() || !$this->getProductId()) {
-            $this->getResource()->loadByProductId($this, $product->getId());
+            $this->_getResource()->loadByProductId($this, $product->getId());
         }
         
         $product->setStockItem($this);

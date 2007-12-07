@@ -28,7 +28,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
 
     public function itemExists($object)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getMainTable())
             ->where("attribute_group_name='{$object->getAttributeGroupName()}'");
         $data = $read->fetchRow($select);
@@ -39,7 +39,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
     }
 
     public function save(Mage_Core_Model_Abstract $object) {
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
         $groupId = $object->getId();
 
         $data = array(
@@ -75,7 +75,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
     {
         $groups = $object->getGroupsArray();
         $setId = $object->getSetId();
-        $write = $this->getConnection('write');
+        $write = $this->_getWriteAdapter();
 
         $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.attribute_group_id = ?", $object->getId());
         $write->update($this->getTable('entity_attribute'), array('attribute_group_id' => 0, 'attribute_set_id' => 0), $condition);
@@ -86,7 +86,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
 
     private function _getMaxSortOrder($object)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getMainTable(), new Zend_Db_Expr("MAX(`sort_order`)"))
             ->where("{$this->getMainTable()}.attribute_set_id = ?", $object->getAttributeSetId());

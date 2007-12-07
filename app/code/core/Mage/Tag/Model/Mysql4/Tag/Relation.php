@@ -36,7 +36,7 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
     public function loadByTagCustomer($model)
     {
         if( $model->getTagId() && $model->getCustomerId() ) {
-            $read = $this->getConnection('read');
+            $read = $this->_getReadAdapter();
             $select = $read->select();
 
             $select->from($this->getMainTable())
@@ -62,10 +62,10 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
 
     public function deactivate($tagId, $customerId)
     {
-        $condition = $this->getConnection('write')->quoteInto('tag_id = ?', $tagId) . ' AND ';
-        $condition.= $this->getConnection('write')->quoteInto('customer_id = ?', $customerId);
+        $condition = $this->_getWriteAdapter()->quoteInto('tag_id = ?', $tagId) . ' AND ';
+        $condition.= $this->_getWriteAdapter()->quoteInto('customer_id = ?', $customerId);
         $data = array('active'=>0);
-        $this->getConnection('write')->update($this->getMainTable(), $data, $condition);
+        $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
         return $this;
     }
 }

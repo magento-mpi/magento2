@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     
     public function loadByProduct($product)
     {
-        $this->getResource()->loadByProduct($this,$product);        
+        $this->_getResource()->loadByProduct($this,$product);        
         return $this;
     }
     

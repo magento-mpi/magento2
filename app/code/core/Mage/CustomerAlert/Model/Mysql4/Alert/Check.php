@@ -37,7 +37,7 @@ class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4
     public function loadByParam(Mage_Core_Model_Abstract $checkModel, $fetch='fetchAll')
     {
         $data = $checkModel->getData();
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read
             ->select()
             ->from($this->getMainTable());

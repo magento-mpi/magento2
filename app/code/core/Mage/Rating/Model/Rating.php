@@ -63,11 +63,11 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
             return $options;
         }
         elseif ($id = $this->getId()) {
-        	return Mage::getResourceModel('rating/rating_option_collection')
-        	   ->addRatingFilter($id)
-        	   ->setPositionOrder()
-        	   ->load()
-        	   ->getItems();
+            return Mage::getResourceModel('rating/rating_option_collection')
+               ->addRatingFilter($id)
+               ->setPositionOrder()
+               ->load()
+               ->getItems();
         }
         return array();
     }
@@ -81,12 +81,12 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
     public function getEntitySummary($entityPkValue,  $onlyForCurrentStore = true)
     {
         $this->setEntityPkValue($entityPkValue);
-        return $this->getResource()->getEntitySummary($this, $onlyForCurrentStore);
+        return $this->_getResource()->getEntitySummary($this, $onlyForCurrentStore);
     }
 
     public function getReviewSummary($reviewId,  $onlyForCurrentStore = true)
     {
         $this->setReviewId($reviewId);
-        return $this->getResource()->getReviewSummary($this, $onlyForCurrentStore);
+        return $this->_getResource()->getReviewSummary($this, $onlyForCurrentStore);
     }
 }

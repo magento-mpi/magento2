@@ -37,7 +37,7 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
     public function loadByParam(Mage_Core_Model_Abstract $model, $fetch = 'fetchAll')
     {
         $data = $model->getData();
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read
             ->select()
             ->from($this->getMainTable());
@@ -51,7 +51,7 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
     public function getCustomerAlerts(Mage_Core_Model_Abstract $model)
     {
         $data = $model->getData();
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read
             ->select()
             ->from($this->getMainTable(),'type')
@@ -64,7 +64,7 @@ class Mage_CustomerAlert_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstra
     
     public function getAlertsForCronChecking()
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read
             ->select()
             ->from($this->getMainTable(),array('type','store_id','product_id'))

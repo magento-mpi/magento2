@@ -908,6 +908,40 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
+    
+    /**
+     * Start resource transaction
+     *
+     * @return Mage_Core_Model_Resource_Abstract
+     */
+    public function beginTransaction()
+    {
+        $this->_write->beginTransaction();
+        return $this;
+    }
+    
+    /**
+     * Commit resource transaction
+     *
+     * @return Mage_Core_Model_Resource_Abstract
+     */
+    public function commit()
+    {
+        $this->_write->commit();
+        return $this;
+    }
+    
+    /**
+     * Roll back resource transaction
+     *
+     * @return Mage_Core_Model_Resource_Abstract
+     */
+    public function rollBack()
+    {
+        $this->_write->rollBack();
+        return $this;
+    }
+    
     public function setNewIncrementId(Varien_Object $object)
     {
         if ($object->getIncrementId()) {

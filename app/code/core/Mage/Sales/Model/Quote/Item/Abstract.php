@@ -37,7 +37,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         if ($this->getQuote()) {
             return $this->getQuote()->getStore();
         }
-        return $this->getResource()->getStore();
+        return $this->_getResource()->getStore();
     }
     
     /**
@@ -56,7 +56,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             ->setCost($product->getCost());
 
         if($product->getSuperProduct()) {
-        	$this->setSuperProductId($product->getSuperProduct()->getId());
+            $this->setSuperProductId($product->getSuperProduct()->getId());
         }
         $this->setProduct($product);
 
@@ -71,18 +71,18 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function checkData()
     {
         $qty = $this->getData('qty');
-    	try {
-    	    $this->setQty($qty);
-    	}
-    	catch (Mage_Core_Exception $e){
-    	    $this->setHasError(true);
-    	    $this->setMessage($e->getMessage());
-    	}
-    	catch (Exception $e){
-    	    $this->setHasError(true);
-    	    $item->setMessage(__('Item qty declare error'));
-    	}
-    	return $this;
+        try {
+            $this->setQty($qty);
+        }
+        catch (Mage_Core_Exception $e){
+            $this->setHasError(true);
+            $this->setMessage($e->getMessage());
+        }
+        catch (Exception $e){
+            $this->setHasError(true);
+            $item->setMessage(__('Item qty declare error'));
+        }
+        return $this;
     }
     
     /**

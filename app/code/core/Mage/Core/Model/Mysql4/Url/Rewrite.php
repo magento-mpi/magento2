@@ -60,8 +60,8 @@ class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
     {
         parent::_afterLoad($object);
         
-        $read = $this->getConnection('read');
-        $tags = $read->fetchCol('select tag from '.$this->_tagTable.' where url_rewrite_id=?', $object->getId());
+        $tags = $this->_getReadAdapter()->fetchCol(
+            'select tag from '.$this->_tagTable.' where url_rewrite_id=?', $object->getId());
         $object->setTags($tags ? $tags : array());
         
         return $this;
@@ -75,7 +75,7 @@ class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
         parent::_afterSave($object);
         
         if ($object->getOrigData('tags')!==$object->getTags()) {
-            $write = $this->getConnection('write');
+            $write = $this->_getWriteAdapter();
             $write->delete($this->_tagTable, $write->quoteInto('url_rewrite_id=?', $object->getId()));
             
             $tags = $object->getTags();

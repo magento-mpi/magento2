@@ -42,25 +42,11 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('core/template')->setTemplate('coming.phtml'))
-            ->renderLayout();
-    }
-
-    public function newAction()
-    {
-        $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('core/template')->setTemplate('coming.phtml'))
-            ->renderLayout();
-    }
-
-    public function indexAction_()
-    {
-        $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_invoice'))
             ->renderLayout();
     }
 
-    public function newAction_()
+    public function newAction()
     {
         if ($orderId = $this->getRequest()->getParam('order_id')) {
             $order = Mage::getModel('sales/order');
@@ -92,7 +78,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         }
     }
 
-    public function cmemoAction_()
+    public function cmemoAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
             $invoice = Mage::getModel('sales/invoice');
@@ -132,7 +118,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
     }
 
 
-    public function savenewAction_()
+    public function savenewAction()
     {
         if (($orderId = $this->getRequest()->getParam('order_id')) && ($data = $this->getRequest()->getPost())) {
 
@@ -191,7 +177,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         }
     }
 
-    public function savecmnewAction_()
+    public function savecmnewAction()
     {
         if (($invoiceId = $this->getRequest()->getParam('invoice_id')) && ($data = $this->getRequest()->getPost())) {
 
@@ -238,7 +224,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         }
     }
 
-    public function saveAction_()
+    public function saveAction()
     {
         if (($invoiceId = $this->getRequest()->getParam('invoice_id')) && ($data = $this->getRequest()->getPost())) {
             $invoice = Mage::getModel('sales/invoice');
@@ -276,7 +262,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         $this->_redirect('*/*/');
     }
 
-    public function editAction_()
+    public function editAction()
     {
         if ($id = $this->getRequest()->getParam('invoice_id')) {
             $model = Mage::getModel('sales/invoice');
@@ -305,7 +291,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
         }
     }
 
-    public function viewAction_()
+    public function viewAction()
     {
         $id = $this->getRequest()->getParam('invoice_id');
         $model = Mage::getModel('sales/invoice');

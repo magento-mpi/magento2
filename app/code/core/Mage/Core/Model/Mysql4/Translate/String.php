@@ -50,7 +50,7 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
     
     public function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $connection = $this->getConnection('read');
+        $connection = $this->_getReadAdapter();
         $select = $connection->select()
             ->from($this->getMainTable(), array('store_id', 'translate'))
             ->where('string=?', $object->getString());
@@ -61,7 +61,7 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
     
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $connection = $this->getConnection('write');
+        $connection = $this->_getWriteAdapter();
         $select = $connection->select()
             ->from($this->getMainTable(), 'key_id')
             ->where('string=?', $object->getString())
@@ -73,7 +73,7 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
     
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $connection = $this->getConnection('write');
+        $connection = $this->_getWriteAdapter();
         $select = $connection->select()
             ->from($this->getMainTable(), array('store_id', 'key_id'))
             ->where('string=?', $object->getString());

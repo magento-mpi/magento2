@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Log
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Log_Model_Customer extends Mage_Core_Model_Abstract
 {
@@ -35,7 +35,7 @@ class Mage_Log_Model_Customer extends Mage_Core_Model_Abstract
     
     public function load($customerId, $field=null)
     {
-        $this->getResource()->load($this, $customerId);
+        $this->_getResource()->load($this, $customerId);
         return $this;
     }
 }

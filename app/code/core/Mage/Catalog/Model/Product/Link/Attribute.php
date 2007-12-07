@@ -23,28 +23,28 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
 class Mage_Catalog_Model_Product_Link_Attribute extends Mage_Core_Model_Abstract
 {
-	protected function _construct()
-	{
-		$this->_init('catalog/product_link_attribute');
-	}
-	
-	public function getCode()
-	{
-		return $this->getProductLinkAttributeCode();
-	}
-	
-	public function getTypeTable()
-	{
-		return $this->getResource()->getTypeTable($this);
-	}
-	
-	public function getProductLinkAttributeCode()
-	{
-	    return $this->getData('product_link_attribute_code');
-	}
+    protected function _construct()
+    {
+        $this->_init('catalog/product_link_attribute');
+    }
+    
+    public function getCode()
+    {
+        return $this->getProductLinkAttributeCode();
+    }
+    
+    public function getTypeTable()
+    {
+        return $this->_getResource()->getTypeTable($this);
+    }
+    
+    public function getProductLinkAttributeCode()
+    {
+        return $this->getData('product_link_attribute_code');
+    }
 }// Class Mage_Catalog_Model_Product_Link_Attribute END

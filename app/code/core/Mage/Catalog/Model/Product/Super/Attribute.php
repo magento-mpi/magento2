@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Product_Super_Attribute extends Mage_Core_Model_Abstrac
 	public function getPricingCollection() 
 	{
 		if(is_null($this->_pricingCollection)) {
-			$this->_pricingCollection = $this->getResource()->getPricingCollection($this);
+			$this->_pricingCollection = $this->_getResource()->getPricingCollection($this);
 		}
 		
 		return $this->_pricingCollection;

@@ -35,7 +35,7 @@ class Mage_Rating_Model_Mysql4_Rating_Entity extends Mage_Core_Model_Mysql4_Abst
 
     public function getIdByCode($entityCode)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select();
         $select->from($this->getTable('rating_entity'), $this->getIdFieldName())
             ->where('entity_code = ?', $entityCode);

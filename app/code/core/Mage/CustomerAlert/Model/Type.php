@@ -63,7 +63,7 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     
     public function loadAllByParam()
     {
-        return $this->getResource()->loadByParam($this);
+        return $this->_getResource()->loadByParam($this);
     }
     
     public function loadByParam()
@@ -157,7 +157,7 @@ class Mage_CustomerAlert_Model_Type extends Mage_Core_Model_Abstract
     
     public function getCustomerAlerts()
     {
-        return $this->getResource()->getCustomerAlerts($this);      
+        return $this->_getResource()->getCustomerAlerts($this);      
     }
     
 }

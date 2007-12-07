@@ -29,7 +29,8 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $model)
     {
         if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$model->getCode())) {
-            Mage::throwException(__('Code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+            Mage::throwException(
+                __('Code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
         }
 
         return $this;
@@ -43,7 +44,7 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
 
     public function updateDatasharing()
     {
-    	$this->getConnection('write')->delete($this->getTable('config_data'), "path like 'advanced/datashare/%'");
+    	$this->_getWriteAdapter()->delete($this->getTable('config_data'), "path like 'advanced/datashare/%'");
 
     	$websites = Mage::getResourceModel('core/website_collection')->setLoadDefault(true)->load();
     	$stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load();

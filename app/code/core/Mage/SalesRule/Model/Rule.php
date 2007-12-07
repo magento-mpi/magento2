@@ -21,9 +21,9 @@
 
 class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 {
-	const FREE_SHIPPING_ITEM = 1;
-	const FREE_SHIPPING_ADDRESS = 2;
-	
+    const FREE_SHIPPING_ITEM = 1;
+    const FREE_SHIPPING_ADDRESS = 2;
+    
     protected function _construct()
     {
         parent::_construct();
@@ -112,18 +112,18 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     
     protected function _afterSave()
     {
-        $this->getResource()->updateRuleProductData($this);
+        $this->_getResource()->updateRuleProductData($this);
         parent::_afterSave();
     }
     
     public function validate(Varien_Object $quote)
     {
-    	if ($this->getUsesPerCustomer() && $quote->getCustomer()) {
-    		$customerUses = $this->getResource()->getCustomerUses($this, $quote->getCustomerId());
-    		if ($customerUses >= $this->getUsesPerCustomer()) {
-    			return false;
-    		}
-    	}
-    	return parent::validate($quote);
+        if ($this->getUsesPerCustomer() && $quote->getCustomer()) {
+            $customerUses = $this->_getResource()->getCustomerUses($this, $quote->getCustomerId());
+            if ($customerUses >= $this->getUsesPerCustomer()) {
+                return false;
+            }
+        }
+        return parent::validate($quote);
     }
 }

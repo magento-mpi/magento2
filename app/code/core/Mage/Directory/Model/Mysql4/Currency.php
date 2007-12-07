@@ -76,7 +76,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
         }
 
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
-            $read = $this->getConnection('read');
+            $read = $this->_getReadAdapter();
             $select = $read->select()
                 ->from($this->_currencyRateTable, 'rate')
                 ->where('currency_from=?', strtoupper($currencyFrom))
@@ -96,7 +96,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
     public function saveRates($rates)
     {
         if( is_array($rates) && sizeof($rates) > 0 ) {
-            $write = $this->getConnection('write');
+            $write = $this->_getWriteAdapter();
             $table  = $write->quoteIdentifier($this->_currencyRateTable);
             $colFrom= $write->quoteIdentifier('currency_from');
             $colTo  = $write->quoteIdentifier('currency_to');
@@ -129,7 +129,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
      */
     public function getConfigCurrencies($model, $path)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
                 ->from($this->getTable('core/config_data'))
                 ->where($read->quoteInto(' path = ? ', $path))
@@ -176,7 +176,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
      */
     protected function _getRatesByCode($code, $toCurrencies=null)
     {
-        $read = $this->getConnection('read');
+        $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getTable('directory/currency_rate'), array('currency_to', 'rate'))
             ->where($read->quoteInto('currency_from = ?', $code))

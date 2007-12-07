@@ -21,6 +21,9 @@
 
 class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 {
+    /**
+     * XML configuration paths
+     */
     const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE     = 'sales/new_order/email_template';
     const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales/new_order/email_identity';
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
@@ -29,6 +32,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const ORDER_STATUS_NEW      = 1;
     const ORDER_STATUS_CANCELED = 4;
     
+    
+    protected $_eventPrefix = 'sales_order';
+    protected $_eventObject = 'order';
+
     protected $_addresses;
     protected $_items;
     protected $_payments;
@@ -40,6 +47,18 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_init('sales/order');
     }
 
+    protected function _beforeSave()
+    {
+        Mage::dispatchEvent('sales_order_save_before', array('order'=>$this));
+        parent::_beforeSave();
+    }
+
+    protected function _afterLoad()
+    {
+        Mage::dispatchEvent('sales_order_load_after', array('order'=>$this));
+        return parent::_afterLoad();
+    }
+    
     /**
      * Sending email with order data
      *
@@ -113,12 +132,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-
-    protected function _beforeSave()
-    {
-        Mage::dispatchEvent('sales_order_save_before', array('order'=>$this));
-        parent::_beforeSave();
-    }
 
 /*********************** QUOTES ***************************/
 
