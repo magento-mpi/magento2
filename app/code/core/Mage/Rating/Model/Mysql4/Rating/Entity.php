@@ -28,7 +28,7 @@
 
 class Mage_Rating_Model_Mysql4_Rating_Entity extends Mage_Core_Model_Mysql4_Abstract
 {
-    function __construct()
+    function _construct()
     {
         $this->_init('rating/rating_entity', 'entity_id');
     }
