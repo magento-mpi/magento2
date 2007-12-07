@@ -18,6 +18,37 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<?if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $this->getOrder())):?>
+<script type="text/javascript">
+function giftMessageToogle(giftMessageIdentifier)
+{
+    var link = $('order-item-gift-message-link-'+giftMessageIdentifier);
+    var container = $('order-item-gift-message-'+giftMessageIdentifier);
+    var row = $('order-item-row-'+giftMessageIdentifier);
+
+
+    if(link.expanded) {
+        link.expanded = false;
+        link.removeClassName('collapse');
+        link.addClassName('expand');
+        if(container.hasClassName('last')) {
+            row.addClassName('last');
+        }
+        container.hide();
+    } else {
+        link.expanded = true;
+        link.addClassName('collapse');
+        link.removeClassName('expand');
+        if(container.hasClassName('last')) {
+            row.removeClassName('last');
+        }
+        container.show();
+    }
+
+    return false;
+}
+</script>
+<?endif;?>
 <? $_order = $this->getOrder() ?>
 <div class="page-head button-level">
     <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatus($_order->getStatusId())->getFrontendLabel())?></h3>
@@ -60,14 +91,39 @@
         <?$_count = $_items->count();?>
         <?$_index = 0;?>
         <?foreach ($_items as $_item):?>
-            <tr <?=($_index++ > $_count ? ' class="last"' : '')?>>
-            <td><?=$_item->getName()?> </td>
-            <td class="a-right nowrap"><?=$_order->formatPrice($_item->getPrice())?> </td>
-            <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>
-            <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
-            <td class="last a-right nowrap"><?=$_order->formatPrice($_item->getRowTotal())?> </td>
+            <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
+            <td><?=$_item->getName()?>
+            <?if($this->helper('giftmessage/message')->getIsMessagesAviable('order_item', $_item) && $_item->getGiftMessageId()):?>
+            <br /><a href="#" id="order-item-gift-message-link-<?=$_item->getId()?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?=$_item->getId()?>')"><?=$this->__('Gift Message')?></a>
+            <?endif;?>
+            </td>
+                <td class="a-right nowrap"><?=$_order->formatPrice($_item->getPrice())?> </td>
+                <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>
+                <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
+                <td class="last a-right nowrap"><?=$_order->formatPrice($_item->getRowTotal())?> </td>
+            </tr>
+            <?if($this->helper('giftmessage/message')->getIsMessagesAviable('order_item', $_item) && $_item->getGiftMessageId()):?>
+            <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-gift-message-<?=$_item->getId()?>" style="display:none;">
+                <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item);?>
+                <td class="giftmessage-row last" colspan="5">
+                <div class="left">
+                     <ul>
+                        <li>
+                            <label><?=$this->__('From')?></label> <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+                        </li>
+                        <li>
+                            <label><?=$this->__('To')?></label> <?=$this->htmlEscape($_giftMessage->getSender())?>
+                        </li>
+                        <li><?=$this->helper('giftmessage/message')->getEscapedGiftMessage($_item)?></li>
+                     </ul>
+
+                </div>
+                <div class="right"><a href="#" onclick="return giftMessageToogle('<?=$_item->getId()?>')"><img src="<?=$this->getSkinUrl('images/gift-message-close.gif')?>"></a></div>
+                </td>
+            </tr>
+            <?endif?>
         <?endforeach;?>
-        </tr>
+
     </tbody>
     <tfoot>
         <tr>
@@ -92,6 +148,21 @@
         </tr>
     </tfoot>
 </table>
+<?if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $_order) && $_order->getGiftMessageId()):?>
+<div class="giftmessage">
+    <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order);?>
+    <strong><?=$this->__('Gift Message for this Order')?></strong>
+     <ul>
+        <li>
+            <label><?=$this->__('From')?></label> <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+        </li>
+        <li>
+            <label><?=$this->__('To')?></label> <?=$this->htmlEscape($_giftMessage->getSender())?>
+        </li>
+        <li><?=$this->helper('giftmessage/message')->getEscapedGiftMessage($_order)?></li>
+     </ul>
+</div>
+<?endif;?>
 <?$_history = $this->getOrder()->getVisibleStatusHistory()?>
 <?if (count($_history)):?>
     <div class="clear">&nbsp;</div>

@@ -1335,6 +1335,27 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 
 
+/* Gift Messages */
+.giftmessage {
+    padding: 10px 0 0 0;
+}
+.giftmessage-preview-link {
+    font-size: 11px;
+    color: #1b7cca;
+    padding-right: 7px;
+    background-repeat: no-repeat;
+    background-position: right  5px;
+}
+
+.giftmessage-row {
+    background-color:#f2efe9;
+}
+
+.expand {  background-image: url(../images/gift-message-expand.gif); }
+
+.collapse { background-image: url(../images/gift-message-collapse.gif); }
+
+
 
 /********************** Pop up pages */
 .page-popup { background:#fff; margin:25px 30px; }

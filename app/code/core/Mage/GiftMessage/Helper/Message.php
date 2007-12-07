@@ -135,11 +135,20 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 
     public function getEscapedGiftMessage(Varien_Object $entity)
     {
-        if($entity->getGiftMessageId()) {
-            $message = $this->getGiftMessage($entity->getGiftMessageId());
-            return $this->htmlEscape($message->getMessage());
+        $message = $this->getGiftMessageForEntity($entity);
+        if($message) {
+            return nl2br($this->htmlEscape($message->getMessage()));
         }
         return null;
+    }
+
+    public function getGiftMessageForEntity(Varien_Object $entity)
+    {
+        if($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
+            $message = $this->getGiftMessage($entity->getGiftMessageId());
+            $entity->setGiftMessage($message);
+        }
+        return $entity->getGiftMessage();
     }
 
     public function getCached($key)
