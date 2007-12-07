@@ -19,6 +19,9 @@
 #nav li.nav-left, #nav li.nav-right { position:absolute; top:0; width:4px; height:4px; overflow:hidden; }
 #nav li.nav-left {left:0; background:url(../images/nav_left.png) no-repeat; }
 #nav li.nav-right { right:0; background:url(../images/nav_right.png) no-repeat; }
+
+
+
 /************** ALL LEVELS  *************/ /* Style consistent throughout all nav levels */
 #nav li {
     list-style:none;
@@ -60,7 +63,10 @@
     width:15em;
     top:25px;
     left:-10000px;
-    border:1px solid #899ba5;
+    border:1px solid #999;
+    border-top:none;
+    background:#e9e9e9; 
+    padding:5px;
 }
 
 /* Show menu */
@@ -68,16 +74,19 @@
 #nav li.over ul ul { left:-10000px; }
 #nav li.over ul li.over ul { left:100px; }
 
-#nav ul li a { background:#ecf3f6; }
-#nav ul li a:hover { background:#d5e4eb; }
+#nav ul li a { background:#f8f9fa; }
+#nav ul li a:hover { background:#f8f9fa; }
 #nav ul li a span { background:url(../images/nav_divider.gif) repeat-x 0 100%; }
-#nav ul li a, #nav ul li a:hover { color:#2f2f2f !important; }
+#nav ul li a { color:#2f2f2f !important; }
+#nav ul li a:hover { color:#ED7923 !important; }
 #nav ul span, #nav ul li.last li span { padding:3px 15px 4px 15px;}
 #nav ul li.last span { background:none; }
+#nav ul li.last a { padding-bottom:5px; }
+
 
 /************ 3RD+ LEVEL ************/
 
-#nav ul ul { top:5px; }
+#nav ul ul { top:5px; border-top:1px solid #999; }
 #nav ul ul ul { left:-10000px; }
 #nav li.over ul li.over ul ul { left:-10000px; }
 #nav li.over ul li.over ul li.over ul { left:100px; }
