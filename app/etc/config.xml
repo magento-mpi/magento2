@@ -261,6 +261,10 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Shipping>
+        <Mage_Pickup>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Pickup>
         <Mage_Payment>
             <active>true</active>
             <codePool>core</codePool>

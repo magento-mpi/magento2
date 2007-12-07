@@ -115,6 +115,8 @@ Remove,Remove
 "Send to","Send to"
 "Ship to Multiple Addresses","Ship to Multiple Addresses"
 "Ship to this address","Ship to this address"
+"Ship to different address","Ship to different address"
+"Store Pickup","Store Pickup"
 "Shipping Address","Shipping Address"
 "Shipping Information","Shipping Information"
 "Shipping Method","Shipping Method"
@@ -126,12 +128,12 @@ Remove,Remove
 "Some of the products you requested are not available in the desired quantity","Some of the products you requested are not available in the desired quantity"
 "Some of the products you requested are unavailable","Some of the products you requested are unavailable"
 "Sorry, no quotes are available for this order at this time.","Sorry, no quotes are available for this order at this time."
-State/Province,State/Province
+"State/Province","State/Province"
 "Street Address","Street Address"
 "Street Address 2","Street Address 2"
 "Submitting order information...","Submitting order information..."
-Subtotal,Subtotal
-Telephone,Telephone
+"Subtotal","Subtotal"
+"Telephone","Telephone"
 "Thank you for your purchase!","Thank you for your purchase!"
 "The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s).","The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s)."
 "There is already a customer registered using this email address","There is already a customer registered using this email address"
