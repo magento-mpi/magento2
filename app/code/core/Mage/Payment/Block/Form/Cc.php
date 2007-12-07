@@ -49,7 +49,6 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
             $availableTypes = $this->getPaymentMethod()->getConfigData('cctypes');
             if ($availableTypes) {
                 $availableTypes = explode(',', $availableTypes);
-                var_dump($availableTypes);
                 foreach ($types as $code=>$name) {
                     if (!in_array($code, $availableTypes)) {
                         unset($types[$code]);
@@ -99,15 +98,8 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCcTypes()
     {
-        /*return array(
-            ''=>__('Please select credit card type'),
-            'AE'=>__('American Express'),
-            'VI'=>__('Visa'),
-            'MC'=>__('Master Card'),
-            'DI'=>__('Discover'),
-        );*/
         $types = $this->getCcAvailableTypes();
-        array_push($types, __('Please select credit card type'));
+        array_unshift($types, __('Please select credit card type'));
         return $types;
     }
 

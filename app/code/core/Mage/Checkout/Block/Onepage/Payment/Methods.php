@@ -35,24 +35,12 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_L
 
     public function fetchEnabledMethods()
     {
-        $methods = Mage::getStoreConfig('payment');
-
-        $sortedMethods = array();
-        foreach ($methods as $methodConfig) {
-            if (!$methodConfig->is('active')) {
-                continue;
-            }
-            $sortedMethods[(int)$methodConfig->sort_order] = array(
-                'method_name' => $methodConfig->getName(),
-                'class_name' => $methodConfig->getClassName(),
-            );
-        }
-        ksort($sortedMethods);
-        foreach ($sortedMethods as $m) {
-            $method = Mage::getModel($m['class_name']);
+        $sortedMethods = $this->helper('payment')->getStoreMethods();
+        foreach ($sortedMethods as $method) {
             if ($method) {
                 $method->setPayment($this->getQuote()->getPayment());
-            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$m['method_name']);
+            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$method->getCode())
+            	   ->setPaymentMethod($method);
             	if (!empty($methodBlock)) {
 	                $this->append($methodBlock);
     	        }

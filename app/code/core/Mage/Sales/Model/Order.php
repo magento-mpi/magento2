@@ -18,7 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Order model
+ * 
+ * Supported events:
+ *  sales_order_load_after
+ *  sales_order_save_before
+ *  sales_order_save_after
+ *  sales_order_delete_before
+ *  sales_order_delete_after
+ * 
+ * @author  Moshe Gurvich <moshe@varien.com>
+ * @author  Dmitriy Soroka <dmitriy@varien.com>
+ */
 class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 {
     /**
@@ -47,18 +59,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_init('sales/order');
     }
 
-    protected function _beforeSave()
-    {
-        Mage::dispatchEvent('sales_order_save_before', array('order'=>$this));
-        parent::_beforeSave();
-    }
-
-    protected function _afterLoad()
-    {
-        Mage::dispatchEvent('sales_order_load_after', array('order'=>$this));
-        return parent::_afterLoad();
-    }
-    
     /**
      * Sending email with order data
      *

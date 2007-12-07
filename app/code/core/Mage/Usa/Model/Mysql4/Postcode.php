@@ -28,12 +28,12 @@ class Mage_Usa_Model_Mysql4_Postcode extends Mage_Core_Model_Mysql4_Abstract
 
 	public function getStateByZip($postCode)
 	{
-	    $select = $this->getConnection('read')->select();
+	    $select = $this->_getReadAdapter()->select();
 	    $select->from(array('p' => $this->getTable('postcode')), array('postcode'))
 	       ->join(array('r' => $this->getTable('directory/country_region')), 'r.region_id = p.region_id', array('code'))
-	       ->where( $this->getConnection('read')->quoteInto('p.postcode = ?', $postCode) );
+	       ->where( $this->_getReadAdapter()->quoteInto('p.postcode = ?', $postCode) );
 
-        $data = ( $data = $this->getConnection('read')->fetchRow($select) ) ? $data : array();
+        $data = ( $data = $this->_getReadAdapter()->fetchRow($select) ) ? $data : array();
         if( array_key_exists('code', $data) ) {
             return $data['code'];
         }

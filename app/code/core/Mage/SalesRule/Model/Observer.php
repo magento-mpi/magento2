@@ -24,6 +24,9 @@ class Mage_SalesRule_Model_Observer
 	public function sales_order_afterSave($observer)
 	{
 		$order = $observer->getEvent()->getOrder();
+		if (!$order) {
+		    return $this;
+		}
 		
 		$customerId = $order->getCustomerId();
 		$ruleIds = explode(',', $order->getAppliedRuleIds());

@@ -18,8 +18,24 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Quote model
+ * 
+ * Supported events:
+ *  sales_quote_load_after
+ *  sales_quote_save_before
+ *  sales_quote_save_after
+ *  sales_quote_delete_before
+ *  sales_quote_delete_after
+ * 
+ * @author  Moshe Gurvich <moshe@varien.com>
+ * @author  Dmitriy Soroka <dmitriy@varien.com>
+ */
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
+    protected $_eventPrefix = 'sales_quote';
+    protected $_eventObject = 'quote';
+
     protected $_customer;
     protected $_addresses;
     protected $_items;

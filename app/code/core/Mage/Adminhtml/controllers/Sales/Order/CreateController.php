@@ -188,12 +188,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $this->loadLayout();
         $this->getLayout()->getBlock('left')->setIsCollapsed(true);
 
-        /*$sidebar = $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar')
-            ->setShowContainer(true);*/
         $this->_initSession()
             ->_setActiveMenu('sales/order')
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_create'))
-            //->_addLeft($sidebar)
             ->_addJs($this->getLayout()->createBlock('core/template')->setTemplate(
                 'sales/order/create/js.phtml'
             ))
@@ -288,16 +285,16 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
     }
 
-//    public function editAction()
-//    {
-//        $this->getSession()->reset();
-//        $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
-//        /* @var $order Mage_Sales_Model_Order */
-//        $this->getSession()->setStoreId($order->getStoreId());
-//        $this->getSession()->setCustomerId($order->getCustomerId());
-//        $this->getQuote()->createFromOrder($order);
-//        $this->getQuote()->collectTotals()->save();
-//        $order->cancel()->save();
-//        $this->_redirect('*/*');
-//    }
+    public function editAction()
+    {
+        $this->getSession()->reset();
+        $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
+        /* @var $order Mage_Sales_Model_Order */
+        $this->getSession()->setStoreId($order->getStoreId());
+        $this->getSession()->setCustomerId($order->getCustomerId());
+        $this->getQuote()->createFromOrder($order);
+        $this->getQuote()->collectTotals()->save();
+        $order->cancel()->save();
+        $this->_redirect('*/*');
+    }
 }

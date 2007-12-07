@@ -53,16 +53,10 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function editAction()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order');
+        $model = Mage::getModel('sales/order')
+            ->load($id);
 
-        if ($id) {
-            $model->load($id);
-            if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-                $this->_redirect('*/*/');
-                return;
-            }
-        } else {
+        if (!$model->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
             $this->_redirect('*/*/');
             return;
@@ -79,16 +73,10 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function viewAction()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order');
+        $model = Mage::getModel('sales/order')
+            ->load($id);
 
-        if ($id) {
-            $model->load($id);
-            if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-                $this->_redirect('*/*/');
-                return;
-            }
-        } else {
+        if (!$model->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
             $this->_redirect('*/*/');
             return;
@@ -105,16 +93,10 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function deleteAction()
     {
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order');
+        $order = Mage::getModel('sales/order')
+            ->load($orderId);
 
-        if ($orderId) {
-            $order->load($orderId);
-            if (! $order->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-                $this->_redirect('*/*/');
-                return;
-            }
-        } else {
+        if (!$order->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
             $this->_redirect('*/*/');
             return;
@@ -139,17 +121,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function saveAction()
     {
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order');
+        $order = Mage::getModel('sales/order')
+            ->load($orderId);
         /* @var $order Mage_Sales_Model_Order */
 
-        if ($orderId) {
-            $order->load($orderId);
-            if (! $order->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-                $this->_redirect('*/*/');
-                return;
-            }
-        } else {
+        if (!$order->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
             $this->_redirect('*/*/');
             return;
@@ -185,7 +161,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     /**
      * Random orders generation
      */
-    public function generateAction()
+    /*public function generateAction()
     {
         $count = (int) $this->getRequest()->getParam('count', 10);
         if ($count && $count>100) {
@@ -197,7 +173,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 ->render()
                 ->save();
         }
-    }
+    }*/
 
     protected function _isAllowed()
     {

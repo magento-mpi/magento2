@@ -23,9 +23,10 @@
  * Abstract resource model class
  *
  *
- * @category   Mage
- * @package    Mage_Core
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_Abstract
 {

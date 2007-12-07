@@ -53,12 +53,12 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
         $this->_addButton('backordered', array(
             'label' => __('Edit Order Status'),
-            'onclick'   => 'window.location.href=\'' . $this->getEditBackorderedUrl() . '\'',
+            'onclick'   => 'setLocation(\'' . $this->getEditBackorderedUrl() . '\')',
         ));
 
         $this->_addButton('invoice', array(
             'label' => __('Create New Invoice'),
-            'onclick'   => 'window.location.href=\'' . $this->getCreateInvoiceUrl() . '\'',
+            'onclick'   => 'setLocation(\'' . $this->getCreateInvoiceUrl() . '\')',
             'class' => 'add',
         ));
 
