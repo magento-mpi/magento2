@@ -55,16 +55,16 @@ function decorateTable(table){
         }
 
         if(headRows.length) {
-        	headRows[0].addClassName('first');
-        	headRows[headRows.length-1].addClassName('last');
+          headRows[0].addClassName('first');
+          headRows[headRows.length-1].addClassName('last');
         }
         if(bodyRows.length) {
-        	bodyRows[0].addClassName('first');
-        	bodyRows[bodyRows.length-1].addClassName('last');
+          bodyRows[0].addClassName('first');
+          bodyRows[bodyRows.length-1].addClassName('last');
         }
         if(footRows.length) {
-        	footRows[0].addClassName('first');
-        	footRows[footRows.length-1].addClassName('last');
+          footRows[0].addClassName('first');
+          footRows[footRows.length-1].addClassName('last');
         }
         if(allRows.length) {
             for(var i=0;i<allRows.length;i++){
@@ -97,7 +97,7 @@ function decorateList(list){
  * Set "odd", "even" and "last" CSS classes for list items
  */
 function decorateDataList(list){
-	list = $(list);
+  list = $(list);
     if(list){
         var items = list.getElementsBySelector('dt')
         if(items.length) items[items.length-1].addClassName('last');
@@ -201,4 +201,32 @@ Varien.searchForm.prototype = {
         }
         this.submit();
     }
+}
+
+Varien.Tabs = Class.create();
+Varien.Tabs.prototype = {
+  initialize: function(selector) {
+    var self=this;
+    $$(selector+' a').each(function(el){
+      el.href = 'javascript:void(0)';
+      el.observe('click', self.showContent.bind(self, el));
+      if (el.parentNode.hasClassName('active')) {
+        self.showContent(el);
+      }
+    });
+  },
+
+  showContent: function(a) {
+    var li = a.parentNode, ul = li.parentNode;
+    ul.getElementsBySelector('li', 'ol').each(function(el){
+      var contents = $(el.id+'_contents');
+      if (el==li) {
+        el.addClassName('active');
+        contents.show();
+      } else {
+        el.removeClassName('active');
+        contents.hide();
+      }
+    });
+  }
 }
