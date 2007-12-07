@@ -25,17 +25,26 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('core/store', 'store_id');
     }
-    
+
+    protected function _beforeSave(Mage_Core_Model_Abstract $model)
+    {
+        if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$model->getCode())) {
+            Mage::throwException(__('Code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+        }
+
+        return $this;
+    }
+
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
     	parent::_afterSave($object);
     	$this->updateDatasharing();
     }
-    
+
     public function updateDatasharing()
     {
     	$this->getConnection('write')->delete($this->getTable('config_data'), "path like 'advanced/datashare/%'");
-    	
+
     	$websites = Mage::getResourceModel('core/website_collection')->setLoadDefault(true)->load();
     	$stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load();
     	$fields = Mage::getResourceModel('core/config_field_collection')
@@ -43,7 +52,7 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     		->load();
     	$data = Mage::getModel('core/config_data')
     		->setScope('websites');
-    	
+
     	$allStoreIds = array();
     	foreach ($stores as $s) {
     		$w = $websites->getItemById($s->getWebsiteId());
@@ -59,7 +68,7 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     		$allStoreIds[] = $s->getId();
     	}
     	$websites->getItemById(0)->setStores($allStoreIds);
-    	
+
     	foreach ($websites as $w) {
     		if (!$w->getStores()) {
     			continue;
