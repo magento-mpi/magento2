@@ -1,0 +1,164 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ */
+?>
+<div id="messages_product_view"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
+<?$_product=$this->getProduct()?>
+
+
+<div class="product-view">
+<!-- [START] .product-image-box -->
+		<div class="product-img-box">
+			<p class="main-product-img">
+				<img id="image" class="product-img" src="<?=$_product->getImageUrl()?>" alt="<?=$_product->getName()?>" width="267" height="267"/>
+				<a href="#" class="overlay"><span>Enlarge</span></a>
+			</p>
+			<ul class="more-product-imgs">
+				<li><a href="#"><img src="<?=$this->getBaseUrl()?>media/catalog/product/3/1/31Czn9ij6pL._AA280__2.jpg" width="60" height="60" alt=""/></a></li>
+				<li><a href="#"><img src="<?=$this->getBaseUrl()?>media/catalog/product/3/1/31Czn9ij6pL._AA280__2.jpg" width="60" height="60" alt=""/></a></li>
+				<li><a href="#"><img src="<?=$this->getBaseUrl()?>media/catalog/product/3/1/31Czn9ij6pL._AA280__2.jpg" width="60" height="60" alt=""/></a></li>
+				<li class="last"><a href="#"><img src="<?=$this->getBaseUrl()?>media/catalog/product/3/1/31Czn9ij6pL._AA280__2.jpg" width="60" height="60" alt=""/></a></li>
+			</ul>
+		</div>
+	
+<!-- [END] .product-image-box -->
+
+
+
+
+
+
+<!-- [START] .product-shop -->
+       <div class="product-shop">
+			<h3 class="product-name"><?=$_product->getName()?></h3>
+           <a href="<?=$this->helper('catalog/product')->getEmailToFriendUrl($_product)?>"><?=$this->__('Email to a Friend')?></a><br />     
+           <?=$this->helper('review/product')->getSummaryHtml($_product, null, 1)?>
+            <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
+            <input type="hidden" name="product" value="<?=$_product->getId()?>"/>
+            <input type="hidden" name="related_product" id="related-products-field" value=""/>
+
+            <?if($_product->isSuperConfig()):?>
+                <?=$this->getChildHtml('super_config')?>
+            <?endif;?>
+
+            <?$_tierPrices = $this->getTierPrices($_product)?>
+            <?if(count($_tierPrices)>0):?>
+                <div class="product-pricing">
+                    <ul class="bare">
+                    <?foreach($_tierPrices as $_price):?>
+                        <li><?=$this->__('Buy %s for %s each', $_price['price_qty'], $_price['formated_price'])?> <?=__('and')?> <strong><?=__('save %s%%', $_price['savePercent'])?></strong></li>
+                    <?endforeach?>
+                    </ul>
+                </div>
+            <?endif;?>
+
+            <?if($_product->isSuperGroup()):?>
+                <?=$this->getChildHtml('super_group')?>
+            <?endif;?>
+
+            <?if(!$_product->isSuperGroup()):?>
+                <?if($_product->isSaleable()):?>
+                <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <?else:?>
+                <p><small><?=$this->__('Availability: Out of stock.')?></small><br />
+                <?=$this->getAlertHtml('product_back_stock');?></p>
+                <?endif;?>
+                <?=$this->getAlertHtml('price_is_changed');?>
+                <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
+                
+                <?if($_product->isSaleable()):?>
+                <fieldset class="add-to-cart-box">
+                    <legend><?=$this->__('Add Items to Cart')?></legend>
+                    <span class="qty-box"><label for="qty"><?=$this->__('Qty')?>:</label>
+                    <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?=$this->getMinimalQty($_product)?>"/></span>
+                    <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button>
+                    <strong><?=$this->__('OR')?></strong>
+                </fieldset>
+                <?endif;?>
+                <div class="add-to-box">
+                    <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a><br/>
+                    <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
+                    <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
+                    <?endif;?>
+                </div>
+            <?else:?>
+                <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <?if($_product->isSaleable() && $_product->getSuperGroupProductsLoaded()->getSize()):?>
+                <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button> <strong><?=$this->__('OR')?></strong>
+                &nbsp;&nbsp;
+                <?endif;?>
+                <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a>
+                <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
+                <span class="pipe">|</span>
+                <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
+                <?endif;?>
+            <?endif;?>
+            </form>
+            <script type="text/javascript">
+                var productAddToCartForm = new VarienForm('product_addtocart_form');
+                productAddToCartForm.submit = function() {
+                    if(this.validator.validate()) {
+                        this.form.submit();
+                    }
+                }.bind(productAddToCartForm);
+            </script>
+			<div class="clear"></div>
+		</div>
+<!-- [END] .product-shop -->
+
+		<div class="clear"></div>
+		<hr class="spacer"/>
+		<br/>
+		<?=$this->getChildHtml('upsell_products')?>
+
+
+		<ul id="product_tabs" class="tabs">
+			<li id="product_tabs_description" class="active"><a href="#">Product Description</a></li>
+			<li id="product_tabs_additional"><a href="#">Additional Information</a></li>
+			<li id="product_tabs_tags"><a href="#">Product Tags</a></li>
+		</ul>
+		<div id="product_tabs_description_contents" class="tab-content">
+			<?=$_product->getDescription()?>
+		</div>
+		<div id="product_tabs_additional_contents" class="tab-content">
+			<?if($_additional = $this->getAdditionalData()):?>
+			<table cellspacing="0" class="data-table" id="product-attribute-specs-table">
+			<?foreach ($_additional as $_data):?>
+				<tr>
+					<td class="label"><?=$_data['label']?></td>
+					<td class="data"><?=$_data['value']?></td>
+				</tr>
+			<?endforeach;?>
+			</table>
+			<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
+			<?endif;?>
+		</div>
+		<div id="product_tabs_tags_contents" class="tab-content">
+			<?=$this->getChildHtml('product_additional_data')?>
+		</div>
+	</div>
+<script type="text/javascript">
+	var tabs = new Varien.Tabs('ul.tabs');
+</script>
