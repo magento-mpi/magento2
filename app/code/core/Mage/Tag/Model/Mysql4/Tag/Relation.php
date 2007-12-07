@@ -28,7 +28,7 @@
 
 class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->_init('tag/relation', 'tag_relation_id');
     }
