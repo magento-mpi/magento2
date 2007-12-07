@@ -81,6 +81,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $configFile = Mage::getBaseDir('etc').DS.'config.xml';
         $this->loadFile($configFile);
 
+        $configFile = Mage::getBaseDir('etc').DS.'modules.xml';
+        $mergeConfig->loadFile($configFile);
+        $this->extend($mergeConfig);
+
         Varien_Profiler::stop('config/load-base');
 
         /**
@@ -348,6 +352,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
             case 'export':
                 $dir = $this->getBaseDir('var').DS.'export';
+                break;
+
+            case 'pear':
+                $dir = $this->getBaseDir('var').DS.'pear';
+                break;
         }
         return $dir;
     }
