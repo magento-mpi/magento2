@@ -341,7 +341,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             $this->_getWriteAdapter()->update($this->getMainTable(), $this->_prepareDataForSave($object), $condition);
         } else {
             $this->_getWriteAdapter()->insert($this->getMainTable(), $this->_prepareDataForSave($object));
-            $object->setId($this->_getWriteAdapter()->lastInsertId($table));
+            $object->setId($this->_getWriteAdapter()->lastInsertId($this->getMainTable()));
         }
 
         $this->_afterSave($object);

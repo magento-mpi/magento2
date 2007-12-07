@@ -85,7 +85,7 @@
                 <status>
                 </status>
             </order>
-            <!--quote>
+            <quote>
                 <totals>
                     <subtotal>
                         <class>sales/quote_address_total_subtotal</class>
@@ -111,7 +111,7 @@
                         <after>subtotal</after>
                     </grand_total>
                 </totals>
-            </quote-->
+            </quote>
         </sales>
     </global>
 
