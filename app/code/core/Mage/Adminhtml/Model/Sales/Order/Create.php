@@ -123,6 +123,18 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         return $this->getSession()->getQuote();
     }
+    
+    public function initFromOrder(Mage_Sales_Model_Order $order)
+    {
+        $this->getSession()->setCustomerId($order->getCustomerId());
+        $this->getSession()->setStoreId($order->getStoreId());
+        $this->getSession()->setCurrencyId($order->setOrderCurrencyCode());
+        
+        /*$this->getQuote()->createFromOrder($order)
+            ->collectTotals()
+            ->save();*/
+        return $this;
+    }
 
     /**
      * Retrieve customer wishlist model object
