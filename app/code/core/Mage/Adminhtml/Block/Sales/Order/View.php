@@ -46,11 +46,10 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->_removeButton('reset');
         $this->_removeButton('save');
 
-        // TODO - Next update functionality, not QA'ed yet
-        // $this->_addButton('edit', array(
-            // 'label' => __('Edit Order'),
-            // 'onclick'   => 'deleteConfirm(\''. __('Are you sure? This order will be cancelled and a new one will be created instead') .'\', \'' . $this->getEditUrl() . '\')',
-        // ));
+         $this->_addButton('edit', array(
+             'label'    => __('Edit Order'),
+             'onclick'  => 'deleteConfirm(\''. __('Are you sure? This order will be cancelled and a new one will be created instead') .'\', \'' . $this->getEditUrl() . '\')',
+         ));
 
         $this->_addButton('backordered', array(
             'label' => __('Edit Order Status'),

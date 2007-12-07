@@ -290,6 +290,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         return $this;
     }
     
+    /**
+     * @todo remove this method
+     */
     public function getResource()
     {
         Mage::throwException('Sorry, but we dot\'t support anymore public method getResource. Use protected _getResorce, please.');

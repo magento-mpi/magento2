@@ -425,7 +425,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
                     $select->where($this->getIdFieldName().' != ?', $object->getId());
                 }
                 
-                if ( $test = $read->fetchRow($select) ) {
+                if ( $test = $this->_getWriteAdapter()->fetchRow($select) ) {
                     $existent[] = $unique['title'];
                 }
             }
