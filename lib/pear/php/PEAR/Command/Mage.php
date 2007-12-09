@@ -134,6 +134,7 @@ Creates a Magento specific PEAR package from its description file.
                 'magecommunity' => array('name'=>'Magento Community module file', 'dir_config'=>'mage_community_dir'),
                 'magecore' => array('name'=>'Magento Core team module file', 'dir_config'=>'mage_core_dir'),
                 'magedesign' => array('name'=>'Magento User Interface (layouts, templates)', 'dir_config'=>'mage_design_dir'),
+                'mageetc' => array('name'=>'Magento Global Configuration', 'dir_config'=>'mage_etc_dir'),
                 'magelib' => array('name'=>'Magento PHP Library file', 'dir_config'=>'mage_lib_dir'),
                 'magelocale' => array('name'=>'Magento Locale language file', 'dir_config'=>'mage_locale_dir'),
                 'magemedia' => array('name'=>'Magento Media library', 'dir_config'=>'mage_media_dir'),

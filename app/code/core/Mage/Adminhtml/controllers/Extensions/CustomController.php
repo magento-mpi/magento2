@@ -48,24 +48,71 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
         $this->renderLayout();
     }
 
-     public function saveAction()
+    public function resetAction()
     {
+        Mage::getSingleton('adminhtml/session')->unsCustomExtensionPackageFormData();
+        $this->_redirect('*/*/edit');
+    }
+
+    public function loadAction()
+    {
+        $package = $this->getRequest()->getParam('id');
+        if ($package) {
+            $filename = Mage::getBaseDir('var').DS.'pear'.DS.$package.'.ser';
+            $session = Mage::getSingleton('adminhtml/session');
+            if (is_readable($filename)) {
+                $p = file_get_contents($filename);
+                $data = unserialize($p);
+                $session->setCustomExtensionPackageFormData($data);
+                $session->addSuccess(__("Package %s data was successfully loaded", $package));
+            } else {
+                $session->addError(__("File %s.ser could not be read", $package));
+            }
+        }
+        $this->_redirect('*/*/edit');
+    }
+
+    public function saveAction()
+    {
+        $session = Mage::getSingleton('adminhtml/session');
+        $p = $this->getRequest()->getPost();
+        $session->setCustomExtensionPackageFormData($p);
+        $ext = Mage::getModel('adminhtml/extension');
+        $ext->setData($p);
+        if ($ext->savePackage()) {
+            $session->addSuccess('Package data was successfully saved');
+        } else {
+            $session->addError('There was a problem saving package data');
+        }
+        #$this->_redirect('*/*/edit');
+    }
+
+    public function createAction()
+    {
+        $session = Mage::getSingleton('adminhtml/session');
         try {
             $p = $this->getRequest()->getPost();
-            Mage::getSingleton('adminhtml/session')->setCustomExtensionPackageFormData($p);
+            $session->setCustomExtensionPackageFormData($p);
             $ext = Mage::getModel('adminhtml/extension');
             $ext->setData($p);
-            if (!$ext->savePackage()){
-
+            $result = $ext->savePackage() && $ext->createPackage();
+            $pear = Varien_Pear::getInstance();
+            if ($result) {
+                $data = $pear->getOutput();
+                $session->addSuccess($data[0]['output']);
+                #$this->_forward('reset');
+            } else {
+                $session->addError($result->getMessage());
+                #$this->_redirect('*/*');
             }
-            echo "<xmp>".$ext->getPackageXml()."</xmp>";
         }catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('admin/extensions_custom/');
+            $session->addError($e->getMessage());
+            #$this->_redirect('*/*');
         }
         catch(Exception $e){
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('admin/extensions_custom/');
+            $session->addError($e->getMessage());
+            #$this->_redirect('*/*');
         }
     }
+
 }

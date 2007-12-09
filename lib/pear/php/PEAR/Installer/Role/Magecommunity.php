@@ -24,4 +24,4 @@
  * @package    Varien_Object
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class PEAR_Installer_Role_MageCommunity extends PEAR_Installer_Role_Common {}
+class PEAR_Installer_Role_Magecommunity extends PEAR_Installer_Role_Common {}

@@ -50,7 +50,7 @@
             <connection><use>core_read</use></connection>
          </install_read>
       </resources>
-      
+
       <blocks>
         <install><class>Mage_Install_Block</class></install>
       </blocks>
@@ -70,7 +70,7 @@
          </install>
       </routers>
    </frontend>
-   
+
    <install>
       <layout>
         <updates>
@@ -89,11 +89,11 @@
          </controller_action_predispatch>
          <mage_run_exception>
             <observers>
-               <checkConnection>
+               <install_failure>
                   <type>singleton</type>
-                  <class>core/resource</class>
-                  <method>checkDbConnection</method>
-               </checkConnection>
+                  <class>install/observer</class>
+                  <method>installFailure</method>
+               </install_failure>
             </observers>
          </mage_run_exception>
          <core_locale_set_locale>
@@ -116,5 +116,13 @@
             </Mage_Install>
         </modules>
       </translate>
+
+      <layout>
+          <updates>
+              <install>
+                  <file>main.xml</file>
+              </install>
+          </updates>
+      </layout>
    </install>
 </config>

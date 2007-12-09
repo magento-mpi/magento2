@@ -71,7 +71,7 @@ abstract class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract extends 
         return $this->_addRowButtonHtml[$container];
     }
 
-    public function getRemoveRowButtonHtml()
+    public function getRemoveRowButtonHtml($selector='span')
     {
         if (!$this->_removeRowButtonHtml) {
             $this->_removeRowButtonHtml = $this->getLayout()
@@ -79,7 +79,7 @@ abstract class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract extends 
                     ->setType('button')
                     ->setClass('delete')
                     ->setLabel($this->__('Remove'))
-                    ->setOnClick("removeRow(this)")
+                    ->setOnClick("removeRow(this, '".$selector."')")
                     ->toHtml();
         }
         return $this->_removeRowButtonHtml;

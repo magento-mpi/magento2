@@ -47,6 +47,12 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Contents
 
     public function getPearRoles()
     {
-        return array('php'=>'PHP Files', 'data'=>'Data files', 'doc'=>'Documentation', 'script'=>'Scripts', 'test'=>'Tests');
+        return array(
+            'php'=>'PHP Files',
+            'data'=>'Data files',
+            'doc'=>'Documentation',
+            'script'=>'Scripts',
+            'test'=>'Tests'
+        );
     }
 }

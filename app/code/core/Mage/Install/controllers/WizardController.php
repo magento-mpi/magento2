@@ -123,7 +123,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             $this->_redirect('install');
         }
     }
-    
+
     /**
      * Localization settings
      */
@@ -141,22 +141,22 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         $this->renderLayout();
     }
-    
+
     /**
      * Change current locale
      */
     public function localeChangeAction()
     {
         $this->_checkIfInstalled();
-        
+
         $locale = $this->getRequest()->getParam('locale');
         if ($locale) {
             Mage::getSingleton('install/session')->setLocale($locale);
         }
-        
+
         $this->_redirect('*/*/locale');
     }
-    
+
     /**
      * Saving localization settings
      */
@@ -164,14 +164,60 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     {
         $this->_checkIfInstalled();
         $step = $this->_getWizard()->getStepByName('locale');
-        
+
         if ($data = $this->getRequest()->getPost('config')) {
             Mage::getSingleton('install/session')->setLocaleData($data);
         }
-        
+
         $this->getResponse()->setRedirect($step->getNextUrl());
     }
-    
+
+    public function downloadAction()
+    {
+        $this->_checkIfInstalled();
+        $this->setFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT, true);
+        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+
+        $this->_prepareLayout();
+        $this->_initLayoutMessages('install/session');
+        $this->getLayout()->getBlock('content')->append(
+            $this->getLayout()->createBlock('install/download', 'install.download')
+        );
+
+        $this->renderLayout();
+    }
+
+    public function downloadPostAction()
+    {
+        $this->_checkIfInstalled();
+        switch ($this->getRequest()->getPost('continue')) {
+            case 'auto':
+                $this->_forward('downloadAuto');
+                break;
+
+            case 'manual':
+                $this->_forward('downloadManual');
+                break;
+
+            default:
+                $this->_redirect('*/*/download');
+        }
+    }
+
+    public function downloadAutoAction()
+    {
+
+        $step = $this->_getWizard()->getStepByName('download');
+        $this->getResponse()->setRedirect($step->getNextUrl());
+    }
+
+    public function downloadManualAction()
+    {
+
+        $step = $this->_getWizard()->getStepByName('download');
+        $this->getResponse()->setRedirect($step->getNextUrl());
+    }
+
     /**
      * Configuration data installation
      */

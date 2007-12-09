@@ -33,7 +33,7 @@
     <wizard>
         <steps>
             <begin>
-                <code>Start Installation</code>
+                <code>License Agreement</code>
                 <controller>wizard</controller>
                 <action>begin</action>
             </begin>
@@ -42,6 +42,11 @@
                 <controller>wizard</controller>
                 <action>locale</action>
             </locale>
+            <download>
+                <code>Download Updates</code>
+                <controller>wizard</controller>
+                <action>download</action>
+            </download>
             <config>
                 <code>Configuration</code>
                 <controller>wizard</controller>

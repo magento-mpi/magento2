@@ -1,0 +1,61 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Install localization template
+ *
+ * @see Mage_Install_Block_Locale
+ */
+?>
+<div class="page-head">
+    <h3><?=$this->__('Download Magento Core Modules and Updates')?></h3>
+</div>
+<?=$this->getMessagesBlock()->getGroupedHtml()?>
+
+<form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
+<fieldset class="group-select">
+    <legend><?=$this->__('Package Management through the Web')?></legend>
+    <h4 class="legend"><?=$this->__('Package Management through the Web')?></h4>
+
+    <p><?=$this->__("If you wish to manage Magento packages through the web admin interface, you will need to have web writeable permissions applied to all Magento folders and files.")?></p>
+    <p><?=$this->__("If your server is running on MS Windows, most probably you will not need to change anything.")?></p>
+    <p><?=$this->__("If you are running PHP as CGI, your PHP processes may run under the same user as the user you used when uploading Magento files.")?></p>
+    <p><?=$this->__("In other cases you will need to make Magento files writeable for the user that the web server process is running under.")?></p>
+
+    <p><button class="form-button" type="submit" name="continue" value="auto"><span><?=$this->__('Proceed With Automatic Download')?></span></button></p>
+</fieldset>
+<fieldset class="group-select">
+    <legend><?=$this->__('Manual Downloads and Upgrades')?></legend>
+    <h4 class="legend"><?=$this->__('Manual Downloads and Upgrades')?></h4>
+
+    <p><?=$this->__("If you have previously downloaded and installed Magento proceed with this method.")?></p>
+    <p><?=$this->__("If you do not wish or are not able to have Magento folders writeable for the web process, you could use PEAR executable located in the root of Magento installation.")?></p>
+    <p><?=$this->__("Please note that only UNIX, Linux and Mac OSX shells are currently supported. For Windows use the first option.")?></p>
+    <p><?=$this->__("Run this in your shell from Magento root folder:")?></p>
+    <pre>
+./pear mage-setup
+./pear install magecore/Magento
+
+</pre>
+    <p><?=$this->__("After successfull installation please click the button below.")?></p>
+
+    <p><button class="form-button" type="submit" name="continue" value="manual"><span><?=$this->__('Continue After Manual Download')?></span></button></p>
+</fieldset>
+</form>

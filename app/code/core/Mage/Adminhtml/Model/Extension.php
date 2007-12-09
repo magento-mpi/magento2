@@ -3,6 +3,8 @@ require_once 'Varien/Pear/Package.php';
 
 class Mage_Adminhtml_Model_Extension extends Varien_Object
 {
+    protected $_roles;
+
     public function getPear()
     {
         return Varien_Pear::getInstance();
@@ -131,16 +133,17 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
     protected function _setContents($pfm)
     {
-        $pfm->addUsesrole('magecore', 'Varien_Pear_Role');
-
         $baseDir = $this->getRoleDir('mage').DS;
 
         $pfm->clearContents();
         $contents = $this->getData('contents');
+        $usesRoles = array();
         foreach ($contents['role'] as $i=>$role) {
             if (0===$i) {
                 continue;
             }
+
+            $usesRoles[$role] = 1;
 
             $roleDir = $this->getRoleDir($role).DS;
             $fullPath = $roleDir.$contents['path'][$i];
@@ -158,21 +161,33 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
                         Mage::throwException(__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
+                    $include = $contents['include'][$i];
                     $ignore = $contents['ignore'][$i];
-                    $this->_addDir($pfm, $role, $roleDir, $path, $ignore);
+                    $this->_addDir($pfm, $role, $roleDir, $path, $include, $ignore);
                     break;
             }
         }
 
+        $pearRoles = $this->getRoles();
+#echo "<pre>".print_r($usesRoles,1)."</pre>";
+        foreach ($usesRoles as $role=>$dummy) {
+            if (empty($pearRoles[$role]['package'])) {
+                continue;
+            }
+            $pfm->addUsesrole($role, $pearRoles[$role]['package']);
+        }
     }
 
-    protected function _addDir($pfm, $role, $roleDir, $path, $ignore)
+    protected function _addDir($pfm, $role, $roleDir, $path, $include, $ignore)
     {
         $roleDirLen = strlen($roleDir);
         $entries = @glob($roleDir.$path.DS."*");
         if (!empty($entries)) {
             foreach ($entries as $entry) {
                 $filePath = substr($entry, $roleDirLen);
+                if (!empty($include) && !preg_match($include, $filePath)) {
+                    continue;
+                }
                 if (!empty($ignore) && preg_match($ignore, $filePath)) {
                     continue;
                 }
@@ -181,7 +196,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
                     if ('.'===$baseName || '..'===$baseName) {
                         continue;
                     }
-                    $this->_addDir($pfm, $role, $roleDir, $filePath, $ignore);
+                    $this->_addDir($pfm, $role, $roleDir, $filePath, $include, $ignore);
                 } elseif (is_file($entry)) {
                     $pfm->addFile('/', $filePath, array('role'=>$role, 'md5sum'=>md5_file($entry)));
                 }
@@ -191,7 +206,11 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
     public function getRoles()
     {
-        return PEAR_Command_Mage::getRoles();
+        if (!$this->_roles) {
+            $pearMage = new PEAR_Command_Mage($this->getPear()->getFrontend(), $this->getPear()->getConfig());
+            $this->_roles = $pearMage->getRoles();
+        }
+        return $this->_roles;
     }
 
     public function getRoleDir($role)
@@ -215,23 +234,31 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         if (!$this->getPackageXml()) {
             $this->generatePackageXml();
         }
-
         if (!$this->getPackageXml()) {
             echo "FATAL ERROR.";
         }
 
         $pear = Varien_Pear::getInstance();
-        $dir = $pear->getConfig()->get('temp_dir');
+        $dir = Mage::getBaseDir('var').DS.'pear';
         file_put_contents($dir.'/package.xml', $this->getPackageXml());
 
         $pkgver = $this->getName().'-'.$this->getReleaseVersion();
         $this->unsPackageXml();
         $this->unsRoles();
-        file_put_contents($dir.DS.$pkgver.'.ser', serialize($this->getData()));
+        file_put_contents($dir.DS.$this->getName().'.ser', serialize($this->getData()));
 
+        return true;
+    }
+
+    public function createPackage()
+    {
+        $pear = Varien_Pear::getInstance();
+        $dir = Mage::getBaseDir('var').DS.'pear';
         $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
-        print_r($pear->getFrontend());
-
+        if ($result instanceof PEAR_Error) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -262,7 +289,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $arr = array(
             'pear.php.net' => 'PEAR',
             'var-dev.varien.com' => 'Varien Dev',
-            'pear.magentocommerce.com' => 'Magento Production',
+            'pear.magentocommerce.com/core' => 'Magento Core Team',
+            'pear.magentocommerce.com/community' => 'Magento Community',
         );
         return $arr;
     }

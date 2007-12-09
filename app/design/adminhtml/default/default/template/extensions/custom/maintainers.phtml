@@ -18,54 +18,59 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<style type="text/css">
-#maintainers_fieldset .input-text { width:100px; }
-</style>
 <div class="entry-edit">
     <?=$this->getFormHtml()?>
 
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Maintainers")?></h4>
     <fieldset id="maintainers_fieldset">
         <legend><?=$this->__("Maintainers")?></legend>
-        <div id="maintainers_template" style="display:none">
-            <span class="field-row">
-                <?=$this->__("Level:")?> <select name="maintainers[role][]">
-                    <?foreach ($this->getMaintainerRoles() as $_value=>$_label):?>
-                        <option value="<?=$_value?>"><?=$_label?></option>
-                    <?endforeach?>
-                </select>
-                <?=$this->__("Name:")?> <input class="input-text" name="maintainers[name][]"/>
-                <?=$this->__("User:")?> <input class="input-text" name="maintainers[handle][]"/>
-                <?=$this->__("Email:")?> <input class="input-text" name="maintainers[email][]"/>
-                <?=$this->__("Status:")?> <select name="maintainers[active][]"/>
-                    <option value="1"><?=$this->__("Active")?></option>
-                    <option value="0"><?=$this->__("Inactive")?></option>
-                </select>
-                <?=$this->getRemoveRowButtonHtml()?>
-            </span>
-        </div>
-        <div id="maintainers_container">
+        <table class="table-editable" cellspacing="0">
+            <thead>
+                <tr>
+                    <th><?=$this->__("Level")?></th>
+                    <th><?=$this->__("Name")?></th>
+                    <th><?=$this->__("User")?></th>
+                    <th><?=$this->__("Email")?></th>
+                    <th><?=$this->__("Status")?></th>
+                    <th>&nbsp;</th>
+                </tr>
+                <tr id="maintainers_template" style="display:none">
+<?function showMaintainersTemplate($self, $_i=0) {?>
+                    <td class="field-row">
+                        <select name="maintainers[role][]">
+                        <?foreach ($self->getMaintainerRoles() as $_value=>$_label):?>
+                            <option value="<?=$_value?>" <?=$self->getSelected('maintainers/role/'.$_i, $_value)?>><?=$_label?></option>
+                        <?endforeach?>
+                        </select>
+                    </td><td class="field-row">
+                        <input class="input-text" style="width:150px;" name="maintainers[name][]" value="<?=$self->getValue('maintainers/name/'.$_i)?>"/>
+                    </td><td class="field-row">
+                        <input class="input-text" style="width:100px;" name="maintainers[handle][]" value="<?=$self->getValue('maintainers/handle/'.$_i)?>"/>
+                    </td><td class="field-row">
+                        <input class="input-text" style="width:150px;" name="maintainers[email][]" value="<?=$self->getValue('maintainers/email/'.$_i)?>"/>
+                    </td><td class="field-row">
+                        <select name="maintainers[active][]"/>
+                            <option value="1" <?=$self->getSelected('maintainers/active/'.$_i, 1)?>><?=$self->__("Active")?></option>
+                            <option value="0" <?=$self->getSelected('maintainers/active/'.$_i, 0)?>><?=$self->__("Inactive")?></option>
+                        </select>
+                    </td><td class="field-row">
+                        <?=$self->getRemoveRowButtonHtml('tr')?>
+                    </td>
+<?}?>
+<?showMaintainersTemplate($this)?>
+                </tr>
+            </thead>
+            <tbody id="maintainers_container">
             <?if ($this->getData('maintainers/role')):?>
             <?foreach ($this->getData('maintainers/role') as $_i=>$_dbField):?>
                 <?if (0===$_i) continue;?>
-                <span class="field-row">
-                    <?=$this->__("Role:")?> <select name="maintainers[role][]">
-                    <?foreach ($this->getMaintainerRoles() as $_value=>$_label):?>
-                        <option value="<?=$_value?>" <?=$this->getSelected('maintainers/role/'.$_i, $_value)?>><?=$_label?></option>
-                    <?endforeach?>
-                    </select>
-                    <?=$this->__("Name:")?> <input class="input-text" name="maintainers[name][]" value="<?=$this->getValue('maintainers/name/'.$_i)?>"/>
-                    <?=$this->__("User:")?> <input class="input-text" name="maintainers[handle][]" value="<?=$this->getValue('maintainers/handle/'.$_i)?>"/>
-                    <?=$this->__("Email:")?> <input class="input-text" name="maintainers[email][]" value="<?=$this->getValue('maintainers/email/'.$_i)?>"/>
-                    <?=$this->__("Status:")?> <select name="maintainers[active][]"/>
-                        <option value="1" <?=$this->getSelected('maintainers/active/'.$_i, 1)?>><?=$this->__("Active")?></option>
-                        <option value="0" <?=$this->getSelected('maintainers/active/'.$_i, 0)?>><?=$this->__("Inactive")?></option>
-                    </select>
-                    <?=$this->getRemoveRowButtonHtml()?>
-                </span>
+                <tr>
+<?showMaintainersTemplate($this, $_i)?>
+                </tr>
             <?endforeach?>
             <?endif?>
-        </div>
+            </tbody>
+        </table>
         <?=$this->getAddRowButtonHtml('maintainers_container', 'maintainers_template', 'Add Maintainer')?>
     </fieldset>
 </div>

@@ -60,11 +60,9 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
         }
         $parentArr = array();
-        $i = sizeof($parent->children());
         $sortOrder = 0;
         foreach ($parent->children() as $childName=>$child) {
 
-            $i--;
 			$aclResource = 'admin/'.$path.$childName;
         	if (!$this->_checkAcl($aclResource)) {
                 continue;
@@ -93,10 +91,6 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
             $menuArr['level'] = $level;
 
-            if ($i==0) {
-                $menuArr['last'] = true;
-            }
-
             if ($child->children) {
                 $menuArr['children'] = $this->_buildMenuArray($child->children, $path.$childName.'/', $level+1);
             }
@@ -106,6 +100,11 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         }
 
         uasort($parentArr, array($this, '_sortMenu'));
+
+        while (list($key, $value) = each($parentArr)) {
+            $last = $key;
+        }
+        $parentArr[$last]['last'] = true;
 
         return $parentArr;
     }

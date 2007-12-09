@@ -34,20 +34,20 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit extends Mage_Adminhtml_Block_W
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Create Package'));
         $this->_removeButton('back');
 
-        $this->_formScripts[] = "
-function addRow(container, template)
-{
-    new Insertion.Bottom($(container), $(template).innerHTML);
-}
+        $this->_updateButton('reset', 'onclick', "resetPackage()");
 
-function removeRow(button)
-{
-    Element.remove(button.parentNode);
-}
-        ";
+        $this->_addButton('create', array(
+            'label'=>__('Save data and Create Package'),
+            'class'=>'save',
+            'onclick'=>"createPackage()",
+        ));
+        $this->_addButton('load', array(
+            'label'=>__('Load'),
+            'title'=>__('Load previously created custom local package information'),
+            'onclick'=>"loadPackage()",
+        ));
     }
 
     public function getHeaderText()
