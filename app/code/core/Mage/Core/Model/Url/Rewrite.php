@@ -123,6 +123,9 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
 
     public function rewrite(Zend_Controller_Request_Http $request=null, Zend_Controller_Response_Http $response=null)
     {
+        if (!Mage::app()->isInstalled()) {
+            return false;
+        }
         if (is_null($request)) {
             $request = Mage::app()->getFrontController()->getRequest();
         }

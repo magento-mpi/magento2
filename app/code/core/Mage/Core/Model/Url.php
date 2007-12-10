@@ -369,24 +369,19 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function getBaseScript()
     {
-        if ($this->hasData('base_script')) {
-            return $this->getData('base_script');
-        }
+//        if ($this->hasData('base_script')) {
+//            return $this->getData('base_script');
+//        }
 
         if ($this->getType()!==self::TYPE_ROUTE) {
             return '';
         }
 
-        if (!Mage::getStoreConfig('web/url/use_script_name')) {
+        if (Mage::getStoreConfig('web/url/use_script_name')!=='true') {
             return '';
         }
 
-        $script = Mage::getStoreConfig('web/url/script');
-        if (false===$script) {
-            #$prefix = basename($_SERVER['SCRIPT_NAME']).'?_route=';
-            $script = basename($_SERVER['SCRIPT_NAME']).'/';
-            #$prefix = '';
-        }
+        $script = basename($_SERVER['SCRIPT_NAME']).'/';
 
         return $script;
     }

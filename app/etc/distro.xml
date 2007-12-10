@@ -68,8 +68,9 @@
                     <media>{{base_path}}media/</media>
                     <skin>{{base_path}}skin/</skin>
                     <js>{{base_path}}js/</js>
+                    <use_script_name>true</use_script_name>
                 </url>
-                
+
                 <default>
                     <front>catalog</front>
                     <no_route>core/index/noRoute</no_route>
