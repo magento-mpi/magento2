@@ -18,6 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once "Varien/Pear/Package.php";
+
 /**
  * PEAR Packages Download Manager
  *
@@ -30,10 +32,10 @@ class Mage_Install_Model_Installer_Pear
     public function getPackages()
     {
         $packages = array(
-            'Mage_Pear_Helpers',
-            'Mage_All',
-            'Interface_Frontend_Default',
-            'Interface_Adminhtml_Default'
+            'var-dev/Mage_Pear_Helpers',
+            'var-dev/Mage_All',
+            'var-dev/Interface_Frontend_Default',
+            'var-dev/Interface_Adminhtml_Default'
         );
         return $packages;
     }
@@ -61,8 +63,37 @@ class Mage_Install_Model_Installer_Pear
 
     public function installPackages()
     {
+        ob_implicit_flush();
+
         $pear = new Varien_Pear;
-        $pear->getFrontend()->setLogStream('stdout');
-        $pear->run('install', array('onlyreqdeps'=>1), $this->getPackages());
+        $fe = $pear->getFrontend();
+        $fe->setLogStream('stdout');
+?>
+<html><head><style>
+body { margin:0px; padding:3px; background:black; }
+pre { font:normal 11px Courier New, serif; color:#2EC029; }
+</style></head><body><pre>
+<?
+        $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $this->getPackages());
+        #$result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), array('PEAR'));
+        #$result = $pear->run('help', array(), array());
+        #$result = true;
+        if ($result instanceof PEAR_Error) {
+            echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();
+        }
+#        print_r($result);
+        #print_r($fe->getLog());
+        #print_r($fe->getOutput());
+?>
+</pre><script type="text/javascript">
+<?
+        if ($result instanceof PEAR_Error) {
+            echo 'parent.installFailure()';
+        } else {
+            echo 'parent.installSuccess()';
+        }
+?>
+</script></body></html>
+<?
     }
 }

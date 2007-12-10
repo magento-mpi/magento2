@@ -16,12 +16,12 @@ if test "x$PHP_PEAR_INSTALL_DIR" != "x"; then
   INCDIR=$PHP_PEAR_INSTALL_DIR
   INCARG="-d include_path=$PHP_PEAR_INSTALL_DIR"
 else
-  if test "/home/moshe/dev/magento_pear/lib/pear/php" = '@'php_dir'@'; then
+  if test "/home/moshe/dev/magento/lib/pear/php" = '@'php_dir'@'; then
     INCDIR=`dirname $0`
     INCARG=""  
   else
-    INCDIR="/home/moshe/dev/magento_pear/lib/pear/php"
-    INCARG="-d include_path=/home/moshe/dev/magento_pear/lib/pear/php"
+    INCDIR="/home/moshe/dev/magento/lib/pear/php"
+    INCARG="-d include_path=/home/moshe/dev/magento/lib/pear/php"
   fi
 fi
 

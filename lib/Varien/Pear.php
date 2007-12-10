@@ -73,9 +73,9 @@ class Varien_Pear
             $config = PEAR_Config::singleton();
             $config->readConfigFile($pear_dir.DS.'pear.ini');
 
-            $config->set('preferred_state', 'alpha');
+            $config->set('preferred_state', 'beta');
             $config->set('auto_discover', 1);
-            $config->set('default_channel', 'var-dev.varien.com');
+            #$config->set('default_channel', 'var-dev.varien.com');
 
             $config->set('bin_dir', $pear_dir);
             $config->set('php_dir', $pear_dir.DS.'php');

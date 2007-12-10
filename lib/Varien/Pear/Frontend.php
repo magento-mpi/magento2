@@ -30,7 +30,7 @@ class Varien_Pear_Frontend extends PEAR_Frontend
 
         $this->_log[] = $msg;
 
-        if ('stdout'===$_logStream) {
+        if ('stdout'===$this->_logStream) {
             echo $msg;
         }
         elseif (is_resource($this->_logStream)) {
