@@ -1,3 +1,4 @@
+"You tag was successfully saved","You tag was successfully saved"
 "Add Tags","Add Tags"
 "Add to Cart","Add to Cart"
 "Add to Wishlist","Add to Wishlist"
@@ -8,24 +9,24 @@
 "Data integrity: No header row found for attribute","Data integrity: No header row found for attribute"
 "Delete Tag","Delete Tag"
 "Edit Tag","Edit Tag"
-Grid,Grid
-List,List
+"Grid","Grid"
+"List","List"
 "My Recent Tags","My Recent Tags"
 "My Tags","My Tags"
-Name,Name
+"Name","Name"
 "No matches found.","No matches found."
 "Other people marked this product with these tags:","Other people marked this product with these tags:"
 "Popular Tags","Popular Tags"
-Price,Price
+"Price","Price"
 "Product Tags","Product Tags"
 "Products tagged with '%s'","Products tagged with '%s'"
 "Products tagged with '%s' (<a href='%s'>RSS</a>)","Products tagged with '%s' (<a href='%s'>RSS</a>)"
 "Save Tag","Save Tag"
 "Search Results for '%s' (<a href='%s'>RSS</a>)","Search Results for '%s' (<a href='%s'>RSS</a>)"
-Tag,Tag
+"Tag","Tag"
 "Tag Name: %s","Tag Name: <strong>%s</strong>"
 "Tags Aren't Available","Tags Aren't Available"
-Tags:,Tags:
+"Tags:","Tags:"
 "Thank you. Your tag has been accepted for moderation.","Thank you. Your tag has been accepted for moderation."
 "Unable to find any product tagged with '%s'","Unable to find any product tagged with '%s'"
 "Unable to remove tag. Please, try again later.","Unable to remove tag. Please, try again later."
@@ -35,5 +36,4 @@ Tags:,Tags:
 "View All Tags","View All Tags"
 "You have not tagged any products yet.","You have not tagged any products yet."
 "You tag was successfully deleted","You tag was successfully deleted"
-"You tag was successfully saved","You tag was successfully saved"
 "Your tag(s) have been submitted","Your tag(s) have been submitted"

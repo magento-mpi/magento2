@@ -1,3 +1,4 @@
+"SKU","SKU"
 "%s Item(s)","%s Item(s)"
 "Add Items to Cart","Add Items to Cart"
 "Add to Cart","Add to Cart"
@@ -5,7 +6,7 @@
 "Add to My Wishlist","Add to My Wishlist"
 "Add to Wishlist","Add to Wishlist"
 "Additional Information","Additional Information"
-All,All
+"All","All"
 "Attribute model not defined","Attribute model not defined"
 "Attribute saver ""%s"" not found","Attribute saver ""%s"" not found"
 "Attribute source ""%s"" not found","Attribute source ""%s"" not found"
@@ -18,7 +19,7 @@ All,All
 "Browse By","Browse By"
 "Buy %s for %s each","Buy %s for <strong>%s each</strong>"
 "Cannot retrieve current category object","Cannot retrieve current category object"
-Category,Category
+"Category","Category"
 "Category Navigation:","Category Navigation:"
 "Check items to add to the cart or select all.","Check items to add to the cart or <a href=""#"" onclick=""selectAllRelated();return false;"">select all</a>."
 "Choose an Option...","Choose an Option..."
@@ -26,27 +27,27 @@ Category,Category
 "Clear All Items","Clear All Items"
 "Close Window","Close Window"
 "CMS Block","CMS Block"
-Color,Color
+"Color","Color"
 "Compare Items","Compare Items"
 "Compare Products","Compare Products"
 "Compare Products - %d Items","Compare Products <span class=""count"">- %d Items</span>"
 "Compare Products List","Compare Products List"
-Cost,Cost
+"Cost","Cost"
 "Cross-sell Products","Cross-sell Products"
 "Currently Shopping by","Currently Shopping by"
 "Data integrity: No header row found for attribute","Data integrity: No header row found for attribute"
-Description,Description
+"Description","Description"
 "Display Mode","Display Mode"
 "Filter model name must be declared","Filter model name must be declared"
 "Filter must be as object. Set correct filter please","Filter must be as object. Set correct filter please"
 "Filters must be as array","Filters must be as array"
-General,General
+"General","General"
 "Go to Home Page","Go to Home Page"
-Grid,Grid
-Home,Home
-Image,Image
+"Grid","Grid"
+"Home","Home"
+"Image","Image"
 "Image Gallery","Image Gallery"
-Images,Images
+"Images","Images"
 "Invalid Attribute Requested","Invalid Attribute Requested"
 "Invalid block: %s","Invalid block: %s"
 "Is Active","Is Active"
@@ -54,36 +55,36 @@ Images,Images
 "Is Qty Decimal","Is Qty Decimal"
 "Items %s to %s of %s total","Items <strong>%s</strong> to <strong>%s</strong> of <strong>%s</strong> total"
 "Learn More","Learn More"
-List,List
-Manufacturer,Manufacturer
+"List","List"
+"Manufacturer","Manufacturer"
 "Meta Description","Meta Description"
 "Meta Information","Meta Information"
 "Meta Keywords","Meta Keywords"
 "Meta Title","Meta Title"
 "Minimal Price","Minimal Price"
 "More Views","More Views"
-Name,Name
-Next,Next
+"Name","Name"
+"Next","Next"
 "No layout updates","No layout updates"
 "No options of this product are available.","No options of this product are available."
 "Old Price:","Old Price:"
-OR,OR
+"OR","OR"
 "Out of Stock","Out of Stock"
 "Page Layout","Page Layout"
 "Page Title","Page Title"
-Page:,Page:
+"Page:","Page:"
 "per page","per page"
 "Please select static block ...","Please select static block ..."
-Prev,Prev
-Previous,Previous
-Price,Price
-Prices,Prices
+"Prev","Prev"
+"Previous","Previous"
+"Price","Price"
+"Prices","Prices"
 "Print This Page","Print This Page"
 "Product Attribute Specs","Product Attribute Specs"
 "Product Description","Product Description"
 "Product Name","Product Name"
 "Products only","Products only"
-Qty,Qty
+"Qty","Qty"
 "Quick Overview","Quick Overview"
 "Regular Price:","Regular Price:"
 "Related Products","Related Products"
@@ -95,24 +96,23 @@ Qty,Qty
 "Shop by","Shop by"
 "Shopping Options","Shopping Options"
 "Short Description","Short Description"
-Show,Show
-SKU,SKU
+"Show","Show"
 "Small Image","Small Image"
 "Sort by","Sort by"
 "Special Price:","Special Price:"
 "Static block and products","Static block and products"
 "Static block only","Static block only"
-Status,Status
+"Status","Status"
 "Tax Class","Tax Class"
 "There are no products matching the selection.","There are no products matching the selection."
 "This bundle is out of stock.","This bundle is out of stock."
-Thumbnail,Thumbnail
+"Thumbnail","Thumbnail"
 "Tier Price","Tier Price"
 "URL key","URL key"
 "View as","View as"
 "View Details","View Details"
-Visibility,Visibility
-Weight,Weight
+"Visibility","Visibility"
+"Weight","Weight"
 "You have no items to compare.","You have no items to compare."
 "You may also be interested in the following product(s)","You may also be interested in the following product(s)"
 "Zoom In","Zoom In"

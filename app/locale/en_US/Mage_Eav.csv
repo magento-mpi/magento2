@@ -1,3 +1,4 @@
+"Invalid attribute type","Invalid attribute type"
 "Attempt to add an invalid object","Attempt to add an invalid object"
 "Attribute with the same code","Attribute with the same code"
 "Data integrity: No header row found for attribute","Data integrity: No header row found for attribute"
@@ -8,7 +9,6 @@
 "Invalid alias, already exists in joined attributes","Invalid alias, already exists in joined attributes"
 "Invalid attribute name: %s","Invalid attribute name: %s"
 "Invalid attribute requested: %s","Invalid attribute requested: %s"
-"Invalid attribute type","Invalid attribute type"
 "Invalid character encountered in increment ID: %s","Invalid character encountered in increment ID: %s"
 "Invalid condition","Invalid condition"
 "Invalid data object key","Invalid data object key"
@@ -19,7 +19,7 @@
 "Invalid object supplied","Invalid object supplied"
 "Invalid store id supplied","Invalid store id supplied"
 "Joined field with this alias is already declared","Joined field with this alias is already declared"
-No,No
+"No","No"
 "No connection available","No connection available"
 "No options root node found","No options root node found"
 "Unknown parameter","Unknown parameter"
@@ -29,4 +29,4 @@ No,No
 "Wrong attribute ID","Wrong attribute ID"
 "Wrong attribute set ID","Wrong attribute set ID"
 "Wrong entity ID","Wrong entity ID"
-Yes,Yes
+"Yes","Yes"

@@ -1,3 +1,4 @@
+"Invalid block name to set child %s: %s","Invalid block name to set child %s: %s"
 "%s already exist","%s already exist"
 "%s already exists","%s already exists"
 "Block with name ""%s"" already exists","Block with name ""%s"" already exists"
@@ -12,7 +13,6 @@
 "Exception while deleting the object","Exception while deleting the object"
 "Exception while saving the object: %s","Exception while saving the object: %s"
 "Invalid base dir type specified: %s","Invalid base dir type specified: %s"
-"Invalid block name to set child %s: %s","Invalid block name to set child %s: %s"
 "Invalid block type: %s","Invalid block type: %s"
 "Invalid block: %s","Invalid block: %s"
 "Invalid layout update argument, expected Mage_Core_Model_Layout_Element","Invalid layout update argument, expected Mage_Core_Model_Layout_Element"

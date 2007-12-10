@@ -1,6 +1,7 @@
+"Residential","Residential"
 "1 Day Freight","1 Day Freight"
 "2 Day Freight","2 Day Freight"
-2Day,2Day
+"2Day","2Day"
 "2nd Day Air","2nd Day Air"
 "2nd Day Air AM","2nd Day Air AM"
 "2nd Day Air AM Letter","2nd Day Air AM Letter"
@@ -11,12 +12,12 @@
 "Bound Printed Matter","Bound Printed Matter"
 "Business Service Center","Business Service Center"
 "Canada Standard","Canada Standard"
-Commercial,Commercial
+"Commercial","Commercial"
 "Customer Counter","Customer Counter"
 "Customer Packaging","Customer Packaging"
 "Drop Box","Drop Box"
 "Europe First Priority","Europe First Priority"
-Express,Express
+"Express","Express"
 "Express Mail","Express Mail"
 "Express Saver","Express Saver"
 "FedEx 10kg Box","FedEx 10kg Box"
@@ -26,11 +27,11 @@ Express,Express
 "FedEx Pak","FedEx Pak"
 "FedEx Tube","FedEx Tube"
 "First Overnight","First Overnight"
-First-Class,First-Class
-Flat,Flat
+"First-Class","First-Class"
+"Flat","Flat"
 "Flat Rate Box","Flat Rate Box"
 "Flat Rate Envelope","Flat Rate Envelope"
-Ground,Ground
+"Ground","Ground"
 "Ground Commercial","Ground Commercial"
 "Ground Residential","Ground Residential"
 "Home Delivery","Home Delivery"
@@ -47,10 +48,10 @@ Ground,Ground
 "Invalid UPS CGI code type: %s","Invalid UPS CGI code type: %s"
 "Invalid USPS XML code for type %s: %s","Invalid USPS XML code for type %s: %s"
 "Invalid USPS XML code type: %s","Invalid USPS XML code type: %s"
-Large,Large
-Letter,Letter
+"Large","Large"
+"Letter","Letter"
 "Letter Center","Letter Center"
-Library,Library
+"Library","Library"
 "Media Mail","Media Mail"
 "Next Afternoon","Next Afternoon"
 "Next Day Air","Next Day Air"
@@ -60,37 +61,36 @@ Library,Library
 "Next Day Air Letter","Next Day Air Letter"
 "Next Day Air Saver","Next Day Air Saver"
 "Next Day Air Saver Letter","Next Day Air Saver Letter"
-No,No
-Non-rectangular,Non-rectangular
-None,None
+"No","No"
+"Non-rectangular","Non-rectangular"
+"None","None"
 "On Call Air","On Call Air"
 "One Time Pickup","One Time Pickup"
-Oversize,Oversize
-Package,Package
-Parcel,Parcel
+"Oversize","Oversize"
+"Package","Package"
+"Parcel","Parcel"
 "Parcel Post","Parcel Post"
 "Priority Mail","Priority Mail"
 "Priority Overnight","Priority Overnight"
-Rectangular,Rectangular
-Regular,Regular
+"Rectangular","Rectangular"
+"Regular","Regular"
 "Regular Daily Pickup","Regular Daily Pickup"
 "Regular Pickup","Regular Pickup"
 "Request Courier","Request Courier"
-Residential,Residential
 "Second Day Service","Second Day Service"
 "Standard Overnight","Standard Overnight"
-Station,Station
+"Station","Station"
 "UPS Express Box","UPS Express Box"
 "UPS Letter Envelope","UPS Letter Envelope"
 "UPS Tube","UPS Tube"
 "UPS Worldwide 10 kilo","UPS Worldwide 10 kilo"
 "UPS Worldwide 25 kilo","UPS Worldwide 25 kilo"
-Variable,Variable
+"Variable","Variable"
 "Worldwide Expedited","Worldwide Expedited"
 "Worldwide Express","Worldwide Express"
 "Worldwide Express Letter","Worldwide Express Letter"
 "Worldwide Express Plus","Worldwide Express Plus"
 "Worldwide Express Plus Letter","Worldwide Express Plus Letter"
 "Worldwide Express Saver","Worldwide Express Saver"
-Yes,Yes
+"Yes","Yes"
 "Your Packaging","Your Packaging"
