@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction extends Mage_A
 {
     public function renderHeader()
     {
-        return '<input type="checkbox" onclick="'.$this->getColumn()->getGrid()->getMassactionBlock()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" title="'.$this->__('Select All').'"/>';
+        return '<input type="checkbox" id="' . $this->getColumn()->getGrid()->getHtmlId() . '-checkbox-all" onclick="'.$this->getColumn()->getGrid()->getMassactionBlock()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" title="'.$this->__('Select All').'"/>';
     }
 
     public function renderProperty()

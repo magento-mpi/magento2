@@ -244,6 +244,11 @@ varienGridMassaction.prototype = {
        this.container = $(containerId);
        this.form      = $(containerId + '-form');
        this.select    = $(containerId + '-select');
+       this.checkboxAll  = $(grid.containerId + '-checkbox-all');
+
+       if(this.grid.rows.size() > 0) {
+           this.checkboxAll.checked = true;
+       }
 
        checkedValues.each(function(item){
            this.checkedValues[item] = item;
@@ -280,6 +285,9 @@ varienGridMassaction.prototype = {
     },
     onGridPreInit: function(grid) {
         this.checkedVisibleValues = $H({});
+        if(this.grid.rows.size() > 0) {
+               this.checkboxAll.checked = true;
+        }
         this.getOldCallback('pre_init')(grid);
     },
     onGridInit: function(grid) {
@@ -316,8 +324,14 @@ varienGridMassaction.prototype = {
            if(this.checkedValues.keys().indexOf(checkbox.value)!==-1) {
                checkbox.checked = true;
                this.setCheckbox(checkbox);
+           } else {
+               this.checkboxAll.checked = false;
            }
         }.bind(this));
+
+        if(checkboxes.size() == 0) {
+            this.checkboxAll.checked = false;
+        }
     },
     checkCheckboxes: function(source) {
         this.grid.rows.each(function(row){
