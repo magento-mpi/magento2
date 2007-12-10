@@ -47,7 +47,7 @@ class Mage_Install_Model_Installer_Download
             'Interface_Adminhtml_Default'
         );
         $pear = new Varien_Pear;
-        $pkg = new PEAR_PackageFile($pear->getConfig());
+        $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($packages as $package) {
             $obj = $pkg->fromAnyFile($package);

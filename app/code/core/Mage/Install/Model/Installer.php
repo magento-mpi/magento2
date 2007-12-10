@@ -40,7 +40,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function checkDownloads()
     {
         try {
-            Mage::getModel('install/installer_filesystem')->checkDownloads();
+            $result = Mage::getModel('install/installer_download')->checkDownloads();
             $result = true;
         } catch (Exception $e) {
             $result = false;
@@ -63,7 +63,6 @@ class Mage_Install_Model_Installer extends Varien_Object
         } catch (Exception $e) {
             $result = false;
         }
-        $this->setServerCheckStatus($result);
         return $result;
     }
 
