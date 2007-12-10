@@ -76,15 +76,37 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
     {
         $session = Mage::getSingleton('adminhtml/session');
         $p = $this->getRequest()->getPost();
-        $session->setCustomExtensionPackageFormData($p);
-        $ext = Mage::getModel('adminhtml/extension');
-        $ext->setData($p);
-        if ($ext->savePackage()) {
-            $session->addSuccess('Package data was successfully saved');
-        } else {
-            $session->addError('There was a problem saving package data');
+
+        if (!empty($p['_create'])) {
+            $create = true;
+            unset($p['_create']);
         }
-        #$this->_redirect('*/*/edit');
+
+        $session->setCustomExtensionPackageFormData($p);
+        try {
+            $ext = Mage::getModel('adminhtml/extension');
+            $ext->setData($p);
+            $output = $ext->getPear()->getOutput();
+            if ($ext->savePackage()) {
+                $session->addSuccess('Package data was successfully saved');
+            } else {
+                $session->addError('There was a problem saving package data');
+                $this->_redirect('*/*/edit');
+            }
+            if (empty($create)) {
+                $this->_redirect('*/*/edit');
+            } else {
+                $this->_forward('create');
+            }
+        }
+        catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
+            $session->addError($e->getMessage());
+            $this->_redirect('*/*');
+        }
+        catch(Exception $e){
+            $session->addError($e->getMessage());
+            $this->_redirect('*/*');
+        }
     }
 
     public function createAction()
@@ -95,23 +117,25 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
             $session->setCustomExtensionPackageFormData($p);
             $ext = Mage::getModel('adminhtml/extension');
             $ext->setData($p);
-            $result = $ext->savePackage() && $ext->createPackage();
+            $result = $ext->createPackage();
             $pear = Varien_Pear::getInstance();
             if ($result) {
                 $data = $pear->getOutput();
                 $session->addSuccess($data[0]['output']);
+                $this->_redirect('*/*');
                 #$this->_forward('reset');
             } else {
                 $session->addError($result->getMessage());
-                #$this->_redirect('*/*');
+                $this->_redirect('*/*');
             }
-        }catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
+        }
+        catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
             $session->addError($e->getMessage());
-            #$this->_redirect('*/*');
+            $this->_redirect('*/*');
         }
         catch(Exception $e){
             $session->addError($e->getMessage());
-            #$this->_redirect('*/*');
+            $this->_redirect('*/*');
         }
     }
 

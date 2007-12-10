@@ -207,7 +207,9 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     public function getRoles()
     {
         if (!$this->_roles) {
-            $pearMage = new PEAR_Command_Mage($this->getPear()->getFrontend(), $this->getPear()->getConfig());
+            $frontend = $this->getPear()->getFrontend();
+            $config = $this->getPear()->getConfig();
+            $pearMage = new PEAR_Command_Mage($frontend, $config);
             $this->_roles = $pearMage->getRoles();
         }
         return $this->_roles;
@@ -235,7 +237,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             $this->generatePackageXml();
         }
         if (!$this->getPackageXml()) {
-            echo "FATAL ERROR.";
+            return false;
         }
 
         $pear = Varien_Pear::getInstance();
@@ -256,7 +258,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $dir = Mage::getBaseDir('var').DS.'pear';
         $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
         if ($result instanceof PEAR_Error) {
-            return false;
+            return $result;
         }
         return true;
     }
