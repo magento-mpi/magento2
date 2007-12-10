@@ -40,7 +40,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function checkDownloads()
     {
         try {
-            $result = Mage::getModel('install/installer_download')->checkDownloads();
+            $result = Mage::getModel('install/installer_pear')->checkDownloads();
             $result = true;
         } catch (Exception $e) {
             $result = false;

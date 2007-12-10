@@ -210,6 +210,11 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->getResponse()->setRedirect($step->getNextUrl());
     }
 
+    public function downloadPearIframeAction()
+    {
+        Mage::getModel('install/installer_pear')->downloadPackages();
+    }
+
     public function downloadManualAction()
     {
         $step = $this->_getWizard()->getStepByName('download');

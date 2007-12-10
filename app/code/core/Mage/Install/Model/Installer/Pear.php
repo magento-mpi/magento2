@@ -19,37 +19,31 @@
  */
 
 /**
- * Package Download Manager
+ * PEAR Packages Download Manager
  *
  * @category   Mage
  * @package    Mage_Install
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Install_Model_Installer_Download
+class Mage_Install_Model_Installer_Pear
 {
-    /**
-     * Check database connection
-     *
-     * $data = array(
-     *      [db_host]
-     *      [db_name]
-     *      [db_user]
-     *      [db_pass]
-     * )
-     *
-     * @param array $data
-     */
-    public function checkDownloads()
+    public function getPackages()
     {
         $packages = array(
+            'Mage_Pear_Helpers',
             'Mage_All',
             'Interface_Frontend_Default',
             'Interface_Adminhtml_Default'
         );
+        return $packages;
+    }
+
+    public function checkDownloads()
+    {
         $pear = new Varien_Pear;
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
-        foreach ($packages as $package) {
+        foreach ($this->getPackages() as $package) {
             $obj = $pkg->fromAnyFile($package);
             if (PEAR::isError($obj)) {
                 $uinfo = $obj->getUserInfo();
@@ -63,5 +57,12 @@ class Mage_Install_Model_Installer_Download
             }
         }
         return $result;
+    }
+
+    public function installPackages()
+    {
+        $pear = new Varien_Pear;
+        $pear->getFrontend()->setLogStream('stdout');
+        $pear->run('install', array('onlyreqdeps'=>1), $this->getPackages());
     }
 }

@@ -19,7 +19,7 @@
  */
 
 /**
- * Download Magento core modules and updates
+ * Download Magento core modules and updates choice (online, offline)
  *
  * @author      Moshe Gurvich <moshe@varien.com>
  */
@@ -32,21 +32,6 @@ class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
     }
 
     /**
-     * Retrieve locale object
-     *
-     * @return Zend_Locale
-     */
-    public function getLocale()
-    {
-        $locale = $this->getData('locale');
-        if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocale();
-            $this->setData('locale', $locale);
-        }
-        return $locale;
-    }
-
-    /**
      * Retrieve locale data post url
      *
      * @return string
@@ -54,16 +39,6 @@ class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
     public function getPostUrl()
     {
         return $this->getUrl('*/*/downloadPost');
-    }
-
-    public function getFormData()
-    {
-        $data = $this->getData('form_data');
-        if (is_null($data)) {
-            $data = new Varien_Object();
-            $this->setData('form_data', $data);
-        }
-        return $data;
     }
 }
 
