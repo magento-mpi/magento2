@@ -20,16 +20,6 @@
  */
 -->
 <config>
-    <languages>
-        <english>
-            <name>English</name>
-            <file></file>
-        </english>
-        <russian>
-            <name>Russian</name>
-            <file></file>
-        </russian>
-    </languages>
     <wizard>
         <steps>
             <begin>
@@ -96,5 +86,4 @@
             </extensions>
         </php>
     </check>
-    <vars></vars>
 </config>
