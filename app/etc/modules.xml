@@ -125,10 +125,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Reports>
-        <Mage_Datafeed>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Datafeed>
         <Mage_Log>
             <active>true</active>
             <codePool>core</codePool>
