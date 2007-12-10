@@ -206,16 +206,18 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
     public function downloadAutoAction()
     {
-
         $step = $this->_getWizard()->getStepByName('download');
         $this->getResponse()->setRedirect($step->getNextUrl());
     }
 
     public function downloadManualAction()
     {
-
         $step = $this->_getWizard()->getStepByName('download');
-        $this->getResponse()->setRedirect($step->getNextUrl());
+        if (!$this->_getInstaller()->checkDownloads()) {
+            $this->getResponse()->setRedirect($step->getUrl());
+        } else {
+            $this->getResponse()->setRedirect($step->getNextUrl());
+        }
     }
 
     /**

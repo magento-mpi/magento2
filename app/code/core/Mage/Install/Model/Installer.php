@@ -26,7 +26,7 @@
 class Mage_Install_Model_Installer extends Varien_Object
 {
     const INSTALLER_HOST_RESPONSE   = 'MAGENTO';
-    
+
     /**
      * Checking install status of application
      *
@@ -36,7 +36,19 @@ class Mage_Install_Model_Installer extends Varien_Object
     {
         return Mage::app()->isInstalled();
     }
-    
+
+    public function checkDownloads()
+    {
+        try {
+            Mage::getModel('install/installer_filesystem')->checkDownloads();
+            $result = true;
+        } catch (Exception $e) {
+            $result = false;
+        }
+        $this->setDownloadCheckStatus($result);
+        return $result;
+    }
+
     /**
      * Check server settings
      *
@@ -54,7 +66,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         $this->setServerCheckStatus($result);
         return $result;
     }
-    
+
     /**
      * Retrieve server checking result status
      *
@@ -68,7 +80,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         }
         return $status;
     }
-    
+
     /**
      * Installation config data
      *
@@ -84,7 +96,7 @@ class Mage_Install_Model_Installer extends Varien_Object
             ->install();
         return $this;
     }
-    
+
     /**
      * Database installation
      *
@@ -94,7 +106,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     {
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
         $data = Mage::getSingleton('install/session')->getConfigData();
-        
+
         /**
          * Saving host information into DB
          */
@@ -123,7 +135,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         if (!empty($data['secure_port'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_PORT, $data['secure_port']);
         }
-        
+
         /**
          * Saving locale information into DB
          */
@@ -143,12 +155,12 @@ class Mage_Install_Model_Installer extends Varien_Object
          * @todo change this whith media library development
          */
         $basePath = isset($data['base_path']) ? $data['base_path'] : '/';
-        $setupModel->updateTable('core/config_data', 
-            'value like \'%{{base_path}}%\'', 
+        $setupModel->updateTable('core/config_data',
+            'value like \'%{{base_path}}%\'',
             "value=REPLACE(value, '{{base_path}}', '".$basePath."')");
         return $this;
     }
-    
+
     public function createAdministrator($data)
     {
         $user = Mage::getModel('admin/user')->load(1)->addData($data);
@@ -161,7 +173,7 @@ class Mage_Install_Model_Installer extends Varien_Object
 
         return $this;
     }
-    
+
     public function installEnryptionKey($key)
     {
         if ($key) {
@@ -170,7 +182,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
         return $this;
     }
-    
+
     public function finish()
     {
         Mage::getSingleton('install/installer_config')->replaceTmpInstallDate();
