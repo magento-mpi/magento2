@@ -28,7 +28,7 @@
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     protected $_values;
-    
+
     public function getValues()
     {
         if (is_null($this->_values)) {
@@ -53,9 +53,14 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox extends Mage_Adm
             $checked = ($value === $this->getColumn()->getValue()) ? ' checked="true"' : '';
         }
         $v = ($row->getId() != "") ? $row->getId():$value;
-        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" value="' . $v . '" class="checkbox"'.$checked.'/>';
+        return $this->_getCheckboxHtml($v, $checked);
     }
-    
+
+    protected function _getCheckboxHtml($value, $checked)
+    {
+        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" value="' . $value . '" class="checkbox"'.$checked.'/>';
+    }
+
     public function renderHeader()
     {
         $checked = '';
@@ -64,7 +69,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox extends Mage_Adm
         }
         return '<input type="checkbox" name="'.$this->getColumn()->getName().'" onclick="'.$this->getColumn()->getGrid()->getJsObjectName().'.checkCheckboxes(this)" class="checkbox" '.$checked.' title="'.__('Select All').'"/>';
     }
-    
+
     public function renderProperty()
     {
         $out = 'width="55"';

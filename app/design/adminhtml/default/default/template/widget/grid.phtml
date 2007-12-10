@@ -165,5 +165,8 @@ $numColumns = sizeof($this->getColumns());
         <?=$this->getJsObjectName()?>.rows.each(function(row){<?=$this->getRowInitCallback()?>(<?=$this->getJsObjectName()?>, row)});
     <?endif;?>
 </script>
+<?if($this->getMassactionBlock()->isAviable()):?>
+<?=$this->getMassactionBlockHtml()?>
+<?endif?>
 <?endif;?>
 <?endif?>

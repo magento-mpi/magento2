@@ -148,6 +148,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'checkbox':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_checkbox';
                 break;
+            case 'massaction':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_massaction';
+                break;
             case 'radio':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_radio';
                 break;
@@ -207,6 +210,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'checkbox':
                 $filterClass = 'adminhtml/widget_grid_column_filter_checkbox';
                 break;
+            case 'massaction':
+                $filterClass = false;
+                break;
             case 'radio':
                 $filterClass = 'adminhtml/widget_grid_column_filter_radio';
                 break;
@@ -226,6 +232,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             }
             if (!$filterClass) {
                 $filterClass = $this->_getFilterByType();
+                if ($filterClass === false) {
+                    return false;
+                }
             }
             $this->_filter = $this->getLayout()->createBlock($filterClass)
                 ->setColumn($this);

@@ -370,7 +370,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->toHtml()
         );
     }
-    
+
     public function alertsGridAction()
     {
         $alertType = $this->getRequest()->getParam('type');
@@ -378,17 +378,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $alertModel->setParamValues($this->getRequest()->getParams());
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$alertType,array('id'=>$alertType))
-                ->setModel($alertModel)   
+                ->setModel($alertModel)
                 ->loadCustomers()
                 ->toHtml()
         );
     }
-    
+
     public function addCustomersToAlertQueueAction()
     {
         $alerts = Mage::getSingleton('customeralert/config')->getAlerts();;
         $block = $this->getLayout()
-            ->createBlock('core/messages', 'messages'); 
+            ->createBlock('core/messages', 'messages');
         $collection = $block
             ->getMessageCollection();
         foreach ($alerts as $key=>$val) {
@@ -398,7 +398,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     ->addCustomersToAlertQueue())
                 {
                     $collection->addMessage(Mage::getModel('core/message')->success(__('Customers for alert %s was successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
-                } 
+                }
             } catch (Exception $e) {
                 $collection->addMessage(Mage::getModel('core/message')->error( __('Error while adding customers for %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
                 continue;
@@ -407,7 +407,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         print $block->getGroupedHtml();
         return $this;
     }
-    
+
+    public function massDeleteAction()
+    {
+        $this->getResponse()->setBody(print_r($this->getRequest()->getParams(), true));
+    }
 
     public function tagCustomerGridAction()
     {

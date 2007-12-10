@@ -135,6 +135,22 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected $_exportTypes = array();
 
+    /**
+     * Massaction row id field
+     *
+     * @var string
+     */
+    protected $_massactionIdField = null;
+
+
+    /**
+     * Massaction block name
+     *
+     * @var string
+     */
+    protected $_massactionBlockName = 'adminhtml/widget_grid_massaction';
+
+
     public function __construct()
     {
         parent::__construct();
@@ -356,10 +372,62 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
+    /**
+     * Prepare grid massaction block
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _prepareMassactionBlock()
+    {
+        $this->setChild('massaction', $this->getLayout()->createBlock($this->getMassactionBlockName()));
+        $this->_prepareMassaction();
+        if($this->getMassactionBlock()->isAviable()) {
+            $this->_prepareMassactionColumn();
+        }
+        return $this;
+    }
+
+    /**
+     * Prepare grid massaction actions
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _prepareMassaction()
+    {
+
+        return $this;
+    }
+
+    /**
+     * Prepare grid massaction column
+     *
+     * @return unknown
+     */
+    protected function _prepareMassactionColumn()
+    {
+        $columnId = 'massaction';
+        $massactionColumn = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
+                ->setData(array(
+                    'index'     => $this->getMassactionIdField(),
+                    'is_system' => true,
+                    'type'      => 'massaction',
+                    'name'      => $this->getMassactionBlock()->getFormFieldName()
+                ))
+                ->setGrid($this)
+                ->setId($columnId);
+
+        $oldColumns = $this->_columns;
+        $this->_columns = array();
+        $this->_columns[$columnId] = $massactionColumn;
+        $this->_columns = array_merge($this->_columns, $oldColumns);
+        return $this;
+    }
+
     protected function _prepareGrid()
     {
         $this->_prepareColumns();
         $this->_prepareCollection();
+        $this->_prepareMassactionBlock();
         return $this;
     }
 
@@ -695,6 +763,60 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     public function getRowId($row)
     {
         return $this->getRowUrl($row);
+    }
+
+    /**
+     * Retrive massaction row identifier field
+     *
+     * @return string
+     */
+    public function getMassactionIdField()
+    {
+        return $this->_massactionIdField;
+    }
+
+    /**
+     * Set massaction row identifier field
+     *
+     * @param  string    $idField
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    public function setMassactionIdField($idField)
+    {
+        $this->_massactionIdField = $idField;
+        return $this;
+    }
+
+    /**
+     * Retrive massaction block name
+     *
+     * @return string
+     */
+    public function getMassactionBlockName()
+    {
+        return $this->_massactionBlockName;
+    }
+
+    /**
+     * Set massaction block name
+     *
+     * @param  string    $blockName
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    public function setMassactionBlockName($blockName)
+    {
+        $this->_massactionBlockName = $blockName;
+        return $this;
+    }
+
+    public function getMassactionBlock()
+    {
+        return $this->getChild('massaction');
+    }
+
+    public function getMassactionBlockHtml()
+    {
+        return $this->getChildHtml('massaction');
     }
 
     /**

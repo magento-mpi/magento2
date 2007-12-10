@@ -35,6 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->setDefaultDir('desc');
         $this->setSaveParametersInSession(true);
         $this->setVarNameFilter('product_filter');
+
     }
 
     protected function _prepareCollection()
@@ -219,6 +220,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         //$this->addExportType('*/*/exportXml', __('XML'));
 
         return parent::_prepareColumns();
+    }
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('entity_id');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> $this->__('Delete selected items'),
+             'url'  => $this->getUrl('*/*/massDelete'),
+             'field' => 'customField'
+        ));
+        return $this;
     }
 
     public function getRowUrl($row)
