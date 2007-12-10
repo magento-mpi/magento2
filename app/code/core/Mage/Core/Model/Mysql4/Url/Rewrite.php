@@ -30,13 +30,13 @@
 class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
 {
     protected $_tagTable;
-    
+
     protected function _construct()
     {
         $this->_init('core/url_rewrite', 'url_rewrite_id');
         $this->_tagTable = $this->getTable('url_rewrite_tag');
     }
-    
+
     /**
      * Retrieve select object for load object data
      *
@@ -47,7 +47,7 @@ class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        
+
         if (!is_null($object->getStoreId())) {
             $select->where('store_id=0 or store_id=?', $object->getStoreId());
             $select->order('store_id', 'desc');
@@ -55,41 +55,44 @@ class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
 
         return $select;
     }
-    
+
     public function _afterLoad(Mage_Core_Model_Abstract $object)
     {
         parent::_afterLoad($object);
-        
-        $tags = $this->_getReadAdapter()->fetchCol(
-            'select tag from '.$this->_tagTable.' where url_rewrite_id=?', $object->getId());
-        $object->setTags($tags ? $tags : array());
-        
+
+        $read = $this->_getReadAdapter();
+        if ($read) {
+            $tags = $read->fetchCol(
+                'select tag from '.$this->_tagTable.' where url_rewrite_id=?', $object->getId());
+            $object->setTags($tags ? $tags : array());
+        }
+
         return $this;
     }
-    
+
     /**
     * @todo optimize tags save to leave untouched tags
     */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
-        
+
         if ($object->getOrigData('tags')!==$object->getTags()) {
             $write = $this->_getWriteAdapter();
             $write->delete($this->_tagTable, $write->quoteInto('url_rewrite_id=?', $object->getId()));
-            
+
             $tags = $object->getTags();
             if (!is_string($tags)) {
                 $tags = explode(',', $tags);
             }
-            
+
             if (!empty($tags) && is_array($tags)) {
                 foreach ($tags as $tag) {
                     $write->insert($this->_tagTable, array('url_rewrite_id'=>$object->getId(), 'tag'=>$tag));
                 }
             }
         }
-        
+
         return $this;
     }
 }

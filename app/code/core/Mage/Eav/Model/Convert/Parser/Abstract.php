@@ -94,7 +94,7 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract extends Varien_Convert_Par
     public function getSourceOptionId(Mage_Eav_Model_Entity_Attribute_Source_Interface $source, $value)
     {
         foreach ($source->getAllOptions() as $option) {
-            if ($option['label']==$value) {
+            if (strcasecmp($option['label'], $value)==0) {
                 return $option['value'];
             }
         }

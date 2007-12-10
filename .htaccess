@@ -1,7 +1,12 @@
+#Action php5-cgi /cgi-bin/php-cgi 
+#AddHandler php5-cgi .php
+
 <IfModule mod_php5.c>
     php_flag magic_quotes_gpc off
     php_flag short_open_tag on
 </IfModule>
+
+SSLOptions StdEnvVars
 
 DirectoryIndex index.php
 

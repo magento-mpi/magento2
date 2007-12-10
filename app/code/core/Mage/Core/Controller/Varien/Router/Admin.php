@@ -60,6 +60,10 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
             }
         }
 
+        if (!Mage::app()->isInstalled()) {
+            return false;
+        }
+
         $shouldBeSecure = Mage::getStoreConfig('web/secure/protocol')==='https';
             #&& Mage::getStoreConfig('admin/general/secure');
         if ($shouldBeSecure!=$this->isCurrentlySecure()) {

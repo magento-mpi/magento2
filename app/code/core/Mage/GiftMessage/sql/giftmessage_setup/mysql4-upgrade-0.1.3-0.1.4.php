@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 $this->startSetup();
-$this->removeAttribute('catalog_product', 'gift_message_aviable');
 $this->addAttribute('catalog_product', 'gift_message_aviable', array(
     'type'      => 'int',
     'backend'   => 'giftmessage/entity_attribute_backend_boolean_config',

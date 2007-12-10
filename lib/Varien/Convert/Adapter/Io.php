@@ -59,8 +59,8 @@
      public function save()
      {
          $data = $this->getData();
-         $result = $this->getResource()->write($this->getVar('filename'), $data, 0777);
          $filename = $this->getResource()->pwd().'/'.$this->getVar('filename');
+         $result = $this->getResource()->write($filename, $data, 0777);
          if (false===$result) {
              $this->addException('Could not save file: '.$filename, Varien_Convert_Exception::FATAL);
          } else {

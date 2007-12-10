@@ -160,7 +160,8 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $cacheId = $this->getStore()->getCode().'/'.$path;
         if (!isset(self::$_configDataCache[$cacheId])) {
-            self::$_configDataCache[$cacheId] = $this->getStore()->getConfig($path);
+            $data = $this->getStore()->getConfig($path);
+            self::$_configDataCache[$cacheId] = $data;
         }
 
         return self::$_configDataCache[$cacheId];
@@ -172,8 +173,12 @@ class Mage_Core_Model_Url extends Varien_Object
             return true;
         }
 
-        return Mage::getStoreConfig('web/secure/protocol')=='https'
-            && Mage::getStoreConfig('web/secure/port')==$_SERVER['SERVER_PORT'];
+        if (Mage::app()->isInstalled()) {
+            return Mage::getStoreConfig('web/secure/protocol')=='https'
+                && Mage::getStoreConfig('web/secure/port')==$_SERVER['SERVER_PORT'];
+        } else {
+            return 443==$_SERVER['SERVER_PORT'];
+        }
     }
 
     public function shouldBeSecure()
@@ -822,6 +827,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $url .= '#'.$this->getFragment();
         }
         Varien_Profiler::stop(__METHOD__);
+
         return $url;
     }
 }

@@ -51,7 +51,6 @@ checkMagicQuotes();
  * Main Mage hub class
  *
  * @author Moshe Gurvich <moshe@varien.com>
- * @author Andrey Korolyov <andrey@varien.com>
  */
 final class Mage {
     /**

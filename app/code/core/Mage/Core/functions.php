@@ -130,12 +130,18 @@ function checkMagicQuotes()
  * @param integer $errline
  */
 function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
-    mageSendErrorHeader();
-
     $errno = $errno & error_reporting();
     if($errno == 0) return;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
+
+    // if it's PEAR's script, ignore strict notices
+    if ($errno == E_STRICT && stripos($errfile.$errstr, 'pear')!==false) {
+        return;
+    }
+
+    mageSendErrorHeader();
+
     echo "<pre>\n<strong>";
     switch($errno){
         case E_ERROR:               echo "Error";                  break;

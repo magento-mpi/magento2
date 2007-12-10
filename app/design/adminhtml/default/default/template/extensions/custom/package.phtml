@@ -39,7 +39,7 @@ function loadPackage()
 
 function createPackage()
 {
-    editForm.action = '<?=$this->getUrl('*/*/create')?>';
+    $('_create').value = 1;
     editForm.submit();
 }
 
@@ -57,5 +57,6 @@ function resetPackage()
 </style>
 
 <div class="entry-edit">
+    <input type="hidden" id="_create" name="_create" />
     <?=$this->getFormHtml()?>
 </div>

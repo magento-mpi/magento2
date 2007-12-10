@@ -27,7 +27,7 @@
  * @author     Andrey Korolyov <andrey@varien.com>
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Varien_Data_Collection implements IteratorAggregate
+class Varien_Data_Collection implements IteratorAggregate, Countable
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';

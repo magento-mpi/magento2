@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Core data helper
  *
@@ -26,7 +26,7 @@
 class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 {
     protected $_crypt;
-    
+
     /**
      * Convert and format price value for current application store
      *
@@ -44,7 +44,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
     	return $value;
     }
-    
+
     /**
      * Format and convert currency using current store option
      *
@@ -55,7 +55,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->currency($value, true);
     }
-    
+
     /**
      * Format date using current locale options
      *
@@ -72,7 +72,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
             return $date;
         }
-        
+
         if (is_null($date)) {
             $date = Mage::app()->getLocale()->date(time());
         }
@@ -86,10 +86,10 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         else {
             $format = Mage::app()->getLocale()->getDateFormat($format);
         }
-   
+
         return $date->toString($format);
     }
-    
+
     /**
      * Format time using current locale options
      *
@@ -106,7 +106,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
             return $date;
         }
-        
+
         if (is_null($time)) {
             $date = Mage::app()->getLocale()->date(time());
         }
@@ -121,9 +121,9 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             $format = Mage::app()->getLocale()->getTimeFormat($format);
         }
 
-        return $date->toString($format);        
+        return $date->toString($format);
     }
-    
+
     /**
      * Encrypt data using application key
      *
@@ -138,7 +138,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         $result = base64_encode($this->getCrypt()->encrypt($data));
         return $result;
     }
-    
+
     /**
      * Decrypt data using application key
      *
@@ -153,7 +153,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         $result = trim($this->getCrypt()->decrypt(base64_decode($data)));
         return $result;
     }
-    
+
     public function getCrypt($key=null)
     {
         if (!$this->_crypt) {
@@ -164,7 +164,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_crypt;
     }
-    
+
     public function getStoreId($store=null)
     {
         if (is_null($store)) {

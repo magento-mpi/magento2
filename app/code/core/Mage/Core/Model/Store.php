@@ -33,7 +33,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_SECURE_HOST      = 'web/secure/host';
     const XML_PATH_SECURE_PORT      = 'web/secure/port';
     const XML_PATH_SECURE_PATH      = 'web/secure/base_path';
-    
+
     const DEFAULT_CODE = 'default';
 
     protected $_priceFilter;
@@ -45,7 +45,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_dirCache = array();
 
     protected $_urlCache = array();
-    
+
     protected $_session;
 
     public function __construct()
@@ -57,7 +57,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $this->_init('core/store');
     }
-    
+
     /**
      * Retrieve store session object
      *
@@ -191,6 +191,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (strpos($str, '{{base_path}}')!==false) {
             $str = str_replace('{{base_path}}', $this->getDefaultBasePath(), $str);
         }
+        if (strpos($str, '{{secure')!==false) {
+            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
+            $str = str_replace(
+                array('{{secure_protocol}}', '{{secure_host}}', '{{secure_port}}'),
+                array('https', $hostArr[0], isset($hostArr[1]) ? $hostArr[1] : 443),
+                $str
+            );
+        }
         return $str;
     }
 
@@ -227,7 +235,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->updateDatasharing();
     }
-    
+
     /**
      * Retrieve url using store configuration specific
      *
@@ -241,11 +249,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             ->setStore($this);
         return $url->getUrl($route, $params);
     }
-    
+
     /*************************************************************************************
      * Store currency interface
      */
-    
+
     /**
      * Retrieve store base currency code
      *
@@ -255,7 +263,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
     }
-    
+
     /**
      * Retrieve store base currency
      *
@@ -270,7 +278,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $currency;
     }
-    
+
     /**
      * Get default store currency code
      *
@@ -296,7 +304,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $currency;
     }
-    
+
     /**
      * Set current store currency code
      *
@@ -340,7 +348,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $codes;
     }
-    
+
     /**
      * Retrieve store current currency
      *
@@ -355,7 +363,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $currency;
     }
-    
+
     public function getCurrentCurrencyRate()
     {
         return $this->getBaseCurrency()->getRate($this->getCurrentCurrency());
@@ -375,13 +383,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $value = $price;
         }
         $value = $this->roundPrice($value);
-        
+
         if ($this->getCurrentCurrency() && $format) {
             $value = $this->formatPrice($value);
         }
         return $value;
     }
-    
+
     public function roundPrice($price)
     {
         return round($price, 2);

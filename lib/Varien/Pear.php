@@ -94,13 +94,20 @@ class Varien_Pear
                 #echo $key.' : '.$config->get($key).'<br>';
             }
 
-            $config->setRegistry($this->getRegistry());
+            $reg = $this->getRegistry();
+            $config->setRegistry($reg);
 
             PEAR_DependencyDB::singleton($config, $pear_dir.DS.'php'.DS.'.depdb');
 
             PEAR_Frontend::setFrontendObject($this->getFrontend());
 
             #PEAR_Command::registerCommands(false, $pear_dir.DS.'php'.DS.'PEAR'.DS.'Command'.DS);
+
+            if (!$reg->channelExists('var-dev.varien.com')) {
+                $channel = new PEAR_ChannelFile;
+                $channel->fromXmlFile($config->get('bin_dir').DS.'init'.DS.'var-dev.varien.com'.DS.'channel.xml');
+                $reg->addChannel($channel);
+            }
 
             $this->_config = $config;
         }

@@ -26,7 +26,7 @@
  * @package    Mage_Eav
  * @author     Moshe Gurvich moshe@varien.com>
  */
-class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate
+class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Countable
 {
     /**
      * Read connection
