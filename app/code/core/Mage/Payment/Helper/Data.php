@@ -95,13 +95,31 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
     
     /**
-     * Retrieve payment method information html
-     *
-     * @param   Mage_Payment_Model_Abstract $method
+     * Retrieve formated payment method information
+     * 
+     * @todo    remove dependency from createInfoBlock method
+     * @param   Mage_Payment_Model_Info $payment
+     * @package string $format
      * @return  string
      */
-    public function getMethodInfo(Mage_Payment_Model_Abstract $method)
+    public function formatInfo(Mage_Payment_Model_Info $payment, $format=null)
     {
-        return get_class($method);
+        $out = '';
+        if ($methodCode = $payment->getMethod()) {
+            $methodConfig = new Varien_Object(Mage::getStoreConfig('payment/'.$methodCode, $payment->getStoreId()));
+            if ($methodConfig) {
+                $className = $methodConfig->getModel();
+                $method = Mage::getModel($className);
+                if ($method) {
+                    $out = '<p>'.$methodConfig->getTitle().'</p>';
+                    $method->setPayment($payment);
+                    $methodBlock = $method->createInfoBlock('payment.method.'.$methodCode.'.'.$payment->getId());
+                    if (!empty($methodBlock)) {
+                        $out .= $methodBlock->toHtml();
+                    }
+                }
+            }
+        }
+        return $out;
     }
 }

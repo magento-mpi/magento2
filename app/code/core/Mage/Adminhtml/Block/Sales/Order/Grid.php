@@ -114,19 +114,19 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'options' => $statuses,
         ));
 
-        $this->addColumn('actions', array(
-            'header' => __('Action'),
-            'width' => 10,
-            'sortable' => false,
-            'filter' => false,
-            'type' => 'action',
-            'actions' => array(
-                array(
-                    'url' => Mage::getUrl('*/*/edit') . 'order_id/$entity_id',
-                    'caption' => __('Edit'),
-                ),
-            )
-        ));
+//        $this->addColumn('actions', array(
+//            'header' => __('Action'),
+//            'width' => 10,
+//            'sortable' => false,
+//            'filter' => false,
+//            'type' => 'action',
+//            'actions' => array(
+//                array(
+//                    'url' => Mage::getUrl('*/*/edit') . 'order_id/$entity_id',
+//                    'caption' => __('Edit'),
+//                ),
+//            )
+//        ));
 
         return parent::_prepareColumns();
     }

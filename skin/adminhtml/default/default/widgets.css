@@ -589,6 +589,11 @@ select.countries option { background-repeat:no-repeat; }
 .payments .entry-edit fieldset label {
     float: none;
 }
+
+.payment-methods .validation-advice{
+    margin-left:2px;
+}
+
 .order-search-items .entry-edit .grid{height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table{width:99.9%}
 .grid tr input.qty{width:60px !important;}

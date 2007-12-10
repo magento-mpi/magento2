@@ -125,16 +125,15 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function importOrderItem(Mage_Sales_Model_Order_Item $item)
     {
         $this->setProductId($item->getProductId())
-            ->setSuperProductId($item->getSuperProductId()) // TODO
+            ->setSuperProductId($item->getSuperProductId())
+            ->setParentProductId($item->getParentProductId())
             ->setSku($item->getSku())
-            ->setImage($item->getImage())
             ->setName($item->getName())
             ->setDescription($item->getDescription())
-            ->setWeight($item->getWeight()) // TODO
+            ->setWeight($item->getWeight())
             ->setQty($item->getQtyToShip())
-            ->setPrice($item->getPrice())
-            ->setCost($item->getCost()) // TODO
-        ;
+            ->setPrice($item->getPrice());
+        
         return $this;
     }
 }

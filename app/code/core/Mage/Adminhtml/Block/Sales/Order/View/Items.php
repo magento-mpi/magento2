@@ -68,11 +68,11 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
             'index' => 'name',
         ));
 
-        $this->addColumn('giftmessage', array(
+        /*$this->addColumn('giftmessage', array(
             'header' => __('Gift Message'),
             'renderer' => 'adminhtml/sales_order_edit_items_grid_renderer_giftmessage',
             'store'     => Mage::registry('sales_order')->getStoreId()
-        ));
+        ));*/
 
         $this->addColumn('price', array(
             'header' => __('Price'),

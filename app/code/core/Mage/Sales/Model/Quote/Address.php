@@ -32,18 +32,21 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 	 * @var Mage_Sales_Model_Quote
 	 */
     protected $_quote;
-
     protected $_rates;
-
     protected $_totalModels;
-
     protected $_totals = array();
 
     protected function _construct()
     {
         $this->_init('sales/quote_address');
     }
-
+    
+    /**
+     * Declare adress quote model object
+     *
+     * @param   Mage_Sales_Model_Quote $quote
+     * @return  Mage_Sales_Model_Quote_Address
+     */
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
@@ -68,8 +71,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
-        $this
-            ->setCustomerAddressId($address->getId())
+        $this->setCustomerAddressId($address->getId())
             ->setCustomerId($address->getParentId())
             ->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail())
             ->setFirstname($address->getFirstname())
@@ -109,6 +111,33 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             ->setFax($this->getFax());
 
         return $address;
+    }
+
+    /**
+     * Import address data from order address
+     *
+     * @param   Mage_Sales_Model_Order_Address $address
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function importOrderAddress(Mage_Sales_Model_Order_Address $address)
+    {
+        $this->setAddressType($address->getAddressType())
+            ->setCustomerId($address->getCustomerId())
+            ->setCustomerAddressId($address->getCustomerAddressId())
+            ->setEmail($address->getEmail())
+            ->setFirstname($address->getFirstname())
+            ->setLastname($address->getLastname())
+            ->setCompany($address->getCompany())
+            ->setStreet($address->getStreet())
+            ->setCity($address->getCity())
+            ->setRegion($address->getRegion())
+            ->setRegionId($address->getRegionId())
+            ->setPostcode($address->getPostcode())
+            ->setCountryId($address->getCountryId())
+            ->setTelephone($address->getTelephone())
+            ->setFax($address->getFax())
+        ;
+        return $this;
     }
 
     /**
@@ -494,32 +523,5 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function __clone()
     {
         $this->setEntityId(null);
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param Mage_Sales_Model_Order_Address $address
-     * @return Mage_Sales_Model_Quote_Address
-     */
-    public function importOrderAddress(Mage_Sales_Model_Order_Address $address)
-    {
-        $this->setAddressType($address->getAddressType())
-            ->setCustomerId($address->getCustomerId())
-            ->setCustomerAddressId($address->getCustomerAddressId())
-            ->setEmail($address->getEmail())
-            ->setFirstname($address->getFirstname())
-            ->setLastname($address->getLastname())
-            ->setCompany($address->getCompany())
-            ->setStreet($address->getStreet())
-            ->setCity($address->getCity())
-            ->setRegion($address->getRegion())
-            ->setRegionId($address->getRegionId())
-            ->setPostcode($address->getPostcode())
-            ->setCountryId($address->getCountryId())
-            ->setTelephone($address->getTelephone())
-            ->setFax($address->getFax())
-        ;
-        return $this;
     }
 }

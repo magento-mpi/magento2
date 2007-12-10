@@ -48,6 +48,13 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
      */
     protected $_store   = null;
     
+    /**
+     * Order model object
+     *
+     * @var Mage_Sales_Model_Order
+     */
+    protected $_order   = null;
+    
     public function __construct() 
     {
         $this->init('adminhtml_quote');
@@ -108,5 +115,21 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
             }
         }
         return $this->_store;
+    }
+    
+    /**
+     * Retrieve order model object
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        if (is_null($this->_order)) {
+            $this->_order = Mage::getModel('sales/order');
+            if ($this->getOrderId()) {
+                $this->_order->load($this->getOrderId());
+            }
+        }
+        return $this->_order;
     }
 }

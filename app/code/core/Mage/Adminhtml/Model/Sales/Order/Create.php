@@ -126,13 +126,18 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     
     public function initFromOrder(Mage_Sales_Model_Order $order)
     {
+        $this->getSession()->setOrderId($order->getId());
+        $this->getSession()->setCurrencyId($order->getOrderCurrencyCode());
         $this->getSession()->setCustomerId($order->getCustomerId());
         $this->getSession()->setStoreId($order->getStoreId());
-        $this->getSession()->setCurrencyId($order->setOrderCurrencyCode());
         
-        /*$this->getQuote()->createFromOrder($order)
+        $this->getQuote()
+            ->setStore($this->getSession()->getStore())
+            ->setCustomer($this->getSession()->getCustomer())
+            ->createFromOrder($order)
             ->collectTotals()
-            ->save();*/
+            ->save();
+            
         return $this;
     }
 

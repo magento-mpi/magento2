@@ -53,8 +53,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function initNewQuote()
     {
-        #$this->setBillingAddress(Mage::getModel('sales/quote_address'));
-        #$this->setShippingAddress(Mage::getModel('sales/quote_address'));
         return $this;
     }
     
@@ -112,7 +110,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setStoreToBaseRate($storeCurrency->getRate($baseCurrencyCode));
         $this->setStoreToQuoteRate($storeCurrency->getRate($quoteCurrency));
 
-        Mage::dispatchEvent('sales_quote_save_before', array('quote'=>$this));
         parent::_beforeSave();
     }
 
@@ -692,8 +689,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 $this->addItem(Mage::getModel('sales/quote_item')->importOrderItem($item));
             }
         }
+        $this->getShippingAddress()->setCollectShippingRates(true);
+        $this->getShippingAddress()->setShippingMethod($order->getShippingMethod());
+        $this->getPayment()->importOrderPayment($order->getPayment());
         $this->setCouponCode($order->getCouponeCode());
-        $this->setShippingMethod($order->getShippingMethod());
         return $this;
     }
     

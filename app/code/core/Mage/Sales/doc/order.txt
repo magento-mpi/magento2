@@ -1,0 +1,35 @@
+1. Order
+    Attributes:
+    Events:
+        sales_order_load_after
+        sales_order_save_before
+        sales_order_save_after
+        sales_order_delete_before
+        sales_order_delete_after
+    API:
+2. Order Item
+    Attributes:
+        parent_id
+        quote_item_id
+        product_id
+        sku
+        image
+        name
+        description
+        qty_ordered
+        qty_backordered
+        qty_canceled
+        qty_shipped
+        qty_returned
+        price
+        cost
+        discount_percent
+        discount_amount
+        tax_percent
+        tax_amount
+        row_total
+        row_weight
+        applied_rule_ids
+    Events:
+    API:
+3.

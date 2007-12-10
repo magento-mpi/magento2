@@ -27,23 +27,27 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Header extends Mage_Adminhtml_Bloc
 {
     public function toHtml()
     {
+        if ($this->_getSession()->getOrder()->getId()) {
+            return '<h3>'.$this->__('Edit Order #%s', $this->_getSession()->getOrder()->getIncrementId()).'</h3>';
+        }
+        
         $customerId = $this->getCustomerId();
         $storeId    = $this->getStoreId();
         $out = '<h3>';
         if ($customerId && $storeId) {
-            $out.= __('Create New Order for %s in %s', $this->getCustomer()->getName(), $this->getStore()->getName());
+            $out.= $this->__('Create New Order for %s in %s', $this->getCustomer()->getName(), $this->getStore()->getName());
         }
         elseif (!is_null($customerId) && $storeId){
-            $out.= __('Create New Order for New Customer in %s', $this->getStore()->getName());
+            $out.= $this->__('Create New Order for New Customer in %s', $this->getStore()->getName());
         }
         elseif ($customerId) {
-        	$out.= __('Create New Order for %s', $this->getCustomer()->getName());
+        	$out.= $this->__('Create New Order for %s', $this->getCustomer()->getName());
         }
         elseif (!is_null($customerId)){
-            $out.= __('Create New Order for New Customer');
+            $out.= $this->__('Create New Order for New Customer');
         }
         else {
-            $out.= __('Create New Order');
+            $out.= $this->__('Create New Order');
         }
         $out .= '</h3>';
         return $out;

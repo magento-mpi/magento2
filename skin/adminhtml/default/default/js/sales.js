@@ -212,9 +212,11 @@ AdminOrder.prototype = {
             for (var i=0; i<elements.length; i++) elements[i].disabled = true;
         }
         
-        /*if(!this.paymentMethod){
-            $('order:billing_method').getElementsBySelector('input', 'select').each(function(elem){elem.disabled = true})
-        }*/
+        if(!this.paymentMethod){
+            $('order:billing_method').getElementsBySelector('input', 'select').each(function(elem){
+                if(elem.type != 'radio') elem.disabled = true;
+            })
+        }
         
         if ($('payment_form_'+method)){
             this.paymentMethod = method;

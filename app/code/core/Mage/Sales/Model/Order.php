@@ -58,6 +58,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         $this->_init('sales/order');
     }
+    
+    public function isCanceled()
+    {
+        return $this->getOrderStatusId() == self::ORDER_STATUS_CANCELED;
+    }
 
     /**
      * Sending email with order data

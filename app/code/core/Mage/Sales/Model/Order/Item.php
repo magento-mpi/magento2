@@ -34,8 +34,6 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 
     protected $_order;
 
-    protected $_product = null;
-
     protected function _construct()
     {
         $this->_init('sales/order_item');
@@ -52,18 +50,11 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if (is_null($this->_order) && ($orderId = $this->getParentId())) {
             $order = Mage::getModel('sales/order');
             /* @var $order Mage_Sales_Model_Order */
+            
             $order->load($orderId);
             $this->setOrder($order);
         }
         return $this->_order;
-    }
-
-    public function getProduct()
-    {
-        if (!$this->hasData('product') && $this->getProductId()) {
-            $this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
-        }
-        return $this->getData('product');
     }
 
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
@@ -71,15 +62,18 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         $this->setQuoteItemId($item->getId())
             ->setStoreId($item->getQuote()->getStoreId())
             ->setProductId($item->getProductId())
+            ->setSuperProductId($item->getSuperProductId())
+            ->setParentProductId($item->getParentProductId())
             ->setSku($item->getSku())
-            ->setImage($item->getImage())
             ->setName($item->getName())
             ->setDescription($item->getDescription())
+            ->setWeight($item->getProduct()->getWeight())
             ->setQtyOrdered($item->getQty())
             ->setPrice($item->getCalculationPrice())
+            ->setRowWeight($item->getRowWeight())
             ->setRowTotal($item->getRowTotal())
-            // TODO - all others
-        ;
+            ->setAppliedRuleIds($item->getAppliedRuleIds);
+            
         Mage::dispatchEvent('sales_order_item_import_qoute_item', array('quote_item'=>$item, 'order_item'=>$this));
         return $this;
     }

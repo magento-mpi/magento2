@@ -18,9 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Quote payment information
+ */
 class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
 {
+    protected $_eventPrefix = 'sales_quote_payment';
+    protected $_eventObject = 'payment';
+    
     protected $_quote;
 
     function _construct()
@@ -52,6 +57,21 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear())
         ;
+    }
+    
+    public function importOrderPayment($payment)
+    {
+        $this->setMethod($payment->getMethod())
+            ->setCcType($payment->getCcType())
+            ->setCcOwner($payment->getCcOwner())
+            ->setCcLast4($payment->getCcNumber())
+            ->setCcExpMonth($payment->getCcExpMonth())
+            ->setCcExpYear($payment->getCcExpYear())
+            ->setCcNumberEnc($payment->getCcNumber())
+            ->setCcCidEnc($payment->getCcCid())
+            ->setCcType($payment->getCcNumber());
+
+        return $this;
     }
 
     public function importPostData(array $data)

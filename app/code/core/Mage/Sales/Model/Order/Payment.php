@@ -18,79 +18,69 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Sales_Model_Order_Payment extends Mage_Core_Model_Abstract
+/**
+ * Order payment information
+ */
+class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 {
+    /**
+     * Order model object
+     *
+     * @var Mage_Sales_Model_Order
+     */
     protected $_order;
 
     protected function _construct()
     {
         $this->_init('sales/order_payment');
     }
-
+    
+    /**
+     * Declare order model object
+     *
+     * @param   Mage_Sales_Model_Order $order
+     * @return  Mage_Sales_Model_Order_Payment
+     */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
         $this->_order = $order;
         return $this;
     }
-
+    
+    /**
+     * Retrieve order model object
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function getOrder()
     {
         return $this->_order;
     }
-
-    public function importQuotePayment(Mage_Sales_Model_Quote_Payment $newPayment)
+    
+    /**
+     * Import data from quote payment model
+     *
+     * @param   Mage_Sales_Model_Quote_Payment $newPayment
+     * @return  Mage_Sales_Model_Order_Payment
+     */
+    public function importQuotePayment(Mage_Sales_Model_Quote_Payment $payment)
     {
-        $payment = clone $newPayment;
-        $payment->unsEntityId()
-            ->unsAttributeSetId()
-            ->unsEntityTypeId()
-            ->unsParentId();
+        $this->setCustomerPaymentId($payment->getCustomerPaymentId())
+            ->setMethod($payment->getMethod())
+            ->setPoNumber($payment->getPoNumber())
+            ->setCcType($payment->getCcType())
+            ->setCcNumberEnc($payment->getCcNumberEnc())
+            ->setCcLast4($payment->getCcLast4())
+            ->setCcOwner($payment->getCcOwner())
+            ->setCcCidEnc($payment->getCcCidEnc())
+            ->setCcExpMonth($payment->getCcExpMonth())
+            ->setCcExpYear($payment->getCcExpYear());
 
-        $this->addData($payment->getData());
         return $this;
-    }
-
-    public function getCcNumber()
-    {
-        if (!$this->getData('cc_number') && $this->getData('cc_number_enc')) {
-            $customerPayment = Mage::getModel('customer/payment');
-            $this->setData('cc_number', $customerPayment->decrypt($this->getData('cc_number_enc')));
-        }
-        return $this->getData('cc_number');
-    }
-
-    public function getCcCid()
-    {
-        if (!$this->getData('cc_cid') && $this->getData('cc_cid_enc')) {
-            $customerPayment = Mage::getModel('customer/payment');
-            $this->setData('cc_cid', $customerPayment->decrypt($this->getData('cc_cid_enc')));
-        }
-        return $this->getData('cc_cid');
     }
 
     public function getHtmlFormated($privacy='public')
     {
-        $html = '';
-        /**
-         * @todo remove this !!!!!! only temporary
-         */
-        $methodConfig = new Varien_Object(
-            Mage::getStoreConfig('payment/' . $this->getMethod(), $this->getOrder()->getStoreId())
-        );
-        if ($methodConfig) {
-            $className = $methodConfig->getModel();
-            $method = Mage::getModel($className);
-            if ($method) {
-                $html = '<p>'.Mage::getStoreConfig('payment/' . $this->getMethod() . '/title').'</p>';
-                $method->setPayment($this);
-                $methodBlock = $method->createInfoBlock('payment.method.'.$this->getMethod().'.'.$this->getId());
-                if (!empty($methodBlock)) {
-                    $html .= $methodBlock->setPrivacy($privacy)->toHtml();
-                }
-            }
-        }
-        return $html;
-        //return Mage::getHelper('payment/info_cc')->setPayment($this)->toHtml();
+        return Mage::helper('payment')->formatInfo($this);
     }
 }

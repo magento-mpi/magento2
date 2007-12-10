@@ -12,17 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * Adminhtml sales order view
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
 class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_Form_Container
@@ -36,8 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
         parent::__construct();
 
-        $this->_updateButton('edit', 'label', __('Edit Order'));
-        if (Mage::registry('sales_order')->getOrderStatusId() == 4) {
+        if (Mage::registry('sales_order')->isCanceled()) {
             $this->_removeButton('delete');
         } else {
             $this->_updateButton('delete', 'label', __('Cancel Order'));
@@ -46,17 +45,18 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->_removeButton('reset');
         $this->_removeButton('save');
 
-         $this->_addButton('edit', array(
+        $message = __('Are you sure? This order will be cancelled and a new one will be created instead');
+        $this->_addButton('edit', array(
              'label'    => __('Edit Order'),
-             'onclick'  => 'deleteConfirm(\''. __('Are you sure? This order will be cancelled and a new one will be created instead') .'\', \'' . $this->getEditUrl() . '\')',
-         ));
+             'onclick'  => 'deleteConfirm(\''.$message.'\', \'' . $this->getEditUrl() . '\')',
+        ));
 
-        $this->_addButton('backordered', array(
+        $this->_addButton('edit_status', array(
             'label' => __('Edit Order Status'),
             'onclick'   => 'setLocation(\'' . $this->getEditBackorderedUrl() . '\')',
         ));
 
-        $this->_addButton('invoice', array(
+        $this->_addButton('create_invoice', array(
             'label' => __('Create New Invoice'),
             'onclick'   => 'setLocation(\'' . $this->getCreateInvoiceUrl() . '\')',
             'class' => 'add',

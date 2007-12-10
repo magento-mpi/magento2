@@ -46,10 +46,12 @@
     </dl>
     </div>
     <?if ($_rate = $this->getActiveMethodRate()):?>
-        <div class="pointer" onclick="this.hide();$('order:shipping-method-choose').show()">
+        <div id="order:shipping-method-info">
             <strong><?=$this->getCarrierName($_rate->getCarrier())?></strong><br/>
             <?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong><br/>
-            <i><?=$this->__('Click to change shipping method')?></i>
+            <a href="#" onclick="$('order:shipping-method-info').hide();$('order:shipping-method-choose').show();return false">
+                <?=$this->__('Click to change shipping method')?></i>
+            </a>
         </div>
     <?else:?>
         <script type="text/javascript">$('order:shipping-method-choose').show();</script>
@@ -57,7 +59,9 @@
 <?elseif($this->getIsRateRequest()):?>
     <strong><?=$this->__('Sorry, no quotes are available for this order at this time.')?></strong>
 <?else:?>
-    <div class="pointer" id="order:shipping-method-summary" onclick="order.loadShippingRates()">
-        <?=$this->__('Get shipping methods and rates')?>
+    <div id="order:shipping-method-summary">
+        <a href="#" onclick="order.loadShippingRates();return false">
+            <?=$this->__('Get shipping methods and rates')?>
+        </a>
     </div>
 <?endif;?>
