@@ -21,7 +21,7 @@
 /**
  * Quote payment information
  */
-class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info 
 {
     protected $_eventPrefix = 'sales_quote_payment';
     protected $_eventObject = 'payment';
@@ -76,7 +76,8 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
 
     public function importPostData(array $data)
     {
-        $payment = Mage::getModel('customer/payment')->setData($data);
+        $payment = Mage::getModel('customer/payment')->setData($data);    
+        
         $this
             ->setMethod($payment->getMethod())
             ->setCcType($payment->getCcType())
@@ -84,6 +85,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
             ->setCcLast4(substr($payment->getCcNumber(), -4))
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear());
+            
         if($payment->getCcNumber()){
             $this->setCcNumberEnc($payment->encrypt($payment->getCcNumber()));
         }
@@ -91,17 +93,24 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Core_Model_Abstract
         if($payment->getCcCid()){
             $this->setCcCidEnc($payment->encrypt($payment->getCcCid()));
         }
-
+       
+#print_r($this->getCcType());
+#print_r($data);
         if (!$this->getCcType()) {
             $types = array(3=>__('American Express'), 4=>__('Visa'), 5=>__('Master Card'), 6=>__('Discover'));
             if (isset($types[(int)substr($payment->getCcNumber(),0,1)])) {
                 $this->setCcType($types[(int)substr($payment->getCcNumber(),0,1)]);
             }
         }
+#var_dump($this->getMethodInstance());
 
+        //to validate post payment information        
+        $this->getMethodInstance()->validateInfo($this);        
+        
         return $this;
-    }
-
+    }    
+   
+    
     public function getCheckoutRedirectUrl()
     {
         if (!($method = $this->getMethod())

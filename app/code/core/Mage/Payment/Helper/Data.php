@@ -39,6 +39,15 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             ->setCode($code);
     }
 
+    public function getMethodInstance($code)
+    {
+        $config = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS);
+        if (isset($config[$code])) {
+        	return $this->_getMethodInstance($config[$code], $code);
+        }
+        return false;
+    }
+    
     /**
      * Retrieve available payment methods for store
      *

@@ -608,6 +608,13 @@ Payment.prototype = {
                 response = {};
             }
         }
+        /*
+        * if there is an error in payment, need to show error message
+        */
+        if (response.error) {
+            alert(response.error);
+            return;
+        }
         if (response.redirect) {
             location.href = response.redirect;
             return;

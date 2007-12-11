@@ -214,11 +214,20 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_expireAjax();
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('payment', array());
-            $result = $this->getOnepage()->savePayment($data);
+            /*
+            * first to check payment information entered is correct or not
+            */
+            try {
+                $result = $this->getOnepage()->savePayment($data);
+            } catch (Exception $e) {
+                $result['error'] = $e->getMessage();
+            }
 
-            $this->loadLayout('checkout_onepage_review');
-            $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
-
+            if (empty($result['error'])) {
+                $this->loadLayout('checkout_onepage_review');
+                $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
+            }
+            
             if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl()) {
                 $result['redirect'] = $redirectUrl;
             }

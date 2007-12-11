@@ -63,6 +63,14 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
         return $this->getData('cc_cid');
     }
     
+    public function getMethodInstance()
+    {
+        if ($method = $this->getMethod()) {
+        	return Mage::helper('payment')->getMethodInstance($this->getMethod());
+        }
+        // return payment method object
+    }
+    
     protected function _encrypt($data)
     {
         return Mage::helper('core')->encrypt($data);

@@ -46,8 +46,7 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
     }
 
     public function getPaymentMethods()
-    {
-        $methods = Mage::getStoreConfig('payment');
+    {      
 
         $listBlock = $this->getLayout()->createBlock('core/text_list');
         $payment = $this->getCheckout()->getQuote()->getPayment();
@@ -55,29 +54,27 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Mult
             if ($address = $this->getAddress()) {
                 $payment->setCcOwner($address->getFirstname() . ' ' . $address->getLastname());
             }
-        }
-        $sortedMethods = array();
-        foreach ($methods as $methodConfig) {
-            if (!$methodConfig->is('active', 1)) {
-                continue;
-            }
-            $sortedMethods[(int)$methodConfig->sort_order] = array(
-                'method_name' => $methodConfig->getName(),
-                'class_name' => $methodConfig->getClassName(),
-            );
-        }
-        ksort($sortedMethods);
-        foreach ($sortedMethods as $m) {
-            $method = Mage::getModel($m['class_name']);
+        }    
+        
+        //modified to pull the available cc types for available payment
+        $sortedMethods = $this->helper('payment')->getStoreMethods();
+        foreach ($sortedMethods as $method) {
             if ($method) {
-                $method->setPayment($payment);
-                $methodBlock = $method->createFormBlock('checkout.payment.methods.'.$m['method_name']);
-                if (!empty($methodBlock)) {
-                    $listBlock->append($methodBlock);
-                }
+                $method->setPayment($this->getQuote()->getPayment());
+            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$method->getCode())
+            	   ->setPaymentMethod($method);
+            	if (!empty($methodBlock)) {
+	                $listBlock->append($methodBlock);
+    	        }
             }
         }
+        
         return $listBlock->toHtml();
+    }
+    
+    public function getQuote()
+    {
+        return Mage::getSingleton('checkout/session')->getQuote();
     }
 
     public function getSelectAddressUrl()

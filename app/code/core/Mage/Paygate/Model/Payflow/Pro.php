@@ -26,7 +26,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Abstract
+class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Cc
 {
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';

@@ -47,6 +47,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         $types = $this->_getConfig()->getCcTypes();
         if ($this->getPaymentMethod()) {
             $availableTypes = $this->getPaymentMethod()->getConfigData('cctypes');
+#echo "TEST:"; print_r($availableTypes);            
             if ($availableTypes) {
                 $availableTypes = explode(',', $availableTypes);
                 foreach ($types as $code=>$name) {

@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Abstract
+class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Cc
 {
     const REQUEST_METHOD_CC = 'CC';
     const REQUEST_METHOD_ECHECK = 'ECHECK';

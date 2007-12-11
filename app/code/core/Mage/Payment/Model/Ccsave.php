@@ -19,24 +19,8 @@
  */
 
 
-class Mage_Payment_Model_Ccsave extends Mage_Payment_Model_Abstract
+class Mage_Payment_Model_Ccsave extends Mage_Payment_Model_Cc
 {
-    public function createFormBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
-            ->setPayment($this->getPayment())
-            ->setMethod('ccsave');
-        return $block;
-    }
-
-    public function createInfoBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
-            ->setTemplate('payment/info/ccsave.phtml')
-            ->setPayment($this->getPayment());
-        return $block;
-    }
-
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         $payment->setStatus('APPROVED');

@@ -90,10 +90,10 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return Mage::getStoreConfig($path);
     }
     
-    
-    
-    
-    
+    public function validateInfo(Mage_Payment_Model_Info $info)
+    {
+         return $this;
+    }
     
     /**
      * @todo need replace this interface

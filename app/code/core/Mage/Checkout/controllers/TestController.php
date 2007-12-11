@@ -44,10 +44,10 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
     
     public function trackingAction()
     {
-        $carrier= Mage::getModel('Usa/shipping_carrier_dhl');
-        $carrier->getTracking(array('1231230011','2342340011','7897890011'));
+        $carrier= Mage::getModel('Usa/shipping_carrier_ups');
+        //$carrier->getTracking(array('1231230011','2342340011','7897890011'));
         //$carrier->getTracking(array('EQ944289016US','EQ944290195US'));
-        //$carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074'));
+        $carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074','1ZV953560349447013'));
         //$carrier->getTracking(array('749059830009648','749059830009358'));
         
     }
