@@ -25,6 +25,8 @@
  */
 class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    protected $_customerGroups;
+
     public function isLoggedIn()
     {
         return Mage::getSingleton('customer/session')->isLoggedIn();
@@ -42,6 +44,17 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_customer;
     }
+
+    public function getCustomerGroups()
+    {
+        if (empty($this->_customerGroups)) {
+            $this->_customerGroups = Mage::getResourceModel('customer/group_collection')
+                ->addFieldToFilter('customer_group_id', array('gt'=>0))
+                ->load();
+        }
+        return $this->_customerGroups;
+    }
+
 
     public function getCurrentCustomer()
     {

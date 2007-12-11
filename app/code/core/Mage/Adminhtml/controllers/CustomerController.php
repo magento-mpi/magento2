@@ -100,7 +100,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     ->setId($addressId);
             	$collection->addItem($addressModel);
             }
-            
+
             $customer->setLoadedAddressCollection($collection);
         }
 
@@ -331,12 +331,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $response->setError(0);
 
         $accountData = $this->getRequest()->getPost('account');
-        
+
         $customer = Mage::getModel('customer/customer');
         if ($id = $this->getRequest()->getParam('id')) {
             $customer->load($id);
         }
-        
+
         # Checking if we received email. If not - ERROR
         if( !($accountData['email']) ) {
             $response->setError(1);
@@ -356,6 +356,89 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
         }
         $this->getResponse()->setBody($response->toJson());
+    }
+
+    public function massSubscribeAction()
+    {
+        $customersIds = $this->getRequest()->getParam('customer');
+        if(!is_array($customersIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+
+        } else {
+            try {
+                foreach ($customersIds as $customerId) {
+                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer->setIsSubscribed(true);
+                    $customer->save();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully subscribed for newsletter'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
+
+    public function massUnsubscribeAction()
+    {
+        $customersIds = $this->getRequest()->getParam('customer');
+        if(!is_array($customersIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+        } else {
+            try {
+                foreach ($customersIds as $customerId) {
+                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer->setIsSubscribed(false);
+                    $customer->save();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully unsubscribed for newsletter'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/index');
+    }
+
+    public function massDeleteAction()
+    {
+        $customersIds = $this->getRequest()->getParam('customer');
+        if(!is_array($customersIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+        } else {
+            try {
+                foreach ($customersIds as $customerId) {
+                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully deleted'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/index');
+    }
+
+    public function massAssignGroupAction()
+    {
+        $customersIds = $this->getRequest()->getParam('customer');
+        if(!is_array($customersIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+        } else {
+            try {
+                foreach ($customersIds as $customerId) {
+                    $customer = Mage::getModel('customer/customer')->load($customerId);
+                    $customer->setGroupId($this->getRequest()->getParam('group'));
+                    $customer->save();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully assigned to selected group'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/index');
     }
 
     protected function _isAllowed()

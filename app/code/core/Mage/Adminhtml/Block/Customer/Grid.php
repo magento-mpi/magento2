@@ -74,12 +74,12 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'width'     =>'150px',
             'index'     =>'email'
         ));
-        
+
         $groups = Mage::getResourceModel('customer/group_collection')
             ->addFieldToFilter('customer_group_id', array('gt'=>0))
             ->load()
             ->toOptionHash();
-        
+
         $this->addColumn('group', array(
             'header'    =>__('Group'),
             'width'     =>'100px',
@@ -122,9 +122,68 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'     =>'store_name',
         ));
 
+        $this->addColumn('action',
+            array(
+                'header'    => $this->__('Action'),
+                'width'     => '100px',
+                'type'      => 'action',
+                'getter'     => 'getId',
+                'actions'   => array(
+                    array(
+                        'caption' => $this->__('Edit'),
+                        'url'     => array('base'=>'*/*/edit'),
+                        'field'   => 'id'
+                    )
+                ),
+                'filter'    => false,
+                'sortable'  => false,
+                'index'     => 'stores',
+        ));
+
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportXml', __('XML'));
         return parent::_prepareColumns();
+    }
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('customer');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> $this->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
+             'confirm' => $this->__('Are you sure?')
+        ));
+
+        $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
+             'label'=> $this->__('Subscribe for newsletter'),
+             'url'  => $this->getUrl('*/*/massSubscribe')
+        ));
+
+        $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
+             'label'=> $this->__('Unsubscribe for newsletter'),
+             'url'  => $this->getUrl('*/*/massUnsubscribe')
+        ));
+
+        $groups = $this->helper('customer')->getCustomerGroups()->toOptionArray();
+
+        array_unshift($groups, array('label'=>'', 'value'=>''));
+        $this->getMassactionBlock()->addItem('assign_group', array(
+             'label'=> $this->__('Assign a customer group'),
+             'url'  => $this->getUrl('*/*/massAssignGroup'),
+             'additional' => array(
+                    'visibility' => array(
+                             'name' => 'group',
+                             'type' => 'select',
+                             'class' => 'required-entry',
+                             'label' => $this->__('Group'),
+                             'values' => $groups
+                         )
+             )
+        ));
+
+        return $this;
     }
 
     public function getRowUrl($row)
