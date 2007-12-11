@@ -232,7 +232,8 @@ pre { font:normal 11px Courier New, serif; color:#2EC029; }
         echo "<pre>".__("Downloading and installing Magento, please wait...\r\n\r\n");
 
         if ($this->getRequest()->getParam('do')) {
-            $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $this->getPackages());
+            $packages = Mage::getModel('install/installer_pear')->getPackages();
+            $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $packages);
 
             if ($result instanceof PEAR_Error) {
                 echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();

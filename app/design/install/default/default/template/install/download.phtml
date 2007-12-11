@@ -29,7 +29,7 @@ function startInstall()
 {
     var install = $('install_iframe');
     install.setStyle({'display':'block', 'width':'100%', 'height':'300px'});
-    install.src = '<?=$this->getUrl('*/*/install')?>';
+    install.src = '<?=$this->getUrl('*/*/install')?>do/start';
 }
 
 function installSuccess()
