@@ -28,26 +28,22 @@
 
 class Ee_Customer_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
 {
-    protected $_memberTable;
-
     public function _construct()
     {
-        $this->_init('ee_customer/members', 'member_id');
-
-        $resource = Mage::getSingleton('core/resource');
-        $this->_memberTable = $resource->getTableName('customer/members');
+        $this->_init('customer/members', 'member_id');
+        $this->_setResource('ee_customer');
     }
-
+    
     public function getEntityIdField()
     {
-        return 'member_id';
+        return $this->getIdFieldName();
     }
 
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from($this->_memberTable)
+            ->from($this->getMainTable())
             ->where($read->quoteInto('email = ?', $email));
 
         $customer->setData($read->fetchRow($select));
@@ -58,7 +54,7 @@ class Ee_Customer_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from($this->_memberTable)
+            ->from($this->getMainTable())
             ->where($read->quoteInto('username = ?', $username));
 
         $customer->setData($read->fetchRow($select));

@@ -14,49 +14,55 @@
 (19:27:27)  moby:  email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Customer
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category Mage
+ * @packageMage_Customer
+ * @copyrightCopyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @licensehttp://opensource.org/licenses/osl-3.0.phpOpen Software License (OSL 3.0)
  */
 -->
 <config>
-    <modules>
-        <Ee_Customer>
-            <version>0.1.0</version>
-            <depends>
-              <Mage_Customer/>
-            </depends>
-        </Ee_Customer>
-    </modules>
-    <global>
-        <models>
-            <customer_entity>
-                <rewrite>
-                    <customer>Ee_Customer_Model_Mysql4_Customer</customer>
-                </rewrite>
-                <entities>
-                    <members>
-                        <table>exp_members</table>
-                    </members>
-                </entities>
-            </customer_entity>
-        </models>
-        <resources>
-            <ee_customer_write>
-                <connection>
-                    <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[root]]></username>
-                    <password><![CDATA[]]></password>
-                    <dbname><![CDATA[magento_ee2]]></dbname>
-                    <active>1</active>
-                </connection>
-            </ee_customer_write>
-            <ee_customer_read>
-                <connection>
-                    <use>ee_customer_write</use>
-                </connection>
-            </ee_customer_read>
-        </resources>
-    </global>
+    <modules>
+        <Ee_Customer>
+            <version>0.1.0</version>
+            <depends>
+                <Mage_Customer/>
+            </depends>
+        </Ee_Customer>
+    </modules>
+    <global>
+        <models>
+            <customer_entity>
+                <rewrite>
+                    <customer>Ee_Customer_Model_Mysql4_Customer</customer>
+                </rewrite>
+            </customer_entity>
+            <ee_customer>
+                <resourceModel>ee_customer_mysql4</resourceModel>
+            </ee_customer>
+            <ee_customer_mysql4>
+                <entities>
+                    <members>
+                        <table>exp_members</table>
+                    </members>
+                </entities>
+            </ee_customer_mysql4>
+        </models>
+        <resources>
+            <ee_customer_write>
+                <connection>
+                    <type>pdo_mysql</type>
+                    <host><![CDATA[localhost]]></host>
+                    <username><![CDATA[root]]></username>
+                    <password><![CDATA[]]></password>
+                    <dbname><![CDATA[magento_ee2]]></dbname>
+                    <active>1</active>
+                </connection>
+            </ee_customer_write>
+            <ee_customer_read>
+                <connection>
+                    <use>ee_customer_write</use>
+                </connection>
+            </ee_customer_read>
+        </resources>
+    </global>
 </config>
