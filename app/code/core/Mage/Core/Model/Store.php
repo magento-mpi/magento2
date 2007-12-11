@@ -149,6 +149,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
             $config = Mage::getConfig()->getNode('stores/'.$this->getCode().'/'.$path);
             if (!$config) {
+                $config = Mage::getConfig()->getNode('default/'.$path);
+            }
+            if (!$config) {
                 #throw Mage::exception('Mage_Core', __('Invalid store configuration path: %s', $path));
                 Mage::log('Invalid store configuration path: '.$path);
                 return null;

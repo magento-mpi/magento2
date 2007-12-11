@@ -32,20 +32,16 @@
                 </website>
 
                 <filesystem>
-                    <etc>{{app_dir}}/etc</etc>
-                    <code>{{app_dir}}/code</code>
-                    <upload>{{root_dir}}/media/upload</upload>
-                    <var>{{var_dir}}</var>
-                    <session>{{var_dir}}/session</session>
-                    <cache_config>{{var_dir}}/cache/config</cache_config>
-                    <cache_layout>{{var_dir}}/cache/layout</cache_layout>
-
-                    <layout>{{app_dir}}/design/frontend/default/layout/default</layout>
-                    <template>{{app_dir}}/design/frontend/default/template/default</template>
-                    <translate>{{app_dir}}/design/frontend/default/translate</translate>
                     <base>{{root_dir}}</base>
+                    <code>{{app_dir}}/code</code>
+                    <design>{{app_dir}}/design</design>
+                    <etc>{{app_dir}}/etc</etc>
                     <media>{{root_dir}}/media</media>
+                    <upload>{{root_dir}}/media/upload</upload>
                     <skin>{{root_dir}}/skin</skin>
+                    <var>{{var_dir}}</var>
+                    <cache>{{var_dir}}/cache</cache>
+                    <session>{{var_dir}}/session</session>
                 </filesystem>
             </system>
 
@@ -68,7 +64,7 @@
                     <media>{{base_path}}media/</media>
                     <skin>{{base_path}}skin/</skin>
                     <js>{{base_path}}js/</js>
-                    <use_script_name></use_script_name>
+                    <use_script_name>true</use_script_name>
                 </url>
 
                 <default>

@@ -1,26 +1,65 @@
+############################################
+## uncomment these lines for CGI mode
+
 #Action php5-cgi /cgi-bin/php-cgi 
 #AddHandler php5-cgi .php
 
-<IfModule mod_php5.c>
-    php_flag magic_quotes_gpc off
-    php_flag short_open_tag on
-</IfModule>
-
-<IfModule mod_ssl.c>
-    SSLOptions StdEnvVars
-</IfModule>
+############################################
+## default index file
 
 DirectoryIndex index.php
 
-RewriteEngine on
+<IfModule mod_php5.c>
 
-#RewriteBase /dev/magento/
+############################################
+## disable magic quotes for php request vars
 
-RewriteCond %{REQUEST_URI} !^/media/
-RewriteCond %{REQUEST_URI} !^/skin/
-RewriteCond %{REQUEST_URI} !^/js/
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-l
+    php_flag magic_quotes_gpc off
 
-RewriteRule .* index.php
+############################################
+## enable php short tags for templates
+
+    php_flag short_open_tag on
+
+</IfModule>
+
+<IfModule mod_ssl.c>
+
+############################################
+## make HTTPS env vars available for CGI mode
+
+    SSLOptions StdEnvVars
+
+</IfModule>
+
+<IfModule mod_rewrite.c>
+
+############################################
+## enable rewrites
+
+    Options +FollowSymLinks 
+    RewriteEngine on
+
+############################################
+## you can put here your magento root folder path relative to web root
+
+    #RewriteBase /dev/magento/
+
+############################################
+## always send 404 on missing files in these folders
+
+    RewriteCond %{REQUEST_URI} !^/(media|skin|js)/
+
+############################################
+## never rewrite for existing files, directories and links
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+
+############################################
+## rewrite everything else to index.php
+
+    RewriteRule .* index.php
+
+</IfModule>

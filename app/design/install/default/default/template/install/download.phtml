@@ -50,6 +50,16 @@ function installFailure()
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 
 <form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
+
+<fieldset class="group-select">
+    <legend><?=$this->__('SVN Installation')?></legend>
+    <h4 class="legend"><?=$this->__('SVN Installation')?></h4>
+
+    <p><?=$this->__("If you have installed Magento through SVN, you could skip packages installation and validation by clicking the button below.")?></p>
+
+    <p><button class="form-button" type="submit" name="continue" value="svn"><span><?=$this->__('Continue SVN Installation')?></span></button></p>
+</fieldset>
+
 <fieldset class="group-select">
     <legend><?=$this->__('Package Management through the Web')?></legend>
     <h4 class="legend"><?=$this->__('Package Management through the Web')?></h4>
@@ -83,11 +93,4 @@ function installFailure()
     <p><button class="form-button" type="submit" name="continue" value="manual"><span><?=$this->__('Continue After Manual Download')?></span></button></p>
 </fieldset>
 
-<fieldset class="group-select">
-    <legend><?=$this->__('SVN Installation')?></legend>
-    <h4 class="legend"><?=$this->__('SVN Installation')?></h4>
-
-    <p><?=$this->__("If you have installed Magento through SVN, you could skip packages installation and validation by clicking the button below.")?></p>
-
-    <p><button class="form-button" type="submit" name="continue" value="svn"><span><?=$this->__('Continue SVN Installation')?></span></button></p>
 </form>

@@ -130,6 +130,13 @@
     <h4 class="legend"><?=$this->__('Configuration options')?></h4>
     <ul>
         <li>
+            <input type="checkbox" name="config[use_script_name]" id="use_script_name" value="1" <?if($this->getFormData()->getUseScriptName()):?>checked<?endif?>>
+            <label for="use_script_name"><?=$this->__('Do not use Apache Rewrites')?></label><br/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small><?=$this->__('If you do not have apache mod_rewrite module available you could use this option to allow Magento functionality by inserting /index.php/ in every URL. Please note that ')?></small>
+            </p>
+        </li>
+        <li>
             <input type="checkbox" name="skip_url_validation" id="skip_url_validation" value="1" <?if($this->getSkipUrlValidation()):?>checked<?endif?>>
             <label for="skip_url_validation"><?=$this->__('Skip URL validation')?></label><br/>
             <p style="margin-top:4px; line-height:1.3em; color:#666;">

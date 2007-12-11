@@ -178,4 +178,20 @@
         </models>
     </global>
 
+     <default>
+        <system>
+            <filesystem>
+                <base>{{root_dir}}</base>
+                <code>{{app_dir}}/code</code>
+                <design>{{app_dir}}/design</design>
+                <etc>{{app_dir}}/etc</etc>
+                <media>{{root_dir}}/media</media>
+                <upload>{{root_dir}}/media/upload</upload>
+                <skin>{{root_dir}}/skin</skin>
+                <var>{{var_dir}}</var>
+                <cache>{{var_dir}}/var/cache</cache>
+                <session>{{var_dir}}/var/session</session>
+            </filesystem>
+        </system>
+    </default>
 </config>

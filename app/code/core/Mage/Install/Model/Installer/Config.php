@@ -61,6 +61,8 @@ class Mage_Install_Model_Installer_Config
                 $data[$index] = $value;
             }
         }
+        $data['base_path'] .= substr($data['base_path'],-1) != '/' ? '/' : '';
+        $data['secure_base_path'] .= substr($data['secure_base_path'],-1) != '/' ? '/' : '';
 
         if (!Mage::getSingleton('install/session')->getSkipUrlValidation()) {
             $this->_checkHostsInfo($data);
@@ -68,6 +70,8 @@ class Mage_Install_Model_Installer_Config
         $data['date']   = self::TMP_INSTALL_DATE_VALUE;
         $data['key']    = self::TMP_ENCRYPT_KEY_VALUE;
         $data['var_dir'] = $data['root_dir'] . '/var';
+
+        Mage::getSingleton('install/session')->setConfigData($data);
 
         file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
         chmod($this->_localConfigFile, 0777);
@@ -82,18 +86,20 @@ class Mage_Install_Model_Installer_Config
         $hostInfo = explode(':', $host);
         $host = $hostInfo[0];
         $port = !empty($hostInfo[1]) ? $hostInfo[1] : 80;
+        $basePath = dirname($_SERVER['SCRIPT_NAME']);
 
         $data->setServerPath(dirname(Mage::getBaseDir()))
             ->setHost($host)
-            ->setBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
-            ->setSecureHost($host)
-            ->setSecureBasePath(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'],'install/')))
+            ->setBasePath($basePath)
             ->setPort($port)
+            ->setSecureHost($host)
+            ->setSecureBasePath($basePath)
             ->setSecurePort(443)
             ->setDbHost('localhost')
             ->setDbName('magento')
             ->setDbUser('root')
-            ->setDbPass('');
+            ->setDbPass('')
+            ->setUseScriptName(1);
         return $data;
     }
 
