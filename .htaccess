@@ -6,7 +6,9 @@
     php_flag short_open_tag on
 </IfModule>
 
-SSLOptions StdEnvVars
+<IfModule mod_ssl.c>
+    SSLOptions StdEnvVars
+</IfModule>
 
 DirectoryIndex index.php
 
