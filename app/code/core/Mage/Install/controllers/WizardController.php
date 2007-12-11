@@ -199,6 +199,11 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 $this->_forward('downloadManual');
                 break;
 
+            case 'svn':
+                $step = $this->_getWizard()->getStepByName('download');
+                $this->getResponse()->setRedirect($step->getNextUrl());
+                break;
+
             default:
                 $this->_redirect('*/*/download');
         }
