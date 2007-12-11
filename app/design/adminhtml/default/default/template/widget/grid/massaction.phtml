@@ -30,7 +30,7 @@
                     </span>
                     <span class="field-row">
                         <label><?=$this->__('Select action')?></label>
-                        <select id="<?=$this->getHtmlId()?>-select" class="required-entry">
+                        <select id="<?=$this->getHtmlId()?>-select" class="required-entry select">
                             <option value=""></option>
                             <?foreach($this->getItems() as $_item):?>
                                 <option value="<?=$_item->getId()?>"><?=$_item->getLabel()?></option>
