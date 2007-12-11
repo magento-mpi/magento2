@@ -50,4 +50,43 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
     {
         return $this->_massaction;
     }
+
+    /**
+     * Set additional action block for this item
+     *
+     * @param string|Mage_Core_Block_Abstract $block
+     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Item
+     */
+    public function setAdditionalActionBlock($block)
+    {
+        if(is_string($block)) {
+            $block = $this->getLayout()->createBlock($block);
+        } elseif(!($block instanceof Mage_Core_Block_Abstract)) {
+            Mage::throwException('Unknown block type');
+        }
+
+        $this->setChild('additional_action', $block);
+        return $this;
+    }
+
+    /**
+     * Retrive additional action block for this item
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getAdditionalActionBlock()
+    {
+        return $this->getChild('additional_action');
+    }
+
+    /**
+     * Retrive additional action block HTML for this item
+     *
+     * @return string
+     */
+    public function getAdditionalActionBlockHtml()
+    {
+        return $this->getChildHtml('additional_action');
+    }
+
 } // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item End

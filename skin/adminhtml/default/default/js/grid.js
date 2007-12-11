@@ -242,7 +242,11 @@ varienGridMassaction.prototype = {
 
        this.grid      = grid;
        this.container = $(containerId);
+       this.containerId = containerId;
        this.form      = $(containerId + '-form');
+       this.validator = new Validation(this.form);
+       this.formHiddens    = $(containerId + '-form-hiddens');
+       this.formAdditional = $(containerId + '-form-additional');
        this.select    = $(containerId + '-select');
        this.checkboxAll  = $(grid.containerId + '-checkbox-all');
 
@@ -264,6 +268,8 @@ varienGridMassaction.prototype = {
        this.grid.rows.each(function(row){
            this.initGridRow(row);
        }.bind(this));
+
+       this.select.observe('change', this.onSelectChange.bindAsEventListener(this))
     },
     setItems: function(items) {
         this.items = items;
@@ -306,6 +312,14 @@ varienGridMassaction.prototype = {
            this.setCheckbox(checkbox);
         } else {
             this.getOldCallback('row_click')(grid, evt);
+        }
+    },
+    onSelectChange: function(evt) {
+        var item = this.getSelectedItem();
+        if(item) {
+            this.formAdditional.update($(this.containerId + '-item-' + item.id + '-block').innerHTML);
+        } else {
+            this.formAdditional.update('');
         }
     },
     findCheckbox: function(evt) {
@@ -369,25 +383,28 @@ varienGridMassaction.prototype = {
         if(!item) {
             return;
         }
-
         this.currentItem = item;
-
         var fieldName = (item.field ? item.field : this.formFieldName) + '[]';
+        var fieldsHtml = '';
+        this.checkedVisibleValues.keys().each(function(item){
+            fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
+        }.bind(this));
+
+        this.formHiddens.update(fieldsHtml);
+
+        if(!this.validator.validate()) {
+            return;
+        }
+
         if(this.grid.useAjax && item.url) {
-            var parameters = {};
-            parameters[fieldName] = this.checkedVisibleValues.keys();
+            return alert(this.form.serialize(false));
             new Ajax.Request(item.url, {
                 'method': 'post',
-                'parameters': parameters,
+                'parameters': this.form.serialize(true),
                 'onComplete': this.onMassactionComplete.bind(this)
             });
         } else if(item.url) {
-            var fieldsHtml = '';
-            this.checkedVisibleValues.keys().each(function(item){
-                fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
-            }.bind(this));
             this.form.action = item.url;
-            this.form.update(fieldsHtml);
             this.form.submit();
         }
     },

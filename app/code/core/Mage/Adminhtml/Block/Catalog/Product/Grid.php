@@ -231,6 +231,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              'url'  => $this->getUrl('*/*/massDelete'),
              'field' => 'customField'
         ));
+
+        $this->getMassactionBlock()->addItem('visibility', array(
+             'label'=> $this->__('Set visibility to selected items'),
+             'url'  => $this->getUrl('*/*/massDelete'),
+             'additional_action' => 'adminhtml/catalog_product_grid_massaction_item_visibility',
+             'field' => 'customField'
+        ));
+
         return $this;
     }
 
