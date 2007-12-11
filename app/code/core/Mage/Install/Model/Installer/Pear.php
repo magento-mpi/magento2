@@ -46,14 +46,19 @@ class Mage_Install_Model_Installer_Pear
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($this->getPackages() as $package) {
-            $obj = $pkg->fromAnyFile($package);
+            $obj = $pkg->fromAnyFile($package, PEAR_VALIDATE_NORMAL);
             if (PEAR::isError($obj)) {
                 $uinfo = $obj->getUserInfo();
-                foreach ($uinfo as $message) {
-                    if (is_array($message)) {
-                        $message = $message['message'];
+                if (is_array($uinfo)) {
+                    foreach ($uinfo as $message) {
+                        if (is_array($message)) {
+                            $message = $message['message'];
+                        }
+                        Mage::getSingleton('install/session')->addError($message);
                     }
-                    Mage::getSingleton('install/session')->addError($message);
+                } else {
+                    print_r($obj->getUserInfo());
+                    #Mage::getSingleton('install/session')->addError($message);
                 }
                 $result = false;
             }
@@ -64,6 +69,7 @@ class Mage_Install_Model_Installer_Pear
     public function installPackages()
     {
         ob_implicit_flush();
+        set_time_limit(240);
 
         $pear = new Varien_Pear;
         $fe = $pear->getFrontend();
@@ -74,6 +80,8 @@ body { margin:0px; padding:3px; background:black; }
 pre { font:normal 11px Courier New, serif; color:#2EC029; }
 </style></head><body><pre>
 <?
+        echo __("Downloading and installing Magento, please wait...\r\n\r\n");
+
         $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $this->getPackages());
         #$result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), array('PEAR'));
         #$result = $pear->run('help', array(), array());

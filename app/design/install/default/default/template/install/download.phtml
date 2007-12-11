@@ -34,12 +34,13 @@ function startInstall()
 
 function installSuccess()
 {
-    alert('success');
+    alert("<?=$this->__("All packages were installed successfully, click 'Ok' to continue with installation")?>");
+    location.href = "<?=$this->getNextUrl()?>";
 }
 
 function installFailure()
 {
-    alert('failure');
+    alert("<?=$this->__("There was a problem installing Magento packages. Please read the load, correct errors and retry again.")?>\n<?=$this->_("Alternatively you could try the 'Manual Downloads and Upgrades' method.")?>");
 }
 
 </script>
@@ -59,8 +60,9 @@ function installFailure()
     <p><?=$this->__("In other cases you will need to make Magento files writeable for the user that the web server process is running under.")?></p>
 
     <p><button class="form-button" type="button" name="continue" value="auto" onclick="startInstall()"><span><?=$this->__('Proceed With Automatic Download')?></span></button></p>
-    <iframe id="install_iframe" src="<?=$this->getBaseUrl()?>js/blank.html" style="display:none" frameborder="no"></iframe>
+    <iframe id="install_iframe" src="<?=$this->getJsUrl()?>blank.html" style="display:none" frameborder="no"></iframe>
 </fieldset>
+
 <fieldset class="group-select">
     <legend><?=$this->__('Manual Downloads and Upgrades')?></legend>
     <h4 class="legend"><?=$this->__('Manual Downloads and Upgrades')?></h4>
@@ -79,4 +81,12 @@ function installFailure()
 
     <p><button class="form-button" type="submit" name="continue" value="manual"><span><?=$this->__('Continue After Manual Download')?></span></button></p>
 </fieldset>
+
+<fieldset class="group-select">
+    <legend><?=$this->__('SVN Installation')?></legend>
+    <h4 class="legend"><?=$this->__('SVN Installation')?></h4>
+
+    <p><?=$this->__("If you have installed Magento through SVN, you could skip packages installation and validation by clicking the button below.")?></p>
+
+    <p><button class="form-button" type="submit" name="continue" value="svn"><span><?=$this->__('Continue SVN Installation')?></span></button></p>
 </form>
