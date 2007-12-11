@@ -34,7 +34,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         $this->_init('sales/order_payment');
     }
-    
+
     /**
      * Declare order model object
      *
@@ -46,7 +46,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->_order = $order;
         return $this;
     }
-    
+
     /**
      * Retrieve order model object
      *
@@ -56,7 +56,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         return $this->_order;
     }
-    
+
     /**
      * Import data from quote payment model
      *
@@ -81,6 +81,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function getHtmlFormated($privacy='public')
     {
-        return Mage::helper('payment')->formatInfo($this);
+        return Mage::helper('payment')->formatInfo($this, null, $privacy);
     }
 }

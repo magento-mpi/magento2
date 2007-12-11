@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Payment module base helper
  *
@@ -26,7 +26,7 @@
 class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
-    
+
     /**
      * Retrieve payment method model object
      *
@@ -38,13 +38,13 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getModel($config->getClassName())
             ->setCode($code);
     }
-    
+
     /**
      * Retrieve available payment methods for store
-     * 
+     *
      * array structure:
      *  $index => Varien_Simplexml_Element
-     * 
+     *
      * @param   mixed $store
      * @return  array
      */
@@ -59,13 +59,13 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         else {
             $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
         }
-        
+
         $res = array();
         foreach ($methods as $code => $methodConfig) {
             if (!$methodConfig->is('active', 1)) {
                 continue;
             }
-            
+
             $methodInstance = $this->_getMethodInstance($methodConfig, $code);
             if (!isset($res[(int)$methodConfig->sort_order])) {
                 $res[(int)$methodConfig->sort_order] = $methodInstance;
@@ -77,7 +77,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         ksort($res);
         return $res;
     }
-    
+
     /**
      * Retreive payment method form html
      *
@@ -93,16 +93,16 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             ->setPaymentMethod($method)
             ->toHtml();
     }
-    
+
     /**
      * Retrieve formated payment method information
-     * 
+     *
      * @todo    remove dependency from createInfoBlock method
      * @param   Mage_Payment_Model_Info $payment
      * @package string $format
      * @return  string
      */
-    public function formatInfo(Mage_Payment_Model_Info $payment, $format=null)
+    public function formatInfo(Mage_Payment_Model_Info $payment, $format=null, $privacy='public')
     {
         $out = '';
         if ($methodCode = $payment->getMethod()) {
@@ -115,7 +115,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
                     $method->setPayment($payment);
                     $methodBlock = $method->createInfoBlock('payment.method.'.$methodCode.'.'.$payment->getId());
                     if (!empty($methodBlock)) {
-                        $out .= $methodBlock->toHtml();
+                        $out .= $methodBlock->setPrivacy($privacy)->toHtml();
                     }
                 }
             }
