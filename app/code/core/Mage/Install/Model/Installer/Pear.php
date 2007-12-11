@@ -67,43 +67,4 @@ class Mage_Install_Model_Installer_Pear
         }
         return $result;
     }
-
-    public function installPackages()
-    {
-        ob_implicit_flush();
-        set_time_limit(240);
-
-        $pear = new Varien_Pear;
-        $fe = $pear->getFrontend();
-        $fe->setLogStream('stdout');
-?>
-<html><head><style>
-body { margin:0px; padding:3px; background:black; }
-pre { font:normal 11px Courier New, serif; color:#2EC029; }
-</style></head><body><pre>
-<?
-        echo __("Downloading and installing Magento, please wait...\r\n\r\n");
-
-        $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $this->getPackages());
-        #$result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), array('PEAR'));
-        #$result = $pear->run('help', array(), array());
-        #$result = true;
-        if ($result instanceof PEAR_Error) {
-            echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();
-        }
-#        print_r($result);
-        #print_r($fe->getLog());
-        #print_r($fe->getOutput());
-?>
-</pre><script type="text/javascript">
-<?
-        if ($result instanceof PEAR_Error) {
-            echo 'parent.installFailure()';
-        } else {
-            echo 'parent.installSuccess()';
-        }
-?>
-</script></body></html>
-<?
-    }
 }

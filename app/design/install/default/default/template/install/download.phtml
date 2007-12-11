@@ -60,7 +60,7 @@ function installFailure()
     <p><?=$this->__("In other cases you will need to make Magento files writeable for the user that the web server process is running under.")?></p>
 
     <p><button class="form-button" type="button" name="continue" value="auto" onclick="startInstall()"><span><?=$this->__('Proceed With Automatic Download')?></span></button></p>
-    <iframe id="install_iframe" src="<?=$this->getJsUrl()?>blank.html" style="display:none" frameborder="no"></iframe>
+    <iframe id="install_iframe" src="<?=$this->getUrl('*/*/install')?>" style="display:none" frameborder="no"></iframe>
 </fieldset>
 
 <fieldset class="group-select">

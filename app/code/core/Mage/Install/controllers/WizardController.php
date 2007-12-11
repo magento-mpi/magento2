@@ -217,7 +217,37 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
     public function installAction()
     {
-        Mage::getModel('install/installer_pear')->installPackages();
+        ob_implicit_flush();
+        set_time_limit(240);
+
+        $pear = new Varien_Pear;
+        $fe = $pear->getFrontend();
+        $fe->setLogStream('stdout');
+?>
+<html><head><style>
+body { margin:0px; padding:3px; background:black; }
+pre { font:normal 11px Courier New, serif; color:#2EC029; }
+</style></head><body>
+<?
+        echo "<pre>".__("Downloading and installing Magento, please wait...\r\n\r\n");
+
+        if ($this->getRequest()->getParam('do')) {
+            $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $this->getPackages());
+
+            if ($result instanceof PEAR_Error) {
+                echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();
+            }
+            echo '</pre><script type="text/javascript">';
+            if ($result instanceof PEAR_Error) {
+                echo 'parent.installFailure()';
+            } else {
+                echo 'parent.installSuccess()';
+            }
+            echo '</script>';
+        }
+?>
+</body></html>
+<?
     }
 
     public function downloadManualAction()
