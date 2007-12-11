@@ -95,7 +95,7 @@
 
                     <model>mysql4</model>
                     <initStatements>SET NAMES utf8</initStatements>
-                    <type>mysqli</type>
+                    <type>pdo_mysql</type>
                     <active>0</active>
                 </connection>
             </default_setup>
@@ -145,12 +145,6 @@
                     <pdo_mysql>
                         <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
                     </pdo_mysql>
-                    <mysqli>
-                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
-                    </mysqli>
-                    <mysqli_setup>
-                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli_Setup</class>
-                    </mysqli_setup>
                 </types>
             </connection>
         </resource>
