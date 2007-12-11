@@ -244,6 +244,7 @@ varienGridMassaction.prototype = {
        this.container = $(containerId);
        this.containerId = containerId;
        this.form      = $(containerId + '-form');
+       this.count      = $(containerId + '-count');
        this.validator = new Validation(this.form);
        this.formHiddens    = $(containerId + '-form-hiddens');
        this.formAdditional = $(containerId + '-form-additional');
@@ -307,12 +308,15 @@ varienGridMassaction.prototype = {
     onGridRowClick: function(grid, evt) {
         if(Event.element(evt).isMassactionCheckbox) {
            this.setCheckbox(Event.element(evt));
+           this.initAllCheckbox();
         } else if (checkbox = this.findCheckbox(evt)) {
            checkbox.checked = !checkbox.checked;
            this.setCheckbox(checkbox);
-        } else {
-            this.getOldCallback('row_click')(grid, evt);
+           this.initAllCheckbox();
         }
+    },
+    initAllCheckbox: function(evt) {
+        this.checkboxAll.checked = this.isCheckedCheckboxes();
     },
     onSelectChange: function(evt) {
         var item = this.getSelectedItem();
@@ -325,8 +329,11 @@ varienGridMassaction.prototype = {
         this.validator.reset();
     },
     findCheckbox: function(evt) {
+        if(['a', 'input', 'select'].indexOf(Event.element(evt).tagName.toLowerCase())!==-1) {
+            return false;
+        }
         checkbox = false;
-        Event.element(evt).childElements().each(function(element){
+        Event.findElement(evt, 'tr').getElementsByClassName('massaction-checkbox').each(function(element){
             if(element.isMassactionCheckbox) {
                 checkbox = element;
             }
@@ -358,6 +365,22 @@ varienGridMassaction.prototype = {
             }.bind(this));
         }.bind(this));
     },
+    isCheckedCheckboxes: function() {
+        checked = true;
+        this.grid.rows.each(function(row){
+            var checkboxes = row.getElementsByClassName('massaction-checkbox');
+            checkboxes.each(function(checkbox) {
+               if(!checkbox.checked) {
+                    checked = false;
+               }
+            });
+            if(checkboxes.size()==0) {
+                checked = false;
+            }
+        }.bind(this));
+
+        return checked;
+    },
     setCheckbox: function(checkbox) {
         if(checkbox.checked) {
             this.checkedValues[checkbox.value] = checkbox.value;
@@ -370,8 +393,11 @@ varienGridMassaction.prototype = {
         if(!this.grid.reloadParams) {
             this.grid.reloadParams = {};
         }
-
+        this.updateCount();
         this.grid.reloadParams[this.formFieldNameInternal] = this.checkedValues.keys().join(',');
+    },
+    updateCount: function() {
+        this.count.update(this.checkedValues.keys().size());
     },
     getSelectedItem: function() {
         if(this.getItem(this.select.value)) {
@@ -394,7 +420,7 @@ varienGridMassaction.prototype = {
             return;
         }
 
-        this.checkedVisibleValues.keys().each(function(item){
+        this.checkedValues.keys().each(function(item){
             fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
         }.bind(this));
 

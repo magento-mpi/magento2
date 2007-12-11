@@ -19,33 +19,21 @@
  */
 
 /**
- * Adminhtml catalog product grid massaction visibility item additional
+ * Adminhtml grid widget massaction item additional action default
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Grid_Massaction_Item_Visibility extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Default extends Mage_Adminhtml_Block_Widget_Form implements Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Interface
 {
-    protected $_visibilityCollection=null;
-
-    public function __construct()
+    public function createFromConfiguration(array $configuration)
     {
-        parent::__construct();
-        $this->setTemplate('catalog/product/grid/massaction/visibility.phtml');
+        $form = new Varien_Data_Form();
+        foreach ($configuration as $itemId=>$item) {
+            $form->addField($itemId, $item['type'], $item);
+        }
+        $this->setForm($form);
+        return $this;
     }
-
-    public function getVisibilityCollection()
-    {
-         if(is_null($this->_visibilityCollection)) {
-             $this->_visibilityCollection = Mage::getResourceModel('catalog/product_visibility_collection')->load();
-         }
-
-         return $this->_visibilityCollection;
-    }
-
-    public function getOptions()
-    {
-        return $this->getVisibilityCollection()->toOptionArray();
-    }
-} // Class Mage_Adminhtml_Block_Catalog_Product_Grid_Massaction_Item_Visibility End
+} // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Default End

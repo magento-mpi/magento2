@@ -61,12 +61,28 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
     {
         if(is_string($block)) {
             $block = $this->getLayout()->createBlock($block);
+        } elseif (is_array($block)) {
+            $block = $this->_createFromConfig($block);
         } elseif(!($block instanceof Mage_Core_Block_Abstract)) {
             Mage::throwException('Unknown block type');
         }
 
         $this->setChild('additional_action', $block);
         return $this;
+    }
+
+    protected function _createFromConfig(array $config)
+    {
+        $type = isset($config['type']) ? $config['type'] : 'default';
+        switch($type) {
+            default:
+                $blockClass = 'adminhtml/widget_grid_massaction_item_additional_default';
+                break;
+        }
+
+        $block = $this->getLayout()->createBlock($blockClass);
+        $block->createFromConfiguration(isset($config['type']) ? $config['config'] : $config);
+        return $block;
     }
 
     /**
@@ -88,5 +104,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item extends Mage_Adminhtml_Bl
     {
         return $this->getChildHtml('additional_action');
     }
+
 
 } // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Item End

@@ -216,6 +216,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
         ));
 
+        $this->addColumn('action',
+            array(
+                'header'    => __('Action'),
+                'width'     => '100px',
+                'type'      => 'action',
+                'getter'     => 'getId',
+                'actions'   => array(
+                    array(
+                        'caption' => $this->__('Edit'),
+                        'url'     => array('base'=>'*/*/edit'),
+                        'field'   => 'id'
+                    )
+                ),
+                'filter'    => false,
+                'sortable'  => false,
+                'index'     => 'stores',
+        ));
+
         //$this->addExportType('*/*/exportCsv', __('CSV'));
         //$this->addExportType('*/*/exportXml', __('XML'));
 
@@ -227,16 +245,30 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->setMassactionIdField('entity_id');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> $this->__('Delete selected items'),
+             'label'=> $this->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'field' => 'customField'
+             'confirm' => $this->__('Are you sure?')
         ));
 
-        $this->getMassactionBlock()->addItem('visibility', array(
-             'label'=> $this->__('Set visibility to selected items'),
-             'url'  => $this->getUrl('*/*/massDelete'),
-             'additional_action' => 'adminhtml/catalog_product_grid_massaction_item_visibility',
-             'field' => 'customField'
+        $this->getMassactionBlock()->setFormFieldName('product');
+
+        $statuses = Mage::getResourceModel('catalog/product_status_collection')
+            ->load()
+            ->toOptionArray();
+
+        array_unshift($statuses, array('label'=>'', 'value'=>''));
+        $this->getMassactionBlock()->addItem('status', array(
+             'label'=> $this->__('Change status'),
+             'url'  => $this->getUrl('*/*/massStatus'),
+             'additional' => array(
+                    'visibility' => array(
+                         'name' => 'status',
+                         'type' => 'select',
+                         'class' => 'required-entry',
+                         'label' => $this->__('Status'),
+                         'values' => $statuses
+                     )
+             )
         ));
 
         return $this;

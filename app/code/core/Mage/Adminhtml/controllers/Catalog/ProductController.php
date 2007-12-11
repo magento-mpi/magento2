@@ -410,7 +410,42 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function massDeleteAction()
     {
-        $this->getResponse()->setBody(print_r($this->getRequest()->getParams(), true));
+        $productIds = $this->getRequest()->getParam('product');
+        if(!is_array($productIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(__('Please select product(s)'));
+        } else {
+            try {
+                foreach ($productIds as $productId) {
+                    $product = Mage::getModel('catalog/product')->load($productId);
+                    $product->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected product(s) has been successfully deleted'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
+
+    public function massStatusAction()
+    {
+        $productIds = $this->getRequest()->getParam('product');
+        if(!is_array($productIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(__('Please select product(s)'));
+
+        } else {
+            try {
+                foreach ($productIds as $productId) {
+                    $product = Mage::getModel('catalog/product')->load($productId);
+                    $product->setStatus($this->getRequest()->getParam('status'));
+                    $product->save();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected product(s) status has been successfully changed'));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
     }
 
     public function tagCustomerGridAction()

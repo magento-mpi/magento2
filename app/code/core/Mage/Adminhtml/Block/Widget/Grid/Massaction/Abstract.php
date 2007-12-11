@@ -48,7 +48,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      *      'complete' => string, // Only for ajax enabled grid (optional)
      *      'url'      => string,
      *      'confirm'  => string, // text of confirmation of this action (optional)
-     *      'additional_action' => string|Mage_Core_Block_Abstract // (optional)
+     *      'additional' => string|array|Mage_Core_Block_Abstract // (optional)
      * );
      *
      * @param string $itemId
@@ -62,9 +62,9 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
             ->setMassaction($this)
             ->setId($itemId);
 
-        if($this->_items[$itemId]->getAdditionalAction()) {
-            $this->_items[$itemId]->setAdditionalActionBlock($this->_items[$itemId]->getAdditionalAction());
-            $this->_items[$itemId]->unsAdditionalAction();
+        if($this->_items[$itemId]->getAdditional()) {
+            $this->_items[$itemId]->setAdditionalActionBlock($this->_items[$itemId]->getAdditional());
+            $this->_items[$itemId]->unsAdditional();
         }
 
         return $this;
