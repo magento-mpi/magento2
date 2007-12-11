@@ -45,9 +45,10 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      *
      * $item = array(
      *      'label'    => string,
-     *      'complete' => string, // Only for ajax enabled grid
+     *      'complete' => string, // Only for ajax enabled grid (optional)
      *      'url'      => string,
-     *      'additional_action' => string|Mage_Core_Block_Abstract
+     *      'confirm'  => string, // text of confirmation of this action (optional)
+     *      'additional_action' => string|Mage_Core_Block_Abstract // (optional)
      * );
      *
      * @param string $itemId

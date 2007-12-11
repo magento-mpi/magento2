@@ -321,6 +321,8 @@ varienGridMassaction.prototype = {
         } else {
             this.formAdditional.update('');
         }
+
+        this.validator.reset();
     },
     findCheckbox: function(evt) {
         checkbox = false;
@@ -381,11 +383,17 @@ varienGridMassaction.prototype = {
     apply: function() {
         var item = this.getSelectedItem();
         if(!item) {
+            this.validator.validate();
             return;
         }
         this.currentItem = item;
         var fieldName = (item.field ? item.field : this.formFieldName) + '[]';
         var fieldsHtml = '';
+
+        if(this.currentItem.confirm && !window.confirm(this.currentItem.confirm)) {
+            return;
+        }
+
         this.checkedVisibleValues.keys().each(function(item){
             fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
         }.bind(this));
