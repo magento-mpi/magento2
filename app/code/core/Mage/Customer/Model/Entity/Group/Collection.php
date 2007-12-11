@@ -48,6 +48,12 @@ class Mage_Customer_Model_Entity_Group_Collection extends Mage_Core_Model_Mysql4
         return $this;
     }
 
+    public function setRealGroupsFilter()
+    {
+        $this->addFieldToFilter('customer_group_id', array('gt'=>0));
+        return $this;
+    }
+
     public function addTaxClass()
     {
         $taxClassTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class');
