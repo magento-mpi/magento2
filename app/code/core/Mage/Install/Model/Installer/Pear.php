@@ -33,6 +33,8 @@ class Mage_Install_Model_Installer_Pear
     {
         $packages = array(
             'var-dev/Mage_Pear_Helpers',
+            'var-dev/Mage_Lib',
+            'var-dev/Varien_Lib',
             'var-dev/Mage_All',
             'var-dev/Interface_Frontend_Default',
             'var-dev/Interface_Adminhtml_Default'
