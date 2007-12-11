@@ -54,6 +54,13 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
         $actionAttributes = new Varien_Object();
 
         foreach ( $action as $attibute => $value ) {
+            if(isset($action[$attibute]) && !is_array($action[$attibute])) {
+                $this->getColumn()->setFormat($action[$attibute]);
+                $action[$attibute] = parent::render($row);
+            } else {
+                $this->getColumn()->setFormat(null);
+            }
+
     	    switch ($attibute) {
             	case 'confirm':
             	    $action['onclick'] = 'return confirm(\'' . addslashes($this->htmlEscape($action['confirm'])) . '\');';
@@ -66,11 +73,16 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
                		break;
 
             	case 'url':
-            	    $params = array($action['field']=>$this->_getValue($row));
-            	    if(isset($action['url']['params'])) {
-                        $params = array_merge($action['url']['params'], $params);
+            	    if(is_array($action['url'])) {
+            	        $params = array($action['field']=>$this->_getValue($row));
+            	        if(isset($action['url']['params'])) {
+                            $params = array_merge($action['url']['params'], $params);
+                	    }
+                	    $action['href'] = $this->getUrl($action['url']['base'], $params);
+                	    unset($action['field']);
+            	    } else {
+            	        $action['href'] = $action['url'];
             	    }
-            	    $action['href'] = $this->getUrl($action['url']['base'], $params);
             	    unset($action['url']);
                		break;
             }
