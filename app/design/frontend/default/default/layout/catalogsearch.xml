@@ -28,8 +28,7 @@
         </reference>
     </default>
 
-    <catalogsearch_result_index>
-    
+    <catalogsearch_result_index>    
         <reference name="root">
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
         </reference>
@@ -62,13 +61,7 @@ Advanced search results
             <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result"></block>
         </reference>
     </catalogsearch_advanced_result>
-
-    <catalogsearch_result_index>
-        <reference name="content">
-            <block type="catalogsearch/result" name="search.result" template="catalogsearch/result.phtml"/>
-        </reference>
-    </catalogsearch_result_index>
-    
+        
     <catalogsearch_term_popular>
     <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
