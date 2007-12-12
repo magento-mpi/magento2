@@ -172,15 +172,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         foreach ($address->getAllItems() as $addressItem) {
             $item = Mage::getModel('sales/order_item');
-            if ($addressItem instanceof Mage_Sales_Model_Quote_Item) {
-                /* @var $item Mage_Sales_Model_Order_Item */
-                $item->importQuoteItem($addressItem);
-                $this->addItem($item);
-            } elseif ($addressItem instanceof Mage_Sales_Model_Quote_Address_Item) {
-                /* @var $item Mage_Sales_Model_Order_Item */
-                $item->importQuoteAddressItem($addressItem);
-                $this->addItem($item);
-            }
+            $item->importQuoteItem($addressItem);
+            $this->addItem($item);
         }
 
         return $this;
@@ -560,10 +553,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setIsCustomerNotified($isCustomerNotified);
         $this->addStatusHistory($status);
 
-        if (4 == $statusId) {
-            // Canceled
-            $this->cancel();
-        }
         return $this;
     }
     
@@ -669,6 +658,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function cancel()
     {
+        $this->addStatus(self::ORDER_STATUS_CANCELED);
         foreach ($this->getItemsCollection() as $item) {
             $item->cancel();
         }

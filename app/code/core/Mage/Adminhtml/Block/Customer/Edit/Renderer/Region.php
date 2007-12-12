@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Core_Block
         $regionId = $element->getForm()->getElement('region_id')->getValue();
 
         $html = '<span class="field-row">';
+        $element->setClass('input-text');
         $html.= $element->getLabelHtml();
         $html.= $element->getElementHtml();
         

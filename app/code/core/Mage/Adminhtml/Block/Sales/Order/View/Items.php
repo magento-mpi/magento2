@@ -37,98 +37,101 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
     }
+    
+    /**
+     * Retrieve order model object
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _getOrder()
+    {
+        return Mage::registry('sales_order');
+    }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/order_item_collection');
-        /* @var $collection Mage_Sales_Model_Entity_Order_Item_Collection */
-        $collection->addAttributeToSelect('*')
-            ->setOrderFilter(Mage::registry('sales_order')->getId());
-        $collection->getEntity()->setStore(Mage::registry('sales_order')->getStoreId());
+        $collection = Mage::getResourceModel('sales/order_item_collection')
+            ->addAttributeToSelect('*')
+            ->setOrderFilter($this->_getOrder()->getId());
+        $collection->getEntity()->setStore($this->_getOrder()->getStoreId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-
+        $currencyCode = $this->_getOrder()->getOrderCurrencyCode();
         $this->addColumn('product_id', array(
-            'header' => __('Product ID'),
+            'header'=> __('Product ID'),
             'align' => 'center',
             'index' => 'product_id',
+            'width' => '70px',
         ));
 
         $this->addColumn('sku', array(
-            'header' => __('SKU'),
+            'header'=> __('SKU'),
             'index' => 'sku',
+            'width' => '100px'
         ));
 
         $this->addColumn('name', array(
-            'header' => __('Product Name'),
+            'header'=> __('Product Name'),
             'index' => 'name',
         ));
 
-        /*$this->addColumn('giftmessage', array(
-            'header' => __('Gift Message'),
-            'renderer' => 'adminhtml/sales_order_edit_items_grid_renderer_giftmessage',
-            'store'     => Mage::registry('sales_order')->getStoreId()
-        ));*/
-
         $this->addColumn('price', array(
-            'header' => __('Price'),
-            'getter' => 'getPriceFormatted',
+            'header'=> __('Price'),
+            'index' => 'price',
+            'width' => '120px',
+            'type'  => 'currency',
+            'currency_code' => $currencyCode,
         ));
 
         $this->addColumn('qty_ordered', array(
-            'header' => __('Qty Ordered'),
+            'header'=> __('Qty Ordered'),
             'index' => 'qty_ordered',
-            'type' => 'number',
+            'type'  => 'number',
+            'width' => '85px',
         ));
 
-
-
-        // $this->addColumn('qty_backordered', array(
-            // 'header' => __('Qty Backordered'),
-            // 'index' => 'qty_backordered',
-            // 'type' => 'number',
-        // ));
-
-        // $this->addColumn('qty_shipped', array(
-            // 'header' => __('Qty Shipped'),
-            // 'index' => 'qty_shipped',
-            // 'type' => 'number',
-        // ));
-
-        // $this->addColumn('qty_returned', array(
-            // 'header' => __('Qty Returned'),
-            // 'index' => 'qty_returned',
-            // 'type' => 'number',
-        // ));
-
         $this->addColumn('qty_canceled', array(
-            'header' => __('Qty Cancelled'),
+            'header'=> __('Qty Cancelled'),
             'index' => 'qty_canceled',
-            'type' => 'number',
+            'type'  => 'number',
+            'width' => '85px',
+            'default'=> '-',
         ));
 
         $this->addColumn('status', array(
-            'header' => __('Item Status'),
-            'getter' => 'getStatus',
+            'header'=> __('Item Status'),
+            'getter'=> 'getStatus',
+            'width' => '85px',
         ));
 
         $this->addColumn('discount_amount', array(
-            'header' => __('Discount'),
-            'getter' => 'getDiscountAmountFormatted',
+            'header'=> __('Discount'),
+            'index' => 'discount_amount',
+            'default'=> '-',
+            'width' => '85px',
+            'type'  => 'currency',
+            'currency_code' => $currencyCode,
         ));
 
         $this->addColumn('tax_amount', array(
             'header' => __('Tax Amount'),
-            'getter' => 'getTaxAmountFormatted',
+            'index' => 'tax_amount',
+            'default'=> '-',
+            'width' => '100px',
+            'type'  => 'currency',
+            'currency_code' => $currencyCode,
         ));
 
         $this->addColumn('row_total', array(
             'header' => __('Subtotal'),
-            'getter' => 'getRowTotalFormatted',
+            'index' => 'row_total',
+            'type'  => 'currency',
+            'currency_code' => Mage::registry('sales_order')->getOrderCurrencyCode(),
+            'width' => '125px',
         ));
 
 

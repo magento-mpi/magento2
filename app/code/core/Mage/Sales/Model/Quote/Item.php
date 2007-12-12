@@ -115,25 +115,4 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     	}
     	return $this->getData('product');
     }
-    
-    /**
-     * Enter description here...
-     *
-     * @param Mage_Sales_Model_Order_Item $item
-     * @return Mage_Sales_Model_Quote_Item
-     */
-    public function importOrderItem(Mage_Sales_Model_Order_Item $item)
-    {
-        $this->setProductId($item->getProductId())
-            ->setSuperProductId($item->getSuperProductId())
-            ->setParentProductId($item->getParentProductId())
-            ->setSku($item->getSku())
-            ->setName($item->getName())
-            ->setDescription($item->getDescription())
-            ->setWeight($item->getWeight())
-            ->setQty($item->getQtyToShip())
-            ->setPrice($item->getPrice());
-        
-        return $this;
-    }
 }

@@ -606,7 +606,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
 
         Mage::dispatchEvent('adminhtml_sales_order_create_create_order', array('quote'=>$this->getQuote(), 'order'=>$order));
-        $order->save();
+        if ($this->getSession()->getOrder()->getId()) {
+            $this->getSession()->getOrder()->cancel()
+                ->save();
+            $order->save();
+        }
+        else {
+            $order->save();
+        }
 
         if ($this->getSendConfirmation()) {
             $order->sendNewOrderEmail();
@@ -722,17 +729,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $customer = $this->getSession()->getCustomer();
         $customer->addData($this->getData('account'));
 
-        /*$store = $this->getSession()->getStore();
-
-        if ($customer->isInStore($store)) {
-            $customer->save();
-        }
-        else {
-
-        }
-        echo '<pre>';
-        print_r($customer->getSharedStoreIds());
-        echo '</pre>';die();*/
         $customer->save();
         return $this;
     }

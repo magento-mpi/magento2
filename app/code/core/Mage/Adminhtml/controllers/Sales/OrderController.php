@@ -21,15 +21,15 @@
 /**
  * Adminhtml sales orders controller
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Action
 {
-
     /**
-     * Enter description here...
+     * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Sales_OrderController
      */
@@ -37,125 +37,130 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/order')
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Orders'), __('Orders'))
+            ->_addBreadcrumb($this->_getHelper()->__('Sales'), $this->_getHelper()->__('Sales'))
+            ->_addBreadcrumb($this->_getHelper()->__('Orders'),$this->_getHelper()-> __('Orders'))
         ;
         return $this;
     }
-
+    
+    /**
+     * Orders grid
+     */
     public function indexAction()
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order'))
             ->renderLayout();
     }
-
+    
+    /**
+     * Edit order status
+     */
     public function editAction()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order')
-            ->load($id);
+        $model = Mage::getModel('sales/order')->load($id);
 
-        if (!$model->getId()) {
-            Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-            $this->_redirect('*/*/');
-            return;
+        if ($model->getId()) {
+            Mage::register('sales_order', $model);
+    
+            $this->_initAction()
+                ->_addBreadcrumb(__('Edit Order'), __('Edit Order'))
+                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_edit'))
+                ->renderLayout();
         }
-
-        Mage::register('sales_order', $model);
-
-        $this->_initAction()
-            ->_addBreadcrumb(__('Edit Order'), __('Edit Order'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_edit'))
-            ->renderLayout();
+        else {
+            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
+            $this->_redirect('*/*/');
+        }
     }
-
+    
+    /**
+     * View order detale
+     */
     public function viewAction()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order')
-            ->load($id);
+        $model = Mage::getModel('sales/order')->load($id);
 
-        if (!$model->getId()) {
-            Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-            $this->_redirect('*/*/');
-            return;
+        if ($model->getId()) {
+            Mage::register('sales_order', $model);
+    
+            $this->_initAction()
+                ->_addBreadcrumb($this->_getHelper()->__('View Order'), $this->_getHelper()->__('View Order'))
+                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
+                ->renderLayout();
         }
-
-        Mage::register('sales_order', $model);
-
-        $this->_initAction()
-            ->_addBreadcrumb(__('View Order'), __('View Order'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
-            ->renderLayout();
+        else {
+            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
+            $this->_redirect('*/*/');
+        }
     }
-
+    
+    /**
+     * Delete (cancel) order action
+     */
     public function deleteAction()
     {
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')
-            ->load($orderId);
+        $order = Mage::getModel('sales/order')->load($orderId);
 
-        if (!$order->getId()) {
-            Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
+        if ($order->getId()) {
+            $order->cancel();
+            try {
+                $order->save();
+                $this->_getSession()->addSuccess($this->_getHelper()->__('Order was successfully cancelled'));
+            } 
+            catch (Mage_Core_Exception $e){
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->_getHelper()->__('Order was not cancelled'));
+            }
+            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));            
+        }
+        else {
+            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
             $this->_redirect('*/*/');
-            return;
         }
-
-        $order->addStatus(4); // Canceled
-
-        try {
-            $order->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Order was successfully cancelled'));
-            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
-            return;
-        } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(__('Order was not cancelled'));
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
-            return;
-        }
-
     }
-
+    
+    /**
+     * Save order
+     */
     public function saveAction()
     {
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')
-            ->load($orderId);
-        /* @var $order Mage_Sales_Model_Order */
+        $order = Mage::getModel('sales/order')->load($orderId);
 
-        if (!$order->getId()) {
+        if ($order->getId()) {
+            if ($newStatus = $this->getRequest()->getParam('new_status')) {
+                $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
+                $comment = $this->getRequest()->getParam('comments', '');
+                
+                $order->addStatus($newStatus, $comment, $notifyCustomer);
+                
+                try {
+                    $order->save();
+                    if ($notifyCustomer) {
+                        $order->sendOrderUpdateEmail($comment);
+                    }
+                    $this->_getSession()->addSuccess($this->_getHelper()->__('Order status was successfully changed'));
+                } 
+                catch (Mage_Core_Exception $e){
+                    $this->_getSession()->addError($e->getMessage());
+                }
+                catch (Exception $e) {
+                    $this->_getSession()->addError($this->_getHelper()->__('Order was not changed'));
+                }
+            }
+    
+            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
+        }
+        else {
             Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
             $this->_redirect('*/*/');
-            return;
         }
-
-        if ($newStatus = $this->getRequest()->getParam('new_status')) {
-
-            $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
-            $comment = $this->getRequest()->getParam('comments', '');
-            
-            $order->addStatus($newStatus, $comment, $notifyCustomer);
-
-            if ($notifyCustomer) {
-                $order->sendOrderUpdateEmail($comment);
-            }
-
-            try {
-                $order->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Order status was successfully changed'));
-                $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
-                return;
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(__('Order was not changed'));
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
-                return;
-            }
-        }
-
-        $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
     }
     
     /**

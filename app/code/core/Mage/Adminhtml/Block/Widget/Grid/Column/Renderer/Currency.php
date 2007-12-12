@@ -49,12 +49,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
         	    return $data;
         	}
         	
-        	//$data = round($data, 2);
         	$data = floatval($data) * $this->_getRate($row);
         	$data =Mage::app()->getLocale()->currency($currency_code)->toCurrency($data);
         	return $data;
         }
-        return null;
+        return $this->getColumn()->getDefault();
     }
     
     protected function _getCurrencyCode($row)
@@ -82,7 +81,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
     public function renderProperty()
     {
         $out = parent::renderProperty();
-        $out.= ' width="140px" ';
+        if (!$this->getColumn()->getWidth()) {
+            $out.= ' width="140px" ';
+        }
         return $out;
     }
 }

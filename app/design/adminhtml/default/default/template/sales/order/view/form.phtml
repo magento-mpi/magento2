@@ -45,7 +45,7 @@
         <div class="entry-view">
             <h4 class="icon-head head-billing-address"><?=$this->__('Billing Address')?></h4>
             <div class="box customer-personal-brief">
-                <address><?=$_order->getbillingAddress()->getFormated(true)?></address>
+                <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
             </div>
         </div>
         <div class="entry-view">
@@ -62,14 +62,34 @@
     <div>
         <?=$this->getItemsHtml()?>
     </div>
-    <div class="box order-totals">
+    
+    <div class="box-left">
+        <h4><?=$this->__('Order History')?></h4>
+        <div class="grid">
+            <table cellspacing="0" class="data" id="invoice_items_grid_table">
+                <thead>
+                    <tr class="headings">
+                        <th class="no-link" width="170"><nobr><?=$this->__('Date and Time')?></nobr></th>
+                        <th class="no-link" width="100"><nobr><?=$this->__('Order Status')?></nobr></th>
+                        <th class="no-link"><nobr><?=$this->__('Comment')?></nobr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+                        <tr>
+                            <td class="a-center">
+                                <nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium', true)?></nobr>&nbsp;
+                            </td>
+                            <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp;</td>
+                            <td><?=$_history->getComments()?>&nbsp;</td>
+                        </tr>
+                    <?endforeach;?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="box box-right order-totals">
         <table cellspacing="0">
-            <tfoot>
-                <tr>
-                    <td class="label"><strong><?=$this->__('Grand Total')?></strong></td>
-                    <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
-                </tr>
-            </tfoot>
             <tbody>
                 <tr>
                     <td><?=$this->__('Subtotal')?></td>
@@ -106,33 +126,16 @@
                 </tr>
                 <?endif;?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td class="label"><strong><?=$this->__('Grand Total')?></strong></td>
+                    <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
-    <div class="clear"><h4><?=$this->__('Order History')?></h4></div>
-    <div class="box-left">
-        <div class="grid">
-            <table cellspacing="0" class="data" id="invoice_items_grid_table">
-                <thead>
-                    <tr class="headings">
-                        <th class="no-link"><nobr><?=$this->__('Date and Time')?></nobr></th>
-                        <th class="no-link"><nobr><?=$this->__('Order Status')?></nobr></th>
-                        <th class="no-link"><nobr><?=$this->__('Comment')?></nobr></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
-                        <tr>
-                            <td class="a-center"><nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium')?></nobr>&nbsp;</td>
-                            <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp;</td>
-                            <td><?=$_history->getComments()?>&nbsp;</td>
-                        </tr>
-                    <?endforeach;?>
-                </tbody>
-            </table>
-        </div>
-    </div>
     <div class="clear"></div>
-    <?if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $this->getOrder(), $this->getOrder()->getStoreId())):?>
+    <?/*if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $this->getOrder(), $this->getOrder()->getStoreId())):?>
     <div class="box-left">
         <div id="order:gift_message">
         <div class="entry-edit">
@@ -147,5 +150,5 @@
         </div>
     </div>
     <div class="clear"></div>
-    <?endif;?>
+    <?endif;*/?>
 </div>

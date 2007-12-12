@@ -18,15 +18,50 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Base adminhtml controller
+ * 
+ * @category   Mage
+ * @package    Mage_Adminhtml
+*/
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
+    protected function _isAllowed()
+    {
+    	return true;
+    }
+    
+    /**
+     * Retrieve adminhtml session model object
+     * 
+     * @return Mage_Adminhtml_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('adminhtml/session');
+    }
+    
+    /**
+     * Retrieve base admihtml helper
+     *
+     * @return Mage_Adminhtml_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('adminhtml');
+    }
+    
+    /**
+     * Define active menu item in menu block
+     * 
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _setActiveMenu($menuPath)
     {
         $this->getLayout()->getBlock('menu')->setActive($menuPath);
         return $this;
     }
-
+    
     protected function _addBreadcrumb($label, $title, $link=null)
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
@@ -51,11 +86,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return $this;
     }
 
-    protected function _isAllowed()
-    {
-    	return true; #Mage::getSingleton('admin/session')->isAllowed('admin');
-    }
-
     public function hasAction($action)
     {
         return true;
@@ -75,7 +105,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             && $this->getRequest()->getActionName()!=='denied'
             && !$this->_isAllowed()) {
             $this->_forward('denied');
-            //$this->getRequest()->setDispatched(false);
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
 

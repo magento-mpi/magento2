@@ -243,14 +243,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> $this->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
              'confirm' => $this->__('Are you sure?')
         ));
-
-        $this->getMassactionBlock()->setFormFieldName('product');
 
         $statuses = Mage::getResourceModel('catalog/product_status_collection')
             ->load()

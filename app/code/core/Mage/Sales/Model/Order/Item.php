@@ -38,26 +38,41 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     {
         $this->_init('sales/order_item');
     }
-
+    
+    /**
+     * Declare order
+     *
+     * @param   Mage_Sales_Model_Order $order
+     * @return  Mage_Sales_Model_Order_Item
+     */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
         $this->_order = $order;
         return $this;
     }
-
+    
+    /**
+     * Retrieve order model object
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function getOrder()
     {
         if (is_null($this->_order) && ($orderId = $this->getParentId())) {
             $order = Mage::getModel('sales/order');
-            /* @var $order Mage_Sales_Model_Order */
-            
             $order->load($orderId);
             $this->setOrder($order);
         }
         return $this->_order;
     }
-
-    public function importQuoteItem(Mage_Sales_Model_Quote_Item $item)
+    
+    /**
+     * Import data from quote item
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  Mage_Sales_Model_Order_Item
+     */
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
         $this->setQuoteItemId($item->getId())
             ->setStoreId($item->getQuote()->getStoreId())
@@ -70,6 +85,10 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             ->setWeight($item->getProduct()->getWeight())
             ->setQtyOrdered($item->getQty())
             ->setPrice($item->getCalculationPrice())
+            ->setDiscountPercent($item->getDiscountPercent())
+            ->setDiscountAmount($item->getDiscountAmount())
+            ->setTaxPercent($item->getTaxPercent())
+            ->setTaxAmount($item->getTaxAmount())
             ->setRowWeight($item->getRowWeight())
             ->setRowTotal($item->getRowTotal())
             ->setAppliedRuleIds($item->getAppliedRuleIds);
@@ -78,47 +97,33 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function importQuoteAddressItem(Mage_Sales_Model_Quote_Address_Item $item)
-    {
-        $this->setQuoteItemId($item->getAddress()->getQuote()->getId())
-            ->setStoreId($item->getAddress()->getQuote()->getStoreId())
-            ->setProductId($item->getProductId())
-            ->setSku($item->getSku())
-            ->setImage($item->getImage())
-            ->setName($item->getName())
-            ->setDescription($item->getDescription())
-            ->setQtyOrdered($item->getQty())
-            ->setPrice($item->getCalculationPrice())
-            ->setRowTotal($item->getRowTotal())
-            // TODO - all others
-        ;
-
-        Mage::dispatchEvent('sales_order_item_import_qoute_address_item', array('address_item'=>$item, 'order_item'=>$this));
-        return $this;
-    }
-
     public function getStatusId()
     {
         if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned() && !$this->getQtyCanceled()) {
             return self::STATUS_PENDING;
-        } elseif ($this->getQtyShipped() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyShipped() ) {
+        } 
+        elseif ($this->getQtyShipped() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyShipped() ) {
             return self::STATUS_SHIPPED;
-        } elseif ($this->getQtyBackordered() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyBackordered() ) {
+        } 
+        elseif ($this->getQtyBackordered() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyBackordered() ) {
             return self::STATUS_BACKORDERED;
-        } elseif ($this->getQtyReturned() && $this->getQtyOrdered() == $this->getQtyReturned() ) {
+        } 
+        elseif ($this->getQtyReturned() && $this->getQtyOrdered() == $this->getQtyReturned() ) {
             return self::STATUS_RETURNED;
-        } elseif ($this->getQtyCanceled() && $this->getQtyOrdered() == $this->getQtyCanceled() ) {
+        } 
+        elseif ($this->getQtyCanceled() && $this->getQtyOrdered() == $this->getQtyCanceled() ) {
             return self::STATUS_CANCELED;
-        } elseif ( ( $this->getQtyShipped() + $this->getQtyCanceled() + $this->getQtyReturned() ) < $this->getQtyOrdered() ) {
+        } 
+        elseif ( ( $this->getQtyShipped() + $this->getQtyCanceled() + $this->getQtyReturned() ) < $this->getQtyOrdered() ) {
             return self::STATUS_PARTIAL;
-        } else {
+        } 
+        else {
             return self::STATUS_MIXED;
         }
     }
 
     public function getStatus()
     {
-        // echo ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) . ' == ' .  $this->getQtyShipped() . ' ? ' . $this->getStatusId() . ':' . $this->getStatusName($this->getStatusId()) . '<br>';
         return $this->getStatusName($this->getStatusId());
     }
 
@@ -154,20 +159,6 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return __('Unknown Status');
     }
 
-//    public function canBeShipped()
-//    {
-//        $canBeShipped = array(
-//            self::STATUS_PENDING,
-//            self::STATUS_BACKORDERED,
-//            self::STATUS_PARTIAL,
-//            self::STATUS_MIXED,
-//        );
-//        if (in_array($this->getStatusId(), $canBeShipped)) {
-//            return true;
-//        }
-//        return false;
-//    }
-
     /**
      * Enter description here...
      *
@@ -178,84 +169,6 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return max($this->getQtyOrdered() - $this->getQtyShipped() - $this->getQtyReturned() - $this->getQtyCanceled(), 0);
     }
 
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order_Item
-     */
-    public function calcRowTotal()
-    {
-        $this->setRowTotal($this->getPrice()*$this->getQty());
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order_Item
-     */
-    public function calcRowWeight()
-    {
-        $this->setRowWeight($this->getWeight()*$this->getQty());
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order_Item
-     */
-    public function calcTaxAmount()
-    {
-        $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    public function getPriceFormatted()
-    {
-        return $this->getOrder()->formatPrice($this->getPrice());
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    public function getRowTotalFormatted()
-    {
-        return $this->getOrder()->formatPrice($this->getRowTotal());
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    public function getTaxAmountFormatted()
-    {
-        if ($this->getTaxAmount()) {
-            return $this->getOrder()->formatPrice($this->getTaxAmount());
-        }
-        return '-';
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    public function getDiscountAmountFormatted()
-    {
-        if ($this->getDiscountAmount()) {
-            return $this->getOrder()->formatPrice($this->getDiscountAmount());
-        }
-        return '-';
-    }
 
     /**
      * Enter description here...

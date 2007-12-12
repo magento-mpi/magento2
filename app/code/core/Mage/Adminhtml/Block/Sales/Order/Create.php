@@ -28,7 +28,6 @@
 
 class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-
     public function __construct()
     {
         $this->_objectId = 'order_id';
@@ -50,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 
     }
-
+    
     public function getHeaderHtml()
     {
         $out = '<div id="order:header">';
@@ -63,10 +62,19 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     {
         return 'width: 70%;';
     }
-
+    
     public function getCancelUrl()
     {
-        return Mage::getUrl('*/*/cancel', array('quote_id' => $this->getRequest()->getParam('quote_id')));
+        if (Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()) {
+            $url = Mage::getUrl('*/sales_order/view', array(
+                'order_id'=>Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()
+            ));
+        }
+        else {
+            $url = Mage::getUrl('*/*/cancel');
+        }
+        
+        return $url;
     }
 
 }

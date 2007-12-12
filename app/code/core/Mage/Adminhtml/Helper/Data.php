@@ -17,34 +17,15 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * Adminhtml grid item renderer number
+ * Adminhtml base helper
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com> 
  */
-
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
-    protected function _getValue(Varien_Object $row)
-    {
-        $data = parent::_getValue($row);
-        if (!is_null($data)) {
-        	return $data * 1;
-        }
-        return $this->getColumn()->getDefault();
-    }
-
-    public function renderProperty()
-    {
-        $out = parent::renderProperty();
-        if ($this->getColumn()->getGrid()->getFilterVisibility()) {
-            $out.= ' width="140px" ';
-        }
-        return $out;
-    }
-
+    
 }
