@@ -1,14 +1,13 @@
-"equals or greater than","equals or greater than"
-FALSE,FALSE
-TRUE,TRUE
 "ALL","ALL"
 "ANY","ANY"
 "by","by"
 "contains","contains"
 "Description: %s","Description: %s"
 "does not contain","does not contain"
+"equals or greater than","equals or greater than"
 "equals or less than","equals or less than"
 "Expire at: %s","Expire at: %s"
+"FALSE","FALSE"
 "greater than","greater than"
 "If %s of these conditions are %s:","If %s of these conditions are %s:"
 "is","is"
@@ -22,3 +21,4 @@ TRUE,TRUE
 "Please choose an action to add...","Please choose an action to add..."
 "Start at: %s","Start at: %s"
 "to","to"
+"TRUE","TRUE"
