@@ -153,4 +153,9 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         $this->saveAttribute($customer, 'password_hash');
         return $this;
     }
+
+    public function getHashPassword($password)
+    {
+        return md5($password);
+    }
 }

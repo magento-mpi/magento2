@@ -225,7 +225,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function hashPassword($password)
     {
-        return md5($password);
+        return $this->getResource()->getHashPassword($password);
     }
     
     /**
