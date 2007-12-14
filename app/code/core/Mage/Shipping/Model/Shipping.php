@@ -95,9 +95,17 @@ class Mage_Shipping_Model_Shipping
                 }
                 
                 $request->setCarrier($carrierCode);
-                $result = $obj->collectRates($request);
-                
-                $this->getResult()->append($result);
+                $result=$obj->checkAvailableShipCountries($request); 
+                /*
+                * Result will be false if the admin set not to show the shipping module 
+                * if the devliery country is not within specific countries
+                */
+                if($result){
+                    if(!$result instanceof Mage_Shipping_Model_Rate_Result_Error){
+                         $result = $obj->collectRates($request);
+                    } 
+                    $this->getResult()->append($result);
+                }
             }
         } else {
             $carrierConfig = Mage::getStoreConfig('carriers/'.$request->getLimitCarrier());
@@ -106,7 +114,10 @@ class Mage_Shipping_Model_Shipping
             }
             $className = $carrierConfig->getClassName();
             $obj = Mage::getModel($className);
-            $result = $obj->collectRates($request);
+            $result=$obj->checkAvailableShipCountries($request); 
+            if(!$result instanceof Mage_Shipping_Model_Rate_Result_Error){
+                 $result = $obj->collectRates($request);
+            } 
             $this->getResult()->append($result);
         }
         
