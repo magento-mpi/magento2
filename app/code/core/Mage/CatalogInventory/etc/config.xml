@@ -135,6 +135,24 @@
                 </observers>
             </catalog_product_save_after>
         </events>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <cataloginventory>
+                                            <title>Inventory</title>
+                                        </cataloginventory>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
-    
 </config>

@@ -189,76 +189,163 @@
              </system>
         </menu>
         <acl>
-                 <resources>
-            <admin title="Magento Admin" >
-                <dashboard title="Dashboard" />
-                
-                
-                <system title="System" >
-                    <acl title="Permissions" >
-                        <roles title="Roles" />
-                        <users title="Users" />
-                    </acl>
-                    <config title="Configuration" >
-                        <website title="Website Section" />
-                        <store title="Store Section" />
-                        <general title="General Section" />
-                        <web title="Web Section" />
-                        <design title="Design Section" />
-                        <customer title="Customers Section" />
-                        <sales title="Sales Section" />
-                        <newsletter title="Newsletter Section" />
-                        <web_track title="Web Tracking Section" />
-                        <catalog title="Catalog Section" />
-                        <wishlist title="Wishlist Section" />
-                        <shipping title="Shipping Section" />
-                        <carriers title="Shipping Methods Section" />
-                        <payment title="Payment Methods Section" />
-                        <system title="System Section" />
-                        <advanced title="Advanced Section" />
-                        <trans_email title="Store Email Addresses Section" />
-                        <paypal title="PayPal Section" />
-                        <dev title="Developer Section" />
-                        <currency title="Currency Setup Section" />
-                        <allow title="Allowed Settings" />
-                        <sendfriend title="Email to a Friend" />
-                        <cataloginventory title="Inventory" />
-                    </config>
-                    <currency title="Manage Currency" />
-                    <email_template title="Transactional Emails" />
-                    <myaccount title="My Account" />
-                    <tools title="Tools" >
-                        <backup title="Backups" />
-                    </tools>
-                    <convert title="Import/Export">
-                        <gui title="GUI Profiles">
-                            <edit title="Create/Edit/Delete profiles"/>
-                            <run title="Run profiles"/>
-                        </gui>
-                        <profiles title="Advanced Profiles">
-                            <edit title="Create/Edit/Delete profiles"/>
-                            <run title="Run profiles"/>
-                        </profiles>
-                    </convert>
-                    <cache title="Cache Management"/>
-                    <extensions title="Extensions">
-                        <local title="Locally Installed"/>
-                        <remote title="Available Remote"/>
-                        <custom title="Custom Local"/>
-                    </extensions>
-                </system>
-                <global_search title="Global Search" />
-            </admin>
-         </resources>
+            <resources>
+                <admin>
+                    <title>Magento Admin</title>
+                    <children>
+                        <dashboard>
+                            <title>Dashboard</title>
+                        </dashboard>
+                        <system>
+                            <title>System</title>
+                            <children>
+                                <acl>
+                                    <title>Permissions</title>
+                                    <children>
+                                        <roles>
+                                            <title>Roles</title>
+                                        </roles>
+                                        <users>
+                                            <title>Users</title>
+                                        </users>
+                                    </children>
+                                </acl>
+                                <config>
+                                    <title>Configuration</title>
+                                    <children>
+                                        <website>
+                                            <title>Website Section</title>
+                                        </website>
+                                        <store>
+                                            <title>Store Section</title>
+                                        </store>
+                                        <general>
+                                            <title>General Section</title>
+                                        </general>
+                                        <web>
+                                            <title>Web Section</title>
+                                        </web>
+                                        <design>
+                                            <title>Design Section</title>
+                                        </design>
+                                        <customer>
+                                            <title>Customers Section</title>
+                                        </customer>
+                                        <sales>
+                                            <title>Sales Section</title>
+                                        </sales>
+                                        <web_track>
+                                            <title>Web Tracking Section</title>
+                                        </web_track>
+                                        <system>
+                                            <title>System Section</title>
+                                        </system>
+                                        <advanced>
+                                            <title>Advanced Section</title>
+                                        </advanced>
+                                        <trans_email>
+                                            <title>Store Email Addresses Section</title>
+                                        </trans_email>
 
-         <privilegeSets>
-            <default>
-               <view descr="View entity"/>
-               <edit descr="Edit entity"/>
-               <delete descr=""/>
-               <create descr=""/>
-            </default>
-         </privilegeSets>
+                                        <dev>
+                                            <title>Developer Section</title>
+                                        </dev>
+                                        <currency>
+                                            <title>Currency Setup Section</title>
+                                        </currency>
+                                        <allow>
+                                            <title>Allowed Settings</title>
+                                        </allow>
+                                        <sendfriend>
+                                            <title>Email to a Friend</title>
+                                        </sendfriend>
+                                    </children>
+                                </config>
+                                <currency>
+                                    <title>Manage Currency</title>
+                                </currency>   
+                                <email_template>
+                                    <title>Transactional Emails</title>
+                                </email_template>
+                                <myaccount>
+                                    <title>My Account</title>
+                                </myaccount>
+                                <tools>
+                                    <title>Tools</title>
+                                    <children>
+                                        <backup>
+                                            <title>Backups</title>
+                                        </backup>
+                                    </children>
+                                </tools>
+                                <convert>
+                                    <title>Import/Export</title>
+                                    <children>
+                                        <gui>
+                                            <title>GUI Profiles</title>
+                                            <children>
+                                                <edit>
+                                                    <title>Create/Edit/Delete profiles</title>
+                                                </edit>
+                                                <run>
+                                                    <title>Run profiles</title>
+                                                </run>
+                                            </children>   
+                                        </gui>
+                                        <profiles>
+                                            <title>Advanced Profiles</title>
+                                            <children>
+                                                <edit>
+                                                    <title>Create/Edit/Delete profiles</title>
+                                                </edit>
+                                                <run>
+                                                    <title>Run profiles</title>
+                                                </run>
+                                            </children>
+                                        </profiles>
+                                    </children>
+                                </convert>
+                                <cache>
+                                    <title>Cache Management</title>
+                                </cache>
+                                <extensions>
+                                    <title>Extensions</title>
+                                    <children>
+                                        <local>
+                                            <title>Locally Installed</title>
+                                        </local>
+                                        <remote>
+                                            <title>Available Remote</title>
+                                        </remote>
+                                        <custom>
+                                            <title>Custom Local</title>
+                                        </custom>
+                                    </children>
+                                </extensions>
+                            </children>
+                        </system>
+                        <global_search>
+                            <title>Global Search</title>
+                        </global_search>                         
+                    </children>
+                </admin>
+             </resources>
+            <privilegeSets>
+                <default>
+                    <view>
+                        <descr>View entity</descr>
+                    </view>
+                    <edit>
+                        <descr>Edit entity</descr>
+                    </edit>    
+                    <delete>
+                        <descr></descr>
+                    </delete>
+                    <create>
+                        <descr></descr>
+                    </create>
+                </default>
+            </privilegeSets>
         </acl>
         <layout>
             <updates>

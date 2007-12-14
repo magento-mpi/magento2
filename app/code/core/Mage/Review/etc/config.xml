@@ -128,10 +128,34 @@
                             </product>
                         </children>
                     </review>
-            </children>
-        </report>
+                </children>
+            </report>
         </menu>
+        <acl>
+        <resources>
+               <admin>
+                <children>
+                    <report>
+                        <children>
+                               <review>
+                                <title>Reviews Report</title>
+                                <children>
+                                    <customer>
+                                        <title>Customers Reviews</title>
+                                    </customer>
+                                    <product>
+                                        <title>Products Reviews</title>
+                                    </product>
+                                </children>
+                            </review>
+                        </children>
+                    </report>
+                </children>
+            </admin>
+        </resources>
+    </acl>
     </adminhtml>
+    
     <frontend>
         <routers>
             <review>

@@ -113,27 +113,27 @@
                 <sort_order>70</sort_order>
                 <children>
                      <alert>
-		                <title>Product Alerts</title>
-		                <children>
-		                   <!--  <template>
-		                        <title>Alerts Templates</title>
-		                        <action>*/alert_template/</action>
-		                        <resource>admin/alert/template</resource>
-		                    </template>
-		                    -->
-		                    <queue>
-		                        <title>Alerts Queue</title>
-		                        <action>*/alert_queue/</action>
-		                        <resource>admin/alert/queue</resource>
-		                    </queue>
-		                    <!--  <problem>
-		                        <title>Newsletter Problem Reports</title>
-		                        <action>*/newsletter_problem/</action>
-		                        <resource>admin/newsletter/problem</resource>
-		                    </problem>
-		                    -->
-		                </children>
-		             </alert>
+                        <title>Product Alerts</title>
+                        <children>
+                           <!--  <template>
+                                <title>Alerts Templates</title>
+                                <action>*/alert_template/</action>
+                                <resource>admin/alert/template</resource>
+                            </template>
+                            -->
+                            <queue>
+                                <title>Alerts Queue</title>
+                                <action>*/alert_queue/</action>
+                                <resource>admin/alert/queue</resource>
+                            </queue>
+                            <!--  <problem>
+                                <title>Newsletter Problem Reports</title>
+                                <action>*/newsletter_problem/</action>
+                                <resource>admin/newsletter/problem</resource>
+                            </problem>
+                            -->
+                        </children>
+                     </alert>
                 </children>
              </customer_communication>
         </menu>

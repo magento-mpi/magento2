@@ -104,12 +104,23 @@
         </menu>
         <acl>
             <resources>
-                <admin title="Magento Admin" >
-                    <customer title="Customers" >
-                        <group title="Customer Groups" />
-                        <manage title="Manage Customers" />
-                        <online title="Online Customers" />
-                    </customer>
+                <admin>
+					<children>
+                    	<customer>
+                        	<title>Customers</title>
+							<children>
+                            	<group>
+                                	<title>Customer Groups</title>
+	                            </group>
+    	                        <manage>
+        	                        <title>Manage Customers</title>
+            	                </manage>
+                	            <online>
+                    	            <title>Online Customers</title>
+                        	    </online>
+							</children>
+    	                </customer>
+					</children>
                 </admin>
             </resources>
         </acl>

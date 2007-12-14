@@ -20,8 +20,8 @@
 
 class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
 
-	public function getResource()
-	{
+    public function getResource()
+    {
         return Mage::getResourceSingleton('admin/permissions_roles');
     }
 
@@ -61,7 +61,7 @@ class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
 
     public function getResourcesTree()
     {
-    	return $this->_buildResourcesArray(null, null, null, null, true);
+        return $this->_buildResourcesArray(null, null, null, null, true);
     }
 
     public function getResourcesList()
@@ -71,7 +71,7 @@ class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
 
     public function getResourcesList2D()
     {
-    	return $this->_buildResourcesArray(null, null, null, true);
+        return $this->_buildResourcesArray(null, null, null, true);
     }
 
     public function getRoleUsers()
@@ -83,32 +83,35 @@ class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
     {
         static $result;
         if (is_null($resource)) {
-            $config = new Varien_Simplexml_Config();
-            $config->loadFile(Mage::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
+//            $config = new Varien_Simplexml_Config();
+//            $config->loadFile(Mage::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
 //            $resource = $config->getNode("admin/acl/resources");
             $resource=Mage::getConfig()->getNode('adminhtml/acl/resources');
             $resourceName = null;
             $level = -1;
-            unset($config);
+//            unset($config);
         } else {
-        	$resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-        	if ($rawNodes) {
-        		$resource->addAttribute("aclpath", $resourceName);
-        	}
-        	if ( is_null($represent2Darray) ) {
-        		$result[$resourceName]['name'] 	= __((string)$resource->attributes()->title);
-        		$result[$resourceName]['level'] = $level;
-        	} else {
-        		$result[] = $resourceName;
-        	}
+            if ($resource->getName()!='title') {
+                $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
+                if ($rawNodes) {
+                    $resource->addAttribute("aclpath", $resourceName);
+                }
+
+                if ( is_null($represent2Darray) ) {
+                    $result[$resourceName]['name']     = __((string)$resource->title);
+                    $result[$resourceName]['level'] = $level;
+                } else {
+                    $result[] = $resourceName;
+                }
+            }
         }
         $children = $resource->children();
         if (empty($children)) {
-        	if ($rawNodes) {
-        	    return $resource;
-        	} else {
+            if ($rawNodes) {
+                return $resource;
+            } else {
                 return $result;
-        	}
+            }
         }
         foreach ($children as $child) {
             $this->_buildResourcesArray($child, $resourceName, $level+1, $represent2Darray, $rawNodes);

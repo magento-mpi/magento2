@@ -20,55 +20,54 @@
  */
 -->
 <config>
-   <modules>
-      <Mage_Shipping>
-         <version>0.2.1</version>
-      </Mage_Shipping>
+    <modules>
+        <Mage_Shipping>
+            <version>0.2.1</version>
+        </Mage_Shipping>
    </modules>
 
-   <global>
-      <models>
-         <shipping>
-            <class>Mage_Shipping_Model</class>
-            <resourceModel>shipping_mysql4</resourceModel>
-         </shipping>
+    <global>
+        <models>
+            <shipping>
+                <class>Mage_Shipping_Model</class>
+                <resourceModel>shipping_mysql4</resourceModel>
+            </shipping>
 
-         <shipping_mysql4>
-            <class>Mage_Shipping_Model_Mysql4</class>
+            <shipping_mysql4>
+                <class>Mage_Shipping_Model_Mysql4</class>
+                <entities>
+                    <tablerate>
+                        <table>shipping_tablerate</table>
+                    </tablerate>
+                </entities>
+            </shipping_mysql4>
+        </models>
 
-            <entities>
-               <tablerate>
-                  <table>shipping_tablerate</table>
-               </tablerate>
-            </entities>
-         </shipping_mysql4>
-      </models>
-
-      <resources>
-         <shipping_setup>
-            <setup>
-               <module>Mage_Shipping</module>
-            </setup>
+        <resources>
+            <shipping_setup>
+                <setup>
+                    <module>Mage_Shipping</module>
+                </setup>
             <connection>
                <use>core_setup</use>
             </connection>
          </shipping_setup>
 
-         <shipping_write>
-            <connection>
-               <use>core_write</use>
-            </connection>
-         </shipping_write>
+            <shipping_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </shipping_write>
 
-         <shipping_read>
-            <connection>
-               <use>core_read</use>
-            </connection>
-         </shipping_read>
-      </resources>
+            <shipping_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </shipping_read>
+        </resources>
 
-      <sales>
-         <shipping>
+        <sales>
+            <shipping>
             <carriers>
                <tablerate>
                   <active>true</active>
@@ -107,14 +106,37 @@
                 <carrier>
                   <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
                 </carrier>
-                <method>
-                  <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
-                </method>
-              </actions>
-            </rule>
-
-
-         </shipping>
-      </sales>
-   </global>
+                        <method>
+                            <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
+                        </method>
+                    </actions>
+                </rule>
+            </shipping>
+        </sales>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <shipping>
+                                            <title>Shipping Section</title>
+                                        </shipping>
+                                        <carriers>
+                                            <title>Shipping Methods Section</title>
+                                        </carriers>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+   </adminhtml>
+       
 </config>

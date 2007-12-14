@@ -182,5 +182,34 @@
                     </children>
             </report>
         </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <tags>
+                                    <title>Tags Report</title>
+                                    <children>
+                                        <customer>
+                                            <title>Customers</title>
+                                        </customer>
+                                        <popular>
+                                            <title>Popular</title>
+                                        </popular>
+                                        <product>
+                                            <title>Products</title>
+                                        </product>
+                                        <product_total>
+                                            <title>Products (Total)</title>
+                                        </product_total>
+                                    </children>
+                                </tags>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
 </config>

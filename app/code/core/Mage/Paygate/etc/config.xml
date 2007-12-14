@@ -37,7 +37,7 @@
          <paygate_mysql4>
             <class>Mage_Paygate_Model_Mysql4</class>
             <entities> 
-            	<authorizenet_debug><table>paygate_authorizenet_debug</table></authorizenet_debug>
+                <authorizenet_debug><table>paygate_authorizenet_debug</table></authorizenet_debug>
             </entities>
          </paygate_mysql4>
       </models>

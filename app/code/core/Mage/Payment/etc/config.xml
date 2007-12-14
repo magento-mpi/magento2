@@ -70,10 +70,6 @@
                         <code>DI</code>
                         <name>Discover</name>
                     </DI>
-                     <OTHERS>
-                        <code>OTHERS</code>
-                        <name>Others</name>
-                    </OTHERS>
                 </types>
             </cc>
         </payment>
@@ -91,5 +87,25 @@
             </modules>
         </translate>
     </frontend>
-
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <payment>
+                                            <title>Payment Methods Section</title>
+                                        </payment>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+   </adminhtml>
 </config>

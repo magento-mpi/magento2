@@ -97,40 +97,61 @@
             </customer_model_after_save>
         </events>
         <menu>
-                    <newsletter>
-		                <title>Newsletter</title>
-		                <sort_order>60</sort_order>
-		                <children>
-		                    <template>
-		                        <title>Newsletter Templates</title>
-		                        <action>*/newsletter_template/</action>
-		                        <resource>admin/newsletter/template</resource>
-		                    </template>
-		                
-		                    <queue>
-		                        <title>Newsletter Queue</title>
-		                        <action>*/newsletter_queue/</action>
-		                        <resource>admin/newsletter/queue</resource>
-		                    </queue>
-		                    <problem>
-		                        <title>Newsletter Problem Reports</title>
-		                        <action>*/newsletter_problem/</action>
-		                        <resource>admin/newsletter/problem</resource>
-		                    </problem>
-		                    </children>
-                     </newsletter>
+            <newsletter>
+                <title>Newsletter</title>
+                <sort_order>60</sort_order>
+                <children>
+                    <template>
+                        <title>Newsletter Templates</title>
+                        <action>*/newsletter_template/</action>
+                        <resource>admin/newsletter/template</resource>
+                    </template>
+                    <queue>
+                        <title>Newsletter Queue</title>
+                        <action>*/newsletter_queue/</action>
+                        <resource>admin/newsletter/queue</resource>
+                    </queue>
+                    <problem>
+                        <title>Newsletter Problem Reports</title>
+                        <action>*/newsletter_problem/</action>
+                        <resource>admin/newsletter/problem</resource>
+                    </problem>
+                </children>
+            </newsletter>
         </menu>
         <acl>
             <resources>
-                <admin title="Magento Admin" >
-                    <newsletter title="Newsletter" >
-	                   <problem title="Newsletter Problem Reports" />
-	                   <queue title="Newsletter Queue" />
-	                   <template title="Newsletter Templates" />
-	               </newsletter>
-	           </admin>
-	       </resources>     
-	    </acl>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <newsletter>
+                                            <title>Newsletter Section</title>
+                                        </newsletter>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <newsletter>
+                            <title>Newsletter</title>
+                            <children>
+                                <problem>
+                                    <title>Newsletter Problem Reports</title>
+                                </problem>
+                                <queue>
+                                    <title>Newsletter Queue</title>
+                                </queue>
+                                <template>
+                                    <title>Newsletter Templates</title>
+                                </template>
+                            </children>
+                       </newsletter>
+                   </children>
+               </admin>
+           </resources>     
+        </acl>
         <translate>
             <modules>
                 <Mage_Newsletter>

@@ -26,20 +26,20 @@
         </Mage_Pickup>
     </modules>
     <global>
-    	<models>
-    		<pickup>
-    			<class>Mage_Pickup_Model</class>
-    		</pickup>
-    	</models>
-    	<resources>
-    		<pickup_setup>
-	    		<setup>
-	    			<module>Mage_Pickup</module>
-	    		</setup>
-	    		<connection>
-	    			<use>core_setup</use>
-	    		</connection>
-    		</pickup_setup>
-    	</resources>
+        <models>
+            <pickup>
+                <class>Mage_Pickup_Model</class>
+            </pickup>
+        </models>
+        <resources>
+            <pickup_setup>
+                <setup>
+                    <module>Mage_Pickup</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </pickup_setup>
+        </resources>
     </global>
 </config>

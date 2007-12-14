@@ -87,6 +87,7 @@
                     <tax>
                         <title>Tax</title>
                         <children>
+                        <sort_order>30</sort_order>
                             <rules>
                                 <title>Manage Tax Rules</title>
                                 <action>*/tax_rule</action>
@@ -112,5 +113,39 @@
                 </children>
             </sales>
         </menu>
+		<acl>
+            <resources>
+                <admin>
+                    <children>
+                        <sales>
+
+									<children>
+									<tax>
+                                            <title>Tax</title>
+                                            <children>
+                                                <classes_customer>
+                                                    <title>Customer Tax Classes</title>
+                                                </classes_customer>
+                                                <classes_product>
+                                                    <title>Product Tax Classes</title>
+                                                </classes_product>
+                                                <import_export>
+                                                    <title>Import / Export Tax Rates</title>
+                                                </import_export>
+                                                <rates>
+                                                    <title>Manage Tax Rates</title>
+                                                </rates>
+                                                <rules>
+                                                    <title>Manage Tax Rules</title>
+                                                </rules>
+                                            </children>
+                                        </tax>
+									</children>
+
+						</sales>
+					</children>
+				</admin>
+			</resources>
+		</acl>
     </adminhtml>
 </config>

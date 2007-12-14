@@ -98,4 +98,32 @@
               </updates>
           </layout>
     </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                       <children>
+                                        <wishlist>
+                                            <title>Wishlist Section</title>
+                                        </wishlist>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <report>
+                            <children>
+                                <wishlist>
+                                    <title>Wishlist Report</title>
+                                </wishlist>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>    
+        </acl>
+    </adminhtml>
 </config>

@@ -20,21 +20,21 @@
 
 class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget_Form {
 
-	public function __construct() {
+    public function __construct() {
         parent::__construct();
 
         $rid = Mage::registry('controller')->getRequest()->getParam('rid', false);
 
         $resources = Mage::getModel("admin/permissions_roles")->getResourcesList();
-		$rules_set = Mage::getResourceModel("admin/permissions_rules_collection")->getByRoles($rid)->load();
+        $rules_set = Mage::getResourceModel("admin/permissions_rules_collection")->getByRoles($rid)->load();
 
-		$selrids = array();
+        $selrids = array();
 
-		foreach ($rules_set->getItems() as $item) {
-        	if (array_key_exists(strtolower($item->getResource_id()), $resources) && $item->getPermission() == 'allow') {
-        		$resources[$item->getResource_id()]['checked'] = true;
-        		array_push($selrids, $item->getResource_id());
-        	}
+        foreach ($rules_set->getItems() as $item) {
+            if (array_key_exists(strtolower($item->getResource_id()), $resources) && $item->getPermission() == 'allow') {
+                $resources[$item->getResource_id()]['checked'] = true;
+                array_push($selrids, $item->getResource_id());
+            }
         }
 
         $this->setSelectedResources($selrids);
@@ -49,30 +49,37 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
         $rid = Mage::registry('controller')->getRequest()->getParam('rid', false);
 
         $resources = Mage::getModel("admin/permissions_roles")->getResourcesTree();
-
         $rootArray = $this->_getNodeJson($resources);
         $json = Zend_Json::encode(isset($rootArray['children']) ? $rootArray['children'] : array());
         return $json;
     }
-
     protected function _getNodeJson($node, $level=0)
     {
         $item = array();
-        $item['text']= __((string)$node->attributes()->title);
+        $item['text']= __((string)$node->title);
         $item['id']  = (string)$node->attributes()->aclpath;
-
+        
         $selres = $this->getSelectedResources();
 
         if ( in_array($item['id'], $selres) ) $item['checked'] = true;
-        $children = $node->children();
+        if (isset($node->children)) {
+        	$children = $node->children->children();
+
+        } else {
+            $children = $node->children();
+        }
         if (empty($children)) {
             return $item;
         }
+        
         if ($children) {
             $item['children'] = array();
             //$item['cls'] = 'fiche-node';
             foreach ($children as $child) {
-                $item['children'][] = $this->_getNodeJson($child, $level+1);
+
+                if ($child->getName()!='title') {
+                        $item['children'][] = $this->_getNodeJson($child, $level+1);
+                }
             }
         }
         return $item;

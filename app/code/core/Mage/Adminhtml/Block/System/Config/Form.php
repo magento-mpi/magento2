@@ -53,8 +53,14 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $configData = Mage::getResourceModel('adminhtml/config')
             ->loadSectionData($sectionCode, $websiteCode, $storeCode);
 
-        $configFields = Mage::getResourceModel('core/config_field_collection')
-            ->loadRecursive($sectionCode, $websiteCode, $storeCode);
+        //$test = new Mage_Core_Model_Xml();
+        
+//        $configFields = Mage::getResourceModel('core/config_field_collection')
+//            ->loadRecursive($sectionCode, $websiteCode, $storeCode);
+       
+
+        $configFields = new Mage_Core_Model_Config_Xml();
+        $groups = $configFields->getGroups($sectionCode, $websiteCode, $storeCode);
 
         $form = new Varien_Data_Form();
 
@@ -62,73 +68,69 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $defaultFieldRenderer = Mage::getHelper('adminhtml/system_config_form_field');
         $fieldset = array();
 
-        foreach ($configFields->getItems() as $e) {
-            if (!$this->_canShowField($e)) {
-                continue;
+            foreach ($groups as $group) {
+                foreach ($group->sections as $sections){
+                    foreach ($sections as $section){
+
+                        if ($section->frontend_model) {
+                            $fieldsetRenderer = Mage::getHelper((string)$section->frontend_model);
+                        } else {
+                            $fieldsetRenderer = $defaultFieldsetRenderer;
+                        }
+
+                        $fieldsetRenderer->setForm($this);
+                        $fieldsetRenderer->setConfigData($configData);
+
+                        $fieldset[$section->getName()] = $form->addFieldset($section->getName(), array(
+                            'legend'=>__((string)$section->label)
+                        ))->setRenderer($fieldsetRenderer);
+                        $this->_addElementTypes($fieldset[$section->getName()]);
+                        foreach ($section->fields as $elements){
+                            foreach ($elements as $e){
+                            $path=$group->getName().'/'.$section->getName().'/'.$e->getName();
+                            $id=$group->getName().'_'.$section->getName().'_'.$e->getName();
+                            
+//                            var_dump($path);
+//                            var_dump($id);
+                            if (isset($configData[$path])) {
+                                $data = $configData[$path];
+                            } else {
+                                $data = array('value'=>'', 'default_value'=>'', 'old_value'=>'', 'inherit'=>'');
+                            }
+                            if ($e->frontend_model) {
+                                $fieldRenderer = Mage::getHelper((string)$e->frontend_model);
+                            } else {
+                                $fieldRenderer = $defaultFieldRenderer;
+                            }
+
+                            $fieldRenderer->setForm($this);
+                            $fieldRenderer->setConfigData($configData);
+
+                            $fieldType = (string)$e->frontend_type;
+
+                            $field = $fieldset[$section->getName()]->addField(
+                                $id, $fieldType ? $fieldType : 'text',
+                                    array(
+                                    'name'          => 'groups['.$section->getName().'][fields]['.$e->getName().'][value]',
+                                    'label'         => __((string)$e->label),
+                                    'value'         => isset($data['value']) ? $data['value'] : '',
+                                    'default_value' => isset($data['default_value']) ? $data['default_value'] : '',
+                                    'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',
+                                    'inherit'       => isset($data['inherit']) ? $data['inherit'] : '',
+                                    'class'         => $e->frontend_model,
+                                    'can_use_default_value' => $this->canUseDefaultValue((int)$e->show_in_default),
+                                    'can_use_website_value' => $this->canUseWebsiteValue((int)$e->show_in_website),
+                                ))->setRenderer($fieldRenderer);
+                            if ($srcModel = (string)$e->source_model) {
+                                $field->setValues(Mage::getSingleton($srcModel)->toOptionArray($fieldType == 'multiselect'));
+                            }
+                        }
+                        }
+                    }
+                }
             }
-            $path = $e->getPath();
-            $pathArr = explode('/', $path);
-            $id = join('_', $pathArr);
 
-            switch (sizeof($pathArr)) {
-                case 1: // section
-                    break;
-
-                case 2: // group
-                	if ($e->getFrontendModel()) {
-                		$fieldsetRenderer = Mage::getHelper($e->getFrontendModel());
-                	} else {
-                		$fieldsetRenderer = $defaultFieldsetRenderer;
-                	}
-
-                	$fieldsetRenderer->setForm($this);
-                	$fieldsetRenderer->setConfigData($configData);
-
-                    $fieldset[$pathArr[1]] = $form->addFieldset($pathArr[1], array(
-                        'legend'=>__($e->getFrontendLabel())
-                    ))->setRenderer($fieldsetRenderer);
-                    $this->_addElementTypes($fieldset[$pathArr[1]]);
-                    break;
-
-                case 3: // field
-                    if (!isset($fieldset[$pathArr[1]])) {
-                        continue;
-                    }
-                    if (isset($configData[$path])) {
-                        $data = $configData[$path];
-                    } else {
-                        $data = array('value'=>'', 'default_value'=>'', 'old_value'=>'', 'inherit'=>'');
-                    }
-                	if ($e->getFrontendModel()) {
-                		$fieldRenderer = Mage::getHelper($e->getFrontendModel());
-                	} else {
-                		$fieldRenderer = $defaultFieldRenderer;
-                	}
-
-                	$fieldRenderer->setForm($this);
-                	$fieldRenderer->setConfigData($configData);
-
-                    $fieldType = $e->getFrontendType();
-
-                    $field = $fieldset[$pathArr[1]]->addField(
-                        $id, $fieldType ? $fieldType : 'text',
-                        array(
-                            'name'          => 'groups['.$pathArr[1].'][fields]['.$pathArr[2].'][value]',
-                            'label'         => __($e->getFrontendLabel()),
-                            'value'         => isset($data['value']) ? $data['value'] : '',
-                            'default_value' => isset($data['default_value']) ? $data['default_value'] : '',
-                            'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',
-                            'inherit'       => isset($data['inherit']) ? $data['inherit'] : '',
-                            'class'         => $e->getFrontendClass(),
-                            'can_use_default_value' => $this->canUseDefaultValue($e),
-                            'can_use_website_value' => $this->canUseWebsiteValue($e),
-                        ))->setRenderer($fieldRenderer);
-                    if ($srcModel = $e->getSourceModel()) {
-                        $field->setValues(Mage::getSingleton($srcModel)->toOptionArray($fieldType == 'multiselect'));
-                    }
-                    break;
-            }
-        }
+        
 
         $this->setForm($form);
         return $this;
@@ -136,10 +138,10 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
     public function canUseDefaultValue($field)
     {
-        if ($this->getScope() == self::SCOPE_STORE && $field->getShowInDefault()) {
+        if ($this->getScope() == self::SCOPE_STORE && $field) {
             return true;
         }
-        if ($this->getScope() == self::SCOPE_WEBSITE && $field->getShowInDefault()) {
+        if ($this->getScope() == self::SCOPE_WEBSITE && $field) {
             return true;
         }
         return false;
@@ -147,7 +149,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
     public function canUseWebsiteValue($field)
     {
-        if ($this->getScope() == self::SCOPE_STORE && $field->getShowInWebsite()) {
+        if ($this->getScope() == self::SCOPE_STORE && $field) {
             return true;
         }
         return false;

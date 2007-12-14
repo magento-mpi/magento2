@@ -80,11 +80,11 @@
         <blocks>
             <sales><class>Mage_Sales_Block</class></sales>
         </blocks>
+        <order>
+            <status>
+            </status>
+        </order>
         <sales>
-            <order>
-                <status>
-                </status>
-            </order>
             <quote>
                 <totals>
                     <subtotal>
@@ -147,40 +147,56 @@
     </frontend>
     <adminhtml>
         <menu>
+        <!--
             <sales>
                 <title>Sales</title>
                 <sort_order>20</sort_order>
-                <!-- action>adminhtml/sales</action -->
                 <depends><module>Mage_Sales</module></depends>
                 <children>
                     <order>
                         <title>Orders</title>
                         <action>*/sales_order</action>
                     </order>
-                    <!--<invoice>
-                        <title>Invoices</title>
-                        <action>*/sales_invoice</action>
-                    </invoice>-->
+                </children>
+             </sales>
+             -->
+             <sales>
+                <title>Sales</title>
+                <sort_order>20</sort_order>
+                <depends><module>Mage_Sales</module></depends>
+                <children>
+                    <order>
+                        <title>Orders</title>
+                        <action>*/sales_order</action>
+                        <sort_order>20</sort_order>
+                    </order>
                 </children>
              </sales>
         </menu>
         <acl>
-        <resources>
-            <admin title="Magento Admin" >
-        <sales title="Sales" >
-                    <invoice title="Invoices" />
-                    <order title="Orders" />
-                    <tax title="Tax" >
-                        <classes_customer title="Customer Tax Classes" />
-                        <classes_product title="Product Tax Classes" />
-                        <import_export title="Import / Export Tax Rates" />
-                        <rates title="Manage Tax Rates" />
-                        <rules title="Manage Tax Rules" />
-                    </tax>
-                </sales>
+            <resources>
+                <admin>
+                    <children>
+                        <sales>
+                <title>Sales</title>
+                <children>
+                    <order>
+                        <title>Orders</title>
+                    </order>
+                </children>
+             </sales>
+                        
+                        <report>
+                            <children>
+                                <sales>
+                                    <title>Sales Report</title>
+                                </sales>
+                            </children>
+                        </report>
+                    </children>
                 </admin>
-        </resources>  
+            </resources>  
         </acl>
     </adminhtml>
-
+    
 </config>
