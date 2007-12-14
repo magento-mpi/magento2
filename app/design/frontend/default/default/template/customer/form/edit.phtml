@@ -50,13 +50,13 @@
         <li>
             <div class="input-box">
                 <label for="current_password"><?=$this->__('Current Password')?></label><br/>
-                <input type="password" class="input-text" name="current_password" id="current_password"/>
+                <input type="password" class="input-text" name="current_password" id="current_password" onchange="setPasswordForm(this,'password')"/>
             </div>
         </li>
         <li>
             <div class="input-box">
                 <label for="password"><?=$this->__('New Password')?></label><br/>
-                <input type="password" class="validate-password input-text" name="password" id="password"/>
+                <input type="password" class="validate-password input-text" name="password" id="password" onchange="setPasswordForm(this,'current_password')"/>
             </div>
             <div class="input-box">
                 <label for="confirmation"><?=$this->__('Confirm New Password')?></label><br/>
@@ -72,4 +72,13 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
+    
+    function setPasswordForm(obj,field){       
+        var objValue=obj.value.strip();
+        if(objValue){
+           $(field).addClassName('required-entry');             
+        }else{
+            $(field).removeClassName('required-entry');  
+        }        
+    }
 </script>
