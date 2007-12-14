@@ -239,7 +239,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Forgot customer account information action
+     * Change customer password action
      */
     public function editPostAction()
     {

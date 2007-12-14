@@ -29,7 +29,11 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Password extends Mag
 {
     public function beforeSave($object)
     {
-        if ($password = $object->getPassword()) {
+        $password = trim($object->getPassword());        
+        if(strlen($password)<6){
+            Mage::throwException(__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+        }
+        if ($password) {
             $object->setPasswordHash($object->hashPassword($password));
         }
     }
