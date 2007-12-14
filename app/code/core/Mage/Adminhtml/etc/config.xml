@@ -195,83 +195,108 @@
                     <children>
                         <dashboard>
                             <title>Dashboard</title>
+							<sort_order>0</sort_order>
                         </dashboard>
                         <system>
                             <title>System</title>
+							<sort_order>90</sort_order>
                             <children>
                                 <acl>
                                     <title>Permissions</title>
+									<sort_order>0</sort_order>
                                     <children>
                                         <roles>
                                             <title>Roles</title>
+											<sort_order>10</sort_order>
                                         </roles>
                                         <users>
                                             <title>Users</title>
+											<sort_order>20</sort_order>
                                         </users>
                                     </children>
                                 </acl>
                                 <config>
                                     <title>Configuration</title>
+									<sort_order>20</sort_order>
                                     <children>
                                         <website>
                                             <title>Website Section</title>
+											<sort_order>0</sort_order>
                                         </website>
                                         <store>
                                             <title>Store Section</title>
+											<sort_order>10</sort_order>
                                         </store>
                                         <general>
                                             <title>General Section</title>
+											<sort_order>20</sort_order>
                                         </general>
                                         <web>
                                             <title>Web Section</title>
+											<sort_order>30</sort_order>
                                         </web>
                                         <design>
                                             <title>Design Section</title>
+											<sort_order>40</sort_order>
                                         </design>
                                         <customer>
                                             <title>Customers Section</title>
+											<sort_order>50</sort_order>
                                         </customer>
                                         <sales>
                                             <title>Sales Section</title>
+											<sort_order>60</sort_order>
                                         </sales>
                                         <web_track>
                                             <title>Web Tracking Section</title>
+											<sort_order>70</sort_order>
                                         </web_track>
                                         <system>
                                             <title>System Section</title>
+											<sort_order>80</sort_order>
                                         </system>
                                         <advanced>
                                             <title>Advanced Section</title>
+											<sort_order>90</sort_order>
                                         </advanced>
                                         <trans_email>
                                             <title>Store Email Addresses Section</title>
+											<sort_order>100</sort_order>
                                         </trans_email>
 
                                         <dev>
                                             <title>Developer Section</title>
+											<sort_order>110</sort_order>
                                         </dev>
                                         <currency>
                                             <title>Currency Setup Section</title>
+											<sort_order>120</sort_order>
                                         </currency>
                                         <allow>
                                             <title>Allowed Settings</title>
+											<sort_order>130</sort_order>
                                         </allow>
                                         <sendfriend>
                                             <title>Email to a Friend</title>
+											<sort_order>140</sort_order>
                                         </sendfriend>
                                     </children>
                                 </config>
                                 <currency>
                                     <title>Manage Currency</title>
+                                    <sort_order>30</sort_order>
                                 </currency>   
                                 <email_template>
                                     <title>Transactional Emails</title>
+                                    <sort_order>40</sort_order>
                                 </email_template>
                                 <myaccount>
                                     <title>My Account</title>
+                                    <sort_order>50</sort_order>
                                 </myaccount>
                                 <tools>
                                     <title>Tools</title>
+                                    <sort_order>60</sort_order>
                                     <children>
                                         <backup>
                                             <title>Backups</title>
@@ -326,6 +351,7 @@
                         </system>
                         <global_search>
                             <title>Global Search</title>
+                            <sort_order>100</sort_order>
                         </global_search>                         
                     </children>
                 </admin>

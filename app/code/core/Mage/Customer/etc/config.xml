@@ -105,22 +105,26 @@
         <acl>
             <resources>
                 <admin>
-					<children>
-                    	<customer>
-                        	<title>Customers</title>
-							<children>
-                            	<group>
-                                	<title>Customer Groups</title>
-	                            </group>
-    	                        <manage>
-        	                        <title>Manage Customers</title>
-            	                </manage>
-                	            <online>
-                    	            <title>Online Customers</title>
-                        	    </online>
-							</children>
-    	                </customer>
-					</children>
+                    <children>
+                        <customer>
+                            <title>Customers</title>
+                            <sort_order>40</sort_order>
+                            <children>
+                                <group>
+                                    <title>Customer Groups</title>
+                                    <sort_order>0</sort_order>
+                                </group>
+                                <manage>
+                                    <title>Manage Customers</title>
+                                    <sort_order>10</sort_order>
+                                </manage>
+                                <online>
+                                    <title>Online Customers</title>
+                                    <sort_order>20</sort_order>
+                                </online>
+                            </children>
+                        </customer>
+                    </children>
                 </admin>
             </resources>
         </acl>

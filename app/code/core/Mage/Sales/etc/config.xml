@@ -178,14 +178,14 @@
                 <admin>
                     <children>
                         <sales>
-                <title>Sales</title>
-                <children>
-                    <order>
-                        <title>Orders</title>
-                    </order>
-                </children>
-             </sales>
-                        
+                            <title>Sales</title>
+                            <sort_order>20</sort_order>
+                            <children>
+                                <order>
+                                    <title>Orders</title>
+                                </order>
+                            </children>
+                        </sales>
                         <report>
                             <children>
                                 <sales>

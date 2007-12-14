@@ -27,7 +27,7 @@
   </modules>
   <global>
       <blocks>
-		 <searchlucene><class>Mage_SearchLucene_Block</class></searchlucene>
+         <searchlucene><class>Mage_SearchLucene_Block</class></searchlucene>
       </blocks>
   </global>
   <frontend>

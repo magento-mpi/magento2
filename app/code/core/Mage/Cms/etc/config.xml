@@ -67,7 +67,7 @@
         <menu>
              <cms>
                 <title>CMS</title>
-                <sort_order>60</sort_order>
+                <sort_order>70</sort_order>
                 <children>
                     <page>
                         <title>Manage Pages</title>
@@ -91,15 +91,19 @@
                     <children>
                         <cms>
                             <title>CMS</title>
+                            <sort_order>70</sort_order>
                             <children>
                                 <block>
                                     <title>Static Blocks</title>
+                                    <sort_order>0</sort_order>
                                 </block>
                                 <page>
                                     <title>Manage Pages</title>
+                                    <sort_order>10</sort_order>
                                 </page>
                                 <poll>
                                     <title>Poll Manager</title>
+                                    <sort_order>20</sort_order>
                                 </poll>
                             </children>
                         </cms>

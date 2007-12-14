@@ -224,6 +224,7 @@
                         </system>
                         <catalog>
                             <title>Catalog</title>
+                            <sort_order>30</sort_order>
                             <children>
                                 <attributes>
                                     <title>Attributes</title>

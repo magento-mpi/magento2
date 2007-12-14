@@ -110,12 +110,11 @@
                             </ratings>
                         </children>
                     </reviews_ratings>
-
                 </children>
              </catalog>
-        <report>
-            <children>
-                <review>
+            <report>
+                <children>
+                    <review>
                         <title>Reviews Report</title>
                         <children>
                             <customer>
@@ -132,30 +131,29 @@
             </report>
         </menu>
         <acl>
-        <resources>
+            <resources>
                <admin>
-                <children>
-                    <report>
-                        <children>
-                               <review>
-                                <title>Reviews Report</title>
-                                <children>
-                                    <customer>
-                                        <title>Customers Reviews</title>
-                                    </customer>
-                                    <product>
-                                        <title>Products Reviews</title>
-                                    </product>
-                                </children>
-                            </review>
-                        </children>
-                    </report>
-                </children>
-            </admin>
-        </resources>
-    </acl>
+                    <children>
+                        <report>
+                            <children>
+                                <review>
+                                    <title>Reviews Report</title>
+                                    <children>
+                                        <customer>
+                                            <title>Customers Reviews</title>
+                                        </customer>
+                                        <product>
+                                            <title>Products Reviews</title>
+                                        </product>
+                                    </children>
+                                </review>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
-    
     <frontend>
         <routers>
             <review>

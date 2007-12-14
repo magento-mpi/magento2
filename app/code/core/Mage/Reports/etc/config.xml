@@ -124,6 +124,7 @@
                     <children>
                         <report>
                             <title>Reports</title>
+                            <sort_order>80</sort_order>
                             <children>
                                 <coupons>
                                     <title>Coupons Reports</title>
