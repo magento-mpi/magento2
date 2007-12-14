@@ -28,9 +28,31 @@
  */
 class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->loadFile(Mage::getModuleDir('etc', 'Mage_Adminhtml').DS.'admin.xml');
+    function getGroups ($sectionCode=null, $websiteCode=null, $storeCode=null){
+        
+        $mergeConfig = new Mage_Core_Model_Config_Base();
+        
+        $config = Mage::getConfig();
+        $modules = $config->getNode('modules')->children();
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                $configFile = $config->getModuleDir('etc', $modName).DS.'system.xml';
+                if ($mergeConfig->loadFile($configFile)) {
+                    $config->extend($mergeConfig, true);
+                }
+            }
+        }
+        $config->applyExtends();
+
+
+        if ($sectionCode) {
+        	return $config->getNode()->groups->$sectionCode;
+        }
+        if ($websiteCode) {
+        	return $config->getNode()->groups->$websiteCode;
+        }
+        if ($storeCode) {
+        	return $config->getNode()->groups->$storeCode;
+        }
     }
 }

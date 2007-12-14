@@ -92,22 +92,10 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
             }
             if (!empty($item['children'])) {
             	
-            
-//            echo '"</script><pre>';
-//            print_r($item['children']);
-//            echo '</pre>';
-//
             usort(&$item['children'], array($this, '_sortTree'));
 
-//            echo '<pre style="color: #ff0000">';
-//            print_r($item['children']);
-//            echo '</pre>';
-//
             }
-        }
-
-        
+        }   
         return $item;
     }
-    
 }
