@@ -23,34 +23,33 @@
  *
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Model_Shared_Interface
+class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements Mage_Core_Model_Shared_Interface
 {
     const XML_PATH_REGISTER_EMAIL_TEMPLATE  = 'customer/create_account/email_template';
     const XML_PATH_REGISTER_EMAIL_IDENTITY  = 'customer/create_account/email_identity';
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'customer/password/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'customer/password/forgot_email_identity';
     const XML_PATH_DEFAULT_EMAIL_DOMAIN     = 'customer/create_account/email_domain';
+
+    protected $_eventPrefix = 'customer';
+    protected $_eventObject = 'customer';
     
     protected $_addressCollection;
     protected $_store;
 
-    public function __construct()
+    function _construct()
     {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getEntityIdField());
+        $this->_init('customer/customer');
     }
-
+    
     /**
-     * Retrieve customer resource model
-     *
-     * @return Mage_Customer_Model_Entity_Customer
+     * @todo remove public access to resource
      */
     public function getResource()
     {
-        $resource = Mage::getResourceSingleton('customer/customer');
-        return $resource;
+        return $this->_getResource();
     }
-
+    
     /**
      * Authenticate customer
      *
@@ -60,22 +59,10 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function authenticate($login, $password)
     {
-        if ($this->getResource()->authenticate($this, $login, $password)) {
+        if ($this->_getResource()->authenticate($this, $login, $password)) {
             return $this;
         }
         return false;
-    }
-
-    /**
-     * Load customer by customer id
-     *
-     * @param   int $customerId
-     * @return  Mage_Customer_Model_Customer
-     */
-    public function load($customerId)
-    {
-        $this->getResource()->load($this, $customerId);
-        return $this;
     }
 
     /**
@@ -86,7 +73,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function loadByEmail($customerEmail)
     {
-        $this->getResource()->loadByEmail($this, $customerEmail);
+        $this->_getResource()->loadByEmail($this, $customerEmail);
         return $this;
     }
 
@@ -98,9 +85,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
     public function save()
     {
         $this->getGroupId();
-        $this->getResource()
-            ->save($this);
-        return $this;
+        return parent::save();
     }
 
     /**
@@ -117,18 +102,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function changePassword($newPassword, $checkCurrent=true)
     {
-        $this->getResource()->changePassword($this, $newPassword, $checkCurrent);
-        return $this;
-    }
-
-    /**
-     * Delete customer
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this);
+        $this->_getResource()->changePassword($this, $newPassword, $checkCurrent);
         return $this;
     }
 
@@ -205,7 +179,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function getAttributes()
     {
-        return $this->getResource()
+        return $this->_getResource()
             ->loadAllAttributes($this)
             ->getAttributesByCode();
     }
@@ -225,7 +199,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function hashPassword($password)
     {
-        return $this->getResource()->getHashPassword($password);
+        return $this->_getResource()->getHashPassword($password);
     }
     
     /**
@@ -485,7 +459,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function getSharedStoreIds()
     {
-        return $this->getResource()->getSharedStoreIds();
+        return $this->_getResource()->getSharedStoreIds();
     }
 
     /**
@@ -514,7 +488,7 @@ class Mage_Customer_Model_Customer extends Varien_Object implements Mage_Core_Mo
      */
     public function setStoreId($storeId)
     {
-        $this->getResource()->setStore($storeId);
+        $this->_getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
         if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
             $this->_store = null;
