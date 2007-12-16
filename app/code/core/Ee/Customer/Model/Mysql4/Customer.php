@@ -28,15 +28,17 @@
 
 class Ee_Customer_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
 {
+    protected $_idFieldName;
+
     public function _construct()
     {
         $this->_init('customer/members', 'member_id');
         $this->_setResource('ee_customer');
     }
-    
-    public function getEntityIdField()
+
+    protected function _init($mainTable, $idFieldName)
     {
-        return $this->getIdFieldName();
+        $this->_setMainTable($mainTable, $idFieldName);
     }
 
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly=false)
@@ -64,10 +66,11 @@ class Ee_Customer_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
     public function authenticate(Mage_Customer_Model_Customer $customer, $login, $password)
     {
         $this->loadByUsername($customer, $login);
-        echo "<pre>DEBUG:\n";
-        print_r($customer);
-        echo "</pre>";
-        die();
+        $success = $customer->getPassword()===$customer->hashPassword($password);
+        if (!$success) {
+            $customer->setData(array());
+        }
+        return $success;
     }
 
     public function changePassword(Mage_Customer_Model_Customer $customer, $newPassword, $checkCurrent=true)
@@ -77,9 +80,8 @@ class Ee_Customer_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
-/*    public function __call($m, $a)
+    public function getHashPassword($password)
     {
-        print "Method $m called:\n";
-        var_dump($a);
-    }*/
+        return sha1($password);
+    }
 }

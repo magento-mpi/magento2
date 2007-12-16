@@ -85,17 +85,17 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
 
     /**
      * Main table unique keys field names
-     * 
+     *
      * could array(
      *   array('field' => 'db_field_name1', 'title' => 'Field 1 should be unique')
      *   array('field' => 'db_field_name2', 'title' => 'Field 2 should be unique')
      *   array(
-     *      'field' => array('db_field_name3', 'db_field_name3'), 
+     *      'field' => array('db_field_name3', 'db_field_name3'),
      *      'title' => 'Field 3 and Field 4 combination should be unique'
      *   )
      * )
-     * 
-     * or string 'my_field_name' - will be autoconverted to 
+     *
+     * or string 'my_field_name' - will be autoconverted to
      *      array( array( 'field' => 'my_field_name', 'title' => 'my_field_name' ) )
      *
      * @var array
@@ -132,19 +132,19 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             foreach ($connections as $k=>$v) {
                 $this->_connections[$k] = $this->_resources->getConnection($v);
             }
-        } 
+        }
         elseif (is_string($connections)) {
             $this->_resourcePrefix = $connections;
         }
 
         if (is_null($tables) && is_string($connections)) {
             $this->_resourceModel = $this->_resourcePrefix;
-        } 
+        }
         elseif (is_array($tables)) {
             foreach ($tables as $k=>$v) {
                 $this->_tables[$k] = $this->_resources->getTableName($v);
             }
-        } 
+        }
         elseif (is_string($tables)) {
             $this->_resourceModel = $tables;
         }
@@ -250,24 +250,24 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
 
     /**
      * Retrieve connection for read data
-     * 
+     *
      * @return  Zend_Db_Adapter_Abstract
      */
     protected function _getReadAdapter()
     {
         return $this->_getConnection('read');
     }
-    
+
     /**
      * Retrieve connection for write data
-     * 
+     *
      * @return  Zend_Db_Adapter_Abstract
      */
     protected function _getWriteAdapter()
     {
         return $this->_getConnection('write');
     }
-    
+
     /**
      * Temporary resolving collection compatibility
      *
@@ -277,7 +277,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     {
         return $this->_getReadAdapter();
     }
-    
+
     /**
      * Load an object
      *
@@ -296,7 +296,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         if ($read) {
             $select = $this->_getLoadSelect($field, $value, $object);
             $data = $read->fetchRow($select);
-            
+
             if ($data) {
                 $object->setData($data);
             }
@@ -361,7 +361,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     {
         $this->_beforeDelete($object);
         $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), 
+            $this->getMainTable(),
             $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId())
         );
         $this->_afterDelete($object);
@@ -401,37 +401,37 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             if (!is_array($this->_uniqueFields)) {
                 $this->_uniqueFields = array(
                     array(
-                        'field' => $this->_uniqueFields, 
+                        'field' => $this->_uniqueFields,
                         'title' => $this->_uniqueFields
                 ));
             }
-            
+
             $data = new Varien_Object($this->_prepareDataForSave($object));
             $select = $this->_getWriteAdapter()->select()
                 ->from($this->getMainTable());
-                
+
             foreach ($this->_uniqueFields as $unique) {
                 $select->reset(Zend_Db_Select::WHERE);
-                
+
                 if (is_array($unique['field'])) {
                     foreach ($unique['field'] as $field) {
                         $select->where($field.'=?', $data->getData($field));
                     }
-                } 
+                }
                 else {
                     $select->where( $unique['field'] . ' = ?', $data->getData($unique['field']) );
                 }
-                
+
                 if ($object->getId()) {
                     $select->where($this->getIdFieldName().' != ?', $object->getId());
                 }
-                
+
                 if ( $test = $this->_getWriteAdapter()->fetchRow($select) ) {
                     $existent[] = $unique['title'];
                 }
             }
         }
-        
+
         if (!empty($existent)) {
             if (count($existent) == 1 ) {
                 $error = __('%s already exist', $existent[0]);
