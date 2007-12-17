@@ -15,7 +15,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: 10.php,v 1.51 2007/09/30 04:08:59 cellog Exp $
+ * @version    CVS: $Id: 10.php,v 1.50 2007/08/17 19:49:34 dufuz Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a12
  */
@@ -33,7 +33,7 @@ require_once 'PEAR/REST.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.0RC1
+ * @version    Release: 1.6.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a12
  */
@@ -141,6 +141,8 @@ class PEAR_REST_10
         $exclude = array();
         $min = $max = $recommended = false;
         if ($xsdversion == '1.0') {
+            $pinfo['package'] = $dependency['name'];
+            $pinfo['channel'] = 'pear.php.net'; // this is always true - don't change this
             switch ($dependency['rel']) {
                 case 'ge' :
                     $min = $dependency['version'];
@@ -164,6 +166,7 @@ class PEAR_REST_10
                 break;
             }
         } else {
+            $pinfo['package'] = $dependency['name'];
             $min = isset($dependency['min']) ? $dependency['min'] : false;
             $max = isset($dependency['max']) ? $dependency['max'] : false;
             $recommended = isset($dependency['recommended']) ?

@@ -20,7 +20,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: PEAR.php,v 1.102 2007/10/28 05:01:22 cellog Exp $
+ * @version    CVS: $Id: PEAR.php,v 1.101 2006/04/25 02:41:03 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -93,7 +93,7 @@ $GLOBALS['_PEAR_error_handler_stack']    = array();
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.0RC1
+ * @version    Release: 1.6.2
  * @link       http://pear.php.net/package/PEAR
  * @see        PEAR_Error
  * @since      Class available since PHP 4.0.2
@@ -565,17 +565,13 @@ class PEAR
         } else {
             $ec = 'PEAR_Error';
         }
-        if (intval(PHP_VERSION) < 5) {
-            // little non-eval hack to fix bug #12147
-            include 'PEAR/FixPHP5PEARWarnings.php';
+        if ($skipmsg) {
+            $a = &new $ec($code, $mode, $options, $userinfo);
+            return $a;
+        } else {
+            $a = &new $ec($message, $code, $mode, $options, $userinfo);
             return $a;
         }
-        if ($skipmsg) {
-            $a = new $ec($code, $mode, $options, $userinfo);
-        } else {
-            $a = new $ec($message, $code, $mode, $options, $userinfo);
-        }
-        return $a;
     }
 
     // }}}
@@ -818,7 +814,7 @@ function _PEAR_call_destructors()
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.0RC1
+ * @version    Release: 1.6.2
  * @link       http://pear.php.net/manual/en/core.pear.pear-error.php
  * @see        PEAR::raiseError(), PEAR::throwError()
  * @since      Class available since PHP 4.0.2

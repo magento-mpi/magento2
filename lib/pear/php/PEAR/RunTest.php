@@ -16,7 +16,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: RunTest.php,v 1.55 2007/11/24 22:11:05 cellog Exp $
+ * @version    CVS: $Id: RunTest.php,v 1.53 2007/09/03 02:50:22 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.3.3
  */
@@ -44,7 +44,7 @@ putenv("PHP_PEAR_RUNTESTS=1");
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.0RC1
+ * @version    Release: 1.6.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.3.3
  */
@@ -56,13 +56,6 @@ class PEAR_RunTest
     var $_php;
     var $tests_count;
     var $xdebug_loaded;
-    /**
-     * Saved value of php executable, used to reset $_php when we
-     * have a test that uses cgi
-     *
-     * @var unknown_type
-     */
-    var $_savephp;
     var $ini_overwrites = array(
         'output_handler=',
         'open_basedir=',
@@ -262,14 +255,9 @@ class PEAR_RunTest
      */
     function run($file, $ini_settings = array(), $test_number = 1)
     {
-        if (isset($this->_savephp)) {
-            $this->_php = $this->_savephp;
-            unset($this->_savephp);
-        }
         if (empty($this->_options['cgi'])) {
             // try to see if php-cgi is in the path
-            $res = $this->system_with_timeout('php-cgi -v');
-            if (false !== $res && !(is_array($res) && $res === array(127, ''))) {
+            if (false !== $this->system_with_timeout('php-cgi -v')) {
                 $this->_options['cgi'] = 'php-cgi';
             }
         }
@@ -327,7 +315,6 @@ class PEAR_RunTest
                 }
                 return 'SKIPPED';
             }
-            $this->_savephp = $this->_php;
             $this->_php = $this->_options['cgi'];
         }
 

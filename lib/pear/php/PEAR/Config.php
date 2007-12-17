@@ -16,7 +16,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Config.php,v 1.143 2007/11/30 07:14:37 cellog Exp $
+ * @version    CVS: $Id: Config.php,v 1.137.4.1 2007/09/08 15:07:16 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -131,22 +131,6 @@ if (getenv('PHP_PEAR_DATA_DIR')) {
            $PEAR_INSTALL_DIR.DIRECTORY_SEPARATOR.'data');
 }
 
-// Default for cfg_dir
-if (getenv('PHP_PEAR_CFG_DIR')) {
-    define('PEAR_CONFIG_DEFAULT_CFG_DIR', getenv('PHP_PEAR_CFG_DIR'));
-} else {
-    define('PEAR_CONFIG_DEFAULT_CFG_DIR',
-           $PEAR_INSTALL_DIR.DIRECTORY_SEPARATOR.'cfg');
-}
-
-// Default for www_dir
-if (getenv('PHP_PEAR_WWW_DIR')) {
-    define('PEAR_CONFIG_DEFAULT_WWW_DIR', getenv('PHP_PEAR_WWW_DIR'));
-} else {
-    define('PEAR_CONFIG_DEFAULT_WWW_DIR',
-           $PEAR_INSTALL_DIR.DIRECTORY_SEPARATOR.'www');
-}
-
 // Default for test_dir
 if (getenv('PHP_PEAR_TEST_DIR')) {
     define('PEAR_CONFIG_DEFAULT_TEST_DIR', getenv('PHP_PEAR_TEST_DIR'));
@@ -251,7 +235,7 @@ if (getenv('PHP_PEAR_SIG_KEYDIR')) {
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.0RC1
+ * @version    Release: 1.6.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -297,8 +281,8 @@ class PEAR_Config extends PEAR
      * @access private
      */
     var $_channelConfigInfo = array(
-        'php_dir', 'ext_dir', 'doc_dir', 'bin_dir', 'data_dir', 'cfg_dir',
-        'test_dir', 'www_dir', 'php_bin', 'username', 'password', 'verbose',
+        'php_dir', 'ext_dir', 'doc_dir', 'bin_dir', 'data_dir',
+        'test_dir', 'php_bin', 'username', 'password', 'verbose',
         'preferred_state', 'umask', 'preferred_mirror',
         );
 
@@ -431,20 +415,6 @@ class PEAR_Config extends PEAR
             'default' => PEAR_CONFIG_DEFAULT_DATA_DIR,
             'doc' => 'directory where data files are installed',
             'prompt' => 'PEAR data directory',
-            'group' => 'File Locations (Advanced)',
-            ),
-        'cfg_dir' => array(
-            'type' => 'directory',
-            'default' => PEAR_CONFIG_DEFAULT_CFG_DIR,
-            'doc' => 'directory where modifiable configuration files are installed',
-            'prompt' => 'PEAR configuration file directory',
-            'group' => 'File Locations (Advanced)',
-            ),
-        'www_dir' => array(
-            'type' => 'directory',
-            'default' => PEAR_CONFIG_DEFAULT_WWW_DIR,
-            'doc' => 'directory where www frontend files (html/js) are installed',
-            'prompt' => 'PEAR www files directory',
             'group' => 'File Locations (Advanced)',
             ),
         'test_dir' => array(
@@ -649,25 +619,6 @@ class PEAR_Config extends PEAR
     }
 
     // }}}
-    /**
-     * Return the default locations of user and system configuration files
-     * @static
-     */
-    function getDefaultConfigFiles()
-    {
-        $sl = DIRECTORY_SEPARATOR;
-        if (OS_WINDOWS) {
-            return array(
-                'user' => PEAR_CONFIG_SYSCONFDIR . $sl . 'pear.ini',
-                'system' =>  PEAR_CONFIG_SYSCONFDIR . $sl . 'pearsys.ini'
-            );
-        } else {
-            return array(
-                'user' => getenv('HOME') . $sl . '.pearrc',
-                'system' => PEAR_CONFIG_SYSCONFDIR . $sl . 'pear.conf'
-            );
-        }
-    }
     // {{{ singleton([file], [defaults_file])
 
     /**
@@ -1096,18 +1047,12 @@ class PEAR_Config extends PEAR
     // }}}
 
     /**
-     * @param string Configuration class name, used for detecting duplicate calls
      * @param array information on a role as parsed from its xml file
      * @return true|PEAR_Error
      * @access private
      */
-    function _addConfigVars($class, $vars)
+    function _addConfigVars($vars)
     {
-        static $called = array();
-        if (isset($called[$class])) {
-            return;
-        }
-        $called[$class] = 1;
         if (count($vars) > 3) {
             return $this->raiseError('Roles can only define 3 new config variables or less');
         }
@@ -1493,7 +1438,7 @@ class PEAR_Config extends PEAR
                 }
             }
         }
-        if (!isset($this->configuration_info[$key])) {
+        if (empty($this->configuration_info[$key])) {
             return false;
         }
         extract($this->configuration_info[$key]);

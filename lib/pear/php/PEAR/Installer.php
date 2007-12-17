@@ -18,7 +18,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Installer.php,v 1.249 2007/11/30 07:14:37 cellog Exp $
+ * @version    CVS: $Id: Installer.php,v 1.248 2007/08/31 22:06:59 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -42,7 +42,7 @@ define('PEAR_INSTALLER_NOBINARY', -240);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.0RC1
+ * @version    Release: 1.6.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -440,11 +440,7 @@ class PEAR_Installer extends PEAR_Downloader
                 $atts['role'] == 'ext'));
         }
         // Store the full path where the file was installed for easy unistall
-        if ($atts['role'] != 'script') {
-            $loc = $this->config->get($atts['role'] . '_dir');
-        } else {
-            $loc = $this->config->get('bin_dir');
-        }
+        $loc = $this->config->get($atts['role'] . '_dir');
         $this->addFileOperation("installed_as", array($file, $installed_as,
                                 $loc,
                                 dirname(substr($installedas_dest_file, strlen($loc)))));
@@ -845,8 +841,8 @@ class PEAR_Installer extends PEAR_Downloader
                         $this->_dirtree[dirname($data[1])] = true;
                         $this->pkginfo->setDirtree(dirname($data[1]));
 
-                        while(!empty($data[3]) && dirname($data[3]) != $data[3] &&
-                                $data[3] != '/' && $data[3] != '\\') {
+                        while(!empty($data[3]) && $data[3] != '/' && $data[3] != '\\'
+                              && $data[3] != '.') {
                             $this->pkginfo->setDirtree($pp =
                                 $this->_prependPath($data[3], $data[2]));
                             $this->_dirtree[$pp] = true;

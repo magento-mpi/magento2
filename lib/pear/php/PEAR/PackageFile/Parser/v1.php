@@ -15,7 +15,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: v1.php,v 1.25 2007/12/03 07:07:10 cellog Exp $
+ * @version    CVS: $Id: v1.php,v 1.23 2007/08/18 21:28:47 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -66,15 +66,14 @@ class PEAR_PackageFile_Parser_v1
      * @param string contents of package.xml file, version 1.0
      * @return bool success of parsing
      */
-    function &parse($data, $file, $archive = false)
+    function parse($data, $file, $archive = false)
     {
         if (!extension_loaded('xml')) {
             return PEAR::raiseError('Cannot create xml parser for parsing package.xml, no xml extension');
         }
         $xp = xml_parser_create();
         if (!$xp) {
-            $a = &PEAR::raiseError('Cannot create xml parser for parsing package.xml');
-            return $a;
+            return PEAR::raiseError('Cannot create xml parser for parsing package.xml');
         }
         xml_set_object($xp, $this);
         xml_set_element_handler($xp, '_element_start_1_0', '_element_end_1_0');
@@ -97,9 +96,8 @@ class PEAR_PackageFile_Parser_v1
             $code = xml_get_error_code($xp);
             $line = xml_get_current_line_number($xp);
             xml_parser_free($xp);
-            $a = &PEAR::raiseError(sprintf("XML error: %s at line %d",
+            return PEAR::raiseError(sprintf("XML error: %s at line %d",
                            $str = xml_error_string($code), $line), 2);
-            return $a;
         }
 
         xml_parser_free($xp);
