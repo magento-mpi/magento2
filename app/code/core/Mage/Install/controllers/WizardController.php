@@ -231,11 +231,11 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                     return;
                 }
             }
-//            $params['command'] = 'install';
-//            $params['options'] = array('onlyreqdeps'=>1);
-//            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
-//            $params['success_callback'] = array($this, 'installSuccessCallback');
-//            $params['failure_callback'] = array($this, 'installFailureCallback');
+            $params['command'] = 'install';
+            $params['options'] = array('onlyreqdeps'=>1);
+            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
+            $params['success_callback'] = array($this, 'installSuccessCallback');
+            $params['failure_callback'] = array($this, 'installFailureCallback');
         }
         $pear->runHtmlConsole($params);
     }

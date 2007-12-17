@@ -72,11 +72,19 @@ function installSuccess()
 {
     alert("<?=$this->__("All packages were installed successfully, click 'Ok' to continue with installation")?>");
     location.href = "<?=$this->getNextUrl()?>";
+    $$('button').each(function(el) {
+        el.disabled = true;
+        el.removeClassName('disabled')
+    });
 }
 
 function installFailure()
 {
     alert("<?=$this->__("There was a problem installing Magento packages. Please read the log, correct errors and retry again.")?>\n<?=$this->__("Alternatively you could try the 'Manual Downloads and Upgrades' method.")?>");
+    $$('button').each(function(el) {
+        el.disabled = true;
+        el.removeClassName('disabled')
+    });
 }
 
 </script>
