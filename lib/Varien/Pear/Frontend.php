@@ -50,8 +50,10 @@ class Varien_Pear_Frontend extends PEAR_Frontend
         if ('stdout'===$this->_logStream) {
             if (is_string($data)) {
                 echo $data."\r\n";
-            } elseif (is_array($data) && !empty($data['message'])) {
+            } elseif (is_array($data) && !empty($data['message']) && is_string($data['message'])) {
                 echo $data['message']."\r\n";
+            } elseif (is_array($data) && !empty($data['data']) && is_string($data['data'])) {
+                echo $data['data']."\r\n";
             } else {
                 print_r($data);
             }

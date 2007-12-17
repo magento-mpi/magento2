@@ -61,7 +61,7 @@ function startInstall(state)
 {
     $$('button').each(function(el) {
         el.disabled = true;
-        el.addClassName('disabled')
+        el.addClassName('disabled');
     });
     var install = $('install_iframe');
     install.setStyle({'display':'block', 'width':'100%', 'height':'300px'});
@@ -74,7 +74,7 @@ function installSuccess()
     location.href = "<?=$this->getNextUrl()?>";
     $$('button').each(function(el) {
         el.disabled = true;
-        el.removeClassName('disabled')
+        el.removeClassName('disabled');
     });
 }
 
@@ -83,7 +83,7 @@ function installFailure()
     alert("<?=$this->__("There was a problem installing Magento packages. Please read the log, correct errors and retry again.")?>\n<?=$this->__("Alternatively you could try the 'Manual Downloads and Upgrades' method.")?>");
     $$('button').each(function(el) {
         el.disabled = true;
-        el.removeClassName('disabled')
+        el.removeClassName('disabled');
     });
 }
 
