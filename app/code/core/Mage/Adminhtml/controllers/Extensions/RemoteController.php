@@ -60,9 +60,12 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
     public function installAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $pear = Varien_Pear::getInstance();
-        $pear->run('install', array(), array($pkg));
-        echo '<pre>'; print_r($pear->getOutput()); echo '</pre>';
-        echo '<pre>'; print_r($pear->getLog()); echo '</pre>';
+        $params = array('comment'=>__("Downloading and installing $pkg, please wait...\r\n\r\n"));
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'install';
+            $params['options'] = array('onlyreqdeps'=>1);
+            $params['params'] = array($pkg);
+        }
+        Varien_Pear::getInstance()->runHtmlConsole($params);
     }
 }

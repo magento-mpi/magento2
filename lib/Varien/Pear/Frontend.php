@@ -18,6 +18,11 @@ class Varien_Pear_Frontend extends PEAR_Frontend
         return $this;
     }
 
+    public function getLogStream()
+    {
+        return $this->_logStream;
+    }
+
     public function log($msg, $append_crlf = true)
     {
         if (is_null($msg) || false===$msg or ''===$msg) {
@@ -41,6 +46,16 @@ class Varien_Pear_Frontend extends PEAR_Frontend
     public function outputData($data, $command = '_default')
     {
         $this->_out[] = array('output'=>$data, 'command'=>$command);
+
+        if ('stdout'===$this->_logStream) {
+            if (is_string($data)) {
+                echo $data."\r\n";
+            } elseif (is_array($data) && !empty($data['message'])) {
+                echo $data['message']."\r\n";
+            } else {
+                print_r($data);
+            }
+        }
     }
 
     public function userConfirm()

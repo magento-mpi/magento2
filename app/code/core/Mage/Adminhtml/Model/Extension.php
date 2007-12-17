@@ -289,10 +289,11 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         }
         */
         $arr = array(
-            'pear.php.net' => 'PEAR',
+            'connect.magentocommerce.com/core' => 'Magento Core Team',
+            'connect.magentocommerce.com/community' => 'Magento Community',
             'var-dev.varien.com' => 'Varien Dev',
-            'pear.magentocommerce.com/core' => 'Magento Core Team',
-            'pear.magentocommerce.com/community' => 'Magento Community',
+            'pear.php.net' => 'PEAR',
+            'pear.phpunit.de' => 'PHPUnit',
         );
         return $arr;
     }

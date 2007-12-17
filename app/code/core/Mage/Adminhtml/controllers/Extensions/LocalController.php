@@ -57,21 +57,34 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         $this->renderLayout();
     }
 
+    public function prepareAction()
+    {
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $params = array('comment'=>__("Preparing to change $pkg, please wait...\r\n\r\n"));
+        Varien_Pear::getInstance()->runHtmlConsole($params);
+    }
+
     public function upgradeAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $pear = Varien_Pear::getInstance();
-        $pear->run('upgrade', array(), array($pkg));
-        echo '<pre>'; print_r($pear->getOutput()); echo '</pre>';
-        echo '<pre>'; print_r($pear->getLog()); echo '</pre>';
+        $params = array('comment'=>__("Upgrading $pkg, please wait...\r\n\r\n"));
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'upgrade';
+            $params['options'] = array();
+            $params['params'] = array($pkg);
+        }
+        Varien_Pear::getInstance()->runHtmlConsole($params);
     }
 
     public function uninstallAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $pear = Varien_Pear::getInstance();
-        $pear->run('uninstall', array(), array($pkg));
-        echo '<pre>'; print_r($pear->getOutput()); echo '</pre>';
-        echo '<pre>'; print_r($pear->getLog()); echo '</pre>';
+        $params = array('comment'=>__("Uninstalling $pkg, please wait...\r\n\r\n"));
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'uninstall';
+            $params['options'] = array();
+            $params['params'] = array($pkg);
+        }
+        Varien_Pear::getInstance()->runHtmlConsole($params);
     }
 }

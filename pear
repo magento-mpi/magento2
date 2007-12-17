@@ -35,8 +35,8 @@ if test "x$1" = "xmage-setup"; then
     $0 config-set mage_locale_dir $MAGE_ROOT_DIR/app/locale
 
     $0 channel-discover var-dev.varien.com
-    $0 channel-discover pear.magentocommerce.com/core
-    $0 channel-discover pear.magentocommerce.com/community
+    $0 channel-discover connect.magentocommerce.com/core
+    $0 channel-discover connect.magentocommerce.com/community
 
     exit
 fi
@@ -56,7 +56,7 @@ fi
 if test "x$MAGE_PEAR_PHP_BIN" != "x"; then
   PHP="$MAGE_PEAR_PHP_BIN"
 else
-  PHP=php
+  PHP=/usr/local/php5/bin/php
 fi
 
 MAGE_PEAR_ROOT_DIR="./lib/pear"

@@ -217,38 +217,25 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
     public function installAction()
     {
-        ob_implicit_flush();
-        set_time_limit(240);
-
-        $pear = new Varien_Pear;
-        $fe = $pear->getFrontend();
-        $fe->setLogStream('stdout');
-?>
-<html><head><style>
-body { margin:0px; padding:3px; background:black; }
-pre { font:normal 11px Courier New, serif; color:#2EC029; }
-</style></head><body>
-<?
-        echo "<pre>".__("Downloading and installing Magento, please wait...\r\n\r\n");
-
+        $params = array('comment'=>__("Downloading and installing Magento, please wait...\r\n\r\n"));
         if ($this->getRequest()->getParam('do')) {
-            $packages = Mage::getModel('install/installer_pear')->getPackages();
-            $result = $pear->run('install', array('onlyreqdeps'=>1, 'force'=>1), $packages);
-
-            if ($result instanceof PEAR_Error) {
-                echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();
-            }
-            echo '</pre><script type="text/javascript">';
-            if ($result instanceof PEAR_Error) {
-                echo 'parent.installFailure()';
-            } else {
-                echo 'parent.installSuccess()';
-            }
-            echo '</script>';
+            $params['command'] = 'install';
+            $params['options'] = array('onlyreqdeps'=>1);
+            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
+            $params['success_callback'] = array($this, 'installSuccessCallback');
+            $params['failure_callback'] = array($this, 'installFailureCallback');
         }
-?>
-</body></html>
-<?
+        Varien_Pear::getInstance()->runHtmlConsole($params);
+    }
+
+    public function installSuccessCallback()
+    {
+        echo 'parent.installSuccess()';
+    }
+
+    public function installFailureCallback()
+    {
+        echo 'parent.installFailure()';
     }
 
     public function downloadManualAction()

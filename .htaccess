@@ -43,7 +43,7 @@ DirectoryIndex index.php
 ############################################
 ## you can put here your magento root folder path relative to web root
 
-    #RewriteBase /dev/magento/
+    #RewriteBase /magento/
 
 ############################################
 ## always send 404 on missing files in these folders

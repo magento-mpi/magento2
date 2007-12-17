@@ -162,4 +162,62 @@ class Varien_Pear
         $this->run('config-set', array(), array('remote_config', $uri));
         return $this;
     }
+
+    /**
+     * Run PEAR command with html output console style
+     *
+     * @param array|Varien_Object $runParams command, options, params,
+     *        comment, success_callback, failure_callback
+     */
+    public function runHtmlConsole($runParams)
+    {
+        ob_implicit_flush();
+        set_time_limit(240);
+
+        $fe = $this->getFrontend();
+        $oldLogStream = $fe->getLogStream();
+        $fe->setLogStream('stdout');
+
+        if ($runParams instanceof Varien_Object) {
+            $run = $runParams;
+        } elseif (is_array($runParams)) {
+            $run = new Varien_Object($runParams);
+        } elseif (is_string($runParams)) {
+            $run = new Varien_Object(array('title'=>$runParams));
+        } else {
+            throw Varien_Exception("Invalid run parameters");
+        }
+?>
+<html><head><style>
+body { margin:0px; padding:3px; background:black; color:white; }
+pre { font:normal 11px Courier New, serif; color:#2EC029; }
+</style></head><body>
+<?
+        echo "<pre>".$run->getComment();
+
+        if ($command = $run->getCommand()) {
+            $result = $this->run($command, $run->getOptions(), $run->getParams());
+
+            if ($result instanceof PEAR_Error) {
+                echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();
+            }
+            echo '</pre><script type="text/javascript">';
+            if ($result instanceof PEAR_Error) {
+                if ($callback = $run->getFailureCallback()) {
+                    call_user_func_array($callback, array($result));
+                }
+            } else {
+                if ($callback = $run->getSuccessCallback()) {
+                    call_user_func_array($callback, array($result));
+                }
+            }
+            echo '</script>';
+        } else {
+            echo '</pre>';
+        }
+?>
+</body></html>
+<?
+        $fe->setLogStream($oldLogStream);
+    }
 }
