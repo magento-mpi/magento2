@@ -235,6 +235,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if (!empty($data)) {
             $customer->addData($data);
         }
+        if($this->getRequest()->getParam('changepass')==1){
+            $customer->setChangePassword(1);           
+        }
+      
         $this->renderLayout();
     }
 
