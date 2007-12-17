@@ -25,13 +25,13 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Extensions_Config_Edit extends Mage_Adminhtml_Block_Widget
 {
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('system/config/edit.phtml');
-        $this->setTitle('Manage Cache');
+        $this->setTitle('Manage PEAR Configuration');
     }
 
     protected function _prepareLayout()
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save cache settings'),
+                    'label'     => __('Save PEAR Config'),
                     'onclick'   => 'configForm.submit()',
                     'class' => 'save',
                 ))
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
     public function initForm()
     {
         $this->setChild('form',
-            $this->getLayout()->createBlock('adminhtml/system_cache_form')
+            $this->getLayout()->createBlock('adminhtml/extensions_config_form')
                 ->initForm()
         );
         return $this;

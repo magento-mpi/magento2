@@ -28,6 +28,7 @@ require_once "PEAR/Command.php";
 require_once "PEAR/Exception.php";
 
 require_once dirname(__FILE__)."/Pear/Frontend.php";
+require_once dirname(__FILE__)."/Pear/Package.php";
 
 class Varien_Pear
 {
@@ -73,8 +74,8 @@ class Varien_Pear
             $config = PEAR_Config::singleton();
             $config->readConfigFile($pear_dir.DS.'pear.ini');
 
-            $config->set('preferred_state', 'beta');
             $config->set('auto_discover', 1);
+            #$config->set('preferred_state', 'beta');
             #$config->set('default_channel', 'var-dev.varien.com');
 
             $config->set('bin_dir', $pear_dir);
@@ -213,11 +214,15 @@ pre { font:normal 11px Courier New, serif; color:#2EC029; }
             }
             echo '</script>';
         } else {
+            $result = false;
+
             echo '</pre>';
         }
 ?>
 </body></html>
 <?
         $fe->setLogStream($oldLogStream);
+
+        return $result;
     }
 }

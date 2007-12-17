@@ -377,7 +377,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return '';
         }
 
-        if (Mage::getStoreConfig('web/url/use_script_name')!=='true') {
+        if (Mage::getStoreConfig('web/url/use_script_name')!=1) {
             return '';
         }
 

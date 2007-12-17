@@ -64,7 +64,7 @@
                     <media>{{base_path}}media/</media>
                     <skin>{{base_path}}skin/</skin>
                     <js>{{base_path}}js/</js>
-                    <use_script_name>true</use_script_name>
+                    <use_script_name>1</use_script_name>
                 </url>
 
                 <default>

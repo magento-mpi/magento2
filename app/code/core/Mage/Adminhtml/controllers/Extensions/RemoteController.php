@@ -66,6 +66,9 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
             $params['options'] = array('onlyreqdeps'=>1);
             $params['params'] = array($pkg);
         }
-        Varien_Pear::getInstance()->runHtmlConsole($params);
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::getModel('adminhtml/extension')->clearAllCache();
+        }
     }
 }

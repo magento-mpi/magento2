@@ -34,6 +34,8 @@ if test "x$1" = "xmage-setup"; then
     $0 config-set mage_skin_dir $MAGE_ROOT_DIR/skin
     $0 config-set mage_locale_dir $MAGE_ROOT_DIR/app/locale
 
+    $0 config-set preferred_state beta
+
     $0 channel-discover var-dev.varien.com
     $0 channel-discover connect.magentocommerce.com/core
     $0 channel-discover connect.magentocommerce.com/community

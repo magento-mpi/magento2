@@ -334,4 +334,12 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
         return $this;
     }
+
+    public function clearAllCache()
+    {
+        $cacheDir = Mage::getBaseDir('var').DS.'cache';
+        mageDelTree($cacheDir);
+        mkdir($cacheDir, 0777);
+        return true;
+    }
 }

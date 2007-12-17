@@ -73,7 +73,10 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
             $params['options'] = array();
             $params['params'] = array($pkg);
         }
-        Varien_Pear::getInstance()->runHtmlConsole($params);
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::getModel('adminhtml/extension')->clearAllCache();
+        }
     }
 
     public function uninstallAction()
@@ -85,6 +88,9 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
             $params['options'] = array();
             $params['params'] = array($pkg);
         }
-        Varien_Pear::getInstance()->runHtmlConsole($params);
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::getModel('adminhtml/extension')->clearAllCache();
+        }
     }
 }

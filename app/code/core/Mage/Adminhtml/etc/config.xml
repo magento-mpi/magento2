@@ -175,6 +175,10 @@
                                 <title>Custom Local</title>
                                 <action>*/extensions_custom</action>
                             </custom>
+                            <config>
+                                <title>PEAR Configuration</title>
+                                <action>*/extensions_config</action>
+                            </config>
                         </children>
                     </extensions>
                     <cache>
@@ -285,7 +289,7 @@
                                 <currency>
                                     <title>Manage Currency</title>
                                     <sort_order>30</sort_order>
-                                </currency>   
+                                </currency>
                                 <email_template>
                                     <title>Transactional Emails</title>
                                     <sort_order>40</sort_order>
@@ -315,7 +319,7 @@
                                                 <run>
                                                     <title>Run profiles</title>
                                                 </run>
-                                            </children>   
+                                            </children>
                                         </gui>
                                         <profiles>
                                             <title>Advanced Profiles</title>
@@ -345,6 +349,9 @@
                                         <custom>
                                             <title>Custom Local</title>
                                         </custom>
+                                        <config>
+                                            <title>PEAR Configuration</title>
+                                        </config>
                                     </children>
                                 </extensions>
                             </children>
@@ -352,7 +359,7 @@
                         <global_search>
                             <title>Global Search</title>
                             <sort_order>100</sort_order>
-                        </global_search>                         
+                        </global_search>
                     </children>
                 </admin>
              </resources>
@@ -363,7 +370,7 @@
                     </view>
                     <edit>
                         <descr>Edit entity</descr>
-                    </edit>    
+                    </edit>
                     <delete>
                         <descr></descr>
                     </delete>

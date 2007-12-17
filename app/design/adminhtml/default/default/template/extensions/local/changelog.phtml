@@ -30,12 +30,16 @@
                 <tr><th><?=$this->__("Version:")?></th><td><?=$_log['version']['release']?> (<?=$_log['stability']['release']?>)</td></tr>
                 <tr><th><?=$this->__("API:")?></th><td><?=$_log['version']['api']?> (<?=$_log['stability']['api']?>)</td></tr>
                 <tr><th><?=$this->__("License:")?></th><td>
-                    <?if ($_uri = $_log['license']['attribs']['uri']):?>
-                        <a href="<?=$_uri?>" target="_blank">
-                    <?endif?>
-                    <?=$_log['license']['_content']?>
-                    <?if ($_uri):?>
-                        </a>
+                    <?if (is_array($_log['license'])):?>
+                        <?if ($_uri = $_log['license']['attribs']['uri']):?>
+                            <a href="<?=$_uri?>" target="_blank">
+                        <?endif?>
+                        <?=$_log['license']['_content']?>
+                        <?if ($_uri):?>
+                            </a>
+                        <?endif?>
+                    <?else:?>
+                        <?=$_log['license']?>
                     <?endif?>
                 </td></tr>
                 <tr><th><?=$this->__("Notes:")?></th><td><?=nl2br($_log['notes'])?></td></tr>

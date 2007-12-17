@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Action
 {

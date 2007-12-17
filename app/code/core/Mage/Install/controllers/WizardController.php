@@ -217,15 +217,27 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
     public function installAction()
     {
-        $params = array('comment'=>__("Downloading and installing Magento, please wait...\r\n\r\n"));
+        $pear = Varien_Pear::getInstance();
+        $params = array('comment'=>__("Downloading and installing Magento, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
-            $params['command'] = 'install';
-            $params['options'] = array('onlyreqdeps'=>1);
-            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
-            $params['success_callback'] = array($this, 'installSuccessCallback');
-            $params['failure_callback'] = array($this, 'installFailureCallback');
+            if ($state = $this->getRequest()->getParam('state', 'beta')) {
+                $result = $pear->runHtmlConsole(array(
+                    'comment'=>__("Setting preferred state to: %s", $state)."\r\n\r\n",
+                    'command'=>'config-set',
+                    'params'=>array('preferred_state', $state)
+                ));
+                if ($result instanceof PEAR_Error) {
+                    $this->installFailureCallback();
+                    return;
+                }
+            }
+//            $params['command'] = 'install';
+//            $params['options'] = array('onlyreqdeps'=>1);
+//            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
+//            $params['success_callback'] = array($this, 'installSuccessCallback');
+//            $params['failure_callback'] = array($this, 'installFailureCallback');
         }
-        Varien_Pear::getInstance()->runHtmlConsole($params);
+        $pear->runHtmlConsole($params);
     }
 
     public function installSuccessCallback()
