@@ -409,10 +409,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $massactionColumn = $this->getLayout()->createBlock('adminhtml/widget_grid_column')
                 ->setData(array(
                     'index'     => $this->getMassactionIdField(),
-                    'is_system' => true,
                     'type'      => 'massaction',
                     'name'      => $this->getMassactionBlock()->getFormFieldName()
                 ))
+                ->setSelected($this->getMassactionBlock()->getSelected())
                 ->setGrid($this)
                 ->setId($columnId);
 
@@ -426,8 +426,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareGrid()
     {
         $this->_prepareColumns();
-        $this->_prepareCollection();
         $this->_prepareMassactionBlock();
+        $this->_prepareCollection();
         return $this;
     }
 

@@ -249,11 +249,6 @@ varienGridMassaction.prototype = {
        this.formHiddens    = $(containerId + '-form-hiddens');
        this.formAdditional = $(containerId + '-form-additional');
        this.select    = $(containerId + '-select');
-       this.checkboxAll  = $(grid.containerId + '-checkbox-all');
-
-       if(this.grid.rows.size() > 0) {
-           this.checkboxAll.checked = true;
-       }
 
        checkedValues.each(function(item){
            this.checkedValues[item] = item;
@@ -316,7 +311,7 @@ varienGridMassaction.prototype = {
         }
     },
     initAllCheckbox: function(evt) {
-        this.checkboxAll.checked = this.isCheckedCheckboxes();
+        //this.checkboxAll.checked = this.isCheckedCheckboxes();
     },
     onSelectChange: function(evt) {
         var item = this.getSelectedItem();
@@ -347,14 +342,10 @@ varienGridMassaction.prototype = {
            if(this.checkedValues.keys().indexOf(checkbox.value)!==-1) {
                checkbox.checked = true;
                this.setCheckbox(checkbox);
-           } else {
-               this.checkboxAll.checked = false;
            }
         }.bind(this));
 
-        if(checkboxes.size() == 0) {
-            this.checkboxAll.checked = false;
-        }
+
     },
     checkCheckboxes: function(source) {
         this.grid.rows.each(function(row){
@@ -364,22 +355,6 @@ varienGridMassaction.prototype = {
                this.setCheckbox(checkbox);
             }.bind(this));
         }.bind(this));
-    },
-    isCheckedCheckboxes: function() {
-        checked = true;
-        this.grid.rows.each(function(row){
-            var checkboxes = row.getElementsByClassName('massaction-checkbox');
-            checkboxes.each(function(checkbox) {
-               if(!checkbox.checked) {
-                    checked = false;
-               }
-            });
-            if(checkboxes.size()==0) {
-                checked = false;
-            }
-        }.bind(this));
-
-        return checked;
     },
     setCheckbox: function(checkbox) {
         if(checkbox.checked) {
@@ -431,7 +406,6 @@ varienGridMassaction.prototype = {
         }
 
         if(this.grid.useAjax && item.url) {
-            return alert(this.form.serialize(false));
             new Ajax.Request(item.url, {
                 'method': 'post',
                 'parameters': this.form.serialize(true),

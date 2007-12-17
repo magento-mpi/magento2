@@ -185,6 +185,22 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
         }
     }
 
+
+    /**
+     * Retrive array of selected checkboxes
+     *
+     * @return array
+     */
+    public function getSelected()
+    {
+        if($selected = $this->getRequest()->getParam($this->getFormFieldNameInternal())) {
+            $selected = explode(',', $selected);
+            return $selected;
+        } else {
+            return array();
+        }
+    }
+
     /**
      * Retrive apply button html
      *
@@ -192,6 +208,19 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
      */
     public function getApplyButtonHtml()
     {
-        return $this->getButtonHtml($this->__('Apply'), $this->getJsObjectName() . ".apply()");
+        return $this->getButtonHtml($this->__('Submit'), $this->getJsObjectName() . ".apply()");
+    }
+
+    public function getJavaScript()
+    {
+        return "
+                var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', {$this->getGridJsObjectName()}, {$this->getSelectedJson()}, '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');
+                {$this->getJsObjectName()}.setItems({$this->getItemsJson()});
+        ";
+    }
+
+    public function getHtmlId()
+    {
+        return $this->getParentBlock()->getHtmlId() . '_massaction';
     }
 } // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract End

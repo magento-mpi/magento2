@@ -19,41 +19,51 @@
  */
 ?>
 <div id="<?=$this->getHtmlId()?>">
-<div class="entry-edit">
-            <h4 class="icon-head head-edit-form fieldset-legend"><div class="left"><?=$this->__('Grid Massactions')?></div><div class="right"><?=$this->getApplyButtonHtml()?></div></h4>
-            <div class="clear"></div>
-            <form id="<?=$this->getHtmlId()?>-form" method="POST">
-                <fieldset>
-                    <span class="field-row">
-                        <label><?=$this->__('Number of selected items')?></label>
-                        <span id="<?=$this->getHtmlId()?>-count">0</span>
-                    </span>
-                    <span class="field-row">
-                        <label><?=$this->__('Select action')?></label>
-                        <select id="<?=$this->getHtmlId()?>-select" class="required-entry select">
-                            <option value=""></option>
-                            <?foreach($this->getItems() as $_item):?>
-                                <option value="<?=$_item->getId()?>"><?=$_item->getLabel()?></option>
-                            <?endforeach;?>
-                        </select>
-                    </span>
-
-                    <span id="<?=$this->getHtmlId()?>-form-hiddens"></span>
-                    <span id="<?=$this->getHtmlId()?>-form-additional"></span>
-                </fieldset>
-            </form>
-        </div>
-
-        <div class="no-display">
-        <?foreach($this->getItems() as $_item):?>
-            <div id="<?=$this->getHtmlId()?>-item-<?=$_item->getId()?>-block">
-                <?=$_item->getAdditionalActionBlockHtml()?>
+<table cellspacing="0" cellpadding="0" class="massaction">
+<tr>
+    <td>
+        <span id="<?=$this->getHtmlId()?>-count">0</span> <?=$this->__('items selected')?>
+        <div class="delimiter"></div>
+        <a href="#"><?=$this->__('Select All')?></a>
+        <div class="delimiter"></div>
+        <a href="#"><?=$this->__('Unselect All')?></a>
+        <div class="delimiter"></div>
+        <a href="#"><?=$this->__('Select Visible')?></a>
+        <div class="delimiter"></div>
+        <a href="#"><?=$this->__('Deselect Visible')?></a>
+    </td>
+    <td>
+        <div class="right">
+            <div class="entry-edit">
+                <form id="<?=$this->getHtmlId()?>-form" method="POST">
+                    <fieldset>
+                        <span class="field-row">
+                            <label><?=$this->__('Actions')?></label>
+                            <select id="<?=$this->getHtmlId()?>-select" class="required-entry select absolute-advice">
+                                <option value=""></option>
+                                <?foreach($this->getItems() as $_item):?>
+                                    <option value="<?=$_item->getId()?>"><?=$_item->getLabel()?></option>
+                                <?endforeach;?>
+                            </select>
+                        </span>
+                        <span id="<?=$this->getHtmlId()?>-form-hiddens"></span>
+                        <span id="<?=$this->getHtmlId()?>-form-additional"></span>
+                        <span class="field-row">
+                            <?=$this->getApplyButtonHtml()?>
+                        </span>
+                    </fieldset>
+                </form>
             </div>
-        <?endforeach;?>
-        </div>
 
-<script type="text/javascript">
-var <?=$this->getJsObjectName()?> = new varienGridMassaction('<?=$this->getHtmlId()?>', <?=$this->getGridJsObjectName()?>, <?=$this->getSelectedJson()?>, '<?=$this->getFormFieldNameInternal()?>', '<?=$this->getFormFieldName()?>');
-<?=$this->getJsObjectName()?>.setItems(<?=$this->getItemsJson()?>);
-</script>
+            <div class="no-display">
+            <?foreach($this->getItems() as $_item):?>
+                <div id="<?=$this->getHtmlId()?>-item-<?=$_item->getId()?>-block">
+                    <?=$_item->getAdditionalActionBlockHtml()?>
+                </div>
+            <?endforeach;?>
+            </div>
+        </div>
+    </td>
+</tr>
+</table>
 </div>

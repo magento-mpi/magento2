@@ -107,7 +107,7 @@ Validation.prototype = {
                 Form.getElements(this.form).findAll(function(elm){return $(elm).hasClassName('validation-failed')}).first().focus()
             }
             catch(e){
-                
+
             }
         }
         this.options.onFormValidate(result, this.form);
@@ -166,7 +166,19 @@ Object.extend(Validation, {
         if(typeof Effect == 'undefined') {
             advice.style.display = 'block';
         } else {
-            new Effect.Appear(advice, {duration : 1 });
+            if(!advice._adviceAbsolutize) {
+                new Effect.Appear(advice, {duration : 1 });
+            } else {
+                Position.absolutize(advice);
+                advice.show();
+                advice.setStyle({
+                    'top':advice._adviceTop,
+                    'left': advice._adviceLeft,
+                    'width': advice._adviceWidth,
+                    'z-index': 1000
+                });
+                advice.addClassName('advice-absolute');
+            }
         }
     },
     hideAdvice : function(elm, advice){
@@ -187,10 +199,20 @@ Object.extend(Validation, {
                         }
                     }
                     catch(e){}
-                    
+
                     advice = '<div class="validation-advice" id="advice-' + name + '-' + Validation.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
+
                     this.insertAdvice(elm, advice);
                     advice = Validation.getAdvice(name, elm);
+                    if($(elm).hasClassName('absolute-advice')) {
+                        var dimensions = $(elm).getDimensions();
+                        var originalPosition = Position.cumulativeOffset(elm);
+
+                        advice._adviceTop = (originalPosition[1] + dimensions.height) + 'px';
+                        advice._adviceLeft = (originalPosition[0])  + 'px';
+                        advice._adviceWidth = (dimensions.width)  + 'px';
+                        advice._adviceAbsolutize = true;
+                    }
                 }
                 this.showAdvice(elm, advice, name);
             //}
@@ -303,8 +325,8 @@ Validation.addAllThese([
                 //return Validation.get('IsEmpty').test(v) || /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/.test(v)
                 return Validation.get('IsEmpty').test(v) || /^[\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9][\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9\.]{1,30}[\!\#$%\*/?|\^\{\}`~&\'\+\-=_a-z0-9]@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i.test(v)
             }],
-    ['validate-password', 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.', function(v) {  
-                var pass=v.strip(); /*strip leading and trailing spaces*/                             
+    ['validate-password', 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.', function(v) {
+                var pass=v.strip(); /*strip leading and trailing spaces*/
                 return !(pass.length>0 && pass.length < 6);
             }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {

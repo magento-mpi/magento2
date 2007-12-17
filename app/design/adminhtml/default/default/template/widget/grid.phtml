@@ -41,6 +41,7 @@ $numColumns = sizeof($this->getColumns());
             </table>
         </div>
         <?endif?>
+
         <div id="<?=$this->getId()?>">
     <?else:?>
         <?=$this->getMessagesBlock()->getGroupedHtml()?>
@@ -80,6 +81,7 @@ $numColumns = sizeof($this->getColumns());
             </select>
             <?=__('per page')?><span class="spacer">|</span>
             <?=__('Total %d records found', $this->getCollection()->getSize())?>
+            <span id="<?=$this->getHtmlId()?>-total-count" class="no-display"><?=$this->getCollection()->getSize()?></span>
         </td>
     <?endif?>
     <?if($this->getExportTypes()):?>
@@ -99,6 +101,9 @@ $numColumns = sizeof($this->getColumns());
         </tr>
     </table>
 <?endif;?>
+<?if($this->getMassactionBlock()->isAviable()):?>
+<?=$this->getMassactionBlockHtml()?>
+<?endif?>
 <div class="grid">
 <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>
@@ -164,9 +169,9 @@ $numColumns = sizeof($this->getColumns());
         <?=$this->getJsObjectName()?>.initRowCallback = <?=$this->getRowInitCallback()?>;
         <?=$this->getJsObjectName()?>.rows.each(function(row){<?=$this->getRowInitCallback()?>(<?=$this->getJsObjectName()?>, row)});
     <?endif;?>
+    <?if($this->getMassactionBlock()->isAviable()):?>
+    <?=$this->getMassactionBlock()->getJavaScript()?>
+    <?endif?>
 </script>
-<?if($this->getMassactionBlock()->isAviable()):?>
-<?=$this->getMassactionBlockHtml()?>
-<?endif?>
 <?endif;?>
 <?endif?>
