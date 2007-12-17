@@ -15,7 +15,7 @@
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: System.php,v 1.58 2007/09/03 03:11:20 cellog Exp $
+ * @version    CVS: $Id: System.php,v 1.60 2007/12/03 01:42:09 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -57,7 +57,7 @@ $GLOBALS['_System_temp_files'] = array();
 * @author     Tomas V.V. Cox <cox@idecnet.com>
 * @copyright  1997-2006 The PHP Group
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 1.6.2
+* @version    Release: 1.7.0RC1
 * @link       http://pear.php.net/package/PEAR
 * @since      Class available since Release 0.1
 */
@@ -117,15 +117,18 @@ class System
     * @param    string  $sPath      Name of the directory
     * @param    integer $maxinst    max. deep of the lookup
     * @param    integer $aktinst    starting deep of the lookup
+    * @param    bool    $silent     if true, do not emit errors.
     * @return   array   the structure of the dir
     * @access   private
     */
 
-    function _dirToStruct($sPath, $maxinst, $aktinst = 0)
+    function _dirToStruct($sPath, $maxinst, $aktinst = 0, $silent = false)
     {
         $struct = array('dirs' => array(), 'files' => array());
         if (($dir = @opendir($sPath)) === false) {
-            System::raiseError("Could not open dir $sPath");
+            if (!$silent) {
+                System::raiseError("Could not open dir $sPath");
+            }
             return $struct; // XXX could not open error
         }
         $struct['dirs'][] = $sPath = realpath($sPath); // XXX don't add if '.' or '..' ?
@@ -141,7 +144,7 @@ class System
             foreach ($list as $val) {
                 $path = $sPath . DIRECTORY_SEPARATOR . $val;
                 if (is_dir($path) && !is_link($path)) {
-                    $tmp = System::_dirToStruct($path, $maxinst, $aktinst+1);
+                    $tmp = System::_dirToStruct($path, $maxinst, $aktinst+1, $silent);
                     $struct = array_merge_recursive($tmp, $struct);
                 } else {
                     $struct['files'][] = $path;
@@ -442,7 +445,7 @@ class System
         if ($var = isset($_ENV['TMPDIR']) ? $_ENV['TMPDIR'] : getenv('TMPDIR')) {
             return $var;
         }
-        return '/tmp';
+        return realpath('/tmp');
     }
 
     /**
@@ -530,7 +533,10 @@ class System
         if (!is_array($args)) {
             $args = preg_split('/\s+/', $args, -1, PREG_SPLIT_NO_EMPTY);
         }
-        $dir = array_shift($args);
+        $dir = realpath(array_shift($args));
+        if (!$dir) {
+            return array();
+        }
         $patterns = array();
         $depth = 0;
         $do_files = $do_dirs = true;
@@ -548,18 +554,11 @@ class System
                     $i++;
                     break;
                 case '-name':
-                    if (OS_WINDOWS) {
-                        if ($args[$i+1]{0} == '\\') {
-                            // prepend drive
-                            $args[$i+1] = addslashes(substr(getcwd(), 0, 2) . $args[$i + 1]);
-                        }
-                        // escape path separators to avoid PCRE problems
-                        $args[$i+1] = str_replace('\\', '\\\\', $args[$i+1]);
-                    }
-                    $patterns[] = "(" . preg_replace(array('/\./', '/\*/'),
-                                                     array('\.', '.*', ),
-                                                     $args[$i+1])
-                                      . ")";
+                    $name = preg_quote($args[$i+1], '#');
+                    // our magic characters ? and * have just been escaped,
+                    // so now we change the escaped versions to PCRE operators
+                    $name = strtr($name, array('\?' => '.', '\*' => '.*'));
+                    $patterns[] = '('.$name.')';
                     $i++;
                     break;
                 case '-maxdepth':
@@ -567,7 +566,7 @@ class System
                     break;
             }
         }
-        $path = System::_dirToStruct($dir, $depth);
+        $path = System::_dirToStruct($dir, $depth, 0, true);
         if ($do_files && $do_dirs) {
             $files = array_merge($path['files'], $path['dirs']);
         } elseif ($do_dirs) {
@@ -576,11 +575,14 @@ class System
             $files = $path['files'];
         }
         if (count($patterns)) {
-            $patterns = implode('|', $patterns);
+            $dsq = preg_quote(DIRECTORY_SEPARATOR, '#');
+            $pattern = '#(^|'.$dsq.')'.implode('|', $patterns).'($|'.$dsq.')#';
             $ret = array();
             $files_count = count($files);
             for ($i = 0; $i < $files_count; $i++) {
-                if (preg_match("#^$patterns\$#", $files[$i])) {
+                // only search in the part of the file below the current directory
+                $filepart = basename($files[$i]);
+                if (preg_match($pattern, $filepart)) {
                     $ret[] = $files[$i];
                 }
             }

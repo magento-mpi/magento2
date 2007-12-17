@@ -18,7 +18,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: pearcmd.php,v 1.37 2007/01/08 05:14:01 cellog Exp $
+// $Id: pearcmd.php,v 1.38 2007/11/17 21:02:21 dufuz Exp $
 
 ob_end_clean();
 if (!defined('PEAR_RUNTYPE')) {
@@ -47,7 +47,7 @@ ob_implicit_flush(true);
 $_PEAR_PHPDIR = '#$%^&*';
 set_error_handler('error_handler');
 
-$pear_package_version = "1.6.2";
+$pear_package_version = "1.7.0RC1";
 
 require_once 'PEAR.php';
 require_once 'PEAR/Frontend.php';
@@ -133,7 +133,7 @@ if (PEAR::isError($config)) {
     $config->getMessage();
     $ui->outputData("ERROR: $_file is not a valid config file or is corrupted.");
     // We stop, we have no idea where we are :)
-    exit(1);    
+    exit(1);
 }
 
 // this is used in the error handler to retrieve a relative path
@@ -394,7 +394,7 @@ function cmdHelp($command)
             return "$progname $command [options] $help[0]\n$help[1]";
         }
     }
-    return "Command '$command' is not valid, try 'pear help'";
+    return "Command '$command' is not valid, try '$progname help'";
 }
 
 // }}}

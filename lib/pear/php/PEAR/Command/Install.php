@@ -16,7 +16,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Install.php,v 1.134 2007/09/03 03:07:30 cellog Exp $
+ * @version    CVS: $Id: Install.php,v 1.136 2007/12/03 01:22:13 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -36,7 +36,7 @@ require_once 'PEAR/Command/Common.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.6.2
+ * @version    Release: 1.7.0RC1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -347,10 +347,6 @@ Run post-installation scripts in package <package>, if any exist.
         if (PEAR::isError($ini)) {
             return $ini;
         }
-        $fp = @fopen($phpini, 'wb');
-        if (!$fp) {
-            return PEAR::raiseError('cannot open php.ini "' . $phpini . '" for writing');
-        }
         $line = 0;
         if ($type == 'extsrc' || $type == 'extbin') {
             $search = 'extensions';
@@ -384,6 +380,10 @@ Run post-installation scripts in package <package>, if any exist.
             $newini[] = $enable . '="' . $binary . '"' . (OS_UNIX ? "\n" : "\r\n");
         }
         $newini = array_merge($newini, array_slice($ini['all'], $line));
+        $fp = @fopen($phpini, 'wb');
+        if (!$fp) {
+            return PEAR::raiseError('cannot open php.ini "' . $phpini . '" for writing');
+        }
         foreach ($newini as $line) {
             fwrite($fp, $line);
         }
@@ -1051,6 +1051,9 @@ Run post-installation scripts in package <package>, if any exist.
         $result = &$downloader->download(array($params[0]));
         if (PEAR::isError($result)) {
             return $result;
+        }
+        if (!isset($result[0])) {
+            return $this->raiseError('unable to unpack ' . $params[0]);
         }
         $pkgfile = &$result[0]->getPackageFile();
         $pkgname = $pkgfile->getName();
