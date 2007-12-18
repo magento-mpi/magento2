@@ -69,8 +69,17 @@
         </resources>
     </global>
     <adminhtml>
-       <events>
-             <sales_order_item_import_qoute_address_item>
+        <translate>
+            <modules>
+                <Mage_GiftMessage>
+                    <files>
+                        <default>Mage_GiftMessage.csv</default>
+                    </files>
+                </Mage_GiftMessage>
+            </modules>
+        </translate>
+        <events>
+            <sales_order_item_import_qoute_address_item>
                 <observers>
                     <giftmessage>
                         <type>model</type>
@@ -97,10 +106,10 @@
                     </giftmessage>
                 </observers>
             </adminhtml_sales_order_create_create_order>
-       </events>
+        </events>
     </adminhtml>
     <frontend>
-       <events>
+        <events>
              <checkout_type_multishipping_set_shipping_items>
                 <observers>
                     <giftmessage>
@@ -173,8 +182,8 @@
                     </giftmessage>
                 </observers>
             </catalog_product_collection_load_after>
-       </events>
-       <routers>
+        </events>
+        <routers>
             <giftmessage>
                 <use>standard</use>
                 <args>

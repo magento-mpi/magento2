@@ -65,8 +65,18 @@
         <blocks>
             <googlecheckout><class>Mage_GoogleCheckout_Block</class></googlecheckout>
         </blocks>
-   </global>
+    </global>
+    
     <frontend>
+        <translate>
+            <modules>
+                <Mage_GoogleCheckout>
+                    <files>
+                        <default>Mage_GoogleCheckout.csv</default>
+                    </files>
+                </Mage_GoogleCheckout>
+            </modules>
+        </translate>
         <routers>
          <googlecheckout>
             <use>standard</use>
@@ -85,12 +95,24 @@
                 </Mage_GoogleCheckout>
             </modules>
         </translate>
-          <layout>
-              <updates>
+        <layout>
+            <updates>
                   <googlecheckout>
                       <file>googlecheckout.xml</file>
                   </googlecheckout>
-              </updates>
-          </layout>
-     </frontend>
+            </updates>
+        </layout>
+    </frontend>
+     
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_GoogleCheckout>
+                    <files>
+                        <default>Mage_GoogleCheckout.csv</default>
+                    </files>
+                </Mage_GoogleCheckout>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

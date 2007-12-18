@@ -101,4 +101,16 @@
             </modules>
         </translate>
     </frontend>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Rating>
+                    <files>
+                        <default>Mage_Rating.csv</default>
+                    </files>
+                </Mage_Rating>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

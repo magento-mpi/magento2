@@ -92,6 +92,15 @@
     </frontend>
 
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_CatalogRule>
+                    <files>
+                        <default>Mage_CatalogRule.csv</default>
+                    </files>
+                </Mage_CatalogRule>
+            </modules>
+        </translate>
         <events>
             <catalog_product_get_final_price>
                 <observers>

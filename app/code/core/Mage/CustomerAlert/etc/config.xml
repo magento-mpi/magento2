@@ -107,6 +107,15 @@
         </events>
     </global>
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_CustomerAlert>
+                    <files>
+                        <default>Mage_CustomerAlert.csv</default>
+                    </files>
+                </Mage_CustomerAlert>
+            </modules>
+        </translate>
         <menu>
              <customer_communication>
                 <title>Customer Communication</title>
@@ -189,12 +198,12 @@
                 </Mage_CustomerAlert>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <customeralert>
-                      <file>customeralert.xml</file>
-                  </customeralert>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <customeralert>
+                    <file>customeralert.xml</file>
+                </customeralert>
+            </updates>
+        </layout>
     </frontend>
 </config>

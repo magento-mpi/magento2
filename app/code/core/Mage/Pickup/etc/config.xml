@@ -42,4 +42,28 @@
             </pickup_setup>
         </resources>
     </global>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Pickup>
+                    <files>
+                        <default>Mage_Pickup.csv</default>
+                    </files>
+                </Mage_Pickup>
+            </modules>
+        </translate>
+    </adminhtml>
+    
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Pickup>
+                    <files>
+                        <default>Mage_Pickup.csv</default>
+                    </files>
+                </Mage_Pickup>
+            </modules>
+        </translate>
+    </frontend>
 </config>

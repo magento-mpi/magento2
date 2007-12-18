@@ -125,5 +125,14 @@
                 </admin>
             </resources>    
         </acl>
+        <translate>
+            <modules>
+                <Mage_Wishlist>
+                    <files>
+                        <default>Mage_Wishlist.csv</default>
+                    </files>
+                </Mage_Wishlist>
+            </modules>
+        </translate>
     </adminhtml>
 </config>

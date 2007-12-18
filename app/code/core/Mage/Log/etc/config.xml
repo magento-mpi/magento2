@@ -151,4 +151,16 @@
             </checkout_quote_destroy>
         </events>
     </frontend>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Log>
+                    <files>
+                        <default>Mage_Log.csv</default>
+                    </files>
+                </Mage_Log>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

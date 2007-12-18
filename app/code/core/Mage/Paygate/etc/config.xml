@@ -62,4 +62,28 @@
          </paygate_read>
       </resources>
    </global>
+   
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Paygate>
+                    <files>
+                        <default>Mage_Paygate.csv</default>
+                    </files>
+                </Mage_Paygate>
+            </modules>
+        </translate>
+    </adminhtml>
+   
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Paygate>
+                    <files>
+                        <default>Mage_Paygate.csv</default>
+                    </files>
+                </Mage_Paygate>
+            </modules>
+        </translate>
+    </frontend>
 </config>

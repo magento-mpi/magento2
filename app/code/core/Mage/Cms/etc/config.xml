@@ -64,6 +64,15 @@
       </layout>
     </frontend>
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Cms>
+                    <files>
+                        <default>Mage_Cms.csv</default>
+                    </files>
+                </Mage_Cms>
+            </modules>
+        </translate>    
         <menu>
              <cms>
                 <title>CMS</title>

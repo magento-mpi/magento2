@@ -30,6 +30,17 @@
          <searchlucene><class>Mage_SearchLucene_Block</class></searchlucene>
       </blocks>
   </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_SearchLucene>
+                    <files>
+                        <default>Mage_SearchLucene.csv</default>
+                    </files>
+                </Mage_SearchLucene>
+            </modules>
+        </translate>
+    </adminhtml>
   <frontend>
     <routers>
       <searchlucene>
@@ -40,5 +51,14 @@
         </args>
       </searchlucene>
     </routers>
-  </frontend>
+        <translate>
+            <modules>
+                <Mage_SearchLucene>
+                    <files>
+                        <default>Mage_SearchLucene.csv</default>
+                    </files>
+                </Mage_SearchLucene>
+            </modules>
+        </translate>
+    </frontend>
 </config>

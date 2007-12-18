@@ -197,6 +197,15 @@
                 </admin>
             </resources>  
         </acl>
+        <translate>
+            <modules>
+                <Mage_Sales>
+                    <files>
+                        <default>Mage_Sales.csv</default>
+                    </files>
+                </Mage_Sales>
+            </modules>
+        </translate>
     </adminhtml>
     
 </config>

@@ -211,5 +211,14 @@
                 </admin>
             </resources>
         </acl>
+        <translate>
+            <modules>
+                <Mage_Tag>
+                    <files>
+                        <default>Mage_Tag.csv</default>
+                    </files>
+                </Mage_Tag>
+            </modules>
+        </translate>
     </adminhtml>
 </config>

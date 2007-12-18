@@ -151,5 +151,26 @@
                 </admin>
             </resources>
         </acl>
+        <translate>
+            <modules>
+                <Mage_Tax>
+                    <files>
+                        <default>Mage_Tax.csv</default>
+                    </files>
+                </Mage_Tax>
+            </modules>
+        </translate>
     </adminhtml>
+    
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Tax>
+                    <files>
+                        <default>Mage_Tax.csv</default>
+                    </files>
+                </Mage_Tax>
+            </modules>
+        </translate>
+    </frontend>
 </config>

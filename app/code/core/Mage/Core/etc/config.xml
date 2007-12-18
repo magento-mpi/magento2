@@ -102,4 +102,15 @@
           </updates>
       </layout>
     </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Core>
+                    <files>
+                        <default>Mage_Core.csv</default>
+                    </files>
+                </Mage_Core>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

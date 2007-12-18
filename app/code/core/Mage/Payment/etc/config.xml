@@ -88,6 +88,15 @@
         </translate>
     </frontend>
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Payment>
+                    <files>
+                        <default>Mage_Payment.csv</default>
+                    </files>
+                </Mage_Payment>
+            </modules>
+        </translate>
         <acl>
             <resources>
                 <admin>

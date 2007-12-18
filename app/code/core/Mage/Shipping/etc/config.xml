@@ -139,6 +139,25 @@
                 </admin>
             </resources>
         </acl>
+        <translate>
+            <modules>
+                <Mage_Shipping>
+                    <files>
+                        <default>Mage_Shipping.csv</default>
+                    </files>
+                </Mage_Shipping>
+            </modules>
+        </translate>
    </adminhtml>
-       
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Shipping>
+                    <files>
+                        <default>Mage_Shipping.csv</default>
+                    </files>
+                </Mage_Shipping>
+            </modules>
+        </translate>
+    </frontend>
 </config>

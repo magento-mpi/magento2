@@ -124,6 +124,15 @@
     </frontend>
 
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_CatalogInventory>
+                    <files>
+                        <default>Mage_CatalogInventory.csv</default>
+                    </files>
+                </Mage_CatalogInventory>
+            </modules>
+        </translate>
         <events>
             <catalog_product_save_after>
                 <observers>

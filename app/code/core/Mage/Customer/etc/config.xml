@@ -78,6 +78,15 @@
         </resources>
     </global>
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Customer>
+                    <files>
+                        <default>Mage_Customer.csv</default>
+                    </files>
+                </Mage_Customer>
+            </modules>
+        </translate>
         <menu>
             <customer>
                 <title>Customers</title>

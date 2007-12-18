@@ -153,6 +153,15 @@
                 </admin>
             </resources>
         </acl>
+        <translate>
+            <modules>
+                <Mage_Review>
+                    <files>
+                        <default>Mage_Review.csv</default>
+                    </files>
+                </Mage_Review>
+            </modules>
+        </translate>
     </adminhtml>
     <frontend>
         <routers>

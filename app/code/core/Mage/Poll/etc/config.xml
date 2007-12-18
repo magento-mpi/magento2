@@ -52,6 +52,19 @@
               </updates>
           </layout>
     </frontend>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Poll>
+                    <files>
+                        <default>Mage_Poll.csv</default>
+                    </files>
+                </Mage_Poll>
+            </modules>
+        </translate>
+    </adminhtml>
+    
     <global>
         <models>
             <poll>

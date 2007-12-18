@@ -53,6 +53,15 @@
         </resources>
     </global>
     <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Reports>
+                    <files>
+                        <default>Mage_Reports.csv</default>
+                    </files>
+                </Mage_Reports>
+            </modules>
+        </translate>
        <menu>
             <report>
                 <title>Reports</title>
@@ -166,4 +175,5 @@
             </resources>    
         </acl>
     </adminhtml>
+    
 </config>

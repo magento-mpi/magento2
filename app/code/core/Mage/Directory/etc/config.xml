@@ -20,15 +20,15 @@
  */
 -->
 <config>
-   <modules>
-      <Mage_Directory>
-         <version>0.6.7</version>
-         <depends>
-            <Mage_Core />
-         </depends>
-      </Mage_Directory>
-   </modules>
-   <global>
+    <modules>
+        <Mage_Directory>
+            <version>0.6.7</version>
+            <depends>
+                <Mage_Core />
+            </depends>
+        </Mage_Directory>
+    </modules>
+    <global>
         <currency>
             <import>
                 <services>
@@ -65,7 +65,6 @@
                 </entities>
             </directory_mysql4>
         </models>
-
         <resources>
             <directory_setup>
                 <setup>
@@ -73,17 +72,15 @@
                 </setup>
                 <connection><use>core_setup</use></connection>
             </directory_setup>
-
             <directory_write>
                 <connection><use>core_write</use></connection>
             </directory_write>
-
             <directory_read>
                 <connection><use>core_read</use></connection>
             </directory_read>
         </resources>
     </global>
-
+    
     <frontend>
         <routers>
             <directory>
@@ -103,12 +100,24 @@
                 </Mage_Directory>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <directory>
-                      <file>directory.xml</file>
-                  </directory>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <directory>
+                    <file>directory.xml</file>
+                </directory>
+            </updates>
+        </layout>
     </frontend>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Directory>
+                    <files>
+                        <default>Mage_Directory.csv</default>
+                    </files>
+                </Mage_Directory>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

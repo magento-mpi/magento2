@@ -97,6 +97,15 @@
           </layout>
      </frontend>
      <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Paypal>
+                    <files>
+                        <default>Mage_Paypal.csv</default>
+                    </files>
+                </Mage_Paypal>
+            </modules>
+        </translate>
         <acl>
             <resources>
                 <admin>
