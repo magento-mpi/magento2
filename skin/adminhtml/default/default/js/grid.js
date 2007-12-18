@@ -360,21 +360,25 @@ varienGridMassaction.prototype = {
         this.setCheckedValues(this.getGridIds());
         this.checkCheckboxes();
         this.updateCount();
+        return false;
     },
     unselectAll: function() {
         this.setCheckedValues([]);
         this.checkCheckboxes();
         this.updateCount();
+        return false;
     },
     selectVisible: function() {
         this.setCheckedValues(this.getCheckboxesValues());
         this.checkCheckboxes();
         this.updateCount();
+        return false;
     },
     unselectVisible: function() {
         this.unsetCheckedValues(this.getCheckboxesValues());
         this.checkCheckboxes();
         this.updateCount();
+        return false;
     },
     setCheckedValues: function(values) {
         this.checkedValues.remove.apply(this.checkedValues, this.checkedValues.keys());

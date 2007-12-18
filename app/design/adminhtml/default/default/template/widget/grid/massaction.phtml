@@ -24,13 +24,13 @@
     <td>
         <span id="<?=$this->getHtmlId()?>-count">0</span> <?=$this->__('items selected')?>
         <div class="delimiter"></div>
-        <a href="#" onclick="<?=$this->getJsObjectName()?>.selectAll()"><?=$this->__('Select All')?></a>
+        <a href="#" onclick="return <?=$this->getJsObjectName()?>.selectAll()"><?=$this->__('Select All')?></a>
         <div class="delimiter"></div>
-        <a href="#" onclick="<?=$this->getJsObjectName()?>.unselectAll()"><?=$this->__('Unselect All')?></a>
+        <a href="#" onclick="return <?=$this->getJsObjectName()?>.unselectAll()"><?=$this->__('Unselect All')?></a>
         <div class="delimiter"></div>
-        <a href="#" onclick="<?=$this->getJsObjectName()?>.selectVisible()"><?=$this->__('Select Visible')?></a>
+        <a href="#" onclick="return <?=$this->getJsObjectName()?>.selectVisible()"><?=$this->__('Select Visible')?></a>
         <div class="delimiter"></div>
-        <a href="#" onclick="<?=$this->getJsObjectName()?>.unselectVisible()"><?=$this->__('Deselect Visible')?></a>
+        <a href="#" onclick="return <?=$this->getJsObjectName()?>.unselectVisible()"><?=$this->__('Deselect Visible')?></a>
     </td>
     <td>
         <div class="right">
