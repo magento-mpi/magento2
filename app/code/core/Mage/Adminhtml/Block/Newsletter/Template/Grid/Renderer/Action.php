@@ -26,47 +26,27 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
     public function render(Varien_Object $row)
     {
-
     	$actions = array();
 
     	if($row->isValidForSend()) {
     		$actions[] = array(
-	    		'@'	=>	array('href' => Mage::getUrl('*/*/toqueue', array('id'=>$row->getId()))),
-	    		'#'	=>	__('Queue Newsletter')
+	    		'url' => Mage::getUrl('*/*/toqueue', array('id'=>$row->getId())),
+	    		'caption'	=>	$this->__('Queue Newsletter')
 	    	);
     	}
 
     	$actions[] = array(
-
-    		'@'	=>	array(
-	    				'href'		=>	Mage::getUrl('*/*/preview', array('id'=>$row->getId())),
-	    				'target'	=>	'_blank'
-	    	),
-    		'#'	=>	__('Preview')
+    		'url'		=>  Mage::getUrl('*/*/preview', array('id'=>$row->getId())),
+	        'popup'     =>  true,
+	    	'caption'	=>	$this->__('Preview')
     	);
 
+        $this->getColumn()->setActions($actions);
 
-
-    	return $this->_actionsToHtml($actions);
-    }
-
-    protected function _getEscapedValue($value)
-    {
-    	return addcslashes(htmlspecialchars($value),'\\\'');
-    }
-
-    protected function _actionsToHtml(array $actions)
-    {
-    	$html = array();
-    	$attributesObject = new Varien_Object();
-    	foreach ($actions as $action) {
-    		$attributesObject->setData($action['@']);
-    		$html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
-    	}
-    	return implode(' <span class="separator">&nbsp;|&nbsp;</span> ', $html);
+    	return parent::render($row);
     }
 }

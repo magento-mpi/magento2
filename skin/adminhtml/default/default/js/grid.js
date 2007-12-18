@@ -215,8 +215,7 @@ varienGrid.prototype = {
 
 function openGridRow(grid, event){
     var element = Event.findElement(event, 'tr');
-    var link = Event.findElement(event, 'a');
-    if(link.href){
+    if(['a', 'input', 'select'].indexOf(Event.element(event).tagName.toLowerCase())) {
         return;
     }
     if(element.id){
@@ -490,6 +489,12 @@ var varienGridAction = {
             return;
         }
 
-        setLocation(config.href);
+        if(config.popup) {
+            var win = window.open(config.href, 'action_window', 'width=500,height=600,resizable=1,scrollbars=1');
+            win.focus();
+            select.options[0].selected = true;
+        } else {
+            setLocation(config.href);
+        }
     }
 };
