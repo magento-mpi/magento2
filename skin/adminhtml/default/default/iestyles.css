@@ -50,10 +50,17 @@ button.scalable {
     margin-left:5px;
     overflow:visible;
     }
+
+
+
+
+
 button.scalable td.mr, button.scalable td.br { width:7px;}
 .grid tr.filter th {
     padding-right: 8px;
 }
+
+.massaction button.scalable td.mr, .massaction button.scalable td.br { width:0px;}
 
 /* Grid Filter Override */
 .grid tr.filter th {
@@ -96,4 +103,16 @@ dl.accordion dt a {
 /* Forms */
 span.field-row {
 	clear: both;
+}
+
+/* Massaction */
+.massaction .entry-edit fieldset {
+	float: right;
+}
+
+.massaction button.scalable {
+    width:auto;
+    height: 20px;
+    margin-left:0px;
+    overflow:hidden;
 }

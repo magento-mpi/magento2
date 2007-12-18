@@ -199,7 +199,8 @@ table.actions td {
 
 .massaction .entry-edit fieldset span.form_row, .massaction  .entry-edit fieldset span.field-row {
     display:block;
-    float: left;
+    float: left !important;
+    clear: none !important;
     margin: 0 0 0 0;
     padding:0px 5px 0px 0px;
 }
@@ -224,7 +225,7 @@ table.actions td {
 .massaction .entry-edit .content { margin-left:0 !important; padding:0 0 0 0; }
 
 .massaction .entry-edit {
-    margin:0 0 0 0;
+    margin:0 0 0 0 !important;
     padding:0 0 0 0;
 }
 
@@ -246,14 +247,11 @@ table.actions td {
     text-decoration:none;
 }
 
-.massaction button.scalable td span {
-    display:block;
-}
-
 .massaction button.scalable td {
     padding-bottom: 0px;
     padding-left: 0px;
     padding-right: 0px;
+    overflow: hidden;
 }
 
 
@@ -268,6 +266,7 @@ table.actions td {
     background-image: url(images/massaction_links_delimiter.gif);
     background-repeat: no-repeat;
     background-position: center 5px;
+    overflow:hidden;
 
 }
 

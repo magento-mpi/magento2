@@ -538,6 +538,8 @@ img.attribute-global {
     margin-left:0 !important;
     background-color: #fff;
     border: 1px solid #999;
+    position: absolute !important;
+    clear: none !important;
 }
 
 
