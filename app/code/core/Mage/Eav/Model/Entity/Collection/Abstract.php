@@ -793,6 +793,22 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     }
 
     /**
+     * Retrive all ids for collection
+     *
+     * @return array
+     */
+    public function getAllIds()
+    {
+        $idsSelect = clone $this->getSelect();
+        $idsSelect->reset(Zend_Db_Select::ORDER);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $idsSelect->reset(Zend_Db_Select::COLUMNS);
+        $idsSelect->from(null, 'e.'.$this->getEntity()->getIdFieldName());
+        return $this->_read->fetchCol($idsSelect);
+    }
+
+    /**
      * Save all the entities in the collection
      *
      * @todo make batch save directly from collection

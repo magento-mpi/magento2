@@ -34,6 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->setDefaultSort('id');
         $this->setDefaultDir('desc');
         $this->setSaveParametersInSession(true);
+        $this->setUseAjax(true);
         $this->setVarNameFilter('product_filter');
 
     }
@@ -273,8 +274,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         return $this;
     }
 
-    public function getRowUrl($row)
+    public function getGridUrl()
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId(), 'store'=>$this->getRequest()->getParam('store',0)));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
+
 }

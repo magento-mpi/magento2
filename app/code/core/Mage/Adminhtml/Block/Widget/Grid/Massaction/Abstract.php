@@ -216,7 +216,18 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
         return "
                 var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', {$this->getGridJsObjectName()}, {$this->getSelectedJson()}, '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');
                 {$this->getJsObjectName()}.setItems({$this->getItemsJson()});
+                {$this->getJsObjectName()}.setGridIds({$this->getGridIdsJson()});
         ";
+    }
+
+    public function getGridIdsJson()
+    {
+        $gridIds = $this->getParentBlock()->getCollection()->getAllIds();
+
+        if(!empty($gridIds)) {
+            return Zend_Json::encode($gridIds);
+        }
+        return '[]';
     }
 
     public function getHtmlId()

@@ -226,12 +226,11 @@ function openGridRow(grid, event){
 
 var varienGridMassaction = Class.create();
 varienGridMassaction.prototype = {
-    container: null,
-    grid: null,
+    /* Predefined vars */
     checkedValues: $H({}),
-    checkedVisibleValues:  $H({}),
     oldCallbacks: {},
     items: {},
+    gridIds: [],
     currentItem: false,
     fieldTemplate: new Template('<input type="hidden" name="#{name}" value="#{value}" />'),
     initialize: function (containerId, grid, checkedValues, formFieldNameInternal, formFieldName) {
@@ -241,14 +240,8 @@ varienGridMassaction.prototype = {
        this.setOldCallback('pre_init',  grid.preInitCallback);
 
        this.grid      = grid;
-       this.container = $(containerId);
        this.containerId = containerId;
-       this.form      = $(containerId + '-form');
-       this.count      = $(containerId + '-count');
-       this.validator = new Validation(this.form);
-       this.formHiddens    = $(containerId + '-form-hiddens');
-       this.formAdditional = $(containerId + '-form-additional');
-       this.select    = $(containerId + '-select');
+       this.initMassactionElements();
 
        checkedValues.each(function(item){
            this.checkedValues[item] = item;
@@ -261,14 +254,39 @@ varienGridMassaction.prototype = {
        this.grid.preInitCallback = this.onGridPreInit.bind(this);
        this.grid.initRowCallback = this.onGridRowInit.bind(this);
        this.grid.rowClickCallback = this.onGridRowClick.bind(this);
-       this.grid.rows.each(function(row){
-           this.initGridRow(row);
-       }.bind(this));
-
-       this.select.observe('change', this.onSelectChange.bindAsEventListener(this))
+       this.initCheckboxes();
+       this.checkCheckboxes();
+    },
+    initMassactionElements: function() {
+       this.container = $(this.containerId);
+       this.form      = $(this.containerId + '-form');
+       this.count      = $(this.containerId + '-count');
+       this.validator = new Validation(this.form);
+       this.formHiddens    = $(this.containerId + '-form-hiddens');
+       this.formAdditional = $(this.containerId + '-form-additional');
+       this.select    = $(this.containerId + '-select');
+       this.select.observe('change', this.onSelectChange.bindAsEventListener(this));
+    },
+    setGridIds: function(gridIds) {
+        this.gridIds = gridIds;
+        this.updateCount();
+    },
+    getGridIds: function(gridIds) {
+        return this.gridIds;
+    },
+    getOnlyExistsCheckedValues: function()
+    {
+        var result = [];
+        this.checkedValues.each(function(pair){
+            if(this.getGridIds().indexOf(pair.key)!=-1) {
+                result.push(pair.value);
+            }
+        }.bind(this));
+        return result;
     },
     setItems: function(items) {
         this.items = items;
+        this.updateCount();
     },
     getItems: function() {
         return this.items;
@@ -286,32 +304,25 @@ varienGridMassaction.prototype = {
         this.oldCallbacks[callbackName] = callback;
     },
     onGridPreInit: function(grid) {
-        this.checkedVisibleValues = $H({});
-        if(this.grid.rows.size() > 0) {
-               this.checkboxAll.checked = true;
-        }
+        this.initMassactionElements();
         this.getOldCallback('pre_init')(grid);
     },
     onGridInit: function(grid) {
-
+        this.initCheckboxes();
+        this.checkCheckboxes();
+        this.updateCount();
         this.getOldCallback('init')(grid);
     },
     onGridRowInit: function(grid, row) {
-        this.initGridRow(row);
         this.getOldCallback('init_row')(grid, row);
     },
     onGridRowClick: function(grid, evt) {
         if(Event.element(evt).isMassactionCheckbox) {
            this.setCheckbox(Event.element(evt));
-           this.initAllCheckbox();
         } else if (checkbox = this.findCheckbox(evt)) {
            checkbox.checked = !checkbox.checked;
            this.setCheckbox(checkbox);
-           this.initAllCheckbox();
         }
-    },
-    initAllCheckbox: function(evt) {
-        //this.checkboxAll.checked = this.isCheckedCheckboxes();
     },
     onSelectChange: function(evt) {
         var item = this.getSelectedItem();
@@ -335,44 +346,74 @@ varienGridMassaction.prototype = {
         }.bind(this));
         return checkbox;
     },
-    initGridRow: function(row) {
-        var checkboxes = row.getElementsByClassName('massaction-checkbox');
-        checkboxes.each(function(checkbox) {
+    initCheckboxes: function() {
+        this.getCheckboxes().each(function(checkbox) {
            checkbox.isMassactionCheckbox = true;
-           if(this.checkedValues.keys().indexOf(checkbox.value)!==-1) {
-               checkbox.checked = true;
-               this.setCheckbox(checkbox);
-           }
         }.bind(this));
-
-
     },
-    checkCheckboxes: function(source) {
+    checkCheckboxes: function() {
+        this.getCheckboxes().each(function(checkbox) {
+            checkbox.checked = this.checkedValues.keys().indexOf(checkbox.value)!==-1;
+        }.bind(this));
+    },
+    selectAll: function() {
+        this.setCheckedValues(this.getGridIds());
+        this.checkCheckboxes();
+        this.updateCount();
+    },
+    unselectAll: function() {
+        this.setCheckedValues([]);
+        this.checkCheckboxes();
+        this.updateCount();
+    },
+    selectVisible: function() {
+        this.setCheckedValues(this.getCheckboxesValues());
+        this.checkCheckboxes();
+        this.updateCount();
+    },
+    unselectVisible: function() {
+        this.unsetCheckedValues(this.getCheckboxesValues());
+        this.checkCheckboxes();
+        this.updateCount();
+    },
+    setCheckedValues: function(values) {
+        this.checkedValues.remove.apply(this.checkedValues, this.checkedValues.keys());
+        values.each(function(item){
+            this.checkedValues[item] = item;
+        }.bind(this));
+    },
+    unsetCheckedValues: function(values) {
+        if(values.size()) {
+            this.checkedValues.remove.apply(this.checkedValues, values);
+        }
+    },
+    getCheckboxes: function() {
+        var result = [];
         this.grid.rows.each(function(row){
             var checkboxes = row.getElementsByClassName('massaction-checkbox');
-            checkboxes.each(function(checkbox) {
-               checkbox.checked = source.checked;
-               this.setCheckbox(checkbox);
-            }.bind(this));
+            checkboxes.each(function(checkbox){
+                result.push(checkbox);
+            });
+        });
+        return result;
+    },
+    getCheckboxesValues: function() {
+        var result = [];
+        this.getCheckboxes().each(function(checkbox) {
+            result.push(checkbox.value);
         }.bind(this));
+        return result;
     },
     setCheckbox: function(checkbox) {
         if(checkbox.checked) {
             this.checkedValues[checkbox.value] = checkbox.value;
-            this.checkedVisibleValues[checkbox.value] = this.checkedValues[checkbox.value];
         } else {
             this.checkedValues.remove(checkbox.value);
-            this.checkedVisibleValues.remove(checkbox.value);
-        }
-
-        if(!this.grid.reloadParams) {
-            this.grid.reloadParams = {};
         }
         this.updateCount();
-        this.grid.reloadParams[this.formFieldNameInternal] = this.checkedValues.keys().join(',');
     },
     updateCount: function() {
-        this.count.update(this.checkedValues.keys().size());
+        this.count.update(this.getOnlyExistsCheckedValues().size());
     },
     getSelectedItem: function() {
         if(this.getItem(this.select.value)) {
@@ -395,7 +436,7 @@ varienGridMassaction.prototype = {
             return;
         }
 
-        this.checkedValues.keys().each(function(item){
+        this.getOnlyExistsCheckedValues().each(function(item){
             fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
         }.bind(this));
 
@@ -419,7 +460,7 @@ varienGridMassaction.prototype = {
     onMassactionComplete: function(transport) {
            if(this.currentItem.complete) {
                try {
-                  var listener = this.getListener(this.currentItem.complete) || Prototype.emptyFunction();
+                  var listener = this.getListener(this.currentItem.complete) || Prototype.emptyFunction;
                   listener(grid, this, transport);
                } catch (e) {}
            }

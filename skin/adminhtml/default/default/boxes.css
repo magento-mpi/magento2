@@ -534,7 +534,11 @@ img.attribute-global {
 .login-box .bottom { background:url(images/login_box_bottom.jpg) no-repeat; width:581px; height:5px; position:absolute; bottom:0; right:0; overflow:hidden;}
 .login-container .legal { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 10px 8px; font-size:.95em; }
 .login-form .validation-advice { margin-left:0; }
-.advice-absolute { margin-left:0 !important; }
+.advice-absolute {
+    margin-left:0 !important;
+    background-color: #fff;
+    border: 1px solid #999;
+}
 
 
 .no-active-category a span { color:#aaa !important; }

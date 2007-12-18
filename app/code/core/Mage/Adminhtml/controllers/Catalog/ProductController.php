@@ -44,7 +44,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function gridAction()
     {
-
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/catalog_product_grid')->toHtml());
     }
 
     public function newAction()
