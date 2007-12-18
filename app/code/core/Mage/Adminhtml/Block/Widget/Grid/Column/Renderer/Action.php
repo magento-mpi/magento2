@@ -34,7 +34,8 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
 		if ( empty($actions) || !is_array($actions) ) {
 		    return '&nbsp';
 		}
-		$out = '<span class="nowrap">';
+		$out = '<select class="select" onchange="varienGridAction.execute(this);">'
+		     . '<option value=""></option>';
 		$i = 0;
         foreach ($actions as $action){
             $i++;
@@ -45,7 +46,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
         	    $out .= $this->_showDelimiter();
         	}
         }
-		$out .= '</span>';
+		$out .= '</select>';
 		return $out;
     }
 
@@ -62,11 +63,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
             }
 
     	    switch ($attibute) {
-            	case 'confirm':
-            	    $action['onclick'] = 'return confirm(\'' . addslashes($this->htmlEscape($action['confirm'])) . '\');';
-            	    unset($action['confirm']);
-               		break;
-
             	case 'caption':
             	    $actionCaption = $action['caption'];
             	    unset($action['caption']);
@@ -87,9 +83,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
                		break;
             }
         }
-
-        $actionAttributes->setData($action);
-        return '<a ' . $actionAttributes->serialize() . '>' . $actionCaption . '</a>';
+        $htmlAttibutes = array('value'=>$this->htmlEscape(Zend_Json::encode($action)));
+        $actionAttributes->setData($htmlAttibutes);
+        return '<option ' . $actionAttributes->serialize() . '>' . $actionCaption . '</option>';
     }
 
     protected function _showDelimiter()

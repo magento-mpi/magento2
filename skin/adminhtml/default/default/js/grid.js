@@ -239,6 +239,7 @@ varienGridMassaction.prototype = {
        this.setOldCallback('init_row',  grid.initRowCallback);
        this.setOldCallback('pre_init',  grid.preInitCallback);
 
+       this.useAjax   = false;
        this.grid      = grid;
        this.containerId = containerId;
        this.initMassactionElements();
@@ -256,6 +257,9 @@ varienGridMassaction.prototype = {
        this.grid.rowClickCallback = this.onGridRowClick.bind(this);
        this.initCheckboxes();
        this.checkCheckboxes();
+    },
+    setUseAjax: function(flag) {
+       this.useAjax = flag;
     },
     initMassactionElements: function() {
        this.container = $(this.containerId);
@@ -450,7 +454,7 @@ varienGridMassaction.prototype = {
             return;
         }
 
-        if(this.grid.useAjax && item.url) {
+        if(this.useAjax && item.url) {
             new Ajax.Request(item.url, {
                 'method': 'post',
                 'parameters': this.form.serialize(true),
@@ -473,3 +477,19 @@ varienGridMassaction.prototype = {
         return eval(strValue);
     }
 }
+
+var varienGridAction = {
+    execute: function(select) {
+        if(!select.value || !select.value.isJSON()) {
+            return;
+        }
+
+        var config = select.value.evalJSON();
+        if(config.confirm && !window.confirm(config.confirm)) {
+            select.options[0].selected = true;
+            return;
+        }
+
+        setLocation(config.href);
+    }
+};
