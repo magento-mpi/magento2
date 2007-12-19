@@ -74,6 +74,28 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
     }
     
     /**
+     * Void payment
+     *
+     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function void(Mage_Payment_Model_Info $cmemoPayment)
+    {
+        return $this;
+    }
+    
+    /**
+     * Check void availability
+     *
+     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function canVoid(Mage_Payment_Model_Info $cmemoPayment)
+    {
+        return $this;
+    }
+    
+    /**
      * Using internal pages for input payment data
      *
      * @return bool
