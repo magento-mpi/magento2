@@ -25,8 +25,50 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
 {
     const XML_PATH_CC_TYPES = 'global/payment/cc/types';
     
+    /**
+     * Validate payment method information object
+     * 
+     * @param   Mage_Payment_Model_Info $info
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function validate(Mage_Payment_Model_Info $info)
+    {
+         return $this;
+    }
+
+    /**
+     * Place order reaction
+     *
+     * @param   Mage_Payment_Model_Info $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function place(Mage_Payment_Model_Info $orderPayment)
+    {
+        return $this;
+    }
     
-    protected $_payment = null;
+    /**
+     * Pay invoice
+     *
+     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function pay(Mage_Payment_Model_Info $invoicePayment)
+    {
+        return $this;
+    }
+    
+    
+    /**
+     * Refund money
+     *
+     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function refund(Mage_Payment_Model_Info $cmemoPayment)
+    {
+        return $this;
+    }
     
     /**
      * Using internal pages for input payment data
@@ -48,28 +90,6 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return true;
     }
     
-    public function getStore()
-    {
-        return $this->getData('store');
-    }
-    
-    public function setStore($store)
-    {
-        $this->setData('store', $store);
-        return $this;
-    }
-    
-    /**
-     * Checking availability of data for method
-     *
-     * @param   mixed $data
-     * @return  bool
-     */
-    public function isValidData($data)
-    {
-        return true;
-    }
-    
     /**
      * Retrieve payment method code
      *
@@ -80,6 +100,12 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return $this->getData('code');
     }
     
+    /**
+     * REtrieve information from payment configuration
+     *
+     * @param   string $field
+     * @return  mixed
+     */
     public function getConfigData($field)
     {
         $path = 'payment/'.$this->getCode().'/'.$field;
@@ -90,10 +116,31 @@ abstract class Mage_Payment_Model_Abstract extends Varien_Object
         return Mage::getStoreConfig($path);
     }
     
-    public function validateInfo(Mage_Payment_Model_Info $info)
-    {
-         return $this;
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * @todo need replace this interface

@@ -67,7 +67,7 @@ class Mage_Payment_Model_Cc extends Mage_Payment_Model_Abstract
      /*
     * validate cc type and cc number match or not    
     */
-    public function validateInfo(Mage_Payment_Model_Info $info)
+    public function validate(Mage_Payment_Model_Info $info)
     {
 
 /*

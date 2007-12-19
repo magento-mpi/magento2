@@ -105,7 +105,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
 #var_dump($this->getMethodInstance());
 
         //to validate post payment information        
-        $this->getMethodInstance()->validateInfo($this);        
+        $this->getMethodInstance()->validate($this);        
         
         return $this;
     }    
