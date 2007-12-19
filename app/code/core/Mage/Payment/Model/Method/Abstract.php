@@ -21,7 +21,7 @@
 /**
  * Payment method abstract model
  */
-abstract class Mage_Payment_Model_Abstract extends Varien_Object
+abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 {
     const STATUS_UNKNOWN    = 'UNKNOWN';
     const STATUS_APPROVED   = 'APPROVED';
