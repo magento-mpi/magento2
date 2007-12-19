@@ -23,7 +23,10 @@
  */
 abstract class Mage_Payment_Model_Abstract extends Varien_Object
 {
-    const XML_PATH_CC_TYPES = 'global/payment/cc/types';
+    const STATUS_UNKNOWN    = 'UNKNOWN';
+    const STATUS_APPROVED   = 'APPROVED';
+    const STATUS_ERROR      = 'ERROR';
+    const STATUS_DECLINED   = 'DECLINED';
     
     /**
      * Validate payment method information object
