@@ -182,4 +182,106 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return true;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Temporary - bellow need remove
+     */
+    
+    
+    /**
+     * Retrieve payment method code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->getData('code');
+    }
+    
+    /**
+     * REtrieve information from payment configuration
+     *
+     * @param   string $field
+     * @return  mixed
+     */
+    public function getConfigData($field)
+    {
+        $path = 'payment/'.$this->getCode().'/'.$field;
+        $store = $this->getStore();
+        if ($store instanceof Mage_Core_Model_Store) {
+            return $store->getConfig($path);
+        }
+        return Mage::getStoreConfig($path);
+    }
+    
+    /**
+     * @todo need replace this interface
+     */
+    public function createFormBlock($name)
+    {
+        return false;
+    }
+
+    public function createInfoBlock($name)
+    {
+        return false;
+    }
+
+    public function getLayout()
+    {
+        return Mage::registry('action')->getLayout();
+    }
+
+    public function getCheckoutRedirectUrl()
+    {
+        return false;
+    }
+
+    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
+    {
+        return $this;
+    }
+
+    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
+    {
+        // TODO TOFIX !!!
+//        $payment->getInvoice()->setInvoiceStatusId(Mage_Sales_Model_Invoice::STATUS_PAYED);
+
+        return $this;
+    }
+    
+    
 }
