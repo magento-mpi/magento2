@@ -30,24 +30,24 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
     protected $_productStoreTable;
     protected $_categoryProductTable;
     protected $_storeTable;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         $this->setEntity(Mage::getResourceSingleton('catalog/product'));
         $this->setObject('catalog/product');
-        
+
         $resource = Mage::getSingleton('core/resource');
         $this->_productStoreTable = $resource->getTableName('catalog/product_store');
         $this->_storeTable        = $resource->getTableName('core/store');
         $this->_categoryProductTable = $resource->getTableName('catalog/category_product');
     }
-    
+
     public function setStore($store)
     {
         $this->getEntity()->setStore($store);
         return $this;
     }
-    
+
     public function addIdFilter($productId)
     {
         if (is_array($productId)) {
@@ -59,21 +59,21 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $this->addFieldToFilter('entity_id', $condition);
         return $this;
     }
-    
+
     protected function _afterLoad()
     {
         Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         return $this;
     }
 
-    
+
     public function joinMinimalPrice()
     {
         $this->addAttributeToSelect('price')
             ->addAttributeToSelect('minimal_price');
         return $this;
     }
-    
+
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {
         if ($category->getIsAnchor()) {
@@ -89,16 +89,16 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         else {
             $alias = 'position';
         }
-        
-        $this->joinField($alias, 
-                'catalog/category_product', 
-                'position', 
-                'product_id=entity_id', 
+
+        $this->joinField($alias,
+                'catalog/category_product',
+                'position',
+                'product_id=entity_id',
                 $categoryCondition);
-                
+
         return $this;
     }
-    
+
     /**
      * Adding product store names to result collection
      *
@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         foreach ($this as $product) {
         	$productStores[$product->getId()] = array();
         }
-        
+
         if (!empty($productStores)) {
             $select = $this->_read->select()
                 ->from($this->_productStoreTable)
@@ -120,10 +120,10 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
 
             $data = $this->_read->fetchAll($select);
             foreach ($data as $row) {
-            	$productStores[$row['product_id']][] = $row['name'];
+            	$productStores[$row['product_id']][$row['store_id']] = $row['name'];
             }
         }
-        
+
         foreach ($this as $product) {
             if (isset($productStores[$product->getId()])) {
                 $product->setData('stores', $productStores[$product->getId()]);
@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         }
         return $this;
     }
-    
+
     /**
      * Retrieve max value by attribute
      *
@@ -144,25 +144,25 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $attribute  = $this->getEntity()->getAttribute($attribute);
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode.'_max_value';
-        
-        $condition  = 'e.entity_id='.$tableAlias.'.entity_id 
+
+        $condition  = 'e.entity_id='.$tableAlias.'.entity_id
             AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
             AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
-        
+
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
                 array('max_'.$attributeCode=>new Zend_Db_Expr('MAX('.$tableAlias.'.value)'))
             )
             ->group('e.entity_type_id');
-            
+
         $data = $this->_read->fetchRow($select);
         if (isset($data['max_'.$attributeCode])) {
             return $data['max_'.$attributeCode];
         }
         return null;
     }
-    
+
     /**
      * Retrieve ranging product count for arrtibute range
      *
@@ -176,11 +176,11 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $attribute  = $this->getEntity()->getAttribute($attribute);
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode.'_range_count_value';
-        
-        $condition  = 'e.entity_id='.$tableAlias.'.entity_id 
+
+        $condition  = 'e.entity_id='.$tableAlias.'.entity_id
             AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
             AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
-        
+
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
@@ -193,13 +193,13 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
 
         $data   = $this->_read->fetchAll($select);
         $res    = array();
-        
+
         foreach ($data as $row) {
         	$res[$row['range_'.$attributeCode]] = $row['count_'.$attributeCode];
         }
         return $res;
     }
-    
+
     /**
      * Retrieve product count by some value of attribute
      *
@@ -212,11 +212,11 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $attribute  = $this->getEntity()->getAttribute($attribute);
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode.'_value_count';
-        
-        $condition  = 'e.entity_id='.$tableAlias.'.entity_id 
+
+        $condition  = 'e.entity_id='.$tableAlias.'.entity_id
             AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
             AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
-        
+
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
@@ -229,13 +229,13 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
 
         $data   = $this->_read->fetchAll($select);
         $res    = array();
-        
+
         foreach ($data as $row) {
         	$res[$row['value_'.$attributeCode]] = $row['count_'.$attributeCode];
         }
         return $res;
     }
-    
+
     /**
      * Render SQL for retrieve product count
      *
@@ -252,7 +252,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT e.entity_id) from ', $sql);
         return $sql;
     }
-    
+
     /**
      * Adding product count to categories collection
      *
@@ -270,7 +270,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
                     'category_count_table.product_id=e.entity_id',
                     array('count_in_category'=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'))
                 );
-                
+
             if ($category->getIsAnchor()) {
                 $select->where($this->_read->quoteInto('category_count_table.category_id IN(?)', explode(',', $category->getAllChildren())));
             }
@@ -282,7 +282,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
         }
         return $this;
     }
-    
+
     public function getSetIds()
     {
         $select = clone $this->getSelect();

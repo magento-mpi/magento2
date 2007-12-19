@@ -19,13 +19,13 @@
  */
 
 /**
- * Product attributes tab
+ * Adminhtml catalog product edit action attributes update tab block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {
@@ -35,29 +35,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
 
     protected function _prepareForm()
     {
-        if ($group = $this->getGroup()) {
-            $form = new Varien_Data_Form();
-            $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>__($group->getAttributeGroupName())));
-            $attributes = $this->getGroupAttributes();
+        $form = new Varien_Data_Form();
+        $fieldset = $form->addFieldset('fields', array('legend'=>$this->__('Attributes')));
+        $attributes = $this->getAttributes();
+        $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery'));
+        $form->setFieldNameSuffix('attributes');
+        $this->setForm($form);
+    }
 
-            $this->_setFieldset($attributes, $fieldset);
-
-            if ($tierPrice = $form->getElement('tier_price')) {
-                $tierPrice->setRenderer(
-                    $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_tier')
-                );
-            }
-
-            if ($gallery = $form->getElement('gallery')) {
-                $gallery->setRenderer(
-                    $this->getLayout()->createBlock('adminhtml/widget_form_element_gallery')
-                );
-            }
-
-            $form->addValues(Mage::registry('product')->getData());
-            $form->setFieldNameSuffix('product');
-            $this->setForm($form);
-        }
+    public function getAttributes()
+    {
+        return $this->helper('adminhtml/catalog_product_edit_action_attribute')->getAttributes()->getItems();
     }
 
     protected function _getAdditionalElementTypes()
@@ -68,4 +56,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             'boolean' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_boolean')
         );
     }
-}
+
+    protected function _getAdditionalElementHtml($element)
+    {
+        return '<span class="attribute-change-checkbox"><input type="checkbox" id="'.$element->getId().'-checkbox" onclick="toogleFieldEditMode(this, \''.$element->getId().'\')" /><label for="'.$element->getId().'-checkbox">' . $this->__('Change') . '</label></span>
+        <script type="text/javascript">initDisableFields(\''.$element->getId().'\')</script>';
+    }
+} // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes End

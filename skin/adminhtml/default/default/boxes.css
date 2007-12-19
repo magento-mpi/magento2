@@ -844,3 +844,17 @@ div.actions:after,
 .rate-table td.thead-last {
     border-right:0px;
 }
+
+/** Product mass attribute update **/
+
+.attribute-change-checkbox {
+    white-space: nowrap;
+    clear: none;
+    margin-left: 5px;
+}
+
+.attribute-change-checkbox label{
+    margin-left: 5px;
+    float: none !important;
+    display: normal;
+}

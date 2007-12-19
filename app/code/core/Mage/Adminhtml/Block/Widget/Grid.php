@@ -809,6 +809,11 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
+    /**
+     * Retrive massaction block
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+     */
     public function getMassactionBlock()
     {
         return $this->getChild('massaction');

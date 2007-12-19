@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Catalog category helper
  *
@@ -25,6 +25,7 @@
  */
 class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 {
+    protected $_statuses;
     /**
      * Retrieve product view page url
      *
@@ -47,7 +48,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
         return false;
     }
-    
+
     /**
      * Retrieve product price
      *
@@ -58,7 +59,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         return $product->getPrice();
     }
-    
+
     /**
      * Retrieve product final price
      *
@@ -69,7 +70,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         return $product->getFinalPrice();
     }
-    
+
     /**
      * Retrieve base image url
      *
@@ -86,7 +87,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
         return $url;
     }
-    
+
     /**
      * Retrieve small image url
      *
@@ -103,7 +104,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
         return $url;
     }
-    
+
     /**
      * Retrieve thumbnail image url
      *
@@ -113,12 +114,12 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         return '';
     }
-    
+
     public function getEmailToFriendUrl($product)
     {
         return $this->_getUrl('catalog/product/send', array('id'=>$product->getId()));
     }
-    
+
     /**
      * Retrieve product price html block
      *
@@ -138,13 +139,13 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         else {
             $html.= '<div class="price-box">
                 <span class="special-price">
-                    <span class="label">'.$this->__('Special Price:').'</span> 
+                    <span class="label">'.$this->__('Special Price:').'</span>
                     <span class="price" id="product-price-'.$product->getId().'">
                     '.Mage::helper('core')->currency($product->getFinalPrice()).'
                     </span>
                 </span><br/>
                 <span class="old-price">
-                    <span class="label">'.$this->__('Regular Price:').'</span> 
+                    <span class="label">'.$this->__('Regular Price:').'</span>
                     <span class="price">
                     '.Mage::helper('core')->currency($product->getPrice()).'
                     </span>
@@ -153,4 +154,15 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
         return $html;
     }
+
+    public function getStatuses()
+    {
+        if(is_null($this->_statuses)) {
+            $this->_statuses = Mage::getModel('catalog/product_status')->getResourceCollection()->load();
+        }
+
+        return $this->_statuses;
+    }
+
+
 }

@@ -226,7 +226,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'actions'   => array(
                     array(
                         'caption' => $this->__('Edit'),
-                        'url'     => array('base'=>'*/*/edit'),
+                        'url'     => array(
+                            'base'=>'*/*/edit',
+                            'params'=>array('store'=>$this->getRequest()->getParam('store'))
+                        ),
                         'field'   => 'id'
                     )
                 ),
@@ -252,9 +255,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              'confirm' => $this->__('Are you sure?')
         ));
 
-        $statuses = Mage::getResourceModel('catalog/product_status_collection')
-            ->load()
-            ->toOptionArray();
+        $statuses = $this->helper('catalog/product')->getStatuses()->toOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
@@ -269,6 +270,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                          'values' => $statuses
                      )
              )
+        ));
+
+        $this->getMassactionBlock()->addItem('attributes', array(
+            'label' => $this->__('Update attributes'),
+            'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
         ));
 
         return $this;

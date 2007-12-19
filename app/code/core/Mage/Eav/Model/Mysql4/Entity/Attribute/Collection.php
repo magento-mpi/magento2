@@ -56,7 +56,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
         $this->setOrder('sort_order', 'asc');
         return $this;
     }
-    
+
     public function setAttributeSetExcludeFilter($setId)
     {
         $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
@@ -91,13 +91,25 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
         $this->getSelect()->where('main_table.is_visible=?', 1);
         return $this;
     }
-    
+
     public function addIsFilterableFilter()
     {
         $this->getSelect()->where('main_table.is_filterable>0');
         return $this;
     }
-    
+
+    public function addIsUniqueFilter()
+    {
+        $this->getSelect()->where('main_table.is_unique>0');
+        return $this;
+    }
+
+    public function addIsNotUniqueFilter()
+    {
+        $this->getSelect()->where('main_table.is_unique=0');
+        return $this;
+    }
+
     public function addIsSearchableFilter()
     {
         $this->getSelect()->where('main_table.is_searchable=1');

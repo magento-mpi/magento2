@@ -75,14 +75,14 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
         return parent::_beforeToHtml();
     }
 
-    protected function _setFieldset($attributes, $fieldset)
+    protected function _setFieldset($attributes, $fieldset, $exclude=array())
     {
         $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
             if (!$attribute->getIsVisible()) {
                 continue;
             }
-            if ($inputType = $attribute->getFrontend()->getInputType()) {
+            if ( ($inputType = $attribute->getFrontend()->getInputType()) && !in_array($attribute->getAttributeCode(), $exclude)) {
                 $element = $fieldset->addField($attribute->getAttributeCode(), $inputType,
                     array(
                         'name'  => $attribute->getAttributeCode(),
@@ -94,7 +94,9 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 ->setEntityAttribute($attribute);
 
                 if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
-                    $element->setAfterElementHtml($this->getGlobalIcon());
+                    $element->setAfterElementHtml($this->_getAdditionalElementHtml($element) . $this->getGlobalIcon());
+                } else {
+                    $element->setAfterElementHtml($this->_getAdditionalElementHtml($element));
                 }
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
@@ -119,5 +121,10 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     protected function _getAdditionalElementTypes()
     {
         return array();
+    }
+
+    protected function _getAdditionalElementHtml($element)
+    {
+        return '';
     }
 }
