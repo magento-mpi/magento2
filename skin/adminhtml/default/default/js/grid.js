@@ -215,9 +215,10 @@ varienGrid.prototype = {
 
 function openGridRow(grid, event){
     var element = Event.findElement(event, 'tr');
-    if(['a', 'input', 'select'].indexOf(Event.element(event).tagName.toLowerCase())) {
+    if(['a', 'input', 'select'].indexOf(Event.element(event).tagName.toLowerCase())!=-1) {
         return;
     }
+
     if(element.id){
         setLocation(element.id);
     }
