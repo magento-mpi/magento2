@@ -35,27 +35,48 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $this->setTitle(__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
-
+    protected function _sortSections($a, $b)
+    {
+        //echo $a->label.'['.$a->sort_order.'] vs '.$b->label . '['.$b->sort_order.'] = ' . (string)($a->sort_order < $b->sort_order ? -1 : ($a->sort_order > $b->sort_order ? 1 : 0))  . " \n<br>";
+        return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
+        
+    }
     public function initTabs()
     {
         $current = $this->getRequest()->getParam('section');
 
-        $sections = Mage::getResourceModel('core/config_field_collection')
-            ->addFieldToFilter('level', 1)
-            ->setOrder('sort_order', 'asc')
-            ->loadData();
+//        $sections = Mage::getResourceModel('core/config_field_collection')
+//            ->addFieldToFilter('level', 1)
+//            ->setOrder('sort_order', 'asc')
+//            ->loadData();
             
         $url = Mage::getModel('core/url');
 
+        $configFields = Mage::getSingleton('adminhtml/config');
+        $sections=$configFields->getSections($current);
+        
+        $sections=(array)$sections;
+//            echo '<pre>';
+//            print_r($sections_array);
+//            echo '</pre>';
+    
+        usort(&$sections, array($this, '_sortSections'));
+        
+//            echo '<pre style="color: #ff0000">';
+//            print_r($sections_array);
+//            echo '</pre>';
+         
+                    
         foreach ($sections as $section) {
-            $code = $section->getPath();
+            //$code = $section->getPath();
+            $code = $section->getName();
             $sectionAllowed = $this->checkSectionPermissions($code);
 
             if (empty($current) && $sectionAllowed) {
                 $current = $code;
                 $this->getRequest()->setParam('section', $current);
             }
-            $label = __($section->getFrontendLabel());
+            $label = __((string)$section->label);
             if ($code == $current) {
                 if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
                     $this->_addBreadcrumb($label);
@@ -74,6 +95,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 $this->setActiveTab($code);
             }
         }
+
         return $this;
     }
 

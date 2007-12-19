@@ -88,6 +88,56 @@
                         </region_id>
                     </fields>
                 </origin>
+                <tablerate>
+                <label translate="label">Tablerate</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <allowall>
+                            <label translate="label">Ship to applicable countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[1]]></default_value>
+                        </allowall>
+                        <specificcountry>
+                            <label translate="label">Ship to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>91</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </specificcountry>
+                        <showmethod>
+                            <label translate="label">Show method if not applicable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>91</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </showmethod>
+                        <specificerrmsg>
+                            <label translate="label">Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>91</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </specificerrmsg>
+                    </fields>
+                </tablerate>
             </sections>
         </shipping>
     </groups>

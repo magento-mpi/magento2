@@ -28,31 +28,58 @@
  */
 class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
 {
-    function getGroups ($sectionCode=null, $websiteCode=null, $storeCode=null){
+
+    var $sections;
+
+    function getSections ($sectionCode=null, $websiteCode=null, $storeCode=null){
         
-        $mergeConfig = new Mage_Core_Model_Config_Base();
+        if (!isset($this->sections)) {
+            $this->takeSections();
+        }
+        return $this->sections;
         
-        $config = Mage::getConfig();
-        $modules = $config->getNode('modules')->children();
-        foreach ($modules as $modName=>$module) {
-            if ($module->is('active')) {
-                $configFile = $config->getModuleDir('etc', $modName).DS.'system.xml';
-                if ($mergeConfig->loadFile($configFile)) {
-                    $config->extend($mergeConfig, true);
+    }
+    function takeSections ($sectionCode=null, $websiteCode=null, $storeCode=null) {
+        if (empty($this->sections)) {
+            $mergeConfig = new Mage_Core_Model_Config_Base();
+
+            $config = Mage::getConfig();
+            $modules = $config->getNode('modules')->children();
+
+            foreach ($modules as $modName=>$module) {
+                if ($module->is('active')) {
+                    $configFile = $config->getModuleDir('etc', $modName).DS.'system.xml';
+                    if ($mergeConfig->loadFile($configFile)) {
+                        $config->extend($mergeConfig, true);
+                    }
                 }
             }
-        }
-        $config->applyExtends();
+            $config->applyExtends();
+            
+            
+            
+            $sections=$config->getNode()->groups->children();
+            
 
 
-        if ($sectionCode) {
-        	return $config->getNode()->groups->$sectionCode;
-        }
-        if ($websiteCode) {
-        	return $config->getNode()->groups->$websiteCode;
-        }
-        if ($storeCode) {
-        	return $config->getNode()->groups->$storeCode;
+            $this->sections=$sections;
+            
         }
     }
+    function getSection ($sectionCode=null, $websiteCode=null, $storeCode=null){
+
+        if (!isset($this->sections)) {
+            $this->takeSections();
+        }
+
+        if ($sectionCode){
+            return  $this->sections->$sectionCode;
+        }elseif ($websiteCode) {
+            return  $this->sections->$websiteCode;
+        } elseif ($storeCode) {
+            return  $this->sections->$storeCode;
+        } 
+    }
+    
+    
 }
