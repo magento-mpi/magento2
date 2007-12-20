@@ -476,15 +476,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param   Mage_Core_Block_Abstract $block
      * @param   string $siblingName
      * @param   boolean $after
+     * @param   string $alias
      * @return  object $this
      */
-    function insert($block, $siblingName='', $after=false)
+    function insert($block, $siblingName='', $after=false, $alias='')
     {
         if ($block->getIsAnonymous()) {
             $this->setChild('', $block);
             $name = $block->getNameInLayout();
-        }
-        else {
+        } elseif ('' != $alias) {
+            $this->setChild($alias, $block);
+            $name = $block->getNameInLayout();
+        } else {
             $name = $block->getNameInLayout();
             $this->setChild($name, $block);
         }
@@ -513,11 +516,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * Append child block
      *
      * @param   Mage_Core_Block_Abstract $block
+     * @param   string $alias
      * @return  Mage_Core_Block_Abstract
      */
-    function append($block)
+    function append($block, $alias='')
     {
-        $this->insert($block, '', true);
+        $this->insert($block, '', true, $alias);
         return $this;
     }
 
@@ -710,4 +714,4 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this->helper('core')->htmlEscape($data);
     }
 
-}// Class Mage_Home_ContentBlock END
+}

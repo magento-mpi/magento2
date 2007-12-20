@@ -108,7 +108,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
     	return $this->_area;
     }
-    
+
     /**
      * Declaring layout direct output flag
      *
@@ -120,7 +120,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_directOutput = $flag;
         return $this;
     }
-    
+
     /**
      * Retrieve derect output flag
      *
@@ -130,7 +130,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         return $this->_directOutput;
     }
-    
+
     /**
      * Loyout xml generation
      *
@@ -176,13 +176,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
     protected function _generateBlock($node, $parent)
     {
-    	
+
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
             $className = Mage::getConfig()->getBlockClassName((string)$node['type']);
         }
-        
+
         $blockName = (string)$node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
         Varien_Profiler::start($_profilerKey);
@@ -197,23 +197,21 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         if (!empty($parentBlock)) {
-            if (isset($node['as'])) {
-                $as = (string)$node['as'];
-                $parentBlock->setChild($as, $block);
-            } elseif (isset($node['before'])) {
+            $alias = isset($node['as']) ? (string)$node['as'] : '';
+            if (isset($node['before'])) {
                 $sibling = (string)$node['before'];
                 if ('-'===$sibling) {
                     $sibling = '';
                 }
-                $parentBlock->insert($block, $sibling);
+                $parentBlock->insert($block, $sibling, false, $alias);
             } elseif (isset($node['after'])) {
                 $sibling = (string)$node['after'];
                 if ('-'===$sibling) {
                     $sibling = '';
                 }
-                $parentBlock->insert($block, $sibling, true);
+                $parentBlock->insert($block, $sibling, true, $alias);
             } else {
-                $parentBlock->append($block);
+                $parentBlock->append($block, $alias);
             }
         }
         if (!empty($node['template'])) {
@@ -435,7 +433,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $this->_helpers[$type];
     }
-    
+
     /**
      * Retrieve helper object
      *

@@ -21,12 +21,10 @@
 /**
  * Base html block
  *
- * @version    1.0 
  * @author	   Soroka Dmitriy <dmitriy@varien.com>
- * @date       Thu Feb 08 05:56:43 EET 2007
  */
 
-class Mage_Core_Block_Text_List extends Mage_Core_Block_Text 
+class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 {
 	function toHtml()
 	{
@@ -40,4 +38,4 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 		}
 	    return parent::toHtml();
 	}
-}// Class Mage_Core_Block_List END
+}
