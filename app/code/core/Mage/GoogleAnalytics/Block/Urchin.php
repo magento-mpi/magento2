@@ -19,7 +19,7 @@
  */
 
 
-class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text 
+class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 {
 	public function getQuoteOrdersHtml()
 	{
@@ -27,29 +27,29 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 		if (!$quote) {
 			return '';
 		}
-		
+
 		if ($quote instanceof Mage_Sales_Model_Quote) {
 			$quoteId = $quote->getId();
 		} else {
 			$quoteId = $quote;
 		}
-		
+
 		if (!$quoteId) {
 			return '';
 		}
-		
-		$orders = Mage::getResourceModel('sales/order_collection')	
+
+		$orders = Mage::getResourceModel('sales/order_collection')
 			->addAttributeToFilter('quote_id', $quoteId)
 			->load();
-			
+
 		$html = '';
 		foreach ($orders as $order) {
 			$html .= $this->setOrder($order)->getOrderHtml();
 		}
-		
+
 		return $html;
 	}
-	
+
 	public function getOrderHtml()
 	{
 
@@ -57,45 +57,46 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 		if (!$order) {
 			return '';
 		}
-		
+
 		if (!$order instanceof Mage_Sales_Model_Order) {
 			$order = Mage::getModel('sales/order')->load($order);
 		}
-		
+
 		if (!$order) {
 			return '';
 		}
-		
+
 		$address = $order->getBillingAddress();
-		
-		$data = array();
-		
-		$dataArr[] = 'UTM:T'
-			.'|'.$order->getIncrementId()
-			.'|'.$order->getAffiliation() // empty in our case
-			.'|'.$order->getGrandTotal()
-			.'|'.$order->getTaxAmount()
-			.'|'.$order->getShippingAmount()
-			.'|'.$address->getCity()
-			.'|'.$address->getRegion()
-			.'|'.$address->getCountry();
-		
+
+		$html  = '<script type="text/javascript">' . "\n";
+		$html .= 'pageTracker._addTrans(';
+		$html .= '"' . $order->getIncrementId() . '",';
+		$html .= '"' . $order->getAffiliation() . '",';
+		$html .= '"' . $order->getGrandTotal() . '",';
+		$html .= '"' . $order->getTaxAmount() . '",';
+		$html .= '"' . $order->getShippingAmount() . '",';
+		$html .= '"' . $order->getCity() . '",';
+		$html .= '"' . $order->getRegion() . '",';
+		$html .= '"' . $order->getCountry() . '"';
+		$html .= ');' . "\n";
+
 		foreach ($order->getAllItems() as $item) {
-			$dataArr[] = 'UTM:I'
-				.'|'.$order->getIncrementId()
-				.'|'.$item->getSku()
-				.'|'.$item->getName()
-				.'|'.$item->getCategory() // empty in our case
-				.'|'.$item->getPrice()
-				.'|'.$item->getQtyOrdered();
+		    $html .= 'pageTracker._addItem(';
+		    $html .= '"' . $order->getIncrementId() . '",';
+		    $html .= '"' . $item->getSku() . '",';
+		    $html .= '"' . $item->getName() . '",';
+		    $html .= '"' . $item->getCategory() . '",';
+		    $html .= '"' . $item->getPrice() . '",';
+		    $html .= '"' . $item->getQtyOrdered() . '"';
+		    $html .= ');' . "\n";
 		}
-		
-		$html = '<form style="display:none;" name="utmform"><textarea id="utmtrans">'.join(' ', $dataArr).'</textarea></form>';
-		$html.= '<script type="text/javascript">__utmSetTrans();</script>';
-		
+
+		$html .= 'pageTracker._trackTrans();' . "\n";
+		$html .= '</script>';
+
 		return $html;
 	}
-	
+
 	public function getAccount()
 	{
 		if (!$this->hasData('account')) {
@@ -103,7 +104,7 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 		}
 		return $this->getData('account');
 	}
-	
+
 	public function getPageName()
 	{
 		if (!$this->hasData('page_name')) {
@@ -111,13 +112,13 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 		}
 		return $this->getData('page_name');
 	}
-	
+
 	public function toHtml()
 	{
 		if (!Mage::getStoreConfig('web_track/google/urchin_enable')) {
 			return '';
 		}
-		
+
 		$this->addText('
 <!-- BEGIN GOOGLE ANALYTICS CODE -->
 <script type="text/javascript">
@@ -133,9 +134,9 @@ pageTracker._trackPageview("' . $this->getPageName() . '");
 </script>
 <!-- END GOOGLE ANALYTICS CODE -->
 		');
-		
+
 		$this->addText($this->getQuoteOrdersHtml());
-		
+
 		return parent::toHtml();
 	}
 }
