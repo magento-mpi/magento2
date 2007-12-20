@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
 		    return '&nbsp';
 		}
 
-		if(sizeof($actions)==1) {
+		if(sizeof($actions)==1 && !$this->getColumn()->getNoLink()) {
 		    foreach ($actions as $action){
                 if ( is_array($action) ) {
                     return $this->_toLinkHtml($action, $row);
@@ -57,9 +57,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
             $i++;
         	if ( is_array($action) ) {
                 $out .= $this->_toOptionHtml($action, $row);
-        	}
-        	if ( $i < count($actions) ) {
-        	    $out .= $this->_showDelimiter();
         	}
         }
 		$out .= '</select>';

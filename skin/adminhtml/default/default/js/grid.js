@@ -215,7 +215,7 @@ varienGrid.prototype = {
 
 function openGridRow(grid, event){
     var element = Event.findElement(event, 'tr');
-    if(['a', 'input', 'select'].indexOf(Event.element(event).tagName.toLowerCase())!=-1) {
+    if(['a', 'input', 'select', 'option'].indexOf(Event.element(event).tagName.toLowerCase())!=-1) {
         return;
     }
 
@@ -424,7 +424,8 @@ varienGridMassaction.prototype = {
         this.updateCount();
     },
     updateCount: function() {
-        this.count.update(this.getOnlyExistsCheckedValues().size());
+        // Maybe in future this.count.update(this.getOnlyExistsCheckedValues().size());
+        this.count.update(this.getCheckedValues().size());
         if(!this.grid.reloadParams) {
             this.grid.reloadParams = {};
         }
@@ -451,7 +452,12 @@ varienGridMassaction.prototype = {
             return;
         }
 
+        /* Maybe in future
         this.getOnlyExistsCheckedValues().each(function(item){
+            fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
+        }.bind(this)); */
+
+        this.getCheckedValues().each(function(item){
             fieldsHtml += this.fieldTemplate.evaluate({name: fieldName, value: item});
         }.bind(this));
 

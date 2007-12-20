@@ -118,7 +118,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
         if (is_null($this->_attributes)) {
             $this->_attributes = $this->getProducts()->getEntity()->getConfig()->getAttributeCollection()
                 ->addIsNotUniqueFilter()
-                ->setAttributeSetsFilter($this->getProductsSetIds())
+                ->setInAllAttributeSetsFilter($this->getProductsSetIds())
                 ->load();
             foreach($this->_attributes as $attribute) {
                 $attribute->setEntity($this->getProducts()->getEntity());

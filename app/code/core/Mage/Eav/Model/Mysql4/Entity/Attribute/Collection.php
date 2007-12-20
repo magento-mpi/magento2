@@ -57,6 +57,27 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
         return $this;
     }
 
+    /**
+     * Filter for selecting of attributes that is in all sets
+     *
+     * @param array $setIds
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
+    public function setInAllAttributeSetsFilter(array $setIds)
+    {
+        foreach ($setIds as $setId) {
+            $setId = (int) $setId;
+            if (!$setId) {
+                continue;
+            }
+            $this->getSelect()->join(array('entity_attribute_'.$setId=>$this->getTable('entity_attribute')), 'entity_attribute_' . $setId . '.attribute_id=main_table.attribute_id and entity_attribute_' . $setId . '.attribute_set_id=' . $setId, 'attribute_id');
+        }
+
+        $this->getSelect()->distinct(true);
+        $this->setOrder('is_user_defined', 'asc');
+        return $this;
+    }
+
     public function setAttributeSetExcludeFilter($setId)
     {
         $this->join('entity_attribute', 'entity_attribute.attribute_id=main_table.attribute_id', '*');
