@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         foreach ($sections as $section) {
 
-            $hasChildren = $this->hasChildren($section, $current, $websiteCode, $storeCode);
+            $hasChildren = $this->hasChildren($section, $websiteCode, $storeCode);
 
             //$code = $section->getPath();
             $code = $section->getName();
@@ -193,9 +193,8 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         return $showTab;
     }
 
-    public function hasChildren ($node, $sectionCode=null, $websiteCode=null, $storeCode=null, $isField=false){
+    public function hasChildren ($node, $websiteCode=null, $storeCode=null, $isField=false){
         $showTab = false;
-
         if ($storeCode) {
             if (isset($node->show_in_store)) {
                 if ((int)$node->show_in_store) {
@@ -208,28 +207,25 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                     $showTab=true;
                 }
             }
-        } elseif ($sectionCode) {
-            if (isset($node->show_in_store)) {
-                if ((int)$node->show_in_store) {
+        } else
+            if (isset($node->show_in_default)) {
+                if ((int)$node->show_in_default) {
                     $showTab=true;
                 }
-            }
+
         }
         if ($showTab) {
             if (isset($node->sections)) {
                 foreach ($node->sections->children() as $children){
-                    return $this->hasChildren ($children, $sectionCode, $websiteCode, $storeCode);
+                    return $this->hasChildren ($children, $websiteCode, $storeCode);
                 }
-            }
-
-            if (isset($node->fields)) {
+            }elseif (isset($node->fields)) {
 
                 foreach ($node->fields->children() as $children){
-                    return $this->hasChildren ($children, $sectionCode, $websiteCode, $storeCode, true);
+                    return $this->hasChildren ($children, $websiteCode, $storeCode, true);
                 }
-            }
-            if ($isField) {
-            	return true;
+            } else {
+                return true;
             }
         }
         return false;
