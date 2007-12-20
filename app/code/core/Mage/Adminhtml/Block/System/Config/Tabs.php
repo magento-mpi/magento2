@@ -46,6 +46,10 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $current = $this->getRequest()->getParam('section');
 
 
+        $websiteCode = $this->getRequest()->getParam('website');
+        $storeCode = $this->getRequest()->getParam('store');
+
+
         $url = Mage::getModel('core/url');
 
         $configFields = Mage::getSingleton('adminhtml/config');
@@ -56,7 +60,11 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         usort(&$sections, array($this, '_sortSections'));
 
 
+
         foreach ($sections as $section) {
+
+            $hasChildren = $this->hasChildren($section, $current, $websiteCode, $storeCode);
+
             //$code = $section->getPath();
             $code = $section->getName();
             $sectionAllowed = $this->checkSectionPermissions($code);
@@ -73,7 +81,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                     $this->_addBreadcrumb($label, '', $url->getUrl('*/*/*', array('section'=>$code)));
                 }
             }
-            if ( $sectionAllowed ) {
+            if ( $sectionAllowed && $hasChildren) {
                 $this->addTab($code, array(
                     'label'     => $label,
                     'url'       => $url->getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
@@ -183,5 +191,48 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 	        $showTab = true;
 	    }
         return $showTab;
+    }
+
+    public function hasChildren ($node, $sectionCode=null, $websiteCode=null, $storeCode=null, $isField=false){
+        $showTab = false;
+
+        if ($storeCode) {
+            if (isset($node->show_in_store)) {
+                if ((int)$node->show_in_store) {
+                    $showTab=true;
+                }
+            }
+        }elseif ($websiteCode) {
+            if (isset($node->show_in_website)) {
+                if ((int)$node->show_in_website) {
+                    $showTab=true;
+                }
+            }
+        } elseif ($sectionCode) {
+            if (isset($node->show_in_store)) {
+                if ((int)$node->show_in_store) {
+                    $showTab=true;
+                }
+            }
+        }
+        if ($showTab) {
+            if (isset($node->sections)) {
+                foreach ($node->sections->children() as $children){
+                    return $this->hasChildren ($children, $sectionCode, $websiteCode, $storeCode);
+                }
+            }
+
+            if (isset($node->fields)) {
+
+                foreach ($node->fields->children() as $children){
+                    return $this->hasChildren ($children, $sectionCode, $websiteCode, $storeCode, true);
+                }
+            }
+            if ($isField) {
+            	return true;
+            }
+        }
+        return false;
+
     }
 }
