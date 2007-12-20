@@ -20,9 +20,9 @@
  */
 -->
 <config>
-    <groups>
+    <sections>
         <web_track>
-            <sections>
+            <groups>
                 <google translate="label">
                     <label>Google analytics</label>
                     <frontend_type>text</frontend_type>
@@ -50,7 +50,7 @@
                         </urchin_enable>
                     </fields>
                 </google>
-            </sections>
+            </groups>
         </web_track>
-    </groups>
+    </sections>
 </config>

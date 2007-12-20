@@ -20,7 +20,7 @@
  */
 -->
 <config>
-   <groups>
+   <sections>
         <catalog translate="label">
             <label>Catalog</label>
             <frontend_type>text</frontend_type>
@@ -28,7 +28,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <category translate="label">
                     <label>Category</label>
                     <frontend_type>text</frontend_type>
@@ -137,7 +137,7 @@
                         </default_tax_group>
                     </fields>
                 </product>
-            </sections>
+            </groups>
         </catalog>
         <sendfriend translate="label">
             <label>Email to a Friend</label>
@@ -146,7 +146,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <email translate="label">
                     <label>Email templates</label>
                     <frontend_type>text</frontend_type>
@@ -167,7 +167,7 @@
                         </template>
                     </fields>
                 </email>
-            </sections>
+            </groups>
         </sendfriend>
-    </groups>
+    </sections>
 </config>

@@ -20,9 +20,9 @@
  */
 -->
 <config>
-   <groups>
+   <sections>
         <payment>
-            <sections>
+            <groups>
                 <authorizenet translate="label">
                     <label>Authorize.net</label>
                     <frontend_type>text</frontend_type>
@@ -332,7 +332,7 @@
                         </verbosity>
                     </fields>
                 </verisign>
-            </sections>
+            </groups>
         </payment>
         <paypal translate="label">
             <label>PayPal</label>
@@ -341,7 +341,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <wpp translate="label">
                     <label>Website Payments Pro</label>
                     <frontend_type>text</frontend_type>
@@ -410,7 +410,7 @@
                         </use_proxy>
                     </fields>
                 </wpp>
-            </sections>
+            </groups>
         </paypal>
-    </groups>
+    </sections>
 </config>

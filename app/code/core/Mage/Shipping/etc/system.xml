@@ -20,7 +20,7 @@
  */
 -->
 <config>
-    <groups>
+    <sections>
         <shipping translate="label">
             <label>Shipping</label>
             <frontend_type>text</frontend_type>
@@ -28,7 +28,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <option translate="label">
                     <label>Options</label>
                     <frontend_type>text</frontend_type>
@@ -88,8 +88,8 @@
                         </region_id>
                     </fields>
                 </origin>
-                <tablerate>
-                <label translate="label">Tablerate</label>
+                <tablerate translate="label">
+                <label>Tablerate</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
@@ -138,7 +138,7 @@
                         </specificerrmsg>
                     </fields>
                 </tablerate>
-            </sections>
+            </groups>
         </shipping>
-    </groups>
+    </sections>
 </config>

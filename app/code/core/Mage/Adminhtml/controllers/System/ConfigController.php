@@ -40,6 +40,25 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
+        $current = $this->getRequest()->getParam('section');
+        $websiteCode = $this->getRequest()->getParam('website');
+        $storeCode = $this->getRequest()->getParam('store');
+
+
+        $configFields = Mage::getSingleton('adminhtml/config');
+        $sections=$configFields->getSections($current);
+
+        //        $sections=(array)$sections;
+
+
+        $section=$sections->$current;
+
+        $hasChildren = $configFields->hasChildren($section, $websiteCode, $storeCode);
+
+        if (!$hasChildren && $current) {
+            $this->_redirect('*/*/');
+        }
+
         $this->loadLayout();
 
         $this->_setActiveMenu('system/config');
@@ -55,7 +74,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('system/shipping/applicable_country.phtml'));
 		$this->renderLayout();
     }
-    
+
     public function getDataAction()
     {
         print 'aaaaaaaaaaa';

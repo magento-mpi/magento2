@@ -20,7 +20,7 @@
  */
 -->
 <config>
-    <groups>
+    <sections>
         <carriers translate="label">
             <label>Shipping Methods</label>
             <frontend_type>text</frontend_type>
@@ -28,7 +28,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <flatrate translate="label">
                     <label>Flat Rate</label>
                     <frontend_type>text</frontend_type>
@@ -257,7 +257,7 @@
                         </title>
                     </fields>
                 </tablerate>
-            </sections>
+            </groups>
         </carriers>
         <web_track translate="label">
             <label>Web tracking</label>
@@ -274,7 +274,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <datashare translate="label">
                     <label>Datasharing</label>
                     <frontend_type>text</frontend_type>
@@ -316,7 +316,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                 </modules_disable_output>
-            </sections>
+            </groups>
         </advanced>
         <trans_email translate="label">
             <label>Store Email Addresses</label>
@@ -325,7 +325,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <ident_custom1 translate="label">
                     <label>Custom email 1</label>
                     <frontend_type>text</frontend_type>
@@ -466,7 +466,7 @@
                         </name>
                     </fields>
                 </ident_support>
-            </sections>
+            </groups>
         </trans_email>
         <allow translate="label">
             <label>Locale Settings</label>
@@ -475,7 +475,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>0</show_in_website>
             <show_in_store>0</show_in_store>
-            <sections>
+            <groups>
                 <currency translate="label">
                     <label>Currency</label>
                     <frontend_type>text</frontend_type>
@@ -496,7 +496,7 @@
                         </code>
                     </fields>
                 </currency>
-            </sections>
+            </groups>
         </allow>
         <currency translate="label">
             <label>Currency Setup</label>
@@ -505,7 +505,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <import translate="label">
                     <label>Import Settings</label>
                     <frontend_type>text</frontend_type>
@@ -599,7 +599,7 @@
                         </default>
                     </fields>
                 </options>
-            </sections>
+            </groups>
         </currency>
         <design translate="label">
             <label>Design</label>
@@ -608,7 +608,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <package translate="label">
                     <label>Package</label>
                     <frontend_type>text</frontend_type>
@@ -678,7 +678,7 @@
                         </translate>
                     </fields>
                 </theme>
-            </sections>
+            </groups>
         </design>
         <dev translate="label">
             <label>Developer</label>
@@ -687,7 +687,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <debug translate="label">
                     <label>Debug</label>
                     <frontend_type>text</frontend_type>
@@ -728,7 +728,7 @@
                         </checksum>
                     </fields>
                 </mode>
-            </sections>
+            </groups>
         </dev>
         <general translate="label">
             <label>General</label>
@@ -737,7 +737,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <country translate="label">
                     <label>Countries options</label>
                     <frontend_type>text</frontend_type>
@@ -816,7 +816,7 @@
                         </timezone>
                     </fields>
                 </locale>
-            </sections>
+            </groups>
         </general>
         <system translate="label">
             <label>System</label>
@@ -825,7 +825,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <filesystem translate="label">
                     <label>Filesystem</label>
                     <frontend_type>text</frontend_type>
@@ -981,7 +981,7 @@
                         </port>
                     </fields>
                 </smtp>
-            </sections>
+            </groups>
         </system>
         <web translate="label">
             <label>Web</label>
@@ -990,7 +990,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <cookie translate="label">
                     <label>Cookie management</label>
                     <frontend_type>text</frontend_type>
@@ -1243,7 +1243,7 @@
 -->
                     </fields>
                 </url>
-            </sections>
+            </groups>
         </web>
-    </groups>
+    </sections>
 </config>

@@ -20,9 +20,9 @@
  */
 -->
 <config>
-   <groups>
+   <sections>
         <catalog>
-            <sections>
+            <groups>
                 <seo translate="label">
                     <label>Search Engine Optimizations</label>
                     <frontend_type>text</frontend_type>
@@ -81,7 +81,7 @@
                         </title_separator>
                     </fields>
                 </seo>
-            </sections>
+            </groups>
         </catalog>
-    </groups>
+    </sections>
 </config>

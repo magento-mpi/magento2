@@ -21,7 +21,7 @@
 
 /**
  * Configuration for Admin model
- * 
+ *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Moshe Gurvich <moshe@varien.com>
@@ -32,12 +32,12 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     var $sections;
 
     function getSections ($sectionCode=null, $websiteCode=null, $storeCode=null){
-        
+
         if (!isset($this->sections)) {
             $this->takeSections();
         }
         return $this->sections;
-        
+
     }
     function takeSections ($sectionCode=null, $websiteCode=null, $storeCode=null) {
         if (empty($this->sections)) {
@@ -55,15 +55,15 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
                 }
             }
             $config->applyExtends();
-            
-            
-            
-            $sections=$config->getNode()->groups->children();
-            
+
+
+
+            $sections=$config->getNode()->sections->children();
+
 
 
             $this->sections=$sections;
-            
+
         }
     }
     function getSection ($sectionCode=null, $websiteCode=null, $storeCode=null){
@@ -78,8 +78,43 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
             return  $this->sections->$websiteCode;
         } elseif ($storeCode) {
             return  $this->sections->$storeCode;
-        } 
+        }
     }
-    
-    
+    public function hasChildren ($node, $websiteCode=null, $storeCode=null, $isField=false){
+        $showTab = false;
+        if ($storeCode) {
+            if (isset($node->show_in_store)) {
+                if ((int)$node->show_in_store) {
+                    $showTab=true;
+                }
+            }
+        }elseif ($websiteCode) {
+            if (isset($node->show_in_website)) {
+                if ((int)$node->show_in_website) {
+                    $showTab=true;
+                }
+            }
+        } elseif (isset($node->show_in_default)) {
+                if ((int)$node->show_in_default) {
+                    $showTab=true;
+                }
+
+        }
+        if ($showTab) {
+            if (isset($node->groups)) {
+                foreach ($node->groups->children() as $children){
+                    return $this->hasChildren ($children, $websiteCode, $storeCode);
+                }
+            }elseif (isset($node->fields)) {
+
+                foreach ($node->fields->children() as $children){
+                    return $this->hasChildren ($children, $websiteCode, $storeCode, true);
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
+
+    }
 }

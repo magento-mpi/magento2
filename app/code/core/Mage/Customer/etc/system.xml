@@ -20,7 +20,7 @@
  */
 -->
 <config>
-    <groups>
+    <sections>
         <customer translate="label">
             <label>Customers</label>
             <frontend_type>text</frontend_type>
@@ -28,7 +28,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <create_account translate="label">
                     <label>Create New Account Options</label>
                     <frontend_type>text</frontend_type>
@@ -118,7 +118,7 @@
                         </forgot_email_template>
                     </fields>
                 </password>
-            </sections>
+            </groups>
         </customer>
-    </groups>
+    </sections>
 </config>

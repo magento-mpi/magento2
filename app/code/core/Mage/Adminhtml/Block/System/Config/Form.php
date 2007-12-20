@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         //            $groups = $configFields->getGroups($sectionCode, $websiteCode, $storeCode);
 
         $configFields = Mage::getSingleton('adminhtml/config');
-        $groups=$configFields->getSection($sectionCode, $websiteCode, $storeCode);
+        $sections=$configFields->getSection($sectionCode, $websiteCode, $storeCode);
 
         $form = new Varien_Data_Form();
 
@@ -66,19 +66,19 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $defaultFieldRenderer = Mage::getHelper('adminhtml/system_config_form_field');
         $fieldset = array();
 
-        foreach ($groups as $group) {
-            if (!$this->_canShowField($group)) {
+        foreach ($sections as $section) {
+            if (!$this->_canShowField($section)) {
                 continue;
             }
-            foreach ($group->sections as $sections){
+            foreach ($section->groups as $groups){
 
-                foreach ($sections as $section){
-                    if (!$this->_canShowField($section)) {
+                foreach ($groups as $group){
+                    if (!$this->_canShowField($group)) {
                         continue;
                     }
 
-                    if ($section->frontend_model) {
-                        $fieldsetRenderer = Mage::getHelper((string)$section->frontend_model);
+                    if ($group->frontend_model) {
+                        $fieldsetRenderer = Mage::getHelper((string)$group->frontend_model);
                     } else {
                         $fieldsetRenderer = $defaultFieldsetRenderer;
                     }
@@ -86,17 +86,17 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     $fieldsetRenderer->setForm($this);
                     $fieldsetRenderer->setConfigData($configData);
 
-                    $fieldset[$section->getName()] = $form->addFieldset($section->getName(), array(
-                    'legend'=>Mage::helper('adminhtml')->__((string)$section->label)
+                    $fieldset[$group->getName()] = $form->addFieldset($group->getName(), array(
+                    'legend'=>Mage::helper('adminhtml')->__((string)$group->label)
                     ))->setRenderer($fieldsetRenderer);
-                    $this->_addElementTypes($fieldset[$section->getName()]);
-                    foreach ($section->fields as $elements){
+                    $this->_addElementTypes($fieldset[$group->getName()]);
+                    foreach ($group->fields as $elements){
                         foreach ($elements as $e){
                             if (!$this->_canShowField($e)) {
                                 continue;
                             }
-                            $path=$group->getName().'/'.$section->getName().'/'.$e->getName();
-                            $id=$group->getName().'_'.$section->getName().'_'.$e->getName();
+                            $path=$section->getName().'/'.$group->getName().'/'.$e->getName();
+                            $id=$section->getName().'_'.$group->getName().'_'.$e->getName();
                             if (isset($configData[$path])) {
                                 $data = $configData[$path];
                             } else {
@@ -113,10 +113,10 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
                             $fieldType = (string)$e->frontend_type;
 
-                            $field = $fieldset[$section->getName()]->addField(
-                            $id, $fieldType ? $fieldType : 'text',
+                            $field = $fieldset[$group->getName()]->addField(
+                                $id, $fieldType ? $fieldType : 'text',
                                 array(
-                                    'name'          => 'groups['.$section->getName().'][fields]['.$e->getName().'][value]',
+                                    'name'          => 'groups['.$group->getName().'][fields]['.$e->getName().'][value]',
                                 'label'         => Mage::helper('adminhtml')->__((string)$e->label),
                                     'value'         => isset($data['value']) ? $data['value'] : '',
                                     'default_value' => isset($data['default_value']) ? $data['default_value'] : '',

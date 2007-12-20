@@ -20,7 +20,7 @@
  */
 -->
 <config>
-   <groups>
+   <sections>
         <payment translate="label">
             <label>Payment Methods</label>
             <frontend_type>text</frontend_type>
@@ -28,7 +28,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <sections>
+            <groups>
                 <ccsave translate="label">
                     <label>Saved CC</label>
                     <frontend_type>text</frontend_type>
@@ -191,7 +191,7 @@
                         </title>
                     </fields>
                 </purchaseorder>
-            </sections>
+            </groups>
         </payment>
-    </groups>
+    </sections>
 </config>

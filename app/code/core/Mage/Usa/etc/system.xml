@@ -20,9 +20,9 @@
  */
 -->
 <config>
-    <groups>
+    <sections>
         <carriers>
-            <sections>
+            <groups>
                 <dhl translate="label">
                     <label>DHL</label>
                     <frontend_type>text</frontend_type>
@@ -601,7 +601,7 @@
                         </userid>
                     </fields>
                 </usps>
-            </sections>
+            </groups>
         </carriers>
-    </groups>
+    </sections>
 </config>
