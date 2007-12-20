@@ -51,4 +51,34 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
         //$carrier->getTracking(array('749059830009648','749059830009358'));
         
     }
+    
+    public function paymentAction()
+    {
+        $payment= Mage::getModel('Paygate/payflow_pro');
+        //Mage_Payment_Model_Info
+        $paymentinfo= Mage::getModel('Payment/info');
+        $paymentinfo->setTransactionId('V19A0CE8061A');
+        $payment->canVoid($paymentinfo);
+echo "<hr>";        
+print_r($paymentinfo->getData());  
+        if($paymentinfo->getStatus()==Mage_Payment_Model_Method_Abstract::STATUS_ERROR){
+           /*error in retreiving transaction*/
+           echo "#####ERROR:".$paymentinfo->getStatusDescription();              
+        }else{
+            if($paymentinfo->getStatus()==Mage_Payment_Model_Method_Abstract::STATUS_VOID){
+                //void the transaction
+                $payment->void($paymentinfo);                
+            }else{
+                //credit the transaction
+                $payment->refund($paymentinfo);     
+            }
+            echo "#####ERROR:".$paymentinfo->getStatusDescription();
+            
+            
+            
+        }
+echo "<hr>";        
+print_r($paymentinfo->getData());           
+        
+    }
 }

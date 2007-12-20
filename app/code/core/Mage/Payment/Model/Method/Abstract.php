@@ -27,6 +27,8 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     const STATUS_APPROVED   = 'APPROVED';
     const STATUS_ERROR      = 'ERROR';
     const STATUS_DECLINED   = 'DECLINED';
+    const STATUS_VOID   = 'VOID';
+    const STATUS_SUCCESS   = 'SUCCESS';
     
     /**
      * Retrieve model helper
@@ -118,11 +120,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $invoicePayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function refund()
+    public function refund(Mage_Payment_Model_Info $payment)
     {
+        /*
         if (!$this->canRefund()) {
             Mage::throwException($this->_getHelper()->__('Refund action is not available'));
         }
+        */
         
         return $this;
     }
@@ -143,11 +147,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $invoicePayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function void()
+    public function void(Mage_Payment_Model_Info $payment)
     {
+        /*
         if (!$this->canVoid()) {
             Mage::throwException($this->_getHelper()->__('Void action is not available'));
         }
+        */
         
         return $this;
     }

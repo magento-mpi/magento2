@@ -37,6 +37,14 @@ class Mage_Payment_Model_Cc extends Mage_Payment_Model_Abstract
         return $block;
     }
     
+     /**
+      * validateCcNum
+      *
+      * @author Lindy Kyaw <lindy@varien.com>
+      * @access public
+      * @param string $cc_number the credit card number  
+      * @return retruns true if the credit card number is valid number or false  
+      */    
     public function validateCcNum($cc_number)
     {
       $cardNumber = strrev($cc_number);
@@ -64,21 +72,11 @@ class Mage_Payment_Model_Cc extends Mage_Payment_Model_Abstract
       return ($numSum % 10 == 0);
     }
     
-     /*
+    /*
     * validate cc type and cc number match or not    
     */
     public function validate(Mage_Payment_Model_Info $info)
     {
-
-/*
-echo "<pre>Info:";    
-echo $info->getCcNumber();    
-echo $info->getCcType(); 
-echo $info->getMethod();
-print_r($this->getConfigData('cctypes'));
-*/
-
-//var_dump($info->getData());
          $errorMsg='';
          $availableTypes=explode(',',$this->getConfigData('cctypes'));         
          $cc_number=$info->getCcNumber();
@@ -86,17 +84,19 @@ print_r($this->getConfigData('cctypes'));
          
          if(in_array($info->getCcType(), $availableTypes)){
              if($this->validateCcNum($cc_number)){
-                  if (ereg('^4[0-9]{12}([0-9]{3})?$', $cc_number)) {
-                    $cc_type = 'VI';
-                  } elseif (ereg('^5[1-5][0-9]{14}$', $cc_number)) {
-                    $cc_type = 'MC';
-                  } elseif (ereg('^3[47][0-9]{13}$', $cc_number)) {
-                    $cc_type = 'AE';
-                  } elseif (ereg('^6011[0-9]{12}$', $cc_number)) {
-                   $cc_type = 'DI';
-                  }
-                  if($cc_type!=$info->getCcType()){
-                    $errorMsg=__('Credit card number mismatch with credit card type');                              
+                  if($info->getCcType()!='OTHERS'){
+                      if (ereg('^4[0-9]{12}([0-9]{3})?$', $cc_number)) {
+                        $cc_type = 'VI';
+                      } elseif (ereg('^5[1-5][0-9]{14}$', $cc_number)) {
+                        $cc_type = 'MC';
+                      } elseif (ereg('^3[47][0-9]{13}$', $cc_number)) {
+                        $cc_type = 'AE';
+                      } elseif (ereg('^6011[0-9]{12}$', $cc_number)) {
+                       $cc_type = 'DI';
+                      }
+                      if($cc_type!=$info->getCcType()){
+                        $errorMsg=__('Credit card number mismatch with credit card type');                              
+                      }
                   }
              }else{
                $errorMsg=__('Invalid Credit Card Number');               

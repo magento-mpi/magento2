@@ -26,7 +26,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Cc
+class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Abstract 
 {
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';
@@ -44,9 +44,18 @@ class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Cc
     const TENDER_PAYPAL             = 'P';
 
     const RESPONSE_DELIM_CHAR = ',';
+    
+    protected $_clientTimeout = 45;
 
     const RESPONSE_CODE_APPROVED = 0;
     const RESPONSE_CODE_DECLINED = 12;
+    
+    /*
+    * 3 = Authorisation approved
+    * 6 = Settlement pending (transaction is scheduled to be settled)
+    * 9 =  Authorisation captured
+    */
+    protected $_validVoidTransState = array(3,6,9);      
 
     public function createFormBlock($name)
     {
@@ -133,20 +142,26 @@ class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Cc
             ->setParameterPost($request->getData())
             ->setHeaders('X-VPS-VIT-CLIENT-CERTIFICATION-ID: 33baf5893fc2123d8b191d2d011b7fdc')
             ->setHeaders('X-VPS-Request-ID: ' . $request->getRequestId())
+            ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout)
         ;
 
         $response = $client->request();
+        
+#echo "********".$response;        
+
         $result = Mage::getModel('paygate/payflow_pro_result');
 
         $response = strstr($response->getBody(), 'RESULT');
         $valArray = explode('&', $response);
+echo "*********valArray:";
+print_r($valArray);
         foreach($valArray as $val) {
         		$valArray2 = explode('=', $val);
         		$result->setData(strtolower($valArray2[0]), $valArray2[1]);
         }
-
+print_r($result->getData());
         $result->setResultCode($result->getResult())
-            ->setRespmsg($result->getRespmsg);
+                ->setRespmsg($result->getRespmsg());
 
         return $result;
     }
@@ -188,5 +203,114 @@ class Mage_Paygate_Model_Payflow_Pro extends Mage_Payment_Model_Cc
     protected function _generateRequestId()
     {
         return md5(microtime() . rand(0, time()));
+    }
+    
+     /**
+      * buildBasicRequest
+      *
+      * @author Lindy Kyaw <lindy@varien.com>
+      * @access public      
+      * @return object which was set with all basic required information   
+      */    
+    public function buildBasicRequest(Varien_Object $payment)
+    {   
+        if( !$payment->getTrxtype() ) {
+            $payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
+        }
+
+        if( !$payment->getTender() ) {
+            $payment->setTender(self::TENDER_CC);
+        }
+        
+        $request = Mage::getModel('paygate/payflow_pro_request')
+                ->setUser(Mage::getStoreConfig('payment/verisign/user'))
+                ->setVendor(Mage::getStoreConfig('payment/verisign/vendor'))
+                ->setPartner(Mage::getStoreConfig('payment/verisign/partner'))
+                ->setPwd(Mage::getStoreConfig('payment/verisign/pwd'))
+                ->setTender($payment->getTender())
+                ->setRequestId($this->_generateRequestId());      
+        return $request;
+    }
+    
+    /**
+      * canVoid
+      *
+      * @author Lindy Kyaw <lindy@varien.com>
+      * @access public
+      * @param string $payment the object     
+      * @return Mage_Payment_Model_Abstract   
+      */    
+    public function canVoid(Mage_Payment_Model_Info $payment)
+    {
+echo "CANVOID:";        
+        if($payment->getTransactionId()){            
+            $request=$this->buildBasicRequest($payment);          
+            $request->setTrxtype('I')
+                    ->setOrigid($payment->getTransactionId());
+           
+            $result = $this->postRequest($request);
+           
+            if (Mage::getStoreConfig('payment/verisign/debug')) {
+              $payment->setCcDebugRequestBody($result->getRequestBody())
+                ->setCcDebugResponseSerialized(serialize($result));
+            }
+
+            if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
+                if(in_array($result->getTransstate(),$this->_validVoidTransState)){
+                     $payment->setStatus('VOID');
+                }
+            }else{
+                $payment->setStatus('ERROR');
+                $payment->setStatusDescription($result->getRespmsg()?$result->getRespmsg():__('Error in retreiving the transaction'));
+            }
+        }else{
+            $payment->setStatus('ERROR');
+            $payment->setStatusDescription(__('Invalid transaction id'));
+        }
+     
+        return $this;
+    }
+    
+    public function void(Mage_Payment_Model_Info $payment)
+    {
+echo "VOID:";         
+         if($payment->getTransactionId()){  
+            $request=$this->buildBasicRequest($payment);          
+            $request->setTrxtype('V')
+                    ->setOrigid($payment->getTransactionId());   
+            
+            $result = $this->postRequest($request);
+            
+            if (Mage::getStoreConfig('payment/verisign/debug')) {
+              $payment->setCcDebugRequestBody($result->getRequestBody())
+                ->setCcDebugResponseSerialized(serialize($result));
+            }                        
+            if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
+                 $payment->setStatus('SUCCESS');
+            }else{
+                $payment->setStatus('ERROR');
+                $payment->setStatusDescription($result->getRespmsg());
+            }
+             
+         }else{
+            $payment->setStatus('ERROR');
+            $payment->setStatusDescription(__('Invalid transaction id'));
+        }
+        
+    }
+    
+    public function refundTransaction(Mage_Payment_Model_Info $payment)
+    {
+        if(($payment->getTransactionId() && $payment->getAmount()>0)){
+            $request=$this->buildBasicRequest($payment);          
+            $request->setTrxtype('C')
+                    ->setOrigid($payment->getTransactionId())  
+                    ->setAmt(round($payment->getAmount(), 2)); 
+            
+        }else{
+            $payment->setStatus('ERROR');
+            $payment->setStatusDescription(__('Error in refunding the payment'));
+        }        
+        
     }
 }
