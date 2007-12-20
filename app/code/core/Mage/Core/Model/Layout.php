@@ -251,12 +251,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     $args[$arg] = Zend_Json::decode($args[$arg]);
                 }
             }
-            if (isset($node['translate'])) {
-                $items = explode(' ', (string)$node['translate']);
-                foreach ($items as $arg) {
-                    $args[$arg] = Mage::helper('core')->__($args[$arg]);
-                }
-            }
+
+            $this->_translateLayoutNode($node, $arg);
 
             call_user_func_array(array($block, $method), $args);
         }
@@ -264,6 +260,22 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Varien_Profiler::stop($_profilerKey);
 
         return $this;
+    }
+
+    /**
+     * translate layout node
+     *
+     * @param object $node
+     * @param array $args
+    **/
+    protected function _translateLayoutNode($node, &$args)
+    {
+        if (isset($node['translate']) && isset($node['module'])) {
+            $items = explode(' ', (string)$node['translate']);
+            foreach ($items as $arg) {
+                $args[$arg] = Mage::helper($node['module'])->__($args[$arg]);
+            }
+        }
     }
 
     /**
