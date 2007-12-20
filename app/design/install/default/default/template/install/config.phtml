@@ -133,7 +133,7 @@
             <input type="checkbox" name="config[use_script_name]" id="use_script_name" value="1" <?if($this->getFormData()->getUseScriptName()):?>checked<?endif?>>
             <label for="use_script_name"><?=$this->__('Do not use Apache Rewrites')?></label><br/>
             <p style="margin-top:4px; line-height:1.3em; color:#666;">
-                <small><?=$this->__('If you do not have apache mod_rewrite module available you could use this option to allow Magento functionality by inserting /index.php/ in every URL. Please note that ')?></small>
+                <small><?=$this->__('If you do not have apache mod_rewrite module available you could use this option to allow Magento functionality by inserting /index.php/ in every URL. Please note, that if you disable this option without having mod_rewrite enabled, the next page might not load.')?></small>
             </p>
         </li>
         <li>
