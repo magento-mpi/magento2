@@ -51,8 +51,8 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
         $this->addColumn('channel', array(
             'header'=>Mage::helper('adminhtml')->__('Channel'),
            	'index'=>'channel',
-           	'type'=>'options',
-           	'options'=>$ext->getKnownChannels(),
+           	#'type'=>'options',
+           	#'options'=>$ext->getKnownChannels(),
         ));
 
         $this->addColumn('category', array(
