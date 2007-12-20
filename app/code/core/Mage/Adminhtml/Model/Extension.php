@@ -102,7 +102,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
                 $recommended = !empty($deps['recommended'][$i]) ? $deps['recommended'][$i] : false;
                 $exclude = !empty($deps['exclude'][$i]) ? explode(',', $deps['exclude'][$i]) : false;
                 if ($deptype!=='extension') {
-                    $channel = preg_match('#^pear#i', $name) ? 'pear.php.net' : 'var-dev.varien.com';
+                    $channel = !empty($deps['channel'][$i]) ? $deps['channel'][$i] : 'connect.magentocommerce.com/core';
                 }
                 switch ($deptype) {
                     case 'package':

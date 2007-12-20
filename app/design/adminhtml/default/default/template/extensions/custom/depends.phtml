@@ -28,6 +28,7 @@
             <thead>
                 <tr>
                     <th><?=$this->__("Package")?></th>
+                    <th><?=$this->__("Channel")?></th>
                     <th><?=$this->__("Min")?></th>
                     <th><?=$this->__("Max")?></th>
                     <th><?=$this->__("Recommended")?></th>
@@ -44,6 +45,8 @@
                         <?endforeach?>
                         </select>-->
                         <input class="input-text" style="width:200px;" name="depends[package][name][]" value="<?=$self->getValue('depends/package/name/'.$_i)?>"/>
+                    </td><td class="field-row">
+                        <input class="input-text" style="width:200px;" name="depends[package][channel][]" value="<?=$self->getValue('depends/package/channel/'.$_i)?>"/>
                     </td><td class="field-row">
                         <input class="input-text" style="width:50px;" name="depends[package][min][]" value="<?=$self->getValue('depends/package/min/'.$_i)?>"/>
                     </td><td class="field-row">
