@@ -30,11 +30,12 @@ error_reporting(E_ALL | E_STRICT);
 /**
  * Include path
  */
-ini_set('include_path', ini_get('include_path')
-    .PS.BP.'/lib'
-    .PS.BP.'/app/code/core'
-    .PS.BP.'/app/code/local'
-    .PS.BP.'/app/code/community'
+ini_set('include_path',
+           BP . '/app/code/local'
+    . PS . BP . '/app/code/community'
+    . PS . BP . '/app/code/core'
+    . PS . BP . '/lib'
+    . PS . ini_get('include_path')
 );
 
 include_once "Mage/Core/functions.php";
