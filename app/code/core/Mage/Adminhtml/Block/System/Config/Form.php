@@ -72,6 +72,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             }
             foreach ($section->groups as $groups){
 
+                $groups = (array)$groups;
+                usort(&$groups, array($this, '_sortForm'));
+
                 foreach ($groups as $group){
                     if (!$this->_canShowField($group)) {
                         continue;
@@ -90,7 +93,12 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     'legend'=>Mage::helper('adminhtml')->__((string)$group->label)
                     ))->setRenderer($fieldsetRenderer);
                     $this->_addElementTypes($fieldset[$group->getName()]);
+
                     foreach ($group->fields as $elements){
+
+                        $elements = (array)$elements;
+                        usort(&$elements, array($this, '_sortForm'));
+
                         foreach ($elements as $e){
                             if (!$this->_canShowField($e)) {
                                 continue;
@@ -138,7 +146,11 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $this->setForm($form);
         return $this;
     }
+    protected function _sortForm($a, $b)
+    {
+        return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
 
+    }
     public function canUseDefaultValue($field)
     {
         if ($this->getScope() == self::SCOPE_STORE && $field) {
