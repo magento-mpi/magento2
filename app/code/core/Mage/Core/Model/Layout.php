@@ -252,7 +252,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 }
             }
 
-            $this->_translateLayoutNode($node, $arg);
+            $this->_translateLayoutNode($node, $args);
 
             call_user_func_array(array($block, $method), $args);
         }
@@ -270,10 +270,15 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     **/
     protected function _translateLayoutNode($node, &$args)
     {
-        if (isset($node['translate']) && isset($node['module'])) {
+        if (isset($node['translate'])) {
             $items = explode(' ', (string)$node['translate']);
             foreach ($items as $arg) {
-                $args[$arg] = Mage::helper($node['module'])->__($args[$arg]);
+                if (isset($node['module'])) {
+                    $args[$arg] = Mage::helper($node['module'])->__($args[$arg]);
+                }
+                else {
+                    $args[$arg] = __($args[$arg]);
+                }
             }
         }
     }
