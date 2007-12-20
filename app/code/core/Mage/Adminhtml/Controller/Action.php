@@ -26,9 +26,15 @@
 */
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
+    
+    /**
+     * Used module name in current adminhtml controller
+     */
+    protected $_usedModuleName = 'adminhtml';
+    
     protected function _isAllowed()
     {
-    	return true;
+        return true;
     }
     
     /**
@@ -108,7 +114,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
 
-    	return $this;
+        return $this;
     }
 
     public function deniedAction()
@@ -117,7 +123,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             $this->_redirect('*/index/login');
             return;
         }
-    	$this->loadLayout(array('default', 'admin_denied'));
+        $this->loadLayout(array('default', 'admin_denied'));
         $this->renderLayout();
     }
 
@@ -133,4 +139,41 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $this->loadLayout(array('default', 'admin_noroute'));
         $this->renderLayout();
     }
+    
+    
+    /**
+     * Retrieve currently used module name
+     *
+     * @return string
+     */
+    public function getUsedModuleName()
+    {
+        return $this->_usedModuleName;
+    }
+    
+    /**
+     * Set currently used module name
+     *
+     * @param string $moduleName
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    public function setUsedModuleName($moduleName)
+    {
+        $this->_usedModuleName = $moduleName;
+        return $this;
+    }
+    
+    /**
+     * Translate a phrase
+     *
+     * @return string
+     */
+    public function __()
+    {
+        $args = func_get_args();
+        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getUsedModuleName());
+        array_unshift($args, $expr);
+        return Mage::app()->getTranslator()->translate($args);
+    }
+    
 }
