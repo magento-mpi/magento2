@@ -41,6 +41,11 @@
             </entities>
          </googlecheckout_mysql4>
       </models>
+      <helpers>
+         <googlecheckout>
+            <class>Mage_GoogleCheckout_Helper</class>
+         </googlecheckout>
+      </helpers>
       <resources>
          <googlecheckout_setup>
             <setup>

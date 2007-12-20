@@ -47,6 +47,11 @@
                 </entities>
             </cataloginventory_mysql4>
         </models>
+        <helpers>
+            <cataloginventory>
+                <class>Mage_CatalogInventory_Helper</class>
+            </cataloginventory>
+        </helpers>
         <resources>
             <cataloginventory_setup>
                 <setup>
