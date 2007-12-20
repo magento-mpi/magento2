@@ -204,6 +204,10 @@
                             </sets>
                         </children>
                     </attributes>
+                    <urlrewrite>
+                    	<title>Url Rewrite Management</title>
+						<action>*/urlrewrite/index</action>
+                    </urlrewrite>                    
                 </children>
              </catalog>
         </menu>
@@ -276,6 +280,7 @@
                                         </pending>
                                     </children>
                                 </tag>
+								<urlrewrite title="Url Rewrite Management" />                                
                             </children>
                         </catalog>
                     </children>

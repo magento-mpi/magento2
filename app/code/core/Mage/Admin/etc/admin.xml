@@ -49,6 +49,7 @@
                         <all title="All Tags" />
                         <pending title="Pending Tags" />
                     </tag>
+					<urlrewrite title="Url Rewrite Management" />
                 </catalog>
                 <cms title="CMS" >
                     <block title="Static Blocks"/>
