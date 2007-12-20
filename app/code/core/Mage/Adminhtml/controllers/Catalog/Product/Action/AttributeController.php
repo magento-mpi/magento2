@@ -58,12 +58,45 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             return;
         }
 
-        $productsNotInStore = $this->_getHelper()->getProductsNotInStoreIds();
-        foreach($this->_getHelper()->getProducts() as $product) {
-            if(in_array($product->getId(), $productsNotInStore)) {
-                echo "YES";
-            }
+        $data = $this->getRequest()->getParam('attributes');
+        if(!is_array($data)) {
+            $data = array();
         }
+
+        $productsNotInStore = $this->_getHelper()->getProductsNotInStoreIds();
+        try {
+            foreach($this->_getHelper()->getProducts() as $product) {
+                if(in_array($product->getId(), $productsNotInStore)) {
+                    continue;
+                }
+
+                $storeIds = $product->getResource()->getStoreIds($product);
+
+                $product->setStoreId((int) $this->getRequest()->getParam('store', 0))
+                    ->load($product->getId())
+                    ->addData($data)
+                    ->setStoreId((int) $this->getRequest()->getParam('store', 0));
+
+                if ($product->getStoreId() == 0) {
+                    $product->setPostedStores($storeIds);
+                } else {
+                    $product->setPostedStores(array($product->getStoreId()=>$product->getStoreId()));
+                }
+
+                $product->save();
+            }
+
+            $this->_getSession()->addSuccess($this->_getCatalogHelper()->__('Attributes of %d product(s) has been successfully updated',
+                                             count($this->_getHelper()->getProducts())-count($productsNotInStore)));
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addError($this->_getCatalogHelper()->__('There was an error while updating product(s) attributes'));
+        }
+
+        $this->_redirect('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0)));
     }
 
     protected function _getCatalogHelper()

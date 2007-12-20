@@ -436,16 +436,27 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } else {
             try {
                 foreach ($productIds as $productId) {
-                    $product = Mage::getModel('catalog/product')->load($productId);
-                    $product->setStatus($this->getRequest()->getParam('status'));
-                    $product->save();
+                    $product = Mage::getModel('catalog/product')
+                        ->setStoreId((int)$this->getRequest()->getParam('store', 0))
+                        ->load($productId)
+                        ->setStoreId((int)$this->getRequest()->getParam('store', 0))
+                        ->setStatus($this->getRequest()->getParam('status'));
+
+                     $storeIds = $product->getResource()->getStoreIds($product);
+
+                     if ($product->getStoreId() == 0) {
+                        $product->setPostedStores($storeIds);
+                     } else {
+                        $product->setPostedStores(array($product->getStoreId()=>$product->getStoreId()));
+                     }
+                     $product->save();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected product(s) status has been successfully changed'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect('*/*/', array('store'=>(int)$this->getRequest()->getParam('store', 0)));
     }
 
     public function tagCustomerGridAction()
