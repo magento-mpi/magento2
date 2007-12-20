@@ -11,9 +11,6 @@ class Mage_Adminhtml_Model_Extension_Remote_Collection extends Mage_Adminhtml_Mo
         #$channels = array('var-dev.varien.com'=>1);#, 'pear.php.net'=>1);
         $channelData = array();
         foreach ($channels as $channel=>$name) {
-            if ($channel==='pecl.php.net') {
-                continue;
-            }
             $data = array();
             if (Mage::app()->useCache('pear')) {
                 $channelKey = 'PEAR_channel_packages_'.preg_replace('#[^a-z0-9]+#', '_', $channel);

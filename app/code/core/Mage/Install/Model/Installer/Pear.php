@@ -33,12 +33,12 @@ class Mage_Install_Model_Installer_Pear
     {
         $packages = array(
             'pear/PEAR-stable',
-            'mage-core/Mage_Pear_Helpers',
-            'mage-core/Lib_ZF',
-            'mage-core/Lib_Varien',
-            'mage-core/Mage_All',
-            'mage-core/Interface_Frontend_Default',
-            'mage-core/Interface_Adminhtml_Default'
+            'connect.magentocommerce.com/core/Mage_Pear_Helpers',
+            'connect.magentocommerce.com/core/Lib_ZF',
+            'connect.magentocommerce.com/core/Lib_Varien',
+            'connect.magentocommerce.com/core/Mage_All',
+            'connect.magentocommerce.com/core/Interface_Frontend_Default',
+            'connect.magentocommerce.com/core/Interface_Adminhtml_Default'
         );
         return $packages;
     }

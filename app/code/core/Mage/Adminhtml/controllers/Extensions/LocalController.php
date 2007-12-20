@@ -80,7 +80,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::getModel('adminhtml/extension')->clearAllCache();
+            Mage::app()->cleanCache();
         }
     }
 
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::getModel('adminhtml/extension')->clearAllCache();
+            Mage::app()->cleanCache();
         }
     }
 
@@ -120,7 +120,66 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::getModel('adminhtml/extension')->clearAllCache();
+            Mage::app()->cleanCache();
+        }
+    }
+
+    public function massUninstallAction()
+    {
+        $this->loadLayout();
+
+        $this->_setActiveMenu('system/extensions');
+
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_mass_uninstall')->initForm());
+
+        $this->renderLayout();
+    }
+
+    public function massUninstallRunAction()
+    {
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Uninstalling selected packages, please wait...")."\r\n\r\n");
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'uninstall';
+            $params['options'] = array();
+            $packages = array();
+            foreach ($this->getRequest()->getPost('package') as $package) {
+                $packages[] = str_replace('|', '/', $package);
+            }
+            $params['params'] = $packages;
+        }
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::app()->cleanCache();
+        }
+    }
+
+    public function massUpgradeAction()
+    {
+        $this->loadLayout();
+
+        $this->_setActiveMenu('system/extensions');
+
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_mass_upgrade')->initForm());
+
+        $this->renderLayout();
+    }
+
+    public function massUpgradeRunAction()
+    {
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading selected packages, please wait...")."\r\n\r\n");
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'upgrade';
+            $params['options'] = array();
+            $packages = array();
+            foreach ($this->getRequest()->getPost('package') as $package) {
+                $packages[] = str_replace('|', '/', $package);
+            }
+            $params['params'] = $packages;
+        }
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::app()->cleanCache();
         }
     }
 }
+

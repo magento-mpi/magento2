@@ -73,7 +73,36 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::getModel('adminhtml/extension')->clearAllCache();
+            Mage::app()->cleanCache();
+        }
+    }
+
+    public function massInstallAction()
+    {
+        $this->loadLayout();
+
+        $this->_setActiveMenu('system/extensions');
+
+        $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_mass_install')->initForm());
+
+        $this->renderLayout();
+    }
+
+    public function massInstallRunAction()
+    {
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Installing selected packages, please wait...")."\r\n\r\n");
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'install';
+            $params['options'] = array();
+            $packages = array();
+            foreach ($this->getRequest()->getPost('package') as $package) {
+                $packages[] = str_replace('|', '/', $package);
+            }
+            $params['params'] = $packages;
+        }
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::app()->cleanCache();
         }
     }
 }

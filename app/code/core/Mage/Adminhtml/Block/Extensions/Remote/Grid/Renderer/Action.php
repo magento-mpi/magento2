@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid_Renderer_Action
     	$actions = array();
 
     	$actions[] = array(
-    		'url'		=>  Mage::getUrl('*/*/edit', array('id'=>$row->getId())),
+    		'url'		=>  Mage::getModel('core/url')->setQueryParam('id', $row->getId())->getUrl('*/*/edit'),
 	    	'caption'	=>	$this->__('View')
     	);
 

@@ -88,7 +88,7 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::getModel('adminhtml/extension')->clearAllCache();
+            Mage::app()->cleanCache();
         }
     }
 }

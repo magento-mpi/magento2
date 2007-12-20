@@ -292,9 +292,9 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $arr = array(
             'connect.magentocommerce.com/core' => 'Magento Core Team',
             'connect.magentocommerce.com/community' => 'Magento Community',
-            'var-dev.varien.com' => 'Varien Dev',
-            'pear.php.net' => 'PEAR',
-            'pear.phpunit.de' => 'PHPUnit',
+            #'var-dev.varien.com' => 'Varien Dev',
+            #'pear.php.net' => 'PEAR',
+            #'pear.phpunit.de' => 'PHPUnit',
         );
         return $arr;
     }
@@ -334,13 +334,5 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $this->setData($output[0]['output']);
 
         return $this;
-    }
-
-    public function clearAllCache()
-    {
-        $cacheDir = Mage::getBaseDir('var').DS.'cache';
-        mageDelTree($cacheDir);
-        mkdir($cacheDir, 0777);
-        return true;
     }
 }

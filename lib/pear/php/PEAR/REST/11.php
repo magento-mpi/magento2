@@ -238,7 +238,7 @@ class PEAR_REST_11
         $url = sprintf($url,
                     $base,
                     urlencode($category));
-            
+
         // gives '404 Not Found' error when category doesn't exist
         $packagelist = $this->_rest->retrieveData($url);
         if (PEAR::isError($packagelist)) {

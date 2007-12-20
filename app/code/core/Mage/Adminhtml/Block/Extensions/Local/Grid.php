@@ -116,7 +116,9 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+        $url = Mage::getModel('core/url');
+        $url->setQueryParam('id', $row->getId());
+        return $url->getUrl('*/*/edit');
     }
 
     public function getGridUrl()

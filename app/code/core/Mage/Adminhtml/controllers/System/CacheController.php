@@ -47,9 +47,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                 Mage::getSingleton('catalog/url')->refreshRewrites();
             }
             if (!empty($a['all_cache'])) {
-                $cacheDir = Mage::getBaseDir('var').DS.'cache';
-                mageDelTree($cacheDir);
-                mkdir($cacheDir, 0777);
+                Mage::app()->cleanCache();
             }
         }
 
