@@ -98,6 +98,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
                 // Workaround for store dissapearing bug
                 $storeIds = $product->getResource()->getStoreIds($product);
+                $storeIds = array_fill_keys($storeIds, $storeIds);
                 if ($product->getStoreId() == 0) {
                     $product->setPostedStores($storeIds);
                 } else {
