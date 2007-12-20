@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Checkout>
-            <version>0.2.0</version>
+            <version>0.7.0</version>
             <depends>
                 <Mage_Sales />
             </depends>

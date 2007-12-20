@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Shipping>
-            <version>0.2.2</version>
+            <version>0.7.0</version>
         </Mage_Shipping>
    </modules>
 

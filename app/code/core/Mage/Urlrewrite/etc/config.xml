@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Urlrewrite>
-            <version>0.0.1</version>
+            <version>0.7.0</version>
         </Mage_Urlrewrite>
     </modules>
     <!--frontend>

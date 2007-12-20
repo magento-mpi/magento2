@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Wishlist>
-            <version>0.6.0</version>
+            <version>0.7.0</version>
             <depends>
                 <Mage_Customer />
                 <Mage_Catalog />

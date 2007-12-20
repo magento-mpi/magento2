@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Paygate>
-         <version>0.7.1</version>
+         <version>0.7.0</version>
          <depends>
             <Mage_Sales />
          </depends>
