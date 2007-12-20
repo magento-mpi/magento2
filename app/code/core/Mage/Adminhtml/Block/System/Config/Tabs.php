@@ -39,34 +39,23 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     {
         //echo $a->label.'['.$a->sort_order.'] vs '.$b->label . '['.$b->sort_order.'] = ' . (string)($a->sort_order < $b->sort_order ? -1 : ($a->sort_order > $b->sort_order ? 1 : 0))  . " \n<br>";
         return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
-        
+
     }
     public function initTabs()
     {
         $current = $this->getRequest()->getParam('section');
 
-//        $sections = Mage::getResourceModel('core/config_field_collection')
-//            ->addFieldToFilter('level', 1)
-//            ->setOrder('sort_order', 'asc')
-//            ->loadData();
-            
+
         $url = Mage::getModel('core/url');
 
         $configFields = Mage::getSingleton('adminhtml/config');
         $sections=$configFields->getSections($current);
-        
+
         $sections=(array)$sections;
-//            echo '<pre>';
-//            print_r($sections_array);
-//            echo '</pre>';
-    
+
         usort(&$sections, array($this, '_sortSections'));
-        
-//            echo '<pre style="color: #ff0000">';
-//            print_r($sections_array);
-//            echo '</pre>';
-         
-                    
+
+
         foreach ($sections as $section) {
             //$code = $section->getPath();
             $code = $section->getName();
@@ -104,7 +93,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $section = $this->getRequest()->getParam('section');
 
         $curWebsite = $this->getRequest()->getParam('website');
-        $curStore = $this->getRequest()->getParam('store');
+        $curStore   = $this->getRequest()->getParam('store');
 
         $websitesConfig = Mage::getConfig()->getNode('websites');
         $storesConfig = Mage::getConfig()->getNode('stores');
@@ -118,7 +107,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#CCC; font-weight:bold;',
         );
-        
+
         foreach ($websitesConfig->children() as $wCode=>$wConfig) {
         	if ($wConfig->descend('system/website/id')==0) {
         		continue;
