@@ -62,6 +62,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         );
     }
 
+    /**
+     * Retrive selected products for update
+     *
+     * @return unknown
+     */
     public function getProducts()
     {
         return $this->_getHelper()->getProducts();
@@ -77,7 +82,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         return $this->helper('adminhtml/catalog_product_edit_action_attribute');
     }
 
-       public function getBackButtonHtml()
+    public function getBackButtonHtml()
     {
         return $this->getChildHtml('back_button');
     }

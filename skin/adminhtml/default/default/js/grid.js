@@ -395,6 +395,9 @@ varienGridMassaction.prototype = {
             this.checkedValues.remove.apply(this.checkedValues, values);
         }
     },
+    getCheckedValues: function() {
+        return this.checkedValues.keys();
+    },
     getCheckboxes: function() {
         var result = [];
         this.grid.rows.each(function(row){
@@ -422,6 +425,10 @@ varienGridMassaction.prototype = {
     },
     updateCount: function() {
         this.count.update(this.getOnlyExistsCheckedValues().size());
+        if(!this.grid.reloadParams) {
+            this.grid.reloadParams = {};
+        }
+        this.grid.reloadParams[this.formFieldNameInternal] = this.getCheckedValues().join(',');
     },
     getSelectedItem: function() {
         if(this.getItem(this.select.value)) {

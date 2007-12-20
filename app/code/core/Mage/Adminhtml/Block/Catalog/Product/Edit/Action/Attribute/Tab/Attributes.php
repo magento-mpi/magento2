@@ -38,16 +38,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes 
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('fields', array('legend'=>$this->__('Attributes')));
         $attributes = $this->getAttributes();
+
         $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery'));
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
     }
 
+    /**
+     * Retrive attributes for product massupdate
+     *
+     * @return array
+     */
     public function getAttributes()
     {
         return $this->helper('adminhtml/catalog_product_edit_action_attribute')->getAttributes()->getItems();
     }
 
+    /**
+     * Additional element types for product attributes
+     *
+     * @return array
+     */
     protected function _getAdditionalElementTypes()
     {
         return array(
@@ -57,9 +68,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes 
         );
     }
 
+    /**
+     * Custom additional elemnt html
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     protected function _getAdditionalElementHtml($element)
     {
-        return '<span class="attribute-change-checkbox"><input type="checkbox" id="'.$element->getId().'-checkbox" onclick="toogleFieldEditMode(this, \''.$element->getId().'\')" /><label for="'.$element->getId().'-checkbox">' . $this->__('Change') . '</label></span>
-        <script type="text/javascript">initDisableFields(\''.$element->getId().'\')</script>';
+        return '<span class="attribute-change-checkbox"><input type="checkbox" id="' . $element->getId()
+             . '-checkbox" onclick="toogleFieldEditMode(this, \'' . $element->getId()
+             . '\')" /><label for="' . $element->getId() . '-checkbox">' . $this->__('Change')
+             . '</label></span>
+                <script type="text/javascript">initDisableFields(\''.$element->getId().'\')</script>';
     }
 } // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes End

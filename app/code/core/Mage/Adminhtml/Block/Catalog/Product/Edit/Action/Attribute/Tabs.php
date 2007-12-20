@@ -39,7 +39,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs extends Ma
     {
         $this->addTab('attributes', array(
             'label'     => $this->__('Attributes'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_action_attribute_tab_attributes')->toHtml(),
+            'content'   => $this->getLayout()->createBlock(
+                                'adminhtml/catalog_product_edit_action_attribute_tab_attributes'
+                           )->toHtml(),
         ));
     }
 } // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs End

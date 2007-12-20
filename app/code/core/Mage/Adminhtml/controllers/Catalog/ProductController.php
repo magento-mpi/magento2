@@ -27,6 +27,12 @@
  */
 class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller_Action
 {
+    protected function _construct()
+    {
+        // Define module dependent translate
+        $this->setUsedModuleName('Mage_Catalog');
+    }
+
     public function indexAction()
     {
         $this->loadLayout();
@@ -79,7 +85,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->load($productId);
             $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
-                    ->setDefaultStoreName(__('Default Values'))
+                    ->setDefaultStoreName($this->__('Default Values'))
                     ->setStoreIds($product->getStoreIds())
                     ->setSwitchUrl(Mage::getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)))
             );
@@ -280,7 +286,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                      Mage::dispatchEvent('catalog_controller_product_save_visibility_changed', array('product'=>$product));
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Product saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')
@@ -306,7 +312,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ->load($productId);
         try {
             $product->copy();
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Product duplicated'));
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Product duplicated'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$product->getId()));
         }
         catch (Exception $e){
@@ -342,7 +348,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             try {
                 Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
                 $product->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Product deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Product deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')
@@ -397,10 +403,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     ->setParamValues($this->getRequest()->getParams())
                     ->addCustomersToAlertQueue())
                 {
-                    $collection->addMessage(Mage::getModel('core/message')->success(__('Customers for alert %s was successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
+                    $collection->addMessage(Mage::getModel('core/message')->success($this->__('Customers for alert %s was successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
                 }
             } catch (Exception $e) {
-                $collection->addMessage(Mage::getModel('core/message')->error( __('Error while adding customers for %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
+                $collection->addMessage(Mage::getModel('core/message')->error($this->__('Error while adding customers for %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
                 continue;
             }
         }
@@ -412,14 +418,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $productIds = $this->getRequest()->getParam('product');
         if(!is_array($productIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(__('Please select product(s)'));
+             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select product(s)'));
         } else {
             try {
                 foreach ($productIds as $productId) {
                     $product = Mage::getModel('catalog/product')->load($productId);
                     $product->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected product(s) has been successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    $this->__('Selected product(s) has been successfully deleted')
+                );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -430,28 +438,32 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function massStatusAction()
     {
         $productIds = $this->getRequest()->getParam('product');
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
         if(!is_array($productIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(__('Please select product(s)'));
-
+            // No products selected
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select product(s)'));
         } else {
             try {
                 foreach ($productIds as $productId) {
                     $product = Mage::getModel('catalog/product')
-                        ->setStoreId((int)$this->getRequest()->getParam('store', 0))
+                        ->setStoreId($storeId)
                         ->load($productId)
-                        ->setStoreId((int)$this->getRequest()->getParam('store', 0))
+                        ->setStoreId($storeId)
                         ->setStatus($this->getRequest()->getParam('status'));
 
+                     // Workaround for store dissapearing bug
                      $storeIds = $product->getResource()->getStoreIds($product);
-
                      if ($product->getStoreId() == 0) {
                         $product->setPostedStores($storeIds);
                      } else {
                         $product->setPostedStores(array($product->getStoreId()=>$product->getStoreId()));
                      }
+
                      $product->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected product(s) status has been successfully changed'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    $this->__('Selected product(s) status has been successfully changed')
+                );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }

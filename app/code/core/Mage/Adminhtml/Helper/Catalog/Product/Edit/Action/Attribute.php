@@ -27,8 +27,25 @@
  */
 class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_Core_Helper_Data
 {
+    /**
+     * Selected products for massupdate
+     *
+     * @var Mage_Catalog_Model_Entity_Product_Collection
+     */
     protected $_products;
+
+    /**
+     * Array of products that not aviable in selected store
+     *
+     * @var array
+     */
     protected $_productsNotInStore;
+
+    /**
+     * Same attribtes for selected products
+     *
+     * @var Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
     protected $_attributes;
 
     /**
@@ -55,8 +72,11 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
         return $this->_products;
     }
 
-
-
+    /**
+     * Retrive selected products ids from post or session
+     *
+     * @return array|null
+     */
     public function getProductIds()
     {
         $session = Mage::getSingleton('adminhtml/session');
@@ -68,23 +88,37 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
         return $session->getProductIds();
     }
 
+    /**
+     * Retrive selected store id
+     *
+     * @return integer
+     */
     public function getSelectedStoreId()
     {
-        return $this->_getRequest()->getParam('store', 0);
+        return (int) $this->_getRequest()->getParam('store', 0);
     }
 
+    /**
+     * Retrive selected products' attribute sets
+     *
+     * @return array
+     */
     public function getProductsSetIds()
     {
         return $this->getProducts()->getSetIds();
     }
 
+    /**
+     * Retrive same attributes for selected products without unique
+     *
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
             $this->_attributes = $this->getProducts()->getEntity()->getConfig()->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setAttributeSetsFilter($this->getProductsSetIds())
-                ->setOrder('attribute_code', 'desc')
                 ->load();
             foreach($this->_attributes as $attribute) {
                 $attribute->setEntity($this->getProducts()->getEntity());
@@ -94,18 +128,23 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
         return $this->_attributes;
     }
 
+    /**
+     * Retrive products ids that not aviable for selected store
+     *
+     * @return array
+     */
     public function getProductsNotInStoreIds()
     {
         if (is_null($this->_productsNotInStore)) {
-            $this->_productsNotInStore = array();
+            $this->_productsNotInStoreIds = array();
             foreach ($this->getProducts() as $product) {
                 $stores = $product->getStores();
                 if (!isset($stores[$this->getSelectedStoreId()]) && $this->getSelectedStoreId() != 0) {
-                    $this->_productsNotInStore[] = $product->getIds();
+                    $this->_productsNotInStoreIds[] = $product->getIds();
                 }
             }
         }
 
-        return $this->_productsNotInStore;
+        return $this->_productsNotInStoreIds;
     }
 } // Class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute End
