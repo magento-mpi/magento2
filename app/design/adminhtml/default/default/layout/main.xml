@@ -86,7 +86,7 @@ No page found
     <admin_noroute>
         <reference name="content">
             <block type="core/text" name="content.noRoute">
-                <action method="setText"><text><![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]></text></action>
+                <action method="setText" translate="text"><text><![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]></text></action>
             </block>
         </reference>
     </admin_noroute>
@@ -98,7 +98,7 @@ Access denied
     <admin_denied>
         <reference name="content">
             <block type="core/text" name="content.denied">
-                <action method="setText"><text><![CDATA[<h1 class="page-heading">Access denied</h1><p>Access denied.</p>]]></text></action>
+                <action method="setText" translate="text"><text><![CDATA[<h1 class="page-heading">Access denied</h1><p>Access denied.</p>]]></text></action>
             </block>
         </reference>
     </admin_denied>
