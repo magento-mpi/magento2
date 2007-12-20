@@ -29,7 +29,10 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 {
 	protected function _construct()
 	{
+	    $this->setId('packagesGrid');
 		$this->setEmptyText(__('No Extensions Found'));
+		$this->setUseAjax(true);
+		$this->setSaveParametersInSession(true);
 	}
 
     protected function _prepareCollection()
@@ -80,13 +83,6 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
            	'type'=>'range',
            	'width'=>'140px',
         ));
-/*
-        $this->addColumn('stability', array(
-            'header'=>__('Stability'),
-           	'index'=>'stability',
-           	'type'=>'options',
-           	'options'=>$ext->getStabilityOptions(),
-        ));
 
         $this->addColumn('action',
             array(
@@ -95,14 +91,41 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
                 'sortable'=>false,
                 'filter' => false,
                 'width'	   => '170px',
-                'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
+                'renderer' => 'adminhtml/extensions_remote_grid_renderer_action'
         ));
+/*
+        $this->addColumn('stability', array(
+            'header'=>__('Stability'),
+           	'index'=>'stability',
+           	'type'=>'options',
+           	'options'=>$ext->getStabilityOptions(),
+        ));
+
 */
+        return $this;
+    }
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('id');
+        $this->getMassactionBlock()->setFormFieldName('package');
+
+        $this->getMassactionBlock()->addItem('install', array(
+             'label'=> $this->__('Install'),
+             'url'  => $this->getUrl('*/*/massInstall'),
+             'confirm' => $this->__('Are you sure you wish to INSTALL all selected packages?')
+        ));
+
         return $this;
     }
 
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+    }
+
+    public function getGridUrl()
+    {
+		return Mage::getUrl('*/*/grid', array('_current'=>true));
     }
 }

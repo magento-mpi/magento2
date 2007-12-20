@@ -109,4 +109,15 @@ abstract class Mage_Adminhtml_Model_Extension_Collection_Abstract extends Varien
         }
         return true;
     }
+
+    public function getAllIds()
+    {
+        $this->load();
+
+        $ids = array();
+        foreach ($this->getIterator() as $item) {
+            $ids[] = $item->getId();
+        }
+        return $ids;
+    }
 }

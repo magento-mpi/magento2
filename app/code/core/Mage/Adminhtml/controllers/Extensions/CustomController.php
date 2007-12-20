@@ -139,4 +139,9 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
         }
     }
 
+    public function testAction()
+    {
+        Varien_Pear::getInstance()->runHtmlConsole(array('command'=>'list-channels'));
+    }
+
 }

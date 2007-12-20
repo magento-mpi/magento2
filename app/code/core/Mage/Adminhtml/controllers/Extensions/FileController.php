@@ -77,4 +77,18 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
             Mage::getModel('adminhtml/extension')->clearAllCache();
         }
     }
+
+    public function upgradeAllAction()
+    {
+        $params = array('comment'=>__("Upgrading all packages, please wait...")."\r\n\r\n");
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'upgrade';
+            $params['options'] = array();
+            $params['params'] = array($pkg);
+        }
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::getModel('adminhtml/extension')->clearAllCache();
+        }
+    }
 }

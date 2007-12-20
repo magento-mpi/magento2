@@ -29,7 +29,10 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 {
 	protected function _construct()
 	{
+	    $this->setId('packagesGrid');
 		$this->setEmptyText(__('No Extensions Found'));
+		$this->setUseAjax(true);
+		$this->setSaveParametersInSession(true);
 	}
 
     protected function _prepareCollection()
@@ -78,7 +81,6 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
            	'options'=>array(1=>'Active', 0=>'Inactive'),
         ));
 
-/*
         $this->addColumn('action',
             array(
                 'header'=>__('Action'),
@@ -86,14 +88,39 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
                 'sortable'=>false,
                 'filter' => false,
                 'width'	   => '170px',
-                'renderer' => 'adminhtml/newsletter_template_grid_renderer_action'
+                'renderer' => 'adminhtml/extensions_local_grid_renderer_action'
         ));
-*/
+
+        return $this;
+    }
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('id');
+        $this->getMassactionBlock()->setFormFieldName('package');
+
+        $this->getMassactionBlock()->addItem('uninstall', array(
+             'label'=> $this->__('Uninstall'),
+             'url'  => $this->getUrl('*/*/massUninstall'),
+             'confirm' => $this->__('Are you sure you wish to UNINSTALL all selected packages?')
+        ));
+
+        $this->getMassactionBlock()->addItem('upgrade', array(
+             'label'=> $this->__('Upgrade'),
+             'url'  => $this->getUrl('*/*/massUpgrade'),
+             'confirm' => $this->__('Are you sure you wish to UPGRADE all selected packages?')
+        ));
+
         return $this;
     }
 
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+    }
+
+    public function getGridUrl()
+    {
+		return Mage::getUrl('*/*/grid', array('_current'=>true));
     }
 }

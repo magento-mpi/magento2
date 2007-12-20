@@ -16,6 +16,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             ->setLocalExtensionPackageFormData($this->getData());
 
         $pkg = new Varien_Pear_Package;
+        #$pkg->getPear()->runHtmlConsole(array('command'=>'list-channels'));
         $pfm = $pkg->getPfm();
         $pfm->setOptions(array(
             'packagedirectory'=>'.',
@@ -28,7 +29,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $this->_setMaintainers($pfm);
         $this->_setDependencies($pfm);
         $this->_setContents($pfm);
-
+#echo "<pre>".print_r($pfm,1)."</pre>";
         if (!$pfm->validate(PEAR_VALIDATE_NORMAL)) {
             //echo "<pre>".print_r($this->getData(),1)."</pre>";
             //echo "TEST:";

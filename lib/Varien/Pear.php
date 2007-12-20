@@ -1,6 +1,6 @@
 <?php
-// make sure there's no E_STRICT
-error_reporting(E_ALL);
+// Looks like PEAR is being developed without E_NOTICE (1.7.0RC1)
+error_reporting(E_ALL & ~E_NOTICE);
 
 // just a shortcut
 if (!defined('DS')) {
@@ -42,6 +42,10 @@ class Varien_Pear
 
     static protected $_instance;
 
+    public function __construct()
+    {
+        $this->getConfig();
+    }
 
     public function getInstance()
     {
@@ -71,8 +75,7 @@ class Varien_Pear
         if (!$this->_config) {
             $pear_dir = $this->getPearDir();
 
-            $config = PEAR_Config::singleton();
-            $config->readConfigFile($pear_dir.DS.'pear.ini');
+            $config = PEAR_Config::singleton($pear_dir.DS.'pear.ini');
 
             $config->set('auto_discover', 1);
             #$config->set('preferred_state', 'beta');

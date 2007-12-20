@@ -41,6 +41,11 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         $this->renderLayout();
     }
 
+    public function gridAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/extensions_remote_grid')->toHtml());
+    }
+
     public function editAction()
     {
         $this->loadLayout();
@@ -60,7 +65,7 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
     public function installAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>__("Downloading and installing $pkg, please wait...\r\n\r\n"));
+        $params = array('comment'=>__("Downloading and installing $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps'=>1);

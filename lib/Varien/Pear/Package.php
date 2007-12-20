@@ -30,11 +30,17 @@ class Varien_Pear_Package
         'release' => array(),
     );
 
+    protected $_pear;
     protected $_pfm;
+
+    public function __construct()
+    {
+        $this->_pear = Varien_Pear::getInstance();
+    }
 
     public function getPear()
     {
-        return Varien_Pear::getInstance();
+        return $this->_pear;
     }
 
     public function getPearConfig($key)

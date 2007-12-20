@@ -12,35 +12,34 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?
+
 /**
- * @methods
- *  getTitle() - string
- *  getSaveUrl() - string
- *  getSections() - array
- *  getForm() - html
+ * Adminhtml local extensions grid block action item renderer
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
-?>
 
-<div class="content-header">
-	<table cellspacing="0" class="grid-header"> 
-		<tr>
-			<td><h3><?=$this->getTitle()?></h3></td><td class="form-buttons"><?=$this->getSaveButtonHtml()?></td>
-		 </tr>
-	</table>
-</div>
-<form action="<?=$this->getSaveUrl()?>" method="post" id="config_edit_form" enctype="multipart/form-data">
-<?=$this->getChildHtml('form')?>
-</form>
+class Mage_Adminhtml_Block_Extensions_Local_Grid_Renderer_Action
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+{
+    public function render(Varien_Object $row)
+    {
+    	$actions = array();
 
+    	$actions[] = array(
+    		'url'		=>  Mage::getUrl('*/*/edit', array('id'=>$row->getId())),
+	    	'caption'	=>	$this->__('View')
+    	);
 
+        $this->getColumn()->setActions($actions);
 
-<script type="text/javascript" language="javascript">
-    var configForm = new varienForm('config_edit_form');
-</script>
+    	return parent::render($row);
+    }
+}

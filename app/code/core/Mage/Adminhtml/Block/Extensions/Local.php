@@ -37,6 +37,12 @@ class Mage_Adminhtml_Block_Extensions_Local extends Mage_Adminhtml_Block_Widget_
 
         $this->_removeButton('add');
 
+        $this->_addButton('upgrade_all', array(
+            'label'=>$this->__("Upgrade all available packages"),
+            'onclick'=>"setLocation('".$this->getUrl('*/extensions_local/upgradeAll')."')",
+            'class'=>'add',
+        ));
+
         $this->_addButton('file', array(
             'label'=>$this->__("Install Package File"),
             'onclick'=>"setLocation('".$this->getUrl('*/extensions_file')."')",

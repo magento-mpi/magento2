@@ -32,12 +32,13 @@ class Mage_Install_Model_Installer_Pear
     public function getPackages()
     {
         $packages = array(
-            'var-dev/Mage_Pear_Helpers',
-            'var-dev/Mage_Lib',
-            'var-dev/Varien_Lib',
-            'var-dev/Mage_All',
-            'var-dev/Interface_Frontend_Default',
-            'var-dev/Interface_Adminhtml_Default'
+            'pear/PEAR-stable',
+            'mage-core/Mage_Pear_Helpers',
+            'mage-core/Lib_ZF',
+            'mage-core/Lib_Varien',
+            'mage-core/Mage_All',
+            'mage-core/Interface_Frontend_Default',
+            'mage-core/Interface_Adminhtml_Default'
         );
         return $packages;
     }
